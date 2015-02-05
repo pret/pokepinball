@@ -19,7 +19,7 @@ main.o: main.asm bin
 
 # Create .bin dumps from baserom.gbc by scanning main.asm for INCBIN.
 bin:
-	PYTHON util/generate_bin_dumps.py main.asm
+	$(PYTHON) util/generate_bin_dumps.py main.asm
 
 # The compare target is a shortcut to check that the build matches the original roms exactly.
 # This is for contributors to make sure a change didn't affect the contents of the rom.

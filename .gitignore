@@ -3,6 +3,8 @@
 
 # compiled object file
 *.o
+# no .bin dumps from baserom.gbc
+*.bin
 
 # no binaries
 *.exe

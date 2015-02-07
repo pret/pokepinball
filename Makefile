@@ -8,14 +8,19 @@ header_opts = -jsvc -k 01 -l 0x33 -m 0x1e -p 0 -r 02 -t "POKEPINBALLVPHE"
 PYTHON := python
 
 # Link objects together to build a rom.
-all: main.o
-	rgblink -n pokepinball.sym -o $(outputrom) main.o
+all: main.o wram.o
+	rgblink -n pokepinball.sym -o $(outputrom) main.o wram.o
 	rgbfix $($header_opts) pokepinball.gbc
 
 # Assemble source files into objects.
 # Use rgbasm -h to use halts without nops.
 main.o: main.asm bin
 	rgbasm -h -o main.o main.asm
+
+# Assemble working RAM into objects.
+# Use rgbasm -h to use halts without nops.
+wram.o: wram.asm
+	rgbasm -h -o wram.o wram.asm
 
 # Create .bin dumps from baserom.gbc by scanning main.asm for INCBIN.
 bin:

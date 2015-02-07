@@ -181,25 +181,25 @@ GoToNextOnPic: ; 0x5ad00
 	INCBIN "gfx/billboard/gotonext_on.2bpp"
 GoToNextOffPic: ; 0x5ae80
 	INCBIN "gfx/billboard/gotonext_off.2bpp"
-GoToGengarBonusOnPic: ; 0x5c000
+GoToGengarBonusOnPic: ; 0x5b000
 	INCBIN "gfx/billboard/bonus_stages/gotogengarbonus_on.2bpp"
-GoToGengarBonusOffPic: ; 0x5c180
+GoToGengarBonusOffPic: ; 0x5b180
 	INCBIN "gfx/billboard/bonus_stages/gotogengarbonus_off.2bpp"
-GoToMewtwoBonusOnPic: ; 0x5c300
+GoToMewtwoBonusOnPic: ; 0x5b300
 	INCBIN "gfx/billboard/bonus_stages/gotomewtwobonus_on.2bpp"
-GoToMewtwoBonusOffPic: ; 0x5c480
+GoToMewtwoBonusOffPic: ; 0x5b480
 	INCBIN "gfx/billboard/bonus_stages/gotomewtwobonus_off.2bpp"
-GoToMeowthBonusOnPic: ; 0x5c600
+GoToMeowthBonusOnPic: ; 0x5b600
 	INCBIN "gfx/billboard/bonus_stages/gotomeowthbonus_on.2bpp"
-GoToMeowthBonusOffPic: ; 0x5c780
+GoToMeowthBonusOffPic: ; 0x5b780
 	INCBIN "gfx/billboard/bonus_stages/gotomeowthbonus_off.2bpp"
-GoToDiglettBonusOnPic: ; 0x5c900
+GoToDiglettBonusOnPic: ; 0x5b900
 	INCBIN "gfx/billboard/bonus_stages/gotodiglettbonus_on.2bpp"
-GoToDiglettBonusOffPic: ; 0x5ca80
+GoToDiglettBonusOffPic: ; 0x5ba80
 	INCBIN "gfx/billboard/bonus_stages/gotodiglettbonus_off.2bpp"
-GoToSeelBonusOnPic: ; 0x5cc00
+GoToSeelBonusOnPic: ; 0x5bc00
 	INCBIN "gfx/billboard/bonus_stages/gotoseelbonus_on.2bpp"
-GoToSeelBonusOffPic: ; 0x5cd80
+GoToSeelBonusOffPic: ; 0x5bd80
 	INCBIN "gfx/billboard/bonus_stages/gotoseelbonus_off.2bpp"
 
 INCBIN "bin/5bf00_5bfff.bin" ; 0x5bf00
@@ -207,7 +207,80 @@ INCBIN "bin/5bf00_5bfff.bin" ; 0x5bf00
 
 SECTION "bank17", ROMX, BANK[$17]
 
-INCBIN "bin/5c000_5ffff.bin" ; 0x5c000
+SmallReward100PointsOnPic: ; 0x5c000
+	INCBIN "gfx/billboard/slot/100points_on.2bpp"
+SmallReward100PointsOffPic: ; 0x5c180
+	INCBIN "gfx/billboard/slot/100points_off.2bpp"
+SmallReward200PointsOnPic: ; 0x5c300
+	INCBIN "gfx/billboard/slot/200points_on.2bpp"
+SmallReward200PointsOffPic: ; 0x54800
+	INCBIN "gfx/billboard/slot/200points_off.2bpp"
+SmallReward300PointsOnPic: ; 0x5c600
+	INCBIN "gfx/billboard/slot/300points_on.2bpp"
+SmallReward300PointsOffPic: ; 0x5c780
+	INCBIN "gfx/billboard/slot/300points_off.2bpp"
+SmallReward400PointsOnPic: ; 0x5c900
+	INCBIN "gfx/billboard/slot/400points_on.2bpp"
+SmallReward400PointsOffPic: ; 0x5ca80
+	INCBIN "gfx/billboard/slot/400points_off.2bpp"
+SmallReward500PointsOnPic: ; 0x5cc00
+	INCBIN "gfx/billboard/slot/500points_on.2bpp"
+SmallReward500PointsOffPic: ; 0x5cd80
+	INCBIN "gfx/billboard/slot/500points_off.2bpp"
+SmallReward600PointsOnPic: ; 0x5cf00
+	INCBIN "gfx/billboard/slot/600points_on.2bpp"
+SmallReward600PointsOffPic: ; 0x5d080
+	INCBIN "gfx/billboard/slot/600points_off.2bpp"
+SmallReward700PointsOnPic: ; 0x5d200
+	INCBIN "gfx/billboard/slot/700points_on.2bpp"
+SmallReward700PointsOffPic: ; 0x5d380
+	INCBIN "gfx/billboard/slot/700points_off.2bpp"
+SmallReward800PointsOnPic: ; 0x5d500
+	INCBIN "gfx/billboard/slot/800points_on.2bpp"
+SmallReward800PointsOffPic: ; 0x5d680
+	INCBIN "gfx/billboard/slot/800points_off.2bpp"
+SmallReward900PointsOnPic: ; 0x5d800
+	INCBIN "gfx/billboard/slot/900points_on.2bpp"
+SmallReward900PointsOffPic: ; 0x5d980
+	INCBIN "gfx/billboard/slot/900points_off.2bpp"
+BigReward1000000PointsOnPic: ; 0x5db00
+	INCBIN "gfx/billboard/slot/1000000points_on.2bpp"
+BigReward1000000PointsOffPic: ; 0x5dc80
+	INCBIN "gfx/billboard/slot/1000000points_off.2bpp"
+BigReward2000000PointsOnPic: ; 0x5de00
+	INCBIN "gfx/billboard/slot/2000000points_on.2bpp"
+BigReward2000000PointsOffPic: ; 0x5df80
+	INCBIN "gfx/billboard/slot/2000000points_off.2bpp"
+BigReward3000000PointsOnPic: ; 0x5e100
+	INCBIN "gfx/billboard/slot/3000000points_on.2bpp"
+BigReward3000000PointsOffPic: ; 0x5e280
+	INCBIN "gfx/billboard/slot/3000000points_off.2bpp"
+BigReward4000000PointsOnPic: ; 0x5e400
+	INCBIN "gfx/billboard/slot/4000000points_on.2bpp"
+BigReward4000000PointsOffPic: ; 0x5e580
+	INCBIN "gfx/billboard/slot/4000000points_off.2bpp"
+BigReward5000000PointsOnPic: ; 0x5e700
+	INCBIN "gfx/billboard/slot/5000000points_on.2bpp"
+BigReward5000000PointsOffPic: ; 0x5e880
+	INCBIN "gfx/billboard/slot/5000000points_off.2bpp"
+BigReward6000000PointsOnPic: ; 0x5ea00
+	INCBIN "gfx/billboard/slot/6000000points_on.2bpp"
+BigReward6000000PointsOffPic: ; 0x5eb80
+	INCBIN "gfx/billboard/slot/6000000points_off.2bpp"
+BigReward7000000PointsOnPic: ; 0x5ed00
+	INCBIN "gfx/billboard/slot/7000000points_on.2bpp"
+BigReward7000000PointsOffPic: ; 0x5ee80
+	INCBIN "gfx/billboard/slot/7000000points_off.2bpp"
+BigReward8000000PointsOnPic: ; 0x5f000
+	INCBIN "gfx/billboard/slot/8000000points_on.2bpp"
+BigReward8000000PointsOffPic: ; 0x5f180
+	INCBIN "gfx/billboard/slot/8000000points_off.2bpp"
+BigReward9000000PointsOnPic: ; 0x5f300
+	INCBIN "gfx/billboard/slot/9000000points_on.2bpp"
+BigReward9000000PointsOffPic: ; 0x5f480
+	INCBIN "gfx/billboard/slot/9000000points_off.2bpp"
+
+INCBIN "bin/5f600_5ffff.bin" ; 0x5f600
 
 
 SECTION "bank18", ROMX, BANK[$18]

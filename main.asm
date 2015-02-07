@@ -760,27 +760,190 @@ INCBIN "bin/7bf00_7bfff.bin" ; 0x7bf00
 
 SECTION "bank1f", ROMX, BANK[$1f]
 
-INCBIN "bin/7c000_7ffff.bin" ; 0x7c000
+SlowpokeAnimatedPic: ; 0x7c000
+	INCBIN "gfx/billboard/mon_animated/slowpoke.2bpp"
+MagnemiteAnimatedPic: ; 0x7c300
+	INCBIN "gfx/billboard/mon_animated/magnemite.2bpp"
+Farfetch_DAnimatedPic: ; 0x7c600
+	INCBIN "gfx/billboard/mon_animated/farfetch_d.2bpp"
+DoduoAnimatedPic: ; 0x7c900
+	INCBIN "gfx/billboard/mon_animated/doduo.2bpp"
+SeelAnimatedPic: ; 0x7cc00
+	INCBIN "gfx/billboard/mon_animated/seel.2bpp"
+GrimerAnimatedPic: ; 0x7cf00
+	INCBIN "gfx/billboard/mon_animated/grimer.2bpp"
+ShellderAnimatedPic: ; 0x7d200
+	INCBIN "gfx/billboard/mon_animated/shellder.2bpp"
+GastlyAnimatedPic: ; 0x7d500
+	INCBIN "gfx/billboard/mon_animated/gastly.2bpp"
+OnixAnimatedPic: ; 0x7d800
+	INCBIN "gfx/billboard/mon_animated/onix.2bpp"
+DrowzeeAnimatedPic: ; 0x7db00
+	INCBIN "gfx/billboard/mon_animated/drowzee.2bpp"
+KrabbyAnimatedPic: ; 0x7de00
+	INCBIN "gfx/billboard/mon_animated/krabby.2bpp"
+VoltorbAnimatedPic: ; 0x7e100
+	INCBIN "gfx/billboard/mon_animated/voltorb.2bpp"
+ExeggcuteAnimatedPic: ; 0x7e400
+	INCBIN "gfx/billboard/mon_animated/exeggcute.2bpp"
+CuboneAnimatedPic: ; 0x7e700
+	INCBIN "gfx/billboard/mon_animated/cubone.2bpp"
+HitmonleeAnimatedPic: ; 0x7ea00
+	INCBIN "gfx/billboard/mon_animated/hitmonlee.2bpp"
+HitmonchanAnimatedPic: ; 0x7ed00
+	INCBIN "gfx/billboard/mon_animated/hitmonchan.2bpp"
+
+INCBIN "bin/7f000_7ffff.bin" ; 0x7f000
 
 
 SECTION "bank20", ROMX, BANK[$20]
 
-INCBIN "bin/80000_83fff.bin" ; 0x80000
+LickitungAnimatedPic: ; 0x80000
+	INCBIN "gfx/billboard/mon_animated/lickitung.2bpp"
+KoffingAnimatedPic: ; 0x80300
+	INCBIN "gfx/billboard/mon_animated/koffing.2bpp"
+RhyhornAnimatedPic: ; 0x80600
+	INCBIN "gfx/billboard/mon_animated/rhyhorn.2bpp"
+ChanseyAnimatedPic: ; 0x80900
+	INCBIN "gfx/billboard/mon_animated/chansey.2bpp"
+TangelaAnimatedPic: ; 0x80c00
+	INCBIN "gfx/billboard/mon_animated/tangela.2bpp"
+KangaskhanAnimatedPic: ; 0x80f00
+	INCBIN "gfx/billboard/mon_animated/kangaskhan.2bpp"
+HorseaAnimatedPic: ; 0x81200
+	INCBIN "gfx/billboard/mon_animated/horsea.2bpp"
+GoldeenAnimatedPic: ; 0x81500
+	INCBIN "gfx/billboard/mon_animated/goldeen.2bpp"
+StaryuAnimatedPic: ; 0x81800
+	INCBIN "gfx/billboard/mon_animated/staryu.2bpp"
+Mr_MimeAnimatedPic: ; 0x81b00
+	INCBIN "gfx/billboard/mon_animated/mr_mime.2bpp"
+ScytherAnimatedPic: ; 0x81e00
+	INCBIN "gfx/billboard/mon_animated/scyther.2bpp"
+JynxAnimatedPic: ; 0x82100
+	INCBIN "gfx/billboard/mon_animated/jynx.2bpp"
+ElectabuzzAnimatedPic: ; 0x82400
+	INCBIN "gfx/billboard/mon_animated/electabuzz.2bpp"
+MagmarAnimatedPic: ; 0x82700
+	INCBIN "gfx/billboard/mon_animated/magmar.2bpp"
+PinsirAnimatedPic: ; 0x82a00
+	INCBIN "gfx/billboard/mon_animated/pinsir.2bpp"
+TaurosAnimatedPic: ; 0x82d00
+	INCBIN "gfx/billboard/mon_animated/tauros.2bpp"
+
+INCBIN "bin/83000_83fff.bin" ; 0x83000
 
 
 SECTION "bank21", ROMX, BANK[$21]
 
-INCBIN "bin/84000_87fff.bin" ; 0x84000
+MagikarpAnimatedPic: ; 0x84000
+	INCBIN "gfx/billboard/mon_animated/magikarp.2bpp"
+LaprasAnimatedPic: ; 0x84300
+	INCBIN "gfx/billboard/mon_animated/lapras.2bpp"
+DittoAnimatedPic: ; 0x84600
+	INCBIN "gfx/billboard/mon_animated/ditto.2bpp"
+EeveeAnimatedPic: ; 0x84900
+	INCBIN "gfx/billboard/mon_animated/eevee.2bpp"
+PorygonAnimatedPic: ; 0x84c00
+	INCBIN "gfx/billboard/mon_animated/porygon.2bpp"
+OmanyteAnimatedPic: ; 0x84f00
+	INCBIN "gfx/billboard/mon_animated/omanyte.2bpp"
+KabutoAnimatedPic: ; 0x85200
+	INCBIN "gfx/billboard/mon_animated/kabuto.2bpp"
+AerodactylAnimatedPic: ; 0x85500
+	INCBIN "gfx/billboard/mon_animated/aerodactyl.2bpp"
+SnorlaxAnimatedPic: ; 0x85800
+	INCBIN "gfx/billboard/mon_animated/snorlax.2bpp"
+ArticunoAnimatedPic: ; 0x85b00
+	INCBIN "gfx/billboard/mon_animated/articuno.2bpp"
+ZapdosAnimatedPic: ; 0x85e00
+	INCBIN "gfx/billboard/mon_animated/zapdos.2bpp"
+MoltresAnimatedPic: ; 0x86100
+	INCBIN "gfx/billboard/mon_animated/moltres.2bpp"
+DratiniAnimatedPic: ; 0x86400
+	INCBIN "gfx/billboard/mon_animated/dratini.2bpp"
+MewtwoAnimatedPic: ; 0x86700
+	INCBIN "gfx/billboard/mon_animated/mewtwo.2bpp"
+MewAnimatedPic: ; 0x86a00
+	INCBIN "gfx/billboard/mon_animated/mew.2bpp"
+
+INCBIN "bin/86d00_87fff.bin" ; 0x86d00
 
 
 SECTION "bank22", ROMX, BANK[$22]
 
-INCBIN "bin/88000_8bfff.bin" ; 0x88000
+ZubatAnimatedPic: ; 0x88000
+	INCBIN "gfx/billboard/mon_animated/zubat.2bpp"
+OddishAnimatedPic: ; 0x88300
+	INCBIN "gfx/billboard/mon_animated/oddish.2bpp"
+ParasAnimatedPic: ; 0x88600
+	INCBIN "gfx/billboard/mon_animated/paras.2bpp"
+VenonatAnimatedPic: ; 0x88900
+	INCBIN "gfx/billboard/mon_animated/venonat.2bpp"
+DiglettAnimatedPic: ; 0x88c00
+	INCBIN "gfx/billboard/mon_animated/diglett.2bpp"
+MeowthAnimatedPic: ; 0x88f00
+	INCBIN "gfx/billboard/mon_animated/meowth.2bpp"
+PsyduckAnimatedPic: ; 0x89200
+	INCBIN "gfx/billboard/mon_animated/psyduck.2bpp"
+MankeyAnimatedPic: ; 0x89500
+	INCBIN "gfx/billboard/mon_animated/mankey.2bpp"
+GrowlitheAnimatedPic: ; 0x89800
+	INCBIN "gfx/billboard/mon_animated/growlithe.2bpp"
+PoliwagAnimatedPic: ; 0x89b00
+	INCBIN "gfx/billboard/mon_animated/poliwag.2bpp"
+AbraAnimatedPic: ; 0x89e00
+	INCBIN "gfx/billboard/mon_animated/abra.2bpp"
+MachopAnimatedPic: ; 0x8a100
+	INCBIN "gfx/billboard/mon_animated/machop.2bpp"
+BellsproutAnimatedPic: ; 0x8a400
+	INCBIN "gfx/billboard/mon_animated/bellsprout.2bpp"
+TentacoolAnimatedPic: ; 0x8a700
+	INCBIN "gfx/billboard/mon_animated/tentacool.2bpp"
+GeodudeAnimatedPic: ; 0x8aa00
+	INCBIN "gfx/billboard/mon_animated/geodude.2bpp"
+PonytaAnimatedPic: ; 0x8ad00
+	INCBIN "gfx/billboard/mon_animated/ponyta.2bpp"
+
+INCBIN "bin/8b000_8bfff.bin" ; 0x8b000
 
 
 SECTION "bank23", ROMX, BANK[$23]
 
-INCBIN "bin/8c000_8ffff.bin" ; 0x8c000
+BulbasaurAnimatedPic: ; 0x8c000
+	INCBIN "gfx/billboard/mon_animated/bulbasaur.2bpp"
+CharmanderAnimatedPic: ; 0x8c300
+	INCBIN "gfx/billboard/mon_animated/charmander.2bpp"
+SquirtleAnimatedPic: ; 0x8c600
+	INCBIN "gfx/billboard/mon_animated/squirtle.2bpp"
+CaterpieAnimatedPic: ; 0x8c900
+	INCBIN "gfx/billboard/mon_animated/caterpie.2bpp"
+WeedleAnimatedPic: ; 0x8cc00
+	INCBIN "gfx/billboard/mon_animated/weedle.2bpp"
+PidgeyAnimatedPic: ; 0x8cf00
+	INCBIN "gfx/billboard/mon_animated/pidgey.2bpp"
+RattataAnimatedPic: ; 0x8d200
+	INCBIN "gfx/billboard/mon_animated/rattata.2bpp"
+SpearowAnimatedPic: ; 0x8d500
+	INCBIN "gfx/billboard/mon_animated/spearow.2bpp"
+EkansAnimatedPic: ; 0x8d800
+	INCBIN "gfx/billboard/mon_animated/ekans.2bpp"
+PikachuAnimatedPic: ; 0x8db00
+	INCBIN "gfx/billboard/mon_animated/pikachu.2bpp"
+SandshrewAnimatedPic: ; 0x8de00
+	INCBIN "gfx/billboard/mon_animated/sandshrew.2bpp"
+Nidoran_FAnimatedPic: ; 0x8e100
+	INCBIN "gfx/billboard/mon_animated/nidoran_F.2bpp"
+Nidoran_MAnimatedPic: ; 0x8e400
+	INCBIN "gfx/billboard/mon_animated/nidoran_M.2bpp"
+ClefairyAnimatedPic: ; 0x8e700
+	INCBIN "gfx/billboard/mon_animated/clefairy.2bpp"
+VulpixAnimatedPic: ; 0x8ea00
+	INCBIN "gfx/billboard/mon_animated/vulpix.2bpp"
+JigglypuffAnimatedPic: ; 0x8ed00
+	INCBIN "gfx/billboard/mon_animated/jigglypuff.2bpp"
+
+INCBIN "bin/8f000_8ffff.bin" ; 0x8f000
 
 
 SECTION "bank24", ROMX, BANK[$24]

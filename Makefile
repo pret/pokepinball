@@ -1,16 +1,13 @@
 # Build Pokemon Pinball.
 outputrom := pokepinball.gbc
 
-# Header options for rgbfix.
-header_opts = -jsvc -k 01 -l 0x33 -m 0x1e -p 0 -r 02 -t "POKEPINBALLVPHE"
-
 # If your default python is 3, you may want to change this to python27.
 PYTHON := python
 
 # Link objects together to build a rom.
 all: main.o wram.o
-	rgblink -n pokepinball.sym -o $(outputrom) main.o wram.o
-	rgbfix $($header_opts) pokepinball.gbc
+	rgblink -n pokepinball.sym -m pokepinball.map -o $(outputrom) main.o wram.o
+	rgbfix -jsvc -k 01 -l 0x33 -m 0x1e -p 0 -r 02 -t "POKEPINBALLVPHE" pokepinball.gbc
 
 # Assemble source files into objects.
 # Use rgbasm -h to use halts without nops.

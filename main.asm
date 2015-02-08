@@ -30,7 +30,7 @@ Start: ; 0x150
     ld [$ff40], a
 .asm_163
     ld bc, $0002
-    call $0948
+    call Func_948
 .asm_169
     ld a, [$ff44]
     cp $91
@@ -42,7 +42,7 @@ Start: ; 0x150
     ld [$ff48], a
     ld [$ff49], a
     ld bc, $0002
-    call $0948
+    call Func_948
 .asm_180
     ld a, [$ff44]
     cp $91
@@ -51,10 +51,10 @@ Start: ; 0x150
     ld [$ff40], a
     ld hl, wc000
     ld bc, $2000
-    call $0654
+    call Func_654
     ld hl, $8000
     ld bc, $1000
-    call $0654
+    call Func_654
     ld a, $a
     ld [$0000], a
     ld a, $1
@@ -72,9 +72,9 @@ Start: ; 0x150
     ld sp, $dfff
     ld hl, $ff80
     ld bc, $007e
-    call $0654
-    call $05f7
-    call $0916
+    call Func_654
+    call Func_5f7
+    call Func_916
     xor a
     ld [$d7fb], a
     ld [$d7fc], a
@@ -102,16 +102,16 @@ Start: ; 0x150
     ld [$d849], a
     ld [$d84a], a
     ld a, $f
-    call $052c
-    call $023b
+    call Func_52c
+    call Func_23b
     ld a, [$fffe]
     and a
     jr nz, .asm_222
-    call $12f8
+    call Func_12f8
     rl a
     and $1
     ld [$fffb], a
-    call $13a8
+    call Func_13a8
     ld a, [$fffb]
     and a
     jr z, .asm_222
@@ -123,12 +123,13 @@ Start: ; 0x150
     ei
     ld a, $ff
     ld [$d810], a
-    call $097a
+    call Func_97a
     xor a
     ld [$daa3], a
     ld a, $0
     ld hl, $1ffc
-    call $0549
+    call Func_549
+Func_23b: ; 0x23b
     ld a, [$fffe]
     cp $11
     jr nz, .asm_248
@@ -142,7 +143,448 @@ Start: ; 0x150
     ld [$fffd], a
     ret
 
-INCBIN "bin/24e_3fff.bin" ; 0x0
+INCBIN "bin/24e_52b.bin"
+
+Func_52c: ; 0x52c
+    di
+    ld [$d85b], a
+    ei
+    ret
+
+INCBIN "bin/532_548.bin"
+
+Func_549: ; 0x549
+    ld [$fff8], a
+    ld [$2000], a
+    jp [hl]
+
+INCBIN "bin/54f_5f6.bin"
+
+Func_5f7: ; 0x5f7
+    ld c, $80
+    ld b, $a
+    ld hl, $0605 ; todo
+.asm_5fe
+    ld a, [hli]
+    ld [$ff00+c], a
+    inc c
+    dec b
+    jr nz, .asm_5fe
+    ret
+
+INCBIN "bin/605_653.bin"
+
+Func_654: ; 0x654
+    xor a
+    dec bc
+.asm_656
+    ld [hli], a
+    dec bc
+    bit 7, b
+    jr z, .asm_656
+    ret
+
+Func_65d: ; 0x65d
+    ld a, [hli]
+    ld [de], a
+    inc de
+    dec bc
+    ld a, c
+    or b
+    jr nz, Func_65d
+    ret
+
+INCBIN "bin/666_915.bin"
+
+Func_916: ; 0x916
+    ld hl, wOAMBuffer
+    ld b, $a0
+    ld a, $f0
+.asm_91d
+    ld [hli], a
+    dec b
+    jr nz, .asm_91d
+    xor a
+    ld [$d802], a
+    ret
+
+INCBIN "bin/926_947.bin"
+
+Func_948: ; 0x948
+    ld de, $06d6
+.asm_94b
+    nop
+    nop
+    nop
+    dec de
+    ld a, d
+    or e
+    jr nz, .asm_94b
+    dec bc
+    ld a, b
+    or c
+    jr nz, Func_948
+    ret
+
+Func_959: ; 0x959
+    push bc
+    push de
+    push hl
+    ld a, [$d811]
+    ld c, a
+    ld b, $0
+    inc a
+    cp $37
+    jr nz, .asm_96e
+    call Func_9fa
+    xor a
+    ld bc, $0000
+.asm_96e
+    ld [$d811], a
+    ld hl, $d812
+    add hl, bc
+    ld a, [hl]
+    pop hl
+    pop de
+    pop bc
+    ret
+
+Func_97a: ; 0x97a
+    ld a, [$d810]
+    ld d, a
+    ld a, $0
+    ld a, [$afff]
+.asm_983
+    cp d
+    jr c, .asm_989
+    sub d
+    jr .asm_983
+.asm_989
+    ld [$d80f], a
+    ld [$d848], a
+    ld e, $1
+    ld hl, $09c4 ; todo
+    ld a, $36
+.asm_996
+    push af
+    ld c, [hl]
+    inc hl
+    ld b, $0
+    push hl
+    ld hl, $d812
+    add hl, bc
+    ld [hl], e
+    ld a, [$d80f]
+    sub e
+    jr nc, .asm_9a8
+    add d
+.asm_9a8
+    ld e, a
+    ld a, [hl]
+    ld [$d80f], a
+    pop hl
+    pop af
+    dec a
+    jr nz, .asm_996
+    call Func_9fa
+    call Func_9fa
+    call Func_9fa
+    ld a, $0
+    call Func_959
+    ld [$afff], a
+    ret
+
+INCBIN "bin/9c4_9f9.bin"
+
+Func_9fa: ; 0x9fa
+    ld a, [$d810]
+    ld d, a
+    ld bc, $d812
+    ld hl, $d831
+    ld e, $18
+.asm_a06
+    ld a, [bc]
+    sub [hl]
+    jr nc, .asm_a0b
+    add d
+.asm_a0b
+    ld [bc], a
+    dec e
+    jr nz, .asm_a06
+    ld bc, $d82a
+    ld hl, $d812
+    ld e, $1f
+.asm_a17
+    ld a, [bc]
+    sub [hl]
+    jr nc, .asm_a1c
+    add d
+.asm_a1c
+    ld [bc], a
+    dec e
+    jr nz, .asm_a17
+    ret
+
+INCBIN "bin/a21_12a0.bin"
+
+Func_12a1: ; 0x12a1
+    ld [$fffa], a
+    ld a, [$fff8]
+    push af
+    ld a, [$fffa]
+    ld [$fff8], a
+    ld [$2000], a
+    ld a, [hl]
+    and $7
+    jr z, .asm_12e5
+    ld b, a
+    ld c, $0
+.asm_12b5
+    push bc
+    ld a, $0
+    ld [$ff00+c], a
+    ld a, $30
+    ld [$ff00+c], a
+    ld b, $10
+.asm_12be
+    ld e, $8
+    ld a, [hli]
+    ld d, a
+.asm_12c2
+    bit 0, d
+    ld a, $10
+    jr nz, .asm_12ca
+    ld a, $20
+.asm_12ca
+    ld [$ff00+c], a
+    ld a, $30
+    ld [$ff00+c], a
+    rr d
+    dec e
+    jr nz, .asm_12c2
+    dec b
+    jr nz, .asm_12be
+    ld a, $20
+    ld [$ff00+c], a
+    ld a, $30
+    ld [$ff00+c], a
+    pop bc
+    dec b
+    jr z, .asm_12e5
+    call Func_12ec
+    jr .asm_12b5
+.asm_12e5
+    pop af
+    ld [$fff8], a
+    ld [$2000], a
+    ret
+
+Func_12ec ; 0x12ec
+    ld de, $1b58
+.asm_12ef
+    nop
+    nop
+    nop
+    dec de
+    ld a, d
+    or e
+    jr nz, .asm_12ef
+    ret
+
+Func_12f8: ; 0x12f8
+    ld a, $e
+    ld hl, $4010 ; todo
+    call Func_12a1
+    call Func_12ec
+    ld a, [$ff00]
+    and $3
+    cp $3
+    jr nz, .asm_1346
+    ld a, $20
+    ld [$ff00], a
+    ld a, [$ff00]
+    ld a, [$ff00]
+    ld a, $30
+    ld [$ff00], a
+    ld a, $10
+    ld [$ff00], a
+    ld a, [$ff00]
+    ld a, [$ff00]
+    ld a, [$ff00]
+    ld a, [$ff00]
+    ld a, [$ff00]
+    ld a, [$ff00]
+    ld a, $30
+    ld [$ff00], a
+    ld a, [$ff00]
+    ld a, [$ff00]
+    ld a, [$ff00]
+    ld a, [$ff00]
+    and $3
+    cp $3
+    jr nz, .asm_1346
+    ld a, $e
+    ld hl, $4000
+    call Func_12a1
+    call Func_12ec
+    and a
+    ret
+.asm_1346
+    ld a, $e
+    ld hl, $4000
+    call Func_12a1
+    call Func_12ec
+    scf
+    ret
+
+Func_1353: ; 0x1353
+    ld [$fffa], a
+    ld a, [$fff8]
+    push af
+    ld a, [$fffa]
+    ld [$fff8], a
+    ld [$2000], a
+    push af
+    push hl
+    ld a, $e4
+    ld [$ff47], a
+    ld de, $0010
+    add hl, de
+    ld de, $8800 ; bgmap
+    call Func_65d
+    ld hl, $9800 ; tiles
+    ld de, $000c
+    ld a, $80
+    ld c, $d
+.asm_1379
+    ld b, $14
+.asm_137b
+    ld [hli], a
+    inc a
+    dec b
+    jr nz, .asm_137b
+    add hl, de
+    dec c
+    jr nz, .asm_1379
+    ld a, $81
+    ld [$ff40], a
+    ld bc, $0005
+    call Func_948
+    pop hl
+    pop af
+    call Func_12a1
+    ld bc, $0006
+    call Func_948
+    ld a, [$ffa3]
+    ld [$ff47], a
+    ld a, [$ff9e]
+    ld [$ff40], a
+    pop af
+    ld [$fff8], a
+    ld [$2000], a
+    ret
+
+Func_13a8: ; 0x13a8
+    ld a, [$fffb]
+    and a
+    ret z
+    ld bc, $0078
+    call Func_948
+    call Func_1489
+    ld a, $e
+    ld hl, $69e6
+    call Func_12a1
+    ld bc, $0004
+    call Func_948
+    ld a, $e
+    ld hl, $69f6
+    call Func_12a1
+    ld bc, $0004
+    call Func_948
+    ld a, $e
+    ld hl, $6a06
+    call Func_12a1
+    ld bc, $0004
+    call Func_948
+    ld a, $e
+    ld hl, $6a16
+    call Func_12a1
+    ld bc, $0004
+    call Func_948
+    ld a, $e
+    ld hl, $6a26
+    call Func_12a1
+    ld bc, $0004
+    call Func_948
+    ld a, $e
+    ld hl, $6a36
+    call Func_12a1
+    ld bc, $0004
+    call Func_948
+    ld a, $e
+    ld hl, $6a46
+    call Func_12a1
+    ld bc, $0004
+    call Func_948
+    ld a, $e
+    ld hl, $6a56
+    call Func_12a1
+    ld bc, $0004
+    call Func_948
+    ld bc, $1000
+    ld a, $e
+    ld hl, $4156 ; todo
+    call Func_1353
+    ld bc, $0004
+    call Func_948
+    ld bc, $1000
+    ld a, $e
+    ld hl, $5166 ; todo
+    call Func_1353
+    ld bc, $0004
+    call Func_948
+    ld bc, $0860
+    ld a, $e
+    ld hl, $6176 ; todo
+    call Func_1353
+    ld bc, $0004
+    call Func_948
+    ld bc, $00a0
+    ld a, $e
+    ld hl, $40a6 ; todo
+    call Func_1353
+    ld bc, $0004
+    call Func_948
+    ld bc, $005a
+    ld a, $e
+    ld hl, $4030
+    call Func_1353
+    ld bc, $0004
+    call Func_948
+    ld a, $e
+    ld hl, $4020
+    call Func_12a1
+    ld bc, $0004
+    call Func_948
+    ret
+
+Func_1489: ; 0x1489
+    ld a, [$fffb]
+    and a
+    ret z
+    ld a, [$fffc]
+    and a
+    ret nz
+    ld a, $e
+    ld hl, $6a66 ; todo
+    call Func_12a1
+    ld bc, $0004
+    call Func_948
+    ld a, $ff
+    ld [$fffc], a
+    ret
+
+INCBIN "bin/14a4_3fff.bin"
 
 
 SECTION "bank1", ROMX, BANK[$1]

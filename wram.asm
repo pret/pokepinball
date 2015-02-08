@@ -2,7 +2,10 @@
 SECTION "WRAM Bank 0", WRAM0
 
 wc000::
-	ds 4096
+	ds $500
+
+wcBottomMessageText::
+	ds $b00
 
 SECTION "WRAM Bank 1", WRAMX, BANK[1]
 

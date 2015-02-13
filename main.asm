@@ -2,7 +2,7 @@ INCLUDE "constants.asm"
 
 SECTION "Home", ROM0
 
-	INCBIN "bin/0_ff.bin"
+INCBIN "baserom.gbc",$0,$100
 
 SECTION "Entry", ROM0 [$100]
 
@@ -143,7 +143,7 @@ Func_23b: ; 0x23b
     ld [$fffd], a
     ret
 
-INCBIN "bin/24e_52b.bin"
+INCBIN "baserom.gbc",$24e,$52c - $24e
 
 Func_52c: ; 0x52c
     di
@@ -151,14 +151,14 @@ Func_52c: ; 0x52c
     ei
     ret
 
-INCBIN "bin/532_548.bin"
+INCBIN "baserom.gbc",$532,$549 - $532
 
 Func_549: ; 0x549
     ld [$fff8], a
     ld [$2000], a
     jp [hl]
 
-INCBIN "bin/54f_5f6.bin"
+INCBIN "baserom.gbc",$54f,$5f7 - $54f
 
 Func_5f7: ; 0x5f7
     ld c, $80
@@ -172,7 +172,7 @@ Func_5f7: ; 0x5f7
     jr nz, .asm_5fe
     ret
 
-INCBIN "bin/605_653.bin"
+INCBIN "baserom.gbc",$605,$654 - $605
 
 Func_654: ; 0x654
     xor a
@@ -194,7 +194,7 @@ Func_65d: ; 0x65d
     jr nz, Func_65d
     ret
 
-INCBIN "bin/666_915.bin"
+INCBIN "baserom.gbc",$666,$916 - $666
 
 Func_916: ; 0x916
     ld hl, wOAMBuffer
@@ -208,7 +208,7 @@ Func_916: ; 0x916
     ld [$d802], a
     ret
 
-INCBIN "bin/926_947.bin"
+INCBIN "baserom.gbc",$926,$948 - $926
 
 Func_948: ; 0x948
     ld de, $06d6
@@ -294,7 +294,7 @@ Func_97a: ; 0x97a
     ld [$afff], a
     ret
 
-INCBIN "bin/9c4_9f9.bin"
+INCBIN "baserom.gbc",$9c4,$9fa - $9c4
 
 Func_9fa: ; 0x9fa
     ld a, [$d810]
@@ -325,7 +325,7 @@ Func_9fa: ; 0x9fa
     jr nz, .asm_a17
     ret
 
-INCBIN "bin/a21_12a0.bin"
+INCBIN "baserom.gbc",$a21,$12a1 - $a21
 
 Func_12a1: ; 0x12a1
     ld [$fffa], a
@@ -584,67 +584,67 @@ Func_1489: ; 0x1489
     ld [$fffc], a
     ret
 
-INCBIN "bin/14a4_3fff.bin"
+INCBIN "baserom.gbc",$14a4,$4000 - $14a4
 
 
 SECTION "bank1", ROMX, BANK[$1]
 
-INCBIN "bin/4000_7fff.bin" ; 0x4000
+INCBIN "baserom.gbc",$4000,$8000 - $4000 ; 0x4000
 
 
 SECTION "bank2", ROMX, BANK[$2]
 
-INCBIN "bin/8000_bfff.bin" ; 0x8000
+INCBIN "baserom.gbc",$8000,$c000 - $8000 ; 0x8000
 
 
 SECTION "bank3", ROMX, BANK[$3]
 
-INCBIN "bin/c000_ffff.bin" ; 0xc000
+INCBIN "baserom.gbc",$c000,$10000 - $c000 ; 0xc000
 
 
 SECTION "bank4", ROMX, BANK[$4]
 
-INCBIN "bin/10000_13fff.bin" ; 0x10000
+INCBIN "baserom.gbc",$10000,$14000 - $10000 ; 0x10000
 
 
 SECTION "bank5", ROMX, BANK[$5]
 
-INCBIN "bin/14000_17fff.bin" ; 0x14000
+INCBIN "baserom.gbc",$14000,$18000 - $14000 ; 0x14000
 
 
 SECTION "bank6", ROMX, BANK[$6]
 
-INCBIN "bin/18000_1bfff.bin" ; 0x18000
+INCBIN "baserom.gbc",$18000,$1c000 - $18000 ; 0x18000
 
 
 SECTION "bank7", ROMX, BANK[$7]
 
-INCBIN "bin/1c000_1ffff.bin" ; 0x1c000
+INCBIN "baserom.gbc",$1c000,$20000 - $1c000 ; 0x1c000
 
 
 SECTION "bank8", ROMX, BANK[$8]
 
-INCBIN "bin/20000_23fff.bin" ; 0x20000
+INCBIN "baserom.gbc",$20000,$24000 - $20000 ; 0x20000
 
 
 SECTION "bank9", ROMX, BANK[$9]
 
-INCBIN "bin/24000_27fff.bin" ; 0x24000
+INCBIN "baserom.gbc",$24000,$28000 - $24000 ; 0x24000
 
 
 SECTION "banka", ROMX, BANK[$a]
 
-INCBIN "bin/28000_2bfff.bin" ; 0x28000
+INCBIN "baserom.gbc",$28000,$2c000 - $28000 ; 0x28000
 
 
 SECTION "bankb", ROMX, BANK[$b]
 
-INCBIN "bin/2c000_2ffff.bin" ; 0x2c000
+INCBIN "baserom.gbc",$2c000,$30000 - $2c000 ; 0x2c000
 
 
 SECTION "bankc", ROMX, BANK[$c]
 
-INCBIN "bin/30000_33fff.bin" ; 0x30000
+INCBIN "baserom.gbc",$30000,$33fff - $30000 ; 0x30000
 
 
 SECTION "bankd", ROMX, BANK[$d]
@@ -654,47 +654,47 @@ SlotOnPic: ; 0x34000
 SlotOffPic: ; 0x34180
 	INCBIN "gfx/billboard/slot/slot_off.2bpp"
 
-INCBIN "bin/34300_37fff.bin" ; 0x34000
+INCBIN "baserom.gbc",$34300,$38000 - $34300 ; 0x34000
 
 
 SECTION "banke", ROMX, BANK[$e]
 
-INCBIN "bin/38000_3bfff.bin" ; 0x38000
+INCBIN "baserom.gbc",$38000,$3c000 - $38000 ; 0x38000
 
 
 SECTION "bankf", ROMX, BANK[$f]
 
-INCBIN "bin/3c000_3ffff.bin" ; 0x3c000
+INCBIN "baserom.gbc",$3c000,$40000 - $3c000 ; 0x3c000
 
 
 SECTION "bank10", ROMX, BANK[$10]
 
-INCBIN "bin/40000_43fff.bin" ; 0x40000
+INCBIN "baserom.gbc",$40000,$44000 - $40000 ; 0x40000
 
 
 SECTION "bank11", ROMX, BANK[$11]
 
-INCBIN "bin/44000_47fff.bin" ; 0x44000
+INCBIN "baserom.gbc",$44000,$48000 - $44000 ; 0x44000
 
 
 SECTION "bank12", ROMX, BANK[$12]
 
-INCBIN "bin/48000_4bfff.bin" ; 0x48000
+INCBIN "baserom.gbc",$48000,$4c000 - $48000 ; 0x48000
 
 
 SECTION "bank13", ROMX, BANK[$13]
 
-INCBIN "bin/4c000_4ffff.bin" ; 0x4c000
+INCBIN "baserom.gbc",$4c000,$50000 - $4c000 ; 0x4c000
 
 
 SECTION "bank14", ROMX, BANK[$14]
 
-INCBIN "bin/50000_53fff.bin" ; 0x50000
+INCBIN "baserom.gbc",$50000,$54000 - $50000 ; 0x50000
 
 
 SECTION "bank15", ROMX, BANK[$15]
 
-INCBIN "bin/54000_57fff.bin" ; 0x54000
+INCBIN "baserom.gbc",$54000,$58000 - $54000 ; 0x54000
 
 
 SECTION "bank16", ROMX, BANK[$16]
@@ -784,7 +784,7 @@ GoToSeelBonusOnPic: ; 0x5bc00
 GoToSeelBonusOffPic: ; 0x5bd80
 	INCBIN "gfx/billboard/bonus_stages/gotoseelbonus_off.2bpp"
 
-INCBIN "bin/5bf00_5bfff.bin" ; 0x5bf00
+INCBIN "baserom.gbc",$5bf00,$5c000 - $5bf00 ; 0x5bf00
 
 
 SECTION "bank17", ROMX, BANK[$17]
@@ -862,7 +862,7 @@ BigReward9000000PointsOnPic: ; 0x5f300
 BigReward9000000PointsOffPic: ; 0x5f480
 	INCBIN "gfx/billboard/slot/9000000points_off.2bpp"
 
-INCBIN "bin/5f600_5ffff.bin" ; 0x5f600
+INCBIN "baserom.gbc",$5f600,$60000 - $5f600 ; 0x5f600
 
 
 SECTION "bank18", ROMX, BANK[$18]
@@ -932,7 +932,7 @@ KadabraPic: ; 0x62d00
 KadabraSilhouettePic: ; 0x62e80
 	INCBIN "gfx/billboard/mon_silhouettes/kadabra.2bpp"
 
-INCBIN "bin/63000_63fff.bin" ; 0x63000
+INCBIN "baserom.gbc",$63000,$64000 - $63000 ; 0x63000
 
 
 SECTION "bank19", ROMX, BANK[$19]
@@ -1002,7 +1002,7 @@ VenonatPic: ; 0x66d00
 VenonatSilhouettePic: ; 0x66e80
 	INCBIN "gfx/billboard/mon_silhouettes/venonat.2bpp"
 
-INCBIN "bin/67000_67fff.bin" ; 0x67000
+INCBIN "baserom.gbc",$67000,$68000 - $67000 ; 0x67000
 
 
 SECTION "bank1a", ROMX, BANK[$1a]
@@ -1072,7 +1072,7 @@ TaurosPic: ; 0x6ad00
 TaurosSilhouettePic: ; 0x6ae80
 	INCBIN "gfx/billboard/mon_silhouettes/tauros.2bpp"
 
-INCBIN "bin/6b000_6bfff.bin" ; 0x6b000
+INCBIN "baserom.gbc",$6b000,$6c000 - $6b000 ; 0x6b000
 
 
 SECTION "bank1b", ROMX, BANK[$1b]
@@ -1142,7 +1142,7 @@ ArticunoPic: ; 0x6ed00
 ArticunoSilhouettePic: ; 0x6ee80
 	INCBIN "gfx/billboard/mon_silhouettes/articuno.2bpp"
 
-INCBIN "bin/6f000_6ffff.bin" ; 0x6f000
+INCBIN "baserom.gbc",$6f000,$70000 - $6f000 ; 0x6f000
 
 
 SECTION "bank1c", ROMX, BANK[$1c]
@@ -1176,7 +1176,7 @@ MewPic: ; 0x71200
 MewSilhouettePic:  ; 0x71380
 	INCBIN "gfx/billboard/mon_silhouettes/mew.2bpp"
 
-INCBIN "bin/71500_73fff.bin" ; 0x71500
+INCBIN "baserom.gbc",$71500,$74000 - $71500 ; 0x71500
 
 
 SECTION "bank1d", ROMX, BANK[$1d]
@@ -1246,7 +1246,7 @@ Nidoran_MPic: ; 0x76d00
 Nidoran_MSilhouettePic: ; 0x76e80
 	INCBIN "gfx/billboard/mon_silhouettes/nidoran_m.2bpp"
 
-INCBIN "bin/77000_77fff.bin" ; 0x77000
+INCBIN "baserom.gbc",$77000,$78000 - $77000 ; 0x77000
 
 
 SECTION "bank1e", ROMX, BANK[$1e]
@@ -1337,7 +1337,7 @@ BonusMultiplierX5OnPic: ; 0x7bc00
 BonusMultiplierX5OffPic: ; 0x7bd80
 	INCBIN "gfx/billboard/slot/bonusmultiplierX5_off.2bpp"
 
-INCBIN "bin/7bf00_7bfff.bin" ; 0x7bf00
+INCBIN "baserom.gbc",$7bf00,$7c000 - $7bf00 ; 0x7bf00
 
 
 SECTION "bank1f", ROMX, BANK[$1f]
@@ -1375,7 +1375,7 @@ HitmonleeAnimatedPic: ; 0x7ea00
 HitmonchanAnimatedPic: ; 0x7ed00
 	INCBIN "gfx/billboard/mon_animated/hitmonchan.2bpp"
 
-INCBIN "bin/7f000_7ffff.bin" ; 0x7f000
+INCBIN "baserom.gbc",$7f000,$80000 - $7f000 ; 0x7f000
 
 
 SECTION "bank20", ROMX, BANK[$20]
@@ -1413,7 +1413,7 @@ PinsirAnimatedPic: ; 0x82a00
 TaurosAnimatedPic: ; 0x82d00
 	INCBIN "gfx/billboard/mon_animated/tauros.2bpp"
 
-INCBIN "bin/83000_83fff.bin" ; 0x83000
+INCBIN "baserom.gbc",$83000,$84000 - $83000 ; 0x83000
 
 
 SECTION "bank21", ROMX, BANK[$21]
@@ -1449,7 +1449,7 @@ MewtwoAnimatedPic: ; 0x86700
 MewAnimatedPic: ; 0x86a00
 	INCBIN "gfx/billboard/mon_animated/mew.2bpp"
 
-INCBIN "bin/86d00_87fff.bin" ; 0x86d00
+INCBIN "baserom.gbc",$86d00,$88000 - $86d00 ; 0x86d00
 
 
 SECTION "bank22", ROMX, BANK[$22]
@@ -1487,7 +1487,7 @@ GeodudeAnimatedPic: ; 0x8aa00
 PonytaAnimatedPic: ; 0x8ad00
 	INCBIN "gfx/billboard/mon_animated/ponyta.2bpp"
 
-INCBIN "bin/8b000_8bfff.bin" ; 0x8b000
+INCBIN "baserom.gbc",$8b000,$8c000 - $8b000 ; 0x8b000
 
 
 SECTION "bank23", ROMX, BANK[$23]
@@ -1525,7 +1525,7 @@ VulpixAnimatedPic: ; 0x8ea00
 JigglypuffAnimatedPic: ; 0x8ed00
 	INCBIN "gfx/billboard/mon_animated/jigglypuff.2bpp"
 
-INCBIN "bin/8f000_8ffff.bin" ; 0x8f000
+INCBIN "baserom.gbc",$8f000,$90000 - $8f000 ; 0x8f000
 
 
 SECTION "bank24", ROMX, BANK[$24]
@@ -1595,7 +1595,7 @@ RhydonPic: ; 0x92d00
 RhydonSilhouettePic: ; 0x92e80
 	INCBIN "gfx/billboard/mon_silhouettes/rhydon.2bpp"
 
-INCBIN "bin/93000_93fff.bin" ; 0x93000
+INCBIN "baserom.gbc",$93000,$94000 - $93000 ; 0x93000
 
 
 SECTION "bank25", ROMX, BANK[$25]
@@ -1665,7 +1665,7 @@ DrowzeePic: ; 0x96d00
 DrowzeeSilhouettePic: ; 0x96e80
 	INCBIN "gfx/billboard/mon_silhouettes/drowzee.2bpp"
 
-INCBIN "bin/97000_97fff.bin" ; 0x97000
+INCBIN "baserom.gbc",$97000,$98000 - $97000 ; 0x97000
 
 
 SECTION "bank26", ROMX, BANK[$26]
@@ -1735,22 +1735,22 @@ SlowbroPic: ; 0x9ad00
 SlowbroSilhouettePic: ; 0x9ae80
 	INCBIN "gfx/billboard/mon_silhouettes/slowbro.2bpp"
 
-INCBIN "bin/9b000_9bfff.bin" ; 0x9b000
+INCBIN "baserom.gbc",$9b000,$9c000 - $9b000 ; 0x9b000
 
 
 SECTION "bank27", ROMX, BANK[$27]
 
-INCBIN "bin/9c000_9ffff.bin" ; 0x9c000
+INCBIN "baserom.gbc",$9c000,$a0000 - $9c000 ; 0x9c000
 
 
 SECTION "bank28", ROMX, BANK[$28]
 
-INCBIN "bin/a0000_a3fff.bin" ; 0xa0000
+INCBIN "baserom.gbc",$a0000,$a4000 - $a0000 ; 0xa0000
 
 
 SECTION "bank29", ROMX, BANK[$29]
 
-INCBIN "bin/a4000_a5fff.bin" ; 0xa4000
+INCBIN "baserom.gbc",$a4000,$a6000 - $a4000 ; 0xa4000
 
 PalletTownPic: ; 0xa6000
 	INCBIN "gfx/billboard/maps/pallettown.2bpp"
@@ -1789,114 +1789,114 @@ CinnabarIslandPic: ; 0xa7800
 IndigoPlateauPic: ; 0xa7980
 	INCBIN "gfx/billboard/maps/indigoplateau.2bpp"
 
-INCBIN "bin/a7b00_a7fff.bin" ; 0xa7b00
+INCBIN "baserom.gbc",$a7b00,$a8000 - $a7b00 ; 0xa7b00
 
 SECTION "bank2a", ROMX, BANK[$2a]
 
-INCBIN "bin/a8000_abfff.bin" ; 0xa8000
+INCBIN "baserom.gbc",$a8000,$ac000 - $a8000 ; 0xa8000
 
 
 SECTION "bank2b", ROMX, BANK[$2b]
 
-INCBIN "bin/ac000_affff.bin" ; 0xac000
+INCBIN "baserom.gbc",$ac000,$b0000 - $ac000 ; 0xac000
 
 
 SECTION "bank2c", ROMX, BANK[$2c]
 
-INCBIN "bin/b0000_b3fff.bin" ; 0xb0000
+INCBIN "baserom.gbc",$b0000,$b4000 - $b0000 ; 0xb0000
 
 
 SECTION "bank2d", ROMX, BANK[$2d]
 
-INCBIN "bin/b4000_b7fff.bin" ; 0xb4000
+INCBIN "baserom.gbc",$b4000,$b8000 - $b4000 ; 0xb4000
 
 
 SECTION "bank2e", ROMX, BANK[$2e]
 
-INCBIN "bin/b8000_bbfff.bin" ; 0xb8000
+INCBIN "baserom.gbc",$b8000,$bc000 - $b8000 ; 0xb8000
 
 
 SECTION "bank2f", ROMX, BANK[$2f]
 
-INCBIN "bin/bc000_bffff.bin" ; 0xbc000
+INCBIN "baserom.gbc",$bc000,$c0000 - $bc000 ; 0xbc000
 
 
 SECTION "bank30", ROMX, BANK[$30]
 
-INCBIN "bin/c0000_c3fff.bin" ; 0xc0000
+INCBIN "baserom.gbc",$c0000,$c4000 - $c0000 ; 0xc0000
 
 
 SECTION "bank31", ROMX, BANK[$31]
 
-INCBIN "bin/c4000_c7fff.bin" ; 0xc4000
+INCBIN "baserom.gbc",$c4000,$c8000 - $c4000 ; 0xc4000
 
 
 SECTION "bank32", ROMX, BANK[$32]
 
-INCBIN "bin/c8000_cbfff.bin" ; 0xc8000
+INCBIN "baserom.gbc",$c8000,$cc000 - $c8000 ; 0xc8000
 
 
 SECTION "bank33", ROMX, BANK[$33]
 
-INCBIN "bin/cc000_cffff.bin" ; 0xcc000
+INCBIN "baserom.gbc",$cc000,$d0000 - $cc000 ; 0xcc000
 
 
 SECTION "bank34", ROMX, BANK[$34]
 
-INCBIN "bin/d0000_d3fff.bin" ; 0xd0000
+INCBIN "baserom.gbc",$d0000,$d4000 - $d0000 ; 0xd0000
 
 
 SECTION "bank35", ROMX, BANK[$35]
 
-INCBIN "bin/d4000_d7fff.bin" ; 0xd4000
+INCBIN "baserom.gbc",$d4000,$d8000 - $d4000 ; 0xd4000
 
 
 SECTION "bank36", ROMX, BANK[$36]
 
-INCBIN "bin/d8000_dbfff.bin" ; 0xd8000
+INCBIN "baserom.gbc",$d8000,$dc000 - $d8000 ; 0xd8000
 
 
 SECTION "bank37", ROMX, BANK[$37]
 
-INCBIN "bin/dc000_dffff.bin" ; 0xdc000
+INCBIN "baserom.gbc",$dc000,$e0000 - $dc000 ; 0xdc000
 
 
 SECTION "bank38", ROMX, BANK[$38]
 
-INCBIN "bin/e0000_e3fff.bin" ; 0xe0000
+INCBIN "baserom.gbc",$e0000,$e4000 - $e0000 ; 0xe0000
 
 
 SECTION "bank39", ROMX, BANK[$39]
 
-INCBIN "bin/e4000_e7fff.bin" ; 0xe4000
+INCBIN "baserom.gbc",$e4000,$e8000 - $e4000 ; 0xe4000
 
 
 SECTION "bank3a", ROMX, BANK[$3a]
 
-INCBIN "bin/e8000_ebfff.bin" ; 0xe8000
+INCBIN "baserom.gbc",$e8000,$ec000 - $e8000 ; 0xe8000
 
 
 SECTION "bank3b", ROMX, BANK[$3b]
 
-INCBIN "bin/ec000_effff.bin" ; 0xec000
+INCBIN "baserom.gbc",$ec000,$f0000 - $ec000 ; 0xec000
 
 
 SECTION "bank3c", ROMX, BANK[$3c]
 
-INCBIN "bin/f0000_f3fff.bin" ; 0xf0000
+INCBIN "baserom.gbc",$f0000,$f4000 - $f0000 ; 0xf0000
 
 
 SECTION "bank3d", ROMX, BANK[$3d]
 
-INCBIN "bin/f4000_f7fff.bin" ; 0xf4000
+INCBIN "baserom.gbc",$f4000,$f8000 - $f4000 ; 0xf4000
 
 
 SECTION "bank3e", ROMX, BANK[$3e]
 
-INCBIN "bin/f8000_fbfff.bin" ; 0xf8000
+INCBIN "baserom.gbc",$f8000,$fc000 - $f8000 ; 0xf8000
 
 
 SECTION "bank3f", ROMX, BANK[$3f]
 
-INCBIN "bin/fc000_fffff.bin" ; 0xfc000
+INCBIN "baserom.gbc",$fc000,$fffff - $fc000 ; 0xfc000
 

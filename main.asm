@@ -1,4 +1,5 @@
 INCLUDE "constants.asm"
+INCLUDE "macros.asm"
 
 SECTION "Home", ROM0
 
@@ -1310,7 +1311,35 @@ INCBIN "baserom.gbc",$8266,$c000 - $8266 ; 0x8266
 
 SECTION "bank3", ROMX, BANK[$3]
 
-INCBIN "baserom.gbc",$c000,$10000 - $c000 ; 0xc000
+INCBIN "baserom.gbc",$c000,$c77e - $c000
+
+SongBanks: ; 0xc77e
+	db MUSIC_NOTHING_0F,BANK(Music_Nothing0F)
+	db MUSIC_BLUE_FIELD,BANK(Music_BlueField)
+	db MUSIC_CATCH_EM_RED,BANK(Music_CatchEmRed)
+	db MUSIC_HURRY_UP_RED,BANK(Music_HurryUpRed)
+	db MUSIC_POKEDEX,BANK(Music_Pokedex)
+	db MUSIC_GASTLY_GRAVEYARD,BANK(Music_GastlyInTheGraveyard)
+	db MUSIC_HAUNTER_GRAVEYARD,BANK(Music_HaunterInTheGraveyard)
+	db MUSIC_GENGAR_GRAVEYARD,BANK(Music_GengarInTheGraveyard)
+	db MUSIC_RED_FIELD,BANK(Music_RedField)
+	db MUSIC_CATCH_EM_BLUE,BANK(Music_CatchEmBlue)
+	db MUSIC_HURRY_UP_BLUE,BANK(Music_HurryUpBlue)
+	db MUSIC_HI_SCORE,BANK(Music_HiScore)
+	db MUSIC_GAME_OVER,BANK(Music_GameOver)
+	db MUSIC_WHACK_DIGLETT,BANK(Music_WhackTheDiglett)
+	db MUSIC_WHACK_DUGTRIO,BANK(Music_WhackTheDugtrio)
+	db MUSIC_SEEL_STAGE,BANK(Music_SeelStage)
+	db MUSIC_TITLE_SCREEN,BANK(Music_Title)
+	db MUSIC_MEWTWO_STAGE,BANK(Music_MewtwoStage)
+	db MUSIC_OPTIONS,BANK(Music_Options)
+	db MUSIC_FIELD_SELECT,BANK(Music_FieldSelect)
+	db MUSIC_MEOWTH_STAGE,BANK(Music_MeowthStage)
+	db MUSIC_END_CREDITS,BANK(Music_EndCredits)
+	db MUSIC_NAME_ENTRY,BANK(Music_NameEntry)
+; 0xc7ac
+
+INCBIN "baserom.gbc",$c7ac,$10000 - $c7ac
 
 
 SECTION "bank4", ROMX, BANK[$4]
@@ -1375,27 +1404,111 @@ INCBIN "baserom.gbc",$38000,$3c000 - $38000 ; 0x38000
 
 SECTION "bankf", ROMX, BANK[$f]
 
-INCBIN "baserom.gbc",$3c000,$40000 - $3c000 ; 0x3c000
+INCBIN "baserom.gbc",$3c000,$3cca2 - $3c000
+
+SongHeaderPointers0F: ; 0x3cca2
+	dw Music_Nothing0F
+	dw Music_BlueField
+	dw Music_CatchEmRed
+	dw Music_HurryUpRed
+	dw Music_Pokedex
+	dw Music_GastlyInTheGraveyard
+	dw Music_HaunterInTheGraveyard
+	dw Music_GengarInTheGraveyard
+; 0x3ccb2
+
+INCLUDE "audio/music/nothing0f.asm"
+INCLUDE "audio/music/bluefield.asm"
+INCLUDE "audio/music/catchemred.asm"
+INCLUDE "audio/music/pokedex.asm"
+INCLUDE "audio/music/hurryupred.asm"
+INCLUDE "audio/music/gastlyinthegraveyard.asm"
+INCLUDE "audio/music/haunterinthegraveyard.asm"
+INCLUDE "audio/music/gengarinthegraveyard.asm"
+
+INCBIN "baserom.gbc",$3e3ce,$40000 - $3e3ce
 
 
 SECTION "bank10", ROMX, BANK[$10]
 
-INCBIN "baserom.gbc",$40000,$44000 - $40000 ; 0x40000
+INCBIN "baserom.gbc",$40000,$40ca2 - $40000
+
+SongHeaderPointers10: ; 0x40ca2
+	dw Music_Nothing10
+	dw Music_RedField
+	dw Music_CatchEmBlue
+	dw Music_HurryUpBlue
+	dw Music_HiScore
+	dw Music_GameOver
+; 0x40cae
+
+INCLUDE "audio/music/nothing10.asm"
+INCLUDE "audio/music/redfield.asm"
+INCLUDE "audio/music/catchemblue.asm"
+INCLUDE "audio/music/hiscore.asm"
+INCLUDE "audio/music/gameover.asm"
+INCLUDE "audio/music/hurryupblue.asm"
+
+INCBIN "baserom.gbc",$4255b,$44000 - $4255b
 
 
 SECTION "bank11", ROMX, BANK[$11]
 
-INCBIN "baserom.gbc",$44000,$48000 - $44000 ; 0x44000
+INCBIN "baserom.gbc",$44000,$44ca2 - $44000
+
+SongHeaderPointers11: ; 0x44ca2
+	dw Music_Nothing11
+	dw Music_WhackTheDiglett
+	dw Music_WhackTheDugtrio
+	dw Music_SeelStage
+	dw Music_Title
+; 0x44cac
+
+INCLUDE "audio/music/nothing11.asm"
+INCLUDE "audio/music/whackthediglett.asm"
+INCLUDE "audio/music/whackthedugtrio.asm"
+INCLUDE "audio/music/seelstage.asm"
+INCLUDE "audio/music/title.asm"
+
+INCBIN "baserom.gbc",$462d3,$48000 - $462d3
 
 
 SECTION "bank12", ROMX, BANK[$12]
 
-INCBIN "baserom.gbc",$48000,$4c000 - $48000 ; 0x48000
+INCBIN "baserom.gbc",$48000,$48ca2 - $48000
+
+SongHeaderPointers12: ; 0x48ca2
+	dw Music_Nothing12
+	dw Music_MewtwoStage
+	dw Music_Options
+	dw Music_FieldSelect
+	dw Music_MeowthStage
+; 0x48cac
+
+INCLUDE "audio/music/nothing12.asm"
+INCLUDE "audio/music/mewtwostage.asm"
+INCLUDE "audio/music/options.asm"
+INCLUDE "audio/music/fieldselect.asm"
+INCLUDE "audio/music/meowthstage.asm"
+
+INCBIN "baserom.gbc",$49c04,$4c000 - $49c04
 
 
 SECTION "bank13", ROMX, BANK[$13]
 
-INCBIN "baserom.gbc",$4c000,$50000 - $4c000 ; 0x4c000
+INCBIN "baserom.gbc",$4c000,$4cca2 - $4c000
+
+SongHeaderPointers13: ; 0x4cca2
+	dw Music_Nothing13
+	dw Music_EndCredits
+	dw Music_NameEntry
+; 0x4cca8
+
+INCLUDE "audio/music/nothing13.asm"
+INCLUDE "audio/music/endcredits.asm"
+INCLUDE "audio/music/nameentry.asm"
+
+INCBIN "baserom.gbc",$4def4,$50000 - $4def4
 
 
 SECTION "bank14", ROMX, BANK[$14]

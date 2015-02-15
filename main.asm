@@ -24,58 +24,58 @@ Start: ; 0x150
     di
     xor a
     ld [$ff0f], a
-    ld a, [$ff40]
-    bit 7, a
-    jr nz, .asm_163
+    ld a, [$ff40]    ; LCD Control
+    bit 7, a         ; Check if LCD Display is enabled
+    jr nz, .LCDDisplayEnabled
     set 7, a
     ld [$ff40], a
-.asm_163
+.LCDDisplayEnabled
     ld bc, $0002
     call Func_948
-.asm_169
-    ld a, [$ff44]
-    cp $91
-    jr c, .asm_169
+.waitForVBlank
+    ld a, [$ff44]   ; LY register (LCDC Y-Coordinate)
+    cp 145          ; > 144 means V-Blank
+    jr c, .waitForVBlank
     ld a, $81
-    ld [$ff40], a
+    ld [$ff40], a   ; Enable LCD Display
     xor a
-    ld [$ff47], a
+    ld [$ff47], a   ; Clear Palette Data
     ld [$ff48], a
     ld [$ff49], a
     ld bc, $0002
     call Func_948
-.asm_180
-    ld a, [$ff44]
-    cp $91
-    jr c, .asm_180
+.waitForVBlank2
+    ld a, [$ff44]   ; LY register (LCDC Y-Coordinate)
+    cp 145          ; > 144 means V-Blank
+    jr c, .waitForVBlank2
     xor a
-    ld [$ff40], a
+    ld [$ff40], a   ; Disable LCD Display
     ld hl, wc000
     ld bc, $2000
-    call Func_654
+    call ClearData  ; Clear WRAM Bank 0
     ld hl, $8000
     ld bc, $1000
-    call Func_654
+    call ClearData  ; Clear First half of VRAM
     ld a, $a
-    ld [$0000], a
+    ld [$0000], a   ; Enable RAM
     ld a, $1
-    ld [$2000], a
+    ld [$2000], a   ; Load ROM Bank $1
     ld a, $0
-    ld [$6000], a
+    ld [$6000], a   ; Enable ROM Banking Mode
     ld a, $0
-    ld [$4000], a
+    ld [$4000], a   ; Set bits 5 and 6 of ROM Bank Number
     ld a, $1
     ld [$fff8], a
     ld a, $1
-    ld [$6000], a
+    ld [$6000], a   ; Enable RAM Banking Mode
     ld a, $0
-    ld [$4000], a
-    ld sp, $dfff
+    ld [$4000], a   ; Load RAM Bank $0
+    ld sp, $dfff    ; Initialize stack pointer to the end of WRAM Bank $1
     ld hl, $ff80
     ld bc, $007e
-    call Func_654
-    call Func_5f7
-    call Func_916
+    call ClearData  ; Clear High RAM (HRAM)
+    call InitializeHRAM
+    call ClearOAMBuffer
     xor a
     ld [$d7fb], a
     ld [$d7fc], a
@@ -120,16 +120,16 @@ Start: ; 0x150
     ld [$d917], a
 .asm_222
     ld a, $1
-    ld [$ffff], a
+    ld [$ffff], a  ; Only enable LCD Status interrupt
     ei
     ld a, $ff
     ld [$d810], a
     call Func_97a
     xor a
     ld [$daa3], a
-    ld a, $0
-    ld hl, $1ffc
-    call Func_549
+    ld a, Bank(Func_1ffc)
+    ld hl, Func_1ffc
+    call SwitchBank
 Func_23b: ; 0x23b
     ld a, [$fffe]
     cp $11
@@ -185,14 +185,15 @@ Func_532: ; 0x532
     ld l, e
     jp Func_54f
 
-Func_549: ; 0x549
+SwitchBank: ; 0x549
+; Switches to Bank in register a and jumps to hl.
     ld [$fff8], a
-    ld [$2000], a
+    ld [$2000], a  ; Load Bank
     jp [hl]
 
 Func_54f: ; 0x54f
     ld e, a
-    ld a, [$fff8]
+    ld a, [$fff8]  ; currently-loaded Bank
     cp e
     jr z, .asm_570
     push af
@@ -283,28 +284,35 @@ Func_5c2: ; 0x5c2
 
 INCBIN "baserom.gbc",$5e1,$5f7 - $5e1
 
-Func_5f7: ; 0x5f7
+InitializeHRAM: ; 0x5f7
+; Initializes registers $ff80 - $ff8a
     ld c, $80
-    ld b, $a
-    ld hl, $0605 ; todo
-.asm_5fe
+    ld b, $a  ; number of bytes to load
+    ld hl, InitialHRAM
+.loop
     ld a, [hli]
-    ld [$ff00+c], a
+    ld [$ff00+c], a  ; add register c to $ff00, and store register a into the resulting address
     inc c
     dec b
-    jr nz, .asm_5fe
+    jr nz, .loop
     ret
 
-INCBIN "baserom.gbc",$605,$654 - $605
+InitialHRAM:
+; These $a bytes are initially load into $ff80 - $ff8a by InitializeHRAM.
+    db $3e, $d0, $e0, $46, $3e, $28, $3d, $20, $fd, $c9
 
-Func_654: ; 0x654
+INCBIN "baserom.gbc",$60f,$654 - $60f
+
+ClearData: ; 0x654
+; Clears bc bytes starting at hl.
+; bc can be a maximum of $7fff, since it checks bit 7 of b when looping.
     xor a
     dec bc
-.asm_656
+.clearLoop
     ld [hli], a
     dec bc
     bit 7, b
-    jr z, .asm_656
+    jr z, .clearLoop
     ret
 
 Func_65d: ; 0x65d
@@ -427,14 +435,15 @@ Func_724: ; 0x724
 
 INCBIN "baserom.gbc",$735,$916 - $735
 
-Func_916: ; 0x916
-    ld hl, wOAMBuffer
-    ld b, $a0
-    ld a, $f0
-.asm_91d
+ClearOAMBuffer: ; 0x916
+; Clears the OAM buffer by loading $f0 into all of the entries.
+    ld hl, wOAMBuffer ; 0xd000
+    ld b, 4 * 40  ; wOAMBuffer is 4 * 40 bytes long (40 OAM entries, 4 bytes each)
+    ld a, $f0  ; byte to write
+.loop
     ld [hli], a
     dec b
-    jr nz, .asm_91d
+    jr nz, .loop
     xor a
     ld [$d802], a
     ret
@@ -1284,7 +1293,7 @@ Func_821e: ; 0x821e
     ld a, [$fffe]
     ld hl, .data_825e
     call Func_6a4
-    call Func_916
+    call ClearOAMBuffer
     call Func_b66
     call Func_588
     call Func_14a4

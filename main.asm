@@ -327,7 +327,11 @@ Func_65d: ; 0x65d
 
 INCBIN "baserom.gbc",$666,$6a4 - $666
 
-Func_6a4: ; 0x6a4
+LoadVideoData: ; 0x6a4
+; Input:
+;     hl = address of pointer table
+;      a = index of item to load in pointer table
+; This needs more documentation. It loads things like graphics and palettes.
     sla a
     ld c, a
     ld b, $0
@@ -1276,11 +1280,10 @@ INCBIN "baserom.gbc",$8000,$821e - $8000 ; 0x8000
 Func_821e: ; 0x821e
     ld a, [$d8f2]
     rst $18
-    jr z, .asm_8266
-    sub b
-    ld b, d
-    xor b
-    ld b, d
+    
+INCBIN "baserom.gbc",$8222,$8228 - $8222
+
+Func_8228: ; 0x8228
     ld a, $41
     ld [$ff9e], a
     ld a, $e4
@@ -1291,8 +1294,8 @@ Func_821e: ; 0x821e
     ld [$ffa1], a
     ld [$ffa0], a
     ld a, [$fffe]
-    ld hl, .data_825e
-    call Func_6a4
+    ld hl, PointerTable_825e
+    call LoadVideoData
     call ClearOAMBuffer
     call Func_b66
     call Func_588
@@ -1304,18 +1307,47 @@ Func_821e: ; 0x821e
     inc [hl]
     ret
 
-.data_825e
-    db $62
-    db $42
-    db $72
-    db $42
-    db $0
-    db $60
-    db $36
-    db $0
+PointerTable_825e: ; 0x825e
+    dw DataArray_8262
+    dw DataArray_8272
 
-.asm_8266
-INCBIN "baserom.gbc",$8266,$c000 - $8266 ; 0x8266
+DataArray_8262: ; 0x8262
+    dw $6000
+    db $36
+    dw $8800
+    db $00, $10
+
+    dw $6000
+    db $31
+    dw $9800
+    db $00, $10
+
+    db $FF, $FF  ; terminators
+
+DataArray_8272: ; 0x8272
+    dw CopyrightTextGfx
+    db Bank(CopyrightTextGfx)
+    dw $8800
+    db $00, $10 ; todo (This is the number of bytes to copy divided by 4?)
+
+    dw CopyrightScreenTilemap
+    db Bank(CopyrightScreenTilemap)
+    dw $9800
+    db $00, $10
+
+    dw $6400
+    db $31
+    dw $9800
+    db $02, $10
+
+    dw $5000  ; Some kind of GBC palette data
+    db $37
+    dw $0000
+    db $01, $01
+
+    db $FF, $FF ; terminators
+
+INCBIN "baserom.gbc",$8290,$c000 - $8290 ; 0x8290
 
 
 SECTION "bank3", ROMX, BANK[$3]
@@ -2661,7 +2693,12 @@ INCBIN "baserom.gbc",$c0000,$c4000 - $c0000 ; 0xc0000
 
 SECTION "bank31", ROMX, BANK[$31]
 
-INCBIN "baserom.gbc",$c4000,$c8000 - $c4000 ; 0xc4000
+INCBIN "baserom.gbc",$c4000,$c6000 - $c4000 ; 0xc4000
+
+CopyrightScreenTilemap: ; 0xc6000
+    INCBIN "gfx/tilemaps/copyright_screen.map"
+
+INCBIN "baserom.gbc",$c6400,$c8000 - $c6400 ; 0xc6400
 
 
 SECTION "bank32", ROMX, BANK[$32]
@@ -2686,7 +2723,12 @@ INCBIN "baserom.gbc",$d4000,$d8000 - $d4000 ; 0xd4000
 
 SECTION "bank36", ROMX, BANK[$36]
 
-INCBIN "baserom.gbc",$d8000,$dc000 - $d8000 ; 0xd8000
+INCBIN "baserom.gbc",$d8000,$da000 - $d8000 ; 0xd8000
+
+CopyrightTextGfx: ; 0xda000
+    INCBIN "gfx/copyright_text.2bpp"
+
+INCBIN "baserom.gbc",$da400,$dc000 - $da400 ; 0xda400
 
 
 SECTION "bank37", ROMX, BANK[$37]

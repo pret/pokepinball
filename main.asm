@@ -2673,7 +2673,24 @@ INCBIN "baserom.gbc",$b0000,$b4000 - $b0000 ; 0xb0000
 
 SECTION "bank2d", ROMX, BANK[$2d]
 
-INCBIN "baserom.gbc",$b4000,$b8000 - $b4000 ; 0xb4000
+INCBIN "baserom.gbc",$b4000,$b4400 - $b4000 ; 0xb4000
+
+PikachuBlinkingEyeGfx: ; 0xb4400
+    INCBIN "gfx/titlescreen/pikachu_blinking_eye.2bpp"
+BouncingPokeballGfx: ; 0xb44460
+    INCBIN "gfx/titlescreen/bouncing_pokeball.2bpp"
+UnusedTitlescreenGfx: ; 0xb44f0
+    INCBIN "gfx/titlescreen/blank_tiles.2bpp"
+GameStartMenuGfx: ; 0xb4540
+; Optional dialogue for "NEW GAME" or "CONTINUE"
+    INCBIN "gfx/titlescreen/game_start_menu.2bpp"
+
+UnusedTitlescreenGfx2: ; 0xb4680
+    INCBIN "gfx/titlescreen/blank_tiles_2.2bpp"
+TitlescreenGfx: ; 0xb4800
+    INCBIN "gfx/titlescreen/titlescreen.2bpp"
+
+INCBIN "baserom.gbc",$b5800,$b8000 - $b5800 ; 0xb5800
 
 
 SECTION "bank2e", ROMX, BANK[$2e]
@@ -2693,7 +2710,12 @@ INCBIN "baserom.gbc",$c0000,$c4000 - $c0000 ; 0xc0000
 
 SECTION "bank31", ROMX, BANK[$31]
 
-INCBIN "baserom.gbc",$c4000,$c6000 - $c4000 ; 0xc4000
+INCBIN "baserom.gbc",$c4000,$c5800 - $c4000 ; 0xc4000
+
+TitlescreenTilemap: ; 0xc5800
+    INCBIN "gfx/tilemaps/titlescreen.map"
+
+INCBIN "baserom.gbc",$c5c00,$c6000 - $c5c00 ; 0xc4000
 
 CopyrightScreenTilemap: ; 0xc6000
     INCBIN "gfx/tilemaps/copyright_screen.map"

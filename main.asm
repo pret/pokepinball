@@ -2690,7 +2690,44 @@ UnusedTitlescreenGfx2: ; 0xb4680
 TitlescreenGfx: ; 0xb4800
     INCBIN "gfx/titlescreen/titlescreen.2bpp"
 
-INCBIN "baserom.gbc",$b5800,$b8000 - $b5800 ; 0xb5800
+INCBIN "baserom.gbc",$b5800,$b5a00 - $b5800 ; 0xb5800
+
+OptionMenuArrowGfx: ; 0xb5a00
+    INCBIN "gfx/option_menu/arrow.2bpp"
+OptionMenuPikaBubbleGfx: ; 0xb5a20
+    INCBIN "gfx/option_menu/pika_bubble.2bpp"
+OptionMenuBouncingPokeballGfx: ; 0xb5a80
+    INCBIN "gfx/option_menu/bouncing_pokeball.2bpp"
+OptionMenuRumblePikachuAnimationGfx: ; 0xb5b40
+    INCBIN "gfx/option_menu/rumble_pikachu_animation.2bpp"
+OptionMenuPsyduckGfx: ; 0xb5c00
+    INCBIN "gfx/option_menu/psyduck.2bpp"
+OptionMenuBoldArrowGfx: ; 0xb5fc0
+    INCBIN "gfx/option_menu/bold_arrow.2bpp"
+OptionMenuUnknownGfx: ; 0xb5fd0
+    INCBIN "baserom.gbc",$b5fd0,$b6020 - $b5fd0
+OptionMenuOptionTextGfx: ; 0xb6020
+    INCBIN "gfx/option_menu/option_text.2bpp"
+OptionMenuPikachuGfx: ; 0xb6080
+    INCBIN "gfx/option_menu/pikachu.2bpp"
+OptionMenuPsyduckFeetGfx: ; 0xb6170
+    INCBIN "gfx/option_menu/psyduck_feet.2bpp"
+OptionMenuUnknown2Gfx: ; 0xb6200
+    INCBIN "baserom.gbc",$b6200,$b6250 - $b6200
+OptionMenuRumbleTextGfx: ; 0xb6250
+    INCBIN "gfx/option_menu/rumble_text.2bpp"
+OptionMenuUnknown3Gfx: ; 0xb62b0
+    INCBIN "baserom.gbc",$b62b0,$b6320 - $b62b0
+OptionMenuKeyCoTextGfx: ; 0xb6320
+    INCBIN "gfx/option_menu/key_co_text.2bpp"
+OptionMenuSoundTestDigitsGfx: ; 0xb6370
+    INCBIN "gfx/option_menu/sound_test_digits.2bpp"
+OptionMenuNfigTextGfx: ; 0xb6470
+    INCBIN "gfx/option_menu/nfig_text.2bpp"
+OptionMenuUnknown4Gfx: ; 0xb64a0
+    INCBIN "baserom.gbc",$b64a0,$b6500 - $b64a0
+
+INCBIN "baserom.gbc",$b6500,$b8000 - $b6500 ; 0xb6500
 
 
 SECTION "bank2e", ROMX, BANK[$2e]

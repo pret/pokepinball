@@ -2742,7 +2742,12 @@ INCBIN "baserom.gbc",$bc000,$c0000 - $bc000 ; 0xbc000
 
 SECTION "bank30", ROMX, BANK[$30]
 
-INCBIN "baserom.gbc",$c0000,$c4000 - $c0000 ; 0xc0000
+INCBIN "baserom.gbc",$c0000,$c3800 - $c0000 ; 0xc0000
+
+OptionMenuTilemap: ; 0xc3800
+    INCBIN "gfx/tilemaps/option_menu.map"
+
+INCBIN "baserom.gbc",$c3a40,$c4000 - $c3a40 ; 0xc3a40
 
 
 SECTION "bank31", ROMX, BANK[$31]

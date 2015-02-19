@@ -65,7 +65,7 @@ Start: ; 0x150
     ld a, $0
     ld [$4000], a   ; Set bits 5 and 6 of ROM Bank Number
     ld a, $1
-    ld [$fff8], a
+    ld [hLoadedROMBank], a
     ld a, $1
     ld [$6000], a   ; Enable RAM Banking Mode
     ld a, $0
@@ -187,13 +187,13 @@ Func_532: ; 0x532
 
 SwitchBank: ; 0x549
 ; Switches to Bank in register a and jumps to hl.
-    ld [$fff8], a
+    ld [hLoadedROMBank], a
     ld [$2000], a  ; Load Bank
     jp [hl]
 
 Func_54f: ; 0x54f
     ld e, a
-    ld a, [$fff8]  ; currently-loaded Bank
+    ld a, [hLoadedROMBank]  ; currently-loaded Bank
     cp e
     jr z, .asm_570
     push af
@@ -209,7 +209,7 @@ Func_54f: ; 0x54f
     ld d, [hl]
     ld [hl], $0
     ld [$2000], a
-    ld [$fff8], a
+    ld [hLoadedROMBank], a
     ld [hl], d
     pop de
     pop hl
@@ -339,72 +339,72 @@ LoadVideoData: ; 0x6a4
     ld a, [hli]
     ld h, [hl]
     ld l, a
-.asm_6ad
+.loadItem
     ld a, [hli]
     ld c, a
     and [hl]
-    cp $ff
+    cp $ff      ; two consecutive $ff bytes terminate the array
     ret z
     ld a, [hli]
-    ld b, a
+    ld b, a     ; bc contains pointer to data to be loaded
     push hl
     push bc
-    ld a, [hli]
+    ld a, [hli] ; a contains bank of data to be loaded
     ld e, [hl]
     inc hl
-    ld d, [hl]
+    ld d, [hl]  ; de contains destination address for data
     inc hl
     ld c, [hl]
     inc hl
-    ld b, [hl]
-    inc hl
+    ld b, [hl]  ; bc contains last word of data struct
+    inc hl      ; this is a wasted instruction
     pop hl
     call Func_6cb
     pop hl
     ld bc, $0005
     add hl, bc
-    jr .asm_6ad
+    jr .loadItem
 
 Func_6cb: ; 0x6cb
     srl b
     rr c
-    jp c, Func_6fd
+    jp c, Func_6fd  ; if lowest bit of bc is set
     jp Func_6d5 ; This jumps to the next instruction... Strange.
 
 Func_6d5: ; 0x6d5
-    ld [$fffa], a
-    ld a, [$fff8]
+    ld [$fffa], a  ; save bank of data to be loaded
+    ld a, [hLoadedROMBank]
     push af
-    ld a, [$fffa]
-    ld [$fff8], a
-    ld [$2000], a
+    ld a, [$fffa]  ; a contains bank of data to be loaded
+    ld [hLoadedROMBank], a
+    ld [$2000], a  ; switch bank to the bank of data to be loaded
     srl b
     rr c
     rl a
-    and $1
-    ld [$ff4f], a
-.asm_6eb
+    and $1  ; checks bit 1 of the last word in the data struct
+    ld [$ff4f], a  ; set VRAM Bank
+.copyByte
     ld a, [hli]
     ld [de], a
     inc de
     dec bc
     ld a, c
-    or b
-    jr nz, .asm_6eb
+    or b  ; does bc = 0?
+    jr nz, .copyByte
     xor a
-    ld [$ff4f], a
+    ld [$ff4f], a  ; set VRAM Bank to Bank 0
     pop af
-    ld [$fff8], a
-    ld [$2000], a
+    ld [hLoadedROMBank], a
+    ld [$2000], a  ; reload the previous ROM Bank
     ret
 
 Func_6fd: ; 0x6fd
-    ld [$fffa], a
-    ld a, [$fff8]
+    ld [$fffa], a  ; save bank of data to be loaded
+    ld a, [hLoadedROMBank]
     push af
-    ld a, [$fffa]
-    ld [$fff8], a
-    ld [$2000], a
+    ld a, [$fffa]  ; a contains bank of data to be loaded
+    ld [hLoadedROMBank], a
+    ld [$2000], a  ; switch bank to the bank of data to be loaded
     ld a, e
     bit 6, a
     jr nz, .asm_717
@@ -417,7 +417,7 @@ Func_6fd: ; 0x6fd
     call Func_724
 .asm_71d
     pop af
-    ld [$fff8], a
+    ld [hLoadedROMBank], a
     ld [$2000], a
     ret
 
@@ -427,14 +427,14 @@ Func_724: ; 0x724
     set 7, a
     ld [de], a
     inc de
-.asm_72b
+.copyByte
     ld a, [hli]
     ld [de], a
     inc b
     dec c
     ret z
     bit 6, b
-    jr z, .asm_72b
+    jr z, .copyByte
     ret
 
 INCBIN "baserom.gbc",$735,$916 - $735
@@ -897,10 +897,10 @@ INCBIN "baserom.gbc",$d9d,$12a1 - $d9d
 
 Func_12a1: ; 0x12a1
     ld [$fffa], a
-    ld a, [$fff8]
+    ld a, [hLoadedROMBank]
     push af
     ld a, [$fffa]
-    ld [$fff8], a
+    ld [hLoadedROMBank], a
     ld [$2000], a
     ld a, [hl]
     and $7
@@ -943,7 +943,7 @@ Func_12a1: ; 0x12a1
     jr .asm_12b5
 .asm_12e5
     pop af
-    ld [$fff8], a
+    ld [hLoadedROMBank], a
     ld [$2000], a
     ret
 
@@ -1007,10 +1007,10 @@ Func_12f8: ; 0x12f8
 
 Func_1353: ; 0x1353
     ld [$fffa], a
-    ld a, [$fff8]
+    ld a, [hLoadedROMBank]
     push af
     ld a, [$fffa]
-    ld [$fff8], a
+    ld [hLoadedROMBank], a
     ld [$2000], a
     push af
     push hl
@@ -1048,7 +1048,7 @@ Func_1353: ; 0x1353
     ld a, [$ff9e]
     ld [$ff40], a
     pop af
-    ld [$fff8], a
+    ld [hLoadedROMBank], a
     ld [$2000], a
     ret
 
@@ -1246,21 +1246,21 @@ Func_2043: ; 0x2043
     ld d, [hl]
     inc bc
     nop
-    ld a, [$fff8]
+    ld a, [hLoadedROMBank]
     push af
     ld a, $2
-    ld [$fff8], a
+    ld [hLoadedROMBank], a
     ld [$2000], a
     call $4d17 ; todo
     jr c, .asm_2084
     pop af
-    ld [$fff8], a
+    ld [hLoadedROMBank], a
     ld [$2000], a
     and a
     ret
 .asm_2084
     pop af
-    ld [$fff8], a
+    ld [hLoadedROMBank], a
     ld [$2000], a
     scf
     ret

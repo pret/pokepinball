@@ -1315,12 +1315,12 @@ DataArray_8262: ; 0x8262
     dw $6000
     db $36
     dw $8800
-    db $00, $10
+    dw $1000
 
     dw $6000
     db $31
     dw $9800
-    db $00, $10
+    dw $1000
 
     db $FF, $FF  ; terminators
 
@@ -1328,22 +1328,22 @@ DataArray_8272: ; 0x8272
     dw CopyrightTextGfx
     db Bank(CopyrightTextGfx)
     dw $8800
-    db $00, $10 ; todo (This is the number of bytes to copy divided by 4?)
+    dw $1000 ; todo (This is the number of bytes to copy times 4 with two flags as lower 2 bits)
 
     dw CopyrightScreenTilemap
     db Bank(CopyrightScreenTilemap)
     dw $9800
-    db $00, $10
+    dw $1000
 
     dw $6400
     db $31
     dw $9800
-    db $02, $10
+    dw $1002
 
     dw $5000  ; Some kind of GBC palette data
     db $37
     dw $0000
-    db $01, $01
+    dw $101
 
     db $FF, $FF ; terminators
 
@@ -1352,7 +1352,64 @@ INCBIN "baserom.gbc",$8290,$c000 - $8290 ; 0x8290
 
 SECTION "bank3", ROMX, BANK[$3]
 
-INCBIN "baserom.gbc",$c000,$c77e - $c000
+INCBIN "baserom.gbc",$c000,$c3b9 - $c000
+
+PointerTable_c3b9: ; 0xc3b9
+    dw DataArray_c3bd
+    dw DataArray_c3d4
+
+DataArray_c3bd: ; 0xc3bd
+    dw OptionMenuAndKeyConfigGfx
+    db Bank(OptionMenuAndKeyConfigGfx)
+    dw $8000
+    dw $5000
+
+    dw OptionMenuTilemap
+    db Bank(OptionMenuTilemap)
+    dw $9800
+    dw $900
+
+    dw $7000
+    db $30
+    dw $9c00
+    dw $900
+
+    db $FF, $FF ; terminators
+
+DataArray_c3d4: ; 0xc3d4
+    dw OptionMenuAndKeyConfigGfx
+    db Bank(OptionMenuAndKeyConfigGfx)
+    dw $8000
+    dw $5000
+
+    dw OptionMenuTilemap
+    db Bank(OptionMenuTilemap)
+    dw $9800
+    dw $900
+
+    dw $7c00
+    db $30
+    dw $9800
+    dw $902
+
+    dw $7000
+    db $30
+    dw $9c00
+    dw $900
+
+    dw $7400
+    db $30
+    dw $9c00
+    dw $902
+
+    dw $4e00
+    db $37
+    dw $0000
+    dw $101
+
+    db $FF, $FF ; terminators
+
+INCBIN "baserom.gbc",$c400,$c77e - $c400
 
 SongBanks: ; 0xc77e
 	db MUSIC_NOTHING_0F,BANK(Music_Nothing0F)
@@ -2690,8 +2747,9 @@ UnusedTitlescreenGfx2: ; 0xb4680
 TitlescreenGfx: ; 0xb4800
     INCBIN "gfx/titlescreen/titlescreen.2bpp"
 
-INCBIN "baserom.gbc",$b5800,$b5a00 - $b5800 ; 0xb5800
-
+OptionMenuAndKeyConfigGfx:
+OptionMenuBlankGfx: ; 0xb5800
+    INCBIN "gfx/option_menu/blank.2bpp"
 OptionMenuArrowGfx: ; 0xb5a00
     INCBIN "gfx/option_menu/arrow.2bpp"
 OptionMenuPikaBubbleGfx: ; 0xb5a20

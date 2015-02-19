@@ -53,7 +53,7 @@ Start: ; 0x150
     ld hl, wc000
     ld bc, $2000
     call ClearData  ; Clear WRAM Bank 0
-    ld hl, $8000
+    ld hl, vTiles0
     ld bc, $1000
     call ClearData  ; Clear First half of VRAM
     ld a, $a
@@ -1018,9 +1018,9 @@ Func_1353: ; 0x1353
     ld [$ff47], a
     ld de, $0010
     add hl, de
-    ld de, $8800 ; bgmap
+    ld de, vTiles1 ; tiles
     call Func_65d
-    ld hl, $9800 ; tiles
+    ld hl, vBGMap0 ; bgmap
     ld de, $000c
     ld a, $80
     ld c, $d
@@ -1314,12 +1314,12 @@ PointerTable_825e: ; 0x825e
 DataArray_8262: ; 0x8262
     dw $6000
     db $36
-    dw $8800
+    dw vTiles1
     dw $1000
 
     dw $6000
     db $31
-    dw $9800
+    dw vBGMap0
     dw $1000
 
     db $FF, $FF  ; terminators
@@ -1327,17 +1327,17 @@ DataArray_8262: ; 0x8262
 DataArray_8272: ; 0x8272
     dw CopyrightTextGfx
     db Bank(CopyrightTextGfx)
-    dw $8800
+    dw vTiles1
     dw $1000 ; todo (This is the number of bytes to copy times 4 with two flags as lower 2 bits)
 
     dw CopyrightScreenTilemap
     db Bank(CopyrightScreenTilemap)
-    dw $9800
+    dw vBGMap0
     dw $1000
 
     dw $6400
     db $31
-    dw $9800
+    dw vBGMap0
     dw $1002
 
     dw $5000  ; Some kind of GBC palette data
@@ -1361,17 +1361,17 @@ PointerTable_c3b9: ; 0xc3b9
 DataArray_c3bd: ; 0xc3bd
     dw OptionMenuAndKeyConfigGfx
     db Bank(OptionMenuAndKeyConfigGfx)
-    dw $8000
+    dw vTiles0
     dw $5000
 
     dw OptionMenuTilemap
     db Bank(OptionMenuTilemap)
-    dw $9800
+    dw vBGMap0
     dw $900
 
     dw $7000
     db $30
-    dw $9c00
+    dw vBGMap1
     dw $900
 
     db $FF, $FF ; terminators
@@ -1379,27 +1379,27 @@ DataArray_c3bd: ; 0xc3bd
 DataArray_c3d4: ; 0xc3d4
     dw OptionMenuAndKeyConfigGfx
     db Bank(OptionMenuAndKeyConfigGfx)
-    dw $8000
+    dw vTiles0
     dw $5000
 
     dw OptionMenuTilemap
     db Bank(OptionMenuTilemap)
-    dw $9800
+    dw vBGMap0
     dw $900
 
     dw $7c00
     db $30
-    dw $9800
+    dw vBGMap0
     dw $902
 
     dw $7000
     db $30
-    dw $9c00
+    dw vBGMap1
     dw $900
 
     dw $7400
     db $30
-    dw $9c00
+    dw vBGMap1
     dw $902
 
     dw $4e00

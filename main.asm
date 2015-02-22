@@ -2785,7 +2785,31 @@ OptionMenuNfigTextGfx: ; 0xb6470
 OptionMenuUnknown4Gfx: ; 0xb64a0
     INCBIN "baserom.gbc",$b64a0,$b6500 - $b64a0
 
-INCBIN "baserom.gbc",$b6500,$b8000 - $b6500 ; 0xb6500
+KeyConfigResetTextGfx: ; 0xb6500
+    INCBIN "gfx/key_config/reset_text.2bpp"
+KeyConfigBallStartTextGfx: ; 0xb6560
+    INCBIN "gfx/key_config/ball_start_text.2bpp"
+KeyConfigLeftFlipperTextGfx: ; 0xb65f0
+    INCBIN "gfx/key_config/left_flipper_text.2bpp"
+KeyConfigRightFlipperTextGfx: ; 0xb6680
+    INCBIN "gfx/key_config/right_flipper_text.2bpp"
+KeyConfigTiltTextGfx: ; 0xb6710
+    INCBIN "gfx/key_config/tilt_text.2bpp"
+KeyConfigMenuTextGfx: ; 0xb6810
+    INCBIN "gfx/key_config/menu_text.2bpp"
+KeyConfigKeyConfigTextGfx: ; 0xb6880
+    INCBIN "gfx/key_config/key_config_text.2bpp"
+KeyConfigIconsGfx: ; 0xb6900
+    INCBIN "gfx/key_config/icons.2bpp"
+
+OptionMenuSoundTextTextGfx: ; 0xb6a40
+    INCBIN "gfx/option_menu/sound_test_text.2bpp"
+OptionMenuOnOffTextGfx: ; 0xb6ad0
+    INCBIN "gfx/option_menu/on_off_text.2bpp"
+OptionMenuBGMSETextGfx: ; 0xb6b10
+    INCBIN "gfx/option_menu/bgm_se_text.2bpp"
+
+INCBIN "baserom.gbc",$b6c00,$b8000 - $b6c00 ; 0xb6c00
 
 
 SECTION "bank2e", ROMX, BANK[$2e]

@@ -159,7 +159,50 @@ Func_468: ; 0x468
     jr z, .asm_472
     ret
 
-INCBIN "baserom.gbc",$477,$52c - $477
+Func_477: ; 0x477
+    sla a
+    pop hl
+    push de
+    ld e, a
+    ld d, $0
+    add hl, de
+    ld e, [hl]
+    inc hl
+    ld d, [hl]
+    ld l, e
+    ld h, d
+    pop de
+    jp [hl]
+
+INCBIN "baserom.gbc",$486,$4af - $486
+
+PlaySoundEffect: ; 0x4af
+; input:  de = sound effect id?  I think d specifies something special and e holds the id
+    ld a, [$dead]
+    and a
+    ret nz
+    ld a, [$d800]
+    and a
+    jr z, .asm_4bd
+    ld a, d
+    and a
+    ret z
+.asm_4bd
+    ld a, d
+    ld [$d800], a
+    ld d, $0
+    ld a, [$fff8]
+    push af
+    ld a, [$d85b]
+    ld [$fff8], a
+    ld [$2000], a
+    call $40c0
+    pop af
+    ld [$fff8], a
+    ld [$2000], a
+    ret
+
+INCBIN "baserom.gbc",$4d8,$52c - $4d8
 
 Func_52c: ; 0x52c
     di
@@ -729,7 +772,7 @@ Func_b66: ; 0xb66
 Func_bbe: ; 0xbbe
     ld a, [$fffe]
     and a
-    jp nz, $0c19 ; todo
+    jp nz, Func_c19
     ld hl, $ffa3
     ld de, $d80c
     ld b, $3
@@ -1496,7 +1539,7 @@ UpdateSoundTestSoundEffectSelection: ; 0xc73a
     ld a, [wSoundTextCurrentSoundEffect]
     ld e, a
     ld d, $0
-    call $04af  ; todo: play sound effect, probably
+    call PlaySoundEffect
     ret
 .didntPressAButton
     ld a, [$ff9a] ; joypad state
@@ -2535,7 +2578,12 @@ GeodudeAnimatedPic: ; 0x8aa00
 PonytaAnimatedPic: ; 0x8ad00
 	INCBIN "gfx/billboard/mon_animated/ponyta.2bpp"
 
-INCBIN "baserom.gbc",$8b000,$8c000 - $8b000 ; 0x8b000
+FieldSelectBlinkingBorderGfx: ; 0x8b000
+    INCBIN "gfx/field_select/blinking_border.2bpp"
+FieldSelectGfx: ; 0x8b100
+    INCBIN "gfx/field_select/field_select_tiles.2bpp"
+
+INCBIN "baserom.gbc",$8bd00,$8c000 - $8bd00 ; 0x8bd00
 
 
 SECTION "bank23", ROMX, BANK[$23]
@@ -2851,7 +2899,12 @@ INCBIN "baserom.gbc",$ac000,$b0000 - $ac000 ; 0xac000
 
 SECTION "bank2c", ROMX, BANK[$2c]
 
-INCBIN "baserom.gbc",$b0000,$b4000 - $b0000 ; 0xb0000
+INCBIN "baserom.gbc",$b0000,$b3800 - $b0000 ; 0xb0000
+
+FieldSelectTilemap: ; 0xb3800
+    INCBIN "gfx/tilemaps/field_select.map"
+
+INCBIN "baserom.gbc",$b3c00,$b4000 - $b3c00 ; 0xb3c00
 
 
 SECTION "bank2d", ROMX, BANK[$2d]

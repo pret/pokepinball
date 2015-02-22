@@ -1606,7 +1606,49 @@ SongBanks: ; 0xc77e
 	db MUSIC_NAME_ENTRY,BANK(Music_NameEntry)
 ; 0xc7ac
 
-INCBIN "baserom.gbc",$c7ac,$10000 - $c7ac
+INCBIN "baserom.gbc",$c7ac,$d71c - $c7ac
+
+PointerTable_d71c: ; 0xd71c
+    dw DataArray_d720
+    dw DataArray_d730
+
+DataArray_d720: ; 0xd720
+    dw FieldSelectScreenGfx
+    db Bank(FieldSelectScreenGfx)
+    dw vTiles1 - $100
+    dw $3400
+
+    dw FieldSelectTilemap
+    db Bank(FieldSelectTilemap)
+    dw vBGMap0
+    dw $900
+
+    db $FF, $FF ; terminators
+
+DataArray_d730: ; 0xd730
+    dw FieldSelectScreenGfx
+    db Bank(FieldSelectScreenGfx)
+    dw vTiles1 - $100
+    dw $3400
+
+    dw FieldSelectTilemap
+    db Bank(FieldSelectTilemap)
+    dw vBGMap0
+    dw $900
+
+    dw $7c00
+    db $2C 
+    dw vBGMap0
+    dw $902
+
+    dw $5100
+    db $37
+    dw $0000
+    dw $91
+
+    db $FF, $FF ; terminators
+
+INCBIN "baserom.gbc",$d74e,$10000 - $d74e
 
 
 SECTION "bank4", ROMX, BANK[$4]
@@ -2578,6 +2620,7 @@ GeodudeAnimatedPic: ; 0x8aa00
 PonytaAnimatedPic: ; 0x8ad00
 	INCBIN "gfx/billboard/mon_animated/ponyta.2bpp"
 
+FieldSelectScreenGfx:
 FieldSelectBlinkingBorderGfx: ; 0x8b000
     INCBIN "gfx/field_select/blinking_border.2bpp"
 FieldSelectGfx: ; 0x8b100

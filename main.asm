@@ -301,7 +301,45 @@ InitialHRAM:
 ; These $a bytes are initially load into $ff80 - $ff8a by InitializeHRAM.
     db $3e, $d0, $e0, $46, $3e, $28, $3d, $20, $fd, $c9
 
-INCBIN "baserom.gbc",$60f,$654 - $60f
+WaitForLCD: ; 0x60f
+; Wait for LCD controller to stop reading from both OAM and VRAM because
+; CPU can't access OAM, VRAM, or palette data ($ff69, $ff6b) during this time.
+    ld a, [$ff41]    ; LCDC Status register
+    and $3
+    jr nz, WaitForLCD
+    ld a, $a
+.delay10Cycles
+    dec a
+    jr nz, .delay10Cycles
+    ret
+
+Func_61b: ; 0x61b
+    ld a, [$ff44]  ; LY register (LCDC Y-Coordinate)
+    cp $40
+    jr c, .asm_625
+    cp $80
+    jr c, .asm_63d
+.asm_625
+    ld a, [$ff44]  ; LY register (LCDC Y-Coordinate)
+    cp $40
+    jr c, .asm_625
+    cp $80
+    jr nc, .asm_625
+.asm_62f
+    ld a, [$ff41]
+    and $3
+    jr nz, .asm_62f  ; wait for lcd controller to finish transferring data
+    ld a, $15
+.wait
+    dec a
+    jr nz, .wait
+    nop
+    nop
+    nop
+.asm_63d
+    ret
+
+INCBIN "baserom.gbc",$63e,$654 - $63e
 
 ClearData: ; 0x654
 ; Clears bc bytes starting at hl.
@@ -437,7 +475,24 @@ Func_724: ; 0x724
     jr z, .copyByte
     ret
 
-INCBIN "baserom.gbc",$735,$916 - $735
+INCBIN "baserom.gbc",$735,$848 - $735
+
+PutTileInVRAM: ; 0x848
+; Puts a tile in VRAM.
+; input:  a = tile number
+;        hl = pointer to VRAM location where tile should be placed
+    push af
+    call WaitForLCD
+    call Func_61b
+.asm_84f
+    ld a, [$ff41]
+    and $3
+    jr nz, .asm_84f  ; wait for lcd controller to finish transferring data
+    pop af
+    ld [hl], a  ; Store tile number in VRAM background map
+    ret
+
+INCBIN "baserom.gbc",$858,$916 - $858
 
 ClearOAMBuffer: ; 0x916
 ; Clears the OAM buffer by loading $f0 into all of the entries.
@@ -1409,7 +1464,78 @@ DataArray_c3d4: ; 0xc3d4
 
     db $FF, $FF ; terminators
 
-INCBIN "baserom.gbc",$c400,$c77e - $c400
+INCBIN "baserom.gbc",$c400,$c715 - $c400
+
+UpdateSoundTestBackgroundMusicSelection: ; 0xc715
+    ld a, [$ff9a] ; joypad state
+    ld b, a
+    ld a, [wSoundTestCurrentBackgroundMusic]
+    bit BIT_D_LEFT, b  ; was the left dpad button pressed?
+    jr z, .checkIfRightPressed
+    dec a     ; decrement background music id
+    bit 7, a  ; did it wrap around to $ff?
+    jr z, .saveBackgroundMusicID
+    ld a, NUM_SONGS - 1
+    jr .saveBackgroundMusicID
+.checkIfRightPressed
+    bit BIT_D_RIGHT, b  ; was the right dpad button pressed?
+    ret z
+    inc a         ; increment background music id
+    cp NUM_SONGS  ; should it wrap around to 0?
+    jr nz, .saveBackgroundMusicID
+    xor a
+.saveBackgroundMusicID
+    ld [wSoundTestCurrentBackgroundMusic], a
+    hlCoord 7, 11, vBGMap0
+    jp RedrawSoundTestID
+
+UpdateSoundTestSoundEffectSelection: ; 0xc73a
+    ld a, [$ff99] ; joypad state
+    bit BIT_A_BUTTON, a
+    jr z, .didntPressAButton
+    ld a, [wSoundTextCurrentSoundEffect]
+    ld e, a
+    ld d, $0
+    call $04af  ; todo: play sound effect, probably
+    ret
+.didntPressAButton
+    ld a, [$ff9a] ; joypad state
+    ld b, a
+    ld a, [wSoundTextCurrentSoundEffect]
+    bit BIT_D_LEFT, b  ; was the left dpad button pressed?
+    jr z, .checkIfRightPressed
+    dec a     ; decrement sound effect id
+    bit 7, a  ; did it wrap around to $ff?
+    jr z, .saveSoundEffectID
+    ld a, NUM_SOUND_EFFECTS - 1
+    jr .saveSoundEffectID
+.checkIfRightPressed
+    bit BIT_D_RIGHT, b  ; was the right dpad button pressed?
+    ret z
+    inc a                  ; increment background music id
+    cp NUM_SOUND_EFFECTS   ; should it wrap around to 0?
+    jr nz, .saveSoundEffectID
+    xor a
+.saveSoundEffectID
+    ld [wSoundTextCurrentSoundEffect], a
+    hlCoord 7, 13, vBGMap0
+    ; fall through
+
+RedrawSoundTestID:
+; Redraws the 2-digit id number for the sound test's current background music or sound effect id.
+; input:  a = id number
+;        hl = pointer to bg map location where the new 2-digit id should be drawn
+    push af  ; save music or sound effect id number
+    swap a
+    and $f   ; a contains high nybble of music id
+    call .drawDigit
+    pop af
+    and $f   ; a contains low nybble of music id
+.drawDigit
+    add $b7  ; hexadecimal digit tiles start at tile number $b7
+    call PutTileInVRAM
+    inc hl
+    ret
 
 SongBanks: ; 0xc77e
 	db MUSIC_NOTHING_0F,BANK(Music_Nothing0F)

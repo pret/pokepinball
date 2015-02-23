@@ -1582,8 +1582,8 @@ OAMDataPointers: ; 0x4000
     dw OAMData_9b
     dw OAMData_9c
     dw OAMData_9d
-    dw OAMData_9e
-    dw OAMData_9f
+    dw FieldSelectRedStageBorderOAM
+    dw FieldSelectBlueStageBorderOAM
     dw OAMData_a0
     dw OAMData_a1
     dw OAMData_a2
@@ -2890,7 +2890,7 @@ OAMData_9d: ; 0x4e17
     db $10, $08, $94, $04
     db $80 ; terminator
 
-OAMData_9e: ; 0x4e28
+FieldSelectRedStageBorderOAM: ; 0x4e28
     db $36, $1c, $71, $40
     db $26, $24, $72, $60
     db $2e, $24, $72, $60
@@ -2931,7 +2931,7 @@ OAMData_9e: ; 0x4e28
     db $e2, $e8, $70, $00
     db $80 ; terminator
 
-OAMData_9f: ; 0x4ec1
+FieldSelectBlueStageBorderOAM: ; 0x4ec1
     db $36, $1c, $74, $40
     db $26, $24, $75, $60
     db $2e, $24, $75, $60

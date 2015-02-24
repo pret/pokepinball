@@ -1270,7 +1270,7 @@ Func_14a4: ; 0x14a4
 
 INCBIN "baserom.gbc",$14c4,$1f24 - $14c4
 
-Func_1f24: ; 0x1f24
+LoadOAMData: ; 0x1f24
 ; This function loads OAM data, but it adds b and c to the x and y values for some reason.
 ; input:  a = OAM data id (see OAMDataPointers)
     push bc
@@ -1517,11 +1517,11 @@ OAMDataPointers: ; 0x4000
     dw OAMData_5a
     dw OAMData_5b
     dw OAMData_5c
-    dw OAMData_5d
-    dw OAMData_5e
-    dw OAMData_5f
-    dw OAMData_60
-    dw OAMData_61
+    dw TitlescreenPokeball1OAM
+    dw TitlescreenPokeball2OAM
+    dw TitlescreenPokeball3OAM
+    dw TitlescreenPokeball4OAM
+    dw TitlescreenPokeball5OAM
     dw OAMData_62
     dw OAMData_63
     dw OAMData_64
@@ -2340,35 +2340,37 @@ OAMData_5c: ; 0x484e
     db $10, $08, $42, $00
     db $80 ; terminator
 
-OAMData_5d: ; 0x485b
+; These next 5 OAM entries are for the individual frames of the
+; bouncing pokeball on the titlescreen.
+TitlescreenPokeball1OAM: ; 0x485b
     db $14, $00, $4c, $02
     db $0c, $00, $46, $31
     db $14, $f8, $47, $02
     db $0c, $f8, $46, $11
     db $80 ; terminator
 
-OAMData_5e: ; 0x486c
+TitlescreenPokeball2OAM: ; 0x486c
     db $15, $00, $4d, $02
     db $0d, $00, $48, $31
     db $15, $f8, $49, $02
     db $0d, $f8, $48, $11
     db $80 ; terminator
 
-OAMData_5f: ; 0x487d
+TitlescreenPokeball3OAM: ; 0x487d
     db $13, $00, $4c, $02
     db $0b, $00, $46, $31
     db $13, $f8, $47, $02
     db $0b, $f8, $46, $11
     db $80 ; terminator
 
-OAMData_60: ; 0x488e
+TitlescreenPokeball4OAM: ; 0x488e
     db $11, $00, $4e, $02
     db $09, $00, $4a, $31
     db $11, $f8, $4b, $02
     db $09, $f8, $4a, $11
     db $80 ; terminator
 
-OAMData_61: ; 0x489f
+TitlescreenPokeball5OAM: ; 0x489f
     db $11, $00, $4c, $02
     db $09, $00, $46, $31
     db $11, $f8, $47, $02
@@ -3714,7 +3716,119 @@ INCBIN "baserom.gbc",$8290,$c000 - $8290 ; 0x8290
 
 SECTION "bank3", ROMX, BANK[$3]
 
-INCBIN "baserom.gbc",$c000,$c3b9 - $c000
+INCBIN "baserom.gbc",$c000,$c0f7 - $c000
+
+Func_c0f7: ; 0xc0f7
+    ld a, [$fffe]
+    and a
+    jr z, .asm_c104
+    ld bc, $2040
+    ld a, $62  ; seemingly-unused OAM data for titlescreen. It's just blank tiles.
+    call LoadOAMData
+.asm_c104
+    call Func_c21d
+    call Func_c21e
+    call Func_c278
+    ret
+
+INCBIN "baserom.gbc",$c10e,$c21d - $c10e
+
+Func_c21d: ; 0xc21d
+; World's greatest function.
+    ret
+
+Func_c21e: ; 0xc21e
+    ld a, [$d90c]
+    sla a
+    ld c, a
+    ld b, $0
+    ld hl, $425f
+    add hl, bc
+    ld bc, $3810
+    ld a, [hl]
+    cp $5a
+    call nz, LoadOAMData
+    ld a, [$d90d]
+    dec a
+    jr nz, .asm_c25b
+    inc hl
+    inc hl
+    ld a, [hl]
+    and a
+    jr z, .asm_c243
+    ld a, [$d90c]
+    inc a
+.asm_c243
+    ld [$d90c], a
+    sla a
+    ld c, a
+    ld b, $0
+    ld hl, $4260
+    add hl, bc
+    ld a, [hl]
+    cp $3c
+    jr c, .asm_c25b
+    ld c, a
+    call Func_959
+    and $1f
+    add c
+.asm_c25b
+    ld [$d90d], a
+    ret
+
+INCBIN "baserom.gbc",$c25f,$c278 - $c25f
+
+Func_c278: ; 0xc278
+    ld a, [$d909]
+    sla a
+    ld c, a
+    ld b, $0
+    ld hl, $42d9
+    add hl, bc
+    ld a, [hli]
+    ld c, a
+    ld a, [hli]
+    ld b, a
+    ld e, $0
+    ld a, [$d8f2]
+    cp $1
+    jr nz, .asm_c297
+    ld a, [$d90e]
+    sla a
+    ld e, a
+.asm_c297
+    ld d, $0
+    ld hl, $42cc
+    add hl, de
+    ld a, [hl]
+    call LoadOAMData
+    ld a, [$d90f]
+    dec a
+    jr nz, .asm_c2c8
+    ld a, [$d90e]
+    sla a
+    ld c, a
+    ld b, $0
+    ld hl, $42ce
+    add hl, bc
+    ld a, [hl]
+    and a
+    jr z, .asm_c2bb
+    ld a, [$d90e]
+    inc a
+.asm_c2bb
+    ld [$d90e], a
+    sla a
+    ld c, a
+    ld b, $0
+    ld hl, $42cd
+    add hl, bc
+    ld a, [hl]
+.asm_c2c8
+    ld [$d90f], a
+    ret
+
+INCBIN "baserom.gbc",$c2cc,$c3b9 - $c2cc
 
 PointerTable_c3b9: ; 0xc3b9
     dw DataArray_c3bd

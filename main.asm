@@ -3984,7 +3984,11 @@ SongBanks: ; 0xc77e
 	db MUSIC_NAME_ENTRY,BANK(Music_NameEntry)
 ; 0xc7ac
 
-INCBIN "baserom.gbc",$c7ac,$d71c - $c7ac
+INCBIN "baserom.gbc",$c7ac,$d42e - $c7ac
+
+INCLUDE "data/initial_high_scores.asm"
+
+INCBIN "baserom.gbc",$d46f,$d71c - $d46f
 
 PointerTable_d71c: ; 0xd71c
     dw DataArray_d720

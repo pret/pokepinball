@@ -25,6 +25,17 @@ bigdw: MACRO ; big-endian word
 	dx 2, \1
 	ENDM
 
+bigBCD6: MACRO
+; There is probably a better name for this macro.
+; It write a BCD in big-endian form.
+    dn ((\1) / 10) % 10, (\1) % 10
+    dn ((\1) / 1000) % 10, ((\1) / 100) % 10
+    dn ((\1) / 100000) % 10, ((\1) / 10000) % 10
+    dn ((\1) / 10000000) % 10, ((\1) / 1000000) % 10
+    dn ((\1) / 1000000000) % 10, ((\1) / 100000000) % 10
+    dn ((\1) / 100000000000) % 10, ((\1) / 10000000000) % 10
+    ENDM
+
 ;\1 = X
 ;\2 = Y
 ;\3 = Reference Background Map (e.g. vBGMap0 or vBGMap1)

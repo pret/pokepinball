@@ -1,4 +1,4 @@
-InitialRedHighScores: ; 0xd42e
+InitialHighScores: ; 0xd42e
 ; TODO: Use text instead of raw bytes for the names.
 	bigBCD6 50000000
 	db $4e, $49, $4e ; "NIN"

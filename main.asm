@@ -3984,9 +3984,47 @@ SongBanks: ; 0xc77e
 	db MUSIC_NAME_ENTRY,BANK(Music_NameEntry)
 ; 0xc7ac
 
-INCBIN "baserom.gbc",$c7ac,$d42e - $c7ac
+INCBIN "baserom.gbc",$c7ac,$d3ff - $c7ac
 
-INCLUDE "data/initial_high_scores.asm"
+CopyInitialHighScores: ; 0xd3ff
+    ld hl, InitialHighScores
+    ld de, wRedHighScore1Points
+    call CopyInitialHighScoresForStage
+    ld hl, InitialHighScores
+    ld de, wBlueHighScore1Points
+
+CopyInitialHighScoresForStage: ; 0xd40e
+; input:  hl = address of high score entries
+;         de = destination address for high score entries to be copied
+    ld b, $5  ; 5 high score entries to copy
+.copyHighScoreEntry
+    ld c, $6  ; high score points are 6 bytes long
+.copyPoints
+    ld a, [hli]
+    ld [de], a
+    inc de
+    dec c
+    jr nz, .copyPoints
+    ld c, $3  ; name is 3 bytes
+.copyName
+    ld a, [hli]
+    sub $37
+    ld [de], a
+    inc de
+    dec c
+    jr nz, .copyName
+    ld c, $4
+.asm_d424  ; TODO: what are these 4 bytes used for?
+    ld a, [hli]
+    ld [de], a
+    inc de
+    dec c
+    jr nz, .asm_d424
+    dec b
+    jr nz, .copyHighScoreEntry
+    ret
+
+INCLUDE "data/initial_high_scores.asm" ; 0xd42e
 
 INCBIN "baserom.gbc",$d46f,$d71c - $d46f
 

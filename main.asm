@@ -3991,7 +3991,7 @@ Func_82a8: ; 0x82a8
     call Func_54f
 .asm_82c6
     ld hl, $a10c
-    ld de, $d962
+    ld de, wPokedexFlags
     ld bc, $0098
     call Func_f0c
     jr c, .asm_82de

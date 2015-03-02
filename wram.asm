@@ -20,7 +20,16 @@ wSoundTestCurrentBackgroundMusic:: ; d91a
 wSoundTextCurrentSoundEffect:: ; 0xd91b
     ds 1
 
-    ds 225
+    ds 70
+
+wPokedexFlags:: ; 0xd962
+; Each pokemon is represented by one byte in the normal Pokedex order
+;     byte == 0: mon hasn't been seen
+;     byte == 1: mon has been seen
+;     byte >= 2: mon has been captured
+    ds 151
+
+    ds 4 ; TODO: these change when byte in wPokedexFlags change
 
 wRedHighScores:: ; 0xd9fd
 wRedHighScore1Points:: ; 0xd9fd

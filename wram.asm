@@ -20,7 +20,26 @@ wSoundTestCurrentBackgroundMusic:: ; d91a
 wSoundTextCurrentSoundEffect:: ; 0xd91b
     ds 1
 
-    ds 70
+    ds 44
+
+wKeyConfigs:: ; 0xd948
+; each function map to two joypad buttons (see joy_constants.asm)
+wKeyConfigBallStart:: ; 0xd948
+    ds 2
+wKeyConfigLeftFlipper:: ; 0xd94a
+    ds 2
+wKeyConfigRightFlipper:: ; 0xd94c
+    ds 2
+wKeyConfigLeftTilt:: ; 0xd94e
+    ds 2
+wKeyConfigRightTilt:: ; 0xd950
+    ds 2
+wKeyConfigUpperTilt:: ; 0xd952
+    ds 2
+wKeyConfigMenu:: ; 0xd954
+    ds 2
+
+    ds 12
 
 wPokedexFlags:: ; 0xd962
 ; Each pokemon is represented by one byte in the normal Pokedex order

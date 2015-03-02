@@ -4001,7 +4001,7 @@ Func_82a8: ; 0x82a8
     call Func_54f
 .asm_82de
     ld hl, $a244
-    ld de, $d948
+    ld de, wKeyConfigs
     ld bc, $000e
     call Func_f0c
     jr c, .asm_82f6

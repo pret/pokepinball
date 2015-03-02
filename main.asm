@@ -263,7 +263,18 @@ Func_54f: ; 0x54f
     ld a, [$ff8a]
     jp [hl]
 
-INCBIN "baserom.gbc",$576,$588 - $576
+Func_576: ; 0x576
+    ld a, [$ff40]
+    bit 7, a
+    ret z
+    ld a, [$ff9e]
+    res 7, a
+    ld [$ff9e], a
+.asm_581
+    ld a, [$ff40]
+    bit 7, a
+    jr nz, .asm_581
+    ret
 
 Func_588: ; 0x588
     ld a, [$ffc4]
@@ -943,7 +954,121 @@ Func_c60: ; 0xc60
     pop hl
     ret
 
-INCBIN "baserom.gbc",$cb5,$d61 - $cb5
+INCBIN "baserom.gbc",$cb5,$cb5 - $cb5
+
+Func_cb5: ; 0xcb5
+    ld a, [$fffe]
+    and a
+    jp nz, Func_cee
+    ld hl, $ffa3
+    ld b, $3
+.asm_cc0
+    push bc
+    push hl
+    ld b, $3
+.asm_cc4
+    ld a, [hl]
+    and $55
+    ld c, a
+    ld a, [hl]
+    and $aa
+    srl a
+    or c
+    cpl
+    inc a
+    add [hl]
+    ld [hli], a
+    dec b
+    jr nz, .asm_cc4
+    ld bc, $0002
+    call Func_93f
+    pop hl
+    pop bc
+    dec b
+    jr nz, .asm_cc0
+    xor a
+    ld hl, $ffa3
+    ld [hli], a
+    ld [hli], a
+    ld [hl], a
+    ld bc, $0002
+    call Func_93f
+    ret
+
+Func_cee: ; 0xcee
+    ld hl, $d280
+    ld de, $ff68
+    call Func_d9d
+    ld hl, $d2c0
+    ld de, $ff6a
+    call Func_d9d
+    ld b, $10
+.asm_d02
+    push bc
+    ld hl, $d280
+    call Func_d11
+    call Func_d61
+    pop bc
+    dec b
+    jr nz, .asm_d02
+    ret
+
+Func_d11: ; 0xd11
+    ld b, $40
+.asm_d13
+    ld a, [hl]
+    and $1f
+    add $2
+    ld e, a
+    cp $1f
+    jr c, .asm_d1f
+    ld e, $1f
+.asm_d1f
+    ld a, [hl]
+    and $e0
+    or e
+    ld [hl], a
+    ld a, [hli]
+    and $e0
+    ld e, [hl]
+    dec hl
+    srl e
+    rr a
+    srl e
+    rr a
+    add $10
+    ld e, a
+    jr nc, .asm_d38
+    ld e, $f8
+.asm_d38
+    ld d, $0
+    sla e
+    rl d
+    sla e
+    rl d
+    ld a, [hl]
+    and $1f
+    or e
+    ld [hli], a
+    ld a, [hl]
+    and $7c
+    or d
+    ld [hl], a
+    ld a, [hl]
+    and $7c
+    add $8
+    ld e, a
+    cp $7c
+    jr c, .asm_d58
+    ld e, $7c
+.asm_d58
+    ld a, [hl]
+    and $3
+    or e
+    ld [hli], a
+    dec b
+    jr nz, .asm_d13
+    ret
 
 Func_d61: ; 0d61
     ld a, [$ffff]
@@ -991,7 +1116,146 @@ Func_d61: ; 0d61
     ld [$ffff], a
     ret
 
-INCBIN "baserom.gbc",$d9d,$12a1 - $d9d
+Func_d9d: ; 0xd9d
+    ld b, $0
+    ld c, e
+    inc c
+    call WaitForLCD
+.asm_da4
+    call Func_61b
+.asm_da7
+    ld a, [$ff41]
+    and $3
+    jr nz, .asm_da7  ; wait for lcd controller to finish transferring data
+    ld a, b
+    ld [de], a
+    ld a, [$ff00+c]
+    ld [hli], a
+    inc b
+    ld a, b
+    ld [de], a
+    ld a, [$ff00+c]
+    ld [hli], a
+    inc b
+    ld a, b
+    ld [de], a
+    ld a, [$ff00+c]
+    ld [hli], a
+    inc b
+    ld a, b
+    ld [de], a
+    ld a, [$ff00+c]
+    ld [hli], a
+    inc b
+    nop
+    nop
+    nop
+    nop
+    nop
+    nop
+    nop
+    nop
+    nop
+    nop
+    nop
+    nop
+    nop
+    ld a, b
+    cp $40
+    jr nz, .asm_da4
+    ret
+
+INCBIN "baserom.gbc",$dd4,$f0c - $dd4
+
+Func_f0c: ; 0xf0c
+    call Func_f34
+    ret nc
+.asm_f10
+    ld a, [hli]
+    ld [de], a
+    inc de
+    dec bc
+    ld a, b
+    or c
+    jr nz, .asm_f10
+    scf
+    ret
+
+INCBIN "baserom.gbc",$f1a,$f34 - $f1a
+
+Func_f34: ; 0xf34
+    call Func_f62
+    jr nc, .asm_f3f
+    call Func_f7e
+    jr nc, .asm_f3f
+    ret
+.asm_f3f
+    add hl, bc
+    inc hl
+    inc hl
+    inc hl
+    inc hl
+    call Func_f62
+    ret nc
+    call Func_f7e
+    ret
+
+INCBIN "baserom.gbc",$f4c,$f62 - $f4c
+
+Func_f62: ; 0xf62
+    push hl
+    add hl, bc
+    ld a, [hli]
+    cp $4e
+    jr nz, .asm_f71
+    ld a, [hl]
+    cp $54
+    jr nz, .asm_f71
+    scf
+    jr .asm_f72
+.asm_f71
+    and a
+.asm_f72
+    pop hl
+    ret
+
+INCBIN "baserom.gbc",$f74,$f7e - $f74
+
+Func_f7e: ; 0xf7e
+    push bc
+    push de
+    push hl
+    inc bc
+    inc bc
+    ld de, $0000
+.asm_f86
+    ld a, [hli]
+    add e
+    ld e, a
+    jr nc, .asm_f8c
+    inc d
+.asm_f8c
+    dec bc
+    ld a, b
+    or c
+    jr nz, .asm_f86
+    ld a, [hli]
+    cp e
+    jr nz, .asm_f9c
+    ld a, [hl]
+    cp d
+    jr nz, .asm_f9c
+    scf
+    jr .asm_f9d
+.asm_f9c
+    and a
+.asm_f9d
+    pop hl
+    pop de
+    pop bc
+    ret
+
+INCBIN "baserom.gbc",$fa1,$12a1 - $fa1
 
 Func_12a1: ; 0x12a1
     ld [$fffa], a
@@ -3711,7 +3975,56 @@ DataArray_8272: ; 0x8272
 
     db $FF, $FF ; terminators
 
-INCBIN "baserom.gbc",$8290,$c000 - $8290 ; 0x8290
+INCBIN "baserom.gbc",$8290,$82a8 - $8290 ; 0x8290
+
+Func_82a8: ; 0x82a8
+    call Func_cb5
+    call Func_576
+    ld hl, $a000
+    ld de, wRedHighScore1Points
+    ld bc, $0082
+    call Func_f0c
+    jr c, .asm_82c6
+    ld [$ff8a], a
+    ld a, Bank(CopyInitialHighScores)
+    ld hl, CopyInitialHighScores
+    call Func_54f
+.asm_82c6
+    ld hl, $a10c
+    ld de, $d962
+    ld bc, $0098
+    call Func_f0c
+    jr c, .asm_82de
+    ld [$ff8a], a
+    ld a, $a
+    ld hl, $4d66
+    call Func_54f
+.asm_82de
+    ld hl, $a244
+    ld de, $d948
+    ld bc, $000e
+    call Func_f0c
+    jr c, .asm_82f6
+    ld [$ff8a], a
+    ld a, $3
+    ld hl, $4a3a
+    call Func_54f
+.asm_82f6
+    ld hl, $a268
+    ld de, $d300
+    ld bc, $04c3
+    call Func_f0c
+    jr c, .asm_8308
+    xor a
+    ld [$d7c2], a
+.asm_8308
+    ld hl, $d8f1
+    inc [hl]
+    xor a
+    ld [$d8f2], a
+    ret
+
+INCBIN "baserom.gbc",$8311,$c000 - $8311 ; 0x8311
 
 
 SECTION "bank3", ROMX, BANK[$3]

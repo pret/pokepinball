@@ -4012,11 +4012,11 @@ Func_82a8: ; 0x82a8
 .asm_82f6
     ld hl, $a268
     ld de, $d300
-    ld bc, $04c3
+    ld bc, $04c3  ; This is saved game data from when the player saves in the middle of a game.
     call Func_f0c
     jr c, .asm_8308
     xor a
-    ld [$d7c2], a
+    ld [$d7c2], a  ; if this is non-zero, the main menu will prompt for "continue or new game?".
 .asm_8308
     ld hl, $d8f1
     inc [hl]

@@ -21,7 +21,12 @@ wTitleScreenCursorSelection:: ; 0xd909
 ; 2 = Option
     ds 1
 
-    ds 2
+wTitleScreenGameStartCursorSelection:: ; 0xd90a
+; 0 = New Game
+; 1 = Continue
+    ds 1
+
+    ds 1
 
 wTitleScreenBlinkAnimationFrame:: ; 0xd90c
 ; Pikachu's blinking animation is looped through frames. This keeps track of the current frame.

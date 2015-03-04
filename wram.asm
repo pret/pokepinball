@@ -13,7 +13,32 @@ wOAMBuffer:: ; d000
     ; buffer for OAM data. Copied to OAM by DMA
     ds 4 * 40
 
-    ds $87a
+    ds $869
+
+wTitleScreenCursorSelection:: ; 0xd909
+; 0 = Game Start
+; 1 = PokeDex
+; 2 = Option
+    ds 1
+
+    ds 2
+
+wTitleScreenBlinkAnimationFrame:: ; 0xd90c
+; Pikachu's blinking animation is looped through frames. This keeps track of the current frame.
+    ds 1
+
+wTitleScreenBlinkAnimationCounter:: ; 0xd90d
+; Counts down. When it hits 0, wTitleScreenBlinkAnimationFrame is incremented.
+    ds 1
+
+wTitleScreenBouncingBallAnimationFrame:: ; 0xd90e
+; The bouncing Pokeball on the title screen has a 6-frame animation. This keeps track of the current frame.
+    ds 1
+
+wTitleScreenPokeballAnimationCounter:: ; 0xd90f
+    ds 1
+
+    ds 10
 
 wSoundTestCurrentBackgroundMusic:: ; d91a
     ds 1

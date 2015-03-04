@@ -1778,9 +1778,9 @@ OAMDataPointers: ; 0x4000
     dw OAMData_57
     dw OAMData_58
     dw OAMData_59
-    dw OAMData_5a
-    dw OAMData_5b
-    dw OAMData_5c
+    dw TitlescreenPikachuBlinkFrame1OAM
+    dw TitlescreenPikachuBlinkFrame2OAM
+    dw TitlescreenPikachuBlinkFrame3OAM
     dw TitlescreenPokeball1OAM
     dw TitlescreenPokeball2OAM
     dw TitlescreenPokeball3OAM
@@ -2584,7 +2584,7 @@ OAMData_59: ; 0x47e3
     db $08, $00, $55, $00
     db $80 ; terminator
 
-OAMData_5a: ; 0x482c
+TitlescreenPikachuBlinkFrame1OAM: ; 0x482c
     db $10, $28, $3f, $00
     db $10, $20, $3e, $00
     db $10, $18, $3d, $00
@@ -2592,13 +2592,13 @@ OAMData_5a: ; 0x482c
     db $10, $08, $3b, $00
     db $80 ; terminator
 
-OAMData_5b: ; 0x4841
+TitlescreenPikachuBlinkFrame2OAM: ; 0x4841
     db $18, $09, $44, $00
     db $10, $10, $41, $00
     db $10, $08, $40, $00
     db $80 ; terminator
 
-OAMData_5c: ; 0x484e
+TitlescreenPikachuBlinkFrame3OAM: ; 0x484e
     db $18, $09, $45, $00
     db $10, $10, $43, $00
     db $10, $08, $42, $00
@@ -4031,7 +4031,7 @@ SECTION "bank3", ROMX, BANK[$3]
 
 INCBIN "baserom.gbc",$c000,$c0f7 - $c000
 
-Func_c0f7: ; 0xc0f7
+HandleTitlescreenAnimations: ; 0xc0f7
     ld a, [$fffe]
     and a
     jr z, .asm_c104
@@ -4039,9 +4039,9 @@ Func_c0f7: ; 0xc0f7
     ld a, $62  ; seemingly-unused OAM data for titlescreen. It's just blank tiles.
     call LoadOAMData
 .asm_c104
-    call Func_c21d
-    call Func_c21e
-    call Func_c278
+    call Func_c21d  ; does nothing...
+    call HandleTitlescreenPikachuBlinkingAnimation
+    call HandleTitlescreenPokeballAnimation
     ret
 
 INCBIN "baserom.gbc",$c10e,$c21d - $c10e
@@ -4050,98 +4050,130 @@ Func_c21d: ; 0xc21d
 ; World's greatest function.
     ret
 
-Func_c21e: ; 0xc21e
-    ld a, [$d90c]
+HandleTitlescreenPikachuBlinkingAnimation: ; 0xc21e
+    ld a, [wTitleScreenBlinkAnimationFrame]
     sla a
     ld c, a
     ld b, $0
-    ld hl, $425f
+    ld hl, TitleScreenBlinkAnimation
     add hl, bc
     ld bc, $3810
     ld a, [hl]
-    cp $5a
+    cp $5a  ; blink animation frame 1 OAM id
     call nz, LoadOAMData
-    ld a, [$d90d]
+    ld a, [wTitleScreenBlinkAnimationCounter]
     dec a
-    jr nz, .asm_c25b
+    jr nz, .done
     inc hl
-    inc hl
+    inc hl  ; hl points to next frame in TitleScreenBlinkAnimation array
     ld a, [hl]
-    and a
-    jr z, .asm_c243
-    ld a, [$d90c]
+    and a  ; reached the end of the animation frames?
+    jr z, .saveAnimationFrame
+    ld a, [wTitleScreenBlinkAnimationFrame]
     inc a
-.asm_c243
-    ld [$d90c], a
+.saveAnimationFrame
+    ld [wTitleScreenBlinkAnimationFrame], a
     sla a
     ld c, a
     ld b, $0
-    ld hl, $4260
+    ld hl, (TitleScreenBlinkAnimation + 1)
     add hl, bc
-    ld a, [hl]
-    cp $3c
-    jr c, .asm_c25b
+    ld a, [hl]  ;  a contains second byte in the current animation frame data
+    cp $3c  ;  is this a long-duration animation frame?
+    jr c, .done
     ld c, a
     call Func_959
     and $1f
     add c
-.asm_c25b
-    ld [$d90d], a
+.done
+    ld [wTitleScreenBlinkAnimationCounter], a
     ret
 
-INCBIN "baserom.gbc",$c25f,$c278 - $c25f
+TitleScreenBlinkAnimation: ; 0xc25f
+; Array of animation frames. The animation is looped when it finishes.
+; first byte = OAM data id to load
+; second byte = number of frames to show this animation.
+    db $5a, $c8
+    db $5b, $04
+    db $5c, $04
+    db $5b, $04
+    db $5a, $3c
+    db $5b, $03
+    db $5c, $03
+    db $5b, $03
+    db $5a, $03
+    db $5b, $03
+    db $5c, $03
+    db $5b, $03
+    db $00  ; terminator
 
-Func_c278: ; 0xc278
-    ld a, [$d909]
+HandleTitlescreenPokeballAnimation: ; 0xc278
+    ld a, [wTitleScreenCursorSelection]
     sla a
     ld c, a
     ld b, $0
-    ld hl, $42d9
+    ld hl, TitleScreenPokeballCoordOffsets
     add hl, bc
     ld a, [hli]
     ld c, a
     ld a, [hli]
     ld b, a
     ld e, $0
-    ld a, [$d8f2]
+    ld a, [$d8f2]  ; TODO: I think this is the "titlescreen state" byte.
     cp $1
-    jr nz, .asm_c297
-    ld a, [$d90e]
+    jr nz, .loadOAM  ; skip getting the correct animation frame 
+    ld a, [wTitleScreenBouncingBallAnimationFrame]
     sla a
     ld e, a
-.asm_c297
+.loadOAM
     ld d, $0
-    ld hl, $42cc
+    ld hl, TitleScreenPokeballAnimation
     add hl, de
-    ld a, [hl]
+    ld a, [hl]  ; a contains OAM id
     call LoadOAMData
-    ld a, [$d90f]
+    ld a, [wTitleScreenPokeballAnimationCounter]
     dec a
-    jr nz, .asm_c2c8
-    ld a, [$d90e]
+    jr nz, .done
+    ld a, [wTitleScreenBouncingBallAnimationFrame]
     sla a
     ld c, a
     ld b, $0
-    ld hl, $42ce
+    ld hl, (TitleScreenPokeballAnimation + 2)  ; first frame of actual animation
     add hl, bc
     ld a, [hl]
     and a
-    jr z, .asm_c2bb
-    ld a, [$d90e]
+    jr z, .saveAnimationFrame  ; end of list?
+    ld a, [wTitleScreenBouncingBallAnimationFrame]
     inc a
-.asm_c2bb
-    ld [$d90e], a
+.saveAnimationFrame
+    ld [wTitleScreenBouncingBallAnimationFrame], a
     sla a
     ld c, a
     ld b, $0
-    ld hl, $42cd
+    ld hl, (TitleScreenPokeballAnimation + 1)  ; first duration
     add hl, bc
     ld a, [hl]
-.asm_c2c8
-    ld [$d90f], a
+.done
+    ld [wTitleScreenPokeballAnimationCounter], a
     ret
 
-INCBIN "baserom.gbc",$c2cc,$c3b9 - $c2cc
+TitleScreenPokeballAnimation: ; 0xc2cc
+; first byte  = OAM id
+; second byte = animation frame duration
+    db $5D, $02
+    db $5E, $06
+    db $5F, $02
+    db $60, $04
+    db $61, $06
+    db $5F, $04
+    db $00  ; terminator
+
+TitleScreenPokeballCoordOffsets: ; 0xc2d9
+    db $67, $15
+    db $73, $15
+    db $7F, $15
+
+INCBIN "baserom.gbc",$c2df,$c3b9 - $c2df
 
 PointerTable_c3b9: ; 0xc3b9
     dw DataArray_c3bd

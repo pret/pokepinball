@@ -1,12 +1,38 @@
 INCLUDE "constants.asm"
 INCLUDE "macros.asm"
 
-SECTION "Home", ROM0
+SECTION "rst 00", ROM0 [$00]
+    di
+    jp Entry
 
-INCBIN "baserom.gbc",$0,$100
+SECTION "rst 10", ROM0 [$10]
+    jp Func_468
+
+SECTION "rst 18", ROM0 [$18]
+    jp Func_477
+
+SECTION "rst 20", ROM0 [$20]
+    jp Func_486
+
+SECTION "rst 40", ROM0 [$40]
+    jp Func_2f2
+
+SECTION "rst 48", ROM0 [$48]
+    jp Func_3ec
+
+SECTION "rst 50", ROM0 [$50]
+    jp Func_418
+
+SECTION "rst 58", ROM0 [$58]
+    jp Func_445
+
+SECTION "rst 60", ROM0 [$60]
+    jp Func_467
+
 
 SECTION "Entry", ROM0 [$100]
 
+Entry: ; 0x100
 	nop
 	jp Start
 
@@ -144,7 +170,209 @@ Func_23b: ; 0x23b
     ld [$fffd], a
     ret
 
-INCBIN "baserom.gbc",$24e,$468 - $24e
+INCBIN "baserom.gbc",$24e,$2f2 - $24e
+
+Func_2f2: ; 0x2f2
+    push af
+    push bc
+    push de
+    push hl
+    call $ff80
+    ld a, [$ff9e]
+    ld [$ff40], a
+    call $113a
+    ei
+    ld a, [$ff44]
+    cp $90
+    jr c, .asm_328
+    ld hl, $ff9f
+    ld c, $41
+    ld a, [hli]
+    ld [$ff00+c], a
+    inc c
+    ld a, [hli]
+    ld [$ff00+c], a
+    inc c
+    ld a, [hli]
+    ld [$ff00+c], a
+    inc c
+    inc c
+    ld a, [hli]
+    ld [$ff00+c], a
+    inc c
+    inc c
+    ld a, [hli]
+    ld [$ff00+c], a
+    inc c
+    ld a, [hli]
+    ld [$ff00+c], a
+    inc c
+    ld a, [hli]
+    ld [$ff00+c], a
+    inc c
+    ld a, [hli]
+    ld [$ff00+c], a
+    inc c
+    ld a, [hli]
+    ld [$ff00+c], a
+.asm_328
+    ld a, [$ffa2]
+    ld [$ffa8], a
+    ld a, [$ffa9]
+    ld [$ffaa], a
+    ld a, [$ffab]
+    ld [$ffac], a
+    ld a, [$ffad]
+    ld [$ffae], a
+    call $0ab8
+    ld a, [$daa3]
+    and a
+    jr nz, .asm_359
+    ld a, [$ff98]
+    cp $f
+    jr nz, .asm_359
+    ld a, [$ff99]
+    and $f
+    jr z, .asm_359
+    ld hl, [sp+$8]
+    ld [hl], $c3
+    inc hl
+    ld [hl], $3
+    ld a, $1
+    ld [$daa3], a
+.asm_359
+    ld hl, $ffb2
+    ld a, [hl]
+    inc [hl]
+    and a
+    jr nz, .asm_365
+    ld hl, $ffb3
+    inc [hl]
+.asm_365
+    ld hl, $ffb4
+    inc [hl]
+    ld a, [$d8e1]
+    and a
+    call nz, $167b
+    ld a, [$d849]
+    and a
+    jr nz, .asm_37d
+    ld a, [$d85d]
+    and a
+    call nz, $0504
+.asm_37d
+    ld a, [$d84a]
+    and a
+    jr z, .asm_39d
+    xor a
+    ld [$d84a], a
+    ld a, $1
+    ld [$d849], a
+    ld a, $bc
+    ld [$ff06], a
+    ld a, $0
+    ld [$ff07], a
+    ld hl, $ffff
+    set 2, [hl]
+    ld a, $4
+    ld [$ff07], a
+.asm_39d
+    ld hl, $4000
+    ld a, [$d917]
+    and a
+    jr nz, .asm_3b5
+    ld a, [$d803]
+    rrca
+    ld [$d803], a
+    and $1
+    jr z, .asm_3b5
+    set 3, [hl]
+    jr .asm_3b7
+.asm_3b5
+    res 3, [hl]
+.asm_3b7
+    ld a, [$d4aa]
+    and a
+    call nz, $0e69
+    pop hl
+    pop de
+    pop bc
+    pop af
+    reti
+
+INCBIN "baserom.gbc",$3c3,$3ec - $3c3
+
+Func_3ec: ; 0x3ec
+    push af
+    push bc
+    push de
+    push hl
+    ld a, [$ffb0]
+    sla a
+    ld c, a
+    ld b, $0
+    ld hl, $0408
+    add hl, bc
+    ld a, [hli]
+    ld h, [hl]
+    ld l, a
+    jp [hl]
+
+INCBIN "baserom.gbc",$3ff,$418 - $3ff
+
+Func_418: ; 0x418
+    ei
+    push af
+    push bc
+    push de
+    push hl
+    ld a, [$d849]
+    and a
+    jr z, .asm_42a
+    ld a, [$d85d]
+    and a
+    call nz, $0504
+.asm_42a
+    ld a, [$d84a]
+    and a
+    jr z, .asm_440
+    xor a
+    ld [$d84a], a
+    ld [$d849], a
+    ld a, $0
+    ld [$ff07], a
+    ld hl, $ffff
+    res 2, [hl]
+.asm_440
+    pop hl
+    pop de
+    pop bc
+    pop af
+    reti
+
+Func_445: ; 0x445
+    push af
+    push bc
+    push de
+    push hl
+    ld hl, $045d
+    push hl
+    ld a, [$ffb1]
+    sla a
+    ld c, a
+    ld b, $0
+    ld hl, $0462
+    add hl, bc
+    ld c, [hl]
+    inc hl
+    ld b, [hl]
+    push bc
+    ret
+
+INCBIN "baserom.gbc",$45d,$467 - $45d
+
+Func_467: ; 0x467
+    reti
 
 Func_468: ; 0x468
     ld a, [$ff40]
@@ -174,7 +402,19 @@ Func_477: ; 0x477
     pop de
     jp [hl]
 
-INCBIN "baserom.gbc",$486,$4af - $486
+Func_486: ; 0x486
+    rlca
+    add l
+    ld l, a
+    jr nc, .asm_48c
+    inc h
+.asm_48c
+    ld a, [hli]
+    ld h, [hl]
+    ld l, a
+    ret
+
+INCBIN "baserom.gbc",$490,$4af - $490
 
 PlaySoundEffect: ; 0x4af
 ; input:  de = sound effect id?  I think d specifies something special and e holds the id

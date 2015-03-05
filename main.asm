@@ -445,14 +445,14 @@ PlaySoundEffect: ; 0x4af
 INCBIN "baserom.gbc",$4d8,$504 - $4d8
 
 Func_504: ; 0x504
-    ld a, [$fff8]
+    ld a, [hLoadedROMBank]
     push af
     ld a, [$d85b]
-    ld [$fff8], a
+    ld [hLoadedROMBank], a
     ld [$2000], a
     call $4180  ; todo
     pop af
-    ld [$fff8], a
+    ld [hLoadedROMBank], a
     ld [$2000], a
     ld a, [$d801]
     inc a
@@ -791,7 +791,79 @@ Func_724: ; 0x724
     jr z, .copyByte
     ret
 
-INCBIN "baserom.gbc",$735,$848 - $735
+INCBIN "baserom.gbc",$735,$73f - $735
+
+Func_73f: ; 0x73f
+; This loads some data into VRAM. It waits for the LCD H-Blank to copy the data 4 bytes at a time.
+; input:  hl = source of data
+;          a = bank of data to load
+;         de = destination of data
+;         bc = number of bytes to copy
+    bit 7, h
+    jr nz, .asm_752
+    ld [$fffa], a
+    ld a, [hLoadedROMBank]
+    push af
+    ld a, [$fffa]
+    ld [hLoadedROMBank], a
+    ld [$2000], a
+    scf
+    jr .asm_756
+.asm_752
+    ld [$4000], a
+    and a
+.asm_756
+    push af
+    call WaitForLCD
+.loop
+    call Func_61b
+.waitForHBlank
+    ld a, [$ff41]
+    and $3
+    jr nz, .waitForHBlank
+    ld a, [hli]
+    ld [de], a
+    inc de
+    ld a, [hli]
+    ld [de], a
+    inc de
+    ld a, [hli]
+    ld [de], a
+    inc de
+    ld a, [hli]
+    ld [de], a
+    inc de
+    nop
+    nop
+    nop
+    nop
+    nop
+    nop
+    nop
+    nop
+    nop
+    nop
+    nop
+    nop
+    dec bc
+    dec bc
+    dec bc
+    dec bc
+    nop
+    nop
+    nop
+    nop
+    ld a, b
+    or c
+    jr nz, .loop
+    pop af
+    ret nc
+    pop af
+    ld [hLoadedROMBank], a
+    ld [$2000], a
+    ret
+
+INCBIN "baserom.gbc",$790,$848 - $790
 
 PutTileInVRAM: ; 0x848
 ; Puts a tile in VRAM.
@@ -1045,7 +1117,34 @@ Func_b2e: ; 0xb2e
     ld [hl], a
     ret
 
-INCBIN "baserom.gbc",$b36,$b66 - $b36
+INCBIN "baserom.gbc",$b36,$b4c - $b36
+
+IsKeyPressed: ; 0xb4c
+; Checks if a key for the specified key config is pressed.
+; input:   hl = pointer to key config byte pair (e.g. wKeyConfigLeftFlipper)
+; output:  zero flag is set if a corresponding key is pressed
+;          zero flag is reset if no corresponding key is pressed
+    ld a, [$ff98]
+    and [hl]
+    jr z, .asm_b58
+    cp [hl]
+    jr nz, .asm_b58
+    ld a, [$ff99]
+    and [hl]
+    ret nz
+.asm_b58
+    inc hl
+    ld a, [$ff98]
+    and [hl]
+    ret z
+    cp [hl]
+    jr nz, .asm_b64
+    ld a, [$ff99]
+    and [hl]
+    ret
+.asm_b64
+    xor a
+    ret
 
 Func_b66: ; 0xb66
     ld a, [$fffe]
@@ -1605,10 +1704,10 @@ Func_113a: ; 0x113a
     inc h
     ld d, [hl]
     inc h
-    ld a, [$fff8]
+    ld a, [hLoadedROMBank]
     push af
     ld a, [hl]
-    ld [$fff8], a
+    ld [hLoadedROMBank], a
     ld [$2000], a
     inc h
     ld a, [hl]
@@ -1617,7 +1716,7 @@ Func_113a: ; 0x113a
     ld l, a
     call Func_117a
     pop af
-    ld [$fff8], a
+    ld [hLoadedROMBank], a
     ld [$2000], a
     pop hl
     inc l
@@ -4985,7 +5084,226 @@ DataArray_d730: ; 0xd730
 
     db $FF, $FF ; terminators
 
-INCBIN "baserom.gbc",$d74e,$10000 - $d74e
+INCBIN "baserom.gbc",$d74e,$eeee - $d74e
+
+Func_eeee: ; 0xeeee
+    push bc
+    ld bc, $0200
+.asm_eef2
+    dec bc
+    ld a, b
+    or c
+    jr nz, .asm_eef2
+    pop bc
+    ret
+
+INCBIN "baserom.gbc",$eef9,$f178 - $eef9
+
+LoadBillboardPicture: ; 0xf178
+; Loads a billboard picture's tiles into VRAM
+; input:  a = billboard picture id
+    push hl
+    ld c, a
+    ld b, $0
+    sla c
+    add c  ; a has been multplied by 3 becuase entires in BillboardPicturePointers are 3 bytes long
+    ld c, a
+    ld hl, BillboardPicturePointers
+    add hl, bc
+    ld a, [hli]
+    ld c, a
+    ld a, [hli]
+    ld b, a
+    ld a, [hl]
+    ld h, b
+    ld l, c
+    ld de, $8900   ; destination address to copy the tiles
+    ld bc, $180    ; billboard pictures are $180 bytes
+    call Func_73f  ; loads the tiles into VRAM
+    pop hl
+    ret
+
+INCBIN "baserom.gbc",$f196,$f1b8 - $f196
+
+BillboardPicturePointers: ; 0xf1b8
+    dw BallSaver30SecondsOnPic
+    db Bank(BallSaver30SecondsOnPic)
+
+    dw BallSaver60SecondsOnPic
+    db Bank(BallSaver60SecondsOnPic)
+
+    dw BallSaver90SecondsOnPic
+    db Bank(BallSaver90SecondsOnPic)
+
+    dw PikachuSaverOnPic
+    db Bank(PikachuSaverOnPic)
+
+    dw ExtraBallOnPic
+    db Bank(ExtraBallOnPic)
+
+    dw SmallRewardOnPic
+    db Bank(SmallRewardOnPic)
+
+    dw BigRewardOnPic
+    db Bank(BigRewardOnPic)
+
+    dw CatchEmModeOnPic
+    db Bank(CatchEmModeOnPic)
+
+    dw EvolutionModeOnPic
+    db Bank(EvolutionModeOnPic)
+
+    dw GreatBallOnPic
+    db Bank(GreatBallOnPic)
+
+    dw UltraBallOnPic
+    db Bank(UltraBallOnPic)
+
+    dw MasterBallOnPic
+    db Bank(MasterBallOnPic)
+
+    dw BonusMultiplierOnPic
+    db Bank(BonusMultiplierOnPic)
+
+    dw GoToGengarBonusOnPic
+    db Bank(GoToGengarBonusOnPic)
+
+    dw GoToMewtwoBonusOnPic
+    db Bank(GoToMewtwoBonusOnPic)
+
+    dw GoToMeowthBonusOnPic
+    db Bank(GoToMeowthBonusOnPic)
+
+    dw GoToDiglettBonusOnPic
+    db Bank(GoToDiglettBonusOnPic)
+
+    dw GoToSeelBonusOnPic
+    db Bank(GoToSeelBonusOnPic)
+
+    dw SmallReward100PointsOnPic
+    db Bank(SmallReward100PointsOnPic)
+
+    dw SmallReward200PointsOnPic
+    db Bank(SmallReward200PointsOnPic)
+
+    dw SmallReward300PointsOnPic
+    db Bank(SmallReward300PointsOnPic)
+
+    dw SmallReward400PointsOnPic
+    db Bank(SmallReward400PointsOnPic)
+
+    dw SmallReward500PointsOnPic
+    db Bank(SmallReward500PointsOnPic)
+
+    dw SmallReward600PointsOnPic
+    db Bank(SmallReward600PointsOnPic)
+
+    dw SmallReward700PointsOnPic
+    db Bank(SmallReward700PointsOnPic)
+
+    dw SmallReward800PointsOnPic
+    db Bank(SmallReward800PointsOnPic)
+
+    dw SmallReward900PointsOnPic
+    db Bank(SmallReward900PointsOnPic)
+
+    dw BigReward1000000PointsOnPic
+    db Bank(BigReward1000000PointsOnPic)
+
+    dw BigReward2000000PointsOnPic
+    db Bank(BigReward2000000PointsOnPic)
+
+    dw BigReward3000000PointsOnPic
+    db Bank(BigReward3000000PointsOnPic)
+
+    dw BigReward4000000PointsOnPic
+    db Bank(BigReward4000000PointsOnPic)
+
+    dw BigReward5000000PointsOnPic
+    db Bank(BigReward5000000PointsOnPic)
+
+    dw BigReward6000000PointsOnPic
+    db Bank(BigReward6000000PointsOnPic)
+
+    dw BigReward7000000PointsOnPic
+    db Bank(BigReward7000000PointsOnPic)
+
+    dw BigReward8000000PointsOnPic
+    db Bank(BigReward8000000PointsOnPic)
+
+    dw BigReward9000000PointsOnPic
+    db Bank(BigReward9000000PointsOnPic)
+
+    dw BonusMultiplierX1OnPic
+    db Bank(BonusMultiplierX1OnPic)
+
+    dw BonusMultiplierX2OnPic
+    db Bank(BonusMultiplierX2OnPic)
+
+    dw BonusMultiplierX3OnPic
+    db Bank(BonusMultiplierX3OnPic)
+
+    dw BonusMultiplierX4OnPic
+    db Bank(BonusMultiplierX4OnPic)
+
+    dw BonusMultiplierX5OnPic
+    db Bank(BonusMultiplierX5OnPic)
+
+    dw PalletTownPic
+    db Bank(PalletTownPic)
+
+    dw ViridianCityPic
+    db Bank(ViridianCityPic)
+
+    dw ViridianForestPic
+    db Bank(ViridianForestPic)
+
+    dw PewterCityPic
+    db Bank(PewterCityPic)
+
+    dw MtMoonPic
+    db Bank(MtMoonPic)
+
+    dw CeruleanCityPic
+    db Bank(CeruleanCityPic)
+
+    dw VermilionCitySeasidePic
+    db Bank(VermilionCitySeasidePic)
+
+    dw VermilionCityStreetsPic
+    db Bank(VermilionCityStreetsPic)
+
+    dw RockMountainPic
+    db Bank(RockMountainPic)
+
+    dw LavenderTownPic
+    db Bank(LavenderTownPic)
+
+    dw CeladonCityPic
+    db Bank(CeladonCityPic)
+
+    dw CyclingRoadPic
+    db Bank(CyclingRoadPic)
+
+    dw FuchsiaCityPic
+    db Bank(FuchsiaCityPic)
+
+    dw SafariZonePic
+    db Bank(SafariZonePic)
+
+    dw SaffronCityPic
+    db Bank(SaffronCityPic)
+
+    dw SeafoamIslandsPic
+    db Bank(SeafoamIslandsPic)
+
+    dw CinnabarIslandPic
+    db Bank(CinnabarIslandPic)
+
+    dw IndigoPlateauPic
+    db Bank(IndigoPlateauPic)
+
+INCBIN "baserom.gbc",$f269,$10000 - $f269
 
 
 SECTION "bank4", ROMX, BANK[$4]
@@ -4995,7 +5313,66 @@ INCBIN "baserom.gbc",$10000,$14000 - $10000 ; 0x10000
 
 SECTION "bank5", ROMX, BANK[$5]
 
-INCBIN "baserom.gbc",$14000,$18000 - $14000 ; 0x14000
+INCBIN "baserom.gbc",$14000,$1659c - $14000
+
+.showNextMap
+    ld a, [$d4e1]
+    inc a
+    cp $7  ; number of maps to choose from at the start of play
+    jr c, .gotMapId
+    xor a  ; wrap around to 0
+.gotMapId
+    ld [$d4e1], a
+    ld c, a
+    ld b, $0
+    ld hl, Data_16605
+    add hl, bc
+    ld a, [hl]
+    ld [$d54a], a
+    push af
+    ld de, $0048
+    call PlaySoundEffect
+    pop af
+    add $29  ; map billboard pictures start at the $29th entry in BillboardPicturePointers
+    ld [$ff8a], a
+    ld a, Bank(LoadBillboardPicture)
+    ld hl, LoadBillboardPicture
+    call Func_54f
+    ld b, $20  ; number of frames to delay before the next map is shown
+.waitOnCurrentMap
+    push bc
+    ld [$ff8a], a
+    ld a, Bank(Func_eeee)
+    ld hl, Func_eeee
+    call Func_54f
+    ld hl, wKeyConfigBallStart
+    call IsKeyPressed
+    jr nz, .ballStartKeyPressed
+    pop bc
+    dec b
+    jr nz, .waitOnCurrentMap
+    jr .showNextMap
+.ballStartKeyPressed
+    pop bc
+    ld [$ff8a], a
+    ld a, $c
+    ld hl, $4253
+    call Func_54f
+    ld bc, $2cd1
+    ld [$ff8a], a
+    ld a, $c
+    ld hl, $518f
+    call Func_54f
+    ld a, [$d54a]
+    ld [$d4e3], a
+    xor a
+    ld [$d4e2], a
+    ret
+
+Data_16605: ; 0x16605
+    db $00, $02, $03, $05, $06, $08, $09 
+
+INCBIN "baserom.gbc",$1660c,$18000 - $1660c
 
 
 SECTION "bank6", ROMX, BANK[$6]

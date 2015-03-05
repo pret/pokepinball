@@ -1684,7 +1684,102 @@ Func_f7e: ; 0xf7e
     pop bc
     ret
 
-INCBIN "baserom.gbc",$fa1,$113a - $fa1
+INCBIN "baserom.gbc",$fa1,$10aa - $fa1
+
+Func_10aa: ; 0x10aa
+    ld c, a
+    ld a, [hli]
+    ld b, a
+.asm_10ad
+    push bc
+    ld a, c
+    ld c, [hl]
+    inc hl
+    ld b, [hl]
+    inc hl
+    push af
+    ld a, [bc]
+    ld e, a
+    inc bc
+    ld a, [bc]
+    ld d, a
+    inc bc
+    pop af
+    push hl
+    call Func_10c5
+    pop hl
+    pop bc
+    dec b
+    jr nz, .asm_10ad
+    ret
+
+Func_10c5: ; 0x10c5
+    push af
+    ld a, [$ff40]
+    bit 7, a
+    jr z, .asm_10d2
+.asm_10cc
+    ld a, [$ff44]
+    cp $88
+    jr nc, .asm_10cc
+.asm_10d2
+    pop af
+    ld hl, $d7fb
+    ld l, [hl]
+    ld h, $cb
+    inc bc
+    ld [hl], c
+    inc h
+    ld [hl], b
+    inc h
+    ld [hl], a
+    inc h
+    ld [hl], e
+    inc h
+    ld [hl], d
+    ld e, $ff
+    ld [$fffa], a
+    ld a, [$fff8]
+    push af
+    ld a, [$fffa]
+    ld [$fff8], a
+    ld [$2000], a
+    dec bc
+    ld a, [bc]
+    ld hl, $d7fa
+    add [hl]
+    cp $30
+    jr c, .asm_10fe
+    ld a, [bc]
+    ld e, $0
+.asm_10fe
+    add $4
+    ld [hl], a
+    pop af
+    ld [$fff8], a
+    ld [$2000], a
+    ld hl, $d7fb
+    ld l, [hl]
+    ld h, $ca
+    inc l
+    ld [hl], $0
+    dec l
+    ld [hl], e
+    ld hl, $d7fb
+    inc [hl]
+    ld a, [$ff40]
+    bit 7, a
+    ret nz
+    ld a, [$ffff]
+    push af
+    res 0, a
+    ld [$ffff], a
+    call Func_113a
+    pop af
+    ld [$ffff], a
+    ret
+
+INCBIN "baserom.gbc",$1129,$113a - $1129
 
 Func_113a: ; 0x113a
     ld hl, $d7fc
@@ -2353,7 +2448,73 @@ Func_2043: ; 0x2043
     scf
     ret
 
-INCBIN "baserom.gbc",$208c,$4000 - $208c
+INCBIN "baserom.gbc",$208c,$30db - $208c
+
+Func_30db: ; 0x30db
+    ld a, $86
+    ld [$ffa6], a
+    ld a, $1
+    ld [$d5ca], a
+    ld [$d5cb], a
+    ret
+
+Func_30e8: ; 0x30e8
+    ld a, $81
+    ld hl, $c600
+    ld b, $40
+.asm_30ef
+    ld [hli], a
+    ld [hli], a
+    ld [hli], a
+    ld [hli], a
+    dec b
+    jr nz, .asm_30ef
+    xor a
+    ld [$d5cc], a
+    ld [$d5d4], a
+    ld [$d5dc], a
+    ld [$d5e4], a
+    ld [$d5e9], a
+    ld [$d5ee], a
+    ret
+
+INCBIN "baserom.gbc",$310a,$32aa - $310a
+
+Func_32aa: ; 0x32aa
+    ld a, $1
+    ld [hli], a
+    ld a, [de]
+    ld [hli], a
+    ld [hli], a
+    inc de
+    ld a, [de]
+    ld [hli], a
+    inc de
+    ld a, [de]
+    ld [hli], a
+    inc de
+    ld a, [de]
+    ld [hli], a
+    inc de
+    ld a, [de]
+    ld [hli], a
+    push af
+    inc de
+    ld a, [de]
+    ld [hli], a
+    inc de
+    pop af
+    ld l, a
+    ld h, $c5
+.asm_32c5
+    ld a, [de]
+    ld [hli], a
+    inc de
+    and a
+    jr nz, .asm_32c5
+    ret
+
+INCBIN "baserom.gbc",$32cc,$4000 - $32cc
 
 
 SECTION "bank1", ROMX, BANK[$1]
@@ -5355,13 +5516,13 @@ INCBIN "baserom.gbc",$14000,$1659c - $14000
 .ballStartKeyPressed
     pop bc
     ld [$ff8a], a
-    ld a, $c
-    ld hl, $4253
+    ld a, Bank(Func_30253)
+    ld hl, Func_30253
     call Func_54f
     ld bc, $2cd1
     ld [$ff8a], a
-    ld a, $c
-    ld hl, $518f
+    ld a, Bank(Func_3118f)
+    ld hl, Func_3118f
     call Func_54f
     ld a, [$d54a]
     ld [$d4e3], a
@@ -5407,7 +5568,228 @@ INCBIN "baserom.gbc",$2c000,$30000 - $2c000 ; 0x2c000
 
 SECTION "bankc", ROMX, BANK[$c]
 
-INCBIN "baserom.gbc",$30000,$33fff - $30000 ; 0x30000
+INCBIN "baserom.gbc",$30000,$30253 - $30000 ; 0x30000
+
+Func_30253: ; 0x30253
+    ld a, [$d54a]
+    sla a
+    ld c, a
+    ld b, $0
+    push bc
+    ld hl, PointerTable_3027a
+    add hl, bc
+    ld a, [hli]
+    ld h, [hl]
+    ld l, a
+    ld a, $c
+    call Func_10aa
+    pop bc
+    ld a, [$fffe]
+    and a
+    ret z
+    ld hl, PointerTable_30ceb
+    add hl, bc
+    ld a, [hli]
+    ld h, [hl]
+    ld l, a
+    ld a, $c
+    call Func_10aa
+    ret
+
+PointerTable_3027a: ; 0x3027a
+    dw Data_302b0
+    dw Data_302c1
+    dw Data_302d2
+    dw Data_302e3
+    dw Data_302f4
+    dw Data_30305
+    dw Data_30316
+    dw Data_30327
+    dw Data_30338
+    dw Data_30349
+    dw Data_3035a
+    dw Data_3036b
+    dw Data_3037c
+    dw Data_3038d
+    dw Data_3039e
+    dw Data_303af
+    dw Data_303c0
+    dw Data_303d1
+    dw Data_303e2
+    dw Data_303f3
+    dw Data_30404
+    dw Data_30415
+    dw Data_30426
+    dw Data_30437
+    dw Data_30448
+    dw Data_30459
+    dw Data_3046a
+
+Data_302b0: ; 0x302b0
+    db $08, $7B, $44, $85, $44, $8F, $44, $99, $44, $A3, $44, $AD, $44, $B7, $44, $C1, $44
+Data_302c1: ; 0x302c1
+    db $08, $CB, $44, $D5, $44, $DF, $44, $E9, $44, $F3, $44, $FD, $44, $07, $45, $11, $45
+Data_302d2: ; 0x302d2
+    db $08, $1B, $45, $25, $45, $2F, $45, $39, $45, $43, $45, $4D, $45, $57, $45, $61, $45
+Data_302e3: ; 0x302e3
+    db $08, $6B, $45, $75, $45, $7F, $45, $89, $45, $93, $45, $9D, $45, $A7, $45, $B1, $45
+Data_302f4: ; 0x302f4
+    db $08, $BB, $45, $C5, $45, $CF, $45, $D9, $45, $E3, $45, $ED, $45, $F7, $45, $01, $46
+Data_30305: ; 0x30305
+    db $08, $0B, $46, $15, $46, $1F, $46, $29, $46, $33, $46, $3D, $46, $47, $46, $51, $46
+Data_30316: ; 0x30316
+    db $08, $5B, $46, $65, $46, $6F, $46, $79, $46, $83, $46, $8D, $46, $97, $46, $A1, $46
+Data_30327: ; 0x30327
+    db $08, $AB, $46, $B5, $46, $BF, $46, $C9, $46, $D3, $46, $DD, $46, $E7, $46, $F1, $46
+Data_30338: ; 0x30338
+    db $08, $FB, $46, $05, $47, $0F, $47, $19, $47, $23, $47, $2D, $47, $37, $47, $41, $47
+Data_30349: ; 0x30349
+    db $08, $4B, $47, $55, $47, $5F, $47, $69, $47, $73, $47, $7D, $47, $87, $47, $91, $47
+Data_3035a: ; 0x3035a
+    db $08, $9B, $47, $A5, $47, $AF, $47, $B9, $47, $C3, $47, $CD, $47, $D7, $47, $E1, $47
+Data_3036b: ; 0x3036b
+    db $08, $EB, $47, $F5, $47, $FF, $47, $09, $48, $13, $48, $1D, $48, $27, $48, $31, $48
+Data_3037c: ; 0x3037c
+    db $08, $3B, $48, $45, $48, $4F, $48, $59, $48, $63, $48, $6D, $48, $77, $48, $81, $48
+Data_3038d: ; 0x3038d
+    db $08, $8B, $48, $95, $48, $9F, $48, $A9, $48, $B3, $48, $BD, $48, $C7, $48, $D1, $48
+Data_3039e: ; 0x3039e
+    db $08, $DB, $48, $E5, $48, $EF, $48, $F9, $48, $03, $49, $0D, $49, $17, $49, $21, $49
+Data_303af: ; 0x303af
+    db $08, $2B, $49, $35, $49, $3F, $49, $49, $49, $53, $49, $5D, $49, $67, $49, $71, $49
+Data_303c0: ; 0x303c0
+    db $08, $7B, $49, $85, $49, $8F, $49, $99, $49, $A3, $49, $AD, $49, $B7, $49, $C1, $49
+Data_303d1: ; 0x303d1
+    db $08, $CB, $49, $D5, $49, $DF, $49, $E9, $49, $F3, $49, $FD, $49, $07, $4A, $11, $4A
+Data_303e2: ; 0x303e2
+    db $08, $1B, $4A, $25, $4A, $2F, $4A, $39, $4A, $43, $4A, $4D, $4A, $57, $4A, $61, $4A
+Data_303f3: ; 0x303f3
+    db $08, $6B, $4A, $75, $4A, $7F, $4A, $89, $4A, $93, $4A, $9D, $4A, $A7, $4A, $B1, $4A
+Data_30404: ; 0x30404
+    db $08, $BB, $4A, $C5, $4A, $CF, $4A, $D9, $4A, $E3, $4A, $ED, $4A, $F7, $4A, $01, $4B
+Data_30415: ; 0x30415
+    db $08, $0B, $4B, $15, $4B, $1F, $4B, $29, $4B, $33, $4B, $3D, $4B, $47, $4B, $51, $4B
+Data_30426: ; 0x30426
+    db $08, $5B, $4B, $65, $4B, $6F, $4B, $79, $4B, $83, $4B, $8D, $4B, $97, $4B, $A1, $4B
+Data_30437: ; 0x30437
+    db $08, $AB, $4B, $B5, $4B, $BF, $4B, $C9, $4B, $D3, $4B, $DD, $4B, $E7, $4B, $F1, $4B
+Data_30448: ; 0x30448
+    db $08, $FB, $4B, $05, $4C, $0F, $4C, $19, $4C, $23, $4C, $2D, $4C, $37, $4C, $41, $4C
+Data_30459: ; 0x30459
+    db $08, $4B, $4C, $55, $4C, $5F, $4C, $69, $4C, $73, $4C, $7D, $4C, $87, $4C, $91, $4C
+Data_3046a: ; 0x3046a
+    db $08, $9B, $4C, $A5, $4C, $AF, $4C, $B9, $4C, $C3, $4C, $CD, $4C, $D7, $4C, $E1, $4C
+
+INCBIN "baserom.gbc",$3047b,$30ceb - $3047b
+
+PointerTable_30ceb: ; 0x30ceb
+    dw Data_30d21
+    dw Data_30d26
+    dw Data_30d2b
+    dw Data_30d30
+    dw Data_30d35
+    dw Data_30d3a
+    dw Data_30d3f
+    dw Data_30d44
+    dw Data_30d49
+    dw Data_30d4e
+    dw Data_30d53
+    dw Data_30d58
+    dw Data_30d5d
+    dw Data_30d62
+    dw Data_30d67
+    dw Data_30d6c
+    dw Data_30d71
+    dw Data_30d76
+    dw Data_30d7b
+    dw Data_30d80
+    dw Data_30d85
+    dw Data_30d8a
+    dw Data_30d8f
+    dw Data_30d94
+    dw Data_30d99
+    dw Data_30d9e
+    dw Data_30da3
+
+Data_30d21: ; 0x30d21
+    db $02, $A8, $4D, $B1, $4D
+Data_30d26: ; 0x30d26
+    db $02, $CD, $4D, $D6, $4D
+Data_30d2b: ; 0x30d2b
+    db $02, $F2, $4D, $FB, $4D
+Data_30d30: ; 0x30d30
+    db $02, $17, $4E, $20, $4E
+Data_30d35: ; 0x30d35
+    db $02, $3C, $4E, $45, $4E
+Data_30d3a: ; 0x30d3a
+    db $02, $61, $4E, $6A, $4E
+Data_30d3f: ; 0x30d3f
+    db $02, $86, $4E, $8F, $4E
+Data_30d44: ; 0x30d44
+    db $02, $AB, $4E, $B4, $4E
+Data_30d49: ; 0x30d49
+    db $02, $D0, $4E, $D9, $4E
+Data_30d4e: ; 0x30d4e
+    db $02, $F5, $4E, $FE, $4E
+Data_30d53: ; 0x30d53
+    db $02, $1A, $4F, $23, $4F
+Data_30d58: ; 0x30d58
+    db $02, $3F, $4F, $48, $4F
+Data_30d5d: ; 0x30d5d
+    db $02, $64, $4F, $6D, $4F
+Data_30d62: ; 0x30d62
+    db $02, $89, $4F, $92, $4F
+Data_30d67: ; 0x30d67
+    db $02, $AE, $4F, $B7, $4F
+Data_30d6c: ; 0x30d6c
+    db $02, $D3, $4F, $DC, $4F
+Data_30d71: ; 0x30d71
+    db $02, $F8, $4F, $01, $50
+Data_30d76: ; 0x30d76
+    db $02, $1D, $50, $26, $50
+Data_30d7b: ; 0x30d7b
+    db $02, $42, $50, $4B, $50
+Data_30d80: ; 0x30d80
+    db $02, $67, $50, $70, $50
+Data_30d85: ; 0x30d85
+    db $02, $8C, $50, $95, $50
+Data_30d8a: ; 0x30d8a
+    db $02, $B1, $50, $BA, $50
+Data_30d8f: ; 0x30d8f
+    db $02, $D6, $50, $DF, $50
+Data_30d94: ; 0x30d94
+    db $02, $FB, $50, $04, $51
+Data_30d99: ; 0x30d99
+    db $02, $20, $51, $29, $51
+Data_30d9e: ; 0x30d9e
+    db $02, $45, $51, $4E, $51
+Data_30da3: ; 0x30da3
+    db $02, $6A, $51, $73, $51
+
+INCBIN "baserom.gbc",$30da8,$3118f - $30da8
+
+Func_3118f: ; 0x3118f
+    push bc
+    call Func_30e8
+    call Func_30db
+    ld a, [$d54a]
+    sla a
+    ld c, a
+    ld b, $0
+    ld hl, $2ce3  ; todo
+    add hl, bc
+    ld a, [hli]
+    ld e, a
+    ld a, [hli]
+    ld d, a
+    ld hl, $d5d4
+    call Func_32aa
+    pop de
+    ld hl, $d5cc
+    call Func_32aa
+    ret
+
+INCBIN "baserom.gbc",$311b4,$33fff - $311b4
 
 
 SECTION "bankd", ROMX, BANK[$d]

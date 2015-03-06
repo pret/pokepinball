@@ -4856,7 +4856,32 @@ Func_82a8: ; 0x82a8
     ld [$d8f2], a
     ret
 
-INCBIN "baserom.gbc",$8311,$c000 - $8311 ; 0x8311
+INCBIN "baserom.gbc",$8311,$867d - $8311
+
+StartTimer: ; 0x867d
+; Starts the timer that counts down with the specified starting time when things
+; like CatchEm Mode starts.
+; input:  b = minutes
+;         c = seconds
+    ld a, c
+    ld [wTimerSeconds], a
+    ld a, b
+    ld [wTimerMinutes], a
+    xor a
+    ld [wTimerFrames], a
+    ld [$d57e], a
+    ld [$d57f], a
+    ld a, $1
+    ld [$d57d], a
+    ld a, $1
+    ld [$d580], a
+    ld [$ff8a], a
+    ld a, Bank(Func_1404a)
+    ld hl, Func_1404a
+    call Func_54f
+    ret
+
+INCBIN "baserom.gbc",$86a4,$c000 - $86a4
 
 
 SECTION "bank3", ROMX, BANK[$3]
@@ -5474,7 +5499,46 @@ INCBIN "baserom.gbc",$10000,$14000 - $10000 ; 0x10000
 
 SECTION "bank5", ROMX, BANK[$5]
 
-INCBIN "baserom.gbc",$14000,$1659c - $14000
+INCBIN "baserom.gbc",$14000,$1404a - $14000
+
+Func_1404a: ; 0x1404a
+    ld a, [$d57d]
+    and a
+    ret z
+    ld a, [$fffe]
+    and a
+    ret nz
+    ld a, [$d580]
+    and a
+    ret z
+    ld a, $f
+    ld [$d581], a
+    call Func_1762f
+    ld hl, $d582
+    ld a, $ff
+    ld [hli], a
+    ld [hli], a
+    ld [hli], a
+    ld [hl], a
+    ld hl, $d582
+    ld a, [wTimerMinutes]
+    and $f
+    call Func_1764f
+    ld a, [wTimerSeconds]
+    swap a
+    and $f
+    call Func_1764f
+    ld a, [wTimerSeconds]
+    and $f
+    call Func_1764f
+    ld a, e
+    srl a
+    srl a
+    ld d, $90
+    call Func_1764f
+    ret
+
+INCBIN "baserom.gbc",$14091,$1659c - $14091
 
 .showNextMap
     ld a, [$d4e1]
@@ -5567,7 +5631,60 @@ DrawTimerDigit: ; 0x17625
     ld b, a
     ret
 
-INCBIN "baserom.gbc",$1762f,$18000 - $1762f
+Func_1762f: ; 0x1762f
+    ld de, $600c
+    ld a, [$d4ac]
+    cp $6
+    ret nc
+    ld de, $0000
+    bit 0, a
+    ret z
+    ld de, $3004
+    ld a, [$d54b]
+    and a
+    ret z
+    ld a, [$d550]
+    and a
+    ret nz
+    ld de, $3008
+    ret
+
+Func_1764f: ; 0x1764f
+    push bc
+    push de
+    cp [hl]
+    jr z, .asm_1765d
+    push af
+    push hl
+    add d
+    call Func_17665
+    pop hl
+    pop af
+    ld [hl], a
+.asm_1765d
+    inc hl
+    pop de
+    ld a, d
+    add $10
+    ld d, a
+    pop bc
+    ret
+
+Func_17665: ; 0x17665
+    ld c, a
+    ld b, $0
+    sla c
+    rl b
+    ld hl, $7679  ; todo
+    add hl, bc
+    ld a, [hli]
+    ld h, [hl]
+    ld l, a
+    ld a, $5
+    call Func_10aa
+    ret
+
+INCBIN "baserom.gbc",$17679,$18000 - $17679
 
 
 SECTION "bank6", ROMX, BANK[$6]

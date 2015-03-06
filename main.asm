@@ -1,5 +1,5 @@
-INCLUDE "constants.asm"
 INCLUDE "macros.asm"
+INCLUDE "constants.asm"
 
 SECTION "rst 00", ROM0 [$00]
     di
@@ -5486,7 +5486,7 @@ INCBIN "baserom.gbc",$14000,$1659c - $14000
     ld [$d4e1], a
     ld c, a
     ld b, $0
-    ld hl, Data_16605
+    ld hl, RedStageInitialMaps
     add hl, bc
     ld a, [hl]
     ld [$d54a], a
@@ -5530,8 +5530,14 @@ INCBIN "baserom.gbc",$14000,$1659c - $14000
     ld [$d4e2], a
     ret
 
-Data_16605: ; 0x16605
-    db $00, $02, $03, $05, $06, $08, $09 
+RedStageInitialMaps: ; 0x16605
+    db PALLET_TOWN
+    db VIRIDIAN_FOREST
+    db PEWTER_CITY
+    db CERULEAN_CITY
+    db VERMILION_SEASIDE
+    db ROCK_MOUNTAIN
+    db LAVENDER_TOWN
 
 INCBIN "baserom.gbc",$1660c,$18000 - $1660c
 

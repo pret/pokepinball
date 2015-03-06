@@ -36,6 +36,16 @@ bigBCD6: MACRO
     dn ((\1) / 100000000000) % 10, ((\1) / 10000000000) % 10
     ENDM
 
+; Constant enumeration is useful for mons, maps, etc.
+const_def: MACRO
+const_value = 0
+ENDM
+
+const: MACRO
+\1 EQU const_value
+const_value = const_value + 1
+ENDM
+
 ;\1 = X
 ;\2 = Y
 ;\3 = Reference Background Map (e.g. vBGMap0 or vBGMap1)

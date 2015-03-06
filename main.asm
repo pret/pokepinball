@@ -2697,17 +2697,17 @@ OAMDataPointers: ; 0x4000
     dw OAMData_ae
     dw OAMData_af
     dw OAMData_b0
-    dw OAMData_b1
-    dw OAMData_b2
-    dw OAMData_b3
-    dw OAMData_b4
-    dw OAMData_b5
-    dw OAMData_b6
-    dw OAMData_b7
-    dw OAMData_b8
-    dw OAMData_b9
-    dw OAMData_ba
-    dw OAMData_bb
+    dw Timer0DigitOAM
+    dw Timer1DigitOAM
+    dw Timer2DigitOAM
+    dw Timer3DigitOAM
+    dw Timer4DigitOAM
+    dw Timer5DigitOAM
+    dw Timer6DigitOAM
+    dw Timer7DigitOAM
+    dw Timer8DigitOAM
+    dw Timer9DigitOAM
+    dw TimerColonOAM
     dw OAMData_bc
     dw OAMData_bd
     dw OAMData_be
@@ -4356,47 +4356,47 @@ OAMData_b0: ; 0x52d6
     db $f1, $f8, $20, $1b
     db $80 ; terminator
 
-OAMData_b1: ; 0x5317
+Timer0DigitOAM: ; 0x5317
     db $10, $08, $60, $08
     db $80 ; terminator
 
-OAMData_b2: ; 0x531c
+Timer1DigitOAM: ; 0x531c
     db $10, $08, $62, $08
     db $80 ; terminator
 
-OAMData_b3: ; 0x5321
+Timer2DigitOAM: ; 0x5321
     db $10, $08, $64, $08
     db $80 ; terminator
 
-OAMData_b4: ; 0x5326
+Timer3DigitOAM: ; 0x5326
     db $10, $08, $66, $08
     db $80 ; terminator
 
-OAMData_b5: ; 0x532b
+Timer4DigitOAM: ; 0x532b
     db $10, $08, $68, $08
     db $80 ; terminator
 
-OAMData_b6: ; 0x5330
+Timer5DigitOAM: ; 0x5330
     db $10, $08, $6a, $08
     db $80 ; terminator
 
-OAMData_b7: ; 0x5335
+Timer6DigitOAM: ; 0x5335
     db $10, $08, $6c, $08
     db $80 ; terminator
 
-OAMData_b8: ; 0x533a
+Timer7DigitOAM: ; 0x533a
     db $10, $08, $6e, $08
     db $80 ; terminator
 
-OAMData_b9: ; 0x533f
+Timer8DigitOAM: ; 0x533f
     db $10, $08, $70, $08
     db $80 ; terminator
 
-OAMData_ba: ; 0x5344
+Timer9DigitOAM: ; 0x5344
     db $10, $08, $72, $08
     db $80 ; terminator
 
-OAMData_bb: ; 0x5349
+TimerColonOAM: ; 0x5349
     db $10, $08, $74, $08
     db $80 ; terminator
 

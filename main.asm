@@ -5549,7 +5549,72 @@ INCBIN "baserom.gbc",$18000,$1c000 - $18000 ; 0x18000
 
 SECTION "bank7", ROMX, BANK[$7]
 
-INCBIN "baserom.gbc",$1c000,$20000 - $1c000 ; 0x1c000
+INCBIN "baserom.gbc",$1c000,$1c846 - $1c000
+
+.showNextMap
+    ld a, [$d4e1]
+    inc a
+    cp $7  ; number of maps to choose from at the start of play
+    jr c, .gotMapId
+    xor a  ; wrap around to 0
+.gotMapId
+    ld [$d4e1], a
+    ld c, a
+    ld b, $0
+    ld hl, BlueStageInitialMaps
+    add hl, bc
+    ld a, [hl]
+    ld [$d54a], a
+    push af
+    ld de, $0048
+    call PlaySoundEffect
+    pop af
+    add $29  ; map billboard pictures start at the $29th entry in BillboardPicturePointers
+    ld [$ff8a], a
+    ld a, Bank(LoadBillboardPicture)
+    ld hl, LoadBillboardPicture
+    call Func_54f
+    ld b, $20  ; number of frames to delay before the next map is shown
+.waitOnCurrentMap
+    push bc
+    ld [$ff8a], a
+    ld a, Bank(Func_eeee)
+    ld hl, Func_eeee
+    call Func_54f
+    ld hl, wKeyConfigBallStart
+    call IsKeyPressed
+    jr nz, .ballStartKeyPressed
+    pop bc
+    dec b
+    jr nz, .waitOnCurrentMap
+    jr .showNextMap
+.ballStartKeyPressed
+    pop bc
+    ld [$ff8a], a
+    ld a, Bank(Func_30253)
+    ld hl, Func_30253
+    call Func_54f
+    ld bc, $2cd1
+    ld [$ff8a], a
+    ld a, Bank(Func_3118f)
+    ld hl, Func_3118f
+    call Func_54f
+    ld a, [$d54a]
+    ld [$d4e3], a
+    xor a
+    ld [$d4e2], a
+    ret
+
+BlueStageInitialMaps: ; 0x1c8af
+    db VIRIDIAN_CITY
+    db VIRIDIAN_FOREST
+    db MT_MOON
+    db CERULEAN_CITY
+    db VERMILION_STREETS
+    db ROCK_MOUNTAIN
+    db CELADON_CITY
+
+INCBIN "baserom.gbc",$1c8b6,$20000 - $1c8b6
 
 
 SECTION "bank8", ROMX, BANK[$8]

@@ -13,7 +13,16 @@ wOAMBuffer:: ; d000
     ; buffer for OAM data. Copied to OAM by DMA
     ds 4 * 40
 
-    ds $869
+    ds $4da
+
+wTimerSeconds:: ; 0xd57a
+    ds 1
+wTimerMinutes:: ; 0xd57b
+    ds 1
+wTimerFrames::  ; 0xd57c
+    ds 1
+
+    ds $38c
 
 wTitleScreenCursorSelection:: ; 0xd909
 ; 0 = Game Start

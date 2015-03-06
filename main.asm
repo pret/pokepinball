@@ -5539,7 +5539,35 @@ RedStageInitialMaps: ; 0x16605
     db ROCK_MOUNTAIN
     db LAVENDER_TOWN
 
-INCBIN "baserom.gbc",$1660c,$18000 - $1660c
+INCBIN "baserom.gbc",$1660c,$175f5 - $1660c
+
+DrawTimer: ; 0x175f5
+; Loads the OAM data for the timer in the top-right corner of the screen.
+    ld a, [wTimerMinutes]
+    and $f
+    call DrawTimerDigit
+    ld a, $a  ; colon
+    call DrawTimerDigit
+    ld a, [wTimerSeconds]
+    swap a
+    and $f
+    call DrawTimerDigit  ; tens digit of the minutes
+    ld a, [wTimerSeconds]
+    and $f
+    call DrawTimerDigit  ; ones digit of the minutes
+    ret
+
+INCBIN "baserom.gbc",$17615,$17625 - $17615
+
+DrawTimerDigit: ; 0x17625
+    add $b1  ; the timer digits' OAM ids start at $b1
+    call LoadOAMData
+    ld a, b
+    add $8
+    ld b, a
+    ret
+
+INCBIN "baserom.gbc",$1762f,$18000 - $1762f
 
 
 SECTION "bank6", ROMX, BANK[$6]

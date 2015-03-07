@@ -15,6 +15,8 @@ wOAMBuffer:: ; d000
 
     ds $4da
 
+    ; d54b might be the current mode (catchEm, evolution, map change, etc.)
+
 wTimerSeconds:: ; 0xd57a
     ds 1
 wTimerMinutes:: ; 0xd57b

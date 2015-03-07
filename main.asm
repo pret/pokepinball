@@ -5494,7 +5494,236 @@ INCBIN "baserom.gbc",$f269,$10000 - $f269
 
 SECTION "bank4", ROMX, BANK[$4]
 
-INCBIN "baserom.gbc",$10000,$14000 - $10000 ; 0x10000
+INCBIN "baserom.gbc",$10000,$1003f - $10000
+
+Func_1003f: ; 0x1003f
+    ld a, [$d54b]  ; current game mode?
+    and a
+    ret nz
+    ld a, $1
+    ld [$d54b], a  ; set to catchem mode?
+    xor a
+    ld [$d550], a
+    ld [$d54d], a
+    ld a, [$d4ac]
+    sla a
+    ld c, a
+    ld b, $0
+    push bc
+    ld hl, WildMonOffsetsPointers
+    add hl, bc
+    ld a, [hli]
+    ld h, [hl]
+    ld l, a
+    ld a, [$d54a]  ; current map?
+    sla a
+    ld c, a
+    add hl, bc
+    ld a, [hli]
+    ld c, a
+    ld a, [hl]
+    ld b, a
+    pop de
+    ld hl, WildMonPointers
+    add hl, de
+    ld a, [hli]
+    ld h, [hl]
+    ld l, a
+    add hl, bc
+    call Func_959  ; random number?
+    and $f
+    call .asm_10130
+    ld c, a
+    ld b, $0
+    add hl, bc
+    ld a, [$d55b]
+    sla a
+    ld c, a
+    add hl, bc
+    ld a, [hl]
+    dec a
+    ld [$d579], a
+    ld a, [$d579]
+    ld c, a
+    ld b, $0
+    ld hl, $561d
+    add hl, bc
+    ld c, [hl]
+    ld h, b
+    ld l, c
+    add hl, bc
+    add hl, bc
+    ld bc, $7685
+    add hl, bc
+    ld a, [hli]
+    ld [$d5c1], a
+    ld [$d5be], a
+    ld a, [hli]
+    ld [$d5c2], a
+    ld a, [hli]
+    ld [$d5c3], a
+    ld hl, $d586
+    ld a, [$d5b6]
+    ld c, a
+    and a
+    ld b, $18
+    jr z, .asm_100c7
+.asm_100ba
+    ld a, $1
+    ld [hli], a
+    xor a
+    ld [hli], a
+    dec b
+    dec c
+    jr nz, .asm_100ba
+    ld a, b
+    and a
+    jr z, .asm_100ce
+.asm_100c7
+    xor a
+    ld [hli], a
+    inc a
+    ld [hli], a
+    dec b
+    jr nz, .asm_100c7
+.asm_100ce
+    ld a, [$d579]
+    ld c, a
+    ld b, $0
+    sla c
+    rl b
+    ld hl, $6a22
+    add hl, bc
+    ld a, [hli]
+    ld c, a
+    ld a, [hl]
+    ld b, a
+    ld [$ff8a], a
+    ld a, $2
+    ld hl, $467d
+    call Func_54f
+    ld [$ff8a], a
+    ld a, $3
+    ld hl, $5bd4
+    call Func_54f
+    call $4696
+    call $3579
+    ld a, [$d4ac]
+    bit 0, a
+    jr z, .asm_1011d
+    ld a, $28
+    ld hl, $6300
+    ld de, $8ae0
+    ld bc, $0020
+    call $0735
+    ld a, $0
+    ld hl, $2898
+    ld de, $9906
+    ld bc, $0008
+    call $0735
+.asm_1011d
+    call $4753
+    ld a, [$d4ac]
+    rst $18
+    ld [hl], c
+    ld c, b
+    ld [hl], c
+    ld c, b
+    adc d
+    ld c, c
+    adc d
+    ld c, c
+    adc h
+    ld c, c
+    adc h
+    ld c, c
+.asm_10130  ; I think this checks to see if it should be Mew
+    push af
+    cp $f
+    jr nz, .asm_10155
+    ld a, c
+    cp $60
+    jr nz, .asm_10155
+    ld a, b
+    cp $1
+    jr nz, .asm_10155
+    ld a, [$d55b]
+    cp $8
+    jr nz, .asm_10155
+    ld a, [$d62f]
+    cp $2
+    jr nz, .asm_10155
+    pop af
+    xor a
+    ld [$d62f], a
+    ld a, $10
+    ret
+.asm_10155
+    pop af
+    ret
+
+INCBIN "baserom.gbc",$10157,$1126c - $10157
+
+WildMonOffsetsPointers: ; 0x1126c
+    dw RedStageWildMonDataOffsets
+    dw RedStageWildMonDataOffsets
+    dw RedStageWildMonDataOffsets
+    dw RedStageWildMonDataOffsets
+    dw BlueStageWildMonDataOffsets
+    dw BlueStageWildMonDataOffsets
+
+RedStageWildMonDataOffsets: ; 0x11278
+    dw (RedStagePalletTownWildMons - RedStageWildMons)        ; PALLET_TOWN
+    dw $0000                                                  ; VIRIDIAN_CITY (unused in Red Stage)
+    dw (RedStageViridianForestWildMons - RedStageWildMons)    ; VIRIDIAN_FOREST
+    dw (RedStagePewterCityWildMons - RedStageWildMons)        ; PEWTER_CITY
+    dw $0000                                                  ; MT_MOON (unused in Red Stage)
+    dw (RedStageCeruleanCityWildMons - RedStageWildMons)      ; CERULEAN_CITY
+    dw (RedStageVermilionSeasideWildMons - RedStageWildMons)  ; VERMILION_SEASIDE
+    dw $0000                                                  ; VERMILION_STREETS (unused in Red Stage)
+    dw (RedStageRockMountainWildMons - RedStageWildMons)      ; ROCK_MOUNTAIN
+    dw (RedStageLavenderTownWildMons - RedStageWildMons)      ; LAVENDER_TOWN
+    dw $0000                                                  ; CELADON_CITY (unused in Red Stage)
+    dw (RedStageCyclingRoadWildMons - RedStageWildMons)       ; CYCLING_ROAD
+    dw $0000                                                  ; FUCHSIA_CITY (unused in Red Stage)
+    dw (RedStageSafariZoneWildMons - RedStageWildMons)        ; SAFARI_ZONE
+    dw $0000                                                  ; SAFFRON_CITY (unused in Red Stage)
+    dw (RedStageSeafoamIslandsWildMons - RedStageWildMons)    ; SEAFOAM_ISLANDS
+    dw (RedStageCinnabarIslandWildMons - RedStageWildMons)    ; CINNABAR_ISLAND
+    dw (RedStageIndigoPlateauWildMons - RedStageWildMons)     ; INDIGO_PLATEAU
+
+BlueStageWildMonDataOffsets: ; 0x1129c
+    dw $0000                                                    ; PALLET_TOWN (unused in Blue Stage)
+    dw (BlueStageViridianCityWildMons - BlueStageWildMons)      ; VIRIDIAN_CITY
+    dw (BlueStageViridianForestWildMons - BlueStageWildMons)    ; VIRIDIAN_FOREST
+    dw $0000                                                    ; PEWTER_CITY (unused in Blue Stage)
+    dw (BlueStageMtMoonWildMons - BlueStageWildMons)            ; MT_MOON
+    dw (BlueStageCeruleanCityWildMons - BlueStageWildMons)      ; CERULEAN_CITY
+    dw $0000                                                    ; VERMILION_SEASIDE (unused in Blue Stage)
+    dw (BlueStageVermilionStreetsWildMons - BlueStageWildMons)  ; VERMILION_STREETS
+    dw (BlueStageRockMountainWildMons - BlueStageWildMons)      ; ROCK_MOUNTAIN
+    dw $0000                                                    ; LAVENDER_TOWN (unused in Blue Stage)
+    dw (BlueStageCeladonCityWildMons - BlueStageWildMons)       ; CELADON_CITY
+    dw $0000                                                    ; CYCLING_ROAD (unused in Blue Stage)
+    dw (BlueStageFuchsiaCityWildMons - BlueStageWildMons)       ; FUCHSIA_CITY
+    dw (BlueStageSafariZoneWildMons - BlueStageWildMons)        ; SAFARI_ZONE
+    dw (BlueStageSaffronCityWildMons - BlueStageWildMons)       ; SAFFRON_CITY
+    dw $0000                                                    ; SEAFOAM_ISLANDS (unused in Blue Stage)
+    dw (BlueStageCinnabarIslandWildMons - BlueStageWildMons)    ; CINNABAR_ISLAND
+    dw (BlueStageIndigoPlateauWildMons - BlueStageWildMons)     ; INDIGO_PLATEAU
+
+WildMonPointers: ; 0x112c0
+    dw RedStageWildMons
+    dw RedStageWildMons
+    dw RedStageWildMons
+    dw RedStageWildMons
+    dw BlueStageWildMons
+    dw BlueStageWildMons
+
+INCLUDE "data/red_wild_mons.asm"
+INCLUDE "data/blue_wild_mons.asm"
+
+INCBIN "baserom.gbc",$115ce,$14000 - $115ce
 
 
 SECTION "bank5", ROMX, BANK[$5]

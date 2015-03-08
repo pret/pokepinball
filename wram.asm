@@ -19,8 +19,13 @@ wCurrentMap:: ; 0xd54a
 ; Current map during play. See map_constants.asm
     ds 1
 
-    ds $2f
+    ds $2e
     ; d54b might be the current mode (catchEm, evolution, map change, etc.)
+
+wCurrentMon:: ; 0xd579
+; Current mon id for CatchEm Mode. Might also be used for Evolution Mode.
+; It stores (mon id - 1), which is annoying.
+    ds 1
 
 wTimerSeconds:: ; 0xd57a
     ds 1

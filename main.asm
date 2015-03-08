@@ -5542,8 +5542,8 @@ Func_1003f: ; 0x1003f
     add hl, bc
     ld a, [hl]  ; a contains mon id
     dec a
-    ld [$d579], a
-    ld a, [$d579]
+    ld [wCurrentMon], a
+    ld a, [wCurrentMon]
     ld c, a
     ld b, $0
     ld hl, EvolutionLineIds
@@ -5587,7 +5587,7 @@ Func_1003f: ; 0x1003f
     dec b
     jr nz, .asm_100c7
 .asm_100ce
-    ld a, [$d579]
+    ld a, [wCurrentMon]
     ld c, a
     ld b, $0
     sla c

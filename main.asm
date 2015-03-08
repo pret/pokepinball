@@ -414,7 +414,21 @@ Func_486: ; 0x486
     ld l, a
     ret
 
-INCBIN "baserom.gbc",$490,$4af - $490
+Func_490: ; 0x490
+    ld a, [hLoadedROMBank]
+    push af
+    ld a, [$d85b]
+    ld [hLoadedROMBank], a
+    ld [$2000], a
+    ld a, e
+    ld [$d7bf], a
+    ld a, [$d85b]
+    ld [$d7c0], a
+    call $4090  ; todo
+    pop af
+    ld [hLoadedROMBank], a
+    ld [$2000], a
+    ret
 
 PlaySoundEffect: ; 0x4af
 ; input:  de = sound effect id?  I think d specifies something special and e holds the id
@@ -683,10 +697,10 @@ Func_666: ; 0x666
     bit 7, h
     jr nz, .asm_679
     ld [$fffa], a
-    ld a, [$fff8]
+    ld a, [hLoadedROMBank]
     push af
     ld a, [$fffa]
-    ld [$fff8], a
+    ld [hLoadedROMBank], a
     ld [$2000], a
     scf
     jr .asm_67d
@@ -706,7 +720,7 @@ Func_666: ; 0x666
     pop af
     ret nc
     pop af
-    ld [$fff8], a
+    ld [hLoadedROMBank], a
     ld [$2000], a
     ret
 
@@ -1852,10 +1866,10 @@ Func_10c5: ; 0x10c5
     ld [hl], d
     ld e, $ff
     ld [$fffa], a
-    ld a, [$fff8]
+    ld a, [hLoadedROMBank]
     push af
     ld a, [$fffa]
-    ld [$fff8], a
+    ld [hLoadedROMBank], a
     ld [$2000], a
     dec bc
     ld a, [bc]
@@ -1869,7 +1883,7 @@ Func_10c5: ; 0x10c5
     add $4
     ld [hl], a
     pop af
-    ld [$fff8], a
+    ld [hLoadedROMBank], a
     ld [$2000], a
     ld hl, $d7fb
     ld l, [hl]
@@ -5010,7 +5024,62 @@ INCBIN "baserom.gbc",$86a4,$c000 - $86a4
 
 SECTION "bank3", ROMX, BANK[$3]
 
-INCBIN "baserom.gbc",$c000,$c0f7 - $c000
+INCBIN "baserom.gbc",$c000,$c089 - $c000
+
+Func_c089: ; 0xc089
+    call Func_c0ee
+    call HandleTitlescreenAnimations
+    ld a, [$ff99]
+    bit 0, a
+    jr z, .asm_c0df
+    ld a, [wTitleScreenCursorSelection]
+    and a
+    jr nz, .asm_c0d3
+    ld a, [$d7c2]
+    and a
+    jr z, .asm_c0ba
+    ld de, $0001
+    call PlaySoundEffect
+    xor a
+    ld [$d910], a
+    ld a, $2
+    ld [$d911], a
+    ld a, $1
+    ld [wTitleScreenGameStartCursorSelection], a
+    ld hl, $d8f2
+    inc [hl]
+    ret
+.asm_c0ba
+    ld de, $0000
+    call Func_490
+    rst $10
+    ld de, $0027
+    call PlaySoundEffect
+    ld bc, $0037
+    call Func_93f
+    ld a, $3
+    ld [$d8f2], a
+    ret
+.asm_c0d3
+    ld de, $0001
+    call PlaySoundEffect
+    ld a, $3
+    ld [$d8f2], a
+    ret
+.asm_c0df
+    bit 1, a
+    ret z
+    ld de, $0001
+    call PlaySoundEffect
+    ld a, $4
+    ld [$d8f2], a
+    ret
+
+Func_c0ee: ; 0xc0ee
+    ld hl, wTitleScreenCursorSelection
+    ld c, $2
+    call Func_c1fc
+    ret
 
 HandleTitlescreenAnimations: ; 0xc0f7
     ld a, [$fffe]
@@ -5025,7 +5094,31 @@ HandleTitlescreenAnimations: ; 0xc0f7
     call HandleTitlescreenPokeballAnimation
     ret
 
-INCBIN "baserom.gbc",$c10e,$c21d - $c10e
+INCBIN "baserom.gbc",$c10e,$c1fc - $c10e
+
+Func_c1fc: ; 0xc1fc
+    ld a, [$ff9a]
+    ld b, a
+    ld a, [hl]
+    bit 6, b
+    jr z, .asm_c20f
+    and a
+    ret z
+    dec a
+    ld [hl], a
+    ld de, $0003
+    call PlaySoundEffect
+    ret
+.asm_c20f
+    bit 7, b
+    ret z
+    cp c
+    ret z
+    inc a
+    ld [hl], a
+    ld de, $0003
+    call PlaySoundEffect
+    ret
 
 Func_c21d: ; 0xc21d
 ; World's greatest function.

@@ -679,7 +679,38 @@ Func_65d: ; 0x65d
     jr nz, Func_65d
     ret
 
-INCBIN "baserom.gbc",$666,$6a4 - $666
+Func_666: ; 0x666
+    bit 7, h
+    jr nz, .asm_679
+    ld [$fffa], a
+    ld a, [$fff8]
+    push af
+    ld a, [$fffa]
+    ld [$fff8], a
+    ld [$2000], a
+    scf
+    jr .asm_67d
+.asm_679
+    ld [$4000], a
+    and a
+.asm_67d
+    push af
+.asm_67e
+    ld a, [hli]
+    ld [de], a
+    inc de
+    dec bc
+    ld a, c
+    or b
+    jr nz, .asm_67e
+    pop af
+    ret nc
+    pop af
+    ld [$fff8], a
+    ld [$2000], a
+    ret
+
+INCBIN "baserom.gbc",$68f,$6a4 - $68f
 
 LoadVideoData: ; 0x6a4
 ; Input:
@@ -791,8 +822,13 @@ Func_724: ; 0x724
     jr z, .copyByte
     ret
 
-INCBIN "baserom.gbc",$735,$73f - $735
-
+Func_735: ; 0x735
+    push hl
+    ld hl, $ff40
+    bit 7, [hl]
+    pop hl
+    jp z, Func_666
+    ; fall through
 Func_73f: ; 0x73f
 ; This loads some data into VRAM. It waits for the LCD H-Blank to copy the data 4 bytes at a time.
 ; input:  hl = source of data
@@ -1610,7 +1646,27 @@ Func_f0c: ; 0xf0c
     scf
     ret
 
-INCBIN "baserom.gbc",$f1a,$f34 - $f1a
+Func_f1a: ; 0xf1a
+    push bc
+    push de
+    push hl
+.asm_f1d
+    ld a, [hli]
+    ld [de], a
+    inc de
+    dec bc
+    ld a, b
+    or c
+    jr nz, .asm_f1d
+    pop hl
+    pop de
+    pop bc
+    ld h, d
+    ld l, e
+    call Func_f74
+    call Func_fa1
+    call Func_f4c
+    ret
 
 Func_f34: ; 0xf34
     call Func_f62
@@ -1629,7 +1685,29 @@ Func_f34: ; 0xf34
     call Func_f7e
     ret
 
-INCBIN "baserom.gbc",$f4c,$f62 - $f4c
+Func_f4c: ; 0xf4c
+    push bc
+    push hl
+    push de
+    inc bc
+    inc bc
+    inc bc
+    inc bc
+    ld d, h
+    ld e, l
+    add hl, bc
+.asm_f56
+    ld a, [de]
+    ld [hli], a
+    inc de
+    dec bc
+    ld a, b
+    or c
+    jr nz, .asm_f56
+    pop de
+    pop hl
+    pop bc
+    ret
 
 Func_f62: ; 0xf62
     push hl
@@ -1648,7 +1726,15 @@ Func_f62: ; 0xf62
     pop hl
     ret
 
-INCBIN "baserom.gbc",$f74,$f7e - $f74
+Func_f74: ; 0xf74
+    push hl
+    add hl, bc
+    ld a, $4e
+    ld [hli], a
+    ld a, $54
+    ld [hl], a
+    pop hl
+    ret
 
 Func_f7e: ; 0xf7e
     push bc
@@ -1684,7 +1770,34 @@ Func_f7e: ; 0xf7e
     pop bc
     ret
 
-INCBIN "baserom.gbc",$fa1,$10aa - $fa1
+Func_fa1: ; 0xfa1
+    push bc
+    push de
+    push hl
+    inc bc
+    inc bc
+    ld de, $0000
+.asm_fa9
+    ld a, [hli]
+    add e
+    ld e, a
+    jr nc, .asm_faf
+    inc d
+.asm_faf
+    dec bc
+    ld a, b
+    or c
+    jr nz, .asm_fa9
+    ld a, e
+    ld [hli], a
+    ld a, d
+    ld [hl], a
+    pop hl
+    pop de
+    pop bc
+    ret
+
+INCBIN "baserom.gbc",$fbc,$10aa - $fbc
 
 Func_10aa: ; 0x10aa
     ld c, a
@@ -2514,7 +2627,18 @@ Func_32aa: ; 0x32aa
     jr nz, .asm_32c5
     ret
 
-INCBIN "baserom.gbc",$32cc,$4000 - $32cc
+INCBIN "baserom.gbc",$32cc,$3579 - $32cc
+
+Func_3579: ; 0x3579
+    ld hl, $d47a
+    xor a
+    ld [hli], a
+    ld [hli], a
+    ld [hli], a
+    ld [hli], a
+    ret
+
+INCBIN "baserom.gbc",$3582,$4000 - $3582
 
 
 SECTION "bank1", ROMX, BANK[$1]
@@ -5270,7 +5394,28 @@ DataArray_d730: ; 0xd730
 
     db $FF, $FF ; terminators
 
-INCBIN "baserom.gbc",$d74e,$eeee - $d74e
+INCBIN "baserom.gbc",$d74e,$dbd4 - $d74e
+
+Func_dbd4: ; 0xdbd4
+    ld a, [$d4a3]
+    ld [$d4a6], a
+    ld a, [$d4a4]
+    ld [$d4a7], a
+    ld a, [$d4a5]
+    ld [$d4a8], a
+    ld a, $0
+    ld [$d4a1], a
+    ld a, $ff
+    ld [$d4a2], a
+    ld a, $3b
+    ld [$d4a3], a
+    ld a, $3c
+    ld [$d4a4], a
+    ld a, $ff
+    ld [$d4a5], a
+    ret
+
+INCBIN "baserom.gbc",$dc00,$eeee - $dc00
 
 Func_eeee: ; 0xeeee
     push bc
@@ -5496,7 +5641,7 @@ SECTION "bank4", ROMX, BANK[$4]
 
 INCBIN "baserom.gbc",$10000,$1003f - $10000
 
-Func_1003f: ; 0x1003f
+StartCatchEmMode: ; 0x1003f
     ld a, [$d54b]  ; current game mode?
     and a
     ret nz
@@ -5603,11 +5748,11 @@ Func_1003f: ; 0x1003f
     ld hl, StartTimer
     call BankSwitch
     ld [$ff8a], a
-    ld a, $3
-    ld hl, $5bd4
+    ld a, Bank(Func_dbd4)
+    ld hl, Func_dbd4
     call BankSwitch
-    call $4696
-    call $3579
+    call Func_10696
+    call Func_3579
     ld a, [$d4ac]
     bit 0, a
     jr z, .asm_1011d
@@ -5615,14 +5760,14 @@ Func_1003f: ; 0x1003f
     ld hl, $6300
     ld de, $8ae0
     ld bc, $0020
-    call $0735
+    call Func_735
     ld a, $0
     ld hl, $2898
     ld de, $9906
     ld bc, $0008
-    call $0735
+    call Func_735
 .asm_1011d
-    call $4753
+    call SetPokemonSeenFlag
     ld a, [$d4ac]
     rst $18
     ld [hl], c
@@ -5662,7 +5807,40 @@ Func_1003f: ; 0x1003f
     pop af
     ret
 
-INCBIN "baserom.gbc",$10157,$1126c - $10157
+INCBIN "baserom.gbc",$10157,$10696 - $10157
+
+Func_10696: ; 0x10696
+    call Func_30e8
+    call Func_30db
+    ld hl, $d5cc
+    ld de, $29b7
+    call Func_32aa
+    ret
+
+INCBIN "baserom.gbc",$106a6,$10753 - $106a6
+
+SetPokemonSeenFlag: ; 0x10753
+    ld a, [$d550]
+    and a
+    ld a, [wCurrentMon]
+    jr z, .asm_10766
+    ld a, [$d552]
+    cp $ff
+    jr nz, .asm_10766
+    ld a, [wCurrentMon]
+.asm_10766
+    ld c, a
+    ld b, $0
+    ld hl, wPokedexFlags
+    add hl, bc
+    set 0, [hl]
+    ld hl, wPokedexFlags
+    ld de, $a10c
+    ld bc, $0098
+    call Func_f1a
+    ret
+
+INCBIN "baserom.gbc",$1077c,$1126c - $1077c
 
 WildMonOffsetsPointers: ; 0x1126c
     dw RedStageWildMonDataOffsets

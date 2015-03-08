@@ -18,6 +18,8 @@ Set up the repository.
 
 	git clone git://github.com/huderlem/pokepinball.git
 	cd pokepinball
+	git submodule init
+	git submodule update
 
 Place a copy of Pokemon Pinball (U) [C][!].gb  (`md5: fbe20570c2e52c937a9395024069ba3c`) in this directory and name it `baserom.gbc`.
 
@@ -25,7 +27,7 @@ To build `pokepinball.gbc`:
 
 	make
 
-This should take less than one second.
+This will take a few second the first time you build because it needs to process all of the graphics.
 
 To remove all generated files by the build process:
 

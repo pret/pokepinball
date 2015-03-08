@@ -155,7 +155,7 @@ Start: ; 0x150
     ld [$daa3], a
     ld a, Bank(Func_1ffc)
     ld hl, Func_1ffc
-    call SwitchBank
+    call BankSwitchSimple
 Func_23b: ; 0x23b
     ld a, [$fffe]
     cp $11
@@ -488,26 +488,26 @@ Func_532: ; 0x532
     ld a, [hl]
     ld h, d
     ld l, e
-    jp Func_54f
+    jp BankSwitch
 
-SwitchBank: ; 0x549
+BankSwitchSimple: ; 0x549
 ; Switches to Bank in register a and jumps to hl.
     ld [hLoadedROMBank], a
     ld [$2000], a  ; Load Bank
     jp [hl]
 
-Func_54f: ; 0x54f
+BankSwitch: ; 0x54f
     ld e, a
     ld a, [hLoadedROMBank]  ; currently-loaded Bank
     cp e
-    jr z, .asm_570
+    jr z, .doJump
     push af
     ld a, e
-    call .asm_55f
-    call .asm_570
+    call .loadNewBank
+    call .doJump
     pop de
     ld a, d
-.asm_55f
+.loadNewBank
     push hl
     push de
     ld hl, $ffff
@@ -519,7 +519,7 @@ Func_54f: ; 0x54f
     pop de
     pop hl
     ret
-.asm_570
+.doJump
     ld a, [$ff8b]
     ld e, a
     ld a, [$ff8a]
@@ -2363,7 +2363,7 @@ Func_1ffc: ; 0x1ffc
     ld [$ff8a], a
     ld a, $f
     ld hl, $4000
-    call Func_54f
+    call BankSwitch
     ld a, $1
     ld [$d85d], a
     ld a, $37
@@ -4820,7 +4820,7 @@ Func_82a8: ; 0x82a8
     ld [$ff8a], a
     ld a, Bank(CopyInitialHighScores)
     ld hl, CopyInitialHighScores
-    call Func_54f
+    call BankSwitch
 .asm_82c6
     ld hl, $a10c
     ld de, wPokedexFlags
@@ -4830,7 +4830,7 @@ Func_82a8: ; 0x82a8
     ld [$ff8a], a
     ld a, $a
     ld hl, $4d66
-    call Func_54f
+    call BankSwitch
 .asm_82de
     ld hl, $a244
     ld de, wKeyConfigs
@@ -4840,7 +4840,7 @@ Func_82a8: ; 0x82a8
     ld [$ff8a], a
     ld a, $3
     ld hl, $4a3a
-    call Func_54f
+    call BankSwitch
 .asm_82f6
     ld hl, $a268
     ld de, $d300
@@ -4878,7 +4878,7 @@ StartTimer: ; 0x867d
     ld [$ff8a], a
     ld a, Bank(Func_1404a)
     ld hl, Func_1404a
-    call Func_54f
+    call BankSwitch
     ret
 
 INCBIN "baserom.gbc",$86a4,$c000 - $86a4
@@ -5592,20 +5592,20 @@ Func_1003f: ; 0x1003f
     ld b, $0
     sla c
     rl b
-    ld hl, $6a22
+    ld hl, CatchEmTimerData
     add hl, bc
     ld a, [hli]
     ld c, a
     ld a, [hl]
     ld b, a
     ld [$ff8a], a
-    ld a, $2
-    ld hl, $467d
-    call Func_54f
+    ld a, Bank(StartTimer)
+    ld hl, StartTimer
+    call BankSwitch
     ld [$ff8a], a
     ld a, $3
     ld hl, $5bd4
-    call Func_54f
+    call BankSwitch
     call $4696
     call $3579
     ld a, [$d4ac]
@@ -5727,7 +5727,11 @@ INCBIN "baserom.gbc",$115ce,$1161d - $115ce
 
 INCLUDE "data/evolution_lines.asm"
 
-INCBIN "baserom.gbc",$116b4,$13685 - $116b4
+INCBIN "baserom.gbc",$116b4,$12a22 - $116b4
+
+INCLUDE "data/catchem_timer_values.asm"
+
+INCBIN "baserom.gbc",$12b50,$13685 - $12b50
 
 Data_13685: ; 0x13685
 ; Each 3-byte entry is related to an evolution line. Don't know what this is for, yet.
@@ -5877,14 +5881,14 @@ INCBIN "baserom.gbc",$14091,$1659c - $14091
     ld [$ff8a], a
     ld a, Bank(LoadBillboardPicture)
     ld hl, LoadBillboardPicture
-    call Func_54f
+    call BankSwitch
     ld b, $20  ; number of frames to delay before the next map is shown
 .waitOnCurrentMap
     push bc
     ld [$ff8a], a
     ld a, Bank(Func_eeee)
     ld hl, Func_eeee
-    call Func_54f
+    call BankSwitch
     ld hl, wKeyConfigBallStart
     call IsKeyPressed
     jr nz, .ballStartKeyPressed
@@ -5897,12 +5901,12 @@ INCBIN "baserom.gbc",$14091,$1659c - $14091
     ld [$ff8a], a
     ld a, Bank(Func_30253)
     ld hl, Func_30253
-    call Func_54f
+    call BankSwitch
     ld bc, $2cd1
     ld [$ff8a], a
     ld a, Bank(Func_3118f)
     ld hl, Func_3118f
-    call Func_54f
+    call BankSwitch
     ld a, [wCurrentMap]
     ld [$d4e3], a
     xor a
@@ -6033,14 +6037,14 @@ INCBIN "baserom.gbc",$1c000,$1c846 - $1c000
     ld [$ff8a], a
     ld a, Bank(LoadBillboardPicture)
     ld hl, LoadBillboardPicture
-    call Func_54f
+    call BankSwitch
     ld b, $20  ; number of frames to delay before the next map is shown
 .waitOnCurrentMap
     push bc
     ld [$ff8a], a
     ld a, Bank(Func_eeee)
     ld hl, Func_eeee
-    call Func_54f
+    call BankSwitch
     ld hl, wKeyConfigBallStart
     call IsKeyPressed
     jr nz, .ballStartKeyPressed
@@ -6053,12 +6057,12 @@ INCBIN "baserom.gbc",$1c000,$1c846 - $1c000
     ld [$ff8a], a
     ld a, Bank(Func_30253)
     ld hl, Func_30253
-    call Func_54f
+    call BankSwitch
     ld bc, $2cd1
     ld [$ff8a], a
     ld a, Bank(Func_3118f)
     ld hl, Func_3118f
-    call Func_54f
+    call BankSwitch
     ld a, [wCurrentMap]
     ld [$d4e3], a
     xor a

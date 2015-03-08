@@ -13,7 +13,26 @@ wOAMBuffer:: ; d000
     ; buffer for OAM data. Copied to OAM by DMA
     ds 4 * 40
 
-    ds $4aa
+    ds $414
+
+wBallXPos:: ; 0xd4b4
+; x coordinate of the center of the pokeball
+    ds 1
+    ds 1
+wBallYPos:: ; 0xd4b6
+; y coordinate of the center of the pokeball
+    ds 1
+    ds 1
+
+    ds $b
+
+wBallSpin:: ; 0xd4c3
+    ds 1
+wBallRotation:: ; 0xd4c4
+; wBallSpin is added to this every frame
+    ds 1
+
+    ds $85
 
 wCurrentMap:: ; 0xd54a
 ; Current map during play. See map_constants.asm

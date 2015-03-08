@@ -2644,14 +2644,14 @@ INCBIN "baserom.gbc",$3582,$4000 - $3582
 SECTION "bank1", ROMX, BANK[$1]
 
 OAMDataPointers: ; 0x4000
-    dw OAMData_0
-    dw OAMData_1
-    dw OAMData_2
-    dw OAMData_3
-    dw OAMData_4
-    dw OAMData_5
-    dw OAMData_6
-    dw OAMData_7
+    dw BallSpin0OAM
+    dw BallSpin1OAM
+    dw BallSpin2OAM
+    dw BallSpin3OAM
+    dw BallSpin4OAM
+    dw BallSpin5OAM
+    dw BallSpin6OAM
+    dw BallSpin7OAM
     dw OAMData_8
     dw OAMData_9
     dw OAMData_a
@@ -2894,42 +2894,42 @@ OAMDataPointers: ; 0x4000
     dw OAMData_f7
     dw OAMData_f8
 
-OAMData_0: ; 0x41f2
+BallSpin0OAM: ; 0x41f2
     db $08, $08, $42, $00
     db $08, $00, $40, $00
     db $80 ; terminator
 
-OAMData_1: ; 0x41fb
+BallSpin1OAM: ; 0x41fb
     db $08, $08, $46, $00
     db $08, $00, $44, $00
     db $80 ; terminator
 
-OAMData_2: ; 0x4204
+BallSpin2OAM: ; 0x4204
     db $08, $08, $4a, $00
     db $08, $00, $48, $00
     db $80 ; terminator
 
-OAMData_3: ; 0x420d
+BallSpin3OAM: ; 0x420d
     db $08, $08, $4e, $00
     db $08, $00, $4c, $00
     db $80 ; terminator
 
-OAMData_4: ; 0x4216
+BallSpin4OAM: ; 0x4216
     db $08, $08, $52, $00
     db $08, $00, $50, $00
     db $80 ; terminator
 
-OAMData_5: ; 0x421f
+BallSpin5OAM: ; 0x421f
     db $08, $08, $56, $00
     db $08, $00, $54, $00
     db $80 ; terminator
 
-OAMData_6: ; 0x4228
+BallSpin6OAM: ; 0x4228
     db $08, $08, $5a, $00
     db $08, $00, $58, $00
     db $80 ; terminator
 
-OAMData_7: ; 0x4231
+BallSpin7OAM: ; 0x4231
     db $08, $08, $5e, $00
     db $08, $00, $5c, $00
     db $80 ; terminator
@@ -4875,8 +4875,8 @@ Func_8228: ; 0x8228
     xor a
     ld [$d80d], a
     ld [$d80e], a
-    ld [$ffa1], a
-    ld [$ffa0], a
+    ld [hBoardXShift], a
+    ld [hBoardYShift], a
     ld a, [$fffe]
     ld hl, PointerTable_825e
     call LoadVideoData
@@ -6181,7 +6181,72 @@ Func_17665: ; 0x17665
     call Func_10aa
     ret
 
-INCBIN "baserom.gbc",$17679,$18000 - $17679
+INCBIN "baserom.gbc",$17679,$17e81 - $17679
+
+Func_17e81: ; 0x17e81
+    ld a, [$d548]
+    and a
+    ret z
+    ld hl, wBallSpin
+    ld a, [wBallRotation]
+    add [hl]
+    ld [wBallRotation], a
+    ld a, [wBallXPos]
+    inc a
+    ld hl, hBoardXShift
+    sub [hl]
+    ld b, a
+    ld a, [wBallYPos]
+    inc a
+    sub $10
+    ld hl, hBoardYShift
+    sub [hl]
+    ld c, a
+    ld a, [wBallRotation]
+    srl a
+    srl a
+    srl a  ; divide wBallRotation by 8 because
+    srl a  ; there are 8 frames of the ball spinning
+    and $7
+    add $0
+    call LoadOAMData
+    ld a, [$fffe]
+    and a
+    ret nz
+    ld a, [$fffe]
+    and a
+    ret nz
+    ld a, [$fffb]
+    and a
+    ret nz
+    ld a, [$d4c5]
+    inc a
+    ld hl, hBoardXShift
+    sub [hl]
+    ld b, a
+    ld a, [$d4c6]
+    inc a
+    sub $10
+    ld hl, hBoardYShift
+    sub [hl]
+    ld c, a
+    ld a, [$d4c7]
+    srl a
+    srl a
+    srl a
+    srl a
+    and $7
+    add $0
+    call LoadOAMData
+    ld a, [wBallXPos]
+    ld [$d4c5], a
+    ld a, [wBallYPos]
+    ld [$d4c6], a
+    ld a, [wBallRotation]
+    ld [$d4c7], a
+    ret
+
+INCBIN "baserom.gbc",$17efb,$18000 - $17efb
 
 
 SECTION "bank6", ROMX, BANK[$6]

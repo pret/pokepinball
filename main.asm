@@ -5515,7 +5515,7 @@ Func_1003f: ; 0x1003f
     ld a, [hli]
     ld h, [hl]
     ld l, a
-    ld a, [$d54a]  ; current map?
+    ld a, [wCurrentMap]
     sla a
     ld c, a
     add hl, bc
@@ -5782,7 +5782,7 @@ INCBIN "baserom.gbc",$14091,$1659c - $14091
     ld hl, RedStageInitialMaps
     add hl, bc
     ld a, [hl]
-    ld [$d54a], a
+    ld [wCurrentMap], a
     push af
     ld de, $0048
     call PlaySoundEffect
@@ -5817,7 +5817,7 @@ INCBIN "baserom.gbc",$14091,$1659c - $14091
     ld a, Bank(Func_3118f)
     ld hl, Func_3118f
     call Func_54f
-    ld a, [$d54a]
+    ld a, [wCurrentMap]
     ld [$d4e3], a
     xor a
     ld [$d4e2], a
@@ -5938,7 +5938,7 @@ INCBIN "baserom.gbc",$1c000,$1c846 - $1c000
     ld hl, BlueStageInitialMaps
     add hl, bc
     ld a, [hl]
-    ld [$d54a], a
+    ld [wCurrentMap], a
     push af
     ld de, $0048
     call PlaySoundEffect
@@ -5973,7 +5973,7 @@ INCBIN "baserom.gbc",$1c000,$1c846 - $1c000
     ld a, Bank(Func_3118f)
     ld hl, Func_3118f
     call Func_54f
-    ld a, [$d54a]
+    ld a, [wCurrentMap]
     ld [$d4e3], a
     xor a
     ld [$d4e2], a
@@ -6016,7 +6016,7 @@ SECTION "bankc", ROMX, BANK[$c]
 INCBIN "baserom.gbc",$30000,$30253 - $30000 ; 0x30000
 
 Func_30253: ; 0x30253
-    ld a, [$d54a]
+    ld a, [wCurrentMap]
     sla a
     ld c, a
     ld b, $0
@@ -6217,7 +6217,7 @@ Func_3118f: ; 0x3118f
     push bc
     call Func_30e8
     call Func_30db
-    ld a, [$d54a]
+    ld a, [wCurrentMap]
     sla a
     ld c, a
     ld b, $0

@@ -13,8 +13,13 @@ wOAMBuffer:: ; d000
     ; buffer for OAM data. Copied to OAM by DMA
     ds 4 * 40
 
-    ds $4da
+    ds $4aa
 
+wCurrentMap:: ; 0xd54a
+; Current map during play. See map_constants.asm
+    ds 1
+
+    ds $2f
     ; d54b might be the current mode (catchEm, evolution, map change, etc.)
 
 wTimerSeconds:: ; 0xd57a

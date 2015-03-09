@@ -55,6 +55,8 @@ wTimerFrames::  ; 0xd57c
 
     ds $38c
 
+; I think 0xd8f2 is a screen constant (e.g 4 = high score screen)
+
 wTitleScreenCursorSelection:: ; 0xd909
 ; 0 = Game Start
 ; 1 = PokeDex

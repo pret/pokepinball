@@ -9,7 +9,7 @@ SECTION "rst 10", ROM0 [$10]
     jp Func_468
 
 SECTION "rst 18", ROM0 [$18]
-    jp Func_477
+    jp JumpToFuncInTable
 
 SECTION "rst 20", ROM0 [$20]
     jp Func_486
@@ -387,7 +387,9 @@ Func_468: ; 0x468
     jr z, .asm_472
     ret
 
-Func_477: ; 0x477
+JumpToFuncInTable: ; 0x477
+; Jumps to a function in the pointer table immediately following
+; a "rst $18" call.  Function must be in the same Bank as the pointer table.
     sla a
     pop hl
     push de
@@ -486,13 +488,15 @@ Func_52c: ; 0x52c
     ei
     ret
 
-Func_532: ; 0x532
+CallInFollowingTable: ; 0x532
+; Calls a function in a table located immediately after a call to this function.
+; Inputs:  a = entry in the table
     ld e, a
     ld d, $0
     sla e
     rl d
     sla e
-    rl d
+    rl d  ; multiplied a by 4 because entries in the table are 4 bytes each
     pop hl
     add hl, de
     ld e, [hl]
@@ -2493,7 +2497,7 @@ Func_1ffc: ; 0x1ffc
     ld a, $4
     ld [$d807], a
     ld [$ff8a], a
-    ld a, $f
+    ld a, $f  ; todo
     ld hl, $4000
     call BankSwitch
     ld a, $1
@@ -2525,42 +2529,40 @@ Func_2034: ; 0x2034
 
 Func_2043: ; 0x2043
     ld a, [$d8f1]
-    call Func_532
-    nop
-    ld b, b
-    ld [bc], a
-    nop
-    ld e, l
-    ld b, c
-    ld [bc], a
-    nop
-    ld e, $42
-    ld [bc], a
-    nop
-    nop
-    ld b, b
-    inc bc
-    nop
-    ld d, e
-    ld e, b
-    inc bc
-    nop
-    nop
-    ld b, b
-    ld a, [bc]
-    nop
-    ld c, d
-    ld b, e
-    inc bc
-    nop
-    ld a, a
-    ld c, d
-    inc bc
-    nop
-    db $d3
-    ld d, [hl]
-    inc bc
-    nop
+    call CallInFollowingTable
+CallTable_2049: ; 0x2049
+; First two bytes is function pointer.
+; Third byte is bank of function.
+; Fourth byte seems to be unused.
+    dw $4000
+    db $02, $00
+
+    dw $415D
+    db $02, $00
+
+    dw $421E
+    db $02, $00
+
+    dw Func_c000
+    db Bank(Func_c000), $00
+
+    dw $5853
+    db $03, $00
+
+    dw $4000
+    db $0A, $00
+
+    dw $434A
+    db $03, $00
+
+    dw $4A7F
+    db $03, $00
+
+    dw $56D3
+    db $03, $00
+    ; end of call table
+
+Func_206d: ; 0x206d
     ld a, [hLoadedROMBank]
     push af
     ld a, $2
@@ -5029,20 +5031,63 @@ INCBIN "baserom.gbc",$86a4,$c000 - $86a4
 
 SECTION "bank3", ROMX, BANK[$3]
 
-INCBIN "baserom.gbc",$c000,$c089 - $c000
+Func_c000: ; 0xc000
+    ld a, [$d8f2]
+    rst $18  ; calls JumpToFuncInTable
+PointerTable_c004: ; 0xc004
+    dw Func_c00e
+    dw Func_c089
+    dw Func_c10e
+    dw Func_c1cb
+    dw Func_c1e7
+
+Func_c00e: ; 0xc00e
+    ld a, $43
+    ld [$ff9e], a
+    ld a, $e4
+    ld [$d80c], a
+    ld a, $d2
+    ld [$d80d], a
+    ld a, $e1
+    ld [$d80e], a
+    xor a
+    ld [$ffa1], a
+    ld [$ffa0], a
+    ld hl, $4057  ; todo pointer table
+    ld a, [$fffe]
+    call LoadVideoData
+    ld a, $1
+    ld [wTitleScreenGameStartCursorSelection], a
+    call ClearOAMBuffer
+    ld a, $2
+    ld [wTitleScreenPokeballAnimationCounter], a
+    call HandleTitlescreenAnimations
+    call Func_b66
+    ld a, $11
+    call Func_52c
+    ld de, $0004
+    call Func_490
+    call Func_588
+    call Func_bbe
+    ld hl, $d8f2
+    inc [hl]
+    ret
+
+INCBIN "baserom.gbc",$c057,$c089 - $c057
 
 Func_c089: ; 0xc089
     call Func_c0ee
     call HandleTitlescreenAnimations
     ld a, [hNewlyPressedButtons]
-    bit 0, a
-    jr z, .asm_c0df
+    bit BIT_A_BUTTON, a  ; was A button pressed?
+    jr z, .AButtonNotPressed
     ld a, [wTitleScreenCursorSelection]
     and a
     jr nz, .asm_c0d3
-    ld a, [$d7c2]
+    ; player chose "Game Start"
+    ld a, [$d7c2]  ; if this is non-zero, the main menu will prompt for "continue or new game?".
     and a
-    jr z, .asm_c0ba
+    jr z, .noPreviouslySavedGame
     ld de, $0001
     call PlaySoundEffect
     xor a
@@ -5054,7 +5099,7 @@ Func_c089: ; 0xc089
     ld hl, $d8f2
     inc [hl]
     ret
-.asm_c0ba
+.noPreviouslySavedGame
     ld de, $0000
     call Func_490
     rst $10
@@ -5071,8 +5116,8 @@ Func_c089: ; 0xc089
     ld a, $3
     ld [$d8f2], a
     ret
-.asm_c0df
-    bit 1, a
+.AButtonNotPressed
+    bit BIT_B_BUTTON, a  ; was B button pressed?
     ret z
     ld de, $0001
     call PlaySoundEffect
@@ -5099,7 +5144,125 @@ HandleTitlescreenAnimations: ; 0xc0f7
     call HandleTitlescreenPokeballAnimation
     ret
 
-INCBIN "baserom.gbc",$c10e,$c1fc - $c10e
+Func_c10e: ; 0xc10e
+    call Func_c1a2
+    call Func_c1b1
+    ld a, [$d910]
+    cp $6
+    ret nz
+    ld a, [$ff99]
+    bit 0, a
+    jr z, .asm_c17c
+    ld de, $0000
+    call Func_490
+    rst $10
+    ld de, $0027
+    call PlaySoundEffect
+    ld bc, $0041
+    call Func_93f
+    ld a, [wTitleScreenGameStartCursorSelection]
+    and a
+    jr z, .asm_c177
+    call Func_cb5
+    call Func_576
+    ld a, [$d7c2]
+    and a
+    jr z, .asm_c173
+    ld hl, $a268
+    ld de, $d300
+    ld bc, $04c3
+    call Func_f0c
+    jr nc, .asm_c173
+    xor a
+    ld [$d7c2], a
+    ld hl, $d300
+    ld de, $a268
+    ld bc, $04c3
+    call Func_f1a
+    ld a, $1
+    ld [$d7c1], a
+    ld a, $4
+    ld [$d8f1], a
+    ld a, $0
+    ld [$d8f2], a
+    ret
+.asm_c173
+    xor a
+    ld [$d7c1], a
+.asm_c177
+    ld hl, $d8f2
+    inc [hl]
+    ret
+.asm_c17c
+    bit 1, a
+    ret z
+    ld de, $0001
+    call PlaySoundEffect
+    ld a, $8
+    ld [$d910], a
+    ld a, $2
+    ld [$d911], a
+.asm_c18f
+    call Func_926
+    rst $10
+    call Func_c1b1
+    ld a, [$d910]
+    cp $e
+    jr nz, .asm_c18f
+    ld hl, $d8f2
+    dec [hl]
+    ret
+
+Func_c1a2: ; 0xc1a2
+    ld a, [$d910]
+    cp $6
+    ret nz
+    ld hl, wTitleScreenGameStartCursorSelection
+    ld c, $1
+    call Func_c1fc
+    ret
+
+Func_c1b1: ; 0xc1b1
+    call Func_c2df
+    ld a, [$fffe]
+    and a
+    jr z, .asm_c1c1
+    ld bc, $2040
+    ld a, $62
+    call LoadOAMData
+.asm_c1c1
+    call Func_c21d
+    call HandleTitlescreenPikachuBlinkingAnimation
+    call HandleTitlescreenPokeballAnimation
+    ret
+
+Func_c1cb: ; 0c1cb
+    call Func_cb5
+    call Func_576
+    ld a, [wTitleScreenCursorSelection]
+    ld c, a
+    ld b, $0
+    ld hl, Data_c1e4
+    add hl, bc
+    ld a, [hl]
+    ld [$d8f1], a
+    xor a
+    ld [$d8f2], a
+    ret
+
+Data_c1e4: ; 0xc1e4
+    db $08, $05, $06
+
+Func_c1e7: ; 0xc1e7
+    call Func_cb5
+    call Func_576
+    ld a, $7
+    ld [$d8f1], a
+    ld a, $1
+    ld [$d8f2], a
+    xor a
+    ld [$da7f], a
+    ret
 
 Func_c1fc: ; 0xc1fc
     ld a, [$ff9a]
@@ -5252,7 +5415,51 @@ TitleScreenPokeballCoordOffsets: ; 0xc2d9
     db $73, $15
     db $7F, $15
 
-INCBIN "baserom.gbc",$c2df,$c3b9 - $c2df
+Func_c2df: ; 0xc2df
+    ld bc, $4446
+    ld a, [$d910]
+    cp $6
+    jr nz, .asm_c2f0
+    ld a, [wTitleScreenGameStartCursorSelection]
+    add $58
+    jr .asm_c2fd
+.asm_c2f0
+    ld a, [$d910]
+    sla a
+    ld e, a
+    ld d, $0
+    ld hl, $432b
+    add hl, de
+    ld a, [hl]
+.asm_c2fd
+    call LoadOAMData
+    ld a, [$d911]
+    dec a
+    jr nz, .asm_c327
+    ld a, [$d910]
+    sla a
+    ld c, a
+    ld b, $0
+    ld hl, $432d
+    add hl, bc
+    ld a, [hl]
+    and a
+    ld a, [$d910]
+    jr z, .asm_c31d
+    inc a
+    ld [$d910], a
+.asm_c31d
+    sla a
+    ld c, a
+    ld b, $0
+    ld hl, $432c
+    add hl, bc
+    ld a, [hl]
+.asm_c327
+    ld [$d911], a
+    ret
+
+INCBIN "baserom.gbc",$c32b,$c3b9 - $c32b
 
 PointerTable_c3b9: ; 0xc3b9
     dw DataArray_c3bd
@@ -5867,7 +6074,7 @@ StartCatchEmMode: ; 0x1003f
 .asm_1011d
     call SetPokemonSeenFlag
     ld a, [$d4ac]
-    rst $18
+    rst $18   ; todo this is a funciton table after rst $18, not assembly instructions
     ld [hl], c
     ld c, b
     ld [hl], c

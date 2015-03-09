@@ -224,14 +224,14 @@ Func_2f2: ; 0x2f2
     ld [$ffac], a
     ld a, [$ffad]
     ld [$ffae], a
-    call Func_ab8
+    call ReadJoypad
     ld a, [$daa3]
     and a
     jr nz, .asm_359
-    ld a, [$ff98]
+    ld a, [hJoypadState]
     cp $f
     jr nz, .asm_359
-    ld a, [$ff99]
+    ld a, [hNewlyPressedButtons]
     and $f
     jr z, .asm_359
     ld hl, [sp+$8]
@@ -1091,7 +1091,10 @@ Func_9fa: ; 0x9fa
 
 INCBIN "baserom.gbc",$a21,$ab8 - $a21
 
-Func_ab8: ; 0xab8
+ReadJoypad: ; 0xab8
+; Reads the current state of the joypad and saves the state into
+; some registers the game uses during gameplay. It remembers the joypad state
+; from the current frame, previous frame, and two frames ago.
     ld a, $20
     ld [$ff00], a
     ld a, [$ff00]
@@ -1111,32 +1114,34 @@ Func_ab8: ; 0xab8
     ld a, [$ff00]
     and $f
     or b
-    cpl
-    ld [$ff98], a
+    cpl  ; a contains currently-pressed buttons
+    ld [hJoypadState], a
     ld a, $30
     ld [$ff00], a
-    ld a, [$ff98]
-    ld hl, $ff9c
-    xor [hl]
+    ld a, [hJoypadState]
+    ld hl, hPreviousJoypadState
+    xor [hl]  ; a contains buttons that are different from previous frame
     push af
-    ld hl, $ff98
-    and [hl]
-    ld [$ff99], a
+    ld hl, hJoypadState
+    and [hl]  ; a contains newly-pressed buttons compared to last frame
+    ld [hNewlyPressedButtons], a
     ld [$ff9a], a
     pop af
-    ld hl, $ff9c
-    and [hl]
-    ld [$ff9b], a
-    ld a, [$ff98]
+    ld hl, hPreviousJoypadState
+    and [hl]  ; a contains newly-pressed buttons compared to two frames ago
+    ld [hPrevPreviousJoypadState], a
+    ld a, [hJoypadState]
     and a
     jr z, .asm_b15
-    ld hl, $ff9c
+    ld hl, hPreviousJoypadState
     cp [hl]
     jr nz, .asm_b15
+    ; button(s) is pressed, and they're identical to the buttons pressed last frame.
+    ; this code is related to holding down a button for an extended period of time.
     ld hl, $ff9d
     dec [hl]
     jr nz, .asm_b1a
-    ld a, [$ff98]
+    ld a, [hJoypadState]
     ld [$ff9a], a
     ld a, [$d807]
     ld [$ff9d], a
@@ -1145,13 +1150,13 @@ Func_ab8: ; 0xab8
     ld a, [$d806]
     ld [$ff9d], a
 .asm_b1a
-    ld a, [$ff98]
-    ld [$ff9c], a
+    ld a, [hJoypadState]
+    ld [hPreviousJoypadState], a
     ld hl, $d808
-    ld a, [$ff98]
+    ld a, [hJoypadState]
     or [hl]
     ld [hli], a
-    ld a, [$ff99]
+    ld a, [hNewlyPressedButtons]
     or [hl]
     ld [hli], a
     ld a, [$ff9a]
@@ -1174,22 +1179,22 @@ IsKeyPressed: ; 0xb4c
 ; input:   hl = pointer to key config byte pair (e.g. wKeyConfigLeftFlipper)
 ; output:  zero flag is set if a corresponding key is pressed
 ;          zero flag is reset if no corresponding key is pressed
-    ld a, [$ff98]
+    ld a, [hJoypadState]
     and [hl]
     jr z, .asm_b58
     cp [hl]
     jr nz, .asm_b58
-    ld a, [$ff99]
+    ld a, [hNewlyPressedButtons]
     and [hl]
     ret nz
 .asm_b58
     inc hl
-    ld a, [$ff98]
+    ld a, [hJoypadState]
     and [hl]
     ret z
     cp [hl]
     jr nz, .asm_b64
-    ld a, [$ff99]
+    ld a, [hNewlyPressedButtons]
     and [hl]
     ret
 .asm_b64
@@ -5029,7 +5034,7 @@ INCBIN "baserom.gbc",$c000,$c089 - $c000
 Func_c089: ; 0xc089
     call Func_c0ee
     call HandleTitlescreenAnimations
-    ld a, [$ff99]
+    ld a, [hNewlyPressedButtons]
     bit 0, a
     jr z, .asm_c0df
     ld a, [wTitleScreenCursorSelection]
@@ -5330,7 +5335,7 @@ UpdateSoundTestBackgroundMusicSelection: ; 0xc715
     jp RedrawSoundTestID
 
 UpdateSoundTestSoundEffectSelection: ; 0xc73a
-    ld a, [$ff99] ; joypad state
+    ld a, [hNewlyPressedButtons] ; joypad state
     bit BIT_A_BUTTON, a
     jr z, .didntPressAButton
     ld a, [wSoundTextCurrentSoundEffect]

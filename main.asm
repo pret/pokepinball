@@ -45,8 +45,8 @@ SECTION "Header", ROM0 [$104]
 SECTION "Main", ROM0
 
 Start: ; 0x150
-    ld [$fffe], a
-    ld sp, $fffe
+    ld [hGameBoyColorFlag], a
+    ld sp, hGameBoyColorFlag
     di
     xor a
     ld [$ff0f], a
@@ -131,7 +131,7 @@ Start: ; 0x150
     ld a, $f
     call Func_52c
     call Func_23b
-    ld a, [$fffe]
+    ld a, [hGameBoyColorFlag]
     and a
     jr nz, .asm_222
     call Func_12f8
@@ -157,16 +157,16 @@ Start: ; 0x150
     ld hl, Func_1ffc
     call BankSwitchSimple
 Func_23b: ; 0x23b
-    ld a, [$fffe]
+    ld a, [hGameBoyColorFlag]
     cp $11
     jr nz, .asm_248
     ld a, $1
-    ld [$fffe], a
+    ld [hGameBoyColorFlag], a
     ld [$fffd], a
     ret
 .asm_248
     xor a
-    ld [$fffe], a
+    ld [hGameBoyColorFlag], a
     ld [$fffd], a
     ret
 
@@ -1206,7 +1206,7 @@ IsKeyPressed: ; 0xb4c
     ret
 
 Func_b66: ; 0xb66
-    ld a, [$fffe]
+    ld a, [hGameBoyColorFlag]
     and a
     jr nz, .asm_b73
     xor a
@@ -1269,7 +1269,7 @@ Func_b66: ; 0xb66
     ret
 
 Func_bbe: ; 0xbbe
-    ld a, [$fffe]
+    ld a, [hGameBoyColorFlag]
     and a
     jp nz, Func_c19
     ld hl, $ffa3
@@ -1445,7 +1445,7 @@ Func_c60: ; 0xc60
 INCBIN "baserom.gbc",$cb5,$cb5 - $cb5
 
 Func_cb5: ; 0xcb5
-    ld a, [$fffe]
+    ld a, [hGameBoyColorFlag]
     and a
     jp nz, Func_cee
     ld hl, $ffa3
@@ -4898,7 +4898,7 @@ Func_8228: ; 0x8228
     ld [$d80e], a
     ld [hBoardXShift], a
     ld [hBoardYShift], a
-    ld a, [$fffe]
+    ld a, [hGameBoyColorFlag]
     ld hl, PointerTable_825e
     call LoadVideoData
     call ClearOAMBuffer
@@ -5035,13 +5035,13 @@ Func_c000: ; 0xc000
     ld a, [$d8f2]
     rst $18  ; calls JumpToFuncInTable
 PointerTable_c004: ; 0xc004
-    dw Func_c00e
-    dw Func_c089
-    dw Func_c10e
-    dw Func_c1cb
-    dw Func_c1e7
+    dw FadeInTitlescreen
+    dw Func_c089 ; titlescreen loop
+    dw Func_c10e ; previously saved game menu
+    dw Func_c1cb ; game start, pokedex, option
+    dw Func_c1e7 ; go to high scores
 
-Func_c00e: ; 0xc00e
+FadeInTitlescreen: ; 0xc00e
     ld a, $43
     ld [$ff9e], a
     ld a, $e4
@@ -5053,8 +5053,8 @@ Func_c00e: ; 0xc00e
     xor a
     ld [$ffa1], a
     ld [$ffa0], a
-    ld hl, $4057  ; todo pointer table
-    ld a, [$fffe]
+    ld hl, TitlescreenFadeInGfxPointers
+    ld a, [hGameBoyColorFlag]
     call LoadVideoData
     ld a, $1
     ld [wTitleScreenGameStartCursorSelection], a
@@ -5068,12 +5068,50 @@ Func_c00e: ; 0xc00e
     ld de, $0004
     call Func_490
     call Func_588
-    call Func_bbe
+    call Func_bbe  ; this does the fading
     ld hl, $d8f2
     inc [hl]
     ret
 
-INCBIN "baserom.gbc",$c057,$c089 - $c057
+TitlescreenFadeInGfxPointers: ; 0xc057
+    dw TitlescreenFadeInGfx_GameBoy
+    dw TitlescreenFadeInGfx_GameBoyColor
+
+TitlescreenFadeInGfx_GameBoy: ; 0xc05b
+    dw TitlescreenGfx
+    db Bank(TitlescreenGfx)
+    dw vTiles0
+    dw $6000
+
+    dw TitlescreenTilemap
+    db Bank(TitlescreenTilemap)
+    dw vBGMap0
+    dw $900
+
+    db $FF, $FF ; terminators
+
+TitlescreenFadeInGfx_GameBoyColor: ; 0xc06b
+    dw TitlescreenFadeInGfx
+    db Bank(TitlescreenFadeInGfx)
+    dw vTiles0
+    dw $6000
+
+    dw TitlescreenTilemap
+    db Bank(TitlescreenTilemap)
+    dw vBGMap0
+    dw $900
+
+    dw $5c00
+    db $31
+    dw vBGMap0
+    dw $902
+
+    dw $4f80
+    db $37
+    dw $0000
+    dw $101
+
+    db $FF, $FF ; terminators
 
 Func_c089: ; 0xc089
     call Func_c0ee
@@ -5132,7 +5170,7 @@ Func_c0ee: ; 0xc0ee
     ret
 
 HandleTitlescreenAnimations: ; 0xc0f7
-    ld a, [$fffe]
+    ld a, [hGameBoyColorFlag]
     and a
     jr z, .asm_c104
     ld bc, $2040
@@ -5224,7 +5262,7 @@ Func_c1a2: ; 0xc1a2
 
 Func_c1b1: ; 0xc1b1
     call Func_c2df
-    ld a, [$fffe]
+    ld a, [hGameBoyColorFlag]
     and a
     jr z, .asm_c1c1
     ld bc, $2040
@@ -6307,7 +6345,7 @@ Func_1404a: ; 0x1404a
     ld a, [$d57d]
     and a
     ret z
-    ld a, [$fffe]
+    ld a, [hGameBoyColorFlag]
     and a
     ret nz
     ld a, [$d580]
@@ -6515,10 +6553,10 @@ Func_17e81: ; 0x17e81
     and $7
     add $0
     call LoadOAMData
-    ld a, [$fffe]
+    ld a, [hGameBoyColorFlag]
     and a
     ret nz
-    ld a, [$fffe]
+    ld a, [hGameBoyColorFlag]
     and a
     ret nz
     ld a, [$fffb]
@@ -6667,7 +6705,7 @@ Func_30253: ; 0x30253
     ld a, $c
     call Func_10aa
     pop bc
-    ld a, [$fffe]
+    ld a, [hGameBoyColorFlag]
     and a
     ret z
     ld hl, PointerTable_30ceb
@@ -8116,7 +8154,10 @@ INCBIN "baserom.gbc",$a8000,$ac000 - $a8000 ; 0xa8000
 
 SECTION "bank2b", ROMX, BANK[$2b]
 
-INCBIN "baserom.gbc",$ac000,$b0000 - $ac000 ; 0xac000
+TitlescreenFadeInGfx: ; 0xac000
+    INCBIN "gfx/titlescreen/titlescreen_fade_in.2bpp"
+
+INCBIN "baserom.gbc",$ad800,$b0000 - $ad800
 
 
 SECTION "bank2c", ROMX, BANK[$2c]
@@ -8131,21 +8172,7 @@ INCBIN "baserom.gbc",$b3c00,$b4000 - $b3c00 ; 0xb3c00
 
 SECTION "bank2d", ROMX, BANK[$2d]
 
-INCBIN "baserom.gbc",$b4000,$b4400 - $b4000 ; 0xb4000
-
-PikachuBlinkingEyeGfx: ; 0xb4400
-    INCBIN "gfx/titlescreen/pikachu_blinking_eye.2bpp"
-BouncingPokeballGfx: ; 0xb44460
-    INCBIN "gfx/titlescreen/bouncing_pokeball.2bpp"
-UnusedTitlescreenGfx: ; 0xb44f0
-    INCBIN "gfx/titlescreen/blank_tiles.2bpp"
-GameStartMenuGfx: ; 0xb4540
-; Optional dialogue for "NEW GAME" or "CONTINUE"
-    INCBIN "gfx/titlescreen/game_start_menu.2bpp"
-
-UnusedTitlescreenGfx2: ; 0xb4680
-    INCBIN "gfx/titlescreen/blank_tiles_2.2bpp"
-TitlescreenGfx: ; 0xb4800
+TitlescreenGfx: ; 0xb4000
     INCBIN "gfx/titlescreen/titlescreen.2bpp"
 
 OptionMenuAndKeyConfigGfx:

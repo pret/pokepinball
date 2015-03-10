@@ -12,3 +12,5 @@ hBoardXShift  EQU $FFA1  ; Horizontal pixel offset of the board. For example, th
                         ;  $20 pixels to the right when launching the ball at the start of a round.
 
 hLoadedROMBank   EQU $FFF8  ; this is updated whenever the code switches ROM Banks
+
+hGameBoyColorFlag  EQU $FFFE  ; this is set to $01 if a GameBoy Color is running the game. $00, otherwise.

@@ -2534,8 +2534,8 @@ CallTable_2049: ; 0x2049
 ; First two bytes is function pointer.
 ; Third byte is bank of function.
 ; Fourth byte seems to be unused.
-    dw $4000
-    db $02, $00
+    dw Func_8000
+    db Bank(Func_8000), $00
 
     dw HandleEraseAllDataMenu
     db Bank(HandleEraseAllDataMenu), $00
@@ -4880,7 +4880,179 @@ INCBIN "baserom.gbc",$55d7,$8000 - $55d7 ; 0x55d7
 
 SECTION "bank2", ROMX, BANK[$2]
 
-INCBIN "baserom.gbc",$8000,$815d - $8000
+Func_8000: ; 0x8000
+    ld a, [$d8f2]
+    rst $18
+
+PointerTable_8004: ; 0x8004
+    dw Func_800a
+    dw Func_8104
+    dw Func_814e
+
+Func_800a: ; 0x800a
+    xor a
+    ld [$ffc4], a
+    ld a, [hJoypadState]
+    cp D_UP
+    jr nz, .asm_8018
+    ld a, [hGameBoyColorFlag]
+    and a
+    jr nz, .asm_8021
+.asm_8018
+    ld hl, $d8f1
+    inc [hl]
+    xor a
+    ld [$d8f2], a
+    ret
+.asm_8021
+    ld a, $45
+    ld [$ff9e], a
+    ld a, $e4
+    ld [$d80c], a
+    ld [$d80d], a
+    ld [$d80e], a
+    xor a
+    ld [hBoardXShift], a
+    ld [hBoardYShift], a
+    call Func_8049
+    call ClearOAMBuffer
+    call Func_b66
+    call Func_588
+    call Func_bbe
+    ld hl, $d8f2
+    inc [hl]
+    ret
+
+Func_8049: ; 0x8049
+    ld a, $1
+    ld [$ff4f], a
+    ld c, $ff
+    call FillTilesVRAM
+    call FillBackgroundsVRAM
+    xor a
+    ld [$ff4f], a
+    ld c, $0
+    call FillTilesVRAM
+    call FillBackgroundsVRAM
+    ld a, $80
+    ld de, $ff68
+    ld hl, $40e4  ; todo
+    call Func_80d1
+    ld a, $80
+    ld de, $ff6a
+    ld hl, $40f4 ; todo
+    call Func_80d1
+    ld hl, PointerTable_8089
+    xor a
+    call LoadVideoData
+    ld a, $2
+    ld bc, $4094 ; todo
+    ld de, $117b ; todo
+    call Func_10c5
+    ret
+
+PointerTable_8089: ; 0x8089
+    dw Data_808b
+
+Data_808b: ; 0x808b
+    dw $5c00
+    db $36
+    dw $8a00
+    dw $1000
+
+    db $FF, $FF ; terminators
+
+INCBIN "baserom.gbc",$8094,$80b5 - $8094
+
+FillBackgroundsVRAM: ; 0x80b5
+    ld hl, vBGMap0
+.fillLoop
+    xor a
+    ld [hli], a
+    ld [hli], a
+    ld [hli], a
+    ld [hli], a
+    ld a, h
+    cp $a0  ; end of VRAM
+    jr nz, .fillLoop
+    ret
+
+FillTilesVRAM: ; 0x80c3
+    ld hl, vTiles0
+.fillLoop
+    ld a, c
+    ld [hli], a
+    ld [hli], a
+    ld [hli], a
+    ld [hli], a
+    ld a, h
+    cp (vBGMap0 >> 8)
+    jr nz, .fillLoop
+    ret
+
+Func_80d1: ; 0x80d1
+    ld [de], a
+    inc de
+    ld b, $4
+.asm_80d5
+    ld c, $8
+    push hl
+.asm_80d8
+    ld a, [hli]
+    ld [de], a
+    ld a, [hli]
+    ld [de], a
+    dec c
+    jr nz, .asm_80d8
+    pop hl
+    dec b
+    jr nz, .asm_80d5
+    ret
+
+INCBIN "baserom.gbc",$80e4,$8104 - $80e4
+
+Func_8104: ; 0x8104
+    ld a, [hNewlyPressedButtons]
+    ld b, a
+    and (D_DOWN | D_UP)
+    jr z, .asm_8115
+    ld a, [hGameBoyColorFlag]
+    ld [$ffc4], a
+    xor $1
+    ld [hGameBoyColorFlag], a
+    jr .asm_811d
+.asm_8115
+    bit BIT_A_BUTTON, b
+    ret z
+    ld hl, $d8f2
+    inc [hl]
+    ret
+.asm_811d
+    ld a, [hGameBoyColorFlag]
+    and a
+    jr nz, .asm_812e
+    ld a, $2
+    ld bc, $413a ; todo
+    ld de, $117b ; todo
+    call Func_10c5
+    ret
+.asm_812e
+    ld a, $2
+    ld bc, $4144 ; todo
+    ld de, $117b ; todo
+    call Func_10c5
+    ret
+
+INCBIN "baserom.gbc",$813a,$814e - $813a
+
+Func_814e: ; 0x414e
+    call Func_cb5
+    call Func_576
+    ld hl, $d8f1
+    inc [hl]
+    xor a
+    ld [$d8f2], a
+    ret
 
 HandleEraseAllDataMenu: ; 0x815d
     ld a, [$d8f2]

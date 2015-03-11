@@ -2540,8 +2540,8 @@ CallTable_2049: ; 0x2049
     dw HandleEraseAllDataMenu
     db Bank(HandleEraseAllDataMenu), $00
 
-    dw $421E
-    db $02, $00
+    dw HandleCopyrightScreen
+    db Bank(HandleCopyrightScreen), $00
 
     dw HandleTitlescreen
     db Bank(HandleTitlescreen), $00
@@ -5192,13 +5192,15 @@ ExitEraseAllDataMenu: ; 0x820f
     ld [$d8f2], a
     ret
 
-Func_821e: ; 0x821e
+HandleCopyrightScreen: ; 0x821e
     ld a, [$d8f2]
     rst $18
-    
-INCBIN "baserom.gbc",$8222,$8228 - $8222
+CopyrightScreenFunctions: ; 0x8222
+    dw FadeInCopyrightScreen
+    dw DisplayCopyrightScreen
+    dw FadeOutCopyrightScreenAndLoadData
 
-Func_8228: ; 0x8228
+FadeInCopyrightScreen: ; 0x8228
     ld a, $41
     ld [$ff9e], a
     ld a, $e4
@@ -5209,7 +5211,7 @@ Func_8228: ; 0x8228
     ld [hBoardXShift], a
     ld [hBoardYShift], a
     ld a, [hGameBoyColorFlag]
-    ld hl, PointerTable_825e
+    ld hl, CopyrightTextGfxPointers
     call LoadVideoData
     call ClearOAMBuffer
     call Func_b66
@@ -5222,24 +5224,24 @@ Func_8228: ; 0x8228
     inc [hl]
     ret
 
-PointerTable_825e: ; 0x825e
-    dw DataArray_8262
-    dw DataArray_8272
+CopyrightTextGfxPointers: ; 0x825e
+    dw CopyrightTextGfx_GameBoy
+    dw CopyrightTextGfx_GameBoyColor
 
-DataArray_8262: ; 0x8262
-    dw $6000
-    db $36
+CopyrightTextGfx_GameBoy: ; 0x8262
+    dw CopyrightTextGfx
+    db Bank(CopyrightTextGfx)
     dw vTiles1
     dw $1000
 
-    dw $6000
-    db $31
+    dw CopyrightScreenTilemap
+    db Bank(CopyrightScreenTilemap)
     dw vBGMap0
     dw $1000
 
     db $FF, $FF  ; terminators
 
-DataArray_8272: ; 0x8272
+CopyrightTextGfx_GameBoyColor: ; 0x8272
     dw CopyrightTextGfx
     db Bank(CopyrightTextGfx)
     dw vTiles1
@@ -5262,9 +5264,27 @@ DataArray_8272: ; 0x8272
 
     db $FF, $FF ; terminators
 
-INCBIN "baserom.gbc",$8290,$82a8 - $8290 ; 0x8290
+DisplayCopyrightScreen: ; 0x8290
+    ld b, $5a  ; number of frames to show the copyright screen
+.delayLoop
+    push bc
+    rst $10  ; wait for next frame
+    pop bc
+    ld a, b
+    cp $2d  ; player can press A button to skip copyright screen once counter is below $2d
+    jr nc, .decrementCounter
+    ld a, [hNewlyPressedButtons]
+    bit BIT_A_BUTTON, a
+    jr nz, .done
+.decrementCounter
+    dec b
+    jr nz, .delayLoop
+.done
+    ld hl, $d8f2
+    inc [hl]
+    ret
 
-Func_82a8: ; 0x82a8
+FadeOutCopyrightScreenAndLoadData: ; 0x82a8
     call Func_cb5
     call Func_576
     ld hl, $a000

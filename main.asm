@@ -4961,12 +4961,12 @@ Func_82a8: ; 0x82a8
     ld de, wRedHighScore1Points
     ld bc, $0082
     call Func_f0c
-    jr c, .asm_82c6
+    jr c, .loadedHighScores
     ld [$ff8a], a
     ld a, Bank(CopyInitialHighScores)
     ld hl, CopyInitialHighScores
     call BankSwitch
-.asm_82c6
+.loadedHighScores
     ld hl, $a10c
     ld de, wPokedexFlags
     ld bc, $0098
@@ -5036,10 +5036,10 @@ Func_c000: ; 0xc000
     rst $18  ; calls JumpToFuncInTable
 PointerTable_c004: ; 0xc004
     dw FadeInTitlescreen
-    dw Func_c089 ; titlescreen loop
+    dw TitlescreenLoop ; titlescreen loop
     dw Func_c10e ; previously saved game menu
     dw Func_c1cb ; game start, pokedex, option
-    dw Func_c1e7 ; go to high scores
+    dw GoToHighScoresFromTitlescreen ; go to high scores
 
 FadeInTitlescreen: ; 0xc00e
     ld a, $43
@@ -5113,7 +5113,7 @@ TitlescreenFadeInGfx_GameBoyColor: ; 0xc06b
 
     db $FF, $FF ; terminators
 
-Func_c089: ; 0xc089
+TitlescreenLoop: ; 0xc089
     call Func_c0ee
     call HandleTitlescreenAnimations
     ld a, [hNewlyPressedButtons]
@@ -5291,7 +5291,7 @@ Func_c1cb: ; 0c1cb
 Data_c1e4: ; 0xc1e4
     db $08, $05, $06
 
-Func_c1e7: ; 0xc1e7
+GoToHighScoresFromTitlescreen: ; 0xc1e7
     call Func_cb5
     call Func_576
     ld a, $7

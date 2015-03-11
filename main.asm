@@ -2537,14 +2537,14 @@ CallTable_2049: ; 0x2049
     dw $4000
     db $02, $00
 
-    dw $415D
-    db $02, $00
+    dw HandleEraseAllDataMenu
+    db Bank(HandleEraseAllDataMenu), $00
 
     dw $421E
     db $02, $00
 
-    dw Func_c000
-    db Bank(Func_c000), $00
+    dw HandleTitlescreen
+    db Bank(HandleTitlescreen), $00
 
     dw $5853
     db $03, $00
@@ -4880,7 +4880,145 @@ INCBIN "baserom.gbc",$55d7,$8000 - $55d7 ; 0x55d7
 
 SECTION "bank2", ROMX, BANK[$2]
 
-INCBIN "baserom.gbc",$8000,$821e - $8000 ; 0x8000
+INCBIN "baserom.gbc",$8000,$815d - $8000
+
+HandleEraseAllDataMenu: ; 0x815d
+    ld a, [$d8f2]
+    rst $18
+EraseAllDataMenuFunctions: ; 0x8161
+    dw CheckForResetButtonCombo
+    dw HandleEraseAllDataInput
+    dw ExitEraseAllDataMenu 
+
+CheckForResetButtonCombo: ; 0x8167
+    ld a, [hJoypadState]
+    cp (D_UP | D_RIGHT | START | SELECT)
+    jr z, .heldCorrectButtons
+    ld hl, $d8f1
+    inc [hl]
+    ret
+.heldCorrectButtons
+    ld a, $41
+    ld [$ff9e], a
+    ld a, $e4
+    ld [$d80c], a
+    xor a
+    ld [$d80d], a
+    ld [$d80e], a
+    ld [hBoardXShift], a
+    ld [hBoardYShift], a
+    ld a, [hGameBoyColorFlag]
+    ld hl, EraseAllDataGfxPointers
+    call LoadVideoData
+    call ClearOAMBuffer
+    call Func_b66
+    call Func_588
+    call Func_14a4
+    call Func_bbe
+    ld hl, $d8f2
+    inc [hl]
+    ret
+
+EraseAllDataGfxPointers: ; 0x81a2
+    dw EraseAllDataGfx_GameBoy
+    dw EraseAllDataGfx_GameBoyColor
+
+EraseAllDataGfx_GameBoy: ; 0x81a6
+    dw EraseAllDataGfx
+    db Bank(EraseAllDataGfx)
+    dw vTiles2
+    dw $c00
+
+    dw EraseAllDataTilemap
+    db Bank(EraseAllDataTilemap)
+    dw vBGMap0
+    dw $1000
+
+    db $FF, $FF ; terminators
+
+EraseAllDataGfx_GameBoyColor: ; 0x81b6
+    dw EraseAllDataGfx
+    db Bank(EraseAllDataGfx)
+    dw vTiles2
+    dw $c00
+
+    dw EraseAllDataTilemap
+    db Bank(EraseAllDataTilemap)
+    dw vBGMap0
+    dw $1000
+
+    dw $7c00
+    db $2F
+    dw vBGMap0
+    dw $1002
+
+    dw $4d80
+    db $37
+    dw $0000
+    dw $101
+
+    db $FF, $FF ; terminators
+
+HandleEraseAllDataInput: ; 0x81d4
+    ld a, [hNewlyPressedButtons]
+    bit BIT_A_BUTTON, a
+    jr z, .checkForBButton
+    ld hl, $a000
+    xor a
+    ld b, a
+.eraseSavedDataLoop
+    ld [hli], a
+    ld [hli], a
+    ld [hli], a
+    ld [hli], a
+    ld [hli], a
+    ld [hli], a
+    ld [hli], a
+    ld [hli], a
+    ld [hli], a
+    ld [hli], a
+    ld [hli], a
+    ld [hli], a
+    ld [hli], a
+    ld [hli], a
+    ld [hli], a
+    ld [hli], a
+    ld [hli], a
+    ld [hli], a
+    ld [hli], a
+    ld [hli], a
+    ld [hli], a
+    ld [hli], a
+    ld [hli], a
+    ld [hli], a
+    ld [hli], a
+    ld [hli], a
+    ld [hli], a
+    ld [hli], a
+    ld [hli], a
+    ld [hli], a
+    ld [hli], a
+    ld [hli], a
+    dec b
+    jr nz, .eraseSavedDataLoop
+    ld hl, $d8f2
+    inc [hl]
+    ret
+.checkForBButton
+    bit BIT_B_BUTTON, a
+    ret z
+    ld hl, $d8f2
+    inc [hl]
+    ret
+
+ExitEraseAllDataMenu: ; 0x820f
+    call Func_cb5
+    call Func_576
+    ld hl, $d8f1
+    inc [hl]
+    xor a
+    ld [$d8f2], a
+    ret
 
 Func_821e: ; 0x821e
     ld a, [$d8f2]
@@ -5031,7 +5169,7 @@ INCBIN "baserom.gbc",$86a4,$c000 - $86a4
 
 SECTION "bank3", ROMX, BANK[$3]
 
-Func_c000: ; 0xc000
+HandleTitlescreen: ; 0xc000
     ld a, [$d8f2]
     rst $18  ; calls JumpToFuncInTable
 PointerTable_c004: ; 0xc004
@@ -5188,7 +5326,7 @@ Func_c10e: ; 0xc10e
     ld a, [$d910]
     cp $6
     ret nz
-    ld a, [$ff99]
+    ld a, [hNewlyPressedButtons]
     bit 0, a
     jr z, .asm_c17c
     ld de, $0000
@@ -7725,7 +7863,10 @@ HitmonleeAnimatedPic: ; 0x7ea00
 HitmonchanAnimatedPic: ; 0x7ed00
 	INCBIN "gfx/billboard/mon_animated/hitmonchan.2bpp"
 
-INCBIN "baserom.gbc",$7f000,$80000 - $7f000 ; 0x7f000
+INCBIN "baserom.gbc",$7f000,$7fd00 - $7f000
+
+EraseAllDataGfx: ; 0x7fd00: ; 0x7fd00
+    INCBIN "gfx/erase_all_data.2bpp"
 
 
 SECTION "bank20", ROMX, BANK[$20]
@@ -8247,7 +8388,12 @@ INCBIN "baserom.gbc",$b8000,$bc000 - $b8000 ; 0xb8000
 
 SECTION "bank2f", ROMX, BANK[$2f]
 
-INCBIN "baserom.gbc",$bc000,$c0000 - $bc000 ; 0xbc000
+INCBIN "baserom.gbc",$bc000,$bf800 - $bc000
+
+EraseAllDataTilemap: ; 0xbf800
+    INCBIN "gfx/tilemaps/erase_all_data.map"
+
+INCBIN "baserom.gbc",$bfc00,$c0000 - $bfc00
 
 
 SECTION "bank30", ROMX, BANK[$30]

@@ -151,3 +151,5 @@ const_value = 1
     const DRAGONITE   ; $95
     const MEWTWO      ; $96
     const MEW         ; $97
+
+NUM_POKEMON EQU 151

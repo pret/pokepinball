@@ -1813,7 +1813,9 @@ Func_d9d: ; 0xd9d
 
 INCBIN "baserom.gbc",$dd4,$e21 - $dd4
 
-Func_e21: ; 0xe21
+ConvertHexByteToDecWord: ; 0xe21
+; Convert the base-16 value in register a into a Binary Coded Decimal (base-10) word.
+; Example:  If a = $97, de = $0151.
     ld b, a
     ld hl, $0e3a ; todo
     ld de, $0000
@@ -1835,7 +1837,17 @@ Func_e21: ; 0xe21
     jr nz, .asm_e28
     ret
 
-INCBIN "baserom.gbc",$e3a,$f0c - $e3a
+PowersOfTwo: ; 0xe3a
+    dw $0001
+    dw $0002
+    dw $0004
+    dw $0008
+    dw $0016
+    dw $0032
+    dw $0064
+    dw $0128
+
+INCBIN "baserom.gbc",$e4a,$f0c - $e4a
 
 Func_f0c: ; 0xf0c
     call Func_f34
@@ -2973,19 +2985,19 @@ OAMDataPointers: ; 0x4000
     dw OAMData_67
     dw OAMData_68
     dw OAMData_69
-    dw OAMData_6a
+    dw PokeDexTextOAM
     dw OAMData_6b
-    dw OAMData_6c
-    dw OAMData_6d
-    dw OAMData_6e
-    dw OAMData_6f
-    dw OAMData_70
-    dw OAMData_71
-    dw OAMData_72
-    dw OAMData_73
-    dw OAMData_74
-    dw OAMData_75
-    dw OAMData_76
+    dw Digit0OAM
+    dw Digit1OAM
+    dw Digit2OAM
+    dw Digit3OAM
+    dw Digit4OAM
+    dw Digit5OAM
+    dw Digit6OAM
+    dw Digit7OAM
+    dw Digit8OAM
+    dw Digit9OAM
+    dw SlashCharacterOAM
     dw OAMData_77
     dw OAMData_78
     dw OAMData_79
@@ -3861,7 +3873,8 @@ OAMData_69: ; 0x48f7
     db $10, $08, $79, $11
     db $80 ; terminator
 
-OAMData_6a: ; 0x48fc
+PokeDexTextOAM: ; 0x48fc
+; "POKeDEX" in the top-right corner of the Pokedex screen
     db $12, $34, $7f, $11
     db $12, $2c, $7e, $11
     db $12, $24, $7d, $11
@@ -3874,47 +3887,48 @@ OAMData_6b: ; 0x4915
     db $10, $08, $6f, $11
     db $80 ; terminator
 
-OAMData_6c: ; 0x491a
+Digit0OAM: ; 0x491a
     db $10, $08, $53, $11
     db $80 ; terminator
 
-OAMData_6d: ; 0x491f
+Digit1OAM: ; 0x491f
     db $10, $08, $54, $11
     db $80 ; terminator
 
-OAMData_6e: ; 0x4924
+Digit2OAM: ; 0x4924
     db $10, $08, $55, $11
     db $80 ; terminator
 
-OAMData_6f: ; 0x4929
+Digit3OAM: ; 0x4929
     db $10, $08, $56, $11
     db $80 ; terminator
 
-OAMData_70: ; 0x492e
+Digit4OAM: ; 0x492e
     db $10, $08, $57, $11
     db $80 ; terminator
 
-OAMData_71: ; 0x4933
+Digit5OAM: ; 0x4933
     db $10, $08, $58, $11
     db $80 ; terminator
 
-OAMData_72: ; 0x4938
+Digit6OAM: ; 0x4938
     db $10, $08, $59, $11
     db $80 ; terminator
 
-OAMData_73: ; 0x493d
+Digit7OAM: ; 0x493d
     db $10, $08, $5a, $11
     db $80 ; terminator
 
-OAMData_74: ; 0x4942
+Digit8OAM: ; 0x4942
     db $10, $08, $5b, $11
     db $80 ; terminator
 
-OAMData_75: ; 0x4947
+Digit9OAM: ; 0x4947
     db $10, $08, $5c, $11
     db $80 ; terminator
 
-OAMData_76: ; 0x494c
+SlashCharacterOAM: ; 0x494c
+; "/" (used to separate seen/own count on the pokedex screen)
     db $10, $08, $5e, $11
     db $80 ; terminator
 
@@ -7215,13 +7229,13 @@ Func_28000: ; 0x28000
     ld a, [$d8f2]
     rst $18
 PointerTable_28004: ; 0x28004
-    dw Func_2800e
-    dw Func_280fe
-    dw Func_28178
-    dw Func_282e9
-    dw Func_284f9
+    dw LoadPokedexScreen
+    dw MainPokedexScreen
+    dw MonInfoPokedexScreen
+    dw Func_282e9 ; not sure if this is used ever...
+    dw ExitPokedexScreen
 
-Func_2800e: ; 0x2800e
+LoadPokedexScreen: ; 0x2800e
     ld a, $23
     ld [$ff9e], a
     ld a, $e4
@@ -7271,7 +7285,7 @@ Func_2800e: ; 0x2800e
     call Func_28a8a
     call Func_28ad1
     call Func_28add
-    call Func_28d35
+    call CountNumSeenOwnedMons
     call Func_b66
     ld a, $f
     call Func_52c
@@ -7353,7 +7367,7 @@ Data_280c4: ; 0x280c4
 
     db $FF, $FF ; terminators
 
-Func_280fe: ; 0x280fe
+MainPokedexScreen: ; 0x280fe
     call Func_28513
     ld a, [$ff99]
     bit 0, a
@@ -7416,7 +7430,7 @@ Func_280fe: ; 0x280fe
     call Func_285db
     ret
 
-Func_28178: ; 0x28178
+MonInfoPokedexScreen: ; 0x28178
     ld a, [$d956]
     bit 0, a
     jr z, .asm_28190
@@ -7684,7 +7698,7 @@ Func_284bc: ; 0x284bc
     ld [$daa2], a
     ret
 
-Func_284f9: ; 0x284f9
+ExitPokedexScreen: ; 0x284f9
     call Func_cb5
     call Func_576
     ld hl, $ff9f
@@ -7825,7 +7839,7 @@ Func_285db: ; 0x285db
     ld bc, $8888
     ld a, $66
     call LoadOAMData
-    call Func_2868b
+    call DrawCornerInfoPokedexScreen
     ld a, [$d959]
     ld c, a
     ld b, $0
@@ -7901,29 +7915,31 @@ Func_285db: ; 0x285db
 
 INCBIN "baserom.gbc",$2867f,$2868b - $2867f
 
-Func_2868b: ; 0x2868b
+DrawCornerInfoPokedexScreen: ; 0x2868b
+; If player is holding SELECT button, it draws the seen/own count in the top-right corner.
+; Otherwise, it draws the word "POKeDEX".
     ld a, [hJoypadState]
     bit BIT_SELECT, a
     jr z, .asm_286c8
     ld bc, $6d03
-    ld a, [$d9fa]
-    call Func_286d1
-    ld a, [$d9f9]
+    ld a, [wNumPokemonSeen + 1]
+    call LoadSeenOwnDigitOAM
+    ld a, [wNumPokemonSeen]
     swap a
-    call Func_286d1
-    ld a, [$d9f9]
-    call Func_286d1
+    call LoadSeenOwnDigitOAM
+    ld a, [wNumPokemonSeen]
+    call LoadSeenOwnDigitOAM
     ld bc, $8202
     ld a, $76
-    call LoadOAMData
+    call LoadOAMData  ; draws the "/" between the seen/owned numbers
     ld bc, $8703
-    ld a, [$d9fc]
-    call Func_286d1
-    ld a, [$d9fb]
+    ld a, [wNumPokemonOwned + 1]
+    call LoadSeenOwnDigitOAM
+    ld a, [wNumPokemonOwned]
     swap a
-    call Func_286d1
-    ld a, [$d9fb]
-    call Func_286d1
+    call LoadSeenOwnDigitOAM
+    ld a, [wNumPokemonOwned]
+    call LoadSeenOwnDigitOAM
     ret
 .asm_286c8
     ld bc, $6800
@@ -7931,12 +7947,12 @@ Func_2868b: ; 0x2868b
     call LoadOAMData
     ret
 
-Func_286d1: ; 0x286d1
+LoadSeenOwnDigitOAM: ; 0x286d1
     and $f
     add $6c
     call LoadOAMData
     ld a, b
-    add $7
+    add $7 ; adds 7 pixels to the next digit's x position on screen
     ld b, a
     ret
 
@@ -8740,36 +8756,36 @@ asm_28d1d
     jr nz, .asm_28d22
     ret
 
-Func_28d35: ; 0x28d35
+CountNumSeenOwnedMons: ; 0x28d35
     ld hl, wPokedexFlags
-    ld de, $0000
-    ld b, $97
-.asm_28d3d
-    bit 0, [hl]
-    jr z, .asm_28d42
+    ld de, $0000  ; keep a running count: d = owned, e = seen
+    ld b, NUM_POKEMON
+.checkSeen
+    bit 0, [hl]  ; is mon seen?
+    jr z, .checkOwned
     inc e
-.asm_28d42
-    bit 1, [hl]
-    jr z, .asm_28d47
+.checkOwned
+    bit 1, [hl]  ; is mon owned?
+    jr z, .nextMon
     inc d
-.asm_28d47
+.nextMon
     inc hl
     dec b
-    jr nz, .asm_28d3d
+    jr nz, .checkSeen
     push de
     ld a, d
-    call Func_e21
+    call ConvertHexByteToDecWord
     ld a, e
-    ld [$d9f9], a
+    ld [wNumPokemonSeen], a
     ld a, d
-    ld [$d9fa], a
+    ld [wNumPokemonSeen + 1], a
     pop de
     ld a, e
-    call Func_e21
+    call ConvertHexByteToDecWord
     ld a, e
-    ld [$d9fb], a
+    ld [wNumPokemonOwned], a
     ld a, d
-    ld [$d9fc], a
+    ld [wNumPokemonOwned + 1], a
     ret
 
 INCBIN "baserom.gbc",$28d66,$28d71 - $28d66

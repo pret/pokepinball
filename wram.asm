@@ -119,8 +119,10 @@ wPokedexFlags:: ; 0xd962
 ;     byte == 1: mon has been seen
 ;     byte >= 2: mon has been captured
     ds 151
-
-    ds 4 ; TODO: these change when byte in wPokedexFlags change
+wNumPokemonSeen:: ; 0xd9f9
+    ds 2
+wNumPokemonOwned:: ; 0xd9fb
+    ds 2
 
 wRedHighScores:: ; 0xd9fd
 wRedHighScore1Points:: ; 0xd9fd

@@ -1,3 +1,4 @@
+INCLUDE "charmap.asm"
 INCLUDE "macros.asm"
 INCLUDE "constants.asm"
 
@@ -6706,7 +6707,80 @@ Func_10696: ; 0x10696
     call Func_32aa
     ret
 
-INCBIN "baserom.gbc",$106a6,$10753 - $106a6
+INCBIN "baserom.gbc",$106a6,$106b6 - $106a6
+
+Func_106b6: ; 0x106b6
+    ld a, [wCurrentMon]
+    ld c, a
+    ld b, $0
+    sla c
+    rl b
+    sla c
+    rl b
+    sla c
+    rl b
+    sla c
+    rl b  ; bc was just multiplied by 16
+    ld hl, PokemonNames + 1
+    add hl, bc
+    ld de, $2a67 ; todo "You got an"
+    ld bc, $2a91 ; todo
+    ld a, [hl]
+    ; check if mon's name starts with a vowel, so it can print "an", instead of "a"
+    cp $41
+    jr z, .asm_106f1
+    cp $49
+    jr z, .asm_106f1
+    cp $55
+    jr z, .asm_106f1
+    cp $45
+    jr z, .asm_106f1
+    cp $4f
+    jr z, .asm_106f1
+    ld de, $2a56 ; todo "You got a"
+    ld bc, $2a79
+.asm_106f1
+    push hl
+    push bc
+    push de
+    call Func_30e8
+    call Func_30db
+    ld hl, $d5cc
+    pop de
+    call Func_32aa
+    ld hl, $d5d4
+    pop de
+    call Func_32aa
+    pop hl
+    ld de, $c520
+    ld b, $0  ; count the number of letters in mon's name in register b
+.readLetter
+    ld a, [hli]
+    and a
+    jr z, .endOfName
+    ld [de], a
+    inc de
+    inc b
+    jr .readLetter
+.endOfName
+    ld a, $20
+    ld [de], a
+    inc de
+    xor a
+    ld [de], a
+    ld a, [$d5db]
+    add b
+    ld [$d5db], a
+    ld a, $14
+    sub b
+    srl a
+    ld b, a
+    ld a, [$d5d8]
+    add b
+    ld [$d5d8], a
+    ret
+
+INCBIN "baserom.gbc",$10732,$10753 - $10732
 
 SetPokemonSeenFlag: ; 0x10753
     ld a, [$d550]
@@ -6794,7 +6868,11 @@ INCBIN "baserom.gbc",$115ce,$1161d - $115ce
 
 INCLUDE "data/evolution_lines.asm"
 
-INCBIN "baserom.gbc",$116b4,$12a22 - $116b4
+INCBIN "baserom.gbc",$116b4,$11a3e - $116b4
+
+INCLUDE "data/mon_names.asm"
+
+INCBIN "baserom.gbc",$123ae,$12a22 - $123ae
 
 INCLUDE "data/catchem_timer_values.asm"
 

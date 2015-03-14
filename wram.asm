@@ -4,7 +4,7 @@ SECTION "WRAM Bank 0", WRAM0
 wc000::
     ds $500
 
-wcBottomMessageText::
+wcBottomMessageText:: ; 0xc500
     ds $b00
 
 SECTION "WRAM Bank 1", WRAMX, BANK[1]

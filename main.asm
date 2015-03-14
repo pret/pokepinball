@@ -461,14 +461,14 @@ PlaySoundEffect: ; 0x4af
 INCBIN "baserom.gbc",$4d8,$4ef - $4d8
 
 Func_4ef: ; 0x4ef
-    ld a, [$fff8]
+    ld a, [hLoadedROMBank]
     push af
     ld a, [$d85b]
-    ld [$fff8], a
+    ld [hLoadedROMBank], a
     ld [$2000], a
     call $40f0 ; todo
     pop af
-    ld [$fff8], a
+    ld [hLoadedROMBank], a
     ld [$2000], a
     ret
 
@@ -743,14 +743,14 @@ Func_666: ; 0x666
 Func_68f: ; 0x68f
     push de
     ld d, a
-    ld a, [$fff8]
+    ld a, [hLoadedROMBank]
     ld e, a
     ld a, d
-    ld [$fff8], a
+    ld [hLoadedROMBank], a
     ld [$2000], a
     ld d, [hl]
     ld a, e
-    ld [$fff8], a
+    ld [hLoadedROMBank], a
     ld [$2000], a
     ld a, d
     pop de
@@ -978,10 +978,10 @@ Func_858: ; 0x858
 
 Func_86f: ; 0x86f
     ld [$fffa], a
-    ld a, [$fff8]
+    ld a, [hLoadedROMBank]
     push af
     ld a, [$fffa]
-    ld [$fff8], a
+    ld [hLoadedROMBank], a
     ld [$2000], a
     ld a, [$ff40]
     bit 7, a
@@ -1017,7 +1017,7 @@ Func_86f: ; 0x86f
     xor a
     ld [$ff4f], a
     pop af
-    ld [$fff8], a
+    ld [hLoadedROMBank], a
     ld [$2000], a
     ret
 .asm_8ac
@@ -1053,16 +1053,16 @@ Func_86f: ; 0x86f
     dec b
     jr nz, .asm_8ae
     pop af
-    ld [$fff8], a
+    ld [hLoadedROMBank], a
     ld [$2000], a
     ret
 
 Func_8e1: ; 0x8e1
     ld [$fffa], a
-    ld a, [$fff8]
+    ld a, [hLoadedROMBank]
     push af
     ld a, [$fffa]
-    ld [$fff8], a
+    ld [hLoadedROMBank], a
     ld [$2000], a
     ld a, [$ff40]
     bit 7, a
@@ -1076,7 +1076,7 @@ Func_8e1: ; 0x8e1
     dec b
     jr nz, .asm_8f5
     pop af
-    ld [$fff8], a
+    ld [hLoadedROMBank], a
     ld [$2000], a
     ret
 .asm_902
@@ -1090,7 +1090,7 @@ Func_8e1: ; 0x8e1
     dec b
     jr nz, .asm_907
     pop af
-    ld [$fff8], a
+    ld [hLoadedROMBank], a
     ld [$2000], a
     ret
 
@@ -2777,21 +2777,21 @@ Func_206d: ; 0x206d
     ret
 
 Func_208c: ; 0x208c
-    ld a, [$fff8]
+    ld a, [hLoadedROMBank]
     push af
     ld a, $2
-    ld [$fff8], a
+    ld [hLoadedROMBank], a
     ld [$2000], a
     call $4ee0 ; todo
     jr c, .asm_20a3
     pop af
-    ld [$fff8], a
+    ld [hLoadedROMBank], a
     ld [$2000], a
     and a
     ret
 .asm_20a3
     pop af
-    ld [$fff8], a
+    ld [hLoadedROMBank], a
     ld [$2000], a
     scf
     ret
@@ -5597,8 +5597,8 @@ FadeInTitlescreen: ; 0xc00e
     ld a, $e1
     ld [$d80e], a
     xor a
-    ld [$ffa1], a
-    ld [$ffa0], a
+    ld [hBoardXShift], a
+    ld [hBoardYShift], a
     ld hl, TitlescreenFadeInGfxPointers
     ld a, [hGameBoyColorFlag]
     call LoadVideoData
@@ -7369,7 +7369,7 @@ Data_280c4: ; 0x280c4
 
 MainPokedexScreen: ; 0x280fe
     call Func_28513
-    ld a, [$ff99]
+    ld a, [hNewlyPressedButtons]
     bit 0, a
     jr z, .asm_28142
     ld a, [$d95f]
@@ -7408,7 +7408,7 @@ MainPokedexScreen: ; 0x280fe
     ld [$d8f2], a
     ret
 .asm_2814f
-    ld a, [$fffe]
+    ld a, [hGameBoyColorFlag]
     and a
     jr z, .asm_28174
     ld a, [hJoypadState]
@@ -7434,8 +7434,8 @@ MonInfoPokedexScreen: ; 0x28178
     ld a, [$d956]
     bit 0, a
     jr z, .asm_28190
-    ld a, [$ff99]
-    bit 0, a
+    ld a, [hNewlyPressedButtons]
+    bit BIT_A_BUTTON, a
     jr z, .asm_2818a
     call Func_28912
     jr .asm_281a2
@@ -7444,7 +7444,7 @@ MonInfoPokedexScreen: ; 0x28178
     jr z, .asm_281a2
     jr .asm_28196
 .asm_28190
-    ld a, [$ff99]
+    ld a, [hNewlyPressedButtons]
     and $3
     jr z, .asm_281a2
 .asm_28196
@@ -7454,7 +7454,7 @@ MonInfoPokedexScreen: ; 0x28178
     ld [$d8f2], a
     ret
 .asm_281a2
-    ld a, [$fffe]
+    ld a, [hGameBoyColorFlag]
     and a
     jr z, .asm_281c7
     ld a, [hJoypadState]
@@ -7518,7 +7518,7 @@ Func_282e9: ; 0x282e9
     ld a, $63
     call LoadOAMData
     call Func_28368
-    ld a, [$ff99]
+    ld a, [hNewlyPressedButtons]
     and $6
     jr z, .asm_28367
     ld a, $31
@@ -8456,7 +8456,7 @@ Func_28add: ; 0x28add
     call Func_735
     call Func_28cd4
     pop bc
-    ld a, [$fffe]
+    ld a, [hGameBoyColorFlag]
     and a
     ret z
     push bc
@@ -8499,7 +8499,7 @@ Func_28b76: ; 0x28b76
     ld bc, $0180
     call Func_735
     call Func_28cd4
-    ld a, [$fffe]
+    ld a, [hGameBoyColorFlag]
     and a
     ret z
     ld a, $a
@@ -8539,7 +8539,7 @@ Func_28baf: ; 0x28baf
     ld bc, $0180
     call Func_735
     call Func_28cd4
-    ld a, [$fffe]
+    ld a, [hGameBoyColorFlag]
     and a
     ret z
     ld a, $a
@@ -8624,7 +8624,7 @@ Func_28bf5: ; 0x28bf5
     ld [$d5bd], a
     call Func_28cf8
     pop bc
-    ld a, [$fffe]
+    ld a, [hGameBoyColorFlag]
     and a
     ret z
     ld hl, $709f ; todo

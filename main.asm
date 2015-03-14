@@ -2797,7 +2797,53 @@ Func_208c: ; 0x208c
     scf
     ret
 
-INCBIN "baserom.gbc",$20ab,$30db - $20ab
+INCBIN "baserom.gbc",$20ab,$219c - $20ab
+
+MoveBallPosition: ; 0x219c
+; Updates the ball's position according to its velocity
+    ld a, [wBallXPos]
+    ld [wPreviousBallXPos], a
+    ld a, [wBallXPos + 1]
+    ld [wPreviousBallXPos + 1], a
+    ld a, [wBallYPos]
+    ld [wPreviousBallYPos], a
+    ld a, [wBallYPos + 1]
+    ld [wPreviousBallYPos + 1], a
+    ld de, wBallXVelocity + 1
+    ld hl, wBallXPos
+    call AddVelocityToPosition
+    ld de, wBallYVelocity + 1
+    ld hl, wBallYPos
+    ; fall through
+
+AddVelocityToPosition: ; 0x21c3
+    ld a, [de]
+    bit 7, a
+    jr nz, .asm_21d1
+    cp $5
+    jr c, .asm_21da
+    ld bc, $04ff
+    jr .asm_21de
+.asm_21d1
+    cp $fc
+    jr nc, .asm_21da
+    ld bc, $fb01
+    jr .asm_21de
+.asm_21da
+    ld b, a
+    dec de
+    ld a, [de]
+    ld c, a
+.asm_21de
+    ld a, [hl]
+    add c
+    ld [hli], a
+    ld a, [hl]
+    adc b
+    ld [hl], a
+    ret
+
+INCBIN "baserom.gbc",$21e5,$30db - $21e5
 
 Func_30db: ; 0x30db
     ld a, $86
@@ -7158,12 +7204,12 @@ Func_17e81: ; 0x17e81
     ld a, [wBallRotation]
     add [hl]
     ld [wBallRotation], a
-    ld a, [wBallXPos]
+    ld a, [wBallXPos + 1]
     inc a
     ld hl, hBoardXShift
     sub [hl]
     ld b, a
-    ld a, [wBallYPos]
+    ld a, [wBallYPos + 1]
     inc a
     sub $10
     ld hl, hBoardYShift
@@ -7205,9 +7251,9 @@ Func_17e81: ; 0x17e81
     and $7
     add $0
     call LoadOAMData
-    ld a, [wBallXPos]
+    ld a, [wBallXPos + 1]
     ld [$d4c5], a
-    ld a, [wBallYPos]
+    ld a, [wBallYPos + 1]
     ld [$d4c6], a
     ld a, [wBallRotation]
     ld [$d4c7], a

@@ -13,18 +13,43 @@ wOAMBuffer:: ; d000
     ; buffer for OAM data. Copied to OAM by DMA
     ds 4 * 40
 
-    ds $414
+    ds $413
 
-wBallXPos:: ; 0xd4b4
+wBallXPos:: ; 0xd4b3
 ; x coordinate of the center of the pokeball
-    ds 1
-    ds 1
-wBallYPos:: ; 0xd4b6
-; y coordinate of the center of the pokeball
-    ds 1
-    ds 1
+; little-endian word
+; Most-significant byte is the pixel, and least-significant byte is fraction of a pixel
+    ds 2
 
-    ds $b
+wBallYPos:: ; 0xd4b5
+; y coordinate of the center of the pokeball
+; little-endian word
+; Most-significant byte is the pixel, and least-significant byte is fraction of a pixel
+    ds 2
+
+wPreviousBallXPos:: ; 0xd4b7
+; x coordinate of the center of the pokeball in the previous frame
+; little-endian word
+; Most-significant byte is the pixel, and least-significant byte is fraction of a pixel
+    ds 2
+
+wPreviousBallYPos:: ; 0xd4b9
+; y coordinate of the center of the pokeball in the previous frame
+; little-endian word
+; Most-significant byte is the pixel, and least-significant byte is fraction of a pixel
+    ds 2
+
+wBallXVelocity:: ; 0xd4bb
+; little-endian word
+; This is added to wBallXPos every frame.
+    ds 2
+
+wBallYVelocity:: ; 0xd4bd
+; little-endian word
+; This is added to wBallYPos every frame.
+    ds 2
+
+    ds 4
 
 wBallSpin:: ; 0xd4c3
     ds 1

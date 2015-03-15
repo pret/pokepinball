@@ -686,7 +686,16 @@ Func_61b: ; 0x61b
 .asm_63d
     ret
 
-INCBIN "baserom.gbc",$63e,$654 - $63e
+Func_63e: ; 0xc3e
+    dec bc
+.asm_63f
+    ld [hli], a
+    dec bc
+    bit 7, b
+    jr z, .asm_63f
+    ret
+
+INCBIN "baserom.gbc",$646,$654 - $646
 
 ClearData: ; 0x654
 ; Clears bc bytes starting at hl.
@@ -1848,7 +1857,18 @@ PowersOfTwo: ; 0xe3a
     dw $0064
     dw $0128
 
-INCBIN "baserom.gbc",$e4a,$f0c - $e4a
+INCBIN "baserom.gbc",$e4a,$e5d - $e4a
+
+Func_e5d: ; 0xe5d
+    ld a, $1
+    ld [$d84a], a
+.asm_e62
+    ld a, [$d84a]
+    and a
+    jr nz, .asm_e62
+    ret
+
+INCBIN "baserom.gbc",$e69,$f0c - $e69
 
 Func_f0c: ; 0xf0c
     call Func_f34
@@ -2744,8 +2764,8 @@ CallTable_2049: ; 0x2049
     dw HandleTitlescreen
     db Bank(HandleTitlescreen), $00
 
-    dw $5853
-    db $03, $00
+    dw Func_d853
+    db Bank(Func_d853), $00
 
     ; SCREEN_POKEDEX
     dw HandlePokedexScreen
@@ -5599,7 +5619,104 @@ FadeOutCopyrightScreenAndLoadData: ; 0x82a8
     ld [wScreenState], a
     ret
 
-INCBIN "baserom.gbc",$8311,$867d - $8311
+Func_8311: ; 0x8311
+    ld hl, wc000
+    ld bc, $0a00
+    call ClearData
+    ld a, $1
+    ld [$ff4f], a
+    ld a, [$d805]
+    and a
+    jr nz, .asm_8331
+    ld hl, vBGMap1
+    ld bc, $0400
+    ld a, $0
+    call Func_63e
+    jr .asm_833c
+.asm_8331
+    ld hl, vBGMap1
+    ld bc, $0400
+    ld a, $8
+    call Func_63e
+.asm_833c
+    xor a
+    ld [$ff4f], a
+    call Func_8388
+    ld a, [$d4ac]
+    call CallInFollowingTable
+CallTable_8348: ; 0x8348
+    dw $4000
+    db $0C, $00
+
+    dw $4000
+    db $0C, $00
+
+    dw $4000
+    db $06, $00
+
+    dw $4000
+    db $06, $00
+
+    dw $4000
+    db $07, $00
+
+    dw $4000
+    db $07, $00
+
+    dw $4099
+    db $06, $00
+
+    dw $4099
+    db $06, $00
+
+    dw $524F
+    db $06, $00
+
+    dw $524F
+    db $06, $00
+
+    dw $4000
+    db $09, $00
+
+    dw $4000
+    db $09, $00
+
+    dw $59F2
+    db $06, $00
+
+    dw $59F2
+    db $06, $00
+
+    dw $5A7C
+    db $09, $00
+
+    dw $5A7C
+    db $09, $00
+
+Func_8388: ; 0x8388
+    ld a, [$d7c1]
+    and a
+    jr z, .asm_8398
+    ld hl, $d7c3
+    ld bc, $0037
+    call ClearData
+    ret
+.asm_8398
+    ld a, [$d4ac]
+    cp $6
+    ret nc
+    ld hl, $d300
+    ld bc, $0170
+    call ClearData
+    ld hl, $d473 ; todo
+    ld bc, $0039
+    call ClearData
+    ld hl, $d4ad
+    ld bc, $034d
+    call ClearData
+    ret
+
+INCBIN "baserom.gbc",$83ba,$867d - $83ba
 
 StartTimer: ; 0x867d
 ; Starts the timer that counts down with the specified starting time when things
@@ -5887,12 +6004,12 @@ Func_c1cb: ; 0c1cb
     ret
 
 Data_c1e4: ; 0xc1e4
-    db $08, SCREEN_POKEDEX, SCREEN_OPTIONS
+    db SCREEN_FIELD_SELECT, SCREEN_POKEDEX, SCREEN_OPTIONS
 
 GoToHighScoresFromTitlescreen: ; 0xc1e7
     call Func_cb5
     call Func_576
-    ld a, $7
+    ld a, SCREEN_HIGH_SCORES
     ld [wCurrentScreen], a
     ld a, $1
     ld [wScreenState], a
@@ -7208,7 +7325,95 @@ DataArray_d730: ; 0xd730
 
     db $FF, $FF ; terminators
 
-INCBIN "baserom.gbc",$d74e,$dbd4 - $d74e
+INCBIN "baserom.gbc",$d74e,$d853 - $d74e
+
+Func_d853: ; 0xd853
+    ld a, [wScreenState]
+    rst $18
+PointerTable_d857: ; 0xd857
+    dw Func_d861
+    dw Func_d87f
+    dw $5909
+    dw $5A36
+    dw $5AB2
+
+Func_d861: ; 0xd861
+    xor a
+    ld [$d908], a
+    ld [$ff8a], a
+    ld a, Bank(Func_8311)
+    ld hl, Func_8311
+    call BankSwitch
+    call Func_30e8
+    ld a, $1
+    ld [$d85d], a
+    ld [$d4aa], a
+    ld hl, wScreenState
+    inc [hl]
+    ret
+
+Func_d87f: ; 0xd87f
+    ld a, $67
+    ld [$ff9e], a
+    ld a, $e4
+    ld [$d80c], a
+    ld a, $e1
+    ld [$d80d], a
+    ld a, $e4
+    ld [$d80e], a
+    ld a, [$d7ab]
+    ld [hBoardXShift], a
+    xor a
+    ld [hBoardYShift], a
+    ld a, $7
+    ld [$ffa7], a
+    ld a, $83
+    ld [$ffa2], a
+    ld [$ffa8], a
+    ld a, $ff
+    ld [$ffaf], a
+    ld hl, $ff9f
+    set 6, [hl]
+    ld hl, $ffff
+    set 1, [hl]
+    ld a, $1
+    ld [$ffb0], a
+    ld [$ff8a], a
+    ld a, $2
+    ld hl, $43ba ; todo
+    call BankSwitch
+    ld [$ff8a], a
+    ld a, $3
+    ld hl, $6578 ; todo
+    call BankSwitch
+    ld [$ff8a], a
+    ld a, $3
+    ld hl, $66c2 ; todo
+    call BankSwitch
+    ld [$ff8a], a
+    ld a, $3
+    ld hl, $6d5e ; todo
+    call BankSwitch
+    call ClearOAMBuffer
+    ld [$ff8a], a
+    ld a, $2
+    ld hl, $44b7 ; todo
+    call BankSwitch
+    ld a, [$d849]
+    and a
+    call nz, Func_e5d
+    ld a, $1
+    ld [$d4aa], a
+    xor a
+    ld [$d7c1], a
+    call Func_b66
+    call Func_588
+    call Func_bbe
+    ld hl, wScreenState
+    inc [hl]
+    ret
+
+INCBIN "baserom.gbc",$d909,$dbd4 - $d909
 
 Func_dbd4: ; 0xdbd4
     ld a, [$d4a3]
@@ -8316,7 +8521,7 @@ Data_280a6: ; 0x280a6
 
     dw $4800
     db $31
-    dw $9c00
+    dw vBGMap1
     dw $800
 
     dw $4800
@@ -8344,7 +8549,7 @@ Data_280c4: ; 0x280c4
 
     dw $4800
     db $31
-    dw $9c00
+    dw vBGMap1
     dw $800
 
     dw $4800
@@ -8354,7 +8559,7 @@ Data_280c4: ; 0x280c4
 
     dw $4c00
     db $31
-    dw $9c00
+    dw vBGMap1
     dw $802
 
     dw $4c00
@@ -8525,14 +8730,14 @@ Func_282e9: ; 0x282e9
     jr z, .asm_28367
     ld a, $31
     ld hl, $4800 ; todo
-    ld de, $9c00
+    ld de, vBGMap1
     ld bc, $0200
     call Func_73f
     ld a, $1
     ld [$ff4f], a
     ld a, $31
     ld hl, $4c00 ; todo
-    ld de, $9c00
+    ld de, vBGMap1
     ld bc, $0200
     call Func_73f
     xor a

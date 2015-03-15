@@ -1,0 +1,8 @@
+; See wCurrentScreen in wram.asm
+
+SCREEN_ERASE_ALL_DATA  EQU $1
+SCREEN_COPYRIGHT       EQU $2
+SCREEN_TITLESCREEN     EQU $3
+
+SCREEN_POKEDEX         EQU $5
+SCREEN_OPTIONS         EQU $6

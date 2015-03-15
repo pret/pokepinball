@@ -2701,8 +2701,8 @@ Func_1ffc: ; 0x1ffc
     ld [$d470], a
     ld [$d471], a
     ld [$d472], a
-    ld a, $1
-    ld [$d8f1], a
+    ld a, SCREEN_ERASE_ALL_DATA
+    ld [wCurrentScreen], a
 .asm_2025
     call Func_2034
     call Func_2043
@@ -2723,7 +2723,7 @@ Func_2034: ; 0x2034
     ret
 
 Func_2043: ; 0x2043
-    ld a, [$d8f1]
+    ld a, [wCurrentScreen]
     call CallInFollowingTable
 CallTable_2049: ; 0x2049
 ; First two bytes is function pointer.
@@ -2732,23 +2732,28 @@ CallTable_2049: ; 0x2049
     dw Func_8000
     db Bank(Func_8000), $00
 
+    ; SCREEN_ERASE_ALL_DATA
     dw HandleEraseAllDataMenu
     db Bank(HandleEraseAllDataMenu), $00
 
+    ; SCREEN_COPYRIGHT
     dw HandleCopyrightScreen
     db Bank(HandleCopyrightScreen), $00
 
+    ; SCREEN_TITLESCREEN
     dw HandleTitlescreen
     db Bank(HandleTitlescreen), $00
 
     dw $5853
     db $03, $00
 
-    dw $4000
-    db $0A, $00
+    ; SCREEN_POKEDEX
+    dw HandlePokedexScreen
+    db Bank(HandlePokedexScreen), $00
 
-    dw $434A
-    db $03, $00
+    ; SCREEN_OPTIONS
+    dw HandleOptionsScreen
+    db Bank(HandleOptionsScreen), $00
 
     dw $4A7F
     db $03, $00
@@ -5144,7 +5149,7 @@ INCBIN "baserom.gbc",$55d7,$8000 - $55d7 ; 0x55d7
 SECTION "bank2", ROMX, BANK[$2]
 
 Func_8000: ; 0x8000
-    ld a, [$d8f2]
+    ld a, [wScreenState]
     rst $18
 
 PointerTable_8004: ; 0x8004
@@ -5162,10 +5167,10 @@ Func_800a: ; 0x800a
     and a
     jr nz, .asm_8021
 .asm_8018
-    ld hl, $d8f1
+    ld hl, wCurrentScreen
     inc [hl]
     xor a
-    ld [$d8f2], a
+    ld [wScreenState], a
     ret
 .asm_8021
     ld a, $45
@@ -5182,7 +5187,7 @@ Func_800a: ; 0x800a
     call Func_b66
     call Func_588
     call Func_bbe
-    ld hl, $d8f2
+    ld hl, wScreenState
     inc [hl]
     ret
 
@@ -5287,7 +5292,7 @@ Func_8104: ; 0x8104
 .asm_8115
     bit BIT_A_BUTTON, b
     ret z
-    ld hl, $d8f2
+    ld hl, wScreenState
     inc [hl]
     ret
 .asm_811d
@@ -5311,14 +5316,14 @@ INCBIN "baserom.gbc",$813a,$814e - $813a
 Func_814e: ; 0x414e
     call Func_cb5
     call Func_576
-    ld hl, $d8f1
+    ld hl, wCurrentScreen
     inc [hl]
     xor a
-    ld [$d8f2], a
+    ld [wScreenState], a
     ret
 
 HandleEraseAllDataMenu: ; 0x815d
-    ld a, [$d8f2]
+    ld a, [wScreenState]
     rst $18
 EraseAllDataMenuFunctions: ; 0x8161
     dw CheckForResetButtonCombo
@@ -5329,7 +5334,7 @@ CheckForResetButtonCombo: ; 0x8167
     ld a, [hJoypadState]
     cp (D_UP | D_RIGHT | START | SELECT)
     jr z, .heldCorrectButtons
-    ld hl, $d8f1
+    ld hl, wCurrentScreen
     inc [hl]
     ret
 .heldCorrectButtons
@@ -5350,7 +5355,7 @@ CheckForResetButtonCombo: ; 0x8167
     call Func_588
     call Func_14a4
     call Func_bbe
-    ld hl, $d8f2
+    ld hl, wScreenState
     inc [hl]
     ret
 
@@ -5436,27 +5441,27 @@ HandleEraseAllDataInput: ; 0x81d4
     ld [hli], a
     dec b
     jr nz, .eraseSavedDataLoop
-    ld hl, $d8f2
+    ld hl, wScreenState
     inc [hl]
     ret
 .checkForBButton
     bit BIT_B_BUTTON, a
     ret z
-    ld hl, $d8f2
+    ld hl, wScreenState
     inc [hl]
     ret
 
 ExitEraseAllDataMenu: ; 0x820f
     call Func_cb5
     call Func_576
-    ld hl, $d8f1
+    ld hl, wCurrentScreen
     inc [hl]
     xor a
-    ld [$d8f2], a
+    ld [wScreenState], a
     ret
 
 HandleCopyrightScreen: ; 0x821e
-    ld a, [$d8f2]
+    ld a, [wScreenState]
     rst $18
 CopyrightScreenFunctions: ; 0x8222
     dw FadeInCopyrightScreen
@@ -5483,7 +5488,7 @@ FadeInCopyrightScreen: ; 0x8228
     ld bc, $0050
     call Func_93f
     call Func_bbe
-    ld hl, $d8f2
+    ld hl, wScreenState
     inc [hl]
     ret
 
@@ -5543,7 +5548,7 @@ DisplayCopyrightScreen: ; 0x8290
     dec b
     jr nz, .delayLoop
 .done
-    ld hl, $d8f2
+    ld hl, wScreenState
     inc [hl]
     ret
 
@@ -5588,10 +5593,10 @@ FadeOutCopyrightScreenAndLoadData: ; 0x82a8
     xor a
     ld [$d7c2], a  ; if this is non-zero, the main menu will prompt for "continue or new game?".
 .asm_8308
-    ld hl, $d8f1
+    ld hl, wCurrentScreen
     inc [hl]
     xor a
-    ld [$d8f2], a
+    ld [wScreenState], a
     ret
 
 INCBIN "baserom.gbc",$8311,$867d - $8311
@@ -5625,7 +5630,7 @@ INCBIN "baserom.gbc",$86a4,$c000 - $86a4
 SECTION "bank3", ROMX, BANK[$3]
 
 HandleTitlescreen: ; 0xc000
-    ld a, [$d8f2]
+    ld a, [wScreenState]
     rst $18  ; calls JumpToFuncInTable
 PointerTable_c004: ; 0xc004
     dw FadeInTitlescreen
@@ -5662,7 +5667,7 @@ FadeInTitlescreen: ; 0xc00e
     call Func_490
     call Func_588
     call Func_bbe  ; this does the fading
-    ld hl, $d8f2
+    ld hl, wScreenState
     inc [hl]
     ret
 
@@ -5727,7 +5732,7 @@ TitlescreenLoop: ; 0xc089
     ld [$d911], a
     ld a, $1
     ld [wTitleScreenGameStartCursorSelection], a
-    ld hl, $d8f2
+    ld hl, wScreenState
     inc [hl]
     ret
 .noPreviouslySavedGame
@@ -5739,13 +5744,13 @@ TitlescreenLoop: ; 0xc089
     ld bc, $0037
     call Func_93f
     ld a, $3
-    ld [$d8f2], a
+    ld [wScreenState], a
     ret
 .asm_c0d3
     ld de, $0001
     call PlaySoundEffect
     ld a, $3
-    ld [$d8f2], a
+    ld [wScreenState], a
     ret
 .AButtonNotPressed
     bit BIT_B_BUTTON, a  ; was B button pressed?
@@ -5753,7 +5758,7 @@ TitlescreenLoop: ; 0xc089
     ld de, $0001
     call PlaySoundEffect
     ld a, $4
-    ld [$d8f2], a
+    ld [wScreenState], a
     ret
 
 Func_c0ee: ; 0xc0ee
@@ -5813,15 +5818,15 @@ Func_c10e: ; 0xc10e
     ld a, $1
     ld [$d7c1], a
     ld a, $4
-    ld [$d8f1], a
+    ld [wCurrentScreen], a
     ld a, $0
-    ld [$d8f2], a
+    ld [wScreenState], a
     ret
 .asm_c173
     xor a
     ld [$d7c1], a
 .asm_c177
-    ld hl, $d8f2
+    ld hl, wScreenState
     inc [hl]
     ret
 .asm_c17c
@@ -5840,7 +5845,7 @@ Func_c10e: ; 0xc10e
     ld a, [$d910]
     cp $e
     jr nz, .asm_c18f
-    ld hl, $d8f2
+    ld hl, wScreenState
     dec [hl]
     ret
 
@@ -5876,21 +5881,21 @@ Func_c1cb: ; 0c1cb
     ld hl, Data_c1e4
     add hl, bc
     ld a, [hl]
-    ld [$d8f1], a
+    ld [wCurrentScreen], a
     xor a
-    ld [$d8f2], a
+    ld [wScreenState], a
     ret
 
 Data_c1e4: ; 0xc1e4
-    db $08, $05, $06
+    db $08, SCREEN_POKEDEX, SCREEN_OPTIONS
 
 GoToHighScoresFromTitlescreen: ; 0xc1e7
     call Func_cb5
     call Func_576
     ld a, $7
-    ld [$d8f1], a
+    ld [wCurrentScreen], a
     ld a, $1
-    ld [$d8f2], a
+    ld [wScreenState], a
     xor a
     ld [$da7f], a
     ret
@@ -5992,7 +5997,7 @@ HandleTitlescreenPokeballAnimation: ; 0xc278
     ld a, [hli]
     ld b, a
     ld e, $0
-    ld a, [$d8f2]  ; TODO: I think this is the "titlescreen state" byte.
+    ld a, [wScreenState]  ; TODO: I think this is the "titlescreen state" byte.
     cp $1
     jr nz, .loadOAM  ; skip getting the correct animation frame 
     ld a, [wTitleScreenBouncingBallAnimationFrame]
@@ -6090,7 +6095,57 @@ Func_c2df: ; 0xc2df
     ld [$d911], a
     ret
 
-INCBIN "baserom.gbc",$c32b,$c3b9 - $c32b
+INCBIN "baserom.gbc",$c32b,$c34a - $c32b
+
+HandleOptionsScreen: ; 0xc34a
+    ld a, [wScreenState]
+    rst $18
+PointerTable_c34e: ; 0xc34e
+    dw Func_c35a
+    dw Func_c400
+    dw Func_c483
+    dw Func_c493
+    dw Func_c506
+    dw Func_c691
+
+Func_c35a: ; 0xc35a
+    ld a, $47
+    ld [$ff9e], a
+    ld a, $e4
+    ld [$d80c], a
+    ld [$d80d], a
+    ld a, $d2
+    ld [$d80e], a
+    xor a
+    ld [hBoardXShift], a
+    ld [hBoardYShift], a
+    ld hl, PointerTable_c3b9
+    ld a, [hGameBoyColorFlag]
+    call LoadVideoData
+    call ClearOAMBuffer
+    ld a, $2
+    ld [$d921], a
+    ld [$d91d], a
+    ld a, $9
+    ld [$d91f], a
+    call Func_c43a
+    call Func_c948
+    call Func_b66
+    ld a, $12
+    call Func_52c
+    ld de, $0002
+    call Func_490
+    call Func_588
+    ld a, [wSoundTestCurrentBackgroundMusic]
+    ld hl, $9967
+    call RedrawSoundTestID
+    ld a, [wSoundTextCurrentSoundEffect]
+    ld hl, $99a7
+    call RedrawSoundTestID
+    call Func_bbe
+    ld hl, wScreenState
+    inc [hl]
+    ret
 
 PointerTable_c3b9: ; 0xc3b9
     dw DataArray_c3bd
@@ -6147,7 +6202,429 @@ DataArray_c3d4: ; 0xc3d4
 
     db $FF, $FF ; terminators
 
-INCBIN "baserom.gbc",$c400,$c715 - $c400
+Func_c400: ; 0xc400
+    call Func_c41a
+    call Func_c43a
+    call Func_c447
+    ld a, [hNewlyPressedButtons]
+    bit 1, a
+    ret z
+    ld de, $0001
+    call PlaySoundEffect
+    ld a, $2
+    ld [wScreenState], a
+    ret
+
+Func_c41a: ; 0xc41a
+    ld a, [$ff9a]
+    ld b, a
+    ld a, [$d916]
+    bit 6, b
+    jr z, .asm_c429
+    and a
+    ret z
+    dec a
+    jr .asm_c430
+.asm_c429
+    bit 7, b
+    ret z
+    cp $2
+    ret z
+    inc a
+.asm_c430
+    ld [$d916], a
+    ld de, $0003
+    call PlaySoundEffect
+    ret
+
+Func_c43a: ; 0xc43a
+    call Func_c7ac
+    call Func_c80b
+    call Func_c88a
+    call Func_c92e
+    ret
+
+Func_c447: ; 0xc447
+    ld a, [hNewlyPressedButtons]
+    bit BIT_A_BUTTON, a
+    ret z
+    ld de, $0001
+    call PlaySoundEffect
+    ld a, [$d916]
+    and a
+    jr nz, .asm_c465
+    ld a, [$fffb]
+    and a
+    ret nz
+    call Func_c4f4
+    ld a, $3
+    ld [wScreenState], a
+    ret
+.asm_c465
+    cp $1
+    jr nz, .asm_c477
+    call ClearOAMBuffer
+    ld hl, $ff9e
+    set 3, [hl]
+    ld a, $4
+    ld [wScreenState], a
+    ret
+.asm_c477
+    ld de, $0000
+    call Func_490
+    ld a, $5
+    ld [wScreenState], a
+    ret
+
+Func_c483: ; 0xc483
+    call Func_cb5
+    call Func_576
+    ld a, SCREEN_TITLESCREEN
+    ld [wCurrentScreen], a
+    xor a
+    ld [wScreenState], a
+    ret
+
+Func_c493: ; 0xc493
+    call Func_c4b4
+    call Func_c4e6
+    call Func_c869
+    ld a, [hNewlyPressedButtons]
+    bit BIT_B_BUTTON, a
+    ret z
+    ld de, $0001
+    call PlaySoundEffect
+    xor a
+    ld [$d803], a
+    ld [$d804], a
+    ld a, $1
+    ld [wScreenState], a
+    ret
+
+Func_c4b4: ; 0xc4b4
+    ld a, [hNewlyPressedButtons]
+    ld b, a
+    ld a, [$d917]
+    bit BIT_D_LEFT, b
+    jr z, .asm_c4ce
+    and a
+    ret z
+    dec a
+    ld [$d917], a
+    call Func_c4f4
+    ld de, $0003
+    call PlaySoundEffect
+    ret
+.asm_c4ce
+    bit BIT_D_RIGHT, b
+    ret z
+    cp $1
+    ret z
+    inc a
+    ld [$d917], a
+    xor a
+    ld [$d803], a
+    ld [$d804], a
+    ld de, $0003
+    call PlaySoundEffect
+    ret
+
+Func_c4e6: ; 0xc4e6
+    call Func_c7ac
+    call Func_c80b
+    call Func_c88a
+    xor a
+    call Func_c8f1
+    ret
+
+Func_c4f4: ; 0xc4f4
+    xor a
+    ld [$d91c], a
+    ld [$d91e], a
+    ld a, $2
+    ld [$d91d], a
+    ld a, $9
+    ld [$d91f], a
+    ret
+
+Func_c506: ; 0xc506
+    call Func_c534
+    call Func_c554
+    call Func_c55a
+    ld a, [hNewlyPressedButtons]
+    bit BIT_B_BUTTON, a
+    ret z
+    ld de, $0001
+    call PlaySoundEffect
+    call ClearOAMBuffer
+    ld hl, $ff9e
+    res 3, [hl]
+    ld hl, wKeyConfigBallStart
+    ld de, $a244
+    ld bc, $000e
+    call Func_f1a
+    ld a, $1
+    ld [wScreenState], a
+    ret
+
+Func_c534: ; 0xc534
+    ld a, [hNewlyPressedButtons]
+    ld b, a
+    ld a, [$d918]
+    bit BIT_D_UP, b
+    jr z, .asm_c543
+    and a
+    ret z
+    dec a
+    jr .asm_c54a
+.asm_c543
+    bit BIT_D_DOWN, b
+    ret z
+    cp $7
+    ret z
+    inc a
+.asm_c54a
+    ld [$d918], a
+    ld de, $0003
+    call PlaySoundEffect
+    ret
+
+Func_c554: ; 0xc554
+    ld a, $1
+    call Func_c8f1
+    ret
+
+Func_c55a: ; 0xc55a
+    ld a, [$d918]
+    and a
+    jr nz, .asm_c572
+    ld a, [hNewlyPressedButtons]
+    bit BIT_A_BUTTON, a
+    ret z
+    ld de, $0001
+    call PlaySoundEffect
+    call Func_ca3a
+    call Func_c948
+    ret
+.asm_c572
+    ld a, [hNewlyPressedButtons]
+    bit BIT_A_BUTTON, a
+    ret z
+    ld de, $0001
+    call PlaySoundEffect
+    ld bc, $001e
+    call Func_93f
+    ld a, [$d918]
+    dec a
+    sla a
+    ld c, a
+    ld b, $0
+    ld hl, $465f ; todo
+    add hl, bc
+    ld a, [hli]
+    ld h, [hl]
+    ld l, a
+    ld a, [$d918]
+    dec a
+    sla a
+    call Func_c644
+    ld bc, $00ff
+.asm_c59f
+    push bc
+    push hl
+    ld a, [$d918]
+    dec a
+    sla a
+    call Func_c621
+    call Func_c554
+    call Func_926
+    rst $10
+    pop hl
+    pop bc
+    ld a, [hJoypadState]
+    and a
+    jr z, .asm_c5c2
+    ld c, $0
+    call Func_c9be
+    call Func_c95f
+    jr .asm_c59f
+.asm_c5c2
+    or c
+    jr nz, .asm_c59f
+    ld a, [$d918]
+    dec a
+    sla a
+    call Func_c639
+    push hl
+    ld bc, $001e
+    call Func_93f
+    pop hl
+    ld bc, $0020
+    add hl, bc
+    ld a, [$d918]
+    dec a
+    sla a
+    inc a
+    call Func_c644
+    ld bc, $00ff
+    ld d, $5a
+.asm_c5e9
+    push bc
+    push de
+    push hl
+    ld a, [$d918]
+    dec a
+    sla a
+    inc a
+    call Func_c621
+    call Func_c554
+    call Func_926
+    rst $10
+    pop hl
+    pop de
+    pop bc
+    dec d
+    ret z
+    ld a, [hJoypadState]
+    and a
+    jr z, .asm_c613
+    ld d, $ff
+    ld c, $0
+    call Func_c9be
+    call Func_c95f
+    jr .asm_c5e9
+.asm_c613
+    or c
+    jr nz, .asm_c5e9
+    ld a, [$d918]
+    dec a
+    sla a
+    inc a
+    call Func_c639
+    ret
+
+Func_c621: ; 0xc621
+    sla a
+    ld c, a
+    ld b, $0
+    ld hl, $466d ; todo
+    add hl, bc
+    ld a, [hli]
+    ld c, a
+    ld a, [hl]
+    ld b, a
+    ld a, [$ffb3]
+    bit 2, a
+    ret z
+    ld a, $84
+    call LoadOAMData
+    ret
+
+Func_c639: ; 0xc639
+    push hl
+    ld e, a
+    ld d, $0
+    ld hl, wKeyConfigBallStart
+    add hl, de
+    ld [hl], b
+    pop hl
+    ret
+
+Func_c644: ; 0xc644
+    push hl
+    ld c, a
+    ld b, $0
+    ld hl, wKeyConfigBallStart
+    add hl, bc
+    ld [hl], $0
+    pop hl
+    push hl
+    ld d, h
+    ld e, l
+    ld hl, $4689 ; todo
+    ld a, $3
+    ld bc, $0008
+    call Func_73f
+    pop hl
+    ret
+
+INCBIN "baserom.gbc",$c65f,$c691 - $c65f
+
+Func_c691: ; 0xc91
+    call Func_c6bf
+    call Func_c6d9
+    call Func_c6e8
+    ld a, [hNewlyPressedButtons]
+    bit BIT_B_BUTTON, a
+    ret z
+    ld de, $0000
+    call Func_490
+    rst $10
+    rst $10
+    rst $10
+    ld a, $12
+    call Func_52c
+    ld de, $0002
+    call Func_490
+    ld de, $0001
+    call PlaySoundEffect
+    ld a, $1
+    ld [wScreenState], a
+    ret
+
+Func_c6bf: ; 0xc6bf
+    ld a, [hNewlyPressedButtons]
+    ld b, a
+    ld a, [$d919]
+    bit BIT_D_UP, b
+    jr z, .asm_c6ce
+    and a
+    ret z
+    dec a
+    jr .asm_c6d5
+.asm_c6ce
+    bit BIT_D_DOWN, b
+    ret z
+    cp $1
+    ret z
+    inc a
+.asm_c6d5
+    ld [$d919], a
+    ret
+
+Func_c6d9: ; 0xc6d9
+    call Func_c7ac
+    call Func_c80b
+    call Func_c88a
+    ld a, $2
+    call Func_c8f1
+    ret
+
+Func_c6e8: ; 0xc6e8
+    ld a, [$d919]
+    and a
+    jr nz, UpdateSoundTestSoundEffectSelection
+    ld a, [hNewlyPressedButtons]
+    bit BIT_A_BUTTON, a
+    jr z, UpdateSoundTestBackgroundMusicSelection
+    ld de, $0000
+    call Func_490
+    rst $10
+    rst $10
+    rst $10
+    ld a, [wSoundTestCurrentBackgroundMusic]
+    sla a
+    ld c, a
+    ld b, $0
+    ld hl, SongBanks
+    add hl, bc
+    ld a, [hli]
+    ld e, a
+    ld d, $0
+    ld a, [hl]
+    call Func_52c
+    call Func_490
+    ret
 
 UpdateSoundTestBackgroundMusicSelection: ; 0xc715
     ld a, [$ff9a] ; joypad state
@@ -6204,7 +6681,7 @@ UpdateSoundTestSoundEffectSelection: ; 0xc73a
     hlCoord 7, 13, vBGMap0
     ; fall through
 
-RedrawSoundTestID:
+RedrawSoundTestID: ; 0xc76c
 ; Redraws the 2-digit id number for the sound test's current background music or sound effect id.
 ; input:  a = id number
 ;        hl = pointer to bg map location where the new 2-digit id should be drawn
@@ -6244,9 +6721,410 @@ SongBanks: ; 0xc77e
 	db MUSIC_MEOWTH_STAGE,BANK(Music_MeowthStage)
 	db MUSIC_END_CREDITS,BANK(Music_EndCredits)
 	db MUSIC_NAME_ENTRY,BANK(Music_NameEntry)
-; 0xc7ac
 
-INCBIN "baserom.gbc",$c7ac,$d3ff - $c7ac
+Func_c7ac: ; 0xc7ac
+    ld c, $0
+    ld a, [wScreenState]
+    cp $1
+    jr z, .asm_c7cc
+    ld a, [$d916]
+    and a
+    jr nz, .asm_c7cc
+    ld a, [$d917]
+    and a
+    jr nz, .asm_c7cc
+    ld a, [$d91e]
+    cp $4
+    jr nz, .asm_c7cc
+    ld a, [$d91c]
+    ld c, a
+.asm_c7cc
+    sla c
+    ld b, $0
+    ld hl, $4806 ; todo
+    add hl, bc
+    ld a, [hl]
+    ld bc, $5050
+    call LoadOAMData
+    ld a, [$d91d]
+    dec a
+    jr nz, .asm_c802
+    ld a, [$d91c]
+    sla a
+    ld c, a
+    ld b, $0
+    ld hl, $4808
+    add hl, bc
+    ld a, [hl]
+    and a
+    jr z, .asm_c7f5
+    ld a, [$d91c]
+    inc a
+.asm_c7f5
+    ld [$d91c], a
+    sla a
+    ld c, a
+    ld b, $0
+    ld hl, $4807 ; todo
+    add hl, bc
+    ld a, [hl]
+.asm_c802
+    ld [$d91d], a
+    ret
+
+INCBIN "baserom.gbc",$c806,$c80b - $c806
+
+Func_c80b: ; 0xc80b
+    ld c, $0
+    ld a, [wScreenState]
+    cp $1
+    jr z, .asm_c824
+    ld a, [$d916]
+    and a
+    jr nz, .asm_c824
+    ld a, [$d917]
+    and a
+    jr nz, .asm_c824
+    ld a, [$d91e]
+    ld c, a
+.asm_c824
+    sla c
+    ld b, $0
+    ld hl, $485e ; todo
+    add hl, bc
+    ld bc, $7870
+    ld a, [hl]
+    call LoadOAMData
+    ld a, [$d91f]
+    dec a
+    jr nz, .asm_c85a
+    ld a, [$d91e]
+    sla a
+    ld c, a
+    ld b, $0
+    ld hl, $4860 ; todo
+    add hl, bc
+    ld a, [hl]
+    and a
+    ld a, [$d91e]
+    jr z, .asm_c850
+    inc a
+    ld [$d91e], a
+.asm_c850
+    sla a
+    ld c, a
+    ld b, $0
+    ld hl, $485f ; todo
+    add hl, bc
+    ld a, [hl]
+.asm_c85a
+    ld [$d91f], a
+    ret
+
+INCBIN "baserom.gbc",$c85e,$c869 - $c85e
+
+Func_c869: ; 0xc869
+    ld a, [$d916]
+    and a
+    ret nz
+    ld a, [$d917]
+    and a
+    ret nz
+    ld a, [$d91e]
+    cp $3
+    ret nz
+    ld a, [$d91f]
+    cp $1
+    ret nz
+    ld a, $55
+    ld [$d803], a
+    ld a, $40
+    ld [$d804], a
+    ret
+
+Func_c88a: ; 0xc88a
+    ld a, [$d916]
+    sla a
+    ld c, a
+    ld b, $0
+    ld hl, $48eb ; todo
+    add hl, bc
+    ld a, [hli]
+    ld c, a
+    ld a, [hli]
+    ld b, a
+    ld e, $0
+    ld a, [wScreenState]
+    cp $1
+    jr nz, .asm_c8a9
+    ld a, [$d920]
+    sla a
+    ld e, a
+.asm_c8a9
+    ld d, $0
+    ld hl, $48de ; todo
+    add hl, de
+    ld a, [hl]
+    call LoadOAMData
+    ld a, [$d921]
+    dec a
+    jr nz, .asm_c8da
+    ld a, [$d920]
+    sla a
+    ld c, a
+    ld b, $0
+    ld hl, $48e0 ; todo
+    add hl, bc
+    ld a, [hl]
+    and a
+    jr z, .asm_c8cd
+    ld a, [$d920]
+    inc a
+.asm_c8cd
+    ld [$d920], a
+    sla a
+    ld c, a
+    ld b, $0
+    ld hl, $48df ; todo
+    add hl, bc
+    ld a, [hl]
+.asm_c8da
+    ld [$d921], a
+    ret
+
+INCBIN "baserom.gbc",$c8de,$c8f1 - $c8de
+
+Func_c8f1: ; 0xc8f1
+    ld c, a
+    ld b, $0
+    ld hl, $d917
+    add hl, bc
+    ld e, [hl]
+    sla c
+    ld hl, $4910 ; todo
+    add hl, bc
+    ld a, [hli]
+    ld h, [hl]
+    ld l, a
+    ld c, e
+    sla c
+    add hl, bc
+    ld a, [hli]
+    ld c, a
+    ld a, [hl]
+    ld b, a
+    ld a, $82
+    call LoadOAMData
+    ret
+
+INCBIN "baserom.gbc",$c910,$c92e - $c910
+
+Func_c92e: ; 0xc92e
+    ld a, [$d917]
+    sla a
+    ld c, a
+    ld b, $0
+    ld hl, $4944 ; todo
+    add hl, bc
+    ld a, [hli]
+    ld c, a
+    ld a, [hli]
+    ld b, a
+    ld a, $85
+    call LoadOAMData
+    ret
+
+INCBIN "baserom.gbc",$c944,$c948 - $c944
+
+Func_c948: ; 0xc948
+    ld hl, $9c6d
+    ld de, wKeyConfigBallStart
+    ld b, $e
+.asm_c950
+    push bc
+    ld a, [de]
+    call Func_c95f
+    inc de
+    ld bc, $0020
+    add hl, bc
+    pop bc
+    dec b
+    jr nz, .asm_c950
+    ret
+
+Func_c95f: ; 0xc95f
+    push bc
+    push de
+    push hl
+    push hl
+    push af
+    ld hl, $d922
+    ld a, $81
+    ld [hli], a
+    ld [hli], a
+    ld [hli], a
+    ld [hli], a
+    ld [hli], a
+    ld [hli], a
+    ld [hl], a
+    pop af
+    ld hl, $d922
+    ld de, $49ae ; todo
+    ld b, $8
+.asm_c979
+    srl a
+    push af
+    jr nc, .asm_c994
+    ld a, [de]
+    inc de
+    call Func_c9aa
+    ld a, [de]
+    inc de
+    call Func_c9aa
+    pop af
+    push af
+    and a
+    jr z, .asm_c996
+    ld a, $1a
+    call Func_c9aa
+    jr .asm_c996
+.asm_c994
+    inc de
+    inc de
+.asm_c996
+    pop af
+    dec b
+    jr nz, .asm_c979
+    pop de
+    ld hl, $d922
+    ld a, $0
+    ld bc, $0008
+    call Func_735
+    pop hl
+    pop de
+    pop bc
+    ret
+
+Func_c9aa: ; 0xc9aa
+    and a
+    ret z
+    ld [hli], a
+    ret
+
+INCBIN "baserom.gbc",$c9ae,$c9be - $c9ae
+
+Func_c9be: ; 0xc9be
+    push af
+    push bc
+    push hl
+    ld c, a
+    xor b
+    and c
+    ld hl, $d936
+    call Func_c9ff
+    ld a, b
+    ld hl, $d93f
+    call Func_c9ff
+    ld a, [$d947]
+    cp $3
+    jr nc, .asm_c9f3
+    ld hl, $d93e
+    add [hl]
+    sub $4
+    ld hl, $d936
+    call nc, Func_ca15
+    ld de, $d936
+    ld hl, $d93f
+    ld b, $8
+.asm_c9ec
+    ld a, [de]
+    or [hl]
+    ld [hli], a
+    inc de
+    dec b
+    jr nz, .asm_c9ec
+.asm_c9f3
+    ld hl, $d93f
+    call Func_ca29
+    pop hl
+    pop bc
+    ld b, a
+    pop af
+    ld a, b
+    ret
+
+Func_c9ff: ; 0xc9ff
+    push bc
+    ld bc, $0800
+.asm_ca03
+    sla a
+    jr nc, .asm_ca0c
+    ld [hl], $ff
+    inc c
+    jr .asm_ca0e
+.asm_ca0c
+    ld [hl], $0
+.asm_ca0e
+    inc hl
+    dec b
+    jr nz, .asm_ca03
+    ld [hl], c
+    pop bc
+    ret
+
+Func_ca15: ; 0xca15
+    push bc
+    inc a
+    ld c, a
+    ld b, $8
+.asm_ca1a
+    ld a, [hl]
+    and a
+    jr z, .asm_ca23
+    ld [hl], $0
+    dec c
+    jr z, .asm_ca27
+.asm_ca23
+    inc hl
+    dec b
+    jr nz, .asm_ca1a
+.asm_ca27
+    pop bc
+    ret
+
+Func_ca29: ; 0ca29
+    push bc
+    ld bc, $0800
+.asm_ca2d
+    ld a, [hli]
+    and a
+    jr z, .asm_ca32
+    scf
+.asm_ca32
+    rl c
+    dec b
+    jr nz, .asm_ca2d
+    ld a, c
+    pop bc
+    ret
+
+Func_ca3a: ; 0ca3a
+    ld hl, $4a55 ; todo
+    ld de, wKeyConfigBallStart
+    ld b, $e
+.asm_ca42
+    ld a, [hli]
+    ld [de], a
+    inc de
+    dec b
+    jr nz, .asm_ca42
+    ld hl, wKeyConfigBallStart
+    ld de, $a244
+    ld bc, $000e
+    call Func_f1a
+    ret
+
+INCBIN "baserom.gbc",$ca55,$d3ff - $ca55
 
 CopyInitialHighScores: ; 0xd3ff
     ld hl, InitialHighScores
@@ -7349,8 +8227,8 @@ INCBIN "baserom.gbc",$24000,$28000 - $24000 ; 0x24000
 
 SECTION "banka", ROMX, BANK[$a]
 
-Func_28000: ; 0x28000
-    ld a, [$d8f2]
+HandlePokedexScreen: ; 0x28000
+    ld a, [wScreenState]
     rst $18
 PointerTable_28004: ; 0x28004
     dw LoadPokedexScreen
@@ -7417,7 +8295,7 @@ LoadPokedexScreen: ; 0x2800e
     call Func_490
     call Func_588
     call Func_bbe
-    ld hl, $d8f2
+    ld hl, wScreenState
     inc [hl]
     ret
 
@@ -7521,7 +8399,7 @@ MainPokedexScreen: ; 0x280fe
     call Func_926
     call Func_2887c
     call Func_2885c
-    ld hl, $d8f2
+    ld hl, wScreenState
     inc [hl]
     ret
 .asm_28142
@@ -7529,7 +8407,7 @@ MainPokedexScreen: ; 0x280fe
     jr z, .asm_2814f
     call Func_285db
     ld a, $4
-    ld [$d8f2], a
+    ld [wScreenState], a
     ret
 .asm_2814f
     ld a, [hGameBoyColorFlag]
@@ -7575,7 +8453,7 @@ MonInfoPokedexScreen: ; 0x28178
     call Func_288a2
     call Func_285db
     ld a, $1
-    ld [$d8f2], a
+    ld [wScreenState], a
     ret
 .asm_281a2
     ld a, [hGameBoyColorFlag]
@@ -7663,7 +8541,7 @@ Func_282e9: ; 0x282e9
     call Func_28a8a
     call Func_28ad1
     ld a, $1
-    ld [$d8f2], a
+    ld [wScreenState], a
 .asm_28367
     ret
 
@@ -7829,10 +8707,10 @@ ExitPokedexScreen: ; 0x284f9
     res 6, [hl]
     ld hl, $ffff
     res 1, [hl]
-    ld a, $3
-    ld [$d8f1], a
+    ld a, SCREEN_TITLESCREEN
+    ld [wCurrentScreen], a
     xor a
-    ld [$d8f2], a
+    ld [wScreenState], a
     ret
 
 Func_28513: ; 0x28513

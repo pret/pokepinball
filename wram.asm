@@ -78,9 +78,16 @@ wTimerMinutes:: ; 0xd57b
 wTimerFrames::  ; 0xd57c
     ds 1
 
-    ds $38c
+    ds $374
 
-; I think 0xd8f2 is a screen constant (e.g 4 = high score screen)
+wCurrentScreen:: ; 0xd8f1
+; The game is driven by state machines. This is the current screen.
+    ds 1
+wScreenState:: ; 0xd8f2
+; The game is driven by state machines. This is the current state for the current screen.
+    ds 1
+
+    ds 22
 
 wTitleScreenCursorSelection:: ; 0xd909
 ; 0 = Game Start

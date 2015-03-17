@@ -13,7 +13,12 @@ wOAMBuffer:: ; d000
     ; buffer for OAM data. Copied to OAM by DMA
     ds 4 * 40
 
-    ds $413
+    ds $40c
+
+wCurrentStage:: ; 0xd4ac
+    ds 1
+
+    ds 6
 
 wBallXPos:: ; 0xd4b3
 ; x coordinate of the center of the pokeball
@@ -117,7 +122,22 @@ wTitleScreenBouncingBallAnimationFrame:: ; 0xd90e
 wTitleScreenPokeballAnimationCounter:: ; 0xd90f
     ds 1
 
-    ds 10
+    ds 2
+
+wFieldSelectBlinkingBorderTimer:: ; 0xd912
+; Number of frames to blink the field select screen border after the player chooses a field.
+    ds 1
+
+wSelectedFieldIndex:: ; d913
+; $0 if player is hovering cursor over Red Stage
+; $1 if player is hovering cursor over Blue Stage
+    ds 1
+
+wFieldSelectBlinkingBorderFrame:: ; 0xd914
+; The blinking border's current animation frame.
+    ds 1
+
+    ds 5
 
 wSoundTestCurrentBackgroundMusic:: ; d91a
     ds 1

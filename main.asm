@@ -6666,7 +6666,7 @@ Func_8311: ; 0x8311
     xor a
     ld [$ff4f], a
     call Func_8388
-    ld a, [$d4ac]
+    ld a, [wCurrentStage]
     call CallInFollowingTable
 CallTable_8348: ; 0x8348
     dw $4000
@@ -6726,7 +6726,7 @@ Func_8388: ; 0x8388
     call ClearData
     ret
 .asm_8398
-    ld a, [$d4ac]
+    ld a, [wCurrentStage]
     cp $6
     ret nc
     ld hl, $d300
@@ -9814,7 +9814,7 @@ LoadFieldSelectScreen: ; 0xd6dd
     call LoadVideoData
     call ClearOAMBuffer
     ld a, $8
-    ld [$d914], a
+    ld [wFieldSelectBlinkingBorderFrame], a
     call Func_b66
     ld a, $12
     call Func_52c
@@ -9867,17 +9867,17 @@ FieldSelectGfx_GameBoyColor: ; 0xd730
     db $FF, $FF ; terminators
 
 ChooseFieldToPlay: ; 0xd74e
-    call Func_d7d3
+    call MoveFieldSelectCursor
     ld hl, $583d ; todo
-    call Func_d7fb
+    call AnimateBlinkingFieldSelectBorder
     ld a, [hNewlyPressedButtons]
     and (A_BUTTON | B_BUTTON)
     ret z
     ld [$d8f6], a
-    ld a, $18
-    ld [$d912], a
+    ld a, $18  ; number of frames to blink the border after selecting the Field
+    ld [wFieldSelectBlinkingBorderTimer], a
     ld a, $1
-    ld [$d914], a
+    ld [wFieldSelectBlinkingBorderFrame], a
     ld de, $0001
     call PlaySoundEffect
     ld hl, wScreenState
@@ -9889,10 +9889,10 @@ ExitFieldSelectScreen: ; 0xd774
     bit BIT_A_BUTTON, a
     jr z, .didntPressA
     ld hl, $5846
-    call Func_d7fb
-    ld a, [$d912]
+    call AnimateBlinkingFieldSelectBorder
+    ld a, [wFieldSelectBlinkingBorderTimer]
     dec a
-    ld [$d912], a
+    ld [wFieldSelectBlinkingBorderTimer], a
     ret nz
 .didntPressA
     ld a, [hJoypadState]
@@ -9902,13 +9902,13 @@ ExitFieldSelectScreen: ; 0xd774
     ld a, [$d8f6]
     bit BIT_A_BUTTON, a
     jr z, .pressedB
-    ld a, [$d913]
+    ld a, [wSelectedFieldIndex]
     ld c, a
     ld b, $0
     ld hl, StartingStages
     add hl, bc
     ld a, [hl]
-    ld [$d4ac], a
+    ld [wCurrentStage], a
     pop af
     xor a
     ld [$d7c2], a
@@ -9933,35 +9933,40 @@ ExitFieldSelectScreen: ; 0xd774
     ret
 
 StartingStages: ; 0xd7d1
+; wSelectedFieldIndex is used to index this array
     db STAGE_RED_FIELD_BOTTOM, STAGE_BLUE_FIELD_BOTTOM
 
-Func_d7d3: ; 0x57d3
+MoveFieldSelectCursor: ; 0x57d3
+; When the player presses Right or Left, the stage is
+; illuminated with a blinking border.  This function keeps tracks
+; of which field is currently selected.
     ld a, [hPressedButtons]
     ld b, a
-    ld a, [$d913]
-    bit 5, b
-    jr z, .asm_d7ea
+    ld a, [wSelectedFieldIndex]
+    bit BIT_D_LEFT, b
+    jr z, .didntPressLeft
     and a
-    ret z
-    dec a
-    ld [$d913], a
+    ret z  ; if cursor is already hovering over Red stage, don't do anything
+    dec a  ; move cursor over Red stage
+    ld [wSelectedFieldIndex], a
     ld de, $003c
     call PlaySoundEffect
     ret
-.asm_d7ea
-    bit 4, b
+.didntPressLeft
+    bit BIT_D_RIGHT, b
     ret z
     cp $1
-    ret z
-    inc a
-    ld [$d913], a
+    ret z  ; if cursor is already hovering over Blue stage, don't do anything
+    inc a  ; move cursor over Red stage
+    ld [wSelectedFieldIndex], a
     ld de, $003d
     call PlaySoundEffect
     ret
 
-Func_d7fb: ; 0xd7fb
+AnimateBlinkingFieldSelectBorder: ; 0xd7fb
+; This makes the border of the currently-selected Field blink in the Field Select screen.
     push hl
-    ld a, [$d913]
+    ld a, [wSelectedFieldIndex]
     sla a
     ld c, a
     ld b, $0
@@ -9980,7 +9985,7 @@ Func_d7fb: ; 0xd7fb
     add hl, de
     ld a, [hl]
     call LoadOAMData
-    ld a, [$d914]
+    ld a, [wFieldSelectBlinkingBorderFrame]
     dec a
     jr nz, .asm_d838
     inc hl
@@ -10001,7 +10006,7 @@ Func_d7fb: ; 0xd7fb
     add hl, bc
     ld a, [hl]
 .asm_d838
-    ld [$d914], a
+    ld [wFieldSelectBlinkingBorderFrame], a
     pop hl
     ret
 
@@ -10349,7 +10354,7 @@ StartCatchEmMode: ; 0x1003f
     xor a
     ld [$d550], a
     ld [$d54d], a
-    ld a, [$d4ac]
+    ld a, [wCurrentStage]
     sla a
     ld c, a
     ld b, $0
@@ -10452,7 +10457,7 @@ StartCatchEmMode: ; 0x1003f
     call BankSwitch
     call Func_10696
     call Func_3579
-    ld a, [$d4ac]
+    ld a, [wCurrentStage]
     bit 0, a
     jr z, .asm_1011d
     ld a, $28
@@ -10467,7 +10472,7 @@ StartCatchEmMode: ; 0x1003f
     call Func_735
 .asm_1011d
     call SetPokemonSeenFlag
-    ld a, [$d4ac]
+    ld a, [wCurrentStage]
     rst $18   ; todo this is a funciton table after rst $18, not assembly instructions
     ld [hl], c
     ld c, b
@@ -10906,7 +10911,7 @@ DrawTimerDigit: ; 0x17625
 
 Func_1762f: ; 0x1762f
     ld de, $600c
-    ld a, [$d4ac]
+    ld a, [wCurrentStage]
     cp $6
     ret nc
     ld de, $0000

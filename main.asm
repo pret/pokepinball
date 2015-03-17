@@ -3758,8 +3758,8 @@ CallTable_2049: ; 0x2049
     db Bank(HandleHighScoresScreen), $00
 
     ; SCREEN_FIELD_SELECT
-    dw $56D3
-    db $03, $00
+    dw HandleFieldSelectScreen
+    db Bank(HandleFieldSelectScreen), $00
     ; end of call table
 
 Func_206d: ; 0x206d
@@ -8373,9 +8373,9 @@ Func_cb14: ; 0xcb14
     ld [$d80d], a
     ld [$d80e], a
     xor a
-    ld [$ffa1], a
+    ld [hBoardXShift], a
     ld [$ffab], a
-    ld [$ffa0], a
+    ld [hBoardYShift], a
     ld [$ffad], a
     ld a, $e
     ld [$ffa2], a
@@ -9663,7 +9663,7 @@ Func_d4cf: ; 0xd4cf
     xor a
     ld [$ffa6], a
     ld a, $2
-    ld [$ffa1], a
+    ld [hBoardXShift], a
     ld hl, $ff9e
     set 5, [hl]
     ld b, $27
@@ -9678,7 +9678,7 @@ Func_d4cf: ; 0xd4cf
     dec [hl]
     dec [hl]
     dec [hl]
-    ld hl, $ffa1
+    ld hl, hBoardXShift
     inc [hl]
     inc [hl]
     inc [hl]
@@ -9688,7 +9688,7 @@ Func_d4cf: ; 0xd4cf
     dec b
     jr nz, .asm_d508
     xor a
-    ld [$ffa1], a
+    ld [hBoardXShift], a
     ld hl, $ff9e
     res 5, [hl]
     set 3, [hl]
@@ -9704,7 +9704,7 @@ Func_d4cf: ; 0xd4cf
     xor a
     ld [$ffa6], a
     ld a, $a0
-    ld [$ffa1], a
+    ld [hBoardXShift], a
     ld hl, $ff9e
     set 5, [hl]
     res 3, [hl]
@@ -9719,7 +9719,7 @@ Func_d4cf: ; 0xd4cf
     inc [hl]
     inc [hl]
     inc [hl]
-    ld hl, $ffa1
+    ld hl, hBoardXShift
     dec [hl]
     dec [hl]
     dec [hl]
@@ -9729,7 +9729,7 @@ Func_d4cf: ; 0xd4cf
     dec b
     jr nz, .asm_d551
     xor a
-    ld [$ffa1], a
+    ld [hBoardXShift], a
     ld hl, $ff9e
     res 5, [hl]
     xor a
@@ -9790,13 +9790,47 @@ Func_d6b6: ; 0xd6b6
     ld [hli], a
     ret
 
-INCBIN "baserom.gbc",$d6d3,$d71c - $d6d3
+HandleFieldSelectScreen: ; 0xd6d3
+    ld a, [wScreenState]
+    rst $18
+PointerTable_d6d7: ; 0xd6d7
+    dw LoadFieldSelectScreen
+    dw ChooseFieldToPlay
+    dw ExitFieldSelectScreen
 
-PointerTable_d71c: ; 0xd71c
-    dw DataArray_d720
-    dw DataArray_d730
+LoadFieldSelectScreen: ; 0xd6dd
+    ld a, $43
+    ld [$ff9e], a
+    ld a, $e4
+    ld [$d80c], a
+    ld a, $d2
+    ld [$d80d], a
+    ld [$d80e], a
+    xor a
+    ld [hBoardXShift], a
+    ld [hBoardYShift], a
+    ld hl, FieldSelectGfxPointers
+    ld a, [hGameBoyColorFlag]
+    call LoadVideoData
+    call ClearOAMBuffer
+    ld a, $8
+    ld [$d914], a
+    call Func_b66
+    ld a, $12
+    call Func_52c
+    ld de, $0003
+    call Func_490
+    call Func_588
+    call Func_bbe
+    ld hl, wScreenState
+    inc [hl]
+    ret
 
-DataArray_d720: ; 0xd720
+FieldSelectGfxPointers: ; 0xd71c
+    dw FieldSelectGfx_GameBoy
+    dw FieldSelectGfx_GameBoyColor
+
+FieldSelectGfx_GameBoy: ; 0xd720
     dw FieldSelectScreenGfx
     db Bank(FieldSelectScreenGfx)
     dw vTiles1 - $100
@@ -9809,7 +9843,7 @@ DataArray_d720: ; 0xd720
 
     db $FF, $FF ; terminators
 
-DataArray_d730: ; 0xd730
+FieldSelectGfx_GameBoyColor: ; 0xd730
     dw FieldSelectScreenGfx
     db Bank(FieldSelectScreenGfx)
     dw vTiles1 - $100
@@ -9832,7 +9866,146 @@ DataArray_d730: ; 0xd730
 
     db $FF, $FF ; terminators
 
-INCBIN "baserom.gbc",$d74e,$d853 - $d74e
+ChooseFieldToPlay: ; 0xd74e
+    call Func_d7d3
+    ld hl, $583d ; todo
+    call Func_d7fb
+    ld a, [hNewlyPressedButtons]
+    and (A_BUTTON | B_BUTTON)
+    ret z
+    ld [$d8f6], a
+    ld a, $18
+    ld [$d912], a
+    ld a, $1
+    ld [$d914], a
+    ld de, $0001
+    call PlaySoundEffect
+    ld hl, wScreenState
+    inc [hl]
+    ret
+
+ExitFieldSelectScreen: ; 0xd774
+    ld a, [$d8f6]  ; this holds the button that was pressed (A or B)
+    bit BIT_A_BUTTON, a
+    jr z, .didntPressA
+    ld hl, $5846
+    call Func_d7fb
+    ld a, [$d912]
+    dec a
+    ld [$d912], a
+    ret nz
+.didntPressA
+    ld a, [hJoypadState]
+    push af
+    call Func_cb5
+    call Func_576
+    ld a, [$d8f6]
+    bit BIT_A_BUTTON, a
+    jr z, .pressedB
+    ld a, [$d913]
+    ld c, a
+    ld b, $0
+    ld hl, StartingStages
+    add hl, bc
+    ld a, [hl]
+    ld [$d4ac], a
+    pop af
+    xor a
+    ld [$d7c2], a
+    ld hl, $d300
+    ld de, $a268
+    ld bc, $04c3
+    call Func_f1a
+    xor a
+    ld [$d7c1], a
+    ; Start a round of Pinball! Yayy
+    ld a, SCREEN_PINBALL_GAME
+    ld [wCurrentScreen], a
+    xor a
+    ld [wScreenState], a
+    ret
+.pressedB
+    pop af
+    ld a, SCREEN_TITLESCREEN
+    ld [wCurrentScreen], a
+    xor a
+    ld [wScreenState], a
+    ret
+
+StartingStages: ; 0xd7d1
+    db STAGE_RED_FIELD_BOTTOM, STAGE_BLUE_FIELD_BOTTOM
+
+Func_d7d3: ; 0x57d3
+    ld a, [$ff9a]
+    ld b, a
+    ld a, [$d913]
+    bit 5, b
+    jr z, .asm_d7ea
+    and a
+    ret z
+    dec a
+    ld [$d913], a
+    ld de, $003c
+    call PlaySoundEffect
+    ret
+.asm_d7ea
+    bit 4, b
+    ret z
+    cp $1
+    ret z
+    inc a
+    ld [$d913], a
+    ld de, $003d
+    call PlaySoundEffect
+    ret
+
+Func_d7fb: ; 0xd7fb
+    push hl
+    ld a, [$d913]
+    sla a
+    ld c, a
+    ld b, $0
+    ld hl, $584f ; todo
+    add hl, bc
+    ld a, [hli]
+    ld c, a
+    ld a, [hli]
+    ld b, a
+    ld a, [$d915]
+    sla a
+    ld e, a
+    ld d, $0
+    pop hl
+    push hl
+    add hl, de
+    ld a, [hl]
+    call LoadOAMData
+    ld a, [$d914]
+    dec a
+    jr nz, .asm_d838
+    inc hl
+    inc hl
+    ld a, [hl]
+    and a
+    jr z, .asm_d82b
+    ld a, [$d915]
+    inc a
+.asm_d82b
+    ld [$d915], a
+    sla a
+    ld c, a
+    ld b, $0
+    pop hl
+    push hl
+    inc hl
+    add hl, bc
+    ld a, [hl]
+.asm_d838
+    ld [$d914], a
+    pop hl
+    ret
+
+INCBIN "baserom.gbc",$d83d,$d853 - $d83d
 
 Func_d853: ; 0xd853
     ld a, [wScreenState]

@@ -1297,7 +1297,7 @@ ReadJoypad: ; 0xab8
     ld hl, hJoypadState
     and [hl]  ; a contains newly-pressed buttons compared to last frame
     ld [hNewlyPressedButtons], a
-    ld [$ff9a], a
+    ld [hPressedButtons], a
     pop af
     ld hl, hPreviousJoypadState
     and [hl]  ; a contains newly-pressed buttons compared to two frames ago
@@ -1314,7 +1314,7 @@ ReadJoypad: ; 0xab8
     dec [hl]
     jr nz, .asm_b1a
     ld a, [hJoypadState]
-    ld [$ff9a], a
+    ld [hPressedButtons], a
     ld a, [$d807]
     ld [$ff9d], a
     jr .asm_b1a
@@ -1331,7 +1331,7 @@ ReadJoypad: ; 0xab8
     ld a, [hNewlyPressedButtons]
     or [hl]
     ld [hli], a
-    ld a, [$ff9a]
+    ld a, [hPressedButtons]
     or [hl]
     ld [hli], a
     ret
@@ -7042,7 +7042,7 @@ GoToHighScoresFromTitlescreen: ; 0xc1e7
     ret
 
 Func_c1fc: ; 0xc1fc
-    ld a, [$ff9a]
+    ld a, [hPressedButtons]
     ld b, a
     ld a, [hl]
     bit 6, b
@@ -7357,7 +7357,7 @@ Func_c400: ; 0xc400
     ret
 
 Func_c41a: ; 0xc41a
-    ld a, [$ff9a]
+    ld a, [hPressedButtons]
     ld b, a
     ld a, [$d916]
     bit 6, b
@@ -7768,7 +7768,7 @@ Func_c6e8: ; 0xc6e8
     ret
 
 UpdateSoundTestBackgroundMusicSelection: ; 0xc715
-    ld a, [$ff9a] ; joypad state
+    ld a, [hPressedButtons] ; joypad state
     ld b, a
     ld a, [wSoundTestCurrentBackgroundMusic]
     bit BIT_D_LEFT, b  ; was the left dpad button pressed?
@@ -7800,7 +7800,7 @@ UpdateSoundTestSoundEffectSelection: ; 0xc73a
     call PlaySoundEffect
     ret
 .didntPressAButton
-    ld a, [$ff9a] ; joypad state
+    ld a, [hPressedButtons] ; joypad state
     ld b, a
     ld a, [wSoundTextCurrentSoundEffect]
     bit BIT_D_LEFT, b  ; was the left dpad button pressed?
@@ -9155,7 +9155,7 @@ ExitHighScoresScreen: ; 0xd171
     ret
 
 Func_d18b: ; 0xd18b
-    ld a, [$ff9a]
+    ld a, [hPressedButtons]
     ld b, a
     ld a, [$da81]
     ld e, a
@@ -9936,7 +9936,7 @@ StartingStages: ; 0xd7d1
     db STAGE_RED_FIELD_BOTTOM, STAGE_BLUE_FIELD_BOTTOM
 
 Func_d7d3: ; 0x57d3
-    ld a, [$ff9a]
+    ld a, [hPressedButtons]
     ld b, a
     ld a, [$d913]
     bit 5, b
@@ -11436,7 +11436,7 @@ Func_28368: ; 0x28368
     jr nz, .asm_28371
     jp Func_284bc
 .asm_28371
-    ld a, [$ff9a]
+    ld a, [hPressedButtons]
     ld b, a
     ld a, [$daa2]
     ld e, a
@@ -11546,7 +11546,7 @@ Func_28368: ; 0x28368
 INCBIN "baserom.gbc",$2842c,$284bc - $2842c
 
 Func_284bc: ; 0x284bc
-    ld a, [$ff9a]
+    ld a, [hPressedButtons]
     ld b, a
     ld a, [$daa2]
     bit 5, b
@@ -11599,7 +11599,7 @@ ExitPokedexScreen: ; 0x284f9
     ret
 
 Func_28513: ; 0x28513
-    ld a, [$ff9a]
+    ld a, [hPressedButtons]
     ld hl, $d95e
     or [hl]
     ld [hl], a

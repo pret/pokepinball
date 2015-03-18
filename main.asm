@@ -6691,35 +6691,45 @@ CallTable_8348: ; 0x8348
     dw InitBlueField
     db Bank(InitBlueField), $00
 
-    dw $4099
-    db $06, $00
+    ; STAGE_GENGAR_BONUS
+    dw InitGengarBonusStage
+    db Bank(InitGengarBonusStage), $00
 
-    dw $4099
-    db $06, $00
+    ; STAGE_GENGAR_BONUS
+    dw InitGengarBonusStage
+    db Bank(InitGengarBonusStage), $00
 
-    dw $524F
-    db $06, $00
+    ; STAGE_MEWTWO_BONUS
+    dw InitMewtwoBonusStage
+    db Bank(InitMewtwoBonusStage), $00
 
-    dw $524F
-    db $06, $00
+    ; STAGE_MEWTWO_BONUS
+    dw InitMewtwoBonusStage
+    db Bank(InitMewtwoBonusStage), $00
 
-    dw $4000
-    db $09, $00
+    ; STAGE_MEOWTH_BONUS
+    dw InitMeowthBonusStage
+    db Bank(InitMeowthBonusStage), $00
 
-    dw $4000
-    db $09, $00
+    ; STAGE_MEOWTH_BONUS
+    dw InitMeowthBonusStage
+    db Bank(InitMeowthBonusStage), $00
 
-    dw $59F2
-    db $06, $00
+    ; STAGE_DIGLETT_BONUS
+    dw InitDiglettBonusStage
+    db Bank(InitDiglettBonusStage), $00
 
-    dw $59F2
-    db $06, $00
+    ; STAGE_DIGLETT_BONUS
+    dw InitDiglettBonusStage
+    db Bank(InitDiglettBonusStage), $00
 
-    dw $5A7C
-    db $09, $00
+    ; STAGE_SEEL_BONUS
+    dw InitSeelBonusStage
+    db Bank(InitSeelBonusStage), $00
 
-    dw $5A7C
-    db $09, $00
+    ; STAGE_SEEL_BONUS
+    dw InitSeelBonusStage
+    db Bank(InitSeelBonusStage), $00
 
 Func_8388: ; 0x8388
     ld a, [$d7c1]
@@ -11081,7 +11091,169 @@ INCBIN "baserom.gbc",$17efb,$18000 - $17efb
 
 SECTION "bank6", ROMX, BANK[$6]
 
-INCBIN "baserom.gbc",$18000,$1c000 - $18000 ; 0x18000
+INCBIN "baserom.gbc",$18000,$18099 - $18000
+
+InitGengarBonusStage: ; 0x18099
+    ld a, [$d7c1]
+    and a
+    jr z, .asm_180ac
+    xor a
+    ld [$d674], a
+    ld a, $8
+    ld [$d690], a
+    ld [$d6a1], a
+    ret
+.asm_180ac
+    ld a, $1
+    ld [$d7ac], a
+    ld a, [$d47e]
+    ld [$d481], a
+    xor a
+    ld [$d4c8], a
+    ld [$d47e], a
+    ld [$d49a], a
+    ld hl, $4121 ; todo
+    ld de, $d659
+    call Func_18112
+    call Func_18112
+    call Func_18112
+    ld hl, $413c ; todo
+    ld de, $d67e
+    call Func_18112
+    call Func_18112
+    ld hl, $414e ; todo
+    ld de, $d698
+    call Func_18112
+    xor a
+    ld [$d67b], a
+    ld [$d695], a
+    ld hl, $d6a2
+    ld [hli], a
+    ld [hli], a
+    ld [hli], a
+    ld [hli], a
+    ld [hli], a
+    ld [hli], a
+    ld [hli], a
+    ld [$d656], a
+    ld bc, $0130  ; 1 minute 30 seconds
+    ld [$ff8a], a
+    ld a, Bank(StartTimer)
+    ld hl, StartTimer
+    call BankSwitch
+    ld a, $f
+    call Func_52c
+    ld de, $0005
+    call Func_490
+    ret
+
+Func_18112: ; 0x18112
+    ld b, $3
+.asm_18114
+    ld a, [hli]
+    ld [de], a
+    inc de
+    ld a, [hli]
+    ld [de], a
+    inc de
+    ld a, [hli]
+    ld [de], a
+    inc de
+    dec b
+    jr nz, .asm_18114
+    ret
+
+INCBIN "baserom.gbc",$18121,$1924f - $18121
+
+InitMewtwoBonusStage: ; 0x1924f
+    ld a, [$d7c1]
+    and a
+    ret nz
+    xor a
+    ld [$d4af], a
+    ld a, $1
+    ld [$d7ac], a
+    ld a, [$d47e]
+    ld [$d481], a
+    xor a
+    ld [$d4c8], a
+    ld [$d47e], a
+    ld [$d49a], a
+    ld hl, $52ab ; todo
+    ld de, $d6b6
+    ld b, $c
+.asm_19275
+    ld a, [hli]
+    ld [de], a
+    inc de
+    ld a, [hli]
+    ld [de], a
+    inc de
+    ld a, [hli]
+    ld [de], a
+    inc de
+    ld a, [hli]
+    ld [de], a
+    inc de
+    dec b
+    jr nz, .asm_19275
+    ld hl, $52db ; todo
+    ld de, $d6ac
+    ld b, $8
+.asm_1928c
+    ld a, [hli]
+    ld [de], a
+    inc de
+    dec b
+    jr nz, .asm_1928c
+    ld bc, $0200  ; 2 minutes 0 seconds
+    ld [$ff8a], a
+    ld a, Bank(StartTimer)
+    ld hl, StartTimer
+    call BankSwitch
+    ld a, $12
+    call Func_52c
+    ld de, $0001
+    call Func_490
+    ret
+
+INCBIN "baserom.gbc",$192ab,$199f2 - $192ab
+
+InitDiglettBonusStage: ; 0x199f2
+    ld a, [$d7c1]
+    and a
+    ret nz
+    xor a
+    ld [$d4af], a
+    ld a, $1
+    ld [$d7ac], a
+    ld a, [$d47e]
+    ld [$d481], a
+    xor a
+    ld [$d4c8], a
+    ld [$d47e], a
+    ld [$d49a], a
+    ld a, $1
+    ld hl, $d73d
+    ld b, $1f
+.asm_19a17
+    ld [hli], a
+    dec b
+    jr nz, .asm_19a17
+    ld a, $1
+    ld [$d761], a
+    ld a, $c
+    ld [$d762], a
+    xor a
+    ld [$d763], a
+    ld [$d764], a
+    ld a, $11
+    call Func_52c
+    ld de, $0001
+    call Func_490
+    ret
+
+INCBIN "baserom.gbc",$19a38,$1c000 - $19a38
 
 
 SECTION "bank7", ROMX, BANK[$7]
@@ -11255,7 +11427,100 @@ INCBIN "baserom.gbc",$20000,$24000 - $20000 ; 0x20000
 
 SECTION "bank9", ROMX, BANK[$9]
 
-INCBIN "baserom.gbc",$24000,$28000 - $24000 ; 0x24000
+InitMeowthBonusStage: ; 0x24000
+    ld a, [$d7c1]
+    and a
+    ret nz
+    xor a
+    ld [$d4c8], a
+    ld [$d4af], a
+    ld a, [$d47e]
+    ld [$d481], a
+    xor a
+    ld [$d4c8], a
+    ld [$d47e], a
+    ld [$d49a], a
+    ld a, $1
+    ld [$d7ac], a
+    ld a, $40
+    ld [$d6ed], a
+    ld a, $20
+    ld [$d6ee], a
+    ld a, $10
+    ld [$d6e9], a
+    xor a
+    ld [$d711], a
+    ld [$d70b], a
+    ld [$d70f], a
+    ld [$d713], a
+    ld [$d739], a
+    ld bc, $0100  ; 1 minute 0 seconds
+    ld [$ff8a], a
+    ld a, Bank(StartTimer)
+    ld hl, StartTimer
+    call BankSwitch
+    ld a, $12
+    call Func_52c
+    ld de, $0004
+    call Func_490
+    ret
+
+INCBIN "baserom.gbc",$24059,$25a7c - $24059
+
+InitSeelBonusStage: ; 0x25a7c
+    ld a, [$d7c1]
+    and a
+    ret nz
+    xor a
+    ld [$d4c8], a
+    ld [$d4af], a
+    ld a, $1
+    ld [$d7ac], a
+    ld a, [$d47e]
+    ld [$d481], a
+    xor a
+    ld [$d4c8], a
+    ld [$d47e], a
+    ld [$d49a], a
+    ld hl, $5ae5 ; todo
+    ld de, $d76d
+    call Func_25ad8
+    ld de, $d777
+    call Func_25ad8
+    ld de, $d781
+    call Func_25ad8
+    xor a
+    ld [$d793], a
+    ld [$d791], a
+    ld [$d792], a
+    ld [$d739], a
+    ld bc, $0130  ; 1 minute 30 seconds
+    ld [$ff8a], a
+    ld a, Bank(StartTimer)
+    ld hl, StartTimer
+    call BankSwitch
+    ld a, $11
+    call Func_52c
+    ld de, $0003
+    call Func_490
+    ret
+
+Func_25ad8: ; 0x25ad8
+    ld a, [hli]
+    ld [de], a
+    inc de
+    ld a, [hli]
+    ld [de], a
+    inc de
+    ld a, [hli]
+    ld [de], a
+    inc de
+    ld a, [hli]
+    ld [de], a
+    inc de
+    ret
+
+INCBIN "baserom.gbc",$25ae5,$28000 - $25ae5
 
 
 SECTION "banka", ROMX, BANK[$a]

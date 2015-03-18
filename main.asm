@@ -3742,8 +3742,8 @@ CallTable_2049: ; 0x2049
     db Bank(HandleTitlescreen), $00
 
     ; SCREEN_PINBALL_GAME
-    dw Func_d853
-    db Bank(Func_d853), $00
+    dw HandlePinballGame
+    db Bank(HandlePinballGame), $00
 
     ; SCREEN_POKEDEX
     dw HandlePokedexScreen
@@ -6669,11 +6669,13 @@ Func_8311: ; 0x8311
     ld a, [wCurrentStage]
     call CallInFollowingTable
 CallTable_8348: ; 0x8348
-    dw $4000
-    db $0C, $00
+    ; STAGE_RED_FIELD_TOP
+    dw InitRedField
+    db Bank(InitRedField), $00
 
-    dw $4000
-    db $0C, $00
+    ; STAGE_RED_FIELD_BOTTOM
+    dw InitRedField
+    db Bank(InitRedField), $00
 
     dw $4000
     db $06, $00
@@ -6681,11 +6683,13 @@ CallTable_8348: ; 0x8348
     dw $4000
     db $06, $00
 
-    dw $4000
-    db $07, $00
+    ; STAGE_BLUE_FIELD_TOP
+    dw InitBlueField
+    db Bank(InitBlueField), $00
 
-    dw $4000
-    db $07, $00
+    ; STAGE_BLUE_FIELD_BOTTOM
+    dw InitBlueField
+    db Bank(InitBlueField), $00
 
     dw $4099
     db $06, $00
@@ -10012,7 +10016,7 @@ AnimateBlinkingFieldSelectBorder: ; 0xd7fb
 
 INCBIN "baserom.gbc",$d83d,$d853 - $d83d
 
-Func_d853: ; 0xd853
+HandlePinballGame: ; 0xd853
     ld a, [wScreenState]
     rst $18
 PointerTable_d857: ; 0xd857
@@ -10098,7 +10102,20 @@ Func_d87f: ; 0xd87f
     inc [hl]
     ret
 
-INCBIN "baserom.gbc",$d909,$dbd4 - $d909
+INCBIN "baserom.gbc",$d909,$dbba - $d909
+
+Func_dbba: ; 0xdbba
+    ld a, $1
+    ld [$d4a1], a
+    ld a, $ff
+    ld [$d4a2], a
+    ld a, $3b
+    ld [$d4a3], a
+    ld a, $14
+    ld [$d4a4], a
+    ld a, $2
+    ld [$d4a5], a
+    ret
 
 Func_dbd4: ; 0xdbd4
     ld a, [$d4a3]
@@ -10881,7 +10898,39 @@ RedStageInitialMaps: ; 0x16605
     db ROCK_MOUNTAIN
     db LAVENDER_TOWN
 
-INCBIN "baserom.gbc",$1660c,$175f5 - $1660c
+INCBIN "baserom.gbc",$1660c,$16f95 - $1660c
+
+Func_16f95: ; 0x16f95
+    ld a, [$d482]
+    inc a
+    cp $64
+    jr c, .asm_16f9f
+    ld a, $63
+.asm_16f9f
+    ld b, a
+    xor a
+    ld hl, $6fc1 ; todo
+    ld c, $7
+.asm_16fa6
+    bit 0, b
+    jr z, .asm_16fac
+    add [hl]
+    daa
+.asm_16fac
+    srl b
+    inc hl
+    dec c
+    jr nz, .asm_16fa6
+    push af
+    swap a
+    and $f
+    ld [$d60c], a
+    pop af
+    and $f
+    ld [$d60d], a
+    ret
+
+INCBIN "baserom.gbc",$16fc1,$175f5 - $16fc1
 
 DrawTimer: ; 0x175f5
 ; Loads the OAM data for the timer in the top-right corner of the screen.
@@ -11037,7 +11086,69 @@ INCBIN "baserom.gbc",$18000,$1c000 - $18000 ; 0x18000
 
 SECTION "bank7", ROMX, BANK[$7]
 
-INCBIN "baserom.gbc",$1c000,$1c846 - $1c000
+InitBlueField: ; 0x1c000
+    ld a, [$d7c1]
+    and a
+    ret nz
+    xor a
+    ld hl, $d46f
+    ld [hld], a
+    ld [hld], a
+    ld [hld], a
+    ld [hld], a
+    ld [hld], a
+    ld [hl], a
+    ld [$d460], a
+    ld [$d49b], a
+    ld [$d4c9], a
+    ld [$d47e], a
+    ld [$d4c8], a
+    ld hl, $d624
+    ld [hli], a
+    ld [hli], a
+    ld [hli], a
+    ld [$d7ac], a
+    ld [$d7be], a
+    ld [wCurrentMap], a  ; PALLET_TOWN
+    ld a, $1
+    ld [$d49d], a
+    ld [$d482], a
+    ld a, $2
+    ld [$d545], a
+    ld a, $3
+    ld [$d49e], a
+    ld [$d610], a
+    ld a, $2
+    ld [$d498], a
+    ld [$d499], a
+    ld a, $80
+    ld [$d52f], a
+    ld [$d532], a
+    ld a, $82
+    ld [$d530], a
+    xor a
+    ld [$d648], a
+    ld [$d649], a
+    ld [$d64a], a
+    ld [$d643], a
+    ld [$d644], a
+    ld [$d645], a
+    ld [$d646], a
+    ld [$ff8a], a
+    ld a, Bank(Func_dbba)
+    ld hl, Func_dbba
+    call BankSwitch
+    ld [$ff8a], a
+    ld a, Bank(Func_1d65f)
+    ld hl, Func_1d65f
+    call BankSwitch
+    ld a, $10
+    call Func_52c
+    ld de, $0001
+    call Func_490
+    ret
+
+INCBIN "baserom.gbc",$1c08d,$1c846 - $1c08d
 
 .showNextMap
     ld a, [$d4e1]
@@ -11102,7 +11213,39 @@ BlueStageInitialMaps: ; 0x1c8af
     db ROCK_MOUNTAIN
     db CELADON_CITY
 
-INCBIN "baserom.gbc",$1c8b6,$20000 - $1c8b6
+INCBIN "baserom.gbc",$1c8b6,$1d65f - $1c8b6
+
+Func_1d65f: ; 0x1d65f
+    ld a, [$d482]
+    inc a
+    cp $64
+    jr c, .asm_1d669
+    ld a, $63
+.asm_1d669
+    ld b, a
+    xor a
+    ld hl, $568b ; todo
+    ld c, $7
+.asm_1d670
+    bit 0, b
+    jr z, .asm_1d676
+    add [hl]
+    daa
+.asm_1d676
+    srl b
+    inc hl
+    dec c
+    jr nz, .asm_1d670
+    push af
+    swap a
+    and $f
+    ld [$d60c], a
+    pop af
+    and $f
+    ld [$d60d], a
+    ret
+
+INCBIN "baserom.gbc",$1d68b,$20000 - $1d68b
 
 
 SECTION "bank8", ROMX, BANK[$8]
@@ -13028,7 +13171,63 @@ INCBIN "baserom.gbc",$2c000,$30000 - $2c000 ; 0x2c000
 
 SECTION "bankc", ROMX, BANK[$c]
 
-INCBIN "baserom.gbc",$30000,$30253 - $30000 ; 0x30000
+InitRedField: ; 0x30000
+    ld a, [$d7c1]
+    and a
+    ret nz
+    xor a
+    ld hl, $d46f
+    ld [hld], a
+    ld [hld], a
+    ld [hld], a
+    ld [hld], a
+    ld [hld], a
+    ld [hl], a
+    ld [$d460], a
+    ld [$d49b], a
+    ld [$d4c9], a
+    ld [$d47e], a
+    ld [$d4c8], a
+    ld hl, $d624
+    ld [hli], a
+    ld [hli], a
+    ld [hli], a
+    ld [$d7ac], a
+    ld [$d7be], a
+    ld [wCurrentMap], a  ; PALLET_TOWN
+    ld a, $1
+    ld [$d49d], a
+    ld [$d482], a
+    ld a, $2
+    ld [$d545], a
+    ld a, $3
+    ld [$d49e], a
+    ld [$d610], a
+    ld [$d498], a
+    ld [$d499], a
+    ld a, $4
+    ld [$d4af], a
+    ld [$d7ad], a
+    ld a, $80
+    ld [$d52f], a
+    ld [$d532], a
+    ld a, $82
+    ld [$d530], a
+    ld [$ff8a], a
+    ld a, Bank(Func_dbba)
+    ld hl, Func_dbba
+    call BankSwitch
+    ld [$ff8a], a
+    ld a, Bank(Func_16f95)
+    ld hl, Func_16f95
+    call BankSwitch
+    ld a, $f
+    call Func_52c
+    ld de, $0001
+    call Func_490
+    ret
+
+INCBIN "baserom.gbc",$3007d,$30253 - $3007d
 
 Func_30253: ; 0x30253
     ld a, [wCurrentMap]

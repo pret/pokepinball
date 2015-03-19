@@ -6754,7 +6754,112 @@ Func_8388: ; 0x8388
     call ClearData
     ret
 
-INCBIN "baserom.gbc",$83ba,$867d - $83ba
+Func_83ba: ; 0x83ba
+    ld a, [$d7c1]
+    and a
+    jr z, .asm_83c7
+    call Func_8444
+    call Func_8461
+    ret
+.asm_83c7
+    xor a
+    ld [wBallXVelocity], a
+    ld [$d4bc], a
+    ld [wBallYVelocity], a
+    ld [$d4be], a
+    ld [$d7ae], a
+    ld [$d7af], a
+    ld [$d7b2], a
+    ld [$d7b3], a
+    ld [$d7b0], a
+    ld [$d7b1], a
+    ld [$d7b4], a
+    ld [$d7b5], a
+    ld [wBallSpin], a
+    ld [wBallRotation], a
+    inc a
+    ld [$d548], a
+    ld [$d549], a
+    ld a, $20
+    ld [$d7ab], a
+    ld a, [wCurrentStage]
+    call CallInFollowingTable
+CallTable_8404: ; 0x8404
+    dw $407D
+    db $0C, $00
+
+    dw $407D
+    db $0C, $00
+
+    dw $404A
+    db $06, $00
+
+    dw $404A
+    db $06, $00
+
+    dw $408D
+    db $07, $00
+
+    dw $408D
+    db $07, $00
+
+    dw $4157
+    db $06, $00
+
+    dw $4157
+    db $06, $00
+
+    dw $52E3
+    db $06, $00
+
+    dw $52E3
+    db $06, $00
+
+    dw $4059
+    db $09, $00
+
+    dw $4059
+    db $09, $00
+
+    dw $5a38
+    db $06, $00
+
+    dw $5a38
+    db $06, $00
+
+    dw $5aF1
+    db $09, $00
+
+    dw $5aF1
+    db $09, $00
+
+Func_8444: ; 0x8444
+    ld a, [$d54b]
+    and a
+    jr z, .asm_8460
+    ld a, [$d550]
+    and a
+    jr nz, .asm_8460
+    ld a, [$d5bb]
+    and a
+    jr z, .asm_8460
+    ld [$ff8a], a
+    ld a, Bank(Func_10464)
+    ld hl, Func_10464
+    call BankSwitch
+.asm_8460
+    ret
+
+Func_8461: ; 0x8461
+    ld a, [$d7c0]
+    call Func_52c
+    ld a, [$d7bf]
+    ld e, a
+    ld d, $0
+    call Func_490
+    ret
+
+INCBIN "baserom.gbc",$8471,$867d - $8471
 
 StartTimer: ; 0x867d
 ; Starts the timer that counts down with the specified starting time when things
@@ -10078,8 +10183,8 @@ Func_d87f: ; 0xd87f
     ld a, $1
     ld [$ffb0], a
     ld [$ff8a], a
-    ld a, $2
-    ld hl, $43ba ; todo
+    ld a, Bank(Func_83ba)
+    ld hl, Func_83ba
     call BankSwitch
     ld [$ff8a], a
     ld a, $3
@@ -10538,7 +10643,34 @@ StartCatchEmMode: ; 0x1003f
     pop af
     ret
 
-INCBIN "baserom.gbc",$10157,$10696 - $10157
+INCBIN "baserom.gbc",$10157,$10464 - $10157
+
+Func_10464: ; 0x10464
+    ld a, [wCurrentMon]
+    ld c, a
+    ld b, $0
+    sla c
+    rl b
+    add c
+    ld c, a
+    jr nc, .noCarry
+    inc b
+.noCarry
+    ld hl, $74c0 ; todo
+    add hl, bc
+    ld a, [hli]
+    ld c, a
+    ld a, [hli]
+    ld b, a
+    ld a, [hl]
+    ld h, b
+    ld l, c
+    ld de, $c400
+    ld bc, $0080
+    call Func_666
+    ret
+
+INCBIN "baserom.gbc",$10488,$10696 - $10488
 
 Func_10696: ; 0x10696
     call Func_30e8

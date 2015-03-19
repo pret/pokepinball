@@ -27,7 +27,7 @@ $(OBJS): $$*.asm $$($$*_dep)
 	rgbasm -h -o $@ $<
 
 $(ROMS): $(OBJS)
-	rgblink -n $(ROMS:.gbc=.sym) -o $@ $^
+	rgblink -n $(ROMS:.gbc=.sym) -m $(ROMS:.gbc=.map) -o $@ $^
 	rgbfix -jsvc -k 01 -l 0x33 -m 0x1e -p 0 -r 02 -t "POKEPINBALL" -i VPHE $@
 
 # The compare target is a shortcut to check that the build matches the original roms exactly.

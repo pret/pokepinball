@@ -6764,9 +6764,9 @@ Func_83ba: ; 0x83ba
 .asm_83c7
     xor a
     ld [wBallXVelocity], a
-    ld [$d4bc], a
+    ld [wBallXVelocity + 1], a
     ld [wBallYVelocity], a
-    ld [$d4be], a
+    ld [wBallYVelocity + 1], a
     ld [$d7ae], a
     ld [$d7af], a
     ld [$d7b2], a
@@ -6785,51 +6785,65 @@ Func_83ba: ; 0x83ba
     ld a, [wCurrentStage]
     call CallInFollowingTable
 CallTable_8404: ; 0x8404
-    dw $407D
-    db $0C, $00
+    ; STAGE_RED_FIELD_TOP
+    dw Func_3007d
+    db Bank(Func_3007d), $00
 
-    dw $407D
-    db $0C, $00
+    ; STAGE_RED_FIELD_BOTTOM
+    dw Func_3007d
+    db Bank(Func_3007d), $00
 
-    dw $404A
-    db $06, $00
+    dw Func_1804a
+    db Bank(Func_1804a), $00
 
-    dw $404A
-    db $06, $00
+    dw Func_1804a
+    db Bank(Func_1804a), $00
 
-    dw $408D
-    db $07, $00
+    ; STAGE_BLUE_FIELD_TOP
+    dw Func_1c08d
+    db Bank(Func_1c08d), $00
 
-    dw $408D
-    db $07, $00
+    ; STAGE_BLUE_FIELD_BOTTOM
+    dw Func_1c08d
+    db Bank(Func_1c08d), $00
 
+    ; STAGE_GENGAR_BONUS
     dw $4157
     db $06, $00
 
+    ; STAGE_GENGAR_BONUS
     dw $4157
     db $06, $00
 
+    ; STAGE_MEWTWO_BONUS
     dw $52E3
     db $06, $00
 
+    ; STAGE_MEWTWO_BONUS
     dw $52E3
     db $06, $00
 
+    ; STAGE_MEOWTH_BONUS
     dw $4059
     db $09, $00
 
+    ; STAGE_MEOWTH_BONUS
     dw $4059
     db $09, $00
 
+    ; STAGE_DIGLETT_BONUS
     dw $5a38
     db $06, $00
 
+    ; STAGE_DIGLETT_BONUS
     dw $5a38
     db $06, $00
 
+    ; STAGE_SEEL_BONUS
     dw $5aF1
     db $09, $00
 
+    ; STAGE_SEEL_BONUS
     dw $5aF1
     db $09, $00
 
@@ -10187,8 +10201,8 @@ Func_d87f: ; 0xd87f
     ld hl, Func_83ba
     call BankSwitch
     ld [$ff8a], a
-    ld a, $3
-    ld hl, $6578 ; todo
+    ld a, Bank(Func_e578)
+    ld hl, Func_e578
     call BankSwitch
     ld [$ff8a], a
     ld a, $3
@@ -10251,7 +10265,61 @@ Func_dbd4: ; 0xdbd4
     ld [$d4a5], a
     ret
 
-INCBIN "baserom.gbc",$dc00,$eeee - $dc00
+INCBIN "baserom.gbc",$dc00,$e578 - $dc00
+
+Func_e578: ; 0xe578
+    ld a, [wCurrentStage]
+    sla a
+    ld c, a
+    ld b, $0
+    ld hl, $65a7 ; todo
+    add hl, bc
+    ld a, [hli]
+    ld h, [hl]
+    ld l, a
+    ld a, [hli]
+    and a
+    jr z, .asm_e598
+    ld a, [$d4af]
+    sla a
+    ld c, a
+    sla a
+    add c
+    ld c, a
+    ld b, $0
+    add hl, bc
+.asm_e598
+    ld de, $d7ec
+    ld b, $6
+.asm_e59d
+    ld a, [hli]
+    ld [de], a
+    inc de
+    dec b
+    jr nz, .asm_e59d
+    call Func_e656
+    ret
+
+INCBIN "baserom.gbc",$e5a7,$e656 - $e5a7
+
+Func_e656: ; 0xe656
+    ld hl, $d7ec
+    ld a, [hli]
+    ld h, [hl]
+    ld l, a
+    ld a, [$d7ee]
+    ld de, $c700
+    ld bc, $0300
+    call Func_666
+    ld hl, $d7ec
+    ld [hl], $0
+    inc hl
+    ld [hl], $c7
+    inc hl
+    ld [hl], $0
+    ret
+
+INCBIN "baserom.gbc",$e674,$eeee - $e674
 
 Func_eeee: ; 0xeeee
     push bc
@@ -11223,7 +11291,20 @@ INCBIN "baserom.gbc",$17efb,$18000 - $17efb
 
 SECTION "bank6", ROMX, BANK[$6]
 
-INCBIN "baserom.gbc",$18000,$18099 - $18000
+INCBIN "baserom.gbc",$18000,$1804a - $18000
+
+Func_1804a: ; 0x1804a
+    ld a, $0
+    ld [wBallXPos], a
+    ld a, $b0
+    ld [wBallXPos + 1], a
+    ld a, $0
+    ld [wBallYPos], a
+    ld a, $98
+    ld [wBallYPos + 1], a
+    ret
+
+INCBIN "baserom.gbc",$1805f,$18099 - $1805f
 
 InitGengarBonusStage: ; 0x18099
     ld a, [$d7c1]
@@ -11452,7 +11533,109 @@ InitBlueField: ; 0x1c000
     call Func_490
     ret
 
-INCBIN "baserom.gbc",$1c08d,$1c846 - $1c08d
+Func_1c08d: ; 0x1c08d
+    ld a, [$d496]
+    and a
+    jp nz, Func_1c129
+    ld a, $0
+    ld [wBallXPos], a
+    ld a, $a7
+    ld [wBallXPos + 1], a
+    ld a, $0
+    ld [wBallYPos], a
+    ld a, $98
+    ld [wBallYPos + 1], a
+    xor a
+    ld [$d549], a
+    ld [$d580], a
+    call Func_1c7c7
+    ld a, [$d4c9]
+    and a
+    ret z
+    xor a
+    ld [$d4c9], a
+    xor a
+    ld [$d50b], a
+    ld [$d50c], a
+    ld [$d51d], a
+    ld [$d51e], a
+    ld [$d517], a
+    ld hl, $d50f
+    ld [hli], a
+    ld [hli], a
+    ld [hli], a
+    ld [hli], a
+    ld [$d4f0], a
+    ld [$d4f2], a
+    ld hl, $d5f9
+    ld [hli], a
+    ld [hli], a
+    ld [hli], a
+    ld [$d47e], a
+    ld [$d611], a
+    ld [$d612], a
+    ld [$d628], a
+    ld [$d629], a
+    ld [$d62a], a
+    ld [$d62b], a
+    ld [$d62c], a
+    ld [$d63a], a
+    ld [$d63b], a
+    ld [$d63d], a
+    ld [$d63c], a
+    ld [$d62d], a
+    ld [$d62e], a
+    ld [$d613], a
+    inc a
+    ld [$d482], a
+    ld [$d4ef], a
+    ld [$d4f1], a
+    ld a, $3
+    ld [$d610], a
+    call Func_1d65f
+    ld a, $10
+    call Func_52c
+    ld de, $0001
+    call Func_490
+    ret
+
+Func_1c129: ; 0x1c129
+    ld a, $0
+    ld [wBallXPos], a
+    ld a, $50
+    ld [wBallXPos + 1], a
+    ld a, $0
+    ld [wBallYPos], a
+    ld a, $16
+    ld [wBallYPos + 1], a
+    xor a
+    ld [wBallYVelocity], a
+    ld [wBallYVelocity + 1], a
+    ld [wBallXVelocity], a
+    ld [wBallXVelocity + 1], a
+    ld [$d496], a
+    ld [$d7ab], a
+    ld [$d7be], a
+    ld a, [$d481]
+    ld [$d47e], a
+    ld a, $10
+    call Func_52c
+    ld de, $0001
+    call Func_490
+    ret
+
+INCBIN "baserom.gbc",$1c165,$1c7c7 - $1c165
+
+Func_1c7c7: ; 0x1c7c7
+    ld a, $0
+    ld [$d4af], a
+    ld [$ff8a], a
+    ld a, Bank(Func_e578)
+    ld hl, Func_e578
+    call BankSwitch
+    ret
+
+INCBIN "baserom.gbc",$1c7d7,$1c846 - $1c7d7
 
 .showNextMap
     ld a, [$d4e1]
@@ -13624,7 +13807,106 @@ InitRedField: ; 0x30000
     call Func_490
     ret
 
-INCBIN "baserom.gbc",$3007d,$30253 - $3007d
+Func_3007d: ; 0x3007d
+    ld a, [$d496]
+    and a
+    jp nz, Func_30128
+    ld a, $0
+    ld [wBallXPos], a
+    ld a, $a7
+    ld [wBallXPos + 1], a
+    ld a, $0
+    ld [wBallYPos], a
+    ld a, $98
+    ld [wBallYPos + 1], a
+    xor a
+    ld [$d549], a
+    ld [$d580], a
+    ld a, [$d7ad]
+    bit 7, a
+    jr z, .asm_300ae
+    ld a, [$d4af]
+    res 0, a
+    ld [$d7ad], a
+.asm_300ae
+    ld a, [$d4af]
+    and $1
+    ld [$d4af], a
+    ld a, [$d4c9]
+    and a
+    ret z
+    xor a
+    ld [$d4c9], a
+    xor a
+    ld [$d50b], a
+    ld [$d50c], a
+    ld [$d51d], a
+    ld [$d517], a
+    ld [$d51e], a
+    ld hl, $d50f
+    ld [hli], a
+    ld [hli], a
+    ld [hli], a
+    ld [hli], a
+    ld [$d4f0], a
+    ld [$d4f2], a
+    ld hl, $d5f9
+    ld [hli], a
+    ld [hli], a
+    ld [hli], a
+    ld [$d47e], a
+    ld [$d611], a
+    ld [$d612], a
+    ld [$d628], a
+    ld [$d629], a
+    ld [$d62a], a
+    ld [$d62b], a
+    ld [$d62c], a
+    ld [$d62d], a
+    ld [$d62e], a
+    ld [$d613], a
+    inc a
+    ld [$d482], a
+    ld [$d4ef], a
+    ld [$d4f1], a
+    ld a, $3
+    ld [$d610], a
+    ld [$ff8a], a
+    ld a, Bank(Func_16f95)
+    ld hl, Func_16f95
+    call BankSwitch
+    ld a, $f
+    call Func_52c
+    ld de, $0001
+    call Func_490
+    ret
+
+Func_30128: ; 0x30128
+    ld a, $0
+    ld [wBallXPos], a
+    ld a, $50
+    ld [wBallXPos + 1], a
+    ld a, $0
+    ld [wBallYPos], a
+    ld a, $16
+    ld [wBallYPos + 1], a
+    xor a
+    ld [wBallYVelocity], a
+    ld [wBallYVelocity + 1], a
+    ld [wBallXVelocity], a
+    ld [wBallXVelocity + 1], a
+    ld [$d496], a
+    ld [$d7ab], a
+    ld [$d7be], a
+    ld a, [$d481]
+    ld [$d47e], a
+    ld a, $f
+    call Func_52c
+    ld de, $0001
+    call Func_490
+    ret
+
+INCBIN "baserom.gbc",$30164,$30253 - $30164
 
 Func_30253: ; 0x30253
     ld a, [wCurrentMap]

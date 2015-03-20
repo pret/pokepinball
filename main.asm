@@ -6643,7 +6643,7 @@ FadeOutCopyrightScreenAndLoadData: ; 0x82a8
     ld [wScreenState], a
     ret
 
-Func_8311: ; 0x8311
+InitializeStage: ; 0x8311
     ld hl, wc000
     ld bc, $0a00
     call ClearData
@@ -6754,7 +6754,7 @@ Func_8388: ; 0x8388
     call ClearData
     ret
 
-Func_83ba: ; 0x83ba
+StartBallForStage: ; 0x83ba
     ld a, [$d7c1]
     and a
     jr z, .asm_83c7
@@ -10159,8 +10159,8 @@ Func_d861: ; 0xd861
     xor a
     ld [$d908], a
     ld [$ff8a], a
-    ld a, Bank(Func_8311)
-    ld hl, Func_8311
+    ld a, Bank(InitializeStage)
+    ld hl, InitializeStage
     call BankSwitch
     call Func_30e8
     ld a, $1
@@ -10197,16 +10197,16 @@ Func_d87f: ; 0xd87f
     ld a, $1
     ld [$ffb0], a
     ld [$ff8a], a
-    ld a, Bank(Func_83ba)
-    ld hl, Func_83ba
+    ld a, Bank(StartBallForStage)
+    ld hl, StartBallForStage
     call BankSwitch
     ld [$ff8a], a
     ld a, Bank(Func_e578)
     ld hl, Func_e578
     call BankSwitch
     ld [$ff8a], a
-    ld a, $3
-    ld hl, $66c2 ; todo
+    ld a, Bank(Func_e6c2)
+    ld hl, Func_e6c2
     call BankSwitch
     ld [$ff8a], a
     ld a, $3
@@ -10319,7 +10319,1149 @@ Func_e656: ; 0xe656
     ld [hl], $0
     ret
 
-INCBIN "baserom.gbc",$e674,$eeee - $e674
+INCBIN "baserom.gbc",$e674,$e6c2 - $e674
+
+Func_e6c2: ; 0xe6c2
+    ld a, [wCurrentStage]
+    bit 0, a
+    ld a, $86
+    jr z, .asm_e6d5
+    ld a, [$d5ca]
+    and a
+    ld a, $86
+    jr nz, .asm_e6d5
+    ld a, $90
+.asm_e6d5
+    ld [$ffa6], a
+    ld hl, PointerTable_e6f7
+    ld a, [hGameBoyColorFlag]
+    and a
+    jr z, .asm_e6e2
+    ld hl, PointerTable_e717
+.asm_e6e2
+    ld a, [wCurrentStage]
+    call LoadVideoData
+    xor a
+    ld [$d7f2], a
+    ld [$ff8a], a
+    ld a, $2
+    ld hl, $4471 ; todo
+    call BankSwitch
+    ret
+
+PointerTable_e6f7: ; 0xe6f7
+    dw Data_e737
+    dw Data_e7ea
+    dw Data_e896
+    dw Data_e8bd
+    dw Data_e8f2
+    dw Data_e982
+    dw Data_ea12
+    dw Data_ea12
+    dw Data_eabe
+    dw Data_eabe
+    dw Data_eb4e
+    dw Data_eb4e
+    dw Data_ebd7
+    dw Data_ebd7
+    dw Data_ec60
+    dw Data_ec60
+
+PointerTable_e717: ; 0xe717
+    dw Data_e771
+    dw Data_e824
+    dw Data_e8a6
+    dw Data_e8d4
+    dw Data_e92c
+    dw Data_e9bc
+    dw Data_ea5a
+    dw Data_ea5a
+    dw Data_eaf8
+    dw Data_eaf8
+    dw Data_eb88
+    dw Data_eb88
+    dw Data_ec11
+    dw Data_ec11
+    dw Data_ec9a
+    dw Data_ec9a
+
+Data_e737: ; 0xe737
+    dw $6000
+    db $35
+    dw $8000
+    dw $680
+
+    dw $7BA0
+    db $25
+    dw $81A0
+    dw $980
+
+    dw $4400
+    db $2A
+    dw $8400
+    dw $800
+
+    dw $7E00
+    db $25
+    dw $8600
+    dw $0800
+
+    dw $7000
+    db $18
+    dw $8800
+    dw $0400
+
+    dw $7A00
+    db $25
+    dw $8900
+    dw $0680
+
+    dw $72A0
+    db $18
+    dw $8AA0
+    dw $3580
+
+    dw $6000
+    db $2E
+    dw $9800
+    dw $1000
+
+    db $FF, $FF  ; terminators
+
+Data_e771: ; 0xe771
+    dw $6200
+    db $35
+    dw $8000
+    dw $0680
+
+    dw $7BA0
+    db $25
+    dw $81A0
+    dw $0980
+
+    dw $4400
+    db $2A
+    dw $8400
+    dw $0800
+
+    dw $7E00
+    db $25
+    dw $8600
+    dw $0800
+
+    dw $4000
+    db $27
+    dw $8800
+    dw $0400
+
+    dw $7A00
+    db $25
+    dw $8900
+    dw $0680
+
+    dw $42A0
+    db $27
+    dw $8AA0
+    dw $3580
+
+    dw $5000
+    db $27
+    dw $8800
+    dw $4002
+
+    dw $6E00
+    db $36
+    dw $8000
+    dw $0802
+
+    dw $7200
+    db $36
+    dw $8600
+    dw $0582
+
+    dw $6C00
+    db $35
+    dw $8200
+    dw $1002
+
+    dw $7000
+    db $35
+    dw $8900
+    dw $0802
+
+    dw $4000
+    db $27
+    dw $8800
+    dw $0402
+
+    dw $6000
+    db $2F
+    dw $9800
+    dw $1000
+
+    dw $6400
+    db $2F
+    dw $9800
+    dw $1002
+
+    dw $4980
+    db $37
+    dw $0000
+    dw $0101
+
+    dw $7B80
+    db $36
+    dw $87C0
+    dw $0102
+
+    db $FF, $FF  ; terminators
+
+Data_e7ea: ; 0xe7ea
+    dw $6000
+    db $35
+    dw $8000
+    dw $0680
+
+    dw $6C00
+    db $36
+    dw $81A0
+    dw $0580
+
+    dw $4000
+    db $37
+    dw $8300
+    dw $0200
+
+    dw $6DE0
+    db $36
+    dw $8380
+    dw $0080
+
+    dw $43C0
+    db $2A
+    dw $83C0
+    dw $1100
+
+    dw $7000
+    db $1D
+    dw $8800
+    dw $4000
+
+    dw $4C00
+    db $36
+    dw $8AA0
+    dw $0100
+
+    dw $6800
+    db $2E
+    dw $9800
+    dw $1000
+
+    db $FF, $FF  ; terminators
+
+Data_e824: ; 0xe824
+    dw $6200
+    db $35
+    dw $8000
+    dw $0680
+
+    dw $6C00
+    db $36
+    dw $81A0
+    dw $0580
+
+    dw $4000
+    db $37
+    dw $8300
+    dw $0200
+
+    dw $6DE0
+    db $36
+    dw $8380
+    dw $0080
+
+    dw $43C0
+    db $2A
+    dw $83C0
+    dw $1100
+
+    dw $6000
+    db $28
+    dw $8800
+    dw $4000
+
+    dw $7000
+    db $28
+    dw $8800
+    dw $4002
+
+    dw $7200
+    db $36
+    dw $8600
+    dw $0582
+
+    dw $4C00
+    db $36
+    dw $8AA0
+    dw $0100
+
+    dw $6C00
+    db $35
+    dw $8200
+    dw $1002
+
+    dw $7000
+    db $35
+    dw $8900
+    dw $0802
+
+    dw $6000
+    db $28
+    dw $8800
+    dw $0402
+
+    dw $6800
+    db $2F
+    dw $9800
+    dw $1000
+
+    dw $6C00
+    db $2F
+    dw $9800
+    dw $1002
+
+    dw $4A80
+    db $37
+    dw $0000
+    dw $0101
+
+    dw $7B80
+    db $36
+    dw $87C0
+    dw $0102
+
+    db $FF, $FF  ; terminators
+
+Data_e896: ; 0xe896
+    dw $6000
+    db $35
+    dw $8000
+    dw $0680
+
+    dw $4400
+    db $2A
+    dw $8400
+    dw $0800
+
+    db $FF, $FF  ; terminators
+
+Data_e8a6: ; 0xe8a6
+    dw $6200
+    db $35
+    dw $8000
+    dw $0680
+
+    dw $4400
+    db $2A
+    dw $8400
+    dw $0800
+
+    dw $7200
+    db $36
+    dw $8600
+    dw $0582
+
+    db $FF, $FF  ; terminators
+
+Data_e8bd: ; 0xe8bd
+    dw $6000
+    db $35
+    dw $8000
+    dw $0680
+
+    dw $4380
+    db $2A
+    dw $8380
+    dw $1200
+
+    dw $4c00
+    db $36
+    dw $8aA0
+    dw $0100
+
+    db $FF, $FF  ; terminators
+
+Data_e8d4: ; 0xe8d4
+    dw $6200
+    db $35
+    dw $8000
+    dw $0680
+
+    dw $4380
+    db $2A
+    dw $8380
+    dw $1200
+
+    dw $7200
+    db $36
+    dw $8600
+    dw $0582
+
+    dw $4C00
+    db $36
+    dw $8AA0
+    dw $0100
+
+    db $FF, $FF  ; terminators
+
+Data_e8f2: ; 0xe8f2
+    dw $6000
+    db $35
+    dw $8000
+    dw $0680
+
+    dw $67A0
+    db $35
+    dw $81A0
+    dw $0980
+
+    dw $4400
+    db $2A
+    dw $8400
+    dw $0800
+
+    dw $6A00
+    db $35
+    dw $8600
+    dw $0800
+
+    dw $7000
+    db $1A
+    dw $8800
+    dw $0400
+
+    dw $6600
+    db $35
+    dw $8900
+    dw $0680
+
+    dw $72A0
+    db $1A
+    dw $8AA0
+    dw $3580
+
+    dw $7000
+    db $2F
+    dw $9800
+    dw $1000
+
+    db $FF, $FF  ; terminators
+
+Data_e92c: ; 0xe92c
+    dw $6200
+    db $35
+    dw $8000
+    dw $0680
+
+    dw $67A0
+    db $35
+    dw $81A0
+    dw $0980
+
+    dw $4400
+    db $2A
+    dw $8400
+    dw $0800
+
+    dw $6A00
+    db $35
+    dw $8600
+    dw $0800
+
+    dw $4000
+    db $28
+    dw $8800
+    dw $0400
+
+    dw $6600
+    db $35
+    dw $8900
+    dw $0680
+
+    dw $42A0
+    db $28
+    dw $8AA0
+    dw $3580
+
+    dw $5000
+    db $28
+    dw $8800
+    dw $4002
+
+    dw $7200
+    db $36
+    dw $8600
+    dw $0582
+
+    dw $6800
+    db $31
+    dw $9800
+    dw $1000
+
+    dw $6C00
+    db $31
+    dw $9800
+    dw $1002
+
+    dw $4B00
+    db $37
+    dw $0000
+    dw $0101
+
+    db $FF, $FF  ; terminators
+
+Data_e982: ; 0xe982
+    dw $6000
+    db $35
+    dw $8000
+    dw $0680
+
+    dw $6C00
+    db $36
+    dw $81A0
+    dw $0580
+
+    dw $4000
+    db $37
+    dw $8300
+    dw $0200
+
+    dw $6DE0
+    db $36
+    dw $8380
+    dw $0080
+
+    dw $43C0
+    db $2A
+    dw $83C0
+    dw $1100
+
+    dw $7000
+    db $19
+    dw $8800
+    dw $4000
+
+    dw $4C00
+    db $36
+    dw $8AA0
+    dw $0100
+
+    dw $4000
+    db $30
+    dw $9800
+    dw $1000
+
+    db $FF, $FF  ; terminators
+
+Data_e9bc: ; 0xe9bc
+    dw $6200
+    db $35
+    dw $8000
+    dw $0680
+
+    dw $6C00
+    db $36
+    dw $81A0
+    dw $0580
+
+    dw $4000
+    db $37
+    dw $8300
+    dw $0200
+
+    dw $6DE0
+    db $36
+    dw $8380
+    dw $0080
+
+    dw $43C0
+    db $2A
+    dw $83C0
+    dw $1100
+
+    dw $4000
+    db $29
+    dw $8800
+    dw $4000
+
+    dw $5000
+    db $29
+    dw $8800
+    dw $4002
+
+    dw $7200
+    db $36
+    dw $8600
+    dw $0582
+
+    dw $4C00
+    db $36
+    dw $8AA0
+    dw $0100
+
+    dw $7000
+    db $31
+    dw $9800
+    dw $1000
+
+    dw $7400
+    db $31
+    dw $9800
+    dw $1002
+
+    dw $4B80
+    db $37
+    dw $0000
+    dw $0101
+
+    db $FF, $FF  ; terminators
+
+Data_ea12: ; 0xea12
+    dw $6000
+    db $35
+    dw $8000
+    dw $0680
+
+    dw $4400
+    db $2A
+    dw $8400
+    dw $0C80
+
+    dw $7000
+    db $1C
+    dw $8800
+    dw $4000
+
+    dw $7D00
+    db $22
+    dw $8900
+    dw $0600
+
+    dw $7E80
+    db $21
+    dw $8A80
+    dw $0080
+
+    dw $7EA0
+    db $21
+    dw $81A0
+    dw $0400
+
+    dw $7BA0
+    db $26
+    dw $82A0
+    dw $0580
+
+    dw $7D00
+    db $26
+    dw $87A0
+    dw $0180
+
+    dw $7D60
+    db $26
+    dw $8AA0
+    dw $0A80
+
+    dw $4800
+    db $32
+    dw $9800
+    dw $1000
+
+    db $FF, $FF  ; terminators
+
+Data_ea5a: ; 0xea5a
+    dw $6200
+    db $35
+    dw $8000
+    dw $0680
+
+    dw $43C0
+    db $2A
+    dw $83C0
+    dw $1100
+
+    dw $6000
+    db $27
+    dw $8800
+    dw $4000
+
+    dw $7D00
+    db $22
+    dw $8900
+    dw $0600
+
+    dw $7E80
+    db $21
+    dw $8A80
+    dw $0080
+
+    dw $7EA0
+    db $21
+    dw $81A0
+    dw $0400
+
+    dw $7BA0
+    db $26
+    dw $82A0
+    dw $0580
+
+    dw $7D00
+    db $26
+    dw $87A0
+    dw $0180
+
+    dw $7D60
+    db $26
+    dw $8AA0
+    dw $0A80
+
+    dw $7000
+    db $27
+    dw $8800
+    dw $4002
+
+    dw $7200
+    db $36
+    dw $8600
+    dw $0582
+
+    dw $5000
+    db $32
+    dw $9800
+    dw $1000
+
+    dw $5400
+    db $32
+    dw $9800
+    dw $1002
+
+    dw $5080
+    db $37
+    dw $0000
+    dw $0101
+
+    db $FF, $FF  ; terminators
+
+Data_eabe: ; 0xeabe
+    dw $6000
+    db $35
+    dw $8000
+    dw $0680
+
+    dw $59A0
+    db $32
+    dw $81A0
+    dw $0980
+
+    dw $4400
+    db $2A
+    dw $8400
+    dw $0C80
+
+    dw $5C00
+    db $32
+    dw $87A0
+    dw $0180
+
+    dw $7000
+    db $1F
+    dw $8800
+    dw $4000
+
+    dw $5800
+    db $32
+    dw $8900
+    dw $0680
+
+    dw $5C60
+    db $32
+    dw $8AA0
+    dw $0A80
+
+    dw $7000
+    db $32
+    dw $9800
+    dw $1000
+
+    db $FF, $FF  ; terminators
+
+Data_eaf8: ; 0xeaf8
+    dw $6200
+    db $35
+    dw $8000
+    dw $0680
+
+    dw $59A0
+    db $32
+    dw $81A0
+    dw $0980
+
+    dw $4400
+    db $2A
+    dw $8400
+    dw $0C80
+
+    dw $5C00
+    db $32
+    dw $87A0
+    dw $0180
+
+    dw $7000
+    db $20
+    dw $8800
+    dw $4000
+
+    dw $5800
+    db $32
+    dw $8900
+    dw $0680
+
+    dw $5C60
+    db $32
+    dw $8AA0
+    dw $0A80
+
+    dw $8000
+    db $20
+    dw $8800
+    dw $4002
+
+    dw $7200
+    db $36
+    dw $8600
+    dw $0582
+
+    dw $7800
+    db $32
+    dw $9800
+    dw $1000
+
+    dw $7C00
+    db $32
+    dw $9800
+    dw $1002
+
+    dw $4F00
+    db $37
+    dw $0000
+    dw $0101
+
+    db $FF, $FF  ; terminators
+
+Data_eb4e: ; 0xeb4e
+    dw $6000
+    db $35
+    dw $8000
+    dw $0680
+
+    dw $41A0
+    db $33
+    dw $81A0
+    dw $0980
+
+    dw $4400
+    db $2A
+    dw $8400
+    dw $0C80
+
+    dw $4400
+    db $33
+    dw $87A0
+    dw $0180
+
+    dw $7600
+    db $17
+    dw $8800
+    dw $2800
+
+    dw $4000
+    db $33
+    dw $8900
+    dw $0680
+
+    dw $4460
+    db $33
+    dw $8AA0
+    dw $0D80
+
+    dw $5800
+    db $33
+    dw $9800
+    dw $1000
+
+    db $FF, $FF  ; terminators
+
+Data_eb88: ; 0xeb88
+    dw $6200
+    db $35
+    dw $8000
+    dw $0680
+
+    dw $41A0
+    db $33
+    dw $81A0
+    dw $0980
+
+    dw $4400
+    db $2A
+    dw $8400
+    dw $0C80
+
+    dw $4400
+    db $33
+    dw $87A0
+    dw $0180
+
+    dw $7200
+    db $2A
+    dw $8800
+    dw $2400
+
+    dw $4000
+    db $33
+    dw $8900
+    dw $0680
+
+    dw $4460
+    db $33
+    dw $8AA0
+    dw $0D80
+
+    dw $7200
+    db $36
+    dw $8600
+    dw $0582
+
+    dw $6000
+    db $33
+    dw $9800
+    dw $1000
+
+    dw $6400
+    db $33
+    dw $9800
+    dw $1002
+
+    dw $4C80
+    db $37
+    dw $0000
+    dw $0101
+
+    db $FF, $FF  ; terminators
+
+Data_ebd7: ; 0xebd7
+    dw $6000
+    db $35
+    dw $8000
+    dw $0680
+
+    dw $7AA0
+    db $2B
+    dw $81A0
+    dw $0980
+
+    dw $4400
+    db $2A
+    dw $8400
+    dw $0C80
+
+    dw $7D00
+    db $2B
+    dw $87A0
+    dw $0180
+
+    dw $7000
+    db $23
+    dw $8800
+    dw $3800
+
+    dw $7900
+    db $2B
+    dw $8900
+    dw $0680
+
+    dw $7D60
+    db $2B
+    dw $8AA0
+    dw $0A00
+
+    dw $7800
+    db $33
+    dw $9800
+    dw $1000
+
+    db $FF, $FF  ; terminators
+
+Data_ec11: ; 0xec11
+    dw $6200
+    db $35
+    dw $8000
+    dw $0680
+
+    dw $7AA0
+    db $2B
+    dw $81A0
+    dw $0980
+
+    dw $4400
+    db $2A
+    dw $8400
+    dw $0C80
+
+    dw $7D00
+    db $2B
+    dw $87A0
+    dw $0180
+
+    dw $7000
+    db $21
+    dw $8800
+    dw $3800
+
+    dw $7900
+    db $2B
+    dw $8900
+    dw $0680
+
+    dw $7D60
+    db $2B
+    dw $8AA0
+    dw $0A00
+
+    dw $7200
+    db $36
+    dw $8600
+    dw $0582
+
+    dw $7000
+    db $34
+    dw $9800
+    dw $1000
+
+    dw $7400
+    db $34
+    dw $9800
+    dw $1002
+
+    dw $4A00
+    db $37
+    dw $0000
+    dw $0101
+
+    db $FF, $FF  ; terminators
+
+Data_ec60: ; 0xec60
+    dw $6000
+    db $35
+    dw $8000
+    dw $0680
+
+    dw $71A0
+    db $26
+    dw $81A0
+    dw $0980
+
+    dw $4400
+    db $2A
+    dw $8400
+    dw $0C80
+
+    dw $7400
+    db $26
+    dw $87A0
+    dw $0180
+
+    dw $7000
+    db $24
+    dw $8800
+    dw $3400
+
+    dw $7000
+    db $26
+    dw $8900
+    dw $0680
+
+    dw $7460
+    db $26
+    dw $8AA0
+    dw $1280
+
+    dw $5000
+    db $35
+    dw $9800
+    dw $1000
+
+    db $FF, $FF  ; terminators
+
+Data_ec9a: ; 0xec9a
+    dw $6200
+    db $35
+    dw $8000
+    dw $0680
+
+    dw $71A0
+    db $26
+    dw $81A0
+    dw $0980
+
+    dw $4400
+    db $2A
+    dw $8400
+    dw $0C80
+
+    dw $7400
+    db $26
+    dw $87A0
+    dw $0180
+
+    dw $7000
+    db $25
+    dw $8800
+    dw $2C00
+
+    dw $7000
+    db $26
+    dw $8900
+    dw $0680
+
+    dw $7460
+    db $26
+    dw $8AA0
+    dw $1280
+
+    dw $7200
+    db $36
+    dw $8600
+    dw $0582
+
+    dw $5800
+    db $35
+    dw $9800
+    dw $1000
+
+    dw $5C00
+    db $35
+    dw $9800
+    dw $1002
+
+    dw $4880
+    db $37
+    dw $0000
+    dw $0101
+
+    db $FF, $FF  ; terminators
+
+INCBIN "baserom.gbc",$ece9,$eeee - $ece9
 
 Func_eeee: ; 0xeeee
     push bc

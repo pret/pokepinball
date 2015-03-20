@@ -6786,12 +6786,12 @@ Func_83ba: ; 0x83ba
     call CallInFollowingTable
 CallTable_8404: ; 0x8404
     ; STAGE_RED_FIELD_TOP
-    dw Func_3007d
-    db Bank(Func_3007d), $00
+    dw StartBallRedField
+    db Bank(StartBallRedField), $00
 
     ; STAGE_RED_FIELD_BOTTOM
-    dw Func_3007d
-    db Bank(Func_3007d), $00
+    dw StartBallRedField
+    db Bank(StartBallRedField), $00
 
     dw Func_1804a
     db Bank(Func_1804a), $00
@@ -6800,52 +6800,52 @@ CallTable_8404: ; 0x8404
     db Bank(Func_1804a), $00
 
     ; STAGE_BLUE_FIELD_TOP
-    dw Func_1c08d
-    db Bank(Func_1c08d), $00
+    dw StartBallBlueField
+    db Bank(StartBallBlueField), $00
 
     ; STAGE_BLUE_FIELD_BOTTOM
-    dw Func_1c08d
-    db Bank(Func_1c08d), $00
+    dw StartBallBlueField
+    db Bank(StartBallBlueField), $00
 
     ; STAGE_GENGAR_BONUS
-    dw $4157
-    db $06, $00
+    dw StartBallGengarBonusStage
+    db Bank(StartBallGengarBonusStage), $00
 
     ; STAGE_GENGAR_BONUS
-    dw $4157
-    db $06, $00
+    dw StartBallGengarBonusStage
+    db Bank(StartBallGengarBonusStage), $00
 
     ; STAGE_MEWTWO_BONUS
-    dw $52E3
-    db $06, $00
+    dw StartBallMewtwoBonusStage
+    db Bank(StartBallMewtwoBonusStage), $00
 
     ; STAGE_MEWTWO_BONUS
-    dw $52E3
-    db $06, $00
+    dw StartBallMewtwoBonusStage
+    db Bank(StartBallMewtwoBonusStage), $00
 
     ; STAGE_MEOWTH_BONUS
-    dw $4059
-    db $09, $00
+    dw StartBallMeowthBonusStage
+    db Bank(StartBallMeowthBonusStage), $00
 
     ; STAGE_MEOWTH_BONUS
-    dw $4059
-    db $09, $00
+    dw StartBallMeowthBonusStage
+    db Bank(StartBallMeowthBonusStage), $00
 
     ; STAGE_DIGLETT_BONUS
-    dw $5a38
-    db $06, $00
+    dw StartBallDiglettBonusStage
+    db Bank(StartBallDiglettBonusStage), $00
 
     ; STAGE_DIGLETT_BONUS
-    dw $5a38
-    db $06, $00
+    dw StartBallDiglettBonusStage
+    db Bank(StartBallDiglettBonusStage), $00
 
     ; STAGE_SEEL_BONUS
-    dw $5aF1
-    db $09, $00
+    dw StartBallSeelBonusStage
+    db Bank(StartBallSeelBonusStage), $00
 
     ; STAGE_SEEL_BONUS
-    dw $5aF1
-    db $09, $00
+    dw StartBallSeelBonusStage
+    db Bank(StartBallSeelBonusStage), $00
 
 Func_8444: ; 0x8444
     ld a, [$d54b]
@@ -11376,7 +11376,34 @@ Func_18112: ; 0x18112
     jr nz, .asm_18114
     ret
 
-INCBIN "baserom.gbc",$18121,$1924f - $18121
+INCBIN "baserom.gbc",$18121,$18157 - $18121
+
+StartBallGengarBonusStage: ; 0x18157
+    ld a, $0
+    ld [wBallXPos], a
+    ld a, $a6
+    ld [wBallXPos + 1], a
+    ld a, $0
+    ld [wBallYPos], a
+    ld a, $56
+    ld [wBallYPos + 1], a
+    xor a
+    ld [$d7ab], a
+    ld [$d4af], a
+    ld [$d653], a
+    xor a
+    ld [$d674], a
+    ld a, $8
+    ld [$d690], a
+    ld [$d6a1], a
+    ld a, [$d4c9]
+    and a
+    ret z
+    xor a
+    ld [$d4c9], a
+    ret
+
+INCBIN "baserom.gbc",$1818b,$1924f - $1818b
 
 InitMewtwoBonusStage: ; 0x1924f
     ld a, [$d7c1]
@@ -11430,7 +11457,31 @@ InitMewtwoBonusStage: ; 0x1924f
     call Func_490
     ret
 
-INCBIN "baserom.gbc",$192ab,$199f2 - $192ab
+INCBIN "baserom.gbc",$192ab,$192e3 - $192ab
+
+StartBallMewtwoBonusStage: ; 0x192e3
+    ld a, $0
+    ld [wBallXPos], a
+    ld a, $a6
+    ld [wBallXPos + 1], a
+    ld a, $0
+    ld [wBallYPos], a
+    ld a, $56
+    ld [wBallYPos + 1], a
+    ld a, $80
+    ld [wBallXVelocity], a
+    xor a
+    ld [$d7ab], a
+    ld [$d4af], a
+    ld [$d6a9], a
+    ld a, [$d4c9]
+    and a
+    ret z
+    xor a
+    ld [$d4c9], a
+    ret
+
+INCBIN "baserom.gbc",$19310,$199f2 - $19310
 
 InitDiglettBonusStage: ; 0x199f2
     ld a, [$d7c1]
@@ -11466,8 +11517,40 @@ InitDiglettBonusStage: ; 0x199f2
     call Func_490
     ret
 
-INCBIN "baserom.gbc",$19a38,$1c000 - $19a38
+StartBallDiglettBonusStage: ; 0x19a38
+    ld a, $0
+    ld [wBallXPos], a
+    ld a, $a6
+    ld [wBallXPos + 1], a
+    ld a, $0
+    ld [wBallYPos], a
+    ld a, $56
+    ld [wBallYPos + 1], a
+    ld a, $40
+    ld [wBallXVelocity], a
+    xor a
+    ld [$d7ab], a
+    ld [$d4af], a
+    ld [$d73a], a
+    ld hl, $d73d
+    ld b, $1f
+.asm_19a60
+    ld a, [hl]
+    and a
+    jr z, .asm_19a67
+    ld a, $1
+    ld [hl], a
+.asm_19a67
+    inc hl
+    dec b
+    jr nz, .asm_19a60
+    xor a
+    ld [$d75c], a
+    ld [$d75d], a
+    ld [$d765], a
+    ret
 
+INCBIN "baserom.gbc",$19a76,$1c000 - $19a76
 
 SECTION "bank7", ROMX, BANK[$7]
 
@@ -11533,7 +11616,7 @@ InitBlueField: ; 0x1c000
     call Func_490
     ret
 
-Func_1c08d: ; 0x1c08d
+StartBallBlueField: ; 0x1c08d
     ld a, [$d496]
     and a
     jp nz, Func_1c129
@@ -11780,7 +11863,93 @@ InitMeowthBonusStage: ; 0x24000
     call Func_490
     ret
 
-INCBIN "baserom.gbc",$24059,$25a7c - $24059
+StartBallMeowthBonusStage: ; 0x24059
+    ld a, $0
+    ld [wBallXPos], a
+    ld a, $a6
+    ld [wBallXPos + 1], a
+    ld a, $0
+    ld [wBallYPos], a
+    ld a, $56
+    ld [wBallYPos + 1], a
+    ld a, $40
+    ld [wBallXVelocity], a
+    xor a
+    ld [$d7ab], a
+    ld [$d4af], a
+    ld [$d6e6], a
+    ld hl, $d6f3
+    ld b, $16
+.asm_24081
+    ld a, [hl]
+    and a
+    jr z, .asm_24088
+    ld a, $1
+    ld [hl], a
+.asm_24088
+    inc hl
+    dec b
+    jr nz, .asm_24081
+    ld a, $1
+    ld [$d7ac], a
+    ld a, $40
+    ld [$d6ed], a
+    ld a, $20
+    ld [$d6ee], a
+    ld a, $10
+    ld [$d6e9], a
+    ld a, $ff
+    ld [$d6f0], a
+    xor a
+    ld [$d6ea], a
+    ld [$d6ec], a
+    ld [$d6eb], a
+    ld [$d70b], a
+    ld [$d70c], a
+    ld a, $c8
+    ld [$d71a], a
+    ld [$d727], a
+    ld [$d71b], a
+    ld [$d728], a
+    ld [$d71c], a
+    ld [$d729], a
+    ld [$d724], a
+    ld [$d731], a
+    ld [$d725], a
+    ld [$d732], a
+    ld [$d726], a
+    ld [$d733], a
+    xor a
+    ld [$d717], a
+    ld [$d718], a
+    ld [$d719], a
+    ld [$d721], a
+    ld [$d722], a
+    ld [$d723], a
+    ld [$d714], a
+    ld [$d715], a
+    ld [$d716], a
+    ld [$d71e], a
+    ld [$d71f], a
+    ld [$d720], a
+    ld [$d64e], a
+    ld [$d64f], a
+    ld [$d650], a
+    ld [$d651], a
+    ld [$d795], a
+    ld [$d796], a
+    ld [$d797], a
+    ld [$d798], a
+    ld [$d799], a
+    ld [$d79a], a
+    ld a, [$d4c9]
+    and a
+    ret z
+    xor a
+    ld [$d4c9], a
+    ret
+
+INCBIN "baserom.gbc",$24128,$25a7c - $24128
 
 InitSeelBonusStage: ; 0x25a7c
     ld a, [$d7c1]
@@ -11835,7 +12004,97 @@ Func_25ad8: ; 0x25ad8
     inc de
     ret
 
-INCBIN "baserom.gbc",$25ae5,$28000 - $25ae5
+INCBIN "baserom.gbc",$25ae5,$25af1 - $25ae5
+
+StartBallSeelBonusStage: ; 0x25af1
+    ld a, $0
+    ld [wBallXPos], a
+    ld a, $a6
+    ld [wBallXPos + 1], a
+    ld a, $0
+    ld [wBallYPos], a
+    ld a, $56
+    ld [wBallYPos + 1], a
+    ld a, $80
+    ld [wBallXVelocity], a
+    xor a
+    ld [$d7ab], a
+    ld [$d4af], a
+    ld [$d766], a
+    ld a, $0
+    ld [$d772], a
+    ld a, $1
+    ld [$d77c], a
+    ld a, $0
+    ld [$d786], a
+    ld a, $4
+    ld [$d775], a
+    ld [$d77f], a
+    ld [$d76b], a
+    ld a, $1
+    ld [$d76c], a
+    ld a, $4
+    ld [$d776], a
+    ld a, $1
+    ld [$d780], a
+    ld a, $5
+    ld [$d771], a
+    ld [$d77b], a
+    ld [$d785], a
+    ld a, $ff
+    ld [$d79a], a
+    xor a
+    ld [$d792], a
+    ld [$d791], a
+    ld [$d64e], a
+    ld [$d64f], a
+    ld [$d650], a
+    ld [$d651], a
+    ld [$d795], a
+    ld [$d796], a
+    ld [$d797], a
+    ld [$d798], a
+    ld [$d799], a
+    ld [$d79a], a
+    ld de, $d76b
+    ld a, [$d76c]
+    call Func_26137
+    ld de, $d775
+    ld a, [$d776]
+    call Func_26137
+    ld de, $d77f
+    ld a, [$d780]
+    call Func_26137
+    ld a, [$d4c9]
+    and a
+    ret z
+    xor a
+    ld [$d4c9], a
+    ret
+
+INCBIN "baserom.gbc",$25b97,$26137 - $25b97
+
+Func_26137: ; 0x26137
+    push af
+    sla a
+    ld c, a
+    ld b, $0
+    ld hl, $614f ; todo
+    add hl, bc
+    ld a, [hli]
+    ld h, [hl]
+    ld l, a
+    push de
+    dec de
+    dec de
+    call Func_28a0
+    pop de
+    inc de
+    pop af
+    ld [de], a
+    ret
+
+INCBIN "baserom.gbc",$2614f,$28000 - $2614f
 
 
 SECTION "banka", ROMX, BANK[$a]
@@ -13807,7 +14066,7 @@ InitRedField: ; 0x30000
     call Func_490
     ret
 
-Func_3007d: ; 0x3007d
+StartBallRedField: ; 0x3007d
     ld a, [$d496]
     and a
     jp nz, Func_30128

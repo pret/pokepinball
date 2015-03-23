@@ -10391,34 +10391,34 @@ Data_e737: ; 0xe737
     dw vTiles0
     dw $680
 
-    dw $7BA0
-    db $25
-    dw $81A0
+    dw StageRedFieldTopGfx1
+    db Bank(StageRedFieldTopGfx1)
+    dw vTiles0 + $1A0
     dw $980
 
-    dw $4400
-    db $2A
-    dw $8400
+    dw PinballPokeballGfx
+    db Bank(PinballPokeballGfx)
+    dw vTiles0 + $400
     dw $800
 
-    dw $7E00
-    db $25
-    dw $8600
+    dw StageRedFieldTopGfx2
+    db Bank(StageRedFieldTopGfx2)
+    dw vTiles0 + $600
     dw $0800
 
-    dw $7000
-    db $18
-    dw $8800
+    dw StageRedFieldTopStatusBarSymbolsGfx
+    db Bank(StageRedFieldTopStatusBarSymbolsGfx)
+    dw vTiles1
     dw $0400
 
-    dw $7A00
-    db $25
-    dw $8900
+    dw StageRedFieldTopGfx3
+    db Bank(StageRedFieldTopGfx3)
+    dw vTiles1 + $100
     dw $0680
 
-    dw $72A0
-    db $18
-    dw $8AA0
+    dw StageRedFieldTopBaseGameBoyGfx
+    db Bank(StageRedFieldTopBaseGameBoyGfx)
+    dw vTiles1 + $2A0
     dw $3580
 
     dw $6000
@@ -10434,19 +10434,19 @@ Data_e771: ; 0xe771
     dw vTiles0
     dw $0680
 
-    dw $7BA0
-    db $25
-    dw $81A0
+    dw StageRedFieldTopGfx1
+    db Bank(StageRedFieldTopGfx1)
+    dw vTiles0 + $1A0
     dw $0980
 
-    dw $4400
-    db $2A
-    dw $8400
+    dw PinballPokeballGfx
+    db Bank(PinballPokeballGfx)
+    dw vTiles0 + $400
     dw $0800
 
-    dw $7E00
-    db $25
-    dw $8600
+    dw StageRedFieldTopGfx2
+    db Bank(StageRedFieldTopGfx2)
+    dw vTiles0 + $600
     dw $0800
 
     dw $4000
@@ -10454,14 +10454,14 @@ Data_e771: ; 0xe771
     dw $8800
     dw $0400
 
-    dw $7A00
-    db $25
-    dw $8900
+    dw StageRedFieldTopGfx3
+    db Bank(StageRedFieldTopGfx3)
+    dw vTiles1 + $100
     dw $0680
 
-    dw $42A0
-    db $27
-    dw $8AA0
+    dw StageRedFieldTopBaseGameBoyColorGfx
+    db Bank(StageRedFieldTopBaseGameBoyColorGfx)
+    dw vTiles1 + $2A0
     dw $3580
 
     dw $5000
@@ -10648,9 +10648,9 @@ Data_e896: ; 0xe896
     dw vTiles0
     dw $0680
 
-    dw $4400
-    db $2A
-    dw $8400
+    dw PinballPokeballGfx
+    db Bank(PinballPokeballGfx)
+    dw vTiles0 + $400
     dw $0800
 
     db $FF, $FF  ; terminators
@@ -10661,9 +10661,9 @@ Data_e8a6: ; 0xe8a6
     dw vTiles0
     dw $0680
 
-    dw $4400
-    db $2A
-    dw $8400
+    dw PinballPokeballGfx
+    db Bank(PinballPokeballGfx)
+    dw vTiles0 + $400
     dw $0800
 
     dw $7200
@@ -10725,9 +10725,9 @@ Data_e8f2: ; 0xe8f2
     dw $81A0
     dw $0980
 
-    dw $4400
-    db $2A
-    dw $8400
+    dw PinballPokeballGfx
+    db Bank(PinballPokeballGfx)
+    dw vTiles0 + $400
     dw $0800
 
     dw $6A00
@@ -10768,9 +10768,9 @@ Data_e92c: ; 0xe92c
     dw $81A0
     dw $0980
 
-    dw $4400
-    db $2A
-    dw $8400
+    dw PinballPokeballGfx
+    db Bank(PinballPokeballGfx)
+    dw vTiles0 + $400
     dw $0800
 
     dw $6A00
@@ -10932,9 +10932,9 @@ Data_ea12: ; 0xea12
     dw vTiles0
     dw $0680
 
-    dw $4400
-    db $2A
-    dw $8400
+    dw PinballPokeballGfx
+    db Bank(PinballPokeballGfx)
+    dw vTiles0 + $400
     dw $0C80
 
     dw $7000
@@ -11063,9 +11063,9 @@ Data_eabe: ; 0xeabe
     dw $81A0
     dw $0980
 
-    dw $4400
-    db $2A
-    dw $8400
+    dw PinballPokeballGfx
+    db Bank(PinballPokeballGfx)
+    dw vTiles0 + $400
     dw $0C80
 
     dw $5C00
@@ -11106,9 +11106,9 @@ Data_eaf8: ; 0xeaf8
     dw $81A0
     dw $0980
 
-    dw $4400
-    db $2A
-    dw $8400
+    dw PinballPokeballGfx
+    db Bank(PinballPokeballGfx)
+    dw vTiles0 + $400
     dw $0C80
 
     dw $5C00
@@ -11169,9 +11169,9 @@ Data_eb4e: ; 0xeb4e
     dw $81A0
     dw $0980
 
-    dw $4400
-    db $2A
-    dw $8400
+    dw PinballPokeballGfx
+    db Bank(PinballPokeballGfx)
+    dw vTiles0 + $400
     dw $0C80
 
     dw $4400
@@ -11212,9 +11212,9 @@ Data_eb88: ; 0xeb88
     dw $81A0
     dw $0980
 
-    dw $4400
-    db $2A
-    dw $8400
+    dw PinballPokeballGfx
+    db Bank(PinballPokeballGfx)
+    dw vTiles0 + $400
     dw $0C80
 
     dw $4400
@@ -11270,9 +11270,9 @@ Data_ebd7: ; 0xebd7
     dw $81A0
     dw $0980
 
-    dw $4400
-    db $2A
-    dw $8400
+    dw PinballPokeballGfx
+    db Bank(PinballPokeballGfx)
+    dw vTiles0 + $400
     dw $0C80
 
     dw $7D00
@@ -11313,9 +11313,9 @@ Data_ec11: ; 0xec11
     dw $81A0
     dw $0980
 
-    dw $4400
-    db $2A
-    dw $8400
+    dw PinballPokeballGfx
+    db Bank(PinballPokeballGfx)
+    dw vTiles0 + $400
     dw $0C80
 
     dw $7D00
@@ -11371,9 +11371,9 @@ Data_ec60: ; 0xec60
     dw $81A0
     dw $0980
 
-    dw $4400
-    db $2A
-    dw $8400
+    dw PinballPokeballGfx
+    db Bank(PinballPokeballGfx)
+    dw vTiles0 + $400
     dw $0C80
 
     dw $7400
@@ -11414,9 +11414,9 @@ Data_ec9a: ; 0xec9a
     dw $81A0
     dw $0980
 
-    dw $4400
-    db $2A
-    dw $8400
+    dw PinballPokeballGfx
+    db Bank(PinballPokeballGfx)
+    dw vTiles0 + $400
     dw $0C80
 
     dw $7400
@@ -15900,7 +15900,13 @@ KadabraPic: ; 0x62d00
 KadabraSilhouettePic: ; 0x62e80
 	INCBIN "gfx/billboard/mon_silhouettes/kadabra.2bpp"
 
-INCBIN "baserom.gbc",$63000,$64000 - $63000 ; 0x63000
+StageRedFieldTopStatusBarSymbolsGfx: ; 0x63000
+    INCBIN "gfx/stage/red_top/status_bar_symbols.2bpp"
+
+INCBIN "baserom.gbc",$63100,$632a0 - $63100
+
+StageRedFieldTopBaseGameBoyGfx: ; 0x632a0
+    INCBIN "gfx/stage/red_top/red_top_base_gameboy.2bpp"
 
 
 SECTION "bank19", ROMX, BANK[$19]
@@ -16642,7 +16648,14 @@ DrowzeePic: ; 0x96d00
 DrowzeeSilhouettePic: ; 0x96e80
 	INCBIN "gfx/billboard/mon_silhouettes/drowzee.2bpp"
 
-INCBIN "baserom.gbc",$97000,$98000 - $97000 ; 0x97000
+INCBIN "baserom.gbc",$97000,$97a00 - $97000
+
+StageRedFieldTopGfx3: ; 0x97a00
+    INCBIN "gfx/stage/red_top/red_top_3.2bpp"
+StageRedFieldTopGfx1: ; 0x97ba0
+    INCBIN "gfx/stage/red_top/red_top_1.2bpp"
+StageRedFieldTopGfx2: ; 0x97e00
+    INCBIN "gfx/stage/red_top/red_top_2.2bpp"
 
 
 SECTION "bank26", ROMX, BANK[$26]
@@ -16717,7 +16730,12 @@ INCBIN "baserom.gbc",$9b000,$9c000 - $9b000 ; 0x9b000
 
 SECTION "bank27", ROMX, BANK[$27]
 
-INCBIN "baserom.gbc",$9c000,$a0000 - $9c000 ; 0x9c000
+INCBIN "baserom.gbc",$9c000,$9c2a0 - $9c000
+
+StageRedFieldTopBaseGameBoyColorGfx: ; 0x9c2a0
+    INCBIN "gfx/stage/red_top/red_top_base_gameboycolor.2bpp"
+
+INCBIN "baserom.gbc",$9d000,$a0000 - $9d000
 
 
 SECTION "bank28", ROMX, BANK[$28]
@@ -16770,7 +16788,21 @@ INCBIN "baserom.gbc",$a7b00,$a8000 - $a7b00 ; 0xa7b00
 
 SECTION "bank2a", ROMX, BANK[$2a]
 
-INCBIN "baserom.gbc",$a8000,$ac000 - $a8000 ; 0xa8000
+INCBIN "baserom.gbc",$a8000,$a8400 - $a8000
+
+PinballPokeballGfx: ; 0xa8400
+    INCBIN "gfx/stage/ball_pokeball.2bpp"
+
+INCBIN "baserom.gbc",$a8600,$a8a00 - $a8600
+
+PinballGreatballGfx: ; 0xa8a00
+    INCBIN "gfx/stage/ball_greatball.2bpp"
+PinballUltraballGfx: ; 0xa8c00
+    INCBIN "gfx/stage/ball_ultraball.2bpp"
+PinballMasterballGfx: ; 0xa8e00
+    INCBIN "gfx/stage/ball_masterball.2bpp"
+
+INCBIN "baserom.gbc",$a9000,$ac000 - $a9000
 
 
 SECTION "bank2b", ROMX, BANK[$2b]

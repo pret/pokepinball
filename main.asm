@@ -10386,9 +10386,9 @@ PointerTable_e717: ; 0xe717
     dw Data_ec9a
 
 Data_e737: ; 0xe737
-    dw $6000
-    db $35
-    dw $8000
+    dw Alphabet1Gfx
+    db Bank(Alphabet1Gfx)
+    dw vTiles0
     dw $680
 
     dw $7BA0
@@ -10429,9 +10429,9 @@ Data_e737: ; 0xe737
     db $FF, $FF  ; terminators
 
 Data_e771: ; 0xe771
-    dw $6200
-    db $35
-    dw $8000
+    dw Alphabet2Gfx
+    db Bank(Alphabet2Gfx)
+    dw vTiles0
     dw $0680
 
     dw $7BA0
@@ -10471,7 +10471,7 @@ Data_e771: ; 0xe771
 
     dw $6E00
     db $36
-    dw $8000
+    dw vTiles0
     dw $0802
 
     dw $7200
@@ -10517,9 +10517,9 @@ Data_e771: ; 0xe771
     db $FF, $FF  ; terminators
 
 Data_e7ea: ; 0xe7ea
-    dw $6000
-    db $35
-    dw $8000
+    dw Alphabet1Gfx
+    db Bank(Alphabet1Gfx)
+    dw vTiles0
     dw $0680
 
     dw $6C00
@@ -10560,9 +10560,9 @@ Data_e7ea: ; 0xe7ea
     db $FF, $FF  ; terminators
 
 Data_e824: ; 0xe824
-    dw $6200
-    db $35
-    dw $8000
+    dw Alphabet2Gfx
+    db Bank(Alphabet2Gfx)
+    dw vTiles0
     dw $0680
 
     dw $6C00
@@ -10643,9 +10643,9 @@ Data_e824: ; 0xe824
     db $FF, $FF  ; terminators
 
 Data_e896: ; 0xe896
-    dw $6000
-    db $35
-    dw $8000
+    dw Alphabet1Gfx
+    db Bank(Alphabet1Gfx)
+    dw vTiles0
     dw $0680
 
     dw $4400
@@ -10656,9 +10656,9 @@ Data_e896: ; 0xe896
     db $FF, $FF  ; terminators
 
 Data_e8a6: ; 0xe8a6
-    dw $6200
-    db $35
-    dw $8000
+    dw Alphabet2Gfx
+    db Bank(Alphabet2Gfx)
+    dw vTiles0
     dw $0680
 
     dw $4400
@@ -10674,9 +10674,9 @@ Data_e8a6: ; 0xe8a6
     db $FF, $FF  ; terminators
 
 Data_e8bd: ; 0xe8bd
-    dw $6000
-    db $35
-    dw $8000
+    dw Alphabet1Gfx
+    db Bank(Alphabet1Gfx)
+    dw vTiles0
     dw $0680
 
     dw $4380
@@ -10692,9 +10692,9 @@ Data_e8bd: ; 0xe8bd
     db $FF, $FF  ; terminators
 
 Data_e8d4: ; 0xe8d4
-    dw $6200
-    db $35
-    dw $8000
+    dw Alphabet2Gfx
+    db Bank(Alphabet2Gfx)
+    dw vTiles0
     dw $0680
 
     dw $4380
@@ -10715,9 +10715,9 @@ Data_e8d4: ; 0xe8d4
     db $FF, $FF  ; terminators
 
 Data_e8f2: ; 0xe8f2
-    dw $6000
-    db $35
-    dw $8000
+    dw Alphabet1Gfx
+    db Bank(Alphabet1Gfx)
+    dw vTiles0
     dw $0680
 
     dw $67A0
@@ -10758,9 +10758,9 @@ Data_e8f2: ; 0xe8f2
     db $FF, $FF  ; terminators
 
 Data_e92c: ; 0xe92c
-    dw $6200
-    db $35
-    dw $8000
+    dw Alphabet2Gfx
+    db Bank(Alphabet2Gfx)
+    dw vTiles0
     dw $0680
 
     dw $67A0
@@ -10821,9 +10821,9 @@ Data_e92c: ; 0xe92c
     db $FF, $FF  ; terminators
 
 Data_e982: ; 0xe982
-    dw $6000
-    db $35
-    dw $8000
+    dw Alphabet1Gfx
+    db Bank(Alphabet1Gfx)
+    dw vTiles0
     dw $0680
 
     dw $6C00
@@ -10864,9 +10864,9 @@ Data_e982: ; 0xe982
     db $FF, $FF  ; terminators
 
 Data_e9bc: ; 0xe9bc
-    dw $6200
-    db $35
-    dw $8000
+    dw Alphabet2Gfx
+    db Bank(Alphabet2Gfx)
+    dw vTiles0
     dw $0680
 
     dw $6C00
@@ -10927,9 +10927,9 @@ Data_e9bc: ; 0xe9bc
     db $FF, $FF  ; terminators
 
 Data_ea12: ; 0xea12
-    dw $6000
-    db $35
-    dw $8000
+    dw Alphabet1Gfx
+    db Bank(Alphabet1Gfx)
+    dw vTiles0
     dw $0680
 
     dw $4400
@@ -10980,9 +10980,9 @@ Data_ea12: ; 0xea12
     db $FF, $FF  ; terminators
 
 Data_ea5a: ; 0xea5a
-    dw $6200
-    db $35
-    dw $8000
+    dw Alphabet2Gfx
+    db Bank(Alphabet2Gfx)
+    dw vTiles0
     dw $0680
 
     dw $43C0
@@ -11053,9 +11053,9 @@ Data_ea5a: ; 0xea5a
     db $FF, $FF  ; terminators
 
 Data_eabe: ; 0xeabe
-    dw $6000
-    db $35
-    dw $8000
+    dw Alphabet1Gfx
+    db Bank(Alphabet1Gfx)
+    dw vTiles0
     dw $0680
 
     dw $59A0
@@ -11096,9 +11096,9 @@ Data_eabe: ; 0xeabe
     db $FF, $FF  ; terminators
 
 Data_eaf8: ; 0xeaf8
-    dw $6200
-    db $35
-    dw $8000
+    dw Alphabet2Gfx
+    db Bank(Alphabet2Gfx)
+    dw vTiles0
     dw $0680
 
     dw $59A0
@@ -11131,7 +11131,7 @@ Data_eaf8: ; 0xeaf8
     dw $8AA0
     dw $0A80
 
-    dw $8000
+    dw vTiles0
     db $20
     dw $8800
     dw $4002
@@ -11159,9 +11159,9 @@ Data_eaf8: ; 0xeaf8
     db $FF, $FF  ; terminators
 
 Data_eb4e: ; 0xeb4e
-    dw $6000
-    db $35
-    dw $8000
+    dw Alphabet1Gfx
+    db Bank(Alphabet1Gfx)
+    dw vTiles0
     dw $0680
 
     dw $41A0
@@ -11202,9 +11202,9 @@ Data_eb4e: ; 0xeb4e
     db $FF, $FF  ; terminators
 
 Data_eb88: ; 0xeb88
-    dw $6200
-    db $35
-    dw $8000
+    dw Alphabet2Gfx
+    db Bank(Alphabet2Gfx)
+    dw vTiles0
     dw $0680
 
     dw $41A0
@@ -11260,9 +11260,9 @@ Data_eb88: ; 0xeb88
     db $FF, $FF  ; terminators
 
 Data_ebd7: ; 0xebd7
-    dw $6000
-    db $35
-    dw $8000
+    dw Alphabet1Gfx
+    db Bank(Alphabet1Gfx)
+    dw vTiles0
     dw $0680
 
     dw $7AA0
@@ -11303,9 +11303,9 @@ Data_ebd7: ; 0xebd7
     db $FF, $FF  ; terminators
 
 Data_ec11: ; 0xec11
-    dw $6200
-    db $35
-    dw $8000
+    dw Alphabet2Gfx
+    db Bank(Alphabet2Gfx)
+    dw vTiles0
     dw $0680
 
     dw $7AA0
@@ -11361,9 +11361,9 @@ Data_ec11: ; 0xec11
     db $FF, $FF  ; terminators
 
 Data_ec60: ; 0xec60
-    dw $6000
-    db $35
-    dw $8000
+    dw Alphabet1Gfx
+    db Bank(Alphabet1Gfx)
+    dw vTiles0
     dw $0680
 
     dw $71A0
@@ -11404,9 +11404,9 @@ Data_ec60: ; 0xec60
     db $FF, $FF  ; terminators
 
 Data_ec9a: ; 0xec9a
-    dw $6200
-    db $35
-    dw $8000
+    dw Alphabet2Gfx
+    db Bank(Alphabet2Gfx)
+    dw vTiles0
     dw $0680
 
     dw $71A0
@@ -13320,7 +13320,7 @@ PointerTable_280a2: ; 0x280a2
 Data_280a6: ; 0x280a6
     dw $5800
     db $2B
-    dw $8000
+    dw vTiles0
     dw $6000
 
     dw $5000
@@ -13343,7 +13343,7 @@ Data_280a6: ; 0x280a6
 Data_280c4: ; 0x280c4
     dw $5800
     db $2B
-    dw $8000
+    dw vTiles0
     dw $6000
 
     dw $5000
@@ -14592,7 +14592,7 @@ Func_28bf5: ; 0x28bf5
     call Func_68f
     ld h, b
     ld l, c
-    ld de, $8000
+    ld de, vTiles0
     ld bc, $0300
     call Func_735
     xor a
@@ -16918,7 +16918,17 @@ INCBIN "baserom.gbc",$d0000,$d4000 - $d0000 ; 0xd0000
 
 SECTION "bank35", ROMX, BANK[$35]
 
-INCBIN "baserom.gbc",$d4000,$d8000 - $d4000 ; 0xd4000
+INCBIN "baserom.gbc",$d4000,$d6000 - $d4000
+
+Alphabet1Gfx: ; 0xd6000
+    INCBIN "gfx/stage/alphabet_1.2bpp"
+
+INCBIN "baserom.gbc",$d61a0,$d6200 - $d61a0
+
+Alphabet2Gfx: ; 0xd6200
+    INCBIN "gfx/stage/alphabet_2.2bpp"
+
+INCBIN "baserom.gbc",$d63a0,$d8000 - $d63a0
 
 
 SECTION "bank36", ROMX, BANK[$36]

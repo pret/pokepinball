@@ -10474,19 +10474,19 @@ Data_e771: ; 0xe771
     dw vTiles0
     dw $0802
 
-    dw $7200
-    db $36
-    dw $8600
+    dw TimerDigitsGfx
+    db Bank(TimerDigitsGfx)
+    dw vTiles0 + $600
     dw $0582
 
-    dw $6C00
-    db $35
-    dw $8200
+    dw StageRedJapaneseCharactersGfx
+    db Bank(StageRedJapaneseCharactersGfx)
+    dw vTiles0 + $200
     dw $1002
 
-    dw $7000
-    db $35
-    dw $8900
+    dw StageRedJapaneseCharactersGfx2
+    db Bank(StageRedJapaneseCharactersGfx2)
+    dw vTiles1 + $100
     dw $0802
 
     dw $4000
@@ -10522,34 +10522,34 @@ Data_e7ea: ; 0xe7ea
     dw vTiles0
     dw $0680
 
-    dw $6C00
-    db $36
-    dw $81A0
+    dw StageRedFieldBottomGfx1
+    db Bank(StageRedFieldBottomGfx1)
+    dw vTiles0 + $1A0
     dw $0580
 
-    dw $4000
-    db $37
-    dw $8300
+    dw StageRedFieldBottomGfx2
+    db Bank(StageRedFieldBottomGfx2)
+    dw vTiles0 + $300
     dw $0200
 
-    dw $6DE0
-    db $36
-    dw $8380
+    dw StageRedFieldBottomGfx3
+    db Bank(StageRedFieldBottomGfx3)
+    dw vTiles0 + $380
     dw $0080
 
-    dw $43C0
-    db $2A
-    dw $83C0
+    dw StageRedFieldBottomGfx4
+    db Bank(StageRedFieldBottomGfx4)
+    dw vTiles0 + $3C0
     dw $1100
 
-    dw $7000
-    db $1D
-    dw $8800
+    dw StageRedFieldBottomBaseGameBoyGfx
+    db Bank(StageRedFieldBottomBaseGameBoyGfx)
+    dw vTiles1
     dw $4000
 
-    dw $4C00
-    db $36
-    dw $8AA0
+    dw SaverTextOffGfx
+    db Bank(SaverTextOffGfx)
+    dw vTiles1 + $2A0
     dw $0100
 
     dw $6800
@@ -10565,59 +10565,59 @@ Data_e824: ; 0xe824
     dw vTiles0
     dw $0680
 
-    dw $6C00
-    db $36
-    dw $81A0
+    dw StageRedFieldBottomGfx1
+    db Bank(StageRedFieldBottomGfx1)
+    dw vTiles0 + $1A0
     dw $0580
 
-    dw $4000
-    db $37
-    dw $8300
+    dw StageRedFieldBottomGfx2
+    db Bank(StageRedFieldBottomGfx2)
+    dw vTiles0 + $300
     dw $0200
 
-    dw $6DE0
-    db $36
-    dw $8380
+    dw StageRedFieldBottomGfx3
+    db Bank(StageRedFieldBottomGfx3)
+    dw vTiles0 + $380
     dw $0080
 
-    dw $43C0
-    db $2A
-    dw $83C0
+    dw StageRedFieldBottomGfx4
+    db Bank(StageRedFieldBottomGfx4)
+    dw vTiles0 + $3C0
     dw $1100
 
-    dw $6000
-    db $28
-    dw $8800
+    dw StageRedFieldBottomBaseGameBoyColorGfx
+    db Bank(StageRedFieldBottomBaseGameBoyColorGfx)
+    dw vTiles1
     dw $4000
 
-    dw $7000
-    db $28
-    dw $8800
+    dw StageRedFieldBottomGfx5
+    db Bank(StageRedFieldBottomGfx5)
+    dw vTiles1
     dw $4002
 
-    dw $7200
-    db $36
-    dw $8600
+    dw TimerDigitsGfx
+    db Bank(TimerDigitsGfx)
+    dw vTiles0 + $600
     dw $0582
 
-    dw $4C00
-    db $36
-    dw $8AA0
+    dw SaverTextOffGfx
+    db Bank(SaverTextOffGfx)
+    dw vTiles1 + $2A0
     dw $0100
 
-    dw $6C00
-    db $35
-    dw $8200
+    dw StageRedJapaneseCharactersGfx
+    db Bank(StageRedJapaneseCharactersGfx)
+    dw vTiles0 + $200
     dw $1002
 
-    dw $7000
-    db $35
-    dw $8900
+    dw StageRedJapaneseCharactersGfx2
+    db Bank(StageRedJapaneseCharactersGfx2)
+    dw vTiles1 + $100
     dw $0802
 
-    dw $6000
-    db $28
-    dw $8800
+    dw StageRedFieldBottomBaseGameBoyColorGfx
+    db Bank(StageRedFieldBottomBaseGameBoyColorGfx)
+    dw vTiles1
     dw $0402
 
     dw $6800
@@ -10666,9 +10666,9 @@ Data_e8a6: ; 0xe8a6
     dw vTiles0 + $400
     dw $0800
 
-    dw $7200
-    db $36
-    dw $8600
+    dw TimerDigitsGfx
+    db Bank(TimerDigitsGfx)
+    dw vTiles0 + $600
     dw $0582
 
     db $FF, $FF  ; terminators
@@ -10684,9 +10684,9 @@ Data_e8bd: ; 0xe8bd
     dw $8380
     dw $1200
 
-    dw $4c00
-    db $36
-    dw $8aA0
+    dw SaverTextOffGfx
+    db Bank(SaverTextOffGfx)
+    dw vTiles1 + $2a0
     dw $0100
 
     db $FF, $FF  ; terminators
@@ -10702,14 +10702,14 @@ Data_e8d4: ; 0xe8d4
     dw $8380
     dw $1200
 
-    dw $7200
-    db $36
-    dw $8600
+    dw TimerDigitsGfx
+    db Bank(TimerDigitsGfx)
+    dw vTiles0 + $600
     dw $0582
 
-    dw $4C00
-    db $36
-    dw $8AA0
+    dw SaverTextOffGfx
+    db Bank(SaverTextOffGfx)
+    dw vTiles1 + $2A0
     dw $0100
 
     db $FF, $FF  ; terminators
@@ -10798,9 +10798,9 @@ Data_e92c: ; 0xe92c
     dw $8800
     dw $4002
 
-    dw $7200
-    db $36
-    dw $8600
+    dw TimerDigitsGfx
+    db Bank(TimerDigitsGfx)
+    dw vTiles0 + $600
     dw $0582
 
     dw $6800
@@ -10826,24 +10826,24 @@ Data_e982: ; 0xe982
     dw vTiles0
     dw $0680
 
-    dw $6C00
-    db $36
-    dw $81A0
+    dw StageRedFieldBottomGfx1
+    db Bank(StageRedFieldBottomGfx1)
+    dw vTiles0 + $1A0
     dw $0580
 
-    dw $4000
-    db $37
-    dw $8300
+    dw StageRedFieldBottomGfx2
+    db Bank(StageRedFieldBottomGfx2)
+    dw vTiles0 + $300
     dw $0200
 
-    dw $6DE0
-    db $36
-    dw $8380
+    dw StageRedFieldBottomGfx3
+    db Bank(StageRedFieldBottomGfx3)
+    dw vTiles0 + $380
     dw $0080
 
-    dw $43C0
-    db $2A
-    dw $83C0
+    dw StageRedFieldBottomGfx4
+    db Bank(StageRedFieldBottomGfx4)
+    dw vTiles0 + $3C0
     dw $1100
 
     dw $7000
@@ -10851,9 +10851,9 @@ Data_e982: ; 0xe982
     dw $8800
     dw $4000
 
-    dw $4C00
-    db $36
-    dw $8AA0
+    dw SaverTextOffGfx
+    db Bank(SaverTextOffGfx)
+    dw vTiles1 + $2A0
     dw $0100
 
     dw $4000
@@ -10869,24 +10869,24 @@ Data_e9bc: ; 0xe9bc
     dw vTiles0
     dw $0680
 
-    dw $6C00
-    db $36
-    dw $81A0
+    dw StageRedFieldBottomGfx1
+    db Bank(StageRedFieldBottomGfx1)
+    dw vTiles0 + $1A0
     dw $0580
 
-    dw $4000
-    db $37
-    dw $8300
+    dw StageRedFieldBottomGfx2
+    db Bank(StageRedFieldBottomGfx2)
+    dw vTiles0 + $300
     dw $0200
 
-    dw $6DE0
-    db $36
-    dw $8380
+    dw StageRedFieldBottomGfx3
+    db Bank(StageRedFieldBottomGfx3)
+    dw vTiles0 + $380
     dw $0080
 
-    dw $43C0
-    db $2A
-    dw $83C0
+    dw StageRedFieldBottomGfx4
+    db Bank(StageRedFieldBottomGfx4)
+    dw vTiles0 + $3C0
     dw $1100
 
     dw $4000
@@ -10899,14 +10899,14 @@ Data_e9bc: ; 0xe9bc
     dw $8800
     dw $4002
 
-    dw $7200
-    db $36
-    dw $8600
+    dw TimerDigitsGfx
+    db Bank(TimerDigitsGfx)
+    dw vTiles0 + $600
     dw $0582
 
-    dw $4C00
-    db $36
-    dw $8AA0
+    dw SaverTextOffGfx
+    db Bank(SaverTextOffGfx)
+    dw vTiles1 + $2A0
     dw $0100
 
     dw $7000
@@ -10985,9 +10985,9 @@ Data_ea5a: ; 0xea5a
     dw vTiles0
     dw $0680
 
-    dw $43C0
-    db $2A
-    dw $83C0
+    dw StageRedFieldBottomGfx4
+    db Bank(StageRedFieldBottomGfx4)
+    dw vTiles0 + $3C0
     dw $1100
 
     dw $6000
@@ -11030,9 +11030,9 @@ Data_ea5a: ; 0xea5a
     dw $8800
     dw $4002
 
-    dw $7200
-    db $36
-    dw $8600
+    dw TimerDigitsGfx
+    db Bank(TimerDigitsGfx)
+    dw vTiles0 + $600
     dw $0582
 
     dw $5000
@@ -11136,9 +11136,9 @@ Data_eaf8: ; 0xeaf8
     dw $8800
     dw $4002
 
-    dw $7200
-    db $36
-    dw $8600
+    dw TimerDigitsGfx
+    db Bank(TimerDigitsGfx)
+    dw vTiles0 + $600
     dw $0582
 
     dw $7800
@@ -11237,9 +11237,9 @@ Data_eb88: ; 0xeb88
     dw $8AA0
     dw $0D80
 
-    dw $7200
-    db $36
-    dw $8600
+    dw TimerDigitsGfx
+    db Bank(TimerDigitsGfx)
+    dw vTiles0 + $600
     dw $0582
 
     dw $6000
@@ -11338,9 +11338,9 @@ Data_ec11: ; 0xec11
     dw $8AA0
     dw $0A00
 
-    dw $7200
-    db $36
-    dw $8600
+    dw TimerDigitsGfx
+    db Bank(TimerDigitsGfx)
+    dw vTiles0 + $600
     dw $0582
 
     dw $7000
@@ -11439,9 +11439,9 @@ Data_ec9a: ; 0xec9a
     dw $8AA0
     dw $1280
 
-    dw $7200
-    db $36
-    dw $8600
+    dw TimerDigitsGfx
+    db Bank(TimerDigitsGfx)
+    dw vTiles0 + $600
     dw $0582
 
     dw $5800
@@ -16220,7 +16220,8 @@ Nidoran_MPic: ; 0x76d00
 Nidoran_MSilhouettePic: ; 0x76e80
 	INCBIN "gfx/billboard/mon_silhouettes/nidoran_m.2bpp"
 
-INCBIN "baserom.gbc",$77000,$78000 - $77000 ; 0x77000
+StageRedFieldBottomBaseGameBoyGfx: ; 0x77000
+    INCBIN  "gfx/stage/red_bottom/red_bottom_base_gameboy.2bpp"
 
 
 SECTION "bank1e", ROMX, BANK[$1e]
@@ -16740,7 +16741,13 @@ INCBIN "baserom.gbc",$9d000,$a0000 - $9d000
 
 SECTION "bank28", ROMX, BANK[$28]
 
-INCBIN "baserom.gbc",$a0000,$a4000 - $a0000 ; 0xa0000
+INCBIN "baserom.gbc",$a0000,$a2000 - $a0000
+
+StageRedFieldBottomBaseGameBoyColorGfx: ; 0xa2000
+    INCBIN "gfx/stage/red_bottom/red_bottom_base_gameboycolor.2bpp"
+
+StageRedFieldBottomGfx5: ; 0xa3000
+    INCBIN "gfx/stage/red_bottom/red_bottom_5.2bpp"
 
 
 SECTION "bank29", ROMX, BANK[$29]
@@ -16788,12 +16795,21 @@ INCBIN "baserom.gbc",$a7b00,$a8000 - $a7b00 ; 0xa7b00
 
 SECTION "bank2a", ROMX, BANK[$2a]
 
-INCBIN "baserom.gbc",$a8000,$a8400 - $a8000
+INCBIN "baserom.gbc",$a8000,$a83c0 - $a8000
+
+StageRedFieldBottomGfx4: ; 0xa83c0
+    INCBIN "gfx/stage/red_bottom/red_bottom_4.2bpp"
 
 PinballPokeballGfx: ; 0xa8400
     INCBIN "gfx/stage/ball_pokeball.2bpp"
 
-INCBIN "baserom.gbc",$a8600,$a8a00 - $a8600
+FlipperGfx: ; 0xa8600
+    INCBIN "gfx/stage/flipper.2bpp"
+
+PikachuSaverGfx: ; 0xa8720
+    INCBIN "gfx/stage/pikachu_saver.2bpp"
+
+INCBIN "baserom.gbc",$a8800,$a8a00 - $a8800
 
 PinballGreatballGfx: ; 0xa8a00
     INCBIN "gfx/stage/ball_greatball.2bpp"
@@ -16960,22 +16976,52 @@ INCBIN "baserom.gbc",$d61a0,$d6200 - $d61a0
 Alphabet2Gfx: ; 0xd6200
     INCBIN "gfx/stage/alphabet_2.2bpp"
 
-INCBIN "baserom.gbc",$d63a0,$d8000 - $d63a0
+INCBIN "baserom.gbc",$d63a0,$d6c00 - $d63a0
+
+StageRedJapaneseCharactersGfx: ; 0xd6c00
+    INCBIN "gfx/stage/red_bottom/japanese_characters.2bpp"
+StageRedJapaneseCharactersGfx2: ; 0xd7000
+    INCBIN "gfx/stage/red_bottom/japanese_characters_2.2bpp"
+
+INCBIN "baserom.gbc",$d7200,$d8000 - $d7200
 
 
 SECTION "bank36", ROMX, BANK[$36]
 
-INCBIN "baserom.gbc",$d8000,$da000 - $d8000 ; 0xd8000
+INCBIN "baserom.gbc",$d8000,$d8c00 - $d8000
+
+SaverTextOffGfx: ; 0xd8c00
+    INCBIN "gfx/stage/saver_off.2bpp"
+
+INCBIN "baserom.gbc",$d8c40,$da000 - $d8c40
 
 CopyrightTextGfx: ; 0xda000
     INCBIN "gfx/copyright_text.2bpp"
 
-INCBIN "baserom.gbc",$da400,$dc000 - $da400 ; 0xda400
+INCBIN "baserom.gbc",$da400,$dac00 - $da400
+
+StageRedFieldBottomGfx1: ; 0xdac00
+    INCBIN "gfx/stage/red_bottom/red_bottom_1.2bpp"
+
+INCBIN "baserom.gbc",$dad60,$dade0 - $dad60
+
+StageRedFieldBottomGfx3: ; 0xdade0
+    INCBIN "gfx/stage/red_bottom/red_bottom_3.2bpp"
+
+INCBIN "baserom.gbc",$dae00,$db200 - $dae00
+
+TimerDigitsGfx: ; 0xdb200
+    INCBIN "gfx/stage/timer_digits.2bpp"
+
+INCBIN "baserom.gbc",$db360,$dc000 - $db360
 
 
 SECTION "bank37", ROMX, BANK[$37]
 
-INCBIN "baserom.gbc",$dc000,$e0000 - $dc000 ; 0xdc000
+StageRedFieldBottomGfx2: ; 0xdc000
+    INCBIN "gfx/stage/red_bottom/red_bottom_2.2bpp"
+
+INCBIN "baserom.gbc",$dc080,$e0000 - $dc080
 
 
 SECTION "bank38", ROMX, BANK[$38]

@@ -10350,7 +10350,7 @@ Func_e6c2: ; 0xe6c2
     ret
 
 PointerTable_e6f7: ; 0xe6f7
-    dw Data_e737
+    dw StageRedFieldTopGfx_GameBoy
     dw Data_e7ea
     dw Data_e896
     dw Data_e8bd
@@ -10368,7 +10368,7 @@ PointerTable_e6f7: ; 0xe6f7
     dw Data_ec60
 
 PointerTable_e717: ; 0xe717
-    dw Data_e771
+    dw StageRedFieldTopGfx_GameBoyColor
     dw Data_e824
     dw Data_e8a6
     dw Data_e8d4
@@ -10385,7 +10385,7 @@ PointerTable_e717: ; 0xe717
     dw Data_ec9a
     dw Data_ec9a
 
-Data_e737: ; 0xe737
+StageRedFieldTopGfx_GameBoy: ; 0xe737
     dw Alphabet1Gfx
     db Bank(Alphabet1Gfx)
     dw vTiles0
@@ -10406,8 +10406,8 @@ Data_e737: ; 0xe737
     dw vTiles0 + $600
     dw $0800
 
-    dw StageRedFieldTopStatusBarSymbolsGfx
-    db Bank(StageRedFieldTopStatusBarSymbolsGfx)
+    dw StageRedFieldTopStatusBarSymbolsGfx_GameBoy
+    db Bank(StageRedFieldTopStatusBarSymbolsGfx_GameBoy)
     dw vTiles1
     dw $0400
 
@@ -10421,14 +10421,14 @@ Data_e737: ; 0xe737
     dw vTiles1 + $2A0
     dw $3580
 
-    dw $6000
-    db $2E
-    dw $9800
+    dw StageRedFieldTopTilemap_GameBoy
+    db Bank(StageRedFieldTopTilemap_GameBoy)
+    dw vBGMap0
     dw $1000
 
     db $FF, $FF  ; terminators
 
-Data_e771: ; 0xe771
+StageRedFieldTopGfx_GameBoyColor: ; 0xe771
     dw Alphabet2Gfx
     db Bank(Alphabet2Gfx)
     dw vTiles0
@@ -10449,9 +10449,9 @@ Data_e771: ; 0xe771
     dw vTiles0 + $600
     dw $0800
 
-    dw $4000
-    db $27
-    dw $8800
+    dw StageRedFieldTopStatusBarSymbolsGfx_GameBoyColor
+    db Bank(StageRedFieldTopStatusBarSymbolsGfx_GameBoyColor)
+    dw vTiles1
     dw $0400
 
     dw StageRedFieldTopGfx3
@@ -10464,13 +10464,13 @@ Data_e771: ; 0xe771
     dw vTiles1 + $2A0
     dw $3580
 
-    dw $5000
-    db $27
-    dw $8800
+    dw StageRedFieldTopGfx4
+    db Bank(StageRedFieldTopGfx4)
+    dw vTiles1
     dw $4002
 
-    dw $6E00
-    db $36
+    dw StageRedFieldTopGfx5
+    db Bank(StageRedFieldTopGfx5)
     dw vTiles0
     dw $0802
 
@@ -10489,19 +10489,19 @@ Data_e771: ; 0xe771
     dw vTiles1 + $100
     dw $0802
 
-    dw $4000
-    db $27
-    dw $8800
+    dw StageRedFieldTopStatusBarSymbolsGfx_GameBoyColor
+    db Bank(StageRedFieldTopStatusBarSymbolsGfx_GameBoyColor)
+    dw vTiles1
     dw $0402
 
-    dw $6000
-    db $2F
-    dw $9800
+    dw StageRedFieldTopTilemap_GameBoyColor
+    db Bank(StageRedFieldTopTilemap_GameBoyColor)
+    dw vBGMap0
     dw $1000
 
-    dw $6400
-    db $2F
-    dw $9800
+    dw StageRedFieldTopTilemap2_GameBoyColor
+    db Bank(StageRedFieldTopTilemap2_GameBoyColor)
+    dw vBGMap0
     dw $1002
 
     dw $4980
@@ -10509,9 +10509,9 @@ Data_e771: ; 0xe771
     dw $0000
     dw $0101
 
-    dw $7B80
-    db $36
-    dw $87C0
+    dw StageRedFieldTopGfx6
+    db Bank(StageRedFieldTopGfx6)
+    dw vTiles0 + $7C0
     dw $0102
 
     db $FF, $FF  ; terminators
@@ -15900,8 +15900,8 @@ KadabraPic: ; 0x62d00
 KadabraSilhouettePic: ; 0x62e80
 	INCBIN "gfx/billboard/mon_silhouettes/kadabra.2bpp"
 
-StageRedFieldTopStatusBarSymbolsGfx: ; 0x63000
-    INCBIN "gfx/stage/red_top/status_bar_symbols.2bpp"
+StageRedFieldTopStatusBarSymbolsGfx_GameBoy: ; 0x63000
+    INCBIN "gfx/stage/red_top/status_bar_symbols_gameboy.2bpp"
 
 INCBIN "baserom.gbc",$63100,$632a0 - $63100
 
@@ -16731,12 +16731,18 @@ INCBIN "baserom.gbc",$9b000,$9c000 - $9b000 ; 0x9b000
 
 SECTION "bank27", ROMX, BANK[$27]
 
-INCBIN "baserom.gbc",$9c000,$9c2a0 - $9c000
+StageRedFieldTopStatusBarSymbolsGfx_GameBoyColor: ; 0x9c000
+    INCBIN "gfx/stage/red_top/status_bar_symbols_gameboycolor.2bpp"
+
+INCBIN "baserom.gbc",$9c100,$9c2a0 - $9c100
 
 StageRedFieldTopBaseGameBoyColorGfx: ; 0x9c2a0
     INCBIN "gfx/stage/red_top/red_top_base_gameboycolor.2bpp"
 
-INCBIN "baserom.gbc",$9d000,$a0000 - $9d000
+StageRedFieldTopGfx4: ; 0x9d000
+    INCBIN "gfx/stage/red_top/red_top_4.2bpp"
+
+INCBIN "baserom.gbc",$9e000,$a0000 - $9e000
 
 
 SECTION "bank28", ROMX, BANK[$28]
@@ -16911,12 +16917,25 @@ INCBIN "baserom.gbc",$b6c00,$b8000 - $b6c00 ; 0xb6c00
 
 SECTION "bank2e", ROMX, BANK[$2e]
 
-INCBIN "baserom.gbc",$b8000,$bc000 - $b8000 ; 0xb8000
+INCBIN "baserom.gbc",$b8000,$ba000 - $b8000
+
+StageRedFieldTopTilemap_GameBoy: ; 0xba000
+    INCBIN "gfx/tilemaps/stage_red_field_top_gameboy.map"
+
+INCBIN "baserom.gbc",$ba400,$bc000 - $ba400
 
 
 SECTION "bank2f", ROMX, BANK[$2f]
 
-INCBIN "baserom.gbc",$bc000,$bf800 - $bc000
+INCBIN "baserom.gbc",$bc000,$be000 - $bc000
+
+StageRedFieldTopTilemap_GameBoyColor: ; 0xbe000
+    INCBIN "gfx/tilemaps/stage_red_field_top_gameboycolor.map"
+
+StageRedFieldTopTilemap2_GameBoyColor: ; 0xbe400
+    INCBIN "gfx/tilemaps/stage_red_field_top_gameboycolor_2.map"
+
+INCBIN "baserom.gbc",$be800,$bf800 - $be800
 
 EraseAllDataTilemap: ; 0xbf800
     INCBIN "gfx/tilemaps/erase_all_data.map"
@@ -17008,12 +17027,20 @@ INCBIN "baserom.gbc",$dad60,$dade0 - $dad60
 StageRedFieldBottomGfx3: ; 0xdade0
     INCBIN "gfx/stage/red_bottom/red_bottom_3.2bpp"
 
-INCBIN "baserom.gbc",$dae00,$db200 - $dae00
+StageRedFieldTopGfx5: ; 0xdae00
+    INCBIN "gfx/stage/red_top/red_top_5.2bpp"
+
+INCBIN "baserom.gbc",$db000,$db200 - $db000
 
 TimerDigitsGfx: ; 0xdb200
     INCBIN "gfx/stage/timer_digits.2bpp"
 
-INCBIN "baserom.gbc",$db360,$dc000 - $db360
+INCBIN "baserom.gbc",$db360,$dbb80 - $db360
+
+StageRedFieldTopGfx6: ; 0xdbb80
+    INCBIN "gfx/stage/red_top/red_top_6.2bpp"
+
+INCBIN "baserom.gbc",$dbbc0,$dc000 - $dbbc0
 
 
 SECTION "bank37", ROMX, BANK[$37]

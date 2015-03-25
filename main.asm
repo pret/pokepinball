@@ -6873,7 +6873,73 @@ Func_8461: ; 0x8461
     call Func_490
     ret
 
-INCBIN "baserom.gbc",$8471,$867d - $8471
+Func_8471: ; 0x8471
+    ld a, [wCurrentStage]
+    call CallInFollowingTable
+CallTable_8477: ; 0x8477
+    ; STAGE_RED_FIELD_TOP
+    dw $4000
+    db $05, $00
+
+    ; STAGE_RED_FIELD_BOTTOM
+    dw $401C
+    db $05, $00
+
+    dw $405F
+    db $06, $00
+
+    dw $4060
+    db $06, $00
+
+    ; STAGE_BLUE_FIELD_TOP
+    dw $4165
+    db $07, $00
+
+    ; STAGE_BLUE_FIELD_BOTTOM
+    dw $4191
+    db $07, $00
+
+    ; STAGE_GENGAR_BONUS
+    dw $418B
+    db $06, $00
+
+    ; STAGE_GENGAR_BONUS
+    dw $418B
+    db $06, $00
+
+    ; STAGE_MEWTWO_BONUS
+    dw $5310
+    db $06, $00
+
+    ; STAGE_MEWTWO_BONUS
+    dw $5310
+    db $06, $00
+
+    ; STAGE_MEOWTH_BONUS
+    dw $4128
+    db $09, $00
+
+    ; STAGE_MEOWTH_BONUS
+    dw $4128
+    db $09, $00
+
+    ; STAGE_DIGLETT_BONUS
+    dw $5a76
+    db $06, $00
+
+    ; STAGE_DIGLETT_BONUS
+    dw $5a76
+    db $06, $00
+
+    ; STAGE_SEEL_BONUS
+    dw $5b97
+    db $09, $00
+
+    ; STAGE_SEEL_BONUS
+    dw $5b97
+    db $09, $00
+
+INCBIN "baserom.gbc",$84b7,$867d - $84b7
 
 StartTimer: ; 0x867d
 ; Starts the timer that counts down with the specified starting time when things
@@ -10336,16 +10402,16 @@ Func_e6c2: ; 0xe6c2
     ld hl, StageGfxPointers_GameBoy
     ld a, [hGameBoyColorFlag]
     and a
-    jr z, .asm_e6e2
+    jr z, .loadData
     ld hl, StageGfxPointers_GameBoyColor
-.asm_e6e2
+.loadData
     ld a, [wCurrentStage]
     call LoadVideoData
     xor a
     ld [$d7f2], a
     ld [$ff8a], a
-    ld a, $2
-    ld hl, $4471 ; todo
+    ld a, Bank(Func_8471)
+    ld hl, Func_8471
     call BankSwitch
     ret
 

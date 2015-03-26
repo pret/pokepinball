@@ -3802,7 +3802,22 @@ Func_208c: ; 0x208c
     scf
     ret
 
-INCBIN "baserom.gbc",$20ab,$219c - $20ab
+INCBIN "baserom.gbc",$20ab,$216d - $20ab
+
+Func_216d: ; 0x216d
+    ld de, $000b  ; gravity added to y velocity every frame
+    ld hl, wBallYVelocity
+    ld a, [hli]
+    ld h, [hl]
+    ld l, a
+    add hl, de
+    ld a, l
+    ld [wBallYVelocity], a
+    ld a, h
+    ld [$d4be], a
+    ret
+
+INCBIN "baserom.gbc",$2180,$219c - $2180
 
 MoveBallPosition: ; 0x219c
 ; Updates the ball's position according to its velocity

@@ -4130,7 +4130,7 @@ Func_222b: ; 0x222b
     ld [$d803], a
     ld a, $1
     ld [$d804], a
-    ld a, [$d7b9]
+    ld a, [wFlipperCollision]
     and a
     jr nz, .asm_2254
     push de
@@ -4285,7 +4285,7 @@ Func_22b5: ; 0x22b5
     sla a
     ld c, a
     ld b, $0
-    ld hl, $252e ; todo
+    ld hl, PointerTable_252e
     add hl, bc
     ld e, [hl]
     inc hl
@@ -4592,7 +4592,26 @@ Func_248a: ; 0x248a
     scf
     ret
 
-INCBIN "baserom.gbc",$250a,$2720 - $250a
+INCBIN "baserom.gbc",$250a,$252e - $250a
+
+PointerTable_252e: ; 0x252e
+; This has to do with collision stuff
+    dw Data_253e
+    dw Data_256e
+    dw $259E
+    dw $25CE
+    dw $25FE
+    dw $262E
+    dw $265E
+    dw $268E
+
+Data_253e: ; 0x253e
+    db $00, $10, $0B, $00, $08, $0C, $00, $04, $0D, $01, $40, $0A, $01, $01, $0E, $03, $80, $09, $13, $80, $0F, $04, $80, $08, $14, $80, $00, $05, $80, $07, $15, $80, $01, $07, $40, $06, $07, $01, $02, $08, $10, $05, $08, $08, $04, $08, $04, $03
+
+Data_256e: ; 0x256e
+    db $00, $08, $0B, $00, $04, $0C, $00, $02, $0D, $01, $20, $0A, $11, $80, $0E, $03, $40, $09, $13, $40, $0F, $04, $40, $08, $14, $40, $00, $05, $40, $07, $15, $40, $01, $07, $20, $06, $17, $80, $02, $08, $08, $05, $08, $04, $04, $08, $02, $03
+
+INCBIN "baserom.gbc",$259e,$2720 - $259e
 
 Func_2720: ; 0x2720
     ld a, $ff
@@ -5025,7 +5044,7 @@ HandleUpperTilt: ; 0x365a
     ld [wUpperTiltReset], a
     ret
 
-Func_36c1: ; 0x36c1
+ApplyTiltForces: ; 0x36c1
     ld a, [$d548]
     ld hl, $d549
     and [hl]
@@ -11413,7 +11432,7 @@ Func_d87f: ; 0xd87f
 Func_d909: ; 0xd909
 ; main loop for stage logic
     xor a
-    ld [$d7b9], a
+    ld [wFlipperCollision], a
     ld [$d7eb], a
     call ApplyGravityToBall
     call LimitBallVelocity
@@ -11426,20 +11445,20 @@ Func_d909: ; 0xd909
     ld a, Bank(HandleFlippers)
     ld hl, HandleFlippers
     call nz, BankSwitch  ; only perform flipper routines on the lower-half of stages
-    ld a, [$d7b9]
+    ld a, [wFlipperCollision]
     and a
     ld a, [$d7ea]
     push af
-    call Func_22b5
+    call Func_22b5  ; collision stuff
     pop af
-    jr z, .asm_d93d
+    jr z, .noFlipperCollision
     ld [$d7ea], a
-.asm_d93d
+.noFlipperCollision
     call Func_2720
     call Func_281c
     ld hl, wKeyConfigMenu
     call IsKeyPressed
-    jr z, .asm_d95e
+    jr z, .didntPressMenuKey
     ld de, $034c
     call PlaySoundEffect
     ld [$ff8a], a
@@ -11447,16 +11466,16 @@ Func_d909: ; 0xd909
     ld hl, $46d7
     call BankSwitch
     jp z, $5a05
-.asm_d95e
+.didntPressMenuKey
     ld a, [$d7e9]  ; check for collision flag
     and a
     jr z, .asm_d9a2
-    call Func_36c1
+    call ApplyTiltForces
     call LoadBallVelocity
     ld a, [$d7ea]
     call Func_21e7
     call Func_222b
-    ld a, [$d7b9]
+    ld a, [wFlipperCollision]
     and a
     jr z, .asm_d993
     ld hl, $d7bc
@@ -11571,13 +11590,13 @@ INCBIN "baserom.gbc",$dc00,$e0fe - $dc00
 
 HandleFlippers: ; 0xe0fe
     xor a
-    ld [$d7b9], a
+    ld [wFlipperCollision], a
     ld [$ffbf], a
     ld [$d7ba], a
     ld [$d7bb], a
     call Func_e118
     call Func_e1f0
-    ld a, [$d7b9]
+    ld a, [wFlipperCollision]
     and a
     call nz, HandleFlipperCollision
     ret
@@ -11721,7 +11740,7 @@ Func_e1f0: ; 0xe1f0
     ld a, [$d7af]
     ld [$ffc3], a
     call Func_e25a
-    ld a, [$d7b9]
+    ld a, [wFlipperCollision]
     and a
     ret z
     ld a, [$d7b0]
@@ -11755,7 +11774,7 @@ Func_e226: ; 0xe226
     ld a, [$d7b3]
     ld [$ffc3], a
     call Func_e25a
-    ld a, [$d7b9]
+    ld a, [wFlipperCollision]
     and a
     ret z
     ld a, [$d7b4]
@@ -11852,7 +11871,7 @@ Func_e25a: ; 0xe25a
     call Func_68f
     ld [$d7b8], a
     ld a, $1
-    ld [$d7b9], a
+    ld [wFlipperCollision], a
     ret
 
 INCBIN "baserom.gbc",$e2e4,$e379 - $e2e4

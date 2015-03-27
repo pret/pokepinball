@@ -114,7 +114,13 @@ wUpperTiltPushing:: ; 0xd7a9
 ; Set to $1 when the upper tilt is in the first half of its animation
     ds 1
 
-    ds $147
+    ds 15
+
+wFlipperCollision:: ; 0xd7b9
+; Set to $1 when the ball is colliding with a flipper
+    ds 1
+
+    ds $137
 
 wCurrentScreen:: ; 0xd8f1
 ; The game is driven by state machines. This is the current screen.

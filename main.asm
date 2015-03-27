@@ -3820,7 +3820,164 @@ Func_208c: ; 0x208c
     scf
     ret
 
-INCBIN "baserom.gbc",$20ab,$2168 - $20ab
+Func_20ab: ; 0x20ab
+    push af
+    xor a
+    ld [$ffb6], a
+    jr .asm_20c6
+    push af
+    ld a, b
+    xor c
+    ld [$ffb6], a
+    bit 7, b
+    jr z, .asm_20be
+    ld a, b
+    cpl
+    inc a
+    ld b, a
+.asm_20be
+    bit 7, c
+    jr z, .asm_20c6
+    ld a, c
+    cpl
+    inc a
+    ld c, a
+.asm_20c6
+    push de
+    push hl
+    ld a, b
+    cp c
+    jr nc, .asm_20ce
+    ld b, c
+    ld c, a
+.asm_20ce
+    ld h, $3e
+    ld l, c
+    ld e, [hl]
+    inc h
+    ld d, [hl]
+    ld l, b
+    ld a, [hl]
+    dec h
+    ld l, [hl]
+    ld h, a
+    add hl, de
+    push af
+    ld d, $3e
+    ld a, b
+    sub c
+    ld e, a
+    ld a, [de]
+    ld c, a
+    inc d
+    ld a, [de]
+    ld b, a
+    ld a, l
+    sub c
+    ld l, a
+    ld a, h
+    sbc b
+    ld h, a
+    jr nc, .asm_20f1
+    pop af
+    ccf
+    jr .asm_20f2
+.asm_20f1
+    pop af
+.asm_20f2
+    rr h
+    rr l
+    ld b, h
+    ld c, l
+    ld a, [$ffb6]
+    rlca
+    jr nc, .asm_2107
+    ld a, c
+    cpl
+    add $1
+    ld c, a
+    ld a, b
+    cpl
+    adc $0
+    ld b, a
+.asm_2107
+    pop hl
+    pop de
+    pop af
+    ret
+
+Func_210b: ; 0x210b
+    push af
+    push hl
+    ld a, b
+    xor d
+    ld [$ffb7], a
+    bit 7, b
+    jr z, .asm_211f
+    ld a, c
+    cpl
+    add $1
+    ld c, a
+    ld a, b
+    cpl
+    adc $0
+    ld b, a
+.asm_211f
+    push bc
+    ld b, e
+    call Func_20ab
+    ld l, c
+    ld h, b
+    ld bc, $0080
+    add hl, bc
+    ld l, h
+    ld h, $0
+    pop bc
+    ld c, e
+    call Func_20ab
+    add hl, bc
+    ld a, [$ffb7]
+    rlca
+    jr nc, .asm_2142
+    ld a, l
+    cpl
+    add $1
+    ld l, a
+    ld a, h
+    cpl
+    adc $0
+    ld h, a
+.asm_2142
+    ld c, l
+    ld b, h
+    pop hl
+    pop af
+    ret
+
+Func_2147: ; 0x2147
+    add $40
+    ; fall through
+Func_2149: ; 0x2149
+    push hl
+    ld [$ffb6], a
+    and $7f
+    cp $40
+    jr c, .asm_2155
+    cpl
+    add $81
+.asm_2155
+    ld hl, $26be ; todo
+    ld e, a
+    ld d, $0
+    add hl, de
+    ld e, [hl]
+    pop hl
+    ld d, $0
+    ld a, [$ffb6]
+    sla a
+    ret nc
+    ld d, $ff
+    ret
 
 ApplyGravityToBall: ; 0x2168
 ; Adds a constant to the pinball's y velocity.
@@ -3904,7 +4061,162 @@ AddVelocityToPosition: ; 0x21c3
     ld [hl], a
     ret
 
-INCBIN "baserom.gbc",$21e5,$22b5 - $21e5
+Func_21e5: ; 0x21e5
+    cpl
+    inc a
+    ; fall through
+Func_21e7: ; 0x21e7
+    push hl
+    push bc
+    push de
+    ld [$ff8c], a
+    call Func_2147
+    ld a, e
+    ld [$ff8d], a
+    ld a, d
+    ld [$ff8e], a
+    call Func_210b
+    ld l, c
+    ld h, b
+    pop bc
+    push bc
+    ld a, [$ff8c]
+    call Func_2149
+    ld a, e
+    ld [$ff8f], a
+    ld a, d
+    ld [$ff90], a
+    call Func_210b
+    add hl, bc
+    pop de
+    pop bc
+    push hl
+    push de
+    ld a, [$ff8f]
+    ld e, a
+    ld a, [$ff90]
+    cpl
+    ld d, a
+    call Func_210b
+    ld l, c
+    ld h, b
+    pop bc
+    ld a, [$ff8d]
+    ld e, a
+    ld a, [$ff8e]
+    ld d, a
+    call Func_210b
+    add hl, bc
+    ld d, h
+    ld e, l
+    pop bc
+    pop hl
+    ret
+
+Func_222b: ; 0x222b
+    push hl
+    ld hl, $d7f8
+    ld [hl], $ff
+    bit 7, d
+    jr nz, .asm_2297
+    ld [hl], $0
+    ld a, d
+    cp $3
+    jr c, .asm_2254
+    ld a, $ff
+    ld [$d803], a
+    ld a, $1
+    ld [$d804], a
+    ld a, [$d7b9]
+    and a
+    jr nz, .asm_2254
+    push de
+    ld de, $0008
+    call $04d8
+    pop de
+.asm_2254
+    srl d
+    rr e
+    srl d
+    rr e
+    ld h, d
+    ld l, e
+    srl d
+    rr e
+    ld a, [$d7eb]
+    and a
+    jr z, .asm_226c
+.asm_2268
+    add hl, de
+    dec a
+    jr nz, .asm_2268
+.asm_226c
+    ld d, h
+    ld e, l
+    ld a, e
+    cpl
+    add $1
+    ld e, a
+    ld a, d
+    cpl
+    adc $0
+    ld d, a
+    ld a, [wBallSpin]
+    sra a
+    ld l, a
+    ld h, $0
+    bit 7, l
+    jr z, .asm_2286
+    ld h, $ff
+.asm_2286
+    add hl, bc
+    ld b, h
+    ld c, l
+    push bc
+    sla c
+    rl b
+    sla c
+    rl b
+    ld a, b
+    ld [wBallSpin], a
+    pop bc
+.asm_2297
+    pop hl
+    ret
+
+LoadBallVelocity: ; 0x2299
+; Loads velocity of the ball into bc and de
+; bc = x velocity
+; de = y velocity
+    push hl
+    ld hl, wBallXVelocity
+    ld a, [hli]
+    ld c, a
+    ld a, [hli]
+    ld b, a
+    ld a, [hli]
+    ld e, a
+    ld a, [hl]
+    ld d, a
+    pop hl
+    ret
+
+SetBallVelocity: ; 0x22a7
+; Sets the x and y velocities of the ball.
+; bc = x velocity
+; de = y velocity
+    push hl
+    ld hl, wBallXVelocity
+    ld a, c
+    ld [hli], a
+    ld a, b
+    ld [hli], a
+    ld a, e
+    ld [hli], a
+    ld a, d
+    ld [hl], a
+    pop hl
+    ret
 
 Func_22b5: ; 0x22b5
     ld a, [$d4b4]
@@ -4710,7 +5022,64 @@ Func_365a: ; 0x365a
     ld [$d7a6], a
     ret
 
-INCBIN "baserom.gbc",$36c1,$4000 - $36c1
+Func_36c1: ; 0x36c1
+    ld a, [$d548]
+    ld hl, $d549
+    and [hl]
+    ret z
+    ld c, $0
+    ld a, [$d7a9]
+    srl a
+    rl c
+    ld a, [$d7a8]
+    srl a
+    rl c
+    ld a, [$d7a7]
+    srl a
+    rl c
+    ld b, $0
+    sla c
+    ld hl, $372d ; todo
+    add hl, bc
+    ld a, [hli]
+    ld h, [hl]
+    ld l, a
+    bit 7, h
+    ret nz
+    ld a, [$d7ea]
+    ld c, a
+    ld b, $0
+    sla c
+    rl b
+    sla c
+    rl b
+    add hl, bc
+    ld a, [hLoadedROMBank]
+    push af
+    ld a, $3c
+    ld [hLoadedROMBank], a
+    ld [$2000], a
+    ld a, [wBallXVelocity]
+    add [hl]
+    ld [wBallXVelocity], a
+    inc hl
+    ld a, [$d4bc]
+    adc [hl]
+    ld [$d4bc], a
+    inc hl
+    ld a, [wBallYVelocity]
+    add [hl]
+    ld [wBallYVelocity], a
+    inc hl
+    ld a, [$d4be]
+    adc [hl]
+    ld [$d4be], a
+    pop af
+    ld [hLoadedROMBank], a
+    ld [$2000], a
+    ret
+
+INCBIN "baserom.gbc",$372d,$4000 - $372d
 
 
 SECTION "bank1", ROMX, BANK[$1]
@@ -11076,14 +11445,14 @@ Func_d909: ; 0xd909
     call BankSwitch
     jp z, $5a05
 .asm_d95e
-    ld a, [$d7e9]
+    ld a, [$d7e9]  ; check for collision flag
     and a
     jr z, .asm_d9a2
-    call $36c1
-    call $2299
+    call Func_36c1
+    call LoadBallVelocity
     ld a, [$d7ea]
-    call $21e7
-    call $222b
+    call Func_21e7
+    call Func_222b
     ld a, [$d7b9]
     and a
     jr z, .asm_d993
@@ -11114,8 +11483,8 @@ Func_d909: ; 0xd909
     jr nz, .asm_d9a2
 .asm_d999
     ld a, [$d7ea]
-    call $21e5
-    call $22a7
+    call Func_21e5
+    call SetBallVelocity
 .asm_d9a2
     call $219c
     ld [$ff8a], a

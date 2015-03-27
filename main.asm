@@ -1344,7 +1344,7 @@ Func_b2e: ; 0xb2e
     ld [hl], a
     ret
 
-Func_b36: ; 0xb36
+IsKeyPressed2: ; 0xb36
     ld a, [hJoypadState]
     and [hl]
     jr z, .asm_b3e
@@ -3993,27 +3993,30 @@ ApplyGravityToBall: ; 0x2168
     ld a, l
     ld [wBallYVelocity], a
     ld a, h
-    ld [$d4be], a
+    ld [wBallYVelocity + 1], a
     ret
 
-Func_2180: ; 0x2180
-    ld hl, $d4bc
-    call Func_2189
-    ld hl, $d4be
+LimitBallVelocity: ; 0x2180
+; Ensures that the ball's x and y velocity are kept under a threshold.
+; The ball can travel at a higher max speed when moving diagonally, since it
+; limits the x and y components independently.
+    ld hl, wBallXVelocity + 1
+    call _LimitBallVelocity
+    ld hl, wBallYVelocity + 1
     ; fall through
-Func_2189: ; 0x2189
+_LimitBallVelocity: ; 0x2189
     ld a, [hl]
-    bit 7, a
-    jr nz, .asm_2195
+    bit 7, a  ; is it negative velocity?  (left or up)
+    jr nz, .negativeVelocity
     cp $8
     ret c
-    ld a, $7
+    ld a, $7  ; max positive velocity
     ld [hl], a
     ret
-.asm_2195
+.negativeVelocity
     cp $f9
     ret nc
-    ld a, $f9
+    ld a, $f9  ; max negative velocity
     ld [hl], a
     ret
 
@@ -4854,172 +4857,172 @@ Func_3579: ; 0x3579
     ld [hli], a
     ret
 
-Func_3582: ; 0x3582
-    call Func_358c
-    call Func_35f3
-    call Func_365a
+HandleTilts: ; 0x3582
+    call HandleLeftTilt
+    call HandleRightTilt
+    call HandleUpperTilt
     ret
 
-Func_358c: ; 0x358c
-    ld a, [$d7a2]
+HandleLeftTilt: ; 0x358c
+    ld a, [wLeftTiltReset]
     and a
-    jr nz, .asm_35d1
+    jr nz, .tiltCoolDown
     ld hl, wKeyConfigLeftTilt
-    call Func_b36
-    jr z, .asm_35d1
-    ld a, [$d7a1]
+    call IsKeyPressed2
+    jr z, .tiltCoolDown
+    ld a, [wLeftTiltCounter]
     cp $3
-    jr z, .asm_35cc
+    jr z, .startCoolDown
     inc a
-    ld [$d7a1], a
+    ld [wLeftTiltCounter], a
     cp $1
-    jr nz, .asm_35af
+    jr nz, .skipSoundEffect
     ld de, $003f
     call PlaySoundEffect
-.asm_35af
+.skipSoundEffect
     ld a, [$d548]
     ld hl, $d549
     and [hl]
-    jr z, .asm_35bf
+    jr z, .skipBallMovement
     ld a, [wBallXPos + 1]
-    dec a
+    dec a  ; move ball's position to the left by 1 pixel
     ld [wBallXPos + 1], a
-.asm_35bf
+.skipBallMovement
     ld a, [$d79f]
     inc a
     ld [$d79f], a
     ld a, $1
-    ld [$d7a7], a
+    ld [wLeftTiltPushing], a
     ret
-.asm_35cc
+.startCoolDown
     ld a, $1
-    ld [$d7a2], a
-.asm_35d1
+    ld [wLeftTiltReset], a
+.tiltCoolDown
     xor a
-    ld [$d7a7], a
-    ld a, [$d7a1]
+    ld [wLeftTiltPushing], a
+    ld a, [wLeftTiltCounter]
     and a
-    jr z, .asm_35e7
+    jr z, .done
     dec a
-    ld [$d7a1], a
+    ld [wLeftTiltCounter], a
     ld a, [$d79f]
     dec a
     ld [$d79f], a
     ret
-.asm_35e7
+.done
     ld hl, wKeyConfigLeftTilt
-    call Func_b36
+    call IsKeyPressed2
     ret nz
     xor a
-    ld [$d7a2], a
+    ld [wLeftTiltReset], a
     ret
 
-Func_35f3: ; 0x35f3
-    ld a, [$d7a4]
+HandleRightTilt: ; 0x35f3
+    ld a, [wRightTiltReset]
     and a
-    jr nz, .asm_3638
+    jr nz, .tiltCoolDown
     ld hl, wKeyConfigRightTilt
-    call Func_b36
-    jr z, .asm_3638
-    ld a, [$d7a3]
+    call IsKeyPressed2
+    jr z, .tiltCoolDown
+    ld a, [wRightTiltCounter]
     cp $3
-    jr z, .asm_3633
+    jr z, .startCoolDown
     inc a
-    ld [$d7a3], a
+    ld [wRightTiltCounter], a
     cp $1
-    jr nz, .asm_3616
+    jr nz, .skipSoundEffect
     ld de, $003f
     call PlaySoundEffect
-.asm_3616
+.skipSoundEffect
     ld a, [$d548]
     ld hl, $d549
     and [hl]
-    jr z, .asm_3626
+    jr z, .skipBallMovement
     ld a, [wBallXPos + 1]
-    inc a
+    inc a  ; move ball's position to the right by 1 pixel
     ld [wBallXPos + 1], a
-.asm_3626
+.skipBallMovement
     ld a, [$d79f]
     dec a
     ld [$d79f], a
     ld a, $1
-    ld [$d7a8], a
+    ld [wRightTiltPushing], a
     ret
-.asm_3633
+.startCoolDown
     ld a, $1
-    ld [$d7a4], a
-.asm_3638
+    ld [wRightTiltReset], a
+.tiltCoolDown
     xor a
-    ld [$d7a8], a
-    ld a, [$d7a3]
+    ld [wRightTiltPushing], a
+    ld a, [wRightTiltCounter]
     and a
-    jr z, .asm_364e
+    jr z, .done
     dec a
-    ld [$d7a3], a
+    ld [wRightTiltCounter], a
     ld a, [$d79f]
     inc a
     ld [$d79f], a
     ret
-.asm_364e
+.done
     ld hl, wKeyConfigRightTilt
-    call Func_b36
+    call IsKeyPressed2
     ret nz
     xor a
-    ld [$d7a4], a
+    ld [wRightTiltReset], a
     ret
 
-Func_365a: ; 0x365a
-    ld a, [$d7a6]
+HandleUpperTilt: ; 0x365a
+    ld a, [wUpperTiltReset]
     and a
-    jr nz, .asm_369f
+    jr nz, .tiltCoolDown
     ld hl, wKeyConfigUpperTilt
-    call Func_b36
-    jr z, .asm_369f
-    ld a, [$d7a5]
+    call IsKeyPressed2
+    jr z, .tiltCoolDown
+    ld a, [wUpperTiltCounter]
     cp $4
-    jr z, .asm_369a
+    jr z, .startCoolDown
     inc a
-    ld [$d7a5], a
+    ld [wUpperTiltCounter], a
     cp $1
-    jr nz, .asm_367d
+    jr nz, .skipSoundEffect
     ld de, $003f
     call PlaySoundEffect
-.asm_367d
+.skipSoundEffect
     ld a, [$d548]
     ld hl, $d549
     and [hl]
-    jr z, .asm_368d
+    jr z, .skipBallMovement
     ld a, [wBallYPos + 1]
-    inc a
+    inc a  ; move ball's position down by 1 pixel
     ld [wBallYPos + 1], a
-.asm_368d
+.skipBallMovement
     ld a, [$d7a0]
     dec a
     ld [$d7a0], a
     ld a, $1
-    ld [$d7a9], a
+    ld [wUpperTiltPushing], a
     ret
-.asm_369a
+.startCoolDown
     ld a, $1
-    ld [$d7a6], a
-.asm_369f
+    ld [wUpperTiltReset], a
+.tiltCoolDown
     xor a
-    ld [$d7a9], a
-    ld a, [$d7a5]
+    ld [wUpperTiltPushing], a
+    ld a, [wUpperTiltCounter]
     and a
-    jr z, .asm_36b5
+    jr z, .done
     dec a
-    ld [$d7a5], a
+    ld [wUpperTiltCounter], a
     ld a, [$d7a0]
     inc a
     ld [$d7a0], a
     ret
-.asm_36b5
+.done
     ld hl, wKeyConfigUpperTilt
-    call Func_b36
+    call IsKeyPressed2
     ret nz
     xor a
-    ld [$d7a6], a
+    ld [wUpperTiltReset], a
     ret
 
 Func_36c1: ; 0x36c1
@@ -5028,13 +5031,13 @@ Func_36c1: ; 0x36c1
     and [hl]
     ret z
     ld c, $0
-    ld a, [$d7a9]
+    ld a, [wUpperTiltPushing]
     srl a
     rl c
-    ld a, [$d7a8]
+    ld a, [wRightTiltPushing]
     srl a
     rl c
-    ld a, [$d7a7]
+    ld a, [wLeftTiltPushing]
     srl a
     rl c
     ld b, $0
@@ -5063,17 +5066,17 @@ Func_36c1: ; 0x36c1
     add [hl]
     ld [wBallXVelocity], a
     inc hl
-    ld a, [$d4bc]
+    ld a, [wBallXVelocity + 1]
     adc [hl]
-    ld [$d4bc], a
+    ld [wBallXVelocity + 1], a
     inc hl
     ld a, [wBallYVelocity]
     add [hl]
     ld [wBallYVelocity], a
     inc hl
-    ld a, [$d4be]
+    ld a, [wBallYVelocity + 1]
     adc [hl]
-    ld [$d4be], a
+    ld [wBallYVelocity + 1], a
     pop af
     ld [hLoadedROMBank], a
     ld [$2000], a
@@ -11413,10 +11416,10 @@ Func_d909: ; 0xd909
     ld [$d7b9], a
     ld [$d7eb], a
     call ApplyGravityToBall
-    call Func_2180
+    call LimitBallVelocity
     xor a
     ld [$d7e9], a
-    call Func_3582  ; handle tilts
+    call HandleTilts
     ld a, [wCurrentStage]
     bit 0, a
     ld [$ff8a], a
@@ -11586,7 +11589,7 @@ Func_e118: ; 0xe118
     ld a, [$d7b3]
     ld [$d7b7], a
     ld hl, wKeyConfigLeftFlipper
-    call Func_b36
+    call IsKeyPressed2
     ld hl, $fccd
     jr z, .asm_e13b
     ld a, [$d7be]
@@ -11631,7 +11634,7 @@ Func_e118: ; 0xe118
     ld a, h
     ld [$d7af], a
     ld hl, wKeyConfigRightFlipper
-    call Func_b36
+    call IsKeyPressed2
     ld hl, $fccd
     jr z, .asm_e18e
     ld a, [$d7be]

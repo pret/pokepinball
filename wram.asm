@@ -83,7 +83,38 @@ wTimerMinutes:: ; 0xd57b
 wTimerFrames::  ; 0xd57c
     ds 1
 
-    ds $374
+    ds $224
+
+wLeftTiltCounter:: ; 0xd7a1
+; Counts up to 3 and back down to time the left tilt animation
+    ds 1
+wLeftTiltReset:: ; 0xd7a2
+; Set to $1 when the left tilt button has been held down long enough
+    ds 1
+wRightTiltCounter:: ; 0xd7a3
+; Counts up to 3 and back down to time the right tilt animation
+    ds 1
+wRightTiltReset:: ; 0xd7a4
+; Set to $1 when the right tilt button has been held down long enough
+    ds 1
+wUpperTiltCounter:: ; 0xd7a5
+; Counts up to 3 and back down to time the upper tilt animation
+    ds 1
+wUpperTiltReset:: ; 0xd7a6
+; Set to $1 when the upper tilt button has been held down long enough
+    ds 1
+
+wLeftTiltPushing:: ; 0xd7a7
+; Set to $1 when the left tilt is in the first half of its animation
+    ds 1
+wRightTiltPushing:: ; 0xd7a8
+; Set to $1 when the right tilt is in the first half of its animation
+    ds 1
+wUpperTiltPushing:: ; 0xd7a9
+; Set to $1 when the upper tilt is in the first half of its animation
+    ds 1
+
+    ds $147
 
 wCurrentScreen:: ; 0xd8f1
 ; The game is driven by state machines. This is the current screen.

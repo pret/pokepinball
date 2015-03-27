@@ -11423,9 +11423,9 @@ Func_d909: ; 0xd909
     ld a, [wCurrentStage]
     bit 0, a
     ld [$ff8a], a
-    ld a, Bank(Func_e0fe)
-    ld hl, Func_e0fe
-    call nz, BankSwitch
+    ld a, Bank(HandleFlippers)
+    ld hl, HandleFlippers
+    call nz, BankSwitch  ; only perform flipper routines on the lower-half of stages
     ld a, [$d7b9]
     and a
     ld a, [$d7ea]
@@ -11569,7 +11569,7 @@ Func_dbd4: ; 0xdbd4
 
 INCBIN "baserom.gbc",$dc00,$e0fe - $dc00
 
-Func_e0fe: ; 0xe0fe
+HandleFlippers: ; 0xe0fe
     xor a
     ld [$d7b9], a
     ld [$ffbf], a
@@ -11579,7 +11579,7 @@ Func_e0fe: ; 0xe0fe
     call Func_e1f0
     ld a, [$d7b9]
     and a
-    call nz, Func_e442
+    call nz, HandleFlipperCollision
     ret
 
 Func_e118: ; 0xe118
@@ -11700,8 +11700,8 @@ PlayFlipperSoundIfPressed: ; 0xe1ce
 
 Func_e1f0: ; 0xe1f0
     ld a, [wBallXPos + 1]
-    cp $50
-    jp nc, Func_e226
+    cp $50  ; which half of the screen is the ball in?
+    jp nc, Func_e226 ; right half of screen
     ld hl, wBallXPos
     ld c, $ba
     ld a, [hli]
@@ -11731,6 +11731,7 @@ Func_e1f0: ; 0xe1f0
     ret
 
 Func_e226: ; 0xe226
+; ball is in right half of screen
     ld hl, wBallXPos
     ld c, $ba
     ld a, [hli]
@@ -11989,7 +11990,9 @@ Func_e410: ; 0xe410
     rr l
     ret
 
-Func_e442: ; 0xe442
+HandleFlipperCollision: ; 0xe442
+; This is called when the ball is colliding with either the
+; right or left flipper.
     ld a, $1
     ld [$d7e9], a
     xor a
@@ -12002,7 +12005,7 @@ Func_e442: ; 0xe442
     sla a
     ld c, a
     ld b, $0
-    ld hl, $6538 ; todo
+    ld hl, Data_e538
     add hl, bc
     ld a, [hli]
     ld c, a
@@ -12015,7 +12018,7 @@ Func_e442: ; 0xe442
     sla e
     rl d
     sla e
-    rl d
+    rl d  ; multiplied de by 4
     call Func_e379
     ld a, b
     ld [$d7bc], a
@@ -12039,7 +12042,41 @@ Func_e442: ; 0xe442
     ld [$d7bd], a
     ret
 
-INCBIN "baserom.gbc",$e4a1,$e578 - $e4a1
+INCBIN "baserom.gbc",$e4a1,$e538 - $e4a1
+
+Data_e538: ; 0xe538
+    dw $0000
+    dw $000C
+    dw $001C
+    dw $0030
+    dw $0038
+    dw $0048
+    dw $005C
+    dw $006C
+    dw $0070
+    dw $0080
+    dw $0094
+    dw $00A4
+    dw $00B4
+    dw $00C4
+    dw $00D4
+    dw $00E4
+    dw $00F8
+    dw $00FC
+    dw $00FC
+    dw $00FC
+    dw $00FC
+    dw $00FC
+    dw $00FC
+    dw $00FC
+    dw $00FC
+    dw $00FC
+    dw $00FC
+    dw $00FC
+    dw $00FC
+    dw $00FC
+    dw $00FC
+    dw $00FC
 
 Func_e578: ; 0xe578
     ld a, [wCurrentStage]

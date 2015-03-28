@@ -120,7 +120,12 @@ wFlipperCollision:: ; 0xd7b9
 ; Set to $1 when the ball is colliding with a flipper
     ds 1
 
-    ds $137
+    ds $3f
+
+wInGameMenuIndex:: ; 0xd7f9
+    ds 1
+
+    ds $f7
 
 wCurrentScreen:: ; 0xd8f1
 ; The game is driven by state machines. This is the current screen.

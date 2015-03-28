@@ -883,7 +883,7 @@ Func_735: ; 0x735
     pop hl
     jp z, Func_666
     ; fall through
-Func_73f: ; 0x73f
+LoadVRAMData: ; 0x73f
 ; This loads some data into VRAM. It waits for the LCD H-Blank to copy the data 4 bytes at a time.
 ; input:  hl = source of data
 ;          a = bank of data to load
@@ -8096,7 +8096,172 @@ StartTimer: ; 0x867d
     call BankSwitch
     ret
 
-INCBIN "baserom.gbc",$86a4,$c000 - $86a4
+INCBIN "baserom.gbc",$86a4,$86d7 - $86a4
+
+Func_86d7: ; 0x86d7
+    ld a, [$d917]
+    push af
+    ld a, $1
+    ld [$d917], a
+    call Func_30e8
+    xor a
+    ld [$d4aa], a
+    ld hl, wcBottomMessageText
+    ld a, $81
+    ld b, $30
+.clearLoop
+    ld [hli], a
+    ld [hli], a
+    ld [hli], a
+    ld [hli], a
+    dec b
+    jr nz, .clearLoop
+    ld de, $c524
+    ld hl, SaveText
+    call Func_8797
+    ld de, $c564
+    ld hl, CancelText
+    call Func_8797
+    ld a, Bank(InGameMenuSymbolsGfx)
+    ld hl, InGameMenuSymbolsGfx
+    ld de, vTiles1 + $60
+    ld bc, $0010
+    call LoadVRAMData
+    ld a, $0
+    ld hl, wcBottomMessageText
+    ld de, vBGMap1
+    ld bc, $00c0
+    call LoadVRAMData
+    ld a, $60
+    ld [$ffa6], a
+    dec a
+    ld [$ffa2], a
+    ld a, $fd
+    ld [$ffaf], a
+    call HandleInGameMenu
+    ld a, [wInGameMenuIndex]
+    and a
+    jr nz, .asm_874f
+    ld a, $1
+    ld [$d7c2], a
+    ld hl, $d300
+    ld de, $a268
+    ld bc, $04c3
+    call Func_f1a
+    xor a
+    ld [$d803], a
+    ld [$d804], a
+.asm_874f
+    ld bc, $003c
+    call Func_93f
+    ld a, $86
+    ld [$ffa6], a
+    ld a, $83
+    ld [$ffa2], a
+    ld [$ffa8], a
+    ld a, $ff
+    ld [$ffaf], a
+    ld a, [$fffe]
+    and a
+    jr nz, .asm_8778
+    ld a, $18
+    ld hl, $7060
+    ld de, $8860
+    ld bc, $0010
+    call LoadVRAMData
+    jr .asm_8786
+.asm_8778
+    ld a, $27
+    ld hl, $4060
+    ld de, $8860
+    ld bc, $0010
+    call LoadVRAMData
+.asm_8786
+    call Func_30e8
+    pop af
+    ld [$d917], a
+    ld a, $1
+    ld [$d4aa], a
+    ld a, [wInGameMenuIndex]
+    and a
+    ret
+
+Func_8797: ; 0x8797
+    ld a, [hli]
+    and a
+    ret z
+    add $bf
+    ld [de], a
+    inc de
+    jr Func_8797
+
+SaveText: ; 0x87a0
+    db "SAVE@"
+
+CancelText: ; 0x87a5
+    db "CANCEL@"
+
+HandleInGameMenu: ; 0x87ac
+    ld a, $1
+    ld [wInGameMenuIndex], a
+.waitForAButton
+    call MoveInGameMenuCursor
+    call DrawInGameMenu
+    rst $10
+    ld a, [hNewlyPressedButtons]
+    bit BIT_A_BUTTON, a
+    jr z, .waitForAButton
+    ld de, $0001
+    call PlaySoundEffect
+    ret
+
+MoveInGameMenuCursor: ; 0x87c5
+; Moves the cursor up or down in the "SAVE"/"CANCEL" in-game menu
+    ld a, [hNewlyPressedButtons]
+    ld b, a
+    ld a, [wInGameMenuIndex]
+    bit BIT_D_UP, b
+    jr z, .didntPressUp
+    and a  ; is the cursor already on "SAVE"?
+    ret z
+    dec a
+    ld [wInGameMenuIndex], a
+    ld de, $0003
+    call PlaySoundEffect
+    ret
+.didntPressUp
+    bit BIT_D_DOWN, b
+    ret z
+    cp $1  ; is the cursor already on "CANCEL"?
+    ret z
+    inc a
+    ld [wInGameMenuIndex], a
+    ld de, $0003
+    call PlaySoundEffect
+    ret
+
+DrawInGameMenu: ; 0x87ed
+    ld a, $81
+    ld [$c523], a
+    ld [$c563], a
+    ld a, [wInGameMenuIndex]
+    ld c, a
+    swap c
+    sla c
+    sla c
+    ld b, $0
+    ld hl, $c523
+    add hl, bc
+    ld a, $86
+    ld [hl], a
+    ld a, $0
+    ld hl, wcBottomMessageText
+    ld de, vBGMap1
+    ld bc, $00c0
+    call LoadVRAMData
+    ret
+
+INCBIN "baserom.gbc",$8817,$c000 - $8817
 
 
 SECTION "bank3", ROMX, BANK[$3]
@@ -9016,7 +9181,7 @@ Func_c644: ; 0xc644
     ld hl, $4689 ; todo
     ld a, $3
     ld bc, $0008
-    call Func_73f
+    call LoadVRAMData
     pop hl
     ret
 
@@ -9861,12 +10026,12 @@ Func_ccb6: ; 0xccb6
     ld hl, $6040 ; todo
     ld de, $9840
     ld bc, $01c0
-    call Func_73f
+    call LoadVRAMData
     ld a, $30
     ld hl, $5840 ; todo
     ld de, $9c40
     ld bc, $01c0
-    call Func_73f
+    call LoadVRAMData
     ld hl, $99c0 ; todo
     ld de, $da3d
     call Func_d361
@@ -10318,7 +10483,7 @@ Func_d042: ; 0xd042
     ld hl, $9840
     ld de, $c2c0
     ld bc, $01c0
-    call Func_73f
+    call LoadVRAMData
     ld a, $30
     ld hl, $6280
     ld de, $c480
@@ -10344,7 +10509,7 @@ Func_d042: ; 0xd042
     ld hl, $9c40
     ld de, $c2c0
     ld bc, $01c0
-    call Func_73f
+    call LoadVRAMData
     ld a, $30
     ld hl, $5a80 ; todo
     ld de, $c480
@@ -11462,8 +11627,8 @@ Func_d909: ; 0xd909
     ld de, $034c
     call PlaySoundEffect
     ld [$ff8a], a
-    ld a, $2
-    ld hl, $46d7
+    ld a, Bank(Func_86d7)
+    ld hl, Func_86d7
     call BankSwitch
     jp z, $5a05
 .didntPressMenuKey
@@ -13326,7 +13491,7 @@ LoadBillboardPicture: ; 0xf178
     ld l, c
     ld de, $8900   ; destination address to copy the tiles
     ld bc, $180    ; billboard pictures are $180 bytes
-    call Func_73f  ; loads the tiles into VRAM
+    call LoadVRAMData  ; loads the tiles into VRAM
     pop hl
     ret
 
@@ -15371,14 +15536,14 @@ Func_282e9: ; 0x282e9
     ld hl, $4800 ; todo
     ld de, vBGMap1
     ld bc, $0200
-    call Func_73f
+    call LoadVRAMData
     ld a, $1
     ld [$ff4f], a
     ld a, $31
     ld hl, $4c00 ; todo
     ld de, vBGMap1
     ld bc, $0200
-    call Func_73f
+    call LoadVRAMData
     xor a
     ld [$ff4f], a
     call Func_28972
@@ -15888,7 +16053,7 @@ Func_2887c: ; 0x2887c
     ld hl, $5120 ; todo
     ld de, $9900
     ld bc, $0100
-    call Func_73f
+    call LoadVRAMData
     ld a, $3f
     ld [$ffa2], a
     ld a, $47
@@ -15927,7 +16092,7 @@ Func_288a2: ; 0x288a2
     ld hl, $5100 ; todo
     ld de, $9900
     ld bc, $0020
-    call Func_73f
+    call LoadVRAMData
     ret
 
 Func_288c6: ; 0x288c6
@@ -18836,7 +19001,12 @@ INCBIN "baserom.gbc",$d61a0,$d6200 - $d61a0
 Alphabet2Gfx: ; 0xd6200
     INCBIN "gfx/stage/alphabet_2.2bpp"
 
-INCBIN "baserom.gbc",$d63a0,$d6c00 - $d63a0
+INCBIN "baserom.gbc",$d63a0,$d6450 - $d63a0
+
+InGameMenuSymbolsGfx: ; 0xd6450
+    INCBIN "gfx/stage/menu_symbols.2bpp"
+
+INCBIN "baserom.gbc",$d6490,$d6c00 - $d6490
 
 StageRedJapaneseCharactersGfx: ; 0xd6c00
     INCBIN "gfx/stage/red_bottom/japanese_characters.2bpp"

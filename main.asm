@@ -8098,7 +8098,8 @@ StartTimer: ; 0x867d
 
 INCBIN "baserom.gbc",$86a4,$86d7 - $86a4
 
-Func_86d7: ; 0x86d7
+HandleInGameMenu: ; 0x86d7
+; Routine responsible for the "SAVE"/"CANCEL" menu.
     ld a, [$d917]
     push af
     ld a, $1
@@ -8138,10 +8139,10 @@ Func_86d7: ; 0x86d7
     ld [$ffa2], a
     ld a, $fd
     ld [$ffaf], a
-    call HandleInGameMenu
+    call HandleInGameMenuSelection
     ld a, [wInGameMenuIndex]
     and a
-    jr nz, .asm_874f
+    jr nz, .pickedCancel
     ld a, $1
     ld [$d7c2], a
     ld hl, $d300
@@ -8151,7 +8152,7 @@ Func_86d7: ; 0x86d7
     xor a
     ld [$d803], a
     ld [$d804], a
-.asm_874f
+.pickedCancel
     ld bc, $003c
     call Func_93f
     ld a, $86
@@ -8164,16 +8165,16 @@ Func_86d7: ; 0x86d7
     ld a, [$fffe]
     and a
     jr nz, .asm_8778
-    ld a, $18
-    ld hl, $7060
-    ld de, $8860
+    ld a, Bank(StageRedFieldTopStatusBarSymbolsGfx_GameBoy)
+    ld hl, StageRedFieldTopStatusBarSymbolsGfx_GameBoy + $60
+    ld de, vTiles1 + $60
     ld bc, $0010
     call LoadVRAMData
     jr .asm_8786
 .asm_8778
-    ld a, $27
-    ld hl, $4060
-    ld de, $8860
+    ld a, Bank(StageRedFieldTopStatusBarSymbolsGfx_GameBoyColor)
+    ld hl, StageRedFieldTopStatusBarSymbolsGfx_GameBoyColor + $60
+    ld de, vTiles1 + $60
     ld bc, $0010
     call LoadVRAMData
 .asm_8786
@@ -8201,7 +8202,7 @@ SaveText: ; 0x87a0
 CancelText: ; 0x87a5
     db "CANCEL@"
 
-HandleInGameMenu: ; 0x87ac
+HandleInGameMenuSelection: ; 0x87ac
     ld a, $1
     ld [wInGameMenuIndex], a
 .waitForAButton
@@ -11627,10 +11628,10 @@ Func_d909: ; 0xd909
     ld de, $034c
     call PlaySoundEffect
     ld [$ff8a], a
-    ld a, Bank(Func_86d7)
-    ld hl, Func_86d7
+    ld a, Bank(HandleInGameMenu)
+    ld hl, HandleInGameMenu
     call BankSwitch
-    jp z, $5a05
+    jp z, SaveGame
 .didntPressMenuKey
     ld a, [$d7e9]  ; check for collision flag
     and a
@@ -11717,7 +11718,29 @@ Func_d909: ; 0xd909
     inc [hl]
     ret
 
-INCBIN "baserom.gbc",$da05,$dbba - $da05
+SaveGame: ; 0xda05
+    ld de, $0000
+    call Func_490
+    ld bc, $0004
+    call Func_93f
+    call Func_cb5
+    ld a, [$d849]
+    and a
+    call nz, Func_e5d
+    call Func_576
+    ld hl, $ff9f
+    res 6, [hl]
+    ld hl, $ffff
+    res 1, [hl]
+    xor a
+    ld [$d4aa], a
+    ld a, SCREEN_TITLESCREEN
+    ld [wCurrentScreen], a
+    xor a
+    ld [wScreenState], a
+    ret
+
+INCBIN "baserom.gbc",$da36,$dbba - $da36
 
 Func_dbba: ; 0xdbba
     ld a, $1

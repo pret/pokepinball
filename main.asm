@@ -8444,7 +8444,191 @@ Func_84b7: ; 0x84b7
     ld a, [wCurrentStage]
     call CallInFollowingTable
 
-INCBIN "baserom.gbc",$84bd,$867d - $84bd
+INCBIN "baserom.gbc",$84bd,$8524 - $84bd
+
+Func_8524: ; 0x8524
+    ld hl, $d46f
+    ld bc, $0c01
+.asm_852a
+    ld a, [hl]
+    swap a
+    and $f
+    call Func_8543
+    inc de
+    dec b
+    ld a, [hld]
+    and $f
+    call Func_8543
+    inc de
+    dec b
+    jr nz, .asm_852a
+    ld a, $86
+    ld [de], a
+    inc de
+    ret
+
+Func_8543: ; 0x8543
+    jr nz, .asm_854c
+    ld a, b
+    dec a
+    jr z, .asm_854c
+    ld a, c
+    and a
+    ret nz
+.asm_854c
+    add $86
+    ld [de], a
+    ld c, $0
+    ld a, b
+    cp $c
+    jr z, .asm_8561
+    cp $9
+    jr z, .asm_8561
+    cp $6
+    jr z, .asm_8561
+    cp $3
+    ret nz
+.asm_8561
+    set 7, e
+    ld a, $82
+    ld [de], a
+    res 7, e
+    ret
+
+INCBIN "baserom.gbc",$8569,$85c7 - $8569
+
+Func_85c7: ; 0x85c7
+    ld a, [$ffb3]
+    and $3
+    ret nz
+    ld a, [$d478]
+    ld l, a
+    ld h, $d4
+    ld de, $d46a
+    ld a, [$d477]
+    cp l
+    jr nz, .asm_85de
+    ld [$d479], a
+.asm_85de
+    push hl
+    ld a, [hli]
+    or [hl]
+    inc hl
+    or [hl]
+    inc hl
+    or [hl]
+    inc hl
+    or [hl]
+    inc hl
+    or [hl]
+    pop hl
+    jr nz, .asm_85f3
+    ld a, [$d479]
+    ld [$d478], a
+    ret
+.asm_85f3
+    ld a, [de]
+    add [hl]
+    daa
+    ld [de], a
+    ld [hl], $0
+    inc de
+    inc hl
+    ld a, [de]
+    adc [hl]
+    daa
+    ld [de], a
+    ld [hl], $0
+    inc de
+    inc hl
+    ld a, [de]
+    adc [hl]
+    daa
+    ld [de], a
+    ld [hl], $0
+    inc de
+    inc hl
+    ld a, [de]
+    adc [hl]
+    daa
+    ld [de], a
+    ld [hl], $0
+    inc de
+    inc hl
+    ld a, [de]
+    adc [hl]
+    daa
+    ld [de], a
+    ld [hl], $0
+    inc de
+    inc hl
+    ld a, [de]
+    adc [hl]
+    daa
+    ld [de], a
+    ld [hl], $0
+    call c, Func_8637
+    inc de
+    inc hl
+    ld a, l
+    cp $60
+    jr nz, .asm_862d
+    ld l, $0
+.asm_862d
+    ld a, l
+    ld [$d478], a
+    ld a, $1
+    ld [$d49f], a
+    ret
+
+Func_8637: ; 0x8637
+    push hl
+    ld hl, $d46a
+    ld a, $99
+    ld [hli], a
+    ld [hli], a
+    ld [hli], a
+    ld [hli], a
+    ld [hli], a
+    ld [hli], a
+    pop hl
+    ret
+
+Func_8645: ; 0x8645
+    xor a
+    ld [$d49f], a
+    ld de, $c647
+    call Func_8524
+    ret
+
+Func_8650: ; 0x8650
+    ld a, [wCurrentStage]
+    bit 0, a
+    jr nz, .bottomStage
+    ld a, $86
+    ld [$ffa6], a
+    ret
+.bottomStage
+    ld a, [$d4b6]
+    cp $84
+    jr nc, .asm_8670
+    ld a, [$ffa6]
+    sub $3
+    cp $86
+    jr nc, .asm_866d
+    ld a, $86
+.asm_866d
+    ld [$ffa6], a
+    ret
+.asm_8670
+    ld a, [$ffa6]
+    add $3
+    cp $90
+    jr c, .asm_867a
+    ld a, $90
+.asm_867a
+    ld [$ffa6], a
+    ret
 
 StartTimer: ; 0x867d
 ; Starts the timer that counts down with the specified starting time when things
@@ -8469,7 +8653,40 @@ StartTimer: ; 0x867d
     call BankSwitch
     ret
 
-INCBIN "baserom.gbc",$86a4,$86d7 - $86a4
+Func_86a4: ; 0x86a4
+    ld a, [$d57f]
+    and a
+    ret nz
+    ld a, [wTimerFrames]
+    inc a
+    cp $3c
+    jr c, .asm_86b2
+    xor a
+.asm_86b2
+    ld [wTimerFrames], a
+    ret c
+    ld hl, wTimerMinutes
+    ld a, [hld]
+    or [hl]
+    jr nz, .asm_86c3
+    ld a, $1
+    ld [$d57e], a
+    ret
+.asm_86c3
+    ld a, [hl]
+    sub $1
+    daa
+    jr nc, .asm_86cb
+    ld a, $59
+.asm_86cb
+    ld [hli], a
+    ld a, [hl]
+    sbc $0
+    daa
+    ld [hl], a
+    ret
+
+INCBIN "baserom.gbc",$86d2,$86d7 - $86d2
 
 HandleInGameMenu: ; 0x86d7
 ; Routine responsible for the "SAVE"/"CANCEL" menu.
@@ -12061,26 +12278,26 @@ Func_d909: ; 0xd909
     and a
     jr nz, .asm_d9e9
     ld [$ff8a], a
-    ld a, $2
-    ld hl, $45c7
+    ld a, Bank(Func_85c7)
+    ld hl, Func_85c7
     call BankSwitch
     ld [$ff8a], a
-    ld a, $2
-    ld hl, $4650
+    ld a, Bank(Func_8650)
+    ld hl, Func_8650
     call BankSwitch
     ld [$ff8a], a
-    ld a, $2
-    ld hl, $4645
+    ld a, Bank(Func_8645)
+    ld hl, Func_8645
     call BankSwitch
-    call $5ba9
-    call $5c7c
-    call $5cb4
+    call Func_dba9
+    call Func_dc7c
+    call Func_dcb4
 .asm_d9e9
     ld a, [$d57d]
     and a
     ld [$ff8a], a
-    ld a, $2
-    ld hl, $46a4
+    ld a, Bank(Func_86a4)
+    ld hl, Func_86a4
     call nz, BankSwitch
     ld a, [$d4ae]
     and a
@@ -12113,7 +12330,17 @@ SaveGame: ; 0xda05
     ld [wScreenState], a
     ret
 
-INCBIN "baserom.gbc",$da36,$dbba - $da36
+INCBIN "baserom.gbc",$da36,$dba9 - $da36
+
+Func_dba9: ; 0xdba9
+    ld a, $85
+    ld [$c644], a
+    ld a, [$d49d]
+    xor $3
+    inc a
+    add $86
+    ld [$c645], a
+    ret
 
 Func_dbba: ; 0xdbba
     ld a, $1
@@ -12170,7 +12397,52 @@ PointerTable_dc4d: ; 0xdc4d
     dw $608b
     dw $608b
 
-INCBIN "baserom.gbc",$dc6d,$e0fe - $dc6d
+INCBIN "baserom.gbc",$dc6d,$dc7c - $dc6d
+
+Func_dc7c: ; 0xdc7c
+    ld hl, $c640
+    ld a, $83
+    ld [hli], a
+    ld a, $81
+    ld [hli], a
+    ld a, $81
+    ld [hl], a
+    ld a, [$d460]
+    call ConvertHexByteToDecWord
+    ld hl, $c641
+    ld c, $1
+    ld a, d
+    call .asm_dca0
+    ld a, e
+    swap a
+    call .asm_dca0
+    ld a, e
+    ld c, $0
+.asm_dca0
+    and $f
+    jr nz, .asm_dca7
+    ld a, c
+    and a
+    ret nz
+.asm_dca7
+    ld c, $0
+    add $86
+    ld [hli], a
+    ret
+
+INCBIN "baserom.gbc",$dcad,$dcb4 - $dcad
+
+Func_dcb4: ; 0xdcb4
+    ld a, [$d517]
+    cp $f
+    ld a, $81
+    jr nz, .asm_dcbf
+    ld a, $84
+.asm_dcbf
+    ld [$c646], a
+    ret
+
+INCBIN "baserom.gbc",$dcc3,$e0fe - $dcc3
 
 HandleFlippers: ; 0xe0fe
     xor a

@@ -1875,7 +1875,19 @@ PowersOfTwo: ; 0xe3a
     dw $0064
     dw $0128
 
-INCBIN "baserom.gbc",$e4a,$e5d - $e4a
+Func_e4a: ; 0xe4a
+    ld a, [hl]
+    cp $64
+    jr z, .asm_e53
+    inc a
+    ld [hl], a
+    scf
+    ret
+.asm_e53
+    and a
+    ret
+
+INCBIN "baserom.gbc",$e55,$e5d - $e55
 
 Func_e5d: ; 0xe5d
     ld a, $1
@@ -4227,7 +4239,7 @@ SetBallVelocity: ; 0x22a7
     ret
 
 Func_22b5: ; 0x22b5
-    ld a, [$d4b4]
+    ld a, [wBallXPos + 1]
     sub $4
     push af
     and $7
@@ -4235,7 +4247,7 @@ Func_22b5: ; 0x22b5
     pop af
     and $f8
     ld c, a
-    ld a, [$d4b6]
+    ld a, [wBallYPos + 1]
     sub $4
     push af
     and $7
@@ -4453,18 +4465,18 @@ Func_22b5: ; 0x22b5
     add [hl]
     ld [wBallYPos], a
     inc hl
-    ld a, [$d4b6]
+    ld a, [wBallYPos + 1]
     adc [hl]
-    ld [$d4b6], a
+    ld [wBallYPos + 1], a
     ld hl, $4b17
     add hl, de
     ld a, [wBallXPos]
     add [hl]
     ld [wBallXPos], a
     inc hl
-    ld a, [$d4b4]
+    ld a, [wBallXPos + 1]
     adc [hl]
-    ld [$d4b4], a
+    ld [wBallXPos + 1], a
     pop de
     pop af
     ld [hLoadedROMBank], a
@@ -4729,9 +4741,9 @@ Func_27a4: ; 0x27a4
     ld d, a
     ld a, [hli]
     ld e, a
-    ld a, [$d4b4]
+    ld a, [wBallXPos + 1]
     ld b, a
-    ld a, [$d4b6]
+    ld a, [wBallYPos + 1]
     ld c, a
 .asm_27b4
     ld a, [$d4eb]
@@ -4791,9 +4803,9 @@ Func_27da: ; 0x27da
     ret
 
 Func_27fd: ; 0x27fd
-    ld a, [$d4b4]
+    ld a, [wBallXPos + 1]
     ld b, a
-    ld a, [$d4b6]
+    ld a, [wBallYPos + 1]
     ld c, a
     ld d, $0
 .asm_2807
@@ -4818,8 +4830,8 @@ Func_281c: ; 0x281c
     call CallInFollowingTable
 CallTable_2822: ; 0x2822
     ; STAGE_RED_FIELD_TOP
-    dw $460E
-    db $05, $00
+    dw Func_1460e
+    db Bank(Func_1460e), $00
 
     ; STAGE_RED_FIELD_BOTTOM
     dw $4652
@@ -8614,7 +8626,76 @@ Func_8543: ; 0x8543
     res 7, e
     ret
 
-INCBIN "baserom.gbc",$8569,$85c7 - $8569
+INCBIN "baserom.gbc",$8569,$8576 - $8569
+
+Func_8576: ; 0x8576
+    ld h, b
+    ld l, c
+    ld a, [$d477]
+    ld e, a
+    ld d, $d4
+    ld a, [$d47e]
+    and a
+    jr nz, .asm_8585
+    inc a
+.asm_8585
+    ld b, a
+    jr .asm_8592
+    ld h, b
+    ld l, c
+    ld a, [$d477]
+    ld e, a
+    ld d, $d4
+    ld b, $1
+.asm_8592
+    push hl
+    ld a, [de]
+    add [hl]
+    daa
+    ld [de], a
+    inc de
+    inc hl
+    ld a, [de]
+    adc [hl]
+    daa
+    ld [de], a
+    inc de
+    inc hl
+    ld a, [de]
+    adc [hl]
+    daa
+    ld [de], a
+    inc de
+    inc hl
+    ld a, [de]
+    adc [hl]
+    daa
+    ld [de], a
+    inc de
+    inc hl
+    ld a, [de]
+    adc [hl]
+    daa
+    ld [de], a
+    inc de
+    inc hl
+    ld a, [de]
+    adc [hl]
+    daa
+    ld [de], a
+    inc de
+    inc hl
+    ld a, e
+    cp $60
+    jr nz, .asm_85be
+    ld e, $0
+.asm_85be
+    pop hl
+    dec b
+    jr nz, .asm_8592
+    ld a, e
+    ld [$d477], a
+    ret
 
 Func_85c7: ; 0x85c7
     ld a, [$ffb3]
@@ -8728,7 +8809,7 @@ Func_8650: ; 0x8650
     ld [$ffa6], a
     ret
 .bottomStage
-    ld a, [$d4b6]
+    ld a, [wBallYPos + 1]
     cp $84
     jr nc, .asm_8670
     ld a, [$ffa6]
@@ -13174,7 +13255,7 @@ HandleFlipperCollision: ; 0xe442
     ld [$d7bc], a
     ld a, l
     ld [$d7bd], a
-    ld a, [$d4b4]
+    ld a, [wBallXPos + 1]
     cp $50
     ld a, [$d7b8]
     jr c, .asm_e48b
@@ -14459,7 +14540,7 @@ Data_ec9a: ; 0xec9a
 
 Func_ece9: ; 0xece9
     call Func_ed5e
-    ld a, [$d4b6]
+    ld a, [wBallYPos + 1]
     add $10
     cp $18
     jr c, .asm_ed13
@@ -14474,9 +14555,9 @@ Func_ece9: ; 0xece9
     cp $ff
     jr z, .asm_ed2e
     call Func_e674
-    ld a, [$d4b6]
+    ld a, [wBallYPos + 1]
     sub $88
-    ld [$d4b6], a
+    ld [wBallYPos + 1], a
     ret
 .asm_ed13
     ld a, [wCurrentStage]
@@ -14488,9 +14569,9 @@ Func_ece9: ; 0xece9
     cp $ff
     jr z, .asm_ed2e
     call Func_e674
-    ld a, [$d4b6]
+    ld a, [wBallYPos + 1]
     add $88
-    ld [$d4b6], a
+    ld [wBallYPos + 1], a
     ret
 .asm_ed2e
     ld a, $1
@@ -14508,7 +14589,7 @@ Func_ed5e: ; 0xed5e
     ld a, [$d7ac]
     and a
     jr nz, .asm_ed7f
-    ld a, [$d4b4]
+    ld a, [wBallXPos + 1]
     cp $9a
     ld a, $2
     jr nc, .asm_ed72
@@ -15324,7 +15405,44 @@ INCBIN "baserom.gbc",$f921,$10000 - $f921
 
 SECTION "bank4", ROMX, BANK[$4]
 
-INCBIN "baserom.gbc",$10000,$1003f - $10000
+Func_10000: ; 0x10000
+    ld c, a
+    ld a, [$d54b]
+    and a
+    ret z
+    ld a, c
+    ld [$d54c], a
+    ld a, [$d550]
+    cp $1
+    jp z, $4a95
+    cp $2
+    jr nz, .asm_10021
+    ld [$ff8a], a
+    ld a, $c
+    ld hl, $41ce
+    call BankSwitch
+    ret
+.asm_10021
+    ld a, [wCurrentStage]
+    call CallInFollowingTable
+CallTable_10027: ; 0x10027
+    dw $4000
+    db $08, $00
+
+    dw $4000
+    db $08, $00
+
+    dw $4000
+    db $08, $00
+
+    dw $4000
+    db $08, $00
+
+    dw $42BC
+    db $08, $00
+
+    dw $42BC
+    db $08, $00
 
 StartCatchEmMode: ; 0x1003f
     ld a, [$d54b]  ; current game mode?
@@ -15837,7 +15955,7 @@ Func_143e1: ; 0x143e1
     jp Func_1441e
 
 Func_143f9: ; 0x143f9
-    ld a, [$d4b6]
+    ld a, [wBallYPos + 1]
     cp $56
     jr nc, .asm_14412
     call Func_1444d
@@ -15976,7 +16094,228 @@ Func_144e4: ; 0x144e4
     scf
     jp Func_2775
 
-INCBIN "baserom.gbc",$144ee,$1659c - $144ee
+INCBIN "baserom.gbc",$144ee,$1460e - $144ee
+
+Func_1460e: ; 0x1460e
+    call Func_14d85
+    call Func_14dea
+    call $535d
+    call $5575
+    call $5270
+    call $581f
+    call $660c
+    call $6781
+    call $5e93
+    call $60f0
+    call $61e0
+    call $64e3
+    call $46a9
+    call $74ea
+    call $48cf
+    ld [$ff8a], a
+    ld a, $c
+    ld hl, $4188
+    call BankSwitch
+    ld a, $0
+    ld [$ff8a], a
+    ld a, Bank(Func_10000)
+    ld hl, Func_10000
+    call BankSwitch
+    ret
+
+INCBIN "baserom.gbc",$14652,$14d85 - $14652
+
+Func_14d85: ; 0x14d85
+    ld a, [$d4cb]
+    and a
+    jr z, .asm_14db9
+    xor a
+    ld [$d4cb], a
+    call Func_14dc9
+    ld a, $10
+    ld [$d4d6], a
+    ld a, [$d4cc]
+    sub $3
+    ld [$d4d7], a
+    ld a, $4 ; is this also referring to Bank(Func_10000)?
+    ld [$ff8a], a
+    ld a, Bank(Func_10000)
+    ld hl, Func_10000
+    call BankSwitch
+    ld bc, $34be
+    ld [$ff8a], a
+    ld a, Bank(Func_8576)
+    ld hl, Func_8576
+    call BankSwitch
+    ret
+.asm_14db9
+    ld a, [$d4d6]
+    and a
+    ret z
+    dec a
+    ld [$d4d6], a
+    ret nz
+    ld a, $ff
+    ld [$d4d7], a
+    ret
+
+Func_14dc9: ; 0x14dc9
+    ld a, $ff
+    ld [$d803], a
+    ld a, $3
+    ld [$d804], a
+    ld hl, $0200
+    ld a, l
+    ld [$d7bc], a
+    ld a, h
+    ld [$d7bd], a
+    ld a, $80
+    ld [wFlipperCollision], a
+    ld de, $000e
+    call PlaySoundEffect
+    ret
+
+Func_14dea: ; 0x14dea
+    ld a, [$d507]
+    and a
+    jr z, .asm_14e10
+    xor a
+    ld [$d507], a
+    ld a, [wBallYVelocity]
+    ld c, a
+    ld a, [wBallYVelocity + 1]
+    ld b, a
+    ld a, c
+    ld [$d50b], a
+    ld a, b
+    ld [$d50c], a
+    ld a, $c
+    ld [$ff8a], a
+    ld a, Bank(Func_10000)
+    ld hl, Func_10000
+    call BankSwitch
+.asm_14e10
+    ld hl, $d50b
+    ld a, [hli]
+    or [hl]
+    ret z
+    ld a, [$d50b]
+    ld c, a
+    ld a, [$d50c]
+    ld b, a
+    bit 7, b
+    jr nz, .asm_14e2e
+    ld a, c
+    sub $7
+    ld c, a
+    ld a, b
+    sbc $0
+    ld b, a
+    jr nc, .asm_14e3b
+    jr .asm_14e38
+.asm_14e2e
+    ld a, c
+    add $7
+    ld c, a
+    ld a, b
+    adc $0
+    ld b, a
+    jr nc, .asm_14e3b
+.asm_14e38
+    ld bc, $0000
+.asm_14e3b
+    ld a, c
+    ld [$d50b], a
+    ld a, b
+    ld [$d50c], a
+    ld hl, $d50b
+    ld a, [$d509]
+    add [hl]
+    ld [$d509], a
+    inc hl
+    ld a, [$d50a]
+    adc [hl]
+    bit 7, a
+    ld c, $0
+    jr z, .asm_14e5e
+    add $18
+    ld c, $1
+    jr .asm_14e66
+.asm_14e5e
+    cp $18
+    jr c, .asm_14e66
+    sub $18
+    ld c, $1
+.asm_14e66
+    ld [$d50a], a
+    ld a, c
+    and a
+    ret z
+    ld bc, $34ac
+    ld [$ff8a], a
+    ld a, Bank(Func_8576)
+    ld hl, Func_8576
+    call BankSwitch
+    ld hl, $d62d
+    call Func_e4a
+    ld a, [$d517]
+    cp $f
+    jr nz, .asm_14e8a
+    call Func_14ea7
+    ret
+.asm_14e8a
+    inc a
+    ld [$d517], a
+    call Func_14ea7
+    ld a, [$d517]
+    cp $f
+    jr nz, .asm_14e9d
+    ld a, $64
+    ld [$d51e], a
+.asm_14e9d
+    ld a, [wCurrentStage]
+    bit 0, a
+    ret nz
+    call Func_14ece
+    ret
+
+Func_14ea7: ; 0x14ea7
+    ld a, [$d51e]
+    and a
+    ret nz
+    ld a, [$d517]
+    ld c, a
+    ld b, $0
+    ld hl, $4ebe ; todo
+    add hl, bc
+    ld a, [hl]
+    ld e, a
+    ld d, $0
+    call PlaySoundEffect
+    ret
+
+INCBIN "baserom.gbc",$14ebe,$14ece - $14ebe
+
+Func_14ece: ; 0x14ece
+    ld a, [$d517]
+    ld c, a
+    sla c
+    ld b, $0
+    ld hl, $4eeb ; todo
+    ld a, [hGameBoyColorFlag]
+    and a
+    jr z, .asm_14ee1
+    ld hl, $509b
+.asm_14ee1
+    add hl, bc
+    ld a, [hli]
+    ld h, [hl]
+    ld l, a
+    ld a, $5
+    call Func_10aa
+    ret
+
+INCBIN "baserom.gbc",$14eeb,$1659c - $14eeb
 
 .showNextMap
     ld a, [$d4e1]
@@ -16399,12 +16738,12 @@ Func_181be: ; 0x181be
 Func_1820d: ; 0x1820d
     cp $4
     jr z, .asm_18257
-    ld a, [$d4b4]
+    ld a, [wBallXPos + 1]
     sub b
     cp $20
     jr nc, .asm_18257
     ld b, a
-    ld a, [$d4b6]
+    ld a, [wBallYPos + 1]
     sub c
     cp $20
     jr nc, .asm_18257
@@ -16475,12 +16814,12 @@ Func_18259: ; 0x18259
 Func_18298: ; 0x18298
     cp $5
     jr z, .asm_182e2
-    ld a, [$d4b4]
+    ld a, [wBallXPos + 1]
     sub b
     cp $20
     jr nc, .asm_182e2
     ld b, a
-    ld a, [$d4b6]
+    ld a, [wBallYPos + 1]
     sub c
     cp $28
     jr nc, .asm_182e2
@@ -16536,12 +16875,12 @@ Func_182e4: ; 0x182e4
     ret
 
 Func_18308: ; 0x18308
-    ld a, [$d4b4]
+    ld a, [wBallXPos + 1]
     sub b
     cp $30
     jr nc, .asm_1834e
     ld b, a
-    ld a, [$d4b6]
+    ld a, [wBallYPos + 1]
     sub c
     cp $40
     jr nc, .asm_1834e
@@ -16711,12 +17050,12 @@ Func_19337: ; 0x19337
 Func_1936f: ; 0x1936f
     cp $b
     jp z, Func_19412
-    ld a, [$d4b4]
+    ld a, [wBallXPos + 1]
     sub b
     cp $20
     jp nc, Func_19412
     ld b, a
-    ld a, [$d4b6]
+    ld a, [wBallYPos + 1]
     sub c
     cp $20
     jp nc, Func_19412
@@ -16951,14 +17290,14 @@ Func_19aba: ; 0x19aba
     ld a, [hl]
     cp $a
     jr nc, .asm_19aed
-    ld a, [$d4b4]
+    ld a, [wBallXPos + 1]
     cp $48
     ld a, $11
     jr nc, .asm_19af7
     xor a
     jr .asm_19af7
 .asm_19aed
-    ld a, [$d4b4]
+    ld a, [wBallXPos + 1]
     cp $68
     ld a, $11
     jr nc, .asm_19af7
@@ -17192,7 +17531,7 @@ Func_1c520: ; 0x1c520
     ret
 
 Func_1c536: ; 0x1c536
-    ld a, [$d4b6]
+    ld a, [wBallYPos + 1]
     cp $56
     jr nc, .asm_1c54d
     call Func_1c5de
@@ -17578,12 +17917,12 @@ Func_24157: ; 0x24157
     ret
 
 Func_24170: ; 0x24170
-    ld a, [$d4b4]
+    ld a, [wBallXPos + 1]
     sub b
     cp $30
     jp nc, .asm_24212
     ld b, a
-    ld a, [$d4b6]
+    ld a, [wBallYPos + 1]
     sub c
     cp $28
     jp nc, .asm_24212
@@ -17724,12 +18063,12 @@ Func_24214: ; 0x24214
     ret
 
 Func_24272: ; 0x24272
-    ld a, [$d4b4]
+    ld a, [wBallXPos + 1]
     sub b
     cp $18
     jr nc, .asm_242b9
     ld b, a
-    ld a, [$d4b6]
+    ld a, [wBallYPos + 1]
     sub c
     cp $18
     jr nc, .asm_242b9
@@ -17994,12 +18333,12 @@ Func_25bc0: ; 0x25bc0
     ret
 
 Func_25c12: ; 0x25c12
-    ld a, [$d4b4]
+    ld a, [wBallXPos + 1]
     sub b
     cp $20
     jr nc, .asm_25c58
     ld b, a
-    ld a, [$d4b6]
+    ld a, [wBallYPos + 1]
     sub c
     cp $20
     jr nc, .asm_25c58

@@ -4631,68 +4631,187 @@ Func_272f: ; 0x272f
     call CallInFollowingTable
 CallTable_2735: ; 0x2735
     ; STAGE_RED_FIELD_TOP
-    dw $43E1
-    db $05, $00
+    dw Func_143e1
+    db Bank(Func_143e1), $00
 
     ; STAGE_RED_FIELD_BOTTOM
-    dw $43F9
-    db $05, $00
+    dw Func_143f9
+    db Bank(Func_143f9), $00
 
-    dw $4061
-    db $06, $00
+    dw Func_18061
+    db Bank(Func_18061), $00
 
-    dw $4062
-    db $06, $00
+    dw Func_18062
+    db Bank(Func_18062), $00
 
     ; STAGE_BLUE_FIELD_TOP
-    dw $4520
-    db $07, $00
+    dw Func_1c520
+    db Bank(Func_1c520), $00
 
     ; STAGE_BLUE_FIELD_BOTTOM
-    dw $4536
-    db $07, $00
+    dw Func_1c536
+    db Bank(Func_1c536), $00
 
     ; STAGE_GENGAR_BONUS
-    dw $41B1
-    db $06, $00
+    dw Func_181b1
+    db Bank(Func_181b1), $00
 
     ; STAGE_GENGAR_BONUS
-    dw $41B1
-    db $06, $00
+    dw Func_181b1
+    db Bank(Func_181b1), $00
 
     ; STAGE_MEWTWO_BONUS
-    dw $5330
-    db $06, $00
+    dw Func_19330
+    db Bank(Func_19330), $00
 
     ; STAGE_MEWTWO_BONUS
-    dw $5330
-    db $06, $00
+    dw Func_19330
+    db Bank(Func_19330), $00
 
     ; STAGE_MEOWTH_BONUS
-    dw $414D
-    db $09, $00
+    dw Func_2414d
+    db Bank(Func_2414d), $00
 
     ; STAGE_MEOWTH_BONUS
-    dw $414D
-    db $09, $00
+    dw Func_2414d
+    db Bank(Func_2414d), $00
 
     ; STAGE_DIGLETT_BONUS
-    dw $5AB3
-    db $06, $00
+    dw Func_19ab3
+    db Bank(Func_19ab3), $00
 
     ; STAGE_DIGLETT_BONUS
-    dw $5AB3
-    db $06, $00
+    dw Func_19ab3
+    db Bank(Func_19ab3), $00
 
     ; STAGE_SEEL_BONUS
-    dw $5BBC
-    db $09, $00
+    dw Func_25bbc
+    db Bank(Func_25bbc), $00
 
     ; STAGE_SEEL_BONUS
-    dw $5BBC
-    db $09, $00
+    dw Func_25bbc
+    db Bank(Func_25bbc), $00
 
-INCBIN "baserom.gbc",$2775,$281c - $2775
+Func_2775: ; 0x2775
+    ld a, [$d4ea]
+    inc a
+    jr nz, .asm_27a2
+    ld a, [bc]
+    bit 7, a
+    jr nz, .asm_27a2
+    push bc
+    push de
+    call nc, Func_27da
+    pop hl
+    call c, Func_27a4
+    ld a, [$d4ea]
+    ld b, a
+    pop hl
+    ld [hl], $0
+    jr nc, .asm_27a2
+    ld a, [$d4ec]
+    cp b
+    jr z, .asm_27a2
+    ld a, [$d4eb]
+    ld [hli], a
+    ld a, [$d4ea]
+    ld [hl], a
+    scf
+    ret
+.asm_27a2
+    and a
+    ret
+
+Func_27a4: ; 0x27a4
+    xor a
+    ld [$d4eb], a
+    ld a, [hli]
+    ld d, a
+    ld a, [hli]
+    ld e, a
+    ld a, [$d4b4]
+    ld b, a
+    ld a, [$d4b6]
+    ld c, a
+.asm_27b4
+    ld a, [$d4eb]
+    inc a
+    ld [$d4eb], a
+    ld a, [hli]
+    ld [$d4ea], a
+    cp $ff
+    ret z
+    ld a, [hli]
+    sub b
+    bit 7, a
+    jr z, .asm_27ca
+    cpl
+    inc a
+.asm_27ca
+    cp d
+    ld a, [hli]
+    jr nc, .asm_27b4
+    sub c
+    bit 7, a
+    jr z, .asm_27d5
+    cpl
+    inc a
+.asm_27d5
+    cp e
+    jr nc, .asm_27b4
+    scf
+    ret
+
+Func_27da: ; 0x27da
+    ld a, [hli]
+    and a
+    jr z, .asm_27e8
+    dec hl
+    ld a, [$d4af]
+    ld c, a
+    ld b, $0
+    add hl, bc
+    ld c, [hl]
+    add hl, bc
+.asm_27e8
+    ld a, [$d7e9]
+    and a
+    ret z
+    ld a, [$d7f5]
+    ld b, a
+    ld c, $ff
+.asm_27f3
+    inc c
+    ld a, [hli]
+    cp $ff
+    ret z
+    cp b
+    jr nz, .asm_27f3
+    scf
+    ret
+
+Func_27fd: ; 0x27fd
+    ld a, [$d4b4]
+    ld b, a
+    ld a, [$d4b6]
+    ld c, a
+    ld d, $0
+.asm_2807
+    ld a, [hli]
+    and a
+    ret z
+    inc d
+    ld a, [hli]
+    sub b
+    cp $e8
+    ld a, [hli]
+    jr c, .asm_2807
+    sub c
+    cp $e8
+    jr c, .asm_2807
+    ld a, d
+    ld [$d578], a
+    ret
 
 Func_281c: ; 0x281c
     ld a, [wCurrentStage]
@@ -15705,7 +15824,159 @@ Func_1404a: ; 0x1404a
     call Func_1764f
     ret
 
-INCBIN "baserom.gbc",$14091,$1659c - $14091
+INCBIN "baserom.gbc",$14091,$143e1 - $14091
+
+Func_143e1: ; 0x143e1
+    call Func_14474
+    call Func_14498
+    call Func_144b6
+    call Func_144c0
+    call Func_144da
+    call Func_14439
+    call Func_144ac
+    jp Func_1441e
+
+Func_143f9: ; 0x143f9
+    ld a, [$d4b6]
+    cp $56
+    jr nc, .asm_14412
+    call Func_1444d
+    call Func_144cd
+    call Func_14467
+    call Func_1445a
+    call Func_14443
+    jp Func_1441e
+.asm_14412
+    call Func_14481
+    call Func_144e4
+    call Func_144a2
+    jp Func_1448e
+
+Func_1441e: ; 0x1441e
+    xor a
+    ld [$d578], a
+    ld a, [$d551]
+    and a
+    ret z
+    ld a, [wCurrentStage]
+    ld hl, $45d2 ; todo
+    ld c, a
+    ld b, $0
+    sla c
+    add hl, bc
+    ld a, [hli]
+    ld h, [hl]
+    ld l, a
+    jp Func_27fd
+
+INCBIN "baserom.gbc",$14439,$14439 - $14439
+
+Func_14439: ; 0x14439
+    ld de, $45b5
+    ld bc, $d5fe
+    scf
+    jp Func_2775
+
+Func_14443: ; 0x14443
+    ld de, $45bb
+    ld bc, $d601
+    scf
+    jp Func_2775
+
+Func_1444d: ; 0x1444d
+    ld de, $45af
+    ld hl, $459d
+    ld bc, $d5c7
+    and a
+    jp Func_2775
+
+Func_1445a: ; 0x1445a
+    ld de, $45c9
+    ld hl, $45c1
+    ld bc, $d60a
+    and a
+    jp Func_2775
+
+Func_14467: ; 0x14467
+    ld de, $44f4
+    ld hl, $44ee
+    ld bc, $d4ed
+    and a
+    jp Func_2775
+
+Func_14474: ; 0x14474
+    ld de, $4515 ; todo
+    ld hl, $44fd ; todo
+    ld bc, $d4cb
+    and a
+    jp Func_2775
+
+Func_14481: ; 0x14481
+    ld de, $452d
+    ld hl, $4521
+    ld bc, $d4d8
+    and a
+    jp Func_2775
+
+Func_1448e: ; 0x1448e
+    ld de, $4536
+    ld bc, $d4dc
+    scf
+    jp Func_2775
+
+Func_14498: ; 0x14498
+    ld de, $453c ; todo
+    ld bc, $d507
+    scf
+    jp Func_2775
+
+Func_144a2: ; 0x144a2
+    ld de, $4542
+    ld bc, $d50d
+    scf
+    jp Func_2775
+
+Func_144ac: ; 0x144ac
+    ld de, $4551
+    ld bc, $d5f7
+    scf
+    jp Func_2775
+
+Func_144b6: ; 0x144b6
+    ld de, $455d ; todo
+    ld bc, $d51f
+    scf
+    jp Func_2775
+
+Func_144c0: ; 0x144c0
+    ld de, $457d ; todo
+    ld hl, $4578 ; todo
+    ld bc, $d500
+    and a
+    jp Func_2775
+
+Func_144cd: ; 0x144cd
+    ld de, $4588
+    ld hl, $4583
+    ld bc, $d500
+    and a
+    jp Func_2775
+
+INCBIN "baserom.gbc",$144da,$144da - $144da
+
+Func_144da: ; 0x144da
+    ld de, $458e
+    ld bc, $d4fb
+    scf
+    jp Func_2775
+
+Func_144e4: ; 0x144e4
+    ld de, $4594
+    ld bc, $d515
+    scf
+    jp Func_2775
+
+INCBIN "baserom.gbc",$144ee,$1659c - $144ee
 
 .showNextMap
     ld a, [$d4e1]
@@ -15966,7 +16237,19 @@ Func_1804a: ; 0x1804a
     ld [wBallYPos + 1], a
     ret
 
-INCBIN "baserom.gbc",$1805f,$18099 - $1805f
+INCBIN "baserom.gbc",$1805f,$18061 - $1805f
+
+Func_18061: ; 0x18061
+    ret
+
+Func_18062: ; 0x18062
+    ld [$ff8a], a
+    ld a, Bank(Func_1448e)
+    ld hl, Func_1448e
+    call BankSwitch
+    ret
+
+INCBIN "baserom.gbc",$1806d,$18099 - $1806d
 
 InitGengarBonusStage: ; 0x18099
     ld a, [$d7c1]
@@ -16065,7 +16348,244 @@ StartBallGengarBonusStage: ; 0x18157
     ld [$d4c9], a
     ret
 
-INCBIN "baserom.gbc",$1818b,$1924f - $1818b
+INCBIN "baserom.gbc",$1818b,$181b1 - $1818b
+
+Func_181b1: ; 0x181b1
+    call Func_181be
+    call Func_18259
+    call Func_182e4
+    call Func_18350
+    ret
+
+Func_181be: ; 0x181be
+    ld a, [$d659]
+    and a
+    ret z
+    ld a, [$d65f]
+    ld b, a
+    ld a, [$d661]
+    add $10
+    ld c, a
+    ld a, [$d65b]
+    call Func_1820d
+    ld a, $1
+    jr c, .asm_181fe
+    ld a, [$d668]
+    ld b, a
+    ld a, [$d66a]
+    add $10
+    ld c, a
+    ld a, [$d664]
+    call Func_1820d
+    ld a, $2
+    jr c, .asm_181fe
+    ld a, [$d671]
+    ld b, a
+    ld a, [$d673]
+    add $10
+    ld c, a
+    ld a, [$d66d]
+    call Func_1820d
+    ld a, $3
+    ret nc
+.asm_181fe
+    ld [$d4eb], a
+    ld [$d657], a
+    add $4
+    ld [$d4ea], a
+    ld [$d658], a
+    ret
+
+Func_1820d: ; 0x1820d
+    cp $4
+    jr z, .asm_18257
+    ld a, [$d4b4]
+    sub b
+    cp $20
+    jr nc, .asm_18257
+    ld b, a
+    ld a, [$d4b6]
+    sub c
+    cp $20
+    jr nc, .asm_18257
+    ld c, a
+    ld e, c
+    ld d, $0
+    sla e
+    rl d
+    sla e
+    rl d
+    sla e
+    rl d
+    sla e
+    rl d
+    sla e
+    rl d
+    ld l, b
+    ld h, $0
+    add hl, de
+    ld de, $5100
+    add hl, de
+    ld a, $3a
+    call Func_68f
+    bit 7, a
+    jr nz, .asm_18257
+    sla a
+    ld [$d7ea], a
+    ld a, $1
+    ld [$d7e9], a
+    scf
+    ret
+.asm_18257
+    and a
+    ret
+
+Func_18259: ; 0x18259
+    ld a, [$d67e]
+    and a
+    ret z
+    ld a, [$d684]
+    add $fe
+    ld b, a
+    ld a, [$d686]
+    add $c
+    ld c, a
+    ld a, [$d680]
+    call Func_18298
+    ld a, $1
+    jr c, .asm_18289
+    ld a, [$d68d]
+    add $fe
+    ld b, a
+    ld a, [$d68f]
+    add $c
+    ld c, a
+    ld a, [$d689]
+    call Func_18298
+    ld a, $2
+    ret nc
+.asm_18289
+    ld [$d4eb], a
+    ld [$d67c], a
+    add $7
+    ld [$d4ea], a
+    ld [$d67d], a
+    ret
+
+Func_18298: ; 0x18298
+    cp $5
+    jr z, .asm_182e2
+    ld a, [$d4b4]
+    sub b
+    cp $20
+    jr nc, .asm_182e2
+    ld b, a
+    ld a, [$d4b6]
+    sub c
+    cp $28
+    jr nc, .asm_182e2
+    ld c, a
+    ld e, c
+    ld d, $0
+    sla e
+    rl d
+    sla e
+    rl d
+    sla e
+    rl d
+    sla e
+    rl d
+    sla e
+    rl d
+    ld l, b
+    ld h, $0
+    add hl, de
+    ld de, $4c00
+    add hl, de
+    ld a, $3a
+    call Func_68f
+    bit 7, a
+    jr nz, .asm_182e2
+    sla a
+    ld [$d7ea], a
+    ld a, $1
+    ld [$d7e9], a
+    scf
+    ret
+.asm_182e2
+    and a
+    ret
+
+Func_182e4: ; 0x182e4
+    ld a, [$d698]
+    and a
+    ret z
+    ld a, [$d69e]
+    ld b, a
+    ld a, [$d6a0]
+    add $c
+    ld c, a
+    call Func_18308
+    ld a, $1
+    ret nc
+    ld [$d4eb], a
+    ld [$d696], a
+    add $9
+    ld [$d4ea], a
+    ld [$d697], a
+    ret
+
+Func_18308: ; 0x18308
+    ld a, [$d4b4]
+    sub b
+    cp $30
+    jr nc, .asm_1834e
+    ld b, a
+    ld a, [$d4b6]
+    sub c
+    cp $40
+    jr nc, .asm_1834e
+    ld c, a
+    ld a, c
+    sla a
+    add c
+    ld e, a
+    ld d, $0
+    sla e
+    rl d
+    sla e
+    rl d
+    sla e
+    rl d
+    sla e
+    rl d
+    ld l, b
+    ld h, $0
+    add hl, de
+    ld de, $4000
+    add hl, de
+    ld a, $3a
+    call Func_68f
+    bit 7, a
+    jr nz, .asm_1834e
+    sla a
+    ld [$d7ea], a
+    ld a, $1
+    ld [$d7e9], a
+    scf
+    ret
+.asm_1834e
+    and a
+    ret
+
+Func_18350: ; 0x18350
+    ld de, $4368 ; todo
+    ld hl, $435d ; todo
+    ld bc, $d654
+    and a
+    jp Func_2775
+
+INCBIN "baserom.gbc",$1835d,$1924f - $1835d
 
 InitMewtwoBonusStage: ; 0x1924f
     ld a, [$d7c1]
@@ -16143,7 +16663,197 @@ StartBallMewtwoBonusStage: ; 0x192e3
     ld [$d4c9], a
     ret
 
-INCBIN "baserom.gbc",$19310,$199f2 - $19310
+INCBIN "baserom.gbc",$19310,$19330 - $19310
+
+Func_19330: ; 0x19330
+    call Func_19414
+    call Func_19337
+    ret
+
+Func_19337: ; 0x19337
+    ld hl, $d6bb
+    ld bc, $0601
+.asm_1933d
+    push bc
+    push hl
+    ld a, [hli]
+    add $f8
+    ld b, a
+    ld a, [hld]
+    add $8
+    ld c, a
+    dec hl
+    dec hl
+    dec hl
+    ld a, [hl]
+    dec hl
+    dec hl
+    bit 0, [hl]
+    call nz, Func_1936f
+    pop hl
+    pop bc
+    ld a, c
+    jr c, .asm_19360
+    ld de, $0008
+    add hl, de
+    inc c
+    dec b
+    jr nz, .asm_1933d
+    ret
+.asm_19360
+    ld [$d4eb], a
+    ld [$d6b4], a
+    add $0
+    ld [$d4ea], a
+    ld [$d6b5], a
+    ret
+
+Func_1936f: ; 0x1936f
+    cp $b
+    jp z, Func_19412
+    ld a, [$d4b4]
+    sub b
+    cp $20
+    jp nc, Func_19412
+    ld b, a
+    ld a, [$d4b6]
+    sub c
+    cp $20
+    jp nc, Func_19412
+    ld c, a
+    ld e, a
+    ld d, $0
+    sla e
+    rl d
+    sla e
+    rl d
+    sla e
+    rl d
+    sla e
+    rl d
+    sla e
+    rl d
+    ld l, b
+    ld h, $0
+    add hl, de
+    sla l
+    rl h
+    sla l
+    rl h
+    ld de, $4000
+    add hl, de
+    ld de, wBallXVelocity
+    ld a, $39
+    call Func_68f
+    ld c, a
+    ld a, [de]
+    add c
+    ld [de], a
+    inc de
+    inc hl
+    ld a, $39
+    call Func_68f
+    ld b, a
+    ld a, [de]
+    adc b
+    ld [de], a
+    inc de
+    inc hl
+    push bc
+    ld a, $39
+    call Func_68f
+    ld c, a
+    ld a, [de]
+    add c
+    ld [de], a
+    inc de
+    inc hl
+    ld a, $39
+    call Func_68f
+    ld b, a
+    ld a, [de]
+    adc b
+    ld [de], a
+    inc de
+    inc hl
+    bit 7, b
+    jr z, .asm_193ea
+    ld a, c
+    cpl
+    ld c, a
+    ld a, b
+    cpl
+    ld b, a
+    inc bc
+.asm_193ea
+    pop hl
+    bit 7, h
+    jr z, .asm_193f6
+    ld a, l
+    cpl
+    ld l, a
+    ld a, h
+    cpl
+    ld h, a
+    inc hl
+.asm_193f6
+    add hl, bc
+    sla l
+    rl h
+    ld a, h
+    cp $2
+    jr c, .asm_19410
+    ld a, [$d804]
+    and a
+    jr nz, .asm_19410
+    ld a, $5
+    ld [$d803], a
+    ld a, $8
+    ld [$d804], a
+.asm_19410
+    scf
+    ret
+
+Func_19412: ; 0x19312
+    and a
+    ret
+
+Func_19414: ; 0x19414
+    ld a, [$d4ea]
+    inc a
+    jr nz, .asm_1944f
+    ld a, [$d6aa]
+    bit 7, a
+    jr nz, .asm_1944f
+    ld a, [$d7e9]
+    and a
+    ret z
+    ld a, [$d7f5]
+    sub $10
+    ret c
+    cp $c
+    ret nc
+    ld a, $1
+    ld [$d4eb], a
+    add $6
+    ld [$d4ea], a
+    ld b, a
+    ld hl, $d6aa
+    ld [hl], $0
+    ld a, [$d4ec]
+    cp b
+    jr z, .asm_1944f
+    ld a, [$d4eb]
+    ld [hli], a
+    ld a, [$d4ea]
+    ld [hl], a
+    scf
+    ret
+.asm_1944f
+    and a
+    ret
+
+INCBIN "baserom.gbc",$19451,$199f2 - $19451
 
 InitDiglettBonusStage: ; 0x199f2
     ld a, [$d7c1]
@@ -16212,7 +16922,107 @@ StartBallDiglettBonusStage: ; 0x19a38
     ld [$d765], a
     ret
 
-INCBIN "baserom.gbc",$19a76,$1c000 - $19a76
+INCBIN "baserom.gbc",$19a76,$19ab3 - $19a76
+
+Func_19ab3: ; 0x19ab3
+    call Func_19aba
+    call Func_19b4b
+    ret
+
+Func_19aba: ; 0x19aba
+    ld a, [$d4ea]
+    inc a
+    jr nz, .asm_19b16
+    ld a, [$d73b]
+    bit 7, a
+    jr nz, .asm_19b16
+    ld a, [$d7e9]
+    and a
+    ret z
+    ld a, [$d7f5]
+    sub $19
+    ret c
+    cp $33
+    ret nc
+    ld c, a
+    ld b, $0
+    ld hl, $5b18 ; todo
+    add hl, bc
+    ld a, [hl]
+    cp $a
+    jr nc, .asm_19aed
+    ld a, [$d4b4]
+    cp $48
+    ld a, $11
+    jr nc, .asm_19af7
+    xor a
+    jr .asm_19af7
+.asm_19aed
+    ld a, [$d4b4]
+    cp $68
+    ld a, $11
+    jr nc, .asm_19af7
+    xor a
+.asm_19af7
+    add [hl]
+    ld [$d4eb], a
+    add $0
+    ld [$d4ea], a
+    ld b, a
+    ld hl, $d73b
+    ld [hl], $0
+    ld a, [$d4ec]
+    cp b
+    jr z, .asm_19b16
+    ld a, [$d4eb]
+    ld [hli], a
+    ld a, [$d4ea]
+    ld [hl], a
+    scf
+    ret
+.asm_19b16
+    and a
+    ret
+
+INCBIN "baserom.gbc",$19b18,$19b4b - $19b18
+
+Func_19b4b: ; 0x19b4b
+    ld a, [$d4ea]
+    inc a
+    jr nz, .asm_19b86
+    ld a, [$d75f]
+    bit 7, a
+    jr nz, .asm_19b86
+    ld a, [$d7e9]
+    and a
+    ret z
+    ld a, [$d7f5]
+    sub $14
+    ret c
+    cp $5
+    ret nc
+    ld a, $1
+    ld [$d4eb], a
+    add $1f
+    ld [$d4ea], a
+    ld b, a
+    ld hl, $d75f
+    ld [hl], $0
+    ld a, [$d4ec]
+    cp b
+    jr z, .asm_19b86
+    ld a, [$d4eb]
+    ld [hli], a
+    ld a, [$d4ea]
+    ld [hl], a
+    scf
+    ret
+.asm_19b86
+    and a
+    ret
+
+INCBIN "baserom.gbc",$19b88,$1c000 - $19b88
+
 
 SECTION "bank7", ROMX, BANK[$7]
 
@@ -16369,7 +17179,140 @@ Func_1c129: ; 0x1c129
     call Func_490
     ret
 
-INCBIN "baserom.gbc",$1c165,$1c7c7 - $1c165
+INCBIN "baserom.gbc",$1c165,$1c520 - $1c165
+
+Func_1c520: ; 0x1c520
+    call Func_1c55a ; shellders
+    call Func_1c567 ; spinner
+    call Func_1c57e
+    call Func_1c592
+    call Func_1c588
+    call Func_1c5c0
+    call Func_1c5eb
+    ret
+
+Func_1c536: ; 0x1c536
+    ld a, [$d4b6]
+    cp $56
+    jr nc, .asm_1c54d
+    call Func_1c5de
+    call Func_1c5b3
+    call Func_1c5a6
+    call Func_1c5d4
+    call Func_1c5eb
+    ret
+.asm_1c54d
+    call Func_1c571
+    call Func_1c59c
+    call Func_1c5ca
+    call Func_1c607
+    ret
+
+Func_1c55a: ; 0x1c55a
+    ld de, $4644
+    ld hl, $462e
+    ld bc, $d4cb
+    and a
+    jp Func_2775
+
+Func_1c567: ; 0x1c567
+    ld de, $4650
+    ld bc, $d507
+    scf
+    jp Func_2775
+
+Func_1c571: ; 0x1c571
+    ld de, $4625
+    ld hl, $4611
+    ld bc, $d4d8
+    and a
+    jp Func_2775
+
+Func_1c57e: ; 0x1c57e
+    ld de, $4656
+    ld bc, $d51f
+    scf
+    jp Func_2775
+
+Func_1c588: ; 0x1c588
+    ld de, $4665
+    ld bc, $d635
+    scf
+    jp Func_2775
+
+Func_1c592: ; 0x1c592
+    ld de, $466b
+    ld bc, $d630
+    scf
+    jp Func_2775
+
+Func_1c59c: ; 0x1c59c
+    ld de, $4671
+    ld bc, $d515
+    scf
+    jp Func_2775
+
+Func_1c5a6: ; 0x1c5a6
+    ld de, $4686
+    ld hl, $467a
+    ld bc, $d60a
+    and a
+    jp Func_2775
+
+Func_1c5b3: ; 0x1c5b3
+    ld de, $4695
+    ld hl, $468f
+    ld bc, $d4ed
+    and a
+    jp Func_2775
+
+Func_1c5c0: ; 0x1c5c0
+    ld de, $469e
+    ld bc, $d5f7
+    scf
+    jp Func_2775
+
+Func_1c5ca: ; 0x1c5ca
+    ld de, $46aa
+    ld bc, $d50d
+    scf
+    jp Func_2775
+
+Func_1c5d4: ; 0x1c5d4
+    ld de, $46b9
+    ld bc, $d601
+    scf
+    jp Func_2775
+
+Func_1c5de: ; 0x1c5de
+    ld de, $46d1
+    ld hl, $46bf
+    ld bc, $d5c7
+    and a
+    jp Func_2775
+
+Func_1c5eb: ; 0x1c5eb
+    xor a
+    ld [$d578], a
+    ld a, [$d551]
+    and a
+    ret z
+    ld a, [wCurrentStage]
+    bit 0, a
+    jr nz, .asm_1c601
+    ld hl, $46d7 ; todo
+    jp Func_27fd
+.asm_1c601
+    ld hl, $46fc ; todo
+    jp Func_27fd
+
+Func_1c607: ; 0x1c607
+    ld de, $470f
+    ld bc, $d4dc
+    scf
+    jp Func_2775
+
+INCBIN "baserom.gbc",$1c611,$1c7c7 - $1c611
 
 Func_1c7c7: ; 0x1c7c7
     ld a, $0
@@ -16611,7 +17554,273 @@ StartBallMeowthBonusStage: ; 0x24059
     ld [$d4c9], a
     ret
 
-INCBIN "baserom.gbc",$24128,$25a7c - $24128
+INCBIN "baserom.gbc",$24128,$2414d - $24128
+
+Func_2414d: ; 0x2414d
+    call Func_24157
+    call Func_24214
+    call Func_242bb
+    ret
+
+Func_24157: ; 0x24157
+    ld a, [$d6e7]
+    cp $0
+    ret nz
+    ld a, [$d6ed]
+    add $f7
+    ld b, a
+    ld a, [$d6ee]
+    add $6
+    ld c, a
+    call Func_24170
+    ld a, $3
+    ret nc
+    ret
+
+Func_24170: ; 0x24170
+    ld a, [$d4b4]
+    sub b
+    cp $30
+    jp nc, .asm_24212
+    ld b, a
+    ld a, [$d4b6]
+    sub c
+    cp $28
+    jp nc, .asm_24212
+    ld c, a
+    ld e, c
+    ld d, $0
+    sla e
+    rl d
+    sla e
+    rl d
+    sla e
+    rl d
+    ld h, d
+    ld l, e
+    sla e
+    rl d
+    add hl, de
+    ld d, h
+    ld e, l
+    sla e
+    rl d
+    ld l, b
+    ld h, $0
+    add hl, de
+    ld de, $5500
+    add hl, de
+    ld a, $3a
+    call Func_68f
+    bit 7, a
+    jr nz, .asm_24212
+    sla a
+    ld [$d7ea], a
+    ld a, $1
+    ld [$d7e9], a
+    ld a, [$d6ec]
+    cp $2
+    ret z
+    cp $3
+    ret z
+    ld a, [$d713]
+    and a
+    ret nz
+    ld a, [$d6f1]
+    and a
+    jr z, .asm_241ed
+    ld a, [$d6f1]
+    cp $1
+    jr nz, .asm_241df
+    ld a, [$d70b]
+    cp $3
+    jr z, .asm_241eb
+    jr .asm_241e6
+.asm_241df
+    ld a, [$d70c]
+    cp $3
+    jr z, .asm_241eb
+.asm_241e6
+    ld a, $2
+    ld [$d6e7], a
+.asm_241eb
+    scf
+    ret
+.asm_241ed
+    ld a, [$d6ee]
+    cp $20
+    jr nz, .asm_241fd
+    ld a, [$d70b]
+    cp $3
+    jr z, .asm_24210
+    jr .asm_2420b
+.asm_241fd
+    ld a, [$d6ee]
+    cp $10
+    jr nz, .asm_24210
+    ld a, [$d70c]
+    cp $3
+    jr z, .asm_24210
+.asm_2420b
+    ld a, $1
+    ld [$d6e7], a
+.asm_24210
+    scf
+    ret
+.asm_24212
+    and a
+    ret
+
+Func_24214: ; 0x24214
+    ld a, [$d717]
+    cp $2
+    jr nz, .asm_2422e
+    ld a, [$d71a]
+    sub $4
+    ld b, a
+    ld a, [$d727]
+    add $c
+    ld c, a
+    call Func_24272
+    ld a, $0
+    jr c, .asm_24260
+.asm_2422e
+    ld a, [$d718]
+    cp $2
+    jr nz, .asm_24248
+    ld a, [$d71b]
+    sub $4
+    ld b, a
+    ld a, [$d728]
+    add $c
+    ld c, a
+    call Func_24272
+    ld a, $1
+    jr c, .asm_24260
+.asm_24248
+    ld a, [$d719]
+    cp $2
+    ret nz
+    ld a, [$d71c]
+    sub $4
+    ld b, a
+    ld a, [$d729]
+    add $c
+    ld c, a
+    call Func_24272
+    ld a, $2
+    ret nc
+.asm_24260
+    ld b, $0
+    ld c, a
+    ld hl, $d717
+    add hl, bc
+    ld a, $3
+    ld [hl], a
+    ld hl, $d714
+    add hl, bc
+    ld a, $0
+    ld [hl], a
+    ret
+
+Func_24272: ; 0x24272
+    ld a, [$d4b4]
+    sub b
+    cp $18
+    jr nc, .asm_242b9
+    ld b, a
+    ld a, [$d4b6]
+    sub c
+    cp $18
+    jr nc, .asm_242b9
+    ld c, a
+    ld e, c
+    ld d, $0
+    sla e
+    rl d
+    sla e
+    rl d
+    sla e
+    rl d
+    ld h, d
+    ld l, e
+    sla e
+    rl d
+    add hl, de
+    ld d, h
+    ld e, l
+    ld l, b
+    ld h, $0
+    add hl, de
+    ld de, $5c80 ; todo
+    add hl, de
+    ld a, $3a
+    call Func_68f
+    bit 7, a
+    jr nz, .asm_242b9
+    sla a
+    ld [$d7ea], a
+    ld a, $1
+    ld [$d7e9], a
+    scf
+    ret
+.asm_242b9
+    and a
+    ret
+
+Func_242bb: ; 0x242bb
+    ld a, [$d721]
+    cp $2
+    jr nz, .asm_242d5
+    ld a, [$d724]
+    sub $4
+    ld b, a
+    ld a, [$d731]
+    add $c
+    ld c, a
+    call Func_24272
+    ld a, $0
+    jr c, .asm_24307
+.asm_242d5
+    ld a, [$d722]
+    cp $2
+    jr nz, .asm_242ef
+    ld a, [$d725]
+    sub $4
+    ld b, a
+    ld a, [$d732]
+    add $c
+    ld c, a
+    call Func_24272
+    ld a, $1
+    jr c, .asm_24307
+.asm_242ef
+    ld a, [$d723]
+    cp $2
+    ret nz
+    ld a, [$d726]
+    sub $4
+    ld b, a
+    ld a, [$d733]
+    add $c
+    ld c, a
+    call Func_24272
+    ld a, $2
+    ret nc
+.asm_24307
+    ld b, $0
+    ld c, a
+    ld hl, $d721
+    add hl, bc
+    ld a, $3
+    ld [hl], a
+    ld hl, $d71e
+    add hl, bc
+    ld a, $0
+    ld [hl], a
+    ret
+
+INCBIN "baserom.gbc",$24319,$25a7c - $24319
 
 InitSeelBonusStage: ; 0x25a7c
     ld a, [$d7c1]
@@ -16734,7 +17943,99 @@ StartBallSeelBonusStage: ; 0x25af1
     ld [$d4c9], a
     ret
 
-INCBIN "baserom.gbc",$25b97,$26137 - $25b97
+INCBIN "baserom.gbc",$25b97,$25bbc - $25b97
+
+Func_25bbc: ; 0x25bbc
+    call Func_25bc0
+    ret
+
+Func_25bc0: ; 0x25bc0
+    ld a, [$d76c]
+    cp $0
+    jr nz, .asm_25bd8
+    ld a, [$d76e]
+    ld b, a
+    ld a, [$d770]
+    add $14
+    ld c, a
+    call Func_25c12
+    ld a, $0
+    jr c, .asm_25c09
+.asm_25bd8
+    ld a, [$d776]
+    cp $0
+    jr nz, .asm_25bf0
+    ld a, [$d778]
+    ld b, a
+    ld a, [$d77a]
+    add $14
+    ld c, a
+    call Func_25c12
+    ld a, $1
+    jr c, .asm_25c09
+.asm_25bf0
+    ld a, [$d780]
+    cp $0
+    jr nz, .asm_25c08
+    ld a, [$d782]
+    ld b, a
+    ld a, [$d784]
+    add $14
+    ld c, a
+    call Func_25c12
+    ld a, $2
+    jr c, .asm_25c09
+.asm_25c08
+    ret
+.asm_25c09
+    ld [$d768], a
+    ld a, $1
+    ld [$d767], a
+    ret
+
+Func_25c12: ; 0x25c12
+    ld a, [$d4b4]
+    sub b
+    cp $20
+    jr nc, .asm_25c58
+    ld b, a
+    ld a, [$d4b6]
+    sub c
+    cp $20
+    jr nc, .asm_25c58
+    ld c, a
+    ld e, c
+    ld d, $0
+    sla e
+    rl d
+    sla e
+    rl d
+    sla e
+    rl d
+    sla e
+    rl d
+    sla e
+    rl d
+    ld l, b
+    ld h, $0
+    add hl, de
+    ld de, $5100 ; todo
+    add hl, de
+    ld a, $3a
+    call Func_68f
+    bit 7, a
+    jr nz, .asm_25c58
+    sla a
+    ld [$d7ea], a
+    ld a, $1
+    ld [$d7e9], a
+    scf
+    ret
+.asm_25c58
+    and a
+    ret
+
+INCBIN "baserom.gbc",$25c5a,$26137 - $25c5a
 
 Func_26137: ; 0x26137
     push af

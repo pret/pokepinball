@@ -12107,7 +12107,7 @@ PointerTable_d857: ; 0xd857
     dw Func_d87f
     dw Func_d909
     dw Func_da36
-    dw $5AB2
+    dw Func_dab2
 
 Func_d861: ; 0xd861
     xor a
@@ -12386,7 +12386,107 @@ Func_da36: ; 0xda36
     inc [hl]
     ret
 
-INCBIN "baserom.gbc",$dab2,$dba9 - $dab2
+Func_dab2: ; 0xdab2
+    xor a
+    ld [$d803], a
+    ld a, [$d616]
+    and a
+    jp nz, Func_db5d
+    ld a, [$d495]
+    and a
+    jr nz, .asm_dae6
+    ld a, [$d496]
+    and a
+    jr nz, .asm_db28
+    call Func_cb5
+    ld a, [$d849]
+    and a
+    call z, Func_e5d
+    call Func_576
+    ld hl, $ff9f
+    res 6, [hl]
+    ld hl, $ffff
+    res 1, [hl]
+    ld a, $1
+    ld [wScreenState], a
+    ret
+.asm_dae6
+    ld de, $0000
+    call Func_490
+    ld bc, $0004
+    call Func_93f
+    call Func_cb5
+    ld a, [$d849]
+    and a
+    call nz, Func_e5d
+    call Func_576
+    ld hl, $ff9f
+    res 6, [hl]
+    ld hl, $ffff
+    res 1, [hl]
+    ld a, [wCurrentStage]
+    ld [$d4ad], a
+    ld a, [$d4af]
+    ld [$d4b0], a
+    ld a, [$d497]
+    ld [wCurrentStage], a
+    xor a
+    ld [$d496], a
+    ld [$d495], a
+    ld a, $0
+    ld [wScreenState], a
+    ret
+.asm_db28
+    ld de, $0000
+    call Func_490
+    ld bc, $0004
+    call Func_93f
+    call Func_cb5
+    ld a, [$d849]
+    and a
+    call nz, Func_e5d
+    call Func_576
+    ld hl, $ff9f
+    res 6, [hl]
+    ld hl, $ffff
+    res 1, [hl]
+    ld a, [$d4ad]
+    ld [wCurrentStage], a
+    ld a, [$d4b0]
+    ld [$d4af], a
+    ld a, $1
+    ld [wScreenState], a
+    ret
+
+Func_db5d: ; 0xdb5d
+    xor a
+    ld [$d616], a
+    ld de, $0000
+    call Func_490
+    ld bc, $0004
+    call Func_93f
+    call Func_cb5
+    call Func_576
+    ld hl, $ff9f
+    res 6, [hl]
+    ld hl, $ffff
+    res 1, [hl]
+    xor a
+    ld [$d4aa], a
+    ld a, [wCurrentStage]
+    ld c, a
+    ld b, $0
+    ld hl, $5b99 ; todo
+    add hl, bc
+    ld a, [hl]
+    ld [$da83], a
+    ld a, $7
+    ld [wCurrentScreen], a
+    xor a
+    ld [wScreenState], a
+    ret
+
+INCBIN "baserom.gbc",$db99,$dba9 - $db99
 
 Func_dba9: ; 0xdba9
     ld a, $85

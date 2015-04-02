@@ -4844,11 +4844,11 @@ CallTable_2822: ; 0x2822
     dw Func_14652
     db Bank(Func_14652), $00
 
-    dw $406D
-    db $06, $00
+    dw Func_1806d
+    db Bank(Func_1806d), $00
 
-    dw $406E
-    db $06, $00
+    dw Func_1806e
+    db Bank(Func_1806e), $00
 
     ; STAGE_BLUE_FIELD_TOP
     dw $4715
@@ -19341,7 +19341,17 @@ Func_18062: ; 0x18062
     call BankSwitch
     ret
 
-INCBIN "baserom.gbc",$1806d,$18099 - $1806d
+Func_1806d: ; 0x1806d
+    ret
+
+Func_1806e: ; 0x1806e
+    ld [$ff8a], a
+    ld a, Bank(Func_1652d)
+    ld hl, Func_1652d
+    call BankSwitch
+    ret
+
+INCBIN "baserom.gbc",$18079,$18099 - $18079
 
 InitGengarBonusStage: ; 0x18099
     ld a, [$d7c1]

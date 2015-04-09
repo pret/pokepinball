@@ -4256,7 +4256,7 @@ Func_22b5: ; 0x22b5
     sub $4
     push af
     and $7
-    ld [$d7c3], a
+    ld [wSubTileBallXPos], a ; sub-tile position
     pop af
     and $f8
     ld c, a
@@ -4264,19 +4264,19 @@ Func_22b5: ; 0x22b5
     sub $4
     push af
     and $7
-    ld [$d7c4], a
+    ld [wSubTileBallYPos], a
     pop af
     and $f8
     ld b, a
-    ld l, b
+    ld l, b  ; bc contains tile coords of ball position
     ld h, $0
     sla l
     rl h
     sla l
-    rl h
+    rl h  ; b was multiplied by 4 (y tile position)
     srl c
     srl c
-    srl c
+    srl c  ; c was divided by 8 (x tile position)
     ld b, $0
     add hl, bc
     ld a, l
@@ -4293,16 +4293,16 @@ Func_22b5: ; 0x22b5
     ld a, [$d7ee]
     ld [hLoadedROMBank], a
     ld [$2000], a
-    ld bc, $001f
+    ld bc, $001f  ; number of tiles wide - 1
     ld a, [hli]
-    ld [$d7c5], a
+    ld [wUpperLeftCollisionAttribute], a
     ld a, [hl]
-    ld [$d7c7], a
+    ld [wUpperRightCollisionAttribute], a
     add hl, bc
     ld a, [hli]
-    ld [$d7c6], a
+    ld [wLowerLeftCollisionAttribute], a
     ld a, [hl]
-    ld [$d7c8], a
+    ld [wLowerRightCollisionAttribute], a
     pop af
     ld [hLoadedROMBank], a
     ld [$2000], a
@@ -4311,30 +4311,30 @@ Func_22b5: ; 0x22b5
     ld a, [$d7f1]
     ld [hLoadedROMBank], a
     ld [$2000], a
-    ld a, [$d7c3]
+    ld a, [wSubTileBallXPos]
     sla a
     ld c, a
     ld b, $0
-    ld hl, PointerTable_252e
+    ld hl, SubTileXPos_CollisionDataPointers
     add hl, bc
     ld e, [hl]
     inc hl
     ld d, [hl]
-    ld a, [$d7c4]
+    ld a, [wSubTileBallYPos]
     ld c, a
-    ld b, $10
+    ld b, $10  ; number of times too loop over .asm_233d
 .asm_233d
     push bc
     ld a, [de]
     inc de
-    add c
+    add c  ; add the sub tile y pos
     push af
     srl a
     srl a
     srl a
     ld c, a
     ld b, $0
-    ld hl, $d7c5
+    ld hl, wUpperLeftCollisionAttribute
     add hl, bc
     ld a, [hl]
     call Func_248a
@@ -4512,7 +4512,7 @@ Func_22b5: ; 0x22b5
     ld b, $0
     ld hl, $250e ; todo
     add hl, bc
-    ld a, [$d7c3]
+    ld a, [wSubTileBallXPos]
     add $4
     add [hl]
     bit 3, a
@@ -4520,7 +4520,7 @@ Func_22b5: ; 0x22b5
     jr z, .asm_2462
     ld c, $2
 .asm_2462
-    ld a, [$d7c4]
+    ld a, [wSubTileBallYPos]
     add $4
     inc hl
     add [hl]
@@ -4528,7 +4528,7 @@ Func_22b5: ; 0x22b5
     jr z, .asm_246e
     inc c
 .asm_246e
-    ld hl, $d7c5
+    ld hl, wUpperLeftCollisionAttribute
     add hl, bc
     ld a, [hl]
     ld [$d7f5], a
@@ -4624,10 +4624,9 @@ Func_248a: ; 0x248a
 
 INCBIN "baserom.gbc",$250a,$252e - $250a
 
-PointerTable_252e: ; 0x252e
-; This has to do with collision stuff
-    dw Data_253e
-    dw Data_256e
+SubTileXPos_CollisionDataPointers: ; 0x252e
+    dw SubTileXPos_CollisionData0
+    dw SubTileXPos_CollisionData1
     dw $259E
     dw $25CE
     dw $25FE
@@ -4635,11 +4634,41 @@ PointerTable_252e: ; 0x252e
     dw $265E
     dw $268E
 
-Data_253e: ; 0x253e
-    db $00, $10, $0B, $00, $08, $0C, $00, $04, $0D, $01, $40, $0A, $01, $01, $0E, $03, $80, $09, $13, $80, $0F, $04, $80, $08, $14, $80, $00, $05, $80, $07, $15, $80, $01, $07, $40, $06, $07, $01, $02, $08, $10, $05, $08, $08, $04, $08, $04, $03
+SubTileXPos_CollisionData0: ; 0x253e
+    db $00, $10, $0B
+    db $00, $08, $0C
+    db $00, $04, $0D
+    db $01, $40, $0A
+    db $01, $01, $0E
+    db $03, $80, $09
+    db $13, $80, $0F
+    db $04, $80, $08
+    db $14, $80, $00
+    db $05, $80, $07
+    db $15, $80, $01
+    db $07, $40, $06
+    db $07, $01, $02
+    db $08, $10, $05
+    db $08, $08, $04
+    db $08, $04, $03
 
-Data_256e: ; 0x256e
-    db $00, $08, $0B, $00, $04, $0C, $00, $02, $0D, $01, $20, $0A, $11, $80, $0E, $03, $40, $09, $13, $40, $0F, $04, $40, $08, $14, $40, $00, $05, $40, $07, $15, $40, $01, $07, $20, $06, $17, $80, $02, $08, $08, $05, $08, $04, $04, $08, $02, $03
+SubTileXPos_CollisionData1: ; 0x256e
+    db $00, $08, $0B
+    db $00, $04, $0C
+    db $00, $02, $0D
+    db $01, $20, $0A
+    db $11, $80, $0E
+    db $03, $40, $09
+    db $13, $40, $0F
+    db $04, $40, $08
+    db $14, $40, $00
+    db $05, $40, $07
+    db $15, $40, $01
+    db $07, $20, $06
+    db $17, $80, $02
+    db $08, $08, $05
+    db $08, $04, $04
+    db $08, $02, $03
 
 INCBIN "baserom.gbc",$259e,$2720 - $259e
 
@@ -4652,6 +4681,7 @@ Func_2720: ; 0x2720
     ret
 
 Func_272f: ; 0x272f
+; not collisions
     ld a, [wCurrentStage]
     call CallInFollowingTable
 CallTable_2735: ; 0x2735
@@ -4842,6 +4872,7 @@ Func_281c: ; 0x281c
     ld a, [wCurrentStage]
     call CallInFollowingTable
 CallTable_2822: ; 0x2822
+; not collisions
     ; STAGE_RED_FIELD_TOP
     dw Func_1460e
     db Bank(Func_1460e), $00
@@ -8473,7 +8504,7 @@ Func_8388: ; 0x8388
     ld a, [$d7c1]
     and a
     jr z, .asm_8398
-    ld hl, $d7c3
+    ld hl, wSubTileBallXPos
     ld bc, $0037
     call ClearData
     ret
@@ -12518,8 +12549,8 @@ Func_d909: ; 0xd909
     jr z, .noFlipperCollision
     ld [$d7ea], a
 .noFlipperCollision
-    call Func_2720
-    call Func_281c
+    call Func_2720 ; not collision-related
+    call Func_281c ; not collision-related
     ld hl, wKeyConfigMenu
     call IsKeyPressed
     jr z, .didntPressMenuKey
@@ -16165,7 +16196,8 @@ Func_1404a: ; 0x1404a
 INCBIN "baserom.gbc",$14091,$143e1 - $14091
 
 Func_143e1: ; 0x143e1
-    call Func_14474
+; not collisions.
+    call Func_14474 ; voltorbs
     call Func_14498
     call Func_144b6
     call Func_144c0
@@ -16317,6 +16349,7 @@ Func_144e4: ; 0x144e4
 INCBIN "baserom.gbc",$144ee,$1460e - $144ee
 
 Func_1460e: ; 0x1460e
+; not collisions
     call Func_14d85
     call Func_14dea
     call Func_1535d
@@ -27367,7 +27400,12 @@ INCBIN "baserom.gbc",$bac00,$bc000 - $bac00
 
 SECTION "bank2f", ROMX, BANK[$2f]
 
-INCBIN "baserom.gbc",$bc000,$be000 - $bc000
+INCBIN "baserom.gbc",$bc000,$bd800 - $bc000
+
+StageRedFieldBottomCollisionAttributes: ; 0xbd800
+    INCBIN "data/collision/red_stage_bottom.collision"
+
+INCBIN "baserom.gbc",$bdc00,$be000 - $bdc00
 
 StageRedFieldTopTilemap_GameBoyColor: ; 0xbe000
     INCBIN "gfx/tilemaps/stage_red_field_top_gameboycolor.map"

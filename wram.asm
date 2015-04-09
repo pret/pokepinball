@@ -120,7 +120,24 @@ wFlipperCollision:: ; 0xd7b9
 ; Set to $1 when the ball is colliding with a flipper
     ds 1
 
-    ds $3f
+    ds 9
+
+wSubTileBallXPos:: ; 0xd7c3
+    ds 1
+wSubTileBallYPos:: ; 0xd7c4
+    ds 1
+
+wUpperLeftCollisionAttribute:: ; 0xd7c5
+    ds 1
+wLowerLeftCollisionAttribute:: ; 0xd7c6
+    ds 1
+wUpperRightCollisionAttribute:: ; 0xd7c7
+    ds 1
+wLowerRightCollisionAttribute:: ; 0xd7c8
+    ds 1
+
+
+    ds $30
 
 wInGameMenuIndex:: ; 0xd7f9
     ds 1

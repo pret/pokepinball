@@ -16831,7 +16831,19 @@ SetPokemonSeenFlag: ; 0x10753
     call Func_f1a
     ret
 
-INCBIN "baserom.gbc",$1077c,$107f8 - $1077c
+INCBIN "baserom.gbc",$1077c,$107b0 - $1077c
+
+Func_107b0: ; 0x107b0
+    xor a
+    ld [$d604], a
+    ld [$d533], a
+    ld [$ff8a], a
+    ld a, Bank(Func_16425)
+    ld hl, Func_16425
+    call BankSwitch
+    ret
+
+INCBIN "baserom.gbc",$107c2,$107f8 - $107c2
 
 Func_107f8: ; 0x107f8
     ld a, [wTimerFrames]
@@ -17068,7 +17080,25 @@ Func_1404a: ; 0x1404a
     call Func_1764f
     ret
 
-INCBIN "baserom.gbc",$14091,$143e1 - $14091
+INCBIN "baserom.gbc",$14091,$14135 - $14091
+
+Func_14135: ; 0x14135
+    ld bc, $0000
+.asm_14138
+    push bc
+    ld hl, $d52f
+    add hl, bc
+    ld a, [hl]
+    res 7, a
+    call Func_169cd
+    pop bc
+    inc c
+    ld a, c
+    cp $5
+    jr nz, .asm_14138
+    ret
+
+INCBIN "baserom.gbc",$1414b,$143e1 - $1414b
 
 Func_143e1: ; 0x143e1
 ; not collisions.
@@ -22985,7 +23015,49 @@ Func_1c129: ; 0x1c129
     call Func_490
     ret
 
-INCBIN "baserom.gbc",$1c165,$1c520 - $1c165
+INCBIN "baserom.gbc",$1c165,$1c2cb - $1c165
+
+Func_1c2cb: ; 0x1c2cb
+    ld a, [wCurrentStage]
+    bit 0, a
+    ret z
+    ld bc, $0000
+.asm_1c2d4
+    push bc
+    ld hl, $d52f
+    add hl, bc
+    ld a, [hl]
+    res 7, a
+    call Func_1eb41
+    pop bc
+    inc c
+    ld a, c
+    cp $2
+    jr nz, .asm_1c2d4
+    ld bc, $0002
+.asm_1c2e9
+    push bc
+    ld hl, $d52f
+    add hl, bc
+    ld a, [hl]
+    push af
+    ld hl, $d648
+    add hl, bc
+    dec hl
+    dec hl
+    ld a, [hl]
+    ld d, a
+    pop af
+    add d
+    call Func_1eb41
+    pop bc
+    inc c
+    ld a, c
+    cp $5
+    jr nz, .asm_1c2e9
+    ret
+
+INCBIN "baserom.gbc",$1c305,$1c520 - $1c305
 
 Func_1c520: ; 0x1c520
     call Func_1c55a ; shellders
@@ -26606,7 +26678,19 @@ Func_1f27b: ; 0x1f27b
     scf
     ret
 
-INCBIN "baserom.gbc",$1f2b9,$20000 - $1f2b9
+INCBIN "baserom.gbc",$1f2b9,$1f2ed - $1f2b9
+
+Func_1f2ed: ; 0x1f2ed
+    xor a
+    ld [$d604], a
+    ld [$d533], a
+    ld [$ff8a], a
+    ld a, Bank(Func_1e8f6)  ; this is in the same bank...
+    ld hl, Func_1e8f6
+    call BankSwitch
+    ret
+
+INCBIN "baserom.gbc",$1f2ff,$20000 - $1f2ff
 
 
 SECTION "bank8", ROMX, BANK[$8]
@@ -31781,8 +31865,23 @@ Func_301ec: ; 0x301ec
     ld a, [wCurrentStage]
     rst $18
 CallTable_3021f: ; 0x3021f
+    ; STAGE_RED_FIELD_TOP
+    dw Func_311b4
 
-INCBIN "baserom.gbc",$3021f,$30253 - $3021f
+    ; STAGE_RED_FIELD_BOTTOM
+    dw Func_311b4
+
+    dw Func_31324
+
+    dw Func_31324
+
+    ; STAGE_BLUE_FIELD_TOP
+    dw Func_31326
+
+    ; STAGE_BLUE_FIELD_BOTTOM
+    dw Func_31326
+
+INCBIN "baserom.gbc",$3022b,$30253 - $3022b
 
 Func_30253: ; 0x30253
     ld a, [wCurrentMap]
@@ -32005,7 +32104,141 @@ Func_3118f: ; 0x3118f
     call Func_32aa
     ret
 
-INCBIN "baserom.gbc",$311b4,$33fff - $311b4
+Func_311b4: ; 0x311b4
+    ld a, [$d55a]
+    and a
+    jr nz, .asm_311ce
+    ld a, $80
+    ld [$d52f], a
+    ld [$d531], a
+    xor a
+    ld [$d530], a
+    ld [$d532], a
+    ld [$d533], a
+    jr .asm_311e2
+.asm_311ce
+    ld a, $80
+    ld [$d530], a
+    ld [$d532], a
+    xor a
+    ld [$d52f], a
+    ld [$d531], a
+    ld [$d533], a
+    jr .asm_311e2
+.asm_311e2
+    ld a, $2
+    ld [$ff8a], a
+    ld a, Bank(Func_149d9)
+    ld hl, Func_149d9
+    call BankSwitch
+    ld a, $5
+    ld [$ff8a], a
+    ld a, Bank(Func_149d9)
+    ld hl, Func_149d9
+    call BankSwitch
+    ld a, $6a
+    ld [$c7f0], a
+    ld a, $6b
+    ld [$c810], a
+    ld a, $66
+    ld [$c7e3], a
+    ld a, $67
+    ld [$c803], a
+    ld [$ff8a], a
+    ld a, Bank(Func_107b0)
+    ld hl, Func_107b0
+    call BankSwitch
+    ld a, $4
+    ld [$d7ad], a
+    ld de, $0003
+    call Func_490
+    ld a, [wCurrentStage]
+    bit 0, a
+    ret z
+    ld [$ff8a], a
+    ld a, Bank(Func_14135)
+    ld hl, Func_14135
+    call BankSwitch
+    ret
+
+INCBIN "baserom.gbc",$31234,$31324 - $31234
+
+Func_31324: ; 0x31324
+    ret
+
+INCBIN "baserom.gbc",$31325,$31326 - $31325
+
+Func_31326: ; 0x31326
+    ld a, [$d55a]
+    and a
+    jr nz, .asm_3134c
+    ld a, $80
+    ld [$d52f], a
+    ld [$d531], a
+    xor a
+    ld [$d530], a
+    ld [$d532], a
+    ld [$d533], a
+    ld a, $3
+    ld [$ff8a], a
+    ld a, Bank(Func_1de4b)
+    ld hl, Func_1de4b
+    call BankSwitch
+    jr .asm_31382
+.asm_3134c
+    ld a, $80
+    ld [$d530], a
+    ld [$d532], a
+    xor a
+    ld [$d52f], a
+    ld [$d531], a
+    ld [$d533], a
+    ld a, $1
+    ld [$ff8a], a
+    ld a, Bank(Func_1de4b)
+    ld hl, Func_1de4b
+    call BankSwitch
+    ld a, $6
+    ld [$ff8a], a
+    ld a, Bank(Func_1de4b)
+    ld hl, Func_1de4b
+    call BankSwitch
+    ld a, $7  ; TODO: this might be the bank of Func_1de6f
+    ld [$ff8a], a
+    ld a, Bank(Func_1de6f)
+    ld hl, Func_1de6f
+    call BankSwitch
+.asm_31382
+    ld a, [wCurrentStage]
+    bit 0, a
+    jr z, .asm_3139d
+    ld a, $54
+    ld [$c7e3], a
+    ld a, $55
+    ld [$c803], a
+    ld a, $52
+    ld [$c7f0], a
+    ld a, $53
+    ld [$c810], a
+.asm_3139d
+    ld a, $1
+    ld [$d644], a
+    ld [$ff8a], a
+    ld a, Bank(Func_1f2ed)
+    ld hl, Func_1f2ed
+    call BankSwitch
+    ld de, $0003
+    call Func_490
+    ld a, [wCurrentStage]
+    bit 0, a
+    ret z
+    ld [$ff8a], a
+    ld a, Bank(Func_1c2cb)
+    ld hl, Func_1c2cb
+    call BankSwitch
+    ret
+
+INCBIN "baserom.gbc",$313c3,$34000 - $313c3
 
 
 SECTION "bankd", ROMX, BANK[$d]

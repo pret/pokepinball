@@ -391,6 +391,7 @@ Func_468: ; 0x468
 JumpToFuncInTable: ; 0x477
 ; Jumps to a function in the pointer table immediately following
 ; a "rst $18" call.  Function must be in the same Bank as the pointer table.
+; input:  a = index of function in table
     sla a
     pop hl
     push de
@@ -5275,10 +5276,13 @@ Func_310a: ; 0x310a
     jr nz, .asm_311d
     ret
 
-INCBIN "baserom.gbc",$3125,$3129 - $3125
+Func_3125: ; 0x3125
+    ld b, $1
+    jr asm_312b
 
 Func_3129: ; 0x3129
     ld b, $0
+asm_312b: ; 0x312b
     ld a, [$d805]
     and a
     jp nz, Func_3268
@@ -8229,9 +8233,8 @@ SECTION "bank2", ROMX, BANK[$2]
 
 Func_8000: ; 0x8000
     ld a, [wScreenState]
-    rst $18
-
-PointerTable_8004: ; 0x8004
+    rst $18  ; calls JumpToFuncInTable
+CallTable_8004: ; 0x8004
     dw Func_800a
     dw Func_8104
     dw Func_814e
@@ -8403,7 +8406,7 @@ Func_814e: ; 0x414e
 
 HandleEraseAllDataMenu: ; 0x815d
     ld a, [wScreenState]
-    rst $18
+    rst $18  ; calls JumpToFuncInTable
 EraseAllDataMenuFunctions: ; 0x8161
     dw CheckForResetButtonCombo
     dw HandleEraseAllDataInput
@@ -8541,7 +8544,7 @@ ExitEraseAllDataMenu: ; 0x820f
 
 HandleCopyrightScreen: ; 0x821e
     ld a, [wScreenState]
-    rst $18
+    rst $18  ; calls JumpToFuncInTable
 CopyrightScreenFunctions: ; 0x8222
     dw FadeInCopyrightScreen
     dw DisplayCopyrightScreen
@@ -9468,7 +9471,7 @@ SECTION "bank3", ROMX, BANK[$3]
 HandleTitlescreen: ; 0xc000
     ld a, [wScreenState]
     rst $18  ; calls JumpToFuncInTable
-PointerTable_c004: ; 0xc004
+TitlescreenFunctions: ; 0xc004
     dw FadeInTitlescreen
     dw TitlescreenLoop ; titlescreen loop
     dw Func_c10e ; previously saved game menu
@@ -9935,8 +9938,8 @@ INCBIN "baserom.gbc",$c32b,$c34a - $c32b
 
 HandleOptionsScreen: ; 0xc34a
     ld a, [wScreenState]
-    rst $18
-PointerTable_c34e: ; 0xc34e
+    rst $18  ; calls JumpToFuncInTable
+OptionsScreenFunctions: ; 0xc34e
     dw Func_c35a
     dw Func_c400
     dw Func_c483
@@ -10964,8 +10967,8 @@ INCBIN "baserom.gbc",$ca55,$ca7f - $ca55
 
 HandleHighScoresScreen: ; 0xca7f
     ld a, [wScreenState]
-    rst $18
-PointerTable_ca83: ; 0xca83
+    rst $18  ; calls JumpToFuncInTable
+HighScoresScreenFunctions: ; 0xca83
     dw Func_ca8f
     dw Func_cb14
     dw Func_ccac
@@ -12487,8 +12490,8 @@ Func_d6b6: ; 0xd6b6
 
 HandleFieldSelectScreen: ; 0xd6d3
     ld a, [wScreenState]
-    rst $18
-PointerTable_d6d7: ; 0xd6d7
+    rst $18  ; calls JumpToFuncInTable
+FieldSelectScreenFunctions: ; 0xd6d7
     dw LoadFieldSelectScreen
     dw ChooseFieldToPlay
     dw ExitFieldSelectScreen
@@ -12709,8 +12712,8 @@ INCBIN "baserom.gbc",$d83d,$d853 - $d83d
 
 HandlePinballGame: ; 0xd853
     ld a, [wScreenState]
-    rst $18
-PointerTable_d857: ; 0xd857
+    rst $18  ; calls JumpToFuncInTable
+PinballGameScreenFunctions: ; 0xd857
     dw Func_d861
     dw Func_d87f
     dw Func_d909
@@ -13142,8 +13145,8 @@ INCBIN "baserom.gbc",$dc00,$dc49 - $dc00
 
 Func_dc49: ; 0xdc49
     ld a, [wCurrentStage]
-    rst $18
-PointerTable_dc4d: ; 0xdc4d
+    rst $18  ; calls JumpToFuncInTable
+CallTable_dc4d: ; 0xdc4d
     dw $5D76
     dw $5D76
     dw $5E4E
@@ -15269,8 +15272,8 @@ Func_ed8e: ; 0xed8e
 .asm_eec3
     ld [$d619], a
     ld a, [$d61d]
-    rst $18
-PointerTable_eeca: ; 0xeeca
+    rst $18  ; calls JumpToFuncInTable
+CallTable_eeca: ; 0xeeca
     dw Func_ef35
     dw Func_ef4f
     dw Func_ef69
@@ -16026,8 +16029,8 @@ Func_f5a0: ; 0xf5a0
 
 Func_f60a: ; 0xf60a
     ld a, [wCurrentStage]
-    rst $18
-PointerTable_f60d: ; 0xf60d
+    rst $18  ; calls JumpToFuncInTable
+CallTable_f60d: ; 0xf60d
     dw $7945
     dw $7945
     dw $79F2
@@ -16568,7 +16571,7 @@ StartCatchEmMode: ; 0x1003f
     add hl, bc
     call Func_959  ; random number?
     and $f
-    call .asm_10130
+    call Func_10130
     ld c, a
     ld b, $0
     add hl, bc
@@ -16660,20 +16663,25 @@ StartCatchEmMode: ; 0x1003f
 .asm_1011d
     call SetPokemonSeenFlag
     ld a, [wCurrentStage]
-    rst $18   ; todo this is a funciton table after rst $18, not assembly instructions
-    ld [hl], c
-    ld c, b
-    ld [hl], c
-    ld c, b
-    adc d
-    ld c, c
-    adc d
-    ld c, c
-    adc h
-    ld c, c
-    adc h
-    ld c, c
-.asm_10130  ; I think this checks to see if it should be Mew
+    rst $18  ; calls JumpToFuncInTable
+CallTable_10124: ; 0x10124
+    ; RED_STAGE_TOP
+    dw Func_10871
+
+    ; RED_STAGE_BOTTOM
+    dw Func_10871
+
+    dw Func_1098a
+
+    dw Func_1098a
+
+    ; BLUE_STAGE_TOP
+    dw Func_1098c
+
+    ; BLUE_STAGE_BOTTOM
+    dw Func_1098c
+
+Func_10130:  ; I think this checks to see if it should be Mew
     push af
     cp $f
     jr nz, .asm_10155
@@ -16698,7 +16706,226 @@ StartCatchEmMode: ; 0x1003f
     pop af
     ret
 
-INCBIN "baserom.gbc",$10157,$10464 - $10157
+INCBIN "baserom.gbc",$10157,$10184 - $10157
+
+Func_10184: ; 0x10184
+    ld a, [wCurrentStage]
+    bit 0, a
+    ret z
+    ld a, [wCurrentMon]
+    ld c, a
+    ld b, $0
+    sla c
+    rl b
+    add c
+    ld c, a
+    jr nc, .asm_10199
+    inc b
+.asm_10199
+    ld hl, $6b50
+    add hl, bc
+    ld a, [hli]
+    ld [$ff8c], a
+    ld a, [hli]
+    ld [$ff8d], a
+    ld a, [hl]
+    ld [$ff8e], a
+    ld hl, $6d15
+    add hl, bc
+    ld a, [hli]
+    ld [$ff8f], a
+    ld a, [hli]
+    ld [$ff90], a
+    ld a, [hli]
+    ld [$ff91], a
+    ld de, wc000
+    ld hl, $d586
+    ld c, $0
+.asm_101bb
+    ld a, [hli]
+    cp [hl]
+    ld [hli], a
+    jr z, .asm_101d2
+    ld b, a
+    call nz, Func_101d9
+    ld a, [hGameBoyColorFlag]
+    and a
+    jr z, .asm_101d2
+    ld a, [wCurrentStage]
+    bit 0, a
+    ld a, b
+    call nz, Func_10230
+.asm_101d2
+    inc c
+    ld a, c
+    cp $18
+    jr nz, .asm_101bb
+    ret
+
+Func_101d9: ; 0x101d9
+    push bc
+    push hl
+    push de
+    push af
+    ld a, $10
+    ld [de], a
+    inc de
+    ld a, $1
+    ld [de], a
+    inc de
+    ld b, $0
+    ld hl, $42a4
+    add hl, bc
+    ld c, [hl]
+    sla c
+    rl b
+    sla c
+    rl b
+    sla c
+    rl b
+    sla c
+    rl b
+    ld hl, $8900
+    add hl, bc
+    ld a, l
+    ld [de], a
+    inc de
+    ld a, h
+    ld [de], a
+    inc de
+    ld a, [$ff8c]
+    ld l, a
+    ld a, [$ff8d]
+    ld h, a
+    add hl, bc
+    pop af
+    and a
+    jr nz, .asm_10215
+    ld bc, $0180
+    add hl, bc
+.asm_10215
+    ld a, l
+    ld [de], a
+    inc de
+    ld a, h
+    ld [de], a
+    inc de
+    ld a, [$ff8e]
+    ld [de], a
+    inc de
+    ld a, $0
+    ld [de], a
+    inc de
+    pop bc
+    push de
+    xor a
+    ld de, $11d2
+    call Func_10c5
+    pop de
+    pop hl
+    pop bc
+    ret
+
+Func_10230: ; 0x10230
+    push bc
+    push hl
+    push de
+    push af
+    ld a, $1
+    ld [de], a
+    inc de
+    ld [de], a
+    inc de
+    ld b, $0
+    ld hl, $42a4
+    add hl, bc
+    ld c, [hl]
+    sla c
+    ld hl, $4274
+    add hl, bc
+    ld a, [hli]
+    ld [de], a
+    inc de
+    ld a, [hl]
+    ld [de], a
+    inc de
+    srl c
+    ld a, [$ff8f]
+    ld l, a
+    ld a, [$ff90]
+    ld h, a
+    add hl, bc
+    pop af
+    and a
+    ld a, [$ff91]
+    call Func_68f
+    jr nz, .asm_10261
+    ld a, $5
+.asm_10261
+    ld [de], a
+    inc de
+    ld a, $0
+    ld [de], a
+    inc de
+    pop bc
+    push de
+    xor a
+    ld de, $118d
+    call Func_10c5
+    pop de
+    pop hl
+    pop bc
+    ret
+
+INCBIN "baserom.gbc",$10274,$102bc - $10274
+
+Func_102bc: ; 0x102bc
+    ld a, [wCurrentMon]
+    ld c, a
+    ld b, $0
+    sla c
+    rl b
+    add c
+    ld c, a
+    jr nc, .asm_102cb
+    inc b
+.asm_102cb
+    ld hl, $6eda
+    add hl, bc
+    ld a, [hli]
+    ld [$ff8c], a
+    ld a, [hli]
+    ld [$ff8d], a
+    ld a, [hl]
+    ld [$ff8e], a
+    ld de, $c1b8
+    ld a, $10
+    ld [de], a
+    inc de
+    ld a, $8
+    ld [de], a
+    inc de
+    ld a, $30
+    ld [de], a
+    inc de
+    ld a, [$ff8c]
+    ld [de], a
+    inc de
+    ld a, [$ff8d]
+    ld [de], a
+    inc de
+    ld a, [$ff8e]
+    ld [de], a
+    inc de
+    ld a, $0
+    ld [de], a
+    xor a
+    ld bc, $c1b8
+    ld de, $1266
+    call Func_10c5
+    ret
+
+INCBIN "baserom.gbc",$10301,$10464 - $10301
 
 Func_10464: ; 0x10464
     ld a, [wCurrentMon]
@@ -16871,17 +17098,721 @@ Func_107f8: ; 0x107f8
     call PlaySoundEffect
     ret
 
-INCBIN "baserom.gbc",$10825,$10ab3 - $10825
+INCBIN "baserom.gbc",$10825,$10871 - $10825
+
+Func_10871: ; 0x10871
+    ld a, [wCurrentMon]
+    ld c, a
+    ld b, $0
+    ld hl, EvolutionLineIds
+    add hl, bc
+    ld a, [hl] ; a contains evolution line id
+    ld c, a
+    ld b, $0
+    ld l, c
+    ld h, b
+    sla l
+    rl h
+    sla l
+    rl h
+    sla l
+    rl h
+    sla l
+    rl h
+    add hl, bc
+    add hl, bc
+    add hl, bc
+    ld c, l
+    ld b, h
+    ld hl, $63ae
+    add hl, bc
+    ld de, $d52f
+    ld b, $13
+.asm_1089f
+    ld a, [hli]
+    ld [de], a
+    inc de
+    dec b
+    jr nz, .asm_1089f
+    xor a
+    ld [$d545], a
+    call Func_107b0
+    ld a, $4
+    ld [$d7ad], a
+    ld de, $0002
+    call Func_490
+    ld a, [wCurrentStage]
+    bit 0, a
+    jr nz, .asm_108d3
+    ld [$ff8a], a
+    ld a, Bank(Func_e578)
+    ld hl, Func_e578
+    call BankSwitch
+    ld [$ff8a], a
+    ld a, Bank(Func_159f4)
+    ld hl, Func_159f4
+    call BankSwitch
+    ret
+.asm_108d3
+    ld [$ff8a], a
+    ld a, Bank(Func_14135)
+    ld hl, Func_14135
+    call BankSwitch
+    ld [$ff8a], a
+    ld a, Bank(Func_10184)
+    ld hl, Func_10184
+    call BankSwitch
+    ld a, [hGameBoyColorFlag]
+    and a
+    ld [$ff8a], a
+    ld a, Bank(Func_102bc)
+    ld hl, Func_102bc
+    call nz, BankSwitch
+    ret
+
+INCBIN "baserom.gbc",$108f5,$1098a - $108f5
+
+Func_1098a: ; 0x1098a
+    ret
+
+INCBIN "baserom.gbc",$1098b,$1098c - $1098b
+
+Func_1098c: ; 0x1098c
+    ld a, [wCurrentMon]
+    ld c, a
+    ld b, $0
+    ld hl, EvolutionLineIds
+    add hl, bc
+    ld a, [hl]
+    ld c, a
+    ld b, $0
+    ld l, c
+    ld h, b
+    sla l
+    rl h
+    sla l
+    rl h
+    sla l
+    rl h
+    sla l
+    rl h
+    add hl, bc
+    add hl, bc
+    add hl, bc
+    ld c, l
+    ld b, h
+    ld hl, $63ae
+    add hl, bc
+    ld de, $d52f
+    ld b, $13
+.asm_109ba
+    ld a, [hli]
+    ld [de], a
+    inc de
+    dec b
+    jr nz, .asm_109ba
+    xor a
+    ld [$d545], a
+    ld [$ff8a], a
+    ld a, Bank(Func_1f2ed)
+    ld hl, Func_1f2ed
+    call BankSwitch
+    ld de, $0002
+    call Func_490
+    ld a, [wCurrentStage]
+    bit 0, a
+    ret z
+    ld [$ff8a], a
+    ld a, Bank(Func_1c2cb)
+    ld hl, Func_1c2cb
+    call BankSwitch
+    ld [$ff8a], a
+    ld a, $4
+    ld hl, Func_10184
+    call BankSwitch
+    ld a, [hGameBoyColorFlag]
+    and a
+    ld [$ff8a], a
+    ld a, Bank(Func_102bc)
+    ld hl, Func_102bc
+    call nz, BankSwitch
+    ret
+
+INCBIN "baserom.gbc",$109fc,$10ab3 - $109fc
 
 Func_10ab3: ; 0x10ab3
     ld a, [$d54b]
     and a
     ret nz
     ld a, [wCurrentStage]
-    rst $18
-; CallTable todo
+    rst $18  ; calls JumpToFuncInTable
+CallTable_10abc: ; 0x10abc
+    ; RED_STAGE_TOP
+    dw Func_10ebb
 
-INCBIN "baserom.gbc",$10abc,$1126c - $10abc
+    ; RED_STAGE_BOTTOM
+    dw Func_10ebb
+
+    dw Func_11054
+
+    dw Func_11054
+
+    ; BLUE_STAGE_TOP
+    dw Func_11061
+
+    ; BLUE_STAGE_BOTTOM
+    dw Func_11061
+
+INCBIN "baserom.gbc",$10ac8,$10b3f - $10ac8
+
+Func_10b3f: ; 0x10b3f
+    call Func_30e8
+    call Func_30db
+    ld hl, $d5cc
+    ld a, [$d553]
+    cp $7
+    ld de, $2aa9
+    jr z, .asm_10b55
+    ld de, $2abf
+.asm_10b55
+    call Func_32aa
+    ret
+
+Func_10b59: ; 0x10b59
+    xor a
+    ld [$d4aa], a
+    ld hl, wcBottomMessageText
+    ld a, $81
+    ld b, $30
+.asm_10b64
+    ld [hli], a
+    ld [hli], a
+    ld [hli], a
+    ld [hli], a
+    dec b
+    jr nz, .asm_10b64
+    ld hl, $d300
+    call Func_10b8e
+    ld a, $35
+    ld hl, $6450
+    ld de, $8880
+    ld bc, $0030
+    call LoadVRAMData
+    ld a, $0
+    ld hl, wcBottomMessageText
+    ld de, $9c00
+    ld bc, $00c0
+    call LoadVRAMData
+    ret
+
+Func_10b8e: ; 0x10b8e
+    ld a, [$d460]
+    ld c, $0
+    ld b, a
+.asm_10b94
+    ld a, [hli]
+    call Func_10ba2
+    inc c
+    ld a, c
+    cp $6
+    jr z, .asm_10ba1
+    dec b
+    jr nz, .asm_10b94
+.asm_10ba1
+    ret
+
+Func_10ba2: ; 0x10ba2
+    push bc
+    push hl
+    swap c
+    sla c
+    ld b, $0
+    ld hl, wcBottomMessageText
+    add hl, bc
+    ld d, h
+    ld e, l
+    ld c, a
+    ld b, $0
+    sla c
+    rl b
+    sla c
+    rl b
+    sla c
+    rl b
+    sla c
+    rl b
+    ld hl, PokemonNames
+    add hl, bc
+    ld a, $81
+    ld [de], a
+    inc de
+    ld a, $81
+    ld [de], a
+    inc de
+    ld a, $81
+    ld [de], a
+    inc de
+    ld a, $81
+    ld [de], a
+    inc de
+    call Func_3125
+.asm_10bda
+    ld a, e
+    and $1f
+    cp $14
+    jr nc, .asm_10be7
+    ld a, $81
+    ld [de], a
+    inc de
+    jr .asm_10bda
+.asm_10be7
+    pop hl
+    pop bc
+    ret
+
+Func_10bea: ; 0x10bea
+    xor a
+    ld [$d461], a
+    ld [$d462], a
+    ld [$d463], a
+.asm_10bf4
+    call Func_10c0c
+    call Func_b2e
+    call Func_10c38
+    rst $10
+    ld a, [$d809]
+    bit 0, a
+    jr z, .asm_10bf4
+    ld de, $0001
+    call PlaySoundEffect
+    ret
+
+Func_10c0c: ; 0x10c0c
+    ld a, [$d80a]
+    ld b, a
+    ld a, [$d460]
+    ld c, a
+    ld a, [$d461]
+    bit 6, b
+    jr z, .asm_10c28
+    and a
+    ret z
+    dec a
+    ld [$d461], a
+    ld de, $0003
+    call PlaySoundEffect
+    ret
+.asm_10c28
+    bit 7, b
+    ret z
+    inc a
+    cp c
+    ret z
+    ld [$d461], a
+    ld de, $0003
+    call PlaySoundEffect
+    ret
+
+Func_10c38: ; 0x10c38
+    ld a, [$d461]
+    ld hl, $d462
+    sub [hl]
+    jr nc, .asm_10c45
+    dec [hl]
+    xor a
+    jr .asm_10c4c
+.asm_10c45
+    cp $6
+    jr c, .asm_10c4c
+    inc [hl]
+    ld a, $5
+.asm_10c4c
+    ld c, a
+    push bc
+    ld a, [hl]
+    ld c, a
+    ld b, $0
+    ld hl, $d300
+    add hl, bc
+    call Func_10b8e
+    ld a, [hJoypadState]
+    and a
+    ld a, [$d463]
+    jr z, .asm_10c62
+    xor a
+.asm_10c62
+    inc a
+    ld [$d463], a
+    bit 3, a
+    pop bc
+    jr nz, .asm_10c78
+    swap c
+    sla c
+    ld b, $0
+    ld hl, $c503
+    add hl, bc
+    ld a, $88
+    ld [hl], a
+.asm_10c78
+    ld a, [$d462]
+    and a
+    jr z, .asm_10c83
+    ld a, $8a
+    ld [$c511], a
+.asm_10c83
+    ld a, [$d462]
+    add $7
+    jr z, .asm_10c96
+    ld c, a
+    ld a, [$d460]
+    cp c
+    jr c, .asm_10c96
+    ld a, $89
+    ld [$c5b1], a
+.asm_10c96
+    ld a, $0
+    ld hl, wcBottomMessageText
+    ld de, $9c00
+    ld bc, $00c0
+    call LoadVRAMData
+    ret
+
+INCBIN "baserom.gbc",$10ca5,$10cb7 - $10ca5
+
+Func_10cb7: ; 0x10cb7
+    call Func_30e8
+    call Func_10b59
+    ld a, $60
+    ld [$ffa6], a
+    dec a
+    ld [$ffa2], a
+    ld a, $fd
+    ld [$ffaf], a
+    call Func_10bea
+    ld a, $86
+    ld [$ffa6], a
+    ld a, $83
+    ld [$ffa2], a
+    ld [$ffa8], a
+    ld a, $ff
+    ld [$ffaf], a
+    ld a, [hGameBoyColorFlag]
+    and a
+    jr nz, .asm_10cee
+    ld a, $18
+    ld hl, $7080
+    ld de, $8880
+    ld bc, $0030
+    call LoadVRAMData
+    jr .asm_10cfc
+.asm_10cee
+    ld a, $27
+    ld hl, $4080
+    ld de, $8880
+    ld bc, $0030
+    call LoadVRAMData
+.asm_10cfc
+    call Func_30e8
+    ld a, $1
+    ld [$d4aa], a
+    ld [$d54b], a
+    ld [$d550], a
+    xor a
+    ld [$d54d], a
+    ld a, [$d461]
+    ld c, a
+    ld b, $0
+    ld hl, $d300
+    add hl, bc
+    ld a, [hl]
+    ld [wCurrentMon], a
+    ret
+
+Func_10d1d: ; 0x10d1d
+    ld hl, $d586
+    ld b, $18
+.asm_10d22
+    ld a, $1
+    ld [hli], a
+    xor a
+    ld [hli], a
+    dec b
+    jr nz, .asm_10d22
+    ld a, [wCurrentMon]
+    ld c, a
+    ld b, $0
+    ld hl, $698b
+    add hl, bc
+    ld a, [hl]
+    add $2
+    ld [$d555], a
+    xor a
+    ld hl, $d566
+    ld b, $13
+.asm_10d40
+    ld [hli], a
+    dec b
+    jr nz, .asm_10d40
+    ld a, [wCurrentMon]
+    ld c, a
+    ld b, $0
+    sla c
+    rl b
+    ld hl, CatchEmTimerData
+    add hl, bc
+    ld a, [hli]
+    ld c, a
+    ld a, [hl]
+    ld b, a
+    ld [$ff8a], a
+    ld a, Bank(StartTimer)
+    ld hl, StartTimer
+    call BankSwitch
+    ld a, [wCurrentMon]
+    ld c, a
+    ld b, $0
+    sla c
+    rl b
+    add c
+    ld c, a
+    jr nc, .asm_10d6f
+    inc b
+.asm_10d6f
+    sla c
+    rl b
+    ld hl, $56b4
+    add hl, bc
+    push hl
+    ld bc, $03ff
+.asm_10d7b
+    ld a, [hli]
+    and a
+    jr z, .asm_10d80
+    inc c
+.asm_10d80
+    inc hl
+    dec b
+    jr nz, .asm_10d7b
+    ld a, c
+    cp $ff
+    jr nz, .asm_10d8a
+    xor a
+.asm_10d8a
+    call Func_a21
+    sla a
+    ld c, a
+    pop hl
+    add hl, bc
+    ld a, [hli]
+    dec a
+    ld [$d552], a
+    ld a, [hl]
+    ld [$d553], a
+    xor a
+    ld [$d554], a
+    ld [$d556], a
+    ld [$d557], a
+    ld hl, $d55c
+    ld a, $1
+    ld b, $3
+.asm_10dac
+    ld [hli], a
+    dec b
+    jr nz, .asm_10dac
+    xor a
+    ld b, $7
+.asm_10db3
+    ld [hli], a
+    dec b
+    jr nz, .asm_10db3
+    ld de, $d55c
+    ld a, [$d555]
+    ld c, a
+    inc a
+    ld b, a
+.asm_10dc0
+    push bc
+    ld a, c
+    call Func_a21
+    ld c, a
+    ld b, $0
+    ld hl, $d55c
+    add hl, bc
+    ld c, [hl]
+    ld a, [de]
+    ld [hl], a
+    ld a, c
+    ld [de], a
+    pop bc
+    inc de
+    dec b
+    jr nz, .asm_10dc0
+    ld [$ff8a], a
+    ld a, Bank(Func_dbd4)
+    ld hl, Func_dbd4
+    call BankSwitch
+    call Func_10b3f
+    call Func_3579
+    ld a, [wCurrentStage]
+    bit 0, a
+    jr z, .asm_10e09
+    ld a, $28
+    ld hl, $6300
+    ld de, $8ae0
+    ld bc, $0020
+    call Func_735
+    ld a, $0
+    ld hl, $2898
+    ld de, $9906
+    ld bc, $0008
+    call Func_735
+.asm_10e09
+    ret
+
+INCBIN "baserom.gbc",$10e0a,$10ebb - $10e0a
+
+Func_10ebb: ; 0x10ebb
+    ld a, [$d460]
+    and a
+    ret z
+    call Func_10cb7
+    call Func_10d1d
+    ld a, [$d555]
+    sub $2
+    ld c, a
+    sla c
+    ld hl, $4f3b
+    add hl, bc
+    ld a, [hli]
+    ld h, [hl]
+    ld l, a
+    ld de, $d52f
+    ld b, $13
+.asm_10eda
+    ld a, [hli]
+    ld [de], a
+    inc de
+    dec b
+    jr nz, .asm_10eda
+    xor a
+    ld [$d543], a
+    call Func_107b0
+    ld a, $2
+    ld [$d7ad], a
+    ld de, $0002
+    call Func_490
+    call SetPokemonSeenFlag
+    ld a, [wCurrentStage]
+    bit 0, a
+    jr nz, .asm_10f0b
+    ld a, $36
+    ld hl, $7e80
+    ld de, $8900
+    ld bc, $00e0
+    call Func_735
+    ret
+.asm_10f0b
+    ld a, $36
+    ld hl, $7e80
+    ld de, $8200
+    ld bc, $00e0
+    call Func_735
+    ld [$ff8a], a
+    ld a, Bank(Func_14135)
+    ld hl, Func_14135
+    call BankSwitch
+    ld [$ff8a], a
+    ld a, Bank(Func_10184)
+    ld hl, Func_10184
+    call BankSwitch
+    ld a, [hGameBoyColorFlag]
+    and a
+    ld [$ff8a], a
+    ld a, Bank(Func_102bc)
+    ld hl, Func_102bc
+    call nz, BankSwitch
+    ret
+
+INCBIN "baserom.gbc",$10f3b,$11054 - $10f3b
+
+Func_11054: ; 0x11054
+    ld a, [$d460]
+    and a
+    ret z
+    call Func_10cb7
+    call Func_10d1d
+    ret
+
+INCBIN "baserom.gbc",$11060,$11061 - $11060
+
+Func_11061: ; 0x11061
+    ld a, [$d460]
+    and a
+    ret z
+    call Func_10cb7
+    call Func_10d1d
+    ld a, $1
+    ld [$d643], a
+    ld a, [$d555]
+    sub $2
+    ld c, a
+    sla c
+    ld hl, $50ed
+    add hl, bc
+    ld a, [hli]
+    ld h, [hl]
+    ld l, a
+    ld de, $d52f
+    ld b, $13
+.asm_11085
+    ld a, [hli]
+    ld [de], a
+    inc de
+    dec b
+    jr nz, .asm_11085
+    xor a
+    ld [$d543], a
+    ld [$ff8a], a
+    ld a, Bank(Func_1f2ed)
+    ld hl, Func_1f2ed
+    call BankSwitch
+    ld a, $2
+    ld [$d7ad], a
+    ld de, $0002
+    call Func_490
+    call SetPokemonSeenFlag
+    ld a, [wCurrentStage]
+    bit 0, a
+    jr nz, .asm_110bd
+    ld a, $36
+    ld hl, $7e80
+    ld de, $8600
+    ld bc, $00e0
+    call Func_735
+    ret
+.asm_110bd
+    ld a, $36
+    ld hl, $7e80
+    ld de, $8200
+    ld bc, $00e0
+    call Func_735
+    ld [$ff8a], a
+    ld a, Bank(Func_1c2cb)
+    ld hl, Func_1c2cb
+    call BankSwitch
+    ld [$ff8a], a
+    ld a, Bank(Func_10184)
+    ld hl, Func_10184
+    call BankSwitch
+    ld a, [hGameBoyColorFlag]
+    and a
+    ld [$ff8a], a
+    ld a, Bank(Func_102bc)
+    ld hl, Func_102bc
+    call nz, BankSwitch
+    ret
+
+INCBIN "baserom.gbc",$110ed,$1126c - $110ed
 
 WildMonOffsetsPointers: ; 0x1126c
     dw RedStageWildMonDataOffsets
@@ -22039,7 +22970,7 @@ Func_195f5: ; 0x195f5
     pop de
     ret nc
     ld a, [de]
-    rst $18
+    rst $18  ; calls JumpToFuncInTable
 CallTable_1960d: ; 0x1960d
     dw Func_19615
     dw Func_1961e
@@ -22238,7 +23169,7 @@ Func_19833: ; 0x19833
     pop de
     ret nc
     ld a, [de]
-    rst $18
+    rst $18  ; calls JumpToFuncInTable
 CallTable_19852: ; 0x19852
     dw $585A
     dw $5863
@@ -29242,7 +30173,7 @@ Func_25f47: ; 0x25f47
     pop de
     ret nc
     ld a, [de]
-    rst $18
+    rst $18  ; calls JumpToFuncInTable
 CallTable_25f5f: ; 0x25f5f
     dw Func_25f77
     dw Func_25fbe
@@ -29720,7 +30651,7 @@ SECTION "banka", ROMX, BANK[$a]
 
 HandlePokedexScreen: ; 0x28000
     ld a, [wScreenState]
-    rst $18
+    rst $18  ; calls JumpToFuncInTable
 PointerTable_28004: ; 0x28004
     dw LoadPokedexScreen
     dw MainPokedexScreen
@@ -31863,7 +32794,7 @@ Func_301ec: ; 0x301ec
     call Func_30256
 .asm_3021b
     ld a, [wCurrentStage]
-    rst $18
+    rst $18  ; calls JumpToFuncInTable
 CallTable_3021f: ; 0x3021f
     ; STAGE_RED_FIELD_TOP
     dw Func_311b4

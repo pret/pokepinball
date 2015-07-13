@@ -5130,12 +5130,12 @@ CallTable_2822: ; 0x2822
     db Bank(Func_19451), $00
 
     ; STAGE_MEOWTH_BONUS
-    dw $442A
-    db $09, $00
+    dw Func_2442a
+    db Bank(Func_2442a), $00
 
     ; STAGE_MEOWTH_BONUS
-    dw $442A
-    db $09, $00
+    dw Func_2442a
+    db Bank(Func_2442a), $00
 
     ; STAGE_DIGLETT_BONUS
     dw $5B88
@@ -26634,7 +26634,1590 @@ Func_242bb: ; 0x242bb
     ld [hl], a
     ret
 
-INCBIN "baserom.gbc",$24319,$25a7c - $24319
+Func_24319: ; 0x2438f
+    ld a, [$d6f4]
+    cp $0
+    jr z, .asm_24333
+    ld a, [$d71a]
+    sub $4
+    ld b, a
+    ld a, [$d727]
+    add $4
+    ld c, a
+    call $4405
+    ld a, $0
+    jr c, .asm_24373
+.asm_24333
+    ld a, [$d6f4]
+    cp $1
+    jr z, .asm_2434d
+    ld a, [$d71b]
+    sub $4
+    ld b, a
+    ld a, [$d728]
+    add $4
+    ld c, a
+    call $4405
+    ld a, $1
+    jr c, .asm_24373
+.asm_2434d
+    ld a, [$d6f4]
+    cp $2
+    ret z
+    ld a, [$d71c]
+    sub $4
+    ld b, a
+    ld a, [$d729]
+    add $4
+    ld c, a
+    call $4405
+    ld a, $2
+    jr c, .asm_24373
+    ld a, [$d6f4]
+    ld b, $0
+    ld c, a
+    ld hl, $d6f8
+    add hl, bc
+    ld [hl], $0
+    ret
+.asm_24373
+    ld a, [$d6f4]
+    ld b, $0
+    ld c, a
+    ld hl, $d6f8
+    add hl, bc
+    inc [hl]
+    ld d, $4
+    ld a, [$d6f4]
+    add d
+    ld d, a
+    ld a, [hl]
+    cp d
+    ret nc
+    ld hl, $d6f5
+    add hl, bc
+    ld [hl], $0
+    ret
+
+Func_2438f: ; 0x2438f
+    ld a, [$d6f4]
+    cp $a
+    jr z, .asm_243a9
+    ld a, [$d724]
+    sub $4
+    ld b, a
+    ld a, [$d731]
+    add $4
+    ld c, a
+    call Func_24405
+    ld a, $a
+    jr c, .asm_243e9
+.asm_243a9
+    ld a, [$d6f4]
+    cp $b
+    jr z, .asm_243c3
+    ld a, [$d725]
+    sub $4
+    ld b, a
+    ld a, [$d732]
+    add $4
+    ld c, a
+    call Func_24405
+    ld a, $b
+    jr c, .asm_243e9
+.asm_243c3
+    ld a, [$d6f4]
+    cp $c
+    ret z
+    ld a, [$d726]
+    sub $4
+    ld b, a
+    ld a, [$d733]
+    add $4
+    ld c, a
+    call Func_24405
+    ld a, $c
+    jr c, .asm_243e9
+    ld a, [$d6f4]
+    ld b, $0
+    ld c, a
+    ld hl, $d6f8
+    add hl, bc
+    ld [hl], $0
+    ret
+.asm_243e9
+    ld a, [$d6f4]
+    ld b, $0
+    ld c, a
+    ld hl, $d6f8
+    add hl, bc
+    inc [hl]
+    ld d, $4
+    ld a, [$d6f4]
+    add d
+    ld d, a
+    ld a, [hl]
+    cp d
+    ret nc
+    ld hl, $d6f5
+    add hl, bc
+    ld [hl], $0
+    ret
+
+Func_24405: ; 0x24405
+    ld hl, $d71a
+    ld a, [$d6f4]
+    ld e, a
+    ld d, $0
+    add hl, de
+    ld a, [hl]
+    add $8
+    sub b
+    cp $18
+    jr nc, .asm_24428
+    ld b, a
+    ld hl, $d727
+    add hl, de
+    ld a, [hl]
+    add $8
+    sub c
+    cp $18
+    jr nc, .asm_24428
+    ld c, a
+    ld d, b
+    scf
+    ret
+.asm_24428
+    and a
+    ret
+
+INCBIN "baserom.gbc",$2442a,$2442a - $2442a
+
+Func_2442a: ; 0x2442a
+    ld a, [$d710]
+    jr nz, .asm_2443f
+    ld a, [$d70f]
+    dec a
+    dec a
+    cp $fe
+    jr z, .asm_24447
+    cp $ff
+    jr z, .asm_24447
+    ld [$d79a], a
+.asm_2443f
+    ld de, $d79a
+    call Func_24f00
+    jr .asm_2444b
+.asm_24447
+    xor a
+    ld [$d79a], a
+.asm_2444b
+    call Func_244f5
+    call Func_245ab
+    call Func_248ac
+    call Func_24d07
+    ld a, [$d711]
+    cp $14
+    jr c, .asm_24498
+    ld a, [$d712]
+    cp $2
+    jr nc, .asm_24498
+    ld a, [$d498]
+    cp $4
+    ret z
+    ld a, $4
+    ld [$d712], a
+    ld [$d498], a
+    ld a, $96
+    ld [$d739], a
+    ld de, $0000
+    call Func_490
+    ld a, $1
+    ld [$d49a], a
+    call Func_30e8
+    call Func_30db
+    ld hl, $d5dc
+    ld de, $2fd0
+    call Func_32aa
+    ld de, $4b2a
+    call PlaySoundEffect
+.asm_24498
+    ld a, [$d712]
+    cp $4
+    jr nz, .asm_244b0
+    ld a, [$d800]
+    and a
+    jr nz, .asm_244b0
+    ld de, $0004
+    call Func_490
+    ld a, $5
+    ld [$d712], a
+.asm_244b0
+    ld a, [$d712]
+    cp $4
+    jr z, .asm_244c1
+    ld [$ff8a], a
+    ld a, Bank(Func_107f8)
+    ld hl, Func_107f8
+    call BankSwitch
+.asm_244c1
+    ld a, [$d57e]
+    and a
+    ret z
+    xor a
+    ld [$d57e], a
+    ld a, $1
+    ld [$d7be], a
+    call Func_2862
+    ld [$ff8a], a
+    ld a, Bank(Func_86d2)
+    ld hl, Func_86d2
+    call BankSwitch
+    ld a, $1
+    ld [$d713], a
+    ld a, $1
+    ld [$d712], a
+    ld hl, $4704
+    ld de, $d6e9
+    call Func_28a0
+    ld a, $4
+    ld [$d6ec], a
+    ret
+
+Func_244f5: ; 0x244f5
+    ld a, [$d6e6]
+    and a
+    ret nz
+    ld a, [$d4b4]
+    cp $8a
+    ret nc
+    ld a, $1
+    ld [$d4af], a
+    ld [$d6e6], a
+    ld [$ff8a], a
+    ld a, Bank(Func_e578)
+    ld hl, Func_e578
+    call BankSwitch
+    call Func_24516
+    ret
+
+Func_24516: ; 0x24516
+    ld a, [$d4af]
+    sla a
+    ld c, a
+    ld b, $0
+    ld hl, $4533
+    ld a, [hGameBoyColorFlag]
+    and a
+    jr z, .asm_24529
+    ld hl, $456f
+.asm_24529
+    add hl, bc
+    ld a, [hli]
+    ld h, [hl]
+    ld l, a
+    ld a, $9
+    call Func_10aa
+    ret
+
+INCBIN "baserom.gbc",$24533,$245ab - $24533
+
+Func_245ab: ; 0x245ab
+    ld a, [$d6e7]
+    and a
+    jr z, .asm_24621
+    cp $2
+    jr z, .asm_24621
+    ld a, $1
+    ld [$d6f3], a
+    ld a, [$d6ee]
+    cp $20
+    jr z, .asm_245c7
+    cp $10
+    jr z, .asm_245cc
+    jr .asm_245cf
+.asm_245c7
+    call Func_247d9
+    jr .asm_245cf
+.asm_245cc
+    call Func_24c28
+.asm_245cf
+    xor a
+    ld [$d6e7], a
+    ld [$d6f3], a
+    ld a, $ff
+    ld [$d803], a
+    ld a, $3
+    ld [$d804], a
+    ld de, $0033
+    call PlaySoundEffect
+    ld bc, $34c4
+    ld [$ff8a], a
+    ld a, Bank(Func_8576)
+    ld hl, Func_8576
+    call BankSwitch
+    xor a
+    ld [$d70f], a
+    ld a, [$d6ec]
+    cp $2
+    jr nc, .asm_24621
+    and a
+    jr nz, .asm_24611
+    ld hl, $46fe
+    ld de, $d6e9
+    call Func_28a0
+    ld a, $2
+    ld [$d6ec], a
+    jr .asm_24651
+.asm_24611
+    ld hl, $4701
+    ld de, $d6e9
+    call Func_28a0
+    ld a, $3
+    ld [$d6ec], a
+    jr .asm_24651
+.asm_24621
+    ld a, [$d713]
+    and a
+    jr z, .asm_2462e
+    ld a, $4
+    ld [$d6ec], a
+    jr .asm_24651
+.asm_2462e
+    ld a, [$d6ec]
+    cp $2
+    jr nc, .asm_24651
+    ld a, [$d70b]
+    cp $3
+    jr nz, .asm_24651
+    ld a, [$d70c]
+    cp $3
+    jr nz, .asm_24651
+    ld hl, $4704
+    ld de, $d6e9
+    call Func_28a0
+    ld a, $4
+    ld [$d6ec], a
+.asm_24651
+    ld a, [$d6ec]
+    cp $2
+    call c, Func_24709
+    call Func_2465d
+    ret
+
+Func_2465d: ; 0x2465d
+    ld a, [$d6ec]
+    sla a
+    ld c, a
+    ld b, $0
+    ld hl, $46e2
+    add hl, bc
+    ld a, [hli]
+    ld h, [hl]
+    ld l, a
+    ld de, $d6e9
+    call Func_28a9
+    ret nc
+    ld a, [$d6ec]
+    and a
+    jr nz, .asm_24689
+    ld a, [$d6eb]
+    cp $4
+    ret nz
+    ld hl, $46ec
+    ld de, $d6e9
+    call Func_28a0
+    ret
+.asm_24689
+    cp $1
+    jr nz, .asm_2469d
+    ld a, [$d6eb]
+    cp $4
+    ret nz
+    ld hl, $46f5
+    ld de, $d6e9
+    call Func_28a0
+    ret
+.asm_2469d
+    cp $2
+    jr nz, .asm_246b5
+    ld a, [$d6eb]
+    cp $1
+    ret nz
+    ld hl, $46ec
+    ld de, $d6e9
+    call Func_28a0
+    xor a
+    ld [$d6ec], a
+    ret
+.asm_246b5
+    cp $3
+    jr nz, .asm_246ce
+    ld a, [$d6eb]
+    cp $1
+    ret nz
+    ld hl, $46f5
+    ld de, $d6e9
+    call Func_28a0
+    ld a, $1
+    ld [$d6ec], a
+    ret
+.asm_246ce
+    cp $4
+    jr nz, .asm_24689
+    ld a, [$d6eb]
+    cp $2
+    ret nz
+    ld hl, $4704
+    ld de, $d6e9
+    call Func_28a0
+    ret
+
+INCBIN "baserom.gbc",$246e2,$24709 - $246e2
+
+Func_24709: ; 0x24709
+    ld a, [$d6ed]
+    ld hl, $d6f0
+    add [hl]
+    ld [$d6ed], a
+    ld hl, $d6f1
+    ld a, [hl]
+    and a
+    jr z, .asm_24730
+    bit 7, [hl]
+    ld a, [$d6ee]
+    jr nz, .asm_24724
+    inc a
+    jr .asm_24725
+.asm_24724
+    dec a
+.asm_24725
+    cp $21
+    jr z, .asm_24730
+    cp $f
+    jr z, .asm_24730
+    ld [$d6ee], a
+.asm_24730
+    call Func_24737
+    call Func_2476d
+    ret
+
+Func_24737: ; 0x24737
+    ld a, [$d6ed]
+    cp $8
+    jr nc, .asm_24742
+    ld a, $1
+    jr .asm_2475a
+.asm_24742
+    cp $78
+    jr c, .asm_2474a
+    ld a, $ff
+    jr .asm_2475a
+.asm_2474a
+    ld a, [$ffb3]
+    and $3f
+    ret nz
+    call Func_959
+    bit 7, a
+    ld a, $1
+    jr z, .asm_2475a
+    ld a, $ff
+.asm_2475a
+    ld [$d6f0], a
+    bit 7, a
+    ld a, $1
+    jr z, .asm_24764
+    xor a
+.asm_24764
+    ld [$d6ec], a
+    ld a, $2
+    ld [$d6e9], a
+    ret
+
+Func_2476d: ; 0x2476d
+    ld a, [$d6f1]
+    and a
+    jr z, .asm_247ab
+    cp $1
+    jr z, .asm_24791
+    ld a, [$d6ee]
+    cp $10
+    jr nz, .asm_2478d
+    ld a, [$d6e7]
+    cp $2
+    jr nz, .asm_2478a
+    ld a, $1
+    ld [$d6e7], a
+.asm_2478a
+    xor a
+    jr .asm_247c9
+.asm_2478d
+    ld a, $ff
+    jr .asm_247c9
+.asm_24791
+    ld a, [$d6ee]
+    cp $20
+    jr nz, .asm_247a7
+    ld a, [$d6e7]
+    cp $2
+    jr nz, .asm_247a4
+    ld a, $1
+    ld [$d6e7], a
+.asm_247a4
+    xor a
+    jr .asm_247c9
+.asm_247a7
+    ld a, $1
+    jr .asm_247c9
+.asm_247ab
+    ld a, [$d70b]
+    cp $3
+    jr z, .asm_247cd
+    ld a, [$d70c]
+    cp $3
+    jr z, .asm_247d3
+    ld a, [$ffb3]
+    and $3f
+    ret nz
+    call Func_959
+    bit 0, a
+    ld a, $1
+    jr z, .asm_247c9
+    ld a, $ff
+.asm_247c9
+    ld [$d6f1], a
+    ret
+.asm_247cd
+    ld a, $ff
+    ld [$d6f1], a
+    ret
+.asm_247d3
+    ld a, $1
+    ld [$d6f1], a
+    ret
+
+Func_247d9: ; 0x247d9
+    ld a, [$d6f3]
+    and a
+    ret z
+    ld a, [$d71a]
+    cp $c8
+    jr nz, .asm_24823
+    ld a, [$d6ed]
+    add $8
+    ld [$d71a], a
+    ld a, [$d6ee]
+    add $fb
+    ld [$d727], a
+    ld a, $1
+    ld [$d717], a
+    xor a
+    ld [$d6f3], a
+    ld [$d714], a
+    ld [$d6f5], a
+    ld [$d6f8], a
+    ld [$d6fb], a
+    ld a, [$d6ed]
+    add $14
+    ld b, a
+    ld a, [$d4b4]
+    cp b
+    jr nc, .asm_2481d
+    ld a, $0
+    ld [$d72a], a
+    jr .asm_24822
+.asm_2481d
+    ld a, $1
+    ld [$d72a], a
+.asm_24822
+    ret
+.asm_24823
+    ld a, [$d71b]
+    cp $c8
+    jr nz, .asm_24868
+    ld a, [$d6ed]
+    add $8
+    ld [$d71b], a
+    ld a, [$d6ee]
+    add $fb
+    ld [$d728], a
+    ld a, $1
+    ld [$d718], a
+    xor a
+    ld [$d6f3], a
+    ld [$d715], a
+    ld [$d6f6], a
+    ld [$d6f9], a
+    ld [$d6fc], a
+    ld a, [$d6ed]
+    add $14
+    ld b, a
+    ld a, [$d4b4]
+    cp b
+    jr nc, .asm_24862
+    ld a, $0
+    ld [$d72b], a
+    jr .asm_24867
+.asm_24862
+    ld a, $1
+    ld [$d72b], a
+.asm_24867
+    ret
+.asm_24868
+    ld a, [$d71c]
+    cp $c8
+    ret nz
+    ld a, [$d6ed]
+    add $8
+    ld [$d71c], a
+    ld a, [$d6ee]
+    add $fb
+    ld [$d729], a
+    ld a, $1
+    ld [$d719], a
+    xor a
+    ld [$d6f3], a
+    ld [$d716], a
+    ld [$d6f7], a
+    ld [$d6fa], a
+    ld [$d6fd], a
+    ld a, [$d6ed]
+    add $14
+    ld b, a
+    ld a, [$d4b4]
+    cp b
+    jr nc, .asm_248a6
+    ld a, $0
+    ld [$d72c], a
+    jr .asm_248ab
+.asm_248a6
+    ld a, $1
+    ld [$d72c], a
+.asm_248ab
+    ret
+
+Func_248ac: ; 0x248ac
+    ld a, [$d717]
+    cp $1
+    jr nz, .asm_248d3
+    ld a, [$d714]
+    cp $a
+    jr z, .asm_248c4
+    ld a, $0
+    ld [$d6f4], a
+    call Func_24a30
+    jr .asm_248d3
+.asm_248c4
+    ld hl, $d70b
+    inc [hl]
+    ld a, $2
+    ld [$d717], a
+    ld de, $0034
+    call PlaySoundEffect
+.asm_248d3
+    ld a, [$d718]
+    cp $1
+    jr nz, .asm_248fa
+    ld a, [$d715]
+    cp $a
+    jr z, .asm_248eb
+    ld a, $1
+    ld [$d6f4], a
+    call Func_24a30
+    jr .asm_248fa
+.asm_248eb
+    ld hl, $d70b
+    inc [hl]
+    ld a, $2
+    ld [$d718], a
+    ld de, $0034
+    call PlaySoundEffect
+.asm_248fa
+    ld a, [$d719]
+    cp $1
+    jr nz, .asm_24921
+    ld a, [$d716]
+    cp $a
+    jr z, .asm_24912
+    ld a, $2
+    ld [$d6f4], a
+    call Func_24a30
+    jr .asm_24921
+.asm_24912
+    ld hl, $d70b
+    inc [hl]
+    ld a, $2
+    ld [$d719], a
+    ld de, $0034
+    call PlaySoundEffect
+.asm_24921
+    ld a, [$d717]
+    cp $2
+    jr nz, .asm_2492c
+    ld hl, $d714
+    inc [hl]
+.asm_2492c
+    ld a, [$d718]
+    cp $2
+    jr nz, .asm_24937
+    ld hl, $d715
+    inc [hl]
+.asm_24937
+    ld a, [$d719]
+    cp $2
+    jr nz, .asm_24942
+    ld hl, $d716
+    inc [hl]
+.asm_24942
+    ld a, [$d717]
+    cp $3
+    jr nz, .asm_24968
+    ld a, [$d71a]
+    ld b, a
+    ld a, [$d727]
+    ld c, a
+    ld hl, $d714
+    inc [hl]
+    ld a, [hl]
+    cp $2
+    jr nz, .asm_2495f
+    call Func_24e7f
+    jr .asm_24968
+.asm_2495f
+    cp $a
+    jr nz, .asm_24968
+    ld a, $4
+    ld [$d717], a
+.asm_24968
+    ld a, [$d718]
+    cp $3
+    jr nz, .asm_2498e
+    ld a, [$d71b]
+    ld b, a
+    ld a, [$d728]
+    ld c, a
+    ld hl, $d715
+    inc [hl]
+    ld a, [hl]
+    cp $2
+    jr nz, .asm_24985
+    call Func_24e7f
+    jr .asm_2498e
+.asm_24985
+    cp $a
+    jr nz, .asm_2498e
+    ld a, $4
+    ld [$d718], a
+.asm_2498e
+    ld a, [$d719]
+    cp $3
+    jr nz, .asm_249b4
+    ld a, [$d71c]
+    ld b, a
+    ld a, [$d729]
+    ld c, a
+    ld hl, $d716
+    inc [hl]
+    ld a, [hl]
+    cp $2
+    jr nz, .asm_249ab
+    call Func_24e7f
+    jr .asm_249b4
+.asm_249ab
+    cp $a
+    jr nz, .asm_249b4
+    ld a, $4
+    ld [$d719], a
+.asm_249b4
+    ld a, [$d717]
+    cp $4
+    jr nz, .asm_249d0
+    ld a, $c8
+    ld [$d71a], a
+    ld [$d727], a
+    xor a
+    ld [$d717], a
+    ld hl, $d70b
+    dec [hl]
+    ld a, [hl]
+    cp $2
+    jr z, .asm_24a06
+.asm_249d0
+    ld a, [$d718]
+    cp $4
+    jr nz, .asm_249ec
+    ld a, $c8
+    ld [$d71b], a
+    ld [$d728], a
+    xor a
+    ld [$d718], a
+    ld hl, $d70b
+    dec [hl]
+    ld a, [hl]
+    cp $2
+    jr z, .asm_24a06
+.asm_249ec
+    ld a, [$d719]
+    cp $4
+    ret nz
+    ld a, $c8
+    ld [$d71c], a
+    ld [$d729], a
+    xor a
+    ld [$d719], a
+    ld hl, $d70b
+    dec [hl]
+    ld a, [hl]
+    cp $2
+    ret nz
+.asm_24a06
+    ld a, [$d713]
+    and a
+    ret nz
+    ld a, [$d6f0]
+    cp $ff
+    jr z, .asm_24a21
+    ld hl, $46f5
+    ld de, $d6e9
+    call Func_28a0
+    ld a, $1
+    ld [$d6ec], a
+    ret
+.asm_24a21
+    ld hl, $46ec
+    ld de, $d6e9
+    call Func_28a0
+    ld a, $0
+    ld [$d6ec], a
+    ret
+
+Func_24a30: ; 0x24a30
+    ld a, [$d6f4]
+    ld c, a
+    ld b, $0
+    ld hl, $d6f8
+    add hl, bc
+    ld a, [hl]
+    and a
+    jr z, .asm_24a42
+    call $4b41
+    ret
+.asm_24a42
+    ld a, [$d6f4]
+    ld c, a
+    ld b, $0
+    ld hl, $d6f5
+    add hl, bc
+    ld a, [hl]
+    bit 2, a
+    jr z, .asm_24a5e
+    bit 1, a
+    jr nz, .asm_24a5e
+    bit 0, a
+    jr nz, .asm_24a5e
+    ld hl, $d714
+    add hl, bc
+    inc [hl]
+.asm_24a5e
+    ld hl, $d6f5
+    add hl, bc
+    ld a, [hl]
+    ld hl, $4af1
+    ld e, a
+    ld d, $0
+    add hl, de
+    ld hl, $d72a
+    add hl, bc
+    ld a, [hl]
+    and a
+    jr nz, .asm_24a97
+.asm_24a72
+    ld hl, $d72a
+    add hl, bc
+    ld [hl], $0
+    ld hl, $d71a
+    add hl, bc
+    ld a, [hl]
+    push af
+    ld hl, $d6f5
+    add hl, bc
+    ld a, [hl]
+    ld e, a
+    ld d, $0
+    ld hl, $4af1
+    add hl, de
+    pop af
+    add [hl]
+    cp $8e
+    jr nc, .asm_24a97
+    ld hl, $d71a
+    add hl, bc
+    ld [hl], a
+    jr .asm_24abf
+.asm_24a97
+    ld hl, $d72a
+    add hl, bc
+    ld [hl], $1
+    ld hl, $d6f5
+    add hl, bc
+    ld a, [hl]
+    ld e, a
+    ld d, $0
+    ld hl, $4af1
+    add hl, de
+    ld a, [hl]
+    ld d, a
+    ld a, $ff
+    sub d
+    inc a
+    ld d, a
+    ld hl, $d71a
+    add hl, bc
+    ld a, [hl]
+    add d
+    cp $5
+    jr c, .asm_24a72
+    ld hl, $d71a
+    add hl, bc
+    ld [hl], a
+.asm_24abf
+    ld hl, $d6f5
+    add hl, bc
+    ld a, [hl]
+    ld e, a
+    ld d, $0
+    ld hl, $4af1
+    add hl, de
+    inc hl
+    ld a, [hl]
+    ld d, a
+    ld hl, $d727
+    add hl, bc
+    ld a, [hl]
+    add d
+    ld hl, $d727
+    add hl, bc
+    ld [hl], a
+    ld hl, $d6f5
+    add hl, bc
+    inc [hl]
+    inc [hl]
+    ld a, [hl]
+    cp $46
+    jr nz, .asm_24af0
+    ld a, c
+    cp $9
+    jr c, .asm_24aed
+    call Func_2438f
+    ret
+.asm_24aed
+    call Func_24319
+.asm_24af0
+    ret
+
+INCBIN "baserom.gbc",$24af1,$24b41 - $24af1
+
+Func_24b41: ; 0x24b41
+    ld a, [$d6f4]
+    ld b, $0
+    ld c, a
+    ld hl, $d6f5
+    add hl, bc
+    ld a, [hl]
+    cp $14
+    jp nc, Func_24bf6
+    ld hl, $d6f5
+    add hl, bc
+    ld a, [hl]
+    ld hl, $4c0a
+    ld e, a
+    ld d, $0
+    add hl, de
+    ld hl, $d72a
+    add hl, bc
+    ld a, [hl]
+    and a
+    jr nz, .asm_24b8a
+.asm_24b65
+    ld hl, $d72a
+    add hl, bc
+    ld [hl], $0
+    ld hl, $d71a
+    add hl, bc
+    ld a, [hl]
+    push af
+    ld hl, $d6f5
+    add hl, bc
+    ld a, [hl]
+    ld e, a
+    ld d, $0
+    ld hl, $4c0a
+    add hl, de
+    pop af
+    add [hl]
+    cp $90
+    jr nc, .asm_24b8a
+    ld hl, $d71a
+    add hl, bc
+    ld [hl], a
+    jr .asm_24bb2
+.asm_24b8a
+    ld hl, $d72a
+    add hl, bc
+    ld [hl], $1
+    ld hl, $d6f5
+    add hl, bc
+    ld a, [hl]
+    ld e, a
+    ld d, $0
+    ld hl, $4c0a
+    add hl, de
+    ld a, [hl]
+    ld d, a
+    ld a, $ff
+    sub d
+    inc a
+    ld d, a
+    ld hl, $d71a
+    add hl, bc
+    ld a, [hl]
+    add d
+    cp $6
+    jr c, .asm_24b65
+    ld hl, $d71a
+    add hl, bc
+    ld [hl], a
+.asm_24bb2
+    ld hl, $d6f5
+    add hl, bc
+    ld a, [hl]
+    ld e, a
+    ld d, $0
+    ld hl, $4c0a
+    add hl, de
+    inc hl
+    ld a, [hl]
+    ld d, a
+    ld hl, $d727
+    add hl, bc
+    ld a, [hl]
+    add d
+    ld hl, $d727
+    add hl, bc
+    ld [hl], a
+    ld hl, $d6f5
+    add hl, bc
+    inc [hl]
+    inc [hl]
+    ld a, [hl]
+    cp $12
+    jr nz, .asm_24bf4
+    ld a, c
+    cp $9
+    jr c, .asm_24be1
+    call Func_2438f
+    jr .asm_24be4
+.asm_24be1
+    call Func_24319
+.asm_24be4
+    ld a, [$d6f4]
+    ld b, $0
+    ld c, a
+    ld hl, $d6f8
+    add hl, bc
+    ld a, [hl]
+    and a
+    jr nz, .asm_24bf4
+    ld [hl], $1
+.asm_24bf4
+    scf
+    ret
+
+Func_24bf6: ; 0x24bf6
+    ld a, [$d6f4]
+    ld b, $0
+    ld c, a
+    ld hl, $d6f8
+    add hl, bc
+    ld [hl], $0
+    ld hl, $d714
+    add hl, bc
+    ld [hl], $a
+    ccf
+    ret
+
+INCBIN "baserom.gbc",$24c0a,$24c28 - $24c0a
+
+Func_24c28: ; 0x24c28
+    ld a, [$d6f3]
+    and a
+    ret z
+    ld a, [$d724]
+    cp $c8
+    jr nz, .asm_24c76
+    ld a, [$d6ed]
+    add $8
+    ld [$d724], a
+    ld a, [$d6ee]
+    add $fb
+    ld [$d731], a
+    ld a, $1
+    ld [$d721], a
+    ld hl, $d70c
+    inc [hl]
+    xor a
+    ld [$d6f3], a
+    ld [$d71e], a
+    ld [$d6ff], a
+    ld [$d702], a
+    ld [$d705], a
+    ld a, [$d6ed]
+    add $14
+    ld b, a
+    ld a, [$d4b4]
+    cp b
+    jr nc, .asm_24c70
+    ld a, $0
+    ld [$d734], a
+    jr .asm_24c75
+.asm_24c70
+    ld a, $1
+    ld [$d734], a
+.asm_24c75
+    ret
+.asm_24c76
+    ld a, [$d725]
+    cp $c8
+    jr nz, .asm_24cbf
+    ld a, [$d6ed]
+    add $8
+    ld [$d725], a
+    ld a, [$d6ee]
+    add $fb
+    ld [$d732], a
+    ld a, $1
+    ld [$d722], a
+    ld hl, $d70c
+    inc [hl]
+    xor a
+    ld [$d6f3], a
+    ld [$d71f], a
+    ld [$d700], a
+    ld [$d703], a
+    ld [$d706], a
+    ld a, [$d6f7]
+    add $14
+    ld b, a
+    ld a, [$d4b4]
+    cp b
+    jr nc, .asm_24cb9
+    ld a, $0
+    ld [$d735], a
+    jr .asm_24cbe
+.asm_24cb9
+    ld a, $1
+    ld [$d735], a
+.asm_24cbe
+    ret
+.asm_24cbf
+    ld a, [$d726]
+    cp $c8
+    ret nz
+    ld a, [$d6ed]
+    add $8
+    ld [$d726], a
+    ld a, [$d6ee]
+    add $fb
+    ld [$d733], a
+    ld a, $1
+    ld [$d723], a
+    ld hl, $d70c
+    inc [hl]
+    xor a
+    ld [$d6f3], a
+    ld [$d720], a
+    ld [$d701], a
+    ld [$d704], a
+    ld [$d707], a
+    ld a, [$d6ed]
+    add $14
+    ld b, a
+    ld a, [$d4b4]
+    cp b
+    jr nc, .asm_24d01
+    ld a, $0
+    ld [$d736], a
+    jr .asm_24d06
+.asm_24d01
+    ld a, $1
+    ld [$d736], a
+.asm_24d06
+    ret
+
+Func_24d07: ; 0x24d07
+    ld a, [$d721]
+    cp $1
+    jr nz, .asm_24d2a
+    ld a, [$d71e]
+    cp $a
+    jr z, .asm_24d1f
+    ld a, $a
+    ld [$d6f4], a
+    call Func_24a30
+    jr .asm_24d2a
+.asm_24d1f
+    ld a, $2
+    ld [$d721], a
+    ld de, $0034
+    call PlaySoundEffect
+.asm_24d2a
+    ld a, [$d722]
+    cp $1
+    jr nz, .asm_24d4d
+    ld a, [$d71f]
+    cp $a
+    jr z, .asm_24d42
+    ld a, $b
+    ld [$d6f4], a
+    call Func_24a30
+    jr .asm_24d4d
+.asm_24d42
+    ld a, $2
+    ld [$d722], a
+    ld de, $0034
+    call PlaySoundEffect
+.asm_24d4d
+    ld a, [$d723]
+    cp $1
+    jr nz, .asm_24d70
+    ld a, [$d720]
+    cp $a
+    jr z, .asm_24d65
+    ld a, $c
+    ld [$d6f4], a
+    call Func_24a30
+    jr .asm_24d70
+.asm_24d65
+    ld a, $2
+    ld [$d723], a
+    ld de, $0034
+    call PlaySoundEffect
+.asm_24d70
+    ld a, [$d721]
+    cp $2
+    jr nz, .asm_24d7b
+    ld hl, $d71e
+    inc [hl]
+.asm_24d7b
+    ld a, [$d722]
+    cp $2
+    jr nz, .asm_24d86
+    ld hl, $d71f
+    inc [hl]
+.asm_24d86
+    ld a, [$d723]
+    cp $2
+    jr nz, .asm_24d91
+    ld hl, $d720
+    inc [hl]
+.asm_24d91
+    ld a, [$d721]
+    cp $3
+    jr nz, .asm_24db7
+    ld a, [$d724]
+    ld b, a
+    ld a, [$d731]
+    ld c, a
+    ld hl, $d71e
+    inc [hl]
+    ld a, [hl]
+    cp $2
+    jr nz, .asm_24dae
+    call Func_24e7f
+    jr .asm_24db7
+.asm_24dae
+    cp $a
+    jr nz, .asm_24db7
+    ld a, $4
+    ld [$d721], a
+.asm_24db7
+    ld a, [$d722]
+    cp $3
+    jr nz, .asm_24ddd
+    ld a, [$d725]
+    ld b, a
+    ld a, [$d732]
+    ld c, a
+    ld hl, $d71f
+    inc [hl]
+    ld a, [hl]
+    cp $2
+    jr nz, .asm_24dd4
+    call Func_24e7f
+    jr .asm_24ddd
+.asm_24dd4
+    cp $a
+    jr nz, .asm_24ddd
+    ld a, $4
+    ld [$d722], a
+.asm_24ddd
+    ld a, [$d723]
+    cp $3
+    jr nz, .asm_24e03
+    ld a, [$d726]
+    ld b, a
+    ld a, [$d733]
+    ld c, a
+    ld hl, $d720
+    inc [hl]
+    ld a, [hl]
+    cp $2
+    jr nz, .asm_24dfa
+    call Func_24e7f
+    jr .asm_24e03
+.asm_24dfa
+    cp $a
+    jr nz, .asm_24e03
+    ld a, $4
+    ld [$d723], a
+.asm_24e03
+    ld a, [$d721]
+    cp $4
+    jr nz, .asm_24e1f
+    ld a, $c8
+    ld [$d724], a
+    ld [$d731], a
+    xor a
+    ld [$d721], a
+    ld hl, $d70c
+    dec [hl]
+    ld a, [hl]
+    cp $2
+    jr z, .asm_24e55
+.asm_24e1f
+    ld a, [$d722]
+    cp $4
+    jr nz, .asm_24e3b
+    ld a, $c8
+    ld [$d725], a
+    ld [$d732], a
+    xor a
+    ld [$d722], a
+    ld hl, $d70c
+    dec [hl]
+    ld a, [hl]
+    cp $2
+    jr z, .asm_24e55
+.asm_24e3b
+    ld a, [$d723]
+    cp $4
+    ret nz
+    ld a, $c8
+    ld [$d726], a
+    ld [$d733], a
+    xor a
+    ld [$d723], a
+    ld hl, $d70c
+    dec [hl]
+    ld a, [hl]
+    cp $2
+    ret nz
+.asm_24e55
+    ld a, [$d713]
+    and a
+    ret nz
+    ld a, [$d6f0]
+    cp $ff
+    jr z, .asm_24e70
+    ld hl, $46f5
+    ld de, $d6e9
+    call Func_28a0
+    ld a, $1
+    ld [$d6ec], a
+    ret
+.asm_24e70
+    ld hl, $46ec
+    ld de, $d6e9
+    call Func_28a0
+    ld a, $0
+    ld [$d6ec], a
+    ret
+
+Func_24e7f: ; 0x24e7f
+    ld a, b
+    ld [$d79c], a
+    ld a, c
+    ld [$d79e], a
+    ld hl, $d70f
+    inc [hl]
+    ld a, [hl]
+    cp $7
+    jr nz, .asm_24e92
+    xor a
+    ld [hl], a
+.asm_24e92
+    ld a, $ff
+    ld [$d803], a
+    ld a, $3
+    ld [$d804], a
+    ld de, $0032
+    call PlaySoundEffect
+    ld a, [$d70f]
+    dec a
+.asm_24ea6
+    push af
+    ld bc, $34d6
+    ld [$ff8a], a
+    ld a, Bank(Func_8576)
+    ld hl, Func_8576
+    call BankSwitch
+    ld hl, $d711
+    inc [hl]
+    pop af
+    and a
+    jr z, .asm_24ebf
+    dec a
+    jr .asm_24ea6
+.asm_24ebf
+    ld a, [$d70f]
+    dec a
+    dec a
+    cp $fe
+    jr z, .asm_24ed7
+    cp $ff
+    jr z, .asm_24ed7
+    ld [$d79a], a
+    ld de, $d79a
+    call Func_24ee7
+    jr .asm_24ede
+.asm_24ed7
+    xor a
+    ld [$d79a], a
+    ld [$d795], a
+.asm_24ede
+    ld a, $1
+    ld [$d64e], a
+    call Func_24fa3
+    ret
+
+Func_24ee7: ; 0x24ee7
+    ld a, $ff
+    ld [$d795], a
+    ld a, [de]
+    sla a
+    ld c, a
+    ld b, $0
+    ld hl, $4f30
+    add hl, bc
+    ld a, [hli]
+    ld h, [hl]
+    ld l, a
+    dec de
+    dec de
+    dec de
+    call Func_28a0
+    ret
+
+Func_24f00: ; 0x24f00
+    ld a, [de]
+    sla a
+    ld c, a
+    ld b, $0
+    ld hl, $4f30
+    add hl, bc
+    ld a, [hli]
+    ld h, [hl]
+    ld l, a
+    push de
+    dec de
+    dec de
+    dec de
+    call Func_28a9
+    pop de
+    ld a, $1
+    ld [$d710], a
+    ret nc
+    dec de
+    ld a, [de]
+    cp $a
+    ret nz
+    xor a
+    ld [de], a
+    ld [$d79c], a
+    ld [$d79e], a
+    ld [$d795], a
+    xor a
+    ld [$d710], a
+    ret
+
+INCBIN "baserom.gbc",$24f30,$24fa3 - $24f30
+
+Func_24fa3: ; 0x24fa3
+    ld a, [$d711]
+    ld c, a
+    ld b, $0
+.asm_24fa9
+    ld a, c
+    and a
+    jr z, .asm_24fb5
+    ld a, b
+    add $8
+    ld b, a
+    dec c
+    ld a, c
+    jr .asm_24fa9
+.asm_24fb5
+    ld a, b
+    and a
+    jr z, .asm_24fbb
+    sub $8
+.asm_24fbb
+    ld [$d652], a
+    ld a, [$d70f]
+    and a
+    jr z, .asm_24fca
+    ld b, a
+    ld a, [$d711]
+    inc a
+    sub b
+.asm_24fca
+    ld [$d651], a
+    ld a, $0
+    ld [$d64e], a
+    ld a, [$d711]
+    and a
+    ret z
+    cp $15
+    jr c, .asm_24fe2
+    ld a, $14
+    ld [$d711], a
+    jr .asm_24fed
+.asm_24fe2
+    push af
+    xor a
+    ld [$d650], a
+    ld a, $1
+    ld [$d64e], a
+    pop af
+.asm_24fed
+    sla a
+    ld c, a
+    ld b, $0
+    ld hl, $5007
+    ld a, [hGameBoyColorFlag]
+    and a
+    jr z, .asm_24ffd
+    ld hl, $5421
+.asm_24ffd
+    add hl, bc
+    ld a, [hli]
+    ld h, [hl]
+    ld l, a
+    ld a, $9
+    call Func_10aa
+    ret
+
+INCBIN "baserom.gbc",$25007,$25a7c - $25007
 
 InitSeelBonusStage: ; 0x25a7c
     ld a, [$d7c1]

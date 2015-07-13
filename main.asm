@@ -5146,12 +5146,12 @@ CallTable_2822: ; 0x2822
     db Bank(Func_19b88), $00
 
     ; STAGE_SEEL_BONUS
-    dw $5C5A
-    db $09, $00
+    dw Func_25c5a
+    db Bank(Func_25c5a), $00
 
     ; STAGE_SEEL_BONUS
-    dw $5C5A
-    db $09, $00
+    dw Func_25c5a
+    db Bank(Func_25c5a), $00
 
 Func_2862: ; 0x2862
     ld a, [$d7be]
@@ -28804,7 +28804,702 @@ Func_25c12: ; 0x25c12
     and a
     ret
 
-INCBIN "baserom.gbc",$25c5a,$26137 - $25c5a
+Func_25c5a: ; 0x25c5a
+    call Func_25da3
+    call Func_25ced
+    ld a, [$d793]
+    cp $14
+    jr c, .asm_25c98
+    ld a, [$d794]
+    cp $2
+    jr nc, .asm_25c98
+    ld a, $1
+    ld [$d498], a
+    ld de, $0000
+    call Func_490
+    ld a, $1
+    ld [$d49a], a
+    call Func_30e8
+    call Func_30db
+    ld hl, $d5dc
+    ld de, $2fec
+    call Func_32aa
+    ld a, $2
+    ld [$d794], a
+    ld de, $4b2a
+    call PlaySoundEffect
+.asm_25c98
+    ld a, [$d794]
+    cp $2
+    jr nz, .asm_25cb0
+    ld a, [$d800]
+    and a
+    jr nz, .asm_25cb0
+    ld de, $0003
+    call Func_490
+    ld a, $5
+    ld [$d794], a
+.asm_25cb0
+    ld a, [$d794]
+    cp $2
+    jr z, .asm_25cc1
+    ld [$ff8a], a
+    ld a, Bank(Func_107f8)
+    ld hl, Func_107f8
+    call BankSwitch
+.asm_25cc1
+    ld a, [$d57e]
+    and a
+    ret z
+    xor a
+    ld [$d57e], a
+    ld a, $1
+    ld [$d7be], a
+    call Func_2862
+    ld [$ff8a], a
+    ld a, Bank(Func_86d2)
+    ld hl, Func_86d2
+    call BankSwitch
+    ld a, $3
+    ld [$d791], a
+    ld a, [$d794]
+    cp $5
+    ret z
+    ld a, $1
+    ld [$d794], a
+    ret
+
+Func_25ced: ; 0x25ced
+    ld a, [$d766]
+    and a
+    ret nz
+    ld a, [$d4b4]
+    cp $8a
+    ret nc
+    ld a, $1
+    ld [$d4af], a
+    ld [$d766], a
+    ld [$ff8a], a
+    ld a, Bank(Func_e578)
+    ld hl, Func_e578
+    call BankSwitch
+    call Func_25d0e
+    ret
+
+Func_25d0e: ; 0x25d0e
+    ld a, [$d4af]
+    sla a
+    ld c, a
+    ld b, $0
+    ld hl, $5d2b
+    ld a, [hGameBoyColorFlag]
+    and a
+    jr z, .asm_25d21
+    ld hl, $5d67
+.asm_25d21
+    add hl, bc
+    ld a, [hli]
+    ld h, [hl]
+    ld l, a
+    ld a, $9
+    call Func_10aa
+    ret
+
+INCBIN "baserom.gbc",$25d2b,$25da3 - $25d2b
+
+Func_25da3: ; 0x25da3
+    ld a, [$d767]
+    and a
+    jp z, .asm_25e38
+    xor a
+    ld [$d767], a
+    ld a, [$d768]
+    sla a
+    ld c, a
+    sla a
+    sla a
+    add c
+    ld c, a
+    ld b, $0
+    ld hl, $d76c
+    add hl, bc
+    ld d, h
+    ld e, l
+    ld a, $9
+    ld [de], a
+    dec de
+    dec de
+    dec de
+    push bc
+    ld hl, $61d8
+    call Func_28a0
+    pop bc
+    ld hl, $d76e
+    add hl, bc
+    ld a, [hl]
+    ld [$d79c], a
+    ld hl, $d770
+    add hl, bc
+    ld a, [hl]
+    add $8
+    ld [$d79e], a
+    ld a, [$d792]
+    cp $9
+    jr nz, .asm_25df1
+    ld a, $0
+    ld [$d792], a
+    ld [$d79a], a
+.asm_25df1
+    ld a, [$d792]
+    dec a
+    cp $ff
+    jr z, .asm_25e04
+    ld [$d79a], a
+    ld de, $d79a
+    call Func_261f9
+    jr .asm_25e07
+.asm_25e04
+    ld [$d79a], a
+.asm_25e07
+    ld a, $33
+    ld [$d803], a
+    ld a, $8
+    ld [$d804], a
+    ld de, $0030
+    call PlaySoundEffect
+    call Func_25e85
+    ld hl, $d792
+    inc [hl]
+    ld a, [$d793]
+    cp $14
+    ret nc
+    ld hl, $d793
+    inc [hl]
+    ld a, [$d792]
+    dec a
+    ld b, a
+    ld a, [hl]
+    add b
+    ld [hl], a
+    ld a, $1
+    ld [$d64e], a
+    call Func_262f4
+.asm_25e38
+    ld de, $d76c    ; I think these three calls are one for each Seel swimming around
+    call Func_25f47
+    ld de, $d776
+    call Func_25f47
+    ld de, $d780
+    call Func_25f47
+    ld a, [$d792]
+    dec a
+    cp $ff
+    jr z, .asm_25e5d
+    ld [$d79a], a
+    ld de, $d79a
+    call Func_26212
+    jr .asm_25e60
+.asm_25e5d
+    ld [$d79a], a
+.asm_25e60
+    ld bc, $087a  ; again, probably one call for each Seel swimming around
+    ld de, $d76d
+    ld hl, $d772
+    call Func_25ec5
+    ld bc, $087a
+    ld de, $d777
+    ld hl, $d77c
+    call Func_25ec5
+    ld bc, $087a
+    ld de, $d781
+    ld hl, $d786
+    call Func_25ec5
+    ret
+
+Func_25e85: ; 0x25e85
+    ld a, [$d792]
+    inc a
+    ld d, $1
+    ld e, a
+    ld a, $1
+.asm_25e8e
+    cp e
+    jr z, .asm_25e96
+    sla d
+    inc a
+    jr .asm_25e8e
+.asm_25e96
+    push de
+    ld a, d
+    cp $32
+    jr nc, .asm_25ead
+    ld bc, $34d6
+    ld [$ff8a], a
+    ld a, Bank(Func_8576)
+    ld hl, Func_8576
+    call BankSwitch
+    pop de
+    dec d
+    jr .asm_25ebf
+.asm_25ead
+    ld bc, $34ee
+    ld [$ff8a], a
+    ld a, Bank(Func_8576)
+    ld hl, Func_8576
+    call BankSwitch
+    pop de
+    ld a, d
+    sub $32
+    ld d, a
+.asm_25ebf
+    ld a, d
+    cp $0
+    jr nz, .asm_25e96
+    ret
+
+Func_25ec5: ; 0x25ec5
+    dec de
+    ld a, [de]
+    cp $1
+    jr z, .asm_25ece
+    cp $4
+    ret nz
+.asm_25ece
+    inc de
+    push hl
+    ld a, [hld]
+    push af
+    push bc
+    ld a, [hl]
+    and $f
+    ld c, a
+    ld b, $0
+    ld hl, $5f27
+    add hl, bc
+    pop bc
+    pop af
+    and a
+    jr nz, .asm_25f05
+    ld a, [de]
+    add [hl]
+    ld [de], a
+    inc de
+    ld a, [de]
+    adc $0
+    ld [de], a
+    pop hl
+    cp c
+    ret c
+    ld a, $1
+    ld [hl], a
+    dec hl
+    dec hl
+    dec hl
+    dec hl
+    dec hl
+    dec hl
+    ld a, $7
+    ld [hl], a
+    dec hl
+    dec hl
+    dec hl
+    ld d, h
+    ld e, l
+    ld hl, $61c2
+    call Func_28a0
+    ret
+.asm_25f05
+    ld a, [de]
+    sub [hl]
+    ld [de], a
+    inc de
+    ld a, [de]
+    sbc $0
+    ld [de], a
+    pop hl
+    cp b
+    ret nc
+    xor a
+    ld [hl], a
+    dec hl
+    dec hl
+    dec hl
+    dec hl
+    dec hl
+    dec hl
+    ld a, $8
+    ld [hl], a
+    dec hl
+    dec hl
+    dec hl
+    ld d, h
+    ld e, l
+    ld hl, $61cd
+    call Func_28a0
+    ret
+
+INCBIN "baserom.gbc",$25f27,$25f47 - $25f27
+
+Func_25f47: ; 0x25f47
+    ld a, [de]
+    sla a
+    ld c, a
+    ld b, $0
+    ld hl, $614f
+    add hl, bc
+    ld a, [hli]
+    ld h, [hl]
+    ld l, a
+    push de
+    dec de
+    dec de
+    dec de
+    call Func_28a9
+    pop de
+    ret nc
+    ld a, [de]
+    rst $18
+CallTable_25f5f: ; 0x25f5f
+    dw Func_25f77
+    dw Func_25fbe
+    dw Func_25ff3
+    dw Func_2602a
+    dw Func_2604c
+    dw Func_2607f
+    dw Func_260b6
+    dw Func_260d8
+    dw Func_260e2
+    dw Func_260ec
+    dw Func_26109
+    dw Func_26120
+
+Func_25f77: ; 0x25f77
+    dec de
+    ld a, [de]
+    cp $2
+    ret nz
+    push de
+    inc de
+    inc de
+    inc de
+    inc de
+    inc de
+    inc de
+    ld a, [de]
+    dec a
+    ld [de], a
+    ld a, $3
+    jr z, .asm_25f8f
+    pop de
+    xor a
+    jp Func_26137
+.asm_25f8f
+    ld hl, $d792
+    ld [hl], $0
+    call Func_959
+    bit 7, a
+    jr z, .asm_25fa2
+    inc de
+    ld a, $1
+    ld [de], a
+    dec de
+    jr .asm_25fa7
+.asm_25fa2
+    inc de
+    ld a, $0
+    ld [de], a
+    dec de
+.asm_25fa7
+    inc de
+    ld a, [de]
+    and a
+    jr z, .asm_25fb0
+    ld a, $6
+    jr .asm_25fb2
+.asm_25fb0
+    ld a, $3
+.asm_25fb2
+    push af
+    ld de, $0031
+    call PlaySoundEffect
+    pop af
+    pop de
+    jp Func_26137
+
+Func_25fbe: ; 0x25fbe
+    dec de
+    ld a, [de]
+    cp $4
+    ret nz
+    push de
+    inc de
+    inc de
+    inc de
+    inc de
+    inc de
+    inc de
+    ld a, [de]
+    dec a
+    ld [de], a
+    jr z, .asm_25fd5
+    pop de
+    ld a, $1
+    jp Func_26137
+.asm_25fd5
+    ld a, [$d791]
+    cp $0
+    jr z, .asm_25fe9
+    ld a, $2
+    ld [de], a
+    pop de
+    ld a, $4
+    ld [de], a
+    ld a, $1
+    jp Func_26137
+
+    ret ; unused instruction
+
+.asm_25fe9
+    ld hl, $d791
+    inc [hl]
+    pop de
+    ld a, $2
+    jp Func_26137
+
+Func_25ff3: ; 0x25ff3
+    dec de
+    ld a, [de]
+    cp $7
+    ret nz
+    xor a
+    call Func_26137
+    inc de
+    inc de
+    inc de
+    inc de
+    inc de
+    ld a, [$d792]
+    cp $6
+    jr nc, .asm_26020
+    cp $2
+    jr nc, .asm_26016
+    ld a, $3
+    ld [de], a
+    ld de, $0031
+    call PlaySoundEffect
+    ret
+.asm_26016
+    ld a, $2
+    ld [de], a
+    ld de, $0031
+    call PlaySoundEffect
+    ret
+.asm_26020
+    ld a, $1
+    ld [de], a
+    ld de, $0031
+    call PlaySoundEffect
+    ret
+
+Func_2602a: ; 0x2602a
+    dec de
+    ld a, [de]
+    cp $9
+    ret nz
+    ld a, $1
+    call Func_26137
+    inc de
+    inc de
+    inc de
+    inc de
+    inc de
+    call Func_959
+    bit 7, a
+    jr z, .asm_26044
+    ld a, $3
+    jr .asm_26046
+.asm_26044
+    ld a, $5
+.asm_26046
+    ld [de], a
+    ld hl, $d791
+    dec [hl]
+    ret
+
+Func_2604c: ; 0x2604c
+    dec de
+    ld a, [de]
+    cp $4
+    ret nz
+    push de
+    inc de
+    inc de
+    inc de
+    inc de
+    inc de
+    inc de
+    ld a, [de]
+    dec a
+    ld [de], a
+    jr z, .asm_26063
+    pop de
+    ld a, $4
+    jp Func_26137
+.asm_26063
+    ld a, [$d791]
+    cp $0
+    jr z, .asm_26075
+    ld a, $2
+    ld [de], a
+    pop de
+    ld a, $4
+    ld [de], a
+    jp Func_26137
+
+    ret ; unused instruction
+
+.asm_26075
+    ld hl, $d791
+    inc [hl]
+    pop de
+    ld a, $5
+    jp Func_26137
+
+Func_2607f: ; 0x2607f
+    dec de
+    ld a, [de]
+    cp $7
+    ret nz
+    xor a
+    call Func_26137
+    inc de
+    inc de
+    inc de
+    inc de
+    inc de
+    ld a, [$d792]
+    cp $6
+    jr nc, .asm_260ac
+    cp $2
+    jr nc, .asm_260a2
+    ld a, $3
+    ld [de], a
+    ld de, $0031
+    call PlaySoundEffect
+    ret
+.asm_260a2
+    ld a, $2
+    ld [de], a
+    ld de, $0031
+    call PlaySoundEffect
+    ret
+.asm_260ac
+    ld a, $1
+    ld [de], a
+    ld de, $0031
+    call PlaySoundEffect
+    ret
+
+Func_260b6: ; 0x260b6
+    dec de
+    ld a, [de]
+    cp $9
+    ret nz
+    ld a, $4
+    call Func_26137
+    inc de
+    inc de
+    inc de
+    inc de
+    inc de
+    call Func_959
+    bit 7, a
+    jr z, .asm_260d0
+    ld a, $3
+    jr .asm_260d2
+.asm_260d0
+    ld a, $5
+.asm_260d2
+    ld [de], a
+    ld hl, $d791
+    dec [hl]
+    ret
+
+Func_260d8: ; 0x260d8
+    dec de
+    ld a, [de]
+    cp $5
+    ret nz
+    ld a, $4
+    jp Func_26137
+
+Func_260e2: ; 0x260e2
+    dec de
+    ld a, [de]
+    cp $5
+    ret nz
+    ld a, $1
+    jp Func_26137
+
+Func_260ec: ; 0x260ec
+    dec de
+    ld a, [de]
+    cp $1
+    ret nz
+    push de
+    inc de
+    inc de
+    inc de
+    inc de
+    inc de
+    inc de
+    inc de
+    ld a, [de]
+    and a
+    jr z, .asm_26103
+    pop de
+    ld a, $b
+    jp Func_26137
+.asm_26103
+    pop de
+    ld a, $a
+    jp Func_26137
+
+Func_26109: ; 0x26109
+    dec de
+    ld a, [de]
+    cp $7
+    ret nz
+    ld a, $1
+    call Func_26137
+    inc de
+    inc de
+    inc de
+    inc de
+    inc de
+    ld a, $5
+    ld [de], a
+    ld hl, $d791
+    dec [hl]
+    ret
+
+Func_26120: ; 0x26120
+    dec de
+    ld a, [de]
+    cp $7
+    ret nz
+    ld a, $4
+    call Func_26137
+    inc de
+    inc de
+    inc de
+    inc de
+    inc de
+    ld a, $5
+    ld [de], a
+    ld hl, $d791
+    dec [hl]
+    ret
 
 Func_26137: ; 0x26137
     push af
@@ -28826,7 +29521,115 @@ Func_26137: ; 0x26137
     ld [de], a
     ret
 
-INCBIN "baserom.gbc",$2614f,$28000 - $2614f
+INCBIN "baserom.gbc",$2614f,$261f9 - $2614f
+
+Func_261f9: ; 0x261f9
+    ld a, $ff
+    ld [$d795], a
+    ld a, [de]
+    sla a
+    ld c, a
+    ld b, $0
+    ld hl, $623a
+    add hl, bc
+    ld a, [hli]
+    ld h, [hl]
+    ld l, a
+    dec de
+    dec de
+    dec de
+    call Func_28a0
+    ret
+
+Func_26212: ; 0x26212
+    ld a, [de]
+    sla a
+    ld c, a
+    ld b, $0
+    ld hl, $623a
+    add hl, bc
+    ld a, [hli]
+    ld h, [hl]
+    ld l, a
+    push de
+    dec de
+    dec de
+    dec de
+    call Func_28a9
+    pop de
+    ret nc
+    dec de
+    ld a, [de]
+    cp $a
+    ret nz
+    xor a
+    ld [de], a
+    ld [$d79c], a
+    ld [$d79e], a
+    ld a, a
+    ld [$d795], a
+    ret
+
+INCBIN "baserom.gbc",$2623a,$262f4 - $2623a
+
+Func_262f4: ; 0x262f4
+    ld a, [$d793]
+    ld c, a
+    ld b, $0
+.asm_262fa
+    ld a, c
+    and a
+    jr z, .asm_26306
+    ld a, b
+    add $8
+    ld b, a
+    dec c
+    ld a, c
+    jr .asm_262fa
+.asm_26306
+    ld a, b
+    and a
+    jr z, .asm_2630c
+    sub $8
+.asm_2630c
+    ld [$d652], a
+    ld a, [$d792]
+    and a
+    jr z, .asm_2631b
+    ld b, a
+    ld a, [$d793]
+    inc a
+    sub b
+.asm_2631b
+    ld [$d651], a
+    ld a, [$d793]
+    cp $15
+    jr c, .asm_2632a
+    ld a, $14
+    ld [$d793], a
+.asm_2632a
+    push af
+    xor a
+    ld [$d650], a
+    pop af
+    sla a
+    ld c, a
+    ld b, $0
+    ld hl, $634a
+    ld a, [hGameBoyColorFlag]
+    and a
+    jr z, .asm_26340
+    ld hl, $6764
+.asm_26340
+    add hl, bc
+    ld a, [hli]
+    ld h, [hl]
+    ld l, a
+    ld a, $9
+    call Func_10aa
+    ret
+
+INCBIN "baserom.gbc",$2634a,$28000 - $2634a
 
 
 SECTION "banka", ROMX, BANK[$a]

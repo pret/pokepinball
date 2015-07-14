@@ -5491,7 +5491,7 @@ asm_312b: ; 0x312b
     res 7, e
 .asm_31dd
     inc e
-    jp $3132
+    jp .asm_3132
 
 Func_31e1: ; 0x31e1
     push bc
@@ -17416,7 +17416,7 @@ Func_10000: ; 0x10000
     ld [$d54c], a
     ld a, [$d550]
     cp $1
-    jp z, $4a95
+    jp z, Func_10a95
     cp $2
     jr nz, .asm_10021
     ld [$ff8a], a
@@ -18328,7 +18328,33 @@ Func_109fc: ; 0x109fc
     call Func_10aa
     ret
 
-INCBIN "baserom.gbc",$10a63,$10ab3 - $10a63
+INCBIN "baserom.gbc",$10a63,$10a95 - $10a63
+
+Func_10a95: ; 0x19a95
+    ld a, [wCurrentStage]
+    call CallInFollowingTable
+PointerTable_10a9b: ; 0x10a9b
+    ; STAGE_RED_FIELD_TOP
+    dw $4581
+    db $08, $00
+
+    ; STAGE_RED_FIELD_BOTTOM
+    dw $4581
+    db $08, $00
+
+    dw $4581
+    db $08, $00
+
+    dw $4581
+    db $08, $00
+
+    ; STAGE_BLUE_FIELD_TOP
+    dw $4bAE
+    db $08, $00
+
+    ; STAGE_BLUE_FIELD_BOTTOM
+    dw $4bAE
+    db $08, $00
 
 Func_10ab3: ; 0x10ab3
     ld a, [$d54b]
@@ -18388,7 +18414,40 @@ CallTable_10af3: ; 0x10af3
     ; STAGE_BLUE_FIELD_TOP
     dw Func_11195
 
-INCBIN "baserom.gbc",$10aff,$10b3f - $10aff
+Func_10aff: ; 0x10aff
+    ld a, [wCurrentStage]
+    res 0, a
+    ld c, a
+    ld b, $0
+    srl c
+    sla a
+    sla a
+    sla a
+    sub c
+    ld c, a
+    ld hl, $4b2a
+    add hl, bc
+    ld a, [hli]
+    ld c, a
+    ld a, [hli]
+    ld b, a
+    ld a, [hli]
+    push af
+    push bc
+    ld a, [hli]
+    ld e, a
+    ld a, [hli]
+    ld d, a
+    ld a, [hli]
+    ld c, a
+    ld a, [hli]
+    ld b, a
+    pop hl
+    pop af
+    call LoadVRAMData
+    ret
+
+INCBIN "baserom.gbc",$10b2a,$10b3f - $10b2a
 
 Func_10b3f: ; 0x10b3f
     call Func_30e8
@@ -18867,7 +18926,7 @@ Func_10fe3: ; 0x10fe3
     call Func_107e9
     ld a, [wCurrentStage]
     bit 0, a
-    jp z, $4aff
+    jp z, Func_10aff
     ld [$ff8a], a
     ld a, Bank(Func_14135)
     ld hl, Func_14135
@@ -18998,7 +19057,7 @@ Func_11195: ; 0x11195
     call BankSwitch
     ld a, [wCurrentStage]
     bit 0, a
-    jp z, $520e
+    jp z, Func_1120e
     ld [$ff8a], a
     ld a, Bank(Func_1c2cb)
     ld hl, Func_1c2cb
@@ -19038,7 +19097,41 @@ Func_11195: ; 0x11195
     call Func_10aa
     ret
 
-INCBIN "baserom.gbc",$1120e,$1126c - $1120e
+Func_1120e: ; 0x1120e
+    ld a, [wCurrentStage]
+    sub $4
+    res 0, a
+    ld c, a
+    ld b, $0
+    srl c
+    sla a
+    sla a
+    sla a
+    sub c
+    ld c, a
+    ld hl, $523b
+    add hl, bc
+    ld a, [hli]
+    ld c, a
+    ld a, [hli]
+    ld b, a
+    ld a, [hli]
+    push af
+    push bc
+    ld a, [hli]
+    ld e, a
+    ld a, [hli]
+    ld d, a
+    ld a, [hli]
+    ld c, a
+    ld a, [hli]
+    ld b, a
+    pop hl
+    pop af
+    call LoadVRAMData
+    ret
+
+INCBIN "baserom.gbc",$1123b,$1126c - $1123b
 
 WildMonOffsetsPointers: ; 0x1126c
     dw RedStageWildMonDataOffsets
@@ -19593,7 +19686,7 @@ Func_14795: ; 0x14795
 Func_147aa: ; 0x147aa
     ld a, [$d4ed]
     and a
-    jp z, $4834
+    jp z, .asm_14834
     xor a
     ld [$d4ed], a
     ld a, [$d4ee]
@@ -22058,7 +22151,7 @@ INCBIN "baserom.gbc",$169ed,$16d9d - $169ed
 Func_16d9d: ; 016d9d
     ld a, [$d60a]
     and a
-    jp z, $6e51
+    jp z, Func_16e51
     xor a
     ld [$d60a], a
     ld de, $000d
@@ -22134,7 +22227,115 @@ Func_16d9d: ; 016d9d
     call Func_16f28
     ret
 
-INCBIN "baserom.gbc",$16e51,$16f28 - $16e51
+Func_16e51: ; 0x16e51
+    call Func_16ef5
+    ld a, [$d612]
+    and a
+    jr z, .asm_16e8f
+    dec a
+    ld [$d612], a
+    cp $70
+    jr nz, .asm_16e6e
+    ld a, $2
+    ld [$d610], a
+    ld a, $2
+    ld [$d611], a
+    jr .asm_16e8f
+.asm_16e6e
+    and a
+    jr nz, .asm_16e8f
+    ld a, $3
+    ld [$d610], a
+    xor a
+    ld [$d611], a
+    ld a, [$d482]
+    call Func_16f95
+    ld a, [$d60c]
+    call Func_16f28
+    ld a, [$d60d]
+    add $14
+    call Func_16f28
+    ret
+.asm_16e8f
+    ld a, [$d610]
+    cp $2
+    jr c, .asm_16ec1
+    cp $3
+    ld a, [$ffb3]
+    jr c, .asm_16ea0
+    srl a
+    srl a
+.asm_16ea0
+    ld b, a
+    and $3
+    jr nz, .asm_16ec1
+    bit 3, b
+    jr nz, .asm_16eb6
+    ld a, [$d60c]
+    res 7, a
+    ld [$d60c], a
+    call Func_16f28
+    jr .asm_16ec1
+.asm_16eb6
+    ld a, [$d60c]
+    set 7, a
+    ld [$d60c], a
+    call Func_16f28
+.asm_16ec1
+    ld a, [$d611]
+    cp $2
+    ret c
+    cp $3
+    ld a, [$ffb3]
+    jr c, .asm_16ed1
+    srl a
+    srl a
+.asm_16ed1
+    ld b, a
+    and $3
+    ret nz
+    bit 3, b
+    jr nz, .asm_16ee7
+    ld a, [$d60d]
+    res 7, a
+    ld [$d60d], a
+    add $14
+    call Func_16f28
+    ret
+.asm_16ee7
+    ld a, [$d60d]
+    set 7, a
+    ld [$d60d], a
+    add $14
+    call Func_16f28
+    ret
+
+Func_16ef5: ; 0x16ef5
+    ld a, [$d5ca]
+    and a
+    ret nz
+    ld a, [$d613]
+    and a
+    ret z
+    xor a
+    ld [$d613], a
+    call Func_30e8
+    call Func_30db
+    ld hl, $d5cc
+    ld de, $2958
+    call Func_32aa
+    ld hl, $c512
+    ld a, [$d614]
+    and $7f
+    jr z, .asm_16f1f
+    add $30
+    ld [hli], a
+.asm_16f1f
+    ld a, [$d615]
+    res 7, a
+    add $30
+    ld [hl], a
+    ret
 
 Func_16f28: ; 0x16f28
     push af

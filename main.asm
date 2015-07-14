@@ -101,7 +101,7 @@ Start: ; 0x150
     ld hl, $ff80
     ld bc, $007e
     call ClearData  ; Clear High RAM (HRAM)
-    call InitializeHRAM
+    call WriteDMACodeToHRAM
     call ClearOAMBuffer
     xor a
     ld [$d7fb], a
@@ -178,7 +178,7 @@ Func_2f2: ; 0x2f2
     push bc
     push de
     push hl
-    call $ff80
+    call $ff80 ; OAM DMA transfer
     ld a, [$ff9e]
     ld [$ff40], a
     call Func_113a
@@ -646,11 +646,11 @@ Func_5c2: ; 0x5c2
 
 INCBIN "baserom.gbc",$5e1,$5f7 - $5e1
 
-InitializeHRAM: ; 0x5f7
+WriteDMACodeToHRAM: ; 0x5f7
 ; Initializes registers $ff80 - $ff8a
     ld c, $80
     ld b, $a  ; number of bytes to load
-    ld hl, InitialHRAM
+    ld hl, DMARoutine
 .loop
     ld a, [hli]
     ld [$ff00+c], a  ; add register c to $ff00, and store register a into the resulting address
@@ -659,9 +659,15 @@ InitializeHRAM: ; 0x5f7
     jr nz, .loop
     ret
 
-InitialHRAM:
-; These $a bytes are initially load into $ff80 - $ff8a by InitializeHRAM.
-    db $3e, $d0, $e0, $46, $3e, $28, $3d, $20, $fd, $c9
+DMARoutine:
+; This routine is initially loaded into $ff80 - $ff8a by WriteDMACodeToHRAM.
+    ld a, (wOAMBuffer >> 8)
+    ld [$ff00+$46], a   ; start DMA
+    ld a, $28
+.waitLoop               ; wait for DMA to finish
+    dec a
+    jr nz, .waitLoop
+    ret
 
 WaitForLCD: ; 0x60f
 ; Wait for LCD controller to stop reading from both OAM and VRAM because

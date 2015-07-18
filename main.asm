@@ -3992,7 +3992,23 @@ Func_1ed4: ; 0x1ed4
 .asm_1ed8
     ret
 
-INCBIN "baserom.gbc",$1ed9,$1f24 - $1ed9
+INCBIN "baserom.gbc",$1ed9,$1f0b - $1ed9
+
+Func_1f0b: ; 0x1f0b
+    push bc
+    push de
+    push hl
+    ld e, a
+    ld d, $0
+    sla e
+    rl d
+    ld a, [hLoadedROMBank]
+    push af
+    ld a, $1
+    ld [hLoadedROMBank], a
+    ld [$2000], a
+    ld hl, $55d7
+    jr asm_1f3b
 
 LoadOAMData: ; 0x1f24
 ; This function loads OAM data, but it adds b and c to the x and y values for some reason.
@@ -4010,6 +4026,7 @@ LoadOAMData: ; 0x1f24
     ld [hLoadedROMBank], a
     ld [$2000], a
     ld hl, OAMDataPointers
+asm_1f3b: ; 0x1f3b
     add hl, de  ; hl points to oam pointer in OAMDataPointers
     ld a, [hli]
     ld e, a
@@ -9079,8 +9096,70 @@ CallTable_8477: ; 0x8477
 Func_84b7: ; 0x84b7
     ld a, [wCurrentStage]
     call CallInFollowingTable
+PointerTable_84bd: ; 0x84bd
+    ; STAGE_RED_FIELD_TOP
+    dw Func_1755c
+    db Bank(Func_1755c), $00
 
-INCBIN "baserom.gbc",$84bd,$8524 - $84bd
+    ; STAGE_RED_FIELD_BOTTOM
+    dw Func_1757e
+    db Bank(Func_1757e), $00
+
+    dw Func_18079
+    db Bank(Func_18079), $00
+
+    dw Func_18084
+    db Bank(Func_18084), $00
+
+    ; STAGE_BLUE_FIELD_TOP
+    dw Func_1f330
+    db Bank(Func_1f330), $00
+
+    ; STAGE_BLUE_FIELD_BOTTOM
+    dw Func_1f35a
+    db Bank(Func_1f35a), $00
+
+    ; STAGE_GENGAR_BONUS
+    dw Func_18faf
+    db Bank(Func_18faf), $00
+
+    ; STAGE_GENGAR_BONUS
+    dw Func_18faf
+    db Bank(Func_18faf), $00
+
+    ; STAGE_MEWTWO_BONUS
+    dw Func_1994e
+    db Bank(Func_1994e), $00
+
+    ; STAGE_MEWTWO_BONUS
+    dw Func_1994e
+    db Bank(Func_1994e), $00
+
+    ; STAGE_MEOWTH_BONUS
+    dw Func_2583b
+    db Bank(Func_2583b), $00
+
+    ; STAGE_MEOWTH_BONUS
+    dw Func_2583b
+    db Bank(Func_2583b), $00
+
+    ; STAGE_DIGLETT_BONUS
+    dw Func_1ac98
+    db Bank(Func_1ac98), $00
+
+    ; STAGE_DIGLETT_BONUS
+    dw Func_1ac98
+    db Bank(Func_1ac98), $00
+
+    ; STAGE_SEEL_BONUS
+    dw Func_26b7e
+    db Bank(Func_26b7e), $00
+
+    ; STAGE_SEEL_BONUS
+    dw Func_26b7e
+    db Bank(Func_26b7e), $00
+
+INCBIN "baserom.gbc",$84fd,$8524 - $84fd
 
 Func_8524: ; 0x8524
     ld hl, $d46f
@@ -14470,7 +14549,76 @@ HandleFlipperCollision: ; 0xe442
     ld [$d7bd], a
     ret
 
-INCBIN "baserom.gbc",$e4a1,$e538 - $e4a1
+Func_e4a1: ; 0xe4a1
+    ld a, [wCurrentStage]
+    and a
+    ret z
+    ld hl, $650a
+    ld a, [hBoardXShift]
+    ld d, a
+    ld a, [hBoardYShift]
+    ld e, a
+    ld a, [hli]
+    sub d
+    ld b, a
+    ld a, [hli]
+    sub e
+    ld c, a
+    push hl
+    ld hl, $650e
+    ld a, [$d7af]
+    ld e, a
+    ld d, $0
+    add hl, de
+    ld a, [hl]
+    cp $b
+    jr nz, .asm_e4d6
+    ld a, [hGameBoyColorFlag]
+    and a
+    jr nz, .asm_e4d4
+    ld a, [$d7be]
+    and a
+    jr z, .asm_e4d4
+    ld a, $18
+    jr .asm_e4d6
+.asm_e4d4
+    ld a, $b
+.asm_e4d6
+    call LoadOAMData
+    pop hl
+    ld a, [hBoardXShift]
+    ld d, a
+    ld a, [hBoardYShift]
+    ld e, a
+    ld a, [hli]
+    sub d
+    ld b, a
+    ld a, [hli]
+    sub e
+    ld c, a
+    ld hl, $6523
+    ld a, [$d7b3]
+    ld e, a
+    ld d, $0
+    add hl, de
+    ld a, [hl]
+    cp $8
+    jr nz, .asm_e506
+    ld a, [hGameBoyColorFlag]
+    and a
+    jr nz, .asm_e504
+    ld a, [$d7be]
+    and a
+    jr z, .asm_e504
+    ld a, $17
+    jr .asm_e506
+.asm_e504
+    ld a, $8
+.asm_e506
+    call LoadOAMData
+    ret
+
+INCBIN "baserom.gbc",$e50a,$e538 - $e50a
 
 Data_e538: ; 0xe538
     dw $0000
@@ -23070,7 +23218,79 @@ Func_174ea: ; 0x174ea
     scf
     ret
 
-INCBIN "baserom.gbc",$17528,$175f5 - $17528
+INCBIN "baserom.gbc",$17528,$1755c - $17528
+
+Func_1755c: ; 0x1755c
+    ld bc, $7f00
+    call Func_175a4
+    call Func_17cc4
+    call Func_17d34
+    call Func_17d59
+    call Func_17d7a
+    call Func_17d92
+    call Func_17de1
+    call Func_17e81
+    call Func_17efb
+    call Func_17f64
+    ret
+
+Func_1757e: ; 0x1757e
+    ld bc, $7f00
+    call Func_175a4
+    call Func_17c67
+    call Func_17c96
+    call Func_17e08
+    ld [$ff8a], a
+    ld a, Bank(Func_e4a1)
+    ld hl, Func_e4a1
+    call BankSwitch
+    call Func_17e81
+    call Func_17f0f
+    call Func_17f75
+    call Func_17fca
+    ret
+
+Func_175a4: ; 0x175a4
+    ld a, [$d57d]
+    and a
+    ret z
+    ld a, [hGameBoyColorFlag]
+    and a
+    jr nz, DrawTimer
+    ld a, [$d580]
+    and a
+    ret z
+    ld a, [$d581]
+    and a
+    jr z, .asm_175be
+    dec a
+    ld [$d581], a
+    ret
+.asm_175be
+    call Func_1762f
+    ld hl, $d582
+    ld a, [wTimerMinutes]
+    and $f
+    call Func_1764f
+    ld a, [wTimerSeconds]
+    swap a
+    and $f
+    call Func_1764f
+    ld a, [wTimerSeconds]
+    and $f
+    call Func_1764f
+    ld d, $0
+    ld hl, $7615
+    add hl, de
+    ld a, [hli]
+    call Func_17627
+    ld a, [hli]
+    call Func_17627
+    ld a, [hli]
+    call Func_17627
+    ld a, [hli]
+    call Func_17627
+    ret
 
 DrawTimer: ; 0x175f5
 ; Loads the OAM data for the timer in the top-right corner of the screen.
@@ -23092,6 +23312,9 @@ INCBIN "baserom.gbc",$17615,$17625 - $17615
 
 DrawTimerDigit: ; 0x17625
     add $b1  ; the timer digits' OAM ids start at $b1
+    ; fall through
+
+Func_17627: ; 0x17627
     call LoadOAMData
     ld a, b
     add $8
@@ -23151,7 +23374,265 @@ Func_17665: ; 0x17665
     call Func_10aa
     ret
 
-INCBIN "baserom.gbc",$17679,$17e81 - $17679
+INCBIN "baserom.gbc",$17679,$17c67 - $17679
+
+Func_17c67: ; 0x17c67
+    ld a, [$d5f3]
+    and a
+    ret z
+    ld a, $50
+    ld hl, hBoardXShift
+    sub [hl]
+    ld b, a
+    ld a, $38
+    ld hl, hBoardYShift
+    sub [hl]
+    ld c, a
+    ld a, [$d5f5]
+    ld e, a
+    ld d, $0
+    ld hl, $7c89
+    add hl, de
+    ld a, [hl]
+    call LoadOAMData
+    ret
+
+INCBIN "baserom.gbc",$17c89,$17c96 - $17c89
+
+Func_17c96: ; 0x17c96
+    ld a, [$d5bb]
+    and a
+    ret z
+    ld a, $50
+    ld hl, hBoardXShift
+    sub [hl]
+    ld b, a
+    ld a, $3e
+    ld hl, hBoardYShift
+    sub [hl]
+    ld c, a
+    ld a, [$d5bd]
+    ld e, a
+    ld d, $0
+    ld hl, $7cb8
+    add hl, de
+    ld a, [hl]
+    call LoadOAMData
+    ret
+
+INCBIN "baserom.gbc",$17cb8,$17cc4 - $17cb8
+
+Func_17cc4: ; 0x17cc4
+    ld de, $d4cd
+    ld hl, $7d15
+    call Func_17cdc
+    ld de, $d4d0
+    ld hl, $7d1b
+    call Func_17cdc
+    ld de, $d4d3
+    ld hl, $7d21
+    ; fall through
+
+Func_17cdc: ; 0x17cdc
+    push hl
+    ld hl, $7d27
+    call Func_28a9
+    ld h, d
+    ld l, e
+    ld a, [hl]
+    and a
+    jr nz, .asm_17cf6
+    call Func_959
+    and $7
+    add $1e
+    ld [hli], a
+    ld a, $1
+    ld [hli], a
+    xor a
+    ld [hl], a
+.asm_17cf6
+    pop hl
+    inc de
+    ld a, [hBoardXShift]
+    ld b, a
+    ld a, [hli]
+    sub b
+    ld b, a
+    ld a, [hBoardYShift]
+    ld c, a
+    ld a, [hli]
+    sub c
+    ld c, a
+    ld a, [$d4d7]
+    sub [hl]
+    inc hl
+    jr z, .asm_17d0c
+    ld a, [de]
+.asm_17d0c
+    ld e, a
+    ld d, $0
+    add hl, de
+    ld a, [hl]
+    call LoadOAMData
+    ret
+
+INCBIN "baserom.gbc",$17d15,$17d34 - $17d15
+
+Func_17d34: ; 0x17d34
+    ld a, $0
+    ld hl, hBoardXShift
+    sub [hl]
+    ld b, a
+    ld a, $10
+    ld hl, hBoardYShift
+    sub [hl]
+    ld c, a
+    ld a, [$d4af]
+    ld e, a
+    ld d, $0
+    ld hl, $7d51
+    add hl, de
+    ld a, [hl]
+    call LoadOAMData
+    ret
+
+INCBIN "baserom.gbc",$17d51,$17d59 - $17d51
+
+Func_17d59: ; 0x17d59
+    ld a, $74
+    ld hl, hBoardXShift
+    sub [hl]
+    ld b, a
+    ld a, $52
+    ld hl, hBoardYShift
+    sub [hl]
+    ld c, a
+    ld a, [$d4fe]
+    ld e, a
+    ld d, $0
+    ld hl, $7d76
+    add hl, de
+    ld a, [hl]
+    call LoadOAMData
+    ret
+
+INCBIN "baserom.gbc",$17d76,$17d7a - $17d76
+
+Func_17d7a: ; 0x17d7a
+    ld a, [hGameBoyColorFlag]
+    and a
+    ret z
+    ld a, $67
+    ld hl, hBoardXShift
+    sub [hl]
+    ld b, a
+    ld a, $54
+    ld hl, hBoardYShift
+    sub [hl]
+    ld c, a
+    ld a, $cc
+    call LoadOAMData
+    ret
+
+Func_17d92: ; 0x17d92
+    ld a, [hGameBoyColorFlag]
+    and a
+    ret z
+    ld hl, $7dd0
+    ld de, $d504
+    call Func_28a9
+    ld a, [$d504]
+    and a
+    jr nz, .asm_17db1
+    ld a, $13
+    ld [$d504], a
+    xor a
+    ld [$d505], a
+    ld [$d506], a
+.asm_17db1
+    ld a, $2b
+    ld hl, hBoardXShift
+    sub [hl]
+    ld b, a
+    ld a, $69
+    ld hl, hBoardYShift
+    sub [hl]
+    ld c, a
+    ld a, [$d505]
+    ld e, a
+    ld d, $0
+    ld hl, $7dce
+    add hl, de
+    ld a, [hl]
+    call LoadOAMData
+    ret
+
+INCBIN "baserom.gbc",$17dce,$17de1 - $17dce
+
+Func_17de1: ; 0x17de1
+    ld a, $88
+    ld hl, hBoardXShift
+    sub [hl]
+    ld b, a
+    ld a, $5a
+    ld hl, hBoardYShift
+    sub [hl]
+    ld c, a
+    ld a, [$d50a]
+    srl a
+    srl a
+    ld e, a
+    ld d, $0
+    ld hl, $7e02
+    add hl, de
+    ld a, [hl]
+    call LoadOAMData
+    ret
+
+INCBIN "baserom.gbc",$17e02,$17e08 - $17e02
+
+Func_17e08: ; 0x17e08
+    ld a, [hBoardXShift]
+    ld d, a
+    ld a, [hBoardYShift]
+    ld e, a
+    ld a, [$d51d]
+    and a
+    ld a, [$d518]
+    jr z, .asm_17e33
+    ld a, [$d51c]
+    and a
+    jr nz, .asm_17e29
+    ld a, [$ffb3]
+    srl a
+    srl a
+    srl a
+    and $1
+    jr .asm_17e33
+.asm_17e29
+    ld a, [$d4b4]
+    cp $50
+    ld a, $1
+    jr nc, .asm_17e33
+    xor a
+.asm_17e33
+    sla a
+    ld c, a
+    ld b, $0
+    ld hl, $7e4b
+    add hl, bc
+    ld a, [hli]
+    sub d
+    ld b, a
+    ld a, [hli]
+    sub e
+    ld c, a
+    ld a, [$d51a]
+    add $e
+    call LoadOAMData
+    ret
+
+INCBIN "baserom.gbc",$17e4b,$17e81 - $17e4b
 
 Func_17e81: ; 0x17e81
     ld a, [$d548]
@@ -23216,7 +23697,127 @@ Func_17e81: ; 0x17e81
     ld [$d4c7], a
     ret
 
-INCBIN "baserom.gbc",$17efb,$18000 - $17efb
+Func_17efb: ; 0x17efb
+    ld a, [$d551]
+    and a
+    ret nz
+    ld a, [$ffb3]
+    bit 4, a
+    ret z
+    ld de, $d534
+    ld hl, $7f3a
+    ld b, $6
+    jr asm_17f21
+
+Func_17f0f: ; 0x17f0f
+    ld a, [$d551]
+    and a
+    ret nz
+    ld a, [$ffb3]
+    bit 4, a
+    ret z
+    ld de, $d53a
+    ld hl, $7f4c
+    ld b, $8
+asm_17f21: ; 0x17f21
+    push bc
+    ld a, [hBoardXShift]
+    ld b, a
+    ld a, [hli]
+    sub b
+    ld b, a
+    ld a, [hBoardYShift]
+    ld c, a
+    ld a, [hli]
+    sub c
+    ld c, a
+    ld a, [de]
+    and a
+    ld a, [hli]
+    call nz, LoadOAMData
+    pop bc
+    inc de
+    dec b
+    jr nz, asm_17f21
+    ret
+
+INCBIN "baserom.gbc",$17f3a,$17f64 - $17f3a
+
+Func_17f64: ; 0x17f64
+    ld a, [$d551]
+    and a
+    ret z
+    ld de, $d566
+    ld hl, $7fa6
+    ld b, $c
+    ld c, $39
+    jr asm_17f84
+
+Func_17f75: ; 0x17f75
+    ld a, [$d551]
+    and a
+    ret z
+    ld de, $d572
+    ld hl, $7fbe
+    ld b, $6
+    ld c, $40
+asm_17f84: ; 0x17f84
+    push bc
+    ld a, [de]
+    add c
+    cp c
+    push af
+    ld a, [hBoardXShift]
+    ld b, a
+    ld a, [hli]
+    sub b
+    ld b, a
+    ld a, [hBoardYShift]
+    ld c, a
+    ld a, [hli]
+    sub c
+    ld c, a
+    ld a, [$ffb3]
+    and $e
+    jr nz, .asm_17f9c
+    dec c
+.asm_17f9c
+    pop af
+    call nz, LoadOAMData
+    pop bc
+    inc de
+    dec b
+    jr nz, asm_17f84
+    ret
+
+INCBIN "baserom.gbc",$17fa6,$17fca - $17fa6
+
+Func_17fca: ; 0x17fca
+    ld a, [$d604]
+    and a
+    ret z
+    ld a, [$d606]
+    inc a
+    ld [$d606], a
+    ld a, $40
+    ld hl, hBoardXShift
+    sub [hl]
+    ld b, a
+    ld a, $1
+    ld hl, hBoardYShift
+    sub [hl]
+    ld c, a
+    ld a, [$d606]
+    srl a
+    srl a
+    srl a
+    and $3
+    add $4f
+    cp $52
+    call nz, LoadOAMData
+    ret
+
+INCBIN "baserom.gbc",$17ff7,$18000 - $17ff7
 
 
 SECTION "bank6", ROMX, BANK[$6]
@@ -23293,7 +23894,23 @@ Func_1806e: ; 0x1806e
     call BankSwitch
     ret
 
-INCBIN "baserom.gbc",$18079,$18099 - $18079
+Func_18079: ; 0x18079
+    ld [$ff8a], a
+    ld a, Bank(Func_17e81)
+    ld hl, Func_17e81
+    call BankSwitch
+    ret
+
+Func_18084: ; 0x18084
+    ld [$ff8a], a
+    ld a, Bank(Func_e4a1)
+    ld hl, Func_e4a1
+    call BankSwitch
+    ld [$ff8a], a
+    ld a, Bank(Func_17e81)
+    ld hl, Func_17e81
+    call BankSwitch
+    ret
 
 InitGengarBonusStage: ; 0x18099
     ld a, [$d7c1]
@@ -24590,7 +25207,308 @@ Func_18db2: ; 0x18db2
     pop hl
     ret
 
-INCBIN "baserom.gbc",$18dc9,$1924f - $18dc9
+INCBIN "baserom.gbc",$18dc9,$18faf - $18dc9
+
+Func_18faf: ; 0x18faf
+    ld bc, $7f00
+    ld [$ff8a], a
+    ld a, Bank(Func_175a4)
+    ld hl, Func_175a4
+    call BankSwitch
+    call Func_19020
+    call Func_190b9
+    call Func_19185
+    ld [$ff8a], a
+    ld a, Bank(Func_e4a1)
+    ld hl, Func_e4a1
+    call BankSwitch
+    ld [$ff8a], a
+    ld a, Bank(Func_17e81)
+    ld hl, Func_17e81
+    call BankSwitch
+    ret
+
+INCBIN "baserom.gbc",$18fda,$19020 - $18fda
+
+Func_19020: ; 0x19020
+    ld de, $d659
+    call Func_19033
+    ld de, $d662
+    call Func_19033
+    ld de, $d66b
+    call Func_19033
+    ret
+
+Func_19033: ; 0x19033
+    ld a, [de]
+    and a
+    ret z
+.asm_19036
+    call Func_19070
+    jr nc, .asm_19042
+    ld a, [$ff40]
+    bit 7, a
+    jr z, .asm_19036
+    ret
+.asm_19042
+    inc de
+    inc de
+    inc de
+    inc de
+    inc de
+    inc de
+    ld a, [de]
+    ld hl, hBoardXShift
+    sub [hl]
+    ld b, a
+    inc de
+    inc de
+    ld a, [de]
+    ld hl, hBoardYShift
+    sub [hl]
+    ld c, a
+    dec de
+    dec de
+    dec de
+    dec de
+    dec de
+    dec de
+    ld a, [de]
+    ld e, a
+    ld d, $0
+    ld hl, $506b
+    add hl, de
+    ld a, [hl]
+    cp $ff
+    call nz, Func_1f0b
+    ret
+
+INCBIN "baserom.gbc",$1906b,$19070 - $1906b
+
+Func_19070: ; 0x19070
+    ld a, [$d674]
+    and a
+    ret z
+    push de
+    dec a
+    ld [$d674], a
+    sla a
+    sla a
+    ld c, a
+    ld b, $0
+    ld hl, $50a9
+    add hl, bc
+    ld a, [hli]
+    ld e, a
+    ld a, [hli]
+    ld d, a
+    ld a, [hli]
+    ld h, [hl]
+    ld l, a
+    ld a, $22
+    ld bc, $0060
+    call Func_735
+    ld a, $8
+    ld [$d690], a
+    ld [$d6a1], a
+    xor a
+    ld [$d67e], a
+    ld [$d687], a
+    ld [$d698], a
+    pop de
+    scf
+    ret
+
+INCBIN "baserom.gbc",$190a9,$190b9 - $190a9
+
+Func_190b9: ; 0x190b9
+    ld de, $d67e
+    call Func_190c6
+    ld de, $d687
+    call Func_190c6
+    ret
+
+Func_190c6: ; 0x190c6
+    ld a, [de]
+    and a
+    ret z
+.asm_190c9
+    call Func_19104
+    jr nc, .asm_190d5
+    ld a, [$ff40]
+    bit 7, a
+    jr z, .asm_190c9
+    ret
+.asm_190d5
+    inc de
+    inc de
+    inc de
+    inc de
+    inc de
+    inc de
+    ld a, [de]
+    ld hl, hBoardXShift
+    sub [hl]
+    ld b, a
+    inc de
+    inc de
+    ld a, [de]
+    ld hl, hBoardYShift
+    sub [hl]
+    ld c, a
+    dec de
+    dec de
+    dec de
+    dec de
+    dec de
+    dec de
+    ld a, [de]
+    ld e, a
+    ld d, $0
+    ld hl, $50fe
+    add hl, de
+    ld a, [hl]
+    cp $ff
+    call nz, Func_1f0b
+    ret
+
+INCBIN "baserom.gbc",$190fe,$19104 - $190fe
+
+Func_19104: ; 0x19104
+    ld a, [$d690]
+    and a
+    ret z
+    push de
+    dec a
+    ld [$d690], a
+    sla a
+    sla a
+    sla a
+    ld c, a
+    ld b, $0
+    ld hl, $5145
+    add hl, bc
+    ld a, [hli]
+    ld c, a
+    ld a, [hli]
+    ld b, a
+    ld a, [hli]
+    ld e, a
+    ld a, [hli]
+    ld d, a
+    ld a, [hli]
+    ld h, [hl]
+    ld l, a
+    ld a, $21
+    call Func_735
+    ld a, $4
+    ld [$d674], a
+    ld a, $8
+    ld [$d6a1], a
+    xor a
+    ld [$d659], a
+    ld [$d662], a
+    ld [$d66b], a
+    ld [$d698], a
+    pop de
+    scf
+    ret
+
+INCBIN "baserom.gbc",$19145,$19185 - $19145
+
+Func_19185: ; 0x19185
+    ld de, $d698
+    call Func_1918c
+    ret
+
+Func_1918c: ; 0x1918c
+    ld a, [de]
+    and a
+    ret z
+.asm_1918f
+    call Func_191cb
+    jr nc, .asm_1919b
+    ld a, [$ff40]
+    bit 7, a
+    jr z, .asm_1918f
+    ret
+.asm_1919b
+    inc de
+    inc de
+    inc de
+    inc de
+    inc de
+    inc de
+    ld a, [de]
+    ld hl, hBoardXShift
+    sub [hl]
+    ld b, a
+    inc de
+    inc de
+    ld a, [de]
+    ld hl, hBoardYShift
+    sub [hl]
+    ld c, a
+    dec de
+    dec de
+    dec de
+    dec de
+    dec de
+    dec de
+    ld a, [de]
+    ld e, a
+    ld d, $0
+    ld hl, $51c4
+    add hl, de
+    ld a, [hl]
+    cp $ff
+    call nz, Func_1f0b
+    ret
+
+INCBIN "baserom.gbc",$191c4,$191cb - $191c4
+
+Func_191cb: ; 0x191cb
+    ld a, [$d6a1]
+    and a
+    ret z
+    push de
+    dec a
+    ld [$d6a1], a
+    sla a
+    sla a
+    sla a
+    ld c, a
+    ld b, $0
+    ld hl, $520f
+    add hl, bc
+    ld a, [hli]
+    ld c, a
+    ld a, [hli]
+    ld b, a
+    ld a, [hli]
+    ld e, a
+    ld a, [hli]
+    ld d, a
+    ld a, [hli]
+    ld h, [hl]
+    ld l, a
+    ld a, $26
+    call Func_735
+    ld a, $4
+    ld [$d674], a
+    ld a, $8
+    ld [$d690], a
+    xor a
+    ld [$d659], a
+    ld [$d662], a
+    ld [$d66b], a
+    ld [$d67e], a
+    ld [$d687], a
+    pop de
+    scf
+    ret
+
+INCBIN "baserom.gbc",$1920f,$1924f - $1920f
 
 InitMewtwoBonusStage: ; 0x1924f
     ld a, [$d7c1]
@@ -25367,7 +26285,94 @@ Func_1988e: ; 0x1988e
     jr nz, .asm_198a3
     ret
 
-INCBIN "baserom.gbc",$198ce,$199f2 - $198ce
+INCBIN "baserom.gbc",$198ce,$1994e - $198ce
+
+Func_1994e: ; 0x1994e
+    ld bc, $7f65
+    ld [$ff8a], a
+    ld a, Bank(Func_175a4)
+    ld hl, Func_175a4
+    call BankSwitch
+    call Func_1999d
+    ld [$ff8a], a
+    ld a, Bank(Func_e4a1)
+    ld hl, Func_e4a1
+    call BankSwitch
+    ld [$ff8a], a
+    ld a, Bank(Func_17e81)
+    ld hl, Func_17e81
+    call BankSwitch
+    call Func_19976
+    ret
+
+Func_19976: ; 0x19976
+    ld a, $40
+    ld hl, hBoardXShift
+    sub [hl]
+    ld b, a
+    ld a, $0
+    ld hl, hBoardYShift
+    sub [hl]
+    ld c, a
+    ld a, [$d6ad]
+    ld e, a
+    ld d, $0
+    ld hl, $5995
+    add hl, de
+    ld a, [hl]
+    cp $ff
+    call nz, Func_1f0b
+    ret
+
+INCBIN "baserom.gbc",$19995,$1999d - $19995
+
+Func_1999d: ; 0x1999d
+    ld de, $d6b6
+    call Func_199be
+    ld de, $d6be
+    call Func_199be
+    ld de, $d6c6
+    call Func_199be
+    ld de, $d6ce
+    call Func_199be
+    ld de, $d6d6
+    call Func_199be
+    ld de, $d6de
+    ; fall through
+
+Func_199be: ; 0x199be
+    ld a, [de]
+    and a
+    ret z
+    inc de
+    inc de
+    inc de
+    inc de
+    inc de
+    ld a, [de]
+    ld hl, hBoardXShift
+    sub [hl]
+    ld b, a
+    inc de
+    ld a, [de]
+    ld hl, hBoardYShift
+    sub [hl]
+    ld c, a
+    dec de
+    dec de
+    dec de
+    dec de
+    ld a, [de]
+    ld e, a
+    ld d, $0
+    ld hl, $59e6
+    add hl, de
+    ld a, [hl]
+    cp $ff
+    call nz, Func_1f0b
+    ret
+
+INCBIN "baserom.gbc",$199e6,$199f2 - $199e6
 
 InitDiglettBonusStage: ; 0x199f2
     ld a, [$d7c1]
@@ -26096,7 +27101,40 @@ asm_1ac2f:
     jr nz, .asm_1ac34
     ret
 
-INCBIN "baserom.gbc",$1ac4a,$1c000 - $1ac4a
+INCBIN "baserom.gbc",$1ac4a,$1ac98 - $1ac4a
+
+Func_1ac98: ; 0x1ac98
+    ld [$ff8a], a
+    ld a, Bank(Func_e4a1)
+    ld hl, Func_e4a1
+    call BankSwitch
+    ld [$ff8a], a
+    ld a, Bank(Func_17e81)
+    ld hl, Func_17e81
+    call BankSwitch
+    call Func_1acb0
+    ret
+
+Func_1acb0: ; 0x1acb0
+    ld a, $40
+    ld hl, hBoardXShift
+    sub [hl]
+    ld b, a
+    ld a, $0
+    ld hl, hBoardYShift
+    sub [hl]
+    ld c, a
+    ld a, [$d762]
+    ld e, a
+    ld d, $0
+    ld hl, $6ccf
+    add hl, de
+    ld a, [hl]
+    bit 7, a
+    call z, Func_1f0b
+    ret
+
+INCBIN "baserom.gbc",$1accf,$1c000 - $1accf
 
 
 SECTION "bank7", ROMX, BANK[$7]
@@ -30424,7 +31462,336 @@ Func_1f2ff: ; 0x1f2ff
     ld [$d530], a
     ret
 
-INCBIN "baserom.gbc",$1f330,$20000 - $1f330
+Func_1f330: ; 0x1f330
+    ld bc, $7f00
+    ld [$ff8a], a
+    ld a, Bank(Func_175a4)
+    ld hl, Func_175a4
+    call BankSwitch
+    call Func_1f395
+    call Func_1f3e1
+    call Func_1f408
+    call Func_1f428
+    ld [$ff8a], a
+    ld a, Bank(Func_17e81)
+    ld hl, Func_17e81
+    call BankSwitch
+    call Func_1f48f
+    call Func_1f4f8
+    ret
+
+Func_1f35a: ; 0x1f35a
+    ld bc, $7f00
+    ld [$ff8a], a
+    ld a, Bank(Func_175a4)
+    ld hl, Func_175a4
+    call BankSwitch
+    ld [$ff8a], a
+    ld a, Bank(Func_17c67)
+    ld hl, Func_17c67
+    call BankSwitch
+    call Func_1f58b
+    call Func_1f448
+    ld [$ff8a], a
+    ld a, Bank(Func_e4a1)
+    ld hl, Func_e4a1
+    call BankSwitch
+    ld [$ff8a], a
+    ld a, Bank(Func_17e81)
+    ld hl, Func_17e81
+    call BankSwitch
+    call Func_1f4a3
+    call Func_1f509
+    call Func_1f55e
+    ret
+
+Func_1f395: ; 0x1f395
+    ld de, $d4cd
+    ld hl, $73cf
+    call Func_1f3ad
+    ld de, $d4d0
+    ld hl, $73d5
+    call Func_1f3ad
+    ld de, $d4d3
+    ld hl, $73db
+    ; fall through
+
+Func_1f3ad: ; 0x1f3ad
+    ld a, [hBoardXShift]
+    ld b, a
+    ld a, [hli]
+    sub b
+    ld b, a
+    ld a, [hBoardYShift]
+    ld c, a
+    ld a, [hli]
+    sub c
+    ld c, a
+    ld a, [$d4d7]
+    sub [hl]
+    inc hl
+    jr z, .asm_1f3c4
+    ld a, $0
+    jr .asm_1f3c6
+.asm_1f3c4
+    ld a, $1
+.asm_1f3c6
+    ld e, a
+    ld d, $0
+    add hl, de
+    ld a, [hl]
+    call LoadOAMData
+    ret
+
+INCBIN "baserom.gbc",$1f3cf,$1f3e1 - $1f3cf
+
+Func_1f3e1: ; 0x1f3e1
+    ld a, $8a
+    ld hl, hBoardXShift
+    sub [hl]
+    ld b, a
+    ld a, $53
+    ld hl, hBoardYShift
+    sub [hl]
+    ld c, a
+    ld a, [$d50a]
+    srl a
+    srl a
+    ld e, a
+    ld d, $0
+    ld hl, $7402
+    add hl, de
+    ld a, [hl]
+    call LoadOAMData
+    ret
+
+INCBIN "baserom.gbc",$1f402,$1f408 - $1f402
+
+Func_1f408: ; 0x1f408
+    ld a, $18
+    ld hl, hBoardXShift
+    sub [hl]
+    ld b, a
+    ld a, $5f
+    ld hl, hBoardYShift
+    sub [hl]
+    ld c, a
+    ld a, [$d633]
+    ld e, a
+    ld d, $0
+    ld hl, $7425
+    add hl, de
+    ld a, [hl]
+    call LoadOAMData
+    ret
+
+INCBIN "baserom.gbc",$1f425,$1f428 - $1f425
+
+Func_1f428: ; 0x1f428
+    ld a, $70
+    ld hl, hBoardXShift
+    sub [hl]
+    ld b, a
+    ld a, $59
+    ld hl, hBoardYShift
+    sub [hl]
+    ld c, a
+    ld a, [$d638]
+    ld e, a
+    ld d, $0
+    ld hl, $7445
+    add hl, de
+    ld a, [hl]
+    call LoadOAMData
+    ret
+
+INCBIN "baserom.gbc",$1f445,$1f448 - $1f445
+
+Func_1f448: ; 0x1f448
+    ld a, [hBoardXShift]
+    ld d, a
+    ld a, [hBoardYShift]
+    ld e, a
+    ld a, [$d51d]
+    and a
+    ld a, [$d518]
+    jr z, .asm_1f473
+    ld a, [$d51c]
+    and a
+    jr nz, .asm_1f469
+    ld a, [$ffb3]
+    srl a
+    srl a
+    srl a
+    and $1
+    jr .asm_1f473
+.asm_1f469
+    ld a, [$d4b4]
+    cp $50
+    ld a, $1
+    jr nc, .asm_1f473
+    xor a
+.asm_1f473
+    sla a
+    ld c, a
+    ld b, $0
+    ld hl, $748b
+    add hl, bc
+    ld a, [hli]
+    sub d
+    ld b, a
+    ld a, [hli]
+    sub e
+    ld c, a
+    ld a, [$d51a]
+    add $e
+    call LoadOAMData
+    ret
+
+INCBIN "baserom.gbc",$1f48b,$1f48f - $1f48b
+
+Func_1f48f: ; 0x1f48f
+    ld a, [$d551]
+    and a
+    ret nz
+    ld a, [$ffb3]
+    bit 4, a
+    ret z
+    ld de, $d534
+    ld hl, $74ce
+    ld b, $6
+    jr asm_1f4b5
+
+Func_1f4a3: ; 0x1f4a3
+    ld a, [$d551]
+    and a
+    ret nz
+    ld a, [$ffb3]
+    bit 4, a
+    ret z
+    ld de, $d53a
+    ld hl, $74e0
+    ld b, $8
+asm_1f4b5:
+    push bc
+    ld a, [hBoardXShift]
+    ld b, a
+    ld a, [hli]
+    sub b
+    ld b, a
+    ld a, [hBoardYShift]
+    ld c, a
+    ld a, [hli]
+    sub c
+    ld c, a
+    ld a, [de]
+    and a
+    ld a, [hli]
+    call nz, LoadOAMData
+    pop bc
+    inc de
+    dec b
+    jr nz, asm_1f4b5
+    ret
+
+INCBIN "baserom.gbc",$1f4ce,$1f4f8 - $1f4ce
+
+Func_1f4f8: ; 0x1f4f8
+    ld a, [$d551]
+    and a
+    ret z
+    ld de, $d566
+    ld hl, $753a
+    ld b, $c
+    ld c, $47
+    jr asm_1f518
+
+Func_1f509: ; 0x1f509
+    ld a, [$d551]
+    and a
+    ret z
+    ld de, $d572
+    ld hl, $7552
+    ld b, $6
+    ld c, $40
+asm_1f518: ; 0x1f518
+    push bc
+    ld a, [de]
+    add c
+    cp c
+    push af
+    ld a, [hBoardXShift]
+    ld b, a
+    ld a, [hli]
+    sub b
+    ld b, a
+    ld a, [hBoardYShift]
+    ld c, a
+    ld a, [hli]
+    sub c
+    ld c, a
+    ld a, [$ffb3]
+    and $e
+    jr nz, .asm_1f530
+    dec c
+.asm_1f530
+    pop af
+    call nz, LoadOAMData
+    pop bc
+    inc de
+    dec b
+    jr nz, asm_1f518
+    ret
+
+INCBIN "baserom.gbc",$1f53a,$1f55e - $1f53a
+
+Func_1f55e: ; 0x1f55e
+    ld a, [$d604]
+    and a
+    ret z
+    ld a, [$d606]
+    inc a
+    ld [$d606], a
+    ld a, $40
+    ld hl, hBoardXShift
+    sub [hl]
+    ld b, a
+    ld a, $1
+    ld hl, hBoardYShift
+    sub [hl]
+    ld c, a
+    ld a, [$d606]
+    srl a
+    srl a
+    srl a
+    and $3
+    add $4f
+    cp $52
+    call nz, LoadOAMData
+    ret
+
+Func_1f58b: ; 0x1f58b
+    ld a, [$d5bb]
+    and a
+    ret z
+    ld a, $50
+    ld hl, hBoardXShift
+    sub [hl]
+    ld b, a
+    ld a, $3e
+    ld hl, hBoardYShift
+    sub [hl]
+    ld c, a
+    ld a, [$d5bd]
+    ld e, a
+    ld d, $0
+    ld hl, $75ad
+    add hl, de
+    ld a, [hl]
+    call LoadOAMData
+    ret
+
+INCBIN "baserom.gbc",$1f5ad,$20000 - $1f5ad
 
 
 SECTION "bank8", ROMX, BANK[$8]
@@ -32422,7 +33789,304 @@ Func_24fa3: ; 0x24fa3
     call Func_10aa
     ret
 
-INCBIN "baserom.gbc",$25007,$25a7c - $25007
+INCBIN "baserom.gbc",$25007,$2583b - $25007
+
+Func_2583b: ; 0x2583b
+    ld bc, $7f65
+    ld [$ff8a], a
+    ld a, Bank(Func_175a4)
+    ld hl, Func_175a4
+    call BankSwitch
+    ld [$ff8a], a
+    ld a, Bank(Func_e4a1)
+    ld hl, Func_e4a1
+    call BankSwitch
+    call Func_259fe
+    call Func_25895
+    call Func_2595e
+    call Func_2586c
+    ld [$ff8a], a
+    ld a, Bank(Func_17e81)
+    ld hl, Func_17e81
+    call BankSwitch
+    call Func_25a39
+    ret
+
+Func_2586c: ; 0x2586c
+    ld a, [$d6ed]
+    ld hl, hBoardXShift
+    sub [hl]
+    ld b, a
+    ld a, [$d6ee]
+    ld hl, hBoardYShift
+    sub [hl]
+    ld c, a
+    ld a, [$d6ea]
+    ld e, a
+    ld d, $0
+    ld hl, $588b
+    add hl, de
+    ld a, [hl]
+    call Func_1f0b
+    ret
+
+INCBIN "baserom.gbc",$2588b,$25895 - $2588b
+
+Func_25895: ; 0x25895
+    ld a, [$d714]
+    cp $b
+    jr nz, .asm_258a0
+    xor a
+    ld [$d714], a
+.asm_258a0
+    ld a, [$d715]
+    cp $b
+    jr nz, .asm_258ab
+    xor a
+    ld [$d715], a
+.asm_258ab
+    ld a, [$d716]
+    cp $b
+    jr nz, .asm_258b6
+    xor a
+    ld [$d716], a
+.asm_258b6
+    ld a, [$d71a]
+    ld hl, hBoardXShift
+    sub [hl]
+    ld b, a
+    ld a, [$d727]
+    ld hl, hBoardYShift
+    sub [hl]
+    ld c, a
+    ld a, [$d717]
+    sla a
+    ld e, a
+    ld d, $0
+    ld hl, $5935
+    add hl, de
+    ld a, [hli]
+    ld h, [hl]
+    ld l, a
+    ld a, [$d714]
+    ld e, a
+    ld d, $0
+    add hl, de
+    ld a, [hl]
+    call Func_1f0b
+    ld a, [$d71b]
+    ld hl, hBoardXShift
+    sub [hl]
+    ld b, a
+    ld a, [$d728]
+    ld hl, hBoardYShift
+    sub [hl]
+    ld c, a
+    ld a, [$d718]
+    sla a
+    ld e, a
+    ld d, $0
+    ld hl, $5935
+    add hl, de
+    ld a, [hli]
+    ld h, [hl]
+    ld l, a
+    ld a, [$d715]
+    ld e, a
+    ld d, $0
+    add hl, de
+    ld a, [hl]
+    call Func_1f0b
+    ld a, [$d71c]
+    ld hl, hBoardXShift
+    sub [hl]
+    ld b, a
+    ld a, [$d729]
+    ld hl, hBoardYShift
+    sub [hl]
+    ld c, a
+    ld a, [$d719]
+    sla a
+    ld e, a
+    ld d, $0
+    ld hl, $5935
+    add hl, de
+    ld a, [hli]
+    ld h, [hl]
+    ld l, a
+    ld a, [$d716]
+    ld e, a
+    ld d, $0
+    add hl, de
+    ld a, [hl]
+    call Func_1f0b
+    ret
+
+INCBIN "baserom.gbc",$25935,$2595e - $25935
+
+Func_2595e: ; 0x2595e
+    ld a, [$d71e]
+    cp $b
+    jr nz, .asm_25969
+    xor a
+    ld [$d71e], a
+.asm_25969
+    ld a, [$d71f]
+    cp $b
+    jr nz, .asm_25974
+    xor a
+    ld [$d71f], a
+.asm_25974
+    ld a, [$d720]
+    cp $b
+    jr nz, .asm_2597f
+    xor a
+    ld [$d720], a
+.asm_2597f
+    ld a, [$d724]
+    ld hl, hBoardXShift
+    sub [hl]
+    ld b, a
+    ld a, [$d731]
+    ld hl, hBoardYShift
+    sub [hl]
+    ld c, a
+    ld a, [$d721]
+    sla a
+    ld e, a
+    ld d, $0
+    ld hl, $5935
+    add hl, de
+    ld a, [hli]
+    ld h, [hl]
+    ld l, a
+    ld a, [$d71e]
+    ld e, a
+    ld d, $0
+    add hl, de
+    ld a, [hl]
+    call Func_1f0b
+    ld a, [$d725]
+    ld hl, hBoardXShift
+    sub [hl]
+    ld b, a
+    ld a, [$d732]
+    ld hl, hBoardYShift
+    sub [hl]
+    ld c, a
+    ld a, [$d722]
+    sla a
+    ld e, a
+    ld d, $0
+    ld hl, $5935
+    add hl, de
+    ld a, [hli]
+    ld h, [hl]
+    ld l, a
+    ld a, [$d71f]
+    ld e, a
+    ld d, $0
+    add hl, de
+    ld a, [hl]
+    call Func_1f0b
+    ld a, [$d726]
+    ld hl, hBoardXShift
+    sub [hl]
+    ld b, a
+    ld a, [$d733]
+    ld hl, hBoardYShift
+    sub [hl]
+    ld c, a
+    ld a, [$d723]
+    sla a
+    ld e, a
+    ld d, $0
+    ld hl, $5935
+    add hl, de
+    ld a, [hli]
+    ld h, [hl]
+    ld l, a
+    ld a, [$d720]
+    ld e, a
+    ld d, $0
+    add hl, de
+    ld a, [hl]
+    call Func_1f0b
+    ret
+
+Func_259fe: ; 0x259fe
+    ld a, [$d795]
+    and a
+    ret z
+    ld de, $d79c
+    ld a, [de]
+    ld hl, hBoardXShift
+    sub [hl]
+    ld b, a
+    inc de
+    inc de
+    ld a, [de]
+    ld hl, hBoardYShift
+    sub [hl]
+    ld c, a
+    dec de
+    dec de
+    dec de
+    dec de
+    dec de
+    dec de
+    ld a, [de]
+    ld e, a
+    ld d, $0
+    ld hl, $5a29
+    add hl, de
+    ld a, [hl]
+    cp $ff
+    call nz, Func_1f0b
+    ret
+
+INCBIN "baserom.gbc",$25a29,$25a39 - $25a29
+
+Func_25a39: ; 0x25a39
+    ld a, [$d64e]
+    and a
+    ret z
+    ld a, [$d652]
+    ld hl, hBoardXShift
+    sub [hl]
+    ld b, a
+    xor a
+    ld hl, hBoardYShift
+    sub [hl]
+    ld c, a
+    ld a, [$d64f]
+    cp $a
+    jr c, .asm_25a58
+    ld de, $0000
+    jr .asm_25a5b
+.asm_25a58
+    ld de, $0001
+.asm_25a5b
+    ld hl, $5a7a
+    add hl, de
+    ld a, [hl]
+    call Func_1f0b
+    ld hl, $d64f
+    inc [hl]
+    ld a, [hl]
+    cp $14
+    ret c
+    ld [hl], $0
+    ld hl, $d650
+    inc [hl]
+    ld a, [hl]
+    cp $a
+    ret nz
+    xor a
+    ld [$d64e], a
+    ret
+
+INCBIN "baserom.gbc",$25a7a,$25a7c - $25a7a
 
 InitSeelBonusStage: ; 0x25a7c
     ld a, [$d7c1]
@@ -33477,7 +35141,138 @@ Func_262f4: ; 0x262f4
     call Func_10aa
     ret
 
-INCBIN "baserom.gbc",$2634a,$28000 - $2634a
+INCBIN "baserom.gbc",$2634a,$26b7e - $2634a
+
+Func_26b7e: ; 0x26b7e
+    ld bc, $7f65
+    ld [$ff8a], a
+    ld a, Bank(Func_175a4)
+    ld hl, Func_175a4
+    call BankSwitch
+    call Func_26bf7
+    ld [$ff8a], a
+    ld a, Bank(Func_e4a1)
+    ld hl, Func_e4a1
+    call BankSwitch
+    ld [$ff8a], a
+    ld a, Bank(Func_17e81)
+    ld hl, Func_17e81
+    call BankSwitch
+    call Func_26ba9
+    call Func_26c3c
+    ret
+
+Func_26ba9: ; 0x26ba9
+    ld de, $d76e
+    call Func_26bbc
+    ld de, $d778
+    call Func_26bbc
+    ld de, $d782
+    call Func_26bbc
+    ret
+
+Func_26bbc: ; 0x26bbc
+    ld a, [de]
+    ld hl, hBoardXShift
+    sub [hl]
+    ld b, a
+    inc de
+    inc de
+    ld a, [de]
+    ld hl, hBoardYShift
+    sub [hl]
+    ld c, a
+    dec de
+    dec de
+    dec de
+    dec de
+    dec de
+    dec de
+    ld a, [de]
+    ld e, a
+    ld d, $0
+    ld hl, $6bdf
+    add hl, de
+    ld a, [hl]
+    cp $ff
+    call nz, Func_1f0b
+    ret
+
+INCBIN "baserom.gbc",$26bdf,$26bf7 - $26bdf
+
+Func_26bf7: ; 0x26bf7: ; 0x26bf7
+    ld a, [$d795]
+    cp $0
+    ret z
+    ld de, $d79c
+    ld a, [de]
+    ld hl, hBoardXShift
+    sub [hl]
+    ld b, a
+    inc de
+    inc de
+    ld a, [de]
+    ld hl, hBoardYShift
+    sub [hl]
+    ld c, a
+    dec de
+    dec de
+    dec de
+    dec de
+    dec de
+    dec de
+    ld a, [de]
+    ld e, a
+    ld d, $0
+    ld hl, $6c23
+    add hl, de
+    ld a, [hl]
+    cp $ff
+    call nz, Func_1f0b
+    ret
+
+INCBIN "baserom.gbc",$26c23,$26c3c - $26c23
+
+Func_26c3c: ; 0x26c3c
+    ld a, [$d64e]
+    and a
+    ret z
+    ld a, [$d652]
+    ld hl, hBoardXShift
+    sub [hl]
+    ld b, a
+    xor a
+    ld hl, hBoardYShift
+    sub [hl]
+    ld c, a
+    ld a, [$d64f]
+    cp $a
+    jr c, .asm_26c5b
+    ld de, $0000
+    jr .asm_26c5e
+.asm_26c5b
+    ld de, $0001
+.asm_26c5e
+    ld hl, $6c7d
+    add hl, de
+    ld a, [hl]
+    call Func_1f0b
+    ld hl, $d64f
+    inc [hl]
+    ld a, [hl]
+    cp $14
+    ret c
+    ld [hl], $0
+    ld hl, $d650
+    inc [hl]
+    ld a, [hl]
+    cp $a
+    ret nz
+    xor a
+    ld [$d64e], a
+    ret
+
+INCBIN "baserom.gbc",$26c7d,$28000 - $26c7d
 
 
 SECTION "banka", ROMX, BANK[$a]

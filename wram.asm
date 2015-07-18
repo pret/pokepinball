@@ -83,7 +83,13 @@ wTimerMinutes:: ; 0xd57b
 wTimerFrames::  ; 0xd57c
     ds 1
 
-    ds $224
+    ds $43
+
+wNumMonHits:: ; 0xd5c0
+; Number of times the wild pokemon has been hit in Catch'em mode
+    ds 1
+
+    ds $1e0
 
 wLeftTiltCounter:: ; 0xd7a1
 ; Counts up to 3 and back down to time the left tilt animation

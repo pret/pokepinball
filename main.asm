@@ -312,14 +312,31 @@ Func_3ec: ; 0x3ec
     sla a
     ld c, a
     ld b, $0
-    ld hl, $0408
+    ld hl, PointerTable_408
     add hl, bc
     ld a, [hli]
     ld h, [hl]
     ld l, a
     jp [hl]
 
-INCBIN "baserom.gbc",$3ff,$418 - $3ff
+Func_3ff: ; 0x3ff
+    ld a, $1
+    ld [$ffb5], a
+    pop hl
+    pop de
+    pop bc
+    pop af
+    reti
+
+PointerTable_408: ; 0x408
+    dw Func_fbc
+    dw Func_fbf
+    dw Func_fea
+    dw Func_105d
+    dw Func_109e
+    dw Func_10a1
+    dw Func_10a4
+    dw Func_10a7
 
 Func_418: ; 0x418
     ei
@@ -2390,7 +2407,159 @@ Func_fa1: ; 0xfa1
     pop bc
     ret
 
-INCBIN "baserom.gbc",$fbc,$10aa - $fbc
+Func_fbc: ; 0xfbc
+    jp Func_3ff
+
+Func_fbf: ; 0xfbf
+    ld hl, $ffa8
+    ld c, [hl]
+    ld a, [$ff44]
+    cp c
+    jp c, Func_3ff
+    inc c
+    inc c
+    cp c
+    jp nc, Func_3ff
+    ld a, [$ffaf]
+    ld c, a
+    ld a, [$ff9e]
+    xor $10
+    and c
+    ld c, a
+    ld hl, $ff41
+.asm_fdb
+    ld a, [hl]
+    and $3
+    jr nz, .asm_fdb
+    ld a, [$ff40]
+    and $80
+    or c
+    ld [$ff40], a
+    jp Func_3ff
+
+Func_fea: ; 0xfea
+    ld hl, $ffa8
+    ld a, [$ffaa]
+    cp [hl]
+    jr nz, .asm_1015
+    ld a, [$ff44]
+    cp [hl]
+    jp nz, Func_3ff
+    ld a, [$ff9e]
+    xor $18
+    ld c, a
+    ld a, [$ffac]
+    ld b, a
+    ld hl, $ff41
+.asm_1003
+    ld a, [hl]
+    and $3
+    jr nz, .asm_1003
+    ld a, [$ff40]
+    and $80
+    or c
+    ld [$ff40], a
+    ld a, b
+    ld [$ff42], a
+    jp Func_3ff
+.asm_1015
+    ld a, [$ff44]
+    cp [hl]
+    jr nz, .asm_1037
+    ld a, [$ffa8]
+    ld hl, $ffaa
+    sub [hl]
+    add $40
+    ld c, a
+    ld a, [$ffaa]
+    ld b, a
+    ld hl, $ff41
+.asm_1029
+    ld a, [hl]
+    and $3
+    jr nz, .asm_1029
+    ld a, c
+    ld [$ff42], a
+    ld a, b
+    ld [$ff45], a
+    jp Func_3ff
+.asm_1037
+    ld hl, $ffaa
+    ld a, [$ff44]
+    cp [hl]
+    jp nz, Func_3ff
+    ld a, [$ff9e]
+    xor $18
+    ld c, a
+    ld a, [$ffac]
+    ld b, a
+    ld hl, $ff41
+.asm_104b
+    ld a, [hl]
+    and $3
+    jr nz, .asm_104b
+    ld a, [$ff40]
+    and $80
+    or c
+    ld [$ff40], a
+    ld a, b
+    ld [$ff42], a
+    jp Func_3ff
+
+Func_105d: ; 0x105d
+    ld hl, $ffa8
+    ld a, [$ff44]
+    cp [hl]
+    jr z, .asm_1069
+    dec a
+    cp [hl]
+    jr nz, .asm_1080
+.asm_1069
+    ld a, [$ffaa]
+    ld c, a
+    ld a, [$ffac]
+    ld b, a
+    ld hl, $ff41
+.asm_1072
+    ld a, [hl]
+    and $3
+    jr nz, .asm_1072
+    ld a, b
+    ld [$ff42], a
+    ld a, c
+    ld [$ff45], a
+    jp Func_3ff
+.asm_1080
+    ld hl, $ffaa
+    ld a, [$ff44]
+    cp [hl]
+    jr z, .asm_108d
+    dec a
+    cp [hl]
+    jp nz, Func_3ff
+.asm_108d
+    ld a, [$ffae]
+    ld b, a
+    ld hl, $ff41
+.asm_1093
+    ld a, [hl]
+    and $3
+    jr nz, .asm_1093
+    ld a, b
+    ld [$ff42], a
+    jp Func_3ff
+
+Func_109e: ; 0x109e
+    jp Func_3ff
+
+Func_10a1: ; 0x10a1
+    jp Func_3ff
+
+Func_10a4: ; 0x10a4
+    jp Func_3ff
+
+Func_10a7: ; 0x10a7
+    jp Func_3ff
 
 Func_10aa: ; 0x10aa
     ld c, a
@@ -38893,14 +39062,20 @@ Func_285db: ; 0x285db
     ld e, a
     ld d, $0
     push hl
-    ld hl, $467f ; todo pointer table
+    ld hl, PointerTable_2867f
     add hl, de
     ld a, [hli]
     ld h, [hl]
     ld l, a
     jp [hl]
 
-INCBIN "baserom.gbc",$2867f,$2868b - $2867f
+PointerTable_2867f: ; 0x2867f
+    dw Func_286dd
+    dw Func_28721
+    dw Func_286dd
+    dw Func_28765
+
+INCBIN "baserom.gbc",$28687,$2868b - $28687
 
 DrawCornerInfoPokedexScreen: ; 0x2868b
 ; If player is holding SELECT button, it draws the seen/own count in the top-right corner.
@@ -38943,7 +39118,159 @@ LoadSeenOwnDigitOAM: ; 0x286d1
     ld b, a
     ret
 
-INCBIN "baserom.gbc",$286dd,$287e7 - $286dd
+Func_286dd: ; 0x286dd
+    pop hl
+    ld a, [$d862]
+    and a
+    jr nz, .asm_286ff
+    push bc
+    push hl
+    ld a, [$d863]
+    ld e, a
+    ld a, [$d864]
+    ld d, a
+    ld hl, $c010
+    xor a
+    ld bc, $00a0
+    call Func_735
+    ld a, $1
+    ld [$d862], a
+    pop hl
+    pop bc
+.asm_286ff
+    ld a, [$d95d]
+    and a
+    ret z
+    ld a, [$d95c]
+    and a
+    jr nz, .asm_2870d
+    ld [$d95d], a
+.asm_2870d
+    ld a, c
+    and a
+    jr nz, .asm_28719
+    ld hl, $ffab
+    dec [hl]
+    dec [hl]
+    dec [hl]
+    dec [hl]
+    ret
+.asm_28719
+    ld hl, $ffab
+    inc [hl]
+    inc [hl]
+    inc [hl]
+    inc [hl]
+    ret
+
+Func_28721: ; 0x28721
+    pop hl
+    ld a, [$d95d]
+    and a
+    ret z
+    ld a, c
+    and a
+    jr nz, .asm_28747
+    ld a, [hl]
+    push af
+    sla a
+    and $1e
+    ld c, a
+    ld b, $0
+    ld hl, $47c7
+    add hl, bc
+    ld a, [hli]
+    ld h, [hl]
+    ld l, a
+    pop af
+    call Func_28aaa
+    ld hl, $ffab
+    dec [hl]
+    dec [hl]
+    dec [hl]
+    dec [hl]
+    ret
+.asm_28747
+    ld a, [hl]
+    add $5
+    push af
+    sla a
+    and $1e
+    ld c, a
+    ld b, $0
+    ld hl, $47c7
+    add hl, bc
+    ld a, [hli]
+    ld h, [hl]
+    ld l, a
+    pop af
+    call Func_28aaa
+    ld hl, $ffab
+    inc [hl]
+    inc [hl]
+    inc [hl]
+    inc [hl]
+    ret
+
+Func_28765: ; 0x28765
+    pop hl
+    ld a, [$d95d]
+    and a
+    ret z
+    ld a, c
+    and a
+    jr nz, .asm_28791
+    push hl
+    ld a, [hl]
+    sla a
+    and $e
+    ld c, a
+    ld b, $0
+    ld hl, $47b7
+    add hl, bc
+    ld a, [hli]
+    ld e, a
+    ld a, [hli]
+    ld d, a
+    ld hl, $ffab
+    dec [hl]
+    dec [hl]
+    dec [hl]
+    dec [hl]
+    pop hl
+    xor a
+    ld [$d862], a
+    ld a, [hl]
+    call Func_28993
+    ret
+.asm_28791
+    push hl
+    ld a, [hl]
+    add $5
+    sla a
+    and $e
+    ld c, a
+    ld b, $0
+    ld hl, $47b7
+    add hl, bc
+    ld a, [hli]
+    ld e, a
+    ld a, [hli]
+    ld d, a
+    ld hl, $ffab
+    inc [hl]
+    inc [hl]
+    inc [hl]
+    inc [hl]
+    pop hl
+    xor a
+    ld [$d862], a
+    ld a, [hl]
+    add $5
+    call Func_28993
+    ret
+
+INCBIN "baserom.gbc",$287b7,$287e7 - $287b7
 
 Func_287e7: ; 0x287e7
     ld a, [$d960]

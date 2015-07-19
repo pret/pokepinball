@@ -1335,7 +1335,7 @@ Func_948: ; 0x948
     jr nz, Func_948
     ret
 
-Func_959: ; 0x959
+GenRandom: ; 0x959
     push bc
     push de
     push hl
@@ -1399,7 +1399,7 @@ Func_97a: ; 0x97a
     call Func_9fa
     call Func_9fa
     ld a, $0
-    call Func_959
+    call GenRandom
     ld [$afff], a
     ret
 
@@ -1442,7 +1442,7 @@ Func_a21: ; 0xa21
     ld hl, $0a38
     add hl, bc
     ld l, [hl]
-    call Func_959
+    call GenRandom
     call Func_dd4
     inc h
     srl h
@@ -10298,7 +10298,7 @@ HandleTitlescreenPikachuBlinkingAnimation: ; 0xc21e
     cp $3c  ;  is this a long-duration animation frame?
     jr c, .done
     ld c, a
-    call Func_959
+    call GenRandom
     and $1f
     add c
 .done
@@ -11477,13 +11477,13 @@ HighScoresScreenFunctions: ; 0xca83
 
 Func_ca8f: ; 0xca8f
     ld hl, $d473
-    call Func_959
+    call GenRandom
     ld [hli], a
-    call Func_959
+    call GenRandom
     ld [hli], a
-    call Func_959
+    call GenRandom
     ld [hli], a
-    call Func_959
+    call GenRandom
     ld [hli], a
     ld hl, $da36
     ld a, [$da83]
@@ -16357,7 +16357,7 @@ Func_ed8e: ; 0xed8e
     ld a, [hGameBoyColorFlag]
     and a
     call nz, Func_f269
-    call Func_959
+    call GenRandom
     and $f0
     ld [$d61a], a
     xor a
@@ -17989,7 +17989,7 @@ StartCatchEmMode: ; 0x1003f
     ld h, [hl]
     ld l, a
     add hl, bc
-    call Func_959  ; random number?
+    call GenRandom  ; random number?
     and $f
     call Func_10130
     ld c, a
@@ -22994,7 +22994,7 @@ Func_16279: ; 0x16279
     ld a, [$d622]
     cp $1
     ret nz
-    call Func_959
+    call GenRandom
     and $8
     ld [$d55b], a
     ld [$ff8a], a
@@ -24228,7 +24228,7 @@ Func_17cdc: ; 0x17cdc
     ld a, [hl]
     and a
     jr nz, .asm_17cf6
-    call Func_959
+    call GenRandom
     and $7
     add $1e
     ld [hli], a
@@ -27174,13 +27174,14 @@ InitDiglettBonusStage: ; 0x199f2
     ld [$d4c8], a
     ld [$d47e], a
     ld [$d49a], a
-    ld a, $1
-    ld hl, $d73d
-    ld b, $1f
-.asm_19a17
+    ; initialize all digletts to hiding
+    ld a, $1  ; hiding diglett state
+    ld hl, wDiglettStates
+    ld b, NUM_DIGLETTS
+.initDiglettsLoop
     ld [hli], a
     dec b
-    jr nz, .asm_19a17
+    jr nz, .initDiglettsLoop
     ld a, $1
     ld [$d761], a
     ld a, $c
@@ -27209,21 +27210,21 @@ StartBallDiglettBonusStage: ; 0x19a38
     ld [$d7ab], a
     ld [$d4af], a
     ld [$d73a], a
-    ld hl, $d73d
-    ld b, $1f
+    ld hl, wDiglettStates
+    ld b, NUM_DIGLETTS
 .asm_19a60
     ld a, [hl]
     and a
     jr z, .asm_19a67
-    ld a, $1
+    ld a, $1  ; hiding diglett state
     ld [hl], a
 .asm_19a67
     inc hl
     dec b
     jr nz, .asm_19a60
     xor a
-    ld [$d75c], a
-    ld [$d75d], a
+    ld [wCurrentDiglett], a
+    ld [wDiglettsInitializedFlag], a
     ld [$d765], a
     ret
 
@@ -27244,7 +27245,7 @@ Func_19a76: ; 0x19a76
     ret
 
 Func_19a96: ; 0x19a96
-    ld hl, $d73d
+    ld hl, wDiglettStates
     ld bc, $1f00
 .asm_19a9c
     ld a, [hli]
@@ -27434,7 +27435,7 @@ Func_19c52: ; 0x19c52
     sub $1
     ld c, a
     ld b, $0
-    ld hl, $d73d
+    ld hl, wDiglettStates
     add hl, bc
     ld a, [hl]
     cp $6
@@ -27443,7 +27444,7 @@ Func_19c52: ; 0x19c52
     ld [hl], a
     call Func_19da8
     call Func_19df0
-    ld hl, $d73d
+    ld hl, wDiglettStates
     ld bc, $1f00
     xor a
 .asm_19ca0
@@ -27481,15 +27482,15 @@ Func_19c52: ; 0x19c52
     ret
 
 Func_19cdd: ; 0x19cdd
-    ld a, [$d75d]
+    ld a, [wDiglettsInitializedFlag]
     and a
-    jr nz, .asm_19d42
-    ld a, [$d75e]
-    add $88
-    ld [$d75e], a
+    jr nz, .alreadyInitializedDigletts
+    ld a, [wDiglettInitDelayCounter]
+    add DIGLETT_INITIALIZE_DELAY
+    ld [wDiglettInitDelayCounter], a
     ret nc
-    ld hl, $5ed1
-    ld a, [$d75c]
+    ld hl, DiglettInitializeOrder
+    ld a, [wCurrentDiglett]
     ld c, a
     ld b, $0
     add hl, bc
@@ -27507,14 +27508,15 @@ Func_19cdd: ; 0x19cdd
     push hl
     ld c, a
     ld b, $0
-    ld hl, $d73d
+    ld hl, wDiglettStates
     add hl, bc
     ld a, [hl]
     and a
     jr z, .asm_19d29
     dec a
     jr nz, .asm_19d21
-    call Func_959
+    ; pick a random starting state for the diglett that isn't the "hiding" state
+    call GenRandom
     and $3
     add $2
     ld [hl], a
@@ -27531,24 +27533,24 @@ Func_19cdd: ; 0x19cdd
     pop bc
     dec b
     jr nz, .asm_19cf8
-    ld hl, $d75d
-    ld a, [$d75c]
+    ld hl, wDiglettsInitializedFlag
+    ld a, [wCurrentDiglett]
     add $1
-    cp $1f
-    jr c, .asm_19d3e
+    cp NUM_DIGLETTS
+    jr c, .notDoneInitializingDigletts
     set 0, [hl]
-    sub $1f
-.asm_19d3e
-    ld [$d75c], a
+    sub NUM_DIGLETTS
+.notDoneInitializingDigletts
+    ld [wCurrentDiglett], a
     ret
-.asm_19d42
-    ld hl, $5ef3
-    ld a, [$d75c]
+.alreadyInitializedDigletts
+    ld hl, DiglettUpdateOrder
+    ld a, [wCurrentDiglett]
     ld c, a
     ld b, $0
     add hl, bc
-    ld b, $4
-.asm_19d4e
+    ld b, $4  ; update 4 digletts
+.updateDiglettLoop
     push bc
     ld a, [hli]
     bit 7, a
@@ -27561,14 +27563,14 @@ Func_19cdd: ; 0x19cdd
     push hl
     ld c, a
     ld b, $0
-    ld hl, $d73d
+    ld hl, wDiglettStates
     add hl, bc
     ld a, [hl]
     and a
     jr z, .asm_19d8f
     dec a
     jr nz, .asm_19d77
-    call Func_959
+    call GenRandom
     and $3
     add $2
     ld [hl], a
@@ -27577,7 +27579,7 @@ Func_19cdd: ; 0x19cdd
     jr .asm_19d8f
 .asm_19d77
     cp $5
-    jr c, .asm_19d87
+    jr c, .incrementDiglettState
     ld [hl], a
     jr nz, .asm_19d8f
     xor a
@@ -27585,7 +27587,7 @@ Func_19cdd: ; 0x19cdd
     ld a, $1
     call Func_19da8
     jr .asm_19d8f
-.asm_19d87
+.incrementDiglettState
     and $3
     add $2
     ld [hl], a
@@ -27594,22 +27596,24 @@ Func_19cdd: ; 0x19cdd
     pop hl
     pop bc
     dec b
-    jr nz, .asm_19d4e
-    ld hl, $d75d
-    ld a, [$d75c]
+    jr nz, .updateDiglettLoop
+    ld hl, wDiglettsInitializedFlag
+    ld a, [wCurrentDiglett]
     add $4
-    cp $1f
+    cp NUM_DIGLETTS
     jr c, .asm_19da4
     set 0, [hl]
-    sub $1f
+    sub NUM_DIGLETTS
 .asm_19da4
-    ld [$d75c], a
+    ld [wCurrentDiglett], a
     ret
 
 Func_19da8: ; 0x19da8
+; input: a = diglett state
+;        c = diglett index
     cp $6
     jr c, .asm_19dae
-    ld a, $6
+    ld a, $6  ; "getting hit" state
 .asm_19dae
     push bc
     ld b, a
@@ -27617,13 +27621,13 @@ Func_19da8: ; 0x19da8
     ld a, c
     sla c
     add c
-    add b
+    add b  ; a = (index * 6) + state
     dec a
     ld c, a
-    ld b, $0
+    ld b, $0  ; bc = (index * 6) + state - 1
     sla c
-    rl b
-    ld hl, $5f15
+    rl b  ; bc = 2 * ((index * 6) + state - 1)
+    ld hl, PointerTable_19f15
     add hl, bc
     ld a, [hli]
     ld h, [hl]
@@ -27693,7 +27697,1820 @@ Func_19df0: ; 0x19df0
     ld [de], a
     ret
 
-INCBIN "baserom.gbc",$19e13,$1aad4 - $19e13
+INCBIN "baserom.gbc",$19e13,$19ed1 - $19e13
+
+DiglettInitializeOrder: ; 0x19ed1
+; This list specifies the order that digletts are initialized.
+; Each byte corresponds to an entry in wDiglettStates.
+    db $00
+    db $1C
+    db $01
+    db $1D
+    db $03
+    db $19
+    db $06
+    db $15
+    db $02
+    db $1E
+    db $04
+    db $1A
+    db $07
+    db $16
+    db $0A
+    db $11
+    db $05
+    db $1B
+    db $08
+    db $17
+    db $0B
+    db $12
+    db $0E
+    db $09
+    db $18
+    db $0C
+    db $13
+    db $0F
+    db $0D
+    db $14
+    db $10
+    dbw $FF, DiglettInitializeOrder  ; terminator
+
+DiglettUpdateOrder: ; 0x19ef3
+; This list specifies the order that digletts are updated.
+; Each byte corresponds to an entry in wDiglettStates
+    db $00
+    db $11
+    db $03
+    db $14
+    db $06
+    db $17
+    db $09
+    db $1A
+    db $0C
+    db $1D
+    db $0F
+    db $01
+    db $12
+    db $04
+    db $15
+    db $07
+    db $18
+    db $0A
+    db $1B
+    db $0D
+    db $1E
+    db $10
+    db $02
+    db $13
+    db $05
+    db $16
+    db $08
+    db $19
+    db $0B
+    db $1C
+    db $0E
+    dbw $FF, DiglettUpdateOrder  ; terminator
+
+PointerTable_19f15: ; 0x19f15
+    dw $6095
+    dw $6089
+    dw $608C
+    dw $6089
+    dw $608F
+    dw $6092
+    dw $60A4
+    dw $6098
+    dw $609B
+    dw $6098
+    dw $609E
+    dw $60A1
+    dw $60B3
+    dw $60A7
+    dw $60AA
+    dw $60A7
+    dw $60AD
+    dw $60B0
+    dw $60C2
+    dw $60B6
+    dw $60B9
+    dw $60B6
+    dw $60BC
+    dw $60BF
+    dw $60D1
+    dw $60C5
+    dw $60C8
+    dw $60C5
+    dw $60CB
+    dw $60CE
+    dw $60E0
+    dw $60D4
+    dw $60D7
+    dw $60D4
+    dw $60DA
+    dw $60DD
+    dw $60EF
+    dw $60E3
+    dw $60E6
+    dw $60E3
+    dw $60E9
+    dw $60EC
+    dw $60FE
+    dw $60F2
+    dw $60F5
+    dw $60F2
+    dw $60F8
+    dw $60FB
+    dw $610D
+    dw $6101
+    dw $6104
+    dw $6101
+    dw $6107
+    dw $610A
+    dw $611C
+    dw $6110
+    dw $6113
+    dw $6110
+    dw $6116
+    dw $6119
+    dw $612B
+    dw $611F
+    dw $6122
+    dw $611F
+    dw $6125
+    dw $6128
+    dw $613A
+    dw $612E
+    dw $6131
+    dw $612E
+    dw $6134
+    dw $6137
+    dw $6149
+    dw $613D
+    dw $6140
+    dw $613D
+    dw $6143
+    dw $6146
+    dw $6158
+    dw $614C
+    dw $614F
+    dw $614C
+    dw $6152
+    dw $6155
+    dw $6167
+    dw $615B
+    dw $615E
+    dw $615B
+    dw $6161
+    dw $6164
+    dw $6176
+    dw $616A
+    dw $616D
+    dw $616A
+    dw $6170
+    dw $6173
+    dw $6185
+    dw $6179
+    dw $617C
+    dw $6179
+    dw $617F
+    dw $6182
+    dw $6194
+    dw $6188
+    dw $618B
+    dw $6188
+    dw $618E
+    dw $6191
+    dw $61A3
+    dw $6197
+    dw $619A
+    dw $6197
+    dw $619D
+    dw $61A0
+    dw $61B2
+    dw $61A6
+    dw $61A9
+    dw $61A6
+    dw $61AC
+    dw $61AF
+    dw $61C1
+    dw $61B5
+    dw $61B8
+    dw $61B5
+    dw $61BB
+    dw $61BE
+    dw $61D0
+    dw $61C4
+    dw $61C7
+    dw $61C4
+    dw $61CA
+    dw $61CD
+    dw $61DF
+    dw $61D3
+    dw $61D6
+    dw $61D3
+    dw $61D9
+    dw $61DC
+    dw $61EE
+    dw $61E2
+    dw $61E5
+    dw $61E2
+    dw $61E8
+    dw $61EB
+    dw $61FD
+    dw $61F1
+    dw $61F4
+    dw $61F1
+    dw $61F7
+    dw $61FA
+    dw $620C
+    dw $6200
+    dw $6203
+    dw $6200
+    dw $6206
+    dw $6209
+    dw $621B
+    dw $620F
+    dw $6212
+    dw $620F
+    dw $6215
+    dw $6218
+    dw $622A
+    dw $621E
+    dw $6221
+    dw $621E
+    dw $6224
+    dw $6227
+    dw $6239
+    dw $622D
+    dw $6230
+    dw $622D
+    dw $6233
+    dw $6236
+    dw $6248
+    dw $623C
+    dw $623F
+    dw $623C
+    dw $6242
+    dw $6245
+    dw $6257
+    dw $624B
+    dw $624E
+    dw $624B
+    dw $6251
+    dw $6254
+
+DiglettData_1a089: ; 0x1a089
+    dbw $01, $625A
+    dbw $01, $6268
+    dbw $01, $6276
+    dbw $01, $6284
+    dbw $01, $6292
+    dbw $01, $62A0
+    dbw $01, $62AE
+    dbw $01, $62BC
+    dbw $01, $62CA
+    dbw $01, $62D8
+    dbw $01, $62E6
+    dbw $01, $62F4
+    dbw $01, $6302
+    dbw $01, $6310
+    dbw $01, $631E
+    dbw $01, $632C
+    dbw $01, $633A
+    dbw $01, $6348
+    dbw $01, $6356
+    dbw $01, $6364
+    dbw $01, $6372
+    dbw $01, $6380
+    dbw $01, $638E
+    dbw $01, $639C
+    dbw $01, $63AA
+    dbw $01, $63B8
+    dbw $01, $63C6
+    dbw $01, $63D4
+    dbw $01, $63E2
+    dbw $01, $63F0
+    dbw $01, $63FE
+    dbw $01, $640C
+    dbw $01, $641A
+    dbw $01, $6428
+    dbw $01, $6436
+    dbw $01, $6444
+    dbw $01, $6452
+    dbw $01, $6460
+    dbw $01, $646E
+    dbw $01, $647C
+    dbw $01, $648A
+    dbw $01, $6498
+    dbw $01, $64A6
+    dbw $01, $64B4
+    dbw $01, $64C2
+    dbw $01, $64D0
+    dbw $01, $64DE
+    dbw $01, $64EC
+    dbw $01, $64FA
+    dbw $01, $6508
+    dbw $01, $6516
+    dbw $01, $6524
+    dbw $01, $6532
+    dbw $01, $6540
+    dbw $01, $654E
+    dbw $01, $655C
+    dbw $01, $656A
+    dbw $01, $6578
+    dbw $01, $6586
+    dbw $01, $6594
+    dbw $01, $65A2
+    dbw $01, $65B0
+    dbw $01, $65BE
+    dbw $01, $65CC
+    dbw $01, $65DA
+    dbw $01, $65E8
+    dbw $01, $65F6
+    dbw $01, $6604
+    dbw $01, $6612
+    dbw $01, $6620
+    dbw $01, $662E
+    dbw $01, $663C
+    dbw $01, $664A
+    dbw $01, $6658
+    dbw $01, $6666
+    dbw $01, $6674
+    dbw $01, $6682
+    dbw $01, $6690
+    dbw $01, $669E
+    dbw $01, $66AC
+    dbw $01, $66BA
+    dbw $01, $66C8
+    dbw $01, $66D6
+    dbw $01, $66E4
+    dbw $01, $66F2
+    dbw $01, $6700
+    dbw $01, $670E
+    dbw $01, $671C
+    dbw $01, $672A
+    dbw $01, $6738
+    dbw $01, $6746
+    dbw $01, $6754
+    dbw $01, $6762
+    dbw $01, $6770
+    dbw $01, $677E
+    dbw $01, $678C
+    dbw $01, $679A
+    dbw $01, $67A8
+    dbw $01, $67B6
+    dbw $01, $67C4
+    dbw $01, $67D2
+    dbw $01, $67E0
+    dbw $01, $67EE
+    dbw $01, $67FC
+    dbw $01, $680A
+    dbw $01, $6818
+    dbw $01, $6826
+    dbw $01, $6834
+    dbw $01, $6842
+    dbw $01, $6850
+    dbw $01, $685E
+    dbw $01, $686C
+    dbw $01, $687A
+    dbw $01, $6888
+    dbw $01, $6896
+    dbw $01, $68A4
+    dbw $01, $68B2
+    dbw $01, $68C0
+    dbw $01, $68CE
+    dbw $01, $68DC
+    dbw $01, $68EA
+    dbw $01, $68F8
+    dbw $01, $6906
+    dbw $01, $6914
+    dbw $01, $6922
+    dbw $01, $6930
+    dbw $01, $693E
+    dbw $01, $694C
+    dbw $01, $695A
+    dbw $01, $6968
+    dbw $01, $6976
+    dbw $01, $6984
+    dbw $01, $6992
+    dbw $01, $69A0
+    dbw $01, $69AE
+    dbw $01, $69BC
+    dbw $01, $69CA
+    dbw $01, $69D8
+    dbw $01, $69E6
+    dbw $01, $69F4
+    dbw $01, $6A02
+    dbw $01, $6A10
+    dbw $01, $6A1E
+    dbw $01, $6A2C
+    dbw $01, $6A3A
+    dbw $01, $6A48
+    dbw $01, $6A56
+    dbw $01, $6A64
+    dbw $01, $6A72
+    dbw $01, $6A80
+    dbw $01, $6A8E
+    dbw $01, $6A9C
+    dbw $01, $6AAA
+    dbw $01, $6AB8
+    dbw $01, $6AC6
+
+DiglettData_1a259: ; 0x1a259
+    db $7B, $11, $04
+    db $02
+    dw $9861
+    db $35, $36
+    db $02
+    dw $9881
+    db $37, $38
+    db $00  ; terminator
+
+    db $7B, $11, $04
+    db $02
+    dw $9861
+    db $39, $3A
+    db $02
+    dw $9881
+    db $3B, $3C
+    db $00  ; terminator
+
+    db $7B, $11, $04
+    db $02
+    dw $9861
+    db $3D, $3E
+    db $02
+    dw $9881
+    db $3F, $40
+    db $00  ; terminator
+
+    db $7B, $11, $04
+    db $02
+    dw $9861
+    db $41, $42
+    db $02
+    dw $9881
+    db $43, $44
+    db $00  ; terminator
+
+    db $7B, $11, $04
+    db $02
+    dw $9861
+    db $45, $46
+    db $02
+    dw $9881
+    db $47, $48
+    db $00  ; terminator
+
+    db $7B, $11, $04
+    db $02
+    dw $98A1
+    db $35, $36
+    db $02
+    dw $98C1
+    db $37, $38
+    db $00  ; terminator
+
+    db $7B, $11, $04
+    db $02
+    dw $98A1
+    db $39, $3A
+    db $02
+    dw $98C1
+    db $3B, $3C
+    db $00  ; terminator
+
+    db $7B, $11, $04
+    db $02
+    dw $98A1
+    db $3D, $3E
+    db $02
+    dw $98C1
+    db $3F, $40
+    db $00  ; terminator
+
+    db $7B, $11, $04
+    db $02
+    dw $98A1
+    db $41, $42
+    db $02
+    dw $98C1
+    db $43, $44
+    db $00  ; terminator
+
+    db $7B, $11, $04
+    db $02
+    dw $98A1
+    db $45, $46
+    db $02
+    dw $98C1
+    db $47, $48
+    db $00  ; terminator
+
+    db $7B, $11, $04
+    db $02
+    dw $98E1
+    db $35, $36
+    db $02
+    dw $9901
+    db $37, $38
+    db $00  ; terminator
+
+    db $7B, $11, $04
+    db $02
+    dw $98E1
+    db $39, $3A
+    db $02
+    dw $9901
+    db $3B, $3C
+    db $00  ; terminator
+
+    db $7B, $11, $04
+    db $02
+    dw $98E1
+    db $3D, $3E
+    db $02
+    dw $9901
+    db $3F, $40
+    db $00  ; terminator
+
+    db $7B, $11, $04
+    db $02
+    dw $98E1
+    db $41, $42
+    db $02
+    dw $9901
+    db $43, $44
+    db $00  ; terminator
+
+    db $7B, $11, $04
+    db $02
+    dw $98E1
+    db $45, $46
+    db $02
+    dw $9901
+    db $47, $48
+    db $00  ; terminator
+
+    db $7B, $11, $04
+    db $02
+    dw $9883
+    db $35, $36
+    db $02
+    dw $98A3
+    db $37, $38
+    db $00  ; terminator
+
+    db $7B, $11, $04
+    db $02
+    dw $9883
+    db $39, $3A
+    db $02
+    dw $98A3
+    db $3B, $3C
+    db $00  ; terminator
+
+    db $7B, $11, $04
+    db $02
+    dw $9883
+    db $3D, $3E
+    db $02
+    dw $98A3
+    db $3F, $40
+    db $00  ; terminator
+
+    db $7B, $11, $04
+    db $02
+    dw $9883
+    db $41, $42
+    db $02
+    dw $98A3
+    db $43, $44
+    db $00  ; terminator
+
+    db $7B, $11, $04
+    db $02
+    dw $9883
+    db $45, $46
+    db $02
+    dw $98A3
+    db $47, $48
+    db $00  ; terminator
+
+    db $7B, $11, $04
+    db $02
+    dw $98C3
+    db $35, $36
+    db $02
+    dw $98E3
+    db $37, $38
+    db $00  ; terminator
+
+    db $7B, $11, $04
+    db $02
+    dw $98C3
+    db $39, $3A
+    db $02
+    dw $98E3
+    db $3B, $3C
+    db $00  ; terminator
+
+    db $7B, $11, $04
+    db $02
+    dw $98C3
+    db $3D, $3E
+    db $02
+    dw $98E3
+    db $3F, $40
+    db $00  ; terminator
+
+    db $7B, $11, $04
+    db $02
+    dw $98C3
+    db $41, $42
+    db $02
+    dw $98E3
+    db $43, $44
+    db $00  ; terminator
+
+    db $7B, $11, $04
+    db $02
+    dw $98C3
+    db $45, $46
+    db $02
+    dw $98E3
+    db $47, $48
+    db $00  ; terminator
+
+    db $7B, $11, $04
+    db $02
+    dw $9903
+    db $35, $36
+    db $02
+    dw $9923
+    db $37, $38
+    db $00  ; terminator
+
+    db $7B, $11, $04
+    db $02
+    dw $9903
+    db $39, $3A
+    db $02
+    dw $9923
+    db $3B, $3C
+    db $00  ; terminator
+
+    db $7B, $11, $04
+    db $02
+    dw $9903
+    db $3D, $3E
+    db $02
+    dw $9923
+    db $3F, $40
+    db $00  ; terminator
+
+    db $7B, $11, $04
+    db $02
+    dw $9903
+    db $41, $42
+    db $02
+    dw $9923
+    db $43, $44
+    db $00  ; terminator
+
+    db $7B, $11, $04
+    db $02
+    dw $9903
+    db $45, $46
+    db $02
+    dw $9923
+    db $47, $48
+    db $00  ; terminator
+
+    db $7B, $11, $04
+    db $02
+    dw $9865
+    db $35, $36
+    db $02
+    dw $9885
+    db $37, $38
+    db $00  ; terminator
+
+    db $7B, $11, $04
+    db $02
+    dw $9865
+    db $39, $3A
+    db $02
+    dw $9885
+    db $3B, $3C
+    db $00  ; terminator
+
+    db $7B, $11, $04
+    db $02
+    dw $9865
+    db $3D, $3E
+    db $02
+    dw $9885
+    db $3F, $40
+    db $00  ; terminator
+
+    db $7B, $11, $04
+    db $02
+    dw $9865
+    db $41, $42
+    db $02
+    dw $9885
+    db $43, $44
+    db $00  ; terminator
+
+    db $7B, $11, $04
+    db $02
+    dw $9865
+    db $45, $46
+    db $02
+    dw $9885
+    db $47, $48
+    db $00  ; terminator
+
+    db $7B, $11, $04
+    db $02
+    dw $98A5
+    db $35, $36
+    db $02
+    dw $98C5
+    db $37, $38
+    db $00  ; terminator
+
+    db $7B, $11, $04
+    db $02
+    dw $98A5
+    db $39, $3A
+    db $02
+    dw $98C5
+    db $3B, $3C
+    db $00  ; terminator
+
+    db $7B, $11, $04
+    db $02
+    dw $98A5
+    db $3D, $3E
+    db $02
+    dw $98C5
+    db $3F, $40
+    db $00  ; terminator
+
+    db $7B, $11, $04
+    db $02
+    dw $98A5
+    db $41, $42
+    db $02
+    dw $98C5
+    db $43, $44
+    db $00  ; terminator
+
+    db $7B, $11, $04
+    db $02
+    dw $98A5
+    db $45, $46
+    db $02
+    dw $98C5
+    db $47, $48
+    db $00  ; terminator
+
+    db $7B, $11, $04
+    db $02
+    dw $98E5
+    db $35, $36
+    db $02
+    dw $9905
+    db $37, $38
+    db $00  ; terminator
+
+    db $7B, $11, $04
+    db $02
+    dw $98E5
+    db $39, $3A
+    db $02
+    dw $9905
+    db $3B, $3C
+    db $00  ; terminator
+
+    db $7B, $11, $04
+    db $02
+    dw $98E5
+    db $3D, $3E
+    db $02
+    dw $9905
+    db $3F, $40
+    db $00  ; terminator
+
+    db $7B, $11, $04
+    db $02
+    dw $98E5
+    db $41, $42
+    db $02
+    dw $9905
+    db $43, $44
+    db $00  ; terminator
+
+    db $7B, $11, $04
+    db $02
+    dw $98E5
+    db $45, $46
+    db $02
+    dw $9905
+    db $47, $48
+    db $00  ; terminator
+
+    db $7B, $11, $04
+    db $02
+    dw $9925
+    db $35, $36
+    db $02
+    dw $9945
+    db $37, $38
+    db $00  ; terminator
+
+    db $7B, $11, $04
+    db $02
+    dw $9925
+    db $39, $3A
+    db $02
+    dw $9945
+    db $3B, $3C
+    db $00  ; terminator
+
+    db $7B, $11, $04
+    db $02
+    dw $9925
+    db $3D, $3E
+    db $02
+    dw $9945
+    db $3F, $40
+    db $00  ; terminator
+
+    db $7B, $11, $04
+    db $02
+    dw $9925
+    db $41, $42
+    db $02
+    dw $9945
+    db $43, $44
+    db $00  ; terminator
+
+    db $7B, $11, $04
+    db $02
+    dw $9925
+    db $45, $46
+    db $02
+    dw $9945
+    db $47, $48
+    db $00  ; terminator
+
+    db $7B, $11, $04
+    db $02
+    dw $9887
+    db $35, $36
+    db $02
+    dw $98A7
+    db $37, $38
+    db $00  ; terminator
+
+    db $7B, $11, $04
+    db $02
+    dw $9887
+    db $39, $3A
+    db $02
+    dw $98A7
+    db $3B, $3C
+    db $00  ; terminator
+
+    db $7B, $11, $04
+    db $02
+    dw $9887
+    db $3D, $3E
+    db $02
+    dw $98A7
+    db $3F, $40
+    db $00  ; terminator
+
+    db $7B, $11, $04
+    db $02
+    dw $9887
+    db $41, $42
+    db $02
+    dw $98A7
+    db $43, $44
+    db $00  ; terminator
+
+    db $7B, $11, $04
+    db $02
+    dw $9887
+    db $45, $46
+    db $02
+    dw $98A7
+    db $47, $48
+    db $00  ; terminator
+
+    db $7B, $11, $04
+    db $02
+    dw $98C7
+    db $35, $36
+    db $02
+    dw $98E7
+    db $37, $38
+    db $00  ; terminator
+
+    db $7B, $11, $04
+    db $02
+    dw $98C7
+    db $39, $3A
+    db $02
+    dw $98E7
+    db $3B, $3C
+    db $00  ; terminator
+
+    db $7B, $11, $04
+    db $02
+    dw $98C7
+    db $3D, $3E
+    db $02
+    dw $98E7
+    db $3F, $40
+    db $00  ; terminator
+
+    db $7B, $11, $04
+    db $02
+    dw $98C7
+    db $41, $42
+    db $02
+    dw $98E7
+    db $43, $44
+    db $00  ; terminator
+
+    db $7B, $11, $04
+    db $02
+    dw $98C7
+    db $45, $46
+    db $02
+    dw $98E7
+    db $47, $48
+    db $00  ; terminator
+
+    db $7B, $11, $04
+    db $02
+    dw $9907
+    db $35, $36
+    db $02
+    dw $9927
+    db $37, $38
+    db $00  ; terminator
+
+    db $7B, $11, $04
+    db $02
+    dw $9907
+    db $39, $3A
+    db $02
+    dw $9927
+    db $3B, $3C
+    db $00  ; terminator
+
+    db $7B, $11, $04
+    db $02
+    dw $9907
+    db $3D, $3E
+    db $02
+    dw $9927
+    db $3F, $40
+    db $00  ; terminator
+
+    db $7B, $11, $04
+    db $02
+    dw $9907
+    db $41, $42
+    db $02
+    dw $9927
+    db $43, $44
+    db $00  ; terminator
+
+    db $7B, $11, $04
+    db $02
+    dw $9907
+    db $45, $46
+    db $02
+    dw $9927
+    db $47, $48
+    db $00  ; terminator
+
+    db $7B, $11, $04
+    db $02
+    dw $9947
+    db $35, $36
+    db $02
+    dw $9967
+    db $37, $38
+    db $00  ; terminator
+
+    db $7B, $11, $04
+    db $02
+    dw $9947
+    db $39, $3A
+    db $02
+    dw $9967
+    db $3B, $3C
+    db $00  ; terminator
+
+    db $7B, $11, $04
+    db $02
+    dw $9947
+    db $3D, $3E
+    db $02
+    dw $9967
+    db $3F, $40
+    db $00  ; terminator
+
+    db $7B, $11, $04
+    db $02
+    dw $9947
+    db $41, $42
+    db $02
+    dw $9967
+    db $43, $44
+    db $00  ; terminator
+
+    db $7B, $11, $04
+    db $02
+    dw $9947
+    db $45, $46
+    db $02
+    dw $9967
+    db $47, $48
+    db $00  ; terminator
+
+    db $7B, $11, $04
+    db $02
+    dw $98A9
+    db $35, $36
+    db $02
+    dw $98C9
+    db $37, $38
+    db $00  ; terminator
+
+    db $7B, $11, $04
+    db $02
+    dw $98A9
+    db $39, $3A
+    db $02
+    dw $98C9
+    db $3B, $3C
+    db $00  ; terminator
+
+    db $7B, $11, $04
+    db $02
+    dw $98A9
+    db $3D, $3E
+    db $02
+    dw $98C9
+    db $3F, $40
+    db $00  ; terminator
+
+    db $7B, $11, $04
+    db $02
+    dw $98A9
+    db $41, $42
+    db $02
+    dw $98C9
+    db $43, $44
+    db $00  ; terminator
+
+    db $7B, $11, $04
+    db $02
+    dw $98A9
+    db $45, $46
+    db $02
+    dw $98C9
+    db $47, $48
+    db $00  ; terminator
+
+    db $7B, $11, $04
+    db $02
+    dw $98E9
+    db $35, $36
+    db $02
+    dw $9909
+    db $37, $38
+    db $00  ; terminator
+
+    db $7B, $11, $04
+    db $02
+    dw $98E9
+    db $39, $3A
+    db $02
+    dw $9909
+    db $3B, $3C
+    db $00  ; terminator
+
+    db $7B, $11, $04
+    db $02
+    dw $98E9
+    db $3D, $3E
+    db $02
+    dw $9909
+    db $3F, $40
+    db $00  ; terminator
+
+    db $7B, $11, $04
+    db $02
+    dw $98E9
+    db $41, $42
+    db $02
+    dw $9909
+    db $43, $44
+    db $00  ; terminator
+
+    db $7B, $11, $04
+    db $02
+    dw $98E9
+    db $45, $46
+    db $02
+    dw $9909
+    db $47, $48
+    db $00  ; terminator
+
+    db $7B, $11, $04
+    db $02
+    dw $9929
+    db $35, $36
+    db $02
+    dw $9949
+    db $37, $38
+    db $00  ; terminator
+
+    db $7B, $11, $04
+    db $02
+    dw $9929
+    db $39, $3A
+    db $02
+    dw $9949
+    db $3B, $3C
+    db $00  ; terminator
+
+    db $7B, $11, $04
+    db $02
+    dw $9929
+    db $3D, $3E
+    db $02
+    dw $9949
+    db $3F, $40
+    db $00  ; terminator
+
+    db $7B, $11, $04
+    db $02
+    dw $9929
+    db $41, $42
+    db $02
+    dw $9949
+    db $43, $44
+    db $00  ; terminator
+
+    db $7B, $11, $04
+    db $02
+    dw $9929
+    db $45, $46
+    db $02
+    dw $9949
+    db $47, $48
+    db $00  ; terminator
+
+    db $7B, $11, $04
+    db $02
+    dw $988B
+    db $35, $36
+    db $02
+    dw $98AB
+    db $37, $38
+    db $00  ; terminator
+
+    db $7B, $11, $04
+    db $02
+    dw $988B
+    db $39, $3A
+    db $02
+    dw $98AB
+    db $3B, $3C
+    db $00  ; terminator
+
+    db $7B, $11, $04
+    db $02
+    dw $988B
+    db $3D, $3E
+    db $02
+    dw $98AB
+    db $3F, $40
+    db $00  ; terminator
+
+    db $7B, $11, $04
+    db $02
+    dw $988B
+    db $41, $42
+    db $02
+    dw $98AB
+    db $43, $44
+    db $00  ; terminator
+
+    db $7B, $11, $04
+    db $02
+    dw $988B
+    db $45, $46
+    db $02
+    dw $98AB
+    db $47, $48
+    db $00  ; terminator
+
+    db $7B, $11, $04
+    db $02
+    dw $98CB
+    db $35, $36
+    db $02
+    dw $98EB
+    db $37, $38
+    db $00  ; terminator
+
+    db $7B, $11, $04
+    db $02
+    dw $98CB
+    db $39, $3A
+    db $02
+    dw $98EB
+    db $3B, $3C
+    db $00  ; terminator
+
+    db $7B, $11, $04
+    db $02
+    dw $98CB
+    db $3D, $3E
+    db $02
+    dw $98EB
+    db $3F, $40
+    db $00  ; terminator
+
+    db $7B, $11, $04
+    db $02
+    dw $98CB
+    db $41, $42
+    db $02
+    dw $98EB
+    db $43, $44
+    db $00  ; terminator
+
+    db $7B, $11, $04
+    db $02
+    dw $98CB
+    db $45, $46
+    db $02
+    dw $98EB
+    db $47, $48
+    db $00  ; terminator
+
+    db $7B, $11, $04
+    db $02
+    dw $990B
+    db $35, $36
+    db $02
+    dw $992B
+    db $37, $38
+    db $00  ; terminator
+
+    db $7B, $11, $04
+    db $02
+    dw $990B
+    db $39, $3A
+    db $02
+    dw $992B
+    db $3B, $3C
+    db $00  ; terminator
+
+    db $7B, $11, $04
+    db $02
+    dw $990B
+    db $3D, $3E
+    db $02
+    dw $992B
+    db $3F, $40
+    db $00  ; terminator
+
+    db $7B, $11, $04
+    db $02
+    dw $990B
+    db $41, $42
+    db $02
+    dw $992B
+    db $43, $44
+    db $00  ; terminator
+
+    db $7B, $11, $04
+    db $02
+    dw $990B
+    db $45, $46
+    db $02
+    dw $992B
+    db $47, $48
+    db $00  ; terminator
+
+    db $7B, $11, $04
+    db $02
+    dw $994B
+    db $35, $36
+    db $02
+    dw $996B
+    db $37, $38
+    db $00  ; terminator
+
+    db $7B, $11, $04
+    db $02
+    dw $994B
+    db $39, $3A
+    db $02
+    dw $996B
+    db $3B, $3C
+    db $00  ; terminator
+
+    db $7B, $11, $04
+    db $02
+    dw $994B
+    db $3D, $3E
+    db $02
+    dw $996B
+    db $3F, $40
+    db $00  ; terminator
+
+    db $7B, $11, $04
+    db $02
+    dw $994B
+    db $41, $42
+    db $02
+    dw $996B
+    db $43, $44
+    db $00  ; terminator
+
+    db $7B, $11, $04
+    db $02
+    dw $994B
+    db $45, $46
+    db $02
+    dw $996B
+    db $47, $48
+    db $00  ; terminator
+
+    db $7B, $11, $04
+    db $02
+    dw $986D
+    db $35, $36
+    db $02
+    dw $988D
+    db $37, $38
+    db $00  ; terminator
+
+    db $7B, $11, $04
+    db $02
+    dw $986D
+    db $39, $3A
+    db $02
+    dw $988D
+    db $3B, $3C
+    db $00  ; terminator
+
+    db $7B, $11, $04
+    db $02
+    dw $986D
+    db $3D, $3E
+    db $02
+    dw $988D
+    db $3F, $40
+    db $00  ; terminator
+
+    db $7B, $11, $04
+    db $02
+    dw $986D
+    db $41, $42
+    db $02
+    dw $988D
+    db $43, $44
+    db $00  ; terminator
+
+    db $7B, $11, $04
+    db $02
+    dw $986D
+    db $45, $46
+    db $02
+    dw $988D
+    db $47, $48
+    db $00  ; terminator
+
+    db $7B, $11, $04
+    db $02
+    dw $98AD
+    db $35, $36
+    db $02
+    dw $98CD
+    db $37, $38
+    db $00  ; terminator
+
+    db $7B, $11, $04
+    db $02
+    dw $98AD
+    db $39, $3A
+    db $02
+    dw $98CD
+    db $3B, $3C
+    db $00  ; terminator
+
+    db $7B, $11, $04
+    db $02
+    dw $98AD
+    db $3D, $3E
+    db $02
+    dw $98CD
+    db $3F, $40
+    db $00  ; terminator
+
+    db $7B, $11, $04
+    db $02
+    dw $98AD
+    db $41, $42
+    db $02
+    dw $98CD
+    db $43, $44
+    db $00  ; terminator
+
+    db $7B, $11, $04
+    db $02
+    dw $98AD
+    db $45, $46
+    db $02
+    dw $98CD
+    db $47, $48
+    db $00  ; terminator
+
+    db $7B, $11, $04
+    db $02
+    dw $98ED
+    db $35, $36
+    db $02
+    dw $990D
+    db $37, $38
+    db $00  ; terminator
+
+    db $7B, $11, $04
+    db $02
+    dw $98ED
+    db $39, $3A
+    db $02
+    dw $990D
+    db $3B, $3C
+    db $00  ; terminator
+
+    db $7B, $11, $04
+    db $02
+    dw $98ED
+    db $3D, $3E
+    db $02
+    dw $990D
+    db $3F, $40
+    db $00  ; terminator
+
+    db $7B, $11, $04
+    db $02
+    dw $98ED
+    db $41, $42
+    db $02
+    dw $990D
+    db $43, $44
+    db $00  ; terminator
+
+    db $7B, $11, $04
+    db $02
+    dw $98ED
+    db $45, $46
+    db $02
+    dw $990D
+    db $47, $48
+    db $00  ; terminator
+
+    db $7B, $11, $04
+    db $02
+    dw $992D
+    db $35, $36
+    db $02
+    dw $994D
+    db $37, $38
+    db $00  ; terminator
+
+    db $7B, $11, $04
+    db $02
+    dw $992D
+    db $39, $3A
+    db $02
+    dw $994D
+    db $3B, $3C
+    db $00  ; terminator
+
+    db $7B, $11, $04
+    db $02
+    dw $992D
+    db $3D, $3E
+    db $02
+    dw $994D
+    db $3F, $40
+    db $00  ; terminator
+
+    db $7B, $11, $04
+    db $02
+    dw $992D
+    db $41, $42
+    db $02
+    dw $994D
+    db $43, $44
+    db $00  ; terminator
+
+    db $7B, $11, $04
+    db $02
+    dw $992D
+    db $45, $46
+    db $02
+    dw $994D
+    db $47, $48
+    db $00  ; terminator
+
+    db $7B, $11, $04
+    db $02
+    dw $988F
+    db $35, $36
+    db $02
+    dw $98AF
+    db $37, $38
+    db $00  ; terminator
+
+    db $7B, $11, $04
+    db $02
+    dw $988F
+    db $39, $3A
+    db $02
+    dw $98AF
+    db $3B, $3C
+    db $00  ; terminator
+
+    db $7B, $11, $04
+    db $02
+    dw $988F
+    db $3D, $3E
+    db $02
+    dw $98AF
+    db $3F, $40
+    db $00  ; terminator
+
+    db $7B, $11, $04
+    db $02
+    dw $988F
+    db $41, $42
+    db $02
+    dw $98AF
+    db $43, $44
+    db $00  ; terminator
+
+    db $7B, $11, $04
+    db $02
+    dw $988F
+    db $45, $46
+    db $02
+    dw $98AF
+    db $47, $48
+    db $00  ; terminator
+
+    db $7B, $11, $04
+    db $02
+    dw $98CF
+    db $35, $36
+    db $02
+    dw $98EF
+    db $37, $38
+    db $00  ; terminator
+
+    db $7B, $11, $04
+    db $02
+    dw $98CF
+    db $39, $3A
+    db $02
+    dw $98EF
+    db $3B, $3C
+    db $00  ; terminator
+
+    db $7B, $11, $04
+    db $02
+    dw $98CF
+    db $3D, $3E
+    db $02
+    dw $98EF
+    db $3F, $40
+    db $00  ; terminator
+
+    db $7B, $11, $04
+    db $02
+    dw $98CF
+    db $41, $42
+    db $02
+    dw $98EF
+    db $43, $44
+    db $00  ; terminator
+
+    db $7B, $11, $04
+    db $02
+    dw $98CF
+    db $45, $46
+    db $02
+    dw $98EF
+    db $47, $48
+    db $00  ; terminator
+
+    db $7B, $11, $04
+    db $02
+    dw $990F
+    db $35, $36
+    db $02
+    dw $992F
+    db $37, $38
+    db $00  ; terminator
+
+    db $7B, $11, $04
+    db $02
+    dw $990F
+    db $39, $3A
+    db $02
+    dw $992F
+    db $3B, $3C
+    db $00  ; terminator
+
+    db $7B, $11, $04
+    db $02
+    dw $990F
+    db $3D, $3E
+    db $02
+    dw $992F
+    db $3F, $40
+    db $00  ; terminator
+
+    db $7B, $11, $04
+    db $02
+    dw $990F
+    db $41, $42
+    db $02
+    dw $992F
+    db $43, $44
+    db $00  ; terminator
+
+    db $7B, $11, $04
+    db $02
+    dw $990F
+    db $45, $46
+    db $02
+    dw $992F
+    db $47, $48
+    db $00  ; terminator
+
+    db $7B, $11, $04
+    db $02
+    dw $9871
+    db $35, $36
+    db $02
+    dw $9891
+    db $37, $38
+    db $00  ; terminator
+
+    db $7B, $11, $04
+    db $02
+    dw $9871
+    db $39, $3A
+    db $02
+    dw $9891
+    db $3B, $3C
+    db $00  ; terminator
+
+    db $7B, $11, $04
+    db $02
+    dw $9871
+    db $3D, $3E
+    db $02
+    dw $9891
+    db $3F, $40
+    db $00  ; terminator
+
+    db $7B, $11, $04
+    db $02
+    dw $9871
+    db $41, $42
+    db $02
+    dw $9891
+    db $43, $44
+    db $00  ; terminator
+
+    db $7B, $11, $04
+    db $02
+    dw $9871
+    db $45, $46
+    db $02
+    dw $9891
+    db $47, $48
+    db $00  ; terminator
+
+    db $7B, $11, $04
+    db $02
+    dw $98B1
+    db $35, $36
+    db $02
+    dw $98D1
+    db $37, $38
+    db $00  ; terminator
+
+    db $7B, $11, $04
+    db $02
+    dw $98B1
+    db $39, $3A
+    db $02
+    dw $98D1
+    db $3B, $3C
+    db $00  ; terminator
+
+    db $7B, $11, $04
+    db $02
+    dw $98B1
+    db $3D, $3E
+    db $02
+    dw $98D1
+    db $3F, $40
+    db $00  ; terminator
+
+    db $7B, $11, $04
+    db $02
+    dw $98B1
+    db $41, $42
+    db $02
+    dw $98D1
+    db $43, $44
+    db $00  ; terminator
+
+    db $7B, $11, $04
+    db $02
+    dw $98B1
+    db $45, $46
+    db $02
+    dw $98D1
+    db $47, $48
+    db $00  ; terminator
+
+    db $7B, $11, $04
+    db $02
+    dw $98F1
+    db $35, $36
+    db $02
+    dw $9911
+    db $37, $38
+    db $00  ; terminator
+
+    db $7B, $11, $04
+    db $02
+    dw $98F1
+    db $39, $3A
+    db $02
+    dw $9911
+    db $3B, $3C
+    db $00  ; terminator
+
+    db $7B, $11, $04
+    db $02
+    dw $98F1
+    db $3D, $3E
+    db $02
+    dw $9911
+    db $3F, $40
+    db $00  ; terminator
+
+    db $7B, $11, $04
+    db $02
+    dw $98F1
+    db $41, $42
+    db $02
+    dw $9911
+    db $43, $44
+    db $00  ; terminator
+
+    db $7B, $11, $04
+    db $02
+    dw $98F1
+    db $45, $46
+    db $02
+    dw $9911
+    db $47, $48
+    db $00  ; terminator
 
 Func_1aad4: ; 0x1aad4
     ld a, [$d75f]
@@ -31281,7 +33098,7 @@ Func_1e757: ; 0x1e757
     ld a, [$d622]
     cp $1
     ret nz
-    call Func_959
+    call GenRandom
     and $8
     ld [$d55b], a
     ld [$ff8a], a
@@ -35793,7 +37610,7 @@ Func_24737: ; 0x24737
     ld a, [$ffb3]
     and $3f
     ret nz
-    call Func_959
+    call GenRandom
     bit 7, a
     ld a, $1
     jr z, .asm_2475a
@@ -35855,7 +37672,7 @@ Func_2476d: ; 0x2476d
     ld a, [$ffb3]
     and $3f
     ret nz
-    call Func_959
+    call GenRandom
     bit 0, a
     ld a, $1
     jr z, .asm_247c9
@@ -37812,7 +39629,7 @@ Func_25f77: ; 0x25f77
 .asm_25f8f
     ld hl, $d792
     ld [hl], $0
-    call Func_959
+    call GenRandom
     bit 7, a
     jr z, .asm_25fa2
     inc de
@@ -37929,7 +39746,7 @@ Func_2602a: ; 0x2602a
     inc de
     inc de
     inc de
-    call Func_959
+    call GenRandom
     bit 7, a
     jr z, .asm_26044
     ld a, $3
@@ -38028,7 +39845,7 @@ Func_260b6: ; 0x260b6
     inc de
     inc de
     inc de
-    call Func_959
+    call GenRandom
     bit 7, a
     jr z, .asm_260d0
     ld a, $3

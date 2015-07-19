@@ -89,7 +89,33 @@ wNumMonHits:: ; 0xd5c0
 ; Number of times the wild pokemon has been hit in Catch'em mode
     ds 1
 
-    ds $1e0
+    ds $17c
+
+wDiglettStates:: ; 0xd73d
+; Each diglett has a sprite state 1 - 5.
+; The animation wiggles back and forth.
+; $0 = diglett has been hit
+; $1 = hiding in hole
+; $2 = straight up
+; $3 = leaning left
+; $4 = straight up
+; $5 = leaning right
+; $6 = getting hit
+    ds 31
+
+wCurrentDiglett:: ; 0xd75c
+; Keeps track of which diglett is being updated.
+    ds 1
+
+wDiglettsInitializedFlag:: ; 0xd75d
+; bit 0 is set after all digletts have been initialized
+    ds 1
+
+wDiglettInitDelayCounter:: ; 0xd75e
+; used to faciliate how fast the digletts are initialized
+    ds 1
+
+    ds $42
 
 wLeftTiltCounter:: ; 0xd7a1
 ; Counts up to 3 and back down to time the left tilt animation

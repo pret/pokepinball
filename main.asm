@@ -23262,13 +23262,13 @@ Func_1658f: ; 0x1658f
     ld hl, Func_f269
     call nz, BankSwitch
 .showNextMap
-    ld a, [$d4e1]
+    ld a, [wInitialMapSelectionIndex]
     inc a
     cp $7  ; number of maps to choose from at the start of play
     jr c, .gotMapId
     xor a  ; wrap around to 0
 .gotMapId
-    ld [$d4e1], a
+    ld [wInitialMapSelectionIndex], a
     ld c, a
     ld b, $0
     ld hl, RedStageInitialMaps
@@ -28891,13 +28891,13 @@ Func_1c839: ; 0x1c839
     ld hl, Func_f269
     call nz, BankSwitch
 .showNextMap
-    ld a, [$d4e1]
+    ld a, [wInitialMapSelectionIndex]
     inc a
     cp $7  ; number of maps to choose from at the start of play
     jr c, .gotMapId
     xor a  ; wrap around to 0
 .gotMapId
-    ld [$d4e1], a
+    ld [wInitialMapSelectionIndex], a
     ld c, a
     ld b, $0
     ld hl, BlueStageInitialMaps

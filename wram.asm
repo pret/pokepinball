@@ -74,7 +74,13 @@ wBallRotation:: ; 0xd4c4
 ; wBallSpin is added to this every frame
     ds 1
 
-    ds $2b
+    ds $1c
+
+wInitialMapSelectionIndex:: ; 0xd4e1
+; index to keep track of the spinning map selection at the start of a new game
+    ds 1
+
+    ds $e
 
 wLeftMapMoveCounter:: ; 0xd4f0
 ; Diglett or Poliwag counter that counts to three to trigger a Map Move

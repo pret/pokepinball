@@ -20499,7 +20499,7 @@ Func_140f9: ; 0x140f9
     ld a, $2
 .asm_1410c
     call Func_149d9
-    ld a, [$d4f0]
+    ld a, [wLeftMapMoveCounter]
     call Func_149f5
     ld a, [$d4f1]
     and a
@@ -20512,7 +20512,7 @@ Func_140f9: ; 0x140f9
 .asm_14127
     add $3
     call Func_149d9
-    ld a, [$d4f2]
+    ld a, [wRightMapMoveCounter]
     add $4
     call Func_149f5
     ret
@@ -21230,7 +21230,7 @@ Func_147aa: ; 0x147aa
     sla a
     ld c, a
     ld b, $0
-    ld hl, $d4f0
+    ld hl, wLeftMapMoveCounter
     add hl, bc
     ld a, [hl]
     cp $3
@@ -21253,7 +21253,7 @@ Func_147aa: ; 0x147aa
     ld [$c810], a
     ld a, $5
     call Func_149d9
-    ld a, [$d4f2]
+    ld a, [wRightMapMoveCounter]
     add $4
     call Func_149f5
     ld a, $8
@@ -21261,7 +21261,7 @@ Func_147aa: ; 0x147aa
     ld a, Bank(Func_10000)
     ld hl, Func_10000
     call BankSwitch
-    ld a, [$d4f2]
+    ld a, [wRightMapMoveCounter]
     cp $3
     call z, Func_14920
     jr .asm_14830
@@ -21272,14 +21272,14 @@ Func_147aa: ; 0x147aa
     ld [$c803], a
     ld a, $2
     call Func_149d9
-    ld a, [$d4f0]
+    ld a, [wLeftMapMoveCounter]
     call Func_149f5
     ld a, $7
     ld [$ff8a], a
     ld a, Bank(Func_10000)
     ld hl, Func_10000
     call BankSwitch
-    ld a, [$d4f0]
+    ld a, [wLeftMapMoveCounter]
     cp $3
     call z, Func_14947
 .asm_14830
@@ -21292,10 +21292,10 @@ Func_147aa: ; 0x147aa
     dec a
     ld [$d4ef], a
     jr nz, .asm_14857
-    ld a, [$d4f0]
+    ld a, [wLeftMapMoveCounter]
     sub $3
     jr nz, .asm_1484d
-    ld [$d4f0], a
+    ld [wLeftMapMoveCounter], a
     call Func_149f5
 .asm_1484d
     ld a, $64
@@ -21309,10 +21309,10 @@ Func_147aa: ; 0x147aa
     dec a
     ld [$d4f1], a
     jr nz, .asm_1487c
-    ld a, [$d4f2]
+    ld a, [wRightMapMoveCounter]
     sub $3
     jr nz, .asm_14872
-    ld [$d4f2], a
+    ld [wRightMapMoveCounter], a
     add $4
     call Func_149f5
 .asm_14872
@@ -21338,13 +21338,13 @@ Func_14880: ; 0x14880
     ld [hli], a
     ld a, $1
     ld [hl], a
-    ld a, [$d4f0]
+    ld a, [wLeftMapMoveCounter]
     and a
     jr z, .asm_148a6
     cp $3
     jr z, .asm_148a6
     dec a
-    ld [$d4f0], a
+    ld [wLeftMapMoveCounter], a
     call Func_149f5
 .asm_148a6
     ld hl, $d4f9
@@ -21360,13 +21360,13 @@ Func_14880: ; 0x14880
     ld [hli], a
     ld a, $1
     ld [hl], a
-    ld a, [$d4f2]
+    ld a, [wRightMapMoveCounter]
     and a
     jr z, .asm_148ce
     cp $3
     jr z, .asm_148ce
     dec a
-    ld [$d4f2], a
+    ld [wRightMapMoveCounter], a
     add $4
     call Func_149f5
 .asm_148ce
@@ -21390,13 +21390,13 @@ Func_148cf: ; 0x148cf
     ld [hli], a
     ld a, $1
     ld [hl], a
-    ld a, [$d4f0]
+    ld a, [wLeftMapMoveCounter]
     and a
     jr z, .asm_148f8
     cp $3
     jr z, .asm_148f8
     dec a
-    ld [$d4f0], a
+    ld [wLeftMapMoveCounter], a
 .asm_148f8
     ld hl, $d4fa
     ld a, [hld]
@@ -21414,13 +21414,13 @@ Func_148cf: ; 0x148cf
     ld [hli], a
     ld a, $1
     ld [hl], a
-    ld a, [$d4f2]
+    ld a, [wRightMapMoveCounter]
     and a
     jr z, .asm_1491f
     cp $3
     jr z, .asm_1491f
     dec a
-    ld [$d4f2], a
+    ld [wRightMapMoveCounter], a
 .asm_1491f
     ret
 
@@ -28057,8 +28057,8 @@ StartBallBlueField: ; 0x1c08d
     ld [hli], a
     ld [hli], a
     ld [hli], a
-    ld [$d4f0], a
-    ld [$d4f2], a
+    ld [wLeftMapMoveCounter], a
+    ld [wRightMapMoveCounter], a
     ld hl, $d5f9
     ld [hli], a
     ld [hli], a
@@ -28222,12 +28222,12 @@ Func_1c235: ; 0x1c235
     xor a
 .asm_1c24a
     call Func_1de4b
-    ld a, [$d4f0]
+    ld a, [wLeftMapMoveCounter]
     call Func_1de6f
     ld a, [hGameBoyColorFlag]
     and a
     jr z, .asm_1c267
-    ld a, [$d4f0]
+    ld a, [wLeftMapMoveCounter]
     cp $0
     jr z, .asm_1c264
     ld b, $7
@@ -28255,7 +28255,7 @@ Func_1c235: ; 0x1c235
     jr nz, .asm_1c2bd
     jr .asm_1c291
 .asm_1c28a
-    ld a, [$d4f2]
+    ld a, [wRightMapMoveCounter]
     add $3
     jr .asm_1c297
 .asm_1c291
@@ -28265,13 +28265,13 @@ Func_1c235: ; 0x1c235
     ld a, $2
 .asm_1c297
     call Func_1de4b
-    ld a, [$d4f2]
+    ld a, [wRightMapMoveCounter]
     add $4
     call Func_1de6f
     ld a, [hGameBoyColorFlag]
     and a
     jr z, .asm_1c2b7
-    ld a, [$d4f2]
+    ld a, [wRightMapMoveCounter]
     cp $0
     jr z, .asm_1c2b3
     ld b, $a
@@ -28288,7 +28288,7 @@ Func_1c235: ; 0x1c235
 .asm_1c2bd
     ld a, $6
     call Func_1de4b
-    ld a, [$d4f2]
+    ld a, [wRightMapMoveCounter]
     add $4
     call Func_1de6f
     ret
@@ -30268,7 +30268,7 @@ Func_1dbd2: ; 0x1dbd2
     jr z, .asm_1dc33
     xor a
     ld [$d4ed], a
-    ld hl, $d4f0
+    ld hl, wLeftMapMoveCounter
     ld a, [hl]
     cp $3
     jp z, Func_1dc8e
@@ -30289,9 +30289,9 @@ Func_1dbd2: ; 0x1dbd2
 .asm_1dc06
     ld a, $1
     call Func_1de4b
-    ld a, [$d4f0]
+    ld a, [wLeftMapMoveCounter]
     call Func_1de6f
-    ld a, [$d4f0]
+    ld a, [wLeftMapMoveCounter]
     cp $3
     ld a, $7
     ld [$ff8a], a
@@ -30308,7 +30308,7 @@ Func_1dbd2: ; 0x1dbd2
 .asm_1dc33
     xor a
     ld [$d4ed], a
-    ld hl, $d4f2
+    ld hl, wRightMapMoveCounter
     ld a, [hl]
     cp $3
     jp z, Func_1dc8e
@@ -30329,14 +30329,14 @@ Func_1dbd2: ; 0x1dbd2
 .asm_1dc5c
     ld a, $3
     call Func_1de4b
-    ld a, [$d4f2]
+    ld a, [wRightMapMoveCounter]
     cp $3
     ld a, $8
     ld [$ff8a], a
     ld a, Bank(Func_10000)
     ld hl, Func_10000
     call BankSwitch
-    ld a, [$d4f2]
+    ld a, [wRightMapMoveCounter]
     cp $3
     ccf
     call z, Func_1ddf4
@@ -30384,7 +30384,7 @@ Func_1dc95: ; 0x1dc95
     ld a, [hGameBoyColorFlag]
     and a
     jr z, .asm_1dcd7
-    ld a, [$d4f0]
+    ld a, [wLeftMapMoveCounter]
     cp $0
     jr z, .asm_1dcd4
     ld b, $7
@@ -30397,7 +30397,7 @@ Func_1dc95: ; 0x1dc95
     ld a, $8
 .asm_1dcd9
     call Func_1de6f
-    ld a, [$d4f0]
+    ld a, [wLeftMapMoveCounter]
     cp $3
     ccf
     call z, Func_1ddc7
@@ -30423,12 +30423,12 @@ Func_1dc95: ; 0x1dc95
 .asm_1dd0c
     ld a, $0
     ld [$d646], a
-    ld a, [$d4f0]
+    ld a, [wLeftMapMoveCounter]
     sub $3
     ret nz
-    ld a, [$d4f0]
+    ld a, [wLeftMapMoveCounter]
     sub $3
-    ld [$d4f0], a
+    ld [wLeftMapMoveCounter], a
     call Func_1de6f
     ld a, $0
     call Func_1de4b
@@ -30459,10 +30459,10 @@ Func_1dd2e: ; 0x1dd2e
     ld [$d645], a
     ret
 .asm_1dd53
-    ld a, [$d4f2]
+    ld a, [wRightMapMoveCounter]
     add $4
     call Func_1de6f
-    ld a, [$d4f2]
+    ld a, [wRightMapMoveCounter]
     add $3
     call Func_1de4b
     ld a, $3
@@ -30479,7 +30479,7 @@ Func_1dd2e: ; 0x1dd2e
     ld a, [hGameBoyColorFlag]
     and a
     jr z, .asm_1dd89
-    ld a, [$d4f2]
+    ld a, [wRightMapMoveCounter]
     cp $0
     jr z, .asm_1dd85
     ld b, $a
@@ -30504,12 +30504,12 @@ Func_1dd2e: ; 0x1dd2e
     ld a, $0
     ld [$d645], a
 .asm_1dda9
-    ld a, [$d4f2]
+    ld a, [wRightMapMoveCounter]
     sub $3
     ret nz
-    ld a, [$d4f2]
+    ld a, [wRightMapMoveCounter]
     sub $3
-    ld [$d4f2], a
+    ld [wRightMapMoveCounter], a
     ld a, $4
     call Func_1de6f
     ld a, $2
@@ -30645,18 +30645,18 @@ Func_1de93: ; 0x1de93
     ld [hli], a
     ld a, $1
     ld [hl], a
-    ld a, [$d4f0]
+    ld a, [wLeftMapMoveCounter]
     and a
     jr z, .asm_1ded2
     cp $3
     jr z, .asm_1ded2
     dec a
-    ld [$d4f0], a
+    ld [wLeftMapMoveCounter], a
     call Func_1de6f
     ld a, [hGameBoyColorFlag]
     and a
     jr z, .asm_1decd
-    ld a, [$d4f0]
+    ld a, [wLeftMapMoveCounter]
     cp $0
     jr z, .asm_1deca
     ld b, $7
@@ -30683,19 +30683,19 @@ Func_1de93: ; 0x1de93
     ld [hli], a
     ld a, $1
     ld [hl], a
-    ld a, [$d4f2]
+    ld a, [wRightMapMoveCounter]
     and a
     jr z, .asm_1df14
     cp $3
     jr z, .asm_1df14
     dec a
-    ld [$d4f2], a
+    ld [wRightMapMoveCounter], a
     add $4
     call Func_1de6f
     ld a, [hGameBoyColorFlag]
     and a
     jr z, .asm_1df0f
-    ld a, [$d4f2]
+    ld a, [wRightMapMoveCounter]
     cp $0
     jr z, .asm_1df0b
     ld b, $a
@@ -30729,13 +30729,13 @@ Func_1df15: ; 0x1df15
     ld [hli], a
     ld a, $1
     ld [hl], a
-    ld a, [$d4f0]
+    ld a, [wLeftMapMoveCounter]
     and a
     jr z, .asm_1df3e
     cp $3
     jr z, .asm_1df3e
     dec a
-    ld [$d4f0], a
+    ld [wLeftMapMoveCounter], a
 .asm_1df3e
     ld hl, $d4fa
     ld a, [hld]
@@ -30753,13 +30753,13 @@ Func_1df15: ; 0x1df15
     ld [hli], a
     ld a, $1
     ld [hl], a
-    ld a, [$d4f2]
+    ld a, [wRightMapMoveCounter]
     and a
     jr z, .asm_1df65
     cp $3
     jr z, .asm_1df65
     dec a
-    ld [$d4f2], a
+    ld [wRightMapMoveCounter], a
 .asm_1df65
     ret
 
@@ -40585,8 +40585,8 @@ StartBallRedField: ; 0x3007d
     ld [hli], a
     ld [hli], a
     ld [hli], a
-    ld [$d4f0], a
-    ld [$d4f2], a
+    ld [wLeftMapMoveCounter], a
+    ld [wRightMapMoveCounter], a
     ld hl, $d5f9
     ld [hli], a
     ld [hli], a
@@ -40709,7 +40709,7 @@ Func_301ec: ; 0x301ec
     ld [$d550], a
     xor a
     ld [$d54d], a
-    ld bc, $0030
+    ld bc, $0030  ; 30 seconds
     ld [$ff8a], a
     ld a, Bank(StartTimer)
     ld hl, StartTimer

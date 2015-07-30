@@ -74,7 +74,19 @@ wBallRotation:: ; 0xd4c4
 ; wBallSpin is added to this every frame
     ds 1
 
-    ds $85
+    ds $2b
+
+wLeftMapMoveCounter:: ; 0xd4f0
+; Diglett or Poliwag counter that counts to three to trigger a Map Move
+    ds 1
+
+    ds 1
+
+wRightMapMoveCounter:: ; 0xd4f2
+; Diglett or Psyduck counter that counts to three to trigger a Map Move\
+    ds 1
+
+    ds $57
 
 wCurrentMap:: ; 0xd54a
 ; Current map during play. See map_constants.asm

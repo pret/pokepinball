@@ -21438,8 +21438,8 @@ Func_14920: ; 0x14920
     ld a, $1
     ld [$d55a], a
     ld [$ff8a], a
-    ld a, Bank(Func_301ec)
-    ld hl, Func_301ec
+    ld a, Bank(StartMapMoveMode)
+    ld hl, StartMapMoveMode
     call BankSwitch
     ret
 
@@ -21457,8 +21457,8 @@ Func_14947: ; 0x14947
     xor a
     ld [$d55a], a
     ld [$ff8a], a
-    ld a, Bank(Func_301ec)
-    ld hl, Func_301ec
+    ld a, Bank(StartMapMoveMode)
+    ld hl, StartMapMoveMode
     call BankSwitch
     ret
 
@@ -30534,8 +30534,8 @@ Func_1ddc7: ; 0x1ddc7
     xor a
     ld [$d55a], a
     ld [$ff8a], a
-    ld a, Bank(Func_301ec)
-    ld hl, Func_301ec
+    ld a, Bank(StartMapMoveMode)
+    ld hl, StartMapMoveMode
     call BankSwitch
     scf
     ret
@@ -30556,8 +30556,8 @@ Func_1ddf4: ; 0x1ddf4
     ld a, $1
     ld [$d55a], a
     ld [$ff8a], a
-    ld a, Bank(Func_301ec)
-    ld hl, Func_301ec
+    ld a, Bank(StartMapMoveMode)
+    ld hl, StartMapMoveMode
     call BankSwitch
     scf
     ret
@@ -40699,7 +40699,7 @@ Func_30188: ; 0x30188
 
 INCBIN "baserom.gbc",$301ce,$301ec - $301ce
 
-Func_301ec: ; 0x301ec
+StartMapMoveMode: ; 0x301ec
     ld a, [$d54b]
     and a
     ret nz

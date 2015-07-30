@@ -13,7 +13,19 @@ wOAMBuffer:: ; d000
     ; buffer for OAM data. Copied to OAM by DMA
     ds 4 * 40
 
-    ds $40c
+    ds $160
+
+wPaletteData:: ; 0xd200
+    ; 16 palette definitions
+    ds $100
+
+    ds $16a
+
+wScore:: ; 0xd46a
+; player's current score
+    ds 6
+
+    ds $3c
 
 wCurrentStage:: ; 0xd4ac
     ds 1

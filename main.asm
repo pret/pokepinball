@@ -9643,7 +9643,7 @@ Func_85c7: ; 0x85c7
     ld a, [$d478]
     ld l, a
     ld h, $d4
-    ld de, $d46a
+    ld de, wScore
     ld a, [$d477]
     cp l
     jr nz, .asm_85de
@@ -9706,7 +9706,7 @@ Func_85c7: ; 0x85c7
     daa
     ld [de], a
     ld [hl], $0
-    call c, Func_8637
+    call c, SetMaxScore
     inc de
     inc hl
     ld a, l
@@ -9720,9 +9720,9 @@ Func_85c7: ; 0x85c7
     ld [$d49f], a
     ret
 
-Func_8637: ; 0x8637
+SetMaxScore: ; 0x8637
     push hl
-    ld hl, $d46a
+    ld hl, wScore
     ld a, $99
     ld [hli], a
     ld [hli], a
@@ -17451,7 +17451,7 @@ Func_f70d: ; 0xf70d
     xor a
     ld [$d4ab], a
 .asm_f76c
-    ld hl, $d46a
+    ld hl, wScore
     ld de, $d48f
     call Func_f902
     ld hl, $d46f
@@ -27278,7 +27278,7 @@ Func_19a76: ; 0x19a76
 
 Func_19a96: ; 0x19a96
     ld hl, wDiglettStates
-    ld bc, $1f00
+    ld bc, NUM_DIGLETTS << 8
 .asm_19a9c
     ld a, [hli]
     and a
@@ -27477,7 +27477,7 @@ Func_19c52: ; 0x19c52
     call Func_19da8
     call Func_19df0
     ld hl, wDiglettStates
-    ld bc, $1f00
+    ld bc, NUM_DIGLETTS << 8
     xor a
 .asm_19ca0
     ld a, [hli]
@@ -27491,7 +27491,7 @@ Func_19c52: ; 0x19c52
     dec b
     jr nz, .asm_19ca0
     ld a, c
-    cp $1f
+    cp NUM_DIGLETTS
     jr nz, .asm_19cc8
     ld hl, $6c75
     ld de, $d761

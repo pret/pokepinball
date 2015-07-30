@@ -21482,39 +21482,39 @@ Func_14990: ; 0x14990
     ld a, [$d4ef]
     and a
     jr nz, .asm_149b6
-    ld a, [$d4f3]
+    ld a, [wLeftMapMoveDiglettAnimationCounter]
     and a
     jr z, .asm_149a2
     dec a
-    ld [$d4f3], a
+    ld [wLeftMapMoveDiglettAnimationCounter], a
     jr .asm_149b6
 .asm_149a2
     call Func_1130
     ret nz
     ld a, $14
-    ld [$d4f3], a
-    ld a, [$d4f4]
+    ld [wLeftMapMoveDiglettAnimationCounter], a
+    ld a, [wLeftMapMoveDiglettFrame]
     xor $1
-    ld [$d4f4], a
+    ld [wLeftMapMoveDiglettFrame], a
     call Func_149d9
 .asm_149b6
     ld a, [$d4f1]
     and a
     ret nz
-    ld a, [$d4f5]
+    ld a, [wRightMapMoveDiglettAnimationCounter]
     and a
     jr z, .asm_149c6
     dec a
-    ld [$d4f5], a
+    ld [wRightMapMoveDiglettAnimationCounter], a
     ret
 .asm_149c6
     call Func_1130
     ret nz
     ld a, $14
-    ld [$d4f5], a
-    ld a, [$d4f6]
+    ld [wRightMapMoveDiglettAnimationCounter], a
+    ld a, [wRightMapMoveDiglettFrame]
     xor $1
-    ld [$d4f6], a
+    ld [wRightMapMoveDiglettFrame], a
     add $3
     ; fall through
 Func_149d9: ; 0x149d9
@@ -28209,7 +28209,7 @@ Func_1c21e: ; 0x1c21e
     ret
 
 Func_1c235: ; 0x1c235
-    ld a, [$d4f3]
+    ld a, [wLeftMapMoveDiglettAnimationCounter]
     and a
     jr z, .asm_1c249
     ld a, $54
@@ -28240,7 +28240,7 @@ Func_1c235: ; 0x1c235
     ld a, $8
 .asm_1c269
     call Func_1de6f
-    ld a, [$d4f6]
+    ld a, [wRightMapMoveDiglettFrame]
     and a
     jr z, .asm_1c295
     ld a, $52
@@ -30301,9 +30301,9 @@ Func_1dbd2: ; 0x1dbd2
     ld a, $2
     ld [$d646], a
     ld a, $78
-    ld [$d4f3], a
+    ld [wLeftMapMoveDiglettAnimationCounter], a
     ld a, $14
-    ld [$d4f4], a
+    ld [wLeftMapMoveDiglettFrame], a
     jr .asm_1dc8a
 .asm_1dc33
     xor a
@@ -30343,9 +30343,9 @@ Func_1dbd2: ; 0x1dbd2
     ld a, $2
     ld [$d645], a
     ld a, $28
-    ld [$d4f5], a
+    ld [wRightMapMoveDiglettAnimationCounter], a
     ld a, $78
-    ld [$d4f6], a
+    ld [wRightMapMoveDiglettFrame], a
 .asm_1dc8a
     call Func_1de22
     ret
@@ -30359,21 +30359,21 @@ Func_1dc95: ; 0x1dc95
     ld a, [$d646]
     cp $0
     ret z
-    ld a, [$d4f3]
+    ld a, [wLeftMapMoveDiglettAnimationCounter]
     and a
     jr z, .asm_1dceb
     dec a
-    ld [$d4f3], a
+    ld [wLeftMapMoveDiglettAnimationCounter], a
     ld a, [$d644]
     and a
     ret nz
-    ld a, [$d4f4]
+    ld a, [wLeftMapMoveDiglettFrame]
     cp $1
     jr z, .asm_1dcb9
     cp $0
     ret z
     dec a
-    ld [$d4f4], a
+    ld [wLeftMapMoveDiglettFrame], a
     ret
 .asm_1dcb9
     ld a, [$d646]
@@ -30408,7 +30408,7 @@ Func_1dc95: ; 0x1dc95
     ld a, [$d646]
     cp $1
     ret nz
-    ld a, [$d4f3]
+    ld a, [wLeftMapMoveDiglettAnimationCounter]
     and a
     ret nz
     ld a, $0
@@ -30446,11 +30446,11 @@ Func_1dd2e: ; 0x1dd2e
     jr z, .asm_1dd53
     cp $3
     jr z, .asm_1dd69
-    ld a, [$d4f5]
+    ld a, [wRightMapMoveDiglettAnimationCounter]
     cp $0
     jr z, .asm_1dd48
     dec a
-    ld [$d4f5], a
+    ld [wRightMapMoveDiglettAnimationCounter], a
     ret
 .asm_1dd48
     ld a, $2
@@ -30469,11 +30469,11 @@ Func_1dd2e: ; 0x1dd2e
     ld [$d645], a
     ret
 .asm_1dd69
-    ld a, [$d4f6]
+    ld a, [wRightMapMoveDiglettFrame]
     and a
     jr z, .asm_1dd74
     dec a
-    ld [$d4f6], a
+    ld [wRightMapMoveDiglettFrame], a
     ret
 .asm_1dd74
     ld a, [hGameBoyColorFlag]

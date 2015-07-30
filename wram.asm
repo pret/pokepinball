@@ -80,7 +80,9 @@ wInitialMapSelectionIndex:: ; 0xd4e1
 ; index to keep track of the spinning map selection at the start of a new game
     ds 1
 
-    ds $e
+    ds $d
+
+    ds 1
 
 wLeftMapMoveCounter:: ; 0xd4f0
 ; Diglett or Poliwag counter that counts to three to trigger a Map Move
@@ -92,7 +94,20 @@ wRightMapMoveCounter:: ; 0xd4f2
 ; Diglett or Psyduck counter that counts to three to trigger a Map Move\
     ds 1
 
-    ds $57
+wLeftMapMoveDiglettAnimationCounter:: ; 0xd4f3
+; Counter that loops to control the left-side map move diglett head bobbing animation
+    ds 1
+wLeftMapMoveDiglettFrame:: ; 0xd4f4
+; Contains frame for map move diglett head bobbing animation
+    ds 1
+wRightMapMoveDiglettAnimationCounter :: ; 0xd4f5
+; Counter that loops to control the left-side map move diglett head bobbing animation
+    ds 1
+wRightMapMoveDiglettFrame:: ; 0xd4f6
+; Contains frame for map move diglett head bobbing animation
+    ds 1
+
+    ds $53
 
 wCurrentMap:: ; 0xd54a
 ; Current map during play. See map_constants.asm

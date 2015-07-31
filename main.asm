@@ -27215,12 +27215,12 @@ InitDiglettBonusStage: ; 0x199f2
     dec b
     jr nz, .initDiglettsLoop
     ld a, $1
-    ld [$d761], a
+    ld [wDugtrioAnimationFrameCounter], a
     ld a, $c
-    ld [$d762], a
+    ld [wDugtrioAnimationFrame], a
     xor a
-    ld [$d763], a
-    ld [$d764], a
+    ld [wDugtrioAnimationFrame2], a
+    ld [wDugrioState], a
     ld a, $11
     call Func_52c
     ld de, $0001
@@ -27271,7 +27271,7 @@ Func_19a76: ; 0x19a76
     ret z
     call Func_19bbd
     call Func_19a96
-    ld a, [$d764]
+    ld a, [wDugrioState]
     and a
     call nz, Func_1ac2c
     ret
@@ -27494,10 +27494,10 @@ Func_19c52: ; 0x19c52
     cp NUM_DIGLETTS
     jr nz, .asm_19cc8
     ld hl, $6c75
-    ld de, $d761
+    ld de, wDugtrioAnimationFrameCounter
     call Func_28a0
     ld a, $1
-    ld [$d764], a
+    ld [wDugrioState], a
     call Func_1ac2c
     ld de, $0002
     call Func_490
@@ -27508,7 +27508,7 @@ Func_19c52: ; 0x19c52
     ret nz
     ld a, $1
     ld [$d765], a
-    ld a, [$d764]
+    ld a, [wDugrioState]
     and a
     call nz, Func_1ac2c
     ret
@@ -27739,13 +27739,13 @@ Func_1aad4: ; 0x1aad4
     jr z, .asm_1ab2c
     xor a
     ld [$d75f], a
-    ld a, [$d764]
+    ld a, [wDugrioState]
     bit 0, a
     jr z, .asm_1ab2c
     cp $7
     jr z, .asm_1ab2c
     inc a
-    ld [$d764], a
+    ld [wDugrioState], a
     sla a
     ld c, a
     ld b, $0
@@ -27754,7 +27754,7 @@ Func_1aad4: ; 0x1aad4
     ld a, [hli]
     ld h, [hl]
     ld l, a
-    ld de, $d761
+    ld de, wDugtrioAnimationFrameCounter
     call Func_28a0
     ld bc, $34ee
     ld [$ff8a], a
@@ -27779,7 +27779,7 @@ Func_1aad4: ; 0x1aad4
     ret
 
 Func_1ab30: ; 0x1ab30
-    ld a, [$d764]
+    ld a, [wDugrioState]
     sla a
     ld c, a
     ld b, $0
@@ -27788,87 +27788,87 @@ Func_1ab30: ; 0x1ab30
     ld a, [hli]
     ld h, [hl]
     ld l, a
-    ld de, $d761
+    ld de, wDugtrioAnimationFrameCounter
     call Func_28a9
     ret nc
-    ld a, [$d764]
+    ld a, [wDugrioState]
     and a
     ret z
     cp $1
     jr nz, .asm_1ab64
-    ld a, [$d763]
+    ld a, [wDugtrioAnimationFrame2]
     cp $3
     ret nz
     ld hl, $6c75
-    ld de, $d761
+    ld de, wDugtrioAnimationFrameCounter
     call Func_28a0
     ld a, $1
-    ld [$d764], a
+    ld [wDugrioState], a
     ret
 .asm_1ab64
     cp $2
     jr nz, .asm_1ab7d
-    ld a, [$d763]
+    ld a, [wDugtrioAnimationFrame2]
     cp $1
     ret nz
     ld hl, $6c7f
-    ld de, $d761
+    ld de, wDugtrioAnimationFrameCounter
     call Func_28a0
     ld a, $3
-    ld [$d764], a
+    ld [wDugrioState], a
     ret
 .asm_1ab7d
     cp $3
     jr nz, .asm_1ab96
-    ld a, [$d763]
+    ld a, [wDugtrioAnimationFrame2]
     cp $3
     ret nz
     ld hl, $6c7f
-    ld de, $d761
+    ld de, wDugtrioAnimationFrameCounter
     call Func_28a0
     ld a, $3
-    ld [$d764], a
+    ld [wDugrioState], a
     ret
 .asm_1ab96
     cp $4
     jr nz, .asm_1abaf
-    ld a, [$d763]
+    ld a, [wDugtrioAnimationFrame2]
     cp $1
     ret nz
     ld hl, $6c89
-    ld de, $d761
+    ld de, wDugtrioAnimationFrameCounter
     call Func_28a0
     ld a, $5
-    ld [$d764], a
+    ld [wDugrioState], a
     ret
 .asm_1abaf
     cp $5
     jr nz, .asm_1abc8
-    ld a, [$d763]
+    ld a, [wDugtrioAnimationFrame2]
     cp $3
     ret nz
     ld hl, $6c89
-    ld de, $d761
+    ld de, wDugtrioAnimationFrameCounter
     call Func_28a0
     ld a, $5
-    ld [$d764], a
+    ld [wDugrioState], a
     ret
 .asm_1abc8
     cp $6
     jr nz, .asm_1abe1
-    ld a, [$d763]
+    ld a, [wDugtrioAnimationFrame2]
     cp $1
     ret nz
     ld hl, $6c93
-    ld de, $d761
+    ld de, wDugtrioAnimationFrameCounter
     call Func_28a0
     ld a, $7
-    ld [$d764], a
+    ld [wDugrioState], a
     ret
 .asm_1abe1
     cp $7
     ret nz
-    ld a, [$d763]
+    ld a, [wDugtrioAnimationFrame2]
     cp $1
     jr nz, .asm_1abf2
     ld de, $0000
@@ -27878,10 +27878,10 @@ Func_1ab30: ; 0x1ab30
     cp $2
     ret nz
     ld hl, $6c72
-    ld de, $d761
+    ld de, wDugtrioAnimationFrameCounter
     call Func_28a0
     xor a
-    ld [$d764], a
+    ld [wDugrioState], a
     ld [$d498], a
     ld a, $1
     ld [$d49a], a
@@ -27948,7 +27948,7 @@ Func_1acb0: ; 0x1acb0
     ld hl, hBoardYShift
     sub [hl]
     ld c, a
-    ld a, [$d762]
+    ld a, [wDugtrioAnimationFrame]
     ld e, a
     ld d, $0
     ld hl, $6ccf

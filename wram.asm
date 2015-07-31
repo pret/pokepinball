@@ -160,7 +160,30 @@ wDiglettInitDelayCounter:: ; 0xd75e
 ; used to faciliate how fast the digletts are initialized
     ds 1
 
-    ds $42
+    ds 2
+
+wDugtrioAnimationFrameCounter:: ; 0xd761
+; wDugtrioAnimationFrame is incremented when this counter hits zero. The counter loops repeatedly.
+    ds 1
+wDugtrioAnimationFrame:: ; 0xd762
+    ds 1
+wDugtrioAnimationFrame2:: ; 0xd763
+; Loops from 0-2 repeatedly at the same page as wDugtrioAnimationFrame.
+    ds 1
+
+wDugrioState:: ; 0xd764
+; Similar function as wDiglettStates.
+; $0 = Dugtrio hasn't appeared yet
+; $1 = 3 healthy dugtrio
+; $2 = Getting hit first time
+; $3 = 2 healthy dugtrio
+; $4 = Getting hit second time
+; $5 = 1 healthy dugtrio
+; $6 = Getting hit third time
+; $7 = Disappearing
+    ds 1
+
+    ds $3c
 
 wLeftTiltCounter:: ; 0xd7a1
 ; Counts up to 3 and back down to time the left tilt animation

@@ -9355,7 +9355,7 @@ CallTable_8404: ; 0x8404
     db Bank(StartBallSeelBonusStage), $00
 
 Func_8444: ; 0x8444
-    ld a, [$d54b]
+    ld a, [wSpecialMode]
     and a
     jr z, .asm_8460
     ld a, [$d550]
@@ -14081,7 +14081,7 @@ Func_dd76: ; 0xdd76
     ret
 
 Func_ddfd: ; 0xddfd
-    ld a, [$d54b]
+    ld a, [wSpecialMode]
     and a
     ret z
     ld a, [$d550]
@@ -14189,7 +14189,7 @@ Func_de4f: ; 0xde4f
     ret
 
 Func_ded6: ; 0xded6
-    ld a, [$d54b]
+    ld a, [wSpecialMode]
     and a
     ret z
     ld a, [$d550]
@@ -17946,7 +17946,7 @@ SECTION "bank4", ROMX, BANK[$4]
 
 Func_10000: ; 0x10000
     ld c, a
-    ld a, [$d54b]
+    ld a, [wSpecialMode]
     and a
     ret z
     ld a, c
@@ -17988,11 +17988,11 @@ CallTable_10027: ; 0x10027
     db Bank(Func_202bc), $00
 
 StartCatchEmMode: ; 0x1003f
-    ld a, [$d54b]  ; current game mode?
+    ld a, [wSpecialMode]  ; current game mode?
     and a
-    ret nz
+    ret nz  ; don't start catch 'em mode if we're already doing something like Map Move mode
     ld a, $1
-    ld [$d54b], a  ; set to catchem mode?
+    ld [wSpecialMode], a  ; set special mode flag
     xor a
     ld [$d550], a
     ld [$d54d], a
@@ -18021,13 +18021,13 @@ StartCatchEmMode: ; 0x1003f
     ld h, [hl]
     ld l, a
     add hl, bc
-    call GenRandom  ; random number?
+    call GenRandom
     and $f
     call Func_10130
     ld c, a
     ld b, $0
     add hl, bc
-    ld a, [$d55b]  ; this probably gets set to $08 when the rare mons should be used.
+    ld a, [wRareMonsFlag]  ; this gets set to $08 when the rare mons should be used.
     sla a
     ld c, a
     add hl, bc
@@ -18143,7 +18143,7 @@ Func_10130:  ; I think this checks to see if it should be Mew
     ld a, b
     cp $1
     jr nz, .asm_10155
-    ld a, [$d55b]
+    ld a, [wRareMonsFlag]
     cp $8
     jr nz, .asm_10155
     ld a, [$d62f]
@@ -18160,7 +18160,7 @@ Func_10130:  ; I think this checks to see if it should be Mew
 
 Func_10157: ; 0x10157
     xor a
-    ld [$d54b], a
+    ld [wSpecialMode], a
     ld [$d5bb], a
     ld [$d5c6], a
     ld [$d5b6], a
@@ -19337,7 +19337,7 @@ PointerTable_10a9b: ; 0x10a9b
     db Bank(Func_20bae), $00
 
 Func_10ab3: ; 0x10ab3
-    ld a, [$d54b]
+    ld a, [wSpecialMode]
     and a
     ret nz
     ld a, [wCurrentStage]
@@ -19364,7 +19364,7 @@ Func_10ac8: ; 0x10ac8
     ld [$d5ca], a
     call Func_30e8
     xor a
-    ld [$d54b], a
+    ld [wSpecialMode], a
     ld [$d5bb], a
     ld [$d5b6], a
     ld [wNumMonHits], a
@@ -19689,7 +19689,7 @@ Func_10cb7: ; 0x10cb7
     call Func_30e8
     ld a, $1
     ld [$d4aa], a
-    ld [$d54b], a
+    ld [wSpecialMode], a
     ld [$d550], a
     xor a
     ld [$d54d], a
@@ -20534,7 +20534,7 @@ Func_14135: ; 0x14135
     ret
 
 Func_1414b: ; 0x1414b
-    ld a, [$d54b]
+    ld a, [wSpecialMode]
     and a
     ret z
     ld a, [$d550]
@@ -20652,7 +20652,7 @@ Func_14210: ; 0x14210
     ret
 
 Func_14234: ; 0x14234
-    ld a, [$d54b]
+    ld a, [wSpecialMode]
     and a
     ret z
     ld a, [$d550]
@@ -20691,7 +20691,7 @@ Func_14234: ; 0x14234
     ret
 
 Func_14282: ; 0x14282
-    ld a, [$d54b]
+    ld a, [wSpecialMode]
     and a
     jr z, .asm_1429e
     ld a, [$d550]
@@ -20828,7 +20828,7 @@ Func_142fc: ; 0x142fc
     ret
 
 Func_14377: ; 0x14377
-    ld a, [$d54b]
+    ld a, [wSpecialMode]
     and a
     jr nz, .asm_143b1
     ld a, [$d609]
@@ -22577,7 +22577,7 @@ Func_15e93: ; 0x15e93
     jr nz, .asm_15f11
     xor a
 .asm_15f11
-    ld [$d55b], a
+    ld [wRareMonsFlag], a
     ld [$ff8a], a
     ld a, Bank(StartCatchEmMode)
     ld hl, StartCatchEmMode
@@ -23028,7 +23028,7 @@ Func_16279: ; 0x16279
     ret nz
     call GenRandom
     and $8
-    ld [$d55b], a
+    ld [wRareMonsFlag], a
     ld [$ff8a], a
     ld a, Bank(StartCatchEmMode)
     ld hl, StartCatchEmMode
@@ -23173,7 +23173,7 @@ Func_164e3: ; 0x164e3
     dec a
     ld [$d607], a
     ret nz
-    ld a, [$d54b]
+    ld a, [wSpecialMode]
     and a
     ret nz
     ld a, [$d609]
@@ -24148,7 +24148,7 @@ Func_1762f: ; 0x1762f
     bit 0, a
     ret z
     ld de, $3004
-    ld a, [$d54b]
+    ld a, [wSpecialMode]
     and a
     ret z
     ld a, [$d550]
@@ -28334,7 +28334,7 @@ Func_1c2cb: ; 0x1c2cb
     ret
 
 Func_1c305: ; 0x1c305
-    ld a, [$d54b]
+    ld a, [wSpecialMode]
     and a
     ret z
     ld a, [$d550]
@@ -28453,7 +28453,7 @@ Func_1c3ca: ; 0x1c3ca
     ret
 
 Func_1c3ee: ; 0x1c3ee
-    ld a, [$d54b]
+    ld a, [wSpecialMode]
     and a
     ret z
     ld a, [$d550]
@@ -28492,7 +28492,7 @@ Func_1c3ee: ; 0x1c3ee
     ret
 
 Func_1c43c: ; 0x1c43c
-    ld a, [$d54b]
+    ld a, [wSpecialMode]
     and a
     jr z, .asm_1c458
     ld a, [$d550]
@@ -28568,7 +28568,7 @@ Func_1c491: ; 0x1c491
     ret
 
 Func_1c4b6: ; 0x1c4b6
-    ld a, [$d54b]
+    ld a, [wSpecialMode]
     and a
     jr nz, .asm_1c4f0
     ld a, [$d609]
@@ -29043,7 +29043,7 @@ Func_1c8b6: ; 0x1c8b6
     ld a, [$d543]
     cp $3
     jr nz, .asm_1c97f
-    ld a, [$d54b]
+    ld a, [wSpecialMode]
     and a
     jr nz, .asm_1c97f
 .asm_1c969
@@ -29855,7 +29855,7 @@ Func_1d32d: ; 0x1d32d
     jr nz, .asm_1d3a1
     xor a
 .asm_1d3a1
-    ld [$d55b], a
+    ld [wRareMonsFlag], a
     ld [$ff8a], a
     ld a, Bank(StartCatchEmMode)
     ld hl, StartCatchEmMode
@@ -31321,7 +31321,7 @@ Func_1e757: ; 0x1e757
     ret nz
     call GenRandom
     and $8
-    ld [$d55b], a
+    ld [wRareMonsFlag], a
     ld [$ff8a], a
     ld a, Bank(StartCatchEmMode)
     ld hl, StartCatchEmMode
@@ -31460,7 +31460,7 @@ Func_1e9c0: ; 0x1e9c0
     dec a
     ld [$d607], a
     ret nz
-    ld a, [$d54b]
+    ld a, [wSpecialMode]
     and a
     ret nz
     ld a, [$d609]
@@ -40700,11 +40700,11 @@ Func_30188: ; 0x30188
 INCBIN "baserom.gbc",$301ce,$301ec - $301ce
 
 StartMapMoveMode: ; 0x301ec
-    ld a, [$d54b]
+    ld a, [wSpecialMode]
     and a
     ret nz
     ld a, $1
-    ld [$d54b], a
+    ld [wSpecialMode], a
     ld a, $2
     ld [$d550], a
     xor a
@@ -40745,7 +40745,7 @@ Func_3022b: ; 0x3022b
     ld [$d5ca], a
     call Func_30e8
     xor a
-    ld [$d54b], a
+    ld [wSpecialMode], a
     ld [$d550], a
     ld [$ff8a], a
     ld a, Bank(Func_86d2)

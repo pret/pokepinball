@@ -9132,8 +9132,8 @@ FadeOutCopyrightScreenAndLoadData: ; 0x82a8
     call Func_f0c
     jr c, .asm_82f6
     ld [$ff8a], a
-    ld a, $3
-    ld hl, $4a3a
+    ld a, Bank(Func_ca3a)
+    ld hl, Func_ca3a
     call BankSwitch
 .asm_82f6
     ld hl, $a268
@@ -18913,7 +18913,7 @@ Func_10732: ; 0x10732
     call Func_4ef
     ret
 
-Func_1073d: ; 0x1073d
+AddCaughtPokemonToParty: ; 0x1073d
     ld a, [wNumPartyMons]
     ld c, a
     ld b, $0
@@ -32853,8 +32853,8 @@ Func_20193: ; 0x20193
     ld hl, Func_106b6
     call BankSwitch
     ld [$ff8a], a
-    ld a, Bank(Func_1073d)
-    ld hl, Func_1073d
+    ld a, Bank(AddCaughtPokemonToParty)
+    ld hl, AddCaughtPokemonToParty
     call BankSwitch
     scf
     ret
@@ -33226,8 +33226,8 @@ Func_20454: ; 0x20454
     ld hl, Func_106b6
     call BankSwitch
     ld [$ff8a], a
-    ld a, Bank(Func_1073d)
-    ld hl, Func_1073d
+    ld a, Bank(AddCaughtPokemonToParty)
+    ld hl, AddCaughtPokemonToParty
     call BankSwitch
     scf
     ret

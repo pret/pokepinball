@@ -25,7 +25,32 @@ wScore:: ; 0xd46a
 ; player's current score
     ds 6
 
-    ds $3c
+    ds $31
+
+wBallSaverIconOn:: ; 0xd4a1
+; The blue Ball Saver icon is illuminated when this byte is non-zero.
+    ds 1
+
+    ds 1
+
+wBallSaverTimerFrames:: ; 0xd4a3
+; Count the number of frames until wBallSaverTimerSeconds should be decremented
+    ds 1
+wBallSaverTimerSeconds:: ; 0xd4a4
+; Remaining seconds for Ball Saver
+    ds 1
+
+    ds 1
+
+wBallSaverTimerFramesBackup:: ; 0xd4a6
+; Used to store a backup of wBallSaverTimerFrames
+    ds 1
+wBallSaverTimerSecondsBackup:: ; 0xd4a7
+; Used to store a backup of wBallSaverTimerSeconds
+    ds 1
+
+
+    ds 4
 
 wCurrentStage:: ; 0xd4ac
     ds 1

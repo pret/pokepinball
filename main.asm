@@ -13759,50 +13759,50 @@ Func_dba9: ; 0xdba9
 
 Func_dbba: ; 0xdbba
     ld a, $1
-    ld [$d4a1], a
+    ld [wBallSaverIconOn], a
     ld a, $ff
     ld [$d4a2], a
     ld a, $3b
-    ld [$d4a3], a
+    ld [wBallSaverTimerFrames], a
     ld a, $14
-    ld [$d4a4], a
+    ld [wBallSaverTimerSeconds], a
     ld a, $2
     ld [$d4a5], a
     ret
 
 Func_dbd4: ; 0xdbd4
-    ld a, [$d4a3]
-    ld [$d4a6], a
-    ld a, [$d4a4]
-    ld [$d4a7], a
+    ld a, [wBallSaverTimerFrames]
+    ld [wBallSaverTimerFramesBackup], a
+    ld a, [wBallSaverTimerSeconds]
+    ld [wBallSaverTimerSecondsBackup], a
     ld a, [$d4a5]
     ld [$d4a8], a
     ld a, $0
-    ld [$d4a1], a
+    ld [wBallSaverIconOn], a
     ld a, $ff
     ld [$d4a2], a
     ld a, $3b
-    ld [$d4a3], a
+    ld [wBallSaverTimerFrames], a
     ld a, $3c
-    ld [$d4a4], a
+    ld [wBallSaverTimerSeconds], a
     ld a, $ff
     ld [$d4a5], a
     ret
 
 Func_dc00: ; 0xdc00
-    ld a, [$d4a6]
-    ld [$d4a3], a
-    ld a, [$d4a7]
-    ld [$d4a4], a
+    ld a, [wBallSaverTimerFramesBackup]
+    ld [wBallSaverTimerFrames], a
+    ld a, [wBallSaverTimerSecondsBackup]
+    ld [wBallSaverTimerSeconds], a
     ld a, [$d4a8]
     ld [$d4a5], a
-    ld a, [$d4a4]
+    ld a, [wBallSaverTimerSeconds]
     and a
     jr z, .asm_dc1a
     ld a, $1
 .asm_dc1a
-    ld [$d4a1], a
-    ld a, [$d4a4]
+    ld [wBallSaverIconOn], a
+    ld a, [wBallSaverTimerSeconds]
     ld c, $0
     cp $2
     jr c, .asm_dc34
@@ -14018,8 +14018,8 @@ Func_dd62: ; 0xdd62
     ret
 
 Func_dd76: ; 0xdd76
-    ld a, [$d4a3]
-    ld hl, $d4a4
+    ld a, [wBallSaverTimerFrames]
+    ld hl, wBallSaverTimerSeconds
     or [hl]
     jr z, .asm_dda3
     ld a, [$d4a5]
@@ -14033,8 +14033,8 @@ Func_dd76: ; 0xdd76
     pop af
     jr nz, .asm_dd9c
     ld a, $1
-    ld [$d4a3], a
-    ld [$d4a4], a
+    ld [wBallSaverTimerFrames], a
+    ld [wBallSaverTimerSeconds], a
 .asm_dd9c
     ld de, $1502
     call PlaySoundEffect
@@ -14126,8 +14126,8 @@ Func_de4e: ; 0xde4e
     ret
 
 Func_de4f: ; 0xde4f
-    ld a, [$d4a3]
-    ld hl, $d4a4
+    ld a, [wBallSaverTimerFrames]
+    ld hl, wBallSaverTimerSeconds
     or [hl]
     jr z, .asm_de7c
     ld a, [$d4a5]
@@ -14141,8 +14141,8 @@ Func_de4f: ; 0xde4f
     pop af
     jr nz, .asm_de75
     ld a, $1
-    ld [$d4a3], a
-    ld [$d4a4], a
+    ld [wBallSaverTimerFrames], a
+    ld [wBallSaverTimerSeconds], a
 .asm_de75
     ld de, $1502
     call PlaySoundEffect
@@ -16584,39 +16584,39 @@ INCBIN "baserom.gbc",$ef2f,$ef35 - $ef2f
 
 Func_ef35: ; 0xef35
     ld a, $0
-    ld [$d4a1], a
+    ld [wBallSaverIconOn], a
     ld a, $ff
     ld [$d4a2], a
     ld a, $3b
-    ld [$d4a3], a
+    ld [wBallSaverTimerFrames], a
     ld a, $1e
-    ld [$d4a4], a
+    ld [wBallSaverTimerSeconds], a
     ld a, $2
     ld [$d4a5], a
     ret
 
 Func_ef4f: ; 0xef4f
     ld a, $0
-    ld [$d4a1], a
+    ld [wBallSaverIconOn], a
     ld a, $ff
     ld [$d4a2], a
     ld a, $3b
-    ld [$d4a3], a
+    ld [wBallSaverTimerFrames], a
     ld a, $3c
-    ld [$d4a4], a
+    ld [wBallSaverTimerSeconds], a
     ld a, $2
     ld [$d4a5], a
     ret
 
 Func_ef69: ; 0xef69
     ld a, $0
-    ld [$d4a1], a
+    ld [wBallSaverIconOn], a
     ld a, $ff
     ld [$d4a2], a
     ld a, $3b
-    ld [$d4a3], a
+    ld [wBallSaverTimerFrames], a
     ld a, $5a
-    ld [$d4a4], a
+    ld [wBallSaverTimerSeconds], a
     ld a, $2
     ld [$d4a5], a
     ret
@@ -21101,20 +21101,20 @@ Func_146a2: ; 0x146a2
     ret
 
 Func_146a9: ; 0x146a9
-    ld a, [$d4a3]
-    ld hl, $d4a4
+    ld a, [wBallSaverTimerFrames]
+    ld hl, wBallSaverTimerSeconds
     or [hl]
     ret z
     ld a, [wBallXPos + 1]
     cp $9a
     jr nc, .asm_146e8
-    ld a, [$d4a3]
+    ld a, [wBallSaverTimerFrames]
     dec a
-    ld [$d4a3], a
+    ld [wBallSaverTimerFrames], a
     bit 7, a
     jr z, .asm_146e8
     ld a, $3b
-    ld [$d4a3], a
+    ld [wBallSaverTimerFrames], a
     ld a, [hl]
     dec a
     bit 7, a
@@ -21148,14 +21148,14 @@ Func_146a9: ; 0x146a9
     jr z, .asm_146fe
     ld c, $0
 .asm_146fe
-    ld a, [$d4a1]
+    ld a, [wBallSaverIconOn]
     cp c
     ld a, c
-    ld [$d4a1], a
+    ld [wBallSaverIconOn], a
     ret
 
 Func_14707: ; 0x14707
-    ld a, [$d4a1]
+    ld a, [wBallSaverIconOn]
     and a
     jr nz, .asm_1471c
     ld a, $5

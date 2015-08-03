@@ -19,7 +19,17 @@ wPaletteData:: ; 0xd200
     ; 16 palette definitions
     ds $100
 
-    ds $16a
+wPartyMons:: ; 0xd300
+; List of pokemon in the player's party.
+; When a pokemon is caught, it's appended to this list.
+; When a pokemon is evolved, the pokemon's evolution replaces its entry in the list.
+    ds $160
+
+wNumPartyMons:: ; ; 0xd460
+; Number of pokemon in the wPartyMons list.
+    ds 1
+
+    ds 9
 
 wScore:: ; 0xd46a
 ; player's current score

@@ -9137,7 +9137,7 @@ FadeOutCopyrightScreenAndLoadData: ; 0x82a8
     call BankSwitch
 .asm_82f6
     ld hl, $a268
-    ld de, $d300
+    ld de, wPartyMons
     ld bc, $04c3  ; This is saved game data from when the player saves in the middle of a game.
     call Func_f0c
     jr c, .asm_8308
@@ -9250,7 +9250,7 @@ Func_8388: ; 0x8388
     ld a, [wCurrentStage]
     cp $6
     ret nc
-    ld hl, $d300
+    ld hl, wPartyMons
     ld bc, $0170
     call ClearData
     ld hl, $d473 ; todo
@@ -9877,7 +9877,7 @@ HandleInGameMenu: ; 0x86d7
     jr nz, .pickedCancel
     ld a, $1
     ld [$d7c2], a
-    ld hl, $d300
+    ld hl, wPartyMons
     ld de, $a268
     ld bc, $04c3
     call Func_f1a
@@ -10175,13 +10175,13 @@ Func_c10e: ; 0xc10e
     and a
     jr z, .asm_c173
     ld hl, $a268
-    ld de, $d300
+    ld de, wPartyMons
     ld bc, $04c3
     call Func_f0c
     jr nc, .asm_c173
     xor a
     ld [$d7c2], a
-    ld hl, $d300
+    ld hl, wPartyMons
     ld de, $a268
     ld bc, $04c3
     call Func_f1a
@@ -13258,7 +13258,7 @@ ExitFieldSelectScreen: ; 0xd774
     pop af
     xor a
     ld [$d7c2], a
-    ld hl, $d300
+    ld hl, wPartyMons
     ld de, $a268
     ld bc, $04c3
     call Func_f1a
@@ -13896,7 +13896,7 @@ Func_dc7c: ; 0xdc7c
     ld [hli], a
     ld a, $81
     ld [hl], a
-    ld a, [$d460]
+    ld a, [wNumPartyMons]
     call ConvertHexByteToDecWord
     ld hl, $c641
     ld c, $1
@@ -16352,7 +16352,7 @@ Func_ed8e: ; 0xed8e
     ld [$d803], a
     ld [$d804], a
     ld [$d622], a
-    ld a, [$d460]
+    ld a, [wNumPartyMons]
     ld [$d620], a
     ld a, [$d47e]
     ld c, a
@@ -18710,7 +18710,7 @@ Func_1052d: ; 0x1052d
     call PlaySoundEffect
     call Func_10825
     call Func_3475
-    ld a, [$d460]
+    ld a, [wNumPartyMons]
     and a
     call z, Func_10848
     ld a, $50
@@ -18834,8 +18834,6 @@ Func_106a6: ; 0x106a6
     call Func_32aa
     ret
 
-INCBIN "baserom.gbc",$106b6,$106b6 - $106b6
-
 Func_106b6: ; 0x106b6
     ld a, [wCurrentMon]
     ld c, a
@@ -18854,15 +18852,15 @@ Func_106b6: ; 0x106b6
     ld bc, $2a91 ; todo
     ld a, [hl]
     ; check if mon's name starts with a vowel, so it can print "an", instead of "a"
-    cp $41
+    cp "A"
     jr z, .asm_106f1
-    cp $49
+    cp "I"
     jr z, .asm_106f1
-    cp $55
+    cp "U"
     jr z, .asm_106f1
-    cp $45
+    cp "E"
     jr z, .asm_106f1
-    cp $4f
+    cp "O"
     jr z, .asm_106f1
     ld de, $2a56 ; todo "You got a"
     ld bc, $2a79
@@ -18916,16 +18914,16 @@ Func_10732: ; 0x10732
     ret
 
 Func_1073d: ; 0x1073d
-    ld a, [$d460]
+    ld a, [wNumPartyMons]
     ld c, a
     ld b, $0
-    ld hl, $d300
+    ld hl, wPartyMons
     add hl, bc
     ld a, [wCurrentMon]
     ld [hl], a
-    ld a, [$d460]
+    ld a, [wNumPartyMons]
     inc a
-    ld [$d460], a
+    ld [wNumPartyMons], a
     ret
 
 SetPokemonSeenFlag: ; 0x10753
@@ -19455,7 +19453,7 @@ Func_10b59: ; 0x10b59
     ld [hli], a
     dec b
     jr nz, .asm_10b64
-    ld hl, $d300
+    ld hl, wPartyMons
     call Func_10b8e
     ld a, $35
     ld hl, $6450
@@ -19470,7 +19468,7 @@ Func_10b59: ; 0x10b59
     ret
 
 Func_10b8e: ; 0x10b8e
-    ld a, [$d460]
+    ld a, [wNumPartyMons]
     ld c, $0
     ld b, a
 .asm_10b94
@@ -19554,7 +19552,7 @@ Func_10bea: ; 0x10bea
 Func_10c0c: ; 0x10c0c
     ld a, [$d80a]
     ld b, a
-    ld a, [$d460]
+    ld a, [wNumPartyMons]
     ld c, a
     ld a, [$d461]
     bit 6, b
@@ -19596,7 +19594,7 @@ Func_10c38: ; 0x10c38
     ld a, [hl]
     ld c, a
     ld b, $0
-    ld hl, $d300
+    ld hl, wPartyMons
     add hl, bc
     call Func_10b8e
     ld a, [hJoypadState]
@@ -19628,7 +19626,7 @@ Func_10c38: ; 0x10c38
     add $7
     jr z, .asm_10c96
     ld c, a
-    ld a, [$d460]
+    ld a, [wNumPartyMons]
     cp c
     jr c, .asm_10c96
     ld a, $89
@@ -19645,7 +19643,7 @@ Func_10ca5: ; 0x10ca5
     ld a, [$d461]
     ld c, a
     ld b, $0
-    ld hl, $d300
+    ld hl, wPartyMons
     add hl, bc
     ld a, [$d552]
     cp $ff
@@ -19696,7 +19694,7 @@ Func_10cb7: ; 0x10cb7
     ld a, [$d461]
     ld c, a
     ld b, $0
-    ld hl, $d300
+    ld hl, wPartyMons
     add hl, bc
     ld a, [hl]
     ld [wCurrentMon], a
@@ -19938,7 +19936,7 @@ Func_10e8b: ; 0x10e8b
     ret
 
 Func_10ebb: ; 0x10ebb
-    ld a, [$d460]
+    ld a, [wNumPartyMons]
     and a
     ret z
     call Func_10cb7
@@ -20049,7 +20047,7 @@ Func_10fe3: ; 0x10fe3
     ret
 
 Func_11054: ; 0x11054
-    ld a, [$d460]
+    ld a, [wNumPartyMons]
     and a
     ret z
     call Func_10cb7
@@ -20060,7 +20058,7 @@ Func_11060: ; 0x11060
     ret
 
 Func_11061: ; 0x11061
-    ld a, [$d460]
+    ld a, [wNumPartyMons]
     and a
     ret z
     call Func_10cb7
@@ -24662,7 +24660,7 @@ Func_18000: ; 0x18000
     ld [hld], a
     ld [hld], a
     ld [hl], a
-    ld [$d460], a
+    ld [wNumPartyMons], a
     ld [$d49b], a
     ld [$d4c9], a
     ld a, $1
@@ -27975,7 +27973,7 @@ InitBlueField: ; 0x1c000
     ld [hld], a
     ld [hld], a
     ld [hl], a
-    ld [$d460], a
+    ld [wNumPartyMons], a
     ld [$d49b], a
     ld [$d4c9], a
     ld [$d47e], a
@@ -40500,7 +40498,7 @@ InitRedField: ; 0x30000
     ld [hld], a
     ld [hld], a
     ld [hl], a
-    ld [$d460], a
+    ld [wNumPartyMons], a
     ld [$d49b], a
     ld [$d4c9], a
     ld [$d47e], a

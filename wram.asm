@@ -178,7 +178,47 @@ wNumMonHits:: ; 0xd5c0
 ; Number of times the wild pokemon has been hit in Catch'em mode
     ds 1
 
-    ds $17c
+    ds $128
+
+wMeowthAnimationFrameCounter:: ; 0xd6e9
+; Counts down. When it hits 0, the next animation frame happens.
+    ds 1
+
+    ds 3
+
+wMeowthXPosition:: ; 0xd6ed
+    ds 1
+wMeowthYPosition:: ; 0xd6ee
+    ds 1
+
+    ds 1
+
+wMeowthXMovement:: ; 0xd6f0
+; Used to move meowth horizontally.
+; Value is $01 when moving right.
+; Value is $ff when moving left.
+    ds 1
+wMeowthYMovement:: ; 0xd6f1
+; Used to move meowth vertically.
+; Value is $01 when moving down.
+; Value is $ff when moving up.
+    ds 1
+
+    ds $1d
+
+wMeowthStageBonusCounter:: ; 0xd70f
+; Keeps track of how many bonus points you get from collecting a coin.
+; The bonus increases by 1 each time you collect a coin.
+; If Meowth is hit, the bonus resets to 0.
+    ds 1
+
+    ds 1
+
+wMeowthStageScore:: ; 0xd711
+; Number of Meowth coins collected.
+    ds 1
+
+    ds $2b
 
 wDiglettStates:: ; 0xd73d
 ; Each diglett has a sprite state 1 - 5.

@@ -14333,7 +14333,7 @@ Func_dfe2: ; 0xdfe2
     and a
     jr z, .asm_e00f
 .asm_dff2
-    ld a, [$d711]
+    ld a, [wMeowthStageScore]
     cp $14
     jr nc, .asm_e00f
     cp $5
@@ -14343,7 +14343,7 @@ Func_dfe2: ; 0xdfe2
 .asm_e001
     xor a
 .asm_e002
-    ld [$d711], a
+    ld [wMeowthStageScore], a
     ld [$ff8a], a
     ld a, Bank(Func_24fa3)
     ld hl, Func_24fa3
@@ -34957,15 +34957,15 @@ InitMeowthBonusStage: ; 0x24000
     ld a, $1
     ld [$d7ac], a
     ld a, $40
-    ld [$d6ed], a
+    ld [wMeowthXPosition], a
     ld a, $20
-    ld [$d6ee], a
+    ld [wMeowthYPosition], a
     ld a, $10
-    ld [$d6e9], a
+    ld [wMeowthAnimationFrameCounter], a
     xor a
-    ld [$d711], a
+    ld [wMeowthStageScore], a
     ld [$d70b], a
-    ld [$d70f], a
+    ld [wMeowthStageBonusCounter], a
     ld [$d713], a
     ld [$d739], a
     ld bc, $0100  ; 1 minute 0 seconds
@@ -35009,13 +35009,13 @@ StartBallMeowthBonusStage: ; 0x24059
     ld a, $1
     ld [$d7ac], a
     ld a, $40
-    ld [$d6ed], a
+    ld [wMeowthXPosition], a
     ld a, $20
-    ld [$d6ee], a
+    ld [wMeowthYPosition], a
     ld a, $10
-    ld [$d6e9], a
-    ld a, $ff
-    ld [$d6f0], a
+    ld [wMeowthAnimationFrameCounter], a
+    ld a, $ff  ; walk left
+    ld [wMeowthXMovement], a
     xor a
     ld [$d6ea], a
     ld [$d6ec], a
@@ -35092,10 +35092,10 @@ Func_24157: ; 0x24157
     ld a, [$d6e7]
     cp $0
     ret nz
-    ld a, [$d6ed]
+    ld a, [wMeowthXPosition]
     add $f7
     ld b, a
-    ld a, [$d6ee]
+    ld a, [wMeowthYPosition]
     add $6
     ld c, a
     call Func_24170
@@ -35152,10 +35152,10 @@ Func_24170: ; 0x24170
     ld a, [$d713]
     and a
     ret nz
-    ld a, [$d6f1]
+    ld a, [wMeowthYMovement]
     and a
     jr z, .asm_241ed
-    ld a, [$d6f1]
+    ld a, [wMeowthYMovement]
     cp $1
     jr nz, .asm_241df
     ld a, [$d70b]
@@ -35173,7 +35173,7 @@ Func_24170: ; 0x24170
     scf
     ret
 .asm_241ed
-    ld a, [$d6ee]
+    ld a, [wMeowthYPosition]
     cp $20
     jr nz, .asm_241fd
     ld a, [$d70b]
@@ -35181,7 +35181,7 @@ Func_24170: ; 0x24170
     jr z, .asm_24210
     jr .asm_2420b
 .asm_241fd
-    ld a, [$d6ee]
+    ld a, [wMeowthYPosition]
     cp $10
     jr nz, .asm_24210
     ld a, [$d70c]
@@ -35508,7 +35508,7 @@ INCBIN "baserom.gbc",$2442a,$2442a - $2442a
 Func_2442a: ; 0x2442a
     ld a, [$d710]
     jr nz, .asm_2443f
-    ld a, [$d70f]
+    ld a, [wMeowthStageBonusCounter]
     dec a
     dec a
     cp $fe
@@ -35528,7 +35528,7 @@ Func_2442a: ; 0x2442a
     call Func_245ab
     call Func_248ac
     call Func_24d07
-    ld a, [$d711]
+    ld a, [wMeowthStageScore]
     cp $14
     jr c, .asm_24498
     ld a, [$d712]
@@ -35590,7 +35590,7 @@ Func_2442a: ; 0x2442a
     ld a, $1
     ld [$d712], a
     ld hl, $4704
-    ld de, $d6e9
+    ld de, wMeowthAnimationFrameCounter
     call Func_28a0
     ld a, $4
     ld [$d6ec], a
@@ -35642,7 +35642,7 @@ Func_245ab: ; 0x245ab
     jr z, .asm_24621
     ld a, $1
     ld [$d6f3], a
-    ld a, [$d6ee]
+    ld a, [wMeowthYPosition]
     cp $20
     jr z, .asm_245c7
     cp $10
@@ -35669,21 +35669,21 @@ Func_245ab: ; 0x245ab
     ld hl, Func_8576
     call BankSwitch
     xor a
-    ld [$d70f], a
+    ld [wMeowthStageBonusCounter], a
     ld a, [$d6ec]
     cp $2
     jr nc, .asm_24621
     and a
     jr nz, .asm_24611
     ld hl, $46fe
-    ld de, $d6e9
+    ld de, wMeowthAnimationFrameCounter
     call Func_28a0
     ld a, $2
     ld [$d6ec], a
     jr .asm_24651
 .asm_24611
     ld hl, $4701
-    ld de, $d6e9
+    ld de, wMeowthAnimationFrameCounter
     call Func_28a0
     ld a, $3
     ld [$d6ec], a
@@ -35706,7 +35706,7 @@ Func_245ab: ; 0x245ab
     cp $3
     jr nz, .asm_24651
     ld hl, $4704
-    ld de, $d6e9
+    ld de, wMeowthAnimationFrameCounter
     call Func_28a0
     ld a, $4
     ld [$d6ec], a
@@ -35727,7 +35727,7 @@ Func_2465d: ; 0x2465d
     ld a, [hli]
     ld h, [hl]
     ld l, a
-    ld de, $d6e9
+    ld de, wMeowthAnimationFrameCounter
     call Func_28a9
     ret nc
     ld a, [$d6ec]
@@ -35737,7 +35737,7 @@ Func_2465d: ; 0x2465d
     cp $4
     ret nz
     ld hl, $46ec
-    ld de, $d6e9
+    ld de, wMeowthAnimationFrameCounter
     call Func_28a0
     ret
 .asm_24689
@@ -35747,7 +35747,7 @@ Func_2465d: ; 0x2465d
     cp $4
     ret nz
     ld hl, $46f5
-    ld de, $d6e9
+    ld de, wMeowthAnimationFrameCounter
     call Func_28a0
     ret
 .asm_2469d
@@ -35757,7 +35757,7 @@ Func_2465d: ; 0x2465d
     cp $1
     ret nz
     ld hl, $46ec
-    ld de, $d6e9
+    ld de, wMeowthAnimationFrameCounter
     call Func_28a0
     xor a
     ld [$d6ec], a
@@ -35769,7 +35769,7 @@ Func_2465d: ; 0x2465d
     cp $1
     ret nz
     ld hl, $46f5
-    ld de, $d6e9
+    ld de, wMeowthAnimationFrameCounter
     call Func_28a0
     ld a, $1
     ld [$d6ec], a
@@ -35781,23 +35781,23 @@ Func_2465d: ; 0x2465d
     cp $2
     ret nz
     ld hl, $4704
-    ld de, $d6e9
+    ld de, wMeowthAnimationFrameCounter
     call Func_28a0
     ret
 
 INCBIN "baserom.gbc",$246e2,$24709 - $246e2
 
 Func_24709: ; 0x24709
-    ld a, [$d6ed]
-    ld hl, $d6f0
+    ld a, [wMeowthXPosition]
+    ld hl, wMeowthXMovement
     add [hl]
-    ld [$d6ed], a
-    ld hl, $d6f1
+    ld [wMeowthXPosition], a
+    ld hl, wMeowthYMovement
     ld a, [hl]
     and a
     jr z, .asm_24730
     bit 7, [hl]
-    ld a, [$d6ee]
+    ld a, [wMeowthYPosition]
     jr nz, .asm_24724
     inc a
     jr .asm_24725
@@ -35808,14 +35808,14 @@ Func_24709: ; 0x24709
     jr z, .asm_24730
     cp $f
     jr z, .asm_24730
-    ld [$d6ee], a
+    ld [wMeowthYPosition], a
 .asm_24730
     call Func_24737
     call Func_2476d
     ret
 
 Func_24737: ; 0x24737
-    ld a, [$d6ed]
+    ld a, [wMeowthXPosition]
     cp $8
     jr nc, .asm_24742
     ld a, $1
@@ -35835,7 +35835,7 @@ Func_24737: ; 0x24737
     jr z, .asm_2475a
     ld a, $ff
 .asm_2475a
-    ld [$d6f0], a
+    ld [wMeowthXMovement], a
     bit 7, a
     ld a, $1
     jr z, .asm_24764
@@ -35843,16 +35843,16 @@ Func_24737: ; 0x24737
 .asm_24764
     ld [$d6ec], a
     ld a, $2
-    ld [$d6e9], a
+    ld [wMeowthAnimationFrameCounter], a
     ret
 
 Func_2476d: ; 0x2476d
-    ld a, [$d6f1]
+    ld a, [wMeowthYMovement]
     and a
     jr z, .asm_247ab
     cp $1
     jr z, .asm_24791
-    ld a, [$d6ee]
+    ld a, [wMeowthYPosition]
     cp $10
     jr nz, .asm_2478d
     ld a, [$d6e7]
@@ -35867,7 +35867,7 @@ Func_2476d: ; 0x2476d
     ld a, $ff
     jr .asm_247c9
 .asm_24791
-    ld a, [$d6ee]
+    ld a, [wMeowthYPosition]
     cp $20
     jr nz, .asm_247a7
     ld a, [$d6e7]
@@ -35897,15 +35897,15 @@ Func_2476d: ; 0x2476d
     jr z, .asm_247c9
     ld a, $ff
 .asm_247c9
-    ld [$d6f1], a
+    ld [wMeowthYMovement], a
     ret
 .asm_247cd
     ld a, $ff
-    ld [$d6f1], a
+    ld [wMeowthYMovement], a
     ret
 .asm_247d3
     ld a, $1
-    ld [$d6f1], a
+    ld [wMeowthYMovement], a
     ret
 
 Func_247d9: ; 0x247d9
@@ -35915,10 +35915,10 @@ Func_247d9: ; 0x247d9
     ld a, [$d71a]
     cp $c8
     jr nz, .asm_24823
-    ld a, [$d6ed]
+    ld a, [wMeowthXPosition]
     add $8
     ld [$d71a], a
-    ld a, [$d6ee]
+    ld a, [wMeowthYPosition]
     add $fb
     ld [$d727], a
     ld a, $1
@@ -35929,7 +35929,7 @@ Func_247d9: ; 0x247d9
     ld [$d6f5], a
     ld [$d6f8], a
     ld [$d6fb], a
-    ld a, [$d6ed]
+    ld a, [wMeowthXPosition]
     add $14
     ld b, a
     ld a, [$d4b4]
@@ -35947,10 +35947,10 @@ Func_247d9: ; 0x247d9
     ld a, [$d71b]
     cp $c8
     jr nz, .asm_24868
-    ld a, [$d6ed]
+    ld a, [wMeowthXPosition]
     add $8
     ld [$d71b], a
-    ld a, [$d6ee]
+    ld a, [wMeowthYPosition]
     add $fb
     ld [$d728], a
     ld a, $1
@@ -35961,7 +35961,7 @@ Func_247d9: ; 0x247d9
     ld [$d6f6], a
     ld [$d6f9], a
     ld [$d6fc], a
-    ld a, [$d6ed]
+    ld a, [wMeowthXPosition]
     add $14
     ld b, a
     ld a, [$d4b4]
@@ -35979,10 +35979,10 @@ Func_247d9: ; 0x247d9
     ld a, [$d71c]
     cp $c8
     ret nz
-    ld a, [$d6ed]
+    ld a, [wMeowthXPosition]
     add $8
     ld [$d71c], a
-    ld a, [$d6ee]
+    ld a, [wMeowthYPosition]
     add $fb
     ld [$d729], a
     ld a, $1
@@ -35993,7 +35993,7 @@ Func_247d9: ; 0x247d9
     ld [$d6f7], a
     ld [$d6fa], a
     ld [$d6fd], a
-    ld a, [$d6ed]
+    ld a, [wMeowthXPosition]
     add $14
     ld b, a
     ld a, [$d4b4]
@@ -36186,18 +36186,18 @@ Func_248ac: ; 0x248ac
     ld a, [$d713]
     and a
     ret nz
-    ld a, [$d6f0]
+    ld a, [wMeowthXMovement]
     cp $ff
     jr z, .asm_24a21
     ld hl, $46f5
-    ld de, $d6e9
+    ld de, wMeowthAnimationFrameCounter
     call Func_28a0
     ld a, $1
     ld [$d6ec], a
     ret
 .asm_24a21
     ld hl, $46ec
-    ld de, $d6e9
+    ld de, wMeowthAnimationFrameCounter
     call Func_28a0
     ld a, $0
     ld [$d6ec], a
@@ -36467,10 +36467,10 @@ Func_24c28: ; 0x24c28
     ld a, [$d724]
     cp $c8
     jr nz, .asm_24c76
-    ld a, [$d6ed]
+    ld a, [wMeowthXPosition]
     add $8
     ld [$d724], a
-    ld a, [$d6ee]
+    ld a, [wMeowthYPosition]
     add $fb
     ld [$d731], a
     ld a, $1
@@ -36483,7 +36483,7 @@ Func_24c28: ; 0x24c28
     ld [$d6ff], a
     ld [$d702], a
     ld [$d705], a
-    ld a, [$d6ed]
+    ld a, [wMeowthXPosition]
     add $14
     ld b, a
     ld a, [$d4b4]
@@ -36501,10 +36501,10 @@ Func_24c28: ; 0x24c28
     ld a, [$d725]
     cp $c8
     jr nz, .asm_24cbf
-    ld a, [$d6ed]
+    ld a, [wMeowthXPosition]
     add $8
     ld [$d725], a
-    ld a, [$d6ee]
+    ld a, [wMeowthYPosition]
     add $fb
     ld [$d732], a
     ld a, $1
@@ -36535,10 +36535,10 @@ Func_24c28: ; 0x24c28
     ld a, [$d726]
     cp $c8
     ret nz
-    ld a, [$d6ed]
+    ld a, [wMeowthXPosition]
     add $8
     ld [$d726], a
-    ld a, [$d6ee]
+    ld a, [wMeowthYPosition]
     add $fb
     ld [$d733], a
     ld a, $1
@@ -36551,7 +36551,7 @@ Func_24c28: ; 0x24c28
     ld [$d701], a
     ld [$d704], a
     ld [$d707], a
-    ld a, [$d6ed]
+    ld a, [wMeowthXPosition]
     add $14
     ld b, a
     ld a, [$d4b4]
@@ -36738,18 +36738,18 @@ Func_24d07: ; 0x24d07
     ld a, [$d713]
     and a
     ret nz
-    ld a, [$d6f0]
+    ld a, [wMeowthXMovement]
     cp $ff
     jr z, .asm_24e70
     ld hl, $46f5
-    ld de, $d6e9
+    ld de, wMeowthAnimationFrameCounter
     call Func_28a0
     ld a, $1
     ld [$d6ec], a
     ret
 .asm_24e70
     ld hl, $46ec
-    ld de, $d6e9
+    ld de, wMeowthAnimationFrameCounter
     call Func_28a0
     ld a, $0
     ld [$d6ec], a
@@ -36760,10 +36760,10 @@ Func_24e7f: ; 0x24e7f
     ld [$d79c], a
     ld a, c
     ld [$d79e], a
-    ld hl, $d70f
+    ld hl, wMeowthStageBonusCounter
     inc [hl]
     ld a, [hl]
-    cp $7
+    cp $7  ; maximum bonus
     jr nz, .asm_24e92
     xor a
     ld [hl], a
@@ -36774,7 +36774,7 @@ Func_24e7f: ; 0x24e7f
     ld [$d804], a
     ld de, $0032
     call PlaySoundEffect
-    ld a, [$d70f]
+    ld a, [wMeowthStageBonusCounter]
     dec a
 .asm_24ea6
     push af
@@ -36783,7 +36783,7 @@ Func_24e7f: ; 0x24e7f
     ld a, Bank(Func_8576)
     ld hl, Func_8576
     call BankSwitch
-    ld hl, $d711
+    ld hl, wMeowthStageScore
     inc [hl]
     pop af
     and a
@@ -36791,7 +36791,7 @@ Func_24e7f: ; 0x24e7f
     dec a
     jr .asm_24ea6
 .asm_24ebf
-    ld a, [$d70f]
+    ld a, [wMeowthStageBonusCounter]
     dec a
     dec a
     cp $fe
@@ -36865,7 +36865,7 @@ Func_24f00: ; 0x24f00
 INCBIN "baserom.gbc",$24f30,$24fa3 - $24f30
 
 Func_24fa3: ; 0x24fa3
-    ld a, [$d711]
+    ld a, [wMeowthStageScore]
     ld c, a
     ld b, $0
 .asm_24fa9
@@ -36885,24 +36885,24 @@ Func_24fa3: ; 0x24fa3
     sub $8
 .asm_24fbb
     ld [$d652], a
-    ld a, [$d70f]
+    ld a, [wMeowthStageBonusCounter]
     and a
     jr z, .asm_24fca
     ld b, a
-    ld a, [$d711]
+    ld a, [wMeowthStageScore]
     inc a
     sub b
 .asm_24fca
     ld [$d651], a
     ld a, $0
     ld [$d64e], a
-    ld a, [$d711]
+    ld a, [wMeowthStageScore]
     and a
     ret z
     cp $15
     jr c, .asm_24fe2
     ld a, $14
-    ld [$d711], a
+    ld [wMeowthStageScore], a
     jr .asm_24fed
 .asm_24fe2
     push af
@@ -36953,11 +36953,11 @@ Func_2583b: ; 0x2583b
     ret
 
 Func_2586c: ; 0x2586c
-    ld a, [$d6ed]
+    ld a, [wMeowthXPosition]
     ld hl, hBoardXShift
     sub [hl]
     ld b, a
-    ld a, [$d6ee]
+    ld a, [wMeowthYPosition]
     ld hl, hBoardYShift
     sub [hl]
     ld c, a

@@ -35,7 +35,19 @@ wScore:: ; 0xd46a
 ; player's current score
     ds 6
 
-    ds $31
+    ds $e
+
+wBallType:: ; 0xd47e
+; PokeBall, Great Ball, Ultra Ball, or Master Ball
+    ds 1
+wBallTypeCounter:: ; 0xd47f
+; two-byte counter that represents how many frames remain until the Ball uprade goes down to the next level.
+    ds 2
+wBallTypeBackup:: ; 0xd481
+; Holds the ball type during bonus stages, since they always use a regular pokeball.
+    ds 1
+
+    ds $1f
 
 wBallSaverIconOn:: ; 0xd4a1
 ; The blue Ball Saver icon is illuminated when this byte is non-zero.

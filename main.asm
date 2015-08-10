@@ -9571,7 +9571,7 @@ Func_8576: ; 0x8576
     ld a, [$d477]
     ld e, a
     ld d, $d4
-    ld a, [$d47e]
+    ld a, [wBallType]
     and a
     jr nz, .asm_8585
     inc a
@@ -13931,77 +13931,77 @@ Func_dcb4: ; 0xdcb4
     ld [$c646], a
     ret
 
-Func_dcc3: ; 0xdcc3
+LoadBallGfx: ; 0xdcc3
     xor a
     ld [$d4c8], a
-    ld a, [$d47e]
-    cp $2
-    jr nc, .asm_dcdd
-    ld a, $2a
-    ld hl, Func_c400
+    ld a, [wBallType]
+    cp GREAT_BALL
+    jr nc, .notPokeBall
+    ld a, Bank(PinballPokeballGfx)
+    ld hl, PinballPokeballGfx
     ld de, $8400
     ld bc, $0200
     call Func_735
     ret
-.asm_dcdd
-    cp $3
-    jr nc, .asm_dcf0
-    ld a, $2a
-    ld hl, $4a00
+.notPokeBall
+    cp ULTRA_BALL
+    jr nc, .notGreatBall
+    ld a, Bank(PinballGreatballGfx)
+    ld hl, PinballGreatballGfx
     ld de, $8400
     ld bc, $0200
     call Func_735
     ret
-.asm_dcf0
-    cp $5
-    jr nc, .asm_dd03
-    ld a, $2a
-    ld hl, $4c00
+.notGreatBall
+    cp MASTER_BALL
+    jr nc, .notUltraBall
+    ld a, Bank(PinballUltraballGfx)
+    ld hl, PinballUltraballGfx
     ld de, $8400
     ld bc, $0200
     call Func_735
     ret
-.asm_dd03
-    ld a, $2a
-    ld hl, $4e00
+.notUltraBall
+    ld a, Bank(PinballMasterballGfx)
+    ld hl, PinballMasterballGfx
     ld de, $8400
     ld bc, $0200
     call Func_735
     ret
 
-Func_dd12: ; 0xdd12
+LoadMiniBallGfx: ; 0xdd12
     ld a, $1
     ld [$d4c8], a
-    ld a, [$d47e]
-    cp $2
-    jr nc, .asm_dd2d
-    ld a, $2a
-    ld hl, $5000
+    ld a, [wBallType]
+    cp GREAT_BALL
+    jr nc, .notPokeBall
+    ld a, Bank(PinballPokeballMiniGfx)
+    ld hl, PinballPokeballMiniGfx
     ld de, $8400
     ld bc, $0200
     call Func_735
     ret
-.asm_dd2d
-    cp $3
-    jr nc, .asm_dd40
-    ld a, $2a
-    ld hl, $5200
+.notPokeBall
+    cp ULTRA_BALL
+    jr nc, .notGreatBall
+    ld a, Bank(PinballGreatballMiniGfx)
+    ld hl, PinballGreatballMiniGfx
     ld de, $8400
     ld bc, $0200
     call Func_735
     ret
-.asm_dd40
-    cp $5
-    jr nc, .asm_dd53
-    ld a, $2a
-    ld hl, $5400
+.notGreatBall
+    cp MASTER_BALL
+    jr nc, .notUltraBall
+    ld a, Bank(PinballUltraballMiniGfx)
+    ld hl, PinballUltraballMiniGfx
     ld de, $8400
     ld bc, $0200
     call Func_735
     ret
-.asm_dd53
-    ld a, $2a
-    ld hl, $5600
+.notUltraBall
+    ld a, Bank(PinballMasterballMiniGfx)
+    ld hl, PinballMasterballMiniGfx
     ld de, $8400
     ld bc, $0200
     call Func_735
@@ -16354,7 +16354,7 @@ Func_ed8e: ; 0xed8e
     ld [$d622], a
     ld a, [wNumPartyMons]
     ld [$d620], a
-    ld a, [$d47e]
+    ld a, [wBallType]
     ld c, a
     ld b, $0
     ld hl, $6f2f
@@ -16520,9 +16520,9 @@ CallTable_eeca: ; 0xeeca
     dw Func_eff3
     dw Func_f034
     dw Func_f03a
-    dw Func_f040
-    dw Func_f040
-    dw Func_f040
+    dw UpgradeBallBlueField
+    dw UpgradeBallBlueField
+    dw UpgradeBallBlueField
     dw Func_f0c1
     dw Func_f172
     dw Func_f172
@@ -16732,14 +16732,15 @@ Func_f03a: ; 0xf03a
     ld [$d622], a
     ret
 
-Func_f040: ; 0xf040
+UpgradeBallBlueField: ; 0xf040
+    ; load approximately 1 minute of frames into wBallTypeCounter
     ld a, $10
-    ld [$d47f], a
+    ld [wBallTypeCounter], a
     ld a, $e
-    ld [$d480], a
-    ld a, [$d47e]
-    cp $5
-    jr z, .asm_f07b
+    ld [wBallTypeCounter + 1], a
+    ld a, [wBallType]
+    cp MASTER_BALL
+    jr z, .masterBall
     ld de, $063a
     call PlaySoundEffect
     call Func_30e8
@@ -16747,17 +16748,18 @@ Func_f040: ; 0xf040
     ld de, $2907
     ld hl, $d5cc
     call Func_32aa
-    ld a, [$d47e]
+    ; upgrade ball type
+    ld a, [wBallType]
     ld c, a
     ld b, $0
-    ld hl, $70bb
+    ld hl, BallTypeProgressionBlueField
     add hl, bc
     ld a, [hl]
-    ld [$d47e], a
+    ld [wBallType], a
     add $30
     ld [$c512], a
     jr .asm_f0b0
-.asm_f07b
+.masterBall
     ld de, $0f4d
     call PlaySoundEffect
     ld bc, $34e8
@@ -16786,7 +16788,14 @@ Func_f040: ; 0xf040
     call BankSwitch
     ret
 
-INCBIN "baserom.gbc",$f0bb,$f0c1 - $f0bb
+BallTypeProgressionBlueField: ; 0xf0bb
+; Determines the next upgrade for the Ball.
+    db GREAT_BALL   ; POKE_BALL -> GREAT_BALL
+    db GREAT_BALL   ; unused
+    db ULTRA_BALL   ; GREAT_BALL -> ULTRA_BALL
+    db MASTER_BALL  ; ULTRA_BALL -> MASTER_BALL
+    db MASTER_BALL  ; unused
+    db MASTER_BALL  ; MASTER_BALL -> MASTER_BALL
 
 Func_f0c1: ; 0xf0c1
     ld a, $4
@@ -18619,7 +18628,7 @@ Func_10496: ; 0x10496
     ld de, $8900
     ld bc, $0180
     call LoadVRAMData
-    call Func_104e2
+    call LoadShakeBallGfx
     ld hl, $45e4
     ld de, $d5f4
     call Func_28a0
@@ -18637,37 +18646,38 @@ Func_10496: ; 0x10496
     call PlaySoundEffect
     ret
 
-Func_104e2: ; 0x104e2
-    ld a, [$d47e]
-    cp $2
-    jr nc, .asm_104f8
-    ld a, $2a
-    ld hl, $4380
+LoadShakeBallGfx: ; 0x104e2
+; Loads the graphics for the ball shaking after a pokemon is caught.
+    ld a, [wBallType]
+    cp GREAT_BALL
+    jr nc, .notPokeball
+    ld a, Bank(PinballPokeballShakeGfx)
+    ld hl, PinballPokeballShakeGfx
     ld de, $8380
     ld bc, $0040
     call LoadVRAMData
     ret
-.asm_104f8
-    cp $3
-    jr nc, .asm_1050b
-    ld a, $2a
-    ld hl, $42c0
+.notPokeball
+    cp ULTRA_BALL
+    jr nc, .notGreatball
+    ld a, Bank(PinballGreatballShakeGfx)
+    ld hl, PinballGreatballShakeGfx
     ld de, $8380
     ld bc, $0040
     call LoadVRAMData
     ret
-.asm_1050b
-    cp $5
-    jr nc, .asm_1051e
-    ld a, $2a
-    ld hl, $4300
+.notGreatball
+    cp MASTER_BALL
+    jr nc, .notUltraBall
+    ld a, Bank(PinballUltraballShakeGfx)
+    ld hl, PinballUltraballShakeGfx
     ld de, $8380
     ld bc, $0040
     call LoadVRAMData
     ret
-.asm_1051e
-    ld a, $2a
-    ld hl, $4340
+.notUltraBall
+    ld a, Bank(PinballMasterballShakeGfx)
+    ld hl, PinballMasterballShakeGfx
     ld de, $8380
     ld bc, $0040
     call LoadVRAMData
@@ -20573,36 +20583,36 @@ Func_1414b: ; 0x1414b
     ld de, $8900
     ld bc, $0180
     call Func_666
-    ld a, [$d47e]
-    cp $2
-    jr nc, .asm_141bd
-    ld a, $2a
-    ld hl, $4380
+    ld a, [wBallType]
+    cp GREAT_BALL
+    jr nc, .notPokeball
+    ld a, Bank(PinballPokeballShakeGfx)
+    ld hl, PinballPokeballShakeGfx
     ld de, $8380
     ld bc, $0040
     call Func_666
     ret
-.asm_141bd
-    cp $3
-    jr nc, .asm_141d0
-    ld a, $2a
-    ld hl, $42c0
+.notPokeball
+    cp ULTRA_BALL
+    jr nc, .notGreatball
+    ld a, Bank(PinballGreatballShakeGfx)
+    ld hl, PinballGreatballShakeGfx
     ld de, $8380
     ld bc, $0040
     call Func_666
     ret
-.asm_141d0
-    cp $5
-    jr nc, .asm_141e3
-    ld a, $2a
-    ld hl, $4300
+.notGreatball
+    cp MASTER_BALL
+    jr nc, .notUltraball
+    ld a, Bank(PinballUltraballShakeGfx)
+    ld hl, PinballUltraballShakeGfx
     ld de, $8380
     ld bc, $0040
     call Func_666
     ret
-.asm_141e3
-    ld a, $2a
-    ld hl, $4340
+.notUltraball
+    ld a, Bank(PinballMasterballShakeGfx)
+    ld hl, PinballMasterballShakeGfx
     ld de, $8380
     ld bc, $0040
     call Func_666
@@ -20769,16 +20779,16 @@ Func_142fc: ; 0x142fc
     and a
     jr nz, .asm_1430e
     ld [$ff8a], a
-    ld a, Bank(Func_dcc3)
-    ld hl, Func_dcc3
+    ld a, Bank(LoadBallGfx)
+    ld hl, LoadBallGfx
     call BankSwitch
     jr .asm_14328
 .asm_1430e
     cp $1
     jr nz, .asm_1431e
     ld [$ff8a], a
-    ld a, Bank(Func_dd12)
-    ld hl, Func_dd12
+    ld a, Bank(LoadMiniBallGfx)
+    ld hl, LoadMiniBallGfx
     call BankSwitch
     jr .asm_14328
 .asm_1431e
@@ -20790,34 +20800,34 @@ Func_142fc: ; 0x142fc
     ld a, [hGameBoyColorFlag]
     and a
     ret z
-    ld a, [$d47e]
-    cp $2
-    jr nc, .asm_14342
+    ld a, [wBallType]
+    cp GREAT_BALL
+    jr nc, .notPokeball
     ld a, $37
     ld hl, $5168
     ld de, $0040
     ld bc, $0008
     call Func_6fd
     ret
-.asm_14342
-    cp $3
-    jr nc, .asm_14355
+.notPokeball
+    cp ULTRA_BALL
+    jr nc, .notGreatball
     ld a, $37
     ld hl, $5170
     ld de, $0040
     ld bc, $0008
     call Func_6fd
     ret
-.asm_14355
-    cp $5
-    jr nc, .asm_14368
+.notGreatball
+    cp MASTER_BALL
+    jr nc, .notUltraball
     ld a, $37
     ld hl, $5178
     ld de, $0040
     ld bc, $0008
     call Func_6fd
     ret
-.asm_14368
+.notUltraball
     ld a, $37
     ld hl, $5180
     ld de, $0040
@@ -21039,7 +21049,7 @@ Func_1460e: ; 0x1460e
     call Func_14d85
     call Func_14dea
     call Func_1535d
-    call Func_15575
+    call HandleBallTypeUpgradeCounterRedField
     call Func_15270
     call Func_1581f
     call Func_1660c
@@ -21069,7 +21079,7 @@ Func_14652: ; 0x14652
     call Func_14880
     call Func_14e10
     call Func_154a9
-    call Func_15575
+    call HandleBallTypeUpgradeCounterRedField
     call Func_151cb
     call Func_1652d
     call Func_1660c
@@ -21976,18 +21986,19 @@ Func_1535d: ; 0x1535d
     ld [$d5fc], a
     ld a, $80
     ld [$d5fd], a
+    ; load approximately 1 minute of frames into wBallTypeCounter
     ld a, $10
-    ld [$d47f], a
+    ld [wBallTypeCounter], a
     ld a, $e
-    ld [$d480], a
+    ld [wBallTypeCounter + 1], a
     ld bc, $34b8
     ld [$ff8a], a
     ld a, Bank(Func_8576)
     ld hl, Func_8576
     call BankSwitch
-    ld a, [$d47e]
-    cp $5
-    jr z, .asm_15412
+    ld a, [wBallType]
+    cp MASTER_BALL
+    jr z, .masterBall
     ld de, $063a
     call PlaySoundEffect
     call Func_30e8
@@ -21995,17 +22006,17 @@ Func_1535d: ; 0x1535d
     ld de, $2907
     ld hl, $d5cc
     call Func_32aa
-    ld a, [$d47e]
+    ld a, [wBallType]
     ld c, a
     ld b, $0
-    ld hl, $5505 ; todo
+    ld hl, BallTypeProgressionRedField
     add hl, bc
     ld a, [hl]
-    ld [$d47e], a
+    ld [wBallType], a
     add $30
     ld [$c512], a
     jr .asm_15447
-.asm_15412
+.masterBall
     ld de, $0f4d
     call PlaySoundEffect
     ld bc, $34e8
@@ -22162,13 +22173,31 @@ Func_154a9: ; 0x154a9
     ld [hl], a
     ret
 
-INCBIN "baserom.gbc",$15505,$15575 - $15505
+BallTypeProgressionRedField: ; 0x15505
+; Determines the next upgrade for the Ball.
+    db GREAT_BALL   ; POKE_BALL -> GREAT_BALL
+    db GREAT_BALL   ; unused
+    db ULTRA_BALL   ; GREAT_BALL -> ULTRA_BALL
+    db MASTER_BALL  ; ULTRA_BALL -> MASTER_BALL
+    db MASTER_BALL  ; unused
+    db MASTER_BALL  ; MASTER_BALL -> MASTER_BALL
 
-Func_15575: ; 0x15575
+BallTypeDegradationRedField: ; 0x1550b
+; Determines the previous upgrade for the Ball.
+    db POKE_BALL   ; POKE_BALL -> POKE_BALL
+    db POKE_BALL   ; unused
+    db POKE_BALL   ; GREAT_BALL -> POKE_BALL
+    db GREAT_BALL  ; ULTRA_BALL -> GREAT_BALL
+    db ULTRA_BALL  ; unused
+    db ULTRA_BALL  ; MASTER_BALL -> GREAT_BALL
+
+INCBIN "baserom.gbc",$15511,$15575 - $15511
+
+HandleBallTypeUpgradeCounterRedField: ; 0x15575
     ld a, [$d5f3]
     and a
     ret nz
-    ld hl, $d47f
+    ld hl, wBallTypeCounter
     ld a, [hli]
     ld c, a
     ld b, [hl]
@@ -22180,25 +22209,27 @@ Func_15575: ; 0x15575
     ld [hl], c
     or c
     ret nz
-    ld a, [$d47e]
+    ; counter is now 0! Degrade the ball upgrade.
+    ld a, [wBallType]
     ld c, a
     ld b, $0
-    ld hl, $550b ; todo
+    ld hl, BallTypeDegradationRedField
     add hl, bc
     ld a, [hl]
-    ld [$d47e], a
+    ld [wBallType], a
     and a
-    jr z, .asm_155a3
+    jr z, .pokeball
+    ; load approximately 1 minute of frames into wBallTypeCounter
     ld a, $10
-    ld [$d47f], a
+    ld [wBallTypeCounter], a
     ld a, $e
-    ld [$d480], a
-.asm_155a3
+    ld [wBallTypeCounter + 1], a
+.pokeball
     call Func_155a7
     ret
 
 Func_155a7: ; 0x155a7
-    ld a, [$d47e]
+    ld a, [wBallType]
     ld c, a
     sla c
     ld b, $0
@@ -22216,7 +22247,7 @@ Func_155bb: ; 0x155bb
     and a
     ret z
     ; gameboy color
-    ld a, [$d47e]
+    ld a, [wBallType]
     sla a
     ld c, a
     ld b, $0
@@ -22738,8 +22769,8 @@ Func_160f0: ; 0x160f0
     cp $f
     jr nz, .asm_1614f
     ld [$ff8a], a
-    ld a, Bank(Func_dd12)
-    ld hl, Func_dd12
+    ld a, Bank(LoadMiniBallGfx)
+    ld hl, LoadMiniBallGfx
     call BankSwitch
     ret
 .asm_1614f
@@ -22777,16 +22808,16 @@ Func_160f0: ; 0x160f0
     cp $3
     jr nz, .asm_1619d
     ld [$ff8a], a
-    ld a, Bank(Func_dd12)
-    ld hl, Func_dd12
+    ld a, Bank(LoadMiniBallGfx)
+    ld hl, LoadMiniBallGfx
     call BankSwitch
     ret
 .asm_1619d
     and a
     ret nz
     ld [$ff8a], a
-    ld a, Bank(Func_dcc3)
-    ld hl, Func_dcc3
+    ld a, Bank(LoadBallGfx)
+    ld hl, LoadBallGfx
     call BankSwitch
     ld a, $2
     ld [wBallYVelocity + 1], a
@@ -22966,8 +22997,8 @@ Func_16279: ; 0x16279
     ld de, $0021
     call PlaySoundEffect
     ld [$ff8a], a
-    ld a, Bank(Func_dd12)
-    ld hl, Func_dd12
+    ld a, Bank(LoadMiniBallGfx)
+    ld hl, LoadMiniBallGfx
     call BankSwitch
     ret
 .asm_162d4
@@ -23001,16 +23032,16 @@ Func_16279: ; 0x16279
     ld a, $8
     ld [$d804], a
     ld [$ff8a], a
-    ld a, Bank(Func_dd12)
-    ld hl, Func_dd12
+    ld a, Bank(LoadMiniBallGfx)
+    ld hl, LoadMiniBallGfx
     call BankSwitch
     ret
 .asm_16317
     cp $3
     jr nz, .asm_16330
     ld [$ff8a], a
-    ld a, Bank(Func_dcc3)
-    ld hl, Func_dcc3
+    ld a, Bank(LoadBallGfx)
+    ld hl, LoadBallGfx
     call BankSwitch
     ld a, $2
     ld [wBallYVelocity + 1], a
@@ -24741,11 +24772,11 @@ InitGengarBonusStage: ; 0x18099
 .asm_180ac
     ld a, $1
     ld [$d7ac], a
-    ld a, [$d47e]
-    ld [$d481], a
+    ld a, [wBallType]
+    ld [wBallTypeBackup], a
     xor a
     ld [$d4c8], a
-    ld [$d47e], a
+    ld [wBallType], a
     ld [$d49a], a
     ld hl, $4121 ; todo
     ld de, $d659
@@ -26334,11 +26365,11 @@ InitMewtwoBonusStage: ; 0x1924f
     ld [$d4af], a
     ld a, $1
     ld [$d7ac], a
-    ld a, [$d47e]
-    ld [$d481], a
+    ld a, [wBallType]
+    ld [wBallTypeBackup], a
     xor a
     ld [$d4c8], a
-    ld [$d47e], a
+    ld [wBallType], a
     ld [$d49a], a
     ld hl, $52ab ; todo
     ld de, $d6b6
@@ -27198,11 +27229,11 @@ InitDiglettBonusStage: ; 0x199f2
     ld [$d4af], a
     ld a, $1
     ld [$d7ac], a
-    ld a, [$d47e]
-    ld [$d481], a
+    ld a, [wBallType]
+    ld [wBallTypeBackup], a
     xor a
     ld [$d4c8], a
-    ld [$d47e], a
+    ld [wBallType], a
     ld [$d49a], a
     ; initialize all digletts to hiding
     ld a, $1  ; hiding diglett state
@@ -27976,7 +28007,7 @@ InitBlueField: ; 0x1c000
     ld [wNumPartyMons], a
     ld [$d49b], a
     ld [$d4c9], a
-    ld [$d47e], a
+    ld [wBallType], a
     ld [$d4c8], a
     ld hl, $d624
     ld [hli], a
@@ -28026,7 +28057,7 @@ InitBlueField: ; 0x1c000
 StartBallBlueField: ; 0x1c08d
     ld a, [$d496]
     and a
-    jp nz, Func_1c129
+    jp nz, StartBallAfterBonusStageBlueField
     ld a, $0
     ld [wBallXPos], a
     ld a, $a7
@@ -28061,7 +28092,7 @@ StartBallBlueField: ; 0x1c08d
     ld [hli], a
     ld [hli], a
     ld [hli], a
-    ld [$d47e], a
+    ld [wBallType], a
     ld [$d611], a
     ld [$d612], a
     ld [$d628], a
@@ -28089,7 +28120,7 @@ StartBallBlueField: ; 0x1c08d
     call Func_490
     ret
 
-Func_1c129: ; 0x1c129
+StartBallAfterBonusStageBlueField: ; 0x1c129
     ld a, $0
     ld [wBallXPos], a
     ld a, $50
@@ -28106,8 +28137,8 @@ Func_1c129: ; 0x1c129
     ld [$d496], a
     ld [$d7ab], a
     ld [$d7be], a
-    ld a, [$d481]
-    ld [$d47e], a
+    ld a, [wBallTypeBackup]
+    ld [wBallType], a
     ld a, $10
     call Func_52c
     ld de, $0001
@@ -28373,37 +28404,36 @@ Func_1c305: ; 0x1c305
     ld de, $8900
     ld bc, $0180
     call Func_666
-    ld a, [$d47e]
-    cp $2
-    jr nc, .asm_1c377
-    ld a, $2a
-    ld hl, .asm_1c380
+    ld a, [wBallType]
+    cp GREAT_BALL
+    jr nc, .notPokeball
+    ld a, Bank(PinballPokeballShakeGfx)
+    ld hl, PinballPokeballShakeGfx
     ld de, $8380
     ld bc, $0040
     call Func_666
     ret
-.asm_1c377
-    cp $3
-    jr nc, .asm_1c38a
-    ld a, $2a
-    ld hl, $42c0
-.asm_1c380
+.notPokeball
+    cp ULTRA_BALL
+    jr nc, .notGreatball
+    ld a, Bank(PinballGreatballShakeGfx)
+    ld hl, PinballGreatballShakeGfx
     ld de, $8380
     ld bc, $0040
     call Func_666
     ret
-.asm_1c38a
-    cp $5
-    jr nc, .asm_1c39d
-    ld a, $2a
-    ld hl, $4300
+.notGreatball
+    cp MASTER_BALL
+    jr nc, .notUltraBall
+    ld a, Bank(PinballUltraballShakeGfx)
+    ld hl, PinballUltraballShakeGfx
     ld de, $8380
     ld bc, $0040
     call Func_666
     ret
-.asm_1c39d
-    ld a, $2a
-    ld hl, $4340
+.notUltraBall
+    ld a, Bank(PinballMasterballShakeGfx)
+    ld hl, PinballMasterballShakeGfx
     ld de, $8380
     ld bc, $0040
     call Func_666
@@ -28758,7 +28788,7 @@ Func_1c715: ; 0x1c715
     call Func_1c9c1
     call Func_1ca5f
     call Func_1e356
-    call Func_1e58c
+    call HandleBallTypeUpgradeCounterBlueField
     call Func_1e66a
     call Func_1cfaa
     call Func_1d0a1
@@ -28793,7 +28823,7 @@ Func_1c769: ; 0x1c769
     call Func_1dbd2
     call Func_1ca85
     call Func_1e4b8
-    call Func_1e58c
+    call HandleBallTypeUpgradeCounterBlueField
     call Func_1e5c5
     call Func_1c7d7
     call Func_1d0a1
@@ -30831,18 +30861,19 @@ Func_1e356: ; 0x1e356
     ld [$d5fc], a
     ld a, $80
     ld [$d5fd], a
+    ; load approximately 1 minute of frames into wBallTypeCounter
     ld a, $10
-    ld [$d47f], a
+    ld [wBallTypeCounter], a
     ld a, $e
-    ld [$d480], a
+    ld [wBallTypeCounter + 1], a
     ld bc, $34b8
     ld [$ff8a], a
     ld a, Bank(Func_8576)
     ld hl, Func_8576
     call BankSwitch
-    ld a, [$d47e]
-    cp $5
-    jr z, .asm_1e430
+    ld a, [wBallType]
+    cp MASTER_BALL
+    jr z, .masterBall
     ld de, $063a
     call PlaySoundEffect
     call Func_30e8
@@ -30850,17 +30881,17 @@ Func_1e356: ; 0x1e356
     ld hl, $d5cc
     ld de, $2907
     call Func_32aa
-    ld a, [$d47e]
+    ld a, [wBallType]
     ld c, a
     ld b, $0
-    ld hl, $6514 ; todo
+    ld hl, BallTypeProgression2BlueField
     add hl, bc
     ld a, [hl]
-    ld [$d47e], a
+    ld [wBallType], a
     add $30
     ld [$c512], a
     jr .asm_1e465
-.asm_1e430
+.masterBall
     ld de, $0f4d
     call PlaySoundEffect
     ld bc, $34e8
@@ -31005,13 +31036,32 @@ Func_1e4b8: ; 0x1e4b8
     ld [hl], a
     ret
 
-INCBIN "baserom.gbc",$1e514,$1e58c - $1e514
+BallTypeProgression2BlueField: ; 0x1e514
+; Determines the next upgrade for the Ball.
+    db GREAT_BALL   ; POKE_BALL -> GREAT_BALL
+    db GREAT_BALL   ; unused
+    db ULTRA_BALL   ; GREAT_BALL -> ULTRA_BALL
+    db MASTER_BALL  ; ULTRA_BALL -> MASTER_BALL
+    db MASTER_BALL  ; unused
+    db MASTER_BALL  ; MASTER_BALL -> MASTER_BALL
 
-Func_1e58c: ; 0x1e58c
+BallTypeDegradation2BlueField: ; 0x1e51a
+; Determines the previous upgrade for the Ball.
+    db POKE_BALL   ; POKE_BALL -> POKE_BALL
+    db POKE_BALL   ; unused
+    db POKE_BALL   ; GREAT_BALL -> POKE_BALL
+    db GREAT_BALL  ; ULTRA_BALL -> GREAT_BALL
+    db ULTRA_BALL  ; unused
+    db ULTRA_BALL  ; MASTER_BALL -> GREAT_BALL
+
+INCBIN "baserom.gbc",$1e520,$1e58c - $1e520
+
+HandleBallTypeUpgradeCounterBlueField: ; 0x1e58c
     ld a, [$d5f3]
     and a
     ret nz
-    ld hl, $d47f
+    ; check if counter is at 0
+    ld hl, wBallTypeCounter
     ld a, [hli]
     ld c, a
     ld b, [hl]
@@ -31023,20 +31073,22 @@ Func_1e58c: ; 0x1e58c
     ld [hl], c
     or c
     ret nz
-    ld a, [$d47e]
+    ; counter is now 0! Degrade the ball upgrade.
+    ld a, [wBallType]
     ld c, a
     ld b, $0
-    ld hl, $651a ; todo
+    ld hl, BallTypeDegradation2BlueField
     add hl, bc
     ld a, [hl]
-    ld [$d47e], a
+    ld [wBallType], a
     and a
-    jr z, .asm_1e5ba
+    jr z, .pokeball
+    ; load approximately 1 minute of frames into wBallTypeCounter
     ld a, $10
-    ld [$d47f], a
+    ld [wBallTypeCounter], a
     ld a, $e
-    ld [$d480], a
-.asm_1e5ba
+    ld [wBallTypeCounter + 1], a
+.pokeball
     ld [$ff8a], a
     ld a, Bank(Func_155a7)
     ld hl, Func_155a7
@@ -31259,8 +31311,8 @@ Func_1e757: ; 0x1e757
     ld de, $0021
     call PlaySoundEffect
     ld [$ff8a], a
-    ld a, Bank(Func_dd12)
-    ld hl, Func_dd12
+    ld a, Bank(LoadMiniBallGfx)
+    ld hl, LoadMiniBallGfx
     call BankSwitch
     ret
 .asm_1e7b2
@@ -31294,16 +31346,16 @@ Func_1e757: ; 0x1e757
     ld a, $8
     ld [$d804], a
     ld [$ff8a], a
-    ld a, Bank(Func_dd12)
-    ld hl, Func_dd12
+    ld a, Bank(LoadMiniBallGfx)
+    ld hl, LoadMiniBallGfx
     call BankSwitch
     ret
 .asm_1e7f5
     cp $3
     jr nz, .asm_1e80e
     ld [$ff8a], a
-    ld a, Bank(Func_dcc3)
-    ld hl, Func_dcc3
+    ld a, Bank(LoadBallGfx)
+    ld hl, LoadBallGfx
     call BankSwitch
     ld a, $2
     ld [wBallYVelocity + 1], a
@@ -34948,11 +35000,11 @@ InitMeowthBonusStage: ; 0x24000
     xor a
     ld [$d4c8], a
     ld [$d4af], a
-    ld a, [$d47e]
-    ld [$d481], a
+    ld a, [wBallType]
+    ld [wBallTypeBackup], a
     xor a
     ld [$d4c8], a
-    ld [$d47e], a
+    ld [wBallType], a
     ld [$d49a], a
     ld a, $1
     ld [$d7ac], a
@@ -37237,11 +37289,11 @@ InitSeelBonusStage: ; 0x25a7c
     ld [$d4af], a
     ld a, $1
     ld [$d7ac], a
-    ld a, [$d47e]
-    ld [$d481], a
+    ld a, [wBallType]
+    ld [wBallTypeBackup], a
     xor a
     ld [$d4c8], a
-    ld [$d47e], a
+    ld [wBallType], a
     ld [$d49a], a
     ld hl, $5ae5 ; todo
     ld de, $d76d
@@ -40501,7 +40553,7 @@ InitRedField: ; 0x30000
     ld [wNumPartyMons], a
     ld [$d49b], a
     ld [$d4c9], a
-    ld [$d47e], a
+    ld [wBallType], a
     ld [$d4c8], a
     ld hl, $d624
     ld [hli], a
@@ -40545,7 +40597,7 @@ InitRedField: ; 0x30000
 StartBallRedField: ; 0x3007d
     ld a, [$d496]
     and a
-    jp nz, Func_30128
+    jp nz, StartBallAfterBonusStageRedField
     ld a, $0
     ld [wBallXPos], a
     ld a, $a7
@@ -40589,7 +40641,7 @@ StartBallRedField: ; 0x3007d
     ld [hli], a
     ld [hli], a
     ld [hli], a
-    ld [$d47e], a
+    ld [wBallType], a
     ld [$d611], a
     ld [$d612], a
     ld [$d628], a
@@ -40616,7 +40668,7 @@ StartBallRedField: ; 0x3007d
     call Func_490
     ret
 
-Func_30128: ; 0x30128
+StartBallAfterBonusStageRedField: ; 0x30128
     ld a, $0
     ld [wBallXPos], a
     ld a, $50
@@ -40633,8 +40685,8 @@ Func_30128: ; 0x30128
     ld [$d496], a
     ld [$d7ab], a
     ld [$d7be], a
-    ld a, [$d481]
-    ld [$d47e], a
+    ld a, [wBallTypeBackup]
+    ld [wBallType], a
     ld a, $f
     call Func_52c
     ld de, $0001
@@ -42592,7 +42644,16 @@ INCBIN "baserom.gbc",$a7b00,$a8000 - $a7b00 ; 0xa7b00
 
 SECTION "bank2a", ROMX, BANK[$2a]
 
-INCBIN "baserom.gbc",$a8000,$a83c0 - $a8000
+INCBIN "baserom.gbc",$a8000,$a82c0 - $a8000
+
+PinballGreatballShakeGfx: ; 0xa82c0
+    INCBIN "gfx/stage/ball_greatball_shake.2bpp"
+PinballUltraballShakeGfx: ; 0xa8300
+    INCBIN "gfx/stage/ball_ultraball_shake.2bpp"
+PinballMasterballShakeGfx: ; 0xa8340
+    INCBIN "gfx/stage/ball_masterball_shake.2bpp"
+PinballPokeballShakeGfx: ; 0xa8380
+    INCBIN "gfx/stage/ball_pokeball_shake.2bpp"
 
 StageRedFieldBottomGfx4: ; 0xa83c0
     INCBIN "gfx/stage/red_bottom/red_bottom_4.2bpp"
@@ -42615,7 +42676,18 @@ PinballUltraballGfx: ; 0xa8c00
 PinballMasterballGfx: ; 0xa8e00
     INCBIN "gfx/stage/ball_masterball.2bpp"
 
-INCBIN "baserom.gbc",$a9000,$ac000 - $a9000
+PinballPokeballMiniGfx: ; 0xa9000
+    INCBIN "gfx/stage/ball_pokeball_mini.2bpp"
+PinballGreatballMiniGfx: ; 0xa9200
+    INCBIN "gfx/stage/ball_greatball_mini.2bpp"
+PinballUltraballMiniGfx: ; 0xa9400
+    INCBIN "gfx/stage/ball_ultraball_mini.2bpp"
+PinballMasterballMiniGfx: ; 0xa9600
+    INCBIN "gfx/stage/ball_masterball_mini.2bpp"
+PinballBallMiniGfx: ; 0xa9800
+    INCBIN "gfx/stage/ball_mini.2bpp"
+
+INCBIN "baserom.gbc",$a9a00,$ac000 - $a9a00
 
 
 SECTION "bank2b", ROMX, BANK[$2b]

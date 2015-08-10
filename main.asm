@@ -21950,7 +21950,7 @@ Func_1535d: ; 0x1535d
     xor a
     ld [wRightAlleyTrigger], a
     ld [wLeftAlleyTrigger], a
-    ld [$d546], a
+    ld [wSecondaryLeftAlleyTrigger], a
     call Func_159c9
     ld a, $b
     ld [$ff8a], a
@@ -22378,11 +22378,11 @@ Func_158c0: ; 0x158c0
 Func_15904: ; 0x15904
     xor a
     ld [$d523], a
-    ld a, [$d546]
+    ld a, [wSecondaryLeftAlleyTrigger]
     and a
     ret z
     xor a
-    ld [$d546], a
+    ld [wSecondaryLeftAlleyTrigger], a
     ld a, $3
     ld [$ff8a], a
     ld a, Bank(Func_10000)
@@ -22395,7 +22395,7 @@ HandleLeftAlleyTriggerRedField: ; 0x1591e
     xor a
     ld [$d524], a
     ld [wRightAlleyTrigger], a
-    ld [$d546], a
+    ld [wSecondaryLeftAlleyTrigger], a
     ld a, $1
     ld [wLeftAlleyTrigger], a
     call Func_159c9
@@ -22407,7 +22407,7 @@ Func_15931: ; 0x15931
     ld [wRightAlleyTrigger], a
     ld [wLeftAlleyTrigger], a
     ld a, $1
-    ld [$d546], a
+    ld [wSecondaryLeftAlleyTrigger], a
     call Func_159c9
     ret
 
@@ -22447,7 +22447,7 @@ HandleRightAlleyTriggerRedField: ; 0x1597d
     xor a
     ld [$d527], a
     ld [wLeftAlleyTrigger], a
-    ld [$d546], a
+    ld [wSecondaryLeftAlleyTrigger], a
     ld a, $1
     ld [wRightAlleyTrigger], a
     call Func_159c9
@@ -23249,7 +23249,7 @@ Func_1652d: ; 0x1652d
     xor a
     ld [wRightAlleyTrigger], a
     ld [wLeftAlleyTrigger], a
-    ld [$d546], a
+    ld [wSecondaryLeftAlleyTrigger], a
     ld hl, wBallXVelocity
     ld [hli], a
     ld [hl], a
@@ -28877,7 +28877,7 @@ Func_1c7d7: ; 0x1c7d7
     xor a
     ld [wRightAlleyTrigger], a
     ld [wLeftAlleyTrigger], a
-    ld [$d546], a
+    ld [wSecondaryLeftAlleyTrigger], a
     ld hl, wBallXVelocity
     ld [hli], a
     ld [hl], a
@@ -29539,7 +29539,7 @@ HandleLeftAlleyTriggerBlueField: ; 0x1d080
     xor a
     ld [$d523], a
     ld [wRightAlleyTrigger], a
-    ld [$d546], a
+    ld [wSecondaryLeftAlleyTrigger], a
     ld a, $1
     ld [wLeftAlleyTrigger], a
     ret c
@@ -29550,7 +29550,7 @@ HandleRightAlleyTriggerBlueField: ; 0x1d091
     xor a
     ld [$d524], a
     ld [wLeftAlleyTrigger], a
-    ld [$d546], a
+    ld [wSecondaryLeftAlleyTrigger], a
     ld a, $1
     ld [wRightAlleyTrigger], a
     ret
@@ -30828,7 +30828,7 @@ Func_1e356: ; 0x1e356
     xor a
     ld [wRightAlleyTrigger], a
     ld [wLeftAlleyTrigger], a
-    ld [$d546], a
+    ld [wSecondaryLeftAlleyTrigger], a
     ld a, $b
     ld [$ff8a], a
     ld a, Bank(Func_10000)

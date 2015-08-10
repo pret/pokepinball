@@ -173,8 +173,12 @@ wRightAlleyCount:: ; 0xd545
 ; When the count is 2, Catch 'Em Mode can be triggered.
 ; If the count is 3, the current map's rare pokemon will be used for Catch 'Em Mode.
     ds 1
+wSecondaryLeftAlleyTrigger:: ; 0xd546
+; Set to $1 when Ball passes over the bottom of the skinny alley between the left alley and Staryu button on the Red Field top screen.
+; It's used to determine if the Ball was hit up the Red Stage's secondary left-side alley.
+    ds 1
 
-    ds 4
+    ds 3
 
 wCurrentMap:: ; 0xd54a
 ; Current map during play. See map_constants.asm

@@ -19004,25 +19004,25 @@ Func_107c2: ; 0x107c2
     ret
 
 Func_107c8: ; 0x107c8
-    ld a, [$d545]
+    ld a, [wRightAlleyCount]
     cp $3
     jr z, .asm_107d1
     set 7, a
 .asm_107d1
     ld [$d530], a
-    ld a, [$d545]
+    ld a, [wRightAlleyCount]
     cp $2
     jr c, .asm_107e0
     ld a, $80
     ld [$d532], a
 .asm_107e0
-    ld a, [$d543]
+    ld a, [wLeftAlleyCount]
     set 7, a
     ld [$d52f], a
     ret
 
 Func_107e9: ; 0x107e9
-    ld a, [$d543]
+    ld a, [wLeftAlleyCount]
     cp $3
     ld a, $4
     jr nz, .asm_107f4
@@ -19128,7 +19128,7 @@ Func_10871: ; 0x10871
     dec b
     jr nz, .asm_1089f
     xor a
-    ld [$d545], a
+    ld [wRightAlleyCount], a
     call Func_107b0
     ld a, $4
     ld [$d7ad], a
@@ -19248,7 +19248,7 @@ Func_1098c: ; 0x1098c
     dec b
     jr nz, .asm_109ba
     xor a
-    ld [$d545], a
+    ld [wRightAlleyCount], a
     ld [$ff8a], a
     ld a, Bank(Func_1f2ed)
     ld hl, Func_1f2ed
@@ -19969,7 +19969,7 @@ Func_10ebb: ; 0x10ebb
     dec b
     jr nz, .asm_10eda
     xor a
-    ld [$d543], a
+    ld [wLeftAlleyCount], a
     call Func_107b0
     ld a, $2
     ld [$d7ad], a
@@ -20093,7 +20093,7 @@ Func_11061: ; 0x11061
     dec b
     jr nz, .asm_11085
     xor a
-    ld [$d543], a
+    ld [wLeftAlleyCount], a
     ld [$ff8a], a
     ld a, Bank(Func_1f2ed)
     ld hl, Func_1f2ed
@@ -21948,8 +21948,8 @@ Func_1535d: ; 0x1535d
     and a
     jp nz, .asm_1544c
     xor a
-    ld [$d544], a
-    ld [$d542], a
+    ld [wRightAlleyTrigger], a
+    ld [wLeftAlleyTrigger], a
     ld [$d546], a
     call Func_159c9
     ld a, $b
@@ -22292,7 +22292,7 @@ Func_1581f: ; 0x1581f
     call nz, Func_15904
     ld a, [$d524]
     and a
-    call nz, Func_1591e
+    call nz, HandleLeftAlleyTriggerRedField
     ld a, [$d525]
     and a
     call nz, Func_15931
@@ -22301,7 +22301,7 @@ Func_1581f: ; 0x1581f
     call nz, Func_15944
     ld a, [$d527]
     and a
-    call nz, Func_1597d
+    call nz, HandleRightAlleyTriggerRedField
     ld a, [$d528]
     and a
     call nz, Func_15990
@@ -22310,22 +22310,22 @@ Func_1581f: ; 0x1581f
 Func_1587c: ; 0x1587c
     xor a
     ld [$d521], a
-    ld a, [$d542]
+    ld a, [wLeftAlleyTrigger]
     and a
     ret z
     xor a
-    ld [$d542], a
+    ld [wLeftAlleyTrigger], a
     ld a, $1
     ld [$ff8a], a
     ld a, Bank(Func_10000)
     ld hl, Func_10000
     call BankSwitch
     ret c
-    ld a, [$d543]
+    ld a, [wLeftAlleyCount]
     cp $3
     ret z
     inc a
-    ld [$d543], a
+    ld [wLeftAlleyCount], a
     set 7, a
     ld [$d52f], a
     cp $83
@@ -22344,22 +22344,22 @@ Func_1587c: ; 0x1587c
 Func_158c0: ; 0x158c0
     xor a
     ld [$d522], a
-    ld a, [$d542]
+    ld a, [wLeftAlleyTrigger]
     and a
     ret z
     xor a
-    ld [$d542], a
+    ld [wLeftAlleyTrigger], a
     ld a, $1
     ld [$ff8a], a
     ld a, Bank(Func_10000)
     ld hl, Func_10000
     call BankSwitch
     ret c
-    ld a, [$d543]
+    ld a, [wLeftAlleyCount]
     cp $3
     ret z
     inc a
-    ld [$d543], a
+    ld [wLeftAlleyCount], a
     set 7, a
     ld [$d52f], a
     cp $83
@@ -22390,21 +22390,22 @@ Func_15904: ; 0x15904
     call BankSwitch
     ret
 
-Func_1591e: ; 0x1591e
+HandleLeftAlleyTriggerRedField: ; 0x1591e
+; Ball passed over the left alley trigger point in the Red Field.
     xor a
     ld [$d524], a
-    ld [$d544], a
+    ld [wRightAlleyTrigger], a
     ld [$d546], a
     ld a, $1
-    ld [$d542], a
+    ld [wLeftAlleyTrigger], a
     call Func_159c9
     ret
 
 Func_15931: ; 0x15931
     xor a
     ld [$d525], a
-    ld [$d544], a
-    ld [$d542], a
+    ld [wRightAlleyTrigger], a
+    ld [wLeftAlleyTrigger], a
     ld a, $1
     ld [$d546], a
     call Func_159c9
@@ -22413,69 +22414,70 @@ Func_15931: ; 0x15931
 Func_15944: ; 0x15944
     xor a
     ld [$d526], a
-    ld a, [$d544]
+    ld a, [wRightAlleyTrigger]
     and a
     ret z
     xor a
-    ld [$d544], a
+    ld [wRightAlleyTrigger], a
     ld a, $2
     ld [$ff8a], a
     ld a, Bank(Func_10000)
     ld hl, Func_10000
     call BankSwitch
     ret c
-    ld a, [$d545]
+    ld a, [wRightAlleyCount]
     cp $3
     ret z
     inc a
-    ld [$d545], a
+    ld [wRightAlleyCount], a
     cp $3
     jr z, .asm_1596e
     set 7, a
 .asm_1596e
     ld [$d530], a
-    ld a, [$d545]
+    ld a, [wRightAlleyCount]
     cp $2
     ret c
     ld a, $80
     ld [$d532], a
     ret
 
-Func_1597d: ; 0x1597d
+HandleRightAlleyTriggerRedField: ; 0x1597d
+; Ball passed over the right alley trigger point in the Red Field.
     xor a
     ld [$d527], a
-    ld [$d542], a
+    ld [wLeftAlleyTrigger], a
     ld [$d546], a
     ld a, $1
-    ld [$d544], a
+    ld [wRightAlleyTrigger], a
     call Func_159c9
     ret
 
 Func_15990: ; 0x15990
     xor a
     ld [$d528], a
-    ld a, [$d544]
+    ld a, [wRightAlleyTrigger]
     and a
     ret z
     xor a
-    ld [$d544], a
+    ld [wRightAlleyTrigger], a
     ld a, $2
     ld [$ff8a], a
     ld a, Bank(Func_10000)
     ld hl, Func_10000
     call BankSwitch
     ret c
-    ld a, [$d545]
+    ld a, [wRightAlleyCount]
     cp $3
     ret z
     inc a
-    ld [$d545], a
+    ld [wRightAlleyCount], a
     cp $3
     jr z, .asm_159ba
     set 7, a
 .asm_159ba
     ld [$d530], a
-    ld a, [$d545]
+    ld a, [wRightAlleyCount]
     cp $2
     ret c
     ld a, $80
@@ -22599,9 +22601,9 @@ Func_15e93: ; 0x15e93
     jr nz, .asm_15f35
     xor a
     ld [$d548], a
-    ld a, [$d545]
+    ld a, [wRightAlleyCount]
     cp $2
-    jr c, .asm_15f1e
+    jr c, .noCatchEmMode
     ld a, $8
     jr nz, .asm_15f11
     xor a
@@ -22611,7 +22613,7 @@ Func_15e93: ; 0x15e93
     ld a, Bank(StartCatchEmMode)
     ld hl, StartCatchEmMode
     call BankSwitch
-.asm_15f1e
+.noCatchEmMode
     ld hl, $d62a
     call Func_e4a
     ret nc
@@ -23245,8 +23247,8 @@ Func_1652d: ; 0x1652d
     and a
     jr z, .asm_16566
     xor a
-    ld [$d544], a
-    ld [$d542], a
+    ld [wRightAlleyTrigger], a
+    ld [wLeftAlleyTrigger], a
     ld [$d546], a
     ld hl, wBallXVelocity
     ld [hli], a
@@ -28020,7 +28022,7 @@ InitBlueField: ; 0x1c000
     ld [$d49d], a
     ld [$d482], a
     ld a, $2
-    ld [$d545], a
+    ld [wRightAlleyCount], a
     ld a, $3
     ld [$d49e], a
     ld [$d610], a
@@ -28793,7 +28795,7 @@ Func_1c715: ; 0x1c715
     call Func_1cfaa
     call Func_1d0a1
     call Func_1d216
-    call Func_1d32d
+    call HandleEnteringCloyster
     call Func_1ea3b
     call Func_1dbd2
     call Func_1ef09
@@ -28873,8 +28875,8 @@ Func_1c7d7: ; 0x1c7d7
     and a
     jr z, .asm_1c810
     xor a
-    ld [$d544], a
-    ld [$d542], a
+    ld [wRightAlleyTrigger], a
+    ld [wLeftAlleyTrigger], a
     ld [$d546], a
     ld hl, wBallXVelocity
     ld [hli], a
@@ -29002,7 +29004,7 @@ Func_1c8b6: ; 0x1c8b6
     ld a, [$d643]
     and a
     jr nz, .asm_1c8e5
-    ld a, [$d545]
+    ld a, [wRightAlleyCount]
     cp $2
     jr nc, .asm_1c8e5
 .asm_1c8e1
@@ -29015,7 +29017,7 @@ Func_1c8b6: ; 0x1c8b6
     ld a, [$d643]
     and a
     jr nz, .asm_1c8fc
-    ld a, [$d543]
+    ld a, [wLeftAlleyCount]
     cp $3
     jr z, .asm_1c8fc
 .asm_1c8f8
@@ -29045,7 +29047,7 @@ Func_1c8b6: ; 0x1c8b6
     ld a, [$d643]
     cp $0
     jr nz, .asm_1c933
-    ld a, [$d545]
+    ld a, [wRightAlleyCount]
     cp $2
     jr c, .asm_1c947
 .asm_1c933
@@ -29068,7 +29070,7 @@ Func_1c8b6: ; 0x1c8b6
     ld a, [$d643]
     cp $0
     jr nz, .asm_1c969
-    ld a, [$d543]
+    ld a, [wLeftAlleyCount]
     cp $3
     jr nz, .asm_1c97f
     ld a, [wSpecialMode]
@@ -29465,31 +29467,31 @@ Func_1cfaa: ; 0x1cfaa
     call nz, Func_1d047
     ld a, [$d523]
     and a
-    call nz, Func_1d080
+    call nz, HandleLeftAlleyTriggerBlueField
     ld a, [$d524]
     and a
-    call nz, Func_1d091
+    call nz, HandleRightAlleyTriggerBlueField
     ret
 
 Func_1d010: ; 0x1d010
     xor a
     ld [$d521], a
-    ld a, [$d542]
+    ld a, [wLeftAlleyTrigger]
     and a
     ret z
     xor a
-    ld [$d542], a
+    ld [wLeftAlleyTrigger], a
     ld a, $1
     ld [$ff8a], a
     ld a, Bank(Func_10000)
     ld hl, Func_10000
     call BankSwitch
     ret c
-    ld a, [$d543]
+    ld a, [wLeftAlleyCount]
     cp $3
     ret z
     inc a
-    ld [$d543], a
+    ld [wLeftAlleyCount], a
     cp $3
     jr z, .asm_1d03e
     set 7, a
@@ -29504,51 +29506,53 @@ Func_1d010: ; 0x1d010
 Func_1d047: ; 0x1d047
     xor a
     ld [$d522], a
-    ld a, [$d544]
+    ld a, [wRightAlleyTrigger]
     and a
     ret z
     xor a
-    ld [$d544], a
+    ld [wRightAlleyTrigger], a
     ld a, $2
     ld [$ff8a], a
     ld a, Bank(Func_10000)
     ld hl, Func_10000
     call BankSwitch
     ret c
-    ld a, [$d545]
+    ld a, [wRightAlleyCount]
     cp $3
     ret z
     inc a
-    ld [$d545], a
+    ld [wRightAlleyCount], a
     cp $3
     jr z, .asm_1d071
     set 7, a
 .asm_1d071
     ld [$d530], a
-    ld a, [$d545]
+    ld a, [wRightAlleyCount]
     cp $2
     ret c
     ld a, $80
     ld [$d532], a
     ret
 
-Func_1d080: ; 0x1d080
+HandleLeftAlleyTriggerBlueField: ; 0x1d080
+; Ball passed over the left alley trigger point in the Blue Field.
     xor a
     ld [$d523], a
-    ld [$d544], a
+    ld [wRightAlleyTrigger], a
     ld [$d546], a
     ld a, $1
-    ld [$d542], a
+    ld [wLeftAlleyTrigger], a
     ret c
     ret
 
-Func_1d091: ; 0x1d091
+HandleRightAlleyTriggerBlueField: ; 0x1d091
+; Ball passed over the right alley trigger point in the Blue Field.
     xor a
     ld [$d524], a
-    ld [$d542], a
+    ld [wLeftAlleyTrigger], a
     ld [$d546], a
     ld a, $1
-    ld [$d544], a
+    ld [wRightAlleyTrigger], a
     ret
 
 Func_1d0a1: ; 0x1d0a1
@@ -29759,7 +29763,7 @@ Func_1d216: ; 0x1d216
     jr nz, .asm_1d2b6
     xor a
     ld [$d548], a
-    ld a, [$d543]
+    ld a, [wLeftAlleyCount]
     cp $3
     jr nz, .asm_1d299
     ld [$ff8a], a
@@ -29829,7 +29833,7 @@ Func_1d216: ; 0x1d216
 
 INCBIN "baserom.gbc",$1d312,$1d32d - $1d312
 
-Func_1d32d: ; 0x1d32d
+HandleEnteringCloyster: ; 0x1d32d
     ld a, [$d635]
     and a
     jr z, .asm_1d36a
@@ -29876,9 +29880,9 @@ Func_1d32d: ; 0x1d32d
     jr nz, .asm_1d3cb
     xor a
     ld [$d548], a
-    ld a, [$d545]
+    ld a, [wRightAlleyCount]
     cp $2
-    jr c, .asm_1d3ae
+    jr c, .noCatchEmMode
     ld a, $8
     jr nz, .asm_1d3a1
     xor a
@@ -29888,7 +29892,7 @@ Func_1d32d: ; 0x1d32d
     ld a, Bank(StartCatchEmMode)
     ld hl, StartCatchEmMode
     call BankSwitch
-.asm_1d3ae
+.noCatchEmMode
     ld hl, $d63b
     call Func_e4a
     ld hl, $d62a
@@ -30822,8 +30826,8 @@ Func_1e356: ; 0x1e356
     and a
     jp nz, Func_1e471
     xor a
-    ld [$d544], a
-    ld [$d542], a
+    ld [wRightAlleyTrigger], a
+    ld [wLeftAlleyTrigger], a
     ld [$d546], a
     ld a, $b
     ld [$ff8a], a
@@ -32310,25 +32314,25 @@ Func_1f2ed: ; 0x1f2ed
     ret
 
 Func_1f2ff: ; 0x1f2ff
-    ld a, [$d543]
+    ld a, [wLeftAlleyCount]
     cp $3
     jr c, .asm_1f30b
     ld a, $80
     ld [$d531], a
 .asm_1f30b
-    ld a, [$d543]
+    ld a, [wLeftAlleyCount]
     cp $3
     jr z, .asm_1f314
     set 7, a
 .asm_1f314
     ld [$d52f], a
-    ld a, [$d545]
+    ld a, [wRightAlleyCount]
     cp $2
     jr c, .asm_1f323
     ld a, $80
     ld [$d532], a
 .asm_1f323
-    ld a, [$d545]
+    ld a, [wRightAlleyCount]
     cp $3
     jr z, .asm_1f32c
     set 7, a
@@ -40566,7 +40570,7 @@ InitRedField: ; 0x30000
     ld [$d49d], a
     ld [$d482], a
     ld a, $2
-    ld [$d545], a
+    ld [wRightAlleyCount], a
     ld a, $3
     ld [$d49e], a
     ld [$d610], a

@@ -154,7 +154,27 @@ wRightMapMoveDiglettFrame:: ; 0xd4f6
 ; Contains frame for map move diglett head bobbing animation
     ds 1
 
-    ds $53
+    ds $4b
+
+wLeftAlleyTrigger:: ; 0xd542
+; Set to $1 when ball passes over the bottom-left corner of the Blue/Red field top screen
+; It's used to determine if the Ball was hit up the left side alley.
+    ds 1
+wLeftAlleyCount:: ; 0xd543
+; Increments when the Ball travels up the left alley.
+; When the count is 3, evolution mode can be triggered.
+    ds 1
+wRightAlleyTrigger:: ; 0xd544
+; Set to $1 when Ball passes over the bottom-right corner of the Blue/Red field top screen
+; It's used to determine if the Ball was hit up the right side alley.
+    ds 1
+wRightAlleyCount:: ; 0xd545
+; Increments when the Ball travels up the right alley.
+; When the count is 2, Catch 'Em Mode can be triggered.
+; If the count is 3, the current map's rare pokemon will be used for Catch 'Em Mode.
+    ds 1
+
+    ds 4
 
 wCurrentMap:: ; 0xd54a
 ; Current map during play. See map_constants.asm

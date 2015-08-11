@@ -362,7 +362,12 @@ wLowerRightCollisionAttribute:: ; 0xd7c8
 wInGameMenuIndex:: ; 0xd7f9
     ds 1
 
-    ds $f7
+    ds $61
+
+wCurrentSongBank:: ; 0xd85b
+    ds 1
+
+    ds $95
 
 wCurrentScreen:: ; 0xd8f1
 ; The game is driven by state machines. This is the current screen.

@@ -130,7 +130,7 @@ Start: ; 0x150
     ld [$d849], a
     ld [$d84a], a
     ld a, $f
-    call Func_52c
+    call SetSongBank
     call Func_23b
     ld a, [hGameBoyColorFlag]
     and a
@@ -438,12 +438,12 @@ Func_486: ; 0x486
 Func_490: ; 0x490
     ld a, [hLoadedROMBank]
     push af
-    ld a, [$d85b]
+    ld a, [wCurrentSongBank]
     ld [hLoadedROMBank], a
     ld [$2000], a
     ld a, e
     ld [$d7bf], a
-    ld a, [$d85b]
+    ld a, [wCurrentSongBank]
     ld [$d7c0], a
     call $4090  ; todo
     pop af
@@ -468,7 +468,7 @@ PlaySoundEffect: ; 0x4af
     ld d, $0
     ld a, [hLoadedROMBank]
     push af
-    ld a, [$d85b]
+    ld a, [wCurrentSongBank]
     ld [hLoadedROMBank], a
     ld [$2000], a
     call $40c0  ; todo
@@ -496,7 +496,7 @@ Func_4d8: ; 0x4d8
 Func_4ef: ; 0x4ef
     ld a, [hLoadedROMBank]
     push af
-    ld a, [$d85b]
+    ld a, [wCurrentSongBank]
     ld [hLoadedROMBank], a
     ld [$2000], a
     call $40f0 ; todo
@@ -508,7 +508,7 @@ Func_4ef: ; 0x4ef
 Func_504: ; 0x504
     ld a, [hLoadedROMBank]
     push af
-    ld a, [$d85b]
+    ld a, [wCurrentSongBank]
     ld [hLoadedROMBank], a
     ld [$2000], a
     call $4180  ; todo
@@ -527,9 +527,9 @@ Func_504: ; 0x504
     ld [$d800], a
     ret
 
-Func_52c: ; 0x52c
+SetSongBank: ; 0x52c
     di
-    ld [$d85b], a
+    ld [wCurrentSongBank], a
     ei
     ret
 
@@ -9373,7 +9373,7 @@ Func_8444: ; 0x8444
 
 Func_8461: ; 0x8461
     ld a, [$d7c0]
-    call Func_52c
+    call SetSongBank
     ld a, [$d7bf]
     ld e, a
     ld d, $0
@@ -10032,7 +10032,7 @@ FadeInTitlescreen: ; 0xc00e
     call HandleTitlescreenAnimations
     call Func_b66
     ld a, $11
-    call Func_52c
+    call SetSongBank
     ld de, $0004
     call Func_490
     call Func_588
@@ -10502,7 +10502,7 @@ Func_c35a: ; 0xc35a
     call Func_c948
     call Func_b66
     ld a, $12
-    call Func_52c
+    call SetSongBank
     ld de, $0002
     call Func_490
     call Func_588
@@ -10933,7 +10933,7 @@ Func_c691: ; 0xc91
     rst $10
     rst $10
     ld a, $12
-    call Func_52c
+    call SetSongBank
     ld de, $0002
     call Func_490
     ld de, $0001
@@ -10992,7 +10992,7 @@ Func_c6e8: ; 0xc6e8
     ld e, a
     ld d, $0
     ld a, [hl]
-    call Func_52c
+    call SetSongBank
     call Func_490
     ret
 
@@ -11650,13 +11650,13 @@ Func_cb14: ; 0xcb14
     and a
     jr nz, .asm_cb9b
     ld a, $13
-    call Func_52c
+    call SetSongBank
     ld de, $0001
     call Func_490
     jr .asm_cba6
 .asm_cb9b
     ld a, $13
-    call Func_52c
+    call SetSongBank
     ld de, $0002
     call Func_490
 .asm_cba6
@@ -11671,7 +11671,7 @@ Func_cb14: ; 0xcb14
     ret
 .asm_cbbd
     ld a, $10
-    call Func_52c
+    call SetSongBank
     ld de, $0004
     call Func_490
     call Func_588
@@ -13163,7 +13163,7 @@ LoadFieldSelectScreen: ; 0xd6dd
     ld [wFieldSelectBlinkingBorderFrame], a
     call Func_b66
     ld a, $12
-    call Func_52c
+    call SetSongBank
     ld de, $0003
     call Func_490
     call Func_588
@@ -17254,7 +17254,7 @@ Func_f5a0: ; 0xf5a0
     and a
     ret z
     ld a, $10
-    call Func_52c
+    call SetSongBank
     ld de, $0005
     call Func_490
     ld hl, wcBottomMessageText
@@ -21579,7 +21579,7 @@ Func_14d85: ; 0x14d85
     ld a, [$d4cc]
     sub $3
     ld [$d4d7], a
-    ld a, $4 ; is this also referring to Bank(Func_10000)?
+    ld a, $4
     ld [$ff8a], a
     ld a, Bank(Func_10000)
     ld hl, Func_10000
@@ -24810,7 +24810,7 @@ InitGengarBonusStage: ; 0x18099
     ld hl, StartTimer
     call BankSwitch
     ld a, $f
-    call Func_52c
+    call SetSongBank
     ld de, $0005
     call Func_490
     ret
@@ -26406,7 +26406,7 @@ InitMewtwoBonusStage: ; 0x1924f
     ld hl, StartTimer
     call BankSwitch
     ld a, $12
-    call Func_52c
+    call SetSongBank
     ld de, $0001
     call Func_490
     ret
@@ -27253,7 +27253,7 @@ InitDiglettBonusStage: ; 0x199f2
     ld [wDugtrioAnimationFrame2], a
     ld [wDugrioState], a
     ld a, $11
-    call Func_52c
+    call SetSongBank
     ld de, $0001
     call Func_490
     ret
@@ -28051,7 +28051,7 @@ InitBlueField: ; 0x1c000
     ld hl, Func_1d65f
     call BankSwitch
     ld a, $10
-    call Func_52c
+    call SetSongBank
     ld de, $0001
     call Func_490
     ret
@@ -28117,7 +28117,7 @@ StartBallBlueField: ; 0x1c08d
     ld [$d610], a
     call Func_1d65f
     ld a, $10
-    call Func_52c
+    call SetSongBank
     ld de, $0001
     call Func_490
     ret
@@ -28142,7 +28142,7 @@ StartBallAfterBonusStageBlueField: ; 0x1c129
     ld a, [wBallTypeBackup]
     ld [wBallType], a
     ld a, $10
-    call Func_52c
+    call SetSongBank
     ld de, $0001
     call Func_490
     ret
@@ -35030,7 +35030,7 @@ InitMeowthBonusStage: ; 0x24000
     ld hl, StartTimer
     call BankSwitch
     ld a, $12
-    call Func_52c
+    call SetSongBank
     ld de, $0004
     call Func_490
     ret
@@ -37317,7 +37317,7 @@ InitSeelBonusStage: ; 0x25a7c
     ld hl, StartTimer
     call BankSwitch
     ld a, $11
-    call Func_52c
+    call SetSongBank
     ld de, $0003
     call Func_490
     ret
@@ -38536,7 +38536,7 @@ LoadPokedexScreen: ; 0x2800e
     call CountNumSeenOwnedMons
     call Func_b66
     ld a, $f
-    call Func_52c
+    call SetSongBank
     ld de, $0004
     call Func_490
     call Func_588
@@ -40593,7 +40593,7 @@ InitRedField: ; 0x30000
     ld hl, Func_16f95
     call BankSwitch
     ld a, $f
-    call Func_52c
+    call SetSongBank
     ld de, $0001
     call Func_490
     ret
@@ -40667,7 +40667,7 @@ StartBallRedField: ; 0x3007d
     ld hl, Func_16f95
     call BankSwitch
     ld a, $f
-    call Func_52c
+    call SetSongBank
     ld de, $0001
     call Func_490
     ret
@@ -40692,7 +40692,7 @@ StartBallAfterBonusStageRedField: ; 0x30128
     ld a, [wBallTypeBackup]
     ld [wBallType], a
     ld a, $f
-    call Func_52c
+    call SetSongBank
     ld de, $0001
     call Func_490
     ret

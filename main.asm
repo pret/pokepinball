@@ -42651,19 +42651,19 @@ SECTION "bank2a", ROMX, BANK[$2a]
 INCBIN "baserom.gbc",$a8000,$a82c0 - $a8000
 
 PinballGreatballShakeGfx: ; 0xa82c0
-    INCBIN "gfx/stage/ball_greatball_shake.2bpp"
+    INCBIN "gfx/stage/ball_greatball_shake.w16.interleave.2bpp"
 PinballUltraballShakeGfx: ; 0xa8300
-    INCBIN "gfx/stage/ball_ultraball_shake.2bpp"
+    INCBIN "gfx/stage/ball_ultraball_shake.w16.interleave.2bpp"
 PinballMasterballShakeGfx: ; 0xa8340
-    INCBIN "gfx/stage/ball_masterball_shake.2bpp"
+    INCBIN "gfx/stage/ball_masterball_shake.w16.interleave.2bpp"
 PinballPokeballShakeGfx: ; 0xa8380
-    INCBIN "gfx/stage/ball_pokeball_shake.2bpp"
+    INCBIN "gfx/stage/ball_pokeball_shake.w16.interleave.2bpp"
 
 StageRedFieldBottomGfx4: ; 0xa83c0
     INCBIN "gfx/stage/red_bottom/red_bottom_4.2bpp"
 
 PinballPokeballGfx: ; 0xa8400
-    INCBIN "gfx/stage/ball_pokeball.2bpp"
+    INCBIN "gfx/stage/ball_pokeball.w32.interleave.2bpp"
 
 FlipperGfx: ; 0xa8600
     INCBIN "gfx/stage/flipper.2bpp"
@@ -42674,22 +42674,22 @@ PikachuSaverGfx: ; 0xa8720
 INCBIN "baserom.gbc",$a8800,$a8a00 - $a8800
 
 PinballGreatballGfx: ; 0xa8a00
-    INCBIN "gfx/stage/ball_greatball.2bpp"
+    INCBIN "gfx/stage/ball_greatball.w32.interleave.2bpp"
 PinballUltraballGfx: ; 0xa8c00
-    INCBIN "gfx/stage/ball_ultraball.2bpp"
+    INCBIN "gfx/stage/ball_ultraball.w32.interleave.2bpp"
 PinballMasterballGfx: ; 0xa8e00
-    INCBIN "gfx/stage/ball_masterball.2bpp"
+    INCBIN "gfx/stage/ball_masterball.w32.interleave.2bpp"
 
 PinballPokeballMiniGfx: ; 0xa9000
-    INCBIN "gfx/stage/ball_pokeball_mini.2bpp"
+    INCBIN "gfx/stage/ball_pokeball_mini.w32.interleave.2bpp"
 PinballGreatballMiniGfx: ; 0xa9200
-    INCBIN "gfx/stage/ball_greatball_mini.2bpp"
+    INCBIN "gfx/stage/ball_greatball_mini.w32.interleave.2bpp"
 PinballUltraballMiniGfx: ; 0xa9400
-    INCBIN "gfx/stage/ball_ultraball_mini.2bpp"
+    INCBIN "gfx/stage/ball_ultraball_mini.w32.interleave.2bpp"
 PinballMasterballMiniGfx: ; 0xa9600
-    INCBIN "gfx/stage/ball_masterball_mini.2bpp"
+    INCBIN "gfx/stage/ball_masterball_mini.w32.interleave.2bpp"
 PinballBallMiniGfx: ; 0xa9800
-    INCBIN "gfx/stage/ball_mini.2bpp"
+    INCBIN "gfx/stage/ball_mini.w32.interleave.2bpp"
 
 INCBIN "baserom.gbc",$a9a00,$ac000 - $a9a00
 

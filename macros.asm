@@ -52,3 +52,10 @@ ENDM
 hlCoord: MACRO
 	ld hl, \3 + $20 * \2 + \1
 	ENDM
+
+;\1 = 5-bit Blue value
+;\2 = 5-bit Green value
+;\3 = 5-bit Red value
+RGB: MACRO
+	dw (\3 << 10 | \2 << 5 | \1)
+	ENDM

@@ -43101,7 +43101,40 @@ StageRedJapaneseCharactersGfx: ; 0xd6c00
 StageRedJapaneseCharactersGfx2: ; 0xd7000
     INCBIN "gfx/stage/red_bottom/japanese_characters_2.2bpp"
 
-INCBIN "baserom.gbc",$d7200,$d8000 - $d7200
+NidorinoBillboardBGPaletteMap: ; 0xd7200
+    INCBIN "gfx/billboard/mon_pics/nidorino_bgpalette_map"
+NidokingBillboardBGPaletteMap: ; 0xd7218
+    INCBIN "gfx/billboard/mon_pics/nidoking_bgpalette_map"
+ClefairyBillboardBGPaletteMap: ; 0xd7230
+    INCBIN "gfx/billboard/mon_pics/clefairy_bgpalette_map"
+ClefableBillboardBGPaletteMap: ; 0xd7248
+    INCBIN "gfx/billboard/mon_pics/clefable_bgpalette_map"
+VulpixBillboardBGPaletteMap: ; 0xd7260
+    INCBIN "gfx/billboard/mon_pics/vulpix_bgpalette_map"
+NinetalesBillboardBGPaletteMap: ; 0xd7278
+    INCBIN "gfx/billboard/mon_pics/Ninetales_bgpalette_map"
+JigglypuffBillboardBGPaletteMap: ; 0xd7290
+    INCBIN "gfx/billboard/mon_pics/jigglypuff_bgpalette_map"
+WigglytuffBillboardBGPaletteMap: ; 0xd72a8
+    INCBIN "gfx/billboard/mon_pics/wigglytuff_bgpalette_map"
+ZubatBillboardBGPaletteMap: ; 0xd72c0
+    INCBIN "gfx/billboard/mon_pics/zubat_bgpalette_map"
+GolbatBillboardBGPaletteMap: ; 0xd72d8
+    INCBIN "gfx/billboard/mon_pics/golbat_bgpalette_map"
+OddishBillboardBGPaletteMap: ; 0xd72f0
+    INCBIN "gfx/billboard/mon_pics/oddish_bgpalette_map"
+GloomBillboardBGPaletteMap: ; 0xd7308
+    INCBIN "gfx/billboard/mon_pics/gloom_bgpalette_map"
+VileplumeBillboardBGPaletteMap: ; 0xd7320
+    INCBIN "gfx/billboard/mon_pics/vileplume_bgpalette_map"
+ParasBillboardBGPaletteMap: ; 0xd7338
+    INCBIN "gfx/billboard/mon_pics/paras_bgpalette_map"
+ParasectBillboardBGPaletteMap: ; 0xd7350
+    INCBIN "gfx/billboard/mon_pics/parasect_bgpalette_map"
+VenonatBillboardBGPaletteMap: ; 0xd7368
+    INCBIN "gfx/billboard/mon_pics/venonat_bgpalette_map"
+
+INCBIN "baserom.gbc",$d7380,$d8000 - $d7380
 
 
 SECTION "bank36", ROMX, BANK[$36]
@@ -43358,7 +43391,185 @@ SECTION "bank37", ROMX, BANK[$37]
 StageRedFieldBottomGfx2: ; 0xdc000
     INCBIN "gfx/stage/red_bottom/red_bottom_2.2bpp"
 
-INCBIN "baserom.gbc",$dc080,$dd168 - $dc080
+INCBIN "baserom.gbc",$dc080,$dc100 - $dc080
+
+NidorinoBillboardBGPalette1: ; 0xdc100
+    RGB 31, 31, 31
+    RGB 31, 15, 24
+    RGB 21, 3, 15
+    RGB 0, 0, 0
+NidorinoBillboardBGPalette2: ; 0xdc108
+    RGB 31, 31, 31
+    RGB 31, 15, 24
+    RGB 21, 3, 15
+    RGB 0, 0, 0
+
+NidokingBillboardBGPalette1: ; 0xdc110
+    RGB 31, 31, 31
+    RGB 25, 14, 31
+    RGB 17, 0, 26
+    RGB 0, 0, 0
+NidokingBillboardBGPalette2: ; 0xdc118
+    RGB 31, 31, 31
+    RGB 25, 14, 31
+    RGB 17, 0, 26
+    RGB 0, 0, 0
+
+ClefairyBillboardBGPalette1: ; 0xdc120
+    RGB 31, 31, 31
+    RGB 31, 14, 18
+    RGB 20, 8, 4
+    RGB 0, 0, 0
+ClefairyBillboardBGPalette2: ; 0xdc128
+    RGB 31, 31, 31
+    RGB 31, 14, 18
+    RGB 20, 8, 4
+    RGB 0, 0, 0
+
+ClefableBillboardBGPalette1: ; 0xdc130
+    RGB 31, 31, 31
+    RGB 31, 14, 18
+    RGB 20, 8, 4
+    RGB 0, 0, 0
+ClefableBillboardBGPalette2: ; 0xdc138
+    RGB 31, 31, 31
+    RGB 31, 14, 18
+    RGB 20, 8, 4
+    RGB 0, 0, 0
+
+VulpixBillboardBGPalette1: ; 0xdc400
+    RGB 31, 31, 31
+    RGB 31, 17, 13
+    RGB 25, 6, 0
+    RGB 0, 0, 0
+VulpixBillboardBGPalette2: ; 0xdc148
+    RGB 31, 31, 31
+    RGB 31, 17, 13
+    RGB 25, 6, 0
+    RGB 0, 0, 0
+
+NinetalesBillboardBGPalette1: ; 0xdc150
+    RGB 31, 31, 31
+    RGB 28, 26, 0
+    RGB 23, 12, 3
+    RGB 0, 0, 0
+NinetalesBillboardBGPalette2: ; 0xdc158
+    RGB 31, 31, 31
+    RGB 28, 26, 0
+    RGB 23, 12, 3
+    RGB 0, 0, 0
+
+JigglypuffBillboardBGPalette1: ; 0xdc160
+    RGB 31, 31, 31
+    RGB 31, 16, 19
+    RGB 22, 6, 11
+    RGB 3, 2, 0
+JigglypuffBillboardBGPalette2: ; 0xdc168
+    RGB 31, 31, 31
+    RGB 31, 16, 19
+    RGB 13, 2, 21
+    RGB 0, 0, 0
+
+WigglytuffBillboardBGPalette1: ; 0xdc170
+    RGB 31, 31, 31
+    RGB 31, 16, 19
+    RGB 22, 6, 11
+    RGB 3, 2, 0
+WigglytuffBillboardBGPalette2: ; 0xdc178
+    RGB 31, 31, 31
+    RGB 31, 16, 19
+    RGB 13, 5, 19
+    RGB 0, 0, 0
+
+ZubatBillboardBGPalette1: ; 0xdc180
+    RGB 31, 31, 31
+    RGB 14, 15, 30
+    RGB 10, 5, 26
+    RGB 3, 2, 0
+ZubatBillboardBGPalette2: ; 0xdc188
+    RGB 31, 31, 31
+    RGB 14, 15, 30
+    RGB 10, 5, 26
+    RGB 0, 0, 0
+
+GolbatBillboardBGPalette1: ; 0xdc190
+    RGB 31, 31, 31
+    RGB 15, 15, 30
+    RGB 10, 5, 26
+    RGB 3, 2, 0
+GolbatBillboardBGPalette2: ; 0xdc198
+    RGB 31, 31, 31
+    RGB 15, 15, 30
+    RGB 10, 5, 26
+    RGB 0, 0, 0
+
+OddishBillboardBGPalette1: ; 0xdc1a0
+    RGB 31, 31, 31
+    RGB 22, 28, 2
+    RGB 7, 18, 0
+    RGB 0, 0, 0
+OddishBillboardBGPalette2: ; 0xdc1a8
+    RGB 31, 31, 31
+    RGB 31, 6, 0
+    RGB 4, 8, 14
+    RGB 0, 0, 0
+
+GloomBillboardBGPalette1: ; 0xdc1b0
+    RGB 31, 31, 31
+    RGB 30, 19, 15
+    RGB 28, 4, 0
+    RGB 0, 0, 0
+GloomBillboardBGPalette2: ; 0xdc1b8
+    RGB 31, 31, 31
+    RGB 19, 20, 31
+    RGB 4, 8, 14
+    RGB 0, 0, 0
+
+VileplumeBillboardBGPalette1: ; 0xdc1c0
+    RGB 31, 31, 31
+    RGB 30, 19, 15
+    RGB 28, 4, 0
+    RGB 0, 0, 0
+VileplumeBillboardBGPalette2: ; 0xdc1c8
+    RGB 31, 31, 31
+    RGB 19, 20, 31
+    RGB 4, 8, 14
+    RGB 0, 0, 0
+
+ParasBillboardBGPalette1: ; 0xdc1d0
+    RGB 31, 31, 31
+    RGB 31, 20, 11
+    RGB 23, 6, 3
+    RGB 0, 0, 0
+ParasBillboardBGPalette2: ; 0xdc1d8
+    RGB 31, 31, 31
+    RGB 31, 20, 11
+    RGB 23, 6, 3
+    RGB 0, 0, 0
+
+ParasectBillboardBGPalette1: ; 0xdc1e0
+    RGB 31, 31, 31
+    RGB 31, 20, 11
+    RGB 23, 6, 3
+    RGB 0, 0, 0
+ParasectBillboardBGPalette2: ; 0xdc1e8
+    RGB 31, 31, 31
+    RGB 31, 20, 11
+    RGB 23, 6, 3
+    RGB 0, 0, 0
+
+VenonatBillboardBGPalette1: ; 0xdc1f0
+    RGB 31, 31, 31
+    RGB 24, 15, 28
+    RGB 12, 5, 18
+    RGB 0, 0, 0
+VenonatBillboardBGPalette2: ; 0xdc1f8
+    RGB 31, 31, 31
+    RGB 24, 15, 28
+    RGB 12, 5, 18
+    RGB 0, 0, 0
+
+INCBIN "baserom.gbc",$dc200,$dd168 - $dc200
 
 PokeBallObjPalette: ; 0xdd168
     RGB 21, 21, 21

@@ -43097,7 +43097,42 @@ INCBIN "baserom.gbc",$d8c40,$da000 - $d8c40
 CopyrightTextGfx: ; 0xda000
     INCBIN "gfx/copyright_text.2bpp"
 
-INCBIN "baserom.gbc",$da400,$dac00 - $da400
+INCBIN "baserom.gbc",$da400,$da800 - $da400
+
+BulbasaurBillboardBGPaletteMap: ; 0xda800
+    INCBIN "gfx/billboard/mon_pics/bulbasaur_bgpalette_map"
+IvysaurBillboardBGPaletteMap: ; 0xda818
+    INCBIN "gfx/billboard/mon_pics/ivysaur_bgpalette_map"
+VenusaurBillboardBGPaletteMap: ; 0xda830
+    INCBIN "gfx/billboard/mon_pics/venusaur_bgpalette_map"
+CharmanderBillboardBGPaletteMap: ; 0xda848
+    INCBIN "gfx/billboard/mon_pics/charmander_bgpalette_map"
+CharmeleonBillboardBGPaletteMap: ; 0xda860
+    INCBIN "gfx/billboard/mon_pics/charmeleon_bgpalette_map"
+CharizardBillboardBGPaletteMap: ; 0xda878
+    INCBIN "gfx/billboard/mon_pics/charizard_bgpalette_map"
+SquirtleBillboardBGPaletteMap: ; 0xda890
+    INCBIN "gfx/billboard/mon_pics/squirtle_bgpalette_map"
+WartortleBillboardBGPaletteMap: ; 0xda8a8
+    INCBIN "gfx/billboard/mon_pics/wartortle_bgpalette_map"
+BlastoiseBillboardBGPaletteMap: ; 0xda8c0
+    INCBIN "gfx/billboard/mon_pics/blastoise_bgpalette_map"
+CaterpieBillboardBGPaletteMap: ; 0xda8d8
+    INCBIN "gfx/billboard/mon_pics/caterpie_bgpalette_map"
+MetapodBillboardBGPaletteMap: ; 0xda8f0
+    INCBIN "gfx/billboard/mon_pics/metapod_bgpalette_map"
+ButterfreeBillboardBGPaletteMap: ; 0xda908
+    INCBIN "gfx/billboard/mon_pics/butterfree_bgpalette_map"
+WeedleBillboardBGPaletteMap: ; 0xda920
+    INCBIN "gfx/billboard/mon_pics/weedle_bgpalette_map"
+KakunaBillboardBGPaletteMap: ; 0xda938
+    INCBIN "gfx/billboard/mon_pics/kakuna_bgpalette_map"
+BeedrillBillboardBGPaletteMap: ; 0xda950
+    INCBIN "gfx/billboard/mon_pics/beedrill_bgpalette_map"
+PidgeyBillboardBGPaletteMap: ; 0xda968
+    INCBIN "gfx/billboard/mon_pics/pidgey_bgpalette_map"
+
+INCBIN "baserom.gbc",$da980,$dac00 - $da980
 
 StageRedFieldBottomGfx1: ; 0xdac00
     INCBIN "gfx/stage/red_bottom/red_bottom_1.2bpp"

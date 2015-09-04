@@ -43169,7 +43169,42 @@ AbraBillboardBGPaletteMap: ; 0xd7750
 KadabraBillboardBGPaletteMap: ; 0xd7768
     INCBIN "gfx/billboard/mon_pics/kadabra_bgpalette_map"
 
-INCBIN "baserom.gbc",$d7780,$d8000 - $d7780
+INCBIN "baserom.gbc",$d7780,$d7a00 - $d7780
+
+AlakazamBillboardBGPaletteMap: ; 0xd7600
+    INCBIN "gfx/billboard/mon_pics/alakazam_bgpalette_map"
+MachopBillboardBGPaletteMap: ; 0xd7618
+    INCBIN "gfx/billboard/mon_pics/machop_bgpalette_map"
+MachokeBillboardBGPaletteMap: ; 0xd7630
+    INCBIN "gfx/billboard/mon_pics/machoke_bgpalette_map"
+MachampBillboardBGPaletteMap: ; 0xd7648
+    INCBIN "gfx/billboard/mon_pics/machamp_bgpalette_map"
+BellsproutBillboardBGPaletteMap: ; 0xd7660
+    INCBIN "gfx/billboard/mon_pics/bellsprout_bgpalette_map"
+WeepinbellBillboardBGPaletteMap: ; 0xd7678
+    INCBIN "gfx/billboard/mon_pics/weepinbell_bgpalette_map"
+VictreebellBillboardBGPaletteMap: ; 0xd7690
+    INCBIN "gfx/billboard/mon_pics/victreebell_bgpalette_map"
+TentacoolBillboardBGPaletteMap: ; 0xd76a8
+    INCBIN "gfx/billboard/mon_pics/tentacool_bgpalette_map"
+TentacruelBillboardBGPaletteMap: ; 0xd76c0
+    INCBIN "gfx/billboard/mon_pics/tentacruel_bgpalette_map"
+GeodudeBillboardBGPaletteMap: ; 0xd76d8
+    INCBIN "gfx/billboard/mon_pics/geodude_bgpalette_map"
+GravelerBillboardBGPaletteMap: ; 0xd76f0
+    INCBIN "gfx/billboard/mon_pics/graveler_bgpalette_map"
+GolemBillboardBGPaletteMap: ; 0xd7708
+    INCBIN "gfx/billboard/mon_pics/golem_bgpalette_map"
+PonytaBillboardBGPaletteMap: ; 0xd7720
+    INCBIN "gfx/billboard/mon_pics/ponyta_bgpalette_map"
+RapidashBillboardBGPaletteMap: ; 0xd7738
+    INCBIN "gfx/billboard/mon_pics/rapidash_bgpalette_map"
+SlowpokeBillboardBGPaletteMap: ; 0xd7750
+    INCBIN "gfx/billboard/mon_pics/slowpoke_bgpalette_map"
+SlowbroBillboardBGPaletteMap: ; 0xd7768
+    INCBIN "gfx/billboard/mon_pics/slowbro_bgpalette_map"
+
+INCBIN "baserom.gbc",$d7b80,$d8000 - $d7b80
 
 
 SECTION "bank36", ROMX, BANK[$36]
@@ -43780,7 +43815,185 @@ KadabraBillboardBGPalette2: ; 0xdc2f8
     RGB 19, 11, 6
     RGB 0, 0, 0
 
-INCBIN "baserom.gbc",$dc300,$dd168 - $dc300
+INCBIN "baserom.gbc",$dc300,$dc500 - $dc300
+
+AlakazamBillboardBGPalette1: ; 0xdc500
+    RGB 31, 31, 31
+    RGB 31, 30, 0
+    RGB 19, 11, 6
+    RGB 0, 0, 0
+AlakazamBillboardBGPalette2: ; 0xdc508
+    RGB 31, 31, 31
+    RGB 21, 21, 21
+    RGB 19, 11, 6
+    RGB 0, 0, 0
+
+MachopBillboardBGPalette1: ; 0xdc510
+    RGB 31, 31, 31
+    RGB 19, 19, 21
+    RGB 12, 12, 13
+    RGB 0, 0, 0
+MachopBillboardBGPalette2: ; 0xdc518
+    RGB 31, 31, 31
+    RGB 19, 19, 21
+    RGB 31, 0, 0
+    RGB 0, 0, 0
+
+MachokeBillboardBGPalette1: ; 0xdc520
+    RGB 31, 31, 31
+    RGB 18, 18, 22
+    RGB 11, 11, 14
+    RGB 0, 0, 0
+MachokeBillboardBGPalette2: ; 0xdc528
+    RGB 31, 31, 31
+    RGB 18, 18, 22
+    RGB 31, 0, 0
+    RGB 0, 0, 0
+
+MachampBillboardBGPalette1: ; 0xdc530
+    RGB 31, 31, 31
+    RGB 18, 21, 22
+    RGB 9, 12, 13
+    RGB 0, 0, 0
+MachampBillboardBGPalette2: ; 0xdc538
+    RGB 31, 31, 31
+    RGB 18, 21, 22
+    RGB 31, 0, 0
+    RGB 0, 0, 0
+
+BellsproutBillboardBGPalette1: ; 0xdc540
+    RGB 31, 31, 31
+    RGB 26, 29, 7
+    RGB 11, 20, 0
+    RGB 0, 0, 0
+BellsproutBillboardBGPalette2: ; 0xdc548
+    RGB 31, 31, 31
+    RGB 26, 29, 7
+    RGB 31, 11, 8
+    RGB 0, 0, 0
+
+WeepinbellBillboardBGPalette1: ; 0xdc550
+    RGB 31, 31, 31
+    RGB 26, 29, 7
+    RGB 11, 20, 0
+    RGB 0, 0, 0
+WeepinbellBillboardBGPalette2: ; 0xdc558
+    RGB 31, 31, 31
+    RGB 26, 29, 7
+    RGB 31, 11, 8
+    RGB 0, 0, 0
+
+VictreebellBillboardBGPalette1: ; 0xdc560
+    RGB 31, 31, 31
+    RGB 29, 31, 9
+    RGB 11, 20, 0
+    RGB 0, 0, 0
+VictreebellBillboardBGPalette2: ; 0xdc568
+    RGB 31, 31, 31
+    RGB 29, 31, 9
+    RGB 31, 11, 8
+    RGB 0, 0, 0
+
+TentacoolBillboardBGPalette1: ; 0xdc570
+    RGB 31, 31, 31
+    RGB 16, 22, 31
+    RGB 0, 11, 22
+    RGB 0, 0, 0
+TentacoolBillboardBGPalette2: ; 0xdc578
+    RGB 31, 31, 31
+    RGB 16, 22, 31
+    RGB 31, 5, 6
+    RGB 0, 0, 0
+
+TentacruelBillboardBGPalette1: ; 0xdc580
+    RGB 31, 31, 31
+    RGB 16, 22, 31
+    RGB 0, 11, 22
+    RGB 0, 0, 0
+TentacruelBillboardBGPalette2: ; 0xdc588
+    RGB 31, 31, 31
+    RGB 16, 22, 31
+    RGB 31, 5, 6
+    RGB 0, 0, 0
+
+GeodudeBillboardBGPalette1: ; 0xdc590
+    RGB 31, 31, 31
+    RGB 20, 23, 22
+    RGB 10, 13, 12
+    RGB 0, 0, 0
+GeodudeBillboardBGPalette2: ; 0xdc598
+    RGB 31, 31, 31
+    RGB 20, 23, 22
+    RGB 10, 13, 12
+    RGB 0, 0, 0
+
+GravelerBillboardBGPalette1: ; 0xdc5a0
+    RGB 31, 31, 31
+    RGB 20, 23, 22
+    RGB 10, 13, 12
+    RGB 0, 0, 0
+GravelerBillboardBGPalette2: ; 0xdc5a8
+    RGB 31, 31, 31
+    RGB 20, 23, 22
+    RGB 10, 13, 12
+    RGB 0, 0, 0
+
+GolemBillboardBGPalette1: ; 0xdc5b0
+    RGB 31, 31, 31
+    RGB 26, 25, 15
+    RGB 10, 13, 12
+    RGB 0, 0, 0
+GolemBillboardBGPalette2: ; 0xdc5b8
+    RGB 31, 31, 31
+    RGB 26, 25, 15
+    RGB 31, 0, 0
+    RGB 0, 0, 0
+
+PonytaBillboardBGPalette1: ; 0xdc5c0
+    RGB 31, 31, 31
+    RGB 27, 26, 11
+    RGB 31, 0, 0
+    RGB 0, 0, 0
+PonytaBillboardBGPalette2: ; 0xdc5c8
+    RGB 31, 31, 31
+    RGB 31, 29, 0
+    RGB 31, 0, 0
+    RGB 0, 0, 0
+
+RapidashBillboardBGPalette1: ; 0xdc5d0
+    RGB 31, 31, 31
+    RGB 27, 26, 11
+    RGB 31, 0, 0
+    RGB 0, 0, 0
+RapidashBillboardBGPalette2: ; 0xdc5d8
+    RGB 31, 31, 31
+    RGB 31, 29, 0
+    RGB 31, 0, 0
+    RGB 0, 0, 0
+
+SlowpokeBillboardBGPalette1: ; 0xdc5e0
+    RGB 31, 31, 31
+    RGB 31, 21, 21
+    RGB 31, 11, 11
+    RGB 0, 0, 0
+SlowpokeBillboardBGPalette2: ; 0xdc5e8
+    RGB 31, 31, 31
+    RGB 31, 27, 15
+    RGB 31, 11, 11
+    RGB 0, 0, 0
+
+SlowbroBillboardBGPalette1: ; 0xdc5f0
+    RGB 31, 31, 31
+    RGB 31, 27, 15
+    RGB 31, 11, 11
+    RGB 0, 0, 0
+SlowbroBillboardBGPalette2: ; 0xdc5f8
+    RGB 31, 31, 31
+    RGB 23, 23, 23
+    RGB 12, 12, 12
+    RGB 0, 0, 0
+
+INCBIN "baserom.gbc",$dc600,$dd168 - $dc600
 
 PokeBallObjPalette: ; 0xdd168
     RGB 21, 21, 21

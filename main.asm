@@ -43209,7 +43209,42 @@ INCBIN "baserom.gbc",$d7b80,$d8000 - $d7b80
 
 SECTION "bank36", ROMX, BANK[$36]
 
-INCBIN "baserom.gbc",$d8000,$d8c00 - $d8000
+INCBIN "baserom.gbc",$d8000,$d8400 - $d8000
+
+MagnemiteBillboardBGPaletteMap: ; 0xd8400
+    INCBIN "gfx/billboard/mon_pics/magnemite_bgpalette_map"
+MagnetonBillboardBGPaletteMap: ; 0xd8418
+    INCBIN "gfx/billboard/mon_pics/magneton_bgpalette_map"
+FarfetchdBillboardBGPaletteMap: ; 0xd8430
+    INCBIN "gfx/billboard/mon_pics/farfetchd_bgpalette_map"
+DoduoBillboardBGPaletteMap: ; 0xd8448
+    INCBIN "gfx/billboard/mon_pics/doduo_bgpalette_map"
+DodrioBillboardBGPaletteMap: ; 0xd8460
+    INCBIN "gfx/billboard/mon_pics/dodrio_bgpalette_map"
+SeelBillboardBGPaletteMap: ; 0xd8478
+    INCBIN "gfx/billboard/mon_pics/seel_bgpalette_map"
+DewgongBillboardBGPaletteMap: ; 0xd8490
+    INCBIN "gfx/billboard/mon_pics/dewgong_bgpalette_map"
+GrimerBillboardBGPaletteMap: ; 0xd84a8
+    INCBIN "gfx/billboard/mon_pics/grimer_bgpalette_map"
+MukBillboardBGPaletteMap: ; 0xd84c0
+    INCBIN "gfx/billboard/mon_pics/muk_bgpalette_map"
+ShellderBillboardBGPaletteMap: ; 0xd84d8
+    INCBIN "gfx/billboard/mon_pics/shellder_bgpalette_map"
+CloysterBillboardBGPaletteMap: ; 0xd84f0
+    INCBIN "gfx/billboard/mon_pics/cloyster_bgpalette_map"
+GastlyBillboardBGPaletteMap: ; 0xd8508
+    INCBIN "gfx/billboard/mon_pics/gastly_bgpalette_map"
+HaunterBillboardBGPaletteMap: ; 0xd8520
+    INCBIN "gfx/billboard/mon_pics/haunter_bgpalette_map"
+GengarBillboardBGPaletteMap: ; 0xd8538
+    INCBIN "gfx/billboard/mon_pics/gengar_bgpalette_map"
+OnixBillboardBGPaletteMap: ; 0xd8550
+    INCBIN "gfx/billboard/mon_pics/onix_bgpalette_map"
+DrowzeeBillboardBGPaletteMap: ; 0xd8568
+    INCBIN "gfx/billboard/mon_pics/drowzee_bgpalette_map"
+
+INCBIN "baserom.gbc",$d8580,$d8c00 - $d8580
 
 SaverTextOffGfx: ; 0xd8c00
     INCBIN "gfx/stage/saver_off.2bpp"
@@ -43507,7 +43542,7 @@ ClefableBillboardBGPalette2: ; 0xdc138
     RGB 20, 8, 4
     RGB 0, 0, 0
 
-VulpixBillboardBGPalette1: ; 0xdc400
+VulpixBillboardBGPalette1: ; 0xdc140
     RGB 31, 31, 31
     RGB 31, 17, 13
     RGB 25, 6, 0
@@ -43815,7 +43850,183 @@ KadabraBillboardBGPalette2: ; 0xdc2f8
     RGB 19, 11, 6
     RGB 0, 0, 0
 
-INCBIN "baserom.gbc",$dc300,$dc500 - $dc300
+INCBIN "baserom.gbc",$dc300,$dc400 - $dc300
+
+MagnemiteBillboardBGPalette1: ; 0xdc400
+    RGB 31, 31, 31
+    RGB 20, 20, 26
+    RGB 11, 11, 20
+    RGB 0, 0, 0
+MagnemiteBillboardBGPalette2: ; 0xdc408
+    RGB 31, 31, 31
+    RGB 20, 20, 26
+    RGB 31, 0, 0
+    RGB 0, 0, 0
+
+MagnetonBillboardBGPalette1: ; 0xdc410
+    RGB 31, 31, 31
+    RGB 20, 20, 26
+    RGB 11, 11, 20
+    RGB 0, 0, 0
+MagnetonBillboardBGPalette2: ; 0xdc418
+    RGB 31, 31, 31
+    RGB 20, 20, 26
+    RGB 11, 11, 20
+    RGB 0, 0, 0
+
+FarfetchdBillboardBGPalette1: ; 0xdc420
+    RGB 31, 31, 31
+    RGB 31, 29, 13
+    RGB 20, 12, 9
+    RGB 0, 0, 0
+FarfetchdBillboardBGPalette2: ; 0xdc428
+    RGB 31, 31, 31
+    RGB 21, 31, 17
+    RGB 7, 20, 6
+    RGB 0, 0, 0
+
+DoduoBillboardBGPalette1: ; 0xdc430
+    RGB 31, 31, 31
+    RGB 29, 26, 14
+    RGB 26, 16, 4
+    RGB 0, 0, 0
+DoduoBillboardBGPalette2: ; 0xdc438
+    RGB 31, 31, 31
+    RGB 29, 26, 14
+    RGB 26, 16, 4
+    RGB 0, 0, 0
+
+DodrioBillboardBGPalette1: ; 0xdc440
+    RGB 31, 31, 31
+    RGB 29, 26, 14
+    RGB 26, 16, 4
+    RGB 0, 0, 0
+DodrioBillboardBGPalette2: ; 0xdc448
+    RGB 31, 31, 31
+    RGB 29, 26, 14
+    RGB 26, 16, 4
+    RGB 0, 0, 0
+
+SeelBillboardBGPalette1: ; 0xdc450
+    RGB 31, 31, 31
+    RGB 20, 20, 26
+    RGB 11, 11, 20
+    RGB 0, 0, 0
+SeelBillboardBGPalette2: ; 0xdc458
+    RGB 31, 31, 31
+    RGB 29, 26, 14
+    RGB 31, 11, 10
+    RGB 0, 0, 0
+
+DewgongBillboardBGPalette1: ; 0xdc460
+    RGB 31, 31, 31
+    RGB 20, 20, 26
+    RGB 11, 11, 20
+    RGB 0, 0, 0
+DewgongBillboardBGPalette2: ; 0xdc468
+    RGB 31, 31, 31
+    RGB 20, 20, 26
+    RGB 11, 11, 20
+    RGB 0, 0, 0
+
+GrimerBillboardBGPalette1: ; 0xdc470
+    RGB 31, 31, 31
+    RGB 27, 18, 30
+    RGB 15, 7, 19
+    RGB 0, 0, 0
+GrimerBillboardBGPalette2: ; 0xdc478
+    RGB 31, 31, 31
+    RGB 27, 18, 30
+    RGB 15, 7, 19
+    RGB 0, 0, 0
+
+MukBillboardBGPalette1: ; 0xdc480
+    RGB 31, 31, 31
+    RGB 27, 18, 30
+    RGB 15, 7, 19
+    RGB 0, 0, 0
+MukBillboardBGPalette2: ; 0xdc488
+    RGB 31, 31, 31
+    RGB 27, 18, 30
+    RGB 15, 7, 19
+    RGB 0, 0, 0
+
+ShellderBillboardBGPalette1: ; 0xdc490
+    RGB 31, 31, 31
+    RGB 24, 21, 25
+    RGB 13, 11, 15
+    RGB 0, 0, 0
+ShellderBillboardBGPalette2: ; 0xdc498
+    RGB 31, 31, 31
+    RGB 24, 21, 25
+    RGB 31, 13, 13
+    RGB 0, 0, 0
+
+CloysterBillboardBGPalette1: ; 0xdc4a0
+    RGB 31, 31, 31
+    RGB 25, 21, 26
+    RGB 14, 11, 16
+    RGB 0, 0, 0
+CloysterBillboardBGPalette2: ; 0xdc4a8
+    RGB 31, 31, 31
+    RGB 25, 21, 26
+    RGB 14, 11, 16
+    RGB 0, 0, 0
+
+GastlyBillboardBGPalette1: ; 0xdc4b0
+    RGB 31, 31, 31
+    RGB 26, 18, 27
+    RGB 15, 8, 16
+    RGB 0, 0, 0
+GastlyBillboardBGPalette2: ; 0xdc4b8
+    RGB 31, 31, 31
+    RGB 26, 18, 27
+    RGB 26, 10, 8
+    RGB 0, 0, 0
+
+HaunterBillboardBGPalette1: ; 0xdc4c0
+    RGB 31, 31, 31
+    RGB 26, 18, 27
+    RGB 15, 8, 16
+    RGB 0, 0, 0
+HaunterBillboardBGPalette2: ; 0xdc4c8
+    RGB 31, 31, 31
+    RGB 31, 13, 13
+    RGB 14, 9, 15
+    RGB 0, 0, 0
+
+GengarBillboardBGPalette1: ; 0xdc4d0
+    RGB 31, 31, 31
+    RGB 18, 21, 23
+    RGB 10, 12, 13
+    RGB 0, 0, 0
+GengarBillboardBGPalette2: ; 0xdc4d8
+    RGB 31, 31, 31
+    RGB 31, 11, 6
+    RGB 10, 12, 13
+    RGB 0, 0, 0
+
+OnixBillboardBGPalette1: ; 0xdc4e0
+    RGB 31, 31, 31
+    RGB 20, 20, 24
+    RGB 10, 10, 14
+    RGB 0, 0, 0
+OnixBillboardBGPalette2: ; 0xdc4e8
+    RGB 31, 31, 31
+    RGB 20, 20, 24
+    RGB 10, 10, 14
+    RGB 0, 0, 0
+
+DrowzeeBillboardBGPalette1: ; 0xdc4f0
+    RGB 31, 31, 31
+    RGB 31, 30, 0
+    RGB 21, 19, 0
+    RGB 0, 0, 0
+DrowzeeBillboardBGPalette2: ; 0xdc4f8
+    RGB 31, 31, 31
+    RGB 31, 30, 0
+    RGB 21, 19, 0
+    RGB 0, 0, 0
 
 AlakazamBillboardBGPalette1: ; 0xdc500
     RGB 31, 31, 31

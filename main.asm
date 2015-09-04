@@ -43134,7 +43134,42 @@ ParasectBillboardBGPaletteMap: ; 0xd7350
 VenonatBillboardBGPaletteMap: ; 0xd7368
     INCBIN "gfx/billboard/mon_pics/venonat_bgpalette_map"
 
-INCBIN "baserom.gbc",$d7380,$d8000 - $d7380
+INCBIN "baserom.gbc",$d7380,$d7600 - $d7380
+
+VenomothBillboardBGPaletteMap: ; 0xd7600
+    INCBIN "gfx/billboard/mon_pics/venomoth_bgpalette_map"
+DiglettBillboardBGPaletteMap: ; 0xd7618
+    INCBIN "gfx/billboard/mon_pics/diglett_bgpalette_map"
+DugtrioBillboardBGPaletteMap: ; 0xd7630
+    INCBIN "gfx/billboard/mon_pics/dugtrio_bgpalette_map"
+MeowthBillboardBGPaletteMap: ; 0xd7648
+    INCBIN "gfx/billboard/mon_pics/meowth_bgpalette_map"
+PersianBillboardBGPaletteMap: ; 0xd7660
+    INCBIN "gfx/billboard/mon_pics/persian_bgpalette_map"
+PsyduckBillboardBGPaletteMap: ; 0xd7678
+    INCBIN "gfx/billboard/mon_pics/psyduck_bgpalette_map"
+GolduckBillboardBGPaletteMap: ; 0xd7690
+    INCBIN "gfx/billboard/mon_pics/golduck_bgpalette_map"
+MankeyBillboardBGPaletteMap: ; 0xd76a8
+    INCBIN "gfx/billboard/mon_pics/mankey_bgpalette_map"
+PrimeapeBillboardBGPaletteMap: ; 0xd76c0
+    INCBIN "gfx/billboard/mon_pics/primeape_bgpalette_map"
+GrowlitheBillboardBGPaletteMap: ; 0xd76d8
+    INCBIN "gfx/billboard/mon_pics/growlithe_bgpalette_map"
+ArcanineBillboardBGPaletteMap: ; 0xd76f0
+    INCBIN "gfx/billboard/mon_pics/arcanine_bgpalette_map"
+PoliwagBillboardBGPaletteMap: ; 0xd7708
+    INCBIN "gfx/billboard/mon_pics/poliwag_bgpalette_map"
+PoliwhirlBillboardBGPaletteMap: ; 0xd7720
+    INCBIN "gfx/billboard/mon_pics/poliwhirl_bgpalette_map"
+PoliwrathBillboardBGPaletteMap: ; 0xd7738
+    INCBIN "gfx/billboard/mon_pics/poliwrath_bgpalette_map"
+AbraBillboardBGPaletteMap: ; 0xd7750
+    INCBIN "gfx/billboard/mon_pics/abra_bgpalette_map"
+KadabraBillboardBGPaletteMap: ; 0xd7768
+    INCBIN "gfx/billboard/mon_pics/kadabra_bgpalette_map"
+
+INCBIN "baserom.gbc",$d7780,$d8000 - $d7780
 
 
 SECTION "bank36", ROMX, BANK[$36]
@@ -43569,7 +43604,183 @@ VenonatBillboardBGPalette2: ; 0xdc1f8
     RGB 12, 5, 18
     RGB 0, 0, 0
 
-INCBIN "baserom.gbc",$dc200,$dd168 - $dc200
+VenomothBillboardBGPalette1: ; 0xdc200
+    RGB 31, 31, 31
+    RGB 27, 17, 29
+    RGB 17, 7, 16
+    RGB 0, 0, 0
+VenomothBillboardBGPalette2: ; 0xdc208
+    RGB 31, 31, 31
+    RGB 27, 17, 29
+    RGB 17, 7, 16
+    RGB 0, 0, 0
+
+DiglettBillboardBGPalette1: ; 0xdc210
+    RGB 31, 31, 31
+    RGB 24, 17, 5
+    RGB 15, 7, 0
+    RGB 0, 0, 0
+DiglettBillboardBGPalette2: ; 0xdc218
+    RGB 31, 31, 31
+    RGB 24, 17, 5
+    RGB 23, 3, 0
+    RGB 0, 0, 0
+
+DugtrioBillboardBGPalette1: ; 0xdc220
+    RGB 31, 31, 31
+    RGB 24, 17, 5
+    RGB 15, 7, 0
+    RGB 0, 0, 0
+DugtrioBillboardBGPalette2: ; 0xdc228
+    RGB 31, 31, 31
+    RGB 24, 17, 5
+    RGB 23, 3, 0
+    RGB 0, 0, 0
+
+MeowthBillboardBGPalette1: ; 0xdc230
+    RGB 31, 31, 31
+    RGB 29, 28, 7
+    RGB 19, 10, 0
+    RGB 0, 0, 0
+MeowthBillboardBGPalette2: ; 0xdc238
+    RGB 31, 31, 31
+    RGB 29, 28, 7
+    RGB 31, 0, 0
+    RGB 0, 0, 0
+
+PersianBillboardBGPalette1: ; 0xdc240
+    RGB 31, 31, 31
+    RGB 29, 28, 7
+    RGB 19, 10, 0
+    RGB 0, 0, 0
+PersianBillboardBGPalette2: ; 0xdc248
+    RGB 31, 31, 31
+    RGB 29, 28, 7
+    RGB 31, 0, 0
+    RGB 0, 0, 0
+
+PsyduckBillboardBGPalette1: ; 0xdc250
+    RGB 31, 31, 31
+    RGB 31, 31, 0
+    RGB 19, 17, 0
+    RGB 0, 0, 0
+PsyduckBillboardBGPalette2: ; 0xdc258
+    RGB 31, 31, 31
+    RGB 31, 31, 0
+    RGB 19, 17, 0
+    RGB 0, 0, 0
+
+GolduckBillboardBGPalette1: ; 0xdc260
+    RGB 31, 31, 31
+    RGB 26, 25, 7
+    RGB 13, 15, 27
+    RGB 0, 0, 0
+GolduckBillboardBGPalette2: ; 0xdc268
+    RGB 31, 31, 31
+    RGB 31, 0, 0
+    RGB 13, 15, 27
+    RGB 0, 0, 0
+
+MankeyBillboardBGPalette1: ; 0xdc270
+    RGB 31, 31, 31
+    RGB 28, 20, 17
+    RGB 22, 9, 5
+    RGB 0, 0, 0
+MankeyBillboardBGPalette2: ; 0xdc278
+    RGB 31, 31, 31
+    RGB 28, 20, 17
+    RGB 22, 9, 5
+    RGB 0, 0, 0
+
+PrimeapeBillboardBGPalette1: ; 0xdc280
+    RGB 31, 31, 31
+    RGB 28, 20, 17
+    RGB 22, 9, 5
+    RGB 0, 0, 0
+PrimeapeBillboardBGPalette2: ; 0xdc288
+    RGB 31, 31, 31
+    RGB 15, 15, 15
+    RGB 22, 9, 5
+    RGB 0, 0, 0
+
+GrowlitheBillboardBGPalette1: ; 0xdc290
+    RGB 31, 31, 31
+    RGB 28, 27, 10
+    RGB 26, 12, 0
+    RGB 0, 0, 0
+GrowlitheBillboardBGPalette2: ; 0xdc298
+    RGB 31, 31, 31
+    RGB 28, 27, 10
+    RGB 31, 0, 0
+    RGB 0, 0, 0
+
+ArcanineBillboardBGPalette1: ; 0xdc2a0
+    RGB 31, 31, 31
+    RGB 28, 27, 10
+    RGB 26, 12, 0
+    RGB 0, 0, 0
+ArcanineBillboardBGPalette2: ; 0xdc2a8
+    RGB 31, 31, 31
+    RGB 28, 27, 10
+    RGB 31, 0, 0
+    RGB 0, 0, 0
+
+PoliwagBillboardBGPalette1: ; 0xdc2b0
+    RGB 31, 31, 31
+    RGB 20, 20, 27
+    RGB 11, 11, 18
+    RGB 0, 0, 0
+PoliwagBillboardBGPalette2: ; 0xdc2b8
+    RGB 31, 31, 31
+    RGB 31, 17, 14
+    RGB 11, 11, 18
+    RGB 0, 0, 0
+
+PoliwhirlBillboardBGPalette1: ; 0xdc2c0
+    RGB 31, 31, 31
+    RGB 20, 20, 27
+    RGB 11, 11, 18
+    RGB 0, 0, 0
+PoliwhirlBillboardBGPalette2: ; 0xdc2c8
+    RGB 31, 31, 31
+    RGB 20, 20, 27
+    RGB 11, 11, 18
+    RGB 0, 0, 0
+
+PoliwrathBillboardBGPalette1: ; 0xdc2d0
+    RGB 31, 31, 31
+    RGB 20, 20, 27
+    RGB 11, 11, 18
+    RGB 0, 0, 0
+PoliwrathBillboardBGPalette2: ; 0xdc2d8
+    RGB 31, 31, 31
+    RGB 20, 20, 27
+    RGB 11, 11, 18
+    RGB 0, 0, 0
+
+AbraBillboardBGPalette1: ; 0xdc2e0
+    RGB 31, 31, 31
+    RGB 31, 30, 0
+    RGB 19, 11, 6
+    RGB 0, 0, 0
+AbraBillboardBGPalette2: ; 0xdc2e8
+    RGB 31, 31, 31
+    RGB 31, 30, 0
+    RGB 19, 11, 6
+    RGB 0, 0, 0
+
+KadabraBillboardBGPalette1: ; 0xdc2f0
+    RGB 31, 31, 31
+    RGB 31, 30, 0
+    RGB 19, 11, 6
+    RGB 0, 0, 0
+KadabraBillboardBGPalette2: ; 0xdc2f8
+    RGB 31, 31, 31
+    RGB 21, 21, 21
+    RGB 19, 11, 6
+    RGB 0, 0, 0
+
+INCBIN "baserom.gbc",$dc300,$dd168 - $dc300
 
 PokeBallObjPalette: ; 0xdd168
     RGB 21, 21, 21

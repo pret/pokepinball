@@ -43559,7 +43559,105 @@ DrowzeeBillboardBGPaletteMap: ; 0xd8568
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
 
-INCBIN "baserom.gbc",$d8580,$d8c00 - $d8580
+INCBIN "baserom.gbc",$d8580,$d8800 - $d8580
+
+HypnoBillboardBGPaletteMap: ; 0xd8800
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $7, $7
+    db $7, $6, $6, $6, $7, $7
+    db $7, $6, $6, $6, $7, $7
+
+KrabbyBillboardBGPaletteMap: ; 0xd8818
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+
+KinglerBillboardBGPaletteMap: ; 0xd8830
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+
+VoltorbBillboardBGPaletteMap: ; 0xd8848
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $7
+    db $6, $6, $6, $6, $7, $7
+    db $7, $6, $6, $7, $7, $7
+
+ElectrodeBillboardBGPaletteMap: ; 0xd8860
+    db $6, $6, $6, $7, $7, $6
+    db $6, $6, $6, $7, $7, $7
+    db $6, $6, $6, $6, $7, $7
+    db $6, $6, $6, $6, $6, $6
+
+ExeggcuteBillboardBGPaletteMap: ; 0xd8878
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+
+ExeggutorBillboardBGPaletteMap: ; 0xd8890
+    db $6, $6, $6, $6, $6, $6
+    db $6, $7, $7, $7, $7, $6
+    db $6, $7, $7, $7, $7, $6
+    db $6, $7, $7, $7, $7, $6
+
+CuboneBillboardBGPaletteMap: ; 0xd88a8
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+    db $7, $7, $7, $7, $7, $6
+
+MarowakBillboardBGPaletteMap: ; 0xd88c0
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $7, $7
+
+HitmonleeBillboardBGPaletteMap: ; 0xd88d8
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+
+HitmonchanBillboardBGPaletteMap: ; 0xd88f0
+    db $6, $6, $7, $7, $7, $7
+    db $6, $6, $6, $7, $7, $7
+    db $6, $6, $7, $7, $7, $7
+    db $7, $7, $7, $7, $7, $7
+
+LickitungBillboardBGPaletteMap: ; 0xd8908
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $7, $6, $6
+
+KoffingBillboardBGPaletteMap: ; 0xd8920
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $7, $7, $6, $6
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+
+WeezingBillboardBGPaletteMap: ; 0xd8938
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+
+RhyhornBillboardBGPaletteMap: ; 0xd8950
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+
+RhydonBillboardBGPaletteMap: ; 0xd8968
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+
+INCBIN "baserom.gbc",$d8980,$d8c00 - $d8980
 
 SaverTextOffGfx: ; 0xd8c00
     INCBIN "gfx/stage/saver_off.2bpp"
@@ -44228,7 +44326,181 @@ KadabraBillboardBGPalette2: ; 0xdc2f8
     RGB 19, 11, 6
     RGB 0, 0, 0
 
-INCBIN "baserom.gbc",$dc300,$dc400 - $dc300
+HypnoBillboardBGPalette1: ; 0xdc300
+    RGB 31, 31, 31
+    RGB 31, 30, 0
+    RGB 21, 15, 5
+HypnoBillboardBGPalette2: ; 0xdc308
+    RGB 0, 0, 0
+    RGB 31, 31, 31
+    RGB 19, 23, 31
+    RGB 21, 15, 5
+    RGB 0, 0, 0
+
+KrabbyBillboardBGPalette1: ; 0xdc310
+    RGB 31, 31, 31
+    RGB 31, 16, 17
+    RGB 25, 6, 0
+KrabbyBillboardBGPalette2: ; 0xdc318
+    RGB 0, 0, 0
+    RGB 31, 31, 31
+    RGB 31, 16, 17
+    RGB 25, 6, 0
+    RGB 0, 0, 0
+
+KinglerBillboardBGPalette1: ; 0xdc320
+    RGB 31, 31, 31
+    RGB 31, 16, 17
+    RGB 25, 6, 0
+KinglerBillboardBGPalette2: ; 0xdc328
+    RGB 0, 0, 0
+    RGB 31, 31, 31
+    RGB 31, 16, 17
+    RGB 25, 6, 0
+    RGB 0, 0, 0
+
+VoltorbBillboardBGPalette1: ; 0xdc330
+    RGB 31, 31, 31
+    RGB 31, 16, 17
+    RGB 25, 6, 0
+VoltorbBillboardBGPalette2: ; 0xdc338
+    RGB 0, 0, 0
+    RGB 31, 31, 31
+    RGB 19, 23, 31
+    RGB 25, 6, 0
+    RGB 0, 0, 0
+
+ElectrodeBillboardBGPalette1: ; 0xdc340
+    RGB 31, 31, 31
+    RGB 31, 15, 12
+    RGB 25, 6, 0
+ElectrodeBillboardBGPalette2: ; 0xdc348
+    RGB 0, 0, 0
+    RGB 31, 31, 31
+    RGB 19, 23, 31
+    RGB 25, 6, 0
+    RGB 0, 0, 0
+
+ExeggcuteBillboardBGPalette1: ; 0xdc350
+    RGB 31, 31, 31
+    RGB 31, 15, 12
+    RGB 18, 8, 6
+ExeggcuteBillboardBGPalette2: ; 0xdc358
+    RGB 0, 0, 0
+    RGB 31, 31, 31
+    RGB 31, 15, 12
+    RGB 18, 8, 6
+    RGB 0, 0, 0
+
+ExeggutorBillboardBGPalette1: ; 0xdc360
+    RGB 31, 31, 31
+    RGB 31, 27, 5
+    RGB 7, 18, 0
+ExeggutorBillboardBGPalette2: ; 0xdc368
+    RGB 3, 2, 0
+    RGB 31, 31, 31
+    RGB 31, 23, 5
+    RGB 20, 10, 3
+    RGB 0, 0, 0
+
+CuboneBillboardBGPalette1: ; 0xdc370
+    RGB 31, 31, 31
+    RGB 18, 20, 27
+    RGB 20, 10, 3
+CuboneBillboardBGPalette2: ; 0xdc378
+    RGB 0, 0, 0
+    RGB 31, 31, 31
+    RGB 29, 23, 10
+    RGB 20, 10, 3
+    RGB 0, 0, 0
+
+MarowakBillboardBGPalette1: ; 0xdc380
+    RGB 31, 31, 31
+    RGB 18, 20, 27
+    RGB 20, 10, 3
+MarowakBillboardBGPalette2: ; 0xdc388
+    RGB 0, 0, 0
+    RGB 31, 31, 31
+    RGB 29, 23, 10
+    RGB 20, 10, 3
+    RGB 0, 0, 0
+
+HitmonleeBillboardBGPalette1: ; 0xdc390
+    RGB 31, 31, 31
+    RGB 29, 23, 10
+    RGB 21, 13, 3
+HitmonleeBillboardBGPalette2: ; 0xdc398
+    RGB 0, 0, 0
+    RGB 31, 31, 31
+    RGB 29, 23, 10
+    RGB 21, 13, 3
+    RGB 0, 0, 0
+
+HitmonchanBillboardBGPalette1: ; 0xdc3a0
+    RGB 31, 31, 31
+    RGB 31, 21, 13
+    RGB 23, 3, 3
+HitmonchanBillboardBGPalette2: ; 0xdc3a8
+    RGB 3, 2, 0
+    RGB 31, 31, 31
+    RGB 31, 21, 13
+    RGB 22, 3, 25
+    RGB 0, 0, 0
+
+LickitungBillboardBGPalette1: ; 0xdc3b0
+    RGB 31, 31, 31
+    RGB 31, 21, 21
+    RGB 31, 9, 8
+LickitungBillboardBGPalette2: ; 0xdc3b8
+    RGB 0, 0, 0
+    RGB 31, 31, 31
+    RGB 31, 20, 12
+    RGB 31, 9, 8
+    RGB 0, 0, 0
+
+KoffingBillboardBGPalette1: ; 0xdc3c0
+    RGB 31, 31, 31
+    RGB 21, 13, 28
+    RGB 10, 7, 14
+KoffingBillboardBGPalette2: ; 0xdc3c8
+    RGB 3, 2, 0
+    RGB 31, 31, 31
+    RGB 21, 13, 28
+    RGB 21, 4, 7
+    RGB 0, 0, 0
+
+WeezingBillboardBGPalette1: ; 0xdc3d0
+    RGB 31, 31, 31
+    RGB 21, 13, 28
+    RGB 10, 7, 14
+WeezingBillboardBGPalette2: ; 0xdc3d8
+    RGB 0, 0, 0
+    RGB 31, 31, 31
+    RGB 21, 13, 28
+    RGB 21, 4, 7
+    RGB 3, 2, 0
+
+RhyhornBillboardBGPalette1: ; 0xdc3e0
+    RGB 31, 31, 31
+    RGB 21, 21, 21
+    RGB 13, 11, 16
+RhyhornBillboardBGPalette2: ; 0xdc3e8
+    RGB 0, 0, 0
+    RGB 31, 31, 31
+    RGB 21, 21, 21
+    RGB 13, 11, 16
+    RGB 0, 0, 0
+
+RhydonBillboardBGPalette1: ; 0xdc3f0
+    RGB 31, 31, 31
+    RGB 21, 21, 21
+    RGB 13, 11, 16
+RhydonBillboardBGPalette2: ; 0xdc3f8
+    RGB 0, 0, 0
+    RGB 31, 31, 31
+    RGB 21, 21, 21
+    RGB 13, 11, 16
+    RGB 0, 0, 0
 
 MagnemiteBillboardBGPalette1: ; 0xdc400
     RGB 31, 31, 31

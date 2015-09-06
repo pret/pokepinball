@@ -44010,7 +44010,149 @@ INCBIN "baserom.gbc",$d8980,$d8c00 - $d8980
 SaverTextOffGfx: ; 0xd8c00
     INCBIN "gfx/stage/saver_off.2bpp"
 
-INCBIN "baserom.gbc",$d8c40,$da000 - $d8c40
+INCBIN "baserom.gbc",$d8c40,$d9400 - $d8c40
+
+MagikarpBillboardBGPaletteMap: ; 0xd9400
+    db $6, $6, $6, $6, $6, $6
+    db $7, $7, $6, $6, $6, $6
+    db $7, $7, $6, $6, $6, $6
+    db $7, $7, $6, $6, $6, $6
+
+GyaradosBillboardBGPaletteMap: ; 0xd9418
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $7, $7, $6, $6
+    db $6, $6, $7, $7, $6, $6
+
+LaprasBillboardBGPaletteMap: ; 0xd9430
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+
+DittoBillboardBGPaletteMap: ; 0xd9448
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+
+EeveeBillboardBGPaletteMap: ; 0xd9460
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+
+VaporeonBillboardBGPaletteMap: ; 0xd9478
+    db $7, $7, $7, $6, $6, $6
+    db $7, $7, $6, $6, $7, $7
+    db $7, $7, $6, $6, $7, $7
+    db $6, $6, $6, $6, $6, $6
+
+JolteonBillboardBGPaletteMap: ; 0xd9490
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+
+FlareonBillboardBGPaletteMap: ; 0xd94a8
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+
+PorygonBillboardBGPaletteMap: ; 0xd94c0
+    db $6, $6, $6, $6, $7, $6
+    db $6, $6, $7, $6, $6, $7
+    db $6, $7, $7, $6, $6, $7
+    db $6, $7, $7, $7, $6, $6
+
+OmanyteBillboardBGPaletteMap: ; 0xd94d8
+    db $6, $7, $6, $6, $6, $6
+    db $6, $7, $6, $6, $6, $6
+    db $7, $7, $6, $6, $6, $6
+    db $7, $7, $6, $6, $6, $6
+
+OmastarBillboardBGPaletteMap: ; 0xd94f0
+    db $6, $6, $6, $6, $7, $6
+    db $6, $6, $6, $6, $7, $7
+    db $6, $7, $7, $6, $6, $7
+    db $6, $6, $7, $6, $6, $7
+
+KabutoBillboardBGPaletteMap: ; 0xd9508
+    db $6, $6, $6, $7, $7, $6
+    db $6, $6, $7, $7, $7, $6
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+
+KabutopsBillboardBGPaletteMap: ; 0xd9520
+    db $7, $6, $6, $6, $6, $7
+    db $7, $6, $6, $6, $7, $7
+    db $7, $6, $6, $7, $6, $7
+    db $6, $6, $7, $7, $6, $6
+
+AerodactylBillboardBGPaletteMap: ; 0xd9538
+    db $7, $7, $6, $6, $7, $7
+    db $7, $7, $6, $7, $7, $7
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+
+SnorlaxBillboardBGPaletteMap: ; 0xd9550
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $7, $7, $6, $6
+    db $6, $6, $7, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+
+ArticunoBillboardBGPaletteMap: ; 0xd9568
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+
+INCBIN "baserom.gbc",$d9580,$d9800 - $d9580
+
+ZapdosBillboardBGPaletteMap: ; 0xd9800
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+
+MoltresBillboardBGPaletteMap: ; 0xd9818
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+
+DratiniBillboardBGPaletteMap: ; 0xd9830
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+
+DragonairBillboardBGPaletteMap: ; 0xd9848
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+
+DragoniteBillboardBGPaletteMap: ; 0xd9860
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+    db $7, $6, $6, $6, $6, $7
+    db $7, $7, $6, $6, $7, $7
+
+MewtwoBillboardBGPaletteMap: ; 0xd9878
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $7, $7, $6, $6
+    db $6, $6, $6, $6, $6, $6
+
+MewBillboardBGPaletteMap: ; 0xd9890
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $7, $7, $6, $6
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+
+INCBIN "baserom.gbc",$d98a8,$da000 - $d98a8
 
 CopyrightTextGfx: ; 0xda000
     INCBIN "gfx/copyright_text.2bpp"
@@ -45298,7 +45440,86 @@ SlowbroBillboardBGPalette2: ; 0xdc5f8
     RGB 12, 12, 12
     RGB 0, 0, 0
 
-INCBIN "baserom.gbc",$dc600,$dd168 - $dc600
+INCBIN "baserom.gbc",$dc600,$dc700 - $dc600
+
+ZapdosBillboardBGPalette1: ; 0xdc700
+    RGB 31, 31, 31
+    RGB 29, 27, 0
+    RGB 20, 6, 0
+    RGB 0, 0, 0
+ZapdosBillboardBGPalette2: ; 0xdc708
+    RGB 31, 31, 31
+    RGB 29, 27, 0
+    RGB 20, 6, 0
+    RGB 0, 0, 0
+
+MoltresBillboardBGPalette1: ; 0xdc710
+    RGB 31, 31, 31
+    RGB 30, 25, 0
+    RGB 30, 6, 0
+    RGB 0, 0, 0
+MoltresBillboardBGPalette2: ; 0xdc718
+    RGB 31, 31, 31
+    RGB 30, 25, 0
+    RGB 30, 6, 0
+    RGB 0, 0, 0
+
+DratiniBillboardBGPalette1: ; 0xdc720
+    RGB 31, 31, 31
+    RGB 17, 19, 24
+    RGB 6, 11, 15
+    RGB 0, 0, 0
+DratiniBillboardBGPalette2: ; 0xdc728
+    RGB 31, 31, 31
+    RGB 17, 19, 24
+    RGB 6, 11, 15
+    RGB 0, 0, 0
+
+DragonairBillboardBGPalette1: ; 0xdc730
+    RGB 31, 31, 31
+    RGB 9, 19, 30
+    RGB 2, 4, 26
+    RGB 0, 0, 0
+DragonairBillboardBGPalette2: ; 0xdc738
+    RGB 31, 31, 31
+    RGB 9, 19, 30
+    RGB 2, 4, 26
+    RGB 0, 0, 0
+
+DragoniteBillboardBGPalette1: ; 0xdc740
+    RGB 31, 31, 31
+    RGB 31, 23, 7
+    RGB 27, 11, 0
+    RGB 0, 0, 0
+DragoniteBillboardBGPalette2: ; 0xdc748
+    RGB 31, 31, 31
+    RGB 13, 22, 16
+    RGB 27, 11, 0
+    RGB 0, 0, 0
+
+MewtwoBillboardBGPalette1: ; 0xdc750
+    RGB 31, 31, 31
+    RGB 28, 23, 28
+    RGB 13, 7, 20
+    RGB 0, 0, 0
+MewtwoBillboardBGPalette2: ; 0xdc758
+    RGB 31, 31, 31
+    RGB 28, 23, 28
+    RGB 20, 5, 18
+    RGB 0, 0, 0
+
+MewBGPalette1: ; 0xdc760
+    RGB 31, 31, 31
+    RGB 31, 18, 24
+    RGB 31, 7, 12
+    RGB 0, 0, 0
+MewBGPalette2: ; 0xdc768
+    RGB 31, 31, 31
+    RGB 31, 18, 24
+    RGB 0, 10, 31
+    RGB 0, 0, 0
+
+INCBIN "baserom.gbc",$dc770,$dd168 - $dc770
 
 PokeBallObjPalette: ; 0xdd168
     RGB 21, 21, 21

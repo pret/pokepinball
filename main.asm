@@ -42957,38 +42957,101 @@ OptionMenuBGMSETextGfx: ; 0xb6b10
 
 INCBIN "baserom.gbc",$b6c00,$b7c00 - $b6c00 ; 0xb6c00
 
-PidgeottoBillboardBGPaletteMap: ; 0xda800
-    INCBIN "gfx/billboard/mon_pics/pidgeotto_bgpalette_map"
-PidgeotBillboardBGPaletteMap: ; 0xda818
-    INCBIN "gfx/billboard/mon_pics/pidgeot_bgpalette_map"
-RattataBillboardBGPaletteMap: ; 0xda830
-    INCBIN "gfx/billboard/mon_pics/rattata_bgpalette_map"
-RaticateBillboardBGPaletteMap: ; 0xda848
-    INCBIN "gfx/billboard/mon_pics/raticate_bgpalette_map"
-SpearowBillboardBGPaletteMap: ; 0xda860
-    INCBIN "gfx/billboard/mon_pics/spearow_bgpalette_map"
-FearowBillboardBGPaletteMap: ; 0xda878
-    INCBIN "gfx/billboard/mon_pics/fearow_bgpalette_map"
-EkansBillboardBGPaletteMap: ; 0xda890
-    INCBIN "gfx/billboard/mon_pics/ekans_bgpalette_map"
-ArbokBillboardBGPaletteMap: ; 0xda8a8
-    INCBIN "gfx/billboard/mon_pics/arbok_bgpalette_map"
-PikachuBillboardBGPaletteMap: ; 0xda8c0
-    INCBIN "gfx/billboard/mon_pics/pikachu_bgpalette_map"
-RaichuBillboardBGPaletteMap: ; 0xda8d8
-    INCBIN "gfx/billboard/mon_pics/raichu_bgpalette_map"
-SandshrewBillboardBGPaletteMap: ; 0xda8f0
-    INCBIN "gfx/billboard/mon_pics/sandshrew_bgpalette_map"
-SandslashBillboardBGPaletteMap: ; 0xda908
-    INCBIN "gfx/billboard/mon_pics/sandslash_bgpalette_map"
-NidoranFBillboardBGPaletteMap: ; 0xda920
-    INCBIN "gfx/billboard/mon_pics/nidoranf_bgpalette_map"
-NidorinaBillboardBGPaletteMap: ; 0xda938
-    INCBIN "gfx/billboard/mon_pics/nidorina_bgpalette_map"
-NidoqueenBillboardBGPaletteMap: ; 0xda950
-    INCBIN "gfx/billboard/mon_pics/nidoqueen_bgpalette_map"
-NidoranMBillboardBGPaletteMap: ; 0xda968
-    INCBIN "gfx/billboard/mon_pics/nidoranm_bgpalette_map"
+PidgeottoBillboardBGPaletteMap: ; 0xb7c00
+    db $7, $7, $7, $7, $7, $7
+    db $7, $7, $7, $7, $7, $7
+    db $7, $7, $7, $7, $7, $7
+    db $7, $7, $7, $7, $7, $7
+
+PidgeotBillboardBGPaletteMap: ; 0xb7c18
+    db $7, $7, $7, $7, $7, $7
+    db $7, $7, $7, $7, $7, $7
+    db $7, $7, $7, $7, $7, $7
+    db $7, $7, $7, $7, $7, $7
+
+RattataBillboardBGPaletteMap: ; 0xb7c30
+    db $7, $7, $7, $7, $7, $7
+    db $7, $7, $7, $7, $7, $7
+    db $7, $7, $7, $7, $7, $7
+    db $7, $7, $7, $7, $7, $7
+
+RaticateBillboardBGPaletteMap: ; 0xb7c48
+    db $7, $7, $7, $7, $7, $7
+    db $7, $7, $7, $7, $7, $7
+    db $7, $7, $7, $7, $7, $7
+    db $7, $7, $7, $7, $7, $7
+
+SpearowBillboardBGPaletteMap: ; 0xb7c60
+    db $7, $7, $7, $7, $7, $7
+    db $7, $7, $7, $7, $7, $7
+    db $7, $7, $7, $7, $7, $7
+    db $7, $7, $7, $7, $7, $7
+
+FearowBillboardBGPaletteMap: ; 0xb7c78
+    db $7, $7, $7, $7, $7, $7
+    db $7, $7, $7, $7, $7, $7
+    db $7, $7, $7, $7, $7, $7
+    db $7, $7, $7, $7, $7, $7
+
+EkansBillboardBGPaletteMap: ; 0xb7c90
+    db $7, $7, $7, $7, $7, $7
+    db $7, $7, $7, $7, $7, $7
+    db $7, $7, $7, $7, $7, $7
+    db $7, $7, $7, $7, $7, $7
+
+ArbokBillboardBGPaletteMap: ; 0xb7ca8
+    db $7, $7, $7, $7, $7, $7
+    db $7, $7, $7, $7, $7, $7
+    db $7, $7, $7, $7, $7, $7
+    db $7, $7, $7, $7, $7, $7
+
+PikachuBillboardBGPaletteMap: ; 0xb7cc0
+    db $7, $7, $7, $7, $7, $7
+    db $7, $7, $7, $7, $7, $7
+    db $7, $7, $7, $7, $7, $7
+    db $7, $7, $7, $7, $7, $7
+
+RaichuBillboardBGPaletteMap: ; 0xb7cd8
+    db $7, $7, $7, $7, $7, $7
+    db $7, $7, $7, $7, $7, $7
+    db $7, $7, $7, $7, $7, $7
+    db $7, $7, $7, $7, $7, $7
+
+SandshrewBillboardBGPaletteMap: ; 0xb7cf0
+    db $7, $7, $7, $7, $7, $7
+    db $7, $7, $7, $7, $7, $7
+    db $7, $7, $7, $7, $7, $7
+    db $7, $7, $7, $7, $7, $7
+
+SandslashBillboardBGPaletteMap: ; 0xb7d08
+    db $7, $7, $7, $7, $7, $7
+    db $7, $7, $7, $7, $7, $7
+    db $7, $7, $7, $7, $7, $7
+    db $7, $7, $7, $7, $7, $7
+
+NidoranfBillboardBGPaletteMap: ; 0xb7d20
+    db $7, $7, $7, $7, $7, $7
+    db $7, $7, $7, $7, $7, $7
+    db $7, $7, $7, $7, $7, $7
+    db $7, $7, $7, $7, $7, $7
+
+NidorinaBillboardBGPaletteMap: ; 0xb7d38
+    db $7, $7, $7, $7, $7, $7
+    db $7, $7, $7, $7, $7, $7
+    db $7, $7, $7, $7, $7, $7
+    db $7, $7, $7, $7, $7, $7
+
+NidoqueenBillboardBGPaletteMap: ; 0xb7d50
+    db $7, $7, $7, $7, $7, $7
+    db $7, $7, $7, $7, $7, $7
+    db $7, $7, $7, $7, $7, $7
+    db $7, $7, $7, $7, $7, $7
+
+NidoranmBillboardBGPaletteMap: ; 0xb7d68
+    db $7, $7, $7, $7, $7, $7
+    db $7, $7, $7, $7, $7, $7
+    db $7, $7, $7, $7, $7, $7
+    db $7, $7, $7, $7, $7, $7
 
 INCBIN "baserom.gbc",$b7d80,$b8000 - $b7d80 ; 0xb7d80
 
@@ -43102,107 +43165,296 @@ StageRedJapaneseCharactersGfx2: ; 0xd7000
     INCBIN "gfx/stage/red_bottom/japanese_characters_2.2bpp"
 
 NidorinoBillboardBGPaletteMap: ; 0xd7200
-    INCBIN "gfx/billboard/mon_pics/nidorino_bgpalette_map"
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+
 NidokingBillboardBGPaletteMap: ; 0xd7218
-    INCBIN "gfx/billboard/mon_pics/nidoking_bgpalette_map"
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+
 ClefairyBillboardBGPaletteMap: ; 0xd7230
-    INCBIN "gfx/billboard/mon_pics/clefairy_bgpalette_map"
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+
 ClefableBillboardBGPaletteMap: ; 0xd7248
-    INCBIN "gfx/billboard/mon_pics/clefable_bgpalette_map"
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+
 VulpixBillboardBGPaletteMap: ; 0xd7260
-    INCBIN "gfx/billboard/mon_pics/vulpix_bgpalette_map"
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+
 NinetalesBillboardBGPaletteMap: ; 0xd7278
-    INCBIN "gfx/billboard/mon_pics/Ninetales_bgpalette_map"
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+
 JigglypuffBillboardBGPaletteMap: ; 0xd7290
-    INCBIN "gfx/billboard/mon_pics/jigglypuff_bgpalette_map"
+    db $6, $6, $6, $6, $6, $6
+    db $6, $7, $7, $7, $7, $6
+    db $6, $7, $7, $7, $7, $6
+    db $6, $6, $6, $6, $6, $6
+
 WigglytuffBillboardBGPaletteMap: ; 0xd72a8
-    INCBIN "gfx/billboard/mon_pics/wigglytuff_bgpalette_map"
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $7, $6, $6
+    db $6, $7, $6, $7, $6, $6
+    db $6, $6, $6, $6, $6, $6
+
 ZubatBillboardBGPaletteMap: ; 0xd72c0
-    INCBIN "gfx/billboard/mon_pics/zubat_bgpalette_map"
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+
 GolbatBillboardBGPaletteMap: ; 0xd72d8
-    INCBIN "gfx/billboard/mon_pics/golbat_bgpalette_map"
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+
 OddishBillboardBGPaletteMap: ; 0xd72f0
-    INCBIN "gfx/billboard/mon_pics/oddish_bgpalette_map"
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $7, $7, $6, $6
+    db $6, $7, $7, $7, $7, $6
+    db $6, $7, $7, $7, $7, $6
+
 GloomBillboardBGPaletteMap: ; 0xd7308
-    INCBIN "gfx/billboard/mon_pics/gloom_bgpalette_map"
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+    db $6, $7, $7, $7, $7, $6
+    db $7, $7, $7, $7, $7, $7
+
 VileplumeBillboardBGPaletteMap: ; 0xd7320
-    INCBIN "gfx/billboard/mon_pics/vileplume_bgpalette_map"
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+    db $6, $7, $7, $7, $7, $6
+    db $6, $6, $7, $7, $7, $6
+
 ParasBillboardBGPaletteMap: ; 0xd7338
-    INCBIN "gfx/billboard/mon_pics/paras_bgpalette_map"
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+
 ParasectBillboardBGPaletteMap: ; 0xd7350
-    INCBIN "gfx/billboard/mon_pics/parasect_bgpalette_map"
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+
 VenonatBillboardBGPaletteMap: ; 0xd7368
-    INCBIN "gfx/billboard/mon_pics/venonat_bgpalette_map"
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
 
 INCBIN "baserom.gbc",$d7380,$d7600 - $d7380
 
 VenomothBillboardBGPaletteMap: ; 0xd7600
-    INCBIN "gfx/billboard/mon_pics/venomoth_bgpalette_map"
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+
 DiglettBillboardBGPaletteMap: ; 0xd7618
-    INCBIN "gfx/billboard/mon_pics/diglett_bgpalette_map"
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $7, $7, $6, $6
+    db $6, $6, $7, $7, $6, $6
+
 DugtrioBillboardBGPaletteMap: ; 0xd7630
-    INCBIN "gfx/billboard/mon_pics/dugtrio_bgpalette_map"
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $7, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+
 MeowthBillboardBGPaletteMap: ; 0xd7648
-    INCBIN "gfx/billboard/mon_pics/meowth_bgpalette_map"
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $7, $7, $6, $6
+
 PersianBillboardBGPaletteMap: ; 0xd7660
-    INCBIN "gfx/billboard/mon_pics/persian_bgpalette_map"
+    db $6, $6, $6, $6, $6, $6
+    db $7, $7, $7, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+
 PsyduckBillboardBGPaletteMap: ; 0xd7678
-    INCBIN "gfx/billboard/mon_pics/psyduck_bgpalette_map"
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+
 GolduckBillboardBGPaletteMap: ; 0xd7690
-    INCBIN "gfx/billboard/mon_pics/golduck_bgpalette_map"
+    db $6, $7, $7, $7, $6, $6
+    db $6, $7, $7, $7, $6, $6
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+
 MankeyBillboardBGPaletteMap: ; 0xd76a8
-    INCBIN "gfx/billboard/mon_pics/mankey_bgpalette_map"
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+
 PrimeapeBillboardBGPaletteMap: ; 0xd76c0
-    INCBIN "gfx/billboard/mon_pics/primeape_bgpalette_map"
+    db $6, $6, $6, $6, $6, $6
+    db $7, $6, $6, $6, $6, $7
+    db $7, $6, $6, $6, $6, $7
+    db $6, $6, $6, $6, $6, $6
+
 GrowlitheBillboardBGPaletteMap: ; 0xd76d8
-    INCBIN "gfx/billboard/mon_pics/growlithe_bgpalette_map"
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+    db $6, $7, $7, $6, $6, $6
+
 ArcanineBillboardBGPaletteMap: ; 0xd76f0
-    INCBIN "gfx/billboard/mon_pics/arcanine_bgpalette_map"
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+
 PoliwagBillboardBGPaletteMap: ; 0xd7708
-    INCBIN "gfx/billboard/mon_pics/poliwag_bgpalette_map"
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $7, $6, $6, $6
+    db $6, $6, $7, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+
 PoliwhirlBillboardBGPaletteMap: ; 0xd7720
-    INCBIN "gfx/billboard/mon_pics/poliwhirl_bgpalette_map"
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+
 PoliwrathBillboardBGPaletteMap: ; 0xd7738
-    INCBIN "gfx/billboard/mon_pics/poliwrath_bgpalette_map"
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+
 AbraBillboardBGPaletteMap: ; 0xd7750
-    INCBIN "gfx/billboard/mon_pics/abra_bgpalette_map"
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+
 KadabraBillboardBGPaletteMap: ; 0xd7768
-    INCBIN "gfx/billboard/mon_pics/kadabra_bgpalette_map"
+    db $6, $6, $6, $6, $6, $6
+    db $6, $7, $6, $6, $6, $6
+    db $6, $7, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
 
 INCBIN "baserom.gbc",$d7780,$d7a00 - $d7780
 
-AlakazamBillboardBGPaletteMap: ; 0xd7600
-    INCBIN "gfx/billboard/mon_pics/alakazam_bgpalette_map"
-MachopBillboardBGPaletteMap: ; 0xd7618
-    INCBIN "gfx/billboard/mon_pics/machop_bgpalette_map"
-MachokeBillboardBGPaletteMap: ; 0xd7630
-    INCBIN "gfx/billboard/mon_pics/machoke_bgpalette_map"
-MachampBillboardBGPaletteMap: ; 0xd7648
-    INCBIN "gfx/billboard/mon_pics/machamp_bgpalette_map"
-BellsproutBillboardBGPaletteMap: ; 0xd7660
-    INCBIN "gfx/billboard/mon_pics/bellsprout_bgpalette_map"
-WeepinbellBillboardBGPaletteMap: ; 0xd7678
-    INCBIN "gfx/billboard/mon_pics/weepinbell_bgpalette_map"
-VictreebellBillboardBGPaletteMap: ; 0xd7690
-    INCBIN "gfx/billboard/mon_pics/victreebell_bgpalette_map"
-TentacoolBillboardBGPaletteMap: ; 0xd76a8
-    INCBIN "gfx/billboard/mon_pics/tentacool_bgpalette_map"
-TentacruelBillboardBGPaletteMap: ; 0xd76c0
-    INCBIN "gfx/billboard/mon_pics/tentacruel_bgpalette_map"
-GeodudeBillboardBGPaletteMap: ; 0xd76d8
-    INCBIN "gfx/billboard/mon_pics/geodude_bgpalette_map"
-GravelerBillboardBGPaletteMap: ; 0xd76f0
-    INCBIN "gfx/billboard/mon_pics/graveler_bgpalette_map"
-GolemBillboardBGPaletteMap: ; 0xd7708
-    INCBIN "gfx/billboard/mon_pics/golem_bgpalette_map"
-PonytaBillboardBGPaletteMap: ; 0xd7720
-    INCBIN "gfx/billboard/mon_pics/ponyta_bgpalette_map"
-RapidashBillboardBGPaletteMap: ; 0xd7738
-    INCBIN "gfx/billboard/mon_pics/rapidash_bgpalette_map"
-SlowpokeBillboardBGPaletteMap: ; 0xd7750
-    INCBIN "gfx/billboard/mon_pics/slowpoke_bgpalette_map"
-SlowbroBillboardBGPaletteMap: ; 0xd7768
-    INCBIN "gfx/billboard/mon_pics/slowbro_bgpalette_map"
+AlakazamBillboardBGPaletteMap: ; 0xd7a00
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+    db $6, $7, $6, $6, $7, $6
+    db $6, $6, $6, $6, $6, $6
+
+MachopBillboardBGPaletteMap: ; 0xd7a18
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $7
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+
+MachokeBillboardBGPaletteMap: ; 0xd7a30
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $7, $7, $6, $6
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+
+MachampBillboardBGPaletteMap: ; 0xd7a48
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $7, $7, $6, $6
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+
+BellsproutBillboardBGPaletteMap: ; 0xd7a60
+    db $6, $6, $6, $6, $7, $7
+    db $6, $7, $7, $6, $7, $7
+    db $6, $7, $7, $6, $6, $7
+    db $6, $6, $6, $6, $7, $7
+
+WeepinbellBillboardBGPaletteMap: ; 0xd7a78
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+    db $7, $7, $7, $6, $6, $6
+    db $7, $7, $7, $6, $6, $6
+
+VictreebellBillboardBGPaletteMap: ; 0xd7a90
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $7, $6, $6, $6
+    db $6, $6, $7, $7, $7, $7
+    db $6, $6, $6, $6, $6, $6
+
+TentacoolBillboardBGPaletteMap: ; 0xd7aa8
+    db $6, $7, $6, $6, $7, $6
+    db $6, $6, $7, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+
+TentacruelBillboardBGPaletteMap: ; 0xd7ac0
+    db $6, $6, $7, $6, $7, $6
+    db $6, $6, $6, $7, $6, $6
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+
+GeodudeBillboardBGPaletteMap: ; 0xd7ad8
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+
+GravelerBillboardBGPaletteMap: ; 0xd7af0
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+
+GolemBillboardBGPaletteMap: ; 0xd7b08
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+    db $6, $7, $7, $6, $6, $6
+    db $6, $7, $7, $6, $6, $6
+
+PonytaBillboardBGPaletteMap: ; 0xd7b20
+    db $7, $7, $7, $7, $7, $7
+    db $7, $7, $7, $6, $6, $7
+    db $6, $6, $6, $6, $6, $7
+    db $6, $6, $6, $6, $6, $6
+
+RapidashBillboardBGPaletteMap: ; 0xd7b38
+    db $7, $7, $7, $7, $7, $6
+    db $7, $7, $7, $6, $7, $6
+    db $7, $7, $6, $6, $6, $6
+    db $7, $7, $6, $6, $6, $6
+
+SlowpokeBillboardBGPaletteMap: ; 0xd7b50
+    db $6, $6, $6, $6, $6, $6
+    db $7, $7, $7, $7, $6, $6
+    db $7, $7, $7, $7, $6, $6
+    db $7, $7, $7, $7, $6, $6
+
+SlowbroBillboardBGPaletteMap: ; 0xd7b68
+    db $7, $7, $7, $7, $7, $7
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
 
 INCBIN "baserom.gbc",$d7b80,$d8000 - $d7b80
 
@@ -43212,37 +43464,100 @@ SECTION "bank36", ROMX, BANK[$36]
 INCBIN "baserom.gbc",$d8000,$d8400 - $d8000
 
 MagnemiteBillboardBGPaletteMap: ; 0xd8400
-    INCBIN "gfx/billboard/mon_pics/magnemite_bgpalette_map"
+    db $7, $7, $6, $6, $6, $6
+    db $7, $7, $6, $6, $6, $7
+    db $6, $6, $6, $6, $6, $7
+    db $6, $6, $6, $6, $6, $6
+
 MagnetonBillboardBGPaletteMap: ; 0xd8418
-    INCBIN "gfx/billboard/mon_pics/magneton_bgpalette_map"
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+
 FarfetchdBillboardBGPaletteMap: ; 0xd8430
-    INCBIN "gfx/billboard/mon_pics/farfetchd_bgpalette_map"
+    db $6, $6, $6, $6, $7, $7
+    db $6, $6, $6, $6, $7, $7
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+
 DoduoBillboardBGPaletteMap: ; 0xd8448
-    INCBIN "gfx/billboard/mon_pics/doduo_bgpalette_map"
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+
 DodrioBillboardBGPaletteMap: ; 0xd8460
-    INCBIN "gfx/billboard/mon_pics/dodrio_bgpalette_map"
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+
 SeelBillboardBGPaletteMap: ; 0xd8478
-    INCBIN "gfx/billboard/mon_pics/seel_bgpalette_map"
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $7, $7, $6
+    db $6, $6, $7, $7, $7, $6
+
 DewgongBillboardBGPaletteMap: ; 0xd8490
-    INCBIN "gfx/billboard/mon_pics/dewgong_bgpalette_map"
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+
 GrimerBillboardBGPaletteMap: ; 0xd84a8
-    INCBIN "gfx/billboard/mon_pics/grimer_bgpalette_map"
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+
 MukBillboardBGPaletteMap: ; 0xd84c0
-    INCBIN "gfx/billboard/mon_pics/muk_bgpalette_map"
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+
 ShellderBillboardBGPaletteMap: ; 0xd84d8
-    INCBIN "gfx/billboard/mon_pics/shellder_bgpalette_map"
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+    db $6, $7, $7, $7, $6, $6
+
 CloysterBillboardBGPaletteMap: ; 0xd84f0
-    INCBIN "gfx/billboard/mon_pics/cloyster_bgpalette_map"
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+
 GastlyBillboardBGPaletteMap: ; 0xd8508
-    INCBIN "gfx/billboard/mon_pics/gastly_bgpalette_map"
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+    db $6, $7, $7, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+
 HaunterBillboardBGPaletteMap: ; 0xd8520
-    INCBIN "gfx/billboard/mon_pics/haunter_bgpalette_map"
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+    db $6, $7, $7, $7, $6, $6
+    db $6, $6, $6, $6, $6, $6
+
 GengarBillboardBGPaletteMap: ; 0xd8538
-    INCBIN "gfx/billboard/mon_pics/gengar_bgpalette_map"
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $7, $6, $7, $6
+    db $6, $6, $6, $6, $6, $6
+
 OnixBillboardBGPaletteMap: ; 0xd8550
-    INCBIN "gfx/billboard/mon_pics/onix_bgpalette_map"
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+
 DrowzeeBillboardBGPaletteMap: ; 0xd8568
-    INCBIN "gfx/billboard/mon_pics/drowzee_bgpalette_map"
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
 
 INCBIN "baserom.gbc",$d8580,$d8c00 - $d8580
 
@@ -43257,37 +43572,100 @@ CopyrightTextGfx: ; 0xda000
 INCBIN "baserom.gbc",$da400,$da800 - $da400
 
 BulbasaurBillboardBGPaletteMap: ; 0xda800
-    INCBIN "gfx/billboard/mon_pics/bulbasaur_bgpalette_map"
+    db $7, $7, $7, $7, $7, $7
+    db $7, $7, $7, $7, $7, $7
+    db $7, $7, $7, $6, $7, $7
+    db $7, $7, $7, $6, $6, $7
+
 IvysaurBillboardBGPaletteMap: ; 0xda818
-    INCBIN "gfx/billboard/mon_pics/ivysaur_bgpalette_map"
+    db $6, $7, $7, $7, $7, $7
+    db $7, $6, $6, $6, $6, $7
+    db $6, $6, $6, $7, $6, $7
+    db $6, $6, $6, $7, $7, $7
+
 VenusaurBillboardBGPaletteMap: ; 0xda830
-    INCBIN "gfx/billboard/mon_pics/venusaur_bgpalette_map"
+    db $7, $7, $6, $7, $7, $7
+    db $7, $7, $7, $7, $7, $7
+    db $7, $6, $6, $6, $6, $7
+    db $7, $7, $6, $6, $6, $7
+
 CharmanderBillboardBGPaletteMap: ; 0xda848
-    INCBIN "gfx/billboard/mon_pics/charmander_bgpalette_map"
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+
 CharmeleonBillboardBGPaletteMap: ; 0xda860
-    INCBIN "gfx/billboard/mon_pics/charmeleon_bgpalette_map"
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+
 CharizardBillboardBGPaletteMap: ; 0xda878
-    INCBIN "gfx/billboard/mon_pics/charizard_bgpalette_map"
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+
 SquirtleBillboardBGPaletteMap: ; 0xda890
-    INCBIN "gfx/billboard/mon_pics/squirtle_bgpalette_map"
+    db $7, $7, $7, $7, $7, $7
+    db $7, $7, $7, $7, $7, $7
+    db $7, $7, $7, $7, $7, $7
+    db $7, $7, $6, $6, $7, $7
+
 WartortleBillboardBGPaletteMap: ; 0xda8a8
-    INCBIN "gfx/billboard/mon_pics/wartortle_bgpalette_map"
+    db $7, $7, $7, $7, $7, $7
+    db $7, $7, $7, $7, $7, $7
+    db $7, $7, $6, $6, $7, $7
+    db $7, $6, $6, $6, $7, $7
+
 BlastoiseBillboardBGPaletteMap: ; 0xda8c0
-    INCBIN "gfx/billboard/mon_pics/blastoise_bgpalette_map"
+    db $6, $6, $6, $6, $7, $7
+    db $6, $7, $7, $7, $7, $7
+    db $6, $6, $7, $7, $7, $7
+    db $7, $7, $7, $7, $7, $7
+
 CaterpieBillboardBGPaletteMap: ; 0xda8d8
-    INCBIN "gfx/billboard/mon_pics/caterpie_bgpalette_map"
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+
 MetapodBillboardBGPaletteMap: ; 0xda8f0
-    INCBIN "gfx/billboard/mon_pics/metapod_bgpalette_map"
+    db $7, $7, $7, $7, $7, $7
+    db $7, $7, $7, $7, $7, $7
+    db $7, $7, $7, $7, $7, $7
+    db $7, $7, $7, $7, $7, $7
+
 ButterfreeBillboardBGPaletteMap: ; 0xda908
-    INCBIN "gfx/billboard/mon_pics/butterfree_bgpalette_map"
+    db $7, $7, $7, $7, $7, $7
+    db $7, $7, $6, $6, $7, $7
+    db $7, $7, $7, $7, $7, $7
+    db $7, $7, $7, $7, $7, $7
+
 WeedleBillboardBGPaletteMap: ; 0xda920
-    INCBIN "gfx/billboard/mon_pics/weedle_bgpalette_map"
+    db $7, $7, $7, $7, $7, $7
+    db $7, $7, $7, $7, $7, $7
+    db $7, $7, $7, $7, $7, $7
+    db $7, $7, $7, $7, $7, $7
+
 KakunaBillboardBGPaletteMap: ; 0xda938
-    INCBIN "gfx/billboard/mon_pics/kakuna_bgpalette_map"
+    db $7, $7, $7, $7, $7, $7
+    db $7, $7, $7, $7, $7, $7
+    db $7, $7, $7, $7, $7, $7
+    db $7, $7, $7, $7, $7, $7
+
 BeedrillBillboardBGPaletteMap: ; 0xda950
-    INCBIN "gfx/billboard/mon_pics/beedrill_bgpalette_map"
+    db $7, $7, $7, $7, $7, $7
+    db $7, $7, $7, $7, $7, $7
+    db $7, $7, $7, $7, $7, $7
+    db $7, $7, $7, $7, $7, $7
+
 PidgeyBillboardBGPaletteMap: ; 0xda968
-    INCBIN "gfx/billboard/mon_pics/pidgey_bgpalette_map"
+    db $7, $7, $7, $7, $7, $7
+    db $7, $7, $7, $7, $7, $7
+    db $7, $7, $7, $7, $7, $7
+    db $7, $7, $7, $7, $7, $7
 
 INCBIN "baserom.gbc",$da980,$dac00 - $da980
 

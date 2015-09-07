@@ -42880,7 +42880,183 @@ VulpixAnimatedPic: ; 0x8ea00
 JigglypuffAnimatedPic: ; 0x8ed00
 	INCBIN "gfx/billboard/mon_animated/jigglypuff.w32.interleave.2bpp"
 
-INCBIN "baserom.gbc",$8f000,$90000 - $8f000 ; 0x8f000
+INCBIN "baserom.gbc",$8f000,$8ff00 - $8f000 ; 0x8f000
+
+PalletTownBillboardBGPalette1: ; 0x8ff00
+    RGB 31, 31, 31
+    RGB 22, 18, 17
+    RGB 0, 19, 0
+    RGB 0, 0, 0
+PalletTownBillboardBGPalette2: ; 0x8ff08
+    RGB 31, 31, 31
+    RGB 24, 9, 3
+    RGB 0, 4, 25
+    RGB 0, 0, 0
+
+ViridianCityBillboardBGPalette1: ; 0x8ff10
+    RGB 31, 31, 31
+    RGB 0, 14, 31
+    RGB 0, 22, 0
+    RGB 0, 0, 0
+ViridianCityBillboardBGPalette2: ; 0x8ff18
+    RGB 31, 31, 31
+    RGB 26, 15, 3
+    RGB 0, 22, 0
+    RGB 0, 0, 0
+
+ViridianForestBillboardBGPalette1: ; 0x8ff20
+    RGB 31, 31, 31
+    RGB 31, 20, 3
+    RGB 2, 16, 1
+    RGB 0, 0, 0
+ViridianForestBillboardBGPalette2: ; 0x8ff28
+    RGB 31, 31, 31
+    RGB 31, 20, 3
+    RGB 24, 6, 0
+    RGB 0, 0, 0
+
+PewterCityBillboardBGPalette1: ; 0x8ff30
+    RGB 31, 31, 31
+    RGB 27, 20, 10
+    RGB 2, 16, 1
+    RGB 0, 0, 0
+PewterCityBillboardBGPalette2: ; 0x8ff38
+    RGB 31, 31, 31
+    RGB 5, 17, 31
+    RGB 26, 3, 1
+    RGB 0, 0, 0
+
+MtMoonBillboardBGPalette1: ; 0x8ff40
+    RGB 31, 28, 2
+    RGB 19, 20, 27
+    RGB 2, 7, 20
+    RGB 0, 0, 0
+MtMoonBillboardBGPalette2: ; 0x8ff48
+    RGB 31, 28, 2
+    RGB 19, 20, 27
+    RGB 2, 7, 20
+    RGB 0, 0, 0
+
+CeruleanCityBillboardBGPalette1: ; 0x8ff50
+    RGB 31, 22, 5
+    RGB 16, 22, 4
+    RGB 1, 15, 0
+    RGB 0, 0, 0
+CeruleanCityBillboardBGPalette2: ; 0x8ff58
+    RGB 31, 31, 31
+    RGB 16, 22, 31
+    RGB 3, 11, 31
+    RGB 0, 0, 0
+
+VermilionSeasideBillboardBGPalette1: ; 0x8ff60
+    RGB 31, 31, 31
+    RGB 8, 20, 31
+    RGB 2, 8, 23
+    RGB 0, 0, 0
+VermilionSeasideBillboardBGPalette2: ; 0x8ff68
+    RGB 31, 31, 31
+    RGB 22, 22, 22
+    RGB 21, 8, 0
+    RGB 0, 0, 0
+
+VermilionStreetsBillboardBGPalette1: ; 0x8ff70
+    RGB 31, 31, 31
+    RGB 20, 22, 25
+    RGB 31, 8, 0
+    RGB 0, 0, 0
+VermilionStreetsBillboardBGPalette2: ; 0x8ff78
+    RGB 31, 31, 31
+    RGB 20, 22, 25
+    RGB 7, 8, 13
+    RGB 0, 0, 0
+
+RockMountainBillboardBGPalette1: ; 0x8ff80
+    RGB 31, 31, 31
+    RGB 27, 13, 4
+    RGB 21, 5, 0
+    RGB 0, 0, 0
+RockMountainBillboardBGPalette2: ; 0x8ff88
+    RGB 3, 18, 31
+    RGB 27, 13, 4
+    RGB 2, 16, 1
+    RGB 0, 0, 0
+
+LavenderTownBillboardBGPalette1: ; 0x8ff90
+    RGB 31, 31, 10
+    RGB 11, 18, 31
+    RGB 2, 6, 19
+    RGB 0, 0, 0
+LavenderTownBillboardBGPalette2: ; 0x8ff98
+    RGB 31, 31, 31
+    RGB 11, 18, 31
+    RGB 2, 6, 19
+    RGB 0, 0, 0
+
+CeladonCityBillboardBGPalette1: ; 0x8ffa0
+    RGB 31, 31, 31
+    RGB 11, 19, 31
+    RGB 29, 8, 4
+    RGB 0, 0, 0
+CeladonCityBillboardBGPalette2: ; 0x8ffa8
+    RGB 31, 31, 31
+    RGB 31, 9, 9
+    RGB 16, 2, 2
+    RGB 0, 0, 0
+
+CyclingRoadBillboardBGPalette1: ; 0x8ffb0
+    RGB 31, 24, 15
+    RGB 11, 21, 5
+    RGB 31, 9, 5
+    RGB 0, 0, 0
+CyclingRoadBillboardBGPalette2: ; 0x8ffb8
+    RGB 31, 22, 13
+    RGB 11, 21, 5
+    RGB 0, 15, 0
+    RGB 0, 0, 0
+
+FuchsiaCityBillboardBGPalette1: ; 0x8ffc0
+    RGB 31, 31, 31
+    RGB 10, 25, 31
+    RGB 26, 3, 1
+    RGB 0, 0, 0
+FuchsiaCityBillboardBGPalette2: ; 0x8ffc8
+    RGB 31, 31, 31
+    RGB 27, 23, 6
+    RGB 28, 6, 3
+    RGB 0, 0, 0
+
+SafariZoneBillboardBGPalette1: ; 0x8ffd0
+    RGB 31, 31, 31
+    RGB 13, 27, 31
+    RGB 4, 19, 27
+    RGB 0, 0, 0
+SafariZoneBillboardBGPalette2: ; 0x8ffd8
+    RGB 29, 21, 17
+    RGB 13, 19, 5
+    RGB 0, 14, 0
+    RGB 0, 0, 0
+
+SaffronCityBillboardBGPalette1: ; 0x8ffe0
+    RGB 31, 31, 31
+    RGB 8, 19, 31
+    RGB 2, 7, 26
+    RGB 0, 0, 0
+SaffronCityBillboardBGPalette2: ; 0x8ffe8
+    RGB 31, 31, 31
+    RGB 27, 28, 1
+    RGB 24, 7, 5
+    RGB 0, 0, 0
+
+SeafoamIslandsBillboardBGPalette1: ; 0x8fff0
+    RGB 24, 27, 30
+    RGB 31, 24, 1
+    RGB 2, 15, 1
+    RGB 0, 0, 0
+SeafoamIslandsBillboardBGPalette2: ; 0x8fff8
+    RGB 24, 27, 30
+    RGB 0, 14, 31
+    RGB 0, 9, 23
+    RGB 0, 0, 0
 
 
 SECTION "bank24", ROMX, BANK[$24]
@@ -42950,7 +43126,21 @@ RhydonPic: ; 0x92d00
 RhydonSilhouettePic: ; 0x92e80
 	INCBIN "gfx/billboard/mon_silhouettes/rhydon.2bpp"
 
-INCBIN "baserom.gbc",$93000,$94000 - $93000 ; 0x93000
+INCBIN "baserom.gbc",$93000,$93c00 - $93000
+
+CinnabarIslandBillboardBGPaletteMap: ; 0x93c00
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $7, $7, $6, $6
+    db $6, $6, $7, $7, $7, $6
+    db $6, $6, $6, $6, $6, $6
+
+IndigoPlateauBillboardBGPaletteMap: ; 0x93c18
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+    db $7, $7, $7, $7, $7, $7
+
+INCBIN "baserom.gbc",$93c39,$94000 - $93c39
 
 
 SECTION "bank25", ROMX, BANK[$25]
@@ -43215,7 +43405,105 @@ PinballMasterballMiniGfx: ; 0xa9600
 PinballBallMiniGfx: ; 0xa9800
     INCBIN "gfx/stage/ball_mini.w32.interleave.2bpp"
 
-INCBIN "baserom.gbc",$a9a00,$abf00 - $a9a00
+INCBIN "baserom.gbc",$a9a00,$abb00 - $a9a00
+
+PaletteTownBillboardBGPaletteMap: ; 0xabb00
+    db $6, $7, $7, $7, $7, $7
+    db $6, $6, $6, $6, $6, $7
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $7, $7, $7, $7
+
+ViridianCityBillboardBGPaletteMap: ; 0xabb18
+    db $6, $6, $6, $6, $7, $6
+    db $6, $6, $6, $6, $7, $6
+    db $7, $7, $7, $7, $7, $6
+    db $7, $7, $7, $7, $7, $6
+
+ViridianForestBillboardBGPaletteMap: ; 0xabb30
+    db $6, $7, $6, $6, $7, $6
+    db $7, $7, $7, $7, $7, $6
+    db $6, $7, $6, $6, $7, $6
+    db $6, $7, $7, $7, $7, $6
+
+PewterCityBillboardBGPaletteMap: ; 0xabb48
+    db $7, $7, $7, $7, $7, $7
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+
+MtMoonBillboardBGPaletteMap: ; 0xabb60
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+
+CeruleanCityBillboardBGPaletteMap: ; 0xabb78
+    db $7, $7, $7, $7, $7, $7
+    db $7, $7, $7, $7, $7, $7
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+
+VermilionSeasideBillboardBGPaletteMap: ; 0xabb90
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+    db $7, $7, $7, $6, $6, $6
+
+VermilionStreetsBillboardBGPaletteMap: ; 0xabba8
+    db $6, $6, $6, $6, $6, $7
+    db $6, $6, $7, $7, $7, $7
+    db $6, $7, $7, $7, $7, $7
+    db $7, $7, $7, $7, $7, $7
+
+RockMountainBillboardBGPaletteMap: ; 0xabbc0
+    db $7, $7, $7, $7, $7, $7
+    db $6, $6, $7, $7, $7, $6
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+
+LavenderTownBillboardBGPaletteMap: ; 0xabbd8
+    db $6, $7, $7, $6, $6, $6
+    db $6, $7, $7, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+
+CeladonCityBillboardBGPaletteMap: ; 0xabbf0
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $7, $7, $7, $7
+    db $6, $6, $7, $7, $7, $7
+
+CyclingRoadBillboardBGPaletteMap: ; 0xabc08
+    db $7, $7, $7, $7, $6, $6
+    db $7, $6, $6, $6, $6, $7
+    db $6, $6, $6, $6, $6, $7
+    db $6, $6, $6, $6, $7, $7
+
+FuchsiaCityBillboardBGPaletteMap: ; 0xabc20
+    db $7, $6, $6, $6, $6, $6
+    db $7, $6, $6, $6, $6, $6
+    db $7, $7, $7, $6, $6, $7
+    db $7, $7, $7, $7, $7, $7
+
+SafariZoneBillboardBGPaletteMap: ; 0xabc38
+    db $6, $6, $6, $6, $6, $6
+    db $7, $7, $7, $7, $7, $7
+    db $7, $7, $7, $7, $7, $7
+    db $7, $7, $7, $7, $7, $7
+
+SaffronCityBillboardBGPaletteMap: ; 0xabc50
+    db $6, $6, $6, $6, $6, $6
+    db $6, $6, $6, $6, $6, $6
+    db $7, $7, $7, $6, $7, $7
+    db $7, $7, $7, $7, $7, $7
+
+SeafoamIslandsBillboardBGPaletteMap: ; 0xabc68
+    db $7, $7, $7, $7, $7, $7
+    db $7, $7, $6, $7, $7, $7
+    db $7, $7, $7, $6, $7, $7
+    db $7, $7, $7, $7, $7, $7
+
+INCBIN "baserom.gbc",$abc80,$abf00 - $abc80
 
 BulbasaurAnimatedObjPalette1: ; 0xabf00
     RGB 31, 31, 31
@@ -46390,7 +46678,29 @@ MewBGPalette2: ; 0xdc768
     RGB 0, 10, 31
     RGB 0, 0, 0
 
-INCBIN "baserom.gbc",$dc770,$dd168 - $dc770
+INCBIN "baserom.gbc",$dc770,$dd148 - $dc770
+
+CinnabarIslandBillboardBGPalette1: ; 0xdd148
+    RGB 31, 31, 31
+    RGB 14, 21, 0
+    RGB 0, 10, 31
+    RGB 0, 0, 0
+CinnabarIslandBillboardBGPalette2: ; 0xdd150
+    RGB 31, 31, 31
+    RGB 14, 21, 0
+    RGB 2, 11, 1
+    RGB 0, 0, 0
+
+IndigoPlateauBillboardBGPalette1: ; 0xdd158
+    RGB 31, 31, 31
+    RGB 11, 18, 31
+    RGB 7, 9, 19
+    RGB 0, 0, 0
+IndigoPlateauBillboardBGPalette2: ; 0xdd160
+    RGB 31, 31, 31
+    RGB 11, 18, 31
+    RGB 9, 20, 0
+    RGB 0, 0, 0
 
 PokeBallObjPalette: ; 0xdd168
     RGB 21, 21, 21

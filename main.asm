@@ -43215,7 +43215,183 @@ PinballMasterballMiniGfx: ; 0xa9600
 PinballBallMiniGfx: ; 0xa9800
     INCBIN "gfx/stage/ball_mini.w32.interleave.2bpp"
 
-INCBIN "baserom.gbc",$a9a00,$ac000 - $a9a00
+INCBIN "baserom.gbc",$a9a00,$abf00 - $a9a00
+
+BulbasaurAnimatedObjPalette1: ; 0xabf00
+    RGB 31, 31, 31
+    RGB 5, 21, 30
+    RGB 1, 3, 22
+    RGB 0, 0, 0
+BulbasaurAnimatedObjPalette2: ; 0xabf08
+    RGB 31, 31, 31
+    RGB 0, 21, 15
+    RGB 0, 12, 6
+    RGB 0, 0, 0
+
+CharmanderAnimatedObjPalette1: ; 0xabf10
+    RGB 31, 31, 31
+    RGB 31, 17, 0
+    RGB 26, 1, 0
+    RGB 0, 0, 0
+CharmanderAnimatedObjPalette2: ; 0xabf18
+    RGB 31, 31, 31
+    RGB 31, 17, 0
+    RGB 26, 1, 0
+    RGB 0, 0, 0
+
+SquirtleAnimatedObjPalette1: ; 0xabf20
+    RGB 31, 31, 31
+    RGB 4, 19, 31
+    RGB 1, 5, 17
+    RGB 0, 0, 0
+SquirtleAnimatedObjPalette2: ; 0xabf28
+    RGB 31, 31, 31
+    RGB 31, 20, 11
+    RGB 14, 9, 3
+    RGB 0, 0, 0
+
+CaterpieAnimatedObjPalette1: ; 0xabf30
+    RGB 31, 31, 31
+    RGB 0, 25, 9
+    RGB 27, 13, 0
+    RGB 0, 0, 0
+CaterpieAnimatedObjPalette2: ; 0xabf38
+    RGB 31, 31, 31
+    RGB 0, 25, 9
+    RGB 27, 13, 0
+    RGB 0, 0, 0
+
+WeedleAnimatedObjPalette1: ; 0xabf40
+    RGB 31, 31, 31
+    RGB 31, 25, 3
+    RGB 25, 9, 7
+    RGB 0, 0, 0
+WeedleAnimatedObjPalette2: ; 0xabf48
+    RGB 31, 31, 31
+    RGB 31, 25, 3
+    RGB 25, 9, 7
+    RGB 0, 0, 0
+
+PidgeyAnimatedObjPalette1: ; 0xabf50
+    RGB 31, 31, 31
+    RGB 31, 20, 11
+    RGB 21, 10, 4
+    RGB 0, 0, 0
+PidgeyAnimatedObjPalette2: ; 0xabf58
+    RGB 31, 31, 31
+    RGB 31, 20, 11
+    RGB 21, 10, 4
+    RGB 0, 0, 0
+
+RattataAnimatedObjPalette1: ; 0xabf60
+    RGB 31, 31, 31
+    RGB 30, 12, 23
+    RGB 20, 4, 8
+    RGB 0, 0, 0
+RattataAnimatedObjPalette2: ; 0xabf68
+    RGB 31, 31, 31
+    RGB 30, 12, 23
+    RGB 20, 4, 8
+    RGB 0, 0, 0
+
+SpearowAnimatedObjPalette1: ; 0xabf70
+    RGB 31, 31, 31
+    RGB 31, 22, 14
+    RGB 24, 4, 2
+    RGB 0, 0, 0
+SpearowAnimatedObjPalette2: ; 0xabf78
+    RGB 31, 31, 31
+    RGB 31, 22, 14
+    RGB 24, 4, 2
+    RGB 0, 0, 0
+
+EkansAnimatedObjPalette1: ; 0xabf80
+    RGB 31, 31, 31
+    RGB 30, 26, 12
+    RGB 20, 7, 12
+    RGB 0, 0, 0
+EkansAnimatedObjPalette2: ; 0xabf88
+    RGB 31, 31, 31
+    RGB 30, 26, 12
+    RGB 20, 7, 12
+    RGB 0, 0, 0
+
+PikachuAnimatedObjPalette1: ; 0xabf90
+    RGB 31, 31, 31
+    RGB 31, 29, 0
+    RGB 23, 10, 0
+    RGB 3, 3, 0
+PikachuAnimatedObjPalette2: ; 0xabf98
+    RGB 31, 31, 31
+    RGB 31, 29, 0
+    RGB 23, 10, 0
+    RGB 3, 3, 0
+
+SandshrewAnimatedObjPalette1: ; 0xabfa0
+    RGB 31, 31, 31
+    RGB 30, 25, 3
+    RGB 19, 11, 0
+    RGB 0, 0, 0
+SandshrewAnimatedObjPalette2: ; 0xabfa8
+    RGB 31, 31, 31
+    RGB 30, 25, 3
+    RGB 19, 11, 0
+    RGB 0, 0, 0
+
+NidoranFAnimatedObjPalette1: ; 0xabfb0
+    RGB 31, 31, 31
+    RGB 19, 23, 30
+    RGB 8, 8, 24
+    RGB 0, 0, 0
+NidoranFAnimatedObjPalette2: ; 0xabfb8
+    RGB 31, 31, 31
+    RGB 19, 23, 30
+    RGB 8, 8, 24
+    RGB 0, 0, 0
+
+NidoranMAnimatedObjPalette1: ; 0xabfc0
+    RGB 31, 31, 31
+    RGB 28, 16, 25
+    RGB 20, 5, 12
+    RGB 0, 0, 0
+NidoranMAnimatedObjPalette2: ; 0xabfc8
+    RGB 31, 31, 31
+    RGB 28, 16, 25
+    RGB 20, 5, 12
+    RGB 0, 0, 0
+
+ClefairyAnimatedObjPalette1: ; 0xabfd0
+    RGB 31, 31, 31
+    RGB 31, 20, 20
+    RGB 23, 5, 6
+    RGB 0, 0, 0
+ClefairyAnimatedObjPalette2: ; 0xabfd8
+    RGB 31, 31, 31
+    RGB 31, 20, 20
+    RGB 23, 5, 6
+    RGB 0, 0, 0
+
+VulpixAnimatedObjPalette1: ; 0xabfe0
+    RGB 31, 31, 31
+    RGB 30, 20, 13
+    RGB 27, 8, 0
+    RGB 0, 0, 0
+VulpixAnimatedObjPalette2: ; 0xabfe8
+    RGB 31, 31, 31
+    RGB 30, 20, 13
+    RGB 27, 8, 0
+    RGB 0, 0, 0
+
+JigglypuffAnimatedObjPalette1: ; 0xabff0
+    RGB 31, 31, 31
+    RGB 31, 18, 18
+    RGB 7, 6, 27
+    RGB 0, 0, 0
+JigglypuffAnimatedObjPalette2: ; 0xabff8
+    RGB 31, 31, 31
+    RGB 31, 18, 18
+    RGB 7, 6, 27
+    RGB 0, 0, 0
 
 
 SECTION "bank2b", ROMX, BANK[$2b]
@@ -44369,7 +44545,535 @@ INCBIN "baserom.gbc",$db000,$db200 - $db000
 TimerDigitsGfx: ; 0xdb200
     INCBIN "gfx/stage/timer_digits.2bpp"
 
-INCBIN "baserom.gbc",$db360,$dba80 - $db360
+INCBIN "baserom.gbc",$db360,$db780 - $db360
+
+ZubatAnimatedObjPalette1: ; 0xdb780
+    RGB 31, 31, 31
+    RGB 15, 19, 31
+    RGB 14, 9, 21
+    RGB 0, 0, 0
+ZubatAnimatedObjPalette2: ; 0xdb3788
+    RGB 31, 31, 31
+    RGB 15, 19, 31
+    RGB 14, 9, 21
+    RGB 0, 0, 0
+
+OddishAnimatedObjPalette1: ; 0xdb790
+    RGB 31, 31, 31
+    RGB 27, 29, 5
+    RGB 5, 16, 0
+    RGB 0, 0, 0
+OddishAnimatedObjPalette2: ; 0xdb798
+    RGB 31, 31, 31
+    RGB 27, 29, 5
+    RGB 5, 16, 0
+    RGB 0, 0, 0
+
+ParasAnimatedObjPalette1: ; 0xdb7a0
+    RGB 31, 31, 31
+    RGB 31, 15, 1
+    RGB 22, 5, 2
+    RGB 0, 0, 0
+ParasAnimatedObjPalette2: ; 0xdb7a8
+    RGB 31, 31, 31
+    RGB 31, 15, 1
+    RGB 22, 5, 2
+    RGB 0, 0, 0
+
+VenonatAnimatedObjPalette1: ; 0xdb7b0
+    RGB 31, 31, 31
+    RGB 24, 15, 28
+    RGB 12, 5, 18
+    RGB 0, 0, 0
+VenonatAnimatedObjPalette2: ; 0xdb7b8
+    RGB 31, 31, 31
+    RGB 24, 15, 28
+    RGB 12, 5, 18
+    RGB 0, 0, 0
+
+DiglettAnimatedObjPalette1: ; 0xdb7c0
+    RGB 31, 31, 31
+    RGB 31, 18, 1
+    RGB 24, 9, 3
+    RGB 0, 0, 0
+DiglettAnimatedObjPalette2: ; 0xdb7c8
+    RGB 31, 31, 31
+    RGB 31, 18, 1
+    RGB 24, 9, 3
+    RGB 0, 0, 0
+
+MeowthAnimatedObjPalette1: ; 0xdb7d0
+    RGB 31, 31, 31
+    RGB 30, 25, 16
+    RGB 23, 12, 6
+    RGB 0, 0, 0
+MeowthAnimatedObjPalette2: ; 0xdb7d8
+    RGB 31, 31, 31
+    RGB 30, 25, 16
+    RGB 23, 12, 6
+    RGB 0, 0, 0
+
+PsyduckAnimatedObjPalette1: ; 0xdb7e0
+    RGB 31, 31, 31
+    RGB 31, 31, 0
+    RGB 19, 17, 0
+    RGB 0, 0, 0
+PsyduckAnimatedObjPalette2: ; 0xdb7e8
+    RGB 31, 31, 31
+    RGB 31, 31, 0
+    RGB 19, 17, 0
+    RGB 0, 0, 0
+
+MankeyAnimatedObjPalette1: ; 0xdb7f0
+    RGB 31, 31, 31
+    RGB 31, 21, 19
+    RGB 23, 8, 4
+    RGB 0, 0, 0
+MankeyAnimatedObjPalette2: ; 0xdb7f8
+    RGB 31, 31, 31
+    RGB 31, 21, 19
+    RGB 23, 8, 4
+    RGB 0, 0, 0
+
+GrowlitheAnimatedObjPalette1: ; 0xdb800
+    RGB 31, 31, 31
+    RGB 31, 18, 1
+    RGB 24, 9, 3
+    RGB 0, 0, 0
+GrowlitheAnimatedObjPalette2: ; 0xdb808
+    RGB 31, 31, 31
+    RGB 31, 18, 1
+    RGB 24, 9, 3
+    RGB 0, 0, 0
+
+PoliwagAnimatedObjPalette1: ; 0xdb810
+    RGB 31, 31, 31
+    RGB 17, 19, 23
+    RGB 9, 10, 12
+    RGB 0, 0, 0
+PoliwagAnimatedObjPalette2: ; 0xdb818
+    RGB 31, 31, 31
+    RGB 17, 19, 23
+    RGB 9, 10, 12
+    RGB 0, 0, 0
+
+AbraAnimatedObjPalette1: ; 0xdb820
+    RGB 31, 31, 31
+    RGB 30, 24, 0
+    RGB 17, 10, 4
+    RGB 0, 0, 0
+AbraAnimatedObjPalette2: ; 0xdb828
+    RGB 31, 31, 31
+    RGB 30, 24, 0
+    RGB 17, 10, 4
+    RGB 0, 0, 0
+
+MachopAnimatedObjPalette1: ; 0xdb830
+    RGB 31, 31, 31
+    RGB 17, 19, 23
+    RGB 9, 10, 12
+    RGB 0, 0, 0
+MachopAnimatedObjPalette2: ; 0xdb838
+    RGB 31, 31, 31
+    RGB 17, 19, 23
+    RGB 9, 10, 12
+    RGB 0, 0, 0
+
+BellsproutAnimatedObjPalette1: ; 0xdb840
+    RGB 31, 31, 31
+    RGB 29, 26, 5
+    RGB 5, 16, 0
+    RGB 0, 0, 0
+BellsproutAnimatedObjPalette2: ; 0xdb848
+    RGB 31, 31, 31
+    RGB 29, 26, 5
+    RGB 5, 16, 0
+    RGB 0, 0, 0
+
+TentacoolAnimatedObjPalette1: ; 0xdb850
+    RGB 31, 31, 31
+    RGB 16, 22, 31
+    RGB 0, 11, 22
+    RGB 0, 0, 0
+TentacoolAnimatedObjPalette2: ; 0xdb858
+    RGB 31, 31, 31
+    RGB 16, 22, 31
+    RGB 0, 11, 22
+    RGB 0, 0, 0
+
+GeodudeAnimatedObjPalette1: ; 0xdb860
+    RGB 31, 31, 31
+    RGB 19, 23, 20
+    RGB 8, 11, 7
+    RGB 0, 0, 0
+GeodudeAnimatedObjPalette2: ; 0xdb868
+    RGB 31, 31, 31
+    RGB 19, 23, 20
+    RGB 8, 11, 7
+    RGB 0, 0, 0
+
+PonytaAnimatedObjPalette1: ; 0xdb870
+    RGB 31, 31, 31
+    RGB 31, 28, 11
+    RGB 31, 6, 0
+    RGB 0, 0, 0
+PonytaAnimatedObjPalette2: ; 0xdb878
+    RGB 31, 31, 31
+    RGB 31, 28, 11
+    RGB 31, 6, 0
+    RGB 0, 0, 0
+
+SlowpokeAnimatedObjPalette1: ; 0xdb880
+    RGB 31, 31, 31
+    RGB 31, 18, 16
+    RGB 31, 11, 9
+    RGB 0, 0, 0
+SlowpokeAnimatedObjPalette2: ; 0xdb888
+    RGB 31, 31, 31
+    RGB 31, 18, 16
+    RGB 31, 11, 9
+    RGB 0, 0, 0
+
+MagnemiteAnimatedObjPalette1: ; 0xdb890
+    RGB 31, 31, 31
+    RGB 17, 19, 23
+    RGB 9, 10, 12
+    RGB 0, 0, 0
+MagnemiteAnimatedObjPalette2: ; 0xdb898
+    RGB 31, 31, 31
+    RGB 17, 19, 23
+    RGB 9, 10, 12
+    RGB 0, 0, 0
+
+FarfetchdAnimatedObjPalette1: ; 0xdb8a0
+    RGB 31, 31, 31
+    RGB 31, 22, 5
+    RGB 19, 11, 4
+    RGB 0, 0, 0
+FarfetchdAnimatedObjPalette2: ; 0xdb8a8
+    RGB 31, 31, 31
+    RGB 31, 22, 5
+    RGB 19, 11, 4
+    RGB 0, 0, 0
+
+DoduoAnimatedObjPalette1: ; 0xdb8b0
+    RGB 31, 31, 31
+    RGB 30, 20, 5
+    RGB 22, 5, 2
+    RGB 0, 0, 0
+DoduoAnimatedObjPalette2: ; 0xdb8b8
+    RGB 31, 31, 31
+    RGB 30, 20, 5
+    RGB 22, 5, 2
+    RGB 0, 0, 0
+
+SeelAnimatedObjPalette1: ; 0xdb8c0
+    RGB 31, 31, 31
+    RGB 20, 24, 29
+    RGB 8, 11, 20
+    RGB 0, 0, 0
+SeelAnimatedObjPalette2: ; 0xdb8c8
+    RGB 31, 31, 31
+    RGB 20, 24, 29
+    RGB 8, 11, 20
+    RGB 0, 0, 0
+
+GrimerAnimatedObjPalette1: ; 0xdb8d0
+    RGB 31, 31, 31
+    RGB 27, 15, 31
+    RGB 16, 7, 19
+    RGB 0, 0, 0
+GrimerAnimatedObjPalette2: ; 0xdb8d8
+    RGB 31, 31, 31
+    RGB 27, 15, 31
+    RGB 16, 7, 19
+    RGB 0, 0, 0
+
+ShellderAnimatedObjPalette1: ; 0xdb8e0
+    RGB 31, 31, 31
+    RGB 26, 19, 29
+    RGB 15, 11, 17
+    RGB 0, 0, 0
+ShellderAnimatedObjPalette2: ; 0xdb8e8
+    RGB 31, 31, 31
+    RGB 26, 19, 29
+    RGB 15, 11, 17
+    RGB 0, 0, 0
+
+GastlyAnimatedObjPalette1: ; 0xdb8f0
+    RGB 31, 31, 31
+    RGB 25, 17, 28
+    RGB 12, 7, 15
+    RGB 0, 0, 0
+GastlyAnimatedObjPalette2: ; 0xdb8f8
+    RGB 31, 31, 31
+    RGB 31, 23, 17
+    RGB 23, 8, 4
+    RGB 0, 0, 0
+
+OnixAnimatedObjPalette1: ; 0xdb900
+    RGB 31, 31, 31
+    RGB 17, 19, 23
+    RGB 9, 10, 12
+    RGB 0, 0, 0
+OnixAnimatedObjPalette2: ; 0xdb908
+    RGB 31, 31, 31
+    RGB 17, 19, 23
+    RGB 9, 10, 12
+    RGB 0, 0, 0
+
+DrowzeeAnimatedObjPalette1: ; 0xdb910
+    RGB 31, 31, 31
+    RGB 30, 24, 0
+    RGB 17, 10, 4
+    RGB 0, 0, 0
+DrowzeeAnimatedObjPalette2: ; 0xdb918
+    RGB 31, 31, 31
+    RGB 30, 24, 0
+    RGB 17, 10, 4
+    RGB 0, 0, 0
+
+KrabbyAnimatedObjPalette1: ; 0xdb920
+    RGB 31, 31, 31
+    RGB 31, 20, 8
+    RGB 28, 6, 0
+    RGB 0, 0, 0
+KrabbyAnimatedObjPalette2: ; 0xdb928
+    RGB 31, 31, 31
+    RGB 31, 20, 8
+    RGB 28, 6, 0
+    RGB 0, 0, 0
+
+VoltorbAnimatedObjPalette1: ; 0xdb930
+    RGB 31, 31, 31
+    RGB 31, 17, 14
+    RGB 31, 0, 0
+    RGB 0, 0, 0
+VoltorbAnimatedObjPalette2: ; 0xdb938
+    RGB 31, 31, 31
+    RGB 31, 17, 14
+    RGB 31, 0, 0
+    RGB 0, 0, 0
+
+ExeggcuteAnimatedObjPalette1: ; 0xdb940
+    RGB 31, 31, 31
+    RGB 31, 17, 16
+    RGB 20, 8, 5
+    RGB 0, 0, 0
+ExeggcuteAnimatedObjPalette2: ; 0xdb948
+    RGB 31, 31, 31
+    RGB 31, 17, 16
+    RGB 20, 8, 5
+    RGB 0, 0, 0
+
+CuboneAnimatedObjPalette1: ; 0xdb950
+    RGB 31, 31, 31
+    RGB 30, 15, 5
+    RGB 18, 9, 4
+    RGB 0, 0, 0
+CuboneAnimatedObjPalette2: ; 0xdb958
+    RGB 31, 31, 31
+    RGB 20, 22, 29
+    RGB 13, 8, 6
+    RGB 0, 0, 0
+
+HitmonleeAnimatedObjPalette1: ; 0xdb960
+    RGB 31, 31, 31
+    RGB 26, 13, 7
+    RGB 16, 10, 7
+    RGB 0, 0, 0
+HitmonleeAnimatedObjPalette2: ; 0xdb968
+    RGB 31, 31, 31
+    RGB 26, 13, 7
+    RGB 16, 10, 7
+    RGB 0, 0, 0
+
+HitmonchanAnimatedObjPalette1: ; 0xdb970
+    RGB 31, 31, 31
+    RGB 27, 17, 10
+    RGB 24, 4, 2
+    RGB 0, 0, 0
+HitmonchanAnimatedObjPalette2: ; 0xdb978
+    RGB 31, 31, 31
+    RGB 27, 17, 10
+    RGB 24, 4, 2
+    RGB 0, 0, 0
+
+LickitungAnimatedObjPalette1: ; 0xdb980
+    RGB 31, 31, 31
+    RGB 31, 18, 16
+    RGB 31, 11, 9
+    RGB 0, 0, 0
+LickitungAnimatedObjPalette2: ; 0xdb988
+    RGB 31, 31, 31
+    RGB 31, 18, 16
+    RGB 31, 11, 9
+    RGB 0, 0, 0
+
+KoffingAnimatedObjPalette1: ; 0xdb990
+    RGB 31, 31, 31
+    RGB 26, 19, 29
+    RGB 15, 11, 17
+    RGB 0, 0, 0
+KoffingAnimatedObjPalette2: ; 0xdb998
+    RGB 31, 31, 31
+    RGB 26, 19, 29
+    RGB 15, 11, 17
+    RGB 0, 0, 0
+
+RhyhornAnimatedObjPalette1: ; 0xdb9a0
+    RGB 31, 31, 31
+    RGB 26, 13, 24
+    RGB 15, 4, 14
+    RGB 0, 0, 0
+RhyhornAnimatedObjPalette2: ; 0xdb9a8
+    RGB 31, 31, 31
+    RGB 26, 13, 24
+    RGB 15, 4, 14
+    RGB 0, 0, 0
+
+ChanseyAnimatedObjPalette1: ; 0xdb9b0
+    RGB 31, 31, 31
+    RGB 31, 18, 16
+    RGB 31, 11, 9
+    RGB 0, 0, 0
+ChanseyAnimatedObjPalette2: ; 0xdb9b8
+    RGB 31, 31, 31
+    RGB 31, 18, 16
+    RGB 31, 11, 9
+    RGB 0, 0, 0
+
+TangelaAnimatedObjPalette1: ; 0xdb9c0
+    RGB 31, 31, 31
+    RGB 13, 19, 31
+    RGB 1, 6, 20
+    RGB 0, 0, 0
+TangelaAnimatedObjPalette2: ; 0xdb9c8
+    RGB 31, 31, 31
+    RGB 13, 19, 31
+    RGB 1, 6, 20
+    RGB 0, 0, 0
+
+KangaskhanAnimatedObjPalette1: ; 0xdb9d0
+    RGB 31, 31, 31
+    RGB 28, 21, 11
+    RGB 16, 10, 5
+    RGB 0, 0, 0
+KangaskhanAnimatedObjPalette2: ; 0xdb9d8
+    RGB 31, 31, 31
+    RGB 28, 21, 11
+    RGB 16, 10, 5
+    RGB 0, 0, 0
+
+HorseaAnimatedObjPalette1: ; 0xdb9e0
+    RGB 31, 31, 31
+    RGB 13, 19, 31
+    RGB 1, 6, 20
+    RGB 0, 0, 0
+HorseaAnimatedObjPalette2: ; 0xdb9e8
+    RGB 31, 31, 31
+    RGB 13, 19, 31
+    RGB 1, 6, 20
+    RGB 0, 0, 0
+
+GoldeenAnimatedObjPalette1: ; 0xdb9f0
+    RGB 31, 31, 31
+    RGB 31, 18, 16
+    RGB 29, 0, 0
+    RGB 0, 0, 0
+GoldeenAnimatedObjPalette2: ; 0xdb9f8
+    RGB 31, 31, 31
+    RGB 31, 18, 16
+    RGB 29, 0, 0
+    RGB 0, 0, 0
+
+StaryuAnimatedObjPalette1: ; 0xdba00
+    RGB 31, 31, 31
+    RGB 31, 22, 5
+    RGB 19, 7, 1
+    RGB 0, 0, 0
+StaryuAnimatedObjPalette2: ; 0xdba08
+    RGB 31, 31, 31
+    RGB 31, 22, 5
+    RGB 19, 7, 1
+    RGB 0, 0, 0
+
+MrMimeAnimatedObjPalette1: ; 0xdba10
+    RGB 31, 31, 31
+    RGB 31, 18, 16
+    RGB 29, 0, 0
+    RGB 0, 0, 0
+MrMimeAnimatedObjPalette2: ; 0xdba18
+    RGB 31, 31, 31
+    RGB 31, 18, 16
+    RGB 29, 0, 0
+    RGB 0, 0, 0
+
+ScytherAnimatedObjPalette1: ; 0xdba20
+    RGB 31, 31, 31
+    RGB 22, 29, 5
+    RGB 6, 17, 1
+    RGB 0, 0, 0
+ScytherAnimatedObjPalette2: ; 0xdba28
+    RGB 31, 31, 31
+    RGB 22, 29, 5
+    RGB 6, 17, 1
+    RGB 0, 0, 0
+
+JynxAnimatedObjPalette1: ; 0xdba30
+    RGB 31, 31, 31
+    RGB 31, 16, 16
+    RGB 25, 1, 3
+    RGB 0, 0, 0
+JynxAnimatedObjPalette2: ; 0xdba38
+    RGB 31, 31, 31
+    RGB 31, 16, 16
+    RGB 25, 1, 3
+    RGB 0, 0, 0
+
+ElectabuzzAnimatedObjPalette1: ; 0xdba40
+    RGB 31, 31, 31
+    RGB 31, 30, 0
+    RGB 21, 14, 1
+    RGB 0, 0, 0
+ElectabuzzAnimatedObjPalette2: ; 0xdba48
+    RGB 31, 31, 31
+    RGB 31, 30, 0
+    RGB 21, 14, 1
+    RGB 0, 0, 0
+
+MagmarAnimatedObjPalette1: ; 0xdba50
+    RGB 31, 31, 31
+    RGB 31, 23, 2
+    RGB 31, 3, 0
+    RGB 0, 0, 0
+MagmarAnimatedObjPalette2: ; 0xdba58
+    RGB 31, 31, 31
+    RGB 31, 23, 2
+    RGB 31, 3, 0
+    RGB 0, 0, 0
+
+PinsirAnimatedObjPalette1: ; 0xdba60
+    RGB 31, 31, 31
+    RGB 28, 20, 13
+    RGB 17, 12, 6
+    RGB 0, 0, 0
+PinsirAnimatedObjPalette2: ; 0xdba68
+    RGB 31, 31, 31
+    RGB 28, 20, 13
+    RGB 17, 12, 6
+    RGB 0, 0, 0
+
+TaurosAnimatedObjPalette1: ; 0xdba70
+    RGB 31, 31, 31
+    RGB 31, 21, 5
+    RGB 20, 9, 3
+    RGB 0, 0, 0
+TaurosAnimatedObjPalette2: ; 0xdba78
+    RGB 31, 31, 31
+    RGB 31, 21, 5
+    RGB 20, 9, 3
+    RGB 0, 0, 0
 
 PidgeottoBillboardBGPalette1: ; 0xdba80
     RGB 31, 31, 31
@@ -44550,7 +45254,174 @@ NidoranMBillboardBGPalette2: ; 0xdbb78
 StageRedFieldTopGfx6: ; 0xdbb80
     INCBIN "gfx/stage/red_top/red_top_6.2bpp"
 
-INCBIN "baserom.gbc",$dbbc0,$dc000 - $dbbc0
+INCBIN "baserom.gbc",$dbbc0,$dbd80 - $dbbc0
+
+MagikarpAnimatedObjPalette1: ; 0xdbd80
+    RGB 31, 31, 31
+    RGB 31, 16, 10
+    RGB 28, 6, 0
+    RGB 0, 0, 0
+MagikarpAnimatedObjPalette2: ; 0xdbd88
+    RGB 31, 31, 31
+    RGB 31, 16, 10
+    RGB 28, 6, 0
+    RGB 0, 0, 0
+
+LaprasAnimatedObjPalette1: ; 0xdbd90
+    RGB 31, 31, 31
+    RGB 11, 22, 31
+    RGB 0, 10, 30
+    RGB 0, 0, 0
+LaprasAnimatedObjPalette2: ; 0xdbd98
+    RGB 31, 31, 31
+    RGB 11, 22, 31
+    RGB 0, 10, 30
+    RGB 0, 0, 0
+
+DittoAnimatedObjPalette1: ; 0xdbda0
+    RGB 31, 31, 31
+    RGB 25, 18, 28
+    RGB 15, 7, 16
+    RGB 0, 0, 0
+DittoAnimatedObjPalette2: ; 0xdbda8
+    RGB 31, 31, 31
+    RGB 25, 18, 28
+    RGB 15, 7, 16
+    RGB 0, 0, 0
+
+EeveeAnimatedObjPalette1: ; 0xdbdb0
+    RGB 31, 31, 31
+    RGB 29, 20, 10
+    RGB 17, 9, 4
+    RGB 0, 0, 0
+EeveeAnimatedObjPalette2: ; 0xdbdb8
+    RGB 31, 31, 31
+    RGB 29, 20, 10
+    RGB 17, 9, 4
+    RGB 0, 0, 0
+
+PorygonAnimatedObjPalette1: ; 0xdbdc0
+    RGB 31, 31, 31
+    RGB 29, 8, 20
+    RGB 0, 0, 31
+    RGB 0, 0, 0
+PorygonAnimatedObjPalette2: ; 0xdbdc8
+    RGB 31, 31, 31
+    RGB 29, 8, 20
+    RGB 0, 0, 31
+    RGB 0, 0, 0
+
+OmanyteAnimatedObjPalette1: ; 0xdbdd0
+    RGB 31, 31, 31
+    RGB 13, 18, 31
+    RGB 1, 6, 20
+    RGB 0, 0, 0
+OmanyteAnimatedObjPalette2: ; 0xdbdd8
+    RGB 31, 31, 31
+    RGB 13, 18, 31
+    RGB 1, 6, 20
+    RGB 0, 0, 0
+
+KabutoAnimatedObjPalette1: ; 0xdbde0
+    RGB 31, 31, 31
+    RGB 29, 21, 6
+    RGB 20, 7, 1
+    RGB 0, 0, 0
+KabutoAnimatedObjPalette2: ; 0xdbde8
+    RGB 31, 31, 31
+    RGB 29, 21, 6
+    RGB 20, 7, 1
+    RGB 0, 0, 0
+
+AerodactylAnimatedObjPalette1: ; 0xdbdf0
+    RGB 31, 31, 31
+    RGB 25, 20, 29
+    RGB 10, 8, 17
+    RGB 0, 0, 0
+AerodactylAnimatedObjPalette2: ; 0xdbdf8
+    RGB 31, 31, 31
+    RGB 25, 20, 29
+    RGB 10, 8, 17
+    RGB 0, 0, 0
+
+SnorlaxAnimatedObjPalette1: ; 0xdbe00
+    RGB 31, 31, 31
+    RGB 31, 25, 9
+    RGB 17, 7, 2
+    RGB 0, 0, 0
+SnorlaxAnimatedObjPalette2: ; 0xdbe08
+    RGB 31, 31, 31
+    RGB 31, 25, 9
+    RGB 17, 7, 2
+    RGB 0, 0, 0
+
+ArticunoAnimatedObjPalette1: ; 0xdbe10
+    RGB 31, 31, 31
+    RGB 11, 22, 31
+    RGB 0, 4, 31
+    RGB 0, 0, 0
+ArticunoAnimatedObjPalette2: ; 0xdbe18
+    RGB 31, 31, 31
+    RGB 11, 22, 31
+    RGB 0, 4, 31
+    RGB 0, 0, 0
+
+ZapdosAnimatedObjPalette1: ; 0xdbe20
+    RGB 31, 31, 31
+    RGB 31, 29, 0
+    RGB 22, 7, 3
+    RGB 0, 0, 0
+ZapdosAnimatedObjPalette2: ; 0xdbe28
+    RGB 31, 31, 31
+    RGB 31, 29, 0
+    RGB 22, 7, 3
+    RGB 0, 0, 0
+
+MoltresAnimatedObjPalette1: ; 0xdbe30
+    RGB 31, 31, 31
+    RGB 31, 26, 0
+    RGB 31, 3, 0
+    RGB 0, 0, 0
+MoltresAnimatedObjPalette2: ; 0xdbe38
+    RGB 31, 31, 31
+    RGB 31, 26, 0
+    RGB 31, 3, 0
+    RGB 0, 0, 0
+
+DratiniAnimatedObjPalette1: ; 0xdbe40
+    RGB 31, 31, 31
+    RGB 20, 22, 31
+    RGB 6, 8, 18
+    RGB 0, 0, 0
+DratiniAnimatedObjPalette2: ; 0xdbe48
+    RGB 31, 31, 31
+    RGB 20, 22, 31
+    RGB 6, 8, 18
+    RGB 0, 0, 0
+
+MewtwoAnimatedObjPalette1: ; 0xdbe50
+    RGB 31, 31, 31
+    RGB 31, 19, 27
+    RGB 23, 8, 17
+    RGB 0, 0, 0
+MewtwoAnimatedObjPalette2: ; 0xdbe58
+    RGB 31, 31, 31
+    RGB 31, 19, 27
+    RGB 23, 8, 17
+    RGB 0, 0, 0
+
+MewAnimatedObjPalette1: ; 0xdbe60
+    RGB 31, 31, 31
+    RGB 31, 19, 27
+    RGB 23, 8, 17
+    RGB 0, 0, 0
+MewAnimatedObjPalette2: ; 0xdbe68
+    RGB 31, 31, 31
+    RGB 31, 19, 27
+    RGB 23, 8, 17
+    RGB 0, 0, 0
+
+INCBIN "baserom.gbc",$dbe70,$dc000 - $dbe70
 
 
 SECTION "bank37", ROMX, BANK[$37]

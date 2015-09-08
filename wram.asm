@@ -214,7 +214,14 @@ wNumMonHits:: ; 0xd5c0
 ; Number of times the wild pokemon has been hit in Catch'em mode
     ds 1
 
-    ds $128
+    ds $6e
+
+; Number of times the Mewtwo Bonus stage has been defeated.
+; Counts up at most to 2, and is reset if Mew is encountered.
+wNumMewtwoBonusCompletions:: ; 0xd62f
+    ds 1
+
+    ds $b9
 
 wMeowthAnimationFrameCounter:: ; 0xd6e9
 ; Counts down. When it hits 0, the next animation frame happens.

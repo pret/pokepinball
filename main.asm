@@ -13770,7 +13770,7 @@ Func_dbba: ; 0xdbba
     ld [$d4a5], a
     ret
 
-Func_dbd4: ; 0xdbd4
+InitBallSaverForCatchEmMode: ; 0xdbd4
     ld a, [wBallSaverTimerFrames]
     ld [wBallSaverTimerFramesBackup], a
     ld a, [wBallSaverTimerSeconds]
@@ -13781,9 +13781,9 @@ Func_dbd4: ; 0xdbd4
     ld [wBallSaverIconOn], a
     ld a, $ff
     ld [$d4a2], a
-    ld a, $3b
+    ld a, 59
     ld [wBallSaverTimerFrames], a
-    ld a, $3c
+    ld a, 60
     ld [wBallSaverTimerSeconds], a
     ld a, $ff
     ld [$d4a5], a
@@ -18032,7 +18032,7 @@ StartCatchEmMode: ; 0x1003f
     add hl, bc
     call GenRandom
     and $f
-    call Func_10130
+    call CheckForMew
     ld c, a
     ld b, $0
     add hl, bc
@@ -18103,8 +18103,8 @@ StartCatchEmMode: ; 0x1003f
     ld hl, StartTimer
     call BankSwitch
     ld [$ff8a], a
-    ld a, Bank(Func_dbd4)
-    ld hl, Func_dbd4
+    ld a, Bank(InitBallSaverForCatchEmMode)
+    ld hl, InitBallSaverForCatchEmMode
     call BankSwitch
     call Func_10696
     call Func_3579
@@ -18142,25 +18142,30 @@ CallTable_10124: ; 0x10124
     ; STAGE_BLUE_FIELD_BOTTOM
     dw Func_1098c
 
-Func_10130:  ; I think this checks to see if it should be Mew
+CheckForMew:
+; Sets the encountered mon to Mew if the following conditions are met:
+;   1. Random number in register a equals $f
+;   2. The current map is Indigo Plateu (it does a roundabout way of checking this)
+;   3. The right alley has been hit three times
+;   4. The Mewtwo Bonus Stage completion counter equals 2.
     push af
-    cp $f
+    cp $f  ; random number equals $f
     jr nz, .asm_10155
     ld a, c
-    cp $60
+    cp $60  ; check if low-byte of map mons offset is Indigo Plateau
     jr nz, .asm_10155
     ld a, b
-    cp $1
+    cp $1  ; check if high-byte of map mons offset is Indigo Plateau
     jr nz, .asm_10155
     ld a, [wRareMonsFlag]
     cp $8
     jr nz, .asm_10155
-    ld a, [$d62f]
+    ld a, [wNumMewtwoBonusCompletions]
     cp $2
     jr nz, .asm_10155
     pop af
     xor a
-    ld [$d62f], a
+    ld [wNumMewtwoBonusCompletions], a
     ld a, $10
     ret
 .asm_10155
@@ -19830,8 +19835,8 @@ Func_10d1d: ; 0x10d1d
     dec b
     jr nz, .asm_10dc0
     ld [$ff8a], a
-    ld a, Bank(Func_dbd4)
-    ld hl, Func_dbd4
+    ld a, Bank(InitBallSaverForCatchEmMode)
+    ld hl, InitBallSaverForCatchEmMode
     call BankSwitch
     call Func_10b3f
     call Func_3579
@@ -26882,11 +26887,11 @@ Func_19638: ; 0x19638
     ld [$d6b3], a
     ld a, [$d499]
     ld [$d498], a
-    ld a, [$d62f]
-    cp $2
+    ld a, [wNumMewtwoBonusCompletions]
+    cp $2  ; only counts up to 2. Gets reset to 0 when Mew is encountered in Catch 'Em Mode.
     jr z, .asm_1965e
     inc a
-    ld [$d62f], a
+    ld [wNumMewtwoBonusCompletions], a
 .asm_1965e
     ld a, $1
     ld [$d49a], a

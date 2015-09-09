@@ -221,7 +221,17 @@ wNumMonHits:: ; 0xd5c0
 wNumMewtwoBonusCompletions:: ; 0xd62f
     ds 1
 
-    ds $b9
+    ds $e
+
+wBlueStageForceFieldDirection:: ; 0xd63e
+; Controls the direction of the arrow force field in between Cloyster and Slowpoke in the Blue Stage.
+; $0 = up
+; $1 = right
+; $2 = down
+; $3 = left
+    ds 1
+
+    ds $aa
 
 wMeowthAnimationFrameCounter:: ; 0xd6e9
 ; Counts down. When it hits 0, the next animation frame happens.

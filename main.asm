@@ -28209,12 +28209,12 @@ Func_1c1db: ; 0x1c1db
     ld [$d640], a
     ld a, $0
     ld [$d641], a
-    ld a, [$d63e]
-    cp $2
+    ld a, [wBlueStageForceFieldDirection]
+    cp $2  ; down direction
     ret nz
     ld a, $0
-    ld [$d63e], a
-    ld a, $1
+    ld [wBlueStageForceFieldDirection], a
+    ld a, $1  ; right direction
     ld [$d64a], a
     xor a
     ld [$d649], a
@@ -29035,10 +29035,10 @@ Func_1c8b6: ; 0x1c8b6
     ld [$d64a], a
     ld [$d649], a
     ld [$d648], a
-    ld a, [$d63e]
-    cp $1
+    ld a, [wBlueStageForceFieldDirection]
+    cp $1  ; right direction
     jr z, .asm_1c97f
-    cp $3
+    cp $3  ; left direction
     jr z, .asm_1c97f
 .asm_1c915
     ld a, [$d644]
@@ -29059,8 +29059,8 @@ Func_1c8b6: ; 0x1c8b6
     ld a, [$d64b]
     cp $1
     jr z, .asm_1c947
-    ld a, $1
-    ld [$d63e], a
+    ld a, $1  ; right direction
+    ld [wBlueStageForceFieldDirection], a
     ld [$d64b], a
     ld [$d640], a
     jr .asm_1c99e
@@ -29085,8 +29085,8 @@ Func_1c8b6: ; 0x1c8b6
     ld a, [$d64b]
     cp $3
     jr z, .asm_1c915
-    ld a, $3
-    ld [$d63e], a
+    ld a, $3  ; left direction
+    ld [wBlueStageForceFieldDirection], a
     ld [$d64b], a
     ld a, $1
     ld [$d640], a
@@ -29096,20 +29096,20 @@ Func_1c8b6: ; 0x1c8b6
     and a
     jr nz, .asm_1c993
     xor a
-    ld [$d63e], a
+    ld [wBlueStageForceFieldDirection], a
     ld a, $1
     ld [$d640], a
     ld [$d64a], a
     jr .asm_1c99e
 .asm_1c993
-    ld a, $2
-    ld [$d63e], a
+    ld a, $2  ; down direction
+    ld [wBlueStageForceFieldDirection], a
     ld a, $1
     ld [$d640], a
     ret
 .asm_1c99e
-    ld a, [$d63e]
-    cp $0
+    ld a, [wBlueStageForceFieldDirection]
+    cp $0  ; up direction
     jr nz, .asm_1c9ac
     ld a, $1
     ld [$d64a], a
@@ -29140,11 +29140,11 @@ Func_1c9c1: ; 0x1c9c1
     jr nz, .asm_1c9f2
     ld a, $1
     ld [$d641], a
-    ld a, [$d63e]
-    cp $0
+    ld a, [wBlueStageForceFieldDirection]
+    cp $0  ; up direction
     jr nz, .asm_1c9f2
-    ld a, $2
-    ld [$d63e], a
+    ld a, $2  ; down direction
+    ld [wBlueStageForceFieldDirection], a
     ld a, $1
     ld [$d640], a
     ld a, $3
@@ -29830,8 +29830,8 @@ Func_1d216: ; 0x1d216
     ld [$d64d], a
     ld a, $1
     ld [$d641], a
-    ld a, $2
-    ld [$d63e], a
+    ld a, $2  ; down direction
+    ld [wBlueStageForceFieldDirection], a
     ld a, $1
     ld [$d640], a
     ret
@@ -29942,8 +29942,8 @@ HandleEnteringCloyster: ; 0x1d32d
     ld [$d64d], a
     ld a, $1
     ld [$d641], a
-    ld a, $2
-    ld [$d63e], a
+    ld a, $2  ; down direction
+    ld [wBlueStageForceFieldDirection], a
     ld a, $1
     ld [$d640], a
     ret
@@ -31786,15 +31786,18 @@ Func_1eb41: ; 0x1eb41
 INCBIN "baserom.gbc",$1eb61,$1ef09 - $1eb61
 
 Func_1ef09: ; 0x1ef09
-    ld a, [$d63e]
-    cp $0
+    ld a, [wBlueStageForceFieldDirection]
+    cp $0  ; up direction
     jp z, Func_1ef20
-    cp $1
+    cp $1  ; right direction
     jp z, Func_1ef4d
-    cp $2
+    cp $2  ; down direction
     jp z, Func_1ef7e
-    cp $3
+    cp $3  ; left direction
     jp z, Func_1efae
+
+    ; fall through
+    ; default to upward forcefield
 
 Func_1ef20: ; 0x1ef20
     ld a, [wBallYPos + 1]
@@ -31913,16 +31916,18 @@ Func_1efae: ; 0x1efae
     add hl, bc
     ; fall through
 Func_1efdc: ; 0x1efdc
-    ld a, [$d63e]
-    cp $0
+    ld a, [wBlueStageForceFieldDirection]
+    cp $0  ; up direction
     jp z, Func_1eff3
-    cp $1
+    cp $1  ; right direction
     jp z, Func_1f0be
-    cp $2
+    cp $2  ; down direction
     jp z, Func_1f057
-    cp $3
+    cp $3  ; left direction
     jp z, Func_1f124
+
     ; fall through
+    ; default to upward forcefield
 
 Func_1eff3:  ; 0x1eff3
     ld bc, $4000
@@ -32226,7 +32231,7 @@ Func_1f18a: ; 0x1f18a
     ld a, [$d640]
     cp $0
     jr z, .asm_1f1b4
-    ld a, [$d63e]
+    ld a, [wBlueStageForceFieldDirection]
     sla a
     ld c, a
     ld b, $0

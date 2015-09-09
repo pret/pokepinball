@@ -4195,7 +4195,9 @@ Func_1ed4: ; 0x1ed4
 
 INCBIN "baserom.gbc",$1ed9,$1f0b - $1ed9
 
-Func_1f0b: ; 0x1f0b
+LoadOAMData2: ; 0x1f0b
+; This function loads OAM data, but it adds b and c to the x and y values
+; input:  a = OAM data id (see OAMDataPointers2)
     push bc
     push de
     push hl
@@ -4205,14 +4207,14 @@ Func_1f0b: ; 0x1f0b
     rl d
     ld a, [hLoadedROMBank]
     push af
-    ld a, $1
+    ld a, Bank(OAMDataPointers2)
     ld [hLoadedROMBank], a
     ld [$2000], a
-    ld hl, $55d7
+    ld hl, OAMDataPointers2
     jr asm_1f3b
 
 LoadOAMData: ; 0x1f24
-; This function loads OAM data, but it adds b and c to the x and y values for some reason.
+; This function loads OAM data, but it adds b and c to the x and y values
 ; input:  a = OAM data id (see OAMDataPointers)
     push bc
     push de
@@ -8695,7 +8697,1245 @@ OAMData_f8: ; 0x55d2
     db $10, $08, $78, $00
     db $80 ; terminator
 
-INCBIN "baserom.gbc",$55d7,$8000 - $55d7 ; 0x55d7
+OAMDataPointers2: ; 0x55d7
+    dw OAMData2_0
+    dw OAMData2_1
+    dw OAMData2_2
+    dw OAMData2_3
+    dw OAMData2_4
+    dw OAMData2_5
+    dw OAMData2_6
+    dw OAMData2_7
+    dw OAMData2_8
+    dw OAMData2_9
+    dw OAMData2_a
+    dw OAMData2_b
+    dw OAMData2_c
+    dw OAMData2_d
+    dw OAMData2_e
+    dw OAMData2_f
+    dw OAMData2_10
+    dw OAMData2_11
+    dw OAMData2_12
+    dw OAMData2_13
+    dw OAMData2_14
+    dw OAMData2_15
+    dw OAMData2_16
+    dw OAMData2_17
+    dw OAMData2_18
+    dw OAMData2_19
+    dw OAMData2_1a
+    dw OAMData2_1b
+    dw OAMData2_1c
+    dw OAMData2_1d
+    dw OAMData2_1e
+    dw OAMData2_1f
+    dw OAMData2_20
+    dw OAMData2_21
+    dw OAMData2_22
+    dw OAMData2_23
+    dw OAMData2_24
+    dw OAMData2_25
+    dw OAMData2_26
+    dw OAMData2_27
+    dw OAMData2_28
+    dw OAMData2_29
+    dw OAMData2_2a
+    dw OAMData2_2b
+    dw OAMData2_2c
+    dw OAMData2_2d
+    dw OAMData2_2e
+    dw OAMData2_2f
+    dw OAMData2_30
+    dw OAMData2_31
+    dw OAMData2_32
+    dw OAMData2_33
+    dw OAMData2_34
+    dw OAMData2_35
+    dw OAMData2_36
+    dw OAMData2_37
+    dw OAMData2_38
+    dw OAMData2_39
+    dw OAMData2_3a
+    dw OAMData2_3b
+    dw OAMData2_3c
+    dw OAMData2_3d
+    dw OAMData2_3e
+    dw OAMData2_3f
+    dw OAMData2_40
+    dw OAMData2_41
+    dw OAMData2_42
+    dw OAMData2_43
+    dw OAMData2_44
+    dw OAMData2_45
+    dw OAMData2_46
+    dw OAMData2_47
+    dw OAMData2_48
+    dw OAMData2_49
+    dw OAMData2_4a
+    dw OAMData2_4b
+    dw OAMData2_4c
+    dw OAMData2_4d
+    dw OAMData2_4e
+    dw OAMData2_4f
+    dw OAMData2_50
+    dw OAMData2_51
+    dw OAMData2_52
+    dw OAMData2_53
+    dw OAMData2_54
+    dw OAMData2_55
+    dw OAMData2_56
+    dw OAMData2_57
+    dw OAMData2_58
+    dw OAMData2_59
+    dw OAMData2_5a
+    dw OAMData2_5b
+    dw OAMData2_5c
+    dw OAMData2_5d
+    dw OAMData2_5e
+    dw OAMData2_5f
+    dw OAMData2_60
+    dw OAMData2_61
+    dw OAMData2_62
+    dw OAMData2_63
+    dw OAMData2_64
+    dw OAMData2_65
+    dw OAMData2_66
+    dw OAMData2_67
+    dw OAMData2_68
+    dw OAMData2_69
+    dw OAMData2_6a
+    dw OAMData2_6b
+    dw OAMData2_6c
+    dw OAMData2_6d
+    dw OAMData2_6e
+    dw OAMData2_6f
+    dw OAMData2_70
+    dw OAMData2_71
+    dw OAMData2_72
+    dw OAMData2_73
+    dw OAMData2_74
+    dw OAMData2_75
+    dw OAMData2_76
+    dw OAMData2_77
+    dw OAMData2_78
+    dw OAMData2_79
+    dw OAMData2_7a
+    dw OAMData2_7b
+    dw OAMData2_7c
+    dw OAMData2_7d
+    dw OAMData2_7e
+    dw OAMData2_7f
+    dw OAMData2_80
+    dw OAMData2_81
+    dw OAMData2_82
+    dw OAMData2_83
+    dw OAMData2_84
+
+OAMData2_0: ; 0x56e1
+    db $20, $20, $9E, $04
+    db $20, $18, $9C, $04
+    db $20, $10, $9A, $04
+    db $20, $08, $98, $04
+    db $10, $20, $96, $04
+    db $10, $18, $94, $04
+    db $10, $10, $92, $04
+    db $10, $08, $90, $04
+    db $80  ; terminator
+
+OAMData2_1: ; 0x5702
+    db $21, $20, $9E, $04
+    db $21, $18, $9C, $04
+    db $21, $10, $9A, $04
+    db $21, $08, $98, $04
+    db $11, $20, $96, $04
+    db $11, $18, $94, $04
+    db $11, $10, $92, $04
+    db $11, $08, $90, $04
+    db $80  ; terminator
+
+OAMData2_2: ; 0x
+    db $1F, $20, $9E, $04
+    db $1F, $18, $9C, $04
+    db $1F, $10, $9A, $04
+    db $1F, $08, $98, $04
+    db $0F, $20, $96, $04
+    db $0F, $18, $94, $04
+    db $0F, $10, $92, $04
+    db $0F, $08, $90, $04
+    db $80  ; terminator
+
+OAMData2_3: ; 0x
+    db $1F, $18, $A6, $04
+    db $1F, $10, $A4, $04
+    db $0F, $18, $A2, $04
+    db $0F, $10, $A0, $04
+    db $1F, $20, $9E, $04
+    db $1F, $08, $98, $04
+    db $0F, $20, $96, $04
+    db $0F, $08, $90, $04
+    db $80  ; terminator
+
+OAMData2_4: ; 0x
+    db $1A, $21, $1A, $04
+    db $1A, $19, $A8, $04
+    db $1E, $00, $A2, $24
+    db $1E, $08, $A0, $24
+    db $30, $10, $9E, $04
+    db $20, $18, $9C, $04
+    db $20, $10, $9A, $04
+    db $20, $08, $98, $04
+    db $10, $20, $96, $04
+    db $10, $18, $94, $04
+    db $10, $10, $92, $04
+    db $10, $08, $90, $04
+    db $80  ; terminator
+
+OAMData2_5: ; 0x
+    db $1E, $02, $A6, $24
+    db $1E, $0A, $A4, $24
+    db $1C, $23, $A6, $04
+    db $1C, $1B, $A4, $04
+    db $2E, $11, $9E, $04
+    db $1E, $18, $9C, $04
+    db $1E, $10, $9A, $04
+    db $1E, $08, $98, $04
+    db $0E, $20, $96, $04
+    db $0E, $18, $94, $04
+    db $0E, $10, $92, $04
+    db $0E, $08, $90, $04
+    db $80  ; terminator
+
+OAMData2_6: ; 0x
+    db $1E, $23, $A2, $04
+    db $1E, $1B, $A0, $04
+    db $1A, $02, $1A, $24
+    db $1A, $0A, $A8, $24
+    db $2D, $10, $9E, $04
+    db $1D, $18, $9C, $04
+    db $1D, $10, $9A, $04
+    db $1D, $08, $98, $04
+    db $0D, $20, $96, $04
+    db $0D, $18, $94, $04
+    db $0D, $10, $92, $04
+    db $0D, $08, $90, $04
+    db $80  ; terminator
+
+OAMData2_7: ; 0x
+    db $1C, $00, $A6, $24
+    db $1C, $08, $A4, $24
+    db $1E, $21, $A6, $04
+    db $1E, $19, $A4, $04
+    db $2E, $0F, $9E, $04
+    db $1E, $18, $9C, $04
+    db $1E, $10, $9A, $04
+    db $1E, $08, $98, $04
+    db $0E, $20, $96, $04
+    db $0E, $18, $94, $04
+    db $0E, $10, $92, $04
+    db $0E, $08, $90, $04
+    db $80  ; terminator
+
+OAMData2_8: ; 0x
+    db $17, $09, $A8, $24
+    db $17, $01, $1A, $24
+    db $0F, $1E, $A8, $04
+    db $0F, $26, $1A, $04
+    db $2D, $18, $28, $04
+    db $1D, $18, $26, $04
+    db $1D, $10, $24, $04
+    db $0D, $20, $22, $04
+    db $0D, $18, $20, $04
+    db $0D, $10, $1E, $04
+    db $0E, $08, $1C, $04
+    db $80  ; terminator
+
+OAMData2_9: ; 0x
+    db $20, $30, $32, $24
+    db $30, $30, $3A, $04
+    db $10, $30, $38, $04
+    db $30, $08, $34, $04
+    db $20, $08, $32, $04
+    db $10, $08, $30, $04
+    db $38, $28, $1E, $04
+    db $38, $20, $1C, $04
+    db $38, $18, $1A, $04
+    db $38, $10, $A8, $04
+    db $28, $28, $A6, $04
+    db $28, $20, $A4, $04
+    db $28, $18, $A2, $04
+    db $28, $10, $A0, $04
+    db $18, $28, $9E, $04
+    db $18, $20, $9C, $04
+    db $18, $18, $9A, $04
+    db $18, $10, $98, $04
+    db $08, $28, $96, $04
+    db $08, $20, $94, $04
+    db $08, $18, $92, $04
+    db $08, $10, $90, $04
+    db $80  ; terminator
+
+OAMData2_a: ; 0x
+    db $31, $08, $36, $04
+    db $39, $28, $26, $04
+    db $39, $20, $24, $04
+    db $39, $18, $22, $04
+    db $39, $10, $20, $04
+    db $21, $30, $32, $24
+    db $31, $30, $3A, $04
+    db $11, $30, $38, $04
+    db $21, $08, $32, $04
+    db $11, $08, $30, $04
+    db $29, $28, $A6, $04
+    db $29, $20, $A4, $04
+    db $29, $18, $A2, $04
+    db $29, $10, $A0, $04
+    db $19, $28, $9E, $04
+    db $19, $20, $9C, $04
+    db $19, $18, $9A, $04
+    db $19, $10, $98, $04
+    db $09, $28, $96, $04
+    db $09, $20, $94, $04
+    db $09, $18, $92, $04
+    db $09, $10, $90, $04
+    db $80  ; terminator
+
+OAMData2_b: ; 0x
+    db $39, $28, $2E, $04
+    db $39, $20, $2C, $04
+    db $39, $18, $2A, $04
+    db $39, $10, $28, $04
+    db $31, $30, $3C, $04
+    db $21, $30, $32, $24
+    db $11, $30, $38, $04
+    db $31, $08, $34, $04
+    db $21, $08, $32, $04
+    db $11, $08, $30, $04
+    db $29, $28, $A6, $04
+    db $29, $20, $A4, $04
+    db $29, $18, $A2, $04
+    db $29, $10, $A0, $04
+    db $19, $28, $9E, $04
+    db $19, $20, $9C, $04
+    db $19, $18, $9A, $04
+    db $19, $10, $98, $04
+    db $09, $28, $96, $04
+    db $09, $20, $94, $04
+    db $09, $18, $92, $04
+    db $09, $10, $90, $04
+    db $80  ; terminator
+
+OAMData2_c: ; 0x
+    db $39, $28, $7E, $04
+    db $39, $20, $7C, $04
+    db $39, $18, $7A, $04
+    db $39, $10, $3E, $04
+    db $21, $30, $32, $24
+    db $31, $30, $3A, $04
+    db $11, $30, $38, $04
+    db $31, $08, $34, $04
+    db $21, $08, $32, $04
+    db $11, $08, $30, $04
+    db $29, $28, $A6, $04
+    db $29, $20, $A4, $04
+    db $29, $18, $A2, $04
+    db $29, $10, $A0, $04
+    db $19, $28, $9E, $04
+    db $19, $20, $9C, $04
+    db $19, $18, $9A, $04
+    db $19, $10, $98, $04
+    db $09, $28, $96, $04
+    db $09, $20, $94, $04
+    db $09, $18, $92, $04
+    db $09, $10, $90, $04
+    db $80  ; terminator
+
+OAMData2_d: ; 0x
+    db $3A, $28, $B0, $04
+    db $3A, $20, $AE, $04
+    db $3A, $18, $AC, $04
+    db $3A, $10, $AA, $04
+    db $22, $30, $32, $24
+    db $32, $30, $3A, $04
+    db $12, $30, $38, $04
+    db $32, $08, $34, $04
+    db $22, $08, $32, $04
+    db $12, $08, $30, $04
+    db $2A, $28, $A6, $04
+    db $2A, $20, $A4, $04
+    db $2A, $18, $A2, $04
+    db $2A, $10, $A0, $04
+    db $1A, $28, $9E, $04
+    db $1A, $20, $9C, $04
+    db $1A, $18, $9A, $04
+    db $1A, $10, $98, $04
+    db $0A, $28, $96, $04
+    db $0A, $20, $94, $04
+    db $0A, $18, $92, $04
+    db $0A, $10, $90, $04
+    db $80  ; terminator
+
+OAMData2_e: ; 0x
+    db $23, $04, $B2, $04
+    db $27, $2C, $D2, $04
+    db $27, $24, $D0, $04
+    db $27, $1C, $CE, $04
+    db $27, $14, $CC, $04
+    db $27, $0C, $CA, $04
+    db $17, $2C, $C8, $04
+    db $17, $24, $C6, $04
+    db $17, $1C, $C4, $04
+    db $17, $14, $C2, $04
+    db $17, $0C, $C0, $04
+    db $07, $2C, $BE, $04
+    db $07, $24, $BC, $04
+    db $07, $1C, $BA, $04
+    db $07, $14, $B8, $04
+    db $07, $0C, $B6, $04
+    db $23, $34, $B4, $04
+    db $37, $28, $1E, $04
+    db $37, $20, $1C, $04
+    db $37, $18, $1A, $04
+    db $37, $10, $A8, $04
+    db $80  ; terminator
+
+OAMData2_f: ; 0x
+    db $20, $20, $9E, $04
+    db $20, $18, $9C, $04
+    db $20, $10, $9A, $04
+    db $20, $08, $98, $04
+    db $10, $20, $96, $04
+    db $10, $18, $94, $04
+    db $10, $10, $92, $04
+    db $10, $08, $90, $04
+    db $80  ; terminator
+
+OAMData2_10: ; 0x
+    db $20, $08, $22, $04
+    db $10, $08, $20, $04
+    db $20, $20, $9E, $04
+    db $20, $18, $9C, $04
+    db $20, $10, $9A, $04
+    db $10, $20, $96, $04
+    db $10, $18, $94, $04
+    db $10, $10, $92, $04
+    db $80  ; terminator
+
+OAMData2_11: ; 0x
+    db $20, $20, $1E, $04
+    db $20, $18, $1C, $04
+    db $20, $10, $1A, $04
+    db $20, $08, $A8, $04
+    db $10, $20, $A6, $04
+    db $10, $18, $A4, $04
+    db $10, $10, $A2, $04
+    db $10, $08, $A0, $04
+    db $80  ; terminator
+
+OAMData2_12: ; 0x
+    db $20, $20, $2A, $04
+    db $10, $20, $28, $04
+    db $20, $08, $26, $04
+    db $10, $08, $24, $04
+    db $20, $18, $9C, $04
+    db $20, $10, $9A, $04
+    db $10, $18, $94, $04
+    db $10, $10, $92, $04
+    db $80  ; terminator
+
+OAMData2_13: ; 0x
+    db $10, $10, $32, $11
+    db $10, $08, $30, $11
+    db $80  ; terminator
+
+OAMData2_14: ; 0x
+    db $10, $10, $36, $11
+    db $10, $08, $34, $11
+    db $80  ; terminator
+
+OAMData2_15: ; 0x
+    db $10, $10, $3A, $11
+    db $10, $08, $38, $11
+    db $80  ; terminator
+
+OAMData2_16: ; 0x
+    db $10, $10, $3E, $11
+    db $10, $08, $3C, $11
+    db $80  ; terminator
+
+OAMData2_17: ; 0x
+    db $20, $10, $7E, $04
+    db $10, $18, $2E, $04
+    db $10, $10, $92, $04
+    db $20, $20, $AC, $04
+    db $20, $18, $AA, $04
+    db $20, $08, $7C, $04
+    db $10, $20, $7A, $04
+    db $10, $08, $2C, $04
+    db $80  ; terminator
+
+OAMData2_18: ; 0x
+    db $20, $10, $7E, $04
+    db $10, $18, $94, $04
+    db $10, $10, $92, $04
+    db $20, $20, $C4, $04
+    db $20, $08, $C2, $04
+    db $10, $20, $C0, $04
+    db $10, $08, $BE, $04
+    db $20, $18, $AA, $04
+    db $80  ; terminator
+
+OAMData2_19: ; 0x
+    db $1F, $20, $BC, $04
+    db $1F, $18, $BA, $04
+    db $1F, $10, $B8, $04
+    db $1F, $08, $B6, $04
+    db $0F, $20, $B4, $04
+    db $0F, $18, $B2, $04
+    db $0F, $10, $B0, $04
+    db $0F, $08, $AE, $04
+    db $80  ; terminator
+
+OAMData2_1a: ; 0x
+    db $10, $10, $C6, $31
+    db $10, $08, $C6, $11
+    db $80  ; terminator
+
+OAMData2_1b: ; 0x
+    db $10, $10, $C8, $31
+    db $10, $08, $C8, $11
+    db $80  ; terminator
+
+OAMData2_1c: ; 0x
+    db $10, $10, $CA, $31
+    db $10, $08, $CA, $11
+    db $80  ; terminator
+
+OAMData2_1d: ; 0x
+    db $10, $10, $CC, $31
+    db $10, $08, $CC, $11
+    db $80  ; terminator
+
+OAMData2_1e: ; 0x
+    db $10, $10, $CE, $31
+    db $10, $08, $CE, $11
+    db $80  ; terminator
+
+OAMData2_1f: ; 0x
+    db $10, $10, $D0, $31
+    db $10, $08, $D0, $11
+    db $80  ; terminator
+
+OAMData2_20: ; 0x
+    db $10, $10, $D2, $31
+    db $10, $08, $D2, $11
+    db $80  ; terminator
+
+OAMData2_21: ; 0x
+    db $1E, $1F, $9E, $11
+    db $1E, $17, $9C, $11
+    db $1E, $0F, $9A, $11
+    db $1E, $07, $98, $11
+    db $0E, $1F, $96, $11
+    db $0E, $17, $94, $11
+    db $0E, $0F, $92, $11
+    db $0E, $07, $90, $11
+    db $80  ; terminator
+
+OAMData2_22: ; 0x
+    db $20, $20, $1E, $11
+    db $20, $18, $1C, $11
+    db $20, $10, $1A, $11
+    db $20, $08, $A8, $11
+    db $10, $20, $A6, $11
+    db $10, $18, $A4, $11
+    db $10, $10, $A2, $11
+    db $10, $08, $A0, $11
+    db $80  ; terminator
+
+OAMData2_23: ; 0x
+    db $0E, $1F, $96, $11
+    db $0E, $17, $94, $11
+    db $0E, $0F, $92, $11
+    db $0E, $07, $90, $11
+    db $1E, $1F, $26, $11
+    db $1E, $17, $24, $11
+    db $1E, $0F, $22, $11
+    db $1E, $07, $20, $11
+    db $80  ; terminator
+
+OAMData2_24: ; 0x
+    db $1A, $24, $34, $11
+    db $1A, $1C, $32, $11
+    db $1A, $14, $30, $11
+    db $1A, $0C, $2E, $11
+    db $0A, $1C, $2C, $11
+    db $0A, $14, $2A, $11
+    db $0A, $0C, $28, $11
+    db $80  ; terminator
+
+OAMData2_25: ; 0x
+    db $1E, $07, $9E, $31
+    db $1E, $0F, $9C, $31
+    db $1E, $17, $9A, $31
+    db $1E, $1F, $98, $31
+    db $0E, $07, $96, $31
+    db $0E, $0F, $94, $31
+    db $0E, $17, $92, $31
+    db $0E, $1F, $90, $31
+    db $80  ; terminator
+
+OAMData2_26: ; 0x
+    db $20, $08, $1E, $31
+    db $20, $10, $1C, $31
+    db $20, $18, $1A, $31
+    db $20, $20, $A8, $31
+    db $10, $08, $A6, $31
+    db $10, $10, $A4, $31
+    db $10, $18, $A2, $31
+    db $10, $20, $A0, $31
+    db $80  ; terminator
+
+OAMData2_27: ; 0x
+    db $0E, $07, $96, $31
+    db $0E, $0F, $94, $31
+    db $0E, $17, $92, $31
+    db $0E, $1F, $90, $31
+    db $1E, $07, $26, $31
+    db $1E, $0F, $24, $31
+    db $1E, $17, $22, $31
+    db $1E, $1F, $20, $31
+    db $80  ; terminator
+
+OAMData2_28: ; 0x
+    db $1A, $0C, $34, $31
+    db $1A, $14, $32, $31
+    db $1A, $1C, $30, $31
+    db $1A, $24, $2E, $31
+    db $0A, $14, $2C, $31
+    db $0A, $1C, $2A, $31
+    db $0A, $24, $28, $31
+    db $80  ; terminator
+
+OAMData2_29: ; 0x
+    db $10, $0C, $36, $13
+    db $80  ; terminator
+
+OAMData2_2a: ; 0x
+    db $10, $10, $3A, $13
+    db $10, $08, $38, $13
+    db $80  ; terminator
+
+OAMData2_2b: ; 0x
+    db $10, $10, $3E, $13
+    db $10, $08, $3C, $13
+    db $80  ; terminator
+
+OAMData2_2c: ; 0x
+    db $10, $10, $7C, $13
+    db $10, $08, $7A, $13
+    db $80  ; terminator
+
+OAMData2_2d: ; 0x
+    db $10, $10, $AA, $13
+    db $10, $08, $7E, $13
+    db $80  ; terminator
+
+OAMData2_2e: ; 0x
+    db $10, $0F, $AC, $33
+    db $10, $08, $AC, $13
+    db $80  ; terminator
+
+OAMData2_2f: ; 0x
+    db $10, $0F, $AE, $33
+    db $10, $08, $AE, $13
+    db $80  ; terminator
+
+OAMData2_30: ; 0x
+    db $10, $0F, $B0, $33
+    db $10, $08, $B0, $13
+    db $80  ; terminator
+
+OAMData2_31: ; 0x
+    db $10, $0C, $B2, $13
+    db $80  ; terminator
+
+OAMData2_32: ; 0x
+    db $10, $0C, $B4, $13
+    db $80  ; terminator
+
+OAMData2_33: ; 0x
+    db $20, $20, $C4, $11
+    db $20, $18, $C2, $11
+    db $20, $10, $C0, $11
+    db $20, $08, $BE, $11
+    db $10, $20, $BC, $11
+    db $10, $18, $BA, $11
+    db $10, $10, $B8, $11
+    db $10, $08, $B6, $11
+    db $80  ; terminator
+
+OAMData2_34: ; 0x
+    db $20, $20, $CE, $11
+    db $20, $18, $CC, $11
+    db $20, $10, $CA, $11
+    db $20, $08, $C8, $11
+    db $10, $10, $C6, $11
+    db $10, $20, $BC, $11
+    db $10, $18, $BA, $11
+    db $10, $08, $B6, $11
+    db $80  ; terminator
+
+OAMData2_35: ; 0x
+    db $0A, $10, $D2, $00
+    db $0A, $08, $D0, $00
+    db $80  ; terminator
+
+OAMData2_36: ; 0x
+    db $08, $10, $D2, $00
+    db $08, $08, $D0, $00
+    db $80  ; terminator
+
+OAMData2_37: ; 0x
+    db $06, $10, $D2, $00
+    db $06, $08, $D0, $00
+    db $80  ; terminator
+
+OAMData2_38: ; 0x
+    db $0A, $10, $D4, $00
+    db $0A, $08, $D0, $00
+    db $80  ; terminator
+
+OAMData2_39: ; 0x
+    db $08, $10, $D4, $00
+    db $08, $08, $D0, $00
+    db $80  ; terminator
+
+OAMData2_3a: ; 0x
+    db $06, $10, $D4, $00
+    db $06, $08, $D0, $00
+    db $80  ; terminator
+
+OAMData2_3b: ; 0x
+    db $0A, $10, $D6, $00
+    db $0A, $08, $D0, $00
+    db $80  ; terminator
+
+OAMData2_3c: ; 0x
+    db $08, $10, $D6, $00
+    db $08, $08, $D0, $00
+    db $80  ; terminator
+
+OAMData2_3d: ; 0x
+    db $05, $10, $D6, $00
+    db $05, $08, $D0, $00
+    db $80  ; terminator
+
+OAMData2_3e: ; 0x
+    db $0A, $10, $D8, $00
+    db $0A, $08, $D0, $00
+    db $80  ; terminator
+
+OAMData2_3f: ; 0x
+    db $08, $10, $D8, $00
+    db $08, $08, $D0, $00
+
+    db $80  ; terminator
+
+OAMData2_40: ; 0x
+    db $05, $10, $D8, $00
+    db $05, $08, $D0, $00
+    db $80  ; terminator
+
+OAMData2_41: ; 0x
+    db $0A, $10, $DA, $00
+    db $0A, $08, $D0, $00
+    db $80  ; terminator
+
+OAMData2_42: ; 0x
+    db $08, $10, $DA, $00
+    db $08, $08, $D0, $00
+    db $80  ; terminator
+
+OAMData2_43: ; 0x
+    db $05, $10, $DA, $00
+    db $05, $08, $D0, $00
+    db $80  ; terminator
+
+OAMData2_44: ; 0x
+    db $10, $08, $DC, $00
+    db $80  ; terminator
+
+OAMData2_45: ; 0x
+    db $10, $08, $DE, $00
+    db $80  ; terminator
+
+OAMData2_46: ; 0x
+    db $20, $20, $9E, $11
+    db $20, $18, $9C, $11
+    db $20, $10, $9A, $11
+    db $20, $08, $98, $11
+    db $10, $20, $96, $11
+    db $10, $18, $94, $11
+    db $10, $10, $92, $11
+    db $10, $08, $90, $11
+    db $80  ; terminator
+
+OAMData2_47: ; 0x
+    db $20, $20, $1E, $11
+    db $20, $18, $1C, $11
+    db $20, $10, $1A, $11
+    db $20, $08, $A8, $11
+    db $10, $20, $A6, $11
+    db $10, $18, $A4, $11
+    db $10, $10, $A2, $11
+    db $10, $08, $A0, $11
+    db $80  ; terminator
+
+OAMData2_48: ; 0x
+    db $20, $20, $9E, $11
+    db $10, $20, $96, $11
+    db $20, $10, $1A, $11
+    db $20, $08, $A8, $11
+    db $10, $08, $A0, $11
+    db $20, $18, $24, $11
+    db $10, $18, $22, $11
+    db $10, $10, $20, $11
+    db $80  ; terminator
+
+OAMData2_49: ; 0x
+    db $10, $08, $A0, $11
+    db $20, $20, $32, $11
+    db $20, $18, $30, $11
+    db $20, $10, $2E, $11
+    db $20, $08, $2C, $11
+    db $10, $20, $2A, $11
+    db $10, $18, $28, $11
+    db $10, $10, $26, $11
+    db $80  ; terminator
+
+OAMData2_4a: ; 0x
+    db $20, $18, $AA, $11
+    db $20, $10, $7E, $11
+    db $10, $18, $7C, $11
+    db $10, $10, $7A, $11
+    db $20, $20, $9E, $11
+    db $20, $08, $98, $11
+    db $10, $20, $96, $11
+    db $10, $08, $90, $11
+    db $80  ; terminator
+
+OAMData2_4b: ; 0x
+    db $20, $18, $B2, $11
+    db $20, $10, $B0, $11
+    db $10, $18, $AE, $11
+    db $10, $10, $AC, $11
+    db $20, $20, $1E, $11
+    db $20, $08, $A8, $11
+    db $10, $20, $A6, $11
+    db $10, $08, $A0, $11
+    db $80  ; terminator
+
+OAMData2_4c: ; 0x
+    db $20, $10, $B0, $11
+    db $10, $10, $AC, $11
+    db $20, $18, $AA, $11
+    db $10, $18, $7C, $11
+    db $20, $20, $9E, $11
+    db $10, $20, $96, $11
+    db $20, $08, $A8, $11
+    db $10, $08, $A0, $11
+    db $80  ; terminator
+
+OAMData2_4d: ; 0x
+    db $20, $18, $BA, $11
+    db $20, $10, $B8, $11
+    db $10, $18, $B6, $11
+    db $10, $10, $B4, $11
+    db $10, $08, $A0, $11
+    db $20, $20, $32, $11
+    db $20, $08, $2C, $11
+    db $10, $20, $2A, $11
+    db $80  ; terminator
+
+OAMData2_4e: ; 0x
+    db $20, $20, $C2, $11
+    db $20, $18, $C0, $11
+    db $10, $20, $BE, $11
+    db $10, $18, $BC, $11
+    db $20, $10, $7E, $11
+    db $10, $10, $7A, $11
+    db $20, $08, $98, $11
+    db $10, $08, $90, $11
+    db $80  ; terminator
+
+OAMData2_4f: ; 0x
+    db $20, $10, $B0, $11
+    db $10, $10, $AC, $11
+    db $20, $08, $A8, $11
+    db $10, $08, $A0, $11
+    db $20, $20, $C2, $11
+    db $20, $18, $C0, $11
+    db $10, $20, $BE, $11
+    db $10, $18, $BC, $11
+    db $80  ; terminator
+
+OAMData2_50: ; 0x
+    db $20, $10, $B0, $11
+    db $10, $10, $AC, $11
+    db $20, $08, $A8, $11
+    db $10, $08, $A0, $11
+    db $20, $20, $C2, $11
+    db $20, $18, $C0, $11
+    db $10, $20, $BE, $11
+    db $10, $18, $BC, $11
+    db $80  ; terminator
+
+OAMData2_51: ; 0x
+    db $20, $20, $CA, $11
+    db $20, $18, $C8, $11
+    db $10, $20, $C6, $11
+    db $10, $18, $C4, $11
+    db $20, $10, $B8, $11
+    db $10, $10, $B4, $11
+    db $10, $08, $A0, $11
+    db $20, $08, $2C, $11
+    db $80  ; terminator
+
+OAMData2_52: ; 0x
+    db $20, $08, $38, $11
+    db $10, $18, $36, $11
+    db $10, $10, $34, $11
+    db $20, $20, $3E, $11
+    db $20, $18, $3C, $11
+    db $20, $10, $3A, $11
+    db $80  ; terminator
+
+OAMData2_53: ; 0x
+    db $20, $10, $CE, $11
+    db $20, $08, $CC, $11
+    db $20, $20, $C2, $11
+    db $20, $18, $C0, $11
+    db $10, $20, $BE, $11
+    db $10, $18, $BC, $11
+    db $10, $10, $7A, $11
+    db $10, $08, $90, $11
+    db $80  ; terminator
+
+OAMData2_54: ; 0x
+    db $20, $20, $9A, $11
+    db $20, $18, $98, $11
+    db $20, $10, $96, $11
+    db $20, $08, $94, $11
+    db $10, $18, $92, $11
+    db $10, $10, $90, $11
+    db $80  ; terminator
+
+OAMData2_55: ; 0x
+    db $20, $20, $A6, $11
+    db $20, $18, $A4, $11
+    db $20, $10, $A2, $11
+    db $20, $08, $A0, $11
+    db $10, $18, $9E, $11
+    db $10, $10, $9C, $11
+    db $80  ; terminator
+
+OAMData2_56: ; 0x
+    db $20, $20, $22, $11
+    db $20, $18, $20, $11
+    db $20, $10, $1E, $11
+    db $20, $08, $1C, $11
+    db $10, $18, $1A, $11
+    db $10, $10, $A8, $11
+    db $80  ; terminator
+
+OAMData2_57: ; 0x
+    db $26, $1E, $2A, $13
+    db $26, $16, $28, $13
+    db $26, $0E, $26, $13
+    db $26, $06, $24, $13
+    db $80  ; terminator
+
+OAMData2_58: ; 0x
+    db $26, $1E, $32, $13
+    db $26, $16, $30, $13
+    db $26, $0E, $2E, $13
+    db $26, $06, $2C, $13
+    db $80  ; terminator
+
+OAMData2_59: ; 0x
+    db $26, $1E, $3A, $13
+    db $26, $16, $38, $13
+    db $26, $0E, $36, $13
+    db $26, $06, $34, $13
+    db $80  ; terminator
+
+OAMData2_5a: ; 0x
+    db $25, $1E, $7C, $13
+    db $25, $16, $7A, $13
+    db $25, $0E, $3E, $13
+    db $25, $06, $3C, $13
+    db $80  ; terminator
+
+OAMData2_5b: ; 0x
+    db $24, $1B, $AC, $13
+    db $24, $13, $AA, $13
+    db $24, $0B, $7E, $13
+    db $80  ; terminator
+
+OAMData2_5c: ; 0x
+    db $24, $18, $B0, $13
+    db $24, $10, $AE, $13
+    db $80  ; terminator
+
+OAMData2_5d: ; 0x
+    db $22, $18, $B4, $13
+    db $22, $10, $B2, $13
+    db $80  ; terminator
+
+OAMData2_5e: ; 0x
+    db $20, $1E, $BA, $13
+    db $20, $16, $B8, $13
+    db $20, $0E, $B6, $13
+    db $80  ; terminator
+
+OAMData2_5f: ; 0x
+    db $20, $20, $C6, $11
+    db $20, $18, $C4, $11
+    db $20, $10, $C2, $11
+    db $20, $08, $C0, $11
+    db $10, $18, $BE, $11
+    db $10, $10, $BC, $11
+    db $80  ; terminator
+
+OAMData2_60: ; 0x
+    db $20, $20, $D2, $11
+    db $20, $18, $D0, $11
+    db $20, $10, $CE, $11
+    db $1F, $08, $CC, $11
+    db $10, $18, $CA, $11
+    db $10, $10, $C8, $11
+    db $80  ; terminator
+
+OAMData2_61: ; 0x
+    db $20, $20, $DE, $11
+    db $20, $18, $DC, $11
+    db $20, $10, $DA, $11
+    db $20, $08, $D8, $11
+    db $10, $18, $D6, $11
+    db $10, $10, $D4, $11
+    db $80  ; terminator
+
+OAMData2_62: ; 0x
+    db $25, $1B, $AD, $53
+    db $25, $13, $AB, $53
+    db $25, $0B, $7F, $53
+    db $80  ; terminator
+
+OAMData2_63: ; 0x
+    db $25, $1E, $7D, $53
+    db $25, $16, $7B, $53
+    db $25, $0E, $3F, $53
+    db $25, $06, $3D, $53
+    db $80  ; terminator
+
+OAMData2_64: ; 0x
+    db $26, $09, $2A, $33
+    db $26, $11, $28, $33
+    db $26, $19, $26, $33
+    db $26, $21, $24, $33
+    db $80  ; terminator
+
+OAMData2_65: ; 0x
+    db $26, $09, $32, $33
+    db $26, $11, $30, $33
+    db $26, $19, $2E, $33
+    db $26, $21, $2C, $33
+    db $80  ; terminator
+
+OAMData2_66: ; 0x
+    db $26, $09, $3A, $33
+    db $26, $11, $38, $33
+    db $26, $19, $36, $33
+    db $26, $21, $34, $33
+    db $80  ; terminator
+
+OAMData2_67: ; 0x
+    db $25, $09, $7C, $33
+    db $25, $11, $7A, $33
+    db $25, $19, $3E, $33
+    db $25, $21, $3C, $33
+    db $80  ; terminator
+
+OAMData2_68: ; 0x
+    db $24, $0E, $AC, $33
+    db $24, $16, $AA, $33
+    db $24, $1E, $7E, $33
+    db $80  ; terminator
+
+OAMData2_69: ; 0x
+    db $25, $0E, $AD, $73
+    db $25, $16, $AB, $73
+    db $25, $1E, $7F, $73
+    db $80  ; terminator
+
+OAMData2_6a: ; 0x
+    db $25, $09, $7D, $73
+    db $25, $11, $7B, $73
+    db $25, $19, $3F, $73
+    db $25, $21, $3D, $73
+    db $80  ; terminator
+
+OAMData2_6b: ; 0x
+    db $02, $18, $E4, $00
+    db $02, $10, $E0, $00
+    db $80  ; terminator
+
+OAMData2_6c: ; 0x
+    db $00, $18, $E4, $00
+    db $00, $10, $E0, $00
+    db $80  ; terminator
+
+OAMData2_6d: ; 0x
+    db $FE, $18, $E4, $00
+    db $FE, $10, $E0, $00
+    db $80  ; terminator
+
+OAMData2_6e: ; 0x
+    db $02, $18, $E8, $00
+    db $02, $10, $E0, $00
+    db $80  ; terminator
+
+OAMData2_6f: ; 0x
+    db $00, $18, $E8, $00
+    db $00, $10, $E0, $00
+    db $80  ; terminator
+
+OAMData2_70: ; 0x
+    db $FE, $18, $E8, $00
+    db $FE, $10, $E0, $00
+    db $80  ; terminator
+
+OAMData2_71: ; 0x
+    db $02, $18, $EE, $00
+    db $02, $10, $E0, $00
+    db $80  ; terminator
+
+OAMData2_72: ; 0x
+    db $00, $18, $EE, $00
+    db $00, $10, $E0, $00
+    db $80  ; terminator
+
+OAMData2_73: ; 0x
+    db $FE, $18, $EE, $00
+    db $FE, $10, $E0, $00
+    db $80  ; terminator
+
+OAMData2_74: ; 0x
+    db $02, $1C, $EC, $00
+    db $02, $14, $E2, $00
+    db $02, $0C, $E0, $00
+    db $80  ; terminator
+
+OAMData2_75: ; 0x
+    db $00, $1C, $EC, $00
+    db $00, $14, $E2, $00
+    db $00, $0C, $E0, $00
+    db $80  ; terminator
+
+OAMData2_76: ; 0x
+    db $FE, $1C, $EC, $00
+    db $FE, $14, $E2, $00
+    db $FE, $0C, $E0, $00
+    db $80  ; terminator
+
+OAMData2_77: ; 0x
+    db $02, $1C, $E4, $00
+    db $02, $14, $E6, $00
+    db $02, $0C, $E0, $00
+    db $80  ; terminator
+
+OAMData2_78: ; 0x
+    db $00, $1C, $E4, $00
+    db $00, $14, $E6, $00
+    db $00, $0C, $E0, $00
+    db $80  ; terminator
+
+OAMData2_79: ; 0x
+    db $FE, $1C, $E4, $00
+    db $FE, $14, $E6, $00
+    db $FE, $0C, $E0, $00
+    db $80  ; terminator
+
+OAMData2_7a: ; 0x
+    db $02, $1C, $E8, $00
+    db $02, $14, $EC, $00
+    db $02, $0C, $E0, $00
+    db $80  ; terminator
+
+OAMData2_7b: ; 0x
+    db $00, $1C, $E8, $00
+    db $00, $14, $EC, $00
+    db $00, $0C, $E0, $00
+    db $80  ; terminator
+
+OAMData2_7c: ; 0x
+    db $FE, $1C, $E8, $00
+    db $FE, $14, $EC, $00
+    db $FE, $0C, $E0, $00
+    db $80  ; terminator
+
+OAMData2_7d: ; 0x
+    db $02, $20, $EE, $00
+    db $02, $18, $E4, $00
+    db $02, $10, $E2, $00
+    db $02, $08, $E0, $00
+    db $80  ; terminator
+
+OAMData2_7e: ; 0x
+    db $00, $20, $EE, $00
+    db $00, $18, $E4, $00
+    db $00, $10, $E2, $00
+    db $00, $08, $E0, $00
+    db $80  ; terminator
+
+OAMData2_7f: ; 0x
+    db $FE, $20, $EE, $00
+    db $FE, $18, $E4, $00
+    db $FE, $10, $E2, $00
+    db $FE, $08, $E0, $00
+    db $80  ; terminator
+
+OAMData2_80: ; 0x
+    db $02, $20, $EC, $00
+    db $02, $18, $EA, $00
+    db $02, $10, $E4, $00
+    db $02, $08, $E0, $00
+    db $80  ; terminator
+
+OAMData2_81: ; 0x
+    db $00, $20, $EC, $00
+    db $00, $18, $EA, $00
+    db $00, $10, $E4, $00
+    db $00, $08, $E0, $00
+    db $80  ; terminator
+
+OAMData2_82: ; 0x
+    db $FE, $20, $EC, $00
+    db $FE, $18, $EA, $00
+    db $FE, $10, $E4, $00
+    db $FE, $08, $E0, $00
+    db $80  ; terminator
+
+OAMData2_83: ; 0x
+    db $10, $08, $F0, $00
+    db $80  ; terminator
+
+OAMData2_84: ; 0x
+    db $10, $08, $F2, $00
+    db $80  ; terminator
+
+INCBIN "baserom.gbc",$6262,$8000 - $6262
 
 
 SECTION "bank2", ROMX, BANK[$2]
@@ -26134,7 +27374,7 @@ Func_19033: ; 0x19033
     add hl, de
     ld a, [hl]
     cp $ff
-    call nz, Func_1f0b
+    call nz, LoadOAMData2
     ret
 
 INCBIN "baserom.gbc",$1906b,$19070 - $1906b
@@ -26223,7 +27463,7 @@ Func_190c6: ; 0x190c6
     add hl, de
     ld a, [hl]
     cp $ff
-    call nz, Func_1f0b
+    call nz, LoadOAMData2
     ret
 
 INCBIN "baserom.gbc",$190fe,$19104 - $190fe
@@ -26316,7 +27556,7 @@ Func_1918c: ; 0x1918c
     add hl, de
     ld a, [hl]
     cp $ff
-    call nz, Func_1f0b
+    call nz, LoadOAMData2
     ret
 
 INCBIN "baserom.gbc",$191c4,$191cb - $191c4
@@ -27175,7 +28415,7 @@ Func_19976: ; 0x19976
     add hl, de
     ld a, [hl]
     cp $ff
-    call nz, Func_1f0b
+    call nz, LoadOAMData2
     ret
 
 INCBIN "baserom.gbc",$19995,$1999d - $19995
@@ -27223,7 +28463,7 @@ Func_199be: ; 0x199be
     add hl, de
     ld a, [hl]
     cp $ff
-    call nz, Func_1f0b
+    call nz, LoadOAMData2
     ret
 
 INCBIN "baserom.gbc",$199e6,$199f2 - $199e6
@@ -27991,7 +29231,7 @@ Func_1acb0: ; 0x1acb0
     add hl, de
     ld a, [hl]
     bit 7, a
-    call z, Func_1f0b
+    call z, LoadOAMData2
     ret
 
 INCBIN "baserom.gbc",$1accf,$1c000 - $1accf
@@ -31920,7 +33160,7 @@ Func_1efdc: ; 0x1efdc
     cp $0  ; up direction
     jp z, Func_1eff3
     cp $1  ; right direction
-    jp z, Func_1f0be
+    jp z, LoadOAMData2e
     cp $2  ; down direction
     jp z, Func_1f057
     cp $3  ; left direction
@@ -32077,7 +33317,7 @@ Func_1f057: ; 0x1f057
     ld [$d804], a
     ret
 
-Func_1f0be: ; 0x1f0be
+LoadOAMData2e: ; 0x1f0be
     ld bc, $4000
     add hl, bc
     ld de, wBallYVelocity
@@ -37033,7 +38273,7 @@ Func_2586c: ; 0x2586c
     ld hl, $588b
     add hl, de
     ld a, [hl]
-    call Func_1f0b
+    call LoadOAMData2
     ret
 
 INCBIN "baserom.gbc",$2588b,$25895 - $2588b
@@ -37079,7 +38319,7 @@ Func_25895: ; 0x25895
     ld d, $0
     add hl, de
     ld a, [hl]
-    call Func_1f0b
+    call LoadOAMData2
     ld a, [$d71b]
     ld hl, hBoardXShift
     sub [hl]
@@ -37102,7 +38342,7 @@ Func_25895: ; 0x25895
     ld d, $0
     add hl, de
     ld a, [hl]
-    call Func_1f0b
+    call LoadOAMData2
     ld a, [$d71c]
     ld hl, hBoardXShift
     sub [hl]
@@ -37125,7 +38365,7 @@ Func_25895: ; 0x25895
     ld d, $0
     add hl, de
     ld a, [hl]
-    call Func_1f0b
+    call LoadOAMData2
     ret
 
 INCBIN "baserom.gbc",$25935,$2595e - $25935
@@ -37171,7 +38411,7 @@ Func_2595e: ; 0x2595e
     ld d, $0
     add hl, de
     ld a, [hl]
-    call Func_1f0b
+    call LoadOAMData2
     ld a, [$d725]
     ld hl, hBoardXShift
     sub [hl]
@@ -37194,7 +38434,7 @@ Func_2595e: ; 0x2595e
     ld d, $0
     add hl, de
     ld a, [hl]
-    call Func_1f0b
+    call LoadOAMData2
     ld a, [$d726]
     ld hl, hBoardXShift
     sub [hl]
@@ -37217,7 +38457,7 @@ Func_2595e: ; 0x2595e
     ld d, $0
     add hl, de
     ld a, [hl]
-    call Func_1f0b
+    call LoadOAMData2
     ret
 
 Func_259fe: ; 0x259fe
@@ -37248,7 +38488,7 @@ Func_259fe: ; 0x259fe
     add hl, de
     ld a, [hl]
     cp $ff
-    call nz, Func_1f0b
+    call nz, LoadOAMData2
     ret
 
 INCBIN "baserom.gbc",$25a29,$25a39 - $25a29
@@ -37276,7 +38516,7 @@ Func_25a39: ; 0x25a39
     ld hl, $5a7a
     add hl, de
     ld a, [hl]
-    call Func_1f0b
+    call LoadOAMData2
     ld hl, $d64f
     inc [hl]
     ld a, [hl]
@@ -38401,7 +39641,7 @@ Func_26bbc: ; 0x26bbc
     add hl, de
     ld a, [hl]
     cp $ff
-    call nz, Func_1f0b
+    call nz, LoadOAMData2
     ret
 
 INCBIN "baserom.gbc",$26bdf,$26bf7 - $26bdf
@@ -38434,7 +39674,7 @@ Func_26bf7: ; 0x26bf7: ; 0x26bf7
     add hl, de
     ld a, [hl]
     cp $ff
-    call nz, Func_1f0b
+    call nz, LoadOAMData2
     ret
 
 INCBIN "baserom.gbc",$26c23,$26c3c - $26c23
@@ -38462,7 +39702,7 @@ Func_26c3c: ; 0x26c3c
     ld hl, $6c7d
     add hl, de
     ld a, [hl]
-    call Func_1f0b
+    call LoadOAMData2
     ld hl, $d64f
     inc [hl]
     ld a, [hl]

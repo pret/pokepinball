@@ -10192,39 +10192,15 @@ EraseAllDataGfxPointers: ; 0x81a2
     dw EraseAllDataGfx_GameBoyColor
 
 EraseAllDataGfx_GameBoy: ; 0x81a6
-    dw EraseAllDataGfx
-    db Bank(EraseAllDataGfx)
-    dw vTiles2
-    dw $c00
-
-    dw EraseAllDataTilemap
-    db Bank(EraseAllDataTilemap)
-    dw vBGMap0
-    dw $1000
-
+    VIDEO_DATA_TILES   EraseAllDataGfx, vTiles2, $300
+    VIDEO_DATA_TILEMAP EraseAllDataTilemap, vBGMap0, $400
     db $FF, $FF ; terminators
 
 EraseAllDataGfx_GameBoyColor: ; 0x81b6
-    dw EraseAllDataGfx
-    db Bank(EraseAllDataGfx)
-    dw vTiles2
-    dw $c00
-
-    dw EraseAllDataTilemap
-    db Bank(EraseAllDataTilemap)
-    dw vBGMap0
-    dw $1000
-
-    dw EraseAllDataBGAttributes
-    db Bank(EraseAllDataBGAttributes)
-    dw vBGMap0
-    dw $1002
-
-    dw EraseAllDataPalettes
-    db Bank(EraseAllDataPalettes)
-    dw $0000
-    dw $101
-
+    VIDEO_DATA_TILES    EraseAllDataGfx, vTiles2, $300
+    VIDEO_DATA_TILEMAP  EraseAllDataTilemap, vBGMap0, $400
+    VIDEO_DATA_BGATTR   EraseAllDataBGAttributes, vBGMap0, $400
+    VIDEO_DATA_PALETTES EraseAllDataPalettes, $80
     db $FF, $FF ; terminators
 
 HandleEraseAllDataInput: ; 0x81d4
@@ -10325,39 +10301,15 @@ CopyrightTextGfxPointers: ; 0x825e
     dw CopyrightTextGfx_GameBoyColor
 
 CopyrightTextGfx_GameBoy: ; 0x8262
-    dw CopyrightTextGfx
-    db Bank(CopyrightTextGfx)
-    dw vTiles1
-    dw $1000
-
-    dw CopyrightScreenTilemap
-    db Bank(CopyrightScreenTilemap)
-    dw vBGMap0
-    dw $1000
-
+    VIDEO_DATA_TILES   CopyrightTextGfx, vTiles1, $400
+    VIDEO_DATA_TILEMAP CopyrightScreenTilemap, vBGMap0, $400
     db $FF, $FF  ; terminators
 
 CopyrightTextGfx_GameBoyColor: ; 0x8272
-    dw CopyrightTextGfx
-    db Bank(CopyrightTextGfx)
-    dw vTiles1
-    dw $1000 ; todo (This is the number of bytes to copy times 4 with two flags as lower 2 bits)
-
-    dw CopyrightScreenTilemap
-    db Bank(CopyrightScreenTilemap)
-    dw vBGMap0
-    dw $1000
-
-    dw $6400
-    db $31
-    dw vBGMap0
-    dw $1002
-
-    dw $5000  ; Some kind of GBC palette data
-    db $37
-    dw $0000
-    dw $101
-
+    VIDEO_DATA_TILES    CopyrightTextGfx, vTiles1, $400
+    VIDEO_DATA_TILEMAP  CopyrightScreenTilemap, vBGMap0, $400
+    VIDEO_DATA_BGATTR   CopyrightScreenBGAttributes, vBGMap0, $400
+    VIDEO_DATA_PALETTES CopyrightScreenPalettes, $80
     db $FF, $FF ; terminators
 
 DisplayCopyrightScreen: ; 0x8290
@@ -12100,39 +12052,15 @@ TitlescreenFadeInGfxPointers: ; 0xc057
     dw TitlescreenFadeInGfx_GameBoyColor
 
 TitlescreenFadeInGfx_GameBoy: ; 0xc05b
-    dw TitlescreenGfx
-    db Bank(TitlescreenGfx)
-    dw vTiles0
-    dw $6000
-
-    dw TitlescreenTilemap
-    db Bank(TitlescreenTilemap)
-    dw vBGMap0
-    dw $900
-
+    VIDEO_DATA_TILES   TitlescreenGfx, vTiles0, $1800
+    VIDEO_DATA_TILEMAP TitlescreenTilemap, vBGMap0, $240
     db $FF, $FF ; terminators
 
 TitlescreenFadeInGfx_GameBoyColor: ; 0xc06b
-    dw TitlescreenFadeInGfx
-    db Bank(TitlescreenFadeInGfx)
-    dw vTiles0
-    dw $6000
-
-    dw TitlescreenTilemap
-    db Bank(TitlescreenTilemap)
-    dw vBGMap0
-    dw $900
-
-    dw $5c00
-    db $31
-    dw vBGMap0
-    dw $902
-
-    dw $4f80
-    db $37
-    dw $0000
-    dw $101
-
+    VIDEO_DATA_TILES    TitlescreenFadeInGfx, vTiles0, $1800
+    VIDEO_DATA_TILEMAP  TitlescreenTilemap, vBGMap0, $240
+    VIDEO_DATA_BGATTR   TitlescreenBGAttributes, vBGMap0, $240
+    VIDEO_DATA_PALETTES TitlescreenPalettes, $80
     db $FF, $FF ; terminators
 
 TitlescreenLoop: ; 0xc089
@@ -45992,13 +45920,17 @@ INCBIN "baserom.gbc",$c4000,$c5800 - $c4000 ; 0xc4000
 
 TitlescreenTilemap: ; 0xc5800
     INCBIN "gfx/tilemaps/titlescreen.map"
+TitlescreenBGAttributes: ; 0xc5c00
+    INCBIN "gfx/bgattr/titlescreen.bgattr"
 
-INCBIN "baserom.gbc",$c5c00,$c6000 - $c5c00 ; 0xc4000
+INCBIN "baserom.gbc",$c5e40,$c6000 - $c5e40
 
 CopyrightScreenTilemap: ; 0xc6000
     INCBIN "gfx/tilemaps/copyright_screen.map"
+CopyrightScreenBGAttributes: ; 0xc6400
+    INCBIN "gfx/bgattr/copyright_screen.bgattr"
 
-INCBIN "baserom.gbc",$c6400,$c8000 - $c6400 ; 0xc6400
+INCBIN "baserom.gbc",$c6800,$c8000 - $c6800
 
 
 SECTION "bank32", ROMX, BANK[$32]
@@ -48827,7 +48759,175 @@ EraseAllDataOBJPalette7: ; 0xdcdf8
     RGB 31, 31, 31
     RGB 31, 31, 31
 
-INCBIN "baserom.gbc",$dce00,$dd148 - $dce00
+INCBIN "baserom.gbc",$dce00,$dcf80 - $dce00
+
+TitlescreenPalettes: ; 0xdcf80
+TitlescreenBGPalette0: ; 0xdcf80
+    RGB 31, 31, 31
+    RGB 31, 29, 0
+    RGB 31, 0, 0
+    RGB 0, 0, 0
+TitlescreenBGPalette1: ; 0xdcf88
+    RGB 31, 31, 31
+    RGB 0, 12, 26
+    RGB 31, 0, 0
+    RGB 0, 0, 0
+TitlescreenBGPalette2: ; 0xdcf90
+    RGB 31, 31, 31
+    RGB 23, 31, 24
+    RGB 31, 0, 0
+    RGB 0, 0, 0
+TitlescreenBGPalette3: ; 0xdcf98
+    RGB 31, 31, 31
+    RGB 31, 29, 0
+    RGB 0, 12, 26
+    RGB 0, 0, 0
+TitlescreenBGPalette4: ; 0xdcfa0
+    RGB 31, 31, 31
+    RGB 20, 20, 31
+    RGB 0, 12, 26
+    RGB 0, 0, 0
+TitlescreenBGPalette5: ; 0xdcfa8
+    RGB 31, 31, 31
+    RGB 23, 31, 24
+    RGB 0, 12, 26
+    RGB 0, 0, 0
+TitlescreenBGPalette6: ; 0xdcfb0
+    RGB 31, 31, 31
+    RGB 20, 20, 31
+    RGB 23, 31, 24
+    RGB 0, 0, 0
+TitlescreenBGPalette7: ; 0xdcfb8
+    RGB 0, 6, 0
+    RGB 0, 6, 0
+    RGB 0, 6, 0
+    RGB 0, 6, 0
+
+TitlescreenOBJPalette0: ; 0xdcfc0
+    RGB 20, 20, 20
+    RGB 31, 31, 31
+    RGB 31, 29, 0
+    RGB 0, 0, 0
+TitlescreenOBJPalette1: ; 0xdcfc8
+    RGB 31, 31, 31
+    RGB 31, 31, 31
+    RGB 31, 0, 0
+    RGB 0, 0, 0
+TitlescreenOBJPalette2: ; 0xdcfd0
+    RGB 20, 20, 20
+    RGB 31, 31, 31
+    RGB 23, 23, 27
+    RGB 0, 0, 0
+TitlescreenOBJPalette3: ; 0xdcfd8
+    RGB 0, 6, 0
+    RGB 0, 6, 0
+    RGB 0, 6, 0
+    RGB 0, 6, 0
+TitlescreenOBJPalette4: ; 0xdcfe0
+    RGB 0, 6, 0
+    RGB 0, 6, 0
+    RGB 0, 6, 0
+    RGB 0, 6, 0
+TitlescreenOBJPalette5: ; 0xdcfe8
+    RGB 0, 6, 0
+    RGB 0, 6, 0
+    RGB 0, 6, 0
+    RGB 0, 6, 0
+TitlescreenOBJPalette6: ; 0xdcff0
+    RGB 0, 6, 0
+    RGB 0, 6, 0
+    RGB 0, 6, 0
+    RGB 0, 6, 0
+TitlescreenOBJPalette7: ; 0xdcff8
+    RGB 0, 6, 0
+    RGB 0, 6, 0
+    RGB 0, 6, 0
+    RGB 0, 6, 0
+
+CopyrightScreenPalettes: ; 0xdd000
+CopyrightScreenBGPalette0: ; 0xdd000
+    RGB 31, 31, 31
+    RGB 22, 22, 22
+    RGB 11, 11, 11
+    RGB 0, 0, 0
+CopyrightScreenBGPalette1: ; 0xdd008
+    RGB 31, 31, 31
+    RGB 31, 31, 31
+    RGB 31, 31, 31
+    RGB 31, 31, 31
+CopyrightScreenBGPalette2: ; 0xdd010
+    RGB 31, 31, 31
+    RGB 31, 31, 31
+    RGB 31, 31, 31
+    RGB 31, 31, 31
+CopyrightScreenBGPalette3: ; 0xdd018
+    RGB 31, 31, 31
+    RGB 31, 31, 31
+    RGB 31, 31, 31
+    RGB 31, 31, 31
+CopyrightScreenBGPalette4: ; 0xdd020
+    RGB 31, 31, 31
+    RGB 31, 31, 31
+    RGB 31, 31, 31
+    RGB 31, 31, 31
+CopyrightScreenBGPalette5: ; 0xdd028
+    RGB 31, 31, 31
+    RGB 31, 31, 31
+    RGB 31, 31, 31
+    RGB 31, 31, 31
+CopyrightScreenBGPalette6: ; 0xdd030
+    RGB 31, 31, 31
+    RGB 31, 31, 31
+    RGB 31, 31, 31
+    RGB 31, 31, 31
+CopyrightScreenBGPalette7: ; 0xdd038
+    RGB 31, 31, 31
+    RGB 31, 31, 31
+    RGB 31, 31, 31
+    RGB 31, 31, 31
+
+CopyrightScreenOBJPalette0: ; 0xdd040
+    RGB 31, 31, 31
+    RGB 31, 31, 31
+    RGB 22, 22, 22
+    RGB 0, 0, 0
+CopyrightScreenOBJPalette1: ; 0xdd048
+    RGB 31, 31, 31
+    RGB 31, 31, 31
+    RGB 11, 11, 11
+    RGB 0, 0, 0
+CopyrightScreenOBJPalette2: ; 0xdd050
+    RGB 31, 31, 31
+    RGB 31, 31, 31
+    RGB 31, 31, 31
+    RGB 31, 31, 31
+CopyrightScreenOBJPalette3: ; 0xdd058
+    RGB 31, 31, 31
+    RGB 31, 31, 31
+    RGB 31, 31, 31
+    RGB 31, 31, 31
+CopyrightScreenOBJPalette4: ; 0xdd060
+    RGB 31, 31, 31
+    RGB 31, 31, 31
+    RGB 31, 31, 31
+    RGB 31, 31, 31
+CopyrightScreenOBJPalette5: ; 0xdd068
+    RGB 31, 31, 31
+    RGB 31, 31, 31
+    RGB 31, 31, 31
+    RGB 31, 31, 31
+CopyrightScreenOBJPalette6: ; 0xdd070
+    RGB 31, 31, 31
+    RGB 31, 31, 31
+    RGB 31, 31, 31
+    RGB 31, 31, 31
+CopyrightScreenOBJPalette7: ; 0xdd078
+    RGB 31, 31, 31
+    RGB 31, 31, 31
+    RGB 31, 31, 31
+    RGB 31, 31, 31
+
+INCBIN "baserom.gbc",$dd080,$dd148 - $dd080
 
 CinnabarIslandBillboardBGPalette1: ; 0xdd148
     RGB 31, 31, 31

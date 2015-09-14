@@ -6144,16 +6144,16 @@ Func_33e3: ; 0x33e3
     call Func_30e8
     ld a, [hGameBoyColorFlag]
     and a
-    jr nz, .asm_3466
-    ld a, $18
-    ld hl, $7030
+    jr nz, .gameboyColor
+    ld a, Bank(StageRedFieldTopStatusBarSymbolsGfx_GameBoy)
+    ld hl, $30 + StageRedFieldTopStatusBarSymbolsGfx_GameBoy
     ld de, $8830
     ld bc, $0040
     call Func_735
     ret
-.asm_3466
-    ld a, $27
-    ld hl, $4030
+.gameboyColor
+    ld a, Bank(StageRedFieldTopStatusBarSymbolsGfx_GameBoyColor)
+    ld hl, $30 + StageRedFieldTopStatusBarSymbolsGfx_GameBoyColor
     ld de, $8830
     ld bc, $0040
     call Func_735
@@ -9927,15 +9927,15 @@ OAMData2_82: ; 0x
     db $FE, $08, $E0, $00
     db $80  ; terminator
 
-OAMData2_83: ; 0x
+OAMData2_83: ; 0x6258
     db $10, $08, $F0, $00
     db $80  ; terminator
 
-OAMData2_84: ; 0x
+OAMData2_84: ; 0x625d
     db $10, $08, $F2, $00
     db $80  ; terminator
 
-INCBIN "baserom.gbc",$6262,$8000 - $6262
+; Free Space 0x6262
 
 
 SECTION "bank2", ROMX, BANK[$2]
@@ -9993,20 +9993,22 @@ Func_8049: ; 0x8049
     ld c, $0
     call FillTilesVRAM
     call FillBackgroundsVRAM
+    ; This code makes no sense.
+    ; It first fills 33 bytes at $ff68, then refills at $ff6a
     ld a, $80
     ld de, $ff68
-    ld hl, $40e4  ; todo
-    call Func_80d1
+    ld hl, Data_80e4
+    call Fill33Bytes
     ld a, $80
     ld de, $ff6a
-    ld hl, $40f4 ; todo
-    call Func_80d1
+    ld hl, Data_80f4
+    call Fill33Bytes
     ld hl, PointerTable_8089
     xor a
     call LoadVideoData
     ld a, $2
     ld bc, $4094 ; todo
-    ld de, LoadTileLists ; todo
+    ld de, LoadTileLists
     call Func_10c5
     ret
 
@@ -10049,26 +10051,61 @@ FillTilesVRAM: ; 0x80c3
     jr nz, .fillLoop
     ret
 
-Func_80d1: ; 0x80d1
+Fill33Bytes: ; 0x80d1
+; First places a in [de].
+; Then, reads 32 bytes from hl and places them in order at de + 1
     ld [de], a
     inc de
     ld b, $4
-.asm_80d5
+.outerLoop
     ld c, $8
     push hl
-.asm_80d8
+.innerLoop
     ld a, [hli]
     ld [de], a
     ld a, [hli]
     ld [de], a
     dec c
-    jr nz, .asm_80d8
+    jr nz, .innerLoop
     pop hl
     dec b
-    jr nz, .asm_80d5
+    jr nz, .outerLoop
     ret
 
-INCBIN "baserom.gbc",$80e4,$8104 - $80e4
+Data_80e4: ; 0x80e4
+    db $FF
+    db $7F
+    db $B5
+    db $56
+    db $6B
+    db $2D
+    db $00
+    db $00
+    db $FF
+    db $7F
+    db $B5
+    db $56
+    db $6B
+    db $2D
+    db $00
+    db $00
+Data_80f4: ; 0x80f4
+    db $B5
+    db $56
+    db $FF
+    db $7F
+    db $6B
+    db $2D
+    db $00
+    db $00
+    db $FF
+    db $7F
+    db $B5
+    db $56
+    db $6B
+    db $2D
+    db $00
+    db $00
 
 Func_8104: ; 0x8104
     ld a, [hNewlyPressedButtons]
@@ -10178,13 +10215,13 @@ EraseAllDataGfx_GameBoyColor: ; 0x81b6
     dw vBGMap0
     dw $1000
 
-    dw $7c00
-    db $2F
+    dw EraseAllDataBGAttributes
+    db Bank(EraseAllDataBGAttributes)
     dw vBGMap0
     dw $1002
 
-    dw $4d80
-    db $37
+    dw EraseAllDataPalettes
+    db Bank(EraseAllDataPalettes)
     dw $0000
     dw $101
 
@@ -45935,8 +45972,8 @@ INCBIN "baserom.gbc",$bf000,$bf800 - $bf000
 
 EraseAllDataTilemap: ; 0xbf800
     INCBIN "gfx/tilemaps/erase_all_data.map"
-
-INCBIN "baserom.gbc",$bfc00,$c0000 - $bfc00
+EraseAllDataBGAttributes: ; 0xbfc00
+    INCBIN "gfx/bgattr/erase_all_data.bgattr"
 
 
 SECTION "bank30", ROMX, BANK[$30]
@@ -48705,7 +48742,92 @@ MewBGPalette2: ; 0xdc768
     RGB 0, 10, 31
     RGB 0, 0, 0
 
-INCBIN "baserom.gbc",$dc770,$dd148 - $dc770
+INCBIN "baserom.gbc",$dc770,$dcd80 - $dc770
+
+EraseAllDataPalettes: ; 0xdcd80
+EraseAllDataBGPalette0: ; 0xdcd80
+    RGB 31, 31, 31
+    RGB 23, 23, 23
+    RGB 14, 14, 14
+    RGB 5, 5, 5
+EraseAllDataBGPalette1: ; 0xdcd88
+    RGB 31, 31, 31
+    RGB 0, 0, 31
+    RGB 31, 6, 6
+    RGB 0, 0, 0
+EraseAllDataBGPalette2: ; 0xdcd90
+    RGB 31, 31, 31
+    RGB 0, 8, 31
+    RGB 31, 6, 6
+    RGB 0, 0, 0
+EraseAllDataBGPalette3: ; 0xdcd98
+    RGB 31, 31, 31
+    RGB 0, 16, 31
+    RGB 31, 6, 6
+    RGB 0, 0, 0
+EraseAllDataBGPalette4: ; 0xdcda0
+    RGB 31, 31, 31
+    RGB 0, 24, 31
+    RGB 31, 6, 6
+    RGB 0, 0, 0
+EraseAllDataBGPalette5: ; 0xdcda8
+    RGB 31, 31, 31
+    RGB 0, 31, 31
+    RGB 31, 6, 6
+    RGB 0, 0, 0
+EraseAllDataBGPalette6: ; 0xdcdb0
+    RGB 31, 31, 31
+    RGB 31, 31, 31
+    RGB 31, 31, 31
+    RGB 31, 31, 31
+EraseAllDataBGPalette7: ; 0xdcdb8
+    RGB 31, 29, 4
+    RGB 29, 18, 0
+    RGB 31, 0, 0
+    RGB 5, 5, 5
+
+EraseAllDataOBJPalette0: ; 0xdcdc0
+    RGB 31, 31, 31
+    RGB 31, 31, 31
+    RGB 31, 6, 6
+    RGB 0, 0, 0
+EraseAllDataOBJPalette1: ; 0xdcdc8
+    RGB 31, 31, 31
+    RGB 31, 29, 4
+    RGB 29, 18, 0
+    RGB 0, 0, 0
+EraseAllDataOBJPalette2: ; 0xdcdd0
+    RGB 20, 20, 20
+    RGB 31, 31, 31
+    RGB 14, 14, 14
+    RGB 5, 5, 5
+EraseAllDataOBJPalette3: ; 0xdcdd8
+    RGB 31, 31, 31
+    RGB 31, 31, 31
+    RGB 31, 31, 31
+    RGB 31, 31, 31
+EraseAllDataOBJPalette4: ; 0xdcde0
+    RGB 31, 31, 31
+    RGB 31, 0, 0
+    RGB 31, 31, 31
+    RGB 0, 0, 0
+EraseAllDataOBJPalette5: ; 0xdcde8
+    RGB 31, 31, 31
+    RGB 31, 31, 31
+    RGB 31, 31, 31
+    RGB 31, 31, 31
+EraseAllDataOBJPalette6: ; 0xdcdf0
+    RGB 31, 31, 31
+    RGB 31, 31, 31
+    RGB 31, 31, 31
+    RGB 31, 31, 31
+EraseAllDataOBJPalette7: ; 0xdcdf8
+    RGB 31, 31, 31
+    RGB 31, 31, 31
+    RGB 31, 31, 31
+    RGB 31, 31, 31
+
+INCBIN "baserom.gbc",$dce00,$dd148 - $dce00
 
 CinnabarIslandBillboardBGPalette1: ; 0xdd148
     RGB 31, 31, 31

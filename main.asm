@@ -15159,39 +15159,15 @@ FieldSelectGfxPointers: ; 0xd71c
     dw FieldSelectGfx_GameBoyColor
 
 FieldSelectGfx_GameBoy: ; 0xd720
-    dw FieldSelectScreenGfx
-    db Bank(FieldSelectScreenGfx)
-    dw vTiles1 - $100
-    dw $3400
-
-    dw FieldSelectTilemap
-    db Bank(FieldSelectTilemap)
-    dw vBGMap0
-    dw $900
-
+    VIDEO_DATA_TILES   FieldSelectScreenGfx, vTiles1 - $100, $d00
+    VIDEO_DATA_TILEMAP FieldSelectTilemap, vBGMap0, $240
     db $FF, $FF ; terminators
 
 FieldSelectGfx_GameBoyColor: ; 0xd730
-    dw FieldSelectScreenGfx
-    db Bank(FieldSelectScreenGfx)
-    dw vTiles1 - $100
-    dw $3400
-
-    dw FieldSelectTilemap
-    db Bank(FieldSelectTilemap)
-    dw vBGMap0
-    dw $900
-
-    dw $7c00
-    db $2C 
-    dw vBGMap0
-    dw $902
-
-    dw $5100
-    db $37
-    dw $0000
-    dw $91
-
+    VIDEO_DATA_TILES    FieldSelectScreenGfx, vTiles1 - $100, $d00
+    VIDEO_DATA_TILEMAP  FieldSelectTilemap, vBGMap0, $240
+    VIDEO_DATA_BGATTR   FieldSelectBGAttributes, vBGMap0, $240
+    VIDEO_DATA_PALETTES FieldSelectScreenPalettes, $48
     db $FF, $FF ; terminators
 
 ChooseFieldToPlay: ; 0xd74e
@@ -17145,383 +17121,133 @@ Func_e6c2: ; 0xe6c2
 StageGfxPointers_GameBoy: ; 0xe6f7
     dw StageRedFieldTopGfx_GameBoy
     dw StageRedFieldBottomGfx_GameBoy
-    dw Data_e896
-    dw Data_e8bd
-    dw Data_e8f2
-    dw Data_e982
-    dw Data_ea12
-    dw Data_ea12
-    dw Data_eabe
-    dw Data_eabe
-    dw Data_eb4e
-    dw Data_eb4e
-    dw Data_ebd7
-    dw Data_ebd7
-    dw Data_ec60
-    dw Data_ec60
+    dw VideoData_e896
+    dw VideoData_e8bd
+    dw StageBlueFieldTopGfx_GameBoy
+    dw StageBlueFieldBottomGfx_GameBoy
+    dw StageGengarBonusGfx_GameBoy
+    dw StageGengarBonusGfx_GameBoy
+    dw StageMewtwoBonusGfx_GameBoy
+    dw StageMewtwoBonusGfx_GameBoy
+    dw StageMeowthBonusGfx_GameBoy
+    dw StageMeowthBonusGfx_GameBoy
+    dw StageDiglettBonusGfx_GameBoy
+    dw StageDiglettBonusGfx_GameBoy
+    dw StageSeelBonusGfx_GameBoy
+    dw StageSeelBonusGfx_GameBoy
 
 StageGfxPointers_GameBoyColor: ; 0xe717
     dw StageRedFieldTopGfx_GameBoyColor
     dw StageRedFieldBottomGfx_GameBoyColor
-    dw Data_e8a6
-    dw Data_e8d4
-    dw Data_e92c
-    dw Data_e9bc
-    dw Data_ea5a
-    dw Data_ea5a
-    dw Data_eaf8
-    dw Data_eaf8
-    dw Data_eb88
-    dw Data_eb88
-    dw Data_ec11
-    dw Data_ec11
-    dw Data_ec9a
-    dw Data_ec9a
+    dw VideoData_e8a6
+    dw VideoData_e8d4
+    dw StageBlueFieldTopGfx_GameBoyColor
+    dw StageBlueFieldBottomGfx_GameBoyColor
+    dw StageGengarBonusGfx_GameBoyColor
+    dw StageGengarBonusGfx_GameBoyColor
+    dw StageMewtwoBonusGfx_GameBoyColor
+    dw StageMewtwoBonusGfx_GameBoyColor
+    dw StageMeowthBonusGfx_GameBoyColor
+    dw StageMeowthBonusGfx_GameBoyColor
+    dw StageDiglettBonusGfx_GameBoyColor
+    dw StageDiglettBonusGfx_GameBoyColor
+    dw StageSeelBonusGfx_GameBoyColor
+    dw StageSeelBonusGfx_GameBoyColor
 
 StageRedFieldTopGfx_GameBoy: ; 0xe737
-    dw Alphabet1Gfx
-    db Bank(Alphabet1Gfx)
-    dw vTiles0
-    dw $680
-
-    dw StageRedFieldTopGfx1
-    db Bank(StageRedFieldTopGfx1)
-    dw vTiles0 + $1A0
-    dw $980
-
-    dw PinballPokeballGfx
-    db Bank(PinballPokeballGfx)
-    dw vTiles0 + $400
-    dw $800
-
-    dw StageRedFieldTopGfx2
-    db Bank(StageRedFieldTopGfx2)
-    dw vTiles0 + $600
-    dw $0800
-
-    dw StageRedFieldTopStatusBarSymbolsGfx_GameBoy
-    db Bank(StageRedFieldTopStatusBarSymbolsGfx_GameBoy)
-    dw vTiles1
-    dw $0400
-
-    dw StageRedFieldTopGfx3
-    db Bank(StageRedFieldTopGfx3)
-    dw vTiles1 + $100
-    dw $0680
-
-    dw StageRedFieldTopBaseGameBoyGfx
-    db Bank(StageRedFieldTopBaseGameBoyGfx)
-    dw vTiles1 + $2A0
-    dw $3580
-
-    dw StageRedFieldTopTilemap_GameBoy
-    db Bank(StageRedFieldTopTilemap_GameBoy)
-    dw vBGMap0
-    dw $1000
-
+    VIDEO_DATA_TILES   Alphabet1Gfx, vTiles0, $1a0
+    VIDEO_DATA_TILES   StageRedFieldTopGfx1, vTiles0 + $1a0, $260
+    VIDEO_DATA_TILES   PinballPokeballGfx, vTiles0 + $400, $200
+    VIDEO_DATA_TILES   StageRedFieldTopGfx2, vTiles0 + $600, $200
+    VIDEO_DATA_TILES   StageRedFieldTopStatusBarSymbolsGfx_GameBoy, vTiles1, $100
+    VIDEO_DATA_TILES   StageRedFieldTopGfx3, vTiles1 + $100, $1a0
+    VIDEO_DATA_TILES   StageRedFieldTopBaseGameBoyGfx, vTiles1 + $2a0, $d60
+    VIDEO_DATA_TILEMAP StageRedFieldTopTilemap_GameBoy, vBGMap0, $400
     db $FF, $FF  ; terminators
 
 StageRedFieldTopGfx_GameBoyColor: ; 0xe771
-    dw Alphabet2Gfx
-    db Bank(Alphabet2Gfx)
-    dw vTiles0
-    dw $0680
-
-    dw StageRedFieldTopGfx1
-    db Bank(StageRedFieldTopGfx1)
-    dw vTiles0 + $1A0
-    dw $0980
-
-    dw PinballPokeballGfx
-    db Bank(PinballPokeballGfx)
-    dw vTiles0 + $400
-    dw $0800
-
-    dw StageRedFieldTopGfx2
-    db Bank(StageRedFieldTopGfx2)
-    dw vTiles0 + $600
-    dw $0800
-
-    dw StageRedFieldTopStatusBarSymbolsGfx_GameBoyColor
-    db Bank(StageRedFieldTopStatusBarSymbolsGfx_GameBoyColor)
-    dw vTiles1
-    dw $0400
-
-    dw StageRedFieldTopGfx3
-    db Bank(StageRedFieldTopGfx3)
-    dw vTiles1 + $100
-    dw $0680
-
-    dw StageRedFieldTopBaseGameBoyColorGfx
-    db Bank(StageRedFieldTopBaseGameBoyColorGfx)
-    dw vTiles1 + $2A0
-    dw $3580
-
-    dw StageRedFieldTopGfx4
-    db Bank(StageRedFieldTopGfx4)
-    dw vTiles1
-    dw $4002
-
-    dw StageRedFieldTopGfx5
-    db Bank(StageRedFieldTopGfx5)
-    dw vTiles0
-    dw $0802
-
-    dw TimerDigitsGfx
-    db Bank(TimerDigitsGfx)
-    dw vTiles0 + $600
-    dw $0582
-
-    dw StageRedJapaneseCharactersGfx
-    db Bank(StageRedJapaneseCharactersGfx)
-    dw vTiles0 + $200
-    dw $1002
-
-    dw StageRedJapaneseCharactersGfx2
-    db Bank(StageRedJapaneseCharactersGfx2)
-    dw vTiles1 + $100
-    dw $0802
-
-    dw StageRedFieldTopStatusBarSymbolsGfx_GameBoyColor
-    db Bank(StageRedFieldTopStatusBarSymbolsGfx_GameBoyColor)
-    dw vTiles1
-    dw $0402
-
-    dw StageRedFieldTopTilemap_GameBoyColor
-    db Bank(StageRedFieldTopTilemap_GameBoyColor)
-    dw vBGMap0
-    dw $1000
-
-    dw StageRedFieldTopTilemap2_GameBoyColor
-    db Bank(StageRedFieldTopTilemap2_GameBoyColor)
-    dw vBGMap0
-    dw $1002
-
-    dw $4980
-    db $37
-    dw $0000
-    dw $0101
-
-    dw StageRedFieldTopGfx6
-    db Bank(StageRedFieldTopGfx6)
-    dw vTiles0 + $7C0
-    dw $0102
-
+    VIDEO_DATA_TILES         Alphabet2Gfx, vTiles0, $1a0
+    VIDEO_DATA_TILES         StageRedFieldTopGfx1, vTiles0 + $1a0, $260
+    VIDEO_DATA_TILES         PinballPokeballGfx, vTiles0 + $400, $200
+    VIDEO_DATA_TILES         StageRedFieldTopGfx2, vTiles0 + $600, $200
+    VIDEO_DATA_TILES         StageRedFieldTopStatusBarSymbolsGfx_GameBoyColor, vTiles1, $100
+    VIDEO_DATA_TILES         StageRedFieldTopGfx3, vTiles1 + $100, $1a0
+    VIDEO_DATA_TILES         StageRedFieldTopBaseGameBoyColorGfx, vTiles1 + $2a0, $d60
+    VIDEO_DATA_TILES_BANK2   StageRedFieldTopGfx4, vTiles1, $1000
+    VIDEO_DATA_TILES_BANK2   StageRedFieldTopGfx5, vTiles0, $200
+    VIDEO_DATA_TILES_BANK2   TimerDigitsGfx, vTiles0 + $600, $160
+    VIDEO_DATA_TILES_BANK2   StageRedJapaneseCharactersGfx, vTiles0 + $200, $400
+    VIDEO_DATA_TILES_BANK2   StageRedJapaneseCharactersGfx2, vTiles1 + $100, $200
+    VIDEO_DATA_TILES_BANK2   StageRedFieldTopStatusBarSymbolsGfx_GameBoyColor, vTiles1, $100
+    VIDEO_DATA_TILEMAP       StageRedFieldTopTilemap_GameBoyColor, vBGMap0, $400
+    VIDEO_DATA_TILEMAP_BANK2 StageRedFieldTopTilemap2_GameBoyColor, vBGMap0, $400
+    VIDEO_DATA_PALETTES      StageRedFieldTopPalettes, $80
+    VIDEO_DATA_TILES_BANK2   StageRedFieldTopGfx6, vTiles0 + $7c0, $40
     db $FF, $FF  ; terminators
 
 StageRedFieldBottomGfx_GameBoy: ; 0xe7ea
-    dw Alphabet1Gfx
-    db Bank(Alphabet1Gfx)
-    dw vTiles0
-    dw $0680
-
-    dw StageRedFieldBottomGfx1
-    db Bank(StageRedFieldBottomGfx1)
-    dw vTiles0 + $1A0
-    dw $0580
-
-    dw StageRedFieldBottomGfx2
-    db Bank(StageRedFieldBottomGfx2)
-    dw vTiles0 + $300
-    dw $0200
-
-    dw StageRedFieldBottomGfx3
-    db Bank(StageRedFieldBottomGfx3)
-    dw vTiles0 + $380
-    dw $0080
-
-    dw StageRedFieldBottomGfx4
-    db Bank(StageRedFieldBottomGfx4)
-    dw vTiles0 + $3C0
-    dw $1100
-
-    dw StageRedFieldBottomBaseGameBoyGfx
-    db Bank(StageRedFieldBottomBaseGameBoyGfx)
-    dw vTiles1
-    dw $4000
-
-    dw SaverTextOffGfx
-    db Bank(SaverTextOffGfx)
-    dw vTiles1 + $2A0
-    dw $0100
-
-    dw StageRedFieldBottomTilemap_GameBoy
-    db Bank(StageRedFieldBottomTilemap_GameBoy)
-    dw vBGMap0
-    dw $1000
-
+    VIDEO_DATA_TILES    Alphabet1Gfx, vTiles0, $1a0
+    VIDEO_DATA_TILES    StageRedFieldBottomGfx1, vTiles0 + $1a0, $160
+    VIDEO_DATA_TILES    StageRedFieldBottomGfx2, vTiles0 + $300, $80
+    VIDEO_DATA_TILES    StageRedFieldBottomGfx3, vTiles0 + $380, $20
+    VIDEO_DATA_TILES    StageRedFieldBottomGfx4, vTiles0 + $3c0, $440
+    VIDEO_DATA_TILES    StageRedFieldBottomBaseGameBoyGfx, vTiles1, $1000
+    VIDEO_DATA_TILES    SaverTextOffGfx, vTiles1 + $2a0, $40
+    VIDEO_DATA_TILEMAP  StageRedFieldBottomTilemap_GameBoy, vBGMap0, $400
     db $FF, $FF  ; terminators
 
 StageRedFieldBottomGfx_GameBoyColor: ; 0xe824
-    dw Alphabet2Gfx
-    db Bank(Alphabet2Gfx)
-    dw vTiles0
-    dw $0680
-
-    dw StageRedFieldBottomGfx1
-    db Bank(StageRedFieldBottomGfx1)
-    dw vTiles0 + $1A0
-    dw $0580
-
-    dw StageRedFieldBottomGfx2
-    db Bank(StageRedFieldBottomGfx2)
-    dw vTiles0 + $300
-    dw $0200
-
-    dw StageRedFieldBottomGfx3
-    db Bank(StageRedFieldBottomGfx3)
-    dw vTiles0 + $380
-    dw $0080
-
-    dw StageRedFieldBottomGfx4
-    db Bank(StageRedFieldBottomGfx4)
-    dw vTiles0 + $3C0
-    dw $1100
-
-    dw StageRedFieldBottomBaseGameBoyColorGfx
-    db Bank(StageRedFieldBottomBaseGameBoyColorGfx)
-    dw vTiles1
-    dw $4000
-
-    dw StageRedFieldBottomGfx5
-    db Bank(StageRedFieldBottomGfx5)
-    dw vTiles1
-    dw $4002
-
-    dw TimerDigitsGfx
-    db Bank(TimerDigitsGfx)
-    dw vTiles0 + $600
-    dw $0582
-
-    dw SaverTextOffGfx
-    db Bank(SaverTextOffGfx)
-    dw vTiles1 + $2A0
-    dw $0100
-
-    dw StageRedJapaneseCharactersGfx
-    db Bank(StageRedJapaneseCharactersGfx)
-    dw vTiles0 + $200
-    dw $1002
-
-    dw StageRedJapaneseCharactersGfx2
-    db Bank(StageRedJapaneseCharactersGfx2)
-    dw vTiles1 + $100
-    dw $0802
-
-    dw StageRedFieldBottomBaseGameBoyColorGfx
-    db Bank(StageRedFieldBottomBaseGameBoyColorGfx)
-    dw vTiles1
-    dw $0402
-
-    dw StageRedFieldBottomTilemap_GameBoyColor
-    db Bank(StageRedFieldBottomTilemap_GameBoyColor)
-    dw vBGMap0
-    dw $1000
-
-    dw StageRedFieldBottomTilemap2_GameBoyColor
-    db Bank(StageRedFieldBottomTilemap2_GameBoyColor)
-    dw vBGMap0
-    dw $1002
-
-    dw $4A80
-    db $37
-    dw $0000
-    dw $0101
-
-    dw StageRedFieldTopGfx6
-    db Bank(StageRedFieldTopGfx6)
-    dw vTiles0 + $7C0
-    dw $0102
-
+    VIDEO_DATA_TILES         Alphabet2Gfx, vTiles0, $1a0
+    VIDEO_DATA_TILES         StageRedFieldBottomGfx1, vTiles0 + $1a0, $160
+    VIDEO_DATA_TILES         StageRedFieldBottomGfx2, vTiles0 + $300, $80
+    VIDEO_DATA_TILES         StageRedFieldBottomGfx3, vTiles0 + $380, $20
+    VIDEO_DATA_TILES         StageRedFieldBottomGfx4, vTiles0 + $3c0, $440
+    VIDEO_DATA_TILES         StageRedFieldBottomBaseGameBoyColorGfx, vTiles1, $1000
+    VIDEO_DATA_TILES_BANK2   StageRedFieldBottomGfx5, vTiles1, $1000
+    VIDEO_DATA_TILES_BANK2   TimerDigitsGfx, vTiles0 + $600, $160
+    VIDEO_DATA_TILES         SaverTextOffGfx, vTiles1 + $2a0, $40
+    VIDEO_DATA_TILES_BANK2   StageRedJapaneseCharactersGfx, vTiles0 + $200, $400
+    VIDEO_DATA_TILES_BANK2   StageRedJapaneseCharactersGfx2, vTiles1 + $100, $200
+    VIDEO_DATA_TILES_BANK2   StageRedFieldBottomBaseGameBoyColorGfx, vTiles1, $100
+    VIDEO_DATA_TILEMAP       StageRedFieldBottomTilemap_GameBoyColor, vBGMap0, $400
+    VIDEO_DATA_TILEMAP_BANK2 StageRedFieldBottomTilemap2_GameBoyColor, vBGMap0, $400
+    VIDEO_DATA_PALETTES      StageRedFieldBottomPalettes, $80
+    VIDEO_DATA_TILES_BANK2   StageRedFieldTopGfx6, vTiles0 + $7c0, $40
     db $FF, $FF  ; terminators
 
-Data_e896: ; 0xe896
-    dw Alphabet1Gfx
-    db Bank(Alphabet1Gfx)
-    dw vTiles0
-    dw $0680
-
-    dw PinballPokeballGfx
-    db Bank(PinballPokeballGfx)
-    dw vTiles0 + $400
-    dw $0800
-
+VideoData_e896: ; 0xe896
+    VIDEO_DATA_TILES Alphabet1Gfx, vTiles0, $1a0
+    VIDEO_DATA_TILES PinballPokeballGfx, vTiles0 + $400, $200
     db $FF, $FF  ; terminators
 
-Data_e8a6: ; 0xe8a6
-    dw Alphabet2Gfx
-    db Bank(Alphabet2Gfx)
-    dw vTiles0
-    dw $0680
-
-    dw PinballPokeballGfx
-    db Bank(PinballPokeballGfx)
-    dw vTiles0 + $400
-    dw $0800
-
-    dw TimerDigitsGfx
-    db Bank(TimerDigitsGfx)
-    dw vTiles0 + $600
-    dw $0582
-
+VideoData_e8a6: ; 0xe8a6
+    VIDEO_DATA_TILES       Alphabet2Gfx, vTiles0, $1a0
+    VIDEO_DATA_TILES       PinballPokeballGfx, vTiles0 + $400, $200
+    VIDEO_DATA_TILES_BANK2 TimerDigitsGfx, vTiles0 + $600, $160
     db $FF, $FF  ; terminators
 
-Data_e8bd: ; 0xe8bd
-    dw Alphabet1Gfx
-    db Bank(Alphabet1Gfx)
-    dw vTiles0
-    dw $0680
-
-    dw $4380
-    db $2A
-    dw $8380
-    dw $1200
-
-    dw SaverTextOffGfx
-    db Bank(SaverTextOffGfx)
-    dw vTiles1 + $2a0
-    dw $0100
-
+VideoData_e8bd: ; 0xe8bd
+    VIDEO_DATA_TILES Alphabet1Gfx, vTiles0, $1a0
+    VIDEO_DATA_TILES PinballPokeballShakeGfx, vTiles0 + $380, $480
+    VIDEO_DATA_TILES SaverTextOffGfx, vTiles1 + $2a0, $40
     db $FF, $FF  ; terminators
 
-Data_e8d4: ; 0xe8d4
-    dw Alphabet2Gfx
-    db Bank(Alphabet2Gfx)
-    dw vTiles0
-    dw $0680
-
-    dw $4380
-    db $2A
-    dw $8380
-    dw $1200
-
-    dw TimerDigitsGfx
-    db Bank(TimerDigitsGfx)
-    dw vTiles0 + $600
-    dw $0582
-
-    dw SaverTextOffGfx
-    db Bank(SaverTextOffGfx)
-    dw vTiles1 + $2A0
-    dw $0100
-
+VideoData_e8d4: ; 0xe8d4
+    VIDEO_DATA_TILES Alphabet2Gfx, vTiles0, $1a0
+    VIDEO_DATA_TILES PinballPokeballShakeGfx, vTiles0 + $380, $480
+    VIDEO_DATA_TILES_BANK2 TimerDigitsGfx, vTiles0 + $600, $160
+    VIDEO_DATA_TILES       SaverTextOffGfx, vTiles1 + $2a0, $40
     db $FF, $FF  ; terminators
 
-Data_e8f2: ; 0xe8f2
-    dw Alphabet1Gfx
-    db Bank(Alphabet1Gfx)
-    dw vTiles0
-    dw $0680
+StageBlueFieldTopGfx_GameBoy: ; 0xe8f2
+    VIDEO_DATA_TILES Alphabet1Gfx, vTiles0, $1a0
 
     dw $67A0
     db $35
     dw $81A0
     dw $0980
 
-    dw PinballPokeballGfx
-    db Bank(PinballPokeballGfx)
-    dw vTiles0 + $400
-    dw $0800
+    VIDEO_DATA_TILES PinballPokeballGfx, vTiles0 + $400, $200
 
     dw $6A00
     db $35
@@ -17550,21 +17276,15 @@ Data_e8f2: ; 0xe8f2
 
     db $FF, $FF  ; terminators
 
-Data_e92c: ; 0xe92c
-    dw Alphabet2Gfx
-    db Bank(Alphabet2Gfx)
-    dw vTiles0
-    dw $0680
+StageBlueFieldTopGfx_GameBoyColor: ; 0xe92c
+    VIDEO_DATA_TILES Alphabet2Gfx, vTiles0, $1a0
 
     dw $67A0
     db $35
     dw $81A0
     dw $0980
 
-    dw PinballPokeballGfx
-    db Bank(PinballPokeballGfx)
-    dw vTiles0 + $400
-    dw $0800
+    VIDEO_DATA_TILES PinballPokeballGfx, vTiles0 + $400, $200
 
     dw $6A00
     db $35
@@ -17591,10 +17311,7 @@ Data_e92c: ; 0xe92c
     dw $8800
     dw $4002
 
-    dw TimerDigitsGfx
-    db Bank(TimerDigitsGfx)
-    dw vTiles0 + $600
-    dw $0582
+    VIDEO_DATA_TILES_BANK2 TimerDigitsGfx, vTiles0 + $600, $160
 
     dw $6800
     db $31
@@ -17613,41 +17330,19 @@ Data_e92c: ; 0xe92c
 
     db $FF, $FF  ; terminators
 
-Data_e982: ; 0xe982
-    dw Alphabet1Gfx
-    db Bank(Alphabet1Gfx)
-    dw vTiles0
-    dw $0680
-
-    dw StageRedFieldBottomGfx1
-    db Bank(StageRedFieldBottomGfx1)
-    dw vTiles0 + $1A0
-    dw $0580
-
-    dw StageRedFieldBottomGfx2
-    db Bank(StageRedFieldBottomGfx2)
-    dw vTiles0 + $300
-    dw $0200
-
-    dw StageRedFieldBottomGfx3
-    db Bank(StageRedFieldBottomGfx3)
-    dw vTiles0 + $380
-    dw $0080
-
-    dw StageRedFieldBottomGfx4
-    db Bank(StageRedFieldBottomGfx4)
-    dw vTiles0 + $3C0
-    dw $1100
+StageBlueFieldBottomGfx_GameBoy: ; 0xe982
+    VIDEO_DATA_TILES Alphabet1Gfx, vTiles0, $1a0
+    VIDEO_DATA_TILES StageRedFieldBottomGfx1, vTiles0 + $1a0, $160
+    VIDEO_DATA_TILES StageRedFieldBottomGfx2, vTiles0 + $300, $80
+    VIDEO_DATA_TILES StageRedFieldBottomGfx3, vTiles0 + $380, $20
+    VIDEO_DATA_TILES StageRedFieldBottomGfx4, vTiles0 + $3c0, $440
 
     dw $7000
     db $19
     dw $8800
     dw $4000
 
-    dw SaverTextOffGfx
-    db Bank(SaverTextOffGfx)
-    dw vTiles1 + $2A0
-    dw $0100
+    VIDEO_DATA_TILES SaverTextOffGfx, vTiles1 + $2a0, $40
 
     dw $4000
     db $30
@@ -17656,31 +17351,12 @@ Data_e982: ; 0xe982
 
     db $FF, $FF  ; terminators
 
-Data_e9bc: ; 0xe9bc
-    dw Alphabet2Gfx
-    db Bank(Alphabet2Gfx)
-    dw vTiles0
-    dw $0680
-
-    dw StageRedFieldBottomGfx1
-    db Bank(StageRedFieldBottomGfx1)
-    dw vTiles0 + $1A0
-    dw $0580
-
-    dw StageRedFieldBottomGfx2
-    db Bank(StageRedFieldBottomGfx2)
-    dw vTiles0 + $300
-    dw $0200
-
-    dw StageRedFieldBottomGfx3
-    db Bank(StageRedFieldBottomGfx3)
-    dw vTiles0 + $380
-    dw $0080
-
-    dw StageRedFieldBottomGfx4
-    db Bank(StageRedFieldBottomGfx4)
-    dw vTiles0 + $3C0
-    dw $1100
+StageBlueFieldBottomGfx_GameBoyColor: ; 0xe9bc
+    VIDEO_DATA_TILES Alphabet2Gfx, vTiles0, $1a0
+    VIDEO_DATA_TILES StageRedFieldBottomGfx1, vTiles0 + $1a0, $160
+    VIDEO_DATA_TILES StageRedFieldBottomGfx2, vTiles0 + $300, $80
+    VIDEO_DATA_TILES StageRedFieldBottomGfx3, vTiles0 + $380, $20
+    VIDEO_DATA_TILES StageRedFieldBottomGfx4, vTiles0 + $3c0, $440
 
     dw $4000
     db $29
@@ -17692,15 +17368,8 @@ Data_e9bc: ; 0xe9bc
     dw $8800
     dw $4002
 
-    dw TimerDigitsGfx
-    db Bank(TimerDigitsGfx)
-    dw vTiles0 + $600
-    dw $0582
-
-    dw SaverTextOffGfx
-    db Bank(SaverTextOffGfx)
-    dw vTiles1 + $2A0
-    dw $0100
+    VIDEO_DATA_TILES_BANK2 TimerDigitsGfx, vTiles0 + $600, $160
+    VIDEO_DATA_TILES       SaverTextOffGfx, vTiles1 + $2a0, $40
 
     dw $7000
     db $31
@@ -17719,16 +17388,9 @@ Data_e9bc: ; 0xe9bc
 
     db $FF, $FF  ; terminators
 
-Data_ea12: ; 0xea12
-    dw Alphabet1Gfx
-    db Bank(Alphabet1Gfx)
-    dw vTiles0
-    dw $0680
-
-    dw PinballPokeballGfx
-    db Bank(PinballPokeballGfx)
-    dw vTiles0 + $400
-    dw $0C80
+StageGengarBonusGfx_GameBoy: ; 0xea12
+    VIDEO_DATA_TILES Alphabet1Gfx, vTiles0, $1a0
+    VIDEO_DATA_TILES PinballPokeballGfx, vTiles0 + $400, $320
 
     dw $7000
     db $1C
@@ -17772,16 +17434,9 @@ Data_ea12: ; 0xea12
 
     db $FF, $FF  ; terminators
 
-Data_ea5a: ; 0xea5a
-    dw Alphabet2Gfx
-    db Bank(Alphabet2Gfx)
-    dw vTiles0
-    dw $0680
-
-    dw StageRedFieldBottomGfx4
-    db Bank(StageRedFieldBottomGfx4)
-    dw vTiles0 + $3C0
-    dw $1100
+StageGengarBonusGfx_GameBoyColor: ; 0xea5a
+    VIDEO_DATA_TILES Alphabet2Gfx, vTiles0, $1a0
+    VIDEO_DATA_TILES StageRedFieldBottomGfx4, vTiles0 + $3c0, $440
 
     dw $6000
     db $27
@@ -17823,10 +17478,7 @@ Data_ea5a: ; 0xea5a
     dw $8800
     dw $4002
 
-    dw TimerDigitsGfx
-    db Bank(TimerDigitsGfx)
-    dw vTiles0 + $600
-    dw $0582
+    VIDEO_DATA_TILES_BANK2 TimerDigitsGfx, vTiles0 + $600, $160
 
     dw $5000
     db $32
@@ -17845,21 +17497,15 @@ Data_ea5a: ; 0xea5a
 
     db $FF, $FF  ; terminators
 
-Data_eabe: ; 0xeabe
-    dw Alphabet1Gfx
-    db Bank(Alphabet1Gfx)
-    dw vTiles0
-    dw $0680
+StageMewtwoBonusGfx_GameBoy: ; 0xeabe
+    VIDEO_DATA_TILES Alphabet1Gfx, vTiles0, $1a0
 
     dw $59A0
     db $32
     dw $81A0
     dw $0980
 
-    dw PinballPokeballGfx
-    db Bank(PinballPokeballGfx)
-    dw vTiles0 + $400
-    dw $0C80
+    VIDEO_DATA_TILES PinballPokeballGfx, vTiles0 + $400, $320
 
     dw $5C00
     db $32
@@ -17888,21 +17534,15 @@ Data_eabe: ; 0xeabe
 
     db $FF, $FF  ; terminators
 
-Data_eaf8: ; 0xeaf8
-    dw Alphabet2Gfx
-    db Bank(Alphabet2Gfx)
-    dw vTiles0
-    dw $0680
+StageMewtwoBonusGfx_GameBoyColor: ; 0xeaf8
+    VIDEO_DATA_TILES Alphabet2Gfx, vTiles0, $1a0
 
     dw $59A0
     db $32
     dw $81A0
     dw $0980
 
-    dw PinballPokeballGfx
-    db Bank(PinballPokeballGfx)
-    dw vTiles0 + $400
-    dw $0C80
+    VIDEO_DATA_TILES PinballPokeballGfx, vTiles0 + $400, $320
 
     dw $5C00
     db $32
@@ -17929,10 +17569,7 @@ Data_eaf8: ; 0xeaf8
     dw $8800
     dw $4002
 
-    dw TimerDigitsGfx
-    db Bank(TimerDigitsGfx)
-    dw vTiles0 + $600
-    dw $0582
+    VIDEO_DATA_TILES_BANK2 TimerDigitsGfx, vTiles0 + $600, $160
 
     dw $7800
     db $32
@@ -17951,21 +17588,15 @@ Data_eaf8: ; 0xeaf8
 
     db $FF, $FF  ; terminators
 
-Data_eb4e: ; 0xeb4e
-    dw Alphabet1Gfx
-    db Bank(Alphabet1Gfx)
-    dw vTiles0
-    dw $0680
+StageMeowthBonusGfx_GameBoy: ; 0xeb4e
+    VIDEO_DATA_TILES Alphabet1Gfx, vTiles0, $1a0
 
     dw $41A0
     db $33
     dw $81A0
     dw $0980
 
-    dw PinballPokeballGfx
-    db Bank(PinballPokeballGfx)
-    dw vTiles0 + $400
-    dw $0C80
+    VIDEO_DATA_TILES PinballPokeballGfx, vTiles0 + $400, $320
 
     dw $4400
     db $33
@@ -17994,21 +17625,15 @@ Data_eb4e: ; 0xeb4e
 
     db $FF, $FF  ; terminators
 
-Data_eb88: ; 0xeb88
-    dw Alphabet2Gfx
-    db Bank(Alphabet2Gfx)
-    dw vTiles0
-    dw $0680
+StageMeowthBonusGfx_GameBoyColor: ; 0xeb88
+    VIDEO_DATA_TILES Alphabet2Gfx, vTiles0, $1a0
 
     dw $41A0
     db $33
     dw $81A0
     dw $0980
 
-    dw PinballPokeballGfx
-    db Bank(PinballPokeballGfx)
-    dw vTiles0 + $400
-    dw $0C80
+    VIDEO_DATA_TILES PinballPokeballGfx, vTiles0 + $400, $320
 
     dw $4400
     db $33
@@ -18030,10 +17655,7 @@ Data_eb88: ; 0xeb88
     dw $8AA0
     dw $0D80
 
-    dw TimerDigitsGfx
-    db Bank(TimerDigitsGfx)
-    dw vTiles0 + $600
-    dw $0582
+    VIDEO_DATA_TILES_BANK2 TimerDigitsGfx, vTiles0 + $600, $160
 
     dw $6000
     db $33
@@ -18052,21 +17674,15 @@ Data_eb88: ; 0xeb88
 
     db $FF, $FF  ; terminators
 
-Data_ebd7: ; 0xebd7
-    dw Alphabet1Gfx
-    db Bank(Alphabet1Gfx)
-    dw vTiles0
-    dw $0680
+StageDiglettBonusGfx_GameBoy: ; 0xebd7
+    VIDEO_DATA_TILES Alphabet1Gfx, vTiles0, $1a0
 
     dw $7AA0
     db $2B
     dw $81A0
     dw $0980
 
-    dw PinballPokeballGfx
-    db Bank(PinballPokeballGfx)
-    dw vTiles0 + $400
-    dw $0C80
+    VIDEO_DATA_TILES PinballPokeballGfx, vTiles0 + $400, $320
 
     dw $7D00
     db $2B
@@ -18095,21 +17711,15 @@ Data_ebd7: ; 0xebd7
 
     db $FF, $FF  ; terminators
 
-Data_ec11: ; 0xec11
-    dw Alphabet2Gfx
-    db Bank(Alphabet2Gfx)
-    dw vTiles0
-    dw $0680
+StageDiglettBonusGfx_GameBoyColor: ; 0xec11
+    VIDEO_DATA_TILES Alphabet2Gfx, vTiles0, $1a0
 
     dw $7AA0
     db $2B
     dw $81A0
     dw $0980
 
-    dw PinballPokeballGfx
-    db Bank(PinballPokeballGfx)
-    dw vTiles0 + $400
-    dw $0C80
+    VIDEO_DATA_TILES PinballPokeballGfx, vTiles0 + $400, $320
 
     dw $7D00
     db $2B
@@ -18131,10 +17741,7 @@ Data_ec11: ; 0xec11
     dw $8AA0
     dw $0A00
 
-    dw TimerDigitsGfx
-    db Bank(TimerDigitsGfx)
-    dw vTiles0 + $600
-    dw $0582
+    VIDEO_DATA_TILES_BANK2 TimerDigitsGfx, vTiles0 + $600, $160
 
     dw $7000
     db $34
@@ -18153,21 +17760,15 @@ Data_ec11: ; 0xec11
 
     db $FF, $FF  ; terminators
 
-Data_ec60: ; 0xec60
-    dw Alphabet1Gfx
-    db Bank(Alphabet1Gfx)
-    dw vTiles0
-    dw $0680
+StageSeelBonusGfx_GameBoy: ; 0xec60
+    VIDEO_DATA_TILES Alphabet1Gfx, vTiles0, $1a0
 
     dw $71A0
     db $26
     dw $81A0
     dw $0980
 
-    dw PinballPokeballGfx
-    db Bank(PinballPokeballGfx)
-    dw vTiles0 + $400
-    dw $0C80
+    VIDEO_DATA_TILES PinballPokeballGfx, vTiles0 + $400, $320
 
     dw $7400
     db $26
@@ -18196,21 +17797,15 @@ Data_ec60: ; 0xec60
 
     db $FF, $FF  ; terminators
 
-Data_ec9a: ; 0xec9a
-    dw Alphabet2Gfx
-    db Bank(Alphabet2Gfx)
-    dw vTiles0
-    dw $0680
+StageSeelBonusGfx_GameBoyColor: ; 0xec9a
+    VIDEO_DATA_TILES Alphabet2Gfx, vTiles0, $1a0
 
     dw $71A0
     db $26
     dw $81A0
     dw $0980
 
-    dw PinballPokeballGfx
-    db Bank(PinballPokeballGfx)
-    dw vTiles0 + $400
-    dw $0C80
+    VIDEO_DATA_TILES PinballPokeballGfx, vTiles0 + $400, $320
 
     dw $7400
     db $26
@@ -18232,10 +17827,7 @@ Data_ec9a: ; 0xec9a
     dw $8AA0
     dw $1280
 
-    dw TimerDigitsGfx
-    db Bank(TimerDigitsGfx)
-    dw vTiles0 + $600
-    dw $0582
+    VIDEO_DATA_TILES_BANK2 TimerDigitsGfx, vTiles0 + $600, $160
 
     dw $5800
     db $35
@@ -45688,8 +45280,8 @@ INCBIN "baserom.gbc",$b0000,$b3800 - $b0000 ; 0xb0000
 
 FieldSelectTilemap: ; 0xb3800
     INCBIN "gfx/tilemaps/field_select.map"
-
-INCBIN "baserom.gbc",$b3c00,$b4000 - $b3c00 ; 0xb3c00
+FieldSelectBGAttributes: ; 0xb3c00
+    INCBIN "gfx/bgattr/field_select.bgattr"
 
 
 SECTION "bank2d", ROMX, BANK[$2d]
@@ -48674,7 +48266,177 @@ MewBGPalette2: ; 0xdc768
     RGB 0, 10, 31
     RGB 0, 0, 0
 
-INCBIN "baserom.gbc",$dc770,$dcd80 - $dc770
+INCBIN "baserom.gbc",$dc770,$dc980 - $dc770
+
+StageRedFieldTopPalettes: ; 0xdc980
+StageRedFieldTopBGPalette0: ; 0xdc980
+    RGB 31, 31, 31
+    RGB 13, 20, 31
+    RGB 31, 4, 4
+    RGB 0, 0, 0
+StageRedFieldTopBGPalette1: ; 0xdc988
+    RGB 31, 31, 31
+    RGB 24, 31, 0
+    RGB 31, 0, 0
+    RGB 3, 0, 0
+StageRedFieldTopBGPalette2: ; 0xdc990
+    RGB 31, 31, 31
+    RGB 11, 25, 31
+    RGB 0, 11, 31
+    RGB 0, 0, 0
+StageRedFieldTopBGPalette3: ; 0xdc998
+    RGB 31, 31, 31
+    RGB 31, 13, 13
+    RGB 31, 0, 0
+    RGB 0, 0, 0
+StageRedFieldTopBGPalette4: ; 0xdc9a0
+    RGB 31, 31, 31
+    RGB 31, 0, 31
+    RGB 31, 0, 0
+    RGB 0, 0, 0
+StageRedFieldTopBGPalette5: ; 0xdc9a8
+    RGB 24, 31, 0
+    RGB 31, 0, 31
+    RGB 31, 0, 0
+    RGB 0, 0, 0
+StageRedFieldTopBGPalette6: ; 0xdc9b0
+    RGB 31, 31, 31
+    RGB 13, 13, 31
+    RGB 31, 0, 0
+    RGB 0, 0, 0
+StageRedFieldTopBGPalette7: ; 0xdc9b8
+    RGB 31, 31, 31
+    RGB 31, 13, 13
+    RGB 31, 0, 0
+    RGB 0, 0, 0
+
+StageRedFieldTopOBJPalette0: ; 0xdc9c0
+    RGB 21, 21, 21
+    RGB 31, 31, 31
+    RGB 31, 5, 4
+    RGB 0, 0, 0
+StageRedFieldTopOBJPalette1: ; 0xdc9c8
+    RGB 31, 31, 31
+    RGB 31, 19, 22
+    RGB 21, 0, 0
+    RGB 4, 0, 0
+StageRedFieldTopOBJPalette2: ; 0xdc9d0
+    RGB 20, 20, 20
+    RGB 31, 31, 31
+    RGB 31, 0, 31
+    RGB 0, 0, 0
+StageRedFieldTopOBJPalette3: ; 0xdc9d8
+    RGB 31, 31, 31
+    RGB 31, 31, 31
+    RGB 31, 22, 0
+    RGB 10, 4, 0
+StageRedFieldTopOBJPalette4: ; 0xdc9e0
+    RGB 20, 20, 20
+    RGB 18, 31, 18
+    RGB 5, 19, 0
+    RGB 0, 7, 0
+StageRedFieldTopOBJPalette5: ; 0xdc9e8
+    RGB 31, 31, 31
+    RGB 31, 20, 0
+    RGB 31, 15, 16
+    RGB 5, 2, 0
+StageRedFieldTopOBJPalette6: ; 0xdc9f0
+    RGB 20, 20, 20
+    RGB 0, 31, 25
+    RGB 0, 18, 14
+    RGB 0, 0, 0
+StageRedFieldTopOBJPalette7: ; 0xdc9f8
+    RGB 31, 31, 31
+    RGB 31, 15, 13
+    RGB 21, 0, 0
+    RGB 4, 0, 0
+
+INCBIN "baserom.gbc",$dca00,$dca80 - $dca00
+
+StageRedFieldBottomPalettes: ; 0xdca80
+StageRedFieldBottomBGPalette0: ; 0xdca80
+    RGB 31, 31, 31
+    RGB 13, 20, 31
+    RGB 31, 4, 4
+    RGB 0, 0, 0
+StageRedFieldBottomBGPalette1: ; 0xdca88
+    RGB 31, 31, 31
+    RGB 24, 31, 0
+    RGB 31, 0, 0
+    RGB 3, 0, 0
+StageRedFieldBottomBGPalette2: ; 0xdca90
+    RGB 31, 31, 31
+    RGB 11, 25, 31
+    RGB 0, 11, 31
+    RGB 0, 0, 0
+StageRedFieldBottomBGPalette3: ; 0xdca98
+    RGB 31, 31, 31
+    RGB 31, 13, 13
+    RGB 31, 0, 0
+    RGB 0, 0, 0
+StageRedFieldBottomBGPalette4: ; 0xdcaa0
+    RGB 31, 31, 31
+    RGB 31, 0, 31
+    RGB 31, 0, 0
+    RGB 0, 0, 0
+StageRedFieldBottomBGPalette5: ; 0xdcaa8
+    RGB 31, 31, 31
+    RGB 20, 20, 20
+    RGB 8, 8, 8
+    RGB 0, 0, 0
+StageRedFieldBottomBGPalette6: ; 0xdcab0
+    RGB 29, 30, 31
+    RGB 27, 20, 10
+    RGB 2, 16, 1
+    RGB 0, 0, 0
+StageRedFieldBottomBGPalette7: ; 0xdcab8
+    RGB 29, 30, 31
+    RGB 5, 17, 31
+    RGB 26, 3, 1
+    RGB 0, 0, 0
+
+StageRedFieldBottomOBJPalette0: ; 0xdcac0
+    RGB 21, 21, 21
+    RGB 31, 31, 31
+    RGB 31, 5, 4
+    RGB 0, 0, 0
+StageRedFieldBottomOBJPalette1: ; 0xdcac8
+    RGB 31, 31, 31
+    RGB 21, 21, 21
+    RGB 27, 21, 0
+    RGB 0, 0, 0
+StageRedFieldBottomOBJPalette2: ; 0xdcad0
+    RGB 21, 21, 21
+    RGB 31, 31, 31
+    RGB 21, 21, 27
+    RGB 0, 0, 0
+StageRedFieldBottomOBJPalette3: ; 0xdcad8
+    RGB 31, 31, 31
+    RGB 31, 31, 31
+    RGB 8, 8, 8
+    RGB 0, 0, 0
+StageRedFieldBottomOBJPalette4: ; 0xdcae0
+    RGB 21, 21, 21
+    RGB 31, 28, 0
+    RGB 29, 0, 0
+    RGB 0, 0, 0
+StageRedFieldBottomOBJPalette5: ; 0xdcae8
+    RGB 31, 31, 31
+    RGB 31, 31, 31
+    RGB 8, 8, 8
+    RGB 0, 0, 0
+StageRedFieldBottomOBJPalette6: ; 0xdcaf0
+    RGB 20, 20, 20
+    RGB 0, 31, 25
+    RGB 0, 18, 14
+    RGB 0, 0, 0
+StageRedFieldBottomOBJPalette7: ; 0xdcaf8
+    RGB 31, 31, 31
+    RGB 31, 30, 16
+    RGB 27, 24, 8
+    RGB 23, 19, 3
+
+INCBIN "baserom.gbc",$dcb00,$dcd80 - $dcb00
 
 EraseAllDataPalettes: ; 0xdcd80
 EraseAllDataBGPalette0: ; 0xdcd80
@@ -48927,7 +48689,55 @@ CopyrightScreenOBJPalette7: ; 0xdd078
     RGB 31, 31, 31
     RGB 31, 31, 31
 
-INCBIN "baserom.gbc",$dd080,$dd148 - $dd080
+INCBIN "baserom.gbc",$dd080,$dd100 - $dd080
+
+FieldSelectScreenPalettes: ; 0xdd100
+FieldSelectScreenBGPalette0: ; 0xdd100
+    RGB 31, 31, 31
+    RGB 31, 20, 0
+    RGB 31, 0, 0
+    RGB 0, 0, 0
+FieldSelectScreenBGPalette1: ; 0xdd108
+    RGB 31, 31, 31
+    RGB 0, 22, 31
+    RGB 0, 0, 31
+    RGB 0, 0, 0
+FieldSelectScreenBGPalette2: ; 0xdd110
+    RGB 31, 31, 31
+    RGB 31, 0, 0
+    RGB 0, 25, 0
+    RGB 0, 0, 0
+FieldSelectScreenBGPalette3: ; 0xdd118
+    RGB 31, 0, 31
+    RGB 31, 0, 31
+    RGB 31, 0, 31
+    RGB 31, 0, 31
+FieldSelectScreenBGPalette4: ; 0xdd120
+    RGB 31, 0, 31
+    RGB 31, 0, 31
+    RGB 31, 0, 31
+    RGB 31, 0, 31
+FieldSelectScreenBGPalette5: ; 0xdd128
+    RGB 31, 0, 31
+    RGB 31, 0, 31
+    RGB 31, 0, 31
+    RGB 31, 0, 31
+FieldSelectScreenBGPalette6: ; 0xdd130
+    RGB 31, 0, 31
+    RGB 31, 0, 31
+    RGB 31, 0, 31
+    RGB 31, 0, 31
+FieldSelectScreenBGPalette7: ; 0xdd138
+    RGB 31, 0, 31
+    RGB 31, 0, 31
+    RGB 31, 0, 31
+    RGB 31, 0, 31
+
+FieldSelectScreenOBJPalette0: ; 0xdd140
+    RGB 10, 10, 10
+    RGB 31, 31, 31
+    RGB 21, 21, 21
+    RGB 0, 0, 0
 
 CinnabarIslandBillboardBGPalette1: ; 0xdd148
     RGB 31, 31, 31

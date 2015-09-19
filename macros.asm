@@ -70,6 +70,16 @@ VIDEO_DATA_TILES: MACRO
 	dw (\3 << 2)
 	ENDM
 
+;\1 = pointer to 2bpp tile data
+;\2 = destination for tile data in VRAM
+;\3 = size of 2bpp tile data to copy
+VIDEO_DATA_TILES_BANK2: MACRO
+	dw \1
+	db Bank(\1)
+	dw \2
+	dw (\3 << 2) | $2
+	ENDM
+	
 ;\1 = pointer to tilemap data
 ;\2 = destination for tilemap data in VRAM
 ;\3 = size of tilemap to copy
@@ -77,14 +87,18 @@ VIDEO_DATA_TILEMAP: MACRO
 	VIDEO_DATA_TILES \1, \2, \3
 	ENDM
 
+;\1 = pointer to tilemap data
+;\2 = destination for tilemap data in VRAM
+;\3 = size of tilemap to copy
+VIDEO_DATA_TILEMAP_BANK2: MACRO
+	VIDEO_DATA_TILES_BANK2 \1, \2, \3
+	ENDM
+
 ;\1 = pointer to background attribute data
 ;\2 = destination for background attribute data in VRAM
 ;\3 = size of background attribute data to copy
 VIDEO_DATA_BGATTR: MACRO
-	dw \1
-	db Bank(\1)
-	dw \2
-	dw (\3 << 2) | $2
+	VIDEO_DATA_TILES_BANK2 \1, \2, \3
 	ENDM
 
 ;\1 = pointer to palette data

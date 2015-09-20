@@ -1,5 +1,9 @@
 INCLUDE "macros/sound.asm"
 
+dex_text   EQUS "db "     ; Start beginning of pokedex description
+dex_line   EQUS "db $0d," ; Start new line in pokedex description
+dex_end    EQUS "db $00"  ; Terminate the pokedex description
+
 dbw: MACRO
 	db \1
 	dw \2
@@ -109,4 +113,3 @@ VIDEO_DATA_PALETTES: MACRO
 	dw $0000
 	dw (\2 << 1) | $1
 	ENDM
-

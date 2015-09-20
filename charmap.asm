@@ -4,6 +4,7 @@ charmap "♂", $24
 
 charmap ".", $2E
 
+charmap "é", $40
 charmap "A", $41
 charmap "B", $42
 charmap "C", $43

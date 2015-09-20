@@ -464,7 +464,16 @@ wKeyConfigUpperTilt:: ; 0xd952
 wKeyConfigMenu:: ; 0xd954
     ds 2
 
-    ds 12
+    ds 3
+
+wCurPokedexIndex:: ; 0xd959
+; Stores the mon index of which pokemon the cursor is on in the Pokedex screen.
+    ds 1
+wPokedexOffset:: ; 0xd95a
+; Stores the number of pokedex entries that are above the current displayed pokemon entries.
+    ds 1
+
+    ds 7
 
 wPokedexFlags:: ; 0xd962
 ; Each pokemon is represented by one byte in the normal Pokedex order

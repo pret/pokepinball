@@ -788,7 +788,10 @@ Func_666: ; 0x666
     ld [$2000], a
     ret
 
-Func_68f: ; 0x68f
+ReadByteFromBank: ; 0x68f
+; Input: a  = bank
+;        hl = address of byte to read
+; Output: a = byte at a:hl
     push de
     ld d, a
     ld a, [hLoadedROMBank]
@@ -4354,10 +4357,10 @@ CallTable_2049: ; 0x2049
 Func_206d: ; 0x206d
     ld a, [hLoadedROMBank]
     push af
-    ld a, $2
+    ld a, Bank(Func_8d17)
     ld [hLoadedROMBank], a
     ld [$2000], a
-    call $4d17 ; todo
+    call Func_8d17
     jr c, .asm_2084
     pop af
     ld [hLoadedROMBank], a
@@ -12003,7 +12006,324 @@ Data_8b17: ; 0x8b17
     dw $07B4
     dw $FF08
 
-INCBIN "baserom.gbc",$8d17,$c000 - $8d17
+Func_8d17: ; 0x8d17
+    ld a, [$ff92]
+    cp $80
+    jp c, Func_8e01
+    ld a, [$ff90]
+    ld c, a
+    ld a, [$ff91]
+    ld b, a
+    ld a, [$ff93]
+    ld l, a
+    ld h, $0
+    add hl, bc
+    ld a, [$ff8e]
+    cp h
+    jr nz, .asm_8d32
+    ld a, [$ff8d]
+    cp l
+.asm_8d32
+    jr nc, .asm_8d5c
+    ld a, [$ff8d]
+    ld [$ff90], a
+    ld a, [$ff8e]
+    ld [$ff91], a
+    ld a, [$ff8d]
+    ld c, a
+    ld a, [$ff8e]
+    ld b, a
+    ld a, [$ff8c]
+    ld l, a
+    ld h, $0
+    add hl, bc
+    ld a, l
+    ld [$ff8d], a
+    ld a, h
+    ld [$ff8e], a
+    srl h
+    rr l
+    srl h
+    rr l
+    ld a, [$ff8f]
+    cp l
+    jp c, Func_8df7
+.asm_8d5c
+    ld a, [$ff90]
+    and $f8
+    ld c, a
+    ld a, [$ff91]
+    ld b, a
+    sla c
+    rl b
+    sla c
+    rl b
+    ld hl, $c010
+    add hl, bc
+    ld d, h
+    ld e, l
+    ld a, [$ff92]
+    swap a
+    ld c, a
+    and $f
+    ld b, a
+    ld a, c
+    and $f0
+    ld c, a
+    sla c
+    rl b
+    ld hl, $6000  ; todo
+    add hl, bc
+    push hl
+    ld a, [$ff90]
+    and $7
+    ld c, a
+    ld b, $0
+    ld hl, $4df9  ; todo
+    add hl, bc
+    ld a, [hl]
+    ld [$d85e], a
+    cpl
+    ld [$d85f], a
+    ld a, c
+    add $58
+    ld b, a
+    pop hl
+    push hl
+    ld c, $10
+.asm_8da2
+    push bc
+    ld a, [hli]
+    ld c, a
+    ld a, [bc]
+    ld c, a
+    ld a, [$d85e]
+    and c
+    ld c, a
+    ld a, [$d860]
+    ld b, a
+    ld a, [de]
+    xor b
+    or c
+    xor b
+    ld [de], a
+    inc de
+    ld a, [de]
+    xor b
+    or c
+    xor b
+    ld [de], a
+    inc de
+    inc hl
+    pop bc
+    dec c
+    jr nz, .asm_8da2
+    pop hl
+    ld c, $10
+.asm_8dc4
+    push bc
+    ld a, [hli]
+    ld c, a
+    ld a, [bc]
+    ld c, a
+    ld a, [$d85f]
+    and c
+    ld c, a
+    ld a, [$d860]
+    ld b, a
+    ld a, [de]
+    xor b
+    or c
+    xor b
+    ld [de], a
+    inc de
+    ld a, [de]
+    xor b
+    or c
+    xor b
+    ld [de], a
+    inc de
+    inc hl
+    pop bc
+    dec c
+    jr nz, .asm_8dc4
+    ld a, [$ff90]
+    ld c, a
+    ld a, [$ff91]
+    ld b, a
+    ld a, [$ff93]
+    ld l, a
+    ld h, $0
+    add hl, bc
+    ld a, l
+    ld [$ff90], a
+    ld a, h
+    ld [$ff91], a
+    and a
+    ret
+
+Func_8df7: ; 0x8df7
+    scf
+    ret
+
+INCBIN "baserom.gbc",$8df9,$8e01 - $8df9
+
+Func_8e01: ; 0x8e01
+    ld a, [$ff90]
+    ld c, a
+    ld a, [$ff91]
+    ld b, a
+    ld a, [$ff93]
+    ld l, a
+    ld h, $0
+    add hl, bc
+    ld a, [$ff8e]
+    cp h
+    jr nz, .asm_8e15
+    ld a, [$ff8d]
+    cp l
+.asm_8e15
+    jr nc, .asm_8e3f
+    ld a, [$ff8d]
+    ld [$ff90], a
+    ld a, [$ff8e]
+    ld [$ff91], a
+    ld a, [$ff8d]
+    ld c, a
+    ld a, [$ff8e]
+    ld b, a
+    ld a, [$ff8c]
+    ld l, a
+    ld h, $0
+    add hl, bc
+    ld a, l
+    ld [$ff8d], a
+    ld a, h
+    ld [$ff8e], a
+    srl h
+    rr l
+    srl h
+    rr l
+    ld a, [$ff8f]
+    cp l
+    jp c, Func_8ed6
+.asm_8e3f
+    ld a, [$ff90]
+    and $f8
+    ld c, a
+    ld a, [$ff91]
+    ld b, a
+    sla c
+    rl b
+    ld hl, $c010
+    add hl, bc
+    ld d, h
+    ld e, l
+    ld a, [$ff92]
+    swap a
+    ld c, a
+    and $f
+    ld b, a
+    ld a, c
+    and $f0
+    ld c, a
+    sla c
+    rl b
+    ld hl, $6008  ; todo
+    add hl, bc
+    push hl
+    ld a, [$ff90]
+    and $7
+    ld c, a
+    ld b, $0
+    ld hl, $4ed8  ; todo
+    add hl, bc
+    ld a, [hl]
+    ld [$d85e], a
+    cpl
+    ld [$d85f], a
+    ld a, c
+    add $58
+    ld b, a
+    pop hl
+    push hl
+    ld c, $8
+.asm_8e81
+    push bc
+    ld a, [hli]
+    ld c, a
+    ld a, [bc]
+    ld c, a
+    ld a, [$d85e]
+    and c
+    ld c, a
+    ld a, [$d860]
+    ld b, a
+    ld a, [de]
+    xor b
+    or c
+    xor b
+    ld [de], a
+    inc de
+    ld a, [de]
+    xor b
+    or c
+    xor b
+    ld [de], a
+    inc de
+    inc hl
+    pop bc
+    dec c
+    jr nz, .asm_8e81
+    pop hl
+    ld c, $8
+.asm_8ea3
+    push bc
+    ld a, [hli]
+    ld c, a
+    ld a, [bc]
+    ld c, a
+    ld a, [$d85f]
+    and c
+    ld c, a
+    ld a, [$d860]
+    ld b, a
+    ld a, [de]
+    xor b
+    or c
+    xor b
+    ld [de], a
+    inc de
+    ld a, [de]
+    xor b
+    or c
+    xor b
+    ld [de], a
+    inc de
+    inc hl
+    pop bc
+    dec c
+    jr nz, .asm_8ea3
+    ld a, [$ff90]
+    ld c, a
+    ld a, [$ff91]
+    ld b, a
+    ld a, [$ff93]
+    ld l, a
+    ld h, $0
+    add hl, bc
+    ld a, l
+    ld [$ff90], a
+    ld a, h
+    ld [$ff91], a
+    and a
+    ret
+
+Func_8ed6: ; 0x8ed6
+    scf
+    ret
+
+INCBIN "baserom.gbc",$8ed8,$c000 - $8ed8
 
 
 SECTION "bank3", ROMX, BANK[$3]
@@ -16669,7 +16989,7 @@ Func_e25a: ; 0xe25a
 .asm_e2aa
     ld a, $3e
 .asm_e2ac
-    call Func_68f
+    call ReadByteFromBank
     ld b, a
     and a
     jr nz, .asm_e2c1
@@ -16701,7 +17021,7 @@ Func_e25a: ; 0xe25a
     ld h, a
     ld a, $3f
 .asm_e2d8
-    call Func_68f
+    call ReadByteFromBank
     ld [$d7b8], a
     ld a, $1
     ld [wFlipperCollision], a
@@ -19925,7 +20245,7 @@ Func_10230: ; 0x10230
     pop af
     and a
     ld a, [$ff91]
-    call Func_68f
+    call ReadByteFromBank
     jr nz, .asm_10261
     ld a, $5
 .asm_10261
@@ -24463,7 +24783,7 @@ asm_1620f: ; 0x1620f
     add hl, bc
     ld de, wBallXVelocity
     ld a, $3c
-    call Func_68f
+    call ReadByteFromBank
     ld c, a
     ld a, [de]
     add c
@@ -24471,7 +24791,7 @@ asm_1620f: ; 0x1620f
     inc de
     inc hl
     ld a, $3c
-    call Func_68f
+    call ReadByteFromBank
     ld b, a
     ld a, [de]
     adc b
@@ -24480,7 +24800,7 @@ asm_1620f: ; 0x1620f
     inc hl
     push bc
     ld a, $3c
-    call Func_68f
+    call ReadByteFromBank
     ld c, a
     ld a, [de]
     add c
@@ -24488,7 +24808,7 @@ asm_1620f: ; 0x1620f
     inc de
     inc hl
     ld a, $3c
-    call Func_68f
+    call ReadByteFromBank
     ld b, a
     ld a, [de]
     adc b
@@ -26528,7 +26848,7 @@ Func_1820d: ; 0x1820d
     ld de, $5100
     add hl, de
     ld a, $3a
-    call Func_68f
+    call ReadByteFromBank
     bit 7, a
     jr nz, .asm_18257
     sla a
@@ -26604,7 +26924,7 @@ Func_18298: ; 0x18298
     ld de, $4c00
     add hl, de
     ld a, $3a
-    call Func_68f
+    call ReadByteFromBank
     bit 7, a
     jr nz, .asm_182e2
     sla a
@@ -26666,7 +26986,7 @@ Func_18308: ; 0x18308
     ld de, $4000
     add hl, de
     ld a, $3a
-    call Func_68f
+    call ReadByteFromBank
     bit 7, a
     jr nz, .asm_1834e
     sla a
@@ -28105,7 +28425,7 @@ Func_1936f: ; 0x1936f
     add hl, de
     ld de, wBallXVelocity
     ld a, $39
-    call Func_68f
+    call ReadByteFromBank
     ld c, a
     ld a, [de]
     add c
@@ -28113,7 +28433,7 @@ Func_1936f: ; 0x1936f
     inc de
     inc hl
     ld a, $39
-    call Func_68f
+    call ReadByteFromBank
     ld b, a
     ld a, [de]
     adc b
@@ -28122,7 +28442,7 @@ Func_1936f: ; 0x1936f
     inc hl
     push bc
     ld a, $39
-    call Func_68f
+    call ReadByteFromBank
     ld c, a
     ld a, [de]
     add c
@@ -28130,7 +28450,7 @@ Func_1936f: ; 0x1936f
     inc de
     inc hl
     ld a, $39
-    call Func_68f
+    call ReadByteFromBank
     ld b, a
     ld a, [de]
     adc b
@@ -33187,7 +33507,7 @@ asm_1ea6a: ; 0x1ea6a
     add hl, bc
     ld de, wBallXVelocity
     ld a, $3c
-    call Func_68f
+    call ReadByteFromBank
     ld c, a
     ld a, [de]
     add c
@@ -33195,7 +33515,7 @@ asm_1ea6a: ; 0x1ea6a
     inc de
     inc hl
     ld a, $3c
-    call Func_68f
+    call ReadByteFromBank
     ld b, a
     ld a, [de]
     adc b
@@ -33204,7 +33524,7 @@ asm_1ea6a: ; 0x1ea6a
     inc hl
     push bc
     ld a, $3c
-    call Func_68f
+    call ReadByteFromBank
     ld c, a
     ld a, [de]
     add c
@@ -33212,7 +33532,7 @@ asm_1ea6a: ; 0x1ea6a
     inc de
     inc hl
     ld a, $3c
-    call Func_68f
+    call ReadByteFromBank
     ld b, a
     ld a, [de]
     adc b
@@ -33504,7 +33824,7 @@ Func_1eff3:  ; 0x1eff3
     add hl, bc
     ld de, wBallXVelocity
     ld a, $3b
-    call Func_68f
+    call ReadByteFromBank
     ld c, a
     ld a, [de]
     add c
@@ -33512,7 +33832,7 @@ Func_1eff3:  ; 0x1eff3
     inc de
     inc hl
     ld a, $3b
-    call Func_68f
+    call ReadByteFromBank
     ld b, a
     ld a, [de]
     adc b
@@ -33521,7 +33841,7 @@ Func_1eff3:  ; 0x1eff3
     inc hl
     push bc
     ld a, $3b
-    call Func_68f
+    call ReadByteFromBank
     ld c, a
     ld a, [de]
     add c
@@ -33529,7 +33849,7 @@ Func_1eff3:  ; 0x1eff3
     inc de
     inc hl
     ld a, $3b
-    call Func_68f
+    call ReadByteFromBank
     ld b, a
     ld a, [de]
     adc b
@@ -33579,7 +33899,7 @@ Func_1f057: ; 0x1f057
     bit 2, l
     ret nz
     ld a, $3b
-    call Func_68f
+    call ReadByteFromBank
     ld c, a
     ld a, [de]
     add c
@@ -33587,7 +33907,7 @@ Func_1f057: ; 0x1f057
     inc de
     inc hl
     ld a, $3b
-    call Func_68f
+    call ReadByteFromBank
     ld b, a
     ld a, [de]
     adc b
@@ -33596,7 +33916,7 @@ Func_1f057: ; 0x1f057
     inc hl
     push bc
     ld a, $3b
-    call Func_68f
+    call ReadByteFromBank
     ld c, a
     ld a, [de]
     sub c
@@ -33604,7 +33924,7 @@ Func_1f057: ; 0x1f057
     inc de
     inc hl
     ld a, $3b
-    call Func_68f
+    call ReadByteFromBank
     ld b, a
     ld a, [de]
     sbc b
@@ -33652,7 +33972,7 @@ LoadOAMData2e: ; 0x1f0be
     add hl, bc
     ld de, wBallYVelocity
     ld a, $3b
-    call Func_68f
+    call ReadByteFromBank
     ld c, a
     ld a, [de]
     add c
@@ -33660,7 +33980,7 @@ LoadOAMData2e: ; 0x1f0be
     inc de
     inc hl
     ld a, $3b
-    call Func_68f
+    call ReadByteFromBank
     ld b, a
     ld a, [de]
     adc b
@@ -33671,7 +33991,7 @@ LoadOAMData2e: ; 0x1f0be
     dec de
     dec de
     ld a, $3b
-    call Func_68f
+    call ReadByteFromBank
     ld c, a
     ld a, [de]
     sub c
@@ -33679,7 +33999,7 @@ LoadOAMData2e: ; 0x1f0be
     inc de
     inc hl
     ld a, $3b
-    call Func_68f
+    call ReadByteFromBank
     ld b, a
     ld a, [de]
     sbc b
@@ -33727,7 +34047,7 @@ Func_1f124: ; 0x1f124
     add hl, bc
     ld de, wBallYVelocity
     ld a, $3b
-    call Func_68f
+    call ReadByteFromBank
     ld c, a
     ld a, [de]
     sub c
@@ -33735,7 +34055,7 @@ Func_1f124: ; 0x1f124
     inc de
     inc hl
     ld a, $3b
-    call Func_68f
+    call ReadByteFromBank
     ld b, a
     ld a, [de]
     sbc b
@@ -33746,7 +34066,7 @@ Func_1f124: ; 0x1f124
     dec de
     dec de
     ld a, $3b
-    call Func_68f
+    call ReadByteFromBank
     ld c, a
     ld a, [de]
     add c
@@ -33754,7 +34074,7 @@ Func_1f124: ; 0x1f124
     inc de
     inc hl
     ld a, $3b
-    call Func_68f
+    call ReadByteFromBank
     ld b, a
     ld a, [de]
     adc b
@@ -35718,15 +36038,15 @@ Func_20b02: ; 0x20b02
     ld hl, $6b50
     add hl, bc
     ld a, $4
-    call Func_68f
+    call ReadByteFromBank
     inc hl
     ld c, a
     ld a, $4
-    call Func_68f
+    call ReadByteFromBank
     inc hl
     ld b, a
     ld a, $4
-    call Func_68f
+    call ReadByteFromBank
     ld h, b
     ld l, c
     ld de, $8900
@@ -35740,30 +36060,30 @@ Func_20b02: ; 0x20b02
     ld hl, $6d15
     add hl, bc
     ld a, $4
-    call Func_68f
+    call ReadByteFromBank
     inc hl
     ld e, a
     ld a, $4
-    call Func_68f
+    call ReadByteFromBank
     inc hl
     ld d, a
     ld a, $4
-    call Func_68f
+    call ReadByteFromBank
     ld hl, $9887
     call Func_86f
     pop bc
     ld hl, $6eda
     add hl, bc
     ld a, $4
-    call Func_68f
+    call ReadByteFromBank
     inc hl
     ld e, a
     ld a, $4
-    call Func_68f
+    call ReadByteFromBank
     inc hl
     ld d, a
     ld a, $4
-    call Func_68f
+    call ReadByteFromBank
     ld bc, $10b0
     ld hl, $ff68
     call Func_8e1
@@ -36502,15 +36822,15 @@ Func_2112a: ; 0x2112a
     ld hl, $6b50
     add hl, bc
     ld a, $4
-    call Func_68f
+    call ReadByteFromBank
     inc hl
     ld c, a
     ld a, $4
-    call Func_68f
+    call ReadByteFromBank
     inc hl
     ld b, a
     ld a, $4
-    call Func_68f
+    call ReadByteFromBank
     ld h, b
     ld l, c
     ld de, $8900
@@ -36524,30 +36844,30 @@ Func_2112a: ; 0x2112a
     ld hl, $6d15
     add hl, bc
     ld a, $4
-    call Func_68f
+    call ReadByteFromBank
     inc hl
     ld e, a
     ld a, $4
-    call Func_68f
+    call ReadByteFromBank
     inc hl
     ld d, a
     ld a, $4
-    call Func_68f
+    call ReadByteFromBank
     ld hl, $9887
     call Func_86f
     pop bc
     ld hl, $6eda
     add hl, bc
     ld a, $4
-    call Func_68f
+    call ReadByteFromBank
     inc hl
     ld e, a
     ld a, $4
-    call Func_68f
+    call ReadByteFromBank
     inc hl
     ld d, a
     ld a, $4
-    call Func_68f
+    call ReadByteFromBank
     ld bc, $10b0
     ld hl, $ff68
     call Func_8e1
@@ -36773,7 +37093,7 @@ Func_24170: ; 0x24170
     ld de, $5500
     add hl, de
     ld a, $3a
-    call Func_68f
+    call ReadByteFromBank
     bit 7, a
     jr nz, .asm_24212
     sla a
@@ -36917,7 +37237,7 @@ Func_24272: ; 0x24272
     ld de, $5c80 ; todo
     add hl, de
     ld a, $3a
-    call Func_68f
+    call ReadByteFromBank
     bit 7, a
     jr nz, .asm_242b9
     sla a
@@ -39079,7 +39399,7 @@ Func_25c12: ; 0x25c12
     ld de, $5100 ; todo
     add hl, de
     ld a, $3a
-    call Func_68f
+    call ReadByteFromBank
     bit 7, a
     jr nz, .asm_25c58
     sla a
@@ -40095,8 +40415,8 @@ LoadPokedexScreen: ; 0x2800e
     ld a, [hGameBoyColorFlag]
     call LoadVideoData
     xor a
-    ld [$d959], a
-    ld [$d95a], a
+    ld [wCurPokedexIndex], a
+    ld [wPokedexOffset], a
     ld [$d95b], a
     ld [$d95c], a
     ld [$d960], a
@@ -40198,12 +40518,12 @@ Data_280c4: ; 0x280c4
 MainPokedexScreen: ; 0x280fe
     call Func_28513
     ld a, [hNewlyPressedButtons]
-    bit 0, a
+    bit BIT_A_BUTTON, a
     jr z, .asm_28142
     ld a, [$d95f]
     and a
     jp nz, .asm_28174
-    ld a, [$d959]
+    ld a, [wCurPokedexIndex]
     ld c, a
     ld b, $0
     ld hl, wPokedexFlags
@@ -40212,7 +40532,7 @@ MainPokedexScreen: ; 0x280fe
     and a
     jp z, .asm_28174
     push hl
-    ld a, [$d959]
+    ld a, [wCurPokedexIndex]
     inc a
     ld e, a
     ld d, $0
@@ -40229,7 +40549,7 @@ MainPokedexScreen: ; 0x280fe
     inc [hl]
     ret
 .asm_28142
-    bit 1, a
+    bit BIT_B_BUTTON, a
     jr z, .asm_2814f
     call Func_285db
     ld a, $4
@@ -40310,13 +40630,13 @@ Func_282e9: ; 0x282e9
     ld a, [$d960]
     and a
     jr z, .asm_28318
-    ld a, [$d959]
+    ld a, [wCurPokedexIndex]
     ld c, a
     ld b, $0
     ld hl, $7429 ; todo
     add hl, bc
     ld a, $4
-    call Func_68f
+    call ReadByteFromBank
     ld c, a
     ld a, [$ffb3]
     swap a
@@ -40556,13 +40876,13 @@ Func_28513: ; 0x28513
     ld a, $97
 .asm_2852d
     ld d, a
-    ld a, [$d959]
+    ld a, [wCurPokedexIndex]
     bit 6, b
     jr z, .asm_28548
     and a
     jr z, .asm_285a9
     dec a
-    ld [$d959], a
+    ld [wCurPokedexIndex], a
     ld a, $4
     ld [$d95c], a
     ld a, $1
@@ -40574,7 +40894,7 @@ Func_28513: ; 0x28513
     inc a
     cp d
     jr z, .asm_285a9
-    ld [$d959], a
+    ld [wCurPokedexIndex], a
     ld a, $4
     ld [$d95c], a
     ld a, $1
@@ -40584,7 +40904,7 @@ Func_28513: ; 0x28513
     ld a, d
     sub $9
     ld d, a
-    ld a, [$d95a]
+    ld a, [wPokedexOffset]
     ld c, $5
     bit 5, b
     jr z, .asm_28586
@@ -40593,10 +40913,10 @@ Func_28513: ; 0x28513
     ld c, a
 .asm_28571
     sub c
-    ld [$d95a], a
-    ld a, [$d959]
+    ld [wPokedexOffset], a
+    ld a, [wCurPokedexIndex]
     sub c
-    ld [$d959], a
+    ld [wCurPokedexIndex], a
     ld a, $1
     ld [$d95f], a
     call Func_285ca
@@ -40614,10 +40934,10 @@ Func_28513: ; 0x28513
     pop af
 .asm_28594
     add c
-    ld [$d95a], a
-    ld a, [$d959]
+    ld [wPokedexOffset], a
+    ld a, [wCurPokedexIndex]
     add c
-    ld [$d959], a
+    ld [wCurPokedexIndex], a
     ld a, $1
     ld [$d95f], a
     call Func_285ca
@@ -40651,12 +40971,12 @@ Func_285ca: ; 0x285ca
     ret
 
 Func_285db: ; 0x285db
-    ld a, [$d959]
+    ld a, [wCurPokedexIndex]
     ld c, a
     ld b, $0
     ld hl, wPokedexFlags
     add hl, bc
-    bit 1, [hl]
+    bit 1, [hl]  ; has pokemon been seen or captured?
     call nz, Func_287e7
     ld bc, $8c38
     ld a, $64
@@ -40668,7 +40988,7 @@ Func_285db: ; 0x285db
     ld a, $66
     call LoadOAMData
     call DrawCornerInfoPokedexScreen
-    ld a, [$d959]
+    ld a, [wCurPokedexIndex]
     ld c, a
     ld b, $0
     ld hl, $7136  ; todo
@@ -40687,8 +41007,8 @@ Func_285db: ; 0x285db
     add hl, de
     ld a, [hl]
     call LoadOAMData
-    ld a, [$d959]
-    ld hl, $d95a
+    ld a, [wCurPokedexIndex]
+    ld hl, wPokedexOffset
     sub [hl]
     jr nc, .asm_2863b
     dec [hl]
@@ -40951,13 +41271,13 @@ Func_287e7: ; 0x287e7
     ld a, [$d95f]
     and a
     ret nz
-    ld a, [$d959]
+    ld a, [wCurPokedexIndex]
     ld c, a
     ld b, $0
     ld hl, $7429 ; todo
     add hl, bc
     ld a, $4
-    call Func_68f
+    call ReadByteFromBank
     bit 7, a
     ret nz
     ld [$d5bc], a
@@ -41008,7 +41328,7 @@ Func_28815: ; 0x28815
     ret
 
 Func_2885c: ; 0x2885c
-    ld a, [$d959]
+    ld a, [wCurPokedexIndex]
     ld c, a
     ld b, $0
     ld hl, wPokedexFlags
@@ -41071,7 +41391,7 @@ Func_288a2: ; 0x288a2
     ret
 
 Func_288c6: ; 0x288c6
-    ld a, [$d959]
+    ld a, [wCurPokedexIndex]
     ld c, a
     ld b, $0
     ld hl, wPokedexFlags
@@ -41079,7 +41399,7 @@ Func_288c6: ; 0x288c6
     bit 1, [hl]
     ld hl, $4000
     jr z, .asm_288f4
-    ld a, [$d959]
+    ld a, [wCurPokedexIndex]
     ld c, a
     ld b, $0
     sla c
@@ -41087,11 +41407,11 @@ Func_288c6: ; 0x288c6
     ld hl, $4002 ; todo
     add hl, bc
     ld a, $b
-    call Func_68f
+    call ReadByteFromBank
     inc hl
     ld c, a
     ld a, $b
-    call Func_68f
+    call ReadByteFromBank
     ld b, a
     ld h, b
     ld l, c
@@ -41127,7 +41447,7 @@ Func_28912: ; 0x28912
     ret
 
 Func_28931: ; 0x28931
-    ld a, [$d959]
+    ld a, [wCurPokedexIndex]
     ld c, a
     ld b, $0
     ld hl, wPokedexFlags
@@ -41136,7 +41456,7 @@ Func_28931: ; 0x28931
     and a
     ld hl, $4970 ; todo
     jr z, .asm_2895d
-    ld a, [$d959]
+    ld a, [wCurPokedexIndex]
     ld c, a
     ld b, $0
     ld h, b
@@ -41165,7 +41485,7 @@ Func_28931: ; 0x28931
 INCBIN "baserom.gbc",$28970,$28972 - $28970
 
 Func_28972: ; 0x28972
-    ld a, [$d95a]
+    ld a, [wPokedexOffset]
     ld c, a
     ld b, $6
 .asm_28978
@@ -41224,7 +41544,7 @@ Func_28993: ; 0x28993
 INCBIN "baserom.gbc",$289c6,$289c8 - $289c6
 
 Func_289c8: ; 0x289c8
-    ld a, [$d959]
+    ld a, [wCurPokedexIndex]
     ld c, a
     ld b, $0
     ld hl, wPokedexFlags
@@ -41232,10 +41552,10 @@ Func_289c8: ; 0x289c8
     bit 1, [hl]
     ld hl, $4a12 ; todo
     jr z, .asm_289fe
-    ld a, [$d959]
+    ld a, [wCurPokedexIndex]
     ld c, a
     ld b, $0
-    ld hl, $5f0f ; todo
+    ld hl, MonDexTypeIDs
     add hl, bc
     ld c, [hl]
     ld h, b
@@ -41248,10 +41568,10 @@ Func_289c8: ; 0x289c8
     rl h
     add hl, bc
     add hl, bc
-    add hl, bc
+    add hl, bc  ; value * 11
     sla l
     rl h
-    add hl, bc
+    add hl, bc  ; value * 23
     ld bc, $5fa6 ; todo
     add hl, bc
 .asm_289fe
@@ -41267,7 +41587,7 @@ Func_289c8: ; 0x289c8
 INCBIN "baserom.gbc",$28a12,$28a15 - $28a12
 
 Func_28a15: ; 0x28a15
-    ld a, [$d959]
+    ld a, [wCurPokedexIndex]
     ld c, a
     ld b, $0
     ld h, b
@@ -41295,7 +41615,7 @@ Func_28a15: ; 0x28a15
     inc de
     inc de
     inc de
-    ld a, [$d959]
+    ld a, [wCurPokedexIndex]
     ld c, a
     ld b, $0
     ld hl, wPokedexFlags
@@ -41337,7 +41657,7 @@ Func_28a15: ; 0x28a15
 INCBIN "baserom.gbc",$28a7f,$28a8a - $28a7f
 
 Func_28a8a: ; 0x28a8a
-    ld a, [$d95a]
+    ld a, [wPokedexOffset]
     ld c, a
     ld b, $6
 .asm_28a90
@@ -41388,7 +41708,7 @@ Func_28aaa: ; 0x28aaa
     ret
 
 Func_28ad1: ; 0x28ad1
-    ld a, [$d95a]
+    ld a, [wPokedexOffset]
     swap a
     and $f0
     sub $3c
@@ -41396,7 +41716,7 @@ Func_28ad1: ; 0x28ad1
     ret
 
 Func_28add: ; 0x28add
-    ld a, [$d959]
+    ld a, [wCurPokedexIndex]
     ld c, a
     ld b, $0
     ld hl, wPokedexFlags
@@ -41412,7 +41732,7 @@ Func_28add: ; 0x28add
     call Func_28cc2
     jp z, Func_28bf5
 .asm_28afc
-    ld a, [$d959]
+    ld a, [wCurPokedexIndex]
     ld c, a
     ld b, $0
     sla c
@@ -41426,15 +41746,15 @@ Func_28add: ; 0x28add
     ld hl, $6b50 ; todo
     add hl, bc
     ld a, $4
-    call Func_68f
+    call ReadByteFromBank
     inc hl
     ld c, a
     ld a, $4
-    call Func_68f
+    call ReadByteFromBank
     inc hl
     ld b, a
     ld a, $4
-    call Func_68f
+    call ReadByteFromBank
     ld h, b
     ld l, c
     ld de, $9000
@@ -41449,30 +41769,30 @@ Func_28add: ; 0x28add
     ld hl, $6d15 ; todo
     add hl, bc
     ld a, $4
-    call Func_68f
+    call ReadByteFromBank
     inc hl
     ld e, a
     ld a, $4
-    call Func_68f
+    call ReadByteFromBank
     inc hl
     ld d, a
     ld a, $4
-    call Func_68f
+    call ReadByteFromBank
     ld hl, $9861
     call Func_86f
     pop bc
     ld hl, $6eda
     add hl, bc
     ld a, $4
-    call Func_68f
+    call ReadByteFromBank
     inc hl
     ld e, a
     ld a, $4
-    call Func_68f
+    call ReadByteFromBank
     inc hl
     ld d, a
     ld a, $4
-    call Func_68f
+    call ReadByteFromBank
     ld bc, $10b0
     ld hl, $ff68
     call Func_8e1
@@ -41497,7 +41817,7 @@ Func_28b76: ; 0x28b76
 INCBIN "baserom.gbc",$28b97,$28baf - $28b97
 
 Func_28baf: ; 0x28baf
-    ld a, [$d959]
+    ld a, [wCurPokedexIndex]
     ld c, a
     ld b, $0
     sla c
@@ -41510,15 +41830,15 @@ Func_28baf: ; 0x28baf
     ld hl, $6b50 ; todo
     add hl, bc
     ld a, $4
-    call Func_68f
+    call ReadByteFromBank
     inc hl
     ld c, a
     ld a, $4
-    call Func_68f
+    call ReadByteFromBank
     inc hl
     ld b, a
     ld a, $4
-    call Func_68f
+    call ReadByteFromBank
     ld hl, $0180
     add hl, bc
     ld de, $9000
@@ -41535,7 +41855,7 @@ Func_28baf: ; 0x28baf
     ret
 
 Func_28bf5: ; 0x28bf5
-    ld a, [$d959]
+    ld a, [wCurPokedexIndex]
     ld c, a
     ld b, $0
     sla c
@@ -41551,15 +41871,15 @@ Func_28bf5: ; 0x28bf5
     ld hl, $7264 ; todo
     add hl, bc
     ld a, $4
-    call Func_68f
+    call ReadByteFromBank
     inc hl
     ld c, a
     ld a, $4
-    call Func_68f
+    call ReadByteFromBank
     inc hl
     ld b, a
     ld a, $4
-    call Func_68f
+    call ReadByteFromBank
     ld h, b
     ld l, c
     ld de, vTiles0
@@ -41569,13 +41889,13 @@ Func_28bf5: ; 0x28bf5
     ld [$ff4f], a
     pop bc
     push bc
-    ld a, [$d959]
+    ld a, [wCurPokedexIndex]
     ld c, a
     ld b, $0
     ld hl, $561d ; todo
     add hl, bc
     ld a, $4
-    call Func_68f
+    call ReadByteFromBank
     ld c, a
     ld b, $0
     sla c
@@ -41588,24 +41908,24 @@ Func_28bf5: ; 0x28bf5
     ld hl, $7685 ; todo
     add hl, bc
     ld a, $4
-    call Func_68f
+    call ReadByteFromBank
     ld [$d5c1], a
     ld [$d5be], a
     inc hl
     ld a, $4
-    call Func_68f
+    call ReadByteFromBank
     ld [$d5c2], a
     inc hl
     ld a, $4
-    call Func_68f
+    call ReadByteFromBank
     ld [$d5c3], a
-    ld a, [$d959]
+    ld a, [wCurPokedexIndex]
     ld c, a
     ld b, $0
     ld hl, $7429 ; todo
     add hl, bc
     ld a, $4
-    call Func_68f
+    call ReadByteFromBank
     ld [$d5bc], a
     ld [$d5bd], a
     call Func_28cf8
@@ -41616,15 +41936,15 @@ Func_28bf5: ; 0x28bf5
     ld hl, $709f ; todo
     add hl, bc
     ld a, $4
-    call Func_68f
+    call ReadByteFromBank
     inc hl
     ld e, a
     ld a, $4
-    call Func_68f
+    call ReadByteFromBank
     inc hl
     ld d, a
     ld a, $4
-    call Func_68f
+    call ReadByteFromBank
     push af
     push de
     ld bc, $10b0
@@ -41643,13 +41963,13 @@ Func_28bf5: ; 0x28bf5
     ret
 
 Func_28cc2: ; 0x28cc2
-    ld a, [$d959]
+    ld a, [wCurPokedexIndex]
     ld c, a
     ld b, $0
     ld hl, $7429 ; todo
     add hl, bc
     ld a, $4
-    call Func_68f
+    call ReadByteFromBank
     bit 7, a
     ret
 
@@ -41839,7 +42159,7 @@ Func_28d97: ; 0x28d97
 .asm_28dbb
     ld c, a
     ld b, $0
-    ld hl, $5792 ; todo
+    ld hl, CharacterWidths
     add hl, bc
     ld a, [hl]
     ld [$ff93], a
@@ -41906,7 +42226,7 @@ Func_28e09: ; 0x28e09
     ld [$ff92], a
     ld c, a
     ld b, $0
-    ld hl, $5792 ; todo
+    ld hl, CharacterWidths
     add hl, bc
     ld a, [hl]
     ld [$ff93], a
@@ -41983,7 +42303,7 @@ INCBIN "baserom.gbc",$28e9a,$2957c - $28e9a
 
 Func_2957c: ; 0x2957c
     ld a, $b
-    call Func_68f
+    call ReadByteFromBank
     inc hl
     and a
     ret z
@@ -42120,7 +42440,423 @@ Func_29605: ; 0x29605
     sub $9f
     ret
 
-INCBIN "baserom.gbc",$2962f,$2c000 - $2962f
+INCBIN "baserom.gbc",$2962f,$29792 - $2962f
+
+CharacterWidths: ; 0x29792
+; The Pokedex shows variable-width font. This list specifies the width of every letter (tile?)
+    db $05
+    db $07
+    db $07
+    db $07
+    db $07
+    db $07
+    db $07
+    db $05
+    db $07
+    db $07
+    db $07
+    db $07
+    db $07
+    db $07
+    db $06
+    db $07
+    db $07
+    db $07
+    db $07
+    db $07
+    db $07
+    db $07
+    db $07
+    db $07
+    db $07
+    db $07
+    db $07
+    db $07
+    db $07
+    db $07
+    db $07
+    db $07
+    db $07
+    db $08  ; "A"
+    db $07  ; "B"
+    db $07  ; "C"
+    db $07  ; "D"
+    db $07  ; "E"
+    db $07  ; "F"
+    db $07  ; "G"
+    db $07  ; "H"
+    db $05  ; "I"
+    db $08  ; "J"
+    db $07  ; "K"
+    db $07  ; "L"
+    db $08  ; "M"
+    db $07  ; "N"
+    db $07  ; "O"
+    db $07  ; "P"
+    db $08  ; "Q"
+    db $07  ; "R"
+    db $07  ; "S"
+    db $08  ; "T"
+    db $07  ; "U"
+    db $08  ; "V"
+    db $08  ; "W"
+    db $08  ; "X"
+    db $08  ; "Y"
+    db $08  ; "Z"
+    db $07
+    db $08
+    db $07
+    db $07
+    db $07
+    db $07
+    db $07
+    db $07
+    db $07
+    db $07
+    db $07
+    db $07
+    db $07
+    db $07
+    db $07
+    db $07
+    db $07
+    db $07
+    db $07
+    db $07
+    db $07
+    db $07
+    db $07
+    db $07
+    db $07
+    db $07
+    db $07
+    db $07
+    db $07
+    db $07
+    db $07
+    db $07
+    db $07
+    db $07
+    db $07
+    db $07
+    db $07
+    db $07
+    db $07
+    db $07
+    db $07
+    db $07
+    db $07
+    db $07
+    db $07
+    db $07
+    db $07
+    db $07
+    db $07
+    db $07
+    db $07
+    db $07
+    db $07
+    db $07
+    db $07
+    db $07
+    db $07
+    db $07
+    db $07
+    db $07
+    db $07
+    db $07
+    db $07
+    db $07
+    db $07
+    db $07
+    db $07
+    db $07
+    db $07
+    db $07
+    db $07
+    db $07
+    db $07
+    db $07
+    db $07
+    db $07
+    db $07
+    db $07
+    db $07
+    db $07
+    db $07
+    db $07
+    db $07
+    db $07
+    db $07
+    db $07
+    db $07
+    db $07
+    db $07
+    db $07
+    db $07
+    db $07
+    db $07
+    db $07
+    db $07
+    db $07
+    db $07
+    db $07
+    db $07
+    db $07
+    db $07
+    db $07
+    db $07
+    db $07
+    db $07
+    db $07
+    db $07
+    db $07
+    db $07
+    db $07
+    db $07
+    db $07
+    db $07
+    db $07
+    db $07
+    db $07
+    db $07
+    db $07
+    db $07
+    db $07
+    db $08
+    db $07
+    db $07
+    db $07
+    db $07
+    db $07
+    db $07
+    db $07
+    db $05
+    db $08
+    db $07
+    db $07
+    db $08
+    db $07
+    db $07
+    db $07
+    db $08
+    db $07
+    db $07
+    db $08
+    db $07
+    db $08
+    db $08
+    db $08
+    db $08
+    db $08
+    db $07  ; "a"
+    db $07  ; "b"
+    db $07  ; "c"
+    db $07  ; "d"
+    db $07  ; "e"
+    db $07  ; "f"
+    db $07  ; "g"
+    db $07  ; "h"
+    db $03  ; "i"
+    db $07  ; "j"
+    db $07  ; "k"
+    db $03  ; "l"
+    db $08  ; "m"
+    db $07  ; "n"
+    db $07  ; "o"
+    db $07  ; "p"
+    db $07  ; "q"
+    db $07  ; "r"
+    db $07  ; "s"
+    db $07  ; "t"
+    db $07  ; "u"
+    db $07  ; "v"
+    db $08  ; "w"
+    db $07  ; "x"
+    db $07  ; "y"
+    db $07  ; "z"
+    db $07
+    db $07
+    db $07
+    db $07
+    db $07
+    db $07
+    db $07
+    db $07
+    db $03
+    db $07
+    db $05
+    db $05
+    db $05
+    db $05
+    db $05
+    db $07
+    db $07
+    db $07
+    db $07
+    db $05
+    db $07
+    db $07
+    db $07
+    db $07
+    db $07
+
+INCBIN "baserom.gbc",$29892,$29f0f - $29892
+
+MonDexTypeIDs: ; 0x29f0f
+    db $00
+    db $00
+    db $00
+    db $01
+    db $02
+    db $02
+    db $03
+    db $04
+    db $05
+    db $06
+    db $07
+    db $08
+    db $09
+    db $07
+    db $0A
+    db $0B
+    db $0C
+    db $0C
+    db $60
+    db $60
+    db $0B
+    db $0E
+    db $0F
+    db $10
+    db $0D
+    db $0D
+    db $0D
+    db $0D
+    db $11
+    db $11
+    db $12
+    db $11
+    db $11
+    db $12
+    db $13
+    db $13
+    db $14
+    db $14
+    db $15
+    db $15
+    db $16
+    db $16
+    db $17
+    db $17
+    db $18
+    db $19
+    db $19
+    db $1A
+    db $1B
+    db $1C
+    db $1C
+    db $1D
+    db $1E
+    db $1F
+    db $1F
+    db $20
+    db $20
+    db $21
+    db $22
+    db $23
+    db $23
+    db $23
+    db $24
+    db $24
+    db $24
+    db $25
+    db $25
+    db $25
+    db $18
+    db $26
+    db $26
+    db $27
+    db $27
+    db $28
+    db $28
+    db $29
+    db $2A
+    db $2A
+    db $2B
+    db $2C
+    db $2D
+    db $2D
+    db $2E
+    db $2F
+    db $30
+    db $31
+    db $31
+    db $32
+    db $32
+    db $33
+    db $33
+    db $34
+    db $34
+    db $35
+    db $36
+    db $37
+    db $37
+    db $38
+    db $39
+    db $3A
+    db $3A
+    db $3B
+    db $3C
+    db $3D
+    db $3E
+    db $3F
+    db $40
+    db $41
+    db $42
+    db $42
+    db $43
+    db $12
+    db $3B
+    db $44
+    db $45
+    db $46
+    db $46
+    db $47
+    db $47
+    db $48
+    db $49
+    db $4A
+    db $4B
+    db $4C
+    db $4D
+    db $4E
+    db $4F
+    db $50
+    db $51
+    db $52
+    db $53
+    db $54
+    db $55
+    db $56
+    db $57
+    db $58
+    db $59
+    db $5A
+    db $5A
+    db $05
+    db $05
+    db $5B
+    db $5C
+    db $5D
+    db $4D
+    db $02
+    db $46
+    db $46
+    db $46
+    db $5E
+    db $5F
+
+INCBIN "baserom.gbc",$29fa6,$2c000 - $29fa6
 
 
 SECTION "bankb", ROMX, BANK[$b]

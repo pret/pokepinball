@@ -4836,7 +4836,7 @@ Func_22b5: ; 0x22b5
     ld c, a
     ld a, [$d7ed]
     ld b, a
-    add hl, bc
+    add hl, bc  ; hl = RAM address of upper-left collision byte
     ld a, [hLoadedROMBank]
     push af
     ld a, [$d7ee]
@@ -4871,7 +4871,7 @@ Func_22b5: ; 0x22b5
     ld d, [hl]
     ld a, [wSubTileBallYPos]
     ld c, a
-    ld b, $10  ; number of times too loop over .asm_233d
+    ld b, $10  ; number of times to loop over .asm_233d
 .asm_233d
     push bc
     ld a, [de]
@@ -5176,8 +5176,8 @@ INCBIN "baserom.gbc",$250a,$252e - $250a
 SubTileXPos_CollisionDataPointers: ; 0x252e
     dw SubTileXPos_CollisionData0
     dw SubTileXPos_CollisionData1
-    dw $259E
-    dw $25CE
+    dw SubTileXPos_CollisionData2
+    dw SubTileXPos_CollisionData3
     dw $25FE
     dw $262E
     dw $265E
@@ -5219,7 +5219,115 @@ SubTileXPos_CollisionData1: ; 0x256e
     db $08, $04, $04
     db $08, $02, $03
 
-INCBIN "baserom.gbc",$259e,$2720 - $259e
+SubTileXPos_CollisionData2: ; 0x259e
+    db $00, $04, $0B
+    db $00, $02, $0C
+    db $00, $01, $0D
+    db $01, $10, $0A
+    db $11, $40, $0E
+    db $03, $20, $09
+    db $13, $20, $0F
+    db $04, $20, $08
+    db $14, $20, $00
+    db $05, $20, $07
+    db $15, $20, $01
+    db $07, $10, $06
+    db $17, $40, $02
+    db $08, $04, $05
+    db $08, $02, $04
+    db $08, $01, $03
+
+SubTileXPos_CollisionData3: ; 0x25ce
+    db $00, $02, $0B
+    db $00, $01, $0C
+    db $10, $80, $0D
+    db $01, $08, $0A
+    db $11, $20, $0E
+    db $03, $10, $09
+    db $13, $10, $0F
+    db $04, $10, $08
+    db $14, $10, $00
+    db $05, $10, $07
+    db $15, $10, $01
+    db $07, $08, $06
+    db $17, $20, $02
+    db $08, $02, $05
+    db $08, $01, $04
+    db $18, $80, $03
+
+SubTileXPos_CollisionData4: ; 0x25fe
+    db $00, $01, $0B
+    db $10, $80, $0C
+    db $10, $40, $0D
+    db $01, $04, $0A
+    db $11, $10, $0E
+    db $03, $08, $09
+    db $13, $08, $0F
+    db $04, $08, $08
+    db $14, $08, $00
+    db $05, $08, $07
+    db $15, $08, $01
+    db $07, $04, $06
+    db $17, $10, $02
+    db $08, $01, $05
+    db $18, $80, $04
+    db $18, $40, $03
+
+SubTileXPos_CollisionData5: ; 0x262e
+    db $10, $80, $0B
+    db $10, $40, $0C
+    db $10, $20, $0D
+    db $01, $02, $0A
+    db $11, $08, $0E
+    db $03, $04, $09
+    db $13, $04, $0F
+    db $04, $04, $08
+    db $14, $04, $00
+    db $05, $04, $07
+    db $15, $04, $01
+    db $07, $02, $06
+    db $17, $08, $02
+    db $18, $80, $05
+    db $18, $40, $04
+    db $18, $20, $03
+
+SubTileXPos_CollisionData6: ; 0x265e
+    db $10, $40, $0B
+    db $10, $20, $0C
+    db $10, $10, $0D
+    db $01, $01, $0A
+    db $11, $04, $0E
+    db $03, $02, $09
+    db $13, $02, $0F
+    db $04, $02, $08
+    db $14, $02, $00
+    db $05, $02, $07
+    db $15, $02, $01
+    db $07, $01, $06
+    db $17, $04, $02
+    db $18, $40, $05
+    db $18, $20, $04
+    db $18, $10, $03
+
+SubTileXPos_CollisionData7: ; 0x268e
+    db $10, $20, $0B
+    db $10, $10, $0C
+    db $10, $08, $0D
+    db $11, $80, $0A
+    db $11, $02, $0E
+    db $03, $01, $09
+    db $13, $01, $0F
+    db $04, $01, $08
+    db $14, $01, $00
+    db $05, $01, $07
+    db $15, $01, $01
+    db $17, $80, $06
+    db $17, $02, $02
+    db $18, $20, $05
+    db $18, $10, $04
+    db $18, $08, $03
+
+INCBIN "baserom.gbc",$26be,$2720 - $26be
 
 Func_2720: ; 0x2720
     ld a, $ff
@@ -18312,7 +18420,7 @@ Func_ed8e: ; 0xed8e
     ld de, $0009
     call PlaySoundEffect
     pop af
-    call Func_f196
+    call LoadBillboardOffPicture
     ld a, [$d61b]
     cp $a
     jr nc, .asm_ee29
@@ -18389,7 +18497,7 @@ Func_ed8e: ; 0xed8e
     jr .asm_eeae
 .asm_eea8
     ld a, [$d61d]
-    call Func_f196
+    call LoadBillboardOffPicture
 .asm_eeae
     rst $10
     pop bc
@@ -18562,7 +18670,7 @@ Func_efb2: ; 0xefb2
 .asm_efd0
     ld a, [$d61f]
     add $12
-    call Func_f196
+    call LoadBillboardOffPicture
 .asm_efd8
     rst $10
     pop bc
@@ -18600,7 +18708,7 @@ Func_eff3: ; 0xeff3
 .asm_f011
     ld a, [$d61f]
     add $1b
-    call Func_f196
+    call LoadBillboardOffPicture
 .asm_f019
     rst $10
     pop bc
@@ -18713,7 +18821,7 @@ Func_f0c1: ; 0xf0c1
 .asm_f0df
     ld a, [$d61f]
     add $24
-    call Func_f196
+    call LoadBillboardOffPicture
 .asm_f0e7
     rst $10
     pop bc
@@ -18824,7 +18932,9 @@ LoadBillboardPicture: ; 0xf178
     pop hl
     ret
 
-Func_f196: ; 0xf196
+LoadBillboardOffPicture: ; 0xf196
+; Loads the dimly-lit "off" version of a billboard picture into VRAM
+; Input:  a = billboard picture id
     push hl
     ld c, a
     ld b, $0
@@ -18840,7 +18950,7 @@ Func_f196: ; 0xf196
     ld a, [hl]
     ld h, b
     ld l, c
-    ld bc, $0180
+    ld bc, $0180  ; get the address of the "off" version of the picture
     add hl, bc
     ld de, $8900
     ld bc, $0180

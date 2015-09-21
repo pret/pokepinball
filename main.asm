@@ -757,9 +757,14 @@ Func_65d: ; 0x65d
     jr nz, Func_65d
     ret
 
-Func_666: ; 0x666
+CopyDataToRAM: ; 0x666 spooky
+; Copies data from any bank to either working RAM or video RAM
+; Input: hl = address of data to copy
+;        a  = bank of data to copy
+;        de = destination for data
+;        bc = number of bytes to copy
     bit 7, h
-    jr nz, .asm_679
+    jr nz, .copyToVideoRAM
     ld [$fffa], a
     ld a, [hLoadedROMBank]
     push af
@@ -767,20 +772,20 @@ Func_666: ; 0x666
     ld [hLoadedROMBank], a
     ld [$2000], a
     scf
-    jr .asm_67d
-.asm_679
+    jr .copyData
+.copyToVideoRAM
     ld [$4000], a
     and a
-.asm_67d
+.copyData
     push af
-.asm_67e
+.copyLoop
     ld a, [hli]
     ld [de], a
     inc de
     dec bc
     ld a, c
     or b
-    jr nz, .asm_67e
+    jr nz, .copyLoop
     pop af
     ret nc
     pop af
@@ -922,7 +927,7 @@ Func_735: ; 0x735
     ld hl, $ff40
     bit 7, [hl]
     pop hl
-    jp z, Func_666
+    jp z, CopyDataToRAM
     ; fall through
 LoadVRAMData: ; 0x73f
 ; This loads some data into VRAM. It waits for the LCD H-Blank to copy the data 4 bytes at a time.
@@ -14511,7 +14516,7 @@ Func_d042: ; 0xd042
     ld hl, $63c0
     ld de, $c280
     ld bc, $0040
-    call Func_666
+    call CopyDataToRAM
     ld a, $0
     ld hl, $9840
     ld de, $c2c0
@@ -14521,7 +14526,7 @@ Func_d042: ; 0xd042
     ld hl, $6280
     ld de, $c480
     ld bc, $0040
-    call Func_666
+    call CopyDataToRAM
     call Func_d6b6
     call Func_d0e3
     ret c
@@ -14537,7 +14542,7 @@ Func_d042: ; 0xd042
     ld hl, $5bc0 ; todo
     ld de, $c280
     ld bc, $0040
-    call Func_666
+    call CopyDataToRAM
     ld a, $0
     ld hl, $9c40
     ld de, $c2c0
@@ -14547,7 +14552,7 @@ Func_d042: ; 0xd042
     ld hl, $5a80 ; todo
     ld de, $c480
     ld bc, $0040
-    call Func_666
+    call CopyDataToRAM
     call Func_d6b6
     call Func_d0e3
     ret c
@@ -17360,9 +17365,9 @@ Func_e656: ; 0xe656
     ld h, [hl]
     ld l, a
     ld a, [$d7ee]
-    ld de, $c700
+    ld de, wStageCollisionMap
     ld bc, $0300
-    call Func_666
+    call CopyDataToRAM
     ld hl, $d7ec
     ld [hl], $0
     inc hl
@@ -20496,7 +20501,7 @@ Func_10464: ; 0x10464
     ld l, c
     ld de, $c400
     ld bc, $0080
-    call Func_666
+    call CopyDataToRAM
     ret
 
 Func_10488: ; 0x10488
@@ -22472,12 +22477,12 @@ Func_1414b: ; 0x1414b
     ld hl, $47e0
     ld de, $87e0
     ld bc, $0020
-    call Func_666
+    call CopyDataToRAM
     ld a, $2a
     ld hl, $4800
     ld de, $8900
     ld bc, $0180
-    call Func_666
+    call CopyDataToRAM
     ld a, [wBallType]
     cp GREAT_BALL
     jr nc, .notPokeball
@@ -22485,7 +22490,7 @@ Func_1414b: ; 0x1414b
     ld hl, PinballPokeballShakeGfx
     ld de, $8380
     ld bc, $0040
-    call Func_666
+    call CopyDataToRAM
     ret
 .notPokeball
     cp ULTRA_BALL
@@ -22494,7 +22499,7 @@ Func_1414b: ; 0x1414b
     ld hl, PinballGreatballShakeGfx
     ld de, $8380
     ld bc, $0040
-    call Func_666
+    call CopyDataToRAM
     ret
 .notGreatball
     cp MASTER_BALL
@@ -22503,14 +22508,14 @@ Func_1414b: ; 0x1414b
     ld hl, PinballUltraballShakeGfx
     ld de, $8380
     ld bc, $0040
-    call Func_666
+    call CopyDataToRAM
     ret
 .notUltraball
     ld a, Bank(PinballMasterballShakeGfx)
     ld hl, PinballMasterballShakeGfx
     ld de, $8380
     ld bc, $0040
-    call Func_666
+    call CopyDataToRAM
     ret
 
 Func_141f2: ; 0x141f2
@@ -22571,14 +22576,14 @@ Func_14234: ; 0x14234
     ld hl, $7e80
     ld de, $8900
     ld bc, $00e0
-    call Func_666
+    call CopyDataToRAM
     jr .asm_1426a
 .asm_1425c
     ld a, $36
     ld hl, $7e80
     ld de, $8200
     ld bc, $00e0
-    call Func_666
+    call CopyDataToRAM
 .asm_1426a
     ld a, [$d551]
     and a
@@ -22616,7 +22621,7 @@ Func_14282: ; 0x14282
     ld hl, $4f60
     ld de, $8ae0
     ld bc, $0020
-    call Func_666
+    call CopyDataToRAM
     ret
 
 Func_142b3: ; 0x142b3
@@ -22664,7 +22669,7 @@ Func_142d7: ; 0x142d7
     pop hl
     ld bc, $0020
     ld a, $36
-    call Func_666
+    call CopyDataToRAM
     pop de
     pop bc
     ret
@@ -30295,12 +30300,12 @@ Func_1c305: ; 0x1c305
     ld hl, $47e0
     ld de, $87e0
     ld bc, $0020
-    call Func_666
+    call CopyDataToRAM
     ld a, $2a
     ld hl, $4800
     ld de, $8900
     ld bc, $0180
-    call Func_666
+    call CopyDataToRAM
     ld a, [wBallType]
     cp GREAT_BALL
     jr nc, .notPokeball
@@ -30308,7 +30313,7 @@ Func_1c305: ; 0x1c305
     ld hl, PinballPokeballShakeGfx
     ld de, $8380
     ld bc, $0040
-    call Func_666
+    call CopyDataToRAM
     ret
 .notPokeball
     cp ULTRA_BALL
@@ -30317,7 +30322,7 @@ Func_1c305: ; 0x1c305
     ld hl, PinballGreatballShakeGfx
     ld de, $8380
     ld bc, $0040
-    call Func_666
+    call CopyDataToRAM
     ret
 .notGreatball
     cp MASTER_BALL
@@ -30326,14 +30331,14 @@ Func_1c305: ; 0x1c305
     ld hl, PinballUltraballShakeGfx
     ld de, $8380
     ld bc, $0040
-    call Func_666
+    call CopyDataToRAM
     ret
 .notUltraBall
     ld a, Bank(PinballMasterballShakeGfx)
     ld hl, PinballMasterballShakeGfx
     ld de, $8380
     ld bc, $0040
-    call Func_666
+    call CopyDataToRAM
     ret
 
 Func_1c3ac: ; 0x1c3ac
@@ -30394,14 +30399,14 @@ Func_1c3ee: ; 0x1c3ee
     ld hl, $7e80
     ld de, $8600
     ld bc, $00e0
-    call Func_666
+    call CopyDataToRAM
     jr .asm_1c424
 .asm_1c416
     ld a, $36
     ld hl, $7e80
     ld de, $8200
     ld bc, $00e0
-    call Func_666
+    call CopyDataToRAM
 .asm_1c424
     ld a, [$d551]
     and a
@@ -30439,7 +30444,7 @@ Func_1c43c: ; 0x1c43c
     ld hl, $4f60
     ld de, $8ae0
     ld bc, $0020
-    call Func_666
+    call CopyDataToRAM
     ret
 
 Func_1c46d: ; 0x1c46d
@@ -30487,7 +30492,7 @@ Func_1c491: ; 0x1c491
     pop hl
     ld bc, $0020
     ld a, $36
-    call Func_666
+    call CopyDataToRAM
     pop de
     pop bc
     ret

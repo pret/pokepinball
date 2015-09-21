@@ -5,7 +5,13 @@ wc000::
     ds $500
 
 wcBottomMessageText:: ; 0xc500
-    ds $b00
+    ds $200
+
+wStageCollisionMap:: ; 0xc700
+; Collision data for each tile for the current stage.
+    ds $300
+
+    ds $600
 
 SECTION "WRAM Bank 1", WRAMX, BANK[1]
 

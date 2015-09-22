@@ -396,7 +396,14 @@ wStageCollisionMapBank:: ; 0xd7ee
 ; holds bank of current collision map (always $00, except when loading new attributes)
     ds 1
 
-    ds $a
+wStageCollisionMasksPointer:: ; 0xd7ef
+; Pointer to the current collision masks array
+    ds 2
+wStageCollisionMasksBank:: ; 0xd7f1
+; Holds bank of current collision masks array
+    ds 1
+
+    ds 7
 
 wInGameMenuIndex:: ; 0xd7f9
     ds 1

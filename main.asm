@@ -4857,7 +4857,7 @@ Func_22b5: ; 0x22b5
     ld [$2000], a
     ld a, [hLoadedROMBank]
     push af
-    ld a, [$d7f1]
+    ld a, [wStageCollisionMasksBank]
     ld [hLoadedROMBank], a
     ld [$2000], a
     ld a, [wSubTileBallXPos]
@@ -4903,7 +4903,7 @@ Func_22b5: ; 0x22b5
     rl b
     sla c
     rl b
-    ld hl, $d7ef
+    ld hl, wStageCollisionMasksPointer
     ld a, [hli]
     ld h, [hl]
     ld l, a

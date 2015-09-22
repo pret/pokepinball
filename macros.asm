@@ -9,6 +9,11 @@ dbw: MACRO
 	dw \2
 	ENDM
 
+dwb: MACRO
+	dw \1
+	db \2
+	ENDM
+
 dn: MACRO
 	rept _NARG / 2
 	db (\1) << 4 + (\2)

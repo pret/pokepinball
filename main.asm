@@ -4832,14 +4832,14 @@ Func_22b5: ; 0x22b5
     ld [$d7f3], a
     ld a, h
     ld [$d7f4], a
-    ld a, [$d7ec]
+    ld a, [wStageCollisionMapPointer]
     ld c, a
-    ld a, [$d7ed]
+    ld a, [wStageCollisionMapPointer + 1]
     ld b, a
-    add hl, bc  ; hl = RAM address of upper-left collision byte
+    add hl, bc  ; hl = address of upper-left collision byte
     ld a, [hLoadedROMBank]
     push af
-    ld a, [$d7ee]
+    ld a, [wStageCollisionMapBank]
     ld [hLoadedROMBank], a
     ld [$2000], a
     ld bc, $001f  ; number of tiles wide - 1
@@ -5178,10 +5178,10 @@ SubTileXPos_CollisionDataPointers: ; 0x252e
     dw SubTileXPos_CollisionData1
     dw SubTileXPos_CollisionData2
     dw SubTileXPos_CollisionData3
-    dw $25FE
-    dw $262E
-    dw $265E
-    dw $268E
+    dw SubTileXPos_CollisionData4
+    dw SubTileXPos_CollisionData5
+    dw SubTileXPos_CollisionData6
+    dw SubTileXPos_CollisionData7
 
 SubTileXPos_CollisionData0: ; 0x253e
     db $00, $10, $0B
@@ -5479,7 +5479,7 @@ Func_27da: ; 0x27da
     and a
     jr z, .asm_27e8
     dec hl
-    ld a, [$d4af]
+    ld a, [wStageCollisionState]
     ld c, a
     ld b, $0
     add hl, bc
@@ -15803,8 +15803,8 @@ Func_d87f: ; 0xd87f
     ld hl, StartBallForStage
     call BankSwitch
     ld [$ff8a], a
-    ld a, Bank(Func_e578)
-    ld hl, Func_e578
+    ld a, Bank(LoadStageCollisionAttributes)
+    ld hl, LoadStageCollisionAttributes
     call BankSwitch
     ld [$ff8a], a
     ld a, Bank(Func_e6c2)
@@ -16074,7 +16074,7 @@ Func_dab2: ; 0xdab2
     res 1, [hl]
     ld a, [wCurrentStage]
     ld [$d4ad], a
-    ld a, [$d4af]
+    ld a, [wStageCollisionState]
     ld [$d4b0], a
     ld a, [$d497]
     ld [wCurrentStage], a
@@ -16101,7 +16101,7 @@ Func_dab2: ; 0xdab2
     ld a, [$d4ad]
     ld [wCurrentStage], a
     ld a, [$d4b0]
-    ld [$d4af], a
+    ld [wStageCollisionState], a
     ld a, $1
     ld [wScreenState], a
     ret
@@ -16505,10 +16505,10 @@ Func_ddfd: ; 0xddfd
 .asm_de40
     ld a, [$d7ad]
     ld c, a
-    ld a, [$d4af]
+    ld a, [wStageCollisionState]
     and $1
     or c
-    ld [$d4af], a
+    ld [wStageCollisionState], a
     ret
 
 Func_de4e: ; 0xde4e
@@ -17432,12 +17432,12 @@ Data_e538: ; 0xe538
     dw $00FC
     dw $00FC
 
-Func_e578: ; 0xe578
+LoadStageCollisionAttributes: ; 0xe578
     ld a, [wCurrentStage]
     sla a
     ld c, a
     ld b, $0
-    ld hl, $65a7 ; todo
+    ld hl, StageCollisionAttributesPointers
     add hl, bc
     ld a, [hli]
     ld h, [hl]
@@ -17445,16 +17445,16 @@ Func_e578: ; 0xe578
     ld a, [hli]
     and a
     jr z, .asm_e598
-    ld a, [$d4af]
+    ld a, [wStageCollisionState]
     sla a
     ld c, a
     sla a
     add c
     ld c, a
-    ld b, $0
+    ld b, $0  ; bc = 6 * [wStageCollisionState]
     add hl, bc
 .asm_e598
-    ld de, $d7ec
+    ld de, wStageCollisionMapPointer
     ld b, $6
 .asm_e59d
     ld a, [hli]
@@ -17462,26 +17462,137 @@ Func_e578: ; 0xe578
     inc de
     dec b
     jr nz, .asm_e59d
-    call Func_e656
+    call LoadCollisionAttributes
     ret
 
-INCBIN "baserom.gbc",$e5a7,$e656 - $e5a7
+StageCollisionAttributesPointers: ; 0xe5a7
+    dw StageRedFieldTopCollisionAttributesPointers
+    dw StageRedFieldBottomCollisionAttributesPointers
+    dw StageUnusedCollisionAttributesPointers
+    dw StageUnused2CollisionAttributesPointers
+    dw StageBlueFieldTopCollisionAttributesPointers
+    dw StageBlueFieldBottomCollisionAttributesPointers
+    dw StageGengarBonusCollisionAttributesPointers
+    dw StageGengarBonusCollisionAttributesPointers
+    dw StageMewtwoBonusCollisionAttributesPointers
+    dw StageMewtwoBonusCollisionAttributesPointers
+    dw StageMeowthBonusCollisionAttributesPointers
+    dw StageMeowthBonusCollisionAttributesPointers
+    dw StageDiglettBonusCollisionAttributesPointers
+    dw StageDiglettBonusCollisionAttributesPointers
+    dw StageSeelBonusCollisionAttributesPointers
+    dw StageSeelBonusCollisionAttributesPointers
 
-Func_e656: ; 0xe656
-    ld hl, $d7ec
+StageRedFieldTopCollisionAttributesPointers: ; 0xe5c7
+    db $01  ; multiple pair entries
+    dwb StageRedFieldTopCollisionAttributes0, Bank(StageRedFieldTopCollisionAttributes0)
+    dwb $7000, $2E
+
+    dwb StageRedFieldTopCollisionAttributes1, Bank(StageRedFieldTopCollisionAttributes1)
+    dwb $7000, $2E
+
+    dwb StageRedFieldTopCollisionAttributes2, Bank(StageRedFieldTopCollisionAttributes2)
+    dwb $7800, $2E
+
+    dwb StageRedFieldTopCollisionAttributes3, Bank(StageRedFieldTopCollisionAttributes3)
+    dwb $7800, $2E
+
+    dwb StageRedFieldTopCollisionAttributes4, Bank(StageRedFieldTopCollisionAttributes4)
+    dwb $4000, $2F
+
+    dwb StageRedFieldTopCollisionAttributes5, Bank(StageRedFieldTopCollisionAttributes5)
+    dwb $4000, $2F
+
+    dwb StageRedFieldTopCollisionAttributes6, Bank(StageRedFieldTopCollisionAttributes6)
+    dwb $4800, $2F
+
+    dwb StageRedFieldTopCollisionAttributes7, Bank(StageRedFieldTopCollisionAttributes7)
+    dwb $4800, $2F
+
+StageRedFieldBottomCollisionAttributesPointers: ; 0xe5f8
+    db $00  ; single pair entry
+    dwb StageRedFieldBottomCollisionAttributes, Bank(StageRedFieldBottomCollisionAttributes)
+    dwb $5000, $36
+
+StageUnusedCollisionAttributesPointers: ; 0xe5ff
+; This entry is never used
+    db $00
+
+StageUnused2CollisionAttributesPointers: ; 0xe600
+; This entry is never used
+    db $00
+
+StageBlueFieldTopCollisionAttributesPointers: ; 0xe601
+    db $01  ; multiple pair entries
+    dwb StageBlueFieldTopCollisionAttributesBallEntrance, Bank(StageBlueFieldTopCollisionAttributesBallEntrance)
+    dwb $4800, $30
+
+    dwb StageBlueFieldTopCollisionAttributes, Bank(StageBlueFieldTopCollisionAttributes)
+    dwb $4800, $30
+
+StageBlueFieldBottomCollisionAttributesPointers: ; 0xe60e
+    db $00  ; single pair entry
+    dwb StageBlueFieldBottomCollisionAttributes, Bank(StageBlueFieldBottomCollisionAttributes)
+    dwb $7000, $2B
+
+StageGengarBonusCollisionAttributesPointers: ; 0xe615
+    db $01  ; multiple pair entries
+    dwb StageGengarBonusCollisionAttributesBallEntrance, Bank(StageGengarBonusCollisionAttributesBallEntrance)
+    dwb $7600, $36
+
+    dwb StageGengarBonusCollisionAttributes, Bank(StageGengarBonusCollisionAttributes)
+    dwb $7600, $36
+
+StageMewtwoBonusCollisionAttributesPointers: ; 0xe622
+    db $01  ; multiple pair entries
+    dwb StageMewtwoBonusCollisionAttributesBallEntrance, Bank(StageMewtwoBonusCollisionAttributesBallEntrance)
+    dwb $7C80, $36
+
+    dwb StageMewtwoBonusCollisionAttributes, Bank(StageMewtwoBonusCollisionAttributes)
+    dwb $7C80, $36
+
+StageMeowthBonusCollisionAttributesPointers: ; 0xe62f
+    db $01  ; multiple pair entries
+    dwb StageMeowthBonusCollisionAttributesBallEntrance, Bank(StageMeowthBonusCollisionAttributesBallEntrance)
+    dwb $4600, $37
+
+    dwb StageMeowthBonusCollisionAttributes, Bank(StageMeowthBonusCollisionAttributes)
+    dwb $4600, $37
+
+StageDiglettBonusCollisionAttributesPointers: ; 0xe63c
+    db $01  ; multiple pair entries
+    dwb StageDiglettBonusCollisionAttributesBallEntrance, Bank(StageDiglettBonusCollisionAttributesBallEntrance)
+    dwb $7D00, $20
+
+    dwb StageDiglettBonusCollisionAttributes, Bank(StageDiglettBonusCollisionAttributes)
+    dwb $7D00, $20
+
+StageSeelBonusCollisionAttributesPointers: ; 0xe649
+    db $01  ; multiple pair entries
+    dwb StageSeelBonusCollisionAttributesBallEntrance, Bank(StageSeelBonusCollisionAttributesBallEntrance)
+    dwb $7F00, $0D
+
+    dwb StageSeelBonusCollisionAttributes, Bank(StageSeelBonusCollisionAttributes)
+    dwb $7F00, $0D
+
+LoadCollisionAttributes: ; 0xe656
+; Loads the stage's collision attributes into RAM
+; Input:  [wStageCollisionMapPointer] = pointer to collision attributes map
+;         [wStageCollisionMapBank] = ROM bank of collision attributes map
+    ld hl, wStageCollisionMapPointer
     ld a, [hli]
     ld h, [hl]
     ld l, a
-    ld a, [$d7ee]
+    ld a, [wStageCollisionMapBank]
     ld de, wStageCollisionMap
     ld bc, $0300
     call CopyDataToRAM
-    ld hl, $d7ec
-    ld [hl], $0
+    ld hl, wStageCollisionMapPointer
+    ld [hl], (wStageCollisionMap & $ff)
     inc hl
-    ld [hl], $c7
+    ld [hl], (wStageCollisionMap >> 8)
     inc hl
-    ld [hl], $0
+    ld [hl], $0  ; Bank 0, because the data is in WRAM, so it doesn't matter which bank is saved
     ret
 
 Func_e674: ; 0xe674
@@ -17509,7 +17620,7 @@ Func_e674: ; 0xe674
     call Func_576
     call ClearOAMBuffer
     call Func_1129
-    call Func_e578
+    call LoadStageCollisionAttributes
     call Func_e6c2
     call Func_e5d
     call Func_588
@@ -21148,8 +21259,8 @@ Func_10871: ; 0x10871
     bit 0, a
     jr nz, .asm_108d3
     ld [$ff8a], a
-    ld a, Bank(Func_e578)
-    ld hl, Func_e578
+    ld a, Bank(LoadStageCollisionAttributes)
+    ld hl, LoadStageCollisionAttributes
     call BankSwitch
     ld [$ff8a], a
     ld a, Bank(Func_159f4)
@@ -22478,18 +22589,18 @@ Func_14091: ; 0x14091
     ld [$d502], a
     and $1
     ld c, a
-    ld a, [$d4af]
+    ld a, [wStageCollisionState]
     and $fe
     or c
-    ld [$d4af], a
+    ld [wStageCollisionState], a
     ld de, $0007
     call PlaySoundEffect
     ld a, [wCurrentStage]
     bit 0, a
     ret nz
     ld [$ff8a], a
-    ld a, Bank(Func_e578)
-    ld hl, Func_e578
+    ld a, Bank(LoadStageCollisionAttributes)
+    ld hl, LoadStageCollisionAttributes
     call BankSwitch
     call Func_159f4
     ret
@@ -23951,7 +24062,7 @@ Func_1535d: ; 0x1535d
     jp z, .asm_1544c
     xor a
     ld [$d5f7], a
-    ld a, [$d4af]
+    ld a, [wStageCollisionState]
     bit 0, a
     jp z, .asm_1544c
     ld a, [$d5fc]
@@ -24056,7 +24167,7 @@ Func_1535d: ; 0x1535d
     ret z
 
 Func_15450
-    ld a, [$d4af]
+    ld a, [wStageCollisionState]
     bit 0, a
     ret z
     ld hl, $d5fb
@@ -24340,13 +24451,13 @@ Func_1587c: ; 0x1587c
     ld [$d52f], a
     cp $83
     ret nz
-    ld a, [$d4af]
+    ld a, [wStageCollisionState]
     and $1
     or $6
-    ld [$d4af], a
+    ld [wStageCollisionState], a
     ld [$ff8a], a
-    ld a, Bank(Func_e578)
-    ld hl, Func_e578
+    ld a, Bank(LoadStageCollisionAttributes)
+    ld hl, LoadStageCollisionAttributes
     call BankSwitch
     call Func_159f4
     ret
@@ -24374,13 +24485,13 @@ Func_158c0: ; 0x158c0
     ld [$d52f], a
     cp $83
     ret nz
-    ld a, [$d4af]
+    ld a, [wStageCollisionState]
     and $1
     or $6
-    ld [$d4af], a
+    ld [wStageCollisionState], a
     ld [$ff8a], a
-    ld a, Bank(Func_e578)
-    ld hl, Func_e578
+    ld a, Bank(LoadStageCollisionAttributes)
+    ld hl, LoadStageCollisionAttributes
     call BankSwitch
     call Func_159f4
     ret
@@ -24499,15 +24610,15 @@ Func_159c9: ; 0x159c9
     bit 7, a
     ret nz
     ld c, a
-    ld a, [$d4af]
+    ld a, [wStageCollisionState]
     and $1
     or c
-    ld [$d4af], a
+    ld [wStageCollisionState], a
     ld a, $ff
     ld [$d7ad], a
     ld [$ff8a], a
-    ld a, Bank(Func_e578)
-    ld hl, Func_e578
+    ld a, Bank(LoadStageCollisionAttributes)
+    ld hl, LoadStageCollisionAttributes
     call BankSwitch
     call Func_159f4
     ld a, $1
@@ -24522,7 +24633,7 @@ Func_159f4: ; 0x159f4
     ld a, [$d7f2]
     and $fe
     ld c, a
-    ld a, [$d4af]
+    ld a, [wStageCollisionState]
     and $fe
     cp c
     jr z, .asm_15a13
@@ -24535,7 +24646,7 @@ Func_159f4: ; 0x159f4
     ld a, [$d7f2]
     swap a
     ld c, a
-    ld a, [$d4af]
+    ld a, [wStageCollisionState]
     sla a
     or c
     ld c, a
@@ -24554,7 +24665,7 @@ Func_159f4: ; 0x159f4
     ret z
     ld a, $5
     call Func_10aa
-    ld a, [$d4af]
+    ld a, [wStageCollisionState]
     ld [$d7f2], a
     ret
 
@@ -25148,10 +25259,10 @@ Func_16352: ; 0x16352
     call BankSwitch
     ld a, [$d7ad]
     ld c, a
-    ld a, [$d4af]
+    ld a, [wStageCollisionState]
     and $1
     or c
-    ld [$d4af], a
+    ld [wStageCollisionState], a
     xor a
     ld [$d622], a
     ret
@@ -25568,18 +25679,18 @@ Func_16781: ; 0x16781
     ld a, [$d502]
     and $1
     ld c, a
-    ld a, [$d4af]
+    ld a, [wStageCollisionState]
     and $fe
     or c
-    ld [$d4af], a
+    ld [wStageCollisionState], a
     ld [$ff8a], a
-    ld a, Bank(Func_e578)
-    ld hl, Func_e578
+    ld a, Bank(LoadStageCollisionAttributes)
+    ld hl, LoadStageCollisionAttributes
     call BankSwitch
     call Func_159f4
     ld de, $0007
     call PlaySoundEffect
-    ld a, [$d4af]
+    ld a, [wStageCollisionState]
     bit 0, a
     jp nz, Func_15450
     jp Func_15499
@@ -25621,10 +25732,10 @@ Func_167ff: ; 0x167ff
     ld a, [$d502]
     and $1
     ld c, a
-    ld a, [$d4af]
+    ld a, [wStageCollisionState]
     and $fe
     or c
-    ld [$d4af], a
+    ld [wStageCollisionState], a
     ld de, $0007
     call PlaySoundEffect
     ret
@@ -26346,7 +26457,7 @@ Func_17d34: ; 0x17d34
     ld hl, hBoardYShift
     sub [hl]
     ld c, a
-    ld a, [$d4af]
+    ld a, [wStageCollisionState]
     ld e, a
     ld d, $0
     ld hl, $7d51
@@ -26854,7 +26965,7 @@ StartBallGengarBonusStage: ; 0x18157
     ld [wBallYPos + 1], a
     xor a
     ld [$d7ab], a
-    ld [$d4af], a
+    ld [wStageCollisionState], a
     ld [$d653], a
     xor a
     ld [$d674], a
@@ -27160,18 +27271,18 @@ Func_183b7: ; 0x183b7
     cp $8a
     ret nc
     ld a, $1
-    ld [$d4af], a
+    ld [wStageCollisionState], a
     ld [$d653], a
     ld [$ff8a], a
-    ld a, Bank(Func_e578)
-    ld hl, Func_e578
+    ld a, Bank(LoadStageCollisionAttributes)
+    ld hl, LoadStageCollisionAttributes
     call BankSwitch
     call Func_183db
     call Func_18d91
     ret
 
 Func_183db: ; 0x183db
-    ld a, [$d4af]
+    ld a, [wStageCollisionState]
     sla a
     ld c, a
     ld b, $0
@@ -28374,7 +28485,7 @@ InitMewtwoBonusStage: ; 0x1924f
     and a
     ret nz
     xor a
-    ld [$d4af], a
+    ld [wStageCollisionState], a
     ld a, $1
     ld [$d7ac], a
     ld a, [wBallType]
@@ -28436,7 +28547,7 @@ StartBallMewtwoBonusStage: ; 0x192e3
     ld [wBallXVelocity], a
     xor a
     ld [$d7ab], a
-    ld [$d4af], a
+    ld [wStageCollisionState], a
     ld [$d6a9], a
     ld a, [$d4c9]
     and a
@@ -28684,17 +28795,17 @@ Func_1948b: ; 0x1948b
     cp $8a
     ret nc
     ld a, $1
-    ld [$d4af], a
+    ld [wStageCollisionState], a
     ld [$d6a9], a
     ld [$ff8a], a
-    ld a, Bank(Func_e578)
-    ld hl, Func_e578
+    ld a, Bank(LoadStageCollisionAttributes)
+    ld hl, LoadStageCollisionAttributes
     call BankSwitch
     call Func_194ac
     ret
 
 Func_194ac: ; 0x194ac
-    ld a, [$d4af]
+    ld a, [wStageCollisionState]
     sla a
     ld c, a
     ld b, $0
@@ -29238,7 +29349,7 @@ InitDiglettBonusStage: ; 0x199f2
     and a
     ret nz
     xor a
-    ld [$d4af], a
+    ld [wStageCollisionState], a
     ld a, $1
     ld [$d7ac], a
     ld a, [wBallType]
@@ -29281,7 +29392,7 @@ StartBallDiglettBonusStage: ; 0x19a38
     ld [wBallXVelocity], a
     xor a
     ld [$d7ab], a
-    ld [$d4af], a
+    ld [wStageCollisionState], a
     ld [$d73a], a
     ld hl, wDiglettStates
     ld b, NUM_DIGLETTS
@@ -29450,7 +29561,7 @@ Func_19b92: ; 0x19b92
     cp $8a
     ret nc
     ld a, $1
-    ld [$d4af], a
+    ld [wStageCollisionState], a
     ld [$d73a], a
     xor a
     ld [$c853], a
@@ -29464,7 +29575,7 @@ Func_19b92: ; 0x19b92
     ret
 
 Func_19bbd: ; 0x19bbd
-    ld a, [$d4af]
+    ld a, [wStageCollisionState]
     sla a
     ld c, a
     ld b, $0
@@ -30868,10 +30979,10 @@ Func_1c769: ; 0x1c769
 
 Func_1c7c7: ; 0x1c7c7
     ld a, $0
-    ld [$d4af], a
+    ld [wStageCollisionState], a
     ld [$ff8a], a
-    ld a, Bank(Func_e578)
-    ld hl, Func_e578
+    ld a, Bank(LoadStageCollisionAttributes)
+    ld hl, LoadStageCollisionAttributes
     call BankSwitch
     ret
 
@@ -31446,14 +31557,14 @@ Func_1cfaa: ; 0x1cfaa
     ld a, Bank(Func_8576)
     ld hl, Func_8576
     call BankSwitch
-    ld a, [$d4af]
+    ld a, [wStageCollisionState]
     cp $0
     jr nz, .asm_1cfe5
     ld a, $1
-    ld [$d4af], a
+    ld [wStageCollisionState], a
     ld [$ff8a], a
-    ld a, Bank(Func_e578)
-    ld hl, Func_e578
+    ld a, Bank(LoadStageCollisionAttributes)
+    ld hl, LoadStageCollisionAttributes
     call BankSwitch
     ld a, $1
     ld [$d580], a
@@ -32813,14 +32924,14 @@ Func_1e356: ; 0x1e356
     jp z, Func_1e471
     xor a
     ld [$d5f7], a
-    ld a, [$d4af]
+    ld a, [wStageCollisionState]
     cp $0
     jr nz, .asm_1e386
     ld a, $1
-    ld [$d4af], a
+    ld [wStageCollisionState], a
     ld [$ff8a], a
-    ld a, Bank(Func_e578)
-    ld hl, Func_e578
+    ld a, Bank(LoadStageCollisionAttributes)
+    ld hl, LoadStageCollisionAttributes
     call BankSwitch
     ld a, $1
     ld [$d580], a
@@ -32829,7 +32940,7 @@ Func_1e356: ; 0x1e356
     ld hl, Func_1404a
     call BankSwitch
 .asm_1e386
-    ld a, [$d4af]
+    ld a, [wStageCollisionState]
     bit 0, a
     jp z, Func_1e471
     ld a, [$d5fc]
@@ -37018,7 +37129,7 @@ InitMeowthBonusStage: ; 0x24000
     ret nz
     xor a
     ld [$d4c8], a
-    ld [$d4af], a
+    ld [wStageCollisionState], a
     ld a, [wBallType]
     ld [wBallTypeBackup], a
     xor a
@@ -37063,7 +37174,7 @@ StartBallMeowthBonusStage: ; 0x24059
     ld [wBallXVelocity], a
     xor a
     ld [$d7ab], a
-    ld [$d4af], a
+    ld [wStageCollisionState], a
     ld [$d6e6], a
     ld hl, $d6f3
     ld b, $16
@@ -37675,17 +37786,17 @@ Func_244f5: ; 0x244f5
     cp $8a
     ret nc
     ld a, $1
-    ld [$d4af], a
+    ld [wStageCollisionState], a
     ld [$d6e6], a
     ld [$ff8a], a
-    ld a, Bank(Func_e578)
-    ld hl, Func_e578
+    ld a, Bank(LoadStageCollisionAttributes)
+    ld hl, LoadStageCollisionAttributes
     call BankSwitch
     call Func_24516
     ret
 
 Func_24516: ; 0x24516
-    ld a, [$d4af]
+    ld a, [wStageCollisionState]
     sla a
     ld c, a
     ld b, $0
@@ -39305,7 +39416,7 @@ InitSeelBonusStage: ; 0x25a7c
     ret nz
     xor a
     ld [$d4c8], a
-    ld [$d4af], a
+    ld [wStageCollisionState], a
     ld a, $1
     ld [$d7ac], a
     ld a, [wBallType]
@@ -39367,7 +39478,7 @@ StartBallSeelBonusStage: ; 0x25af1
     ld [wBallXVelocity], a
     xor a
     ld [$d7ab], a
-    ld [$d4af], a
+    ld [wStageCollisionState], a
     ld [$d766], a
     ld a, $0
     ld [$d772], a
@@ -39600,17 +39711,17 @@ Func_25ced: ; 0x25ced
     cp $8a
     ret nc
     ld a, $1
-    ld [$d4af], a
+    ld [wStageCollisionState], a
     ld [$d766], a
     ld [$ff8a], a
-    ld a, Bank(Func_e578)
-    ld hl, Func_e578
+    ld a, Bank(LoadStageCollisionAttributes)
+    ld hl, LoadStageCollisionAttributes
     call BankSwitch
     call Func_25d0e
     ret
 
 Func_25d0e: ; 0x25d0e
-    ld a, [$d4af]
+    ld a, [wStageCollisionState]
     sla a
     ld c, a
     ld b, $0
@@ -44528,7 +44639,7 @@ InitRedField: ; 0x30000
     ld [$d498], a
     ld [$d499], a
     ld a, $4
-    ld [$d4af], a
+    ld [wStageCollisionState], a
     ld [$d7ad], a
     ld a, $80
     ld [$d52f], a
@@ -44567,13 +44678,13 @@ StartBallRedField: ; 0x3007d
     ld a, [$d7ad]
     bit 7, a
     jr z, .asm_300ae
-    ld a, [$d4af]
+    ld a, [wStageCollisionState]
     res 0, a
     ld [$d7ad], a
 .asm_300ae
-    ld a, [$d4af]
+    ld a, [wStageCollisionState]
     and $1
-    ld [$d4af], a
+    ld [wStageCollisionState], a
     ld a, [$d4c9]
     and a
     ret z
@@ -48219,7 +48330,12 @@ INCBIN "baserom.gbc",$ad800,$b0000 - $ad800
 
 SECTION "bank2c", ROMX, BANK[$2c]
 
-INCBIN "baserom.gbc",$b0000,$b3800 - $b0000 ; 0xb0000
+INCBIN "baserom.gbc",$b0000,$b3000 - $b0000
+
+StageRedFieldTopCollisionAttributes6: ; 0xb3000
+    INCBIN "data/collision/red_stage_top_6.collision"
+
+INCBIN "baserom.gbc",$b3400,$b3800 - $b3400
 
 FieldSelectTilemap: ; 0xb3800
     INCBIN "gfx/tilemaps/field_select.map"
@@ -48294,7 +48410,15 @@ OptionMenuOnOffTextGfx: ; 0xb6ad0
 OptionMenuBGMSETextGfx: ; 0xb6b10
     INCBIN "gfx/option_menu/bgm_se_text.2bpp"
 
-INCBIN "baserom.gbc",$b6c00,$b7c00 - $b6c00 ; 0xb6c00
+StageRedFieldTopCollisionAttributes5: ; 0xb6c00
+    INCBIN "data/collision/red_stage_top_5.collision"
+
+INCBIN "baserom.gbc",$b7000,$b7400 - $b7000
+
+StageRedFieldTopCollisionAttributes4: ; 0xb7400
+    INCBIN "data/collision/red_stage_top_4.collision"
+
+INCBIN "baserom.gbc",$b7800,$b7c00 - $b7800
 
 PidgeottoBillboardBGPaletteMap: ; 0xb7c00
     db $7, $7, $7, $7, $7, $7
@@ -48397,7 +48521,25 @@ INCBIN "baserom.gbc",$b7d80,$b8000 - $b7d80 ; 0xb7d80
 
 SECTION "bank2e", ROMX, BANK[$2e]
 
-INCBIN "baserom.gbc",$b8000,$ba000 - $b8000
+StageRedFieldTopCollisionAttributes3: ; 0xb8000
+    INCBIN "data/collision/red_stage_top_3.collision"
+
+INCBIN "baserom.gbc",$b8400,$b8800 - $b8400
+
+StageRedFieldTopCollisionAttributes2: ; 0xb8800
+    INCBIN "data/collision/red_stage_top_2.collision"
+
+INCBIN "baserom.gbc",$b8c00,$b9000 - $b8c00
+
+StageRedFieldTopCollisionAttributes1: ; 0xb9000
+    INCBIN "data/collision/red_stage_top_1.collision"
+
+INCBIN "baserom.gbc",$b9400,$b9800 - $b9400
+
+StageRedFieldTopCollisionAttributes0: ; 0xb9800
+    INCBIN "data/collision/red_stage_top_0.collision"
+
+INCBIN "baserom.gbc",$b9c00,$ba000 - $b9c00
 
 StageRedFieldTopTilemap_GameBoy: ; 0xba000
     INCBIN "gfx/tilemaps/stage_red_field_top_gameboy.map"
@@ -48412,7 +48554,12 @@ INCBIN "baserom.gbc",$bac00,$bc000 - $bac00
 
 SECTION "bank2f", ROMX, BANK[$2f]
 
-INCBIN "baserom.gbc",$bc000,$bd800 - $bc000
+INCBIN "baserom.gbc",$bc000,$bd000 - $bc000
+
+StageRedFieldTopCollisionAttributes7: ; 0xdb000
+    INCBIN "data/collision/red_stage_top_7.collision"
+
+INCBIN "baserom.gbc",$bd400,$bd800 - $bd400
 
 StageRedFieldBottomCollisionAttributes: ; 0xbd800
     INCBIN "data/collision/red_stage_bottom.collision"
@@ -48441,7 +48588,17 @@ EraseAllDataBGAttributes: ; 0xbfc00
 
 SECTION "bank30", ROMX, BANK[$30]
 
-INCBIN "baserom.gbc",$c0000,$c3800 - $c0000 ; 0xc0000
+INCBIN "baserom.gbc",$c0000,$c1000 - $c0000
+
+StageBlueFieldTopCollisionAttributesBallEntrance: ; 0xc1000
+    INCBIN "data/collision/blue_stage_top_ball_entrance.collision"
+
+INCBIN "baserom.gbc",$c1400,$c2800 - $c1400
+
+StageBlueFieldTopCollisionAttributes: ; 0xc2800
+    INCBIN "data/collision/blue_stage_top.collision"
+
+INCBIN "baserom.gbc",$c2c00,$c3800 - $c2c00
 
 OptionMenuTilemap: ; 0xc3800
     INCBIN "gfx/tilemaps/option_menu.map"
@@ -48451,7 +48608,10 @@ INCBIN "baserom.gbc",$c3a40,$c4000 - $c3a40 ; 0xc3a40
 
 SECTION "bank31", ROMX, BANK[$31]
 
-INCBIN "baserom.gbc",$c4000,$c5800 - $c4000 ; 0xc4000
+StageBlueFieldBottomCollisionAttributes: ; 0xc4000
+    INCBIN "data/collision/blue_stage_bottom.collision"
+
+INCBIN "baserom.gbc",$c4400,$c5800 - $c4400
 
 TitlescreenTilemap: ; 0xc5800
     INCBIN "gfx/tilemaps/titlescreen.map"
@@ -48465,17 +48625,53 @@ CopyrightScreenTilemap: ; 0xc6000
 CopyrightScreenBGAttributes: ; 0xc6400
     INCBIN "gfx/bgattr/copyright_screen.bgattr"
 
-INCBIN "baserom.gbc",$c6800,$c8000 - $c6800
+INCBIN "baserom.gbc",$c6800,$c7800 - $c6800
+
+StageGengarBonusCollisionAttributesBallEntrance: ; 0xc7800
+    INCBIN "data/collision/gengar_bonus_ball_entrance.collision"
 
 
 SECTION "bank32", ROMX, BANK[$32]
 
-INCBIN "baserom.gbc",$c8000,$cc000 - $c8000 ; 0xc8000
+StageGengarBonusCollisionAttributes: ; 0xc8000
+    INCBIN "data/collision/gengar_bonus.collision"
+
+INCBIN "baserom.gbc",$c8400,$ca000 - $c8400
+
+StageMewtwoBonusCollisionAttributesBallEntrance: ; 0xca000
+    INCBIN "data/collision/mewtwo_bonus_ball_entrance.collision"
+
+INCBIN "baserom.gbc",$ca400,$ca800 - $ca400
+
+StageMewtwoBonusCollisionAttributes: ; 0xca800
+    INCBIN "data/collision/mewtwo_bonus.collision"
+
+INCBIN "baserom.gbc",$cac00,$cc000 - $cac00
 
 
 SECTION "bank33", ROMX, BANK[$33]
 
-INCBIN "baserom.gbc",$cc000,$d0000 - $cc000 ; 0xcc000
+INCBIN "baserom.gbc",$cc000,$cc800 - $cc000
+
+StageMeowthBonusCollisionAttributesBallEntrance: ; 0xcc800
+    INCBIN "data/collision/meowth_bonus_ball_entrance.collision"
+
+INCBIN "baserom.gbc",$ccc00,$cd000 - $ccc00
+
+StageMeowthBonusCollisionAttributes: ; 0xcd000
+    INCBIN "data/collision/meowth_bonus.collision"
+
+INCBIN "baserom.gbc",$cd400,$ce800 - $cd400
+
+StageDiglettBonusCollisionAttributesBallEntrance: ; 0xce800
+    INCBIN "data/collision/diglett_bonus_ball_entrance.collision"
+
+INCBIN "baserom.gbc",$cec00,$cf000 - $cec00
+
+StageDiglettBonusCollisionAttributes: ; 0xcf000
+    INCBIN "data/collision/diglett_bonus.collision"
+
+INCBIN "baserom.gbc",$cf400,$d0000 - $cf400
 
 
 SECTION "bank34", ROMX, BANK[$34]
@@ -48485,7 +48681,15 @@ INCBIN "baserom.gbc",$d0000,$d4000 - $d0000 ; 0xd0000
 
 SECTION "bank35", ROMX, BANK[$35]
 
-INCBIN "baserom.gbc",$d4000,$d6000 - $d4000
+StageSeelBonusCollisionAttributesBallEntrance: ; 0xd4000
+    INCBIN "data/collision/seel_bonus_ball_entrance.collision"
+
+INCBIN "baserom.gbc",$d4400,$d4800 - $d4400
+
+StageSeelBonusCollisionAttributes: ; 0xd4800
+    INCBIN "data/collision/seel_bonus.collision"
+
+INCBIN "baserom.gbc",$d4c00,$d6000 - $d4c00
 
 Alphabet1Gfx: ; 0xd6000
     INCBIN "gfx/stage/alphabet_1.2bpp"

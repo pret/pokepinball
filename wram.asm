@@ -83,7 +83,15 @@ wBallSaverTimerSecondsBackup:: ; 0xd4a7
 wCurrentStage:: ; 0xd4ac
     ds 1
 
-    ds 6
+    ds 2
+
+wStageCollisionState:: ; 0xd4af
+; Stores the current collision state id for the stage
+; For example, the Red stage can have different collision states when
+; the Ditto lane is open, or when there is a wall above the Voltorbs.
+    ds 1
+
+    ds 3
 
 wBallXPos:: ; 0xd4b3
 ; x coordinate of the center of the pokeball
@@ -379,8 +387,16 @@ wUpperRightCollisionAttribute:: ; 0xd7c7
 wLowerRightCollisionAttribute:: ; 0xd7c8
     ds 1
 
+    ds $23
 
-    ds $30
+wStageCollisionMapPointer:: ; 0xd7ec
+; pointer to the current collision map (always points to wStageCollisionMapPointer, except when loading new attributes)
+    ds 2
+wStageCollisionMapBank:: ; 0xd7ee
+; holds bank of current collision map (always $00, except when loading new attributes)
+    ds 1
+
+    ds $a
 
 wInGameMenuIndex:: ; 0xd7f9
     ds 1

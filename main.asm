@@ -17486,33 +17486,33 @@ StageCollisionAttributesPointers: ; 0xe5a7
 StageRedFieldTopCollisionAttributesPointers: ; 0xe5c7
     db $01  ; multiple pair entries
     dwb StageRedFieldTopCollisionAttributes0, Bank(StageRedFieldTopCollisionAttributes0)
-    dwb $7000, $2E
+    dwb StageRedFieldTopCollisionMasks0, Bank(StageRedFieldTopCollisionMasks0)
 
     dwb StageRedFieldTopCollisionAttributes1, Bank(StageRedFieldTopCollisionAttributes1)
-    dwb $7000, $2E
+    dwb StageRedFieldTopCollisionMasks0, Bank(StageRedFieldTopCollisionMasks0)
 
     dwb StageRedFieldTopCollisionAttributes2, Bank(StageRedFieldTopCollisionAttributes2)
-    dwb $7800, $2E
+    dwb StageRedFieldTopCollisionMasks1, Bank(StageRedFieldTopCollisionMasks1)
 
     dwb StageRedFieldTopCollisionAttributes3, Bank(StageRedFieldTopCollisionAttributes3)
-    dwb $7800, $2E
+    dwb StageRedFieldTopCollisionMasks1, Bank(StageRedFieldTopCollisionMasks1)
 
     dwb StageRedFieldTopCollisionAttributes4, Bank(StageRedFieldTopCollisionAttributes4)
-    dwb $4000, $2F
+    dwb StageRedFieldTopCollisionMasks2, Bank(StageRedFieldTopCollisionMasks2)
 
     dwb StageRedFieldTopCollisionAttributes5, Bank(StageRedFieldTopCollisionAttributes5)
-    dwb $4000, $2F
+    dwb StageRedFieldTopCollisionMasks2, Bank(StageRedFieldTopCollisionMasks2)
 
     dwb StageRedFieldTopCollisionAttributes6, Bank(StageRedFieldTopCollisionAttributes6)
-    dwb $4800, $2F
+    dwb StageRedFieldTopCollisionMasks3, Bank(StageRedFieldTopCollisionMasks3)
 
     dwb StageRedFieldTopCollisionAttributes7, Bank(StageRedFieldTopCollisionAttributes7)
-    dwb $4800, $2F
+    dwb StageRedFieldTopCollisionMasks3, Bank(StageRedFieldTopCollisionMasks3)
 
 StageRedFieldBottomCollisionAttributesPointers: ; 0xe5f8
     db $00  ; single pair entry
     dwb StageRedFieldBottomCollisionAttributes, Bank(StageRedFieldBottomCollisionAttributes)
-    dwb $5000, $36
+    dwb StageRedFieldBottomCollisionMasks, Bank(StageRedFieldBottomCollisionMasks)
 
 StageUnusedCollisionAttributesPointers: ; 0xe5ff
 ; This entry is never used
@@ -17525,55 +17525,55 @@ StageUnused2CollisionAttributesPointers: ; 0xe600
 StageBlueFieldTopCollisionAttributesPointers: ; 0xe601
     db $01  ; multiple pair entries
     dwb StageBlueFieldTopCollisionAttributesBallEntrance, Bank(StageBlueFieldTopCollisionAttributesBallEntrance)
-    dwb $4800, $30
+    dwb StageBlueFieldTopCollisionMasks, Bank(StageBlueFieldTopCollisionMasks)
 
     dwb StageBlueFieldTopCollisionAttributes, Bank(StageBlueFieldTopCollisionAttributes)
-    dwb $4800, $30
+    dwb StageBlueFieldTopCollisionMasks, Bank(StageBlueFieldTopCollisionMasks)
 
 StageBlueFieldBottomCollisionAttributesPointers: ; 0xe60e
     db $00  ; single pair entry
     dwb StageBlueFieldBottomCollisionAttributes, Bank(StageBlueFieldBottomCollisionAttributes)
-    dwb $7000, $2B
+    dwb StageBlueFieldBottomCollisionMasks, Bank(StageBlueFieldBottomCollisionMasks)
 
 StageGengarBonusCollisionAttributesPointers: ; 0xe615
     db $01  ; multiple pair entries
     dwb StageGengarBonusCollisionAttributesBallEntrance, Bank(StageGengarBonusCollisionAttributesBallEntrance)
-    dwb $7600, $36
+    dwb StageGengarBonusCollisionMasks, Bank(StageGengarBonusCollisionMasks)
 
     dwb StageGengarBonusCollisionAttributes, Bank(StageGengarBonusCollisionAttributes)
-    dwb $7600, $36
+    dwb StageGengarBonusCollisionMasks, Bank(StageGengarBonusCollisionMasks)
 
 StageMewtwoBonusCollisionAttributesPointers: ; 0xe622
     db $01  ; multiple pair entries
     dwb StageMewtwoBonusCollisionAttributesBallEntrance, Bank(StageMewtwoBonusCollisionAttributesBallEntrance)
-    dwb $7C80, $36
+    dwb StageMewtwoBonusCollisionMasks, Bank(StageMewtwoBonusCollisionMasks)
 
     dwb StageMewtwoBonusCollisionAttributes, Bank(StageMewtwoBonusCollisionAttributes)
-    dwb $7C80, $36
+    dwb StageMewtwoBonusCollisionMasks, Bank(StageMewtwoBonusCollisionMasks)
 
 StageMeowthBonusCollisionAttributesPointers: ; 0xe62f
     db $01  ; multiple pair entries
     dwb StageMeowthBonusCollisionAttributesBallEntrance, Bank(StageMeowthBonusCollisionAttributesBallEntrance)
-    dwb $4600, $37
+    dwb StageMeowthBonusCollisionMasks, Bank(StageMeowthBonusCollisionMasks)
 
     dwb StageMeowthBonusCollisionAttributes, Bank(StageMeowthBonusCollisionAttributes)
-    dwb $4600, $37
+    dwb StageMeowthBonusCollisionMasks, Bank(StageMeowthBonusCollisionMasks)
 
 StageDiglettBonusCollisionAttributesPointers: ; 0xe63c
     db $01  ; multiple pair entries
     dwb StageDiglettBonusCollisionAttributesBallEntrance, Bank(StageDiglettBonusCollisionAttributesBallEntrance)
-    dwb $7D00, $20
+    dwb StageDiglettBonusCollisionMasks, Bank(StageDiglettBonusCollisionMasks)
 
     dwb StageDiglettBonusCollisionAttributes, Bank(StageDiglettBonusCollisionAttributes)
-    dwb $7D00, $20
+    dwb StageDiglettBonusCollisionMasks, Bank(StageDiglettBonusCollisionMasks)
 
 StageSeelBonusCollisionAttributesPointers: ; 0xe649
     db $01  ; multiple pair entries
     dwb StageSeelBonusCollisionAttributesBallEntrance, Bank(StageSeelBonusCollisionAttributesBallEntrance)
-    dwb $7F00, $0D
+    dwb StageSeelBonusCollisionMasks, Bank(StageSeelBonusCollisionMasks)
 
     dwb StageSeelBonusCollisionAttributes, Bank(StageSeelBonusCollisionAttributes)
-    dwb $7F00, $0D
+    dwb StageSeelBonusCollisionMasks, Bank(StageSeelBonusCollisionMasks)
 
 LoadCollisionAttributes: ; 0xe656
 ; Loads the stage's collision attributes into RAM
@@ -45898,7 +45898,10 @@ SlotOnPic: ; 0x34000
 SlotOffPic: ; 0x34180
 	INCBIN "gfx/billboard/slot/slot_off.2bpp"
 
-INCBIN "baserom.gbc",$34300,$38000 - $34300 ; 0x34000
+INCBIN "baserom.gbc",$34300,$37f00 - $34300
+
+StageSeelBonusCollisionMasks: ; 0x37f00
+    INCBIN "data/collision/masks/seel_bonus.masks"
 
 
 SECTION "banke", ROMX, BANK[$e]
@@ -47224,7 +47227,10 @@ PinsirAnimatedPic: ; 0x82a00
 TaurosAnimatedPic: ; 0x82d00
 	INCBIN "gfx/billboard/mon_animated/tauros.w32.interleave.2bpp"
 
-INCBIN "baserom.gbc",$83000,$84000 - $83000 ; 0x83000
+INCBIN "baserom.gbc",$83000,$83d00 - $83000
+
+StageDiglettBonusCollisionMasks: ; 0x83d00
+    INCBIN "data/collision/masks/diglett_bonus.masks"
 
 
 SECTION "bank21", ROMX, BANK[$21]
@@ -48325,7 +48331,12 @@ SECTION "bank2b", ROMX, BANK[$2b]
 TitlescreenFadeInGfx: ; 0xac000
     INCBIN "gfx/titlescreen/titlescreen_fade_in.2bpp"
 
-INCBIN "baserom.gbc",$ad800,$b0000 - $ad800
+INCBIN "baserom.gbc",$ad800,$af000 - $ad800
+
+StageBlueFieldBottomCollisionMasks: ; 0xaf000
+    INCBIN "data/collision/masks/blue_stage_bottom.masks"
+
+INCBIN "baserom.gbc",$af800,$b0000 - $af800
 
 
 SECTION "bank2c", ROMX, BANK[$2c]
@@ -48333,7 +48344,7 @@ SECTION "bank2c", ROMX, BANK[$2c]
 INCBIN "baserom.gbc",$b0000,$b3000 - $b0000
 
 StageRedFieldTopCollisionAttributes6: ; 0xb3000
-    INCBIN "data/collision/red_stage_top_6.collision"
+    INCBIN "data/collision/maps/red_stage_top_6.collision"
 
 INCBIN "baserom.gbc",$b3400,$b3800 - $b3400
 
@@ -48411,12 +48422,12 @@ OptionMenuBGMSETextGfx: ; 0xb6b10
     INCBIN "gfx/option_menu/bgm_se_text.2bpp"
 
 StageRedFieldTopCollisionAttributes5: ; 0xb6c00
-    INCBIN "data/collision/red_stage_top_5.collision"
+    INCBIN "data/collision/maps/red_stage_top_5.collision"
 
 INCBIN "baserom.gbc",$b7000,$b7400 - $b7000
 
 StageRedFieldTopCollisionAttributes4: ; 0xb7400
-    INCBIN "data/collision/red_stage_top_4.collision"
+    INCBIN "data/collision/maps/red_stage_top_4.collision"
 
 INCBIN "baserom.gbc",$b7800,$b7c00 - $b7800
 
@@ -48522,22 +48533,22 @@ INCBIN "baserom.gbc",$b7d80,$b8000 - $b7d80 ; 0xb7d80
 SECTION "bank2e", ROMX, BANK[$2e]
 
 StageRedFieldTopCollisionAttributes3: ; 0xb8000
-    INCBIN "data/collision/red_stage_top_3.collision"
+    INCBIN "data/collision/maps/red_stage_top_3.collision"
 
 INCBIN "baserom.gbc",$b8400,$b8800 - $b8400
 
 StageRedFieldTopCollisionAttributes2: ; 0xb8800
-    INCBIN "data/collision/red_stage_top_2.collision"
+    INCBIN "data/collision/maps/red_stage_top_2.collision"
 
 INCBIN "baserom.gbc",$b8c00,$b9000 - $b8c00
 
 StageRedFieldTopCollisionAttributes1: ; 0xb9000
-    INCBIN "data/collision/red_stage_top_1.collision"
+    INCBIN "data/collision/maps/red_stage_top_1.collision"
 
 INCBIN "baserom.gbc",$b9400,$b9800 - $b9400
 
 StageRedFieldTopCollisionAttributes0: ; 0xb9800
-    INCBIN "data/collision/red_stage_top_0.collision"
+    INCBIN "data/collision/maps/red_stage_top_0.collision"
 
 INCBIN "baserom.gbc",$b9c00,$ba000 - $b9c00
 
@@ -48549,20 +48560,30 @@ INCBIN "baserom.gbc",$ba400,$ba800 - $ba400
 StageRedFieldBottomTilemap_GameBoy: ; 0xba800
     INCBIN "gfx/tilemaps/stage_red_field_bottom_gameboy.map"
 
-INCBIN "baserom.gbc",$bac00,$bc000 - $bac00
+INCBIN "baserom.gbc",$bac00,$bb000 - $bac00
+
+StageRedFieldTopCollisionMasks0: ; 0xbb000
+    INCBIN "data/collision/masks/red_stage_top_0.masks"
+
+StageRedFieldTopCollisionMasks1: ; 0xbb800
+    INCBIN "data/collision/masks/red_stage_top_1.masks"
 
 
 SECTION "bank2f", ROMX, BANK[$2f]
 
-INCBIN "baserom.gbc",$bc000,$bd000 - $bc000
+StageRedFieldTopCollisionMasks2: ; 0xbc000
+    INCBIN "data/collision/masks/red_stage_top_2.masks"
 
-StageRedFieldTopCollisionAttributes7: ; 0xdb000
-    INCBIN "data/collision/red_stage_top_7.collision"
+StageRedFieldTopCollisionMasks3: ; 0xbc800
+    INCBIN "data/collision/masks/red_stage_top_3.masks"
+
+StageRedFieldTopCollisionAttributes7: ; 0xbd000
+    INCBIN "data/collision/maps/red_stage_top_7.collision"
 
 INCBIN "baserom.gbc",$bd400,$bd800 - $bd400
 
 StageRedFieldBottomCollisionAttributes: ; 0xbd800
-    INCBIN "data/collision/red_stage_bottom.collision"
+    INCBIN "data/collision/maps/red_stage_bottom.collision"
 
 INCBIN "baserom.gbc",$bdc00,$be000 - $bdc00
 
@@ -48588,15 +48609,18 @@ EraseAllDataBGAttributes: ; 0xbfc00
 
 SECTION "bank30", ROMX, BANK[$30]
 
-INCBIN "baserom.gbc",$c0000,$c1000 - $c0000
+INCBIN "baserom.gbc",$c0000,$c0800 - $c0000
+
+StageBlueFieldTopCollisionMasks: ; 0xc0800
+    INCBIN "data/collision/masks/blue_stage_top.masks"
 
 StageBlueFieldTopCollisionAttributesBallEntrance: ; 0xc1000
-    INCBIN "data/collision/blue_stage_top_ball_entrance.collision"
+    INCBIN "data/collision/maps/blue_stage_top_ball_entrance.collision"
 
 INCBIN "baserom.gbc",$c1400,$c2800 - $c1400
 
 StageBlueFieldTopCollisionAttributes: ; 0xc2800
-    INCBIN "data/collision/blue_stage_top.collision"
+    INCBIN "data/collision/maps/blue_stage_top.collision"
 
 INCBIN "baserom.gbc",$c2c00,$c3800 - $c2c00
 
@@ -48609,7 +48633,7 @@ INCBIN "baserom.gbc",$c3a40,$c4000 - $c3a40 ; 0xc3a40
 SECTION "bank31", ROMX, BANK[$31]
 
 StageBlueFieldBottomCollisionAttributes: ; 0xc4000
-    INCBIN "data/collision/blue_stage_bottom.collision"
+    INCBIN "data/collision/maps/blue_stage_bottom.collision"
 
 INCBIN "baserom.gbc",$c4400,$c5800 - $c4400
 
@@ -48628,23 +48652,23 @@ CopyrightScreenBGAttributes: ; 0xc6400
 INCBIN "baserom.gbc",$c6800,$c7800 - $c6800
 
 StageGengarBonusCollisionAttributesBallEntrance: ; 0xc7800
-    INCBIN "data/collision/gengar_bonus_ball_entrance.collision"
+    INCBIN "data/collision/maps/gengar_bonus_ball_entrance.collision"
 
 
 SECTION "bank32", ROMX, BANK[$32]
 
 StageGengarBonusCollisionAttributes: ; 0xc8000
-    INCBIN "data/collision/gengar_bonus.collision"
+    INCBIN "data/collision/maps/gengar_bonus.collision"
 
 INCBIN "baserom.gbc",$c8400,$ca000 - $c8400
 
 StageMewtwoBonusCollisionAttributesBallEntrance: ; 0xca000
-    INCBIN "data/collision/mewtwo_bonus_ball_entrance.collision"
+    INCBIN "data/collision/maps/mewtwo_bonus_ball_entrance.collision"
 
 INCBIN "baserom.gbc",$ca400,$ca800 - $ca400
 
 StageMewtwoBonusCollisionAttributes: ; 0xca800
-    INCBIN "data/collision/mewtwo_bonus.collision"
+    INCBIN "data/collision/maps/mewtwo_bonus.collision"
 
 INCBIN "baserom.gbc",$cac00,$cc000 - $cac00
 
@@ -48654,22 +48678,22 @@ SECTION "bank33", ROMX, BANK[$33]
 INCBIN "baserom.gbc",$cc000,$cc800 - $cc000
 
 StageMeowthBonusCollisionAttributesBallEntrance: ; 0xcc800
-    INCBIN "data/collision/meowth_bonus_ball_entrance.collision"
+    INCBIN "data/collision/maps/meowth_bonus_ball_entrance.collision"
 
 INCBIN "baserom.gbc",$ccc00,$cd000 - $ccc00
 
 StageMeowthBonusCollisionAttributes: ; 0xcd000
-    INCBIN "data/collision/meowth_bonus.collision"
+    INCBIN "data/collision/maps/meowth_bonus.collision"
 
 INCBIN "baserom.gbc",$cd400,$ce800 - $cd400
 
 StageDiglettBonusCollisionAttributesBallEntrance: ; 0xce800
-    INCBIN "data/collision/diglett_bonus_ball_entrance.collision"
+    INCBIN "data/collision/maps/diglett_bonus_ball_entrance.collision"
 
 INCBIN "baserom.gbc",$cec00,$cf000 - $cec00
 
 StageDiglettBonusCollisionAttributes: ; 0xcf000
-    INCBIN "data/collision/diglett_bonus.collision"
+    INCBIN "data/collision/maps/diglett_bonus.collision"
 
 INCBIN "baserom.gbc",$cf400,$d0000 - $cf400
 
@@ -48682,12 +48706,12 @@ INCBIN "baserom.gbc",$d0000,$d4000 - $d0000 ; 0xd0000
 SECTION "bank35", ROMX, BANK[$35]
 
 StageSeelBonusCollisionAttributesBallEntrance: ; 0xd4000
-    INCBIN "data/collision/seel_bonus_ball_entrance.collision"
+    INCBIN "data/collision/maps/seel_bonus_ball_entrance.collision"
 
 INCBIN "baserom.gbc",$d4400,$d4800 - $d4400
 
 StageSeelBonusCollisionAttributes: ; 0xd4800
-    INCBIN "data/collision/seel_bonus.collision"
+    INCBIN "data/collision/maps/seel_bonus.collision"
 
 INCBIN "baserom.gbc",$d4c00,$d6000 - $d4c00
 
@@ -49209,7 +49233,10 @@ INCBIN "baserom.gbc",$d8980,$d8c00 - $d8980
 SaverTextOffGfx: ; 0xd8c00
     INCBIN "gfx/stage/saver_off.2bpp"
 
-INCBIN "baserom.gbc",$d8c40,$d9400 - $d8c40
+INCBIN "baserom.gbc",$d8c40,$d9000 - $d8c40
+
+StageRedFieldBottomCollisionMasks: ; 0xd9000
+    INCBIN "data/collision/masks/red_stage_bottom.masks"
 
 MagikarpBillboardBGPaletteMap: ; 0xd9400
     db $6, $6, $6, $6, $6, $6
@@ -49568,7 +49595,10 @@ INCBIN "baserom.gbc",$db000,$db200 - $db000
 TimerDigitsGfx: ; 0xdb200
     INCBIN "gfx/stage/timer_digits.2bpp"
 
-INCBIN "baserom.gbc",$db360,$db780 - $db360
+INCBIN "baserom.gbc",$db360,$db600 - $db360
+
+StageGengarBonusCollisionMasks: ; 0xdb600
+    INCBIN "data/collision/masks/gengar_bonus.masks"
 
 ZubatAnimatedObjPalette1: ; 0xdb780
     RGB 31, 31, 31
@@ -50277,7 +50307,10 @@ NidoranMBillboardBGPalette2: ; 0xdbb78
 StageRedFieldTopGfx6: ; 0xdbb80
     INCBIN "gfx/stage/red_top/red_top_6.2bpp"
 
-INCBIN "baserom.gbc",$dbbc0,$dbd80 - $dbbc0
+INCBIN "baserom.gbc",$dbbc0,$dbc80 - $dbbc0
+
+StageMewtwoBonusCollisionMasks: ; 0xdbc80
+    INCBIN "data/collision/masks/mewtwo_bonus.masks"
 
 MagikarpAnimatedObjPalette1: ; 0xdbd80
     RGB 31, 31, 31
@@ -51334,7 +51367,8 @@ SlowbroBillboardBGPalette2: ; 0xdc5f8
     RGB 12, 12, 12
     RGB 0, 0, 0
 
-INCBIN "baserom.gbc",$dc600,$dc700 - $dc600
+StageMeowthBonusCollisionMasks: ; 0xdc600
+    INCBIN "data/collision/masks/meowth_bonus.masks"
 
 ZapdosBillboardBGPalette1: ; 0xdc700
     RGB 31, 31, 31

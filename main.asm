@@ -15501,7 +15501,7 @@ INCBIN "baserom.gbc",$d65a,$d68a - $d65a
 Func_d68a: ; 0xd68a
     push bc
     ld hl, wPokedexFlags
-    ld bc, $9700
+    ld bc, (NUM_POKEMON << 8)
 .asm_d691
     bit 1, [hl]
     jr z, .asm_d696
@@ -15530,7 +15530,7 @@ Func_d6aa: ; 0xd6aa
 
 Func_d6b6: ; 0xd6b6
     ld hl, wPokedexFlags
-    ld bc, $9700
+    ld bc, (NUM_POKEMON << 8)
 .asm_d6bc
     bit 1, [hl]
     jr z, .asm_d6c1
@@ -17787,7 +17787,7 @@ StageBlueFieldTopGfx_GameBoy: ; 0xe8f2
     dw $67A0
     db $35
     dw $81A0
-    dw $0980
+    dw $0980 
 
     VIDEO_DATA_TILES PinballPokeballGfx, vTiles0 + $400, $200
 
@@ -35080,7 +35080,7 @@ Func_201f2: ; 0x201f2
     ld a, $7
     ld [$d54d], a
     ld a, [wCurrentMon]
-    cp $96
+    cp NUM_POKEMON - 1
     jr nz, .asm_2021b
     ld [$ff8a], a
     ld a, Bank(Func_1077c)
@@ -41097,9 +41097,9 @@ Func_28513: ; 0x28513
     ld b, a
     ld a, [$d9f8]
     and a
-    ld a, $96
+    ld a, NUM_POKEMON - 1
     jr z, .asm_2852d
-    ld a, $97
+    ld a, NUM_POKEMON
 .asm_2852d
     ld d, a
     ld a, [wCurPokedexIndex]

@@ -4382,10 +4382,10 @@ Func_206d: ; 0x206d
 Func_208c: ; 0x208c
     ld a, [hLoadedROMBank]
     push af
-    ld a, $2
+    ld a, Bank(Func_8ee0)
     ld [hLoadedROMBank], a
     ld [$2000], a
-    call $4ee0 ; todo
+    call Func_8ee0
     jr c, .asm_20a3
     pop af
     ld [hLoadedROMBank], a
@@ -10125,8 +10125,8 @@ Func_8049: ; 0x8049
     ld hl, PointerTable_8089
     xor a
     call LoadVideoData
-    ld a, $2
-    ld bc, $4094 ; todo
+    ld a, Bank(Data_8094)
+    ld bc, Data_8094
     ld de, LoadTileLists
     call Func_10c5
     ret
@@ -10142,7 +10142,22 @@ Data_808b: ; 0x808b
 
     db $FF, $FF ; terminators
 
-INCBIN "baserom.gbc",$8094,$80b5 - $8094
+Data_8094: ; 0x8094
+    db $13
+
+    dbw $06, $98A3
+    db $BC, $AF, $B6, $AF, $AD, $BD
+
+    dbw $06, $98AA
+    db $BD, $AB, $BB, $B1, $AF, $BD
+
+    dbw $04, $98E3
+    db $D0, $AD, $B1, $AC
+
+    dbw $03, $9924
+    db $AE, $B7, $B1
+
+    db $00  ; terminator
 
 FillBackgroundsVRAM: ; 0x80b5
     ld hl, vBGMap0
@@ -10246,19 +10261,39 @@ Func_8104: ; 0x8104
     ld a, [hGameBoyColorFlag]
     and a
     jr nz, .asm_812e
-    ld a, $2
-    ld bc, $413a ; todo
+    ld a, Bank(Data_813a)
+    ld bc, Data_813a
     ld de, LoadTileLists ; todo
     call Func_10c5
     ret
 .asm_812e
-    ld a, $2
-    ld bc, $4144 ; todo
+    ld a, Bank(Data_8144)
+    ld bc, Data_8144
     ld de, LoadTileLists ; todo
     call Func_10c5
     ret
 
-INCBIN "baserom.gbc",$813a,$814e - $813a
+Data_813a: ; 0x813a
+    db $02
+
+    dbw $01, $98E3
+    db $D1
+
+    dbw $01, $9923
+    db $D0
+
+    db $00  ; terminator
+
+Data_8144: ; 0x8144
+    db $02
+
+    dbw $01, $98E3
+    db $D0
+
+    dbw $01, $9923
+    db $D1
+
+    db $00  ; terminator
 
 Func_814e: ; 0x414e
     call Func_cb5
@@ -12185,14 +12220,14 @@ Func_8d17: ; 0x8d17
     ld c, a
     sla c
     rl b
-    ld hl, $6000  ; todo
+    ld hl, PokedexCharactersGfx
     add hl, bc
     push hl
     ld a, [$ff90]
     and $7
     ld c, a
     ld b, $0
-    ld hl, $4df9  ; todo
+    ld hl, Data_8df9
     add hl, bc
     ld a, [hl]
     ld [$d85e], a
@@ -12279,7 +12314,8 @@ Func_8df7: ; 0x8df7
     scf
     ret
 
-INCBIN "baserom.gbc",$8df9,$8e01 - $8df9
+Data_8df9: ; 0x8df9
+    db $FF, $7F, $3F, $1F, $0F, $07, $03, $01
 
 Func_8e01: ; 0x8e01
     ld a, [$ff90]
@@ -12342,14 +12378,14 @@ Func_8e01: ; 0x8e01
     ld c, a
     sla c
     rl b
-    ld hl, $6008  ; todo
+    ld hl, PokedexCharactersGfx + $8
     add hl, bc
     push hl
     ld a, [$ff90]
     and $7
     ld c, a
     ld b, $0
-    ld hl, $4ed8  ; todo
+    ld hl, Data_8ed8
     add hl, bc
     ld a, [hl]
     ld [$d85e], a
@@ -12436,7 +12472,38 @@ Func_8ed6: ; 0x8ed6
     scf
     ret
 
-INCBIN "baserom.gbc",$8ed8,$c000 - $8ed8
+Data_8ed8: ; 0x8ed8
+    db $FF, $7F, $3F, $1F, $0F, $07, $03, $01
+
+Func_8ee0: ; 0x8ee0
+    ld a, [$ff8d]
+    ld [$ff90], a
+    ld a, [$ff8e]
+    ld [$ff91], a
+    ld a, [$ff8d]
+    ld c, a
+    ld a, [$ff8e]
+    ld b, a
+    ld a, [$ff8c]
+    ld l, a
+    ld h, $0
+    add hl, bc
+    ld a, l
+    ld [$ff8d], a
+    ld a, h
+    ld [$ff8e], a
+    srl h
+    rr l
+    srl h
+    rr l
+    ld a, [$ff8f]
+    cp l
+    ret
+
+INCBIN "baserom.gbc",$8f06,$a000 - $8f06
+
+PokedexCharactersGfx: ; 0xa000
+    INCBIN "gfx/pokedex/characters.interleave.2bpp"
 
 
 SECTION "bank3", ROMX, BANK[$3]
@@ -12840,7 +12907,7 @@ TitleScreenPokeballCoordOffsets: ; 0xc2d9
     db $7F, $15
 
 Func_c2df: ; 0xc2df
-    ld bc, $4446
+    ld bc, $4446  ; pixel offsets, not data
     ld a, [$d910]
     cp $6
     jr nz, .asm_c2f0
@@ -12852,7 +12919,7 @@ Func_c2df: ; 0xc2df
     sla a
     ld e, a
     ld d, $0
-    ld hl, $432b
+    ld hl, Data_c32b
     add hl, de
     ld a, [hl]
 .asm_c2fd
@@ -12864,7 +12931,7 @@ Func_c2df: ; 0xc2df
     sla a
     ld c, a
     ld b, $0
-    ld hl, $432d
+    ld hl, Data_c32b + 2
     add hl, bc
     ld a, [hl]
     and a
@@ -12876,14 +12943,30 @@ Func_c2df: ; 0xc2df
     sla a
     ld c, a
     ld b, $0
-    ld hl, $432c
+    ld hl, Data_c32b + 1
     add hl, bc
     ld a, [hl]
 .asm_c327
     ld [$d911], a
     ret
 
-INCBIN "baserom.gbc",$c32b,$c34a - $c32b
+Data_c32b: ; 0xc32b
+    db $52, $02
+    db $53, $02
+    db $54, $02
+    db $55, $02
+    db $56, $02
+    db $57, $02
+    db $57, $02
+    db $00, $00
+    db $57, $02
+    db $56, $02
+    db $55, $02
+    db $54, $02
+    db $53, $02
+    db $52, $02
+    db $52, $02
+    db $00
 
 HandleOptionsScreen: ; 0xc34a
     ld a, [wScreenState]
@@ -13193,7 +13276,7 @@ Func_c55a: ; 0xc55a
     sla a
     ld c, a
     ld b, $0
-    ld hl, $465f ; todo
+    ld hl, PointerTable_c65f
     add hl, bc
     ld a, [hli]
     ld h, [hl]
@@ -13281,7 +13364,7 @@ Func_c621: ; 0xc621
     sla a
     ld c, a
     ld b, $0
-    ld hl, $466d ; todo
+    ld hl, OAMPixelOffsetData_c66d
     add hl, bc
     ld a, [hli]
     ld c, a
@@ -13315,14 +13398,40 @@ Func_c644: ; 0xc644
     push hl
     ld d, h
     ld e, l
-    ld hl, $4689 ; todo
-    ld a, $3
+    ld hl, Data_c689
+    ld a, Bank(Data_c689)
     ld bc, $0008
     call LoadVRAMData
     pop hl
     ret
 
-INCBIN "baserom.gbc",$c65f,$c691 - $c65f
+PointerTable_c65f: ; 0xc65f
+    dw $9C6D
+    dw $9CAD
+    dw $9CED
+    dw $9D2D
+    dw $9D6D
+    dw $9DAD
+    dw $9DED
+
+OAMPixelOffsetData_c66d: ; 0xc66d
+    dw $6018
+    dw $6020
+    dw $6028
+    dw $6030
+    dw $6038
+    dw $6040
+    dw $6048
+    dw $6050
+    dw $6058
+    dw $6060
+    dw $6068
+    dw $6070
+    dw $6078
+    dw $6080
+
+Data_c689: ; 0xc689
+    db $81, $81, $81, $81, $81, $81, $81, $81
 
 Func_c691: ; 0xc91
     call Func_c6bf
@@ -13515,7 +13624,7 @@ Func_c7ac: ; 0xc7ac
 .asm_c7cc
     sla c
     ld b, $0
-    ld hl, $4806 ; todo
+    ld hl, Data_c806
     add hl, bc
     ld a, [hl]
     ld bc, $5050
@@ -13527,7 +13636,7 @@ Func_c7ac: ; 0xc7ac
     sla a
     ld c, a
     ld b, $0
-    ld hl, $4808
+    ld hl, Data_c806 + 2
     add hl, bc
     ld a, [hl]
     and a
@@ -13539,14 +13648,15 @@ Func_c7ac: ; 0xc7ac
     sla a
     ld c, a
     ld b, $0
-    ld hl, $4807 ; todo
+    ld hl, Data_c806 + 1
     add hl, bc
     ld a, [hl]
 .asm_c802
     ld [$d91d], a
     ret
 
-INCBIN "baserom.gbc",$c806,$c80b - $c806
+Data_c806: ; 0xc806
+    db $7B, $02, $7C, $02, $00
 
 Func_c80b: ; 0xc80b
     ld c, $0
@@ -13564,7 +13674,7 @@ Func_c80b: ; 0xc80b
 .asm_c824
     sla c
     ld b, $0
-    ld hl, $485e ; todo
+    ld hl, Data_c85e
     add hl, bc
     ld bc, $7870
     ld a, [hl]
@@ -13576,7 +13686,7 @@ Func_c80b: ; 0xc80b
     sla a
     ld c, a
     ld b, $0
-    ld hl, $4860 ; todo
+    ld hl, Data_c85e + 2
     add hl, bc
     ld a, [hl]
     and a
@@ -13588,14 +13698,15 @@ Func_c80b: ; 0xc80b
     sla a
     ld c, a
     ld b, $0
-    ld hl, $485f ; todo
+    ld hl, Data_c85e + 1
     add hl, bc
     ld a, [hl]
 .asm_c85a
     ld [$d91f], a
     ret
 
-INCBIN "baserom.gbc",$c85e,$c869 - $c85e
+Data_c85e: ; 0xc85e
+    db $77, $09, $78, $09, $79, $09, $7A, $0D, $7A, $01, $00
 
 Func_c869: ; 0xc869
     ld a, [$d916]
@@ -13621,7 +13732,7 @@ Func_c88a: ; 0xc88a
     sla a
     ld c, a
     ld b, $0
-    ld hl, $48eb ; todo
+    ld hl, Data_c8eb
     add hl, bc
     ld a, [hli]
     ld c, a
@@ -13636,7 +13747,7 @@ Func_c88a: ; 0xc88a
     ld e, a
 .asm_c8a9
     ld d, $0
-    ld hl, $48de ; todo
+    ld hl, Data_c8de
     add hl, de
     ld a, [hl]
     call LoadOAMData
@@ -13647,7 +13758,7 @@ Func_c88a: ; 0xc88a
     sla a
     ld c, a
     ld b, $0
-    ld hl, $48e0 ; todo
+    ld hl, Data_c8de + 2
     add hl, bc
     ld a, [hl]
     and a
@@ -13659,14 +13770,18 @@ Func_c88a: ; 0xc88a
     sla a
     ld c, a
     ld b, $0
-    ld hl, $48df ; todo
+    ld hl, Data_c8de + 1
     add hl, bc
     ld a, [hl]
 .asm_c8da
     ld [$d921], a
     ret
 
-INCBIN "baserom.gbc",$c8de,$c8f1 - $c8de
+Data_c8de: ; 0xc8de
+    db $7D, $02, $7E, $06, $7F, $02, $80, $04, $81, $06, $7F, $04, $00
+
+Data_c8eb: ; 0xc8eb
+    db $18, $08, $30, $08, $48, $08
 
 Func_c8f1: ; 0xc8f1
     ld c, a
@@ -13675,7 +13790,7 @@ Func_c8f1: ; 0xc8f1
     add hl, bc
     ld e, [hl]
     sla c
-    ld hl, $4910 ; todo
+    ld hl, PointerTable_c910
     add hl, bc
     ld a, [hli]
     ld h, [hl]
@@ -13691,14 +13806,35 @@ Func_c8f1: ; 0xc8f1
     call LoadOAMData
     ret
 
-INCBIN "baserom.gbc",$c910,$c92e - $c910
+PointerTable_c910: ; 0xc910
+    dw OAMPixelOffsetData_c916
+    dw OAMPixelOffsetData_c91a
+    dw OAMPixelOffsetData_c92a
+
+OAMPixelOffsetData_c916: ; 0xc916
+    dw $5018
+    dw $7018
+
+OAMPixelOffsetData_c91a: ; 0xc91a
+    dw $0808
+    dw $0818
+    dw $0828
+    dw $0838
+    dw $0848
+    dw $0858
+    dw $0868
+    dw $0878
+
+OAMPixelOffsetData_c92a: ; 0xc92a
+    dw $1058
+    dw $1068
 
 Func_c92e: ; 0xc92e
     ld a, [$d917]
     sla a
     ld c, a
     ld b, $0
-    ld hl, $4944 ; todo
+    ld hl, OAMPixelOffsetData_c944
     add hl, bc
     ld a, [hli]
     ld c, a
@@ -13708,7 +13844,9 @@ Func_c92e: ; 0xc92e
     call LoadOAMData
     ret
 
-INCBIN "baserom.gbc",$c944,$c948 - $c944
+OAMPixelOffsetData_c944: ; 0xc944
+    dw $5018
+    dw $7018
 
 Func_c948: ; 0xc948
     ld hl, $9c6d
@@ -13743,7 +13881,7 @@ Func_c95f: ; 0xc95f
     ld [hl], a
     pop af
     ld hl, $d922
-    ld de, $49ae ; todo
+    ld de, Data_c9ae
     ld b, $8
 .asm_c979
     srl a
@@ -13785,7 +13923,8 @@ Func_c9aa: ; 0xc9aa
     ld [hli], a
     ret
 
-INCBIN "baserom.gbc",$c9ae,$c9be - $c9ae
+Data_c9ae: ; 0xc9ae
+    db $14, $00, $15, $00, $18, $19, $16, $17, $13, $00, $12, $00, $10, $00, $11, $00
 
 Func_c9be: ; 0xc9be
     push af
@@ -14099,7 +14238,154 @@ Func_cb14: ; 0xcb14
     inc [hl]
     ret
 
-INCBIN "baserom.gbc",$cbe3,$ccac - $cbe3
+PointerTable_cbe3: ; 0xcbe3
+    dw VideoData_cbe9
+    dw VideoData_cc1c
+    dw VideoData_cc64
+
+VideoData_cbe9: ; 0xcbe9
+    dw $5a00
+    db $2A
+    dw $8000
+    dw $6000
+
+    dw $6000
+    db $30
+    dw $9800
+    dw $1000
+
+    dw $5800
+    db $30
+    dw $9C00
+    dw $1000
+
+    dw $63C0
+    db $30
+    dw $9800
+    dw $0100
+
+    dw $6280
+    db $30
+    dw $9A00
+    dw $0100
+
+    dw $5BC0
+    db $30
+    dw $9C00
+    dw $0100
+
+    dw $5A80
+    db $30
+    dw $9E00
+    dw $0100
+
+    db $FF, $FF  ; terminators
+
+VideoData_cc1c: ; 0xcc1c
+    dw $5A00
+    db $2A
+    dw $8000
+    dw $6000
+
+    dw $6000
+    db $30
+    dw $9800
+    dw $1000
+
+    dw $5800
+    db $30
+    dw $9C00
+    dw $1000
+
+    dw $6400
+    db $30
+    dw $9800
+    dw $1002
+
+    dw $5C00
+    db $30
+    dw $9C00
+    dw $1002
+
+    dw $63C0
+    db $30
+    dw $9800
+    dw $0100
+
+    dw $6280
+    db $30
+    dw $9A00
+    dw $0100
+
+    dw $5BC0
+    db $30
+    dw $9C00
+    dw $0100
+
+    dw $5A80
+    db $30
+    dw $9E00
+    dw $0100
+
+    dw $4D80
+    db $37
+    dw $0000
+    dw $0101
+
+    db $FF, $FF
+
+VideoData_cc64: ; 0xcc64
+    dw $5A00
+    db $2A
+    dw $8000
+    dw $6000
+
+    dw $6000
+    db $30
+    dw $9800
+    dw $1000
+
+    dw $5800
+    db $30
+    dw $9C00
+    dw $1000
+
+    dw $6400
+    db $30
+    dw $9800
+    dw $1002
+
+    dw $5C00
+    db $30
+    dw $9C00
+    dw $1002
+
+    dw $63c0
+    db $30
+    dw $9800
+    dw $0100
+
+    dw $6280
+    db $30
+    dw $9A00
+    dw $0100
+
+    dw $5BC0
+    db $30
+    dw $9C00
+    dw $0100
+
+    dw $5A80
+    db $30
+    dw $9E00
+    dw $0100
+
+    dw $4D00
+    db $37
+    dw $0000
+    dw $0101
+
+    db $FF, $FF  ; terminators
 
 Func_ccac: ; 0xccac
     call Func_d18b

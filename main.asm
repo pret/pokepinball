@@ -5620,7 +5620,9 @@ Func_2862: ; 0x2862
 
 INCBIN "baserom.gbc",$2890,$28a0 - $2890
 
-Func_28a0: ; 0x28a0
+CopyHLToDE: ; 0x28a0
+; Places [hl] into [de]
+; Also places $0 into [de + 2]
     ld a, [hli]
     ld [de], a
     inc de
@@ -6753,8 +6755,8 @@ OAMDataPointers: ; 0x4000
     dw OAMData_92
     dw OAMData_93
     dw OAMData_94
-    dw OAMData_95
-    dw OAMData_96
+    dw HighScoresRightArrowOAM
+    dw HighScoresLeftArrowOAM
     dw OAMData_97
     dw OAMData_98
     dw OAMData_99
@@ -7995,14 +7997,14 @@ OAMData_94: ; 0x4cae
     db $28, $f3, $6a, $02
     db $80 ; terminator
 
-OAMData_95: ; 0x4d4f
+HighScoresRightArrowOAM: ; 0x4d4f
     db $18, $18, $7d, $11
     db $18, $10, $7c, $11
     db $18, $08, $7b, $11
     db $10, $10, $7a, $11
     db $80 ; terminator
 
-OAMData_96: ; 0x4d60
+HighScoresLeftArrowOAM: ; 0x4d60
     db $18, $08, $7d, $31
     db $18, $10, $7c, $31
     db $18, $18, $7b, $31
@@ -14070,7 +14072,7 @@ Func_ca8f: ; 0xca8f
     call GenRandom
     ld [hli], a
     ld hl, $da36
-    ld a, [$da83]
+    ld a, [wHighScoresStage]
     and a
     jr z, .asm_caae
     ld hl, $da77
@@ -14109,7 +14111,7 @@ Func_ca8f: ; 0xca8f
     inc b
     ld hl, $da30
     ld de, $da3d
-    ld a, [$da83]
+    ld a, [wHighScoresStage]
     and a
     jr z, .asm_caeb
     ld hl, $da71
@@ -14173,10 +14175,10 @@ Func_cb14: ; 0xcb14
     ld a, [hGameBoyColorFlag]
     and a
     jr z, .asm_cb51
-    ld a, [$da83]
+    ld a, [wHighScoresStage]
     inc a
 .asm_cb51
-    ld hl, $4be3 ; todo
+    ld hl, PointerTable_cbe3
     call LoadVideoData
     call ClearOAMBuffer
     ld a, $20
@@ -14188,7 +14190,7 @@ Func_cb14: ; 0xcb14
     ld hl, $9dc0
     ld de, $da7e
     call Func_d2cb
-    ld a, [$da83]
+    ld a, [wHighScoresStage]
     and a
     jr z, .asm_cb7f
     ld hl, $ff9e
@@ -14395,7 +14397,7 @@ Func_ccac: ; 0xccac
 
 Func_ccb6: ; 0xccb6
     call Func_d4cf
-    call Func_d24f
+    call AnimateHighScoresArrow
     ld a, [hNewlyPressedButtons]
     bit BIT_A_BUTTON, a
     jr z, .asm_ccd1
@@ -14663,9 +14665,9 @@ Func_ceca: ; 0xceca
     ret
 
 Func_ced1: ; 0xced1
-    ld hl, $4f4b ; todo
+    ld hl, Data_cf4b
     ld de, $da87
-    call Func_28a0
+    call CopyHLToDE
     ld bc, $4800
     ld a, [$da88]
     call LoadOAMData
@@ -14695,7 +14697,7 @@ Func_ced1: ; 0xced1
     call Func_1c50
     jr .asm_cf40
 .asm_cf0e
-    ld hl, $4f4b
+    ld hl, Data_cf4b
     ld de, $da87
     call Func_28a9
     jr nc, .asm_cf40
@@ -14710,9 +14712,9 @@ Func_ced1: ; 0xced1
     ld a, [$da89]
     cp $6
     jr nz, .asm_cf40
-    ld hl, $4f4b ; todo
+    ld hl, Data_cf4b
     ld de, $da87
-    call Func_28a0
+    call CopyHLToDE
 .asm_cf40
     pop bc
     ld a, [$d8ea]
@@ -14722,7 +14724,15 @@ Func_ced1: ; 0xced1
     jr nz, .asm_cef6
     ret
 
-INCBIN "baserom.gbc",$cf4b,$cf58 - $cf4b
+Data_cf4b: ; 0xcf4b
+    dw $980C
+    dw $9906
+    dw $9A0A
+    dw $9B0C
+    dw $9C0A
+    dw $9D06
+
+    db $00
 
 Func_cf58: ; 0xcf58
     cp $5
@@ -15098,7 +15108,7 @@ Func_d18b: ; 0xd18b
     ld e, a
     ld d, $0
     ld hl, wRedHighScore1Name
-    ld a, [$da83]
+    ld a, [wHighScoresStage]
     and a
     jr z, .asm_d1ae
     ld hl, wBlueHighScore1Name
@@ -15161,6 +15171,7 @@ Func_d1d2: ; 0xd1d2
     ret
 
 Func_d211: ; 0xd211
+; related to high scores name entry?
     ld a, [$da7f]
     and a
     ret z
@@ -15179,40 +15190,46 @@ Func_d211: ; 0xd211
     ld a, [$da81]
     ld e, a
     ld d, $0
-    ld hl, $5247 ; todo
+    ld hl, OAMPixelYOffsets_d247
     add hl, de
     ld c, [hl]
     ld a, [$da80]
     ld e, a
     ld d, $0
-    ld hl, $524c ; todo
+    ld hl, OAMPixelXOffsets_d24c
     add hl, de
     ld b, [hl]
     ld a, $86
     call LoadOAMData
     ret
 
-INCBIN "baserom.gbc",$d247,$d24f - $d247
+OAMPixelYOffsets_d247: ; 0xd247
+    db $10, $28, $40, $58, $70
 
-Func_d24f: ; 0xd24f
-    ld a, [$da84]
+OAMPixelXOffsets_d24c: ; 0xd24c
+    db $18, $20, $28
+
+AnimateHighScoresArrow: ; 0xd24f
+; Handles the animation of the arrow in the bottom
+; corner of the high scores screens.
+    ld a, [wHighScoresArrowAnimationCounter]
     inc a
     cp $28
-    jr c, .asm_d258
+    jr c, .noOverflow
     xor a
-.asm_d258
-    ld [$da84], a
-    ld a, [$da83]
+.noOverflow
+    ld [wHighScoresArrowAnimationCounter], a
+    ld a, [wHighScoresStage]
     and a
     ld c, $77
     ld a, $95
-    ld hl, $527b ; todo
+    ld hl, HighScoresRightArrowOAMPixelXOffsets
     jr z, .asm_d26d
     ld a, $96
-    ld hl, $52a3
+    ld hl, HighScoresLeftArrowOAMPixelXOffsets
 .asm_d26d
     push af
-    ld a, [$da84]
+    ld a, [wHighScoresArrowAnimationCounter]
     ld e, a
     ld d, $0
     add hl, de
@@ -15221,7 +15238,21 @@ Func_d24f: ; 0xd24f
     call LoadOAMData
     ret
 
-INCBIN "baserom.gbc",$d27b,$d2cb - $d27b
+HighScoresRightArrowOAMPixelXOffsets: ; 0xd27b
+; Controls the animation of the right-arrow in the bottom corner of the
+; high scores screen.
+    db $87, $87, $8A, $8A, $8A, $8A, $8A, $8A
+    db $89, $89, $88, $88, $88, $88, $88, $88
+    db $88, $88, $88, $88, $88, $88, $88, $88
+    db $88, $88, $88, $88, $88, $88, $88, $88
+    db $88, $88, $88, $88, $88, $88, $88, $88
+
+HighScoresLeftArrowOAMPixelXOffsets: ; 0xd2a3
+    db $02, $02, $FF, $FF, $FF, $FF, $FF, $FF
+    db $00, $00, $01, $01, $01, $01, $01, $01
+    db $01, $01, $01, $01, $01, $01, $01, $01
+    db $01, $01, $01, $01, $01, $01, $01, $01
+    db $01, $01, $01, $01, $01, $01, $01, $01
 
 Func_d2cb: ; 0xd2cb
     ld b, $5
@@ -15524,7 +15555,7 @@ Func_d46f: ; 0xd46f
     add e
     ld e, a
     ld hl, $9843
-    ld a, [$da83]
+    ld a, [wHighScoresStage]
     and a
     jr z, .asm_d496
     ld hl, $9c43
@@ -15544,7 +15575,7 @@ Func_d46f: ; 0xd46f
     ld e, a
     ld d, $0
     ld hl, wRedHighScore1Name
-    ld a, [$da83]
+    ld a, [wHighScoresStage]
     and a
     jr z, .asm_d4b8
     ld hl, wBlueHighScore1Name
@@ -15567,7 +15598,7 @@ Func_d46f: ; 0xd46f
 Func_d4cf: ; 0xd4cf
     ld a, [hNewlyPressedButtons]
     ld b, a
-    ld a, [$da83]
+    ld a, [wHighScoresStage]
     bit 4, b
     jr z, .asm_d4e3
     and a
@@ -15621,7 +15652,7 @@ Func_d4cf: ; 0xd4cf
     res 5, [hl]
     set 3, [hl]
     ld a, $1
-    ld [$da83], a
+    ld [wHighScoresStage], a
     call Func_d5d0
     ret
 .asm_d537
@@ -15661,7 +15692,7 @@ Func_d4cf: ; 0xd4cf
     ld hl, $ff9e
     res 5, [hl]
     xor a
-    ld [$da83], a
+    ld [wHighScoresStage], a
     call Func_d5d0
     ret
 
@@ -15763,7 +15794,7 @@ Func_d626: ; 0xd626
     sla c
     add c
     ld c, a
-    ld hl, $565a
+    ld hl, PointerTable_d65a
     add hl, bc
     ld a, [hli]
     ld c, a
@@ -15782,7 +15813,23 @@ Func_d626: ; 0xd626
     call Func_7dc
     ret
 
-INCBIN "baserom.gbc",$d65a,$d68a - $d65a
+PointerTable_d65a: ; 0xd65a
+    dwb $7D00, $23
+    dwb $7D40, $23
+    dwb $7D80, $23
+    dwb $7DC0, $23
+    dwb $7E00, $23
+    dwb $7E40, $23
+    dwb $7E80, $23
+    dwb $7EC0, $23
+    dwb $7E00, $35
+    dwb $7E40, $35
+    dwb $7E80, $35
+    dwb $7EC0, $35
+    dwb $7F00, $35
+    dwb $7F40, $35
+    dwb $7F80, $35
+    dwb $7FC0, $35
 
 Func_d68a: ; 0xd68a
     push bc
@@ -15957,7 +16004,7 @@ StartingStages: ; 0xd7d1
 ; wSelectedFieldIndex is used to index this array
     db STAGE_RED_FIELD_BOTTOM, STAGE_BLUE_FIELD_BOTTOM
 
-MoveFieldSelectCursor: ; 0x57d3
+MoveFieldSelectCursor: ; 0xd7d3
 ; When the player presses Right or Left, the stage is
 ; illuminated with a blinking border.  This function keeps tracks
 ; of which field is currently selected.
@@ -16325,7 +16372,7 @@ Func_dab2: ; 0xdab2
     ld [$d803], a
     ld a, [$d616]
     and a
-    jp nz, Func_db5d
+    jp nz, TransitionToHighScoresScreen
     ld a, [$d495]
     and a
     jr nz, .asm_dae6
@@ -16392,7 +16439,7 @@ Func_dab2: ; 0xdab2
     ld [wScreenState], a
     ret
 
-Func_db5d: ; 0xdb5d
+TransitionToHighScoresScreen: ; 0xdb5d
     xor a
     ld [$d616], a
     ld de, $0000
@@ -16410,17 +16457,36 @@ Func_db5d: ; 0xdb5d
     ld a, [wCurrentStage]
     ld c, a
     ld b, $0
-    ld hl, $5b99 ; todo
+    ld hl, HighScoresStageMapping
     add hl, bc
     ld a, [hl]
-    ld [$da83], a
-    ld a, $7
+    ld [wHighScoresStage], a
+    ld a, SCREEN_HIGH_SCORES
     ld [wCurrentScreen], a
     xor a
     ld [wScreenState], a
     ret
 
-INCBIN "baserom.gbc",$db99,$dba9 - $db99
+HighScoresStageMapping: ; 0xdb99
+; Determines which stage the high scores screen will start in,
+; based on the map the player ended in.
+; See wHighScoresStage for more info.
+    db $00  ; STAGE_RED_FIELD_TOP
+    db $00  ; STAGE_RED_FIELD_BOTTOM
+    db $00
+    db $00
+    db $01  ; STAGE_BLUE_FIELD_TOP
+    db $01  ; STAGE_BLUE_FIELD_BOTTOM
+    db $00  ; STAGE_GENGAR_BONUS
+    db $00  ; STAGE_GENGAR_BONUS
+    db $00  ; STAGE_MEWTWO_BONUS
+    db $00  ; STAGE_MEWTWO_BONUS
+    db $00  ; STAGE_MEOWTH_BONUS
+    db $00  ; STAGE_MEOWTH_BONUS
+    db $00  ; STAGE_DIGLETT_BONUS
+    db $00  ; STAGE_DIGLETT_BONUS
+    db $00  ; STAGE_SEEL_BONUS
+    db $00  ; STAGE_SEEL_BONUS
 
 Func_dba9: ; 0xdba9
     ld a, $85
@@ -18685,7 +18751,7 @@ Func_ece9: ; 0xece9
     ld a, [wCurrentStage]
     ld c, a
     ld b, $0
-    ld hl, $6d4e ; todo
+    ld hl, BallMovingDownStageTransitions
     add hl, bc
     ld a, [hl]
     cp $ff
@@ -18699,7 +18765,7 @@ Func_ece9: ; 0xece9
     ld a, [wCurrentStage]
     ld c, a
     ld b, $0
-    ld hl, $6d3e ; todo
+    ld hl, BallMovingUpStageTransitions
     add hl, bc
     ld a, [hl]
     cp $ff
@@ -18718,7 +18784,45 @@ Func_ece9: ; 0xece9
     call BankSwitch
     ret
 
-INCBIN "baserom.gbc",$ed3e,$ed5e - $ed3e
+BallMovingUpStageTransitions: ; 0xed3e
+; Maps the relationship between stages when
+; the ball moves out of the screen upward.
+    db $FF                   ; STAGE_RED_FIELD_TOP
+    db STAGE_RED_FIELD_TOP   ; STAGE_RED_FIELD_BOTTOM
+    db $FF
+    db $02
+    db $FF                   ; STAGE_BLUE_FIELD_TOP
+    db STAGE_BLUE_FIELD_TOP  ; STAGE_BLUE_FIELD_BOTTOM
+    db $FF                   ; STAGE_GENGAR_BONUS
+    db $FF                   ; STAGE_GENGAR_BONUS
+    db $FF                   ; STAGE_MEWTWO_BONUS
+    db $FF                   ; STAGE_MEWTWO_BONUS
+    db $FF                   ; STAGE_MEOWTH_BONUS
+    db $FF                   ; STAGE_MEOWTH_BONUS
+    db $FF                   ; STAGE_DIGLETT_BONUS
+    db $FF                   ; STAGE_DIGLETT_BONUS
+    db $FF                   ; STAGE_SEEL_BONUS
+    db $FF                   ; STAGE_SEEL_BONUS
+
+BallMovingDownStageTransitions: ; 0xed4e
+; Maps the relationship between stages when
+; the ball moves out of the screen downward.
+    db STAGE_RED_FIELD_BOTTOM   ; STAGE_RED_FIELD_TOP
+    db $FF                      ; STAGE_RED_FIELD_BOTTOM
+    db $03
+    db $FF
+    db STAGE_BLUE_FIELD_BOTTOM  ; STAGE_BLUE_FIELD_TOP
+    db $FF                      ; STAGE_BLUE_FIELD_BOTTOM
+    db $FF                      ; STAGE_GENGAR_BONUS
+    db $FF                      ; STAGE_GENGAR_BONUS
+    db $FF                      ; STAGE_MEWTWO_BONUS
+    db $FF                      ; STAGE_MEWTWO_BONUS
+    db $FF                      ; STAGE_MEOWTH_BONUS
+    db $FF                      ; STAGE_MEOWTH_BONUS
+    db $FF                      ; STAGE_DIGLETT_BONUS
+    db $FF                      ; STAGE_DIGLETT_BONUS
+    db $FF                      ; STAGE_SEEL_BONUS
+    db $FF                      ; STAGE_SEEL_BONUS
 
 Func_ed5e: ; 0xed5e
     ld hl, $d7ab
@@ -18759,7 +18863,7 @@ Func_ed8e: ; 0xed8e
     ld a, [wBallType]
     ld c, a
     ld b, $0
-    ld hl, $6f2f
+    ld hl, BallTypeMultipliers
     add hl, bc
     ld a, [hl]
     ld [$d621], a
@@ -18801,12 +18905,12 @@ Func_ed8e: ; 0xed8e
     ld a, [$d61a]
     ld c, a
     ld b, $0
-    ld hl, $7339
+    ld hl, Data_f339
     add hl, bc
     ld a, [$d619]
     add [hl]
     ld c, a
-    ld hl, $7439
+    ld hl, Data_f439
     add hl, bc
     ld a, [hli]
     bit 7, a
@@ -18982,7 +19086,14 @@ Func_ef1e: ; 0xef1e
     pop bc
     ret
 
-INCBIN "baserom.gbc",$ef2f,$ef35 - $ef2f
+BallTypeMultipliers: ; 0xef2f
+; Score multiplier for each ball type.
+    db $00  ; POKE_BALL
+    db $00
+    db $01  ; GREAT_BALL
+    db $02  ; ULTRA_BALL
+    db $02
+    db $02  ; MASTER_BALL
 
 Func_ef35: ; 0xef35
     ld a, $0
@@ -19558,7 +19669,7 @@ Func_f2a0: ; 0xf2a0
     sla c
     add c
     ld c, a
-    ld hl, $72be
+    ld hl, PointerTable_f2be
     add hl, bc
     ld a, [hli]
     ld c, a
@@ -19573,7 +19684,84 @@ Func_f2a0: ; 0xf2a0
     pop hl
     ret
 
-INCBIN "baserom.gbc",$f2be,$f533 - $f2be
+PointerTable_f2be: ; 0xf2be
+    dwb $4C00, $37
+    dwb $4C00, $37
+    dwb $4C00, $37
+    dwb $4C08, $37
+    dwb $4C08, $37
+    dwb $4C10, $37
+    dwb $4C18, $37
+    dwb $4C20, $37
+    dwb $4C08, $37
+    dwb $4C28, $37
+    dwb $4C08, $37
+    dwb $4C30, $37
+    dwb $4C38, $37
+    dwb $4C40, $37
+    dwb $4C48, $37
+    dwb $4C50, $37
+    dwb $4C58, $37
+    dwb $4C60, $37
+    dwb $4C00, $37
+    dwb $4C00, $37
+    dwb $4C00, $37
+    dwb $4C00, $37
+    dwb $4C00, $37
+    dwb $4C00, $37
+    dwb $4C00, $37
+    dwb $4C00, $37
+    dwb $4C00, $37
+    dwb $4C00, $37
+    dwb $4C00, $37
+    dwb $4C00, $37
+    dwb $4C00, $37
+    dwb $4C00, $37
+    dwb $4C00, $37
+    dwb $4C00, $37
+    dwb $4C00, $37
+    dwb $4C00, $37
+    dwb $4C00, $37
+    dwb $4C00, $37
+    dwb $4C00, $37
+    dwb $4C00, $37
+    dwb $4C00, $37
+
+Data_f339: ; 0xf339
+    db $02, $06, $00, $08, $04, $02, $06, $08, $04, $00, $06, $02, $04, $08, $00, $02
+    db $06, $02, $04, $08, $00, $06, $04, $08, $02, $00, $06, $08, $02, $00, $06, $08
+    db $02, $04, $00, $08, $06, $04, $00, $02, $06, $04, $00, $08, $06, $04, $02, $08
+    db $00, $08, $02, $04, $00, $08, $06, $02, $04, $00, $06, $08, $04, $00, $06, $02
+    db $00, $08, $02, $04, $00, $08, $06, $04, $02, $08, $00, $06, $02, $08, $00, $06
+    db $02, $00, $06, $04, $02, $00, $06, $08, $02, $04, $00, $06, $08, $04, $02, $06
+    db $00, $02, $08, $04, $00, $02, $06, $04, $08, $02, $06, $00, $04, $08, $06, $02
+    db $04, $08, $06, $02, $00, $08, $04, $06, $00, $02, $04, $06, $00, $02, $04, $08
+    db $02, $00, $04, $06, $02, $00, $08, $04, $02, $00, $06, $04, $08, $00, $06, $04
+    db $04, $00, $02, $08, $04, $06, $00, $08, $02, $04, $06, $08, $00, $04, $06, $02
+    db $06, $08, $04, $02, $06, $00, $08, $02, $04, $00, $06, $02, $08, $04, $06, $02
+    db $04, $06, $02, $00, $08, $04, $06, $00, $08, $02, $06, $00, $08, $02, $04, $00
+    db $02, $00, $06, $04, $02, $08, $06, $00, $04, $08, $02, $00, $04, $06, $08, $00
+    db $08, $06, $04, $00, $08, $06, $02, $00, $08, $06, $04, $00, $08, $06, $04, $02
+    db $02, $00, $06, $04, $08, $02, $00, $04, $08, $02, $00, $04, $06, $02, $08, $00
+    db $04, $06, $08, $02, $00, $06, $04, $08, $02, $06, $00, $08, $04, $06, $02, $08
+
+Data_f439: ; 0xf439
+    db $05, $19, $0C, $4C, $00, $4C, $03, $4C, $FF, $00, $05, $19, $0C, $4C, $00, $4C
+    db $07, $4C, $FF, $00, $05, $19, $0C, $44, $00, $44, $03, $44, $06, $16, $05, $19
+    db $0C, $4C, $00, $4C, $08, $4C, $FF, $00, $01, $4C, $06, $66, $0D, $4C, $FF, $00
+    db $FF, $00, $05, $19, $0C, $4C, $00, $4C, $03, $4C, $FF, $00, $05, $19, $0C, $4C
+    db $00, $4C, $07, $4C, $FF, $00, $05, $19, $0C, $44, $00, $44, $03, $44, $06, $16
+    db $05, $19, $0C, $4C, $00, $4C, $08, $4C, $FF, $00, $01, $3F, $06, $3F, $0D, $3F
+    db $09, $3F, $FF, $00, $05, $11, $0C, $4F, $00, $4F, $03, $4F, $FF, $00, $05, $11
+    db $0C, $4F, $01, $4F, $07, $4F, $FF, $00, $05, $11, $0C, $44, $00, $44, $03, $44
+    db $06, $1E, $05, $11, $0C, $4F, $01, $4F, $08, $4F, $FF, $00, $02, $66, $06, $4C
+    db $0D, $4C, $FF, $00, $FF, $00, $05, $0A, $0C, $51, $00, $51, $03, $51, $FF, $00
+    db $05, $0A, $0C, $51, $01, $51, $07, $51, $FF, $00, $05, $0A, $0C, $44, $00, $44
+    db $03, $44, $06, $26, $05, $0A, $0C, $51, $01, $51, $08, $51, $FF, $00, $01, $3F
+    db $06, $3F, $0D, $3F, $09, $3F, $FF, $00, $05, $0A, $0C, $51, $00, $51, $03, $51
+    db $FF, $00, $05, $0A, $0C, $51, $01, $51, $07, $51, $FF, $00, $05, $0A, $0C, $44
+    db $00, $44, $03, $44, $06, $26, $05, $0A, $0C, $51, $01, $51, $08, $51, $FF, $00
+    db $01, $26, $06, $26, $0D, $26, $04, $8C, $FF, $00
 
 Func_f533: ; 0xf533
     call Func_30e8
@@ -20621,7 +20809,7 @@ Func_10184: ; 0x10184
     jr nc, .asm_10199
     inc b
 .asm_10199
-    ld hl, $6b50
+    ld hl, MonBillboardPicPointers
     add hl, bc
     ld a, [hli]
     ld [$ff8c], a
@@ -20629,7 +20817,7 @@ Func_10184: ; 0x10184
     ld [$ff8d], a
     ld a, [hl]
     ld [$ff8e], a
-    ld hl, $6d15
+    ld hl, MonBillboardPaletteMapPointers
     add hl, bc
     ld a, [hli]
     ld [$ff8f], a
@@ -20789,7 +20977,7 @@ Func_102bc: ; 0x102bc
     jr nc, .asm_102cb
     inc b
 .asm_102cb
-    ld hl, $6eda
+    ld hl, MonBillboardPalettePointers
     add hl, bc
     ld a, [hli]
     ld [$ff8c], a
@@ -20835,7 +21023,7 @@ Func_10301: ; 0x10301
     jr nc, .asm_10310
     inc b
 .asm_10310
-    ld hl, $709f
+    ld hl, MonAnimatedPalettePointers
     add hl, bc
     ld a, [hli]
     ld [$ff8c], a
@@ -20902,7 +21090,7 @@ Func_10362: ; 0x10362
     jr nc, .asm_10371
     inc b
 .asm_10371
-    ld hl, $7264
+    ld hl, MonAnimatedPicPointers
     add hl, bc
     ld a, [hli]
     ld [$ff8c], a
@@ -20997,7 +21185,7 @@ Func_10464: ; 0x10464
     jr nc, .noCarry
     inc b
 .noCarry
-    ld hl, $74c0 ; todo
+    ld hl, MonAnimatedCollisionMaskPointers
     add hl, bc
     ld a, [hli]
     ld c, a
@@ -21006,14 +21194,14 @@ Func_10464: ; 0x10464
     ld a, [hl]
     ld h, b
     ld l, c
-    ld de, $c400
+    ld de, wMonAnimatedCollisionMask
     ld bc, $0080
     call CopyDataToRAM
     ret
 
 Func_10488: ; 0x10488
     xor a
-    ld hl, $c400
+    ld hl, wMonAnimatedCollisionMask
     ld b, $20
 .asm_1048e
     ld [hli], a
@@ -21040,7 +21228,7 @@ Func_10496: ; 0x10496
     call LoadShakeBallGfx
     ld hl, $45e4
     ld de, $d5f4
-    call Func_28a0
+    call CopyHLToDE
     ld a, $1
     ld [$d5f3], a
     xor a
@@ -21225,7 +21413,7 @@ Func_10678: ; 0x10678
     ld a, [wCurrentMon]
     ld c, a
     ld b, $0
-    ld hl, $7429
+    ld hl, MonAnimatedSpriteTypes
     add hl, bc
     ld a, [hl]
     ld [$d5bc], a
@@ -22701,7 +22889,1082 @@ INCBIN "baserom.gbc",$123ae,$12a22 - $123ae
 
 INCLUDE "data/catchem_timer_values.asm"
 
-INCBIN "baserom.gbc",$12b50,$13685 - $12b50
+MonBillboardPicPointers: ; 0x12b50
+    dwb BulbasaurPic, Bank(BulbasaurPic)
+    dwb IvysaurPic, Bank(IvysaurPic)
+    dwb VenusaurPic, Bank(VenusaurPic)
+    dwb CharmanderPic, Bank(CharmanderPic)
+    dwb CharmeleonPic, Bank(CharmeleonPic)
+    dwb CharizardPic, Bank(CharizardPic)
+    dwb SquirtlePic, Bank(SquirtlePic)
+    dwb WartortlePic, Bank(WartortlePic)
+    dwb BlastoisePic, Bank(BlastoisePic)
+    dwb CaterpiePic, Bank(CaterpiePic)
+    dwb MetapodPic, Bank(MetapodPic)
+    dwb ButterfreePic, Bank(ButterfreePic)
+    dwb WeedlePic, Bank(WeedlePic)
+    dwb KakunaPic, Bank(KakunaPic)
+    dwb BeedrillPic, Bank(BeedrillPic)
+    dwb PidgeyPic, Bank(PidgeyPic)
+    dwb PidgeottoPic, Bank(PidgeottoPic)
+    dwb PidgeotPic, Bank(PidgeotPic)
+    dwb RattataPic, Bank(RattataPic)
+    dwb RaticatePic, Bank(RaticatePic)
+    dwb SpearowPic, Bank(SpearowPic)
+    dwb FearowPic, Bank(FearowPic)
+    dwb EkansPic, Bank(EkansPic)
+    dwb ArbokPic, Bank(ArbokPic)
+    dwb PikachuPic, Bank(PikachuPic)
+    dwb RaichuPic, Bank(RaichuPic)
+    dwb SandshrewPic, Bank(SandshrewPic)
+    dwb SandslashPic, Bank(SandslashPic)
+    dwb Nidoran_FPic, Bank(Nidoran_FPic)
+    dwb NidorinaPic, Bank(NidorinaPic)
+    dwb NidoqueenPic, Bank(NidoqueenPic)
+    dwb Nidoran_MPic, Bank(Nidoran_MPic)
+    dwb NidorinoPic, Bank(NidorinoPic)
+    dwb NidokingPic, Bank(NidokingPic)
+    dwb ClefairyPic, Bank(ClefairyPic)
+    dwb ClefablePic, Bank(ClefablePic)
+    dwb VulpixPic, Bank(VulpixPic)
+    dwb NinetalesPic, Bank(NinetalesPic)
+    dwb JigglypuffPic, Bank(JigglypuffPic)
+    dwb WigglytuffPic, Bank(WigglytuffPic)
+    dwb ZubatPic, Bank(ZubatPic)
+    dwb GolbatPic, Bank(GolbatPic)
+    dwb OddishPic, Bank(OddishPic)
+    dwb GloomPic, Bank(GloomPic)
+    dwb VileplumePic, Bank(VileplumePic)
+    dwb ParasPic, Bank(ParasPic)
+    dwb ParasectPic, Bank(ParasectPic)
+    dwb VenonatPic, Bank(VenonatPic)
+    dwb VenomothPic, Bank(VenomothPic)
+    dwb DiglettPic, Bank(DiglettPic)
+    dwb DugtrioPic, Bank(DugtrioPic)
+    dwb MeowthPic, Bank(MeowthPic)
+    dwb PersianPic, Bank(PersianPic)
+    dwb PsyduckPic, Bank(PsyduckPic)
+    dwb GolduckPic, Bank(GolduckPic)
+    dwb MankeyPic, Bank(MankeyPic)
+    dwb PrimeapePic, Bank(PrimeapePic)
+    dwb GrowlithePic, Bank(GrowlithePic)
+    dwb ArcaninePic, Bank(ArcaninePic)
+    dwb PoliwagPic, Bank(PoliwagPic)
+    dwb PoliwhirlPic, Bank(PoliwhirlPic)
+    dwb PoliwrathPic, Bank(PoliwrathPic)
+    dwb AbraPic, Bank(AbraPic)
+    dwb KadabraPic, Bank(KadabraPic)
+    dwb AlakazamPic, Bank(AlakazamPic)
+    dwb MachopPic, Bank(MachopPic)
+    dwb MachokePic, Bank(MachokePic)
+    dwb MachampPic, Bank(MachampPic)
+    dwb BellsproutPic, Bank(BellsproutPic)
+    dwb WeepinbellPic, Bank(WeepinbellPic)
+    dwb VictreebellPic, Bank(VictreebellPic)
+    dwb TentacoolPic, Bank(TentacoolPic)
+    dwb TentacruelPic, Bank(TentacruelPic)
+    dwb GeodudePic, Bank(GeodudePic)
+    dwb GravelerPic, Bank(GravelerPic)
+    dwb GolemPic, Bank(GolemPic)
+    dwb PonytaPic, Bank(PonytaPic)
+    dwb RapidashPic, Bank(RapidashPic)
+    dwb SlowpokePic, Bank(SlowpokePic)
+    dwb SlowbroPic, Bank(SlowbroPic)
+    dwb MagnemitePic, Bank(MagnemitePic)
+    dwb MagnetonPic, Bank(MagnetonPic)
+    dwb Farfetch_dPic, Bank(Farfetch_dPic)
+    dwb DoduoPic, Bank(DoduoPic)
+    dwb DodrioPic, Bank(DodrioPic)
+    dwb SeelPic, Bank(SeelPic)
+    dwb DewgongPic, Bank(DewgongPic)
+    dwb GrimerPic, Bank(GrimerPic)
+    dwb MukPic, Bank(MukPic)
+    dwb ShellderPic, Bank(ShellderPic)
+    dwb CloysterPic, Bank(CloysterPic)
+    dwb GastlyPic, Bank(GastlyPic)
+    dwb HaunterPic, Bank(HaunterPic)
+    dwb GengarPic, Bank(GengarPic)
+    dwb OnixPic, Bank(OnixPic)
+    dwb DrowzeePic, Bank(DrowzeePic)
+    dwb HypnoPic, Bank(HypnoPic)
+    dwb KrabbyPic, Bank(KrabbyPic)
+    dwb KinglerPic, Bank(KinglerPic)
+    dwb VoltorbPic, Bank(VoltorbPic)
+    dwb ElectrodePic, Bank(ElectrodePic)
+    dwb ExeggcutePic, Bank(ExeggcutePic)
+    dwb ExeggutorPic, Bank(ExeggutorPic)
+    dwb CubonePic, Bank(CubonePic)
+    dwb MarowakPic, Bank(MarowakPic)
+    dwb HitmonleePic, Bank(HitmonleePic)
+    dwb HitmonchanPic, Bank(HitmonchanPic)
+    dwb LickitungPic, Bank(LickitungPic)
+    dwb KoffingPic, Bank(KoffingPic)
+    dwb WeezingPic, Bank(WeezingPic)
+    dwb RhyhornPic, Bank(RhyhornPic)
+    dwb RhydonPic, Bank(RhydonPic)
+    dwb ChanseyPic, Bank(ChanseyPic)
+    dwb TangelaPic, Bank(TangelaPic)
+    dwb KangaskhanPic, Bank(KangaskhanPic)
+    dwb HorseaPic, Bank(HorseaPic)
+    dwb SeadraPic, Bank(SeadraPic)
+    dwb GoldeenPic, Bank(GoldeenPic)
+    dwb SeakingPic, Bank(SeakingPic)
+    dwb StaryuPic, Bank(StaryuPic)
+    dwb StarmiePic, Bank(StarmiePic)
+    dwb Mr_MimePic, Bank(Mr_MimePic)
+    dwb ScytherPic, Bank(ScytherPic)
+    dwb JynxPic, Bank(JynxPic)
+    dwb ElectabuzzPic, Bank(ElectabuzzPic)
+    dwb MagmarPic, Bank(MagmarPic)
+    dwb PinsirPic, Bank(PinsirPic)
+    dwb TaurosPic, Bank(TaurosPic)
+    dwb MagikarpPic, Bank(MagikarpPic)
+    dwb GyaradosPic, Bank(GyaradosPic)
+    dwb LaprasPic, Bank(LaprasPic)
+    dwb DittoPic, Bank(DittoPic)
+    dwb EeveePic, Bank(EeveePic)
+    dwb VaporeonPic, Bank(VaporeonPic)
+    dwb JolteonPic, Bank(JolteonPic)
+    dwb FlareonPic, Bank(FlareonPic)
+    dwb PorygonPic, Bank(PorygonPic)
+    dwb OmanytePic, Bank(OmanytePic)
+    dwb OmastarPic, Bank(OmastarPic)
+    dwb KabutoPic, Bank(KabutoPic)
+    dwb KabutopsPic, Bank(KabutopsPic)
+    dwb AerodactylPic, Bank(AerodactylPic)
+    dwb SnorlaxPic, Bank(SnorlaxPic)
+    dwb ArticunoPic, Bank(ArticunoPic)
+    dwb ZapdosPic, Bank(ZapdosPic)
+    dwb MoltresPic, Bank(MoltresPic)
+    dwb DratiniPic, Bank(DratiniPic)
+    dwb DragonairPic, Bank(DragonairPic)
+    dwb DragonitePic, Bank(DragonitePic)
+    dwb MewtwoPic, Bank(MewtwoPic)
+    dwb MewPic, Bank(MewPic)
+
+MonBillboardPaletteMapPointers: ; 0x12d15
+    dwb BulbasaurBillboardBGPaletteMap, Bank(BulbasaurBillboardBGPaletteMap)
+    dwb IvysaurBillboardBGPaletteMap, Bank(IvysaurBillboardBGPaletteMap)
+    dwb VenusaurBillboardBGPaletteMap, Bank(VenusaurBillboardBGPaletteMap)
+    dwb CharmanderBillboardBGPaletteMap, Bank(CharmanderBillboardBGPaletteMap)
+    dwb CharmeleonBillboardBGPaletteMap, Bank(CharmeleonBillboardBGPaletteMap)
+    dwb CharizardBillboardBGPaletteMap, Bank(CharizardBillboardBGPaletteMap)
+    dwb SquirtleBillboardBGPaletteMap, Bank(SquirtleBillboardBGPaletteMap)
+    dwb WartortleBillboardBGPaletteMap, Bank(WartortleBillboardBGPaletteMap)
+    dwb BlastoiseBillboardBGPaletteMap, Bank(BlastoiseBillboardBGPaletteMap)
+    dwb CaterpieBillboardBGPaletteMap, Bank(CaterpieBillboardBGPaletteMap)
+    dwb MetapodBillboardBGPaletteMap, Bank(MetapodBillboardBGPaletteMap)
+    dwb ButterfreeBillboardBGPaletteMap, Bank(ButterfreeBillboardBGPaletteMap)
+    dwb WeedleBillboardBGPaletteMap, Bank(WeedleBillboardBGPaletteMap)
+    dwb KakunaBillboardBGPaletteMap, Bank(KakunaBillboardBGPaletteMap)
+    dwb BeedrillBillboardBGPaletteMap, Bank(BeedrillBillboardBGPaletteMap)
+    dwb PidgeyBillboardBGPaletteMap, Bank(PidgeyBillboardBGPaletteMap)
+    dwb PidgeottoBillboardBGPaletteMap, Bank(PidgeottoBillboardBGPaletteMap)
+    dwb PidgeotBillboardBGPaletteMap, Bank(PidgeotBillboardBGPaletteMap)
+    dwb RattataBillboardBGPaletteMap, Bank(RattataBillboardBGPaletteMap)
+    dwb RaticateBillboardBGPaletteMap, Bank(RaticateBillboardBGPaletteMap)
+    dwb SpearowBillboardBGPaletteMap, Bank(SpearowBillboardBGPaletteMap)
+    dwb FearowBillboardBGPaletteMap, Bank(FearowBillboardBGPaletteMap)
+    dwb EkansBillboardBGPaletteMap, Bank(EkansBillboardBGPaletteMap)
+    dwb ArbokBillboardBGPaletteMap, Bank(ArbokBillboardBGPaletteMap)
+    dwb PikachuBillboardBGPaletteMap, Bank(PikachuBillboardBGPaletteMap)
+    dwb RaichuBillboardBGPaletteMap, Bank(RaichuBillboardBGPaletteMap)
+    dwb SandshrewBillboardBGPaletteMap, Bank(SandshrewBillboardBGPaletteMap)
+    dwb SandslashBillboardBGPaletteMap, Bank(SandslashBillboardBGPaletteMap)
+    dwb NidoranFBillboardBGPaletteMap, Bank(NidoranFBillboardBGPaletteMap)
+    dwb NidorinaBillboardBGPaletteMap, Bank(NidorinaBillboardBGPaletteMap)
+    dwb NidoqueenBillboardBGPaletteMap, Bank(NidoqueenBillboardBGPaletteMap)
+    dwb NidoranMBillboardBGPaletteMap, Bank(NidoranMBillboardBGPaletteMap)
+    dwb NidorinoBillboardBGPaletteMap, Bank(NidorinoBillboardBGPaletteMap)
+    dwb NidokingBillboardBGPaletteMap, Bank(NidokingBillboardBGPaletteMap)
+    dwb ClefairyBillboardBGPaletteMap, Bank(ClefairyBillboardBGPaletteMap)
+    dwb ClefableBillboardBGPaletteMap, Bank(ClefableBillboardBGPaletteMap)
+    dwb VulpixBillboardBGPaletteMap, Bank(VulpixBillboardBGPaletteMap)
+    dwb NinetalesBillboardBGPaletteMap, Bank(NinetalesBillboardBGPaletteMap)
+    dwb JigglypuffBillboardBGPaletteMap, Bank(JigglypuffBillboardBGPaletteMap)
+    dwb WigglytuffBillboardBGPaletteMap, Bank(WigglytuffBillboardBGPaletteMap)
+    dwb ZubatBillboardBGPaletteMap, Bank(ZubatBillboardBGPaletteMap)
+    dwb GolbatBillboardBGPaletteMap, Bank(GolbatBillboardBGPaletteMap)
+    dwb OddishBillboardBGPaletteMap, Bank(OddishBillboardBGPaletteMap)
+    dwb GloomBillboardBGPaletteMap, Bank(GloomBillboardBGPaletteMap)
+    dwb VileplumeBillboardBGPaletteMap, Bank(VileplumeBillboardBGPaletteMap)
+    dwb ParasBillboardBGPaletteMap, Bank(ParasBillboardBGPaletteMap)
+    dwb ParasectBillboardBGPaletteMap, Bank(ParasectBillboardBGPaletteMap)
+    dwb VenonatBillboardBGPaletteMap, Bank(VenonatBillboardBGPaletteMap)
+    dwb VenomothBillboardBGPaletteMap, Bank(VenomothBillboardBGPaletteMap)
+    dwb DiglettBillboardBGPaletteMap, Bank(DiglettBillboardBGPaletteMap)
+    dwb DugtrioBillboardBGPaletteMap, Bank(DugtrioBillboardBGPaletteMap)
+    dwb MeowthBillboardBGPaletteMap, Bank(MeowthBillboardBGPaletteMap)
+    dwb PersianBillboardBGPaletteMap, Bank(PersianBillboardBGPaletteMap)
+    dwb PsyduckBillboardBGPaletteMap, Bank(PsyduckBillboardBGPaletteMap)
+    dwb GolduckBillboardBGPaletteMap, Bank(GolduckBillboardBGPaletteMap)
+    dwb MankeyBillboardBGPaletteMap, Bank(MankeyBillboardBGPaletteMap)
+    dwb PrimeapeBillboardBGPaletteMap, Bank(PrimeapeBillboardBGPaletteMap)
+    dwb GrowlitheBillboardBGPaletteMap, Bank(GrowlitheBillboardBGPaletteMap)
+    dwb ArcanineBillboardBGPaletteMap, Bank(ArcanineBillboardBGPaletteMap)
+    dwb PoliwagBillboardBGPaletteMap, Bank(PoliwagBillboardBGPaletteMap)
+    dwb PoliwhirlBillboardBGPaletteMap, Bank(PoliwhirlBillboardBGPaletteMap)
+    dwb PoliwrathBillboardBGPaletteMap, Bank(PoliwrathBillboardBGPaletteMap)
+    dwb AbraBillboardBGPaletteMap, Bank(AbraBillboardBGPaletteMap)
+    dwb KadabraBillboardBGPaletteMap, Bank(KadabraBillboardBGPaletteMap)
+    dwb AlakazamBillboardBGPaletteMap, Bank(AlakazamBillboardBGPaletteMap)
+    dwb MachopBillboardBGPaletteMap, Bank(MachopBillboardBGPaletteMap)
+    dwb MachokeBillboardBGPaletteMap, Bank(MachokeBillboardBGPaletteMap)
+    dwb MachampBillboardBGPaletteMap, Bank(MachampBillboardBGPaletteMap)
+    dwb BellsproutBillboardBGPaletteMap, Bank(BellsproutBillboardBGPaletteMap)
+    dwb WeepinbellBillboardBGPaletteMap, Bank(WeepinbellBillboardBGPaletteMap)
+    dwb VictreebellBillboardBGPaletteMap, Bank(VictreebellBillboardBGPaletteMap)
+    dwb TentacoolBillboardBGPaletteMap, Bank(TentacoolBillboardBGPaletteMap)
+    dwb TentacruelBillboardBGPaletteMap, Bank(TentacruelBillboardBGPaletteMap)
+    dwb GeodudeBillboardBGPaletteMap, Bank(GeodudeBillboardBGPaletteMap)
+    dwb GravelerBillboardBGPaletteMap, Bank(GravelerBillboardBGPaletteMap)
+    dwb GolemBillboardBGPaletteMap, Bank(GolemBillboardBGPaletteMap)
+    dwb PonytaBillboardBGPaletteMap, Bank(PonytaBillboardBGPaletteMap)
+    dwb RapidashBillboardBGPaletteMap, Bank(RapidashBillboardBGPaletteMap)
+    dwb SlowpokeBillboardBGPaletteMap, Bank(SlowpokeBillboardBGPaletteMap)
+    dwb SlowbroBillboardBGPaletteMap, Bank(SlowbroBillboardBGPaletteMap)
+    dwb MagnemiteBillboardBGPaletteMap, Bank(MagnemiteBillboardBGPaletteMap)
+    dwb MagnetonBillboardBGPaletteMap, Bank(MagnetonBillboardBGPaletteMap)
+    dwb FarfetchdBillboardBGPaletteMap, Bank(FarfetchdBillboardBGPaletteMap)
+    dwb DoduoBillboardBGPaletteMap, Bank(DoduoBillboardBGPaletteMap)
+    dwb DodrioBillboardBGPaletteMap, Bank(DodrioBillboardBGPaletteMap)
+    dwb SeelBillboardBGPaletteMap, Bank(SeelBillboardBGPaletteMap)
+    dwb DewgongBillboardBGPaletteMap, Bank(DewgongBillboardBGPaletteMap)
+    dwb GrimerBillboardBGPaletteMap, Bank(GrimerBillboardBGPaletteMap)
+    dwb MukBillboardBGPaletteMap, Bank(MukBillboardBGPaletteMap)
+    dwb ShellderBillboardBGPaletteMap, Bank(ShellderBillboardBGPaletteMap)
+    dwb CloysterBillboardBGPaletteMap, Bank(CloysterBillboardBGPaletteMap)
+    dwb GastlyBillboardBGPaletteMap, Bank(GastlyBillboardBGPaletteMap)
+    dwb HaunterBillboardBGPaletteMap, Bank(HaunterBillboardBGPaletteMap)
+    dwb GengarBillboardBGPaletteMap, Bank(GengarBillboardBGPaletteMap)
+    dwb OnixBillboardBGPaletteMap, Bank(OnixBillboardBGPaletteMap)
+    dwb DrowzeeBillboardBGPaletteMap, Bank(DrowzeeBillboardBGPaletteMap)
+    dwb HypnoBillboardBGPaletteMap, Bank(HypnoBillboardBGPaletteMap)
+    dwb KrabbyBillboardBGPaletteMap, Bank(KrabbyBillboardBGPaletteMap)
+    dwb KinglerBillboardBGPaletteMap, Bank(KinglerBillboardBGPaletteMap)
+    dwb VoltorbBillboardBGPaletteMap, Bank(VoltorbBillboardBGPaletteMap)
+    dwb ElectrodeBillboardBGPaletteMap, Bank(ElectrodeBillboardBGPaletteMap)
+    dwb ExeggcuteBillboardBGPaletteMap, Bank(ExeggcuteBillboardBGPaletteMap)
+    dwb ExeggutorBillboardBGPaletteMap, Bank(ExeggutorBillboardBGPaletteMap)
+    dwb CuboneBillboardBGPaletteMap, Bank(CuboneBillboardBGPaletteMap)
+    dwb MarowakBillboardBGPaletteMap, Bank(MarowakBillboardBGPaletteMap)
+    dwb HitmonleeBillboardBGPaletteMap, Bank(HitmonleeBillboardBGPaletteMap)
+    dwb HitmonchanBillboardBGPaletteMap, Bank(HitmonchanBillboardBGPaletteMap)
+    dwb LickitungBillboardBGPaletteMap, Bank(LickitungBillboardBGPaletteMap)
+    dwb KoffingBillboardBGPaletteMap, Bank(KoffingBillboardBGPaletteMap)
+    dwb WeezingBillboardBGPaletteMap, Bank(WeezingBillboardBGPaletteMap)
+    dwb RhyhornBillboardBGPaletteMap, Bank(RhyhornBillboardBGPaletteMap)
+    dwb RhydonBillboardBGPaletteMap, Bank(RhydonBillboardBGPaletteMap)
+    dwb ChanseyBillboardBGPaletteMap, Bank(ChanseyBillboardBGPaletteMap)
+    dwb TangelaBillboardBGPaletteMap, Bank(TangelaBillboardBGPaletteMap)
+    dwb KangaskhanBillboardBGPaletteMap, Bank(KangaskhanBillboardBGPaletteMap)
+    dwb HorseaBillboardBGPaletteMap, Bank(HorseaBillboardBGPaletteMap)
+    dwb SeadraBillboardBGPaletteMap, Bank(SeadraBillboardBGPaletteMap)
+    dwb GoldeenBillboardBGPaletteMap, Bank(GoldeenBillboardBGPaletteMap)
+    dwb SeakingBillboardBGPaletteMap, Bank(SeakingBillboardBGPaletteMap)
+    dwb StaryuBillboardBGPaletteMap, Bank(StaryuBillboardBGPaletteMap)
+    dwb StarmieBillboardBGPaletteMap, Bank(StarmieBillboardBGPaletteMap)
+    dwb MrMimeBillboardBGPaletteMap, Bank(MrMimeBillboardBGPaletteMap)
+    dwb ScytherBillboardBGPaletteMap, Bank(ScytherBillboardBGPaletteMap)
+    dwb JynxBillboardBGPaletteMap, Bank(JynxBillboardBGPaletteMap)
+    dwb ElectabuzzBillboardBGPaletteMap, Bank(ElectabuzzBillboardBGPaletteMap)
+    dwb MagmarBillboardBGPaletteMap, Bank(MagmarBillboardBGPaletteMap)
+    dwb PinsirBillboardBGPaletteMap, Bank(PinsirBillboardBGPaletteMap)
+    dwb TaurosBillboardBGPaletteMap, Bank(TaurosBillboardBGPaletteMap)
+    dwb MagikarpBillboardBGPaletteMap, Bank(MagikarpBillboardBGPaletteMap)
+    dwb GyaradosBillboardBGPaletteMap, Bank(GyaradosBillboardBGPaletteMap)
+    dwb LaprasBillboardBGPaletteMap, Bank(LaprasBillboardBGPaletteMap)
+    dwb DittoBillboardBGPaletteMap, Bank(DittoBillboardBGPaletteMap)
+    dwb EeveeBillboardBGPaletteMap, Bank(EeveeBillboardBGPaletteMap)
+    dwb VaporeonBillboardBGPaletteMap, Bank(VaporeonBillboardBGPaletteMap)
+    dwb JolteonBillboardBGPaletteMap, Bank(JolteonBillboardBGPaletteMap)
+    dwb FlareonBillboardBGPaletteMap, Bank(FlareonBillboardBGPaletteMap)
+    dwb PorygonBillboardBGPaletteMap, Bank(PorygonBillboardBGPaletteMap)
+    dwb OmanyteBillboardBGPaletteMap, Bank(OmanyteBillboardBGPaletteMap)
+    dwb OmastarBillboardBGPaletteMap, Bank(OmastarBillboardBGPaletteMap)
+    dwb KabutoBillboardBGPaletteMap, Bank(KabutoBillboardBGPaletteMap)
+    dwb KabutopsBillboardBGPaletteMap, Bank(KabutopsBillboardBGPaletteMap)
+    dwb AerodactylBillboardBGPaletteMap, Bank(AerodactylBillboardBGPaletteMap)
+    dwb SnorlaxBillboardBGPaletteMap, Bank(SnorlaxBillboardBGPaletteMap)
+    dwb ArticunoBillboardBGPaletteMap, Bank(ArticunoBillboardBGPaletteMap)
+    dwb ZapdosBillboardBGPaletteMap, Bank(ZapdosBillboardBGPaletteMap)
+    dwb MoltresBillboardBGPaletteMap, Bank(MoltresBillboardBGPaletteMap)
+    dwb DratiniBillboardBGPaletteMap, Bank(DratiniBillboardBGPaletteMap)
+    dwb DragonairBillboardBGPaletteMap, Bank(DragonairBillboardBGPaletteMap)
+    dwb DragoniteBillboardBGPaletteMap, Bank(DragoniteBillboardBGPaletteMap)
+    dwb MewtwoBillboardBGPaletteMap, Bank(MewtwoBillboardBGPaletteMap)
+    dwb MewBillboardBGPaletteMap, Bank(MewBillboardBGPaletteMap)
+
+MonBillboardPalettePointers: ; 0x12eda
+    dwb BulbasaurBillboardBGPalette1, Bank(BulbasaurBillboardBGPalette1)
+    dwb IvysaurBillboardBGPalette1, Bank(IvysaurBillboardBGPalette1)
+    dwb VenusaurBillboardBGPalette1, Bank(VenusaurBillboardBGPalette1)
+    dwb CharmanderBillboardBGPalette1, Bank(CharmanderBillboardBGPalette1)
+    dwb CharmeleonBillboardBGPalette1, Bank(CharmeleonBillboardBGPalette1)
+    dwb CharizardBillboardBGPalette1, Bank(CharizardBillboardBGPalette1)
+    dwb SquirtleBillboardBGPalette1, Bank(SquirtleBillboardBGPalette1)
+    dwb WartortleBillboardBGPalette1, Bank(WartortleBillboardBGPalette1)
+    dwb BlastoiseBillboardBGPalette1, Bank(BlastoiseBillboardBGPalette1)
+    dwb CaterpieBillboardBGPalette1, Bank(CaterpieBillboardBGPalette1)
+    dwb MetapodBillboardBGPalette1, Bank(MetapodBillboardBGPalette1)
+    dwb ButterfreeBillboardBGPalette1, Bank(ButterfreeBillboardBGPalette1)
+    dwb WeedleBillboardBGPalette1, Bank(WeedleBillboardBGPalette1)
+    dwb KakunaBillboardBGPalette1, Bank(KakunaBillboardBGPalette1)
+    dwb BeedrillBillboardBGPalette1, Bank(BeedrillBillboardBGPalette1)
+    dwb PidgeyBillboardBGPalette1, Bank(PidgeyBillboardBGPalette1)
+    dwb PidgeottoBillboardBGPalette1, Bank(PidgeottoBillboardBGPalette1)
+    dwb PidgeotBillboardBGPalette1, Bank(PidgeotBillboardBGPalette1)
+    dwb RattataBillboardBGPalette1, Bank(RattataBillboardBGPalette1)
+    dwb RaticateBillboardBGPalette1, Bank(RaticateBillboardBGPalette1)
+    dwb SpearowBillboardBGPalette1, Bank(SpearowBillboardBGPalette1)
+    dwb FearowBillboardBGPalette1, Bank(FearowBillboardBGPalette1)
+    dwb EkansBillboardBGPalette1, Bank(EkansBillboardBGPalette1)
+    dwb ArbokBillboardBGPalette1, Bank(ArbokBillboardBGPalette1)
+    dwb PikachuBillboardBGPalette1, Bank(PikachuBillboardBGPalette1)
+    dwb RaichuBillboardBGPalette1, Bank(RaichuBillboardBGPalette1)
+    dwb SandshrewBillboardBGPalette1, Bank(SandshrewBillboardBGPalette1)
+    dwb SandslashBillboardBGPalette1, Bank(SandslashBillboardBGPalette1)
+    dwb NidoranFBillboardBGPalette1, Bank(NidoranFBillboardBGPalette1)
+    dwb NidorinaBillboardBGPalette1, Bank(NidorinaBillboardBGPalette1)
+    dwb NidoqueenBillboardBGPalette1, Bank(NidoqueenBillboardBGPalette1)
+    dwb NidoranMBillboardBGPalette1, Bank(NidoranMBillboardBGPalette1)
+    dwb NidorinoBillboardBGPalette1, Bank(NidorinoBillboardBGPalette1)
+    dwb NidokingBillboardBGPalette1, Bank(NidokingBillboardBGPalette1)
+    dwb ClefairyBillboardBGPalette1, Bank(ClefairyBillboardBGPalette1)
+    dwb ClefableBillboardBGPalette1, Bank(ClefableBillboardBGPalette1)
+    dwb VulpixBillboardBGPalette1, Bank(VulpixBillboardBGPalette1)
+    dwb NinetalesBillboardBGPalette1, Bank(NinetalesBillboardBGPalette1)
+    dwb JigglypuffBillboardBGPalette1, Bank(JigglypuffBillboardBGPalette1)
+    dwb WigglytuffBillboardBGPalette1, Bank(WigglytuffBillboardBGPalette1)
+    dwb ZubatBillboardBGPalette1, Bank(ZubatBillboardBGPalette1)
+    dwb GolbatBillboardBGPalette1, Bank(GolbatBillboardBGPalette1)
+    dwb OddishBillboardBGPalette1, Bank(OddishBillboardBGPalette1)
+    dwb GloomBillboardBGPalette1, Bank(GloomBillboardBGPalette1)
+    dwb VileplumeBillboardBGPalette1, Bank(VileplumeBillboardBGPalette1)
+    dwb ParasBillboardBGPalette1, Bank(ParasBillboardBGPalette1)
+    dwb ParasectBillboardBGPalette1, Bank(ParasectBillboardBGPalette1)
+    dwb VenonatBillboardBGPalette1, Bank(VenonatBillboardBGPalette1)
+    dwb VenomothBillboardBGPalette1, Bank(VenomothBillboardBGPalette1)
+    dwb DiglettBillboardBGPalette1, Bank(DiglettBillboardBGPalette1)
+    dwb DugtrioBillboardBGPalette1, Bank(DugtrioBillboardBGPalette1)
+    dwb MeowthBillboardBGPalette1, Bank(MeowthBillboardBGPalette1)
+    dwb PersianBillboardBGPalette1, Bank(PersianBillboardBGPalette1)
+    dwb PsyduckBillboardBGPalette1, Bank(PsyduckBillboardBGPalette1)
+    dwb GolduckBillboardBGPalette1, Bank(GolduckBillboardBGPalette1)
+    dwb MankeyBillboardBGPalette1, Bank(MankeyBillboardBGPalette1)
+    dwb PrimeapeBillboardBGPalette1, Bank(PrimeapeBillboardBGPalette1)
+    dwb GrowlitheBillboardBGPalette1, Bank(GrowlitheBillboardBGPalette1)
+    dwb ArcanineBillboardBGPalette1, Bank(ArcanineBillboardBGPalette1)
+    dwb PoliwagBillboardBGPalette1, Bank(PoliwagBillboardBGPalette1)
+    dwb PoliwhirlBillboardBGPalette1, Bank(PoliwhirlBillboardBGPalette1)
+    dwb PoliwrathBillboardBGPalette1, Bank(PoliwrathBillboardBGPalette1)
+    dwb AbraBillboardBGPalette1, Bank(AbraBillboardBGPalette1)
+    dwb KadabraBillboardBGPalette1, Bank(KadabraBillboardBGPalette1)
+    dwb AlakazamBillboardBGPalette1, Bank(AlakazamBillboardBGPalette1)
+    dwb MachopBillboardBGPalette1, Bank(MachopBillboardBGPalette1)
+    dwb MachokeBillboardBGPalette1, Bank(MachokeBillboardBGPalette1)
+    dwb MachampBillboardBGPalette1, Bank(MachampBillboardBGPalette1)
+    dwb BellsproutBillboardBGPalette1, Bank(BellsproutBillboardBGPalette1)
+    dwb WeepinbellBillboardBGPalette1, Bank(WeepinbellBillboardBGPalette1)
+    dwb VictreebellBillboardBGPalette1, Bank(VictreebellBillboardBGPalette1)
+    dwb TentacoolBillboardBGPalette1, Bank(TentacoolBillboardBGPalette1)
+    dwb TentacruelBillboardBGPalette1, Bank(TentacruelBillboardBGPalette1)
+    dwb GeodudeBillboardBGPalette1, Bank(GeodudeBillboardBGPalette1)
+    dwb GravelerBillboardBGPalette1, Bank(GravelerBillboardBGPalette1)
+    dwb GolemBillboardBGPalette1, Bank(GolemBillboardBGPalette1)
+    dwb PonytaBillboardBGPalette1, Bank(PonytaBillboardBGPalette1)
+    dwb RapidashBillboardBGPalette1, Bank(RapidashBillboardBGPalette1)
+    dwb SlowpokeBillboardBGPalette1, Bank(SlowpokeBillboardBGPalette1)
+    dwb SlowbroBillboardBGPalette1, Bank(SlowbroBillboardBGPalette1)
+    dwb MagnemiteBillboardBGPalette1, Bank(MagnemiteBillboardBGPalette1)
+    dwb MagnetonBillboardBGPalette1, Bank(MagnetonBillboardBGPalette1)
+    dwb FarfetchdBillboardBGPalette1, Bank(FarfetchdBillboardBGPalette1)
+    dwb DoduoBillboardBGPalette1, Bank(DoduoBillboardBGPalette1)
+    dwb DodrioBillboardBGPalette1, Bank(DodrioBillboardBGPalette1)
+    dwb SeelBillboardBGPalette1, Bank(SeelBillboardBGPalette1)
+    dwb DewgongBillboardBGPalette1, Bank(DewgongBillboardBGPalette1)
+    dwb GrimerBillboardBGPalette1, Bank(GrimerBillboardBGPalette1)
+    dwb MukBillboardBGPalette1, Bank(MukBillboardBGPalette1)
+    dwb ShellderBillboardBGPalette1, Bank(ShellderBillboardBGPalette1)
+    dwb CloysterBillboardBGPalette1, Bank(CloysterBillboardBGPalette1)
+    dwb GastlyBillboardBGPalette1, Bank(GastlyBillboardBGPalette1)
+    dwb HaunterBillboardBGPalette1, Bank(HaunterBillboardBGPalette1)
+    dwb GengarBillboardBGPalette1, Bank(GengarBillboardBGPalette1)
+    dwb OnixBillboardBGPalette1, Bank(OnixBillboardBGPalette1)
+    dwb DrowzeeBillboardBGPalette1, Bank(DrowzeeBillboardBGPalette1)
+    dwb HypnoBillboardBGPalette1, Bank(HypnoBillboardBGPalette1)
+    dwb KrabbyBillboardBGPalette1, Bank(KrabbyBillboardBGPalette1)
+    dwb KinglerBillboardBGPalette1, Bank(KinglerBillboardBGPalette1)
+    dwb VoltorbBillboardBGPalette1, Bank(VoltorbBillboardBGPalette1)
+    dwb ElectrodeBillboardBGPalette1, Bank(ElectrodeBillboardBGPalette1)
+    dwb ExeggcuteBillboardBGPalette1, Bank(ExeggcuteBillboardBGPalette1)
+    dwb ExeggutorBillboardBGPalette1, Bank(ExeggutorBillboardBGPalette1)
+    dwb CuboneBillboardBGPalette1, Bank(CuboneBillboardBGPalette1)
+    dwb MarowakBillboardBGPalette1, Bank(MarowakBillboardBGPalette1)
+    dwb HitmonleeBillboardBGPalette1, Bank(HitmonleeBillboardBGPalette1)
+    dwb HitmonchanBillboardBGPalette1, Bank(HitmonchanBillboardBGPalette1)
+    dwb LickitungBillboardBGPalette1, Bank(LickitungBillboardBGPalette1)
+    dwb KoffingBillboardBGPalette1, Bank(KoffingBillboardBGPalette1)
+    dwb WeezingBillboardBGPalette1, Bank(WeezingBillboardBGPalette1)
+    dwb RhyhornBillboardBGPalette1, Bank(RhyhornBillboardBGPalette1)
+    dwb RhydonBillboardBGPalette1, Bank(RhydonBillboardBGPalette1)
+    dwb ChanseyBillboardBGPalette1, Bank(ChanseyBillboardBGPalette1)
+    dwb TangelaBillboardBGPalette1, Bank(TangelaBillboardBGPalette1)
+    dwb KangaskhanBillboardBGPalette1, Bank(KangaskhanBillboardBGPalette1)
+    dwb HorseaBillboardBGPalette1, Bank(HorseaBillboardBGPalette1)
+    dwb SeadraBillboardBGPalette1, Bank(SeadraBillboardBGPalette1)
+    dwb GoldeenBillboardBGPalette1, Bank(GoldeenBillboardBGPalette1)
+    dwb SeakingBillboardBGPalette1, Bank(SeakingBillboardBGPalette1)
+    dwb StaryuBillboardBGPalette1, Bank(StaryuBillboardBGPalette1)
+    dwb StarmieBillboardBGPalette1, Bank(StarmieBillboardBGPalette1)
+    dwb MrMimeBillboardBGPalette1, Bank(MrMimeBillboardBGPalette1)
+    dwb ScytherBillboardBGPalette1, Bank(ScytherBillboardBGPalette1)
+    dwb JynxBillboardBGPalette1, Bank(JynxBillboardBGPalette1)
+    dwb ElectabuzzBillboardBGPalette1, Bank(ElectabuzzBillboardBGPalette1)
+    dwb MagmarBillboardBGPalette1, Bank(MagmarBillboardBGPalette1)
+    dwb PinsirBillboardBGPalette1, Bank(PinsirBillboardBGPalette1)
+    dwb TaurosBillboardBGPalette1, Bank(TaurosBillboardBGPalette1)
+    dwb MagikarpBillboardBGPalette1, Bank(MagikarpBillboardBGPalette1)
+    dwb GyaradosBillboardBGPalette1, Bank(GyaradosBillboardBGPalette1)
+    dwb LaprasBillboardBGPalette1, Bank(LaprasBillboardBGPalette1)
+    dwb DittoBillboardBGPalette1, Bank(DittoBillboardBGPalette1)
+    dwb EeveeBillboardBGPalette1, Bank(EeveeBillboardBGPalette1)
+    dwb VaporeonBillboardBGPalette1, Bank(VaporeonBillboardBGPalette1)
+    dwb JolteonBillboardBGPalette1, Bank(JolteonBillboardBGPalette1)
+    dwb FlareonBillboardBGPalette1, Bank(FlareonBillboardBGPalette1)
+    dwb PorygonBillboardBGPalette1, Bank(PorygonBillboardBGPalette1)
+    dwb OmanyteBillboardBGPalette1, Bank(OmanyteBillboardBGPalette1)
+    dwb OmastarBillboardBGPalette1, Bank(OmastarBillboardBGPalette1)
+    dwb KabutoBillboardBGPalette1, Bank(KabutoBillboardBGPalette1)
+    dwb KabutopsBillboardBGPalette1, Bank(KabutopsBillboardBGPalette1)
+    dwb AerodactylBillboardBGPalette1, Bank(AerodactylBillboardBGPalette1)
+    dwb SnorlaxBillboardBGPalette1, Bank(SnorlaxBillboardBGPalette1)
+    dwb ArticunoBillboardBGPalette1, Bank(ArticunoBillboardBGPalette1)
+    dwb ZapdosBillboardBGPalette1, Bank(ZapdosBillboardBGPalette1)
+    dwb MoltresBillboardBGPalette1, Bank(MoltresBillboardBGPalette1)
+    dwb DratiniBillboardBGPalette1, Bank(DratiniBillboardBGPalette1)
+    dwb DragonairBillboardBGPalette1, Bank(DragonairBillboardBGPalette1)
+    dwb DragoniteBillboardBGPalette1, Bank(DragoniteBillboardBGPalette1)
+    dwb MewtwoBillboardBGPalette1, Bank(MewtwoBillboardBGPalette1)
+    dwb MewBillboardBGPalette1, Bank(MewBillboardBGPalette1)
+
+MonAnimatedPalettePointers: ; 0x1309f
+    dwb BulbasaurAnimatedObjPalette1, Bank(BulbasaurAnimatedObjPalette1)
+    dwb BulbasaurAnimatedObjPalette1, Bank(BulbasaurAnimatedObjPalette1)
+    dwb BulbasaurAnimatedObjPalette1, Bank(BulbasaurAnimatedObjPalette1)
+    dwb CharmanderAnimatedObjPalette1, Bank(CharmanderAnimatedObjPalette1)
+    dwb CharmanderAnimatedObjPalette1, Bank(CharmanderAnimatedObjPalette1)
+    dwb CharmanderAnimatedObjPalette1, Bank(CharmanderAnimatedObjPalette1)
+    dwb SquirtleAnimatedObjPalette1, Bank(SquirtleAnimatedObjPalette1)
+    dwb SquirtleAnimatedObjPalette1, Bank(SquirtleAnimatedObjPalette1)
+    dwb SquirtleAnimatedObjPalette1, Bank(SquirtleAnimatedObjPalette1)
+    dwb CaterpieAnimatedObjPalette1, Bank(CaterpieAnimatedObjPalette1)
+    dwb CaterpieAnimatedObjPalette1, Bank(CaterpieAnimatedObjPalette1)
+    dwb CaterpieAnimatedObjPalette1, Bank(CaterpieAnimatedObjPalette1)
+    dwb WeedleAnimatedObjPalette1, Bank(WeedleAnimatedObjPalette1)
+    dwb WeedleAnimatedObjPalette1, Bank(WeedleAnimatedObjPalette1)
+    dwb WeedleAnimatedObjPalette1, Bank(WeedleAnimatedObjPalette1)
+    dwb PidgeyAnimatedObjPalette1, Bank(PidgeyAnimatedObjPalette1)
+    dwb PidgeyAnimatedObjPalette1, Bank(PidgeyAnimatedObjPalette1)
+    dwb PidgeyAnimatedObjPalette1, Bank(PidgeyAnimatedObjPalette1)
+    dwb RattataAnimatedObjPalette1, Bank(RattataAnimatedObjPalette1)
+    dwb RattataAnimatedObjPalette1, Bank(RattataAnimatedObjPalette1)
+    dwb SpearowAnimatedObjPalette1, Bank(SpearowAnimatedObjPalette1)
+    dwb SpearowAnimatedObjPalette1, Bank(SpearowAnimatedObjPalette1)
+    dwb EkansAnimatedObjPalette1, Bank(EkansAnimatedObjPalette1)
+    dwb EkansAnimatedObjPalette1, Bank(EkansAnimatedObjPalette1)
+    dwb PikachuAnimatedObjPalette1, Bank(PikachuAnimatedObjPalette1)
+    dwb PikachuAnimatedObjPalette1, Bank(PikachuAnimatedObjPalette1)
+    dwb SandshrewAnimatedObjPalette1, Bank(SandshrewAnimatedObjPalette1)
+    dwb SandshrewAnimatedObjPalette1, Bank(SandshrewAnimatedObjPalette1)
+    dwb NidoranFAnimatedObjPalette1, Bank(NidoranFAnimatedObjPalette1)
+    dwb NidoranFAnimatedObjPalette1, Bank(NidoranFAnimatedObjPalette1)
+    dwb NidoranFAnimatedObjPalette1, Bank(NidoranFAnimatedObjPalette1)
+    dwb NidoranMAnimatedObjPalette1, Bank(NidoranMAnimatedObjPalette1)
+    dwb NidoranMAnimatedObjPalette1, Bank(NidoranMAnimatedObjPalette1)
+    dwb NidoranMAnimatedObjPalette1, Bank(NidoranMAnimatedObjPalette1)
+    dwb ClefairyAnimatedObjPalette1, Bank(ClefairyAnimatedObjPalette1)
+    dwb ClefairyAnimatedObjPalette1, Bank(ClefairyAnimatedObjPalette1)
+    dwb VulpixAnimatedObjPalette1, Bank(VulpixAnimatedObjPalette1)
+    dwb VulpixAnimatedObjPalette1, Bank(VulpixAnimatedObjPalette1)
+    dwb JigglypuffAnimatedObjPalette1, Bank(JigglypuffAnimatedObjPalette1)
+    dwb JigglypuffAnimatedObjPalette1, Bank(JigglypuffAnimatedObjPalette1)
+    dwb ZubatAnimatedObjPalette1, Bank(ZubatAnimatedObjPalette1)
+    dwb ZubatAnimatedObjPalette1, Bank(ZubatAnimatedObjPalette1)
+    dwb OddishAnimatedObjPalette1, Bank(OddishAnimatedObjPalette1)
+    dwb OddishAnimatedObjPalette1, Bank(OddishAnimatedObjPalette1)
+    dwb OddishAnimatedObjPalette1, Bank(OddishAnimatedObjPalette1)
+    dwb ParasAnimatedObjPalette1, Bank(ParasAnimatedObjPalette1)
+    dwb ParasAnimatedObjPalette1, Bank(ParasAnimatedObjPalette1)
+    dwb VenonatAnimatedObjPalette1, Bank(VenonatAnimatedObjPalette1)
+    dwb VenonatAnimatedObjPalette1, Bank(VenonatAnimatedObjPalette1)
+    dwb DiglettAnimatedObjPalette1, Bank(DiglettAnimatedObjPalette1)
+    dwb DiglettAnimatedObjPalette1, Bank(DiglettAnimatedObjPalette1)
+    dwb MeowthAnimatedObjPalette1, Bank(MeowthAnimatedObjPalette1)
+    dwb MeowthAnimatedObjPalette1, Bank(MeowthAnimatedObjPalette1)
+    dwb PsyduckAnimatedObjPalette1, Bank(PsyduckAnimatedObjPalette1)
+    dwb PsyduckAnimatedObjPalette1, Bank(PsyduckAnimatedObjPalette1)
+    dwb MankeyAnimatedObjPalette1, Bank(MankeyAnimatedObjPalette1)
+    dwb MankeyAnimatedObjPalette1, Bank(MankeyAnimatedObjPalette1)
+    dwb GrowlitheAnimatedObjPalette1, Bank(GrowlitheAnimatedObjPalette1)
+    dwb GrowlitheAnimatedObjPalette1, Bank(GrowlitheAnimatedObjPalette1)
+    dwb PoliwagAnimatedObjPalette1, Bank(PoliwagAnimatedObjPalette1)
+    dwb PoliwagAnimatedObjPalette1, Bank(PoliwagAnimatedObjPalette1)
+    dwb PoliwagAnimatedObjPalette1, Bank(PoliwagAnimatedObjPalette1)
+    dwb AbraAnimatedObjPalette1, Bank(AbraAnimatedObjPalette1)
+    dwb AbraAnimatedObjPalette1, Bank(AbraAnimatedObjPalette1)
+    dwb AbraAnimatedObjPalette1, Bank(AbraAnimatedObjPalette1)
+    dwb MachopAnimatedObjPalette1, Bank(MachopAnimatedObjPalette1)
+    dwb MachopAnimatedObjPalette1, Bank(MachopAnimatedObjPalette1)
+    dwb MachopAnimatedObjPalette1, Bank(MachopAnimatedObjPalette1)
+    dwb BellsproutAnimatedObjPalette1, Bank(BellsproutAnimatedObjPalette1)
+    dwb BellsproutAnimatedObjPalette1, Bank(BellsproutAnimatedObjPalette1)
+    dwb BellsproutAnimatedObjPalette1, Bank(BellsproutAnimatedObjPalette1)
+    dwb TentacoolAnimatedObjPalette1, Bank(TentacoolAnimatedObjPalette1)
+    dwb TentacoolAnimatedObjPalette1, Bank(TentacoolAnimatedObjPalette1)
+    dwb GeodudeAnimatedObjPalette1, Bank(GeodudeAnimatedObjPalette1)
+    dwb GeodudeAnimatedObjPalette1, Bank(GeodudeAnimatedObjPalette1)
+    dwb GeodudeAnimatedObjPalette1, Bank(GeodudeAnimatedObjPalette1)
+    dwb PonytaAnimatedObjPalette1, Bank(PonytaAnimatedObjPalette1)
+    dwb PonytaAnimatedObjPalette1, Bank(PonytaAnimatedObjPalette1)
+    dwb SlowpokeAnimatedObjPalette1, Bank(SlowpokeAnimatedObjPalette1)
+    dwb SlowpokeAnimatedObjPalette1, Bank(SlowpokeAnimatedObjPalette1)
+    dwb MagnemiteAnimatedObjPalette1, Bank(MagnemiteAnimatedObjPalette1)
+    dwb MagnemiteAnimatedObjPalette1, Bank(MagnemiteAnimatedObjPalette1)
+    dwb FarfetchdAnimatedObjPalette1, Bank(FarfetchdAnimatedObjPalette1)
+    dwb DoduoAnimatedObjPalette1, Bank(DoduoAnimatedObjPalette1)
+    dwb DoduoAnimatedObjPalette1, Bank(DoduoAnimatedObjPalette1)
+    dwb SeelAnimatedObjPalette1, Bank(SeelAnimatedObjPalette1)
+    dwb SeelAnimatedObjPalette1, Bank(SeelAnimatedObjPalette1)
+    dwb GrimerAnimatedObjPalette1, Bank(GrimerAnimatedObjPalette1)
+    dwb GrimerAnimatedObjPalette1, Bank(GrimerAnimatedObjPalette1)
+    dwb ShellderAnimatedObjPalette1, Bank(ShellderAnimatedObjPalette1)
+    dwb ShellderAnimatedObjPalette1, Bank(ShellderAnimatedObjPalette1)
+    dwb GastlyAnimatedObjPalette1, Bank(GastlyAnimatedObjPalette1)
+    dwb GastlyAnimatedObjPalette1, Bank(GastlyAnimatedObjPalette1)
+    dwb GastlyAnimatedObjPalette1, Bank(GastlyAnimatedObjPalette1)
+    dwb OnixAnimatedObjPalette1, Bank(OnixAnimatedObjPalette1)
+    dwb DrowzeeAnimatedObjPalette1, Bank(DrowzeeAnimatedObjPalette1)
+    dwb DrowzeeAnimatedObjPalette1, Bank(DrowzeeAnimatedObjPalette1)
+    dwb KrabbyAnimatedObjPalette1, Bank(KrabbyAnimatedObjPalette1)
+    dwb KrabbyAnimatedObjPalette1, Bank(KrabbyAnimatedObjPalette1)
+    dwb VoltorbAnimatedObjPalette1, Bank(VoltorbAnimatedObjPalette1)
+    dwb VoltorbAnimatedObjPalette1, Bank(VoltorbAnimatedObjPalette1)
+    dwb ExeggcuteAnimatedObjPalette1, Bank(ExeggcuteAnimatedObjPalette1)
+    dwb ExeggcuteAnimatedObjPalette1, Bank(ExeggcuteAnimatedObjPalette1)
+    dwb CuboneAnimatedObjPalette1, Bank(CuboneAnimatedObjPalette1)
+    dwb CuboneAnimatedObjPalette1, Bank(CuboneAnimatedObjPalette1)
+    dwb HitmonleeAnimatedObjPalette1, Bank(HitmonleeAnimatedObjPalette1)
+    dwb HitmonchanAnimatedObjPalette1, Bank(HitmonchanAnimatedObjPalette1)
+    dwb LickitungAnimatedObjPalette1, Bank(LickitungAnimatedObjPalette1)
+    dwb KoffingAnimatedObjPalette1, Bank(KoffingAnimatedObjPalette1)
+    dwb KoffingAnimatedObjPalette1, Bank(KoffingAnimatedObjPalette1)
+    dwb RhyhornAnimatedObjPalette1, Bank(RhyhornAnimatedObjPalette1)
+    dwb RhyhornAnimatedObjPalette1, Bank(RhyhornAnimatedObjPalette1)
+    dwb ChanseyAnimatedObjPalette1, Bank(ChanseyAnimatedObjPalette1)
+    dwb TangelaAnimatedObjPalette1, Bank(TangelaAnimatedObjPalette1)
+    dwb KangaskhanAnimatedObjPalette1, Bank(KangaskhanAnimatedObjPalette1)
+    dwb HorseaAnimatedObjPalette1, Bank(HorseaAnimatedObjPalette1)
+    dwb HorseaAnimatedObjPalette1, Bank(HorseaAnimatedObjPalette1)
+    dwb GoldeenAnimatedObjPalette1, Bank(GoldeenAnimatedObjPalette1)
+    dwb GoldeenAnimatedObjPalette1, Bank(GoldeenAnimatedObjPalette1)
+    dwb StaryuAnimatedObjPalette1, Bank(StaryuAnimatedObjPalette1)
+    dwb StaryuAnimatedObjPalette1, Bank(StaryuAnimatedObjPalette1)
+    dwb MrMimeAnimatedObjPalette1, Bank(MrMimeAnimatedObjPalette1)
+    dwb ScytherAnimatedObjPalette1, Bank(ScytherAnimatedObjPalette1)
+    dwb JynxAnimatedObjPalette1, Bank(JynxAnimatedObjPalette1)
+    dwb ElectabuzzAnimatedObjPalette1, Bank(ElectabuzzAnimatedObjPalette1)
+    dwb MagmarAnimatedObjPalette1, Bank(MagmarAnimatedObjPalette1)
+    dwb PinsirAnimatedObjPalette1, Bank(PinsirAnimatedObjPalette1)
+    dwb TaurosAnimatedObjPalette1, Bank(TaurosAnimatedObjPalette1)
+    dwb MagikarpAnimatedObjPalette1, Bank(MagikarpAnimatedObjPalette1)
+    dwb MagikarpAnimatedObjPalette1, Bank(MagikarpAnimatedObjPalette1)
+    dwb LaprasAnimatedObjPalette1, Bank(LaprasAnimatedObjPalette1)
+    dwb DittoAnimatedObjPalette1, Bank(DittoAnimatedObjPalette1)
+    dwb EeveeAnimatedObjPalette1, Bank(EeveeAnimatedObjPalette1)
+    dwb EeveeAnimatedObjPalette1, Bank(EeveeAnimatedObjPalette1)
+    dwb EeveeAnimatedObjPalette1, Bank(EeveeAnimatedObjPalette1)
+    dwb EeveeAnimatedObjPalette1, Bank(EeveeAnimatedObjPalette1)
+    dwb PorygonAnimatedObjPalette1, Bank(PorygonAnimatedObjPalette1)
+    dwb OmanyteAnimatedObjPalette1, Bank(OmanyteAnimatedObjPalette1)
+    dwb OmanyteAnimatedObjPalette1, Bank(OmanyteAnimatedObjPalette1)
+    dwb KabutoAnimatedObjPalette1, Bank(KabutoAnimatedObjPalette1)
+    dwb KabutoAnimatedObjPalette1, Bank(KabutoAnimatedObjPalette1)
+    dwb AerodactylAnimatedObjPalette1, Bank(AerodactylAnimatedObjPalette1)
+    dwb SnorlaxAnimatedObjPalette1, Bank(SnorlaxAnimatedObjPalette1)
+    dwb ArticunoAnimatedObjPalette1, Bank(ArticunoAnimatedObjPalette1)
+    dwb ZapdosAnimatedObjPalette1, Bank(ZapdosAnimatedObjPalette1)
+    dwb MoltresAnimatedObjPalette1, Bank(MoltresAnimatedObjPalette1)
+    dwb DratiniAnimatedObjPalette1, Bank(DratiniAnimatedObjPalette1)
+    dwb DratiniAnimatedObjPalette1, Bank(DratiniAnimatedObjPalette1)
+    dwb DratiniAnimatedObjPalette1, Bank(DratiniAnimatedObjPalette1)
+    dwb MewtwoAnimatedObjPalette1, Bank(MewtwoAnimatedObjPalette1)
+    dwb MewAnimatedObjPalette1, Bank(MewAnimatedObjPalette1)
+
+MonAnimatedPicPointers: ; 0x13264
+    dwb BulbasaurAnimatedPic, Bank(BulbasaurAnimatedPic)
+    dwb BulbasaurAnimatedPic, Bank(BulbasaurAnimatedPic)
+    dwb BulbasaurAnimatedPic, Bank(BulbasaurAnimatedPic)
+    dwb CharmanderAnimatedPic, Bank(CharmanderAnimatedPic)
+    dwb CharmanderAnimatedPic, Bank(CharmanderAnimatedPic)
+    dwb CharmanderAnimatedPic, Bank(CharmanderAnimatedPic)
+    dwb SquirtleAnimatedPic, Bank(SquirtleAnimatedPic)
+    dwb SquirtleAnimatedPic, Bank(SquirtleAnimatedPic)
+    dwb SquirtleAnimatedPic, Bank(SquirtleAnimatedPic)
+    dwb CaterpieAnimatedPic, Bank(CaterpieAnimatedPic)
+    dwb CaterpieAnimatedPic, Bank(CaterpieAnimatedPic)
+    dwb CaterpieAnimatedPic, Bank(CaterpieAnimatedPic)
+    dwb WeedleAnimatedPic, Bank(WeedleAnimatedPic)
+    dwb WeedleAnimatedPic, Bank(WeedleAnimatedPic)
+    dwb WeedleAnimatedPic, Bank(WeedleAnimatedPic)
+    dwb PidgeyAnimatedPic, Bank(PidgeyAnimatedPic)
+    dwb PidgeyAnimatedPic, Bank(PidgeyAnimatedPic)
+    dwb PidgeyAnimatedPic, Bank(PidgeyAnimatedPic)
+    dwb RattataAnimatedPic, Bank(RattataAnimatedPic)
+    dwb RattataAnimatedPic, Bank(RattataAnimatedPic)
+    dwb SpearowAnimatedPic, Bank(SpearowAnimatedPic)
+    dwb SpearowAnimatedPic, Bank(SpearowAnimatedPic)
+    dwb EkansAnimatedPic, Bank(EkansAnimatedPic)
+    dwb EkansAnimatedPic, Bank(EkansAnimatedPic)
+    dwb PikachuAnimatedPic, Bank(PikachuAnimatedPic)
+    dwb PikachuAnimatedPic, Bank(PikachuAnimatedPic)
+    dwb SandshrewAnimatedPic, Bank(SandshrewAnimatedPic)
+    dwb SandshrewAnimatedPic, Bank(SandshrewAnimatedPic)
+    dwb NidoranFAnimatedPic, Bank(NidoranFAnimatedPic)
+    dwb NidoranFAnimatedPic, Bank(NidoranFAnimatedPic)
+    dwb NidoranFAnimatedPic, Bank(NidoranFAnimatedPic)
+    dwb NidoranMAnimatedPic, Bank(NidoranMAnimatedPic)
+    dwb NidoranMAnimatedPic, Bank(NidoranMAnimatedPic)
+    dwb NidoranMAnimatedPic, Bank(NidoranMAnimatedPic)
+    dwb ClefairyAnimatedPic, Bank(ClefairyAnimatedPic)
+    dwb ClefairyAnimatedPic, Bank(ClefairyAnimatedPic)
+    dwb VulpixAnimatedPic, Bank(VulpixAnimatedPic)
+    dwb VulpixAnimatedPic, Bank(VulpixAnimatedPic)
+    dwb JigglypuffAnimatedPic, Bank(JigglypuffAnimatedPic)
+    dwb JigglypuffAnimatedPic, Bank(JigglypuffAnimatedPic)
+    dwb ZubatAnimatedPic, Bank(ZubatAnimatedPic)
+    dwb ZubatAnimatedPic, Bank(ZubatAnimatedPic)
+    dwb OddishAnimatedPic, Bank(OddishAnimatedPic)
+    dwb OddishAnimatedPic, Bank(OddishAnimatedPic)
+    dwb OddishAnimatedPic, Bank(OddishAnimatedPic)
+    dwb ParasAnimatedPic, Bank(ParasAnimatedPic)
+    dwb ParasAnimatedPic, Bank(ParasAnimatedPic)
+    dwb VenonatAnimatedPic, Bank(VenonatAnimatedPic)
+    dwb VenonatAnimatedPic, Bank(VenonatAnimatedPic)
+    dwb DiglettAnimatedPic, Bank(DiglettAnimatedPic)
+    dwb DiglettAnimatedPic, Bank(DiglettAnimatedPic)
+    dwb MeowthAnimatedPic, Bank(MeowthAnimatedPic)
+    dwb MeowthAnimatedPic, Bank(MeowthAnimatedPic)
+    dwb PsyduckAnimatedPic, Bank(PsyduckAnimatedPic)
+    dwb PsyduckAnimatedPic, Bank(PsyduckAnimatedPic)
+    dwb MankeyAnimatedPic, Bank(MankeyAnimatedPic)
+    dwb MankeyAnimatedPic, Bank(MankeyAnimatedPic)
+    dwb GrowlitheAnimatedPic, Bank(GrowlitheAnimatedPic)
+    dwb GrowlitheAnimatedPic, Bank(GrowlitheAnimatedPic)
+    dwb PoliwagAnimatedPic, Bank(PoliwagAnimatedPic)
+    dwb PoliwagAnimatedPic, Bank(PoliwagAnimatedPic)
+    dwb PoliwagAnimatedPic, Bank(PoliwagAnimatedPic)
+    dwb AbraAnimatedPic, Bank(AbraAnimatedPic)
+    dwb AbraAnimatedPic, Bank(AbraAnimatedPic)
+    dwb AbraAnimatedPic, Bank(AbraAnimatedPic)
+    dwb MachopAnimatedPic, Bank(MachopAnimatedPic)
+    dwb MachopAnimatedPic, Bank(MachopAnimatedPic)
+    dwb MachopAnimatedPic, Bank(MachopAnimatedPic)
+    dwb BellsproutAnimatedPic, Bank(BellsproutAnimatedPic)
+    dwb BellsproutAnimatedPic, Bank(BellsproutAnimatedPic)
+    dwb BellsproutAnimatedPic, Bank(BellsproutAnimatedPic)
+    dwb TentacoolAnimatedPic, Bank(TentacoolAnimatedPic)
+    dwb TentacoolAnimatedPic, Bank(TentacoolAnimatedPic)
+    dwb GeodudeAnimatedPic, Bank(GeodudeAnimatedPic)
+    dwb GeodudeAnimatedPic, Bank(GeodudeAnimatedPic)
+    dwb GeodudeAnimatedPic, Bank(GeodudeAnimatedPic)
+    dwb PonytaAnimatedPic, Bank(PonytaAnimatedPic)
+    dwb PonytaAnimatedPic, Bank(PonytaAnimatedPic)
+    dwb SlowpokeAnimatedPic, Bank(SlowpokeAnimatedPic)
+    dwb SlowpokeAnimatedPic, Bank(SlowpokeAnimatedPic)
+    dwb MagnemiteAnimatedPic, Bank(MagnemiteAnimatedPic)
+    dwb MagnemiteAnimatedPic, Bank(MagnemiteAnimatedPic)
+    dwb FarfetchdAnimatedPic, Bank(FarfetchdAnimatedPic)
+    dwb DoduoAnimatedPic, Bank(DoduoAnimatedPic)
+    dwb DoduoAnimatedPic, Bank(DoduoAnimatedPic)
+    dwb SeelAnimatedPic, Bank(SeelAnimatedPic)
+    dwb SeelAnimatedPic, Bank(SeelAnimatedPic)
+    dwb GrimerAnimatedPic, Bank(GrimerAnimatedPic)
+    dwb GrimerAnimatedPic, Bank(GrimerAnimatedPic)
+    dwb ShellderAnimatedPic, Bank(ShellderAnimatedPic)
+    dwb ShellderAnimatedPic, Bank(ShellderAnimatedPic)
+    dwb GastlyAnimatedPic, Bank(GastlyAnimatedPic)
+    dwb GastlyAnimatedPic, Bank(GastlyAnimatedPic)
+    dwb GastlyAnimatedPic, Bank(GastlyAnimatedPic)
+    dwb OnixAnimatedPic, Bank(OnixAnimatedPic)
+    dwb DrowzeeAnimatedPic, Bank(DrowzeeAnimatedPic)
+    dwb DrowzeeAnimatedPic, Bank(DrowzeeAnimatedPic)
+    dwb KrabbyAnimatedPic, Bank(KrabbyAnimatedPic)
+    dwb KrabbyAnimatedPic, Bank(KrabbyAnimatedPic)
+    dwb VoltorbAnimatedPic, Bank(VoltorbAnimatedPic)
+    dwb VoltorbAnimatedPic, Bank(VoltorbAnimatedPic)
+    dwb ExeggcuteAnimatedPic, Bank(ExeggcuteAnimatedPic)
+    dwb ExeggcuteAnimatedPic, Bank(ExeggcuteAnimatedPic)
+    dwb CuboneAnimatedPic, Bank(CuboneAnimatedPic)
+    dwb CuboneAnimatedPic, Bank(CuboneAnimatedPic)
+    dwb HitmonleeAnimatedPic, Bank(HitmonleeAnimatedPic)
+    dwb HitmonchanAnimatedPic, Bank(HitmonchanAnimatedPic)
+    dwb LickitungAnimatedPic, Bank(LickitungAnimatedPic)
+    dwb KoffingAnimatedPic, Bank(KoffingAnimatedPic)
+    dwb KoffingAnimatedPic, Bank(KoffingAnimatedPic)
+    dwb RhyhornAnimatedPic, Bank(RhyhornAnimatedPic)
+    dwb RhyhornAnimatedPic, Bank(RhyhornAnimatedPic)
+    dwb ChanseyAnimatedPic, Bank(ChanseyAnimatedPic)
+    dwb TangelaAnimatedPic, Bank(TangelaAnimatedPic)
+    dwb KangaskhanAnimatedPic, Bank(KangaskhanAnimatedPic)
+    dwb HorseaAnimatedPic, Bank(HorseaAnimatedPic)
+    dwb HorseaAnimatedPic, Bank(HorseaAnimatedPic)
+    dwb GoldeenAnimatedPic, Bank(GoldeenAnimatedPic)
+    dwb GoldeenAnimatedPic, Bank(GoldeenAnimatedPic)
+    dwb StaryuAnimatedPic, Bank(StaryuAnimatedPic)
+    dwb StaryuAnimatedPic, Bank(StaryuAnimatedPic)
+    dwb MrMimeAnimatedPic, Bank(MrMimeAnimatedPic)
+    dwb ScytherAnimatedPic, Bank(ScytherAnimatedPic)
+    dwb JynxAnimatedPic, Bank(JynxAnimatedPic)
+    dwb ElectabuzzAnimatedPic, Bank(ElectabuzzAnimatedPic)
+    dwb MagmarAnimatedPic, Bank(MagmarAnimatedPic)
+    dwb PinsirAnimatedPic, Bank(PinsirAnimatedPic)
+    dwb TaurosAnimatedPic, Bank(TaurosAnimatedPic)
+    dwb MagikarpAnimatedPic, Bank(MagikarpAnimatedPic)
+    dwb MagikarpAnimatedPic, Bank(MagikarpAnimatedPic)
+    dwb LaprasAnimatedPic, Bank(LaprasAnimatedPic)
+    dwb DittoAnimatedPic, Bank(DittoAnimatedPic)
+    dwb EeveeAnimatedPic, Bank(EeveeAnimatedPic)
+    dwb EeveeAnimatedPic, Bank(EeveeAnimatedPic)
+    dwb EeveeAnimatedPic, Bank(EeveeAnimatedPic)
+    dwb EeveeAnimatedPic, Bank(EeveeAnimatedPic)
+    dwb PorygonAnimatedPic, Bank(PorygonAnimatedPic)
+    dwb OmanyteAnimatedPic, Bank(OmanyteAnimatedPic)
+    dwb OmanyteAnimatedPic, Bank(OmanyteAnimatedPic)
+    dwb KabutoAnimatedPic, Bank(KabutoAnimatedPic)
+    dwb KabutoAnimatedPic, Bank(KabutoAnimatedPic)
+    dwb AerodactylAnimatedPic, Bank(AerodactylAnimatedPic)
+    dwb SnorlaxAnimatedPic, Bank(SnorlaxAnimatedPic)
+    dwb ArticunoAnimatedPic, Bank(ArticunoAnimatedPic)
+    dwb ZapdosAnimatedPic, Bank(ZapdosAnimatedPic)
+    dwb MoltresAnimatedPic, Bank(MoltresAnimatedPic)
+    dwb DratiniAnimatedPic, Bank(DratiniAnimatedPic)
+    dwb DratiniAnimatedPic, Bank(DratiniAnimatedPic)
+    dwb DratiniAnimatedPic, Bank(DratiniAnimatedPic)
+    dwb MewtwoAnimatedPic, Bank(MewtwoAnimatedPic)
+    dwb MewAnimatedPic, Bank(MewAnimatedPic)
+
+MonAnimatedSpriteTypes: ; 0x13429
+; Each mon has an animated sprite tilemap type.
+; $03 is bulbasaur's
+; $00 is squirtle's
+; All other mon's use $06
+    db $03  ; BULBASAUR
+    db $FF  ; IVYSAUR
+    db $FF  ; VENUSAUR
+    db $06  ; CHARMANDER
+    db $FF  ; CHARMELEON
+    db $FF  ; CHARIZARD
+    db $00  ; SQUIRTLE
+    db $FF  ; WARTORTLE
+    db $FF  ; BLASTOISE
+    db $06  ; CATERPIE
+    db $FF  ; METAPOD
+    db $FF  ; BUTTERFREE
+    db $06  ; WEEDLE
+    db $FF  ; KAKUNA
+    db $FF  ; BEEDRILL
+    db $06  ; PIDGEY
+    db $FF  ; PIDGEOTTO
+    db $FF  ; PIDGEOT
+    db $06  ; RATTATA
+    db $FF  ; RATICATE
+    db $06  ; SPEAROW
+    db $FF  ; FEAROW
+    db $06  ; EKANS
+    db $FF  ; ARBOK
+    db $06  ; PIKACHU
+    db $FF  ; RAICHU
+    db $06  ; SANDSHREW
+    db $FF  ; SANDSLASH
+    db $06  ; NIDORAN_F
+    db $FF  ; NIDORINA
+    db $FF  ; NIDOQUEEN
+    db $06  ; NIDORAN_M
+    db $FF  ; NIDORINO
+    db $FF  ; NIDOKING
+    db $06  ; CLEFAIRY
+    db $FF  ; CLEFABLE
+    db $06  ; VULPIX
+    db $FF  ; NINETALES
+    db $06  ; JIGGLYPUFF
+    db $FF  ; WIGGLYTUFF
+    db $06  ; ZUBAT
+    db $FF  ; GOLBAT
+    db $06  ; ODDISH
+    db $FF  ; GLOOM
+    db $FF  ; VILEPLUME
+    db $06  ; PARAS
+    db $FF  ; PARASECT
+    db $06  ; VENONAT
+    db $FF  ; VENOMOTH
+    db $06  ; DIGLETT
+    db $FF  ; DUGTRIO
+    db $06  ; MEOWTH
+    db $FF  ; PERSIAN
+    db $06  ; PSYDUCK
+    db $FF  ; GOLDUCK
+    db $06  ; MANKEY
+    db $FF  ; PRIMEAPE
+    db $06  ; GROWLITHE
+    db $FF  ; ARCANINE
+    db $06  ; POLIWAG
+    db $FF  ; POLIWHIRL
+    db $FF  ; POLIWRATH
+    db $06  ; ABRA
+    db $FF  ; KADABRA
+    db $FF  ; ALAKAZAM
+    db $06  ; MACHOP
+    db $FF  ; MACHOKE
+    db $FF  ; MACHAMP
+    db $06  ; BELLSPROUT
+    db $FF  ; WEEPINBELL
+    db $FF  ; VICTREEBEL
+    db $06  ; TENTACOOL
+    db $FF  ; TENTACRUEL
+    db $06  ; GEODUDE
+    db $FF  ; GRAVELER
+    db $FF  ; GOLEM
+    db $06  ; PONYTA
+    db $FF  ; RAPIDASH
+    db $06  ; SLOWPOKE
+    db $FF  ; SLOWBRO
+    db $06  ; MAGNEMITE
+    db $FF  ; MAGNETON
+    db $06  ; FARFETCH_D
+    db $06  ; DODUO
+    db $FF  ; DODRIO
+    db $06  ; SEEL
+    db $FF  ; DEWGONG
+    db $06  ; GRIMER
+    db $FF  ; MUK
+    db $06  ; SHELLDER
+    db $FF  ; CLOYSTER
+    db $06  ; GASTLY
+    db $FF  ; HAUNTER
+    db $FF  ; GENGAR
+    db $06  ; ONIX
+    db $06  ; DROWZEE
+    db $FF  ; HYPNO
+    db $06  ; KRABBY
+    db $FF  ; KINGLER
+    db $06  ; VOLTORB
+    db $FF  ; ELECTRODE
+    db $06  ; EXEGGCUTE
+    db $FF  ; EXEGGUTOR
+    db $06  ; CUBONE
+    db $FF  ; MAROWAK
+    db $06  ; HITMONLEE
+    db $06  ; HITMONCHAN
+    db $06  ; LICKITUNG
+    db $06  ; KOFFING
+    db $FF  ; WEEZING
+    db $06  ; RHYHORN
+    db $FF  ; RHYDON
+    db $06  ; CHANSEY
+    db $06  ; TANGELA
+    db $06  ; KANGASKHAN
+    db $06  ; HORSEA
+    db $FF  ; SEADRA
+    db $06  ; GOLDEEN
+    db $FF  ; SEAKING
+    db $06  ; STARYU
+    db $FF  ; STARMIE
+    db $06  ; MR_MIME
+    db $06  ; SCYTHER
+    db $06  ; JYNX
+    db $06  ; ELECTABUZZ
+    db $06  ; MAGMAR
+    db $06  ; PINSIR
+    db $06  ; TAUROS
+    db $06  ; MAGIKARP
+    db $FF  ; GYARADOS
+    db $06  ; LAPRAS
+    db $06  ; DITTO
+    db $06  ; EEVEE
+    db $FF  ; VAPOREON
+    db $FF  ; JOLTEON
+    db $FF  ; FLAREON
+    db $06  ; PORYGON
+    db $09  ; OMANYTE
+    db $FF  ; OMASTAR
+    db $06  ; KABUTO
+    db $FF  ; KABUTOPS
+    db $06  ; AERODACTYL
+    db $06  ; SNORLAX
+    db $06  ; ARTICUNO
+    db $06  ; ZAPDOS
+    db $06  ; MOLTRES
+    db $06  ; DRATINI
+    db $FF  ; DRAGONAIR
+    db $FF  ; DRAGONITE
+    db $06  ; MEWTWO
+    db $06  ; MEW
+
+MonAnimatedCollisionMaskPointers: ; 0x134c0
+; Pointers to the collision masks of the animated sprites of mons.
+; Note only, evolution mons use an arbitrary non-evolved mon entry, since it will never be used.
+    dwb BulbasaurAnimatedCollisionMask, Bank(BulbasaurAnimatedCollisionMask)
+    dwb BulbasaurAnimatedCollisionMask, Bank(BulbasaurAnimatedCollisionMask)
+    dwb BulbasaurAnimatedCollisionMask, Bank(BulbasaurAnimatedCollisionMask)
+    dwb CharmanderAnimatedCollisionMask, Bank(CharmanderAnimatedCollisionMask)
+    dwb BulbasaurAnimatedCollisionMask, Bank(BulbasaurAnimatedCollisionMask)
+    dwb BulbasaurAnimatedCollisionMask, Bank(BulbasaurAnimatedCollisionMask)
+    dwb SquirtleAnimatedCollisionMask, Bank(SquirtleAnimatedCollisionMask)
+    dwb BulbasaurAnimatedCollisionMask, Bank(BulbasaurAnimatedCollisionMask)
+    dwb BulbasaurAnimatedCollisionMask, Bank(BulbasaurAnimatedCollisionMask)
+    dwb CaterpieAnimatedCollisionMask, Bank(CaterpieAnimatedCollisionMask)
+    dwb BulbasaurAnimatedCollisionMask, Bank(BulbasaurAnimatedCollisionMask)
+    dwb BulbasaurAnimatedCollisionMask, Bank(BulbasaurAnimatedCollisionMask)
+    dwb WeedleAnimatedCollisionMask, Bank(WeedleAnimatedCollisionMask)
+    dwb BulbasaurAnimatedCollisionMask, Bank(BulbasaurAnimatedCollisionMask)
+    dwb BulbasaurAnimatedCollisionMask, Bank(BulbasaurAnimatedCollisionMask)
+    dwb PidgeyAnimatedCollisionMask, Bank(PidgeyAnimatedCollisionMask)
+    dwb BulbasaurAnimatedCollisionMask, Bank(BulbasaurAnimatedCollisionMask)
+    dwb BulbasaurAnimatedCollisionMask, Bank(BulbasaurAnimatedCollisionMask)
+    dwb RattataAnimatedCollisionMask, Bank(RattataAnimatedCollisionMask)
+    dwb BulbasaurAnimatedCollisionMask, Bank(BulbasaurAnimatedCollisionMask)
+    dwb SpearowAnimatedCollisionMask, Bank(SpearowAnimatedCollisionMask)
+    dwb BulbasaurAnimatedCollisionMask, Bank(BulbasaurAnimatedCollisionMask)
+    dwb EkansAnimatedCollisionMask, Bank(EkansAnimatedCollisionMask)
+    dwb BulbasaurAnimatedCollisionMask, Bank(BulbasaurAnimatedCollisionMask)
+    dwb PikachuAnimatedCollisionMask, Bank(PikachuAnimatedCollisionMask)
+    dwb BulbasaurAnimatedCollisionMask, Bank(BulbasaurAnimatedCollisionMask)
+    dwb SandshrewAnimatedCollisionMask, Bank(SandshrewAnimatedCollisionMask)
+    dwb BulbasaurAnimatedCollisionMask, Bank(BulbasaurAnimatedCollisionMask)
+    dwb NidoranfAnimatedCollisionMask, Bank(NidoranfAnimatedCollisionMask)
+    dwb BulbasaurAnimatedCollisionMask, Bank(BulbasaurAnimatedCollisionMask)
+    dwb BulbasaurAnimatedCollisionMask, Bank(BulbasaurAnimatedCollisionMask)
+    dwb NidoranmAnimatedCollisionMask, Bank(NidoranmAnimatedCollisionMask)
+    dwb BulbasaurAnimatedCollisionMask, Bank(BulbasaurAnimatedCollisionMask)
+    dwb BulbasaurAnimatedCollisionMask, Bank(BulbasaurAnimatedCollisionMask)
+    dwb ClefairyAnimatedCollisionMask, Bank(ClefairyAnimatedCollisionMask)
+    dwb BulbasaurAnimatedCollisionMask, Bank(BulbasaurAnimatedCollisionMask)
+    dwb VulpixAnimatedCollisionMask, Bank(VulpixAnimatedCollisionMask)
+    dwb BulbasaurAnimatedCollisionMask, Bank(BulbasaurAnimatedCollisionMask)
+    dwb JigglypuffAnimatedCollisionMask, Bank(JigglypuffAnimatedCollisionMask)
+    dwb BulbasaurAnimatedCollisionMask, Bank(BulbasaurAnimatedCollisionMask)
+    dwb ZubatAnimatedCollisionMask, Bank(ZubatAnimatedCollisionMask)
+    dwb ZubatAnimatedCollisionMask, Bank(ZubatAnimatedCollisionMask)
+    dwb OddishAnimatedCollisionMask, Bank(OddishAnimatedCollisionMask)
+    dwb ZubatAnimatedCollisionMask, Bank(ZubatAnimatedCollisionMask)
+    dwb ZubatAnimatedCollisionMask, Bank(ZubatAnimatedCollisionMask)
+    dwb ParasAnimatedCollisionMask, Bank(ParasAnimatedCollisionMask)
+    dwb ZubatAnimatedCollisionMask, Bank(ZubatAnimatedCollisionMask)
+    dwb VenonatAnimatedCollisionMask, Bank(VenonatAnimatedCollisionMask)
+    dwb ZubatAnimatedCollisionMask, Bank(ZubatAnimatedCollisionMask)
+    dwb DiglettAnimatedCollisionMask, Bank(DiglettAnimatedCollisionMask)
+    dwb ZubatAnimatedCollisionMask, Bank(ZubatAnimatedCollisionMask)
+    dwb MeowthAnimatedCollisionMask, Bank(MeowthAnimatedCollisionMask)
+    dwb ZubatAnimatedCollisionMask, Bank(ZubatAnimatedCollisionMask)
+    dwb PsyduckAnimatedCollisionMask, Bank(PsyduckAnimatedCollisionMask)
+    dwb ZubatAnimatedCollisionMask, Bank(ZubatAnimatedCollisionMask)
+    dwb MankeyAnimatedCollisionMask, Bank(MankeyAnimatedCollisionMask)
+    dwb ZubatAnimatedCollisionMask, Bank(ZubatAnimatedCollisionMask)
+    dwb GrowlitheAnimatedCollisionMask, Bank(GrowlitheAnimatedCollisionMask)
+    dwb ZubatAnimatedCollisionMask, Bank(ZubatAnimatedCollisionMask)
+    dwb PoliwagAnimatedCollisionMask, Bank(PoliwagAnimatedCollisionMask)
+    dwb ZubatAnimatedCollisionMask, Bank(ZubatAnimatedCollisionMask)
+    dwb ZubatAnimatedCollisionMask, Bank(ZubatAnimatedCollisionMask)
+    dwb AbraAnimatedCollisionMask, Bank(AbraAnimatedCollisionMask)
+    dwb ZubatAnimatedCollisionMask, Bank(ZubatAnimatedCollisionMask)
+    dwb ZubatAnimatedCollisionMask, Bank(ZubatAnimatedCollisionMask)
+    dwb MachopAnimatedCollisionMask, Bank(MachopAnimatedCollisionMask)
+    dwb ZubatAnimatedCollisionMask, Bank(ZubatAnimatedCollisionMask)
+    dwb ZubatAnimatedCollisionMask, Bank(ZubatAnimatedCollisionMask)
+    dwb BellsproutAnimatedCollisionMask, Bank(BellsproutAnimatedCollisionMask)
+    dwb ZubatAnimatedCollisionMask, Bank(ZubatAnimatedCollisionMask)
+    dwb ZubatAnimatedCollisionMask, Bank(ZubatAnimatedCollisionMask)
+    dwb TentacoolAnimatedCollisionMask, Bank(TentacoolAnimatedCollisionMask)
+    dwb ZubatAnimatedCollisionMask, Bank(ZubatAnimatedCollisionMask)
+    dwb GeodudeAnimatedCollisionMask, Bank(GeodudeAnimatedCollisionMask)
+    dwb ZubatAnimatedCollisionMask, Bank(ZubatAnimatedCollisionMask)
+    dwb ZubatAnimatedCollisionMask, Bank(ZubatAnimatedCollisionMask)
+    dwb PonytaAnimatedCollisionMask, Bank(PonytaAnimatedCollisionMask)
+    dwb ZubatAnimatedCollisionMask, Bank(ZubatAnimatedCollisionMask)
+    dwb SlowpokeAnimatedCollisionMask, Bank(SlowpokeAnimatedCollisionMask)
+    dwb SlowpokeAnimatedCollisionMask, Bank(SlowpokeAnimatedCollisionMask)
+    dwb MagnemiteAnimatedCollisionMask, Bank(MagnemiteAnimatedCollisionMask)
+    dwb SlowpokeAnimatedCollisionMask, Bank(SlowpokeAnimatedCollisionMask)
+    dwb FarfetchdAnimatedCollisionMask, Bank(FarfetchdAnimatedCollisionMask)
+    dwb DoduoAnimatedCollisionMask, Bank(DoduoAnimatedCollisionMask)
+    dwb SlowpokeAnimatedCollisionMask, Bank(SlowpokeAnimatedCollisionMask)
+    dwb SeelAnimatedCollisionMask, Bank(SeelAnimatedCollisionMask)
+    dwb SlowpokeAnimatedCollisionMask, Bank(SlowpokeAnimatedCollisionMask)
+    dwb GrimerAnimatedCollisionMask, Bank(GrimerAnimatedCollisionMask)
+    dwb SlowpokeAnimatedCollisionMask, Bank(SlowpokeAnimatedCollisionMask)
+    dwb ShellderAnimatedCollisionMask, Bank(ShellderAnimatedCollisionMask)
+    dwb SlowpokeAnimatedCollisionMask, Bank(SlowpokeAnimatedCollisionMask)
+    dwb GastlyAnimatedCollisionMask, Bank(GastlyAnimatedCollisionMask)
+    dwb SlowpokeAnimatedCollisionMask, Bank(SlowpokeAnimatedCollisionMask)
+    dwb SlowpokeAnimatedCollisionMask, Bank(SlowpokeAnimatedCollisionMask)
+    dwb OnixAnimatedCollisionMask, Bank(OnixAnimatedCollisionMask)
+    dwb DrowzeeAnimatedCollisionMask, Bank(DrowzeeAnimatedCollisionMask)
+    dwb SlowpokeAnimatedCollisionMask, Bank(SlowpokeAnimatedCollisionMask)
+    dwb KrabbyAnimatedCollisionMask, Bank(KrabbyAnimatedCollisionMask)
+    dwb SlowpokeAnimatedCollisionMask, Bank(SlowpokeAnimatedCollisionMask)
+    dwb VoltorbAnimatedCollisionMask, Bank(VoltorbAnimatedCollisionMask)
+    dwb SlowpokeAnimatedCollisionMask, Bank(SlowpokeAnimatedCollisionMask)
+    dwb ExeggcuteAnimatedCollisionMask, Bank(ExeggcuteAnimatedCollisionMask)
+    dwb SlowpokeAnimatedCollisionMask, Bank(SlowpokeAnimatedCollisionMask)
+    dwb CuboneAnimatedCollisionMask, Bank(CuboneAnimatedCollisionMask)
+    dwb SlowpokeAnimatedCollisionMask, Bank(SlowpokeAnimatedCollisionMask)
+    dwb HitmonleeAnimatedCollisionMask, Bank(HitmonleeAnimatedCollisionMask)
+    dwb HitmonchanAnimatedCollisionMask, Bank(HitmonchanAnimatedCollisionMask)
+    dwb LickitungAnimatedCollisionMask, Bank(LickitungAnimatedCollisionMask)
+    dwb KoffingAnimatedCollisionMask, Bank(KoffingAnimatedCollisionMask)
+    dwb LickitungAnimatedCollisionMask, Bank(LickitungAnimatedCollisionMask)
+    dwb RhyhornAnimatedCollisionMask, Bank(RhyhornAnimatedCollisionMask)
+    dwb LickitungAnimatedCollisionMask, Bank(LickitungAnimatedCollisionMask)
+    dwb ChanseyAnimatedCollisionMask, Bank(ChanseyAnimatedCollisionMask)
+    dwb TangelaAnimatedCollisionMask, Bank(TangelaAnimatedCollisionMask)
+    dwb KangaskhanAnimatedCollisionMask, Bank(KangaskhanAnimatedCollisionMask)
+    dwb HorseaAnimatedCollisionMask, Bank(HorseaAnimatedCollisionMask)
+    dwb LickitungAnimatedCollisionMask, Bank(LickitungAnimatedCollisionMask)
+    dwb GoldeenAnimatedCollisionMask, Bank(GoldeenAnimatedCollisionMask)
+    dwb LickitungAnimatedCollisionMask, Bank(LickitungAnimatedCollisionMask)
+    dwb StaryuAnimatedCollisionMask, Bank(StaryuAnimatedCollisionMask)
+    dwb LickitungAnimatedCollisionMask, Bank(LickitungAnimatedCollisionMask)
+    dwb MrMimeAnimatedCollisionMask, Bank(MrMimeAnimatedCollisionMask)
+    dwb ScytherAnimatedCollisionMask, Bank(ScytherAnimatedCollisionMask)
+    dwb JynxAnimatedCollisionMask, Bank(JynxAnimatedCollisionMask)
+    dwb ElectabuzzAnimatedCollisionMask, Bank(ElectabuzzAnimatedCollisionMask)
+    dwb MagmarAnimatedCollisionMask, Bank(MagmarAnimatedCollisionMask)
+    dwb PinsirAnimatedCollisionMask, Bank(PinsirAnimatedCollisionMask)
+    dwb TaurosAnimatedCollisionMask, Bank(TaurosAnimatedCollisionMask)
+    dwb MagikarpAnimatedCollisionMask, Bank(MagikarpAnimatedCollisionMask)
+    dwb MagikarpAnimatedCollisionMask, Bank(MagikarpAnimatedCollisionMask)
+    dwb LaprasAnimatedCollisionMask, Bank(LaprasAnimatedCollisionMask)
+    dwb DittoAnimatedCollisionMask, Bank(DittoAnimatedCollisionMask)
+    dwb EeveeAnimatedCollisionMask, Bank(EeveeAnimatedCollisionMask)
+    dwb MagikarpAnimatedCollisionMask, Bank(MagikarpAnimatedCollisionMask)
+    dwb MagikarpAnimatedCollisionMask, Bank(MagikarpAnimatedCollisionMask)
+    dwb MagikarpAnimatedCollisionMask, Bank(MagikarpAnimatedCollisionMask)
+    dwb PorygonAnimatedCollisionMask, Bank(PorygonAnimatedCollisionMask)
+    dwb OmanyteAnimatedCollisionMask, Bank(OmanyteAnimatedCollisionMask)
+    dwb MagikarpAnimatedCollisionMask, Bank(MagikarpAnimatedCollisionMask)
+    dwb KabutoAnimatedCollisionMask, Bank(KabutoAnimatedCollisionMask)
+    dwb MagikarpAnimatedCollisionMask, Bank(MagikarpAnimatedCollisionMask)
+    dwb AerodactylAnimatedCollisionMask, Bank(AerodactylAnimatedCollisionMask)
+    dwb SnorlaxAnimatedCollisionMask, Bank(SnorlaxAnimatedCollisionMask)
+    dwb ArticunoAnimatedCollisionMask, Bank(ArticunoAnimatedCollisionMask)
+    dwb ZapdosAnimatedCollisionMask, Bank(ZapdosAnimatedCollisionMask)
+    dwb MoltresAnimatedCollisionMask, Bank(MoltresAnimatedCollisionMask)
+    dwb DratiniAnimatedCollisionMask, Bank(DratiniAnimatedCollisionMask)
+    dwb MagikarpAnimatedCollisionMask, Bank(MagikarpAnimatedCollisionMask)
+    dwb MagikarpAnimatedCollisionMask, Bank(MagikarpAnimatedCollisionMask)
+    dwb MewtwoAnimatedCollisionMask, Bank(MewtwoAnimatedCollisionMask)
+    dwb MewAnimatedCollisionMask, Bank(MewAnimatedCollisionMask)
 
 Data_13685: ; 0x13685
 ; Each 3-byte entry is related to an evolution line. Don't know what this is for, yet.
@@ -24972,7 +26235,7 @@ Func_15e93: ; 0x15e93
     call PlaySoundEffect
     ld hl, $5f69 ; todo
     ld de, $d4fd
-    call Func_28a0
+    call CopyHLToDE
     xor a
     ld [wBallXVelocity], a
     ld [wBallXVelocity + 1], a
@@ -25785,7 +27048,7 @@ Func_1660c: ; 0x1660c
 .asm_16634
     ld hl, $673c ; todo
     ld de, $d519
-    call Func_28a0
+    call CopyHLToDE
     ld a, [$d51d]
     and a
     jr nz, .asm_16647
@@ -25807,7 +27070,7 @@ Func_1660c: ; 0x1660c
 .asm_16667
     ld hl, $6761 ; todo
     ld de, $d519
-    call Func_28a0
+    call CopyHLToDE
     ld a, $2
     ld [$d51c], a
     ld de, $003b
@@ -27621,7 +28884,7 @@ Func_18464: ; 0x18464
     dec de
     dec de
     ld hl, $45e6
-    call Func_28a0
+    call CopyHLToDE
     pop de
     ld a, $1
     ld [de], a
@@ -27745,7 +29008,7 @@ Func_18562: ; 0x18562
     ld hl, $45dd
     dec de
     dec de
-    call Func_28a0
+    call CopyHLToDE
     ret
 .asm_1858a
     cp $1
@@ -27790,7 +29053,7 @@ Func_18562: ; 0x18562
     push de
     dec de
     dec de
-    call Func_28a0
+    call CopyHLToDE
     pop de
     inc de
     xor a
@@ -27832,7 +29095,7 @@ Func_1860b: ; 0x1860b
     dec de
     dec de
     ld hl, $478a
-    call Func_28a0
+    call CopyHLToDE
     pop de
     ld a, $1
     ld [de], a
@@ -27950,7 +29213,7 @@ Func_186f7: ; 0x186f7
     ld hl, $4781
     dec de
     dec de
-    call Func_28a0
+    call CopyHLToDE
     ret
 .asm_1871f
     cp $1
@@ -27987,7 +29250,7 @@ Func_186f7: ; 0x186f7
     push de
     dec de
     dec de
-    call Func_28a0
+    call CopyHLToDE
     pop de
     inc de
     xor a
@@ -28048,7 +29311,7 @@ Func_187b1: ; 0x187b1
     cp $5
     jr nc, .asm_18804
     ld hl, $4b2b
-    call Func_28a0
+    call CopyHLToDE
     pop de
     ld a, $2
     ld [de], a
@@ -28057,7 +29320,7 @@ Func_187b1: ; 0x187b1
     jr .asm_18826
 .asm_18804
     ld hl, $4b32
-    call Func_28a0
+    call CopyHLToDE
     pop de
     ld a, $3
     ld [de], a
@@ -28292,7 +29555,7 @@ Func_189af: ; 0x189af
     ld hl, $4a61
     dec de
     dec de
-    call Func_28a0
+    call CopyHLToDE
     ret
 .asm_189d7
     cp $1
@@ -28304,7 +29567,7 @@ Func_189af: ; 0x189af
     push de
     dec de
     dec de
-    call Func_28a0
+    call CopyHLToDE
     pop de
     inc de
     xor a
@@ -28320,7 +29583,7 @@ Func_189af: ; 0x189af
     push de
     dec de
     dec de
-    call Func_28a0
+    call CopyHLToDE
     pop de
     inc de
     ld a, $1
@@ -28362,7 +29625,7 @@ Func_189af: ; 0x189af
     push de
     dec de
     dec de
-    call Func_28a0
+    call CopyHLToDE
     pop de
     inc de
     xor a
@@ -29320,7 +30583,7 @@ Func_19679: ; 0x19679
     push de
     dec de
     dec de
-    call Func_28a0
+    call CopyHLToDE
     pop de
     inc de
     pop af
@@ -29484,7 +30747,7 @@ Func_19876: ; 0x19876
     push de
     dec de
     dec de
-    call Func_28a0
+    call CopyHLToDE
     pop de
     inc de
     pop af
@@ -29933,7 +31196,7 @@ Func_19c52: ; 0x19c52
     jr nz, .asm_19cc8
     ld hl, $6c75
     ld de, wDugtrioAnimationFrameCounter
-    call Func_28a0
+    call CopyHLToDE
     ld a, $1
     ld [wDugrioState], a
     call Func_1ac2c
@@ -30193,7 +31456,7 @@ Func_1aad4: ; 0x1aad4
     ld h, [hl]
     ld l, a
     ld de, wDugtrioAnimationFrameCounter
-    call Func_28a0
+    call CopyHLToDE
     ld bc, $34ee
     ld [$ff8a], a
     ld a, Bank(Func_8588)
@@ -30239,7 +31502,7 @@ Func_1ab30: ; 0x1ab30
     ret nz
     ld hl, $6c75
     ld de, wDugtrioAnimationFrameCounter
-    call Func_28a0
+    call CopyHLToDE
     ld a, $1
     ld [wDugrioState], a
     ret
@@ -30251,7 +31514,7 @@ Func_1ab30: ; 0x1ab30
     ret nz
     ld hl, $6c7f
     ld de, wDugtrioAnimationFrameCounter
-    call Func_28a0
+    call CopyHLToDE
     ld a, $3
     ld [wDugrioState], a
     ret
@@ -30263,7 +31526,7 @@ Func_1ab30: ; 0x1ab30
     ret nz
     ld hl, $6c7f
     ld de, wDugtrioAnimationFrameCounter
-    call Func_28a0
+    call CopyHLToDE
     ld a, $3
     ld [wDugrioState], a
     ret
@@ -30275,7 +31538,7 @@ Func_1ab30: ; 0x1ab30
     ret nz
     ld hl, $6c89
     ld de, wDugtrioAnimationFrameCounter
-    call Func_28a0
+    call CopyHLToDE
     ld a, $5
     ld [wDugrioState], a
     ret
@@ -30287,7 +31550,7 @@ Func_1ab30: ; 0x1ab30
     ret nz
     ld hl, $6c89
     ld de, wDugtrioAnimationFrameCounter
-    call Func_28a0
+    call CopyHLToDE
     ld a, $5
     ld [wDugrioState], a
     ret
@@ -30299,7 +31562,7 @@ Func_1ab30: ; 0x1ab30
     ret nz
     ld hl, $6c93
     ld de, wDugtrioAnimationFrameCounter
-    call Func_28a0
+    call CopyHLToDE
     ld a, $7
     ld [wDugrioState], a
     ret
@@ -30317,7 +31580,7 @@ Func_1ab30: ; 0x1ab30
     ret nz
     ld hl, $6c72
     ld de, wDugtrioAnimationFrameCounter
-    call Func_28a0
+    call CopyHLToDE
     xor a
     ld [wDugrioState], a
     ld [$d498], a
@@ -31985,7 +33248,7 @@ Func_1d0a1: ; 0x1d0a1
 .asm_1d0c9
     ld hl, $51d1 ; todo
     ld de, $d519
-    call Func_28a0
+    call CopyHLToDE
     ld a, [$d51d]
     and a
     jr nz, .asm_1d0dc
@@ -32007,7 +33270,7 @@ Func_1d0a1: ; 0x1d0a1
 .asm_1d0fc
     ld hl, $51f6 ; todo
     ld de, $d519
-    call Func_28a0
+    call CopyHLToDE
     ld a, $2
     ld [$d51c], a
     ld de, $003b
@@ -32138,7 +33401,7 @@ Func_1d216: ; 0x1d216
     call PlaySoundEffect
     ld hl, $5312 ; todo
     ld de, $d632
-    call Func_28a0
+    call CopyHLToDE
     xor a
     ld [wBallXVelocity], a
     ld [wBallXVelocity + 1], a
@@ -32255,7 +33518,7 @@ HandleEnteringCloyster: ; 0x1d32d
     call PlaySoundEffect
     ld hl, $541d
     ld de, $d637
-    call Func_28a0
+    call CopyHLToDE
     xor a
     ld [wBallXVelocity], a
     ld [wBallXVelocity + 1], a
@@ -36547,17 +37810,17 @@ Func_20b02: ; 0x20b02
     inc b
 .asm_20b18
     push bc
-    ld hl, $6b50
+    ld hl, MonBillboardPicPointers
     add hl, bc
-    ld a, $4
+    ld a, Bank(MonBillboardPicPointers)
     call ReadByteFromBank
     inc hl
     ld c, a
-    ld a, $4
+    ld a, Bank(MonBillboardPicPointers)
     call ReadByteFromBank
     inc hl
     ld b, a
-    ld a, $4
+    ld a, Bank(MonBillboardPicPointers)
     call ReadByteFromBank
     ld h, b
     ld l, c
@@ -36569,32 +37832,32 @@ Func_20b02: ; 0x20b02
     and a
     jr z, .asm_20b80
     push bc
-    ld hl, $6d15
+    ld hl, MonBillboardPaletteMapPointers
     add hl, bc
-    ld a, $4
+    ld a, Bank(MonBillboardPaletteMapPointers)
     call ReadByteFromBank
     inc hl
     ld e, a
-    ld a, $4
+    ld a, Bank(MonBillboardPaletteMapPointers)
     call ReadByteFromBank
     inc hl
     ld d, a
-    ld a, $4
+    ld a, Bank(MonBillboardPaletteMapPointers)
     call ReadByteFromBank
     ld hl, $9887
     call Func_86f
     pop bc
-    ld hl, $6eda
+    ld hl, MonBillboardPalettePointers
     add hl, bc
-    ld a, $4
+    ld a, Bank(MonBillboardPalettePointers)
     call ReadByteFromBank
     inc hl
     ld e, a
-    ld a, $4
+    ld a, Bank(MonBillboardPalettePointers)
     call ReadByteFromBank
     inc hl
     ld d, a
-    ld a, $4
+    ld a, Bank(MonBillboardPalettePointers)
     call ReadByteFromBank
     ld bc, $10b0
     ld hl, $ff68
@@ -37331,17 +38594,17 @@ Func_2112a: ; 0x2112a
     inc b
 .asm_21140
     push bc
-    ld hl, $6b50
+    ld hl, MonBillboardPicPointers
     add hl, bc
-    ld a, $4
+    ld a, Bank(MonBillboardPicPointers)
     call ReadByteFromBank
     inc hl
     ld c, a
-    ld a, $4
+    ld a, Bank(MonBillboardPicPointers)
     call ReadByteFromBank
     inc hl
     ld b, a
-    ld a, $4
+    ld a, Bank(MonBillboardPicPointers)
     call ReadByteFromBank
     ld h, b
     ld l, c
@@ -37353,32 +38616,32 @@ Func_2112a: ; 0x2112a
     and a
     jr z, .asm_211a8
     push bc
-    ld hl, $6d15
+    ld hl, MonBillboardPaletteMapPointers
     add hl, bc
-    ld a, $4
+    ld a, Bank(MonBillboardPaletteMapPointers)
     call ReadByteFromBank
     inc hl
     ld e, a
-    ld a, $4
+    ld a, Bank(MonBillboardPaletteMapPointers)
     call ReadByteFromBank
     inc hl
     ld d, a
-    ld a, $4
+    ld a, Bank(MonBillboardPaletteMapPointers)
     call ReadByteFromBank
     ld hl, $9887
     call Func_86f
     pop bc
-    ld hl, $6eda
+    ld hl, MonBillboardPalettePointers
     add hl, bc
-    ld a, $4
+    ld a, Bank(MonBillboardPalettePointers)
     call ReadByteFromBank
     inc hl
     ld e, a
-    ld a, $4
+    ld a, Bank(MonBillboardPalettePointers)
     call ReadByteFromBank
     inc hl
     ld d, a
-    ld a, $4
+    ld a, Bank(MonBillboardPalettePointers)
     call ReadByteFromBank
     ld bc, $10b0
     ld hl, $ff68
@@ -38059,7 +39322,7 @@ Func_2442a: ; 0x2442a
     ld [$d712], a
     ld hl, $4704
     ld de, wMeowthAnimationFrameCounter
-    call Func_28a0
+    call CopyHLToDE
     ld a, $4
     ld [$d6ec], a
     ret
@@ -38145,14 +39408,14 @@ Func_245ab: ; 0x245ab
     jr nz, .asm_24611
     ld hl, $46fe
     ld de, wMeowthAnimationFrameCounter
-    call Func_28a0
+    call CopyHLToDE
     ld a, $2
     ld [$d6ec], a
     jr .asm_24651
 .asm_24611
     ld hl, $4701
     ld de, wMeowthAnimationFrameCounter
-    call Func_28a0
+    call CopyHLToDE
     ld a, $3
     ld [$d6ec], a
     jr .asm_24651
@@ -38175,7 +39438,7 @@ Func_245ab: ; 0x245ab
     jr nz, .asm_24651
     ld hl, $4704
     ld de, wMeowthAnimationFrameCounter
-    call Func_28a0
+    call CopyHLToDE
     ld a, $4
     ld [$d6ec], a
 .asm_24651
@@ -38206,7 +39469,7 @@ Func_2465d: ; 0x2465d
     ret nz
     ld hl, $46ec
     ld de, wMeowthAnimationFrameCounter
-    call Func_28a0
+    call CopyHLToDE
     ret
 .asm_24689
     cp $1
@@ -38216,7 +39479,7 @@ Func_2465d: ; 0x2465d
     ret nz
     ld hl, $46f5
     ld de, wMeowthAnimationFrameCounter
-    call Func_28a0
+    call CopyHLToDE
     ret
 .asm_2469d
     cp $2
@@ -38226,7 +39489,7 @@ Func_2465d: ; 0x2465d
     ret nz
     ld hl, $46ec
     ld de, wMeowthAnimationFrameCounter
-    call Func_28a0
+    call CopyHLToDE
     xor a
     ld [$d6ec], a
     ret
@@ -38238,7 +39501,7 @@ Func_2465d: ; 0x2465d
     ret nz
     ld hl, $46f5
     ld de, wMeowthAnimationFrameCounter
-    call Func_28a0
+    call CopyHLToDE
     ld a, $1
     ld [$d6ec], a
     ret
@@ -38250,7 +39513,7 @@ Func_2465d: ; 0x2465d
     ret nz
     ld hl, $4704
     ld de, wMeowthAnimationFrameCounter
-    call Func_28a0
+    call CopyHLToDE
     ret
 
 INCBIN "baserom.gbc",$246e2,$24709 - $246e2
@@ -38659,14 +39922,14 @@ Func_248ac: ; 0x248ac
     jr z, .asm_24a21
     ld hl, $46f5
     ld de, wMeowthAnimationFrameCounter
-    call Func_28a0
+    call CopyHLToDE
     ld a, $1
     ld [$d6ec], a
     ret
 .asm_24a21
     ld hl, $46ec
     ld de, wMeowthAnimationFrameCounter
-    call Func_28a0
+    call CopyHLToDE
     ld a, $0
     ld [$d6ec], a
     ret
@@ -39211,14 +40474,14 @@ Func_24d07: ; 0x24d07
     jr z, .asm_24e70
     ld hl, $46f5
     ld de, wMeowthAnimationFrameCounter
-    call Func_28a0
+    call CopyHLToDE
     ld a, $1
     ld [$d6ec], a
     ret
 .asm_24e70
     ld hl, $46ec
     ld de, wMeowthAnimationFrameCounter
-    call Func_28a0
+    call CopyHLToDE
     ld a, $0
     ld [$d6ec], a
     ret
@@ -39295,7 +40558,7 @@ Func_24ee7: ; 0x24ee7
     dec de
     dec de
     dec de
-    call Func_28a0
+    call CopyHLToDE
     ret
 
 Func_24f00: ; 0x24f00
@@ -40052,7 +41315,7 @@ Func_25da3: ; 0x25da3
     dec de
     push bc
     ld hl, $61d8
-    call Func_28a0
+    call CopyHLToDE
     pop bc
     ld hl, $d76e
     add hl, bc
@@ -40226,7 +41489,7 @@ Func_25ec5: ; 0x25ec5
     ld d, h
     ld e, l
     ld hl, $61c2
-    call Func_28a0
+    call CopyHLToDE
     ret
 .asm_25f05
     ld a, [de]
@@ -40255,7 +41518,7 @@ Func_25ec5: ; 0x25ec5
     ld d, h
     ld e, l
     ld hl, $61cd
-    call Func_28a0
+    call CopyHLToDE
     ret
 
 INCBIN "baserom.gbc",$25f27,$25f47 - $25f27
@@ -40634,7 +41897,7 @@ Func_26137: ; 0x26137
     push de
     dec de
     dec de
-    call Func_28a0
+    call CopyHLToDE
     pop de
     inc de
     pop af
@@ -40658,7 +41921,7 @@ Func_261f9: ; 0x261f9
     dec de
     dec de
     dec de
-    call Func_28a0
+    call CopyHLToDE
     ret
 
 Func_26212: ; 0x26212
@@ -41145,9 +42408,9 @@ Func_282e9: ; 0x282e9
     ld a, [wCurPokedexIndex]
     ld c, a
     ld b, $0
-    ld hl, $7429 ; todo
+    ld hl, MonAnimatedSpriteTypes
     add hl, bc
-    ld a, $4
+    ld a, Bank(MonAnimatedSpriteTypes)
     call ReadByteFromBank
     ld c, a
     ld a, [$ffb3]
@@ -41786,9 +43049,9 @@ Func_287e7: ; 0x287e7
     ld a, [wCurPokedexIndex]
     ld c, a
     ld b, $0
-    ld hl, $7429 ; todo
+    ld hl, MonAnimatedSpriteTypes
     add hl, bc
-    ld a, $4
+    ld a, Bank(MonAnimatedSpriteTypes)
     call ReadByteFromBank
     bit 7, a
     ret nz
@@ -42255,17 +43518,17 @@ Func_28add: ; 0x28add
     inc b
 .asm_28b0b
     push bc
-    ld hl, $6b50 ; todo
+    ld hl, MonBillboardPicPointers
     add hl, bc
-    ld a, $4
+    ld a, Bank(MonBillboardPicPointers)
     call ReadByteFromBank
     inc hl
     ld c, a
-    ld a, $4
+    ld a, Bank(MonBillboardPicPointers)
     call ReadByteFromBank
     inc hl
     ld b, a
-    ld a, $4
+    ld a, Bank(MonBillboardPicPointers)
     call ReadByteFromBank
     ld h, b
     ld l, c
@@ -42278,32 +43541,32 @@ Func_28add: ; 0x28add
     and a
     ret z
     push bc
-    ld hl, $6d15 ; todo
+    ld hl, MonBillboardPaletteMapPointers ; todo
     add hl, bc
-    ld a, $4
+    ld a, Bank(MonBillboardPaletteMapPointers)
     call ReadByteFromBank
     inc hl
     ld e, a
-    ld a, $4
+    ld a, Bank(MonBillboardPaletteMapPointers)
     call ReadByteFromBank
     inc hl
     ld d, a
-    ld a, $4
+    ld a, Bank(MonBillboardPaletteMapPointers)
     call ReadByteFromBank
     ld hl, $9861
     call Func_86f
     pop bc
-    ld hl, $6eda
+    ld hl, MonBillboardPalettePointers
     add hl, bc
-    ld a, $4
+    ld a, Bank(MonBillboardPalettePointers)
     call ReadByteFromBank
     inc hl
     ld e, a
-    ld a, $4
+    ld a, Bank(MonBillboardPalettePointers)
     call ReadByteFromBank
     inc hl
     ld d, a
-    ld a, $4
+    ld a, Bank(MonBillboardPalettePointers)
     call ReadByteFromBank
     ld bc, $10b0
     ld hl, $ff68
@@ -42339,17 +43602,17 @@ Func_28baf: ; 0x28baf
     jr nc, .asm_28bbe
     inc b
 .asm_28bbe
-    ld hl, $6b50 ; todo
+    ld hl, MonBillboardPicPointers
     add hl, bc
-    ld a, $4
+    ld a, Bank(MonBillboardPicPointers)
     call ReadByteFromBank
     inc hl
     ld c, a
-    ld a, $4
+    ld a, Bank(MonBillboardPicPointers)
     call ReadByteFromBank
     inc hl
     ld b, a
-    ld a, $4
+    ld a, Bank(MonBillboardPicPointers)
     call ReadByteFromBank
     ld hl, $0180
     add hl, bc
@@ -42380,17 +43643,17 @@ Func_28bf5: ; 0x28bf5
     push bc
     ld a, $1
     ld [$ff4f], a
-    ld hl, $7264 ; todo
+    ld hl, MonAnimatedPicPointers
     add hl, bc
-    ld a, $4
+    ld a, Bank(MonAnimatedPicPointers)
     call ReadByteFromBank
     inc hl
     ld c, a
-    ld a, $4
+    ld a, Bank(MonAnimatedPicPointers)
     call ReadByteFromBank
     inc hl
     ld b, a
-    ld a, $4
+    ld a, Bank(MonAnimatedPicPointers)
     call ReadByteFromBank
     ld h, b
     ld l, c
@@ -42417,26 +43680,26 @@ Func_28bf5: ; 0x28bf5
     jr nc, .asm_28c4b
     inc b
 .asm_28c4b
-    ld hl, $7685 ; todo
+    ld hl, Data_13685
     add hl, bc
-    ld a, $4
+    ld a, Bank(Data_13685)
     call ReadByteFromBank
     ld [$d5c1], a
     ld [$d5be], a
     inc hl
-    ld a, $4
+    ld a, Bank(Data_13685)
     call ReadByteFromBank
     ld [$d5c2], a
     inc hl
-    ld a, $4
+    ld a, Bank(Data_13685)
     call ReadByteFromBank
     ld [$d5c3], a
     ld a, [wCurPokedexIndex]
     ld c, a
     ld b, $0
-    ld hl, $7429 ; todo
+    ld hl, MonAnimatedSpriteTypes
     add hl, bc
-    ld a, $4
+    ld a, Bank(MonAnimatedSpriteTypes)
     call ReadByteFromBank
     ld [$d5bc], a
     ld [$d5bd], a
@@ -42445,17 +43708,17 @@ Func_28bf5: ; 0x28bf5
     ld a, [hGameBoyColorFlag]
     and a
     ret z
-    ld hl, $709f ; todo
+    ld hl, MonAnimatedPalettePointers
     add hl, bc
-    ld a, $4
+    ld a, Bank(MonAnimatedPalettePointers)
     call ReadByteFromBank
     inc hl
     ld e, a
-    ld a, $4
+    ld a, Bank(MonAnimatedPalettePointers)
     call ReadByteFromBank
     inc hl
     ld d, a
-    ld a, $4
+    ld a, Bank(MonAnimatedPalettePointers)
     call ReadByteFromBank
     push af
     push de
@@ -42478,9 +43741,9 @@ Func_28cc2: ; 0x28cc2
     ld a, [wCurPokedexIndex]
     ld c, a
     ld b, $0
-    ld hl, $7429 ; todo
+    ld hl, MonAnimatedSpriteTypes
     add hl, bc
-    ld a, $4
+    ld a, Bank(MonAnimatedSpriteTypes)
     call ReadByteFromBank
     bit 7, a
     ret
@@ -47443,7 +48706,7 @@ SlowpokeAnimatedPic: ; 0x7c000
 	INCBIN "gfx/billboard/mon_animated/slowpoke.w32.interleave.2bpp"
 MagnemiteAnimatedPic: ; 0x7c300
 	INCBIN "gfx/billboard/mon_animated/magnemite.w32.interleave.2bpp"
-Farfetch_DAnimatedPic: ; 0x7c600
+FarfetchdAnimatedPic: ; 0x7c600
 	INCBIN "gfx/billboard/mon_animated/farfetch_d.w32.interleave.2bpp"
 DoduoAnimatedPic: ; 0x7c900
 	INCBIN "gfx/billboard/mon_animated/doduo.w32.interleave.2bpp"
@@ -47498,7 +48761,7 @@ GoldeenAnimatedPic: ; 0x81500
 	INCBIN "gfx/billboard/mon_animated/goldeen.w32.interleave.2bpp"
 StaryuAnimatedPic: ; 0x81800
 	INCBIN "gfx/billboard/mon_animated/staryu.w32.interleave.2bpp"
-Mr_MimeAnimatedPic: ; 0x81b00
+MrMimeAnimatedPic: ; 0x81b00
 	INCBIN "gfx/billboard/mon_animated/mr_mime.w32.interleave.2bpp"
 ScytherAnimatedPic: ; 0x81e00
 	INCBIN "gfx/billboard/mon_animated/scyther.w32.interleave.2bpp"
@@ -47799,9 +49062,9 @@ PikachuAnimatedPic: ; 0x8db00
 	INCBIN "gfx/billboard/mon_animated/pikachu.w32.interleave.2bpp"
 SandshrewAnimatedPic: ; 0x8de00
 	INCBIN "gfx/billboard/mon_animated/sandshrew.w32.interleave.2bpp"
-Nidoran_FAnimatedPic: ; 0x8e100
+NidoranFAnimatedPic: ; 0x8e100
 	INCBIN "gfx/billboard/mon_animated/nidoran_f.w32.interleave.2bpp"
-Nidoran_MAnimatedPic: ; 0x8e400
+NidoranMAnimatedPic: ; 0x8e400
 	INCBIN "gfx/billboard/mon_animated/nidoran_m.w32.interleave.2bpp"
 ClefairyAnimatedPic: ; 0x8e700
 	INCBIN "gfx/billboard/mon_animated/clefairy.w32.interleave.2bpp"
@@ -48789,7 +50052,7 @@ SandslashBillboardBGPaletteMap: ; 0xb7d08
     db $7, $7, $7, $7, $7, $7
     db $7, $7, $7, $7, $7, $7
 
-NidoranfBillboardBGPaletteMap: ; 0xb7d20
+NidoranFBillboardBGPaletteMap: ; 0xb7d20
     db $7, $7, $7, $7, $7, $7
     db $7, $7, $7, $7, $7, $7
     db $7, $7, $7, $7, $7, $7
@@ -48807,7 +50070,7 @@ NidoqueenBillboardBGPaletteMap: ; 0xb7d50
     db $7, $7, $7, $7, $7, $7
     db $7, $7, $7, $7, $7, $7
 
-NidoranmBillboardBGPaletteMap: ; 0xb7d68
+NidoranMBillboardBGPaletteMap: ; 0xb7d68
     db $7, $7, $7, $7, $7, $7
     db $7, $7, $7, $7, $7, $7
     db $7, $7, $7, $7, $7, $7
@@ -48986,7 +50249,169 @@ INCBIN "baserom.gbc",$cf400,$d0000 - $cf400
 
 SECTION "bank34", ROMX, BANK[$34]
 
-INCBIN "baserom.gbc",$d0000,$d4000 - $d0000 ; 0xd0000
+MagikarpAnimatedCollisionMask: ; 0xd04000
+    INCBIN "data/collision/mon_masks/magikarp_collision.1bpp"
+LaprasAnimatedCollisionMask: ; 0xd04080
+    INCBIN "data/collision/mon_masks/lapras_collision.1bpp"
+DittoAnimatedCollisionMask: ; 0xd04100
+    INCBIN "data/collision/mon_masks/ditto_collision.1bpp"
+EeveeAnimatedCollisionMask: ; 0xd04180
+    INCBIN "data/collision/mon_masks/eevee_collision.1bpp"
+PorygonAnimatedCollisionMask: ; 0xd04200
+    INCBIN "data/collision/mon_masks/porygon_collision.1bpp"
+OmanyteAnimatedCollisionMask: ; 0xd04280
+    INCBIN "data/collision/mon_masks/omanyte_collision.1bpp"
+KabutoAnimatedCollisionMask: ; 0xd04300
+    INCBIN "data/collision/mon_masks/kabuto_collision.1bpp"
+AerodactylAnimatedCollisionMask: ; 0xd04380
+    INCBIN "data/collision/mon_masks/aerodactyl_collision.1bpp"
+SnorlaxAnimatedCollisionMask: ; 0xd04400
+    INCBIN "data/collision/mon_masks/snorlax_collision.1bpp"
+ArticunoAnimatedCollisionMask: ; 0xd04480
+    INCBIN "data/collision/mon_masks/articuno_collision.1bpp"
+ZapdosAnimatedCollisionMask: ; 0xd04500
+    INCBIN "data/collision/mon_masks/zapdos_collision.1bpp"
+MoltresAnimatedCollisionMask: ; 0xd04580
+    INCBIN "data/collision/mon_masks/moltres_collision.1bpp"
+DratiniAnimatedCollisionMask: ; 0xd04600
+    INCBIN "data/collision/mon_masks/dratini_collision.1bpp"
+MewtwoAnimatedCollisionMask: ; 0xd04680
+    INCBIN "data/collision/mon_masks/mewtwo_collision.1bpp"
+MewAnimatedCollisionMask: ; 0xd04700
+    INCBIN "data/collision/mon_masks/mew_collision.1bpp"
+
+INCBIN "baserom.gbc",$d0780,$80
+
+LickitungAnimatedCollisionMask: ; 0xd04800
+    INCBIN "data/collision/mon_masks/lickitung_collision.1bpp"
+KoffingAnimatedCollisionMask: ; 0xd04880
+    INCBIN "data/collision/mon_masks/koffing_collision.1bpp"
+RhyhornAnimatedCollisionMask: ; 0xd04900
+    INCBIN "data/collision/mon_masks/rhyhorn_collision.1bpp"
+ChanseyAnimatedCollisionMask: ; 0xd04980
+    INCBIN "data/collision/mon_masks/chansey_collision.1bpp"
+TangelaAnimatedCollisionMask: ; 0xd04A00
+    INCBIN "data/collision/mon_masks/tangela_collision.1bpp"
+KangaskhanAnimatedCollisionMask: ; 0xd04A80
+    INCBIN "data/collision/mon_masks/kangaskhan_collision.1bpp"
+HorseaAnimatedCollisionMask: ; 0xd04B00
+    INCBIN "data/collision/mon_masks/horsea_collision.1bpp"
+GoldeenAnimatedCollisionMask: ; 0xd04B80
+    INCBIN "data/collision/mon_masks/goldeen_collision.1bpp"
+StaryuAnimatedCollisionMask: ; 0xd04C00
+    INCBIN "data/collision/mon_masks/staryu_collision.1bpp"
+MrMimeAnimatedCollisionMask: ; 0xd04C80
+    INCBIN "data/collision/mon_masks/mrmime_collision.1bpp"
+ScytherAnimatedCollisionMask: ; 0xd04D00
+    INCBIN "data/collision/mon_masks/scyther_collision.1bpp"
+JynxAnimatedCollisionMask: ; 0xd04D80
+    INCBIN "data/collision/mon_masks/jynx_collision.1bpp"
+ElectabuzzAnimatedCollisionMask: ; 0xd04E00
+    INCBIN "data/collision/mon_masks/electabuzz_collision.1bpp"
+MagmarAnimatedCollisionMask: ; 0xd04E80
+    INCBIN "data/collision/mon_masks/magmar_collision.1bpp"
+PinsirAnimatedCollisionMask: ; 0xd04F00
+    INCBIN "data/collision/mon_masks/pinsir_collision.1bpp"
+TaurosAnimatedCollisionMask: ; 0xd04F80
+    INCBIN "data/collision/mon_masks/tauros_collision.1bpp"
+SlowpokeAnimatedCollisionMask: ; 0xd05000
+    INCBIN "data/collision/mon_masks/slowpoke_collision.1bpp"
+MagnemiteAnimatedCollisionMask: ; 0xd05080
+    INCBIN "data/collision/mon_masks/magnemite_collision.1bpp"
+FarfetchdAnimatedCollisionMask: ; 0xd05100
+    INCBIN "data/collision/mon_masks/farfetchd_collision.1bpp"
+DoduoAnimatedCollisionMask: ; 0xd05180
+    INCBIN "data/collision/mon_masks/doduo_collision.1bpp"
+SeelAnimatedCollisionMask: ; 0xd05200
+    INCBIN "data/collision/mon_masks/seel_collision.1bpp"
+GrimerAnimatedCollisionMask: ; 0xd05280
+    INCBIN "data/collision/mon_masks/grimer_collision.1bpp"
+ShellderAnimatedCollisionMask: ; 0xd05300
+    INCBIN "data/collision/mon_masks/shellder_collision.1bpp"
+GastlyAnimatedCollisionMask: ; 0xd05380
+    INCBIN "data/collision/mon_masks/gastly_collision.1bpp"
+OnixAnimatedCollisionMask: ; 0xd05400
+    INCBIN "data/collision/mon_masks/onix_collision.1bpp"
+DrowzeeAnimatedCollisionMask: ; 0xd05480
+    INCBIN "data/collision/mon_masks/drowzee_collision.1bpp"
+KrabbyAnimatedCollisionMask: ; 0xd05500
+    INCBIN "data/collision/mon_masks/krabby_collision.1bpp"
+VoltorbAnimatedCollisionMask: ; 0xd05580
+    INCBIN "data/collision/mon_masks/voltorb_collision.1bpp"
+ExeggcuteAnimatedCollisionMask: ; 0xd05600
+    INCBIN "data/collision/mon_masks/exeggcute_collision.1bpp"
+CuboneAnimatedCollisionMask: ; 0xd05680
+    INCBIN "data/collision/mon_masks/cubone_collision.1bpp"
+HitmonleeAnimatedCollisionMask: ; 0xd05700
+    INCBIN "data/collision/mon_masks/hitmonlee_collision.1bpp"
+HitmonchanAnimatedCollisionMask: ; 0xd05780
+    INCBIN "data/collision/mon_masks/hitmonchan_collision.1bpp"
+ZubatAnimatedCollisionMask: ; 0xd05800
+    INCBIN "data/collision/mon_masks/zubat_collision.1bpp"
+OddishAnimatedCollisionMask: ; 0xd05880
+    INCBIN "data/collision/mon_masks/oddish_collision.1bpp"
+ParasAnimatedCollisionMask: ; 0xd05900
+    INCBIN "data/collision/mon_masks/paras_collision.1bpp"
+VenonatAnimatedCollisionMask: ; 0xd05980
+    INCBIN "data/collision/mon_masks/venonat_collision.1bpp"
+DiglettAnimatedCollisionMask: ; 0xd05A00
+    INCBIN "data/collision/mon_masks/diglett_collision.1bpp"
+MeowthAnimatedCollisionMask: ; 0xd05A80
+    INCBIN "data/collision/mon_masks/meowth_collision.1bpp"
+PsyduckAnimatedCollisionMask: ; 0xd05B00
+    INCBIN "data/collision/mon_masks/psyduck_collision.1bpp"
+MankeyAnimatedCollisionMask: ; 0xd05B80
+    INCBIN "data/collision/mon_masks/mankey_collision.1bpp"
+GrowlitheAnimatedCollisionMask: ; 0xd05C00
+    INCBIN "data/collision/mon_masks/growlithe_collision.1bpp"
+PoliwagAnimatedCollisionMask: ; 0xd05C80
+    INCBIN "data/collision/mon_masks/poliwag_collision.1bpp"
+AbraAnimatedCollisionMask: ; 0xd05D00
+    INCBIN "data/collision/mon_masks/abra_collision.1bpp"
+MachopAnimatedCollisionMask: ; 0xd05D80
+    INCBIN "data/collision/mon_masks/machop_collision.1bpp"
+BellsproutAnimatedCollisionMask: ; 0xd05E00
+    INCBIN "data/collision/mon_masks/bellsprout_collision.1bpp"
+TentacoolAnimatedCollisionMask: ; 0xd05E80
+    INCBIN "data/collision/mon_masks/tentacool_collision.1bpp"
+GeodudeAnimatedCollisionMask: ; 0xd05F00
+    INCBIN "data/collision/mon_masks/geodude_collision.1bpp"
+PonytaAnimatedCollisionMask: ; 0xd05F80
+    INCBIN "data/collision/mon_masks/ponyta_collision.1bpp"
+BulbasaurAnimatedCollisionMask: ; 0xd06000
+    INCBIN "data/collision/mon_masks/bulbasaur_collision.1bpp"
+CharmanderAnimatedCollisionMask: ; 0xd06080
+    INCBIN "data/collision/mon_masks/charmander_collision.1bpp"
+SquirtleAnimatedCollisionMask: ; 0xd06100
+    INCBIN "data/collision/mon_masks/squirtle_collision.1bpp"
+CaterpieAnimatedCollisionMask: ; 0xd06180
+    INCBIN "data/collision/mon_masks/caterpie_collision.1bpp"
+WeedleAnimatedCollisionMask: ; 0xd06200
+    INCBIN "data/collision/mon_masks/weedle_collision.1bpp"
+PidgeyAnimatedCollisionMask: ; 0xd06280
+    INCBIN "data/collision/mon_masks/pidgey_collision.1bpp"
+RattataAnimatedCollisionMask: ; 0xd06300
+    INCBIN "data/collision/mon_masks/rattata_collision.1bpp"
+SpearowAnimatedCollisionMask: ; 0xd06380
+    INCBIN "data/collision/mon_masks/spearow_collision.1bpp"
+EkansAnimatedCollisionMask: ; 0xd06400
+    INCBIN "data/collision/mon_masks/ekans_collision.1bpp"
+PikachuAnimatedCollisionMask: ; 0xd06480
+    INCBIN "data/collision/mon_masks/pikachu_collision.1bpp"
+SandshrewAnimatedCollisionMask: ; 0xd06500
+    INCBIN "data/collision/mon_masks/sandshrew_collision.1bpp"
+NidoranfAnimatedCollisionMask: ; 0xd06580
+    INCBIN "data/collision/mon_masks/nidoranf_collision.1bpp"
+NidoranmAnimatedCollisionMask: ; 0xd06600
+    INCBIN "data/collision/mon_masks/nidoranm_collision.1bpp"
+ClefairyAnimatedCollisionMask: ; 0xd06680
+    INCBIN "data/collision/mon_masks/clefairy_collision.1bpp"
+VulpixAnimatedCollisionMask: ; 0xd06700
+    INCBIN "data/collision/mon_masks/vulpix_collision.1bpp"
+JigglypuffAnimatedCollisionMask: ; 0xd06780
+    INCBIN "data/collision/mon_masks/jigglypuff_collision.1bpp"
+
+INCBIN "baserom.gbc",$d2800,$d4000 - $d2800 ; 0xd0000
 
 
 SECTION "bank35", ROMX, BANK[$35]
@@ -51722,12 +53147,12 @@ MewtwoBillboardBGPalette2: ; 0xdc758
     RGB 20, 5, 18
     RGB 0, 0, 0
 
-MewBGPalette1: ; 0xdc760
+MewBillboardBGPalette1: ; 0xdc760
     RGB 31, 31, 31
     RGB 31, 18, 24
     RGB 31, 7, 12
     RGB 0, 0, 0
-MewBGPalette2: ; 0xdc768
+MewBillboardBGPalette2: ; 0xdc768
     RGB 31, 31, 31
     RGB 31, 18, 24
     RGB 0, 10, 31

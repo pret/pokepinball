@@ -2,7 +2,12 @@
 SECTION "WRAM Bank 0", WRAM0
 
 wc000::
-    ds $500
+    ds $400
+
+wMonAnimatedCollisionMask:: ; 0xc400
+    ds $80
+
+    ds $80
 
 wcBottomMessageText:: ; 0xc500
     ds $200
@@ -576,3 +581,16 @@ wBlueHighScore5Points:: ; 0xda72
 wBlueHighScore5Name:: ; 0xda78
     ds 3
     ds 4
+
+    ds 4
+
+wHighScoresStage:: ; 0xda83
+; Current stage's high scores.
+; 0 = Red Stage
+; 1 = Blue stage
+    ds 1
+
+wHighScoresArrowAnimationCounter:: ; 0xda84
+; Counts up to $28 and wraps around to $0 to control the animation of the
+; arrows in the bottom corner of the high scores screen.
+    ds 1

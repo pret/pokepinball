@@ -19669,7 +19669,7 @@ Func_f2a0: ; 0xf2a0
     sla c
     add c
     ld c, a
-    ld hl, PointerTable_f2be
+    ld hl, PaletteDataPointerTable_f2be
     add hl, bc
     ld a, [hli]
     ld c, a
@@ -19684,48 +19684,48 @@ Func_f2a0: ; 0xf2a0
     pop hl
     ret
 
-PointerTable_f2be: ; 0xf2be
-    dwb $4C00, $37
-    dwb $4C00, $37
-    dwb $4C00, $37
-    dwb $4C08, $37
-    dwb $4C08, $37
-    dwb $4C10, $37
-    dwb $4C18, $37
-    dwb $4C20, $37
-    dwb $4C08, $37
-    dwb $4C28, $37
-    dwb $4C08, $37
-    dwb $4C30, $37
-    dwb $4C38, $37
-    dwb $4C40, $37
-    dwb $4C48, $37
-    dwb $4C50, $37
-    dwb $4C58, $37
-    dwb $4C60, $37
-    dwb $4C00, $37
-    dwb $4C00, $37
-    dwb $4C00, $37
-    dwb $4C00, $37
-    dwb $4C00, $37
-    dwb $4C00, $37
-    dwb $4C00, $37
-    dwb $4C00, $37
-    dwb $4C00, $37
-    dwb $4C00, $37
-    dwb $4C00, $37
-    dwb $4C00, $37
-    dwb $4C00, $37
-    dwb $4C00, $37
-    dwb $4C00, $37
-    dwb $4C00, $37
-    dwb $4C00, $37
-    dwb $4C00, $37
-    dwb $4C00, $37
-    dwb $4C00, $37
-    dwb $4C00, $37
-    dwb $4C00, $37
-    dwb $4C00, $37
+PaletteDataPointerTable_f2be: ; 0xf2be
+    dwb PaletteData_dcc00, Bank(PaletteData_dcc00)
+    dwb PaletteData_dcc00, Bank(PaletteData_dcc00)
+    dwb PaletteData_dcc00, Bank(PaletteData_dcc00)
+    dwb PaletteData_dcc08, Bank(PaletteData_dcc08)
+    dwb PaletteData_dcc08, Bank(PaletteData_dcc08)
+    dwb PaletteData_dcc10, Bank(PaletteData_dcc10)
+    dwb PaletteData_dcc18, Bank(PaletteData_dcc18)
+    dwb PaletteData_dcc20, Bank(PaletteData_dcc20)
+    dwb PaletteData_dcc08, Bank(PaletteData_dcc08)
+    dwb PaletteData_dcc28, Bank(PaletteData_dcc28)
+    dwb PaletteData_dcc08, Bank(PaletteData_dcc08)
+    dwb PaletteData_dcc30, Bank(PaletteData_dcc30)
+    dwb PaletteData_dcc38, Bank(PaletteData_dcc38)
+    dwb PaletteData_dcc40, Bank(PaletteData_dcc40)
+    dwb PaletteData_dcc48, Bank(PaletteData_dcc48)
+    dwb PaletteData_dcc50, Bank(PaletteData_dcc50)
+    dwb PaletteData_dcc58, Bank(PaletteData_dcc58)
+    dwb PaletteData_dcc60, Bank(PaletteData_dcc60)
+    dwb PaletteData_dcc00, Bank(PaletteData_dcc00)
+    dwb PaletteData_dcc00, Bank(PaletteData_dcc00)
+    dwb PaletteData_dcc00, Bank(PaletteData_dcc00)
+    dwb PaletteData_dcc00, Bank(PaletteData_dcc00)
+    dwb PaletteData_dcc00, Bank(PaletteData_dcc00)
+    dwb PaletteData_dcc00, Bank(PaletteData_dcc00)
+    dwb PaletteData_dcc00, Bank(PaletteData_dcc00)
+    dwb PaletteData_dcc00, Bank(PaletteData_dcc00)
+    dwb PaletteData_dcc00, Bank(PaletteData_dcc00)
+    dwb PaletteData_dcc00, Bank(PaletteData_dcc00)
+    dwb PaletteData_dcc00, Bank(PaletteData_dcc00)
+    dwb PaletteData_dcc00, Bank(PaletteData_dcc00)
+    dwb PaletteData_dcc00, Bank(PaletteData_dcc00)
+    dwb PaletteData_dcc00, Bank(PaletteData_dcc00)
+    dwb PaletteData_dcc00, Bank(PaletteData_dcc00)
+    dwb PaletteData_dcc00, Bank(PaletteData_dcc00)
+    dwb PaletteData_dcc00, Bank(PaletteData_dcc00)
+    dwb PaletteData_dcc00, Bank(PaletteData_dcc00)
+    dwb PaletteData_dcc00, Bank(PaletteData_dcc00)
+    dwb PaletteData_dcc00, Bank(PaletteData_dcc00)
+    dwb PaletteData_dcc00, Bank(PaletteData_dcc00)
+    dwb PaletteData_dcc00, Bank(PaletteData_dcc00)
+    dwb PaletteData_dcc00, Bank(PaletteData_dcc00)
 
 Data_f339: ; 0xf339
     db $02, $06, $00, $08, $04, $02, $06, $08, $04, $00, $06, $02, $04, $08, $00, $02
@@ -19914,7 +19914,7 @@ Func_f626: ; 0xf626
     ld de, $0000
     call Func_f80d
     ld hl, $d628
-    ld de, $7921
+    ld de, PointsData_f921
     call Func_f853
     call Func_f824
     ret
@@ -19930,7 +19930,7 @@ Func_f64e: ; 0xf64e
     ld de, $0000
     call Func_f80d
     ld hl, $d629
-    ld de, $7927
+    ld de, PointsData_f927
     call Func_f853
     call Func_f824
     ret
@@ -20350,7 +20350,18 @@ Func_f902: ; 0xf902
     inc de
     ret
 
-INCBIN "baserom.gbc",$f921,$f945 - $f921
+PointsData_f921: ; 0xf921
+    bigBCD6 50000
+PointsData_f927: ; 0xf927
+    bigBCD6 75000
+PointsData_f92d: ; 0xf92d
+    bigBCD6 7500
+PointsData_f933: ; 0xf933
+    bigBCD6 5000
+PointsData_f939: ; 0xf939
+    bigBCD6 2500
+PointsData_f93f: ; 0xf93f
+    bigBCD6 1000
 
 Func_f945: ; 0xf945
     call Func_f952
@@ -20370,7 +20381,7 @@ Func_f952: ; 0xf952
     ld de, $0000
     call Func_f80d
     ld hl, $d62a
-    ld de, $792d
+    ld de, PointsData_f92d
     call Func_f853
     call Func_f824
     ret
@@ -20386,7 +20397,7 @@ Func_f97a: ; 0xf97a
     ld de, $0000
     call Func_f80d
     ld hl, $d62b
-    ld de, $7933
+    ld de, PointsData_f933
     call Func_f853
     call Func_f824
     ret
@@ -20402,7 +20413,7 @@ Func_f9a2: ; 0xf9a2
     ld de, $0000
     call Func_f80d
     ld hl, $d62c
-    ld de, $7939
+    ld de, PointsData_f939
     call Func_f853
     call Func_f824
     ret
@@ -20418,7 +20429,7 @@ Func_f9ca: ; 0xf9ca
     ld de, $0000
     call Func_f80d
     ld hl, $d62d
-    ld de, $793f
+    ld de, PointsData_f93f
     call Func_f853
     call Func_f824
     ret
@@ -20446,7 +20457,7 @@ Func_fa06: ; 0xfa06
     ld de, $0000
     call Func_f80d
     ld hl, $d63b
-    ld de, $792d
+    ld de, PointsData_f92d
     call Func_f853
     call Func_f824
     ret
@@ -20462,7 +20473,7 @@ Func_fa2e: ; 0xfa2e
     ld de, $0000
     call Func_f80d
     ld hl, $d63a
-    ld de, $792d
+    ld de, PointsData_f92d
     call Func_f853
     call Func_f824
     ret
@@ -20478,7 +20489,7 @@ Func_fa56: ; 0xfa56
     ld de, $0000
     call Func_f80d
     ld hl, $d63d
-    ld de, $7933
+    ld de, PointsData_f933
     call Func_f853
     call Func_f824
     ret
@@ -20494,7 +20505,7 @@ Func_fa7e: ; 0xfa7e
     ld de, $0000
     call Func_f80d
     ld hl, $d63c
-    ld de, $7933
+    ld de, PointsData_f933
     call Func_f853
     call Func_f824
     ret
@@ -20510,7 +20521,7 @@ Func_faa6: ; 0xfaa6
     ld de, $0000
     call Func_f80d
     ld hl, $d62c
-    ld de, $7939
+    ld de, PointsData_f939
     call Func_f853
     call Func_f824
     ret
@@ -20526,7 +20537,7 @@ Func_face: ; 0xface  :)
     ld de, $0000
     call Func_f80d
     ld hl, $d62d
-    ld de, $793f
+    ld de, PointsData_f93f
     call Func_f853
     call Func_f824
     ret
@@ -20861,7 +20872,7 @@ Func_101d9: ; 0x101d9
     ld [de], a
     inc de
     ld b, $0
-    ld hl, $42a4
+    ld hl, Data_102a4
     add hl, bc
     ld c, [hl]
     sla c
@@ -20924,11 +20935,11 @@ Func_10230: ; 0x10230
     ld [de], a
     inc de
     ld b, $0
-    ld hl, $42a4
+    ld hl, Data_102a4
     add hl, bc
     ld c, [hl]
     sla c
-    ld hl, $4274
+    ld hl, PointerTable_10274
     add hl, bc
     ld a, [hli]
     ld [de], a
@@ -20964,7 +20975,34 @@ Func_10230: ; 0x10230
     pop bc
     ret
 
-INCBIN "baserom.gbc",$10274,$102bc - $10274
+PointerTable_10274: ; 0x10274
+    dw $9887
+    dw $9888
+    dw $9889
+    dw $988A
+    dw $988B
+    dw $988C
+    dw $98A7
+    dw $98A8
+    dw $98A9
+    dw $98AA
+    dw $98AB
+    dw $98AC
+    dw $98C7
+    dw $98C8
+    dw $98C9
+    dw $98CA
+    dw $98CB
+    dw $98CC
+    dw $98E7
+    dw $98E8
+    dw $98E9
+    dw $98EA
+    dw $98EB
+    dw $98EC
+
+Data_102a4: ; 0x102a4
+    db $00, $07, $06, $01, $0E, $15, $14, $0F, $04, $0B, $0A, $05, $0C, $13, $12, $0D, $02, $09, $08, $03, $10, $17, $16, $11
 
 Func_102bc: ; 0x102bc
     ld a, [wCurrentMon]
@@ -21116,7 +21154,7 @@ Func_1038e: ; 0x1038e
     add c
     ld c, a
     sla c
-    ld hl, $43c6
+    ld hl, Data_103c6
     add hl, bc
     ld a, [hli]
     ld [de], a
@@ -21154,7 +21192,21 @@ Func_1038e: ; 0x1038e
     pop bc
     ret
 
-INCBIN "baserom.gbc",$103c6,$10414 - $103c6
+Data_103c6: ; 0x103c6
+; TODO: this might have pointers in it
+    db $40, $04, $00, $89, $00, $00
+    db $40, $04, $40, $89, $40, $00
+    db $40, $04, $80, $89, $80, $00
+    db $40, $04, $C0, $89, $C0, $00
+    db $40, $04, $00, $8A, $00, $01
+    db $40, $04, $40, $8A, $40, $01
+    db $20, $02, $80, $8A, $80, $01
+    db $20, $02, $A0, $81, $A0, $01
+    db $40, $04, $C0, $81, $C0, $01
+    db $40, $04, $00, $82, $00, $02
+    db $40, $04, $40, $82, $40, $02
+    db $40, $04, $80, $82, $80, $02
+    db $40, $04, $C0, $82, $C0, $02
 
 Func_10414: ; 0x10414
     ld a, $4
@@ -53328,7 +53380,75 @@ StageRedFieldBottomOBJPalette7: ; 0xdcaf8
     RGB 27, 24, 8
     RGB 23, 19, 3
 
-INCBIN "baserom.gbc",$dcb00,$dcd80 - $dcb00
+INCBIN "baserom.gbc",$dcb00,$dcc00 - $dcb00
+
+PaletteData_dcc00:  ; 0xdcc00
+    RGB 31, 31, 31
+    RGB 31, 28, 0
+    RGB 0, 11, 31
+    RGB 0, 0, 0
+PaletteData_dcc08:  ; 0xdcc08
+    RGB 31, 31, 31
+    RGB 31, 28, 0
+    RGB 29, 0, 0
+    RGB 0, 0, 0
+PaletteData_dcc10:  ; 0xdcc10
+    RGB 31, 31, 31
+    RGB 31, 0, 0
+    RGB 16, 0, 0
+    RGB 0, 0, 0
+PaletteData_dcc18:  ; 0xdcc18
+    RGB 31, 31, 31
+    RGB 31, 29, 0
+    RGB 15, 8, 0
+    RGB 0, 0, 0
+PaletteData_dcc20:  ; 0xdcc20
+    RGB 31, 31, 31
+    RGB 4, 23, 13
+    RGB 29, 0, 0
+    RGB 0, 0, 0
+PaletteData_dcc28:  ; 0xdcc28
+    RGB 31, 31, 31
+    RGB 29, 0, 0
+    RGB 0, 0, 22
+    RGB 0, 0, 0
+PaletteData_dcc30:  ; 0xdcc30
+    RGB 31, 31, 31
+    RGB 31, 0, 15
+    RGB 11, 0, 13
+    RGB 0, 0, 0
+PaletteData_dcc38:  ; 0xdcc38
+    RGB 31, 31, 31
+    RGB 11, 25, 31
+    RGB 0, 11, 31
+    RGB 0, 0, 0
+PaletteData_dcc40:  ; 0xdcc40
+    RGB 31, 31, 31
+    RGB 15, 15, 19
+    RGB 31, 0, 31
+    RGB 0, 0, 0
+PaletteData_dcc48:  ; 0xdcc48
+    RGB 31, 31, 31
+    RGB 31, 25, 31
+    RGB 31, 0, 31
+    RGB 0, 0, 0
+PaletteData_dcc50:  ; 0xdcc50
+    RGB 31, 31, 31
+    RGB 31, 31, 0
+    RGB 27, 11, 2
+    RGB 0, 0, 0
+PaletteData_dcc58:  ; 0xdcc58
+    RGB 31, 31, 31
+    RGB 31, 18, 8
+    RGB 27, 0, 0
+    RGB 0, 0, 0
+PaletteData_dcc60:  ; 0xdcc60
+    RGB 31, 31, 31
+    RGB 20, 20, 26
+    RGB 31, 11, 10
+    RGB 0, 0, 0
+
+INCBIN "baserom.gbc",$dcc68,$dcd80 - $dcc68
 
 EraseAllDataPalettes: ; 0xdcd80
 EraseAllDataBGPalette0: ; 0xdcd80

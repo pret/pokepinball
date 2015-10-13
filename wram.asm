@@ -173,7 +173,15 @@ wRightMapMoveDiglettFrame:: ; 0xd4f6
 ; Contains frame for map move diglett head bobbing animation
     ds 1
 
-    ds $4b
+    ds $38
+
+wIndicatorStatuses:: ; 0xd52f
+; Each byte represents the status of each possible indicator on the stage.
+; An indicator is a blinking icon telling the player to hit the pinball in
+; a certain area.  For example, when the Cloyster can be entered in the Blue
+; Stage, the blue right arrow will starting blinking in the bottom half of that
+; stage.
+    ds $13
 
 wLeftAlleyTrigger:: ; 0xd542
 ; Set to $1 when ball passes over the bottom-left corner of the Blue/Red field top screen

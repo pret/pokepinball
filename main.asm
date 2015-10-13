@@ -21629,7 +21629,7 @@ Func_1077c: ; 0x1077c
 
 Func_107a5: ; 0x107a5
     xor a
-    ld hl, $d52f
+    ld hl, wIndicatorStatuses
     ld b, $13
 .asm_107ab
     ld [hli], a
@@ -21640,7 +21640,7 @@ Func_107a5: ; 0x107a5
 Func_107b0: ; 0x107b0
     xor a
     ld [$d604], a
-    ld [$d533], a
+    ld [wIndicatorStatuses + 4], a
     ld [$ff8a], a
     ld a, Bank(Func_16425)
     ld hl, Func_16425
@@ -21658,16 +21658,16 @@ Func_107c8: ; 0x107c8
     jr z, .asm_107d1
     set 7, a
 .asm_107d1
-    ld [$d530], a
+    ld [wIndicatorStatuses + 1], a
     ld a, [wRightAlleyCount]
     cp $2
     jr c, .asm_107e0
     ld a, $80
-    ld [$d532], a
+    ld [wIndicatorStatuses + 3], a
 .asm_107e0
     ld a, [wLeftAlleyCount]
     set 7, a
-    ld [$d52f], a
+    ld [wIndicatorStatuses], a
     ret
 
 Func_107e9: ; 0x107e9
@@ -21764,16 +21764,16 @@ Func_10871: ; 0x10871
     add hl, bc
     ld c, l
     ld b, h
-    ld hl, $63ae
+    ld hl, CatchEmModeInitialIndicatorStates
     add hl, bc
-    ld de, $d52f
-    ld b, $13
-.asm_1089f
+    ld de, wIndicatorStatuses
+    ld b, $13  ; number of indicators
+.loop
     ld a, [hli]
     ld [de], a
     inc de
     dec b
-    jr nz, .asm_1089f
+    jr nz, .loop
     xor a
     ld [wRightAlleyCount], a
     call Func_107b0
@@ -21884,16 +21884,16 @@ Func_1098c: ; 0x1098c
     add hl, bc
     ld c, l
     ld b, h
-    ld hl, $63ae
+    ld hl, CatchEmModeInitialIndicatorStates
     add hl, bc
-    ld de, $d52f
-    ld b, $13
-.asm_109ba
+    ld de, wIndicatorStatuses
+    ld b, $13  ; number of indicators
+.loop
     ld a, [hli]
     ld [de], a
     inc de
     dec b
-    jr nz, .asm_109ba
+    jr nz, .loop
     xor a
     ld [wRightAlleyCount], a
     ld [$ff8a], a
@@ -22060,7 +22060,7 @@ Func_10aff: ; 0x10aff
     sla a
     sub c
     ld c, a
-    ld hl, $4b2a
+    ld hl, VideoData_10b2a
     add hl, bc
     ld a, [hli]
     ld c, a
@@ -22082,7 +22082,19 @@ Func_10aff: ; 0x10aff
     call LoadVRAMData
     ret
 
-INCBIN "baserom.gbc",$10b2a,$10b3f - $10b2a
+VideoData_10b2a: ; 0x10b2a
+    dwb $7A00, $25
+    dw $8900
+    dw $E0
+
+    dwb $7A00, $25
+    dw $8900
+    dw $E0
+
+    dwb $7A00, $25
+    dw $8900
+    dw $E0
+
 
 Func_10b3f: ; 0x10b3f
     call Func_30e8
@@ -22370,7 +22382,7 @@ Func_10d1d: ; 0x10d1d
     ld a, [wCurrentMon]
     ld c, a
     ld b, $0
-    ld hl, $698b
+    ld hl, Data_1298b
     add hl, bc
     ld a, [hl]
     add $2
@@ -22607,7 +22619,7 @@ Func_10ebb: ; 0x10ebb
     ld a, [hli]
     ld h, [hl]
     ld l, a
-    ld de, $d52f
+    ld de, wIndicatorStatuses
     ld b, $13
 .asm_10eda
     ld a, [hli]
@@ -22731,7 +22743,7 @@ Func_11061: ; 0x11061
     ld a, [hli]
     ld h, [hl]
     ld l, a
-    ld de, $d52f
+    ld de, wIndicatorStatuses
     ld b, $13
 .asm_11085
     ld a, [hli]
@@ -22937,7 +22949,243 @@ INCBIN "baserom.gbc",$116b4,$11a3e - $116b4
 
 INCLUDE "data/mon_names.asm"
 
-INCBIN "baserom.gbc",$123ae,$12a22 - $123ae
+CatchEmModeInitialIndicatorStates: ; 0x123ae
+; Initial states for the indicators when starting Catch Em mode.
+; For some reason, each pokemon evolution line has its own entry, but
+; they're all exactly the same.
+; See wIndicatorStates, for a description of indicators.
+    db $00, $00, $00, $00, $00, $00, $00, $00, $00, $01, $00, $00, $00, $00, $00, $00, $00, $00, $00  ; EVOLINE_BULBASAUR
+    db $00, $00, $00, $00, $00, $00, $00, $00, $00, $01, $00, $00, $00, $00, $00, $00, $00, $00, $00  ; EVOLINE_CHARMANDER
+    db $00, $00, $00, $00, $00, $00, $00, $00, $00, $01, $00, $00, $00, $00, $00, $00, $00, $00, $00  ; EVOLINE_SQUIRTLE
+    db $00, $00, $00, $00, $00, $00, $00, $00, $00, $01, $00, $00, $00, $00, $00, $00, $00, $00, $00  ; EVOLINE_CATERPIE
+    db $00, $00, $00, $00, $00, $00, $00, $00, $00, $01, $00, $00, $00, $00, $00, $00, $00, $00, $00  ; EVOLINE_WEEDLE
+    db $00, $00, $00, $00, $00, $00, $00, $00, $00, $01, $00, $00, $00, $00, $00, $00, $00, $00, $00  ; EVOLINE_PIDGEY
+    db $00, $00, $00, $00, $00, $00, $00, $00, $00, $01, $00, $00, $00, $00, $00, $00, $00, $00, $00  ; EVOLINE_RATTATA
+    db $00, $00, $00, $00, $00, $00, $00, $00, $00, $01, $00, $00, $00, $00, $00, $00, $00, $00, $00  ; EVOLINE_SPEAROW
+    db $00, $00, $00, $00, $00, $00, $00, $00, $00, $01, $00, $00, $00, $00, $00, $00, $00, $00, $00  ; EVOLINE_EKANS
+    db $00, $00, $00, $00, $00, $00, $00, $00, $00, $01, $00, $00, $00, $00, $00, $00, $00, $00, $00  ; EVOLINE_PIKACHU
+    db $00, $00, $00, $00, $00, $00, $00, $00, $00, $01, $00, $00, $00, $00, $00, $00, $00, $00, $00  ; EVOLINE_SANDSHREW
+    db $00, $00, $00, $00, $00, $00, $00, $00, $00, $01, $00, $00, $00, $00, $00, $00, $00, $00, $00  ; EVOLINE_NIDORAN_F
+    db $00, $00, $00, $00, $00, $00, $00, $00, $00, $01, $00, $00, $00, $00, $00, $00, $00, $00, $00  ; EVOLINE_NIDORAN_M
+    db $00, $00, $00, $00, $00, $00, $00, $00, $00, $01, $00, $00, $00, $00, $00, $00, $00, $00, $00  ; EVOLINE_CLEFAIRY
+    db $00, $00, $00, $00, $00, $00, $00, $00, $00, $01, $00, $00, $00, $00, $00, $00, $00, $00, $00  ; EVOLINE_VULPIX
+    db $00, $00, $00, $00, $00, $00, $00, $00, $00, $01, $00, $00, $00, $00, $00, $00, $00, $00, $00  ; EVOLINE_JIGGLYPUFF
+    db $00, $00, $00, $00, $00, $00, $00, $00, $00, $01, $00, $00, $00, $00, $00, $00, $00, $00, $00  ; EVOLINE_ZUBAT
+    db $00, $00, $00, $00, $00, $00, $00, $00, $00, $01, $00, $00, $00, $00, $00, $00, $00, $00, $00  ; EVOLINE_ODDISH
+    db $00, $00, $00, $00, $00, $00, $00, $00, $00, $01, $00, $00, $00, $00, $00, $00, $00, $00, $00  ; EVOLINE_PARAS
+    db $00, $00, $00, $00, $00, $00, $00, $00, $00, $01, $00, $00, $00, $00, $00, $00, $00, $00, $00  ; EVOLINE_VENONAT
+    db $00, $00, $00, $00, $00, $00, $00, $00, $00, $01, $00, $00, $00, $00, $00, $00, $00, $00, $00  ; EVOLINE_DIGLETT
+    db $00, $00, $00, $00, $00, $00, $00, $00, $00, $01, $00, $00, $00, $00, $00, $00, $00, $00, $00  ; EVOLINE_MEOWTH
+    db $00, $00, $00, $00, $00, $00, $00, $00, $00, $01, $00, $00, $00, $00, $00, $00, $00, $00, $00  ; EVOLINE_PSYDUCK
+    db $00, $00, $00, $00, $00, $00, $00, $00, $00, $01, $00, $00, $00, $00, $00, $00, $00, $00, $00  ; EVOLINE_MANKEY
+    db $00, $00, $00, $00, $00, $00, $00, $00, $00, $01, $00, $00, $00, $00, $00, $00, $00, $00, $00  ; EVOLINE_GROWLITHE
+    db $00, $00, $00, $00, $00, $00, $00, $00, $00, $01, $00, $00, $00, $00, $00, $00, $00, $00, $00  ; EVOLINE_POLIWAG
+    db $00, $00, $00, $00, $00, $00, $00, $00, $00, $01, $00, $00, $00, $00, $00, $00, $00, $00, $00  ; EVOLINE_ABRA
+    db $00, $00, $00, $00, $00, $00, $00, $00, $00, $01, $00, $00, $00, $00, $00, $00, $00, $00, $00  ; EVOLINE_MACHOP
+    db $00, $00, $00, $00, $00, $00, $00, $00, $00, $01, $00, $00, $00, $00, $00, $00, $00, $00, $00  ; EVOLINE_BELLSPROUT
+    db $00, $00, $00, $00, $00, $00, $00, $00, $00, $01, $00, $00, $00, $00, $00, $00, $00, $00, $00  ; EVOLINE_TENTACOOL
+    db $00, $00, $00, $00, $00, $00, $00, $00, $00, $01, $00, $00, $00, $00, $00, $00, $00, $00, $00  ; EVOLINE_GEODUDE
+    db $00, $00, $00, $00, $00, $00, $00, $00, $00, $01, $00, $00, $00, $00, $00, $00, $00, $00, $00  ; EVOLINE_PONYTA
+    db $00, $00, $00, $00, $00, $00, $00, $00, $00, $01, $00, $00, $00, $00, $00, $00, $00, $00, $00  ; EVOLINE_SLOWPOKE
+    db $00, $00, $00, $00, $00, $00, $00, $00, $00, $01, $00, $00, $00, $00, $00, $00, $00, $00, $00  ; EVOLINE_MAGNEMITE
+    db $00, $00, $00, $00, $00, $00, $00, $00, $00, $01, $00, $00, $00, $00, $00, $00, $00, $00, $00  ; EVOLINE_FARFETCH_D
+    db $00, $00, $00, $00, $00, $00, $00, $00, $00, $01, $00, $00, $00, $00, $00, $00, $00, $00, $00  ; EVOLINE_DODUO
+    db $00, $00, $00, $00, $00, $00, $00, $00, $00, $01, $00, $00, $00, $00, $00, $00, $00, $00, $00  ; EVOLINE_SEEL
+    db $00, $00, $00, $00, $00, $00, $00, $00, $00, $01, $00, $00, $00, $00, $00, $00, $00, $00, $00  ; EVOLINE_GRIMER
+    db $00, $00, $00, $00, $00, $00, $00, $00, $00, $01, $00, $00, $00, $00, $00, $00, $00, $00, $00  ; EVOLINE_SHELLDER
+    db $00, $00, $00, $00, $00, $00, $00, $00, $00, $01, $00, $00, $00, $00, $00, $00, $00, $00, $00  ; EVOLINE_GASTLY
+    db $00, $00, $00, $00, $00, $00, $00, $00, $00, $01, $00, $00, $00, $00, $00, $00, $00, $00, $00  ; EVOLINE_ONIX
+    db $00, $00, $00, $00, $00, $00, $00, $00, $00, $01, $00, $00, $00, $00, $00, $00, $00, $00, $00  ; EVOLINE_DROWZEE
+    db $00, $00, $00, $00, $00, $00, $00, $00, $00, $01, $00, $00, $00, $00, $00, $00, $00, $00, $00  ; EVOLINE_KRABBY
+    db $00, $00, $00, $00, $00, $00, $00, $00, $00, $01, $00, $00, $00, $00, $00, $00, $00, $00, $00  ; EVOLINE_VOLTORB
+    db $00, $00, $00, $00, $00, $00, $00, $00, $00, $01, $00, $00, $00, $00, $00, $00, $00, $00, $00  ; EVOLINE_EXEGGCUTE
+    db $00, $00, $00, $00, $00, $00, $00, $00, $00, $01, $00, $00, $00, $00, $00, $00, $00, $00, $00  ; EVOLINE_CUBONE
+    db $00, $00, $00, $00, $00, $00, $00, $00, $00, $01, $00, $00, $00, $00, $00, $00, $00, $00, $00  ; EVOLINE_HITMONLEE
+    db $00, $00, $00, $00, $00, $00, $00, $00, $00, $01, $00, $00, $00, $00, $00, $00, $00, $00, $00  ; EVOLINE_HITMONCHAN
+    db $00, $00, $00, $00, $00, $00, $00, $00, $00, $01, $00, $00, $00, $00, $00, $00, $00, $00, $00  ; EVOLINE_LICKITUNG
+    db $00, $00, $00, $00, $00, $00, $00, $00, $00, $01, $00, $00, $00, $00, $00, $00, $00, $00, $00  ; EVOLINE_KOFFING
+    db $00, $00, $00, $00, $00, $00, $00, $00, $00, $01, $00, $00, $00, $00, $00, $00, $00, $00, $00  ; EVOLINE_RHYHORN
+    db $00, $00, $00, $00, $00, $00, $00, $00, $00, $01, $00, $00, $00, $00, $00, $00, $00, $00, $00  ; EVOLINE_CHANSEY
+    db $00, $00, $00, $00, $00, $00, $00, $00, $00, $01, $00, $00, $00, $00, $00, $00, $00, $00, $00  ; EVOLINE_TANGELA
+    db $00, $00, $00, $00, $00, $00, $00, $00, $00, $01, $00, $00, $00, $00, $00, $00, $00, $00, $00  ; EVOLINE_KANGASKHAN
+    db $00, $00, $00, $00, $00, $00, $00, $00, $00, $01, $00, $00, $00, $00, $00, $00, $00, $00, $00  ; EVOLINE_HORSEA
+    db $00, $00, $00, $00, $00, $00, $00, $00, $00, $01, $00, $00, $00, $00, $00, $00, $00, $00, $00  ; EVOLINE_GOLDEEN
+    db $00, $00, $00, $00, $00, $00, $00, $00, $00, $01, $00, $00, $00, $00, $00, $00, $00, $00, $00  ; EVOLINE_STARYU
+    db $00, $00, $00, $00, $00, $00, $00, $00, $00, $01, $00, $00, $00, $00, $00, $00, $00, $00, $00  ; EVOLINE_MR_MIME
+    db $00, $00, $00, $00, $00, $00, $00, $00, $00, $01, $00, $00, $00, $00, $00, $00, $00, $00, $00  ; EVOLINE_SCYTHER
+    db $00, $00, $00, $00, $00, $00, $00, $00, $00, $01, $00, $00, $00, $00, $00, $00, $00, $00, $00  ; EVOLINE_JYNX
+    db $00, $00, $00, $00, $00, $00, $00, $00, $00, $01, $00, $00, $00, $00, $00, $00, $00, $00, $00  ; EVOLINE_ELECTABUZZ
+    db $00, $00, $00, $00, $00, $00, $00, $00, $00, $01, $00, $00, $00, $00, $00, $00, $00, $00, $00  ; EVOLINE_MAGMAR
+    db $00, $00, $00, $00, $00, $00, $00, $00, $00, $01, $00, $00, $00, $00, $00, $00, $00, $00, $00  ; EVOLINE_PINSIR
+    db $00, $00, $00, $00, $00, $00, $00, $00, $00, $01, $00, $00, $00, $00, $00, $00, $00, $00, $00  ; EVOLINE_TAUROS
+    db $00, $00, $00, $00, $00, $00, $00, $00, $00, $01, $00, $00, $00, $00, $00, $00, $00, $00, $00  ; EVOLINE_MAGIKARP
+    db $00, $00, $00, $00, $00, $00, $00, $00, $00, $01, $00, $00, $00, $00, $00, $00, $00, $00, $00  ; EVOLINE_LAPRAS
+    db $00, $00, $00, $00, $00, $00, $00, $00, $00, $01, $00, $00, $00, $00, $00, $00, $00, $00, $00  ; EVOLINE_DITTO
+    db $00, $00, $00, $00, $00, $00, $00, $00, $00, $01, $00, $00, $00, $00, $00, $00, $00, $00, $00  ; EVOLINE_EEVEE
+    db $00, $00, $00, $00, $00, $00, $00, $00, $00, $01, $00, $00, $00, $00, $00, $00, $00, $00, $00  ; EVOLINE_PORYGON
+    db $00, $00, $00, $00, $00, $00, $00, $00, $00, $01, $00, $00, $00, $00, $00, $00, $00, $00, $00  ; EVOLINE_OMANYTE
+    db $00, $00, $00, $00, $00, $00, $00, $00, $00, $01, $00, $00, $00, $00, $00, $00, $00, $00, $00  ; EVOLINE_KABUTO
+    db $00, $00, $00, $00, $00, $00, $00, $00, $00, $01, $00, $00, $00, $00, $00, $00, $00, $00, $00  ; EVOLINE_AERODACTYL
+    db $00, $00, $00, $00, $00, $00, $00, $00, $00, $01, $00, $00, $00, $00, $00, $00, $00, $00, $00  ; EVOLINE_SNORLAX
+    db $00, $00, $00, $00, $00, $00, $00, $00, $00, $01, $00, $00, $00, $00, $00, $00, $00, $00, $00  ; EVOLINE_ARTICUNO
+    db $00, $00, $00, $00, $00, $00, $00, $00, $00, $01, $00, $00, $00, $00, $00, $00, $00, $00, $00  ; EVOLINE_ZAPDOS
+    db $00, $00, $00, $00, $00, $00, $00, $00, $00, $01, $00, $00, $00, $00, $00, $00, $00, $00, $00  ; EVOLINE_MOLTRES
+    db $00, $00, $00, $00, $00, $00, $00, $00, $00, $01, $00, $00, $00, $00, $00, $00, $00, $00, $00  ; EVOLINE_DRATINI
+    db $00, $00, $00, $00, $00, $00, $00, $00, $00, $01, $00, $00, $00, $00, $00, $00, $00, $00, $00  ; EVOLINE_MEWTWO
+    db $00, $00, $00, $00, $00, $00, $00, $00, $00, $01, $00, $00, $00, $00, $00, $00, $00, $00, $00  ; EVOLINE_MEW
+
+Data_1298b: ; 0x1298b
+    db $01  ; BULBASAUR
+    db $02  ; IVYSAUR
+    db $03  ; VENUSAUR
+    db $01  ; CHARMANDER
+    db $02  ; CHARMELEON
+    db $03  ; CHARIZARD
+    db $01  ; SQUIRTLE
+    db $02  ; WARTORTLE
+    db $03  ; BLASTOISE
+    db $01  ; CATERPIE
+    db $02  ; METAPOD
+    db $03  ; BUTTERFREE
+    db $01  ; WEEDLE
+    db $02  ; KAKUNA
+    db $03  ; BEEDRILL
+    db $01  ; PIDGEY
+    db $02  ; PIDGEOTTO
+    db $03  ; PIDGEOT
+    db $01  ; RATTATA
+    db $03  ; RATICATE
+    db $01  ; SPEAROW
+    db $03  ; FEAROW
+    db $01  ; EKANS
+    db $03  ; ARBOK
+    db $01  ; PIKACHU
+    db $03  ; RAICHU
+    db $01  ; SANDSHREW
+    db $03  ; SANDSLASH
+    db $01  ; NIDORAN_F
+    db $02  ; NIDORINA
+    db $04  ; NIDOQUEEN
+    db $01  ; NIDORAN_M
+    db $02  ; NIDORINO
+    db $04  ; NIDOKING
+    db $02  ; CLEFAIRY
+    db $03  ; CLEFABLE
+    db $02  ; VULPIX
+    db $03  ; NINETALES
+    db $02  ; JIGGLYPUFF
+    db $03  ; WIGGLYTUFF
+    db $02  ; ZUBAT
+    db $03  ; GOLBAT
+    db $01  ; ODDISH
+    db $02  ; GLOOM
+    db $04  ; VILEPLUME
+    db $02  ; PARAS
+    db $03  ; PARASECT
+    db $02  ; VENONAT
+    db $03  ; VENOMOTH
+    db $02  ; DIGLETT
+    db $03  ; DUGTRIO
+    db $02  ; MEOWTH
+    db $03  ; PERSIAN
+    db $02  ; PSYDUCK
+    db $03  ; GOLDUCK
+    db $02  ; MANKEY
+    db $03  ; PRIMEAPE
+    db $02  ; GROWLITHE
+    db $03  ; ARCANINE
+    db $01  ; POLIWAG
+    db $02  ; POLIWHIRL
+    db $04  ; POLIWRATH
+    db $01  ; ABRA
+    db $02  ; KADABRA
+    db $04  ; ALAKAZAM
+    db $01  ; MACHOP
+    db $02  ; MACHOKE
+    db $04  ; MACHAMP
+    db $01  ; BELLSPROUT
+    db $02  ; WEEPINBELL
+    db $04  ; VICTREEBEL
+    db $02  ; TENTACOOL
+    db $03  ; TENTACRUEL
+    db $01  ; GEODUDE
+    db $02  ; GRAVELER
+    db $04  ; GOLEM
+    db $02  ; PONYTA
+    db $03  ; RAPIDASH
+    db $02  ; SLOWPOKE
+    db $03  ; SLOWBRO
+    db $02  ; MAGNEMITE
+    db $03  ; MAGNETON
+    db $04  ; FARFETCH_D
+    db $02  ; DODUO
+    db $03  ; DODRIO
+    db $02  ; SEEL
+    db $03  ; DEWGONG
+    db $02  ; GRIMER
+    db $03  ; MUK
+    db $02  ; SHELLDER
+    db $03  ; CLOYSTER
+    db $01  ; GASTLY
+    db $02  ; HAUNTER
+    db $04  ; GENGAR
+    db $04  ; ONIX
+    db $02  ; DROWZEE
+    db $03  ; HYPNO
+    db $02  ; KRABBY
+    db $03  ; KINGLER
+    db $02  ; VOLTORB
+    db $03  ; ELECTRODE
+    db $02  ; EXEGGCUTE
+    db $03  ; EXEGGUTOR
+    db $02  ; CUBONE
+    db $03  ; MAROWAK
+    db $04  ; HITMONLEE
+    db $04  ; HITMONCHAN
+    db $04  ; LICKITUNG
+    db $02  ; KOFFING
+    db $03  ; WEEZING
+    db $02  ; RHYHORN
+    db $03  ; RHYDON
+    db $04  ; CHANSEY
+    db $04  ; TANGELA
+    db $04  ; KANGASKHAN
+    db $04  ; HORSEA
+    db $04  ; SEADRA
+    db $02  ; GOLDEEN
+    db $03  ; SEAKING
+    db $02  ; STARYU
+    db $03  ; STARMIE
+    db $04  ; MR_MIME
+    db $04  ; SCYTHER
+    db $04  ; JYNX
+    db $04  ; ELECTABUZZ
+    db $04  ; MAGMAR
+    db $04  ; PINSIR
+    db $04  ; TAUROS
+    db $02  ; MAGIKARP
+    db $03  ; GYARADOS
+    db $04  ; LAPRAS
+    db $04  ; DITTO
+    db $02  ; EEVEE
+    db $03  ; VAPOREON
+    db $03  ; JOLTEON
+    db $03  ; FLAREON
+    db $04  ; PORYGON
+    db $02  ; OMANYTE
+    db $03  ; OMASTAR
+    db $02  ; KABUTO
+    db $03  ; KABUTOPS
+    db $04  ; AERODACTYL
+    db $04  ; SNORLAX
+    db $04  ; ARTICUNO
+    db $04  ; ZAPDOS
+    db $04  ; MOLTRES
+    db $01  ; DRATINI
+    db $02  ; DRAGONAIR
+    db $04  ; DRAGONITE
+    db $04  ; MEWTWO
+    db $06  ; MEW
 
 INCLUDE "data/catchem_timer_values.asm"
 
@@ -24251,7 +24499,7 @@ Func_14135: ; 0x14135
     ld bc, $0000
 .asm_14138
     push bc
-    ld hl, $d52f
+    ld hl, wIndicatorStatuses
     add hl, bc
     ld a, [hl]
     res 7, a
@@ -26049,7 +26297,7 @@ Func_1587c: ; 0x1587c
     inc a
     ld [wLeftAlleyCount], a
     set 7, a
-    ld [$d52f], a
+    ld [wIndicatorStatuses], a
     cp $83
     ret nz
     ld a, [wStageCollisionState]
@@ -26083,7 +26331,7 @@ Func_158c0: ; 0x158c0
     inc a
     ld [wLeftAlleyCount], a
     set 7, a
-    ld [$d52f], a
+    ld [wIndicatorStatuses], a
     cp $83
     ret nz
     ld a, [wStageCollisionState]
@@ -26156,12 +26404,12 @@ Func_15944: ; 0x15944
     jr z, .asm_1596e
     set 7, a
 .asm_1596e
-    ld [$d530], a
+    ld [wIndicatorStatuses + 1], a
     ld a, [wRightAlleyCount]
     cp $2
     ret c
     ld a, $80
-    ld [$d532], a
+    ld [wIndicatorStatuses + 3], a
     ret
 
 HandleRightAlleyTriggerRedField: ; 0x1597d
@@ -26198,12 +26446,12 @@ Func_15990: ; 0x15990
     jr z, .asm_159ba
     set 7, a
 .asm_159ba
-    ld [$d530], a
+    ld [wIndicatorStatuses + 1], a
     ld a, [wRightAlleyCount]
     cp $2
     ret c
     ld a, $80
-    ld [$d532], a
+    ld [wIndicatorStatuses + 3], a
     ret
 
 Func_159c9: ; 0x159c9
@@ -26792,7 +27040,7 @@ Func_16279: ; 0x16279
 
 Func_16352: ; 0x16352
     xor a
-    ld [$d533], a
+    ld [wIndicatorStatuses + 4], a
     ld a, $d
     ld [$ff8a], a
     ld a, Bank(Func_10000)
@@ -26953,7 +27201,7 @@ Func_164e3: ; 0x164e3
     ld a, $1
     ld [$d604], a
     ld a, $80
-    ld [$d533], a
+    ld [wIndicatorStatuses + 4], a
     ld a, [wCurrentStage]
     bit 0, a
     call nz, Func_16425
@@ -27393,7 +27641,7 @@ Func_169a6: ; 0x169a6
     ld bc, $0000
 .asm_169ae
     push bc
-    ld hl, $d52f
+    ld hl, wIndicatorStatuses
     add hl, bc
     bit 7, [hl]
     jr z, .asm_169c5
@@ -28275,7 +28523,7 @@ Func_17efb: ; 0x17efb
     ld a, [$ffb3]
     bit 4, a
     ret z
-    ld de, $d534
+    ld de, wIndicatorStatuses + 5
     ld hl, $7f3a
     ld b, $6
     jr asm_17f21
@@ -28287,7 +28535,7 @@ Func_17f0f: ; 0x17f0f
     ld a, [$ffb3]
     bit 4, a
     ret z
-    ld de, $d53a
+    ld de, wIndicatorStatuses + 11
     ld hl, $7f4c
     ld b, $8
 asm_17f21: ; 0x17f21
@@ -31752,10 +32000,10 @@ InitBlueField: ; 0x1c000
     ld [$d498], a
     ld [$d499], a
     ld a, $80
-    ld [$d52f], a
-    ld [$d532], a
+    ld [wIndicatorStatuses], a
+    ld [wIndicatorStatuses + 3], a
     ld a, $82
-    ld [$d530], a
+    ld [wIndicatorStatuses + 1], a
     xor a
     ld [$d648], a
     ld [$d649], a
@@ -32053,7 +32301,7 @@ Func_1c2cb: ; 0x1c2cb
     ld bc, $0000
 .asm_1c2d4
     push bc
-    ld hl, $d52f
+    ld hl, wIndicatorStatuses
     add hl, bc
     ld a, [hl]
     res 7, a
@@ -32066,7 +32314,7 @@ Func_1c2cb: ; 0x1c2cb
     ld bc, $0002
 .asm_1c2e9
     push bc
-    ld hl, $d52f
+    ld hl, wIndicatorStatuses
     add hl, bc
     ld a, [hl]
     push af
@@ -33217,12 +33465,12 @@ Func_1d010: ; 0x1d010
     cp $3
     jr z, .asm_1d03e
     set 7, a
-    ld [$d52f], a
+    ld [wIndicatorStatuses], a
     ret
 .asm_1d03e
-    ld [$d52f], a
+    ld [wIndicatorStatuses], a
     ld a, $80
-    ld [$d531], a
+    ld [wIndicatorStatuses + 2], a
     ret
 
 Func_1d047: ; 0x1d047
@@ -33248,12 +33496,12 @@ Func_1d047: ; 0x1d047
     jr z, .asm_1d071
     set 7, a
 .asm_1d071
-    ld [$d530], a
+    ld [wIndicatorStatuses + 1], a
     ld a, [wRightAlleyCount]
     cp $2
     ret c
     ld a, $80
-    ld [$d532], a
+    ld [wIndicatorStatuses + 3], a
     ret
 
 HandleLeftAlleyTriggerBlueField: ; 0x1d080
@@ -35108,7 +35356,7 @@ Func_1e757: ; 0x1e757
 
 Func_1e830: ; 0x1e830
     xor a
-    ld [$d533], a
+    ld [wIndicatorStatuses + 4], a
     ld a, $d
     ld [$ff8a], a
     ld a, Bank(Func_10000)
@@ -35263,7 +35511,7 @@ Func_1e9c0: ; 0x1e9c0
     ld a, $1
     ld [$d604], a
     ld a, $80
-    ld [$d533], a
+    ld [wIndicatorStatuses + 4], a
     ld a, [wCurrentStage]
     bit 0, a
     call nz, Func_1e8f6
@@ -35411,7 +35659,7 @@ Func_1ead4: ; 0x1ead4
     ld bc, $0000
 .asm_1eadc
     push bc
-    ld hl, $d52f
+    ld hl, wIndicatorStatuses
     add hl, bc
     ld a, [hl]
     cp $1
@@ -35441,7 +35689,7 @@ Func_1ead4: ; 0x1ead4
     ld bc, $0002
 .asm_1eb0d
     push bc
-    ld hl, $d52f
+    ld hl, wIndicatorStatuses
     add hl, bc
     ld a, [hl]
     cp $1
@@ -36033,7 +36281,7 @@ INCBIN "baserom.gbc",$1f2b9,$1f2ed - $1f2b9
 Func_1f2ed: ; 0x1f2ed
     xor a
     ld [$d604], a
-    ld [$d533], a
+    ld [wIndicatorStatuses + 4], a
     ld [$ff8a], a
     ld a, Bank(Func_1e8f6)  ; this is in the same bank...
     ld hl, Func_1e8f6
@@ -36045,26 +36293,26 @@ Func_1f2ff: ; 0x1f2ff
     cp $3
     jr c, .asm_1f30b
     ld a, $80
-    ld [$d531], a
+    ld [wIndicatorStatuses + 2], a
 .asm_1f30b
     ld a, [wLeftAlleyCount]
     cp $3
     jr z, .asm_1f314
     set 7, a
 .asm_1f314
-    ld [$d52f], a
+    ld [wIndicatorStatuses], a
     ld a, [wRightAlleyCount]
     cp $2
     jr c, .asm_1f323
     ld a, $80
-    ld [$d532], a
+    ld [wIndicatorStatuses + 3], a
 .asm_1f323
     ld a, [wRightAlleyCount]
     cp $3
     jr z, .asm_1f32c
     set 7, a
 .asm_1f32c
-    ld [$d530], a
+    ld [wIndicatorStatuses + 1], a
     ret
 
 Func_1f330: ; 0x1f330
@@ -36262,7 +36510,7 @@ Func_1f48f: ; 0x1f48f
     ld a, [$ffb3]
     bit 4, a
     ret z
-    ld de, $d534
+    ld de, wIndicatorStatuses + 5
     ld hl, $74ce
     ld b, $6
     jr asm_1f4b5
@@ -36274,7 +36522,7 @@ Func_1f4a3: ; 0x1f4a3
     ld a, [$ffb3]
     bit 4, a
     ret z
-    ld de, $d53a
+    ld de, wIndicatorStatuses + 11
     ld hl, $74e0
     ld b, $8
 asm_1f4b5:
@@ -36728,7 +36976,7 @@ Func_20230: ; 0x20230
     cp $18
     jr nz, .asm_20264
     xor a
-    ld [$d538], a
+    ld [wIndicatorStatuses + 9], a
 .asm_20264
     ld [$ff8a], a
     ld a, Bank(Func_10184)
@@ -37101,7 +37349,7 @@ Func_204f1: ; 0x204f1
     cp $18
     jr nz, .asm_20525
     xor a
-    ld [$d538], a
+    ld [wIndicatorStatuses + 9], a
 .asm_20525
     ld [$ff8a], a
     ld a, Bank(Func_10184)
@@ -37218,10 +37466,10 @@ Func_205e0: ; 0x205e0
     ld [$d551], a
     call Func_20651
     ld a, [$d558]
-    ld [$d531], a
+    ld [wIndicatorStatuses + 2], a
     ld a, [$d559]
-    ld [$d532], a
-    ld [$d539], a
+    ld [wIndicatorStatuses + 3], a
+    ld [wIndicatorStatuses + 10], a
     ld a, [wCurrentStage]
     bit 0, a
     ld [$ff8a], a
@@ -37299,19 +37547,19 @@ Func_20651: ; 0x20651
     ld a, $1
     ld [$d604], a
     ld a, $80
-    ld [$d533], a
+    ld [wIndicatorStatuses + 4], a
     xor a
-    ld [$d538], a
-    ld [$d531], a
-    ld [$d532], a
-    ld [$d539], a
-    ld [$d537], a
-    ld [$d53c], a
-    ld [$d53d], a
-    ld [$d53a], a
-    ld [$d53b], a
-    ld [$d535], a
-    ld [$d536], a
+    ld [wIndicatorStatuses + 9], a
+    ld [wIndicatorStatuses + 2], a
+    ld [wIndicatorStatuses + 3], a
+    ld [wIndicatorStatuses + 10], a
+    ld [wIndicatorStatuses + 8], a
+    ld [wIndicatorStatuses + 13], a
+    ld [wIndicatorStatuses + 14], a
+    ld [wIndicatorStatuses + 11], a
+    ld [wIndicatorStatuses + 12], a
+    ld [wIndicatorStatuses + 6], a
+    ld [wIndicatorStatuses + 7], a
     ld [$d558], a
     ld [$d559], a
     ld a, [wCurrentStage]
@@ -37418,19 +37666,19 @@ Func_2077b: ; 0x2077b
     ld [$d54d], a
     xor a
     ld [$d604], a
-    ld hl, $d52f
-    ld [$d533], a
-    ld [$d538], a
-    ld [$d531], a
-    ld [$d532], a
-    ld [$d539], a
-    ld [$d537], a
-    ld [$d53c], a
-    ld [$d53d], a
-    ld [$d53a], a
-    ld [$d53b], a
-    ld [$d535], a
-    ld [$d536], a
+    ld hl, wIndicatorStatuses
+    ld [wIndicatorStatuses + 4], a
+    ld [wIndicatorStatuses + 9], a
+    ld [wIndicatorStatuses + 2], a
+    ld [wIndicatorStatuses + 3], a
+    ld [wIndicatorStatuses + 10], a
+    ld [wIndicatorStatuses + 8], a
+    ld [wIndicatorStatuses + 13], a
+    ld [wIndicatorStatuses + 14], a
+    ld [wIndicatorStatuses + 11], a
+    ld [wIndicatorStatuses + 12], a
+    ld [wIndicatorStatuses + 6], a
+    ld [wIndicatorStatuses + 7], a
     ld [$d558], a
     ld [$d559], a
     ld [$d551], a
@@ -37464,11 +37712,11 @@ Func_2080f: ; 0x2080f
     ld a, [$d551]
     and a
     jr nz, .asm_20837
-    ld a, [$d538]
+    ld a, [wIndicatorStatuses + 9]
     and a
     jr z, .asm_20837
     xor a
-    ld [$d538], a
+    ld [wIndicatorStatuses + 9], a
     ld a, [$d55c]
     and a
     ld a, $0
@@ -37483,11 +37731,11 @@ Func_20839: ; 0x20839
     ld a, [$d551]
     and a
     jr nz, .asm_20858
-    ld a, [$d531]
+    ld a, [wIndicatorStatuses + 2]
     and a
     jr z, .asm_20858
     xor a
-    ld [$d531], a
+    ld [wIndicatorStatuses + 2], a
     ld a, [$d563]
     and a
     ld a, $0
@@ -37505,12 +37753,12 @@ Func_2085a: ; 0x2085a
     ld a, [$d551]
     and a
     jr nz, .asm_20885
-    ld a, [$d532]
+    ld a, [wIndicatorStatuses + 3]
     and a
     jr z, .asm_20885
     xor a
-    ld [$d532], a
-    ld [$d539], a
+    ld [wIndicatorStatuses + 3], a
+    ld [wIndicatorStatuses + 10], a
     ld a, [$d562]
     and a
     ld a, $0
@@ -37525,11 +37773,11 @@ Func_20887: ; 0x20887
     ld a, [$d551]
     and a
     jr nz, .asm_208a6
-    ld a, [$d537]
+    ld a, [wIndicatorStatuses + 8]
     and a
     jr z, .asm_208a6
     xor a
-    ld [$d537], a
+    ld [wIndicatorStatuses + 8], a
     ld a, [$d561]
     and a
     ld a, $0
@@ -37544,11 +37792,11 @@ Func_208a8: ; 0x208a8
     ld a, [$d551]
     and a
     jr nz, .asm_208c7
-    ld a, [$d53c]
+    ld a, [wIndicatorStatuses + 13]
     and a
     jr z, .asm_208c7
     xor a
-    ld [$d53c], a
+    ld [wIndicatorStatuses + 13], a
     ld a, [$d55d]
     and a
     ld a, $0
@@ -37563,11 +37811,11 @@ Func_208c9: ; 0x208c9
     ld a, [$d551]
     and a
     jr nz, .asm_208e8
-    ld a, [$d53d]
+    ld a, [wIndicatorStatuses + 14]
     and a
     jr z, .asm_208e8
     xor a
-    ld [$d53d], a
+    ld [wIndicatorStatuses + 14], a
     ld a, [$d55e]
     and a
     ld a, $0
@@ -37582,11 +37830,11 @@ Func_208ea: ; 0x208ea
     ld a, [$d551]
     and a
     jr nz, .asm_20909
-    ld a, [$d53a]
+    ld a, [wIndicatorStatuses + 11]
     and a
     jr z, .asm_20909
     xor a
-    ld [$d53a], a
+    ld [wIndicatorStatuses + 11], a
     ld a, [$d55f]
     and a
     ld a, $0
@@ -37601,11 +37849,11 @@ Func_2090b: ; 0x2090b
     ld a, [$d551]
     and a
     jr nz, .asm_2092a
-    ld a, [$d53b]
+    ld a, [wIndicatorStatuses + 12]
     and a
     jr z, .asm_2092a
     xor a
-    ld [$d53b], a
+    ld [wIndicatorStatuses + 12], a
     ld a, [$d560]
     and a
     ld a, $0
@@ -37620,11 +37868,11 @@ Func_2092c: ; 0x2092c
     ld a, [$d551]
     and a
     jr nz, .asm_2094b
-    ld a, [$d535]
+    ld a, [wIndicatorStatuses + 6]
     and a
     jr z, .asm_2094b
     xor a
-    ld [$d535], a
+    ld [wIndicatorStatuses + 6], a
     ld a, [$d565]
     and a
     ld a, $0
@@ -37642,11 +37890,11 @@ Func_2094d: ; 0x2094d
     ld a, [$d551]
     and a
     jr nz, .asm_20975
-    ld a, [$d536]
+    ld a, [wIndicatorStatuses + 7]
     and a
     jr z, .asm_20975
     xor a
-    ld [$d536], a
+    ld [wIndicatorStatuses + 7], a
     ld a, [$d564]
     and a
     ld a, $0
@@ -37664,14 +37912,14 @@ Func_20977: ; 0x20977
     ld a, [$d553]
     ld [hl], a
     ld [$d551], a
-    ld a, [$d531]
+    ld a, [wIndicatorStatuses + 2]
     ld [$d558], a
-    ld a, [$d532]
+    ld a, [wIndicatorStatuses + 3]
     ld [$d559], a
     xor a
-    ld [$d531], a
-    ld [$d532], a
-    ld [$d539], a
+    ld [wIndicatorStatuses + 2], a
+    ld [wIndicatorStatuses + 3], a
+    ld [wIndicatorStatuses + 10], a
     ld a, [wCurrentStage]
     bit 0, a
     ld [$ff8a], a
@@ -37716,16 +37964,16 @@ Func_209eb: ; 0x209eb
     ld a, $1
     ld [$d551], a
     ld a, $80
-    ld [$d52f], a
-    ld [$d530], a
-    ld a, [$d531]
+    ld [wIndicatorStatuses], a
+    ld [wIndicatorStatuses + 1], a
+    ld a, [wIndicatorStatuses + 2]
     ld [$d558], a
-    ld a, [$d532]
+    ld a, [wIndicatorStatuses + 3]
     ld [$d559], a
     xor a
-    ld [$d531], a
-    ld [$d532], a
-    ld [$d539], a
+    ld [wIndicatorStatuses + 2], a
+    ld [wIndicatorStatuses + 3], a
+    ld [wIndicatorStatuses + 10], a
     ld a, [wCurrentStage]
     bit 0, a
     ld [$ff8a], a
@@ -37758,7 +38006,7 @@ Func_20a55: ; 0x20a55
     ld a, [$d551]
     and a
     jr z, .asm_20a63
-    ld a, [$d530]
+    ld a, [wIndicatorStatuses + 1]
     and a
     jr z, .asm_20a63
     jr asm_20a9f
@@ -37770,7 +38018,7 @@ Func_20a65: ; 0x20a65
     ld a, [$d551]
     and a
     jr z, .asm_20a80
-    ld a, [$d530]
+    ld a, [wIndicatorStatuses + 1]
     and a
     jr z, .asm_20a80
     ld bc, $34d0
@@ -37787,7 +38035,7 @@ Func_20a82: ; 0x20a82
     ld a, [$d551]
     and a
     jr z, .asm_20a9d
-    ld a, [$d52f]
+    ld a, [wIndicatorStatuses]
     and a
     jr z, .asm_20a9d
     ld bc, $34d0
@@ -37801,14 +38049,14 @@ Func_20a82: ; 0x20a82
     ret
 asm_20a9f:
     xor a
-    ld [$d52f], a
-    ld [$d530], a
+    ld [wIndicatorStatuses], a
+    ld [wIndicatorStatuses + 1], a
     ld [$d551], a
     ld a, [$d558]
-    ld [$d531], a
+    ld [wIndicatorStatuses + 2], a
     ld a, [$d559]
-    ld [$d532], a
-    ld [$d539], a
+    ld [wIndicatorStatuses + 3], a
+    ld [wIndicatorStatuses + 10], a
     ld a, [$d4ac]
     bit 0, a
     ld [$ff8a], a
@@ -38002,9 +38250,9 @@ Func_20c08: ; 0x20c08
     ld [$d551], a
     call Func_20c76
     ld a, [$d558]
-    ld [$d52f], a
+    ld [wIndicatorStatuses], a
     ld a, [$d559]
-    ld [$d532], a
+    ld [wIndicatorStatuses + 3], a
     ld a, [wCurrentStage]
     bit 0, a
     ld [$ff8a], a
@@ -38083,19 +38331,19 @@ Func_20c76: ; 0x20c76
     ld a, $1
     ld [$d604], a
     ld a, $80
-    ld [$d533], a
+    ld [wIndicatorStatuses + 4], a
     xor a
-    ld [$d538], a
-    ld [$d531], a
-    ld [$d532], a
-    ld [$d537], a
-    ld [$d53c], a
-    ld [$d53d], a
-    ld [$d53a], a
-    ld [$d53b], a
-    ld [$d539], a
-    ld [$d535], a
-    ld [$d536], a
+    ld [wIndicatorStatuses + 9], a
+    ld [wIndicatorStatuses + 2], a
+    ld [wIndicatorStatuses + 3], a
+    ld [wIndicatorStatuses + 8], a
+    ld [wIndicatorStatuses + 13], a
+    ld [wIndicatorStatuses + 14], a
+    ld [wIndicatorStatuses + 11], a
+    ld [wIndicatorStatuses + 12], a
+    ld [wIndicatorStatuses + 10], a
+    ld [wIndicatorStatuses + 6], a
+    ld [wIndicatorStatuses + 7], a
     ld [$d558], a
     ld [$d559], a
     ld a, [wCurrentStage]
@@ -38202,19 +38450,19 @@ Func_20da0: ; 0x20da0
     ld [$d54d], a
     xor a
     ld [$d604], a
-    ld hl, $d52f
-    ld [$d533], a
-    ld [$d538], a
-    ld [$d531], a
-    ld [$d532], a
-    ld [$d537], a
-    ld [$d53c], a
-    ld [$d53d], a
-    ld [$d53a], a
-    ld [$d53b], a
-    ld [$d539], a
-    ld [$d535], a
-    ld [$d536], a
+    ld hl, wIndicatorStatuses
+    ld [wIndicatorStatuses + 4], a
+    ld [wIndicatorStatuses + 9], a
+    ld [wIndicatorStatuses + 2], a
+    ld [wIndicatorStatuses + 3], a
+    ld [wIndicatorStatuses + 8], a
+    ld [wIndicatorStatuses + 13], a
+    ld [wIndicatorStatuses + 14], a
+    ld [wIndicatorStatuses + 11], a
+    ld [wIndicatorStatuses + 12], a
+    ld [wIndicatorStatuses + 10], a
+    ld [wIndicatorStatuses + 6], a
+    ld [wIndicatorStatuses + 7], a
     ld [$d558], a
     ld [$d559], a
     ld [$d551], a
@@ -38248,11 +38496,11 @@ Func_20e34: ; 0x20e34
     ld a, [$d551]
     and a
     jr nz, .asm_20e5c
-    ld a, [$d538]
+    ld a, [wIndicatorStatuses + 9]
     and a
     jr z, .asm_20e5c
     xor a
-    ld [$d538], a
+    ld [wIndicatorStatuses + 9], a
     ld a, [$d55c]
     and a
     ld a, $0
@@ -38267,12 +38515,12 @@ Func_20e5e: ; 0x20e5e
     ld a, [$d551]
     and a
     jr nz, .asm_20e80
-    ld a, [$d532]
+    ld a, [wIndicatorStatuses + 3]
     and a
     jr z, .asm_20e80
     xor a
-    ld [$d532], a
-    ld [$d539], a
+    ld [wIndicatorStatuses + 3], a
+    ld [wIndicatorStatuses + 10], a
     ld a, [$d562]
     and a
     ld a, $0
@@ -38287,12 +38535,12 @@ Func_20e82: ; 0x20e82
     ld a, [$d551]
     and a
     jr nz, .asm_20ea4
-    ld a, [$d537]
+    ld a, [wIndicatorStatuses + 8]
     and a
     jr z, .asm_20ea4
     xor a
-    ld [$d537], a
-    ld [$d531], a
+    ld [wIndicatorStatuses + 8], a
+    ld [wIndicatorStatuses + 2], a
     ld a, [$d561]
     and a
     ld a, $0
@@ -38307,11 +38555,11 @@ Func_20ea6: ; 0x20ea6
     ld a, [$d551]
     and a
     jr nz, .asm_20ec5
-    ld a, [$d53c]
+    ld a, [wIndicatorStatuses + 13]
     and a
     jr z, .asm_20ec5
     xor a
-    ld [$d53c], a
+    ld [wIndicatorStatuses + 13], a
     ld a, [$d55d]
     and a
     ld a, $0
@@ -38326,11 +38574,11 @@ Func_20ec7: ; 0x20ec7
     ld a, [$d551]
     and a
     jr nz, .asm_20ee6
-    ld a, [$d53d]
+    ld a, [wIndicatorStatuses + 14]
     and a
     jr z, .asm_20ee6
     xor a
-    ld [$d53d], a
+    ld [wIndicatorStatuses + 14], a
     ld a, [$d55e]
     and a
     ld a, $0
@@ -38345,11 +38593,11 @@ Func_20ee8: ; 0x20ee8
     ld a, [$d551]
     and a
     jr nz, .asm_20f07
-    ld a, [$d53a]
+    ld a, [wIndicatorStatuses + 11]
     and a
     jr z, .asm_20f07
     xor a
-    ld [$d53a], a
+    ld [wIndicatorStatuses + 11], a
     ld a, [$d55f]
     and a
     ld a, $0
@@ -38364,11 +38612,11 @@ Func_20f09: ; 0x20f09
     ld a, [$d551]
     and a
     jr nz, .asm_20f28
-    ld a, [$d53b]
+    ld a, [wIndicatorStatuses + 12]
     and a
     jr z, .asm_20f28
     xor a
-    ld [$d53b], a
+    ld [wIndicatorStatuses + 12], a
     ld a, [$d560]
     and a
     ld a, $0
@@ -38383,11 +38631,11 @@ Func_20f2a: ; 0x20f2a
     ld a, [$d551]
     and a
     jr nz, .asm_20f49
-    ld a, [$d535]
+    ld a, [wIndicatorStatuses + 6]
     and a
     jr z, .asm_20f49
     xor a
-    ld [$d535], a
+    ld [wIndicatorStatuses + 6], a
     ld a, [$d565]
     and a
     ld a, $0
@@ -38405,11 +38653,11 @@ Func_20f4b: ; 0x20f4b
     ld a, [$d551]
     and a
     jr nz, .asm_20f73
-    ld a, [$d536]
+    ld a, [wIndicatorStatuses + 7]
     and a
     jr z, .asm_20f73
     xor a
-    ld [$d536], a
+    ld [wIndicatorStatuses + 7], a
     ld a, [$d564]
     and a
     ld a, $0
@@ -38427,16 +38675,16 @@ Func_20f75: ; 0x20f75
     ld a, [$d553]
     ld [hl], a
     ld [$d551], a
-    ld a, [$d52f]
+    ld a, [wIndicatorStatuses]
     ld [$d558], a
-    ld a, [$d532]
+    ld a, [wIndicatorStatuses + 3]
     ld [$d559], a
-    ld a, [$d531]
+    ld a, [wIndicatorStatuses + 2]
     ld [$d63f], a
     xor a
-    ld [$d52f], a
-    ld [$d531], a
-    ld [$d532], a
+    ld [wIndicatorStatuses], a
+    ld [wIndicatorStatuses + 2], a
+    ld [wIndicatorStatuses + 3], a
     ld a, [wCurrentStage]
     bit 0, a
     ld [$ff8a], a
@@ -38480,18 +38728,18 @@ Func_20fef: ; 0x20fef
     call PlaySoundEffect
     ld a, $1
     ld [$d551], a
-    ld a, [$d52f]
+    ld a, [wIndicatorStatuses]
     ld [$d558], a
     ld a, $80
-    ld [$d52f], a
-    ld [$d530], a
-    ld a, [$d532]
+    ld [wIndicatorStatuses], a
+    ld [wIndicatorStatuses + 1], a
+    ld a, [wIndicatorStatuses + 3]
     ld [$d559], a
-    ld a, [$d531]
+    ld a, [wIndicatorStatuses + 2]
     ld [$d63f], a
     xor a
-    ld [$d531], a
-    ld [$d532], a
+    ld [wIndicatorStatuses + 2], a
+    ld [wIndicatorStatuses + 3], a
     ld a, [wCurrentStage]
     bit 0, a
     ld [$ff8a], a
@@ -38524,7 +38772,7 @@ Func_2105c: ; 0x2105c
     ld a, [$d551]
     and a
     jr z, .asm_21077
-    ld a, [$d530]
+    ld a, [wIndicatorStatuses + 1]
     and a
     jr z, .asm_21077
     ld bc, $34d0
@@ -38541,7 +38789,7 @@ Func_21079: ; 0x21079
     ld a, [$d551]
     and a
     jr z, .asm_21087
-    ld a, [$d530]
+    ld a, [wIndicatorStatuses + 1]
     and a
     jr z, .asm_21087
     jr asm_210c7
@@ -38553,11 +38801,11 @@ Func_21089: ; 0x21089
     ld a, [$d551]
     and a
     jr nz, .asm_210aa
-    ld a, [$d52f]
+    ld a, [wIndicatorStatuses]
     and a
     jr z, .asm_210a8
     xor a
-    ld [$d52f], a
+    ld [wIndicatorStatuses], a
     ld a, [$d563]
     and a
     ld a, $0
@@ -38571,7 +38819,7 @@ Func_21089: ; 0x21089
     ld a, [$d551]
     and a
     jr z, .asm_210c5
-    ld a, [$d52f]
+    ld a, [wIndicatorStatuses]
     and a
     jr z, .asm_210c5
     ld bc, $34d0
@@ -38585,14 +38833,14 @@ Func_21089: ; 0x21089
     ret
 asm_210c7:
     xor a
-    ld [$d530], a
+    ld [wIndicatorStatuses + 1], a
     ld [$d551], a
     ld a, [$d558]
-    ld [$d52f], a
+    ld [wIndicatorStatuses], a
     ld a, [$d559]
-    ld [$d532], a
+    ld [wIndicatorStatuses + 3], a
     ld a, [$d63f]
-    ld [$d531], a
+    ld [wIndicatorStatuses + 2], a
     ld a, [wCurrentStage]
     bit 0, a
     ld [$ff8a], a
@@ -46243,10 +46491,10 @@ InitRedField: ; 0x30000
     ld [wStageCollisionState], a
     ld [$d7ad], a
     ld a, $80
-    ld [$d52f], a
-    ld [$d532], a
+    ld [wIndicatorStatuses], a
+    ld [wIndicatorStatuses + 3], a
     ld a, $82
-    ld [$d530], a
+    ld [wIndicatorStatuses + 1], a
     ld [$ff8a], a
     ld a, Bank(Func_dbba)
     ld hl, Func_dbba
@@ -46735,21 +46983,21 @@ Func_311b4: ; 0x311b4
     and a
     jr nz, .asm_311ce
     ld a, $80
-    ld [$d52f], a
-    ld [$d531], a
+    ld [wIndicatorStatuses], a
+    ld [wIndicatorStatuses + 2], a
     xor a
-    ld [$d530], a
-    ld [$d532], a
-    ld [$d533], a
+    ld [wIndicatorStatuses + 1], a
+    ld [wIndicatorStatuses + 3], a
+    ld [wIndicatorStatuses + 4], a
     jr .asm_311e2
 .asm_311ce
     ld a, $80
-    ld [$d530], a
-    ld [$d532], a
+    ld [wIndicatorStatuses + 1], a
+    ld [wIndicatorStatuses + 3], a
     xor a
-    ld [$d52f], a
-    ld [$d531], a
-    ld [$d533], a
+    ld [wIndicatorStatuses], a
+    ld [wIndicatorStatuses + 2], a
+    ld [wIndicatorStatuses + 4], a
     jr .asm_311e2
 .asm_311e2
     ld a, $2
@@ -46922,12 +47170,12 @@ Func_31326: ; 0x31326
     and a
     jr nz, .asm_3134c
     ld a, $80
-    ld [$d52f], a
-    ld [$d531], a
+    ld [wIndicatorStatuses], a
+    ld [wIndicatorStatuses + 2], a
     xor a
-    ld [$d530], a
-    ld [$d532], a
-    ld [$d533], a
+    ld [wIndicatorStatuses + 1], a
+    ld [wIndicatorStatuses + 3], a
+    ld [wIndicatorStatuses + 4], a
     ld a, $3
     ld [$ff8a], a
     ld a, Bank(Func_1de4b)
@@ -46936,12 +47184,12 @@ Func_31326: ; 0x31326
     jr .asm_31382
 .asm_3134c
     ld a, $80
-    ld [$d530], a
-    ld [$d532], a
+    ld [wIndicatorStatuses + 1], a
+    ld [wIndicatorStatuses + 3], a
     xor a
-    ld [$d52f], a
-    ld [$d531], a
-    ld [$d533], a
+    ld [wIndicatorStatuses], a
+    ld [wIndicatorStatuses + 2], a
+    ld [wIndicatorStatuses + 4], a
     ld a, $1
     ld [$ff8a], a
     ld a, Bank(Func_1de4b)
@@ -47193,11 +47441,11 @@ Func_3151f: ; 0x3151f
     ld [$d54d], a
     xor a
     ld [$d604], a
-    ld [$d52f], a
-    ld [$d530], a
-    ld [$d531], a
-    ld [$d532], a
-    ld [$d533], a
+    ld [wIndicatorStatuses], a
+    ld [wIndicatorStatuses + 1], a
+    ld [wIndicatorStatuses + 2], a
+    ld [wIndicatorStatuses + 3], a
+    ld [wIndicatorStatuses + 4], a
     ld a, [wCurrentStage]
     bit 0, a
     jr z, .asm_31577
@@ -47229,14 +47477,14 @@ Func_31591: ; 0x31591
     ld a, [$d55a]
     and a
     jr nz, .asm_315b1
-    ld a, [$d52f]
+    ld a, [wIndicatorStatuses]
     and a
     jr z, .asm_315b1
     xor a
-    ld [$d52f], a
-    ld [$d531], a
+    ld [wIndicatorStatuses], a
+    ld [wIndicatorStatuses + 2], a
     ld a, $80
-    ld [$d533], a
+    ld [wIndicatorStatuses + 4], a
     ld a, $1
     ld [$d604], a
     ld [$d54d], a
@@ -47248,14 +47496,14 @@ Func_315b3: ; 0x315b3
     ld a, [$d55a]
     and a
     jr z, .asm_315d3
-    ld a, [$d530]
+    ld a, [wIndicatorStatuses + 1]
     and a
     jr z, .asm_315d3
     xor a
-    ld [$d530], a
-    ld [$d532], a
+    ld [wIndicatorStatuses + 1], a
+    ld [wIndicatorStatuses + 3], a
     ld a, $80
-    ld [$d533], a
+    ld [wIndicatorStatuses + 4], a
     ld a, $1
     ld [$d604], a
     ld [$d54d], a
@@ -47386,11 +47634,11 @@ Func_3168c: ; 0x3168c
     ld [$d54d], a
     xor a
     ld [$d604], a
-    ld [$d52f], a
-    ld [$d530], a
-    ld [$d531], a
-    ld [$d532], a
-    ld [$d533], a
+    ld [wIndicatorStatuses], a
+    ld [wIndicatorStatuses + 1], a
+    ld [wIndicatorStatuses + 2], a
+    ld [wIndicatorStatuses + 3], a
+    ld [wIndicatorStatuses + 4], a
     ld a, [wCurrentStage]
     bit 0, a
     jr z, .asm_316ee
@@ -47422,14 +47670,14 @@ Func_31708: ; 0x31708
     ld a, [$d55a]
     and a
     jr nz, .asm_31728
-    ld a, [$d52f]
+    ld a, [wIndicatorStatuses]
     and a
     jr z, .asm_31728
     xor a
-    ld [$d52f], a
-    ld [$d531], a
+    ld [wIndicatorStatuses], a
+    ld [wIndicatorStatuses + 2], a
     ld a, $80
-    ld [$d533], a
+    ld [wIndicatorStatuses + 4], a
     ld a, $1
     ld [$d604], a
     ld [$d54d], a
@@ -47441,14 +47689,14 @@ Func_3172a: ; 0x3172a
     ld a, [$d55a]
     and a
     jr z, .asm_3174a
-    ld a, [$d530]
+    ld a, [wIndicatorStatuses + 1]
     and a
     jr z, .asm_3174a
     xor a
-    ld [$d530], a
-    ld [$d532], a
+    ld [wIndicatorStatuses + 1], a
+    ld [wIndicatorStatuses + 3], a
     ld a, $80
-    ld [$d533], a
+    ld [wIndicatorStatuses + 4], a
     ld a, $1
     ld [$d604], a
     ld [$d54d], a

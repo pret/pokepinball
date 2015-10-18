@@ -21629,7 +21629,7 @@ SetPokemonOwnedFlag: ; 0x1077c
 
 Func_107a5: ; 0x107a5
     xor a
-    ld hl, wIndicatorStatuses
+    ld hl, wIndicatorStates
     ld b, $13
 .asm_107ab
     ld [hli], a
@@ -21640,7 +21640,7 @@ Func_107a5: ; 0x107a5
 Func_107b0: ; 0x107b0
     xor a
     ld [$d604], a
-    ld [wIndicatorStatuses + 4], a
+    ld [wIndicatorStates + 4], a
     ld [$ff8a], a
     ld a, Bank(Func_16425)
     ld hl, Func_16425
@@ -21658,16 +21658,16 @@ Func_107c8: ; 0x107c8
     jr z, .asm_107d1
     set 7, a
 .asm_107d1
-    ld [wIndicatorStatuses + 1], a
+    ld [wIndicatorStates + 1], a
     ld a, [wRightAlleyCount]
     cp $2
     jr c, .asm_107e0
     ld a, $80
-    ld [wIndicatorStatuses + 3], a
+    ld [wIndicatorStates + 3], a
 .asm_107e0
     ld a, [wLeftAlleyCount]
     set 7, a
-    ld [wIndicatorStatuses], a
+    ld [wIndicatorStates], a
     ret
 
 Func_107e9: ; 0x107e9
@@ -21766,7 +21766,7 @@ Func_10871: ; 0x10871
     ld b, h
     ld hl, CatchEmModeInitialIndicatorStates
     add hl, bc
-    ld de, wIndicatorStatuses
+    ld de, wIndicatorStates
     ld b, $13  ; number of indicators
 .loop
     ld a, [hli]
@@ -21886,7 +21886,7 @@ Func_1098c: ; 0x1098c
     ld b, h
     ld hl, CatchEmModeInitialIndicatorStates
     add hl, bc
-    ld de, wIndicatorStatuses
+    ld de, wIndicatorStates
     ld b, $13  ; number of indicators
 .loop
     ld a, [hli]
@@ -22615,12 +22615,12 @@ Func_10ebb: ; 0x10ebb
     sub $2
     ld c, a
     sla c
-    ld hl, $4f3b
+    ld hl, IndicatorStatesPointerTable_10f3b
     add hl, bc
     ld a, [hli]
     ld h, [hl]
     ld l, a
-    ld de, wIndicatorStatuses
+    ld de, wIndicatorStates
     ld b, $13
 .asm_10eda
     ld a, [hli]
@@ -22667,7 +22667,39 @@ Func_10ebb: ; 0x10ebb
     call nz, BankSwitch
     ret
 
-INCBIN "baserom.gbc",$10f3b,$10fe3 - $10f3b
+IndicatorStatesPointerTable_10f3b: ; 0x10f3b
+    dw IndicatorStates_10f4b
+    dw IndicatorStates_10f5e
+    dw IndicatorStates_10f71
+    dw IndicatorStates_10f84
+    dw IndicatorStates_10f97
+    dw IndicatorStates_10faa
+    dw IndicatorStates_10fbd
+    dw IndicatorStates_10fd0
+
+IndicatorStates_10f4b:  ; 0x10f4b
+    db $00, $00, $00, $00, $00, $00, $00, $00, $00, $01, $00, $00, $00, $01, $01, $00, $00, $00, $00
+
+IndicatorStates_10f5e:  ; 0x10f5e
+    db $00, $00, $00, $00, $00, $00, $00, $00, $00, $01, $00, $01, $00, $01, $01, $00, $00, $00, $00
+
+IndicatorStates_10f71:  ; 0x10f71
+    db $00, $00, $00, $00, $00, $00, $00, $00, $00, $01, $00, $01, $01, $01, $01, $00, $00, $00, $00
+
+IndicatorStates_10f84:  ; 0x10f84
+    db $00, $00, $00, $00, $00, $00, $00, $00, $01, $01, $00, $01, $01, $01, $01, $00, $00, $00, $00
+
+IndicatorStates_10f97:  ; 0x10f97
+    db $00, $00, $00, $80, $00, $00, $00, $00, $01, $01, $01, $01, $01, $01, $01, $00, $00, $00, $00
+
+IndicatorStates_10faa:  ; 0x10faa
+    db $00, $00, $80, $80, $00, $00, $00, $00, $01, $01, $01, $01, $01, $01, $01, $00, $00, $00, $00
+
+IndicatorStates_10fbd:  ; 0x10fbd
+    db $00, $00, $80, $80, $00, $00, $00, $01, $01, $01, $01, $01, $01, $01, $01, $00, $00, $00, $00
+
+IndicatorStates_10fd0:  ; 0x10fd0
+    db $00, $00, $80, $80, $00, $00, $01, $01, $01, $01, $01, $01, $01, $01, $01, $00, $00, $00, $00
 
 Func_10fe3: ; 0x10fe3
     call Func_107a5
@@ -22744,7 +22776,7 @@ Func_11061: ; 0x11061
     ld a, [hli]
     ld h, [hl]
     ld l, a
-    ld de, wIndicatorStatuses
+    ld de, wIndicatorStates
     ld b, $13
 .asm_11085
     ld a, [hli]
@@ -25258,7 +25290,7 @@ Func_14135: ; 0x14135
     ld bc, $0000
 .asm_14138
     push bc
-    ld hl, wIndicatorStatuses
+    ld hl, wIndicatorStates
     add hl, bc
     ld a, [hl]
     res 7, a
@@ -27056,7 +27088,7 @@ Func_1587c: ; 0x1587c
     inc a
     ld [wLeftAlleyCount], a
     set 7, a
-    ld [wIndicatorStatuses], a
+    ld [wIndicatorStates], a
     cp $83
     ret nz
     ld a, [wStageCollisionState]
@@ -27090,7 +27122,7 @@ Func_158c0: ; 0x158c0
     inc a
     ld [wLeftAlleyCount], a
     set 7, a
-    ld [wIndicatorStatuses], a
+    ld [wIndicatorStates], a
     cp $83
     ret nz
     ld a, [wStageCollisionState]
@@ -27163,12 +27195,12 @@ Func_15944: ; 0x15944
     jr z, .asm_1596e
     set 7, a
 .asm_1596e
-    ld [wIndicatorStatuses + 1], a
+    ld [wIndicatorStates + 1], a
     ld a, [wRightAlleyCount]
     cp $2
     ret c
     ld a, $80
-    ld [wIndicatorStatuses + 3], a
+    ld [wIndicatorStates + 3], a
     ret
 
 HandleRightAlleyTriggerRedField: ; 0x1597d
@@ -27205,12 +27237,12 @@ Func_15990: ; 0x15990
     jr z, .asm_159ba
     set 7, a
 .asm_159ba
-    ld [wIndicatorStatuses + 1], a
+    ld [wIndicatorStates + 1], a
     ld a, [wRightAlleyCount]
     cp $2
     ret c
     ld a, $80
-    ld [wIndicatorStatuses + 3], a
+    ld [wIndicatorStates + 3], a
     ret
 
 Func_159c9: ; 0x159c9
@@ -27799,7 +27831,7 @@ Func_16279: ; 0x16279
 
 Func_16352: ; 0x16352
     xor a
-    ld [wIndicatorStatuses + 4], a
+    ld [wIndicatorStates + 4], a
     ld a, $d
     ld [$ff8a], a
     ld a, Bank(Func_10000)
@@ -27960,7 +27992,7 @@ Func_164e3: ; 0x164e3
     ld a, $1
     ld [$d604], a
     ld a, $80
-    ld [wIndicatorStatuses + 4], a
+    ld [wIndicatorStates + 4], a
     ld a, [wCurrentStage]
     bit 0, a
     call nz, Func_16425
@@ -28400,7 +28432,7 @@ Func_169a6: ; 0x169a6
     ld bc, $0000
 .asm_169ae
     push bc
-    ld hl, wIndicatorStatuses
+    ld hl, wIndicatorStates
     add hl, bc
     bit 7, [hl]
     jr z, .asm_169c5
@@ -29282,7 +29314,7 @@ Func_17efb: ; 0x17efb
     ld a, [$ffb3]
     bit 4, a
     ret z
-    ld de, wIndicatorStatuses + 5
+    ld de, wIndicatorStates + 5
     ld hl, $7f3a
     ld b, $6
     jr asm_17f21
@@ -29294,7 +29326,7 @@ Func_17f0f: ; 0x17f0f
     ld a, [$ffb3]
     bit 4, a
     ret z
-    ld de, wIndicatorStatuses + 11
+    ld de, wIndicatorStates + 11
     ld hl, $7f4c
     ld b, $8
 asm_17f21: ; 0x17f21
@@ -32759,10 +32791,10 @@ InitBlueField: ; 0x1c000
     ld [$d498], a
     ld [$d499], a
     ld a, $80
-    ld [wIndicatorStatuses], a
-    ld [wIndicatorStatuses + 3], a
+    ld [wIndicatorStates], a
+    ld [wIndicatorStates + 3], a
     ld a, $82
-    ld [wIndicatorStatuses + 1], a
+    ld [wIndicatorStates + 1], a
     xor a
     ld [$d648], a
     ld [$d649], a
@@ -33060,7 +33092,7 @@ Func_1c2cb: ; 0x1c2cb
     ld bc, $0000
 .asm_1c2d4
     push bc
-    ld hl, wIndicatorStatuses
+    ld hl, wIndicatorStates
     add hl, bc
     ld a, [hl]
     res 7, a
@@ -33073,7 +33105,7 @@ Func_1c2cb: ; 0x1c2cb
     ld bc, $0002
 .asm_1c2e9
     push bc
-    ld hl, wIndicatorStatuses
+    ld hl, wIndicatorStates
     add hl, bc
     ld a, [hl]
     push af
@@ -34224,12 +34256,12 @@ Func_1d010: ; 0x1d010
     cp $3
     jr z, .asm_1d03e
     set 7, a
-    ld [wIndicatorStatuses], a
+    ld [wIndicatorStates], a
     ret
 .asm_1d03e
-    ld [wIndicatorStatuses], a
+    ld [wIndicatorStates], a
     ld a, $80
-    ld [wIndicatorStatuses + 2], a
+    ld [wIndicatorStates + 2], a
     ret
 
 Func_1d047: ; 0x1d047
@@ -34255,12 +34287,12 @@ Func_1d047: ; 0x1d047
     jr z, .asm_1d071
     set 7, a
 .asm_1d071
-    ld [wIndicatorStatuses + 1], a
+    ld [wIndicatorStates + 1], a
     ld a, [wRightAlleyCount]
     cp $2
     ret c
     ld a, $80
-    ld [wIndicatorStatuses + 3], a
+    ld [wIndicatorStates + 3], a
     ret
 
 HandleLeftAlleyTriggerBlueField: ; 0x1d080
@@ -36115,7 +36147,7 @@ Func_1e757: ; 0x1e757
 
 Func_1e830: ; 0x1e830
     xor a
-    ld [wIndicatorStatuses + 4], a
+    ld [wIndicatorStates + 4], a
     ld a, $d
     ld [$ff8a], a
     ld a, Bank(Func_10000)
@@ -36270,7 +36302,7 @@ Func_1e9c0: ; 0x1e9c0
     ld a, $1
     ld [$d604], a
     ld a, $80
-    ld [wIndicatorStatuses + 4], a
+    ld [wIndicatorStates + 4], a
     ld a, [wCurrentStage]
     bit 0, a
     call nz, Func_1e8f6
@@ -36418,7 +36450,7 @@ Func_1ead4: ; 0x1ead4
     ld bc, $0000
 .asm_1eadc
     push bc
-    ld hl, wIndicatorStatuses
+    ld hl, wIndicatorStates
     add hl, bc
     ld a, [hl]
     cp $1
@@ -36448,7 +36480,7 @@ Func_1ead4: ; 0x1ead4
     ld bc, $0002
 .asm_1eb0d
     push bc
-    ld hl, wIndicatorStatuses
+    ld hl, wIndicatorStates
     add hl, bc
     ld a, [hl]
     cp $1
@@ -37040,7 +37072,7 @@ INCBIN "baserom.gbc",$1f2b9,$1f2ed - $1f2b9
 Func_1f2ed: ; 0x1f2ed
     xor a
     ld [$d604], a
-    ld [wIndicatorStatuses + 4], a
+    ld [wIndicatorStates + 4], a
     ld [$ff8a], a
     ld a, Bank(Func_1e8f6)  ; this is in the same bank...
     ld hl, Func_1e8f6
@@ -37052,26 +37084,26 @@ Func_1f2ff: ; 0x1f2ff
     cp $3
     jr c, .asm_1f30b
     ld a, $80
-    ld [wIndicatorStatuses + 2], a
+    ld [wIndicatorStates + 2], a
 .asm_1f30b
     ld a, [wLeftAlleyCount]
     cp $3
     jr z, .asm_1f314
     set 7, a
 .asm_1f314
-    ld [wIndicatorStatuses], a
+    ld [wIndicatorStates], a
     ld a, [wRightAlleyCount]
     cp $2
     jr c, .asm_1f323
     ld a, $80
-    ld [wIndicatorStatuses + 3], a
+    ld [wIndicatorStates + 3], a
 .asm_1f323
     ld a, [wRightAlleyCount]
     cp $3
     jr z, .asm_1f32c
     set 7, a
 .asm_1f32c
-    ld [wIndicatorStatuses + 1], a
+    ld [wIndicatorStates + 1], a
     ret
 
 Func_1f330: ; 0x1f330
@@ -37269,7 +37301,7 @@ Func_1f48f: ; 0x1f48f
     ld a, [$ffb3]
     bit 4, a
     ret z
-    ld de, wIndicatorStatuses + 5
+    ld de, wIndicatorStates + 5
     ld hl, $74ce
     ld b, $6
     jr asm_1f4b5
@@ -37281,7 +37313,7 @@ Func_1f4a3: ; 0x1f4a3
     ld a, [$ffb3]
     bit 4, a
     ret z
-    ld de, wIndicatorStatuses + 11
+    ld de, wIndicatorStates + 11
     ld hl, $74e0
     ld b, $8
 asm_1f4b5:
@@ -37735,7 +37767,7 @@ Func_20230: ; 0x20230
     cp $18
     jr nz, .asm_20264
     xor a
-    ld [wIndicatorStatuses + 9], a
+    ld [wIndicatorStates + 9], a
 .asm_20264
     ld [$ff8a], a
     ld a, Bank(Func_10184)
@@ -38108,7 +38140,7 @@ Func_204f1: ; 0x204f1
     cp $18
     jr nz, .asm_20525
     xor a
-    ld [wIndicatorStatuses + 9], a
+    ld [wIndicatorStates + 9], a
 .asm_20525
     ld [$ff8a], a
     ld a, Bank(Func_10184)
@@ -38225,10 +38257,10 @@ Func_205e0: ; 0x205e0
     ld [$d551], a
     call Func_20651
     ld a, [$d558]
-    ld [wIndicatorStatuses + 2], a
+    ld [wIndicatorStates + 2], a
     ld a, [$d559]
-    ld [wIndicatorStatuses + 3], a
-    ld [wIndicatorStatuses + 10], a
+    ld [wIndicatorStates + 3], a
+    ld [wIndicatorStates + 10], a
     ld a, [wCurrentStage]
     bit 0, a
     ld [$ff8a], a
@@ -38306,19 +38338,19 @@ Func_20651: ; 0x20651
     ld a, $1
     ld [$d604], a
     ld a, $80
-    ld [wIndicatorStatuses + 4], a
+    ld [wIndicatorStates + 4], a
     xor a
-    ld [wIndicatorStatuses + 9], a
-    ld [wIndicatorStatuses + 2], a
-    ld [wIndicatorStatuses + 3], a
-    ld [wIndicatorStatuses + 10], a
-    ld [wIndicatorStatuses + 8], a
-    ld [wIndicatorStatuses + 13], a
-    ld [wIndicatorStatuses + 14], a
-    ld [wIndicatorStatuses + 11], a
-    ld [wIndicatorStatuses + 12], a
-    ld [wIndicatorStatuses + 6], a
-    ld [wIndicatorStatuses + 7], a
+    ld [wIndicatorStates + 9], a
+    ld [wIndicatorStates + 2], a
+    ld [wIndicatorStates + 3], a
+    ld [wIndicatorStates + 10], a
+    ld [wIndicatorStates + 8], a
+    ld [wIndicatorStates + 13], a
+    ld [wIndicatorStates + 14], a
+    ld [wIndicatorStates + 11], a
+    ld [wIndicatorStates + 12], a
+    ld [wIndicatorStates + 6], a
+    ld [wIndicatorStates + 7], a
     ld [$d558], a
     ld [$d559], a
     ld a, [wCurrentStage]
@@ -38425,19 +38457,19 @@ Func_2077b: ; 0x2077b
     ld [$d54d], a
     xor a
     ld [$d604], a
-    ld hl, wIndicatorStatuses
-    ld [wIndicatorStatuses + 4], a
-    ld [wIndicatorStatuses + 9], a
-    ld [wIndicatorStatuses + 2], a
-    ld [wIndicatorStatuses + 3], a
-    ld [wIndicatorStatuses + 10], a
-    ld [wIndicatorStatuses + 8], a
-    ld [wIndicatorStatuses + 13], a
-    ld [wIndicatorStatuses + 14], a
-    ld [wIndicatorStatuses + 11], a
-    ld [wIndicatorStatuses + 12], a
-    ld [wIndicatorStatuses + 6], a
-    ld [wIndicatorStatuses + 7], a
+    ld hl, wIndicatorStates
+    ld [wIndicatorStates + 4], a
+    ld [wIndicatorStates + 9], a
+    ld [wIndicatorStates + 2], a
+    ld [wIndicatorStates + 3], a
+    ld [wIndicatorStates + 10], a
+    ld [wIndicatorStates + 8], a
+    ld [wIndicatorStates + 13], a
+    ld [wIndicatorStates + 14], a
+    ld [wIndicatorStates + 11], a
+    ld [wIndicatorStates + 12], a
+    ld [wIndicatorStates + 6], a
+    ld [wIndicatorStates + 7], a
     ld [$d558], a
     ld [$d559], a
     ld [$d551], a
@@ -38471,11 +38503,11 @@ Func_2080f: ; 0x2080f
     ld a, [$d551]
     and a
     jr nz, .asm_20837
-    ld a, [wIndicatorStatuses + 9]
+    ld a, [wIndicatorStates + 9]
     and a
     jr z, .asm_20837
     xor a
-    ld [wIndicatorStatuses + 9], a
+    ld [wIndicatorStates + 9], a
     ld a, [$d55c]
     and a
     ld a, $0
@@ -38490,11 +38522,11 @@ Func_20839: ; 0x20839
     ld a, [$d551]
     and a
     jr nz, .asm_20858
-    ld a, [wIndicatorStatuses + 2]
+    ld a, [wIndicatorStates + 2]
     and a
     jr z, .asm_20858
     xor a
-    ld [wIndicatorStatuses + 2], a
+    ld [wIndicatorStates + 2], a
     ld a, [$d563]
     and a
     ld a, $0
@@ -38512,12 +38544,12 @@ Func_2085a: ; 0x2085a
     ld a, [$d551]
     and a
     jr nz, .asm_20885
-    ld a, [wIndicatorStatuses + 3]
+    ld a, [wIndicatorStates + 3]
     and a
     jr z, .asm_20885
     xor a
-    ld [wIndicatorStatuses + 3], a
-    ld [wIndicatorStatuses + 10], a
+    ld [wIndicatorStates + 3], a
+    ld [wIndicatorStates + 10], a
     ld a, [$d562]
     and a
     ld a, $0
@@ -38532,11 +38564,11 @@ Func_20887: ; 0x20887
     ld a, [$d551]
     and a
     jr nz, .asm_208a6
-    ld a, [wIndicatorStatuses + 8]
+    ld a, [wIndicatorStates + 8]
     and a
     jr z, .asm_208a6
     xor a
-    ld [wIndicatorStatuses + 8], a
+    ld [wIndicatorStates + 8], a
     ld a, [$d561]
     and a
     ld a, $0
@@ -38551,11 +38583,11 @@ Func_208a8: ; 0x208a8
     ld a, [$d551]
     and a
     jr nz, .asm_208c7
-    ld a, [wIndicatorStatuses + 13]
+    ld a, [wIndicatorStates + 13]
     and a
     jr z, .asm_208c7
     xor a
-    ld [wIndicatorStatuses + 13], a
+    ld [wIndicatorStates + 13], a
     ld a, [$d55d]
     and a
     ld a, $0
@@ -38570,11 +38602,11 @@ Func_208c9: ; 0x208c9
     ld a, [$d551]
     and a
     jr nz, .asm_208e8
-    ld a, [wIndicatorStatuses + 14]
+    ld a, [wIndicatorStates + 14]
     and a
     jr z, .asm_208e8
     xor a
-    ld [wIndicatorStatuses + 14], a
+    ld [wIndicatorStates + 14], a
     ld a, [$d55e]
     and a
     ld a, $0
@@ -38589,11 +38621,11 @@ Func_208ea: ; 0x208ea
     ld a, [$d551]
     and a
     jr nz, .asm_20909
-    ld a, [wIndicatorStatuses + 11]
+    ld a, [wIndicatorStates + 11]
     and a
     jr z, .asm_20909
     xor a
-    ld [wIndicatorStatuses + 11], a
+    ld [wIndicatorStates + 11], a
     ld a, [$d55f]
     and a
     ld a, $0
@@ -38608,11 +38640,11 @@ Func_2090b: ; 0x2090b
     ld a, [$d551]
     and a
     jr nz, .asm_2092a
-    ld a, [wIndicatorStatuses + 12]
+    ld a, [wIndicatorStates + 12]
     and a
     jr z, .asm_2092a
     xor a
-    ld [wIndicatorStatuses + 12], a
+    ld [wIndicatorStates + 12], a
     ld a, [$d560]
     and a
     ld a, $0
@@ -38627,11 +38659,11 @@ Func_2092c: ; 0x2092c
     ld a, [$d551]
     and a
     jr nz, .asm_2094b
-    ld a, [wIndicatorStatuses + 6]
+    ld a, [wIndicatorStates + 6]
     and a
     jr z, .asm_2094b
     xor a
-    ld [wIndicatorStatuses + 6], a
+    ld [wIndicatorStates + 6], a
     ld a, [$d565]
     and a
     ld a, $0
@@ -38649,11 +38681,11 @@ Func_2094d: ; 0x2094d
     ld a, [$d551]
     and a
     jr nz, .asm_20975
-    ld a, [wIndicatorStatuses + 7]
+    ld a, [wIndicatorStates + 7]
     and a
     jr z, .asm_20975
     xor a
-    ld [wIndicatorStatuses + 7], a
+    ld [wIndicatorStates + 7], a
     ld a, [$d564]
     and a
     ld a, $0
@@ -38671,14 +38703,14 @@ Func_20977: ; 0x20977
     ld a, [wCurrentEvolutionType]
     ld [hl], a
     ld [$d551], a
-    ld a, [wIndicatorStatuses + 2]
+    ld a, [wIndicatorStates + 2]
     ld [$d558], a
-    ld a, [wIndicatorStatuses + 3]
+    ld a, [wIndicatorStates + 3]
     ld [$d559], a
     xor a
-    ld [wIndicatorStatuses + 2], a
-    ld [wIndicatorStatuses + 3], a
-    ld [wIndicatorStatuses + 10], a
+    ld [wIndicatorStates + 2], a
+    ld [wIndicatorStates + 3], a
+    ld [wIndicatorStates + 10], a
     ld a, [wCurrentStage]
     bit 0, a
     ld [$ff8a], a
@@ -38723,16 +38755,16 @@ Func_209eb: ; 0x209eb
     ld a, $1
     ld [$d551], a
     ld a, $80
-    ld [wIndicatorStatuses], a
-    ld [wIndicatorStatuses + 1], a
-    ld a, [wIndicatorStatuses + 2]
+    ld [wIndicatorStates], a
+    ld [wIndicatorStates + 1], a
+    ld a, [wIndicatorStates + 2]
     ld [$d558], a
-    ld a, [wIndicatorStatuses + 3]
+    ld a, [wIndicatorStates + 3]
     ld [$d559], a
     xor a
-    ld [wIndicatorStatuses + 2], a
-    ld [wIndicatorStatuses + 3], a
-    ld [wIndicatorStatuses + 10], a
+    ld [wIndicatorStates + 2], a
+    ld [wIndicatorStates + 3], a
+    ld [wIndicatorStates + 10], a
     ld a, [wCurrentStage]
     bit 0, a
     ld [$ff8a], a
@@ -38765,7 +38797,7 @@ Func_20a55: ; 0x20a55
     ld a, [$d551]
     and a
     jr z, .asm_20a63
-    ld a, [wIndicatorStatuses + 1]
+    ld a, [wIndicatorStates + 1]
     and a
     jr z, .asm_20a63
     jr asm_20a9f
@@ -38777,7 +38809,7 @@ Func_20a65: ; 0x20a65
     ld a, [$d551]
     and a
     jr z, .asm_20a80
-    ld a, [wIndicatorStatuses + 1]
+    ld a, [wIndicatorStates + 1]
     and a
     jr z, .asm_20a80
     ld bc, $34d0
@@ -38794,7 +38826,7 @@ Func_20a82: ; 0x20a82
     ld a, [$d551]
     and a
     jr z, .asm_20a9d
-    ld a, [wIndicatorStatuses]
+    ld a, [wIndicatorStates]
     and a
     jr z, .asm_20a9d
     ld bc, $34d0
@@ -38808,14 +38840,14 @@ Func_20a82: ; 0x20a82
     ret
 asm_20a9f:
     xor a
-    ld [wIndicatorStatuses], a
-    ld [wIndicatorStatuses + 1], a
+    ld [wIndicatorStates], a
+    ld [wIndicatorStates + 1], a
     ld [$d551], a
     ld a, [$d558]
-    ld [wIndicatorStatuses + 2], a
+    ld [wIndicatorStates + 2], a
     ld a, [$d559]
-    ld [wIndicatorStatuses + 3], a
-    ld [wIndicatorStatuses + 10], a
+    ld [wIndicatorStates + 3], a
+    ld [wIndicatorStates + 10], a
     ld a, [$d4ac]
     bit 0, a
     ld [$ff8a], a
@@ -39009,9 +39041,9 @@ Func_20c08: ; 0x20c08
     ld [$d551], a
     call Func_20c76
     ld a, [$d558]
-    ld [wIndicatorStatuses], a
+    ld [wIndicatorStates], a
     ld a, [$d559]
-    ld [wIndicatorStatuses + 3], a
+    ld [wIndicatorStates + 3], a
     ld a, [wCurrentStage]
     bit 0, a
     ld [$ff8a], a
@@ -39090,19 +39122,19 @@ Func_20c76: ; 0x20c76
     ld a, $1
     ld [$d604], a
     ld a, $80
-    ld [wIndicatorStatuses + 4], a
+    ld [wIndicatorStates + 4], a
     xor a
-    ld [wIndicatorStatuses + 9], a
-    ld [wIndicatorStatuses + 2], a
-    ld [wIndicatorStatuses + 3], a
-    ld [wIndicatorStatuses + 8], a
-    ld [wIndicatorStatuses + 13], a
-    ld [wIndicatorStatuses + 14], a
-    ld [wIndicatorStatuses + 11], a
-    ld [wIndicatorStatuses + 12], a
-    ld [wIndicatorStatuses + 10], a
-    ld [wIndicatorStatuses + 6], a
-    ld [wIndicatorStatuses + 7], a
+    ld [wIndicatorStates + 9], a
+    ld [wIndicatorStates + 2], a
+    ld [wIndicatorStates + 3], a
+    ld [wIndicatorStates + 8], a
+    ld [wIndicatorStates + 13], a
+    ld [wIndicatorStates + 14], a
+    ld [wIndicatorStates + 11], a
+    ld [wIndicatorStates + 12], a
+    ld [wIndicatorStates + 10], a
+    ld [wIndicatorStates + 6], a
+    ld [wIndicatorStates + 7], a
     ld [$d558], a
     ld [$d559], a
     ld a, [wCurrentStage]
@@ -39209,19 +39241,19 @@ Func_20da0: ; 0x20da0
     ld [$d54d], a
     xor a
     ld [$d604], a
-    ld hl, wIndicatorStatuses
-    ld [wIndicatorStatuses + 4], a
-    ld [wIndicatorStatuses + 9], a
-    ld [wIndicatorStatuses + 2], a
-    ld [wIndicatorStatuses + 3], a
-    ld [wIndicatorStatuses + 8], a
-    ld [wIndicatorStatuses + 13], a
-    ld [wIndicatorStatuses + 14], a
-    ld [wIndicatorStatuses + 11], a
-    ld [wIndicatorStatuses + 12], a
-    ld [wIndicatorStatuses + 10], a
-    ld [wIndicatorStatuses + 6], a
-    ld [wIndicatorStatuses + 7], a
+    ld hl, wIndicatorStates
+    ld [wIndicatorStates + 4], a
+    ld [wIndicatorStates + 9], a
+    ld [wIndicatorStates + 2], a
+    ld [wIndicatorStates + 3], a
+    ld [wIndicatorStates + 8], a
+    ld [wIndicatorStates + 13], a
+    ld [wIndicatorStates + 14], a
+    ld [wIndicatorStates + 11], a
+    ld [wIndicatorStates + 12], a
+    ld [wIndicatorStates + 10], a
+    ld [wIndicatorStates + 6], a
+    ld [wIndicatorStates + 7], a
     ld [$d558], a
     ld [$d559], a
     ld [$d551], a
@@ -39255,11 +39287,11 @@ Func_20e34: ; 0x20e34
     ld a, [$d551]
     and a
     jr nz, .asm_20e5c
-    ld a, [wIndicatorStatuses + 9]
+    ld a, [wIndicatorStates + 9]
     and a
     jr z, .asm_20e5c
     xor a
-    ld [wIndicatorStatuses + 9], a
+    ld [wIndicatorStates + 9], a
     ld a, [$d55c]
     and a
     ld a, $0
@@ -39274,12 +39306,12 @@ Func_20e5e: ; 0x20e5e
     ld a, [$d551]
     and a
     jr nz, .asm_20e80
-    ld a, [wIndicatorStatuses + 3]
+    ld a, [wIndicatorStates + 3]
     and a
     jr z, .asm_20e80
     xor a
-    ld [wIndicatorStatuses + 3], a
-    ld [wIndicatorStatuses + 10], a
+    ld [wIndicatorStates + 3], a
+    ld [wIndicatorStates + 10], a
     ld a, [$d562]
     and a
     ld a, $0
@@ -39294,12 +39326,12 @@ Func_20e82: ; 0x20e82
     ld a, [$d551]
     and a
     jr nz, .asm_20ea4
-    ld a, [wIndicatorStatuses + 8]
+    ld a, [wIndicatorStates + 8]
     and a
     jr z, .asm_20ea4
     xor a
-    ld [wIndicatorStatuses + 8], a
-    ld [wIndicatorStatuses + 2], a
+    ld [wIndicatorStates + 8], a
+    ld [wIndicatorStates + 2], a
     ld a, [$d561]
     and a
     ld a, $0
@@ -39314,11 +39346,11 @@ Func_20ea6: ; 0x20ea6
     ld a, [$d551]
     and a
     jr nz, .asm_20ec5
-    ld a, [wIndicatorStatuses + 13]
+    ld a, [wIndicatorStates + 13]
     and a
     jr z, .asm_20ec5
     xor a
-    ld [wIndicatorStatuses + 13], a
+    ld [wIndicatorStates + 13], a
     ld a, [$d55d]
     and a
     ld a, $0
@@ -39333,11 +39365,11 @@ Func_20ec7: ; 0x20ec7
     ld a, [$d551]
     and a
     jr nz, .asm_20ee6
-    ld a, [wIndicatorStatuses + 14]
+    ld a, [wIndicatorStates + 14]
     and a
     jr z, .asm_20ee6
     xor a
-    ld [wIndicatorStatuses + 14], a
+    ld [wIndicatorStates + 14], a
     ld a, [$d55e]
     and a
     ld a, $0
@@ -39352,11 +39384,11 @@ Func_20ee8: ; 0x20ee8
     ld a, [$d551]
     and a
     jr nz, .asm_20f07
-    ld a, [wIndicatorStatuses + 11]
+    ld a, [wIndicatorStates + 11]
     and a
     jr z, .asm_20f07
     xor a
-    ld [wIndicatorStatuses + 11], a
+    ld [wIndicatorStates + 11], a
     ld a, [$d55f]
     and a
     ld a, $0
@@ -39371,11 +39403,11 @@ Func_20f09: ; 0x20f09
     ld a, [$d551]
     and a
     jr nz, .asm_20f28
-    ld a, [wIndicatorStatuses + 12]
+    ld a, [wIndicatorStates + 12]
     and a
     jr z, .asm_20f28
     xor a
-    ld [wIndicatorStatuses + 12], a
+    ld [wIndicatorStates + 12], a
     ld a, [$d560]
     and a
     ld a, $0
@@ -39390,11 +39422,11 @@ Func_20f2a: ; 0x20f2a
     ld a, [$d551]
     and a
     jr nz, .asm_20f49
-    ld a, [wIndicatorStatuses + 6]
+    ld a, [wIndicatorStates + 6]
     and a
     jr z, .asm_20f49
     xor a
-    ld [wIndicatorStatuses + 6], a
+    ld [wIndicatorStates + 6], a
     ld a, [$d565]
     and a
     ld a, $0
@@ -39412,11 +39444,11 @@ Func_20f4b: ; 0x20f4b
     ld a, [$d551]
     and a
     jr nz, .asm_20f73
-    ld a, [wIndicatorStatuses + 7]
+    ld a, [wIndicatorStates + 7]
     and a
     jr z, .asm_20f73
     xor a
-    ld [wIndicatorStatuses + 7], a
+    ld [wIndicatorStates + 7], a
     ld a, [$d564]
     and a
     ld a, $0
@@ -39434,16 +39466,16 @@ Func_20f75: ; 0x20f75
     ld a, [wCurrentEvolutionType]
     ld [hl], a
     ld [$d551], a
-    ld a, [wIndicatorStatuses]
+    ld a, [wIndicatorStates]
     ld [$d558], a
-    ld a, [wIndicatorStatuses + 3]
+    ld a, [wIndicatorStates + 3]
     ld [$d559], a
-    ld a, [wIndicatorStatuses + 2]
+    ld a, [wIndicatorStates + 2]
     ld [$d63f], a
     xor a
-    ld [wIndicatorStatuses], a
-    ld [wIndicatorStatuses + 2], a
-    ld [wIndicatorStatuses + 3], a
+    ld [wIndicatorStates], a
+    ld [wIndicatorStates + 2], a
+    ld [wIndicatorStates + 3], a
     ld a, [wCurrentStage]
     bit 0, a
     ld [$ff8a], a
@@ -39487,18 +39519,18 @@ Func_20fef: ; 0x20fef
     call PlaySoundEffect
     ld a, $1
     ld [$d551], a
-    ld a, [wIndicatorStatuses]
+    ld a, [wIndicatorStates]
     ld [$d558], a
     ld a, $80
-    ld [wIndicatorStatuses], a
-    ld [wIndicatorStatuses + 1], a
-    ld a, [wIndicatorStatuses + 3]
+    ld [wIndicatorStates], a
+    ld [wIndicatorStates + 1], a
+    ld a, [wIndicatorStates + 3]
     ld [$d559], a
-    ld a, [wIndicatorStatuses + 2]
+    ld a, [wIndicatorStates + 2]
     ld [$d63f], a
     xor a
-    ld [wIndicatorStatuses + 2], a
-    ld [wIndicatorStatuses + 3], a
+    ld [wIndicatorStates + 2], a
+    ld [wIndicatorStates + 3], a
     ld a, [wCurrentStage]
     bit 0, a
     ld [$ff8a], a
@@ -39531,7 +39563,7 @@ Func_2105c: ; 0x2105c
     ld a, [$d551]
     and a
     jr z, .asm_21077
-    ld a, [wIndicatorStatuses + 1]
+    ld a, [wIndicatorStates + 1]
     and a
     jr z, .asm_21077
     ld bc, $34d0
@@ -39548,7 +39580,7 @@ Func_21079: ; 0x21079
     ld a, [$d551]
     and a
     jr z, .asm_21087
-    ld a, [wIndicatorStatuses + 1]
+    ld a, [wIndicatorStates + 1]
     and a
     jr z, .asm_21087
     jr asm_210c7
@@ -39560,11 +39592,11 @@ Func_21089: ; 0x21089
     ld a, [$d551]
     and a
     jr nz, .asm_210aa
-    ld a, [wIndicatorStatuses]
+    ld a, [wIndicatorStates]
     and a
     jr z, .asm_210a8
     xor a
-    ld [wIndicatorStatuses], a
+    ld [wIndicatorStates], a
     ld a, [$d563]
     and a
     ld a, $0
@@ -39578,7 +39610,7 @@ Func_21089: ; 0x21089
     ld a, [$d551]
     and a
     jr z, .asm_210c5
-    ld a, [wIndicatorStatuses]
+    ld a, [wIndicatorStates]
     and a
     jr z, .asm_210c5
     ld bc, $34d0
@@ -39592,14 +39624,14 @@ Func_21089: ; 0x21089
     ret
 asm_210c7:
     xor a
-    ld [wIndicatorStatuses + 1], a
+    ld [wIndicatorStates + 1], a
     ld [$d551], a
     ld a, [$d558]
-    ld [wIndicatorStatuses], a
+    ld [wIndicatorStates], a
     ld a, [$d559]
-    ld [wIndicatorStatuses + 3], a
+    ld [wIndicatorStates + 3], a
     ld a, [$d63f]
-    ld [wIndicatorStatuses + 2], a
+    ld [wIndicatorStates + 2], a
     ld a, [wCurrentStage]
     bit 0, a
     ld [$ff8a], a
@@ -47250,10 +47282,10 @@ InitRedField: ; 0x30000
     ld [wStageCollisionState], a
     ld [$d7ad], a
     ld a, $80
-    ld [wIndicatorStatuses], a
-    ld [wIndicatorStatuses + 3], a
+    ld [wIndicatorStates], a
+    ld [wIndicatorStates + 3], a
     ld a, $82
-    ld [wIndicatorStatuses + 1], a
+    ld [wIndicatorStates + 1], a
     ld [$ff8a], a
     ld a, Bank(Func_dbba)
     ld hl, Func_dbba
@@ -47742,21 +47774,21 @@ Func_311b4: ; 0x311b4
     and a
     jr nz, .asm_311ce
     ld a, $80
-    ld [wIndicatorStatuses], a
-    ld [wIndicatorStatuses + 2], a
+    ld [wIndicatorStates], a
+    ld [wIndicatorStates + 2], a
     xor a
-    ld [wIndicatorStatuses + 1], a
-    ld [wIndicatorStatuses + 3], a
-    ld [wIndicatorStatuses + 4], a
+    ld [wIndicatorStates + 1], a
+    ld [wIndicatorStates + 3], a
+    ld [wIndicatorStates + 4], a
     jr .asm_311e2
 .asm_311ce
     ld a, $80
-    ld [wIndicatorStatuses + 1], a
-    ld [wIndicatorStatuses + 3], a
+    ld [wIndicatorStates + 1], a
+    ld [wIndicatorStates + 3], a
     xor a
-    ld [wIndicatorStatuses], a
-    ld [wIndicatorStatuses + 2], a
-    ld [wIndicatorStatuses + 4], a
+    ld [wIndicatorStates], a
+    ld [wIndicatorStates + 2], a
+    ld [wIndicatorStates + 4], a
     jr .asm_311e2
 .asm_311e2
     ld a, $2
@@ -47929,12 +47961,12 @@ Func_31326: ; 0x31326
     and a
     jr nz, .asm_3134c
     ld a, $80
-    ld [wIndicatorStatuses], a
-    ld [wIndicatorStatuses + 2], a
+    ld [wIndicatorStates], a
+    ld [wIndicatorStates + 2], a
     xor a
-    ld [wIndicatorStatuses + 1], a
-    ld [wIndicatorStatuses + 3], a
-    ld [wIndicatorStatuses + 4], a
+    ld [wIndicatorStates + 1], a
+    ld [wIndicatorStates + 3], a
+    ld [wIndicatorStates + 4], a
     ld a, $3
     ld [$ff8a], a
     ld a, Bank(Func_1de4b)
@@ -47943,12 +47975,12 @@ Func_31326: ; 0x31326
     jr .asm_31382
 .asm_3134c
     ld a, $80
-    ld [wIndicatorStatuses + 1], a
-    ld [wIndicatorStatuses + 3], a
+    ld [wIndicatorStates + 1], a
+    ld [wIndicatorStates + 3], a
     xor a
-    ld [wIndicatorStatuses], a
-    ld [wIndicatorStatuses + 2], a
-    ld [wIndicatorStatuses + 4], a
+    ld [wIndicatorStates], a
+    ld [wIndicatorStates + 2], a
+    ld [wIndicatorStates + 4], a
     ld a, $1
     ld [$ff8a], a
     ld a, Bank(Func_1de4b)
@@ -48200,11 +48232,11 @@ Func_3151f: ; 0x3151f
     ld [$d54d], a
     xor a
     ld [$d604], a
-    ld [wIndicatorStatuses], a
-    ld [wIndicatorStatuses + 1], a
-    ld [wIndicatorStatuses + 2], a
-    ld [wIndicatorStatuses + 3], a
-    ld [wIndicatorStatuses + 4], a
+    ld [wIndicatorStates], a
+    ld [wIndicatorStates + 1], a
+    ld [wIndicatorStates + 2], a
+    ld [wIndicatorStates + 3], a
+    ld [wIndicatorStates + 4], a
     ld a, [wCurrentStage]
     bit 0, a
     jr z, .asm_31577
@@ -48236,14 +48268,14 @@ Func_31591: ; 0x31591
     ld a, [$d55a]
     and a
     jr nz, .asm_315b1
-    ld a, [wIndicatorStatuses]
+    ld a, [wIndicatorStates]
     and a
     jr z, .asm_315b1
     xor a
-    ld [wIndicatorStatuses], a
-    ld [wIndicatorStatuses + 2], a
+    ld [wIndicatorStates], a
+    ld [wIndicatorStates + 2], a
     ld a, $80
-    ld [wIndicatorStatuses + 4], a
+    ld [wIndicatorStates + 4], a
     ld a, $1
     ld [$d604], a
     ld [$d54d], a
@@ -48255,14 +48287,14 @@ Func_315b3: ; 0x315b3
     ld a, [$d55a]
     and a
     jr z, .asm_315d3
-    ld a, [wIndicatorStatuses + 1]
+    ld a, [wIndicatorStates + 1]
     and a
     jr z, .asm_315d3
     xor a
-    ld [wIndicatorStatuses + 1], a
-    ld [wIndicatorStatuses + 3], a
+    ld [wIndicatorStates + 1], a
+    ld [wIndicatorStates + 3], a
     ld a, $80
-    ld [wIndicatorStatuses + 4], a
+    ld [wIndicatorStates + 4], a
     ld a, $1
     ld [$d604], a
     ld [$d54d], a
@@ -48393,11 +48425,11 @@ Func_3168c: ; 0x3168c
     ld [$d54d], a
     xor a
     ld [$d604], a
-    ld [wIndicatorStatuses], a
-    ld [wIndicatorStatuses + 1], a
-    ld [wIndicatorStatuses + 2], a
-    ld [wIndicatorStatuses + 3], a
-    ld [wIndicatorStatuses + 4], a
+    ld [wIndicatorStates], a
+    ld [wIndicatorStates + 1], a
+    ld [wIndicatorStates + 2], a
+    ld [wIndicatorStates + 3], a
+    ld [wIndicatorStates + 4], a
     ld a, [wCurrentStage]
     bit 0, a
     jr z, .asm_316ee
@@ -48429,14 +48461,14 @@ Func_31708: ; 0x31708
     ld a, [$d55a]
     and a
     jr nz, .asm_31728
-    ld a, [wIndicatorStatuses]
+    ld a, [wIndicatorStates]
     and a
     jr z, .asm_31728
     xor a
-    ld [wIndicatorStatuses], a
-    ld [wIndicatorStatuses + 2], a
+    ld [wIndicatorStates], a
+    ld [wIndicatorStates + 2], a
     ld a, $80
-    ld [wIndicatorStatuses + 4], a
+    ld [wIndicatorStates + 4], a
     ld a, $1
     ld [$d604], a
     ld [$d54d], a
@@ -48448,14 +48480,14 @@ Func_3172a: ; 0x3172a
     ld a, [$d55a]
     and a
     jr z, .asm_3174a
-    ld a, [wIndicatorStatuses + 1]
+    ld a, [wIndicatorStates + 1]
     and a
     jr z, .asm_3174a
     xor a
-    ld [wIndicatorStatuses + 1], a
-    ld [wIndicatorStatuses + 3], a
+    ld [wIndicatorStates + 1], a
+    ld [wIndicatorStates + 3], a
     ld a, $80
-    ld [wIndicatorStatuses + 4], a
+    ld [wIndicatorStates + 4], a
     ld a, $1
     ld [$d604], a
     ld [$d54d], a

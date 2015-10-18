@@ -175,7 +175,7 @@ wRightMapMoveDiglettFrame:: ; 0xd4f6
 
     ds $38
 
-wIndicatorStatuses:: ; 0xd52f
+wIndicatorStates:: ; 0xd52f
 ; Each byte represents the status of each possible indicator on the stage.
 ; An indicator is a blinking icon telling the player to hit the pinball in
 ; a certain area.  For example, when the Cloyster can be entered in the Blue

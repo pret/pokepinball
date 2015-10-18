@@ -215,7 +215,18 @@ wSpecialMode:: ; 0xd54b
 ; Set to non-zero when things like Catch 'em Mode or Map Move mode start.
     ds 1
 
-    ds 15
+    ds 6
+
+wCurrentEvolutionMon:: ; 0xd552
+; Current mon id for Evolution Mode.
+; It stores (mon id - 1).
+    ds 1
+wCurrentEvolutionType:: ; 0xd553
+; Evolution type for the current mon in Evolution Mode.
+; See evolution_type_constants.asm
+    ds 1
+
+    ds 7
 
 wRareMonsFlag:: ; 0xd55b
 ; Gets set to $8 when the rare mons should be used for catch 'em mode.  $8 is then doubled to add $10 to the base address of the map's wild mons table.
@@ -223,9 +234,9 @@ wRareMonsFlag:: ; 0xd55b
 
     ds $1d
 
-wCurrentMon:: ; 0xd579
-; Current mon id for CatchEm Mode. Might also be used for Evolution Mode.
-; It stores (mon id - 1), which is annoying.
+wCurrentCatchEmMon:: ; 0xd579
+; Current mon id for CatchEm Mode.
+; It stores (mon id - 1).
     ds 1
 
 wTimerSeconds:: ; 0xd57a

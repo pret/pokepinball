@@ -20645,8 +20645,8 @@ StartCatchEmMode: ; 0x1003f
     add hl, bc
     ld a, [hl]  ; a contains mon id
     dec a
-    ld [wCurrentMon], a
-    ld a, [wCurrentMon]
+    ld [wCurrentCatchEmMon], a
+    ld a, [wCurrentCatchEmMon]
     ld c, a
     ld b, $0
     ld hl, EvolutionLineIds
@@ -20690,7 +20690,7 @@ StartCatchEmMode: ; 0x1003f
     dec b
     jr nz, .asm_100c7
 .asm_100ce
-    ld a, [wCurrentMon]
+    ld a, [wCurrentCatchEmMon]
     ld c, a
     ld b, $0
     sla c
@@ -20810,7 +20810,7 @@ Func_10184: ; 0x10184
     ld a, [wCurrentStage]
     bit 0, a
     ret z
-    ld a, [wCurrentMon]
+    ld a, [wCurrentCatchEmMon]
     ld c, a
     ld b, $0
     sla c
@@ -21005,7 +21005,7 @@ Data_102a4: ; 0x102a4
     db $00, $07, $06, $01, $0E, $15, $14, $0F, $04, $0B, $0A, $05, $0C, $13, $12, $0D, $02, $09, $08, $03, $10, $17, $16, $11
 
 Func_102bc: ; 0x102bc
-    ld a, [wCurrentMon]
+    ld a, [wCurrentCatchEmMon]
     ld c, a
     ld b, $0
     sla c
@@ -21051,7 +21051,7 @@ Func_102bc: ; 0x102bc
     ret
 
 Func_10301: ; 0x10301
-    ld a, [wCurrentMon]
+    ld a, [wCurrentCatchEmMon]
     ld c, a
     ld b, $0
     sla c
@@ -21118,7 +21118,7 @@ Func_10301: ; 0x10301
     ret
 
 Func_10362: ; 0x10362
-    ld a, [wCurrentMon]
+    ld a, [wCurrentCatchEmMon]
     ld c, a
     ld b, $0
     sla c
@@ -21227,7 +21227,7 @@ Func_10432: ; 0x10432
 INCBIN "baserom.gbc",$1043e,$10464 - $1043e
 
 Func_10464: ; 0x10464
-    ld a, [wCurrentMon]
+    ld a, [wCurrentCatchEmMon]
     ld c, a
     ld b, $0
     sla c
@@ -21402,7 +21402,7 @@ Func_1052d: ; 0x1052d
     ld hl, Func_30164
     call z, BankSwitch
 .asm_105d1
-    call Func_1077c
+    call SetPokemonOwnedFlag
     ld a, [$d624]
     cp $3
     ret z
@@ -21462,7 +21462,7 @@ Func_10648: ; 0x10648
     ret
 
 Func_10678: ; 0x10678
-    ld a, [wCurrentMon]
+    ld a, [wCurrentCatchEmMon]
     ld c, a
     ld b, $0
     ld hl, MonAnimatedSpriteTypes
@@ -21494,7 +21494,7 @@ Func_106a6: ; 0x106a6
     ret
 
 Func_106b6: ; 0x106b6
-    ld a, [wCurrentMon]
+    ld a, [wCurrentCatchEmMon]
     ld c, a
     ld b, $0
     sla c
@@ -21565,7 +21565,7 @@ Func_106b6: ; 0x106b6
     ret
 
 Func_10732: ; 0x10732
-    ld a, [wCurrentMon]
+    ld a, [wCurrentCatchEmMon]
     inc a
     ld e, a
     ld d, $0
@@ -21578,7 +21578,7 @@ AddCaughtPokemonToParty: ; 0x1073d
     ld b, $0
     ld hl, wPartyMons
     add hl, bc
-    ld a, [wCurrentMon]
+    ld a, [wCurrentCatchEmMon]
     ld [hl], a
     ld a, [wNumPartyMons]
     inc a
@@ -21588,12 +21588,12 @@ AddCaughtPokemonToParty: ; 0x1073d
 SetPokemonSeenFlag: ; 0x10753
     ld a, [$d550]
     and a
-    ld a, [wCurrentMon]
+    ld a, [wCurrentCatchEmMon]
     jr z, .asm_10766
-    ld a, [$d552]
+    ld a, [wCurrentEvolutionMon]
     cp $ff
     jr nz, .asm_10766
-    ld a, [wCurrentMon]
+    ld a, [wCurrentCatchEmMon]
 .asm_10766
     ld c, a
     ld b, $0
@@ -21606,15 +21606,15 @@ SetPokemonSeenFlag: ; 0x10753
     call SaveData
     ret
 
-Func_1077c: ; 0x1077c
+SetPokemonOwnedFlag: ; 0x1077c
     ld a, [$d550]
     and a
-    ld a, [wCurrentMon]
+    ld a, [wCurrentCatchEmMon]
     jr z, .asm_1078f
-    ld a, [$d552]
+    ld a, [wCurrentEvolutionMon]
     cp $ff
     jr nz, .asm_1078f
-    ld a, [wCurrentMon]
+    ld a, [wCurrentCatchEmMon]
 .asm_1078f
     ld c, a
     ld b, $0
@@ -21741,7 +21741,7 @@ Func_10848: ; 0x10848
     ret
 
 Func_10871: ; 0x10871
-    ld a, [wCurrentMon]
+    ld a, [wCurrentCatchEmMon]
     ld c, a
     ld b, $0
     ld hl, EvolutionLineIds
@@ -21861,7 +21861,7 @@ Func_1098b: ; 0x1098b
 INCBIN "baserom.gbc",$1098c,$1098c - $1098c
 
 Func_1098c: ; 0x1098c
-    ld a, [wCurrentMon]
+    ld a, [wCurrentCatchEmMon]
     ld c, a
     ld b, $0
     ld hl, EvolutionLineIds
@@ -22100,8 +22100,8 @@ Func_10b3f: ; 0x10b3f
     call Func_30e8
     call Func_30db
     ld hl, $d5cc
-    ld a, [$d553]
-    cp $7
+    ld a, [wCurrentEvolutionType]
+    cp EVO_EXPERIENCE
     ld de, $2aa9
     jr z, .asm_10b55
     ld de, $2abf
@@ -22314,7 +22314,7 @@ Func_10ca5: ; 0x10ca5
     ld b, $0
     ld hl, wPartyMons
     add hl, bc
-    ld a, [$d552]
+    ld a, [wCurrentEvolutionMon]
     cp $ff
     ret z
     ld [hl], a
@@ -22366,7 +22366,7 @@ Func_10cb7: ; 0x10cb7
     ld hl, wPartyMons
     add hl, bc
     ld a, [hl]
-    ld [wCurrentMon], a
+    ld [wCurrentCatchEmMon], a
     ret
 
 Func_10d1d: ; 0x10d1d
@@ -22379,7 +22379,7 @@ Func_10d1d: ; 0x10d1d
     ld [hli], a
     dec b
     jr nz, .asm_10d22
-    ld a, [wCurrentMon]
+    ld a, [wCurrentCatchEmMon]
     ld c, a
     ld b, $0
     ld hl, Data_1298b
@@ -22394,7 +22394,7 @@ Func_10d1d: ; 0x10d1d
     ld [hli], a
     dec b
     jr nz, .asm_10d40
-    ld a, [wCurrentMon]
+    ld a, [wCurrentCatchEmMon]
     ld c, a
     ld b, $0
     sla c
@@ -22409,31 +22409,31 @@ Func_10d1d: ; 0x10d1d
     ld a, Bank(StartTimer)
     ld hl, StartTimer
     call BankSwitch
-    ld a, [wCurrentMon]
+    ld a, [wCurrentCatchEmMon]
     ld c, a
     ld b, $0
-    sla c
+    sla c  ; multiply mon id by 6
     rl b
     add c
     ld c, a
-    jr nc, .asm_10d6f
+    jr nc, .noCarry
     inc b
-.asm_10d6f
+.noCarry
     sla c
     rl b
     ld hl, MonEvolutions
     add hl, bc
     push hl
     ld bc, $03ff
-.asm_10d7b
+.countMonEvolutionsLoop
     ld a, [hli]
     and a
-    jr z, .asm_10d80
+    jr z, .noEvolution
     inc c
-.asm_10d80
+.noEvolution
     inc hl
     dec b
-    jr nz, .asm_10d7b
+    jr nz, .countMonEvolutionsLoop
     ld a, c
     cp $ff
     jr nz, .asm_10d8a
@@ -22443,12 +22443,12 @@ Func_10d1d: ; 0x10d1d
     sla a
     ld c, a
     pop hl
-    add hl, bc
-    ld a, [hli]
+    add hl, bc  ; hl points to one of three entries in mon's evolution data
+    ld a, [hli]  ; a = mon id of evolution
     dec a
-    ld [$d552], a
-    ld a, [hl]
-    ld [$d553], a
+    ld [wCurrentEvolutionMon], a
+    ld a, [hl]  ; a = evoluion type id
+    ld [wCurrentEvolutionType], a
     xor a
     ld [$d554], a
     ld [$d556], a
@@ -22511,7 +22511,7 @@ Func_10d1d: ; 0x10d1d
     ret
 
 Func_10e0a: ; 0x10e0a
-    ld a, [$d552]
+    ld a, [wCurrentEvolutionMon]
     cp $ff
     jp z, Func_10e8b
     ld c, a
@@ -22524,24 +22524,25 @@ Func_10e0a: ; 0x10e0a
     rl b
     sla c
     rl b
-    ld hl, $5a3f
+    ld hl, PokemonNames + 1
     add hl, bc
-    ld de, $2b02
+    ld de, $2b02  ; "It evolved into an"
     ld bc, $2b34
     ld a, [hl]
-    cp $41 ; these might be text-related commands
-    jr z, .asm_10e4a
-    cp $49
-    jr z, .asm_10e4a
-    cp $55
-    jr z, .asm_10e4a
-    cp $45
-    jr z, .asm_10e4a
-    cp $4f
-    jr z, .asm_10e4a
-    ld de, $2ae9
+    ; check if mon's name starts with a vowel, so it can print "an", instead of "a"
+    cp "A"
+    jr z, .nameStartsWithVowel
+    cp "I"
+    jr z, .nameStartsWithVowel
+    cp "U"
+    jr z, .nameStartsWithVowel
+    cp "E"
+    jr z, .nameStartsWithVowel
+    cp "O"
+    jr z, .nameStartsWithVowel
+    ld de, $2ae9  ; "It evolved into a"
     ld bc, $2b1c
-.asm_10e4a
+.nameStartsWithVowel
     push hl
     push bc
     push de
@@ -25470,7 +25471,7 @@ Func_142c3: ; 0x142c3
     ret z
     ld b, a
 .asm_142cc
-    ld a, [$d553]
+    ld a, [wCurrentEvolutionType]
     call Func_142d7
     inc de
     dec b
@@ -33293,7 +33294,7 @@ Func_1c47d: ; 0x1c47d
     ret z
     ld b, a
 .asm_1c486
-    ld a, [$d553]
+    ld a, [wCurrentEvolutionType]
     call Func_1c491
     inc de
     dec b
@@ -37547,7 +37548,7 @@ Func_200d3: ; 0x200d3
     ld [$d5be], a
     xor a
     ld [$d5c4], a
-    ld a, [wCurrentMon]
+    ld a, [wCurrentCatchEmMon]
     cp MEW - 1
     jr nz, .notMew
     ld a, [$d5c5]
@@ -37686,12 +37687,12 @@ Func_201f2: ; 0x201f2
     ld [$d57e], a
     ld a, $7
     ld [$d54d], a
-    ld a, [wCurrentMon]
+    ld a, [wCurrentCatchEmMon]
     cp NUM_POKEMON - 1
     jr nz, .asm_2021b
     ld [$ff8a], a
-    ld a, Bank(Func_1077c)
-    ld hl, Func_1077c
+    ld a, Bank(SetPokemonOwnedFlag)
+    ld hl, SetPokemonOwnedFlag
     call BankSwitch
 .asm_2021b
     ld [$ff8a], a
@@ -37920,7 +37921,7 @@ Func_20394: ; 0x20394
     ld [$d5be], a
     xor a
     ld [$d5c4], a
-    ld a, [wCurrentMon]
+    ld a, [wCurrentCatchEmMon]
     cp MEW - 1
     jr nz, .notMew
     ld a, [$d5c5]
@@ -38059,12 +38060,12 @@ Func_204b3: ; 0x204b3
     ld [$d57e], a
     ld a, $7
     ld [$d54d], a
-    ld a, [wCurrentMon]
+    ld a, [wCurrentCatchEmMon]
     cp MEW - 1
     jr nz, .notMew
     ld [$ff8a], a
-    ld a, Bank(Func_1077c)
-    ld hl, Func_1077c
+    ld a, Bank(SetPokemonOwnedFlag)
+    ld hl, SetPokemonOwnedFlag
     call BankSwitch
 .notMew
     ld [$ff8a], a
@@ -38260,7 +38261,7 @@ Func_20651: ; 0x20651
     ld a, [wCurrentStage]
     bit 0, a
     jr z, .asm_20681
-    ld a, [$d553]
+    ld a, [wCurrentEvolutionType]
     dec a
     ld c, a
     ld b, $0
@@ -38361,8 +38362,8 @@ Func_2070b: ; 0x2070b
     ld hl, $d629
     call Func_e4a
     ld [$ff8a], a
-    ld a, Bank(Func_1077c)
-    ld hl, Func_1077c
+    ld a, Bank(SetPokemonOwnedFlag)
+    ld hl, SetPokemonOwnedFlag
     call BankSwitch
     ld a, [$d624]
     cp $3
@@ -38667,7 +38668,7 @@ Func_20977: ; 0x20977
     ld de, $0746
     call PlaySoundEffect
     call Func_20af5
-    ld a, [$d553]
+    ld a, [wCurrentEvolutionType]
     ld [hl], a
     ld [$d551], a
     ld a, [wIndicatorStatuses + 2]
@@ -38700,7 +38701,7 @@ Func_20977: ; 0x20977
     call BankSwitch
     call Func_30e8
     call Func_30db
-    ld a, [$d553]
+    ld a, [wCurrentEvolutionType]
     dec a
     ld c, a
     ld b, $0
@@ -38750,8 +38751,8 @@ Func_209eb: ; 0x209eb
     call Func_30e8
     call Func_30db
     ld hl, $d5cc
-    ld a, [$d553]
-    cp $7
+    ld a, [wCurrentEvolutionType]
+    cp EVO_EXPERIENCE
     ld de, $2b7b
     jr z, .asm_20a50
     ld de, $2b93
@@ -38832,8 +38833,8 @@ asm_20a9f:
 .asm_20ada
     call Func_30e8
     call Func_30db
-    ld a, [$d553]
-    cp $7
+    ld a, [wCurrentEvolutionType]
+    cp EVO_EXPERIENCE
     ld de, $2ba9
     jr z, .asm_20aed
     ld de, $2bc2
@@ -38853,10 +38854,10 @@ Func_20af5: ; 0x20af5
     ret
 
 Func_20b02: ; 0x20b02
-    ld a, [$d552]
+    ld a, [wCurrentEvolutionMon]
     cp $ff
     jr nz, .asm_20b0c
-    ld a, [wCurrentMon]
+    ld a, [wCurrentCatchEmMon]
 .asm_20b0c
     ld c, a
     ld b, $0
@@ -39044,7 +39045,7 @@ Func_20c76: ; 0x20c76
     ld a, [wCurrentStage]
     bit 0, a
     jr z, .asm_20ca6
-    ld a, [$d553]
+    ld a, [wCurrentEvolutionType]
     dec a
     ld c, a
     ld b, $0
@@ -39145,8 +39146,8 @@ Func_20d30: ; 0x20d30
     ld hl, $d629
     call Func_e4a
     ld [$ff8a], a
-    ld a, Bank(Func_1077c)
-    ld hl, Func_1077c
+    ld a, Bank(SetPokemonOwnedFlag)
+    ld hl, SetPokemonOwnedFlag
     call BankSwitch
     ld a, [$d624]
     cp $3
@@ -39430,7 +39431,7 @@ Func_20f75: ; 0x20f75
     ld de, $0746
     call PlaySoundEffect
     call Func_2111d
-    ld a, [$d553]
+    ld a, [wCurrentEvolutionType]
     ld [hl], a
     ld [$d551], a
     ld a, [wIndicatorStatuses]
@@ -39465,7 +39466,7 @@ Func_20f75: ; 0x20f75
     call BankSwitch
     call Func_30e8
     call Func_30db
-    ld a, [$d553]
+    ld a, [wCurrentEvolutionType]
     dec a
     ld c, a
     ld b, $0
@@ -39516,8 +39517,8 @@ Func_20fef: ; 0x20fef
     call Func_30e8
     call Func_30db
     ld hl, $d5cc
-    ld a, [$d553]
-    cp $7
+    ld a, [wCurrentEvolutionType]
+    cp EVO_EXPERIENCE
     ld de, $2b7b
     jr z, .asm_21057
     ld de, $2b93
@@ -39616,8 +39617,8 @@ asm_210c7:
 .asm_21102
     call Func_30e8
     call Func_30db
-    ld a, [$d553]
-    cp $7
+    ld a, [wCurrentEvolutionType]
+    cp EVO_EXPERIENCE
     ld de, $2ba9
     jr z, .asm_21115
     ld de, $2bc2
@@ -39637,10 +39638,10 @@ Func_2111d: ; 0x2111d
     ret
 
 Func_2112a: ; 0x2112a
-    ld a, [$d552]
+    ld a, [wCurrentEvolutionMon]
     cp $ff
     jr nz, .asm_21134
-    ld a, [wCurrentMon]
+    ld a, [wCurrentCatchEmMon]
 .asm_21134
     ld c, a
     ld b, $0

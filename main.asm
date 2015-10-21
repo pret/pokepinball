@@ -5502,13 +5502,17 @@ Func_27da: ; 0x27da
     scf
     ret
 
-Func_27fd: ; 0x27fd
+PinballCollideWithPoints: ; 0x27fd
+; Checks if pinball collides with any of the (x, y) points in the given list.
+; Saves the index of the collided point.
+; Input:  hl = pointer to array of (x, y) points
+; Output: Saves index of collided point in $d578
     ld a, [wBallXPos + 1]
     ld b, a
     ld a, [wBallYPos + 1]
     ld c, a
     ld d, $0
-.asm_2807
+.nextPoint
     ld a, [hli]
     and a
     ret z
@@ -5517,10 +5521,10 @@ Func_27fd: ; 0x27fd
     sub b
     cp $e8
     ld a, [hli]
-    jr c, .asm_2807
+    jr c, .nextPoint
     sub c
     cp $e8
-    jr c, .asm_2807
+    jr c, .nextPoint
     ld a, d
     ld [$d578], a
     ret
@@ -10740,10 +10744,10 @@ CallTable_8404: ; 0x8404
     db Bank(StartBallSeelBonusStage), $00
 
 Func_8444: ; 0x8444
-    ld a, [wSpecialMode]
+    ld a, [wInSpecialMode]
     and a
     jr z, .asm_8460
-    ld a, [$d550]
+    ld a, [wSpecialMode]
     and a
     jr nz, .asm_8460
     ld a, [$d5bb]
@@ -16822,10 +16826,10 @@ Func_dd76: ; 0xdd76
     ret
 
 Func_ddfd: ; 0xddfd
-    ld a, [wSpecialMode]
+    ld a, [wInSpecialMode]
     and a
     ret z
-    ld a, [$d550]
+    ld a, [wSpecialMode]
     and a
     jr nz, .asm_de14
     ld [$ff8a], a
@@ -16930,10 +16934,10 @@ Func_de4f: ; 0xde4f
     ret
 
 Func_ded6: ; 0xded6
-    ld a, [wSpecialMode]
+    ld a, [wInSpecialMode]
     and a
     ret z
-    ld a, [$d550]
+    ld a, [wSpecialMode]
     and a
     jr nz, .asm_deec
     ld [$ff8a], a
@@ -20558,12 +20562,12 @@ SECTION "bank4", ROMX, BANK[$4]
 
 Func_10000: ; 0x10000
     ld c, a
-    ld a, [wSpecialMode]
+    ld a, [wInSpecialMode]
     and a
     ret z
     ld a, c
     ld [$d54c], a
-    ld a, [$d550]
+    ld a, [wSpecialMode]
     cp $1
     jp z, Func_10a95
     cp $2
@@ -20600,13 +20604,13 @@ CallTable_10027: ; 0x10027
     db Bank(Func_202bc), $00
 
 StartCatchEmMode: ; 0x1003f
-    ld a, [wSpecialMode]  ; current game mode?
+    ld a, [wInSpecialMode]  ; current game mode?
     and a
     ret nz  ; don't start catch 'em mode if we're already doing something like Map Move mode
     ld a, $1
-    ld [wSpecialMode], a  ; set special mode flag
+    ld [wInSpecialMode], a  ; set special mode flag
     xor a
-    ld [$d550], a
+    ld [wSpecialMode], a
     ld [$d54d], a
     ld a, [wCurrentStage]
     sla a
@@ -20777,7 +20781,7 @@ CheckForMew:
 
 Func_10157: ; 0x10157
     xor a
-    ld [wSpecialMode], a
+    ld [wInSpecialMode], a
     ld [$d5bb], a
     ld [$d5c6], a
     ld [$d5b6], a
@@ -21586,7 +21590,7 @@ AddCaughtPokemonToParty: ; 0x1073d
     ret
 
 SetPokemonSeenFlag: ; 0x10753
-    ld a, [$d550]
+    ld a, [wSpecialMode]
     and a
     ld a, [wCurrentCatchEmMon]
     jr z, .asm_10766
@@ -21607,7 +21611,7 @@ SetPokemonSeenFlag: ; 0x10753
     ret
 
 SetPokemonOwnedFlag: ; 0x1077c
-    ld a, [$d550]
+    ld a, [wSpecialMode]
     and a
     ld a, [wCurrentCatchEmMon]
     jr z, .asm_1078f
@@ -21992,7 +21996,7 @@ PointerTable_10a9b: ; 0x10a9b
     db Bank(Func_20bae), $00
 
 Func_10ab3: ; 0x10ab3
-    ld a, [wSpecialMode]
+    ld a, [wInSpecialMode]
     and a
     ret nz
     ld a, [wCurrentStage]
@@ -22019,7 +22023,7 @@ Func_10ac8: ; 0x10ac8
     ld [$d5ca], a
     call Func_30e8
     xor a
-    ld [wSpecialMode], a
+    ld [wInSpecialMode], a
     ld [$d5bb], a
     ld [$d5b6], a
     ld [wNumMonHits], a
@@ -22356,8 +22360,8 @@ Func_10cb7: ; 0x10cb7
     call Func_30e8
     ld a, $1
     ld [$d4aa], a
+    ld [wInSpecialMode], a
     ld [wSpecialMode], a
-    ld [$d550], a
     xor a
     ld [$d54d], a
     ld a, [$d461]
@@ -22771,7 +22775,7 @@ Func_11061: ; 0x11061
     sub $2
     ld c, a
     sla c
-    ld hl, $50ed
+    ld hl, IndicatorStatesPointerTable_110ed
     add hl, bc
     ld a, [hli]
     ld h, [hl]
@@ -22826,7 +22830,39 @@ Func_11061: ; 0x11061
     call nz, BankSwitch
     ret
 
-INCBIN "baserom.gbc",$110ed,$11195 - $110ed
+IndicatorStatesPointerTable_110ed: ; 0x110ed
+    dw IndicatorStates_110fd
+    dw IndicatorStates_11110
+    dw IndicatorStates_11123
+    dw IndicatorStates_11136
+    dw IndicatorStates_11149
+    dw IndicatorStates_1115c
+    dw IndicatorStates_1116f
+    dw IndicatorStates_11182
+
+IndicatorStates_110fd: ; 0x110fd
+    db $00, $00, $00, $00, $00, $00, $00, $00, $00, $01, $00, $00, $00, $01, $01, $00, $00, $00, $00
+
+IndicatorStates_11110: ; 0x11110
+    db $00, $00, $00, $00, $00, $00, $00, $00, $00, $01, $00, $01, $00, $01, $01, $00, $00, $00, $00
+
+IndicatorStates_11123: ; 0x11123
+    db $00, $00, $00, $00, $00, $00, $00, $00, $00, $01, $00, $01, $01, $01, $01, $00, $00, $00, $00
+
+IndicatorStates_11136: ; 0x11136
+    db $00, $00, $80, $00, $00, $00, $00, $00, $01, $01, $00, $01, $01, $01, $01, $00, $00, $00, $00
+
+IndicatorStates_11149: ; 0x11149
+    db $00, $00, $80, $80, $00, $00, $00, $00, $01, $01, $01, $01, $01, $01, $01, $00, $00, $00, $00
+
+IndicatorStates_1115c: ; 0x1115c
+    db $00, $00, $80, $80, $00, $00, $00, $00, $01, $01, $01, $01, $01, $01, $01, $00, $00, $00, $00
+
+IndicatorStates_1116f: ; 0x1116f
+    db $80, $00, $80, $80, $00, $00, $00, $01, $01, $01, $01, $01, $01, $01, $01, $00, $00, $00, $00
+
+IndicatorStates_11182: ; 0x11182
+    db $80, $00, $80, $80, $00, $00, $01, $01, $01, $01, $01, $01, $01, $01, $01, $00, $00, $00, $00
 
 Func_11195: ; 0x11195
     xor a
@@ -22891,7 +22927,7 @@ Func_1120e: ; 0x1120e
     sla a
     sub c
     ld c, a
-    ld hl, $523b
+    ld hl, VRAMData_1123b
     add hl, bc
     ld a, [hli]
     ld c, a
@@ -22913,7 +22949,27 @@ Func_1120e: ; 0x1120e
     call LoadVRAMData
     ret
 
-INCBIN "baserom.gbc",$1123b,$1126c - $1123b
+VRAMData_1123b: ; 0x1123b
+    dwb $6600, $35
+    dw $8600, $E0
+
+    dwb $6600, $35
+    dw $8600, $E0
+
+    dwb $6600, $35
+    dw $8600, $E0
+
+    dwb $6600, $35
+    dw $8600, $E0
+
+    dwb $6600, $35
+    dw $8600, $E0
+
+    dwb $6600, $35
+    dw $8600, $E0
+
+    dwb $6600, $35
+    dw $8600, $E0
 
 WildMonOffsetsPointers: ; 0x1126c
     dw RedStageWildMonDataOffsets
@@ -25303,10 +25359,10 @@ Func_14135: ; 0x14135
     ret
 
 Func_1414b: ; 0x1414b
-    ld a, [wSpecialMode]
+    ld a, [wInSpecialMode]
     and a
     ret z
-    ld a, [$d550]
+    ld a, [wSpecialMode]
     cp $2
     ret z
     ld a, [$d5c6]
@@ -25421,10 +25477,10 @@ Func_14210: ; 0x14210
     ret
 
 Func_14234: ; 0x14234
-    ld a, [wSpecialMode]
+    ld a, [wInSpecialMode]
     and a
     ret z
-    ld a, [$d550]
+    ld a, [wSpecialMode]
     cp $1
     ret nz
     ld a, [$d554]
@@ -25460,10 +25516,10 @@ Func_14234: ; 0x14234
     ret
 
 Func_14282: ; 0x14282
-    ld a, [wSpecialMode]
+    ld a, [wInSpecialMode]
     and a
     jr z, .asm_1429e
-    ld a, [$d550]
+    ld a, [wSpecialMode]
     and a
     jr nz, .asm_14296
     ld a, [wNumMonHits]
@@ -25597,7 +25653,7 @@ Func_142fc: ; 0x142fc
     ret
 
 Func_14377: ; 0x14377
-    ld a, [wSpecialMode]
+    ld a, [wInSpecialMode]
     and a
     jr nz, .asm_143b1
     ld a, [$d609]
@@ -25627,7 +25683,7 @@ Func_14377: ; 0x14377
     call BankSwitch
     ret
 .asm_143b1
-    ld a, [$d550]
+    ld a, [wSpecialMode]
     cp $2
     ret nz
     ld a, [$d54d]
@@ -25686,7 +25742,7 @@ Func_1441e: ; 0x1441e
     and a
     ret z
     ld a, [wCurrentStage]
-    ld hl, $45d2 ; todo
+    ld hl, RedStageEvolutionTrinketCoordinatePointers
     ld c, a
     ld b, $0
     sla c
@@ -25694,7 +25750,7 @@ Func_1441e: ; 0x1441e
     ld a, [hli]
     ld h, [hl]
     ld l, a
-    jp Func_27fd
+    jp PinballCollideWithPoints
 
 INCBIN "baserom.gbc",$14439,$14439 - $14439
 
@@ -25803,7 +25859,41 @@ Func_144e4: ; 0x144e4
     scf
     jp Func_2775
 
-INCBIN "baserom.gbc",$144ee,$1460e - $144ee
+INCBIN "baserom.gbc",$144ee,$145d2 - $144ee
+
+RedStageEvolutionTrinketCoordinatePointers: ; 0x145d2
+    dw RedStageTopEvolutionTrinketCoords
+    dw RedStageBottomEvolutionTrinketCoords
+
+RedStageTopEvolutionTrinketCoords: ; 0x156d6
+; First byte is just non-zero to signify that the array hasn't ended.
+; Second byte is x coordinate.
+; Third byte is y coordinate.
+    db $01, $44, $14
+    db $01, $2A, $1A
+    db $01, $5E, $1A
+    db $01, $11, $2D
+    db $01, $77, $2D
+    db $01, $16, $3E
+    db $01, $77, $3E
+    db $01, $06, $6D
+    db $01, $83, $6D
+    db $01, $41, $82
+    db $01, $51, $82
+    db $01, $69, $82
+    db $00  ; terminator
+
+RedStageBottomEvolutionTrinketCoords: ; 0x145fb
+; First byte is just non-zero to signify that the array hasn't ended.
+; Second byte is x coordinate.
+; Third byte is y coordinate.
+    db $01, $35, $1B
+    db $01, $53, $1B
+    db $01, $29, $1F
+    db $01, $5F, $1F
+    db $01, $26, $34
+    db $01, $62, $34
+    db $00  ; terminator
 
 Func_1460e: ; 0x1460e
 ; not collisions
@@ -27965,7 +28055,7 @@ Func_164e3: ; 0x164e3
     dec a
     ld [$d607], a
     ret nz
-    ld a, [wSpecialMode]
+    ld a, [wInSpecialMode]
     and a
     ret nz
     ld a, [$d609]
@@ -28940,10 +29030,10 @@ Func_1762f: ; 0x1762f
     bit 0, a
     ret z
     ld de, $3004
-    ld a, [wSpecialMode]
+    ld a, [wInSpecialMode]
     and a
     ret z
-    ld a, [$d550]
+    ld a, [wSpecialMode]
     and a
     ret nz
     ld de, $3008
@@ -33126,10 +33216,10 @@ Func_1c2cb: ; 0x1c2cb
     ret
 
 Func_1c305: ; 0x1c305
-    ld a, [wSpecialMode]
+    ld a, [wInSpecialMode]
     and a
     ret z
-    ld a, [$d550]
+    ld a, [wSpecialMode]
     cp $2
     ret z
     ld a, [$d5c6]
@@ -33244,10 +33334,10 @@ Func_1c3ca: ; 0x1c3ca
     ret
 
 Func_1c3ee: ; 0x1c3ee
-    ld a, [wSpecialMode]
+    ld a, [wInSpecialMode]
     and a
     ret z
-    ld a, [$d550]
+    ld a, [wSpecialMode]
     cp $1
     ret nz
     ld a, [$d554]
@@ -33283,10 +33373,10 @@ Func_1c3ee: ; 0x1c3ee
     ret
 
 Func_1c43c: ; 0x1c43c
-    ld a, [wSpecialMode]
+    ld a, [wInSpecialMode]
     and a
     jr z, .asm_1c458
-    ld a, [$d550]
+    ld a, [wSpecialMode]
     and a
     jr nz, .asm_1c450
     ld a, [wNumMonHits]
@@ -33359,7 +33449,7 @@ Func_1c491: ; 0x1c491
     ret
 
 Func_1c4b6: ; 0x1c4b6
-    ld a, [wSpecialMode]
+    ld a, [wInSpecialMode]
     and a
     jr nz, .asm_1c4f0
     ld a, [$d609]
@@ -33389,7 +33479,7 @@ Func_1c4b6: ; 0x1c4b6
     call BankSwitch
     ret
 .asm_1c4f0
-    ld a, [$d550]
+    ld a, [wSpecialMode]
     cp $2
     ret nz
     ld a, [$d54d]
@@ -33533,11 +33623,11 @@ Func_1c5eb: ; 0x1c5eb
     ld a, [wCurrentStage]
     bit 0, a
     jr nz, .asm_1c601
-    ld hl, $46d7 ; todo
-    jp Func_27fd
+    ld hl, BlueTopEvolutionTrinketCoords
+    jp PinballCollideWithPoints
 .asm_1c601
-    ld hl, $46fc ; todo
-    jp Func_27fd
+    ld hl, BlueBottomEvolutionTrinketCoords
+    jp PinballCollideWithPoints
 
 Func_1c607: ; 0x1c607
     ld de, $470f
@@ -33545,7 +33635,39 @@ Func_1c607: ; 0x1c607
     scf
     jp Func_2775
 
-INCBIN "baserom.gbc",$1c611,$1c715 - $1c611
+INCBIN "baserom.gbc",$1c611,$1c6d7 - $1c611
+
+BlueTopEvolutionTrinketCoords: ; 0x1c6d7
+; First byte is just non-zero to signify that the array hasn't ended.
+; Second byte is x coordinate.
+; Third byte is y coordinate.
+    db $01, $44, $11
+    db $01, $23, $1B
+    db $01, $65, $1B
+    db $01, $0D, $2E
+    db $01, $7A, $2E
+    db $01, $05, $48
+    db $01, $44, $88
+    db $01, $83, $48
+    db $01, $02, $6E
+    db $01, $2E, $88
+    db $01, $59, $88
+    db $01, $85, $6E
+    db $00
+
+BlueBottomEvolutionTrinketCoords: ; 0x1c6fc
+; First byte is just non-zero to signify that the array hasn't ended.
+; Second byte is x coordinate.
+; Third byte is y coordinate.
+    db $01, $33, $1B
+    db $01, $55, $1B
+    db $01, $29, $1F
+    db $01, $5F, $1F
+    db $01, $1D, $35
+    db $01, $6B, $35
+    db $00
+
+INCBIN "baserom.gbc",$1c70f,$1c715 - $1c70f
 
 Func_1c715: ; 0x1c715
     call Func_1c9c1
@@ -33834,7 +33956,7 @@ Func_1c8b6: ; 0x1c8b6
     ld a, [wLeftAlleyCount]
     cp $3
     jr nz, .asm_1c97f
-    ld a, [wSpecialMode]
+    ld a, [wInSpecialMode]
     and a
     jr nz, .asm_1c97f
 .asm_1c969
@@ -36275,7 +36397,7 @@ Func_1e9c0: ; 0x1e9c0
     dec a
     ld [$d607], a
     ret nz
-    ld a, [wSpecialMode]
+    ld a, [wInSpecialMode]
     and a
     ret nz
     ld a, [$d609]
@@ -47476,13 +47598,13 @@ PointerTable_301d4: ; 0x301d4
     db Bank(Func_3161b), $00 
 
 StartMapMoveMode: ; 0x301ec
-    ld a, [wSpecialMode]
+    ld a, [wInSpecialMode]
     and a
     ret nz
     ld a, $1
-    ld [wSpecialMode], a
+    ld [wInSpecialMode], a
     ld a, $2
-    ld [$d550], a
+    ld [wSpecialMode], a
     xor a
     ld [$d54d], a
     ld bc, $0030  ; 30 seconds
@@ -47521,8 +47643,8 @@ Func_3022b: ; 0x3022b
     ld [$d5ca], a
     call Func_30e8
     xor a
+    ld [wInSpecialMode], a
     ld [wSpecialMode], a
-    ld [$d550], a
     ld [$ff8a], a
     ld a, Bank(Func_86d2)
     ld hl, Func_86d2

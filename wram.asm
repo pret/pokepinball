@@ -211,11 +211,20 @@ wCurrentMap:: ; 0xd54a
 ; Current map during play. See map_constants.asm
     ds 1
 
-wSpecialMode:: ; 0xd54b
+wInSpecialMode:: ; 0xd54b
 ; Set to non-zero when things like Catch 'em Mode or Map Move mode start.
     ds 1
 
-    ds 6
+    ds 4
+
+wSpecialMode:: ; 0xd550
+; wInSpecialMode must be non-zero to activate this.
+; 0 = Catch Em Mode
+; 1 = Evolution Mode
+; 2 = Map Move Mode
+    ds 1
+
+    ds 1
 
 wCurrentEvolutionMon:: ; 0xd552
 ; Current mon id for Evolution Mode.

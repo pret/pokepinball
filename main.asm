@@ -19149,8 +19149,8 @@ Func_ef83: ; 0xef83
     rst $10
     ld a, $0
     ld [$ff8a], a
-    ld a, Bank(Func_50000)
-    ld hl, Func_50000
+    ld a, Bank(PlayPikachuSoundClip)
+    ld hl, PlayPikachuSoundClip
     call BankSwitch
     ld a, $1
     ld [$d85d], a
@@ -28292,8 +28292,8 @@ Func_1669e: ; 0x1669e
     rst $10
     ld a, $1
     ld [$ff8a], a
-    ld a, Bank(Func_50000)
-    ld hl, Func_50000
+    ld a, Bank(PlayPikachuSoundClip)
+    ld hl, PlayPikachuSoundClip
     call BankSwitch
     ld a, $1
     ld [$d85d], a
@@ -34524,8 +34524,8 @@ Func_1d133: ; 0x1d133
     rst $10
     ld a, $1
     ld [$ff8a], a
-    ld a, Bank(Func_50000)
-    ld hl, Func_50000
+    ld a, Bank(PlayPikachuSoundClip)
+    ld hl, PlayPikachuSoundClip
     call BankSwitch
     ld a, $1
     ld [$d85d], a
@@ -48782,11 +48782,12 @@ INCBIN "baserom.gbc",$4def4,$50000 - $4def4
 
 SECTION "bank14", ROMX, BANK[$14]
 
-Func_50000: ; 0x50000
+PlayPikachuSoundClip: ; 0x50000
+; Plays the pcm (pulse-code modulation) sound clip of one of the pikachu noises.
     sla a
     ld c, a
     ld b, $0
-    ld hl, $4076 ; todo
+    ld hl, PikachuSoundClipPointers
     add hl, bc
     ld a, [hli]
     ld h, [hl]
@@ -48833,7 +48834,7 @@ Func_50000: ; 0x50000
     ld a, $44
     ld [$ff25], a
     pop hl
-    call Func_51f56
+    call PlayPikachuPCM
     xor a
     ld [$ff24], a
     ld [$ff25], a
@@ -48856,42 +48857,56 @@ Func_50000: ; 0x50000
     ei
     ret
 
-INCBIN "baserom.gbc",$50076,$51f56 - $50076
+PikachuSoundClipPointers: ; 0x50076
+    dw PikachuBillboardBonusSoundClip
+    dw PikachuThundershockSoundClip
 
-Func_51f56: ; 0x51f56
+PikachuBillboardBonusSoundClip:  ; 0x5007a
+    INCBIN "audio/sound_clips/pi_ka_chu.soundclip"
+
+    db $1f  ; unused byte
+
+PikachuThundershockSoundClip:  ; 0x50d2c
+    INCBIN "audio/sound_clips/piiiiikaaaa.soundclip"
+
+    db $f0, $00, $00  ; unused bytes
+
+PlayPikachuPCM: ; 0x51f56
+; Plays the audio PCM at [hl]
     ld a, [hli]
     ld c, a
     ld a, [hli]
     ld b, a
-.asm_51f5a
+    ; bc = number of bytes in the sound clip's PCM (pulse-code modulation)
+.loop
     ld a, [hli]
     ld d, a
     ld a, $3
-.asm_51f5e
+.playSingleSample
     dec a
-    jr nz, .asm_51f5e
-    call Func_51f94
-    call Func_51fa0
-    call Func_51f94
-    call Func_51fa0
-    call Func_51f94
-    call Func_51fa0
-    call Func_51f94
-    call Func_51fa0
-    call Func_51f94
-    call Func_51fa0
-    call Func_51f94
-    call Func_51fa0
-    call Func_51f94
-    call Func_51fa0
-    call Func_51f94
+    jr nz, .playSingleSample
+    call LoadNextSoundClipSample
+    call PlaySoundClipSample
+    call LoadNextSoundClipSample
+    call PlaySoundClipSample
+    call LoadNextSoundClipSample
+    call PlaySoundClipSample
+    call LoadNextSoundClipSample
+    call PlaySoundClipSample
+    call LoadNextSoundClipSample
+    call PlaySoundClipSample
+    call LoadNextSoundClipSample
+    call PlaySoundClipSample
+    call LoadNextSoundClipSample
+    call PlaySoundClipSample
+    call LoadNextSoundClipSample
     dec bc
     ld a, c
     or b
-    jr nz, .asm_51f5a
+    jr nz, .loop
     ret
 
-Func_51f94: ; 0x51f94
+LoadNextSoundClipSample: ; 0x51f94
     ld a, d
     and $80
     srl a
@@ -48900,11 +48915,11 @@ Func_51f94: ; 0x51f94
     sla d
     ret
 
-Func_51fa0: ; 0x51fa0
+PlaySoundClipSample: ; 0x51fa0
     ld a, $3
-.asm_51fa2
+.loop
     dec a
-    jr nz, .asm_51fa2
+    jr nz, .loop
     ret
 
 INCBIN "baserom.gbc",$51fa6,$54000 - $51fa6

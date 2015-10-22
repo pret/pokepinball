@@ -48862,14 +48862,16 @@ PikachuSoundClipPointers: ; 0x50076
     dw PikachuThundershockSoundClip
 
 PikachuBillboardBonusSoundClip:  ; 0x5007a
-    INCBIN "audio/sound_clips/pi_ka_chu.soundclip"
+    dw $caf  ; length of the pcm data (todo: there is probably a way to do this dynamically with rgbds)
+    INCBIN "audio/sound_clips/pi_ka_chu.pcm"
 
-    db $1f  ; unused byte
+    db $1f  ; unused
 
 PikachuThundershockSoundClip:  ; 0x50d2c
-    INCBIN "audio/sound_clips/piiiiikaaaa.soundclip"
+    dw $1227  ; length of the pcm data (todo: there is probably a way to do this dynamically with rgbds)
+    INCBIN "audio/sound_clips/piiiiikaaaa.pcm"
 
-    db $f0, $00, $00  ; unused bytes
+    db $f0, $00, $00  ; unused
 
 PlayPikachuPCM: ; 0x51f56
 ; Plays the audio PCM at [hl]

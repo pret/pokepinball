@@ -29,3 +29,6 @@
 # converted image data
 *.1bpp
 *.2bpp
+
+# converted audio data
+*.pcm

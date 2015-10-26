@@ -1828,8 +1828,6 @@ Func_c60: ; 0xc60
     pop hl
     ret
 
-INCBIN "baserom.gbc",$cb5,$cb5 - $cb5
-
 Func_cb5: ; 0xcb5
     ld a, [hGameBoyColorFlag]
     and a

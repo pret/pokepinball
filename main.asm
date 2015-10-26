@@ -129,7 +129,7 @@ Start: ; 0x150
     ld a, $0
     ld [$d849], a
     ld [$d84a], a
-    ld a, $f
+    ld a, Bank(PlaySong_BankF)
     call SetSongBank
     call Func_23b
     ld a, [hGameBoyColorFlag]
@@ -435,7 +435,7 @@ Func_486: ; 0x486
     ld l, a
     ret
 
-Func_490: ; 0x490
+PlaySong: ; 0x490
     ld a, [hLoadedROMBank]
     push af
     ld a, [wCurrentSongBank]
@@ -445,7 +445,7 @@ Func_490: ; 0x490
     ld [$d7bf], a
     ld a, [wCurrentSongBank]
     ld [$d7c0], a
-    call $4090  ; todo
+    call PlaySong_BankF  ; this function is replicated in multiple banks.
     pop af
     ld [hLoadedROMBank], a
     ld [$2000], a
@@ -471,7 +471,7 @@ PlaySoundEffect: ; 0x4af
     ld a, [wCurrentSongBank]
     ld [hLoadedROMBank], a
     ld [$2000], a
-    call $40c0  ; todo
+    call PlaySoundEffect_BankF  ; this function is replicated in multiple banks
     pop af
     ld [hLoadedROMBank], a
     ld [$2000], a
@@ -493,13 +493,15 @@ Func_4d8: ; 0x4d8
     pop bc
     ret
 
-Func_4ef: ; 0x4ef
+PlayCry: ; 0x4ef
+; Plays a Pokemon cry.
+; Input:  e = mon id
     ld a, [hLoadedROMBank]
     push af
     ld a, [wCurrentSongBank]
     ld [hLoadedROMBank], a
     ld [$2000], a
-    call $40f0 ; todo
+    call PlayCry_BankF  ; this function is replicated in multiple banks
     pop af
     ld [hLoadedROMBank], a
     ld [$2000], a
@@ -4286,8 +4288,8 @@ Func_1ffc: ; 0x1ffc
     ld a, $4
     ld [$d807], a
     ld [$ff8a], a
-    ld a, $f  ; todo
-    ld hl, $4000
+    ld a, Bank(Func_3c000)
+    ld hl, Func_3c000
     call BankSwitch
     ld a, $1
     ld [$d85d], a
@@ -10766,7 +10768,7 @@ Func_8461: ; 0x8461
     ld a, [$d7bf]
     ld e, a
     ld d, $0
-    call Func_490
+    call PlaySong
     ret
 
 Func_8471: ; 0x8471
@@ -12549,7 +12551,7 @@ FadeInTitlescreen: ; 0xc00e
     ld a, $11
     call SetSongBank
     ld de, $0004
-    call Func_490
+    call PlaySong
     call Func_588
     call Func_bbe  ; this does the fading
     ld hl, wScreenState
@@ -12598,7 +12600,7 @@ TitlescreenLoop: ; 0xc089
     ret
 .noPreviouslySavedGame
     ld de, $0000
-    call Func_490
+    call PlaySong
     rst $10
     ld de, $0027
     call PlaySoundEffect
@@ -12651,7 +12653,7 @@ Func_c10e: ; 0xc10e
     bit 0, a
     jr z, .asm_c17c
     ld de, $0000
-    call Func_490
+    call PlaySong
     rst $10
     ld de, $0027
     call PlaySoundEffect
@@ -13011,7 +13013,7 @@ Func_c35a: ; 0xc35a
     ld a, $12
     call SetSongBank
     ld de, $0002
-    call Func_490
+    call PlaySong
     call Func_588
     ld a, [wSoundTestCurrentBackgroundMusic]
     ld hl, $9967
@@ -13134,7 +13136,7 @@ Func_c447: ; 0xc447
     ret
 .asm_c477
     ld de, $0000
-    call Func_490
+    call PlaySong
     ld a, $5
     ld [wScreenState], a
     ret
@@ -13447,14 +13449,14 @@ Func_c691: ; 0xc91
     bit BIT_B_BUTTON, a
     ret z
     ld de, $0000
-    call Func_490
+    call PlaySong
     rst $10
     rst $10
     rst $10
     ld a, $12
     call SetSongBank
     ld de, $0002
-    call Func_490
+    call PlaySong
     ld de, $0001
     call PlaySoundEffect
     ld a, $1
@@ -13497,7 +13499,7 @@ Func_c6e8: ; 0xc6e8
     bit BIT_A_BUTTON, a
     jr z, UpdateSoundTestBackgroundMusicSelection
     ld de, $0000
-    call Func_490
+    call PlaySong
     rst $10
     rst $10
     rst $10
@@ -13512,7 +13514,7 @@ Func_c6e8: ; 0xc6e8
     ld d, $0
     ld a, [hl]
     call SetSongBank
-    call Func_490
+    call PlaySong
     ret
 
 UpdateSoundTestBackgroundMusicSelection: ; 0xc715
@@ -14210,13 +14212,13 @@ Func_cb14: ; 0xcb14
     ld a, $13
     call SetSongBank
     ld de, $0001
-    call Func_490
+    call PlaySong
     jr .asm_cba6
 .asm_cb9b
     ld a, $13
     call SetSongBank
     ld de, $0002
-    call Func_490
+    call PlaySong
 .asm_cba6
     call Func_588
     ld bc, $0009
@@ -14231,7 +14233,7 @@ Func_cb14: ; 0xcb14
     ld a, $10
     call SetSongBank
     ld de, $0004
-    call Func_490
+    call PlaySong
     call Func_588
     ld bc, $0009
     call Func_d68a
@@ -14510,12 +14512,12 @@ Func_cd6c: ; 0xcd6c
     and a
     jr z, .asm_cdbb
     ld de, $0000
-    call Func_490
+    call PlaySong
     rst $10
     call Func_cdce
     push af
     ld de, $0004
-    call Func_490
+    call PlaySong
     pop af
     jr nc, .asm_cdc6
 .asm_cdbb
@@ -15915,7 +15917,7 @@ LoadFieldSelectScreen: ; 0xd6dd
     ld a, $12
     call SetSongBank
     ld de, $0003
-    call Func_490
+    call PlaySong
     call Func_588
     call Func_bbe
     ld hl, wScreenState
@@ -16295,7 +16297,7 @@ Func_d909: ; 0xd909
 
 SaveGame: ; 0xda05
     ld de, $0000
-    call Func_490
+    call PlaySong
     ld bc, $0004
     call Func_93f
     call Func_cb5
@@ -16397,7 +16399,7 @@ Func_dab2: ; 0xdab2
     ret
 .asm_dae6
     ld de, $0000
-    call Func_490
+    call PlaySong
     ld bc, $0004
     call Func_93f
     call Func_cb5
@@ -16423,7 +16425,7 @@ Func_dab2: ; 0xdab2
     ret
 .asm_db28
     ld de, $0000
-    call Func_490
+    call PlaySong
     ld bc, $0004
     call Func_93f
     call Func_cb5
@@ -16447,7 +16449,7 @@ TransitionToHighScoresScreen: ; 0xdb5d
     xor a
     ld [$d616], a
     ld de, $0000
-    call Func_490
+    call PlaySong
     ld bc, $0004
     call Func_93f
     call Func_cb5
@@ -16786,7 +16788,7 @@ Func_dd76: ; 0xdd76
     ret
 .asm_dda3
     ld de, $0000
-    call Func_490
+    call PlaySong
     ld bc, $001e
     call Func_93f
     ld de, $2524
@@ -16894,7 +16896,7 @@ Func_de4f: ; 0xde4f
     ret
 .asm_de7c
     ld de, $0000
-    call Func_490
+    call PlaySong
     ld bc, $001e
     call Func_93f
     ld de, $2524
@@ -19852,7 +19854,7 @@ Func_f5a0: ; 0xf5a0
     ld a, $10
     call SetSongBank
     ld de, $0005
-    call Func_490
+    call PlaySong
     ld hl, wcBottomMessageText
     ld bc, $0040
     call Func_f81b
@@ -21367,7 +21369,7 @@ Func_1052d: ; 0x1052d
     ret nz
     call Func_3475
     ld de, $0000
-    call Func_490
+    call PlaySong
     rst $10
     ld de, $2329
     call PlaySoundEffect
@@ -21395,7 +21397,7 @@ Func_1052d: ; 0x1052d
     call BankSwitch
     call Func_10157
     ld de, $0001
-    call Func_490
+    call PlaySong
     ld hl, $d628
     call Func_e4a
     jr nc, .asm_105d1
@@ -21573,7 +21575,7 @@ Func_10732: ; 0x10732
     inc a
     ld e, a
     ld d, $0
-    call Func_4ef
+    call PlayCry
     ret
 
 AddCaughtPokemonToParty: ; 0x1073d
@@ -21784,7 +21786,7 @@ Func_10871: ; 0x10871
     ld a, $4
     ld [$d7ad], a
     ld de, $0002
-    call Func_490
+    call PlaySong
     ld a, [wCurrentStage]
     bit 0, a
     jr nz, .asm_108d3
@@ -21905,7 +21907,7 @@ Func_1098c: ; 0x1098c
     ld hl, Func_1f2ed
     call BankSwitch
     ld de, $0002
-    call Func_490
+    call PlaySong
     ld a, [wCurrentStage]
     bit 0, a
     ret z
@@ -22638,7 +22640,7 @@ Func_10ebb: ; 0x10ebb
     ld a, $2
     ld [$d7ad], a
     ld de, $0002
-    call Func_490
+    call PlaySong
     call SetPokemonSeenFlag
     ld a, [wCurrentStage]
     bit 0, a
@@ -22797,7 +22799,7 @@ Func_11061: ; 0x11061
     ld a, $2
     ld [$d7ad], a
     ld de, $0002
-    call Func_490
+    call PlaySong
     call SetPokemonSeenFlag
     ld a, [wCurrentStage]
     bit 0, a
@@ -28012,7 +28014,7 @@ Func_163f2: ; 0x163f2
 .asm_1640f
     call Func_32aa
     ld de, $0000
-    call Func_490
+    call PlaySong
     rst $10
     ld de, $3c23
     call PlaySoundEffect
@@ -29663,7 +29665,7 @@ InitGengarBonusStage: ; 0x18099
     ld a, $f
     call SetSongBank
     ld de, $0005
-    call Func_490
+    call PlaySong
     ret
 
 Func_18112: ; 0x18112
@@ -30208,7 +30210,7 @@ Func_18562: ; 0x18562
     ld [$d662], a
     ld [$d66b], a
     ld de, $0006
-    call Func_490
+    call PlaySong
     ret
 .asm_185b1
     ld c, a
@@ -30410,7 +30412,7 @@ Func_186f7: ; 0x186f7
     call Func_18d72
     call Func_18d91
     ld de, $0000
-    call Func_490
+    call PlaySong
     ret
 .asm_18740
     ld c, a
@@ -30448,8 +30450,8 @@ Func_186f7: ; 0x186f7
     xor a
     ld [$d67e], a
     ld [$d687], a
-    ld de, $005e
-    call Func_4ef
+    ld de, GENGAR
+    call PlayCry
     ret
 
 INCBIN "baserom.gbc",$1877d,$187b1 - $1877d
@@ -30513,7 +30515,7 @@ Func_187b1: ; 0x187b1
     ld hl, Func_86d2
     call BankSwitch
     ld de, $0000
-    call Func_490
+    call PlaySong
 .asm_18826
     ld bc, $34ee
     ld [$ff8a], a
@@ -30812,7 +30814,7 @@ Func_189af: ; 0x189af
     xor a
     ld [de], a
     ld de, $0007
-    call Func_490
+    call PlaySong
     ret
 
 INCBIN "baserom.gbc",$18a57,$18d34 - $18a57
@@ -31259,7 +31261,7 @@ InitMewtwoBonusStage: ; 0x1924f
     ld a, $12
     call SetSongBank
     ld de, $0001
-    call Func_490
+    call PlaySong
     ret
 
 INCBIN "baserom.gbc",$192ab,$192e3 - $192ab
@@ -31604,7 +31606,7 @@ Func_19531: ; 0x19531
     ld hl, Func_86d2
     call BankSwitch
     ld de, $0000
-    call Func_490
+    call PlaySong
 .asm_195a2
     call Func_195ac
     ld de, $d6af
@@ -32106,7 +32108,7 @@ InitDiglettBonusStage: ; 0x199f2
     ld a, $11
     call SetSongBank
     ld de, $0001
-    call Func_490
+    call PlaySong
     ret
 
 StartBallDiglettBonusStage: ; 0x19a38
@@ -32382,7 +32384,7 @@ Func_19c52: ; 0x19c52
     ld [wDugrioState], a
     call Func_1ac2c
     ld de, $0002
-    call Func_490
+    call PlaySong
 .asm_19cc8
     call Func_19cdd
     ld a, [$d765]
@@ -32754,7 +32756,7 @@ Func_1ab30: ; 0x1ab30
     cp $1
     jr nz, .asm_1abf2
     ld de, $0000
-    call Func_490
+    call PlaySong
     ret
 .asm_1abf2
     cp $2
@@ -32904,7 +32906,7 @@ InitBlueField: ; 0x1c000
     ld a, $10
     call SetSongBank
     ld de, $0001
-    call Func_490
+    call PlaySong
     ret
 
 StartBallBlueField: ; 0x1c08d
@@ -32970,7 +32972,7 @@ StartBallBlueField: ; 0x1c08d
     ld a, $10
     call SetSongBank
     ld de, $0001
-    call Func_490
+    call PlaySong
     ret
 
 StartBallAfterBonusStageBlueField: ; 0x1c129
@@ -32995,7 +32997,7 @@ StartBallAfterBonusStageBlueField: ; 0x1c129
     ld a, $10
     call SetSongBank
     ld de, $0001
-    call Func_490
+    call PlaySong
     ret
 
 Func_1c165: ; 0x1c165
@@ -36354,7 +36356,7 @@ Func_1e8c3: ; 0x1e8c3
 .asm_1e8e0
     call Func_32aa
     ld de, $0000
-    call Func_490
+    call PlaySong
     rst $10
     ld de, $3c23
     call PlaySoundEffect
@@ -37825,7 +37827,7 @@ Func_201ce: ; 0x201ce
     ld hl, Func_10157
     call BankSwitch
     ld de, $0001
-    call Func_490
+    call PlaySong
     scf
     ret
 
@@ -38198,7 +38200,7 @@ Func_2048f: ; 0x2048f
     ld hl, Func_10157
     call BankSwitch
     ld de, $0001
-    call Func_490
+    call PlaySong
     scf
     ret
 
@@ -38512,7 +38514,7 @@ Func_2070b: ; 0x2070b
     ld hl, Func_10ac8
     call BankSwitch
     ld de, $0001
-    call Func_490
+    call PlaySong
     ld hl, $d629
     call Func_e4a
     ld [$ff8a], a
@@ -38547,7 +38549,7 @@ Func_20757: ; 0x20757
     ld hl, Func_10ac8
     call BankSwitch
     ld de, $0001
-    call Func_490
+    call PlaySong
     scf
     ret
 
@@ -39082,7 +39084,7 @@ Func_20b02: ; 0x20b02
     call BankSwitch
     call Func_3475
     ld de, $0000
-    call Func_490
+    call PlaySong
     rst $10
     ld de, $2d26
     call PlaySoundEffect
@@ -39296,7 +39298,7 @@ Func_20d30: ; 0x20d30
     ld hl, Func_10ac8
     call BankSwitch
     ld de, $0001
-    call Func_490
+    call PlaySong
     ld hl, $d629
     call Func_e4a
     ld [$ff8a], a
@@ -39331,7 +39333,7 @@ Func_20d7c: ; 0x20d7c
     ld hl, Func_10ac8
     call BankSwitch
     ld de, $0001
-    call Func_490
+    call PlaySong
     scf
     ret
 
@@ -39866,7 +39868,7 @@ Func_2112a: ; 0x2112a
     call BankSwitch
     call Func_3475
     ld de, $0000
-    call Func_490
+    call PlaySong
     rst $10
     ld de, $2d26
     call PlaySoundEffect
@@ -39920,7 +39922,7 @@ InitMeowthBonusStage: ; 0x24000
     ld a, $12
     call SetSongBank
     ld de, $0004
-    call Func_490
+    call PlaySong
     ret
 
 StartBallMeowthBonusStage: ; 0x24059
@@ -40487,7 +40489,7 @@ Func_2442a: ; 0x2442a
     ld a, $96
     ld [$d739], a
     ld de, $0000
-    call Func_490
+    call PlaySong
     ld a, $1
     ld [$d49a], a
     call Func_30e8
@@ -40505,7 +40507,7 @@ Func_2442a: ; 0x2442a
     and a
     jr nz, .asm_244b0
     ld de, $0004
-    call Func_490
+    call PlaySong
     ld a, $5
     ld [$d712], a
 .asm_244b0
@@ -42207,7 +42209,7 @@ InitSeelBonusStage: ; 0x25a7c
     ld a, $11
     call SetSongBank
     ld de, $0003
-    call Func_490
+    call PlaySong
     ret
 
 Func_25ad8: ; 0x25ad8
@@ -42412,7 +42414,7 @@ Func_25c5a: ; 0x25c5a
     ld a, $1
     ld [$d498], a
     ld de, $0000
-    call Func_490
+    call PlaySong
     ld a, $1
     ld [$d49a], a
     call Func_30e8
@@ -42432,7 +42434,7 @@ Func_25c5a: ; 0x25c5a
     and a
     jr nz, .asm_25cb0
     ld de, $0003
-    call Func_490
+    call PlaySong
     ld a, $5
     ld [$d794], a
 .asm_25cb0
@@ -43426,7 +43428,7 @@ LoadPokedexScreen: ; 0x2800e
     ld a, $f
     call SetSongBank
     ld de, $0004
-    call Func_490
+    call PlaySong
     call Func_588
     call Func_bbe
     ld hl, wScreenState
@@ -43524,7 +43526,7 @@ MainPokedexScreen: ; 0x280fe
     inc a
     ld e, a
     ld d, $0
-    call Func_4ef
+    call PlayCry
     pop hl
     bit 1, [hl]
     jp z, .asm_28174
@@ -47419,7 +47421,7 @@ InitRedField: ; 0x30000
     ld a, $f
     call SetSongBank
     ld de, $0001
-    call Func_490
+    call PlaySong
     ret
 
 StartBallRedField: ; 0x3007d
@@ -47493,7 +47495,7 @@ StartBallRedField: ; 0x3007d
     ld a, $f
     call SetSongBank
     ld de, $0001
-    call Func_490
+    call PlaySong
     ret
 
 StartBallAfterBonusStageRedField: ; 0x30128
@@ -47518,7 +47520,7 @@ StartBallAfterBonusStageRedField: ; 0x30128
     ld a, $f
     call SetSongBank
     ld de, $0001
-    call Func_490
+    call PlaySong
     ret
 
 Func_30164: ; 0x30164
@@ -47938,7 +47940,7 @@ Func_311b4: ; 0x311b4
     ld a, $4
     ld [$d7ad], a
     ld de, $0003
-    call Func_490
+    call PlaySong
     ld a, [wCurrentStage]
     bit 0, a
     ret z
@@ -48138,7 +48140,7 @@ Func_31326: ; 0x31326
     ld hl, Func_1f2ed
     call BankSwitch
     ld de, $0003
-    call Func_490
+    call PlaySong
     ld a, [wCurrentStage]
     bit 0, a
     ret z
@@ -48319,7 +48321,7 @@ Func_314f3: ; 0x314f3
     ld hl, Func_3022b
     call BankSwitch
     ld de, $0001
-    call Func_490
+    call PlaySong
     scf
     ret
 
@@ -48333,7 +48335,7 @@ Func_31505: ; 0x31505
     ld hl, Func_3022b
     call BankSwitch
     ld de, $0001
-    call Func_490
+    call PlaySong
     scf
     ret
 
@@ -48426,7 +48428,7 @@ Func_315b3: ; 0x315b3
 
 Func_315d5: ; 0x315d5
     ld de, $0000
-    call Func_490
+    call PlaySong
     rst $10
     ld [$ff8a], a
     ld a, Bank(Func_31281)
@@ -48508,7 +48510,7 @@ Func_31660: ; 0x31660
     ld hl, Func_3022b
     call BankSwitch
     ld de, $0001
-    call Func_490
+    call PlaySong
     scf
     ret
 
@@ -48522,7 +48524,7 @@ Func_31672: ; 0x31672
     ld hl, Func_3022b
     call BankSwitch
     ld de, $0001
-    call Func_490
+    call PlaySong
     scf
     ret
 
@@ -48619,7 +48621,7 @@ Func_3172a: ; 0x3172a
 
 Func_3174c: ; 0x3174c
     ld de, $0000
-    call Func_490
+    call PlaySong
     rst $10
     ld [$ff8a], a
     ld a, Bank(Func_3140b)
@@ -48673,7 +48675,1834 @@ INCBIN "baserom.gbc",$38000,$3c000 - $38000 ; 0x38000
 
 SECTION "bankf", ROMX, BANK[$f]
 
-INCBIN "baserom.gbc",$3c000,$3cca2 - $3c000
+Func_3c000: ; 0x3c000
+    push hl
+    push de
+    push bc
+    push af
+    call Func_3cb1b
+    ld hl, $dd01
+    ld de, $01af
+.clearLoop
+    xor a
+    ld [hli], a
+    dec de
+    ld a, e
+    or d
+    jr nz, .clearLoop
+    ld hl, $ff24
+    xor a
+    ld [hli], a
+    ld [hli], a
+    ld a, $80
+    ld [hli], a
+    ld hl, $ff10
+    ld e, $4
+.asm_3c022
+    xor a
+    ld [hli], a
+    ld [hli], a
+    ld a, $8
+    ld [hli], a
+    xor a
+    ld [hli], a
+    ld a, $80
+    ld [hli], a
+    dec e
+    jr nz, .asm_3c022
+    ld a, $8
+    ld [$de9a], a
+    ld a, $77
+    ld [$de98], a
+    call Func_3cb15
+    pop af
+    pop bc
+    pop de
+    pop hl
+    ret
+
+Func_3c042: ; 0x3c042
+    ld a, [de]
+    inc de
+    and $7
+    ld [$deae], a
+    ld c, a
+    ld b, $0
+    ld hl, WRAMPointerTable_3cc92
+    add hl, bc
+    add hl, bc
+    ld c, [hl]
+    inc hl
+    ld b, [hl]
+    ld hl, $0002
+    add hl, bc
+    res 0, [hl]
+    push de
+    xor a
+    ld hl, $0000
+    add hl, bc
+    ld e, $32
+.loop
+    ld [hli], a
+    dec e
+    jr nz, .loop
+    ld hl, $0017
+    add hl, bc
+    xor a
+    ld [hli], a
+    inc a
+    ld [hl], a
+    ld hl, $0028
+    add hl, bc
+    ld [hl], a
+    pop de
+    ld hl, $0005
+    add hl, bc
+    ld a, [de]
+    ld [hli], a
+    inc de
+    ld a, [de]
+    ld [hl], a
+    inc de
+    ld hl, $0000
+    add hl, bc
+    ld a, [$de9b]
+    ld [hli], a
+    ld a, [$de9c]
+    ld [hl], a
+    ret
+
+INCBIN "baserom.gbc",$3c08b,$3c090 - $3c08b
+
+PlaySong_BankF: ; 0x3c090
+    push de
+    call Func_3c000
+    pop de
+    call Func_3cb1b
+    ld hl, $de9b
+    ld [hl], e
+    inc hl
+    ld [hl], d
+    ld hl, SongHeaderPointers0F
+    add hl, de
+    add hl, de
+    ld e, [hl]
+    inc hl
+    ld d, [hl]
+    ld a, [de]
+    rlca
+    rlca
+    and $3
+    inc a
+.asm_3c0ac
+    push af
+    call Func_3c042
+    call Func_3cadf
+    pop af
+    dec a
+    jr nz, .asm_3c0ac
+    call Func_3cb15
+    ret
+
+INCBIN "baserom.gbc",$3c0bb,$3c0c0 - $3c0bb
+
+PlaySoundEffect_BankF: ; 0x3c0c0
+    call Func_3cb1b
+    ld hl, $de9b
+    ld [hl], e
+    inc hl
+    ld [hl], d
+    ld hl, PointerTable_3e3ce
+    add hl, de
+    add hl, de
+    ld e, [hl]
+    inc hl
+    ld d, [hl]
+    ld a, [de]
+    rlca
+    rlca
+    and $3
+    inc a
+.asm_3c0d7
+    push af
+    call Func_3c042
+    ld hl, $0002
+    add hl, bc
+    set 3, [hl]
+    call Func_3cadf
+    pop af
+    dec a
+    jr nz, .asm_3c0d7
+    call Func_3cb15
+    ret
+
+INCBIN "baserom.gbc",$3c0ec,$3c0f0 - $3c0ec
+
+PlayCry_BankF: ; 0x3c0f0
+; Plays a Pokemon cry.
+; Input: e = mon id
+    call Func_3cb1b
+    ld a, e
+    and a
+    ret z
+    dec e
+    ld d, $0
+    ld hl, CryData
+    add hl, de
+    add hl, de
+    add hl, de
+    add hl, de
+    add hl, de
+    add hl, de
+    ld e, [hl]
+    inc hl
+    ld d, [hl]  ; de = base cry id
+    inc hl
+    ld a, [hli]
+    ld [$dea8], a
+    ld a, [hli]
+    ld [$dea9], a  ; dea8 = cry pitch
+    ld a, [hli]
+    ld [$deaa], a
+    ld a, [hl]
+    ld [$deab], a  ; deaa = cry length
+    ld hl, $de9b
+    ld [hl], e
+    inc hl
+    ld [hl], d
+    ld hl, CryBasePointers
+    add hl, de
+    add hl, de
+    ld e, [hl]
+    inc hl
+    ld d, [hl]
+    ld a, [de]
+    rlca
+    rlca
+    and $3
+    inc a
+.asm_3c12a
+    push af
+    call Func_3c042
+    ld hl, $0002
+    add hl, bc
+    set 5, [hl]
+    ld hl, $0003
+    add hl, bc
+    set 4, [hl]
+    ld hl, $0026
+    add hl, bc
+    ld a, [$dea8]
+    ld [hli], a
+    ld a, [$dea9]
+    ld [hl], a
+    ld a, [$de97]
+    and $3
+    cp $3
+    jr nc, .asm_3c15b
+    ld hl, $0017
+    add hl, bc
+    ld a, [$deaa]
+    ld [hli], a
+    ld a, [$deab]
+    ld [hl], a
+.asm_3c15b
+    call Func_3cadf
+    pop af
+    dec a
+    jr nz, .asm_3c12a
+    ld a, [$deac]
+    and a
+    jr nz, .asm_3c173
+    ld a, [$de98]
+    ld [$deac], a
+    ld a, $77
+    ld [$de98], a
+.asm_3c173
+    ld a, $1
+    ld [$dead], a
+    call Func_3cb15
+    ret
+
+INCBIN "baserom.gbc",$3c17c,$3c180 - $3c17c
+
+Func_3c180: ; 0x3c180
+    ld a, [$dd00]
+    and a
+    ret z
+    xor a
+    ld [$de97], a
+    ld [$de99], a
+    ld bc, $dd01
+    ld hl, $0002
+    add hl, bc
+    bit 0, [hl]
+    jp z, .asm_3c22d
+    ld hl, $0014
+    add hl, bc
+    ld a, [hl]
+    cp $2
+    jr c, .asm_3c1a4
+    dec [hl]
+    jr .asm_3c1c1
+.asm_3c1a4
+    ld hl, $001c
+    add hl, bc
+    ld a, [hl]
+    ld hl, $001b
+    add hl, bc
+    ld [hl], a
+    ld hl, $0025
+    add hl, bc
+    ld a, [hl]
+    ld hl, $0024
+    add hl, bc
+    ld [hl], a
+    ld hl, $0003
+    add hl, bc
+    res 1, [hl]
+    call Func_3c670
+.asm_3c1c1
+    ld hl, $000d
+    add hl, bc
+    ld a, [hli]
+    ld [$de91], a
+    ld a, [hli]
+    ld [$de92], a
+    ld a, [hli]
+    ld [$de93], a
+    ld a, [hl]
+    ld [$de94], a
+    call Func_3c4f0
+    call Func_3c632
+    ld a, [$dead]
+    and a
+    jr z, .asm_3c20a
+    ld a, [$de97]
+    cp $4
+    jr nc, .asm_3c219
+    ld hl, $ddcb
+    bit 0, [hl]
+    jr nz, .asm_3c204
+    ld hl, $ddfd
+    bit 0, [hl]
+    jr nz, .asm_3c204
+    ld hl, $de2f
+    bit 0, [hl]
+    jr nz, .asm_3c204
+    ld hl, $de61
+    bit 0, [hl]
+    jr z, .asm_3c20a
+.asm_3c204
+    ld hl, $000b
+    add hl, bc
+    set 5, [hl]
+.asm_3c20a
+    ld a, [$de97]
+    cp $4
+    jr nc, .asm_3c219
+    ld hl, $00ca
+    add hl, bc
+    bit 0, [hl]
+    jr nz, .asm_3c227
+.asm_3c219
+    call Func_3c24d
+    ld hl, $0019
+    add hl, bc
+    ld a, [$de99]
+    or [hl]
+    ld [$de99], a
+.asm_3c227
+    ld hl, $000b
+    add hl, bc
+    xor a
+    ld [hl], a
+.asm_3c22d
+    ld hl, $0032
+    add hl, bc
+    ld c, l
+    ld b, h
+    ld a, [$de97]
+    inc a
+    ld [$de97], a
+    cp $8
+    jp nz, $418f
+    call Func_3c40d
+    ld a, [$de98]
+    ld [$ff24], a
+    ld a, [$de99]
+    ld [$ff25], a
+    ret
+
+Func_3c24d: ; 0x3c24d
+    ld hl, PointerTable_3c25e
+    ld a, [$de97]
+    and $7
+    add a
+    ld e, a
+    ld d, $0
+    add hl, de
+    ld a, [hli]
+    ld h, [hl]
+    ld l, a
+    jp [hl]
+
+PointerTable_3c25e: ; 0x3c25e
+    dw Func_3c26e
+    dw Func_3c2e0
+    dw Func_3c349
+    dw Func_3c3cf
+    dw Func_3c26e
+    dw Func_3c2e0
+    dw Func_3c349
+    dw Func_3c3cf
+
+Func_3c26e: ; 0x3c26e
+    ld hl, $000b
+    add hl, bc
+    bit 3, [hl]
+    jr z, .asm_3c27b
+    ld a, [$de9a]
+    ld [$ff10], a
+.asm_3c27b
+    bit 5, [hl]
+    jr nz, .asm_3c2ba
+    bit 4, [hl]
+    jr nz, .asm_3c2c6
+    bit 6, [hl]
+    jr nz, .asm_3c2b4
+    bit 1, [hl]
+    jr z, .asm_3c295
+    ld a, [$de93]
+    ld [$ff13], a
+    ld a, [$de94]
+    ld [$ff14], a
+.asm_3c295
+    bit 2, [hl]
+    jr z, .asm_3c2a5
+    ld a, [$de92]
+    ld [$ff12], a
+    ld a, [$de94]
+    or $80
+    ld [$ff14], a
+.asm_3c2a5
+    bit 0, [hl]
+    ret z
+    ld a, [$de91]
+    ld d, a
+    ld a, [$ff11]
+    and $3f
+    or d
+    ld [$ff11], a
+    ret
+.asm_3c2b4
+    ld a, [$de93]
+    ld [$ff13], a
+    ret
+.asm_3c2ba
+    ld a, $8
+    ld [$ff12], a
+    ld a, [$de94]
+    or $80
+    ld [$ff14], a
+    ret
+.asm_3c2c6
+    ld hl, $de91
+    ld a, $3f
+    or [hl]
+    ld [$ff11], a
+    ld a, [$de92]
+    ld [$ff12], a
+    ld a, [$de93]
+    ld [$ff13], a
+    ld a, [$de94]
+    or $80
+    ld [$ff14], a
+    ret
+
+Func_3c2e0: ; 0x3c2e0
+    ld hl, $000b
+    add hl, bc
+    bit 5, [hl]
+    jr nz, .asm_3c323
+    bit 4, [hl]
+    jr nz, .asm_3c32f
+    bit 6, [hl]
+    jr nz, .asm_3c31d
+    bit 1, [hl]
+    jr z, .asm_3c2fe
+    ld a, [$de93]
+    ld [$ff18], a
+    ld a, [$de94]
+    ld [$ff19], a
+.asm_3c2fe
+    bit 2, [hl]
+    jr z, .asm_3c30e
+    ld a, [$de92]
+    ld [$ff17], a
+    ld a, [$de94]
+    or $80
+    ld [$ff19], a
+.asm_3c30e
+    bit 0, [hl]
+    ret z
+    ld a, [$de91]
+    ld d, a
+    ld a, [$ff16]
+    and $3f
+    or d
+    ld [$ff16], a
+    ret
+.asm_3c31d
+    ld a, [$de93]
+    ld [$ff18], a
+    ret
+.asm_3c323
+    ld a, $8
+    ld [$ff17], a
+    ld a, [$de94]
+    or $80
+    ld [$ff19], a
+    ret
+.asm_3c32f
+    ld hl, $de91
+    ld a, $3f
+    or [hl]
+    ld [$ff16], a
+    ld a, [$de92]
+    ld [$ff17], a
+    ld a, [$de93]
+    ld [$ff18], a
+    ld a, [$de94]
+    or $80
+    ld [$ff19], a
+    ret
+
+Func_3c349: ; 0x3c349
+    ld hl, $000b
+    add hl, bc
+    bit 5, [hl]
+    jr nz, .asm_3c387
+    bit 4, [hl]
+    jr nz, .asm_3c38b
+    bit 6, [hl]
+    jr nz, .asm_3c381
+    bit 1, [hl]
+    jr z, .asm_3c367
+    ld a, [$de93]
+    ld [$ff1d], a
+    ld a, [$de94]
+    ld [$ff1e], a
+.asm_3c367
+    bit 2, [hl]
+    ret z
+    xor a
+    ld [$ff1a], a
+    call LoadWavePattern
+    ld a, $80
+    ld [$ff1a], a
+    ld a, [$de93]
+    ld [$ff1d], a
+    ld a, [$de94]
+    or $80
+    ld [$ff1e], a
+    ret
+.asm_3c381
+    ld a, [$de93]
+    ld [$ff1d], a
+    ret
+.asm_3c387
+    xor a
+    ld [$ff1a], a
+    ret
+.asm_3c38b
+    ld a, $3f
+    ld [$ff1b], a
+    xor a
+    ld [$ff1a], a
+    call LoadWavePattern
+    ld a, $80
+    ld [$ff1a], a
+    ld a, [$de93]
+    ld [$ff1d], a
+    ld a, [$de94]
+    or $80
+    ld [$ff1e], a
+    ret
+
+LoadWavePattern: ; 0x3c3a6
+    push hl
+    ld a, [$de92]
+    and $f
+    ld l, a
+    ld h, $0
+    add hl, hl
+    add hl, hl
+    add hl, hl
+    add hl, hl
+    ld de, WavePatterns_BankF
+    add hl, de
+    ld de, $ff30
+    push bc
+    ld b, $10
+.loop
+    ld a, [hli]
+    ld [de], a
+    inc de
+    dec b
+    jr nz, .loop
+    pop bc
+    pop hl
+    ld a, [$de92]
+    and $f0
+    sla a
+    ld [$ff1c], a  ; set volume of wave channel
+    ret
+
+Func_3c3cf: ; 0x3c3cf
+    ld hl, $000b
+    add hl, bc
+    bit 5, [hl]
+    jr nz, .asm_3c3f1
+    bit 4, [hl]
+    jr nz, .asm_3c3fa
+    bit 1, [hl]
+    jr z, .asm_3c3e4
+    ld a, [$de93]
+    ld [$ff22], a
+.asm_3c3e4
+    bit 2, [hl]
+    ret z
+    ld a, [$de92]
+    ld [$ff21], a
+    ld a, $80
+    ld [$ff23], a
+    ret
+.asm_3c3f1
+    ld a, $8
+    ld [$ff21], a
+    ld a, $80
+    ld [$ff23], a
+    ret
+.asm_3c3fa
+    ld a, $3f
+    ld [$ff20], a
+    ld a, [$de92]
+    ld [$ff21], a
+    ld a, [$de93]
+    ld [$ff22], a
+    ld a, $80
+    ld [$ff23], a
+    ret
+
+Func_3c40d: ; 0x3c40d
+    ld a, [$dea2]
+    and a
+    ret z
+    ld a, [$dea3]
+    and a
+    jr z, .asm_3c41d
+    dec a
+    ld [$dea3], a
+    ret
+.asm_3c41d
+    ld a, [$dea2]
+    ld d, a
+    and $7f
+    ld [$dea3], a
+    ld a, [$de98]
+    and $7
+    bit 7, d
+    jr nz, .asm_3c448
+    and a
+    jr z, .asm_3c435
+    dec a
+    jr .asm_3c454
+.asm_3c435
+    ld a, [$dea4]
+    ld e, a
+    ld a, [$dea5]
+    ld d, a
+    push bc
+    call PlaySong_BankF
+    pop bc
+    ld hl, $dea2
+    set 7, [hl]
+    ret
+.asm_3c448
+    cp $7
+    jr nc, .asm_3c44f
+    inc a
+    jr .asm_3c454
+.asm_3c44f
+    xor a
+    ld [$dea2], a
+    ret
+.asm_3c454
+    ld d, a
+    swap a
+    or d
+    ld [$de98], a
+    ret
+
+Func_3c45c: ; 0x3c45c
+    ld hl, $0003
+    add hl, bc
+    bit 1, [hl]
+    ret z
+    ld hl, $0014
+    add hl, bc
+    ld a, [hl]
+    ld hl, $de95
+    sub [hl]
+    jr nc, .asm_3c470
+    ld a, $1
+.asm_3c470
+    ld [hl], a
+    ld hl, $000f
+    add hl, bc
+    ld e, [hl]
+    inc hl
+    ld d, [hl]
+    ld hl, $001f
+    add hl, bc
+    ld a, e
+    sub [hl]
+    ld e, a
+    ld a, d
+    sbc $0
+    ld d, a
+    ld hl, $0020
+    add hl, bc
+    sub [hl]
+    jr nc, .asm_3c4ab
+    ld hl, $0004
+    add hl, bc
+    set 1, [hl]
+    ld hl, $000f
+    add hl, bc
+    ld e, [hl]
+    inc hl
+    ld d, [hl]
+    ld hl, $001f
+    add hl, bc
+    ld a, [hl]
+    sub e
+    ld e, a
+    ld a, d
+    sbc $0
+    ld d, a
+    ld hl, $0020
+    add hl, bc
+    ld a, [hl]
+    sub d
+    ld d, a
+    jr .asm_3c4c9
+.asm_3c4ab
+    ld hl, $0004
+    add hl, bc
+    res 1, [hl]
+    ld hl, $000f
+    add hl, bc
+    ld e, [hl]
+    inc hl
+    ld d, [hl]
+    ld hl, $001f
+    add hl, bc
+    ld a, e
+    sub [hl]
+    ld e, a
+    ld a, d
+    sbc $0
+    ld d, a
+    ld hl, $0020
+    add hl, bc
+    sub [hl]
+    ld d, a
+.asm_3c4c9
+    push bc
+    ld hl, $de95
+    ld b, $0
+.asm_3c4cf
+    inc b
+    ld a, e
+    sub [hl]
+    ld e, a
+    jr nc, .asm_3c4cf
+    ld a, d
+    and a
+    jr z, .asm_3c4dc
+    dec d
+    jr .asm_3c4cf
+.asm_3c4dc
+    ld a, e
+    add [hl]
+    ld d, b
+    pop bc
+    ld hl, $0021
+    add hl, bc
+    ld [hl], d
+    ld hl, $0022
+    add hl, bc
+    ld [hl], a
+    ld hl, $0023
+    add hl, bc
+    xor a
+    ld [hl], a
+
+    ; fall through
+
+Func_3c4f0: ; 0x3c4f0
+    ld hl, $0003
+    add hl, bc
+    bit 2, [hl]
+    jr z, .asm_3c50b
+    ld hl, $001a
+    add hl, bc
+    ld a, [hl]
+    rlca
+    rlca
+    ld [hl], a
+    and $c0
+    ld [$de91], a
+    ld hl, $000b
+    add hl, bc
+    set 0, [hl]
+.asm_3c50b
+    ld hl, $0003
+    add hl, bc
+    bit 4, [hl]
+    jr z, .asm_3c529
+    ld hl, $0026
+    add hl, bc
+    ld e, [hl]
+    inc hl
+    ld d, [hl]
+    ld hl, $de93
+    ld a, [hli]
+    ld h, [hl]
+    ld l, a
+    add hl, de
+    ld e, l
+    ld d, h
+    ld hl, $de93
+    ld [hl], e
+    inc hl
+    ld [hl], d
+.asm_3c529
+    ld hl, $0003
+    add hl, bc
+    bit 1, [hl]
+    jp z, .asm_3c5c1
+    ld hl, $000f
+    add hl, bc
+    ld e, [hl]
+    inc hl
+    ld d, [hl]
+    ld hl, $0004
+    add hl, bc
+    bit 1, [hl]
+    jr z, .asm_3c574
+    ld hl, $0021
+    add hl, bc
+    ld l, [hl]
+    ld h, $0
+    add hl, de
+    ld d, h
+    ld e, l
+    ld hl, $0022
+    add hl, bc
+    ld a, [hl]
+    ld hl, $0023
+    add hl, bc
+    add [hl]
+    ld [hl], a
+    ld a, $0
+    adc e
+    ld e, a
+    ld a, $0
+    adc d
+    ld d, a
+    ld hl, $0020
+    add hl, bc
+    ld a, [hl]
+    cp d
+    jp c, $45a1
+    jr nz, .asm_3c5b4
+    ld hl, $001f
+    add hl, bc
+    ld a, [hl]
+    cp e
+    jp c, .asm_3c5a1
+    jr .asm_3c5b4
+.asm_3c574
+    ld a, e
+    ld hl, $0021
+    add hl, bc
+    ld e, [hl]
+    sub e
+    ld e, a
+    ld a, d
+    sbc $0
+    ld d, a
+    ld hl, $0022
+    add hl, bc
+    ld a, [hl]
+    add a
+    ld [hl], a
+    ld a, e
+    sbc $0
+    ld e, a
+    ld a, d
+    sbc $0
+    ld d, a
+    ld hl, $0020
+    add hl, bc
+    ld a, d
+    cp [hl]
+    jr c, .asm_3c5a1
+    jr nz, .asm_3c5b4
+    ld hl, $001f
+    add hl, bc
+    ld a, e
+    cp [hl]
+    jr nc, .asm_3c5b4
+.asm_3c5a1
+    ld hl, $0003
+    add hl, bc
+    res 1, [hl]
+    ld hl, $0004
+    add hl, bc
+    res 1, [hl]
+    ld hl, $0020
+    add hl, bc
+    ld e, [hl]
+    inc hl
+    ld d, [hl]
+.asm_3c5b4
+    ld hl, $000f
+    add hl, bc
+    ld [hl], e
+    inc hl
+    ld [hl], d
+    ld hl, $000b
+    add hl, bc
+    set 1, [hl]
+.asm_3c5c1
+    ld hl, $0003
+    add hl, bc
+    bit 0, [hl]
+    jr z, .asm_3c61a
+    ld hl, $001b
+    add hl, bc
+    ld a, [hl]
+    and a
+    jr nz, .asm_3c5e3
+    ld hl, $001d
+    add hl, bc
+    ld a, [hl]
+    and a
+    jr z, .asm_3c61a
+    ld d, a
+    ld hl, $001e
+    add hl, bc
+    ld a, [hl]
+    and $f
+    jr z, .asm_3c5e6
+.asm_3c5e3
+    dec [hl]
+    jr .asm_3c61a
+.asm_3c5e6
+    ld a, [hl]
+    swap [hl]
+    or [hl]
+    ld [hl], a
+    ld a, [$de93]
+    ld e, a
+    ld hl, $0004
+    add hl, bc
+    bit 0, [hl]
+    jr z, .asm_3c605
+    res 0, [hl]
+    ld a, d
+    and $f
+    ld d, a
+    ld a, e
+    sub d
+    jr nc, .asm_3c611
+    ld a, $0
+    jr .asm_3c611
+.asm_3c605
+    set 0, [hl]
+    ld a, d
+    and $f0
+    swap a
+    add e
+    jr nc, .asm_3c611
+    ld a, $ff
+.asm_3c611
+    ld [$de93], a
+    ld hl, $000b
+    add hl, bc
+    set 6, [hl]
+.asm_3c61a
+    ld hl, $0003
+    add hl, bc
+    bit 3, [hl]
+    ret z
+    ld hl, $0024
+    add hl, bc
+    ld a, [hl]
+    and a
+    jr z, .asm_3c62b
+    dec [hl]
+    ret
+.asm_3c62b
+    ld hl, $000b
+    add hl, bc
+    set 5, [hl]
+    ret
+
+Func_3c632: ; 0x3c632
+    ld hl, $0002
+    add hl, bc
+    bit 4, [hl]
+    ret z
+    ld a, [$de9f]
+    and a
+    jr z, .asm_3c644
+    dec a
+    ld [$de9f], a
+    ret
+.asm_3c644
+    ld hl, $de9d
+    ld e, [hl]
+    inc hl
+    ld d, [hl]
+    ld a, [de]
+    inc de
+    cp $ff
+    ret z
+    and $f
+    inc a
+    ld [$de9f], a
+    ld a, [de]
+    inc de
+    ld [$de92], a
+    ld a, [de]
+    inc de
+    ld [$de93], a
+    xor a
+    ld [$de94], a
+    ld hl, $de9d
+    ld [hl], e
+    inc hl
+    ld [hl], d
+    ld hl, $000b
+    add hl, bc
+    set 4, [hl]
+    ret
+
+Func_3c670: ; 0x3c670
+    call Func_3ca10
+    cp $ff
+    jr z, .asm_3c6c9
+    cp $d0
+    jr c, .asm_3c680
+.asm_3c67b
+    call Func_3c786
+    jr Func_3c670
+.asm_3c680
+    ld hl, $0002
+    add hl, bc
+    bit 3, [hl]
+    jp nz, Func_3c723
+    bit 5, [hl]
+    jp nz, Func_3c723
+    bit 4, [hl]
+    jp nz, Func_3c750
+    ld a, [$de96]
+    and $f
+    call Func_3ca5b
+    ld a, [$de96]
+    swap a
+    and $f
+    jr z, .asm_3c6c2
+    ld hl, $0011
+    add hl, bc
+    ld [hl], a
+    ld e, a
+    ld hl, $0012
+    add hl, bc
+    ld d, [hl]
+    call Func_3ca2b
+    ld hl, $000f
+    add hl, bc
+    ld [hl], e
+    inc hl
+    ld [hl], d
+    ld hl, $000b
+    add hl, bc
+    set 4, [hl]
+    jp Func_3c45c
+.asm_3c6c2
+    ld hl, $000b
+    add hl, bc
+    set 5, [hl]
+    ret
+.asm_3c6c9
+    ld hl, $0002
+    add hl, bc
+    bit 1, [hl]
+    jr nz, .asm_3c67b
+    ld a, [$de97]
+    cp $4
+    jr nc, .asm_3c6e0
+    ld hl, $00ca
+    add hl, bc
+    bit 0, [hl]
+    jr nz, .asm_3c6f6
+.asm_3c6e0
+    ld hl, $0002
+    add hl, bc
+    bit 5, [hl]
+    call nz, Func_3c704
+    ld a, [$de97]
+    cp $4
+    jr nz, .asm_3c6f6
+    xor a
+    ld [$ff10], a
+    ld [$de9a], a
+.asm_3c6f6
+    ld hl, $0002
+    add hl, bc
+    res 0, [hl]
+    ld hl, $0000
+    add hl, bc
+    xor a
+    ld [hli], a
+    ld [hli], a
+    ret
+
+Func_3c704: ; 0x3c704
+    ld a, [$de97]
+    cp $4
+    ret nz
+    xor a
+    ld hl, $de21
+    ld [hli], a
+    ld [hl], a
+    ld hl, $de85
+    ld [hli], a
+    ld [hl], a
+    ld a, [$deac]
+    ld [$de98], a
+    xor a
+    ld [$deac], a
+    ld [$dead], a
+    ret
+
+Func_3c723: ; 0x3c723
+    ld hl, $000b
+    add hl, bc
+    set 4, [hl]
+    ld a, [$de96]
+    call Func_3ca5b
+    call Func_3ca10
+    ld hl, $000e
+    add hl, bc
+    ld [hl], a
+    call Func_3ca10
+    ld hl, $000f
+    add hl, bc
+    ld [hl], a
+    ld a, [$de97]
+    and $3
+    cp $3
+    ret z
+    call Func_3ca10
+    ld hl, $0010
+    add hl, bc
+    ld [hl], a
+    ret
+
+Func_3c750: ; 0x3c750
+    ld a, [$de97]
+    cp $3
+    ret nz
+    ld a, [$de96]
+    and $f
+    call Func_3ca5b
+    ld a, [$dea1]
+    ld e, a
+    ld d, $0
+    ld hl, $4ba2
+    add hl, de
+    add hl, de
+    ld a, [hli]
+    ld h, [hl]
+    ld l, a
+    ld a, [$de96]
+    swap a
+    and $f
+    ret z
+    ld e, a
+    ld d, $0
+    add hl, de
+    add hl, de
+    ld a, [hli]
+    ld [$de9d], a
+    ld a, [hl]
+    ld [$de9e], a
+    xor a
+    ld [$de9f], a
+    ret
+
+Func_3c786: ; 0x3c786
+    ld a, [$de96]
+    sub $d0
+    ld e, a
+    ld d, $0
+    ld hl, PointerTable_3c797
+    add hl, de
+    add hl, de
+    ld a, [hli]
+    ld h, [hl]
+    ld l, a
+    jp [hl]
+
+PointerTable_3c797: ; 0x3c797
+    dw Func_3c9b6
+    dw Func_3c9b6
+    dw Func_3c9b6
+    dw Func_3c9b6
+    dw Func_3c9b6
+    dw Func_3c9b6
+    dw Func_3c9b6
+    dw Func_3c9b6
+    dw Func_3c973
+    dw Func_3c9c1
+    dw Func_3c9aa
+    dw Func_3c994
+    dw Func_3c9a1
+    dw Func_3c987
+    dw Func_3c939
+    dw Func_3c951
+    dw Func_3c8ff
+    dw Func_3c8c4
+    dw Func_3c8b5
+    dw Func_3c95f
+    dw Func_3c9ca
+    dw Func_3c9da
+    dw Func_3c926
+    dw Func_3c7f7
+    dw Func_3c7f7
+    dw Func_3c9e9
+    dw Func_3c7f7
+    dw Func_3c7f7
+    dw Func_3ca05
+    dw Func_3ca0b
+    dw Func_3c7f7
+    dw Func_3c7f7
+    dw Func_3c7f7
+    dw Func_3c7f7
+    dw Func_3c7f7
+    dw Func_3c7f7
+    dw Func_3c7f7
+    dw Func_3c7f7
+    dw Func_3c7f7
+    dw Func_3c7f7
+    dw Func_3c7f7
+    dw Func_3c7f7
+    dw Func_3c885
+    dw Func_3c88e
+    dw Func_3c833
+    dw Func_3c843
+    dw Func_3c80d
+    dw Func_3c7f8
+
+Func_3c7f7: ; 0x3c7f7
+    ret
+
+Func_3c7f8: ; 0x3c7f8
+    ld hl, $0002
+    add hl, bc
+    res 1, [hl]
+    ld hl, $0007
+    add hl, bc
+    ld e, [hl]
+    inc hl
+    ld d, [hl]
+    ld hl, $0005
+    add hl, bc
+    ld [hl], e
+    inc hl
+    ld [hl], d
+    ret
+
+Func_3c80d: ; 0x3c80d
+    call Func_3ca10
+    ld e, a
+    call Func_3ca10
+    ld d, a
+    push de
+    ld hl, $0005
+    add hl, bc
+    ld e, [hl]
+    inc hl
+    ld d, [hl]
+    ld hl, $0007
+    add hl, bc
+    ld [hl], e
+    inc hl
+    ld [hl], d
+    pop de
+    ld hl, $0005
+    add hl, bc
+    ld [hl], e
+    inc hl
+    ld [hl], d
+    ld hl, $0002
+    add hl, bc
+    set 1, [hl]
+    ret
+
+Func_3c833: ; 0x3c833
+    call Func_3ca10
+    ld e, a
+    call Func_3ca10
+    ld d, a
+    ld hl, $0005
+    add hl, bc
+    ld [hl], e
+    inc hl
+    ld [hl], d
+    ret
+
+Func_3c843: ; 0x3c843
+    call Func_3ca10
+    ld hl, $0002
+    add hl, bc
+    bit 2, [hl]
+    jr nz, .asm_3c859
+    and a
+    jr z, .asm_3c862
+    dec a
+    set 2, [hl]
+    ld hl, $0016
+    add hl, bc
+    ld [hl], a
+.asm_3c859
+    ld hl, $0016
+    add hl, bc
+    ld a, [hl]
+    and a
+    jr z, .asm_3c872
+    dec [hl]
+.asm_3c862
+    call Func_3ca10
+    ld e, a
+    call Func_3ca10
+    ld d, a
+    ld hl, $0005
+    add hl, bc
+    ld [hl], e
+    inc hl
+    ld [hl], d
+    ret
+.asm_3c872
+    ld hl, $0002
+    add hl, bc
+    res 2, [hl]
+    ld hl, $0005
+    add hl, bc
+    ld e, [hl]
+    inc hl
+    ld d, [hl]
+    inc de
+    inc de
+    ld [hl], d
+    dec hl
+    ld [hl], e
+    ret
+
+Func_3c885: ; 0x3c885
+    call Func_3ca10
+    ld hl, $000c
+    add hl, bc
+    ld [hl], a
+    ret
+
+Func_3c88e: ; 0x3c88e
+    call Func_3ca10
+    ld hl, $000c
+    add hl, bc
+    cp [hl]
+    jr z, .asm_3c8a5
+    ld hl, $0005
+    add hl, bc
+    ld e, [hl]
+    inc hl
+    ld d, [hl]
+    inc de
+    inc de
+    ld [hl], d
+    dec hl
+    ld [hl], e
+    ret
+.asm_3c8a5
+    call Func_3ca10
+    ld e, a
+    call Func_3ca10
+    ld d, a
+    ld hl, $0005
+    add hl, bc
+    ld [hl], e
+    inc hl
+    ld [hl], d
+    ret
+
+Func_3c8b5: ; 0x3c8b5
+    call Func_3ca10
+    ld hl, $0025
+    add hl, bc
+    ld [hl], a
+    ld hl, $0003
+    add hl, bc
+    set 3, [hl]
+    ret
+
+Func_3c8c4: ; 0x3c8c4
+    ld hl, $0003
+    add hl, bc
+    set 0, [hl]
+    ld hl, $0004
+    add hl, bc
+    res 0, [hl]
+    call Func_3ca10
+    ld hl, $001c
+    add hl, bc
+    ld [hl], a
+    ld hl, $001b
+    add hl, bc
+    ld [hl], a
+    call Func_3ca10
+    ld hl, $001d
+    add hl, bc
+    ld d, a
+    and $f0
+    swap a
+    srl a
+    ld e, a
+    adc $0
+    swap a
+    or e
+    ld [hl], a
+    ld hl, $001e
+    add hl, bc
+    ld a, d
+    and $f
+    ld d, a
+    swap a
+    or d
+    ld [hl], a
+    ret
+
+Func_3c8ff: ; 0x3c8ff
+    call Func_3ca10
+    ld [$de95], a
+    call Func_3ca10
+    ld d, a
+    and $f
+    ld e, a
+    ld a, d
+    swap a
+    and $f
+    ld d, a
+    call Func_3ca2b
+    ld hl, $001f
+    add hl, bc
+    ld [hl], e
+    ld hl, $0020
+    add hl, bc
+    ld [hl], d
+    ld hl, $0003
+    add hl, bc
+    set 1, [hl]
+    ret
+
+Func_3c926: ; 0x3c926
+    ld hl, $0003
+    add hl, bc
+    set 4, [hl]
+    ld hl, $0027
+    add hl, bc
+    call Func_3ca10
+    ld [hld], a
+    call Func_3ca10
+    ld [hl], a
+    ret
+
+Func_3c939: ; 0x3c939
+    ld hl, $0003
+    add hl, bc
+    set 2, [hl]
+    call Func_3ca10
+    rrca
+    rrca
+    ld hl, $001a
+    add hl, bc
+    ld [hl], a
+    and $c0
+    ld hl, $000d
+    add hl, bc
+    ld [hl], a
+    ret
+
+Func_3c951: ; 0x3c951
+    ld hl, $0002
+    add hl, bc
+    bit 3, [hl]
+    jr z, .asm_3c95c
+    res 3, [hl]
+    ret
+.asm_3c95c
+    set 3, [hl]
+    ret
+
+Func_3c95f: ; 0x3c95f
+    ld hl, $0002
+    add hl, bc
+    bit 4, [hl]
+    jr z, .asm_3c96a
+    res 4, [hl]
+    ret
+.asm_3c96a
+    set 4, [hl]
+    call Func_3ca10
+    ld [$dea1], a
+    ret
+
+Func_3c973: ; 0x3c973
+    call Func_3ca10
+    ld hl, $0028
+    add hl, bc
+    ld [hl], a
+    ld a, [$de97]
+    and $3
+    cp $3
+    ret z
+    call Func_3c9a1
+    ret
+
+Func_3c987: ; 0x3c987
+    call Func_3ca10
+    ld [$de9a], a
+    ld hl, $000b
+    add hl, bc
+    set 3, [hl]
+    ret
+
+Func_3c994: ; 0x3c994
+    call Func_3ca10
+    rrca
+    rrca
+    and $c0
+    ld hl, $000d
+    add hl, bc
+    ld [hl], a
+    ret
+
+Func_3c9a1: ; 0x3c9a1
+    call Func_3ca10
+    ld hl, $000e
+    add hl, bc
+    ld [hl], a
+    ret
+
+Func_3c9aa: ; 0x3c9aa
+    call Func_3ca10
+    ld d, a
+    call Func_3ca10
+    ld e, a
+    call Func_3ca95
+    ret
+
+Func_3c9b6: ; 0x3c9b6
+    ld hl, $0012
+    add hl, bc
+    ld a, [$de96]
+    and $7
+    ld [hl], a
+    ret
+
+Func_3c9c1: ; 0x3c9c1
+    call Func_3ca10
+    ld hl, $0013
+    add hl, bc
+    ld [hl], a
+    ret
+
+Func_3c9ca: ; 0x3c9ca
+    ld a, [$de97]
+    call Func_3caf4
+    call Func_3ca10
+    ld hl, $0019
+    add hl, bc
+    and [hl]
+    ld [hl], a
+    ret
+
+Func_3c9da: ; 0x3c9da
+    call Func_3ca10
+    ld a, [$dea2]
+    and a
+    ret nz
+    ld a, [$de96]
+    ld [$de98], a
+    ret
+
+Func_3c9e9: ; 0x3c9e9
+    call Func_3ca10
+    ld e, a
+    cp $80
+    jr nc, .asm_3c9f5
+    ld d, $0
+    jr .asm_3c9f7
+.asm_3c9f5
+    ld d, $ff
+.asm_3c9f7
+    ld hl, $0017
+    add hl, bc
+    ld a, [hli]
+    ld h, [hl]
+    ld l, a
+    add hl, de
+    ld e, l
+    ld d, h
+    call Func_3ca95
+    ret
+
+Func_3ca05: ; 0x3ca05
+    ld a, $1
+    ld [$dead], a
+    ret
+
+Func_3ca0b: ; 0x3ca0b
+    xor a
+    ld [$dead], a
+    ret
+
+Func_3ca10: ; 0x3ca10
+    push hl
+    push de
+    ld hl, $0005
+    add hl, bc
+    ld e, [hl]
+    inc hl
+    ld d, [hl]
+    ld a, [de]
+    ld [$de96], a
+    inc de
+    ld hl, $0005
+    add hl, bc
+    ld [hl], e
+    inc hl
+    ld [hl], d
+    pop de
+    pop hl
+    ld a, [$de96]
+    ret
+
+Func_3ca2b: ; 0x3ca2b
+    ld hl, $0013
+    add hl, bc
+    ld a, [hl]
+    swap a
+    and $f
+    add d
+    push af
+    ld hl, $0013
+    add hl, bc
+    ld a, [hl]
+    and $f
+    ld l, a
+    ld d, $0
+    ld h, d
+    add hl, de
+    add hl, hl
+    ld de, $4b20  ; todo
+    add hl, de
+    ld e, [hl]
+    inc hl
+    ld d, [hl]
+    pop af
+.asm_3ca4b
+    cp $7
+    jr nc, .asm_3ca56
+    sra d
+    rr e
+    inc a
+    jr .asm_3ca4b
+.asm_3ca56
+    ld a, d
+    and $7
+    ld d, a
+    ret
+
+Func_3ca5b: ; 0x3ca5b
+    inc a
+    ld e, a
+    ld d, $0
+    ld hl, $0028
+    add hl, bc
+    ld a, [hl]
+    ld l, $0
+    call Func_3ca86
+    ld a, l
+    ld hl, $0017
+    add hl, bc
+    ld e, [hl]
+    inc hl
+    ld d, [hl]
+    ld hl, $0015
+    add hl, bc
+    ld l, [hl]
+    call Func_3ca86
+    ld e, l
+    ld d, h
+    ld hl, $0015
+    add hl, bc
+    ld [hl], e
+    ld hl, $0014
+    add hl, bc
+    ld [hl], d
+    ret
+
+Func_3ca86: ; 0x3ca86
+    ld h, $0
+.asm_3ca88
+    srl a
+    jr nc, .asm_3ca8d
+    add hl, de
+.asm_3ca8d
+    sla e
+    rl d
+    and a
+    jr nz, .asm_3ca88
+    ret
+
+Func_3ca95: ; 0x3ca95
+    push bc
+    ld a, [$de97]
+    cp $4
+    jr nc, .asm_3cab7
+    ld bc, $dd01
+    call Func_3cad1
+    ld bc, $dd33
+    call Func_3cad1
+    ld bc, $dd65
+    call Func_3cad1
+    ld bc, $dd97
+    call Func_3cad1
+    jr .asm_3cacf
+.asm_3cab7
+    ld bc, $ddc9
+    call Func_3cad1
+    ld bc, $ddfb
+    call Func_3cad1
+    ld bc, $de2d
+    call Func_3cad1
+    ld bc, $de5f
+    call Func_3cad1
+.asm_3cacf
+    pop bc
+    ret
+
+Func_3cad1: ; 0x3cad1
+    ld hl, $0017
+    add hl, bc
+    ld [hl], e
+    inc hl
+    ld [hl], d
+    xor a
+    ld hl, $0015
+    add hl, bc
+    ld [hl], a
+    ret
+
+Func_3cadf: ; 0x3cadf
+    call Func_3cb06
+    ld a, [$deae]
+    jr .asm_3caea
+    ld a, [$de97]
+.asm_3caea
+    call Func_3caf4
+    ld hl, $0002
+    add hl, bc
+    set 0, [hl]
+    ret
+
+Func_3caf4: ; 0x3caf4
+    push de
+    and $3
+    ld e, a
+    ld d, $0
+    ld hl, Data_3cc8e
+    add hl, de
+    ld a, [hl]
+    ld hl, $0019
+    add hl, bc
+    ld [hl], a
+    pop de
+    ret
+
+Func_3cb06: ; 0x3cb06
+    ld a, [$deae]
+    and $3
+    cp $0
+    ret nz
+    xor a
+    ld [$ff10], a
+    ld [$de9a], a
+    ret
+
+Func_3cb15: ; 0x3cb15
+    ld a, $1
+    ld [$dd00], a
+    ret
+
+Func_3cb1b: ; 0x3cb1b
+    xor a
+    ld [$dd00], a
+    ret
+
+INCBIN "baserom.gbc",$3cb20,$3cb52 - $3cb20
+
+WavePatterns_BankF:
+WavePattern0_BankF: ; 0x3cb52
+    db $02, $46, $8A, $CE, $FF, $FE, $ED, $DC, $CB, $A9, $87, $65, $44, $33, $22, $11
+WavePattern1_BankF: ; 0x3cb62
+    db $02, $46, $8A, $CE, $EF, $FF, $FE, $EE, $DD, $CB, $A9, $87, $65, $43, $22, $11
+WavePattern2_BankF: ; 0x3cb72
+    db $01, $23, $43, $21, $FE, $CA, $8A, $CE, $01, $23, $43, $21, $FE, $CA, $8A, $CE
+WavePattern3_BankF: ; 0x3cb82
+    db $00, $11, $22, $33, $44, $33, $22, $11, $FF, $EE, $CC, $AA, $88, $AA, $CC, $EE
+WavePattern4_BankF: ; 0x3cb92
+    db $00, $11, $22, $33, $44, $33, $22, $11, $FF, $EE, $CC, $AA, $88, $AA, $CC, $EE 
+
+INCBIN "baserom.gbc",$3cba2,$3cc8e - $3cba2
+
+Data_3cc8e: ; 0x3cc8e
+    db $11, $22, $44, $88 
+
+WRAMPointerTable_3cc92: ; 0x3cc92
+    dw $DD01
+    dw $DD33
+    dw $DD65
+    dw $DD97
+
+INCBIN "baserom.gbc",$3cc9a,$3cca2 - $3cc9a
 
 SongHeaderPointers0F: ; 0x3cca2
 	dw Music_Nothing0F
@@ -48695,7 +50524,588 @@ INCLUDE "audio/music/gastlyinthegraveyard.asm"
 INCLUDE "audio/music/haunterinthegraveyard.asm"
 INCLUDE "audio/music/gengarinthegraveyard.asm"
 
-INCBIN "baserom.gbc",$3e3ce,$40000 - $3e3ce
+PointerTable_3e3ce: ; 0x3e3ce
+    dw $646A
+    dw $6480
+    dw $649A
+    dw $64BA
+    dw $64D0
+    dw $64E0
+    dw $64F0
+    dw $6500
+    dw $651A
+    dw $652E
+    dw $6544
+    dw $6554
+    dw $657C
+    dw $6589
+    dw $659F
+    dw $65B5
+    dw $65C5
+    dw $65E2
+    dw $65F4
+    dw $6606
+    dw $6618
+    dw $662A
+    dw $663C
+    dw $664E
+    dw $6660
+    dw $6672
+    dw $6684
+    dw $6696
+    dw $66A8
+    dw $66BA
+    dw $66CC
+    dw $66DE
+    dw $66F0
+    dw $6702
+    dw $671A
+    dw $675D
+    dw $6810
+    dw $68AE
+    dw $696D
+    dw $6A25
+    dw $6A68
+    dw $6A82
+    dw $6B17
+    dw $6BF9
+    dw $6C17
+    dw $6C31
+    dw $6C4B
+    dw $6C7D
+    dw $6C8F
+    dw $6CA7
+    dw $6CB7
+    dw $6CD1
+    dw $6CE9
+    dw $6CFF
+    dw $6D15
+    dw $6D31
+    dw $6D4D
+    dw $6D65
+    dw $6D78
+    dw $6D98
+    dw $6DB0
+    dw $6DC0
+    dw $6DD0
+    dw $6DE3
+    dw $6DF3
+    dw $6E1C
+    dw $6E32
+    dw $6E48
+    dw $6E5E
+    dw $6E78
+    dw $6E92
+    dw $6EAA
+    dw $6EC4
+    dw $6ED4
+    dw $6EEA
+    dw $6F00
+    dw $6F16
+    dw $6F27
+
+INCBIN "baserom.gbc",$3e46a,$3ef63 - $3e46a
+
+CryBasePointers: ; 0x3ef63
+    dw Cry_00_Header_BankF
+    dw Cry_01_Header_BankF
+    dw Cry_02_Header_BankF
+    dw Cry_03_Header_BankF
+    dw Cry_04_Header_BankF
+    dw Cry_05_Header_BankF
+    dw Cry_06_Header_BankF
+    dw Cry_07_Header_BankF
+    dw Cry_08_Header_BankF
+    dw Cry_09_Header_BankF
+    dw Cry_0A_Header_BankF
+    dw Cry_0B_Header_BankF
+    dw Cry_0C_Header_BankF
+    dw Cry_0D_Header_BankF
+    dw Cry_0E_Header_BankF
+    dw Cry_0F_Header_BankF
+    dw Cry_10_Header_BankF
+    dw Cry_11_Header_BankF
+    dw Cry_12_Header_BankF
+    dw Cry_13_Header_BankF
+    dw Cry_14_Header_BankF
+    dw Cry_15_Header_BankF
+    dw Cry_16_Header_BankF
+    dw Cry_17_Header_BankF
+    dw Cry_18_Header_BankF
+    dw Cry_19_Header_BankF
+    dw Cry_1A_Header_BankF
+    dw Cry_1B_Header_BankF
+    dw Cry_1C_Header_BankF
+    dw Cry_1D_Header_BankF
+    dw Cry_1E_Header_BankF
+    dw Cry_1F_Header_BankF
+    dw Cry_20_Header_BankF
+    dw Cry_21_Header_BankF
+    dw Cry_22_Header_BankF
+    dw Cry_23_Header_BankF
+    dw Cry_24_Header_BankF
+    dw Cry_25_Header_BankF
+
+CryData: ; 0x3efaf
+; Each entry is in the following format:
+; [base cry id], [pitch], [length
+    dw $000F, $0080, $0081  ; BULBASAUR
+    dw $000F, $0020, $0100  ; IVYSAUR
+    dw $000F, $0000, $0140  ; VENUSAUR
+    dw $0004, $0060, $00C0  ; CHARMANDER
+    dw $0004, $0020, $00C0  ; CHARMELEON
+    dw $0004, $0000, $0100  ; CHARIZARD
+    dw $001D, $0060, $00C0  ; SQUIRTLE
+    dw $001D, $0020, $00C0  ; WARTORTLE
+    dw $0013, $0000, $0100  ; BLASTOISE
+    dw $0016, $0080, $00A0  ; CATERPIE
+    dw $001C, $00CC, $0081  ; METAPOD
+    dw $0016, $0077, $00C0  ; BUTTERFREE
+    dw $0015, $00EE, $0081  ; WEEDLE
+    dw $0013, $00FF, $0081  ; KAKUNA
+    dw $0013, $0060, $0100  ; BEEDRILL
+    dw $000E, $00DF, $0084  ; PIDGEY
+    dw $0014, $0028, $0140  ; PIDGEOTTO
+    dw $0014, $0011, $017F  ; PIDGEOT
+    dw $0022, $0000, $0100  ; RATTATA
+    dw $0022, $0020, $017F  ; RATICATE
+    dw $0010, $0000, $0100  ; SPEAROW
+    dw $0018, $0040, $0120  ; FEAROW
+    dw $0017, $0012, $00C0  ; EKANS
+    dw $0017, $00E0, $0090  ; ARBOK
+    dw $000F, $00EE, $0081  ; PIKACHU
+    dw $0009, $00EE, $0088  ; RAICHU
+    dw $0000, $0020, $00C0  ; SANDSHREW
+    dw $0000, $00FF, $017F  ; SANDSLASH
+    dw $0001, $0000, $0100  ; NIDORAN_F
+    dw $0001, $002C, $0160  ; NIDORINA
+    dw $000A, $0000, $0100  ; NIDOQUEEN
+    dw $0000, $0000, $0100  ; NIDORAN_M
+    dw $0000, $002C, $0140  ; NIDORINO
+    dw $0009, $0000, $0100  ; NIDOKING
+    dw $0019, $00CC, $0081  ; CLEFAIRY
+    dw $0019, $00AA, $00A0  ; CLEFABLE
+    dw $0024, $004F, $0090  ; VULPIX
+    dw $0024, $0088, $00E0  ; NINETALES
+    dw $000E, $00FF, $00B5  ; JIGGLYPUFF
+    dw $000E, $0068, $00E0  ; WIGGLYTUFF
+    dw $001D, $00E0, $0100  ; ZUBAT
+    dw $001D, $00FA, $0100  ; GOLBAT
+    dw $0008, $00DD, $0081  ; ODDISH
+    dw $0008, $00AA, $00C0  ; GLOOM
+    dw $0023, $0022, $017F  ; VILEPLUME
+    dw $001E, $0020, $0160  ; PARAS
+    dw $001E, $0042, $017F  ; PARASECT
+    dw $001A, $0044, $00C0  ; VENONAT
+    dw $001A, $0029, $0100  ; VENOMOTH
+    dw $000B, $00AA, $0081  ; DIGLETT
+    dw $000B, $002A, $0090  ; DUGTRIO
+    dw $0019, $0077, $0090  ; MEOWTH
+    dw $0019, $0099, $017F  ; PERSIAN
+    dw $0021, $0020, $00E0  ; PSYDUCK
+    dw $0021, $00FF, $00C0  ; GOLDUCK
+    dw $000A, $00DD, $00E0  ; MANKEY
+    dw $000A, $00AF, $00C0  ; PRIMEAPE
+    dw $001F, $0020, $00C0  ; GROWLITHE
+    dw $0015, $0000, $0100  ; ARCANINE
+    dw $000E, $00FF, $017F  ; POLIWAG
+    dw $000E, $0077, $00E0  ; POLIWHIRL
+    dw $000E, $0000, $017F  ; POLIWRATH
+    dw $001C, $00C0, $0081  ; ABRA
+    dw $001C, $00A8, $0140  ; KADABRA
+    dw $001C, $0098, $017F  ; ALAKAZAM
+    dw $001F, $00EE, $0081  ; MACHOP
+    dw $001F, $0048, $00E0  ; MACHOKE
+    dw $001F, $0008, $0140  ; MACHAMP
+    dw $0021, $0055, $0081  ; BELLSPROUT
+    dw $0025, $0044, $00A0  ; WEEPINBELL
+    dw $0025, $0066, $014C  ; VICTREEBEL
+    dw $001A, $0000, $0100  ; TENTACOOL
+    dw $001A, $00EE, $017F  ; TENTACRUEL
+    dw $0024, $00F0, $0090  ; GEODUDE
+    dw $0024, $0000, $0100  ; GRAVELER
+    dw $0012, $00E0, $00C0  ; GOLEM
+    dw $0025, $0000, $0100  ; PONYTA
+    dw $0025, $0020, $0140  ; RAPIDASH
+    dw $0002, $0000, $0100  ; SLOWPOKE
+    dw $001F, $0000, $0100  ; SLOWBRO
+    dw $001C, $0080, $00E0  ; MAGNEMITE
+    dw $001C, $0020, $0140  ; MAGNETON
+    dw $0010, $00DD, $0081  ; FARFETCH_D
+    dw $000B, $00BB, $0081  ; DODUO
+    dw $000B, $0099, $00A0  ; DODRIO
+    dw $000C, $0088, $0140  ; SEEL
+    dw $000C, $0023, $017F  ; DEWGONG
+    dw $0005, $0000, $0100  ; GRIMER
+    dw $0007, $00EF, $017F  ; MUK
+    dw $0018, $0000, $0100  ; SHELLDER
+    dw $0018, $006F, $0160  ; CLOYSTER
+    dw $001C, $0000, $0100  ; GASTLY
+    dw $001C, $0030, $00C0  ; HAUNTER
+    dw $0007, $0000, $017F  ; GENGAR
+    dw $0017, $00FF, $0140  ; ONIX
+    dw $000D, $0088, $00A0  ; DROWZEE
+    dw $000D, $00EE, $00C0  ; HYPNO
+    dw $0020, $0020, $0160  ; KRABBY
+    dw $0020, $00EE, $0160  ; KINGLER
+    dw $0006, $00ED, $0100  ; VOLTORB
+    dw $0006, $00A8, $0110  ; ELECTRODE
+    dw $000B, $0000, $0100  ; EXEGGCUTE
+    dw $000D, $0000, $0100  ; EXEGGUTOR
+    dw $0019, $0000, $0100  ; CUBONE
+    dw $0008, $004F, $00E0  ; MAROWAK
+    dw $0012, $0080, $0140  ; HITMONLEE
+    dw $000C, $00EE, $0140  ; HITMONCHAN
+    dw $000C, $0000, $0100  ; LICKITUNG
+    dw $0012, $00E6, $015D  ; KOFFING
+    dw $0012, $00FF, $017F  ; WEEZING
+    dw $0004, $0000, $0100  ; RHYHORN
+    dw $0011, $0000, $0100  ; RHYDON
+    dw $0014, $000A, $0140  ; CHANSEY
+    dw $0012, $0000, $0100  ; TANGELA
+    dw $0003, $0000, $0100  ; KANGASKHAN
+    dw $0019, $0099, $0090  ; HORSEA
+    dw $0019, $003C, $0081  ; SEADRA
+    dw $0016, $0080, $00C0  ; GOLDEEN
+    dw $0016, $0010, $017F  ; SEAKING
+    dw $001E, $0002, $00A0  ; STARYU
+    dw $001E, $0000, $0100  ; STARMIE
+    dw $0020, $0008, $00C0  ; MR_MIME
+    dw $0016, $0000, $0100  ; SCYTHER
+    dw $000D, $00FF, $017F  ; JYNX
+    dw $0006, $008F, $017F  ; ELECTABUZZ
+    dw $0004, $00FF, $00B0  ; MAGMAR
+    dw $0014, $0000, $0100  ; PINSIR
+    dw $001D, $0011, $00C0  ; TAUROS
+    dw $0017, $0080, $0080  ; MAGIKARP
+    dw $0017, $0000, $0100  ; GYARADOS
+    dw $001B, $0000, $0100  ; LAPRAS
+    dw $000E, $00FF, $017F  ; DITTO
+    dw $001A, $0088, $00E0  ; EEVEE
+    dw $001A, $00AA, $017F  ; VAPOREON
+    dw $001A, $003D, $0100  ; JOLTEON
+    dw $001A, $0010, $00A0  ; FLAREON
+    dw $0025, $00AA, $017F  ; PORYGON
+    dw $001F, $00F0, $0081  ; OMANYTE
+    dw $001F, $00FF, $00C0  ; OMASTAR
+    dw $0016, $00BB, $00C0  ; KABUTO
+    dw $0018, $00EE, $0081  ; KABUTOPS
+    dw $0023, $0020, $0170  ; AERODACTYL
+    dw $0005, $0055, $0081  ; SNORLAX
+    dw $0009, $0080, $00C0  ; ARTICUNO
+    dw $0018, $00FF, $0100  ; ZAPDOS
+    dw $0009, $00F8, $00C0  ; MOLTRES
+    dw $000F, $0060, $00C0  ; DRATINI
+    dw $000F, $0040, $0100  ; DRAGONAIR
+    dw $000F, $003C, $0140  ; DRAGONITE
+    dw $001E, $0099, $017F  ; MEWTWO
+    dw $001E, $00EE, $017F  ; MEW
+
+Cry_00_Header_BankF: ; 0x3f339
+    db $84
+    dw $7733
+    db $05
+    dw $7742
+    db $07
+    dw $7751
+
+Cry_01_Header_BankF: ; 0x3f342
+    db $84
+    dw $7943
+    db $05
+    dw $7956
+    db $07
+    dw $7969
+
+Cry_02_Header_BankF: ; 0x3f34b
+    db $84
+    dw $78B8
+    db $05
+    dw $78C7
+    db $07
+    dw $78D5
+
+Cry_03_Header_BankF: ; 0x3f354
+    db $84
+    dw $7652
+    db $05
+    dw $7671
+    db $07
+    dw $7690
+
+Cry_04_Header_BankF: ; 0x3f35d
+    db $84
+    dw $7A01
+    db $05
+    dw $7A20
+    db $07
+    dw $7A3F
+
+Cry_05_Header_BankF: ; 0x3f366
+    db $84
+    dw $77E1
+    db $05
+    dw $77F4
+    db $07
+    dw $7806
+
+Cry_06_Header_BankF: ; 0x3f36f
+    db $84
+    dw $778B
+    db $05
+    dw $77A5
+    db $07
+    dw $77A6
+
+Cry_07_Header_BankF: ; 0x3f378
+    db $84
+    dw $77B9
+    db $05
+    dw $77C8
+    db $07
+    dw $77D7
+
+Cry_08_Header_BankF: ; 0x3f381
+    db $84
+    dw $79D1
+    db $05
+    dw $79E4
+    db $07
+    dw $79F7
+
+Cry_09_Header_BankF: ; 0x3f38a
+    db $84
+    dw $74DB
+    db $05
+    dw $74F8
+    db $07
+    dw $7519
+
+Cry_0A_Header_BankF: ; 0x3f393
+    db $84
+    dw $7976
+    db $05
+    dw $7995
+    db $07
+    dw $79B8
+
+Cry_0B_Header_BankF: ; 0x3f39c
+    db $84
+    dw $7807
+    db $05
+    dw $7832
+    db $07
+    dw $7851
+
+Cry_0C_Header_BankF: ; 0x3f3a5
+    db $84
+    dw $786A
+    db $05
+    dw $7891
+    db $07
+    dw $78B7
+
+Cry_0D_Header_BankF: ; 0x3f3ae
+    db $84
+    dw $78D6
+    db $05
+    dw $78F5
+    db $07
+    dw $7924
+
+Cry_0E_Header_BankF: ; 0x3f
+    db $84
+    dw $775B
+    db $05
+    dw $776E
+    db $07
+    dw $7781
+
+Cry_0F_Header_BankF: ; 0x3f
+    db $84
+    dw $769D
+    db $05
+    dw $76B8
+    db $07
+    dw $76D3
+
+Cry_10_Header_BankF: ; 0x3f3b7
+    db $84
+    dw $76E3
+    db $05
+    dw $7706
+    db $07
+    dw $7729
+
+Cry_11_Header_BankF: ; 0x3f3c0
+    db $84
+    dw $75BF
+    db $05
+    dw $75DE
+    db $07
+    dw $7601
+
+Cry_12_Header_BankF: ; 0x3f3c9
+    db $84
+    dw $7AD7
+    db $05
+    dw $7AEA
+    db $07
+    dw $7AFD
+
+Cry_13_Header_BankF: ; 0x3f3d2
+    db $84
+    dw $7B0A
+    db $05
+    dw $7B25
+    db $07
+    dw $7B40
+
+Cry_14_Header_BankF: ; 0x3f3db
+    db $84
+    dw $7B53
+    db $05
+    dw $7B62
+    db $07
+    dw $7B71
+
+Cry_15_Header_BankF: ; 0x3f3e4
+    db $84
+    dw $7BE1
+    db $05
+    dw $7BFC
+    db $07
+    dw $7C17
+
+Cry_16_Header_BankF: ; 0x3f3ed
+    db $84
+    dw $7A74
+    db $05
+    dw $7A83
+    db $07
+    dw $7A92
+
+Cry_17_Header_BankF: ; 0x3f3f6
+    db $84
+    dw $7C2A
+    db $05
+    dw $7C3D
+    db $07
+    dw $7C50
+
+Cry_18_Header_BankF: ; 0x3f3ff
+    db $84
+    dw $7D3A
+    db $05
+    dw $7D5D
+    db $07
+    dw $7D80
+
+Cry_19_Header_BankF: ; 0x3f408
+    db $84
+    dw $7A52
+    db $05
+    dw $7A61
+    db $07
+    dw $7A73
+
+Cry_1A_Header_BankF: ; 0x3f411
+    db $84
+    dw $7CAB
+    db $05
+    dw $7CC6
+    db $07
+    dw $7CE1
+
+Cry_1B_Header_BankF: ; 0x3f41a
+    db $84
+    dw $7A9C
+    db $05
+    dw $7AB3
+    db $07
+    dw $7ACA
+
+Cry_1C_Header_BankF: ; 0x3f423
+    db $84
+    dw $7C5D
+    db $05
+    dw $7C80
+    db $07
+    dw $7C9B
+
+Cry_1D_Header_BankF: ; 0x3f42c
+    db $84
+    dw $7CF4
+    db $05
+    dw $7D0F
+    db $07
+    dw $7D2A
+
+Cry_1E_Header_BankF: ; 0x3f435
+    db $84
+    dw $7B7B
+    db $05
+    dw $7B9E
+    db $07
+    dw $7BC5
+
+Cry_1F_Header_BankF: ; 0x3f43e
+    db $84
+    dw $7D93
+    db $05
+    dw $7DA6
+    db $07
+    dw $7DB9
+
+Cry_20_Header_BankF: ; 0x3f447
+    db $84
+    dw $7DC6
+    db $05
+    dw $7DD9
+    db $07
+    dw $7DEC
+
+Cry_21_Header_BankF: ; 0x3f450
+    db $84
+    dw $7DF9
+    db $05
+    dw $7E1C
+    db $07
+    dw $7E3E
+
+Cry_22_Header_BankF: ; 0x3f459
+    db $84
+    dw $7E3F
+    db $05
+    dw $7E52
+    db $07
+    dw $7E65
+
+Cry_23_Header_BankF: ; 0x3f462
+    db $84
+    dw $7532
+    db $05
+    dw $7549
+    db $07
+    dw $755C
+
+Cry_24_Header_BankF: ; 0x3f46b
+    db $84
+    dw $7569
+    db $05
+    dw $758C
+    db $07
+    dw $75AF
+
+Cry_25_Header_BankF: ; 0x3f474
+    db $84
+    dw $7617
+    db $05
+    dw $762E
+    db $07
+    dw $7645
+
+INCBIN "baserom.gbc",$3f48f,$40000 - $3f48f
 
 
 SECTION "bank10", ROMX, BANK[$10]

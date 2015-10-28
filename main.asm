@@ -18138,40 +18138,14 @@ VideoData_e8d4: ; 0xe8d4
     db $FF, $FF  ; terminators
 
 StageBlueFieldTopGfx_GameBoy: ; 0xe8f2
-    VIDEO_DATA_TILES Alphabet1Gfx, vTiles0, $1a0
-
-    dw $67A0
-    db $35
-    dw $81A0
-    dw $0980 
-
-    VIDEO_DATA_TILES PinballPokeballGfx, vTiles0 + $400, $200
-
-    dw $6A00
-    db $35
-    dw $8600
-    dw $0800
-
-    dw $7000
-    db $1A
-    dw $8800
-    dw $0400
-
-    dw $6600
-    db $35
-    dw $8900
-    dw $0680
-
-    dw $72A0
-    db $1A
-    dw $8AA0
-    dw $3580
-
-    dw $7000
-    db $2F
-    dw $9800
-    dw $1000
-
+    VIDEO_DATA_TILES   Alphabet1Gfx, vTiles0, $1a0
+    VIDEO_DATA_TILES   StageBlueFieldTopGfx1, vTiles0 + $1a0, $260
+    VIDEO_DATA_TILES   PinballPokeballGfx, vTiles0 + $400, $200
+    VIDEO_DATA_TILES   StageBlueFieldTopGfx2, vTiles0 + $600, $200
+    VIDEO_DATA_TILES   StageBlueFieldTopStatusBarSymbolsGfx_GameBoy, vTiles1, $100
+    VIDEO_DATA_TILES   StageBlueFieldTopGfx3, vTiles1 + $100, $1a0
+    VIDEO_DATA_TILES   StageBlueFieldTopBaseGameBoyGfx, vTiles1 + $2a0, $d60
+    VIDEO_DATA_TILEMAP StageBlueFieldTopTilemap_GameBoy, vBGMap0, $400
     db $FF, $FF  ; terminators
 
 StageBlueFieldTopGfx_GameBoyColor: ; 0xe92c
@@ -51895,7 +51869,13 @@ TaurosPic: ; 0x6ad00
 TaurosSilhouettePic: ; 0x6ae80
 	INCBIN "gfx/billboard/mon_silhouettes/tauros.2bpp"
 
-INCBIN "baserom.gbc",$6b000,$6c000 - $6b000 ; 0x6b000
+StageBlueFieldTopStatusBarSymbolsGfx_GameBoy: ; 0x6b000
+    INCBIN "gfx/stage/blue_top/status_bar_symbols_gameboy.2bpp"
+
+INCBIN "baserom.gbc",$6b100,$6b2a0 - $6b100
+
+StageBlueFieldTopBaseGameBoyGfx: ; 0x6b2a0
+    INCBIN "gfx/stage/blue_top/blue_top_base_gameboy.2bpp"
 
 
 SECTION "bank1b", ROMX, BANK[$1b]
@@ -53786,7 +53766,10 @@ StageRedFieldBottomTilemap_GameBoyColor: ; 0xbe800
 StageRedFieldBottomTilemap2_GameBoyColor: ; 0xbec00
     INCBIN "gfx/tilemaps/stage_red_field_bottom_gameboycolor_2.map"
 
-INCBIN "baserom.gbc",$bf000,$bf800 - $bf000
+StageBlueFieldTopTilemap_GameBoy: ; 0xbf000
+    INCBIN "gfx/tilemaps/stage_blue_field_top_gameboy.map"
+
+INCBIN "baserom.gbc",$bf400,$bf800 - $bf400
 
 EraseAllDataTilemap: ; 0xbf800
     INCBIN "gfx/tilemaps/erase_all_data.map"
@@ -54077,7 +54060,14 @@ INCBIN "baserom.gbc",$d63a0,$d6450 - $d63a0
 InGameMenuSymbolsGfx: ; 0xd6450
     INCBIN "gfx/stage/menu_symbols.2bpp"
 
-INCBIN "baserom.gbc",$d6490,$d6c00 - $d6490
+INCBIN "baserom.gbc",$d6490,$d6600 - $d6490
+
+StageBlueFieldTopGfx3: ; 0xd6600
+    INCBIN "gfx/stage/blue_top/blue_top_3.2bpp"
+StageBlueFieldTopGfx1: ; 0xd67a0
+    INCBIN "gfx/stage/blue_top/blue_top_1.2bpp"
+StageBlueFieldTopGfx2: ; 0xd6a00
+    INCBIN "gfx/stage/blue_top/blue_top_2.2bpp"
 
 StageRedJapaneseCharactersGfx: ; 0xd6c00
     INCBIN "gfx/stage/red_bottom/japanese_characters.2bpp"

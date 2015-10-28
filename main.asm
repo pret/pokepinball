@@ -18149,57 +18149,18 @@ StageBlueFieldTopGfx_GameBoy: ; 0xe8f2
     db $FF, $FF  ; terminators
 
 StageBlueFieldTopGfx_GameBoyColor: ; 0xe92c
-    VIDEO_DATA_TILES Alphabet2Gfx, vTiles0, $1a0
-
-    dw $67A0
-    db $35
-    dw $81A0
-    dw $0980
-
-    VIDEO_DATA_TILES PinballPokeballGfx, vTiles0 + $400, $200
-
-    dw $6A00
-    db $35
-    dw $8600
-    dw $0800
-
-    dw $4000
-    db $28
-    dw $8800
-    dw $0400
-
-    dw $6600
-    db $35
-    dw $8900
-    dw $0680
-
-    dw $42A0
-    db $28
-    dw $8AA0
-    dw $3580
-
-    dw $5000
-    db $28
-    dw $8800
-    dw $4002
-
-    VIDEO_DATA_TILES_BANK2 TimerDigitsGfx, vTiles0 + $600, $160
-
-    dw $6800
-    db $31
-    dw $9800
-    dw $1000
-
-    dw $6C00
-    db $31
-    dw $9800
-    dw $1002
-
-    dw $4B00
-    db $37
-    dw $0000
-    dw $0101
-
+    VIDEO_DATA_TILES         Alphabet2Gfx, vTiles0, $1a0
+    VIDEO_DATA_TILES         StageBlueFieldTopGfx1, vTiles0 + $1a0, $260
+    VIDEO_DATA_TILES         PinballPokeballGfx, vTiles0 + $400, $200
+    VIDEO_DATA_TILES         StageBlueFieldTopGfx2, vTiles0 + $600, $200
+    VIDEO_DATA_TILES         StageBlueFieldTopStatusBarSymbolsGfx_GameBoyColor, vTiles1, $100
+    VIDEO_DATA_TILES         StageBlueFieldTopGfx3, vTiles1 + $100, $1a0
+    VIDEO_DATA_TILES         StageBlueFieldTopBaseGameBoyColorGfx, vTiles1 + $2a0, $d60
+    VIDEO_DATA_TILES_BANK2   StageBlueFieldTopGfx4, vTiles1, $1000
+    VIDEO_DATA_TILES_BANK2   TimerDigitsGfx, vTiles0 + $600, $160
+    VIDEO_DATA_TILEMAP       StageBlueFieldTopTilemap_GameBoyColor, vBGMap0, $400
+    VIDEO_DATA_TILEMAP_BANK2 StageBlueFieldTopTilemap2_GameBoyColor, vBGMap0, $400
+    VIDEO_DATA_PALETTES      StageBlueFieldTopPalettes, $80
     db $FF, $FF  ; terminators
 
 StageBlueFieldBottomGfx_GameBoy: ; 0xe982
@@ -53119,7 +53080,16 @@ INCBIN "baserom.gbc",$9e000,$a0000 - $9e000
 
 SECTION "bank28", ROMX, BANK[$28]
 
-INCBIN "baserom.gbc",$a0000,$a2000 - $a0000
+StageBlueFieldTopStatusBarSymbolsGfx_GameBoyColor: ; 0xa0000
+    INCBIN "gfx/stage/blue_top/status_bar_symbols_gameboycolor.2bpp"
+
+INCBIN "baserom.gbc",$a0100,$a02a0 - $a0100
+
+StageBlueFieldTopBaseGameBoyColorGfx: ; 0xa02a0
+    INCBIN "gfx/stage/blue_top/blue_top_base_gameboycolor.2bpp"
+
+StageBlueFieldTopGfx4: ; 0xa1000
+    INCBIN "gfx/stage/blue_top/blue_top_4.2bpp"
 
 StageRedFieldBottomBaseGameBoyColorGfx: ; 0xa2000
     INCBIN "gfx/stage/red_bottom/red_bottom_base_gameboycolor.2bpp"
@@ -53819,7 +53789,12 @@ CopyrightScreenTilemap: ; 0xc6000
 CopyrightScreenBGAttributes: ; 0xc6400
     INCBIN "gfx/bgattr/copyright_screen.bgattr"
 
-INCBIN "baserom.gbc",$c6800,$c7800 - $c6800
+StageBlueFieldTopTilemap_GameBoyColor: ; 0xc6800
+    INCBIN "gfx/tilemaps/stage_blue_field_top_gameboycolor.map"
+StageBlueFieldTopTilemap2_GameBoyColor: ; 0xc6c00
+    INCBIN "gfx/tilemaps/stage_blue_field_top_gameboycolor_2.map"
+
+INCBIN "baserom.gbc",$c7000,$c7800 - $c7000
 
 StageGengarBonusCollisionAttributesBallEntrance: ; 0xc7800
     INCBIN "data/collision/maps/gengar_bonus_ball_entrance.collision"
@@ -56956,7 +56931,90 @@ StageRedFieldBottomOBJPalette7: ; 0xdcaf8
     RGB 27, 24, 8
     RGB 23, 19, 3
 
-INCBIN "baserom.gbc",$dcb00,$dcc00 - $dcb00
+StageBlueFieldTopPalettes:  ; 0xdcb00
+StageBlueFieldTopBGPalette0: ; 0xdcb00
+    RGB 31, 31, 31
+    RGB 13, 20, 31
+    RGB 31, 4, 4
+    RGB 0, 0, 0
+StageBlueFieldTopBGPalette1: ; 0xdcb08
+    RGB 31, 31, 31
+    RGB 11, 25, 31
+    RGB 0, 11, 31
+    RGB 0, 0, 0
+StageBlueFieldTopBGPalette2: ; 0xdcb10
+    RGB 31, 31, 31
+    RGB 4, 23, 13
+    RGB 0, 13, 4
+    RGB 0, 0, 0
+StageBlueFieldTopBGPalette3: ; 0xdcb18
+    RGB 31, 31, 31
+    RGB 31, 29, 0
+    RGB 15, 8, 0
+    RGB 0, 0, 0
+StageBlueFieldTopBGPalette4: ; 0xdcb20
+    RGB 31, 31, 31
+    RGB 31, 0, 0
+    RGB 16, 0, 0
+    RGB 0, 0, 0
+StageBlueFieldTopBGPalette5: ; 0xdcb28
+    RGB 31, 31, 31
+    RGB 20, 20, 20
+    RGB 8, 8, 8
+    RGB 0, 0, 0
+StageBlueFieldTopBGPalette6: ; 0xdcb30
+    RGB 31, 31, 31
+    RGB 13, 13, 31
+    RGB 31, 0, 0
+    RGB 0, 0, 0
+StageBlueFieldTopBGPalette7: ; 0xdcb38
+    RGB 31, 31, 31
+    RGB 20, 20, 20
+    RGB 8, 8, 8
+    RGB 0, 0, 0
+
+StageBlueFieldBottomOBJPalette0: ; 0xdcb40
+    RGB 21, 21, 21
+    RGB 31, 31, 31
+    RGB 31, 5, 4
+    RGB 0, 0, 0
+StageBlueFieldBottomOBJPalette1: ; 0xdcb48
+    RGB 31, 31, 31
+    RGB 31, 13, 15
+    RGB 23, 4, 6
+    RGB 0, 0, 0
+StageBlueFieldBottomOBJPalette2: ; 0xdcb50
+    RGB 21, 21, 21
+    RGB 31, 31, 31
+    RGB 31, 26, 0
+    RGB 10, 6, 0
+StageBlueFieldBottomOBJPalette3: ; 0xdcb58
+    RGB 31, 31, 31
+    RGB 24, 22, 26
+    RGB 12, 10, 14
+    RGB 0, 0, 0
+StageBlueFieldBottomOBJPalette4: ; 0xdcb60
+    RGB 21, 21, 21
+    RGB 31, 31, 31
+    RGB 8, 8, 8
+    RGB 0, 0, 0
+StageBlueFieldBottomOBJPalette5: ; 0xdcb68
+    RGB 31, 31, 31
+    RGB 31, 31, 31
+    RGB 8, 8, 8
+    RGB 0, 0, 0
+StageBlueFieldBottomOBJPalette6: ; 0xdcb70
+    RGB 21, 21, 21
+    RGB 0, 31, 25
+    RGB 0, 18, 14
+    RGB 0, 0, 0
+StageBlueFieldBottomOBJPalette7: ; 0xdcb78
+    RGB 31, 31, 31
+    RGB 31, 31, 31
+    RGB 8, 8, 8
+    RGB 0, 0, 0
+
+INCBIN "baserom.gbc",$dcb80,$dcc00 - $dcb80
 
 PaletteData_dcc00:  ; 0xdcc00
     RGB 31, 31, 31

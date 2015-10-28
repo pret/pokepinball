@@ -18085,10 +18085,10 @@ StageRedFieldTopGfx_GameBoyColor: ; 0xe771
 
 StageRedFieldBottomGfx_GameBoy: ; 0xe7ea
     VIDEO_DATA_TILES    Alphabet1Gfx, vTiles0, $1a0
-    VIDEO_DATA_TILES    StageRedFieldBottomGfx1, vTiles0 + $1a0, $160
-    VIDEO_DATA_TILES    StageRedFieldBottomGfx2, vTiles0 + $300, $80
-    VIDEO_DATA_TILES    StageRedFieldBottomGfx3, vTiles0 + $380, $20
-    VIDEO_DATA_TILES    StageRedFieldBottomGfx4, vTiles0 + $3c0, $440
+    VIDEO_DATA_TILES    StageSharedBonusSlotGlowGfx, vTiles0 + $1a0, $160
+    VIDEO_DATA_TILES    StageSharedArrowsGfx, vTiles0 + $300, $80
+    VIDEO_DATA_TILES    StageSharedBonusSlotGlow2Gfx, vTiles0 + $380, $20
+    VIDEO_DATA_TILES    StageSharedPikaBoltGfx, vTiles0 + $3c0, $440
     VIDEO_DATA_TILES    StageRedFieldBottomBaseGameBoyGfx, vTiles1, $1000
     VIDEO_DATA_TILES    SaverTextOffGfx, vTiles1 + $2a0, $40
     VIDEO_DATA_TILEMAP  StageRedFieldBottomTilemap_GameBoy, vBGMap0, $400
@@ -18096,10 +18096,10 @@ StageRedFieldBottomGfx_GameBoy: ; 0xe7ea
 
 StageRedFieldBottomGfx_GameBoyColor: ; 0xe824
     VIDEO_DATA_TILES         Alphabet2Gfx, vTiles0, $1a0
-    VIDEO_DATA_TILES         StageRedFieldBottomGfx1, vTiles0 + $1a0, $160
-    VIDEO_DATA_TILES         StageRedFieldBottomGfx2, vTiles0 + $300, $80
-    VIDEO_DATA_TILES         StageRedFieldBottomGfx3, vTiles0 + $380, $20
-    VIDEO_DATA_TILES         StageRedFieldBottomGfx4, vTiles0 + $3c0, $440
+    VIDEO_DATA_TILES         StageSharedBonusSlotGlowGfx, vTiles0 + $1a0, $160
+    VIDEO_DATA_TILES         StageSharedArrowsGfx, vTiles0 + $300, $80
+    VIDEO_DATA_TILES         StageSharedBonusSlotGlow2Gfx, vTiles0 + $380, $20
+    VIDEO_DATA_TILES         StageSharedPikaBoltGfx, vTiles0 + $3c0, $440
     VIDEO_DATA_TILES         StageRedFieldBottomBaseGameBoyColorGfx, vTiles1, $1000
     VIDEO_DATA_TILES_BANK2   StageRedFieldBottomGfx5, vTiles1, $1000
     VIDEO_DATA_TILES_BANK2   TimerDigitsGfx, vTiles0 + $600, $160
@@ -18165,31 +18165,21 @@ StageBlueFieldTopGfx_GameBoyColor: ; 0xe92c
 
 StageBlueFieldBottomGfx_GameBoy: ; 0xe982
     VIDEO_DATA_TILES Alphabet1Gfx, vTiles0, $1a0
-    VIDEO_DATA_TILES StageRedFieldBottomGfx1, vTiles0 + $1a0, $160
-    VIDEO_DATA_TILES StageRedFieldBottomGfx2, vTiles0 + $300, $80
-    VIDEO_DATA_TILES StageRedFieldBottomGfx3, vTiles0 + $380, $20
-    VIDEO_DATA_TILES StageRedFieldBottomGfx4, vTiles0 + $3c0, $440
-
-    dw $7000
-    db $19
-    dw $8800
-    dw $4000
-
+    VIDEO_DATA_TILES StageSharedBonusSlotGlowGfx, vTiles0 + $1a0, $160
+    VIDEO_DATA_TILES StageSharedArrowsGfx, vTiles0 + $300, $80
+    VIDEO_DATA_TILES StageSharedBonusSlotGlow2Gfx, vTiles0 + $380, $20
+    VIDEO_DATA_TILES StageSharedPikaBoltGfx, vTiles0 + $3c0, $440
+    VIDEO_DATA_TILES    StageBlueFieldBottomBaseGameBoyGfx, vTiles1, $1000
     VIDEO_DATA_TILES SaverTextOffGfx, vTiles1 + $2a0, $40
-
-    dw $4000
-    db $30
-    dw $9800
-    dw $1000
-
+    VIDEO_DATA_TILEMAP  StageBlueFieldBottomTilemap_GameBoy, vBGMap0, $400
     db $FF, $FF  ; terminators
 
 StageBlueFieldBottomGfx_GameBoyColor: ; 0xe9bc
     VIDEO_DATA_TILES Alphabet2Gfx, vTiles0, $1a0
-    VIDEO_DATA_TILES StageRedFieldBottomGfx1, vTiles0 + $1a0, $160
-    VIDEO_DATA_TILES StageRedFieldBottomGfx2, vTiles0 + $300, $80
-    VIDEO_DATA_TILES StageRedFieldBottomGfx3, vTiles0 + $380, $20
-    VIDEO_DATA_TILES StageRedFieldBottomGfx4, vTiles0 + $3c0, $440
+    VIDEO_DATA_TILES StageSharedBonusSlotGlowGfx, vTiles0 + $1a0, $160
+    VIDEO_DATA_TILES StageSharedArrowsGfx, vTiles0 + $300, $80
+    VIDEO_DATA_TILES StageSharedBonusSlotGlow2Gfx, vTiles0 + $380, $20
+    VIDEO_DATA_TILES StageSharedPikaBoltGfx, vTiles0 + $3c0, $440
 
     dw $4000
     db $29
@@ -18269,7 +18259,7 @@ StageGengarBonusGfx_GameBoy: ; 0xea12
 
 StageGengarBonusGfx_GameBoyColor: ; 0xea5a
     VIDEO_DATA_TILES Alphabet2Gfx, vTiles0, $1a0
-    VIDEO_DATA_TILES StageRedFieldBottomGfx4, vTiles0 + $3c0, $440
+    VIDEO_DATA_TILES StageSharedPikaBoltGfx, vTiles0 + $3c0, $440
 
     dw $6000
     db $27
@@ -51760,7 +51750,8 @@ VenonatPic: ; 0x66d00
 VenonatSilhouettePic: ; 0x66e80
 	INCBIN "gfx/billboard/mon_silhouettes/venonat.2bpp"
 
-INCBIN "baserom.gbc",$67000,$68000 - $67000 ; 0x67000
+StageBlueFieldBottomBaseGameBoyGfx: ; 0x67000
+    INCBIN "gfx/stage/blue_bottom/blue_bottom_base_gameboy.2bpp"
 
 
 SECTION "bank1a", ROMX, BANK[$1a]
@@ -53154,8 +53145,8 @@ PinballMasterballShakeGfx: ; 0xa8340
 PinballPokeballShakeGfx: ; 0xa8380
     INCBIN "gfx/stage/ball_pokeball_shake.w16.interleave.2bpp"
 
-StageRedFieldBottomGfx4: ; 0xa83c0
-    INCBIN "gfx/stage/red_bottom/red_bottom_4.2bpp"
+StageSharedPikaBoltGfx: ; 0xa83c0
+    INCBIN "gfx/stage/shared/pika_bolt.2bpp"
 
 PinballPokeballGfx: ; 0xa8400
     INCBIN "gfx/stage/ball_pokeball.w32.interleave.2bpp"
@@ -53749,7 +53740,10 @@ EraseAllDataBGAttributes: ; 0xbfc00
 
 SECTION "bank30", ROMX, BANK[$30]
 
-INCBIN "baserom.gbc",$c0000,$c0800 - $c0000
+StageBlueFieldBottomTilemap_GameBoy: ; 0xc0000
+    INCBIN "gfx/tilemaps/stage_blue_field_bottom_gameboy.map"
+
+INCBIN "baserom.gbc",$c0400,$c0800 - $c0400
 
 StageBlueFieldTopCollisionMasks: ; 0xc0800
     INCBIN "data/collision/masks/blue_stage_top.masks"
@@ -54893,13 +54887,13 @@ PidgeyBillboardBGPaletteMap: ; 0xda968
 
 INCBIN "baserom.gbc",$da980,$dac00 - $da980
 
-StageRedFieldBottomGfx1: ; 0xdac00
-    INCBIN "gfx/stage/red_bottom/red_bottom_1.2bpp"
+StageSharedBonusSlotGlowGfx: ; 0xdac00
+    INCBIN "gfx/stage/shared/bonus_slot_glow.2bpp"
 
 INCBIN "baserom.gbc",$dad60,$dade0 - $dad60
 
-StageRedFieldBottomGfx3: ; 0xdade0
-    INCBIN "gfx/stage/red_bottom/red_bottom_3.2bpp"
+StageSharedBonusSlotGlow2Gfx: ; 0xdade0
+    INCBIN "gfx/stage/shared/bonus_slot_glow_2.2bpp"
 
 StageRedFieldTopGfx5: ; 0xdae00
     INCBIN "gfx/stage/red_top/red_top_5.2bpp"
@@ -55796,8 +55790,8 @@ INCBIN "baserom.gbc",$dbe70,$dc000 - $dbe70
 
 SECTION "bank37", ROMX, BANK[$37]
 
-StageRedFieldBottomGfx2: ; 0xdc000
-    INCBIN "gfx/stage/red_bottom/red_bottom_2.2bpp"
+StageSharedArrowsGfx: ; 0xdc000
+    INCBIN "gfx/stage/shared/arrows.2bpp"
 
 INCBIN "baserom.gbc",$dc080,$dc100 - $dc080
 

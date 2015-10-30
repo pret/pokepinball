@@ -18180,35 +18180,13 @@ StageBlueFieldBottomGfx_GameBoyColor: ; 0xe9bc
     VIDEO_DATA_TILES StageSharedArrowsGfx, vTiles0 + $300, $80
     VIDEO_DATA_TILES StageSharedBonusSlotGlow2Gfx, vTiles0 + $380, $20
     VIDEO_DATA_TILES StageSharedPikaBoltGfx, vTiles0 + $3c0, $440
-
-    dw $4000
-    db $29
-    dw $8800
-    dw $4000
-
-    dw $5000
-    db $29
-    dw $8800
-    dw $4002
-
+    VIDEO_DATA_TILES         StageBlueFieldBottomBaseGameBoyColorGfx, vTiles1, $1000
+    VIDEO_DATA_TILES_BANK2   StageBlueFieldBottomGfx1, vTiles1, $1000
     VIDEO_DATA_TILES_BANK2 TimerDigitsGfx, vTiles0 + $600, $160
     VIDEO_DATA_TILES       SaverTextOffGfx, vTiles1 + $2a0, $40
-
-    dw $7000
-    db $31
-    dw $9800
-    dw $1000
-
-    dw $7400
-    db $31
-    dw $9800
-    dw $1002
-
-    dw $4B80
-    db $37
-    dw $0000
-    dw $0101
-
+    VIDEO_DATA_TILEMAP       StageBlueFieldBottomTilemap_GameBoyColor, vBGMap0, $400
+    VIDEO_DATA_TILEMAP_BANK2 StageBlueFieldBottomTilemap2_GameBoyColor, vBGMap0, $400
+    VIDEO_DATA_PALETTES      StageBlueFieldBottomPalettes, $80
     db $FF, $FF  ; terminators
 
 StageGengarBonusGfx_GameBoy: ; 0xea12
@@ -53091,7 +53069,10 @@ StageRedFieldBottomGfx5: ; 0xa3000
 
 SECTION "bank29", ROMX, BANK[$29]
 
-INCBIN "baserom.gbc",$a4000,$a6000 - $a4000 ; 0xa4000
+StageBlueFieldBottomBaseGameBoyColorGfx: ; 0xa4000
+    INCBIN "gfx/stage/blue_bottom/blue_bottom_base_gameboycolor.2bpp"
+StageBlueFieldBottomGfx1: ; 0xa5000
+    INCBIN "gfx/stage/blue_bottom/blue_bottom_1.2bpp"
 
 PalletTownPic: ; 0xa6000
 	INCBIN "gfx/billboard/maps/pallettown.2bpp"
@@ -53788,7 +53769,10 @@ StageBlueFieldTopTilemap_GameBoyColor: ; 0xc6800
 StageBlueFieldTopTilemap2_GameBoyColor: ; 0xc6c00
     INCBIN "gfx/tilemaps/stage_blue_field_top_gameboycolor_2.map"
 
-INCBIN "baserom.gbc",$c7000,$c7800 - $c7000
+StageBlueFieldBottomTilemap_GameBoyColor: ; 0xc7000
+    INCBIN "gfx/tilemaps/stage_blue_field_bottom_gameboycolor.map"
+StageBlueFieldBottomTilemap2_GameBoyColor: ; 0xc7400
+    INCBIN "gfx/tilemaps/stage_blue_field_bottom_gameboycolor_2.map"
 
 StageGengarBonusCollisionAttributesBallEntrance: ; 0xc7800
     INCBIN "data/collision/maps/gengar_bonus_ball_entrance.collision"
@@ -56967,48 +56951,129 @@ StageBlueFieldTopBGPalette7: ; 0xdcb38
     RGB 8, 8, 8
     RGB 0, 0, 0
 
-StageBlueFieldBottomOBJPalette0: ; 0xdcb40
+StageBlueFieldTopOBJPalette0: ; 0xdcb40
     RGB 21, 21, 21
     RGB 31, 31, 31
     RGB 31, 5, 4
     RGB 0, 0, 0
-StageBlueFieldBottomOBJPalette1: ; 0xdcb48
+StageBlueFieldTopOBJPalette1: ; 0xdcb48
     RGB 31, 31, 31
     RGB 31, 13, 15
     RGB 23, 4, 6
     RGB 0, 0, 0
-StageBlueFieldBottomOBJPalette2: ; 0xdcb50
+StageBlueFieldTopOBJPalette2: ; 0xdcb50
     RGB 21, 21, 21
     RGB 31, 31, 31
     RGB 31, 26, 0
     RGB 10, 6, 0
-StageBlueFieldBottomOBJPalette3: ; 0xdcb58
+StageBlueFieldTopOBJPalette3: ; 0xdcb58
     RGB 31, 31, 31
     RGB 24, 22, 26
     RGB 12, 10, 14
     RGB 0, 0, 0
-StageBlueFieldBottomOBJPalette4: ; 0xdcb60
+StageBlueFieldTopOBJPalette4: ; 0xdcb60
     RGB 21, 21, 21
     RGB 31, 31, 31
     RGB 8, 8, 8
     RGB 0, 0, 0
-StageBlueFieldBottomOBJPalette5: ; 0xdcb68
+StageBlueFieldTopOBJPalette5: ; 0xdcb68
     RGB 31, 31, 31
     RGB 31, 31, 31
     RGB 8, 8, 8
     RGB 0, 0, 0
-StageBlueFieldBottomOBJPalette6: ; 0xdcb70
+StageBlueFieldTopOBJPalette6: ; 0xdcb70
     RGB 21, 21, 21
     RGB 0, 31, 25
     RGB 0, 18, 14
     RGB 0, 0, 0
-StageBlueFieldBottomOBJPalette7: ; 0xdcb78
+StageBlueFieldTopOBJPalette7: ; 0xdcb78
     RGB 31, 31, 31
     RGB 31, 31, 31
     RGB 8, 8, 8
     RGB 0, 0, 0
 
-INCBIN "baserom.gbc",$dcb80,$dcc00 - $dcb80
+StageBlueFieldBottomPalettes: ; 0xdcb80
+StageBlueFieldBottomBGPalette0: ; 0xdcb80
+    RGB 31, 31, 31
+    RGB 13, 20, 31
+    RGB 31, 4, 4
+    RGB 0, 0, 0
+StageBlueFieldBottomBGPalette1: ; 0xdcb88
+    RGB 31, 31, 31
+    RGB 11, 25, 31
+    RGB 0, 11, 31
+    RGB 0, 0, 0
+StageBlueFieldBottomBGPalette2: ; 0xdcb90
+    RGB 31, 31, 31
+    RGB 4, 23, 13
+    RGB 0, 13, 4
+    RGB 0, 0, 0
+StageBlueFieldBottomBGPalette3: ; 0xdcb98
+    RGB 31, 31, 31
+    RGB 31, 29, 0
+    RGB 15, 8, 0
+    RGB 0, 0, 0
+StageBlueFieldBottomBGPalette4: ; 0xdcba0
+    RGB 31, 31, 31
+    RGB 31, 0, 0
+    RGB 16, 0, 0
+    RGB 0, 0, 0
+StageBlueFieldBottomBGPalette5: ; 0xdcba8
+    RGB 31, 31, 31
+    RGB 20, 20, 20
+    RGB 8, 8, 8
+    RGB 0, 0, 0
+StageBlueFieldBottomBGPalette6: ; 0xdcbb0
+    RGB 31, 31, 31
+    RGB 15, 20, 31
+    RGB 7, 11, 21
+    RGB 0, 0, 0
+StageBlueFieldBottomBGPalette7: ; 0xdcbb8
+    RGB 31, 31, 31
+    RGB 27, 20, 10
+    RGB 24, 7, 5
+    RGB 0, 0, 0
+
+StageBlueFieldBottomOBJPalette0: ; 0xdcbc0
+    RGB 21, 21, 21
+    RGB 31, 31, 31
+    RGB 31, 5, 4
+    RGB 0, 0, 0
+StageBlueFieldBottomOBJPalette1: ; 0xdcbc8
+    RGB 31, 31, 31
+    RGB 21, 21, 21
+    RGB 27, 21, 0
+    RGB 0, 0, 0
+StageBlueFieldBottomOBJPalette2: ; 0xdcbd0
+    RGB 21, 21, 21
+    RGB 31, 31, 31
+    RGB 21, 21, 27
+    RGB 0, 0, 0
+StageBlueFieldBottomOBJPalette3: ; 0xdcbd8
+    RGB 31, 31, 31
+    RGB 31, 31, 31
+    RGB 8, 8, 8
+    RGB 0, 0, 0
+StageBlueFieldBottomOBJPalette4: ; 0xdcbe0
+    RGB 21, 21, 21
+    RGB 31, 28, 0
+    RGB 29, 0, 0
+    RGB 0, 0, 0
+StageBlueFieldBottomOBJPalette5: ; 0xdcbe8
+    RGB 31, 31, 31
+    RGB 31, 31, 31
+    RGB 8, 8, 8
+    RGB 0, 0, 0
+StageBlueFieldBottomOBJPalette6: ; 0xdcbf0
+    RGB 21, 21, 21
+    RGB 0, 31, 25
+    RGB 0, 18, 14
+    RGB 0, 0, 0
+StageBlueFieldBottomOBJPalette7: ; 0xdcbf8
+    RGB 31, 31, 31
+    RGB 31, 30, 16
+    RGB 27, 24, 8
+    RGB 23, 19, 3
 
 PaletteData_dcc00:  ; 0xdcc00
     RGB 31, 31, 31

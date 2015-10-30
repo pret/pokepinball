@@ -18131,8 +18131,8 @@ VideoData_e8bd: ; 0xe8bd
     db $FF, $FF  ; terminators
 
 VideoData_e8d4: ; 0xe8d4
-    VIDEO_DATA_TILES Alphabet2Gfx, vTiles0, $1a0
-    VIDEO_DATA_TILES PinballPokeballShakeGfx, vTiles0 + $380, $480
+    VIDEO_DATA_TILES       Alphabet2Gfx, vTiles0, $1a0
+    VIDEO_DATA_TILES       PinballPokeballShakeGfx, vTiles0 + $380, $480
     VIDEO_DATA_TILES_BANK2 TimerDigitsGfx, vTiles0 + $600, $160
     VIDEO_DATA_TILES       SaverTextOffGfx, vTiles1 + $2a0, $40
     db $FF, $FF  ; terminators
@@ -18164,75 +18164,42 @@ StageBlueFieldTopGfx_GameBoyColor: ; 0xe92c
     db $FF, $FF  ; terminators
 
 StageBlueFieldBottomGfx_GameBoy: ; 0xe982
-    VIDEO_DATA_TILES Alphabet1Gfx, vTiles0, $1a0
-    VIDEO_DATA_TILES StageSharedBonusSlotGlowGfx, vTiles0 + $1a0, $160
-    VIDEO_DATA_TILES StageSharedArrowsGfx, vTiles0 + $300, $80
-    VIDEO_DATA_TILES StageSharedBonusSlotGlow2Gfx, vTiles0 + $380, $20
-    VIDEO_DATA_TILES StageSharedPikaBoltGfx, vTiles0 + $3c0, $440
+    VIDEO_DATA_TILES    Alphabet1Gfx, vTiles0, $1a0
+    VIDEO_DATA_TILES    StageSharedBonusSlotGlowGfx, vTiles0 + $1a0, $160
+    VIDEO_DATA_TILES    StageSharedArrowsGfx, vTiles0 + $300, $80
+    VIDEO_DATA_TILES    StageSharedBonusSlotGlow2Gfx, vTiles0 + $380, $20
+    VIDEO_DATA_TILES    StageSharedPikaBoltGfx, vTiles0 + $3c0, $440
     VIDEO_DATA_TILES    StageBlueFieldBottomBaseGameBoyGfx, vTiles1, $1000
-    VIDEO_DATA_TILES SaverTextOffGfx, vTiles1 + $2a0, $40
+    VIDEO_DATA_TILES    SaverTextOffGfx, vTiles1 + $2a0, $40
     VIDEO_DATA_TILEMAP  StageBlueFieldBottomTilemap_GameBoy, vBGMap0, $400
     db $FF, $FF  ; terminators
 
 StageBlueFieldBottomGfx_GameBoyColor: ; 0xe9bc
-    VIDEO_DATA_TILES Alphabet2Gfx, vTiles0, $1a0
-    VIDEO_DATA_TILES StageSharedBonusSlotGlowGfx, vTiles0 + $1a0, $160
-    VIDEO_DATA_TILES StageSharedArrowsGfx, vTiles0 + $300, $80
-    VIDEO_DATA_TILES StageSharedBonusSlotGlow2Gfx, vTiles0 + $380, $20
-    VIDEO_DATA_TILES StageSharedPikaBoltGfx, vTiles0 + $3c0, $440
+    VIDEO_DATA_TILES         Alphabet2Gfx, vTiles0, $1a0
+    VIDEO_DATA_TILES         StageSharedBonusSlotGlowGfx, vTiles0 + $1a0, $160
+    VIDEO_DATA_TILES         StageSharedArrowsGfx, vTiles0 + $300, $80
+    VIDEO_DATA_TILES         StageSharedBonusSlotGlow2Gfx, vTiles0 + $380, $20
+    VIDEO_DATA_TILES         StageSharedPikaBoltGfx, vTiles0 + $3c0, $440
     VIDEO_DATA_TILES         StageBlueFieldBottomBaseGameBoyColorGfx, vTiles1, $1000
     VIDEO_DATA_TILES_BANK2   StageBlueFieldBottomGfx1, vTiles1, $1000
-    VIDEO_DATA_TILES_BANK2 TimerDigitsGfx, vTiles0 + $600, $160
-    VIDEO_DATA_TILES       SaverTextOffGfx, vTiles1 + $2a0, $40
+    VIDEO_DATA_TILES_BANK2   TimerDigitsGfx, vTiles0 + $600, $160
+    VIDEO_DATA_TILES         SaverTextOffGfx, vTiles1 + $2a0, $40
     VIDEO_DATA_TILEMAP       StageBlueFieldBottomTilemap_GameBoyColor, vBGMap0, $400
     VIDEO_DATA_TILEMAP_BANK2 StageBlueFieldBottomTilemap2_GameBoyColor, vBGMap0, $400
     VIDEO_DATA_PALETTES      StageBlueFieldBottomPalettes, $80
     db $FF, $FF  ; terminators
 
 StageGengarBonusGfx_GameBoy: ; 0xea12
-    VIDEO_DATA_TILES Alphabet1Gfx, vTiles0, $1a0
-    VIDEO_DATA_TILES PinballPokeballGfx, vTiles0 + $400, $320
-
-    dw $7000
-    db $1C
-    dw $8800
-    dw $4000
-
-    dw $7D00
-    db $22
-    dw $8900
-    dw $0600
-
-    dw $7E80
-    db $21
-    dw $8A80
-    dw $0080
-
-    dw $7EA0
-    db $21
-    dw $81A0
-    dw $0400
-
-    dw $7BA0
-    db $26
-    dw $82A0
-    dw $0580
-
-    dw $7D00
-    db $26
-    dw $87A0
-    dw $0180
-
-    dw $7D60
-    db $26
-    dw $8AA0
-    dw $0A80
-
-    dw $4800
-    db $32
-    dw $9800
-    dw $1000
-
+    VIDEO_DATA_TILES   Alphabet1Gfx, vTiles0, $1a0
+    VIDEO_DATA_TILES   PinballPokeballGfx, vTiles0 + $400, $320
+    VIDEO_DATA_TILES   GengarBonusBaseGameBoyGfx, vTiles1, $1000
+    VIDEO_DATA_TILES   GengarBonusGastlyGfx, vTiles1 + $100, $180
+    VIDEO_DATA_TILES   GengarBonusHaunter1Gfx, vTiles1 + $280, $20
+    VIDEO_DATA_TILES   GengarBonusHaunter2Gfx, vTiles0 + $1a0, $100
+    VIDEO_DATA_TILES   GengarBonusGengar1Gfx, vTiles0 + $2a0, $160
+    VIDEO_DATA_TILES   GengarBonusGengar2Gfx, vTiles0 + $7a0, $60
+    VIDEO_DATA_TILES   GengarBonusGengar3Gfx, vTiles1 + $2a0, $2a0
+    VIDEO_DATA_TILEMAP GengarBonusTilemap_GameBoy, vBGMap0, $400
     db $FF, $FF  ; terminators
 
 StageGengarBonusGfx_GameBoyColor: ; 0xea5a
@@ -51909,7 +51876,10 @@ MewPic: ; 0x71200
 MewSilhouettePic:  ; 0x71380
 	INCBIN "gfx/billboard/mon_silhouettes/mew.2bpp"
 
-INCBIN "baserom.gbc",$71500,$74000 - $71500 ; 0x71500
+INCBIN "baserom.gbc",$71500,$73000 - $71500
+
+GengarBonusBaseGameBoyGfx: ; 0x73000
+    INCBIN "gfx/stage/gengar_bonus/gengar_bonus_base_gameboy.2bpp"
 
 
 SECTION "bank1d", ROMX, BANK[$1d]
@@ -52363,7 +52333,12 @@ MewtwoAnimatedPic: ; 0x86700
 MewAnimatedPic: ; 0x86a00
 	INCBIN "gfx/billboard/mon_animated/mew.w32.interleave.2bpp"
 
-INCBIN "baserom.gbc",$86d00,$88000 - $86d00 ; 0x86d00
+INCBIN "baserom.gbc",$86d00,$87e80 - $86d00
+
+GengarBonusHaunter1Gfx: ; 0x87e80
+    INCBIN "gfx/stage/gengar_bonus/haunter_1.2bpp"
+GengarBonusHaunter2Gfx: ; 0x87ea0
+    INCBIN "gfx/stage/gengar_bonus/haunter_2.w32.interleave.2bpp"
 
 
 SECTION "bank22", ROMX, BANK[$22]
@@ -52407,7 +52382,10 @@ FieldSelectBlinkingBorderGfx: ; 0x8b000
 FieldSelectGfx: ; 0x8b100
     INCBIN "gfx/field_select/field_select_tiles.2bpp"
 
-INCBIN "baserom.gbc",$8bd00,$8bf00 - $8bd00 ; 0x8bd00
+GengarBonusGastlyGfx: ; 0x8bd00
+    INCBIN "gfx/stage/gengar_bonus/gastly.w32.interleave.2bpp"
+
+INCBIN "baserom.gbc",$8be80,$8bf00 - $8be80
 
 BulbasaurBillboardBGPalette1: ; 0x8bf00
     RGB 31, 31, 31
@@ -53028,7 +53006,14 @@ SlowbroPic: ; 0x9ad00
 SlowbroSilhouettePic: ; 0x9ae80
 	INCBIN "gfx/billboard/mon_silhouettes/slowbro.2bpp"
 
-INCBIN "baserom.gbc",$9b000,$9c000 - $9b000 ; 0x9b000
+INCBIN "baserom.gbc",$9b000,$9bba0 - $9b000
+
+GengarBonusGengar1Gfx: ; 0x9bba0
+    INCBIN "gfx/stage/gengar_bonus/gengar_1.2bpp"
+GengarBonusGengar2Gfx: ; 0x9bd00
+    INCBIN "gfx/stage/gengar_bonus/gengar_2.2bpp"
+GengarBonusGengar3Gfx: ; 0x9bd60
+    INCBIN "gfx/stage/gengar_bonus/gengar_3.2bpp"
 
 
 SECTION "bank27", ROMX, BANK[$27]
@@ -53783,7 +53768,12 @@ SECTION "bank32", ROMX, BANK[$32]
 StageGengarBonusCollisionAttributes: ; 0xc8000
     INCBIN "data/collision/maps/gengar_bonus.collision"
 
-INCBIN "baserom.gbc",$c8400,$ca000 - $c8400
+INCBIN "baserom.gbc",$c8400,$c8800 - $c8400
+
+GengarBonusTilemap_GameBoy: ; 0xc8800
+    INCBIN "gfx/tilemaps/stage_gengar_bonus_gameboy.map"
+
+INCBIN "baserom.gbc",$c8c00,$ca000 - $c8c00
 
 StageMewtwoBonusCollisionAttributesBallEntrance: ; 0xca000
     INCBIN "data/collision/maps/mewtwo_bonus_ball_entrance.collision"

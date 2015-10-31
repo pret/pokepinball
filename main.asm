@@ -18203,57 +18203,31 @@ StageGengarBonusGfx_GameBoy: ; 0xea12
     db $FF, $FF  ; terminators
 
 StageGengarBonusGfx_GameBoyColor: ; 0xea5a
-    VIDEO_DATA_TILES   Alphabet2Gfx, vTiles0, $1a0
-    VIDEO_DATA_TILES   StageSharedPikaBoltGfx, vTiles0 + $3c0, $440
-    VIDEO_DATA_TILES   GengarBonusBaseGameBoyColorGfx, vTiles1, $1000
-    VIDEO_DATA_TILES   GengarBonusGastlyGfx, vTiles1 + $100, $180
-    VIDEO_DATA_TILES   GengarBonusHaunter1Gfx, vTiles1 + $280, $20
-    VIDEO_DATA_TILES   GengarBonusHaunter2Gfx, vTiles0 + $1a0, $100
-    VIDEO_DATA_TILES   GengarBonusGengar1Gfx, vTiles0 + $2a0, $160
-    VIDEO_DATA_TILES   GengarBonusGengar2Gfx, vTiles0 + $7a0, $60
-    VIDEO_DATA_TILES   GengarBonusGengar3Gfx, vTiles1 + $2a0, $2a0
-    VIDEO_DATA_TILES_BANK2 GengarBonus1Gfx, vTiles1, $1000
-    VIDEO_DATA_TILES_BANK2 TimerDigitsGfx, vTiles0 + $600, $160
+    VIDEO_DATA_TILES         Alphabet2Gfx, vTiles0, $1a0
+    VIDEO_DATA_TILES         StageSharedPikaBoltGfx, vTiles0 + $3c0, $440
+    VIDEO_DATA_TILES         GengarBonusBaseGameBoyColorGfx, vTiles1, $1000
+    VIDEO_DATA_TILES         GengarBonusGastlyGfx, vTiles1 + $100, $180
+    VIDEO_DATA_TILES         GengarBonusHaunter1Gfx, vTiles1 + $280, $20
+    VIDEO_DATA_TILES         GengarBonusHaunter2Gfx, vTiles0 + $1a0, $100
+    VIDEO_DATA_TILES         GengarBonusGengar1Gfx, vTiles0 + $2a0, $160
+    VIDEO_DATA_TILES         GengarBonusGengar2Gfx, vTiles0 + $7a0, $60
+    VIDEO_DATA_TILES         GengarBonusGengar3Gfx, vTiles1 + $2a0, $2a0
+    VIDEO_DATA_TILES_BANK2   GengarBonus1Gfx, vTiles1, $1000
+    VIDEO_DATA_TILES_BANK2   TimerDigitsGfx, vTiles0 + $600, $160
     VIDEO_DATA_TILEMAP       GengarBonusBottomTilemap_GameBoyColor, vBGMap0, $400
     VIDEO_DATA_TILEMAP_BANK2 GengarBonusBottomTilemap2_GameBoyColor, vBGMap0, $400
     VIDEO_DATA_PALETTES      GengarBonusPalettes, $80
     db $FF, $FF  ; terminators
 
 StageMewtwoBonusGfx_GameBoy: ; 0xeabe
-    VIDEO_DATA_TILES Alphabet1Gfx, vTiles0, $1a0
-
-    dw $59A0
-    db $32
-    dw $81A0
-    dw $0980
-
-    VIDEO_DATA_TILES PinballPokeballGfx, vTiles0 + $400, $320
-
-    dw $5C00
-    db $32
-    dw $87A0
-    dw $0180
-
-    dw $7000
-    db $1F
-    dw $8800
-    dw $4000
-
-    dw $5800
-    db $32
-    dw $8900
-    dw $0680
-
-    dw $5C60
-    db $32
-    dw $8AA0
-    dw $0A80
-
-    dw $7000
-    db $32
-    dw $9800
-    dw $1000
-
+    VIDEO_DATA_TILES   Alphabet1Gfx, vTiles0, $1a0
+    VIDEO_DATA_TILES   MewtwoBonus1Gfx, vTiles0 + $1a0, $260
+    VIDEO_DATA_TILES   PinballPokeballGfx, vTiles0 + $400, $320
+    VIDEO_DATA_TILES   MewtwoBonus2Gfx, vTiles0 + $7a0, $60
+    VIDEO_DATA_TILES   MewtwoBonusBaseGameBoyGfx, vTiles1, $1000
+    VIDEO_DATA_TILES   MewtwoBonus3Gfx, vTiles1 + $100, $1a0
+    VIDEO_DATA_TILES   MewtwoBonus4Gfx, vTiles1 + $2a0, $2a0
+    VIDEO_DATA_TILEMAP MewtwoBonusTilemap_GameBoy, vBGMap0, $400
     db $FF, $FF  ; terminators
 
 StageMewtwoBonusGfx_GameBoyColor: ; 0xeaf8
@@ -52207,7 +52181,8 @@ HitmonleeAnimatedPic: ; 0x7ea00
 HitmonchanAnimatedPic: ; 0x7ed00
 	INCBIN "gfx/billboard/mon_animated/hitmonchan.w32.interleave.2bpp"
 
-INCBIN "baserom.gbc",$7f000,$7fd00 - $7f000
+MewtwoBonusBaseGameBoyGfx: ; 0x7f000
+    INCBIN "gfx/stage/mewtwo_bonus/mewtwo_bonus_base_gameboy.2bpp"
 
 EraseAllDataGfx: ; 0x7fd00: ; 0x7fd00
     INCBIN "gfx/erase_all_data.2bpp"
@@ -53737,7 +53712,16 @@ GengarBonusBottomTilemap_GameBoyColor: ; 0xc9000
 GengarBonusBottomTilemap2_GameBoyColor: ; 0xc9400
     INCBIN "gfx/tilemaps/stage_gengar_bonus_gameboycolor_2.map"
 
-INCBIN "baserom.gbc",$c9800,$ca000 - $c9800
+MewtwoBonus3Gfx: ; 0xc9800
+    INCBIN "gfx/stage/mewtwo_bonus/mewtwo_3.2bpp"
+MewtwoBonus1Gfx: ; 0xc99a0
+    INCBIN "gfx/stage/mewtwo_bonus/mewtwo_1.2bpp"
+MewtwoBonus2Gfx: ; 0xc9c00
+    INCBIN "gfx/stage/mewtwo_bonus/mewtwo_2.2bpp"
+MewtwoBonus4Gfx: ; 0xc9c60
+    INCBIN "gfx/stage/mewtwo_bonus/mewtwo_4.2bpp"
+
+INCBIN "baserom.gbc",$c9f00,$ca000 - $c9f00
 
 StageMewtwoBonusCollisionAttributesBallEntrance: ; 0xca000
     INCBIN "data/collision/maps/mewtwo_bonus_ball_entrance.collision"
@@ -53747,7 +53731,12 @@ INCBIN "baserom.gbc",$ca400,$ca800 - $ca400
 StageMewtwoBonusCollisionAttributes: ; 0xca800
     INCBIN "data/collision/maps/mewtwo_bonus.collision"
 
-INCBIN "baserom.gbc",$cac00,$cc000 - $cac00
+INCBIN "baserom.gbc",$cac00,$cb000 - $cac00
+
+MewtwoBonusTilemap_GameBoy: ; 0xcb000
+    INCBIN "gfx/tilemaps/stage_mewtwo_bonus_gameboy.map"
+
+INCBIN "baserom.gbc",$cb400,$cc000 - $cb400
 
 
 SECTION "bank33", ROMX, BANK[$33]

@@ -18203,66 +18203,20 @@ StageGengarBonusGfx_GameBoy: ; 0xea12
     db $FF, $FF  ; terminators
 
 StageGengarBonusGfx_GameBoyColor: ; 0xea5a
-    VIDEO_DATA_TILES Alphabet2Gfx, vTiles0, $1a0
-    VIDEO_DATA_TILES StageSharedPikaBoltGfx, vTiles0 + $3c0, $440
-
-    dw $6000
-    db $27
-    dw $8800
-    dw $4000
-
-    dw $7D00
-    db $22
-    dw $8900
-    dw $0600
-
-    dw $7E80
-    db $21
-    dw $8A80
-    dw $0080
-
-    dw $7EA0
-    db $21
-    dw $81A0
-    dw $0400
-
-    dw $7BA0
-    db $26
-    dw $82A0
-    dw $0580
-
-    dw $7D00
-    db $26
-    dw $87A0
-    dw $0180
-
-    dw $7D60
-    db $26
-    dw $8AA0
-    dw $0A80
-
-    dw $7000
-    db $27
-    dw $8800
-    dw $4002
-
+    VIDEO_DATA_TILES   Alphabet2Gfx, vTiles0, $1a0
+    VIDEO_DATA_TILES   StageSharedPikaBoltGfx, vTiles0 + $3c0, $440
+    VIDEO_DATA_TILES   GengarBonusBaseGameBoyColorGfx, vTiles1, $1000
+    VIDEO_DATA_TILES   GengarBonusGastlyGfx, vTiles1 + $100, $180
+    VIDEO_DATA_TILES   GengarBonusHaunter1Gfx, vTiles1 + $280, $20
+    VIDEO_DATA_TILES   GengarBonusHaunter2Gfx, vTiles0 + $1a0, $100
+    VIDEO_DATA_TILES   GengarBonusGengar1Gfx, vTiles0 + $2a0, $160
+    VIDEO_DATA_TILES   GengarBonusGengar2Gfx, vTiles0 + $7a0, $60
+    VIDEO_DATA_TILES   GengarBonusGengar3Gfx, vTiles1 + $2a0, $2a0
+    VIDEO_DATA_TILES_BANK2 GengarBonus1Gfx, vTiles1, $1000
     VIDEO_DATA_TILES_BANK2 TimerDigitsGfx, vTiles0 + $600, $160
-
-    dw $5000
-    db $32
-    dw $9800
-    dw $1000
-
-    dw $5400
-    db $32
-    dw $9800
-    dw $1002
-
-    dw $5080
-    db $37
-    dw $0000
-    dw $0101
-
+    VIDEO_DATA_TILEMAP       GengarBonusBottomTilemap_GameBoyColor, vBGMap0, $400
+    VIDEO_DATA_TILEMAP_BANK2 GengarBonusBottomTilemap2_GameBoyColor, vBGMap0, $400
+    VIDEO_DATA_PALETTES      GengarBonusPalettes, $80
     db $FF, $FF  ; terminators
 
 StageMewtwoBonusGfx_GameBoy: ; 0xeabe
@@ -53029,7 +52983,10 @@ StageRedFieldTopBaseGameBoyColorGfx: ; 0x9c2a0
 StageRedFieldTopGfx4: ; 0x9d000
     INCBIN "gfx/stage/red_top/red_top_4.2bpp"
 
-INCBIN "baserom.gbc",$9e000,$a0000 - $9e000
+GengarBonusBaseGameBoyColorGfx: ; 0x9e000
+    INCBIN "gfx/stage/gengar_bonus/gengar_bonus_base_gameboycolor.2bpp"
+GengarBonus1Gfx: ; 0x9f000
+    INCBIN "gfx/stage/gengar_bonus/gengar_bonus_1.2bpp"
 
 
 SECTION "bank28", ROMX, BANK[$28]
@@ -53773,7 +53730,14 @@ INCBIN "baserom.gbc",$c8400,$c8800 - $c8400
 GengarBonusTilemap_GameBoy: ; 0xc8800
     INCBIN "gfx/tilemaps/stage_gengar_bonus_gameboy.map"
 
-INCBIN "baserom.gbc",$c8c00,$ca000 - $c8c00
+INCBIN "baserom.gbc",$c8c00,$c9000 - $c8c00
+
+GengarBonusBottomTilemap_GameBoyColor: ; 0xc9000
+    INCBIN "gfx/tilemaps/stage_gengar_bonus_gameboycolor.map"
+GengarBonusBottomTilemap2_GameBoyColor: ; 0xc9400
+    INCBIN "gfx/tilemaps/stage_gengar_bonus_gameboycolor_2.map"
+
+INCBIN "baserom.gbc",$c9800,$ca000 - $c9800
 
 StageMewtwoBonusCollisionAttributesBallEntrance: ; 0xca000
     INCBIN "data/collision/maps/mewtwo_bonus_ball_entrance.collision"
@@ -57384,7 +57348,88 @@ CopyrightScreenOBJPalette7: ; 0xdd078
     RGB 31, 31, 31
     RGB 31, 31, 31
 
-INCBIN "baserom.gbc",$dd080,$dd100 - $dd080
+GengarBonusPalettes: ; 0xdd080
+GengarBonusBGPalette0: ; 0xdd080
+    RGB 31, 31, 31
+    RGB 13, 20, 31
+    RGB 31, 4, 4
+    RGB 0, 0, 0
+GengarBonusBGPalette1: ; 0xdd088
+    RGB 28, 31, 4
+    RGB 8, 14, 31
+    RGB 4, 5, 15
+    RGB 0, 0, 0
+GengarBonusBGPalette2: ; 0xdd090
+    RGB 31, 31, 31
+    RGB 20, 20, 20
+    RGB 8, 8, 8
+    RGB 0, 0, 0
+GengarBonusBGPalette3: ; 0xdd098
+    RGB 31, 31, 31
+    RGB 20, 20, 20
+    RGB 8, 8, 8
+    RGB 0, 0, 0
+GengarBonusBGPalette4: ; 0xdd0a0
+    RGB 31, 31, 31
+    RGB 20, 20, 20
+    RGB 8, 8, 8
+    RGB 0, 0, 0
+GengarBonusBGPalette5: ; 0xdd0a8
+    RGB 31, 31, 31
+    RGB 20, 20, 20
+    RGB 8, 8, 8
+    RGB 0, 0, 0
+GengarBonusBGPalette6: ; 0xdd0b0
+    RGB 31, 31, 31
+    RGB 13, 13, 31
+    RGB 31, 0, 0
+    RGB 0, 0, 0
+GengarBonusBGPalette7: ; 0xdd0b8
+    RGB 31, 31, 31
+    RGB 20, 20, 20
+    RGB 8, 8, 8
+    RGB 0, 0, 0
+
+GengarBonusOBJPalette0: ; 0xdd0c0
+    RGB 20, 20, 20
+    RGB 31, 31, 31
+    RGB 31, 5, 4
+    RGB 0, 0, 0
+GengarBonusOBJPalette1: ; 0xdd0c8
+    RGB 31, 31, 31
+    RGB 20, 20, 20
+    RGB 8, 8, 8
+    RGB 0, 0, 0
+GengarBonusOBJPalette2: ; 0xdd0d0
+    RGB 20, 20, 20
+    RGB 31, 31, 31
+    RGB 21, 21, 27
+    RGB 0, 0, 0
+GengarBonusOBJPalette3: ; 0xdd0d8
+    RGB 31, 31, 31
+    RGB 20, 20, 20
+    RGB 8, 8, 8
+    RGB 0, 0, 0
+GengarBonusOBJPalette4: ; 0xdd0e0
+    RGB 20, 20, 20
+    RGB 31, 31, 31
+    RGB 29, 0, 31
+    RGB 0, 0, 0
+GengarBonusOBJPalette5: ; 0xdd0e8
+    RGB 31, 31, 31
+    RGB 20, 20, 20
+    RGB 8, 8, 8
+    RGB 0, 0, 0
+GengarBonusOBJPalette6: ; 0xdd0f0
+    RGB 20, 20, 20
+    RGB 31, 31, 31
+    RGB 8, 8, 8
+    RGB 0, 0, 0
+GengarBonusOBJPalette7: ; 0xdd0f8
+    RGB 31, 31, 31
+    RGB 20, 20, 20
+    RGB 8, 8, 8
+    RGB 0, 0, 0
 
 FieldSelectScreenPalettes: ; 0xdd100
 FieldSelectScreenBGPalette0: ; 0xdd100

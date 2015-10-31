@@ -18231,57 +18231,24 @@ StageMewtwoBonusGfx_GameBoy: ; 0xeabe
     db $FF, $FF  ; terminators
 
 StageMewtwoBonusGfx_GameBoyColor: ; 0xeaf8
-    VIDEO_DATA_TILES Alphabet2Gfx, vTiles0, $1a0
+    VIDEO_DATA_TILES   Alphabet2Gfx, vTiles0, $1a0
+    VIDEO_DATA_TILES   MewtwoBonus1Gfx, vTiles0 + $1a0, $260
+    VIDEO_DATA_TILES   PinballPokeballGfx, vTiles0 + $400, $320
+    VIDEO_DATA_TILES   MewtwoBonus2Gfx, vTiles0 + $7a0, $60
+    VIDEO_DATA_TILES   MewtwoBonusBaseGameBoyColorGfx, vTiles1, $1000
+    VIDEO_DATA_TILES   MewtwoBonus3Gfx, vTiles1 + $100, $1a0
+    VIDEO_DATA_TILES   MewtwoBonus4Gfx, vTiles1 + $2a0, $2a0
 
-    dw $59A0
-    db $32
-    dw $81A0
-    dw $0980
-
-    VIDEO_DATA_TILES PinballPokeballGfx, vTiles0 + $400, $320
-
-    dw $5C00
-    db $32
-    dw $87A0
-    dw $0180
-
-    dw $7000
-    db $20
-    dw $8800
-    dw $4000
-
-    dw $5800
-    db $32
-    dw $8900
-    dw $0680
-
-    dw $5C60
-    db $32
-    dw $8AA0
-    dw $0A80
-
+    ; Can't use a macro here because it's copying the tiles from VRAM, not ROM.
     dw vTiles0
-    db $20
-    dw $8800
+    db $20  ; This is an arbitrary bank, since the data is in VRAM, not ROM.
+    dw vTiles1
     dw $4002
 
-    VIDEO_DATA_TILES_BANK2 TimerDigitsGfx, vTiles0 + $600, $160
-
-    dw $7800
-    db $32
-    dw $9800
-    dw $1000
-
-    dw $7C00
-    db $32
-    dw $9800
-    dw $1002
-
-    dw $4F00
-    db $37
-    dw $0000
-    dw $0101
-
+    VIDEO_DATA_TILES_BANK2   TimerDigitsGfx, vTiles0 + $600, $160
+    VIDEO_DATA_TILEMAP       MewtoBonusBottomTilemap_GameBoyColor, vBGMap0, $400
+    VIDEO_DATA_TILEMAP_BANK2 MewtoBonusBottomTilemap2_GameBoyColor, vBGMap0, $400
+    VIDEO_DATA_PALETTES      MewtwoBonusPalettes, $80
     db $FF, $FF  ; terminators
 
 StageMeowthBonusGfx_GameBoy: ; 0xeb4e
@@ -52223,7 +52190,8 @@ PinsirAnimatedPic: ; 0x82a00
 TaurosAnimatedPic: ; 0x82d00
 	INCBIN "gfx/billboard/mon_animated/tauros.w32.interleave.2bpp"
 
-INCBIN "baserom.gbc",$83000,$83d00 - $83000
+MewtwoBonusBaseGameBoyColorGfx: ; 0x83000
+    INCBIN "gfx/stage/mewtwo_bonus/mewtwo_bonus_base_gameboycolor.2bpp"
 
 StageDiglettBonusCollisionMasks: ; 0x83d00
     INCBIN "data/collision/masks/diglett_bonus.masks"
@@ -53736,7 +53704,12 @@ INCBIN "baserom.gbc",$cac00,$cb000 - $cac00
 MewtwoBonusTilemap_GameBoy: ; 0xcb000
     INCBIN "gfx/tilemaps/stage_mewtwo_bonus_gameboy.map"
 
-INCBIN "baserom.gbc",$cb400,$cc000 - $cb400
+INCBIN "baserom.gbc",$cb400,$cb800 - $cb400
+
+MewtoBonusBottomTilemap_GameBoyColor: ; 0xcb800
+    INCBIN "gfx/tilemaps/stage_mewtwo_bonus_gameboycolor.map"
+MewtoBonusBottomTilemap2_GameBoyColor: ; 0xcbc00
+    INCBIN "gfx/tilemaps/stage_mewtwo_bonus_gameboycolor_2.map"
 
 
 SECTION "bank33", ROMX, BANK[$33]
@@ -57169,7 +57142,90 @@ EraseAllDataOBJPalette7: ; 0xdcdf8
     RGB 31, 31, 31
     RGB 31, 31, 31
 
-INCBIN "baserom.gbc",$dce00,$dcf80 - $dce00
+INCBIN "baserom.gbc",$dce00,$dcf00 - $dce00
+
+MewtwoBonusPalettes: ; 0xdcf00
+MewtwoBonusBGPalette0: ; 0xdcf00
+    RGB 31, 31, 31
+    RGB 13, 20, 31
+    RGB 31, 4, 4
+    RGB 0, 0, 0
+MewtwoBonusBGPalette1: ; 0xdcf08
+    RGB 31, 31, 31
+    RGB 15, 15, 21
+    RGB 6, 6, 11
+    RGB 0, 0, 0
+MewtwoBonusBGPalette2: ; 0xdcf10
+    RGB 31, 31, 31
+    RGB 31, 0, 0
+    RGB 16, 0, 0
+    RGB 0, 0, 0
+MewtwoBonusBGPalette3: ; 0xdcf18
+    RGB 31, 31, 31
+    RGB 20, 20, 20
+    RGB 8, 8, 8
+    RGB 0, 0, 0
+MewtwoBonusBGPalette4: ; 0xdcf20
+    RGB 31, 31, 31
+    RGB 20, 20, 20
+    RGB 8, 8, 8
+    RGB 0, 0, 0
+MewtwoBonusBGPalette5: ; 0xdcf28
+    RGB 31, 31, 31
+    RGB 20, 20, 20
+    RGB 8, 8, 8
+    RGB 0, 0, 0
+MewtwoBonusBGPalette6: ; 0xdcf30
+    RGB 31, 31, 31
+    RGB 20, 20, 20
+    RGB 8, 8, 8
+    RGB 0, 0, 0
+MewtwoBonusBGPalette7: ; 0xdcf38
+    RGB 31, 31, 31
+    RGB 20, 20, 20
+    RGB 8, 8, 8
+    RGB 0, 0, 0
+
+MewtwoBonusOBJPalette0: ; 0xdcf40
+    RGB 20, 20, 20
+    RGB 31, 31, 31
+    RGB 31, 5, 4
+    RGB 0, 0, 0
+MewtwoBonusOBJPalette1: ; 0xdcf48
+    RGB 31, 31, 31
+    RGB 24, 19, 0
+    RGB 13, 8, 0
+    RGB 0, 0, 0
+MewtwoBonusOBJPalette2: ; 0xdcf50
+    RGB 20, 20, 20
+    RGB 31, 31, 31
+    RGB 21, 21, 27
+    RGB 0, 0, 0
+MewtwoBonusOBJPalette3: ; 0xdcf58
+    RGB 31, 31, 31
+    RGB 20, 20, 20
+    RGB 8, 8, 8
+    RGB 0, 0, 0
+MewtwoBonusOBJPalette4: ; 0xdcf60
+    RGB 20, 20, 20
+    RGB 31, 25, 31
+    RGB 31, 0, 31
+    RGB 0, 0, 0
+MewtwoBonusOBJPalette5: ; 0xdcf68
+    RGB 31, 31, 31
+    RGB 20, 20, 20
+    RGB 8, 8, 8
+    RGB 0, 0, 0
+MewtwoBonusOBJPalette6: ; 0xdcf70
+    RGB 20, 20, 20
+    RGB 20, 20, 20
+    RGB 8, 8, 8
+    RGB 0, 0, 0
+MewtwoBonusOBJPalette7: ; 0xdcf78
+    RGB 31, 31, 31
+    RGB 20, 20, 20
+    RGB 8, 8, 8
+    RGB 0, 0, 0
 
 TitlescreenPalettes: ; 0xdcf80
 TitlescreenBGPalette0: ; 0xdcf80

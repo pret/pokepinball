@@ -18263,52 +18263,17 @@ StageMeowthBonusGfx_GameBoy: ; 0xeb4e
     db $FF, $FF  ; terminators
 
 StageMeowthBonusGfx_GameBoyColor: ; 0xeb88
-    VIDEO_DATA_TILES Alphabet2Gfx, vTiles0, $1a0
-
-    dw $41A0
-    db $33
-    dw $81A0
-    dw $0980
-
-    VIDEO_DATA_TILES PinballPokeballGfx, vTiles0 + $400, $320
-
-    dw $4400
-    db $33
-    dw $87A0
-    dw $0180
-
-    dw $7200
-    db $2A
-    dw $8800
-    dw $2400
-
-    dw $4000
-    db $33
-    dw $8900
-    dw $0680
-
-    dw $4460
-    db $33
-    dw $8AA0
-    dw $0D80
-
-    VIDEO_DATA_TILES_BANK2 TimerDigitsGfx, vTiles0 + $600, $160
-
-    dw $6000
-    db $33
-    dw $9800
-    dw $1000
-
-    dw $6400
-    db $33
-    dw $9800
-    dw $1002
-
-    dw $4C80
-    db $37
-    dw $0000
-    dw $0101
-
+    VIDEO_DATA_TILES         Alphabet2Gfx, vTiles0, $1a0
+    VIDEO_DATA_TILES         MeowthBonusMeowth1Gfx, vTiles0 + $1a0, $260
+    VIDEO_DATA_TILES         PinballPokeballGfx, vTiles0 + $400, $320
+    VIDEO_DATA_TILES         MeowthBonusMeowth2Gfx, vTiles0 + $7a0, $60
+    VIDEO_DATA_TILES         MeowthBonusBaseGameBoyColorGfx, vTiles1, $900
+    VIDEO_DATA_TILES         MeowthBonusMeowth3Gfx, vTiles1 + $100, $1a0
+    VIDEO_DATA_TILES         MeowthBonusMeowth4Gfx, vTiles1 + $2a0, $360
+    VIDEO_DATA_TILES_BANK2   TimerDigitsGfx, vTiles0 + $600, $160
+    VIDEO_DATA_TILEMAP       MeowthBonusTilemap_GameBoyColor, vBGMap0, $400
+    VIDEO_DATA_TILEMAP_BANK2 MeowthBonusTilemap2_GameBoyColor, vBGMap0, $400
+    VIDEO_DATA_PALETTES      MeowthBonusPalettes, $80
     db $FF, $FF  ; terminators
 
 StageDiglettBonusGfx_GameBoy: ; 0xebd7
@@ -53018,7 +52983,10 @@ PinballMasterballMiniGfx: ; 0xa9600
 PinballBallMiniGfx: ; 0xa9800
     INCBIN "gfx/stage/ball_mini.w32.interleave.2bpp"
 
-INCBIN "baserom.gbc",$a9a00,$abb00 - $a9a00
+INCBIN "baserom.gbc",$a9a00,$ab200 - $a9a00
+
+MeowthBonusBaseGameBoyColorGfx: ; 0xab200
+    INCBIN "gfx/stage/meowth_bonus/meowth_bonus_base_gameboycolor.2bpp"
 
 PaletteTownBillboardBGPaletteMap: ; 0xabb00
     db $6, $7, $7, $7, $7, $7
@@ -53713,7 +53681,12 @@ INCBIN "baserom.gbc",$cd400,$cd800 - $cd400
 MeowthBonusTilemap_GameBoy: ; 0xcd800
     INCBIN "gfx/tilemaps/stage_meowth_bonus_gameboy.map"
 
-INCBIN "baserom.gbc",$cdc00,$ce800 - $cdc00
+INCBIN "baserom.gbc",$cdc00,$ce000 - $cdc00
+
+MeowthBonusTilemap_GameBoyColor: ; 0xce000
+    INCBIN "gfx/tilemaps/stage_meowth_bonus_gameboycolor.map"
+MeowthBonusTilemap2_GameBoyColor: ; 0xce400
+    INCBIN "gfx/tilemaps/stage_meowth_bonus_gameboycolor_2.map"
 
 StageDiglettBonusCollisionAttributesBallEntrance: ; 0xce800
     INCBIN "data/collision/maps/diglett_bonus_ball_entrance.collision"
@@ -57046,7 +57019,92 @@ PaletteData_dcc60:  ; 0xdcc60
     RGB 31, 11, 10
     RGB 0, 0, 0
 
-INCBIN "baserom.gbc",$dcc68,$dcd80 - $dcc68
+INCBIN "baserom.gbc",$dcc68,$dcc80 - $dcc68
+
+MeowthBonusPalettes: ; 0xdcc80
+MeowthBonusBGPalette0: ; 0xdcc80
+    RGB 31, 31, 31
+    RGB 13, 20, 31
+    RGB 31, 4, 4
+    RGB 0, 0, 0
+MeowthBonusBGPalette1: ; 0xdcc88
+    RGB 31, 31, 31
+    RGB 31, 16, 0
+    RGB 15, 7, 0
+    RGB 0, 0, 0
+MeowthBonusBGPalette2: ; 0xdcc90
+    RGB 31, 31, 31
+    RGB 31, 0, 0
+    RGB 16, 0, 0
+    RGB 0, 0, 0
+MeowthBonusBGPalette3: ; 0xdcc98
+    RGB 31, 31, 31
+    RGB 20, 20, 20
+    RGB 8, 8, 8
+    RGB 0, 0, 0
+MeowthBonusBGPalette4: ; 0xdcca0
+    RGB 31, 31, 31
+    RGB 20, 20, 20
+    RGB 8, 8, 8
+    RGB 0, 0, 0
+MeowthBonusBGPalette5: ; 0xdcca8
+    RGB 31, 31, 31
+    RGB 20, 20, 20
+    RGB 8, 8, 8
+    RGB 0, 0, 0
+MeowthBonusBGPalette6: ; 0xdccb0
+    RGB 31, 31, 31
+    RGB 20, 20, 20
+    RGB 8, 8, 8
+    RGB 0, 0, 0
+MeowthBonusBGPalette7: ; 0xdccb8
+    RGB 31, 31, 31
+    RGB 20, 20, 20
+    RGB 8, 8, 8
+    RGB 0, 0, 0
+
+MeowthBonusOBJPalette0: ; 0xdccc0
+    RGB 20, 20, 20
+    RGB 31, 31, 31
+    RGB 31, 5, 4
+    RGB 0, 0, 0
+MeowthBonusOBJPalette1: ; 0xdccc8
+    RGB 31, 31, 31
+    RGB 31, 26, 16
+    RGB 25, 9, 0
+    RGB 0, 0, 0
+MeowthBonusOBJPalette2: ; 0xdccd0
+    RGB 20, 20, 20
+    RGB 31, 31, 31
+    RGB 21, 21, 27
+    RGB 0, 0, 0
+MeowthBonusOBJPalette3: ; 0xdccd8
+    RGB 31, 31, 31
+    RGB 31, 31, 0
+    RGB 23, 7, 0
+    RGB 0, 0, 0
+MeowthBonusOBJPalette4: ; 0xdcce0
+    RGB 20, 20, 20
+    RGB 20, 20, 20
+    RGB 8, 8, 8
+    RGB 0, 0, 0
+MeowthBonusOBJPalette5: ; 0xdcce8
+    RGB 31, 31, 31
+    RGB 20, 20, 20
+    RGB 8, 8, 8
+    RGB 0, 0, 0
+MeowthBonusOBJPalette6: ; 0xdccf0
+    RGB 20, 20, 20
+    RGB 20, 20, 20
+    RGB 8, 8, 8
+    RGB 0, 0, 0
+MeowthBonusOBJPalette7: ; 0xdccf8
+    RGB 31, 31, 31
+    RGB 20, 20, 20
+    RGB 8, 8, 8
+    RGB 0, 0, 0
+
+INCBIN "baserom.gbc",$dcd00,$dcd80 - $dcd00
 
 EraseAllDataPalettes: ; 0xdcd80
 EraseAllDataBGPalette0: ; 0xdcd80

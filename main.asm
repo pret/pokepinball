@@ -10108,6 +10108,7 @@ Func_800a: ; 0x800a
     ret
 
 Func_8049: ; 0x8049
+; This function is unused?
     ld a, $1
     ld [$ff4f], a
     ld c, $ff
@@ -10131,24 +10132,20 @@ Func_8049: ; 0x8049
     ld hl, PointerTable_8089
     xor a
     call LoadVideoData
-    ld a, Bank(Data_8094)
-    ld bc, Data_8094
+    ld a, Bank(UnusedTileListData_8094)
+    ld bc, UnusedTileListData_8094
     ld de, LoadTileLists
     call Func_10c5
     ret
 
 PointerTable_8089: ; 0x8089
-    dw Data_808b
+    dw UnusedTextVideoData
 
-Data_808b: ; 0x808b
-    dw $5c00
-    db $36
-    dw $8a00
-    dw $1000
-
+UnusedTextVideoData: ; 0x808b
+    VIDEO_DATA_TILES UnusedTextGfx, vTiles1 + $200, $400
     db $FF, $FF ; terminators
 
-Data_8094: ; 0x8094
+UnusedTileListData_8094: ; 0x8094
     db $13
 
     dbw $06, $98A3
@@ -12996,7 +12993,7 @@ Func_c35a: ; 0xc35a
     xor a
     ld [hBoardXShift], a
     ld [hBoardYShift], a
-    ld hl, PointerTable_c3b9
+    ld hl, OptionsScreenVideoDataPointers
     ld a, [hGameBoyColorFlag]
     call LoadVideoData
     call ClearOAMBuffer
@@ -13024,45 +13021,23 @@ Func_c35a: ; 0xc35a
     inc [hl]
     ret
 
-PointerTable_c3b9: ; 0xc3b9
-    dw VideoData_GameBoy_c3bd
-    dw VideoData_GameBoyColor_c3d4
+OptionsScreenVideoDataPointers: ; 0xc3b9
+    dw OptionsScreenVideoData_GameBoy
+    dw OptionsScreenVideoData_GameBoyColor
 
-VideoData_GameBoy_c3bd: ; 0xc3bd
-    VIDEO_DATA_TILES OptionMenuAndKeyConfigGfx, vTiles0, $1400
-    VIDEO_DATA_TILES OptionMenuTilemap, vBGMap0, $240
-
-    dw $7000
-    db $30
-    dw vBGMap1
-    dw $900
-
+OptionsScreenVideoData_GameBoy: ; 0xc3bd
+    VIDEO_DATA_TILES   OptionMenuAndKeyConfigGfx, vTiles0, $1400
+    VIDEO_DATA_TILEMAP OptionMenuTilemap,  vBGMap0, $240
+    VIDEO_DATA_TILEMAP OptionMenuTilemap2, vBGMap1, $240
     db $FF, $FF ; terminators
 
-VideoData_GameBoyColor_c3d4: ; 0xc3d4
-    VIDEO_DATA_TILES OptionMenuAndKeyConfigGfx, vTiles0, $1400
-    VIDEO_DATA_TILES OptionMenuTilemap, vBGMap0, $240
-
-    dw $7c00
-    db $30
-    dw vBGMap0
-    dw $902
-
-    dw $7000
-    db $30
-    dw vBGMap1
-    dw $900
-
-    dw $7400
-    db $30
-    dw vBGMap1
-    dw $902
-
-    dw $4e00
-    db $37
-    dw $0000
-    dw $101
-
+OptionsScreenVideoData_GameBoyColor: ; 0xc3d4
+    VIDEO_DATA_TILES         OptionMenuAndKeyConfigGfx, vTiles0, $1400
+    VIDEO_DATA_TILEMAP       OptionMenuTilemap, vBGMap0, $240
+    VIDEO_DATA_TILEMAP_BANK2 OptionMenuTilemap3, vBGMap0, $240
+    VIDEO_DATA_TILEMAP       OptionMenuTilemap2, vBGMap1, $240
+    VIDEO_DATA_TILEMAP_BANK2 OptionMenuTilemap4, vBGMap1, $240
+    VIDEO_DATA_PALETTES      OptionMenuPalettes, $80
     db $FF, $FF ; terminators
 
 Func_c400: ; 0xc400
@@ -53471,12 +53446,27 @@ INCBIN "baserom.gbc",$c1400,$c2800 - $c1400
 StageBlueFieldTopCollisionAttributes: ; 0xc2800
     INCBIN "data/collision/maps/blue_stage_top.collision"
 
-INCBIN "baserom.gbc",$c2c00,$c3800 - $c2c00
+INCBIN "baserom.gbc",$c2c00,$c3000 - $c2c00
+
+OptionMenuTilemap2: ; 0xc3000
+    INCBIN "gfx/tilemaps/option_menu_2.map"
+
+INCBIN "baserom.gbc",$c3240,$c3400 - $c3240
+
+OptionMenuTilemap4: ; 0xc3400
+    INCBIN "gfx/tilemaps/option_menu_4.map"
+
+INCBIN "baserom.gbc",$c3640,$c3800 - $c3640
 
 OptionMenuTilemap: ; 0xc3800
     INCBIN "gfx/tilemaps/option_menu.map"
 
-INCBIN "baserom.gbc",$c3a40,$c4000 - $c3a40 ; 0xc3a40
+INCBIN "baserom.gbc",$c3a40,$c3c00 - $c3a40
+
+OptionMenuTilemap3: ; 0xc3c00
+    INCBIN "gfx/tilemaps/option_menu_3.map"
+
+INCBIN "baserom.gbc",$c3e40,$c4000 - $c3e40
 
 
 SECTION "bank31", ROMX, BANK[$31]
@@ -54476,7 +54466,10 @@ MewBillboardBGPaletteMap: ; 0xd9890
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
 
-INCBIN "baserom.gbc",$d98a8,$da000 - $d98a8
+INCBIN "baserom.gbc",$d98a8,$d9c00 - $d98a8
+
+UnusedTextGfx: ; 0xd9c00
+    INCBIN "gfx/unused_text.2bpp"
 
 CopyrightTextGfx: ; 0xda000
     INCBIN "gfx/copyright_text.2bpp"
@@ -57283,7 +57276,90 @@ EraseAllDataOBJPalette7: ; 0xdcdf8
     RGB 31, 31, 31
     RGB 31, 31, 31
 
-INCBIN "baserom.gbc",$dce00,$dcf00 - $dce00
+OptionMenuPalettes: ; 0xdce00
+OptionMenuBGPalette0: ; 0xdce00
+    RGB 31, 31, 31
+    RGB 31, 30, 9
+    RGB 22, 21, 0
+    RGB 0, 0, 0
+OptionMenuBGPalette1: ; 0xdce08
+    RGB 31, 31, 31
+    RGB 31, 29, 0
+    RGB 31, 8, 0
+    RGB 0, 0, 0
+OptionMenuBGPalette2: ; 0xdce10
+    RGB 31, 31, 31
+    RGB 31, 29, 0
+    RGB 26, 18, 0
+    RGB 0, 0, 0
+OptionMenuBGPalette3: ; 0xdce18
+    RGB 31, 31, 31
+    RGB 31, 29, 0
+    RGB 22, 10, 0
+    RGB 0, 0, 0
+OptionMenuBGPalette4: ; 0xdce20
+    RGB 31, 31, 31
+    RGB 31, 31, 31
+    RGB 31, 31, 31
+    RGB 31, 31, 31
+OptionMenuBGPalette5: ; 0xdce28
+    RGB 31, 31, 31
+    RGB 31, 31, 31
+    RGB 31, 31, 31
+    RGB 31, 31, 31
+OptionMenuBGPalette6: ; 0xdce30
+    RGB 31, 31, 31
+    RGB 31, 31, 31
+    RGB 31, 31, 31
+    RGB 31, 31, 31
+OptionMenuBGPalette7: ; 0xdce38
+    RGB 31, 31, 31
+    RGB 31, 31, 31
+    RGB 31, 31, 31
+    RGB 31, 31, 31
+
+OptionMenuOBJPalette0: ; 0xdce40
+    RGB 31, 31, 31
+    RGB 31, 29, 0
+    RGB 31, 8, 0
+    RGB 0, 0, 0
+OptionMenuOBJPalette1: ; 0xdce48
+    RGB 31, 31, 31
+    RGB 31, 31, 31
+    RGB 31, 29, 0
+    RGB 0, 0, 0
+OptionMenuOBJPalette2: ; 0xdce50
+    RGB 31, 31, 31
+    RGB 31, 31, 11
+    RGB 26, 23, 0
+    RGB 0, 0, 0
+OptionMenuOBJPalette3: ; 0xdce58
+    RGB 31, 31, 31
+    RGB 22, 22, 22
+    RGB 11, 11, 11
+    RGB 0, 0, 0
+OptionMenuOBJPalette4: ; 0xdce60
+    RGB 31, 31, 31
+    RGB 23, 23, 27
+    RGB 31, 0, 0
+    RGB 0, 0, 0
+OptionMenuOBJPalette5: ; 0xdce68
+    RGB 31, 31, 31
+    RGB 31, 31, 31
+    RGB 31, 31, 31
+    RGB 31, 31, 31
+OptionMenuOBJPalette6: ; 0xdce70
+    RGB 31, 31, 31
+    RGB 31, 31, 31
+    RGB 31, 31, 31
+    RGB 31, 31, 31
+OptionMenuOBJPalette7: ; 0xdce78
+    RGB 31, 31, 31
+    RGB 31, 31, 31
+    RGB 31, 31, 31
+    RGB 31, 31, 31
+
+INCBIN "baserom.gbc",$dce80,$dcf00 - $dce80
 
 MewtwoBonusPalettes: ; 0xdcf00
 MewtwoBonusBGPalette0: ; 0xdcf00

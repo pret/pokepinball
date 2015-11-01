@@ -10357,7 +10357,7 @@ EraseAllDataGfx_GameBoyColor: ; 0x81b6
     VIDEO_DATA_TILES    EraseAllDataGfx, vTiles2, $300
     VIDEO_DATA_TILEMAP  EraseAllDataTilemap, vBGMap0, $400
     VIDEO_DATA_BGATTR   EraseAllDataBGAttributes, vBGMap0, $400
-    VIDEO_DATA_PALETTES EraseAllDataPalettes, $80
+    VIDEO_DATA_PALETTES HighScoresRedStagePalettes, $80
     db $FF, $FF ; terminators
 
 HandleEraseAllDataInput: ; 0x81d4
@@ -14157,7 +14157,7 @@ Func_cb14: ; 0xcb14
     ld a, [wHighScoresStage]
     inc a
 .asm_cb51
-    ld hl, PointerTable_cbe3
+    ld hl, HighScoresVideoDataPointers
     call LoadVideoData
     call ClearOAMBuffer
     ld a, $20
@@ -14219,153 +14219,96 @@ Func_cb14: ; 0xcb14
     inc [hl]
     ret
 
-PointerTable_cbe3: ; 0xcbe3
-    dw VideoData_cbe9
-    dw VideoData_cc1c
-    dw VideoData_cc64
+HighScoresVideoDataPointers: ; 0xcbe3
+    dw HighScoresVideoData_GameBoy
+    dw HighScoresRedStageVideoData_GameBoyColor
+    dw HighScoresBlueStageVideoData_GameBoyColor
 
-VideoData_cbe9: ; 0xcbe9
-    dw $5a00
-    db $2A
-    dw $8000
-    dw $6000
+HighScoresVideoData_GameBoy: ; 0xcbe9
+    VIDEO_DATA_TILES HighScoresBaseGameBoyGfx, vTiles0, $1800
+    VIDEO_DATA_TILEMAP HighScoresTilemap, vBGMap0, $400
+    VIDEO_DATA_TILEMAP HighScoresTilemap2, vBGMap1, $400
 
-    dw $6000
-    db $30
-    dw $9800
-    dw $1000
+    dw HighScoresTilemap + $3c0
+    db Bank(HighScoresTilemap)
+    dw vBGMap0
+    dw ($40 << 2)
 
-    dw $5800
-    db $30
-    dw $9C00
-    dw $1000
+    dw HighScoresTilemap + $280
+    db Bank(HighScoresTilemap)
+    dw vBGMap0 + $200
+    dw ($40 << 2)
 
-    dw $63C0
-    db $30
-    dw $9800
-    dw $0100
+    dw HighScoresTilemap2 + $3c0
+    db Bank(HighScoresTilemap2)
+    dw vBGMap1
+    dw ($40 << 2)
 
-    dw $6280
-    db $30
-    dw $9A00
-    dw $0100
-
-    dw $5BC0
-    db $30
-    dw $9C00
-    dw $0100
-
-    dw $5A80
-    db $30
-    dw $9E00
-    dw $0100
+    dw HighScoresTilemap2 + $280
+    db Bank(HighScoresTilemap2)
+    dw vBGMap1 + $200
+    dw ($40 << 2)
 
     db $FF, $FF  ; terminators
 
-VideoData_cc1c: ; 0xcc1c
-    dw $5A00
-    db $2A
-    dw $8000
-    dw $6000
+HighScoresRedStageVideoData_GameBoyColor: ; 0xcc1c
+    VIDEO_DATA_TILES HighScoresBaseGameBoyGfx, vTiles0, $1800
+    VIDEO_DATA_TILEMAP HighScoresTilemap, vBGMap0, $400
+    VIDEO_DATA_TILEMAP HighScoresTilemap2, vBGMap1, $400
+    VIDEO_DATA_TILEMAP_BANK2 HighScoresTilemap4, vBGMap0, $400
+    VIDEO_DATA_TILEMAP_BANK2 HighScoresTilemap5, vBGMap1, $400
 
-    dw $6000
-    db $30
-    dw $9800
-    dw $1000
+    dw HighScoresTilemap + $3c0
+    db Bank(HighScoresTilemap)
+    dw vBGMap0
+    dw ($40 << 2)
 
-    dw $5800
-    db $30
-    dw $9C00
-    dw $1000
+    dw HighScoresTilemap + $280
+    db Bank(HighScoresTilemap)
+    dw vBGMap0 + $200
+    dw ($40 << 2)
 
-    dw $6400
-    db $30
-    dw $9800
-    dw $1002
+    dw HighScoresTilemap2 + $3c0
+    db Bank(HighScoresTilemap2)
+    dw vBGMap1
+    dw ($40 << 2)
 
-    dw $5C00
-    db $30
-    dw $9C00
-    dw $1002
+    dw HighScoresTilemap2 + $280
+    db Bank(HighScoresTilemap2)
+    dw vBGMap1 + $200
+    dw ($40 << 2)
 
-    dw $63C0
-    db $30
-    dw $9800
-    dw $0100
-
-    dw $6280
-    db $30
-    dw $9A00
-    dw $0100
-
-    dw $5BC0
-    db $30
-    dw $9C00
-    dw $0100
-
-    dw $5A80
-    db $30
-    dw $9E00
-    dw $0100
-
-    dw $4D80
-    db $37
-    dw $0000
-    dw $0101
-
+    VIDEO_DATA_PALETTES HighScoresRedStagePalettes, $80
     db $FF, $FF
 
-VideoData_cc64: ; 0xcc64
-    dw $5A00
-    db $2A
-    dw $8000
-    dw $6000
+HighScoresBlueStageVideoData_GameBoyColor: ; 0xcc64
+    VIDEO_DATA_TILES HighScoresBaseGameBoyGfx, vTiles0, $1800
+    VIDEO_DATA_TILEMAP HighScoresTilemap, vBGMap0, $400
+    VIDEO_DATA_TILEMAP HighScoresTilemap2, vBGMap1, $400
+    VIDEO_DATA_TILEMAP_BANK2 HighScoresTilemap4, vBGMap0, $400
+    VIDEO_DATA_TILEMAP_BANK2 HighScoresTilemap5, vBGMap1, $400
 
-    dw $6000
-    db $30
-    dw $9800
-    dw $1000
+    dw HighScoresTilemap + $3c0
+    db Bank(HighScoresTilemap)
+    dw vBGMap0
+    dw ($40 << 2)
 
-    dw $5800
-    db $30
-    dw $9C00
-    dw $1000
+    dw HighScoresTilemap + $280
+    db Bank(HighScoresTilemap)
+    dw vBGMap0 + $200
+    dw ($40 << 2)
 
-    dw $6400
-    db $30
-    dw $9800
-    dw $1002
+    dw HighScoresTilemap2 + $3c0
+    db Bank(HighScoresTilemap2)
+    dw vBGMap1
+    dw ($40 << 2)
 
-    dw $5C00
-    db $30
-    dw $9C00
-    dw $1002
+    dw HighScoresTilemap2 + $280
+    db Bank(HighScoresTilemap2)
+    dw vBGMap1 + $200
+    dw ($40 << 2)
 
-    dw $63c0
-    db $30
-    dw $9800
-    dw $0100
-
-    dw $6280
-    db $30
-    dw $9A00
-    dw $0100
-
-    dw $5BC0
-    db $30
-    dw $9C00
-    dw $0100
-
-    dw $5A80
-    db $30
-    dw $9E00
-    dw $0100
-
-    dw $4D00
-    db $37
-    dw $0000
-    dw $0101
-
+    VIDEO_DATA_PALETTES HighScoresBlueStagePalettes, $80
     db $FF, $FF  ; terminators
 
 Func_ccac: ; 0xccac
@@ -52855,7 +52798,8 @@ PinballMasterballMiniGfx: ; 0xa9600
 PinballBallMiniGfx: ; 0xa9800
     INCBIN "gfx/stage/ball_mini.w32.interleave.2bpp"
 
-INCBIN "baserom.gbc",$a9a00,$ab200 - $a9a00
+HighScoresBaseGameBoyGfx: ; 0xa9a00
+    INCBIN "gfx/high_scores/high_scores_base_gameboy.2bpp"
 
 MeowthBonusBaseGameBoyColorGfx: ; 0xab200
     INCBIN "gfx/stage/meowth_bonus/meowth_bonus_base_gameboycolor.2bpp"
@@ -53441,7 +53385,16 @@ StageBlueFieldTopCollisionMasks: ; 0xc0800
 StageBlueFieldTopCollisionAttributesBallEntrance: ; 0xc1000
     INCBIN "data/collision/maps/blue_stage_top_ball_entrance.collision"
 
-INCBIN "baserom.gbc",$c1400,$c2800 - $c1400
+INCBIN "baserom.gbc",$c1400,$c1800 - $c1400
+
+HighScoresTilemap2: ; 0xc1800
+    INCBIN "gfx/tilemaps/high_scores_screen_2.map"
+HighScoresTilemap5: ; 0xc1c00
+    INCBIN "gfx/tilemaps/high_scores_screen_5.map"
+HighScoresTilemap: ; 0xc2000
+    INCBIN "gfx/tilemaps/high_scores_screen.map"
+HighScoresTilemap4: ; 0xc2400
+    INCBIN "gfx/tilemaps/high_scores_screen_4.map"
 
 StageBlueFieldTopCollisionAttributes: ; 0xc2800
     INCBIN "data/collision/maps/blue_stage_top.collision"
@@ -57191,86 +57144,167 @@ MeowthBonusOBJPalette7: ; 0xdccf8
     RGB 8, 8, 8
     RGB 0, 0, 0
 
-INCBIN "baserom.gbc",$dcd00,$dcd80 - $dcd00
-
-EraseAllDataPalettes: ; 0xdcd80
-EraseAllDataBGPalette0: ; 0xdcd80
+HighScoresBlueStagePalettes: ; 0xdcd00
+HighScoresBlueStageBGPalette0: ; 0xdcd00
     RGB 31, 31, 31
     RGB 23, 23, 23
     RGB 14, 14, 14
     RGB 5, 5, 5
-EraseAllDataBGPalette1: ; 0xdcd88
+HighScoresBlueStageBGPalette1: ; 0xdcd08
     RGB 31, 31, 31
-    RGB 0, 0, 31
-    RGB 31, 6, 6
+    RGB 31, 0, 0
+    RGB 9, 9, 27
     RGB 0, 0, 0
-EraseAllDataBGPalette2: ; 0xdcd90
+HighScoresBlueStageBGPalette2: ; 0xdcd10
     RGB 31, 31, 31
-    RGB 0, 8, 31
-    RGB 31, 6, 6
+    RGB 31, 8, 0
+    RGB 9, 9, 27
     RGB 0, 0, 0
-EraseAllDataBGPalette3: ; 0xdcd98
+HighScoresBlueStageBGPalette3: ; 0xdcd18
     RGB 31, 31, 31
-    RGB 0, 16, 31
-    RGB 31, 6, 6
+    RGB 31, 16, 0
+    RGB 9, 9, 27
     RGB 0, 0, 0
-EraseAllDataBGPalette4: ; 0xdcda0
+HighScoresBlueStageBGPalette4: ; 0xdcd20
     RGB 31, 31, 31
-    RGB 0, 24, 31
-    RGB 31, 6, 6
+    RGB 31, 24, 0
+    RGB 9, 9, 27
     RGB 0, 0, 0
-EraseAllDataBGPalette5: ; 0xdcda8
+HighScoresBlueStageBGPalette5: ; 0xdcd28
     RGB 31, 31, 31
-    RGB 0, 31, 31
-    RGB 31, 6, 6
+    RGB 31, 31, 0
+    RGB 9, 9, 27
     RGB 0, 0, 0
-EraseAllDataBGPalette6: ; 0xdcdb0
+HighScoresBlueStageBGPalette6: ; 0xdcd30
     RGB 31, 31, 31
     RGB 31, 31, 31
     RGB 31, 31, 31
     RGB 31, 31, 31
-EraseAllDataBGPalette7: ; 0xdcdb8
+HighScoresBlueStageBGPalette7: ; 0xdcd38
     RGB 31, 29, 4
     RGB 29, 18, 0
     RGB 31, 0, 0
     RGB 5, 5, 5
 
-EraseAllDataOBJPalette0: ; 0xdcdc0
+HighScoresBlueStageOBJPalette0: ; 0xdcd40
     RGB 31, 31, 31
     RGB 31, 31, 31
-    RGB 31, 6, 6
+    RGB 9, 9, 27
     RGB 0, 0, 0
-EraseAllDataOBJPalette1: ; 0xdcdc8
+HighScoresBlueStageOBJPalette1: ; 0xdcd48
     RGB 31, 31, 31
     RGB 31, 29, 4
     RGB 29, 18, 0
     RGB 0, 0, 0
-EraseAllDataOBJPalette2: ; 0xdcdd0
+HighScoresBlueStageOBJPalette2: ; 0xdcd50
     RGB 20, 20, 20
     RGB 31, 31, 31
     RGB 14, 14, 14
     RGB 5, 5, 5
-EraseAllDataOBJPalette3: ; 0xdcdd8
+HighScoresBlueStageOBJPalette3: ; 0xdcd58
     RGB 31, 31, 31
     RGB 31, 31, 31
     RGB 31, 31, 31
     RGB 31, 31, 31
-EraseAllDataOBJPalette4: ; 0xdcde0
+HighScoresBlueStageOBJPalette4: ; 0xdcd60
     RGB 31, 31, 31
     RGB 31, 0, 0
     RGB 31, 31, 31
     RGB 0, 0, 0
-EraseAllDataOBJPalette5: ; 0xdcde8
+HighScoresBlueStageOBJPalette5: ; 0xdcd68
     RGB 31, 31, 31
     RGB 31, 31, 31
     RGB 31, 31, 31
     RGB 31, 31, 31
-EraseAllDataOBJPalette6: ; 0xdcdf0
+HighScoresBlueStageOBJPalette6: ; 0xdcd70
     RGB 31, 31, 31
     RGB 31, 31, 31
     RGB 31, 31, 31
     RGB 31, 31, 31
-EraseAllDataOBJPalette7: ; 0xdcdf8
+HighScoresBlueStageOBJPalette7: ; 0xdcd88
+    RGB 31, 31, 31
+    RGB 31, 31, 31
+    RGB 31, 31, 31
+    RGB 31, 31, 31
+
+HighScoresRedStagePalettes: ; 0xdcd80
+HighScoresRedStageBGPalette0: ; 0xdcd80
+    RGB 31, 31, 31
+    RGB 23, 23, 23
+    RGB 14, 14, 14
+    RGB 5, 5, 5
+HighScoresRedStageBGPalette1: ; 0xdcd88
+    RGB 31, 31, 31
+    RGB 0, 0, 31
+    RGB 31, 6, 6
+    RGB 0, 0, 0
+HighScoresRedStageBGPalette2: ; 0xdcd90
+    RGB 31, 31, 31
+    RGB 0, 8, 31
+    RGB 31, 6, 6
+    RGB 0, 0, 0
+HighScoresRedStageBGPalette3: ; 0xdcd98
+    RGB 31, 31, 31
+    RGB 0, 16, 31
+    RGB 31, 6, 6
+    RGB 0, 0, 0
+HighScoresRedStageBGPalette4: ; 0xdcda0
+    RGB 31, 31, 31
+    RGB 0, 24, 31
+    RGB 31, 6, 6
+    RGB 0, 0, 0
+HighScoresRedStageBGPalette5: ; 0xdcda8
+    RGB 31, 31, 31
+    RGB 0, 31, 31
+    RGB 31, 6, 6
+    RGB 0, 0, 0
+HighScoresRedStageBGPalette6: ; 0xdcdb0
+    RGB 31, 31, 31
+    RGB 31, 31, 31
+    RGB 31, 31, 31
+    RGB 31, 31, 31
+HighScoresRedStageBGPalette7: ; 0xdcdb8
+    RGB 31, 29, 4
+    RGB 29, 18, 0
+    RGB 31, 0, 0
+    RGB 5, 5, 5
+
+HighScoresRedStageOBJPalette0: ; 0xdcdc0
+    RGB 31, 31, 31
+    RGB 31, 31, 31
+    RGB 31, 6, 6
+    RGB 0, 0, 0
+HighScoresRedStageOBJPalette1: ; 0xdcdc8
+    RGB 31, 31, 31
+    RGB 31, 29, 4
+    RGB 29, 18, 0
+    RGB 0, 0, 0
+HighScoresRedStageOBJPalette2: ; 0xdcdd0
+    RGB 20, 20, 20
+    RGB 31, 31, 31
+    RGB 14, 14, 14
+    RGB 5, 5, 5
+HighScoresRedStageOBJPalette3: ; 0xdcdd8
+    RGB 31, 31, 31
+    RGB 31, 31, 31
+    RGB 31, 31, 31
+    RGB 31, 31, 31
+HighScoresRedStageOBJPalette4: ; 0xdcde0
+    RGB 31, 31, 31
+    RGB 31, 0, 0
+    RGB 31, 31, 31
+    RGB 0, 0, 0
+HighScoresRedStageOBJPalette5: ; 0xdcde8
+    RGB 31, 31, 31
+    RGB 31, 31, 31
+    RGB 31, 31, 31
+    RGB 31, 31, 31
+HighScoresRedStageOBJPalette6: ; 0xdcdf0
+    RGB 31, 31, 31
+    RGB 31, 31, 31
+    RGB 31, 31, 31
+    RGB 31, 31, 31
+HighScoresRedStageOBJPalette7: ; 0xdcdf8
     RGB 31, 31, 31
     RGB 31, 31, 31
     RGB 31, 31, 31

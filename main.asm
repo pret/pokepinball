@@ -18288,52 +18288,17 @@ StageDiglettBonusGfx_GameBoy: ; 0xebd7
     db $FF, $FF  ; terminators
 
 StageDiglettBonusGfx_GameBoyColor: ; 0xec11
-    VIDEO_DATA_TILES Alphabet2Gfx, vTiles0, $1a0
-
-    dw $7AA0
-    db $2B
-    dw $81A0
-    dw $0980
-
-    VIDEO_DATA_TILES PinballPokeballGfx, vTiles0 + $400, $320
-
-    dw $7D00
-    db $2B
-    dw $87A0
-    dw $0180
-
-    dw $7000
-    db $21
-    dw $8800
-    dw $3800
-
-    dw $7900
-    db $2B
-    dw $8900
-    dw $0680
-
-    dw $7D60
-    db $2B
-    dw $8AA0
-    dw $0A00
-
-    VIDEO_DATA_TILES_BANK2 TimerDigitsGfx, vTiles0 + $600, $160
-
-    dw $7000
-    db $34
-    dw $9800
-    dw $1000
-
-    dw $7400
-    db $34
-    dw $9800
-    dw $1002
-
-    dw $4A00
-    db $37
-    dw $0000
-    dw $0101
-
+    VIDEO_DATA_TILES         Alphabet2Gfx, vTiles0, $1a0
+    VIDEO_DATA_TILES         DiglettBonusDugtrio1Gfx, vTiles0 + $1a0, $260
+    VIDEO_DATA_TILES         PinballPokeballGfx, vTiles0 + $400, $320
+    VIDEO_DATA_TILES         DiglettBonusDugtrio2Gfx, vTiles0 + $7a0, $60
+    VIDEO_DATA_TILES         DiglettBonusBaseGameBoyColorGfx, vTiles1, $e00
+    VIDEO_DATA_TILES         DiglettBonusDugtrio3Gfx, vTiles1 + $100, $1a0
+    VIDEO_DATA_TILES         DiglettBonusDugtrio4Gfx, vTiles1 + $2a0, $280
+    VIDEO_DATA_TILES_BANK2   TimerDigitsGfx, vTiles0 + $600, $160
+    VIDEO_DATA_TILEMAP       DiglettBonusTilemap_GameBoyColor, vBGMap0, $400
+    VIDEO_DATA_TILEMAP_BANK2 DiglettBonusTilemap2_GameBoyColor, vBGMap0, $400
+    VIDEO_DATA_PALETTES      DiglettBonusPalettes, $80
     db $FF, $FF  ; terminators
 
 StageSeelBonusGfx_GameBoy: ; 0xec60
@@ -52144,7 +52109,12 @@ MewtwoAnimatedPic: ; 0x86700
 MewAnimatedPic: ; 0x86a00
 	INCBIN "gfx/billboard/mon_animated/mew.w32.interleave.2bpp"
 
-INCBIN "baserom.gbc",$86d00,$87e80 - $86d00
+INCBIN "baserom.gbc",$86d00,$87000 - $86d00
+
+DiglettBonusBaseGameBoyColorGfx: ; 0x87000
+    INCBIN "gfx/stage/diglett_bonus/diglett_bonus_base_gameboycolor.2bpp"
+
+INCBIN "baserom.gbc",$87e00,$87e80 - $87e00
 
 GengarBonusHaunter1Gfx: ; 0x87e80
     INCBIN "gfx/stage/gengar_bonus/haunter_1.2bpp"
@@ -53854,7 +53824,14 @@ VulpixAnimatedCollisionMask: ; 0xd06700
 JigglypuffAnimatedCollisionMask: ; 0xd06780
     INCBIN "data/collision/mon_masks/jigglypuff_collision.1bpp"
 
-INCBIN "baserom.gbc",$d2800,$d4000 - $d2800 ; 0xd0000
+INCBIN "baserom.gbc",$d2800,$d3000 - $d2800
+
+DiglettBonusTilemap_GameBoyColor: ; 0xd3000
+    INCBIN "gfx/tilemaps/stage_diglett_bonus_gameboycolor.map"
+DiglettBonusTilemap2_GameBoyColor: ; 0xd3400
+    INCBIN "gfx/tilemaps/stage_diglett_bonus_gameboycolor_2.map"
+
+INCBIN "baserom.gbc",$d3800,$d4000 - $d3800
 
 
 SECTION "bank35", ROMX, BANK[$35]
@@ -56693,7 +56670,88 @@ StageRedFieldTopOBJPalette7: ; 0xdc9f8
     RGB 21, 0, 0
     RGB 4, 0, 0
 
-INCBIN "baserom.gbc",$dca00,$dca80 - $dca00
+DiglettBonusPalettes: ; 0xdca00
+DiglettBonusBGPalette0: ; 0xdca00
+    RGB 31, 31, 31
+    RGB 13, 20, 31
+    RGB 31, 4, 4
+    RGB 0, 0, 0
+DiglettBonusBGPalette1: ; 0xdca08
+    RGB 31, 31, 31
+    RGB 10, 24, 20
+    RGB 5, 13, 10
+    RGB 0, 0, 0
+DiglettBonusBGPalette2: ; 0xdca10
+    RGB 31, 31, 31
+    RGB 31, 0, 0
+    RGB 16, 0, 0
+    RGB 0, 0, 0
+DiglettBonusBGPalette3: ; 0xdca18
+    RGB 31, 31, 31
+    RGB 31, 18, 8
+    RGB 27, 0, 0
+    RGB 0, 0, 0
+DiglettBonusBGPalette4: ; 0xdca20
+    RGB 31, 31, 31
+    RGB 20, 20, 20
+    RGB 8, 8, 8
+    RGB 0, 0, 0
+DiglettBonusBGPalette5: ; 0xdca28
+    RGB 31, 31, 31
+    RGB 20, 20, 20
+    RGB 8, 8, 8
+    RGB 0, 0, 0
+DiglettBonusBGPalette6: ; 0xdca30
+    RGB 31, 31, 31
+    RGB 20, 20, 20
+    RGB 8, 8, 8
+    RGB 0, 0, 0
+DiglettBonusBGPalette7: ; 0xdca38
+    RGB 31, 31, 31
+    RGB 20, 20, 20
+    RGB 8, 8, 8
+    RGB 0, 0, 0
+
+DiglettBonusOBJPalette0: ; 0xdca40
+    RGB 20, 20, 20
+    RGB 31, 31, 31
+    RGB 31, 5, 4
+    RGB 0, 0, 0
+DiglettBonusOBJPalette1: ; 0xdca48
+    RGB 31, 31, 31
+    RGB 31, 18, 8
+    RGB 27, 0, 0
+    RGB 0, 0, 0
+DiglettBonusOBJPalette2: ; 0xdca50
+    RGB 20, 20, 20
+    RGB 31, 31, 31
+    RGB 21, 21, 27
+    RGB 0, 0, 0
+DiglettBonusOBJPalette3: ; 0xdca58
+    RGB 31, 31, 31
+    RGB 20, 20, 20
+    RGB 8, 8, 8
+    RGB 0, 0, 0
+DiglettBonusOBJPalette4: ; 0xdca60
+    RGB 20, 20, 20
+    RGB 20, 20, 20
+    RGB 8, 8, 8
+    RGB 0, 0, 0
+DiglettBonusOBJPalette5: ; 0xdca68
+    RGB 31, 31, 31
+    RGB 20, 20, 20
+    RGB 8, 8, 8
+    RGB 0, 0, 0
+DiglettBonusOBJPalette6: ; 0xdca70
+    RGB 20, 20, 20
+    RGB 20, 20, 20
+    RGB 8, 8, 8
+    RGB 0, 0, 0
+DiglettBonusOBJPalette7: ; 0xdca78
+    RGB 31, 31, 31
+    RGB 20, 20, 20
+    RGB 8, 8, 8
+    RGB 0, 0, 0
 
 StageRedFieldBottomPalettes: ; 0xdca80
 StageRedFieldBottomBGPalette0: ; 0xdca80

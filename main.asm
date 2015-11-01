@@ -18277,40 +18277,14 @@ StageMeowthBonusGfx_GameBoyColor: ; 0xeb88
     db $FF, $FF  ; terminators
 
 StageDiglettBonusGfx_GameBoy: ; 0xebd7
-    VIDEO_DATA_TILES Alphabet1Gfx, vTiles0, $1a0
-
-    dw $7AA0
-    db $2B
-    dw $81A0
-    dw $0980
-
-    VIDEO_DATA_TILES PinballPokeballGfx, vTiles0 + $400, $320
-
-    dw $7D00
-    db $2B
-    dw $87A0
-    dw $0180
-
-    dw $7000
-    db $23
-    dw $8800
-    dw $3800
-
-    dw $7900
-    db $2B
-    dw $8900
-    dw $0680
-
-    dw $7D60
-    db $2B
-    dw $8AA0
-    dw $0A00
-
-    dw $7800
-    db $33
-    dw $9800
-    dw $1000
-
+    VIDEO_DATA_TILES   Alphabet1Gfx, vTiles0, $1a0
+    VIDEO_DATA_TILES   DiglettBonusDugtrio1Gfx, vTiles0 + $1a0, $260
+    VIDEO_DATA_TILES   PinballPokeballGfx, vTiles0 + $400, $320
+    VIDEO_DATA_TILES   DiglettBonusDugtrio2Gfx, vTiles0 + $7a0, $60
+    VIDEO_DATA_TILES   DiglettBonusBaseGameBoyGfx, vTiles1, $e00  ; $e00 is actually $100 too many bytes. Should only be $d00. This accidentally loads palette data after the tile graphics.
+    VIDEO_DATA_TILES   DiglettBonusDugtrio3Gfx, vTiles1 + $100, $1a0
+    VIDEO_DATA_TILES   DiglettBonusDugtrio4Gfx, vTiles1 + $2a0, $280
+    VIDEO_DATA_TILEMAP DiglettBonusTilemap_GameBoy, vBGMap0, $400
     db $FF, $FF  ; terminators
 
 StageDiglettBonusGfx_GameBoyColor: ; 0xec11
@@ -52436,7 +52410,10 @@ VulpixAnimatedPic: ; 0x8ea00
 JigglypuffAnimatedPic: ; 0x8ed00
 	INCBIN "gfx/billboard/mon_animated/jigglypuff.w32.interleave.2bpp"
 
-INCBIN "baserom.gbc",$8f000,$8ff00 - $8f000 ; 0x8f000
+DiglettBonusBaseGameBoyGfx: ; 0x8f000
+    INCBIN "gfx/stage/diglett_bonus/diglett_bonus_base_gameboy.2bpp"
+
+INCBIN "baserom.gbc",$8fd00,$8ff00 - $8fd00
 
 PalletTownBillboardBGPalette1: ; 0x8ff00
     RGB 31, 31, 31
@@ -53273,7 +53250,16 @@ INCBIN "baserom.gbc",$ad800,$af000 - $ad800
 StageBlueFieldBottomCollisionMasks: ; 0xaf000
     INCBIN "data/collision/masks/blue_stage_bottom.masks"
 
-INCBIN "baserom.gbc",$af800,$b0000 - $af800
+INCBIN "baserom.gbc",$af800,$af900 - $af800
+
+DiglettBonusDugtrio3Gfx: ; 0xaf900
+    INCBIN "gfx/stage/diglett_bonus/dugtrio_3.2bpp"
+DiglettBonusDugtrio1Gfx: ; 0xafaa0
+    INCBIN "gfx/stage/diglett_bonus/dugtrio_1.2bpp"
+DiglettBonusDugtrio2Gfx: ; 0xafd00
+    INCBIN "gfx/stage/diglett_bonus/dugtrio_2.2bpp"
+DiglettBonusDugtrio4Gfx: ; 0xafd60
+    INCBIN "gfx/stage/diglett_bonus/dugtrio_4.2bpp"
 
 
 SECTION "bank2c", ROMX, BANK[$2c]
@@ -53696,7 +53682,12 @@ INCBIN "baserom.gbc",$cec00,$cf000 - $cec00
 StageDiglettBonusCollisionAttributes: ; 0xcf000
     INCBIN "data/collision/maps/diglett_bonus.collision"
 
-INCBIN "baserom.gbc",$cf400,$d0000 - $cf400
+INCBIN "baserom.gbc",$cf400,$cf800 - $cf400
+
+DiglettBonusTilemap_GameBoy: ; 0xcf800
+    INCBIN "gfx/tilemaps/stage_diglett_bonus_gameboy.map"
+
+INCBIN "baserom.gbc",$cfc00,$d0000 - $cfc00
 
 
 SECTION "bank34", ROMX, BANK[$34]

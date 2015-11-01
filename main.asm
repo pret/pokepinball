@@ -18306,59 +18306,24 @@ StageSeelBonusGfx_GameBoy: ; 0xec60
     VIDEO_DATA_TILES   SeelBonusSeel1Gfx, vTiles0 + $1a0, $260
     VIDEO_DATA_TILES   PinballPokeballGfx, vTiles0 + $400, $320
     VIDEO_DATA_TILES   SeelBonusSeel2Gfx, vTiles0 + $7a0, $60
-    VIDEO_DATA_TILES   SeelBonusBaseGameBoyColorGfx, vTiles1, $d00  ; $d00 is actually $100 too many bytes. Should only be $c00. This accidentally loads palette data after the tile graphics.
+    VIDEO_DATA_TILES   SeelBonusBaseGameBoyGfx, vTiles1, $d00  ; $d00 is actually $100 too many bytes. Should only be $c00. This accidentally loads palette data after the tile graphics.
     VIDEO_DATA_TILES   SeelBonusSeel3Gfx, vTiles1 + $100, $1a0
     VIDEO_DATA_TILES   SeelBonusSeel4Gfx, vTiles1 + $2a0, $4a0
     VIDEO_DATA_TILEMAP SeelBonusTilemap_GameBoy, vBGMap0, $400
     db $FF, $FF  ; terminators
 
 StageSeelBonusGfx_GameBoyColor: ; 0xec9a
-    VIDEO_DATA_TILES Alphabet2Gfx, vTiles0, $1a0
-
-    dw $71A0
-    db $26
-    dw $81A0
-    dw $0980
-
-    VIDEO_DATA_TILES PinballPokeballGfx, vTiles0 + $400, $320
-
-    dw $7400
-    db $26
-    dw $87A0
-    dw $0180
-
-    dw $7000
-    db $25
-    dw $8800
-    dw $2C00
-
-    dw $7000
-    db $26
-    dw $8900
-    dw $0680
-
-    dw $7460
-    db $26
-    dw $8AA0
-    dw $1280
-
-    VIDEO_DATA_TILES_BANK2 TimerDigitsGfx, vTiles0 + $600, $160
-
-    dw $5800
-    db $35
-    dw $9800
-    dw $1000
-
-    dw $5C00
-    db $35
-    dw $9800
-    dw $1002
-
-    dw $4880
-    db $37
-    dw $0000
-    dw $0101
-
+    VIDEO_DATA_TILES         Alphabet2Gfx, vTiles0, $1a0
+    VIDEO_DATA_TILES         SeelBonusSeel1Gfx, vTiles0 + $1a0, $260
+    VIDEO_DATA_TILES         PinballPokeballGfx, vTiles0 + $400, $320
+    VIDEO_DATA_TILES         SeelBonusSeel2Gfx, vTiles0 + $7a0, $60
+    VIDEO_DATA_TILES         SeelBonusBaseGameBoyColorGfx, vTiles1, $b00  ; Should actually be $a00 bytes, not $b00
+    VIDEO_DATA_TILES         SeelBonusSeel3Gfx, vTiles1 + $100, $1a0
+    VIDEO_DATA_TILES         SeelBonusSeel4Gfx, vTiles1 + $2a0, $4a0
+    VIDEO_DATA_TILES_BANK2   TimerDigitsGfx, vTiles0 + $600, $160
+    VIDEO_DATA_TILEMAP       SeelBonusTilemap_GameBoyColor, vBGMap0, $400
+    VIDEO_DATA_TILEMAP_BANK2 SeelBonusTilemap2_GameBoyColor, vBGMap0, $400
+    VIDEO_DATA_PALETTES      SeelBonusPalettes, $80
     db $FF, $FF  ; terminators
 
 Func_ece9: ; 0xece9
@@ -52603,7 +52568,7 @@ RhydonPic: ; 0x92d00
 RhydonSilhouettePic: ; 0x92e80
 	INCBIN "gfx/billboard/mon_silhouettes/rhydon.2bpp"
 
-SeelBonusBaseGameBoyColorGfx: ; 0x93000
+SeelBonusBaseGameBoyGfx: ; 0x93000
     INCBIN "gfx/stage/seel_bonus/seel_bonus_base_gameboy.2bpp"
 
 CinnabarIslandBillboardBGPaletteMap: ; 0x93c00
@@ -52688,7 +52653,8 @@ DrowzeePic: ; 0x96d00
 DrowzeeSilhouettePic: ; 0x96e80
 	INCBIN "gfx/billboard/mon_silhouettes/drowzee.2bpp"
 
-INCBIN "baserom.gbc",$97000,$97a00 - $97000
+SeelBonusBaseGameBoyColorGfx: ; 0x97000
+    INCBIN "gfx/stage/seel_bonus/seel_bonus_base_gameboycolor.2bpp"
 
 StageRedFieldTopGfx3: ; 0x97a00
     INCBIN "gfx/stage/red_top/red_top_3.2bpp"
@@ -53833,7 +53799,12 @@ INCBIN "baserom.gbc",$d4c00,$d5000 - $d4c00
 SeelBonusTilemap_GameBoy: ; 0xd5000
     INCBIN "gfx/tilemaps/stage_seel_bonus_gameboy.map"
 
-INCBIN "baserom.gbc",$d5400,$d6000 - $d5400
+INCBIN "baserom.gbc",$d5400,$d5800 - $d5400
+
+SeelBonusTilemap_GameBoyColor: ; 0xd5800
+    INCBIN "gfx/tilemaps/stage_seel_bonus_gameboycolor.map"
+SeelBonusTilemap2_GameBoyColor: ; 0xd5c00
+    INCBIN "gfx/tilemaps/stage_seel_bonus_gameboycolor_2.map"
 
 Alphabet1Gfx: ; 0xd6000
     INCBIN "gfx/stage/alphabet_1.2bpp"
@@ -56574,7 +56545,92 @@ MewBillboardBGPalette2: ; 0xdc768
     RGB 0, 10, 31
     RGB 0, 0, 0
 
-INCBIN "baserom.gbc",$dc770,$dc980 - $dc770
+INCBIN "baserom.gbc",$dc770,$dc880 - $dc770
+
+SeelBonusPalettes: ; 0xdc880
+SeelBonusBGPalette0: ; 0xdc880
+    RGB 31, 31, 31
+    RGB 13, 20, 31
+    RGB 31, 4, 4
+    RGB 0, 0, 0
+SeelBonusBGPalette1: ; 0xdc888
+    RGB 31, 31, 31
+    RGB 30, 24, 4
+    RGB 27, 7, 0
+    RGB 0, 0, 0
+SeelBonusBGPalette2: ; 0xdc890
+    RGB 31, 31, 31
+    RGB 31, 0, 0
+    RGB 16, 0, 0
+    RGB 0, 0, 0
+SeelBonusBGPalette3: ; 0xdc898
+    RGB 31, 31, 31
+    RGB 20, 20, 20
+    RGB 8, 8, 8
+    RGB 0, 0, 0
+SeelBonusBGPalette4: ; 0xdc8a0
+    RGB 31, 31, 31
+    RGB 20, 20, 20
+    RGB 8, 8, 8
+    RGB 0, 0, 0
+SeelBonusBGPalette5: ; 0xdc8a8
+    RGB 31, 31, 31
+    RGB 20, 20, 20
+    RGB 8, 8, 8
+    RGB 0, 0, 0
+SeelBonusBGPalette6: ; 0xdc8b0
+    RGB 31, 31, 31
+    RGB 20, 20, 20
+    RGB 8, 8, 8
+    RGB 0, 0, 0
+SeelBonusBGPalette7: ; 0xdc8b8
+    RGB 31, 31, 31
+    RGB 20, 20, 20
+    RGB 8, 8, 8
+    RGB 0, 0, 0
+
+SeelBonusOBJPalette0: ; 0xdc8c0
+    RGB 20, 20, 20
+    RGB 31, 31, 31
+    RGB 31, 5, 4
+    RGB 0, 0, 0
+SeelBonusOBJPalette1: ; 0xdc8c8
+    RGB 31, 31, 31
+    RGB 20, 20, 26
+    RGB 31, 11, 10
+    RGB 0, 0, 0
+SeelBonusOBJPalette2: ; 0xdc8d0
+    RGB 20, 20, 20
+    RGB 31, 31, 31
+    RGB 21, 21, 27
+    RGB 0, 0, 0
+SeelBonusOBJPalette3: ; 0xdc8d8
+    RGB 31, 31, 31
+    RGB 20, 20, 26
+    RGB 11, 11, 20
+    RGB 0, 0, 0
+SeelBonusOBJPalette4: ; 0xdc8e0
+    RGB 20, 20, 20
+    RGB 31, 31, 31
+    RGB 8, 8, 8
+    RGB 0, 0, 0
+SeelBonusOBJPalette5: ; 0xdc8e8
+    RGB 31, 31, 31
+    RGB 20, 20, 20
+    RGB 8, 8, 8
+    RGB 0, 0, 0
+SeelBonusOBJPalette6: ; 0xdc8f0
+    RGB 20, 20, 20
+    RGB 31, 31, 31
+    RGB 8, 8, 8
+    RGB 0, 0, 0
+SeelBonusOBJPalette7: ; 0xdc8f8
+    RGB 31, 31, 31
+    RGB 20, 20, 20
+    RGB 8, 8, 8
+    RGB 0, 0, 0
+
+INCBIN "baserom.gbc",$dc900,$dc980 - $dc900
 
 StageRedFieldTopPalettes: ; 0xdc980
 StageRedFieldTopBGPalette0: ; 0xdc980

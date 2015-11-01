@@ -18302,40 +18302,14 @@ StageDiglettBonusGfx_GameBoyColor: ; 0xec11
     db $FF, $FF  ; terminators
 
 StageSeelBonusGfx_GameBoy: ; 0xec60
-    VIDEO_DATA_TILES Alphabet1Gfx, vTiles0, $1a0
-
-    dw $71A0
-    db $26
-    dw $81A0
-    dw $0980
-
-    VIDEO_DATA_TILES PinballPokeballGfx, vTiles0 + $400, $320
-
-    dw $7400
-    db $26
-    dw $87A0
-    dw $0180
-
-    dw $7000
-    db $24
-    dw $8800
-    dw $3400
-
-    dw $7000
-    db $26
-    dw $8900
-    dw $0680
-
-    dw $7460
-    db $26
-    dw $8AA0
-    dw $1280
-
-    dw $5000
-    db $35
-    dw $9800
-    dw $1000
-
+    VIDEO_DATA_TILES   Alphabet1Gfx, vTiles0, $1a0
+    VIDEO_DATA_TILES   SeelBonusSeel1Gfx, vTiles0 + $1a0, $260
+    VIDEO_DATA_TILES   PinballPokeballGfx, vTiles0 + $400, $320
+    VIDEO_DATA_TILES   SeelBonusSeel2Gfx, vTiles0 + $7a0, $60
+    VIDEO_DATA_TILES   SeelBonusBaseGameBoyColorGfx, vTiles1, $d00  ; $d00 is actually $100 too many bytes. Should only be $c00. This accidentally loads palette data after the tile graphics.
+    VIDEO_DATA_TILES   SeelBonusSeel3Gfx, vTiles1 + $100, $1a0
+    VIDEO_DATA_TILES   SeelBonusSeel4Gfx, vTiles1 + $2a0, $4a0
+    VIDEO_DATA_TILEMAP SeelBonusTilemap_GameBoy, vBGMap0, $400
     db $FF, $FF  ; terminators
 
 StageSeelBonusGfx_GameBoyColor: ; 0xec9a
@@ -52629,7 +52603,8 @@ RhydonPic: ; 0x92d00
 RhydonSilhouettePic: ; 0x92e80
 	INCBIN "gfx/billboard/mon_silhouettes/rhydon.2bpp"
 
-INCBIN "baserom.gbc",$93000,$93c00 - $93000
+SeelBonusBaseGameBoyColorGfx: ; 0x93000
+    INCBIN "gfx/stage/seel_bonus/seel_bonus_base_gameboy.2bpp"
 
 CinnabarIslandBillboardBGPaletteMap: ; 0x93c00
     db $6, $6, $6, $6, $6, $6
@@ -52790,7 +52765,16 @@ SlowbroPic: ; 0x9ad00
 SlowbroSilhouettePic: ; 0x9ae80
 	INCBIN "gfx/billboard/mon_silhouettes/slowbro.2bpp"
 
-INCBIN "baserom.gbc",$9b000,$9bba0 - $9b000
+SeelBonusSeel3Gfx: ; 0x9b000
+    INCBIN "gfx/stage/seel_bonus/seel_3.2bpp"
+SeelBonusSeel1Gfx: ; 0x9b1a0
+    INCBIN "gfx/stage/seel_bonus/seel_1.2bpp"
+SeelBonusSeel2Gfx: ; 0x9b400
+    INCBIN "gfx/stage/seel_bonus/seel_2.2bpp"
+SeelBonusSeel4Gfx: ; 0x9b460
+    INCBIN "gfx/stage/seel_bonus/seel_4.2bpp"
+
+INCBIN "baserom.gbc",$9b900,$9bba0 - $9b900
 
 GengarBonusGengar1Gfx: ; 0x9bba0
     INCBIN "gfx/stage/gengar_bonus/gengar_1.2bpp"
@@ -53844,7 +53828,12 @@ INCBIN "baserom.gbc",$d4400,$d4800 - $d4400
 StageSeelBonusCollisionAttributes: ; 0xd4800
     INCBIN "data/collision/maps/seel_bonus.collision"
 
-INCBIN "baserom.gbc",$d4c00,$d6000 - $d4c00
+INCBIN "baserom.gbc",$d4c00,$d5000 - $d4c00
+
+SeelBonusTilemap_GameBoy: ; 0xd5000
+    INCBIN "gfx/tilemaps/stage_seel_bonus_gameboy.map"
+
+INCBIN "baserom.gbc",$d5400,$d6000 - $d5400
 
 Alphabet1Gfx: ; 0xd6000
     INCBIN "gfx/stage/alphabet_1.2bpp"

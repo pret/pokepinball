@@ -18252,40 +18252,14 @@ StageMewtwoBonusGfx_GameBoyColor: ; 0xeaf8
     db $FF, $FF  ; terminators
 
 StageMeowthBonusGfx_GameBoy: ; 0xeb4e
-    VIDEO_DATA_TILES Alphabet1Gfx, vTiles0, $1a0
-
-    dw $41A0
-    db $33
-    dw $81A0
-    dw $0980
-
-    VIDEO_DATA_TILES PinballPokeballGfx, vTiles0 + $400, $320
-
-    dw $4400
-    db $33
-    dw $87A0
-    dw $0180
-
-    dw $7600
-    db $17
-    dw $8800
-    dw $2800
-
-    dw $4000
-    db $33
-    dw $8900
-    dw $0680
-
-    dw $4460
-    db $33
-    dw $8AA0
-    dw $0D80
-
-    dw $5800
-    db $33
-    dw $9800
-    dw $1000
-
+    VIDEO_DATA_TILES   Alphabet1Gfx, vTiles0, $1a0
+    VIDEO_DATA_TILES   MeowthBonusMeowth1Gfx, vTiles0 + $1a0, $260
+    VIDEO_DATA_TILES   PinballPokeballGfx, vTiles0 + $400, $320
+    VIDEO_DATA_TILES   MeowthBonusMeowth2Gfx, vTiles0 + $7a0, $60
+    VIDEO_DATA_TILES   MeowthBonusBaseGameBoyGfx, vTiles1, $a00
+    VIDEO_DATA_TILES   MeowthBonusMeowth3Gfx, vTiles1 + $100, $1a0
+    VIDEO_DATA_TILES   MeowthBonusMeowth4Gfx, vTiles1 + $2a0, $360
+    VIDEO_DATA_TILEMAP MeowthBonusTilemap_GameBoy, vBGMap0, $400
     db $FF, $FF  ; terminators
 
 StageMeowthBonusGfx_GameBoyColor: ; 0xeb88
@@ -51444,7 +51418,8 @@ BigReward9000000PointsOnPic: ; 0x5f300
 BigReward9000000PointsOffPic: ; 0x5f480
 	INCBIN "gfx/billboard/slot/9000000points_off.2bpp"
 
-INCBIN "baserom.gbc",$5f600,$60000 - $5f600 ; 0x5f600
+MeowthBonusBaseGameBoyGfx: ; 0x5f600
+    INCBIN "gfx/stage/meowth_bonus/meowth_bonus_base_gameboy.2bpp"
 
 
 SECTION "bank18", ROMX, BANK[$18]
@@ -53714,7 +53689,16 @@ MewtoBonusBottomTilemap2_GameBoyColor: ; 0xcbc00
 
 SECTION "bank33", ROMX, BANK[$33]
 
-INCBIN "baserom.gbc",$cc000,$cc800 - $cc000
+MeowthBonusMeowth3Gfx: ; 0xcc000
+    INCBIN "gfx/stage/meowth_bonus/meowth_3.2bpp"
+MeowthBonusMeowth1Gfx: ; 0xcc1a0
+    INCBIN "gfx/stage/meowth_bonus/meowth_1.2bpp"
+MeowthBonusMeowth2Gfx: ; 0xcc400
+    INCBIN "gfx/stage/meowth_bonus/meowth_2.2bpp"
+MeowthBonusMeowth4Gfx: ; 0xcc460
+    INCBIN "gfx/stage/meowth_bonus/meowth_4.2bpp"
+
+INCBIN "baserom.gbc",$cc7c0,$cc800 - $cc7c0
 
 StageMeowthBonusCollisionAttributesBallEntrance: ; 0xcc800
     INCBIN "data/collision/maps/meowth_bonus_ball_entrance.collision"
@@ -53724,7 +53708,12 @@ INCBIN "baserom.gbc",$ccc00,$cd000 - $ccc00
 StageMeowthBonusCollisionAttributes: ; 0xcd000
     INCBIN "data/collision/maps/meowth_bonus.collision"
 
-INCBIN "baserom.gbc",$cd400,$ce800 - $cd400
+INCBIN "baserom.gbc",$cd400,$cd800 - $cd400
+
+MeowthBonusTilemap_GameBoy: ; 0xcd800
+    INCBIN "gfx/tilemaps/stage_meowth_bonus_gameboy.map"
+
+INCBIN "baserom.gbc",$cdc00,$ce800 - $cdc00
 
 StageDiglettBonusCollisionAttributesBallEntrance: ; 0xce800
     INCBIN "data/collision/maps/diglett_bonus_ball_entrance.collision"

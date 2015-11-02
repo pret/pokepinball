@@ -48432,6 +48432,7 @@ Func_3c180: ; 0x3c180
     ld [$de97], a
     ld [$de99], a
     ld bc, $dd01
+.asm_3c18f
     ld hl, $0002
     add hl, bc
     bit 0, [hl]
@@ -48524,7 +48525,7 @@ Func_3c180: ; 0x3c180
     inc a
     ld [$de97], a
     cp $8
-    jp nz, $418f
+    jp nz, .asm_3c18f
     call Func_3c40d
     ld a, [$de98]
     ld [$ff24], a
@@ -49025,7 +49026,7 @@ Func_3c4f0: ; 0x3c4f0
     add hl, bc
     ld a, [hl]
     cp d
-    jp c, $45a1
+    jp c, .asm_3c5a1
     jr nz, .asm_3c5b4
     ld hl, $001f
     add hl, bc

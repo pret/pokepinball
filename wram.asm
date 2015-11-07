@@ -398,7 +398,18 @@ wUpperTiltPushing:: ; 0xd7a9
 ; Set to $1 when the upper tilt is in the first half of its animation
     ds 1
 
-    ds 15
+    ds 12
+
+wLeftFlipperAnimationState:: ; 0xd7b6
+; Counts from $0 to $f when using the left flipper.
+    ds 1
+wRightFlipperAnimationState:: ; 0xd7b7
+; Counts from $0 to $f when using the right flipper.
+    ds 1
+
+wFlipperXCollisionAttribute:: ; 0xd7b8
+; Goes with hFlipperYCollisionAttribute
+    ds 1
 
 wFlipperCollision:: ; 0xd7b9
 ; Set to $1 when the ball is colliding with a flipper

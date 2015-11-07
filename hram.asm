@@ -12,6 +12,8 @@ hBoardYShift  EQU $FFA0  ; Vertical pixel offset of the board. For example, the 
 hBoardXShift  EQU $FFA1  ; Horizontal pixel offset of the board. For example, the board is shifted
                         ;  $20 pixels to the right when launching the ball at the start of a round.
 
+hFlipperYCollisionAttribute  EQU $FFBF  ; Vertical collision attribute for when ball collides with a flipper.
+
 hLoadedROMBank   EQU $FFF8  ; this is updated whenever the code switches ROM Banks
 
 hGameBoyColorFlag  EQU $FFFE  ; this is set to $01 if a GameBoy Color is running the game. $00, otherwise.

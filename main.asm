@@ -17131,11 +17131,11 @@ Func_e08b: ; 0xe08b
 HandleFlippers: ; 0xe0fe
     xor a
     ld [wFlipperCollision], a
-    ld [$ffbf], a
+    ld [hFlipperYCollisionAttribute], a
     ld [$d7ba], a
     ld [$d7bb], a
     call Func_e118
-    call Func_e1f0
+    call CheckFlipperCollision
     ld a, [wFlipperCollision]
     and a
     call nz, HandleFlipperCollision
@@ -17144,9 +17144,9 @@ HandleFlippers: ; 0xe0fe
 Func_e118: ; 0xe118
     call PlayFlipperSoundIfPressed
     ld a, [$d7af]
-    ld [$d7b6], a
+    ld [wLeftFlipperAnimationState], a
     ld a, [$d7b3]
-    ld [$d7b7], a
+    ld [wRightFlipperAnimationState], a
     ld hl, wKeyConfigLeftFlipper
     call IsKeyPressed2
     ld hl, $fccd
@@ -17257,10 +17257,12 @@ PlayFlipperSoundIfPressed: ; 0xe1ce
     call PlaySoundEffect
     ret
 
-Func_e1f0: ; 0xe1f0
+CheckFlipperCollision: ; 0xe1f0
     ld a, [wBallXPos + 1]
     cp $50  ; which half of the screen is the ball in?
-    jp nc, Func_e226 ; right half of screen
+    jp nc, CheckRightFlipperCollision ; right half of screen
+    ; fall through
+CheckLeftFlipperCollision:
     ld hl, wBallXPos
     ld c, $ba
     ld a, [hli]
@@ -17275,11 +17277,11 @@ Func_e1f0: ; 0xe1f0
     ld a, [hli]
     ld [$ff00+c], a
     inc c
-    ld a, [$d7b6]
+    ld a, [wLeftFlipperAnimationState]
     ld [$ffc2], a
     ld a, [$d7af]
     ld [$ffc3], a
-    call Func_e25a
+    call ReadFlipperCollisionAttributes
     ld a, [wFlipperCollision]
     and a
     ret z
@@ -17289,7 +17291,7 @@ Func_e1f0: ; 0xe1f0
     ld [$ffc1], a
     ret
 
-Func_e226: ; 0xe226
+CheckRightFlipperCollision: ; 0xe226
 ; ball is in right half of screen
     ld hl, wBallXPos
     ld c, $ba
@@ -17309,44 +17311,47 @@ Func_e226: ; 0xe226
     ld a, [hli]
     ld [$ff00+c], a
     inc c
-    ld a, [$d7b7]
+    ld a, [wRightFlipperAnimationState]
     ld [$ffc2], a
     ld a, [$d7b3]
     ld [$ffc3], a
-    call Func_e25a
+    call ReadFlipperCollisionAttributes
     ld a, [wFlipperCollision]
     and a
     ret z
+    ; collision with flipper occurred
     ld a, [$d7b4]
     ld [$ffc0], a
     ld a, [$d7b5]
     ld [$ffc1], a
     ret
 
-Func_e25a: ; 0xe25a
-    ld a, [$ffbb]
-    sub $2b
+ReadFlipperCollisionAttributes: ; 0xe25a
+    ld a, [$ffbb]  ; ball x-position high byte
+    sub $2b        ; check if ball is in x-position range of flippers
     ret c
     cp $30
     ret nc
-    ld [$ffbb], a
-    ld a, [$ffbd]
-    sub $7b
+    ; ball is in x-position range of flippers
+    ld [$ffbb], a  ; x offset of flipper horizontal range
+    ld a, [$ffbd]  ; ball y-position high byte
+    sub $7b        ; check if ball is in y-position range of flippers
     ret c
     cp $20
     ret nc
-    ld [$ffbd], a
-    ld a, [$ffc2]
+    ; ball is in potential collision with flippers
+    ld [$ffbd], a  ; y offset of flipper vertical range
+    ld a, [$ffc2]  ; flipper animation state
 .asm_e270
     push af
     ld l, $0
-    ld h, a
+    ld h, a  ; multiply a by 0x600
     sla a
     sla h
     sla h
     add h
-    ld h, a
-    ld a, [$ffbb]
+    ld h, a        ; hl = a * 0x600  (this is the length of the flipper collision attributes)
+    ld a, [$ffbb]  ; x offset of flipper horizontal range
     ld c, a
     ld b, $0
     sla c
@@ -17358,29 +17363,31 @@ Func_e25a: ; 0xe25a
     sla c
     rl b
     sla c
-    rl b
-    add hl, bc
-    ld a, [$ffbd]
+    rl b   ; bc = (x offset of flipper horizontal range) * 32
+           ; Each row of the flipper collision attributes is 32 bytes long.
+    add hl, bc  ; hl points to the start of the row in the flipper collisoin attributes
+    ld a, [$ffbd]  ; y offset of flipper vertical range
     ld c, a
     ld b, $0
-    add hl, bc
+    add hl, bc  ; hl points to the attribute byte in the flipper collision attributes
     ld d, h
-    ld e, l
+    ld e, l  ; de points to the attribute byte in the flipper collision attributes
     ld a, h
     cp $40
-    jr nc, .asm_e2aa
+    jr nc, .secondBank
     add $40
     ld h, a
-    ld a, $3d
-    jr .asm_e2ac
-.asm_e2aa
-    ld a, $3e
-.asm_e2ac
+    ld a, Bank(FlipperHorizontalCollisionAttributes)
+    jr .readAttributeByte
+.secondBank
+    ld a, Bank(FlipperHorizontalCollisionAttributes2)
+.readAttributeByte
     call ReadByteFromBank
     ld b, a
     and a
-    jr nz, .asm_e2c1
-    pop af
+    jr nz, .collision
+    ; no collision
+    pop af  ; a = flipper animation state(?)
     ld hl, $ffc3
     cp [hl]
     ret z
@@ -17390,10 +17397,10 @@ Func_e25a: ; 0xe25a
 .asm_e2be
     inc a
     jr .asm_e270
-.asm_e2c1
-    pop af
-    ld a, b
-    ld [$ffbf], a
+.collision
+    pop af  ; a = flipper animation state(?)
+    ld a, b  ; a = collision attribute
+    ld [hFlipperYCollisionAttribute], a
     ld h, d
     ld l, e
     ld a, h
@@ -17401,15 +17408,15 @@ Func_e25a: ; 0xe25a
     jr nc, .asm_e2d3
     add $60
     ld h, a
-    ld a, $3e
+    ld a, Bank(FlipperVerticalCollisionAttributes)
     jr .asm_e2d8
 .asm_e2d3
     add $20
     ld h, a
-    ld a, $3f
+    ld a, Bank(FlipperVerticalCollisionAttributes2)
 .asm_e2d8
     call ReadByteFromBank
-    ld [$d7b8], a
+    ld [wFlipperXCollisionAttribute], a
     ld a, $1
     ld [wFlipperCollision], a
     ret
@@ -17560,7 +17567,7 @@ HandleFlipperCollision: ; 0xe442
     ld [$d7f5], a
     ld [$d7f6], a
     ld [$d7f7], a
-    ld a, [$ffbf]
+    ld a, [hFlipperYCollisionAttribute]
     sla a
     ld c, a
     ld b, $0
@@ -17584,10 +17591,10 @@ HandleFlipperCollision: ; 0xe442
     ld a, l
     ld [$d7bd], a
     ld a, [wBallXPos + 1]
-    cp $50
-    ld a, [$d7b8]
+    cp $50  ; which flipper did the ball hit?
+    ld a, [wFlipperXCollisionAttribute]
     jr c, .asm_e48b
-    cpl
+    cpl  ; invert the x collision attribute
     inc a
 .asm_e48b
     ld [$d7ea], a
@@ -41886,7 +41893,7 @@ Func_25c12: ; 0x25c12
     add hl, de
     ld de, $5100 ; todo
     add hl, de
-    ld a, $3a
+    ld a, $3a  ; TODO: hardcoded bank
     call ReadByteFromBank
     bit 7, a
     jr nz, .asm_25c58
@@ -57849,14 +57856,20 @@ INCBIN "baserom.gbc",$f0000,$f4000 - $f0000 ; 0xf0000
 
 SECTION "bank3d", ROMX, BANK[$3d]
 
-INCBIN "baserom.gbc",$f4000,$f8000 - $f4000 ; 0xf4000
+FlipperHorizontalCollisionAttributes: ; 0xf4000
+    INCBIN "data/collision/flippers/horizontal_attributes_0"
 
 
 SECTION "bank3e", ROMX, BANK[$3e]
 
-INCBIN "baserom.gbc",$f8000,$fc000 - $f8000 ; 0xf8000
+FlipperHorizontalCollisionAttributes2: ; 0xf8000
+    INCBIN "data/collision/flippers/horizontal_attributes_1"
+
+FlipperVerticalCollisionAttributes: ; 0xfa000
+    INCBIN "data/collision/flippers/vertical_attributes_0"
 
 
 SECTION "bank3f", ROMX, BANK[$3f]
 
-INCBIN "baserom.gbc",$fc000,$fffff - $fc000 ; 0xfc000
+FlipperVerticalCollisionAttributes2: ; 0xfc000
+    INCBIN "data/collision/flippers/vertical_attributes_1"

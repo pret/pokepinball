@@ -51481,7 +51481,8 @@ ArticunoPic: ; 0x6ed00
 ArticunoSilhouettePic: ; 0x6ee80
 	INCBIN "gfx/billboard/mon_silhouettes/articuno.2bpp"
 
-INCBIN "baserom.gbc",$6f000,$70000 - $6f000 ; 0x6f000
+UnusedStageGfx: ; 0x6f000
+    INCBIN "gfx/stage/unused_stage.2bpp"
 
 
 SECTION "bank1c", ROMX, BANK[$1c]

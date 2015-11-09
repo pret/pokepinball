@@ -173,7 +173,25 @@ wRightMapMoveDiglettFrame:: ; 0xd4f6
 ; Contains frame for map move diglett head bobbing animation
     ds 1
 
-    ds $38
+    ds 6
+
+wBellsproutAnimationFrameCounter:: ; 0xd4fd
+    ds 1
+wBellsproutAnimationFrame:: ; 0xd4fe
+    ds 1
+wBellsproutAnimationFrameIndex:: ; 0xd4ff
+    ds 1
+
+    ds $19
+
+wPikachuSaverAnimationFrameCounter:: ; 0xd519
+    ds 1
+wPikachuSaverAnimationFrame:: ; 0xd51a
+    ds 1
+wPikachuSaverAnimationFrameIndex:: ; 0xd51b
+    ds 1
+
+    ds $13
 
 wIndicatorStates:: ; 0xd52f
 ; Each byte represents the status of each possible indicator on the stage.
@@ -261,7 +279,17 @@ wNumMonHits:: ; 0xd5c0
 ; Number of times the wild pokemon has been hit in Catch'em mode
     ds 1
 
-    ds $6e
+    ds $33
+
+wBallCaptureAnimationFrameCounter:: ; 0xd5f4
+    ds 1
+wBallCaptureAnimationFrame:: ; 0xd5f5
+; OAM id
+    ds 1
+wBallCaptureAnimationFrameIndex:: ; 0xd5f6
+    ds 1
+
+    ds $38
 
 ; Number of times the Mewtwo Bonus stage has been defeated.
 ; Counts up at most to 2, and is reset if Mew is encountered.
@@ -283,8 +311,13 @@ wBlueStageForceFieldDirection:: ; 0xd63e
 wMeowthAnimationFrameCounter:: ; 0xd6e9
 ; Counts down. When it hits 0, the next animation frame happens.
     ds 1
+wMeowthAnimationFrame:: ; 0xd6ea
+; OAM id
+    ds 1
+wMeowthAnimationFrameIndex:: ; 0xd6eb
+    ds 1
 
-    ds 3
+    ds 1
 
 wMeowthXPosition:: ; 0xd6ed
     ds 1
@@ -347,12 +380,11 @@ wDiglettInitDelayCounter:: ; 0xd75e
     ds 2
 
 wDugtrioAnimationFrameCounter:: ; 0xd761
-; wDugtrioAnimationFrame is incremented when this counter hits zero. The counter loops repeatedly.
     ds 1
 wDugtrioAnimationFrame:: ; 0xd762
+; OAM id
     ds 1
-wDugtrioAnimationFrame2:: ; 0xd763
-; Loops from 0-2 repeatedly at the same page as wDugtrioAnimationFrame.
+wDugtrioAnimationFrameIndex:: ; 0xd763
     ds 1
 
 wDugrioState:: ; 0xd764
@@ -632,4 +664,13 @@ wHighScoresStage:: ; 0xda83
 wHighScoresArrowAnimationCounter:: ; 0xda84
 ; Counts up to $28 and wraps around to $0 to control the animation of the
 ; arrows in the bottom corner of the high scores screen.
+    ds 1
+
+    ds 2
+
+wSendHighScoresAnimationFrameCounter:: ; 0xda87
+    ds 1
+wSendHighScoresAnimationFrame:: ; 0xda88
+    ds 1
+wSendHighScoresAnimationFrameIndex:: ; 0xda89
     ds 1

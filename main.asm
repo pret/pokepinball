@@ -5637,34 +5637,38 @@ CopyHLToDE: ; 0x28a0
     ld [de], a
     ret
 
-Func_28a9: ; 0x28a9
+UpdateAnimation: ; 0x28a9
+; Updates an animation struct.  (See wDugtrioAnimationFrameCounter)
+; Input:  de = pointer to 3-byte animation struct
+;         hl = pointer to animation frames data
+; Sets carry flag if the animation is over.
     ld a, [de]
     and a
-    ret z
+    ret z  ; return, if counter is zero
     dec a
     ld [de], a
-    ret nz
+    ret nz  ; return if counter is not zero after the decrement
     push de
     inc de
     inc de
-    ld a, [de]
+    ld a, [de]  ; a = current frame index
     inc a
     ld [de], a
     ld c, a
     ld b, $0
     sla c
     rl b
-    add hl, bc
+    add hl, bc  ; hl = pointer to two-byte entry in the frames data table
     ld a, [hli]
     pop de
     and a
     scf
-    ret z
+    ret z  ; return if the next entry is $00
     push de
-    ld [de], a
+    ld [de], a  ; save the animation duration
     inc de
     ld a, [hli]
-    ld [de], a
+    ld [de], a  ; save the next animation frame id
     pop de
     ret
 
@@ -6753,7 +6757,7 @@ OAMDataPointers: ; 0x4000
     dw OAMData_8c
     dw OAMData_8d
     dw OAMData_8e
-    dw OAMData_8f
+    dw SendingHighScoresTextOAM
     dw OAMData_90
     dw OAMData_91
     dw OAMData_92
@@ -6762,12 +6766,12 @@ OAMDataPointers: ; 0x4000
     dw HighScoresRightArrowOAM
     dw HighScoresLeftArrowOAM
     dw OAMData_97
-    dw OAMData_98
-    dw OAMData_99
-    dw OAMData_9a
-    dw OAMData_9b
-    dw OAMData_9c
-    dw OAMData_9d
+    dw SendHighScoresAnimation1OAM
+    dw SendHighScoresAnimation2OAM
+    dw SendHighScoresAnimation3OAM
+    dw SendHighScoresAnimation4OAM
+    dw SendHighScoresAnimation5OAM
+    dw SendHighScoresAnimation6OAM
     dw FieldSelectRedStageBorderOAM
     dw FieldSelectBlueStageBorderOAM
     dw OAMData_a0
@@ -7843,7 +7847,8 @@ OAMData_8e: ; 0x4ac8
     db $0e, $e7, $16, $02
     db $80 ; terminator
 
-OAMData_8f: ; 0x4b19
+SendingHighScoresTextOAM: ; 0x4b19
+; The text "SENDING..." during the sending high scores animation.
     db $0e, $2f, $1f, $02
     db $0e, $27, $1e, $02
     db $16, $2f, $3b, $02
@@ -8038,42 +8043,42 @@ OAMData_97: ; 0x4d71
     db $0e, $e8, $72, $02
     db $80 ; terminator
 
-OAMData_98: ; 0x4dc2
+SendHighScoresAnimation1OAM: ; 0x4dc2
     db $18, $10, $8f, $04
     db $18, $08, $8e, $04
     db $10, $10, $8d, $04
     db $10, $08, $8c, $04
     db $80 ; terminator
 
-OAMData_99: ; 0x4dd3
+SendHighScoresAnimation2OAM: ; 0x4dd3
     db $18, $10, $91, $04
     db $18, $08, $90, $04
     db $10, $10, $8d, $04
     db $10, $08, $8c, $04
     db $80 ; terminator
 
-OAMData_9a: ; 0x4de4
+SendHighScoresAnimation3OAM: ; 0x4de4
     db $18, $10, $93, $04
     db $18, $08, $92, $04
     db $10, $10, $8d, $04
     db $10, $08, $8c, $04
     db $80 ; terminator
 
-OAMData_9b: ; 0x4df5
+SendHighScoresAnimation4OAM: ; 0x4df5
     db $10, $10, $95, $04
     db $10, $08, $94, $04
     db $18, $10, $93, $04
     db $18, $08, $92, $04
     db $80 ; terminator
 
-OAMData_9c: ; 0x4e06
+SendHighScoresAnimation5OAM: ; 0x4e06
     db $18, $10, $97, $04
     db $18, $08, $96, $04
     db $10, $10, $95, $04
     db $10, $08, $94, $04
     db $80 ; terminator
 
-OAMData_9d: ; 0x4e17
+SendHighScoresAnimation6OAM: ; 0x4e17
     db $18, $10, $8f, $04
     db $18, $08, $8e, $04
     db $10, $10, $95, $04
@@ -8503,6 +8508,7 @@ OAMData_bd: ; 0x5357
     db $80 ; terminator
 
 OAMData_be: ; 0x5360
+; bellsprout?
     db $12, $10, $66, $15
     db $02, $10, $64, $15
     db $12, $08, $62, $15
@@ -14456,7 +14462,7 @@ Func_cdce: ; 0xcdce
     pop af
     call ClearOAMBuffer
     call Func_1be3
-    call Func_ced1
+    call SendHighScores
     push af
     ld a, $1
     ld [$abf6], a
@@ -14586,12 +14592,13 @@ Func_ceca: ; 0xceca
     ei
     ret
 
-Func_ced1: ; 0xced1
-    ld hl, Data_cf4b
-    ld de, $da87
+SendHighScores: ; 0xced1
+; Sends high scores, and plays the animation for sending the high scores.
+    ld hl, SendHighScoresAnimationData
+    ld de, wSendHighScoresAnimationFrameCounter
     call CopyHLToDE
     ld bc, $4800
-    ld a, [$da88]
+    ld a, [wSendHighScoresAnimationFrame]
     call LoadOAMData
     ld bc, $473b
     ld a, $8f
@@ -14600,8 +14607,8 @@ Func_ced1: ; 0xced1
     rst $10
     ld a, $1
     ld [$d8e9], a
-    ld b, $b4
-.asm_cef6
+    ld b, $b4  ; maximum attempts to send high scores
+.attemptToSendHighScoresLoop
     push bc
     xor a
     ld [$ffb2], a
@@ -14617,44 +14624,44 @@ Func_ced1: ; 0xced1
     jr .asm_cf0e
 .asm_cf09
     call Func_1c50
-    jr .asm_cf40
+    jr .continueAttempts
 .asm_cf0e
-    ld hl, Data_cf4b
-    ld de, $da87
-    call Func_28a9
-    jr nc, .asm_cf40
+    ld hl, SendHighScoresAnimationData
+    ld de, wSendHighScoresAnimationFrameCounter
+    call UpdateAnimation
+    jr nc, .continueAttempts
     ld bc, $4800
-    ld a, [$da88]
+    ld a, [wSendHighScoresAnimationFrame]
     call LoadOAMData
     ld bc, $473b
     ld a, $8f
     call LoadOAMData
     call Func_926
     call Func_1ca1
-    ld a, [$da89]
+    ld a, [wSendHighScoresAnimationFrameIndex]
     cp $6
-    jr nz, .asm_cf40
-    ld hl, Data_cf4b
-    ld de, $da87
+    jr nz, .continueAttempts
+    ld hl, SendHighScoresAnimationData
+    ld de, wSendHighScoresAnimationFrameCounter
     call CopyHLToDE
-.asm_cf40
+.continueAttempts
     pop bc
     ld a, [$d8ea]
     cp $0
     ret z
     dec b
-    jr nz, .asm_cef6
+    jr nz, .attemptToSendHighScoresLoop
     ret
 
-Data_cf4b: ; 0xcf4b
-    dw $980C
-    dw $9906
-    dw $9A0A
-    dw $9B0C
-    dw $9C0A
-    dw $9D06
-
-    db $00
+SendHighScoresAnimationData: ; 0xcf4b
+; Each entry is [OAM id][duration]
+    db $0C, $98
+    db $06, $99
+    db $0A, $9A
+    db $0C, $9B
+    db $0A, $9C
+    db $06, $9D
+    db $00  ; terminator
 
 Func_cf58: ; 0xcf58
     cp $5
@@ -20789,8 +20796,8 @@ Func_10496: ; 0x10496
     ld bc, $0180
     call LoadVRAMData
     call LoadShakeBallGfx
-    ld hl, $45e4
-    ld de, $d5f4
+    ld hl, BallCaptureAnimationData
+    ld de, wBallCaptureAnimationFrameCounter
     call CopyHLToDE
     ld a, $1
     ld [$d5f3], a
@@ -20843,33 +20850,33 @@ LoadShakeBallGfx: ; 0x104e2
     call LoadVRAMData
     ret
 
-Func_1052d: ; 0x1052d
-    ld a, [$d5f5]
+CapturePokemon: ; 0x1052d
+    ld a, [wBallCaptureAnimationFrame]
     cp $c
     jr nz, .asm_10541
-    ld a, [$d5f4]
+    ld a, [wBallCaptureAnimationFrameCounter]
     cp $1
     jr nz, .asm_10541
     ld de, $0041
     call PlaySoundEffect
 .asm_10541
-    ld hl, $45e4
-    ld de, $d5f4
-    call Func_28a9
-    ld a, [$d5f6]
+    ld hl, BallCaptureAnimationData
+    ld de, wBallCaptureAnimationFrameCounter
+    call UpdateAnimation
+    ld a, [wBallCaptureAnimationFrameIndex]
     cp $1
     jr nz, .asm_1055d
-    ld a, [$d5f4]
+    ld a, [wBallCaptureAnimationFrameCounter]
     cp $1
     jr nz, .asm_1055d
     xor a
     ld [$d5bb], a
     ret
 .asm_1055d
-    ld a, [$d5f6]
+    ld a, [wBallCaptureAnimationFrameIndex]
     cp $15
     ret nz
-    ld a, [$d5f4]
+    ld a, [wBallCaptureAnimationFrameCounter]
     cp $1
     ret nz
     call Func_3475
@@ -20923,7 +20930,31 @@ Func_1052d: ; 0x1052d
     ld [$d626], a
     ret
 
-INCBIN "baserom.gbc",$105e4,$10611 - $105e4
+BallCaptureAnimationData: ; 0x105e4
+; Each entry is [OAM id][duration]
+    db $05, $00
+    db $05, $01
+    db $05, $02
+    db $04, $03
+    db $06, $04
+    db $08, $05
+    db $07, $06
+    db $05, $07
+    db $04, $08
+    db $04, $09
+    db $04, $0A
+    db $04, $0B
+    db $24, $0A
+    db $09, $0C
+    db $09, $0A
+    db $09, $0C
+    db $27, $0A
+    db $09, $0C
+    db $09, $0A
+    db $09, $0C
+    db $24, $0A
+    db $01, $0A
+    db $00  ; terminator
 
 Func_10611: ; 0x10611
     and a
@@ -26921,8 +26952,8 @@ Func_15e93: ; 0x15e93
     call BankSwitch
     ld de, $0005
     call PlaySoundEffect
-    ld hl, $5f69 ; todo
-    ld de, $d4fd
+    ld hl, BellsproutAnimationData
+    ld de, wBellsproutAnimationFrameCounter
     call CopyHLToDE
     xor a
     ld [wBallXVelocity], a
@@ -26938,23 +26969,23 @@ Func_15e93: ; 0x15e93
     xor a
     ld [$d549], a
 .asm_15eda
-    ld hl, $5f69 ; todo
-    ld de, $d4fd
-    call Func_28a9
+    ld hl, BellsproutAnimationData
+    ld de, wBellsproutAnimationFrameCounter
+    call UpdateAnimation
     push af
-    ld a, [$d4fd]
+    ld a, [wBellsproutAnimationFrameCounter]
     and a
     jr nz, .asm_15ef8
     ld a, $19
-    ld [$d4fd], a
+    ld [wBellsproutAnimationFrameCounter], a
     xor a
-    ld [$d4fe], a
+    ld [wBellsproutAnimationFrame], a
     ld a, $6
-    ld [$d4ff], a
+    ld [wBellsproutAnimationFrameIndex], a
 .asm_15ef8
     pop af
     ret nc
-    ld a, [$d4ff]
+    ld a, [wBellsproutAnimationFrameIndex]
     cp $1
     jr nz, .asm_15f35
     xor a
@@ -26983,14 +27014,14 @@ Func_15e93: ; 0x15e93
     call z, BankSwitch
     ret
 .asm_15f35
-    ld a, [$d4ff]
+    ld a, [wBellsproutAnimationFrameIndex]
     cp $4
     jr nz, .asm_15f42
     ld a, $1
     ld [$d548], a
     ret
 .asm_15f42
-    ld a, [$d4ff]
+    ld a, [wBellsproutAnimationFrameIndex]
     cp $5
     ret nz
     ld a, $1
@@ -27008,7 +27039,23 @@ Func_15e93: ; 0x15e93
     call BankSwitch
     ret
 
-INCBIN "baserom.gbc",$15f69,$15f86 - $15f69
+BellsproutAnimationData: ; 0x15f69
+; Each entry is [duration][OAM id]
+    db $08, $01
+    db $06, $02
+    db $20, $03
+    db $06, $02
+    db $08, $01
+    db $01, $00
+    db $29, $00
+    db $28, $01
+    db $2A, $00
+    db $27, $01
+    db $29, $00
+    db $28, $01
+    db $2B, $00
+    db $28, $01
+    db $00  ; terminator
 
 Func_15f86: ; 0x15f86
     ld a, [$d4d8]
@@ -27734,8 +27781,8 @@ Func_1660c: ; 0x1660c
     cp $f
     jr nz, .asm_16667
 .asm_16634
-    ld hl, $673c ; todo
-    ld de, $d519
+    ld hl, PikachuSaverAnimationDataBlueStage
+    ld de, wPikachuSaverAnimationFrameCounter
     call CopyHLToDE
     ld a, [$d51d]
     and a
@@ -27756,8 +27803,8 @@ Func_1660c: ; 0x1660c
     call Func_30e8
     jr .asm_1667b
 .asm_16667
-    ld hl, $6761 ; todo
-    ld de, $d519
+    ld hl, PikachuSaverAnimation2DataBlueStage
+    ld de, wPikachuSaverAnimationFrameCounter
     call CopyHLToDE
     ld a, $2
     ld [$d51c], a
@@ -27786,11 +27833,11 @@ Func_1669e: ; 0x1669e
     ld a, [$d51c]
     cp $1
     jr nz, .asm_16719
-    ld hl, $673c ; todo
-    ld de, $d519
-    call Func_28a9
+    ld hl, PikachuSaverAnimationDataBlueStage
+    ld de, wPikachuSaverAnimationFrameCounter
+    call UpdateAnimation
     ret nc
-    ld a, [$d51b]
+    ld a, [wPikachuSaverAnimationFrameIndex]
     cp $1
     jr nz, .asm_166f7
     xor a
@@ -27822,7 +27869,7 @@ Func_1669e: ; 0x1669e
     call PlaySoundEffect
     ret
 .asm_166f7
-    ld a, [$d51b]
+    ld a, [wPikachuSaverAnimationFrameIndex]
     cp $11
     ret nz
     ld a, $fc
@@ -27840,11 +27887,11 @@ Func_1669e: ; 0x1669e
 .asm_16719
     cp $2
     jr nz, .asm_16732
-    ld hl, $6761 ; todo
-    ld de, $d519
-    call Func_28a9
+    ld hl, PikachuSaverAnimation2DataBlueStage
+    ld de, wPikachuSaverAnimationFrameCounter
+    call UpdateAnimation
     ret nc
-    ld a, [$d51b]
+    ld a, [wPikachuSaverAnimationFrameIndex]
     cp $1
     ret nz
     xor a
@@ -27854,10 +27901,36 @@ Func_1669e: ; 0x1669e
     ld a, [$ffb3]
     swap a
     and $1
-    ld [$d51a], a
+    ld [wPikachuSaverAnimationFrame], a
     ret
 
-INCBIN "baserom.gbc",$1673c,$16766 - $1673c
+PikachuSaverAnimationDataBlueStage: ; 0x1673c
+; Each entry is [duration][OAM id]
+    db $0C, $02
+    db $05, $03
+    db $05, $02
+    db $05, $04
+    db $05, $05
+    db $05, $02
+    db $06, $06
+    db $06, $07
+    db $06, $08
+    db $06, $02
+    db $06, $05
+    db $06, $08
+    db $06, $07
+    db $06, $02
+    db $06, $08
+    db $06, $07
+    db $06, $02
+    db $01, $00
+    db $00
+
+PikachuSaverAnimation2DataBlueStage: ; 0x16761
+; Each entry is [duration][OAM id]
+    db $0C, $02
+    db $01, $00
+    db $00
 
 Func_16766: ; 0x16766
     ld hl, wKeyConfigLeftFlipper
@@ -28595,7 +28668,7 @@ Func_17c67: ; 0x17c67
     ld hl, hBoardYShift
     sub [hl]
     ld c, a
-    ld a, [$d5f5]
+    ld a, [wBallCaptureAnimationFrame]
     ld e, a
     ld d, $0
     ld hl, $7c89
@@ -28643,7 +28716,7 @@ Func_17cc4: ; 0x17cc4
 Func_17cdc: ; 0x17cdc
     push hl
     ld hl, $7d27
-    call Func_28a9
+    call UpdateAnimation
     ld h, d
     ld l, e
     ld a, [hl]
@@ -28714,7 +28787,7 @@ Func_17d59: ; 0x17d59
     ld hl, hBoardYShift
     sub [hl]
     ld c, a
-    ld a, [$d4fe]
+    ld a, [wBellsproutAnimationFrame]
     ld e, a
     ld d, $0
     ld hl, $7d76
@@ -28747,7 +28820,7 @@ Func_17d92: ; 0x17d92
     ret z
     ld hl, $7dd0
     ld de, $d504
-    call Func_28a9
+    call UpdateAnimation
     ld a, [$d504]
     and a
     jr nz, .asm_17db1
@@ -28834,7 +28907,7 @@ Func_17e08: ; 0x17e08
     ld a, [hli]
     sub e
     ld c, a
-    ld a, [$d51a]
+    ld a, [wPikachuSaverAnimationFrame]
     add $e
     call LoadOAMData
     ret
@@ -29683,7 +29756,7 @@ Func_18562: ; 0x18562
     dec de
     dec de
     dec de
-    call Func_28a9
+    call UpdateAnimation
     pop de
     ret nc
     ld a, [de]
@@ -29888,7 +29961,7 @@ Func_186f7: ; 0x186f7
     dec de
     dec de
     dec de
-    call Func_28a9
+    call UpdateAnimation
     pop de
     ret nc
     ld a, [de]
@@ -30230,7 +30303,7 @@ Func_189af: ; 0x189af
     dec de
     dec de
     dec de
-    call Func_28a9
+    call UpdateAnimation
     pop de
     ret nc
     ld a, [de]
@@ -31185,7 +31258,7 @@ Func_195f5: ; 0x195f5
     dec de
     dec de
     dec de
-    call Func_28a9
+    call UpdateAnimation
     pop de
     ret nc
     ld a, [de]
@@ -31384,7 +31457,7 @@ Func_19833: ; 0x19833
     dec de
     dec de
     dec de
-    call Func_28a9
+    call UpdateAnimation
     pop de
     ret nc
     ld a, [de]
@@ -31608,7 +31681,7 @@ InitDiglettBonusStage: ; 0x199f2
     ld a, $c
     ld [wDugtrioAnimationFrame], a
     xor a
-    ld [wDugtrioAnimationFrame2], a
+    ld [wDugtrioAnimationFrameIndex], a
     ld [wDugrioState], a
     ld a, $11
     call SetSongBank
@@ -32178,14 +32251,14 @@ Func_1ab30: ; 0x1ab30
     ld h, [hl]
     ld l, a
     ld de, wDugtrioAnimationFrameCounter
-    call Func_28a9
+    call UpdateAnimation
     ret nc
     ld a, [wDugrioState]
     and a
     ret z
     cp $1
     jr nz, .asm_1ab64
-    ld a, [wDugtrioAnimationFrame2]
+    ld a, [wDugtrioAnimationFrameIndex]
     cp $3
     ret nz
     ld hl, $6c75
@@ -32197,7 +32270,7 @@ Func_1ab30: ; 0x1ab30
 .asm_1ab64
     cp $2
     jr nz, .asm_1ab7d
-    ld a, [wDugtrioAnimationFrame2]
+    ld a, [wDugtrioAnimationFrameIndex]
     cp $1
     ret nz
     ld hl, $6c7f
@@ -32209,7 +32282,7 @@ Func_1ab30: ; 0x1ab30
 .asm_1ab7d
     cp $3
     jr nz, .asm_1ab96
-    ld a, [wDugtrioAnimationFrame2]
+    ld a, [wDugtrioAnimationFrameIndex]
     cp $3
     ret nz
     ld hl, $6c7f
@@ -32221,7 +32294,7 @@ Func_1ab30: ; 0x1ab30
 .asm_1ab96
     cp $4
     jr nz, .asm_1abaf
-    ld a, [wDugtrioAnimationFrame2]
+    ld a, [wDugtrioAnimationFrameIndex]
     cp $1
     ret nz
     ld hl, $6c89
@@ -32233,7 +32306,7 @@ Func_1ab30: ; 0x1ab30
 .asm_1abaf
     cp $5
     jr nz, .asm_1abc8
-    ld a, [wDugtrioAnimationFrame2]
+    ld a, [wDugtrioAnimationFrameIndex]
     cp $3
     ret nz
     ld hl, $6c89
@@ -32245,7 +32318,7 @@ Func_1ab30: ; 0x1ab30
 .asm_1abc8
     cp $6
     jr nz, .asm_1abe1
-    ld a, [wDugtrioAnimationFrame2]
+    ld a, [wDugtrioAnimationFrameIndex]
     cp $1
     ret nz
     ld hl, $6c93
@@ -32257,7 +32330,7 @@ Func_1ab30: ; 0x1ab30
 .asm_1abe1
     cp $7
     ret nz
-    ld a, [wDugtrioAnimationFrame2]
+    ld a, [wDugtrioAnimationFrameIndex]
     cp $1
     jr nz, .asm_1abf2
     ld de, $0000
@@ -33966,8 +34039,8 @@ Func_1d0a1: ; 0x1d0a1
     cp $f
     jr nz, .asm_1d0fc
 .asm_1d0c9
-    ld hl, $51d1 ; todo
-    ld de, $d519
+    ld hl, PikachuSaverAnimationDataRedStage
+    ld de, wPikachuSaverAnimationFrameCounter
     call CopyHLToDE
     ld a, [$d51d]
     and a
@@ -33988,8 +34061,8 @@ Func_1d0a1: ; 0x1d0a1
     call Func_30e8
     jr .asm_1d110
 .asm_1d0fc
-    ld hl, $51f6 ; todo
-    ld de, $d519
+    ld hl, PikachuSaverAnimation2DataRedStage
+    ld de, wPikachuSaverAnimationFrameCounter
     call CopyHLToDE
     ld a, $2
     ld [$d51c], a
@@ -34018,11 +34091,11 @@ Func_1d133: ; 0x1d133
     ld a, [$d51c]
     cp $1
     jr nz, .asm_1d1ae
-    ld hl, $51d1 ; todo
-    ld de, $d519
-    call Func_28a9
+    ld hl, PikachuSaverAnimationDataRedStage
+    ld de, wPikachuSaverAnimationFrameCounter
+    call UpdateAnimation
     ret nc
-    ld a, [$d51b]
+    ld a, [wPikachuSaverAnimationFrameIndex]
     cp $1
     jr nz, .asm_1d18c
     xor a
@@ -34054,7 +34127,7 @@ Func_1d133: ; 0x1d133
     call PlaySoundEffect
     ret
 .asm_1d18c
-    ld a, [$d51b]
+    ld a, [wPikachuSaverAnimationFrameIndex]
     cp $11
     ret nz
     ld a, $fc
@@ -34072,11 +34145,11 @@ Func_1d133: ; 0x1d133
 .asm_1d1ae
     cp $2
     jr nz, .asm_1d1c7
-    ld hl, $51f6 ; todo
-    ld de, $d519
-    call Func_28a9
+    ld hl, PikachuSaverAnimation2DataRedStage
+    ld de, wPikachuSaverAnimationFrameCounter
+    call UpdateAnimation
     ret nc
-    ld a, [$d51b]
+    ld a, [wPikachuSaverAnimationFrameIndex]
     cp $1
     ret nz
     xor a
@@ -34086,10 +34159,36 @@ Func_1d133: ; 0x1d133
     ld a, [$ffb3]
     swap a
     and $1
-    ld [$d51a], a
+    ld [wPikachuSaverAnimationFrame], a
     ret
 
-INCBIN "baserom.gbc",$1d1d1,$1d1fb - $1d1d1
+PikachuSaverAnimationDataRedStage: ; 0x1d1d1
+; Each entry is [duration][OAM id]
+    db $0C, $02
+    db $05, $03
+    db $05, $02
+    db $05, $04
+    db $05, $05
+    db $05, $02
+    db $06, $06
+    db $06, $07
+    db $06, $08
+    db $06, $02
+    db $06, $05
+    db $06, $08
+    db $06, $07
+    db $06, $02
+    db $06, $08
+    db $06, $07
+    db $06, $02
+    db $01, $00
+    db $00
+
+PikachuSaverAnimation2DataRedStage: ; 0x1d1f6
+; Each entry is [duration][OAM id]
+    db $0C, $02
+    db $01, $00
+    db $00
 
 Func_1d1fb: ; 0x1d1fb
     ld hl, wKeyConfigLeftFlipper
@@ -34134,7 +34233,7 @@ Func_1d216: ; 0x1d216
 .asm_1d253
     ld hl, $5312 ; todo
     ld de, $d632
-    call Func_28a9
+    call UpdateAnimation
     push af
     ld a, [$d632]
     and a
@@ -34251,7 +34350,7 @@ HandleEnteringCloyster: ; 0x1d32d
 .asm_1d36a
     ld hl, $541d
     ld de, $d637
-    call Func_28a9
+    call UpdateAnimation
     push af
     ld a, [$d637]
     and a
@@ -36916,7 +37015,7 @@ Func_1f448: ; 0x1f448
     ld a, [hli]
     sub e
     ld c, a
-    ld a, [$d51a]
+    ld a, [wPikachuSaverAnimationFrame]
     add $e
     call LoadOAMData
     ret
@@ -37104,8 +37203,8 @@ PointerTable_20021: ; 0x20021
     dw Func_20193
     db Bank(Func_20193), $00
 
-    dw Func_201c2
-    db Bank(Func_201c2), $00
+    dw CapturePokemonRedStage
+    db Bank(CapturePokemonRedStage), $00
 
     dw Func_201ce
     db Bank(Func_201ce), $00
@@ -37310,10 +37409,10 @@ Func_20193: ; 0x20193
     scf
     ret
 
-Func_201c2: ; 0x201c2
+CapturePokemonRedStage: ; 0x201c2
     ld [$ff8a], a
-    ld a, Bank(Func_1052d)
-    ld hl, Func_1052d
+    ld a, Bank(CapturePokemon)
+    ld hl, CapturePokemon
     call BankSwitch
     scf
     ret
@@ -37477,8 +37576,8 @@ PointerTable_202e2: ; 0x202e2
     dw Func_20454
     db Bank(Func_20454), $00
 
-    dw Func_20483
-    db Bank(Func_20483), $00
+    dw CapturePokemonBlueStage
+    db Bank(CapturePokemonBlueStage), $00
 
     dw Func_2048f
     db Bank(Func_2048f), $00
@@ -37683,10 +37782,10 @@ Func_20454: ; 0x20454
     scf
     ret
 
-Func_20483: ; 0x20483
+CapturePokemonBlueStage: ; 0x20483
     ld [$ff8a], a
-    ld a, Bank(Func_1052d)
-    ld hl, Func_1052d
+    ld a, Bank(CapturePokemon)
+    ld hl, CapturePokemon
     call BankSwitch
     scf
     ret
@@ -39468,9 +39567,9 @@ StartBallMeowthBonusStage: ; 0x24059
     ld a, $ff  ; walk left
     ld [wMeowthXMovement], a
     xor a
-    ld [$d6ea], a
+    ld [wMeowthAnimationFrame], a
     ld [$d6ec], a
-    ld [$d6eb], a
+    ld [wMeowthAnimationFrameIndex], a
     ld [$d70b], a
     ld [$d70c], a
     ld a, $c8
@@ -40179,12 +40278,12 @@ Func_2465d: ; 0x2465d
     ld h, [hl]
     ld l, a
     ld de, wMeowthAnimationFrameCounter
-    call Func_28a9
+    call UpdateAnimation
     ret nc
     ld a, [$d6ec]
     and a
     jr nz, .asm_24689
-    ld a, [$d6eb]
+    ld a, [wMeowthAnimationFrameIndex]
     cp $4
     ret nz
     ld hl, $46ec
@@ -40194,7 +40293,7 @@ Func_2465d: ; 0x2465d
 .asm_24689
     cp $1
     jr nz, .asm_2469d
-    ld a, [$d6eb]
+    ld a, [wMeowthAnimationFrameIndex]
     cp $4
     ret nz
     ld hl, $46f5
@@ -40204,7 +40303,7 @@ Func_2465d: ; 0x2465d
 .asm_2469d
     cp $2
     jr nz, .asm_246b5
-    ld a, [$d6eb]
+    ld a, [wMeowthAnimationFrameIndex]
     cp $1
     ret nz
     ld hl, $46ec
@@ -40216,7 +40315,7 @@ Func_2465d: ; 0x2465d
 .asm_246b5
     cp $3
     jr nz, .asm_246ce
-    ld a, [$d6eb]
+    ld a, [wMeowthAnimationFrameIndex]
     cp $1
     ret nz
     ld hl, $46f5
@@ -40228,7 +40327,7 @@ Func_2465d: ; 0x2465d
 .asm_246ce
     cp $4
     jr nz, .asm_24689
-    ld a, [$d6eb]
+    ld a, [wMeowthAnimationFrameIndex]
     cp $2
     ret nz
     ld hl, $4704
@@ -41295,7 +41394,7 @@ Func_24f00: ; 0x24f00
     dec de
     dec de
     dec de
-    call Func_28a9
+    call UpdateAnimation
     pop de
     ld a, $1
     ld [$d710], a
@@ -41412,7 +41511,7 @@ Func_2586c: ; 0x2586c
     ld hl, hBoardYShift
     sub [hl]
     ld c, a
-    ld a, [$d6ea]
+    ld a, [wMeowthAnimationFrame]
     ld e, a
     ld d, $0
     ld hl, $588b
@@ -42257,7 +42356,7 @@ Func_25f47: ; 0x25f47
     dec de
     dec de
     dec de
-    call Func_28a9
+    call UpdateAnimation
     pop de
     ret nc
     ld a, [de]
@@ -42658,7 +42757,7 @@ Func_26212: ; 0x26212
     dec de
     dec de
     dec de
-    call Func_28a9
+    call UpdateAnimation
     pop de
     ret nc
     dec de

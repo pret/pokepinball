@@ -2177,7 +2177,7 @@ Func_e69: ; 0xe69
 .asm_e77
 	dec a
 	jr nz, .asm_e77
-	ld hl, $c640
+	ld hl, wcBottomMessageText + $140
 	call Func_eef
 	push hl
 	ld hl, $9c00
@@ -2203,7 +2203,7 @@ Func_e69: ; 0xe69
 	ld hl, $9c10
 	call Func_ef8
 	pop hl
-	ld hl, $c6c0
+	ld hl, wcBottomMessageText + $1c0
 	call Func_eef
 	push hl
 	ld hl, $9c20
@@ -5659,6 +5659,7 @@ Data_2894:
 	RGB 27, 10, 10
 	RGB 20, 04, 04
 
+Data_2898:
 	dr $2898, $28a0
 
 CopyHLToDE: ; 0x28a0
@@ -5709,7 +5710,7 @@ UpdateAnimation: ; 0x28a9
 	pop de
 	ret
 
-	dr $28c9, $30db
+INCLUDE "text.asm"
 
 Func_30db: ; 0x30db
 	ld a, $86
@@ -5721,7 +5722,7 @@ Func_30db: ; 0x30db
 
 Func_30e8: ; 0x30e8
 	ld a, $81
-	ld hl, $c600
+	ld hl, wcBottomMessageText + $100
 	ld b, $40
 .asm_30ef
 	ld [hli], a
@@ -5741,7 +5742,7 @@ Func_30e8: ; 0x30e8
 
 Func_310a: ; 0x310a
 	ld a, $81
-	ld hl, $c640
+	ld hl, wcBottomMessageText + $140
 	ld b, $5
 .asm_3111
 	ld [hli], a
@@ -5750,7 +5751,7 @@ Func_310a: ; 0x310a
 	ld [hli], a
 	dec b
 	jr nz, .asm_3111
-	ld hl, $c6c0
+	ld hl, wcBottomMessageText + $1c0
 	ld b, $5
 .asm_311d
 	ld [hli], a
@@ -5993,7 +5994,7 @@ Func_32aa: ; 0x32aa
 	inc de
 	pop af
 	ld l, a
-	ld h, $c5
+	ld h, wcBottomMessageText / $100
 .asm_32c5
 	ld a, [de]
 	ld [hli], a
@@ -11190,7 +11191,7 @@ SetMaxScore: ; 0x8637
 Func_8645: ; 0x8645
 	xor a
 	ld [$d49f], a
-	ld de, $c647
+	ld de, wcBottomMessageText + $147
 	call Func_8524
 	ret
 
@@ -11303,10 +11304,10 @@ HandleInGameMenu: ; 0x86d7
 	ld [hli], a
 	dec b
 	jr nz, .clearLoop
-	ld de, $c524
+	ld de, wcBottomMessageText + $24
 	ld hl, SaveText
 	call Func_8797
-	ld de, $c564
+	ld de, wcBottomMessageText + $64
 	ld hl, CancelText
 	call Func_8797
 	ld a, Bank(InGameMenuSymbolsGfx)
@@ -11429,15 +11430,15 @@ MoveInGameMenuCursor: ; 0x87c5
 
 DrawInGameMenu: ; 0x87ed
 	ld a, $81
-	ld [$c523], a
-	ld [$c563], a
+	ld [wcBottomMessageText + $23], a
+	ld [wcBottomMessageText + $63], a
 	ld a, [wInGameMenuIndex]
 	ld c, a
 	swap c
 	sla c
 	sla c
 	ld b, $0
-	ld hl, $c523
+	ld hl, wcBottomMessageText + $23
 	add hl, bc
 	ld a, $86
 	ld [hl], a
@@ -14602,7 +14603,7 @@ Func_cdce: ; 0xcdce
 	ld a, $7
 	ld [$abf6], a
 	pop af
-	ld hl, $c50d
+	ld hl, wcBottomMessageText + $0d
 	ld b, $5
 .asm_ce7c
 	push bc
@@ -16457,12 +16458,12 @@ HighScoresStageMapping: ; 0xdb99
 
 Func_dba9: ; 0xdba9
 	ld a, $85
-	ld [$c644], a
+	ld [wcBottomMessageText + $144], a
 	ld a, [$d49d]
 	xor $3
 	inc a
 	add $86
-	ld [$c645], a
+	ld [wcBottomMessageText + $145], a
 	ret
 
 Func_dbba: ; 0xdbba
@@ -16593,7 +16594,7 @@ Func_dc6d: ; 0xdc6d
 	ret
 
 Func_dc7c: ; 0xdc7c
-	ld hl, $c640
+	ld hl, wcBottomMessageText + $140
 	ld a, $83
 	ld [hli], a
 	ld a, $81
@@ -16602,7 +16603,7 @@ Func_dc7c: ; 0xdc7c
 	ld [hl], a
 	ld a, [wNumPartyMons]
 	call ConvertHexByteToDecWord
-	ld hl, $c641
+	ld hl, wcBottomMessageText + $141
 	ld c, $1
 	ld a, d
 	call .asm_dca0
@@ -16632,7 +16633,7 @@ Func_dcb4: ; 0xdcb4
 	jr nz, .asm_dcbf
 	ld a, $84
 .asm_dcbf
-	ld [$c646], a
+	ld [wcBottomMessageText + $146], a
 	ret
 
 LoadBallGfx: ; 0xdcc3
@@ -18830,7 +18831,7 @@ UpgradeBallBlueField: ; 0xf040
 	ld a, [hl]
 	ld [wBallType], a
 	add $30
-	ld [$c512], a
+	ld [wcBottomMessageText + $12], a
 	jr .asm_f0b0
 .masterBall
 	ld de, $0f4d
@@ -19349,15 +19350,15 @@ Func_f55c: ; 0xf55c
 	ld a, [hGameBoyColorFlag]
 	and a
 	jr nz, .gameboyColor
-	ld a, $35
-	ld hl, $61c0
+	ld a, BANK(GFX_d61c0)
+	ld hl, GFX_d61c0
 	ld de, $8830
 	ld bc, $0010
 	call LoadVRAMData
 	ret
 .gameboyColor
-	ld a, $35
-	ld hl, $63c0
+	ld a, BANK(GFX_d63c0)
+	ld hl, GFX_d63c0
 	ld de, $8830
 	ld bc, $0010
 	call LoadVRAMData
@@ -19384,10 +19385,10 @@ Func_f57f: ; 0xf57f
 	ret
 
 Func_f5a0: ; 0xf5a0
-	ld de, $c540
+	ld de, wcBottomMessageText + $40
 	ld hl, $3069 ; todo
 	call Func_f7b1
-	ld de, $c580
+	ld de, wcBottomMessageText + $80
 	ld hl, $3070
 	call Func_f7b1
 	ld hl, $d489
@@ -19413,7 +19414,7 @@ Func_f5a0: ; 0xf5a0
 	ld hl, wcBottomMessageText
 	ld bc, $0040
 	call Func_f81b
-	ld de, $c520
+	ld de, wcBottomMessageText + $20
 	ld hl, $3094
 	call Func_f7b1
 	ld bc, $0040
@@ -19465,10 +19466,10 @@ CallTable_f60d: ; 0xf60d
 	dw Func_faf8
 
 Func_f626: ; 0xf626
-	ld de, $c501
+	ld de, wcBottomMessageText + $01
 	ld hl, $3006 ; todo
 	call Func_f7b1
-	ld hl, $c501
+	ld hl, wcBottomMessageText + $01
 	ld a, [$d628]
 	call Func_f78e
 	ld bc, $0040
@@ -19500,7 +19501,7 @@ Func_f676: ; 0xf676
 	ld b, $4
 .asm_f678
 	push bc
-	ld hl, $c520
+	ld hl, wcBottomMessageText + $20
 	ld de, wcBottomMessageText
 	ld bc, $00e0
 	call LocalCopyData
@@ -19520,13 +19521,13 @@ Func_f676: ; 0xf676
 	pop bc
 	dec b
 	jr nz, .asm_f678
-	ld de, $c540
+	ld de, wcBottomMessageText + $40
 	ld hl, $307a ; todo
 	call Func_f7b1
-	ld de, $c580
+	ld de, wcBottomMessageText + $80
 	ld hl, $3086 ; todo
 	call Func_f7b1
-	ld hl, $c550
+	ld hl, wcBottomMessageText + $50
 	ld a, [$d482]
 	call Func_f78e
 	ld bc, $0040
@@ -19536,7 +19537,7 @@ Func_f676: ; 0xf676
 	push de
 	push hl
 	ld hl, $d494
-	ld de, $c586
+	ld de, wcBottomMessageText + $86
 	call Func_f8bd
 	ld bc, $0040
 	ld de, $0080
@@ -19572,7 +19573,7 @@ Func_f70d: ; 0xf70d
 	ld b, $4
 .asm_f70f
 	push bc
-	ld hl, $c520
+	ld hl, wcBottomMessageText + $20
 	ld de, wcBottomMessageText
 	ld bc, $00e0
 	call LocalCopyData
@@ -19592,11 +19593,11 @@ Func_f70d: ; 0xf70d
 	pop bc
 	dec b
 	jr nz, .asm_f70f
-	ld de, $c560
+	ld de, wcBottomMessageText + $60
 	ld hl, $308d
 	call Func_f7b1
 	ld hl, $d46f
-	ld de, $c566
+	ld de, wcBottomMessageText + $66
 	call Func_f8bd
 	ld bc, $0040
 	ld de, $0060
@@ -19617,7 +19618,7 @@ Func_f70d: ; 0xf70d
 	ld de, $d48f
 	call Func_f902
 	ld hl, $d46f
-	ld de, $c566
+	ld de, wcBottomMessageText + $66
 	call Func_f8bd
 	ld bc, $0040
 	ld de, $0060
@@ -19657,25 +19658,25 @@ Func_f7b1: ; 0xf7b1
 	ld a, [$d805]
 	and a
 	jr nz, .asm_f7e0
-.asm_f7b7
+.loop
 	ld a, [hli]
 	and a
 	ret z
-	cp $30
+	cp "0"
 	jr c, .asm_f7c6
-	cp $3a
+	cp "9" + 1
 	jr nc, .asm_f7c6
 	add $56
 	jr .asm_f7dc
 .asm_f7c6
-	cp $41
+	cp "A"
 	jr c, .asm_f7d2
-	cp $5b
+	cp "Z" + 1
 	jr nc, .asm_f7d2
 	add $bf
 	jr .asm_f7dc
 .asm_f7d2
-	cp $65
+	cp "e"
 	jr nz, .asm_f7da
 	ld a, $83
 	jr .asm_f7dc
@@ -19684,14 +19685,15 @@ Func_f7b1: ; 0xf7b1
 .asm_f7dc
 	ld [de], a
 	inc de
-	jr .asm_f7b7
+	jr .loop
+
 .asm_f7e0
 	ld a, [hli]
 	and a
 	ret z
-	cp $30
+	cp "0"
 	jr c, .asm_f7ef
-	cp $3a
+	cp "9" + 1
 	jr nc, .asm_f7ef
 	add $56
 	jr .asm_f809
@@ -19740,7 +19742,7 @@ Func_f824: ; 0xf824
 	ld hl, wcBottomMessageText
 	ld bc, $0040
 	call Func_f81b
-	ld hl, $c548
+	ld hl, wcBottomMessageText + $48
 	ld bc, $0038
 	call Func_f81b
 	ret
@@ -19774,7 +19776,7 @@ Func_f853: ; 0xf853
 	push de
 	push hl
 	ld hl, $d488
-	ld de, $c546
+	ld de, wcBottomMessageText + $46
 	call Func_f8bd
 	ld bc, $0040
 	ld de, $0040
@@ -19809,7 +19811,7 @@ Func_f853: ; 0xf853
 	ld de, $d483
 	call Func_f902
 	ld hl, $d48e
-	ld de, $c586
+	ld de, wcBottomMessageText + $86
 	call Func_f8bd
 	ld bc, $0040
 	ld de, $0080
@@ -19932,10 +19934,10 @@ Func_f945: ; 0xf945
 	ret
 
 Func_f952: ; 0xf952
-	ld de, $c503
-	ld hl, $302d
+	ld de, wcBottomMessageText + $03
+	ld hl, BellsproutCounterText
 	call Func_f7b1
-	ld hl, $c503
+	ld hl, wcBottomMessageText + $03
 	ld a, [$d62a]
 	call Func_f78e
 	ld bc, $0040
@@ -19948,10 +19950,10 @@ Func_f952: ; 0xf952
 	ret
 
 Func_f97a: ; 0xf97a
-	ld de, $c504
-	ld hl, $303c
+	ld de, wcBottomMessageText + $04
+	ld hl, DugtrioCounterText
 	call Func_f7b1
-	ld hl, $c504
+	ld hl, wcBottomMessageText + $04
 	ld a, [$d62b]
 	call Func_f78e
 	ld bc, $0040
@@ -19964,10 +19966,10 @@ Func_f97a: ; 0xf97a
 	ret
 
 Func_f9a2: ; 0xf9a2
-	ld de, $c503
-	ld hl, $3048
+	ld de, wcBottomMessageText + $03
+	ld hl, CaveShotCounterText
 	call Func_f7b1
-	ld hl, $c503
+	ld hl, wcBottomMessageText + $03
 	ld a, [$d62c]
 	call Func_f78e
 	ld bc, $0040
@@ -19980,10 +19982,10 @@ Func_f9a2: ; 0xf9a2
 	ret
 
 Func_f9ca: ; 0xf9ca
-	ld de, $c501
-	ld hl, $3057
+	ld de, wcBottomMessageText + $01
+	ld hl, SpinnerTurnsCounterText
 	call Func_f7b1
-	ld hl, $c501
+	ld hl, wcBottomMessageText + $01
 	ld a, [$d62d]
 	call Func_f78e
 	ld bc, $0040
@@ -20008,10 +20010,10 @@ Func_f9f3: ; 0xf9f3
 	ret
 
 Func_fa06: ; 0xfa06
-	ld de, $c504
-	ld hl, $30c1
+	ld de, wcBottomMessageText + $04
+	ld hl, CloysterCounterText
 	call Func_f7b1
-	ld hl, $c504
+	ld hl, wcBottomMessageText + $04
 	ld a, [$d63b]
 	call Func_f78e
 	ld bc, $0040
@@ -20024,10 +20026,10 @@ Func_fa06: ; 0xfa06
 	ret
 
 Func_fa2e: ; 0xfa2e
-	ld de, $c504
-	ld hl, $30ce
+	ld de, wcBottomMessageText + $04
+	ld hl, SlowpokeCounterText
 	call Func_f7b1
-	ld hl, $c504
+	ld hl, wcBottomMessageText + $04
 	ld a, [$d63a]
 	call Func_f78e
 	ld bc, $0040
@@ -20040,10 +20042,10 @@ Func_fa2e: ; 0xfa2e
 	ret
 
 Func_fa56: ; 0xfa56
-	ld de, $c504
-	ld hl, $30b5
+	ld de, wcBottomMessageText + $04
+	ld hl, PoliwagCounterText
 	call Func_f7b1
-	ld hl, $c504
+	ld hl, wcBottomMessageText + $04
 	ld a, [$d63d]
 	call Func_f78e
 	ld bc, $0040
@@ -20056,10 +20058,10 @@ Func_fa56: ; 0xfa56
 	ret
 
 Func_fa7e: ; 0xfa7e
-	ld de, $c504
-	ld hl, $30a9
+	ld de, wcBottomMessageText + $04
+	ld hl, PsyduckCounterText
 	call Func_f7b1
-	ld hl, $c504
+	ld hl, wcBottomMessageText + $04
 	ld a, [$d63c]
 	call Func_f78e
 	ld bc, $0040
@@ -20072,10 +20074,10 @@ Func_fa7e: ; 0xfa7e
 	ret
 
 Func_faa6: ; 0xfaa6
-	ld de, $c503
-	ld hl, $3048
+	ld de, wcBottomMessageText + $03
+	ld hl, CaveShotCounterText
 	call Func_f7b1
-	ld hl, $c503
+	ld hl, wcBottomMessageText + $03
 	ld a, [$d62c]
 	call Func_f78e
 	ld bc, $0040
@@ -20088,10 +20090,10 @@ Func_faa6: ; 0xfaa6
 	ret
 
 Func_face: ; 0xface  :)
-	ld de, $c501
-	ld hl, $3057
+	ld de, wcBottomMessageText + $01
+	ld hl, SpinnerTurnsCounterText
 	call Func_f7b1
-	ld hl, $c501
+	ld hl, wcBottomMessageText + $01
 	ld a, [$d62d]
 	call Func_f78e
 	ld bc, $0040
@@ -20112,7 +20114,11 @@ Func_faf7: ; 0xfaf7
 Func_faf8: ; 0xfaf8
 	ret
 
-	dr $faf9, $10000
+; XXX
+	ret
+
+; XXX
+	ret
 
 
 SECTION "bank4", ROMX, BANK[$4]
@@ -20275,13 +20281,13 @@ StartCatchEmMode: ; 0x1003f
 	ld a, [wCurrentStage]
 	bit 0, a
 	jr z, .asm_1011d
-	ld a, $28
-	ld hl, $6300
+	ld a, BANK(StageRedFieldBottomBaseGameBoyColorGfx)
+	ld hl, StageRedFieldBottomBaseGameBoyColorGfx + $300
 	ld de, $8ae0
 	ld bc, $0020
 	call Func_735
 	ld a, $0
-	ld hl, $2898
+	ld hl, Data_2898
 	ld de, $9906
 	ld bc, $0008
 	call Func_735
@@ -20309,7 +20315,7 @@ CallTable_10124: ; 0x10124
 CheckForMew:
 ; Sets the encountered mon to Mew if the following conditions are met:
 ;   1. Random number in register a equals $f
-;   2. The current map is Indigo Plateu (it does a roundabout way of checking this)
+;   2. The current map is Indigo Plateau (it does a roundabout way of checking this)
 ;   3. The right alley has been hit three times
 ;   4. The Mewtwo Bonus Stage completion counter equals 2.
 	push af
@@ -20828,13 +20834,13 @@ Func_10488: ; 0x10488
 Func_10496: ; 0x10496
 	xor a
 	ld [$d5c6], a
-	ld a, $2a
-	ld hl, $47e0
+	ld a, BANK(PikachuSaverGfx)
+	ld hl, PikachuSaverGfx + $c0
 	ld de, $87e0
 	ld bc, $0020
 	call LoadVRAMData
-	ld a, $2a
-	ld hl, $4800
+	ld a, BANK(GFX_a8800)
+	ld hl, GFX_a8800
 	ld de, $8900
 	ld bc, $0180
 	call LoadVRAMData
@@ -21006,7 +21012,7 @@ Func_10611: ; 0x10611
 	sla a
 	ld c, a
 	ld b, $0
-	ld hl, $462a
+	ld hl, Data_1062a
 	add hl, bc
 	ld a, [hli]
 	ld c, a
@@ -21017,6 +21023,7 @@ Func_10611: ; 0x10611
 	call Func_10c5
 	ret
 
+Data_1062a:
 	dr $1062a, $10648
 
 Func_10648: ; 0x10648
@@ -21121,7 +21128,7 @@ Func_106b6: ; 0x106b6
 	pop de
 	call Func_32aa
 	pop hl
-	ld de, $c520
+	ld de, wcBottomMessageText + $20
 	ld b, $0  ; count the number of letters in mon's name in register b
 .readLetter
 	ld a, [hli]
@@ -21412,17 +21419,17 @@ Func_108f5: ; 0x108f5
 	ld a, Bank(Func_30253)
 	ld hl, Func_30253
 	call BankSwitch
-	ld a, $36
-	ld hl, $6c00
+	ld a, Bank(StageSharedBonusSlotGlowGfx)
+	ld hl, StageSharedBonusSlotGlowGfx
 	ld de, $81a0
 	ld bc, $0160
 	call LoadVRAMData
-	ld a, $36
-	ld hl, $6de0
+	ld a, BANK(StageSharedBonusSlotGlow2Gfx)
+	ld hl, StageSharedBonusSlotGlow2Gfx
 	ld de, $8380
 	ld bc, $0020
 	call LoadVRAMData
-	ld hl, $4958
+	ld hl, Data_10958
 	ld a, $4
 	call Func_10aa
 	ld a, [$d624]
@@ -21430,12 +21437,16 @@ Func_108f5: ; 0x108f5
 	ld a, Bank(Func_174d4)
 	ld hl, Func_174d4
 	call BankSwitch
-	ld hl, $497d
+	ld hl, Data_1097d
 	ld a, $4
 	call Func_10aa
 	ret
 
-	dr $10958, $1098a
+Data_10958:
+	dr $10958, $1097d
+
+Data_1097d:
+	dr $1097d, $1098a
 
 Func_1098a: ; 0x1098a
 	ret
@@ -21523,17 +21534,17 @@ Func_109fc: ; 0x109fc
 	ld a, Bank(Func_30253)
 	ld hl, Func_30253
 	call BankSwitch
-	ld a, $36
-	ld hl, $6c00
+	ld a, BANK(StageSharedBonusSlotGlowGfx)
+	ld hl, StageSharedBonusSlotGlowGfx
 	ld de, $81a0
 	ld bc, $0160
 	call LoadVRAMData
-	ld a, $36
-	ld hl, $6de0
+	ld a, BANK(StageSharedBonusSlotGlow2Gfx)
+	ld hl, StageSharedBonusSlotGlow2Gfx
 	ld de, $8380
 	ld bc, $0020
 	call LoadVRAMData
-	ld hl, $4a63
+	ld hl, Data_10a63
 	ld a, $4
 	call Func_10aa
 	ld a, [$d624]
@@ -21541,12 +21552,16 @@ Func_109fc: ; 0x109fc
 	ld a, Bank(Func_174d4)
 	ld hl, Func_174d4
 	call BankSwitch
-	ld hl, $4a88
+	ld hl, Data_10a88
 	ld a, $4
 	call Func_10aa
 	ret
 
-	dr $10a63, $10a95
+Data_10a63:
+	dr $10a63, $10a88
+
+Data_10a88:
+	dr $10a88, $10a95
 
 Func_10a95: ; 0x19a95
 	ld a, [wCurrentStage]
@@ -21685,9 +21700,9 @@ Func_10b3f: ; 0x10b3f
 	ld hl, $d5cc
 	ld a, [wCurrentEvolutionType]
 	cp EVO_EXPERIENCE
-	ld de, $2aa9
+	ld de, StartTrainingText
 	jr z, .asm_10b55
-	ld de, $2abf
+	ld de, FindItemsText
 .asm_10b55
 	call Func_32aa
 	ret
@@ -21707,8 +21722,8 @@ Func_10b59: ; 0x10b59
 	jr nz, .asm_10b64
 	ld hl, wPartyMons
 	call Func_10b8e
-	ld a, $35
-	ld hl, $6450
+	ld a, BANK(InGameMenuSymbolsGfx)
+	ld hl, InGameMenuSymbolsGfx
 	ld de, $8880
 	ld bc, $0030
 	call LoadVRAMData
@@ -21863,7 +21878,7 @@ Func_10c38: ; 0x10c38
 	swap c
 	sla c
 	ld b, $0
-	ld hl, $c503
+	ld hl, wcBottomMessageText + $03
 	add hl, bc
 	ld a, $88
 	ld [hl], a
@@ -21872,7 +21887,7 @@ Func_10c38: ; 0x10c38
 	and a
 	jr z, .asm_10c83
 	ld a, $8a
-	ld [$c511], a
+	ld [wcBottomMessageText + $11], a
 .asm_10c83
 	ld a, [$d462]
 	add $7
@@ -21882,7 +21897,7 @@ Func_10c38: ; 0x10c38
 	cp c
 	jr c, .asm_10c96
 	ld a, $89
-	ld [$c5b1], a
+	ld [wcBottomMessageText + $b1], a
 .asm_10c96
 	ld a, $0
 	ld hl, wcBottomMessageText
@@ -21923,15 +21938,15 @@ Func_10cb7: ; 0x10cb7
 	ld a, [hGameBoyColorFlag]
 	and a
 	jr nz, .asm_10cee
-	ld a, $18
-	ld hl, $7080
+	ld a, BANK(StageRedFieldTopStatusBarSymbolsGfx_GameBoy)
+	ld hl, StageRedFieldTopStatusBarSymbolsGfx_GameBoy + $80
 	ld de, $8880
 	ld bc, $0030
 	call LoadVRAMData
 	jr .asm_10cfc
 .asm_10cee
-	ld a, $27
-	ld hl, $4080
+	ld a, BANK(StageRedFieldTopStatusBarSymbolsGfx_GameBoyColor)
+	ld hl, StageRedFieldTopStatusBarSymbolsGfx_GameBoyColor + $80
 	ld de, $8880
 	ld bc, $0030
 	call LoadVRAMData
@@ -22138,7 +22153,7 @@ Func_10e0a: ; 0x10e0a
 	pop de
 	call Func_32aa
 	pop hl
-	ld de, $c520
+	ld de, wcBottomMessageText + $20
 	ld b, $0
 .asm_10e67
 	ld a, [hli]
@@ -26440,7 +26455,7 @@ Func_1535d: ; 0x1535d
 	ld a, [hl]
 	ld [wBallType], a
 	add $30
-	ld [$c512], a
+	ld [wcBottomMessageText + $12], a
 	jr .asm_15447
 .masterBall
 	ld de, $0f4d
@@ -28361,7 +28376,7 @@ Func_16ef5: ; 0x16ef5
 	ld hl, $d5cc
 	ld de, $2958
 	call Func_32aa
-	ld hl, $c512
+	ld hl, wcBottomMessageText + $12
 	ld a, [$d614]
 	and $7f
 	jr z, .asm_16f1f
@@ -34670,7 +34685,7 @@ Func_1d5bf: ; 0x1d5bf
 	ld hl, $d5cc
 	ld de, $2958
 	call Func_32aa
-	ld hl, $c512
+	ld hl, wcBottomMessageText + $12
 	ld a, [$d614]
 	and $7f
 	jr z, .asm_1d5e9
@@ -35417,7 +35432,7 @@ Func_1e356: ; 0x1e356
 	ld a, [hl]
 	ld [wBallType], a
 	add $30
-	ld [$c512], a
+	ld [wcBottomMessageText + $12], a
 	jr .asm_1e465
 .masterBall
 	ld de, $0f4d
@@ -52969,7 +52984,10 @@ FlipperGfx: ; 0xa8600
 PikachuSaverGfx: ; 0xa8720
 	INCBIN "gfx/stage/pikachu_saver.2bpp"
 
-	dr $a8800, $a8a00
+GFX_a8800:
+	INCBIN "gfx/unknown/a8800.2bpp"
+
+	dr $a8980, $a8a00
 
 PinballGreatballGfx: ; 0xa8a00
 	INCBIN "gfx/stage/ball_greatball.w32.interleave.2bpp"
@@ -53943,12 +53961,21 @@ SeelBonusTilemap2_GameBoyColor: ; 0xd5c00
 Alphabet1Gfx: ; 0xd6000
 	INCBIN "gfx/stage/alphabet_1.2bpp"
 
-	dr $d61a0, $d6200
+	dr $d61a0, $d61c0
+
+GFX_d61c0:
+	INCBIN "gfx/stage/e_acute_mono.2bpp"
+
+	dr $d61d0, $d6200
 
 Alphabet2Gfx: ; 0xd6200
 	INCBIN "gfx/stage/alphabet_2.2bpp"
 
-	dr $d63a0, $d6450
+	dr $d63a0, $d63c0
+
+GFX_d63c0:
+	INCBIN "gfx/stage/e_acute_color.2bpp"
+	dr $d63d0, $d6450
 
 InGameMenuSymbolsGfx: ; 0xd6450
 	INCBIN "gfx/stage/menu_symbols.2bpp"

@@ -1,3 +1,5 @@
+hPushOAM EQU $FF80
+
 hJoypadState  EQU $FF98  ; current state of buttons. See joy_constants.asm for which bits
                          ; correspond to which buttons.
 hNewlyPressedButtons      EQU $FF99  ; buttons that were pressed in the current frame.

@@ -22,6 +22,10 @@ dn: MACRO
 	endr
 	ENDM
 
+dr: MACRO
+INCBIN "baserom.gbc", \1, \2 - \1
+	ENDM
+
 dx: MACRO
 x = 8 * ((\1) - 1)
 	rept \1

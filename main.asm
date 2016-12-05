@@ -22095,13 +22095,13 @@ Func_10d1d: ; 0x10d1d
 	ld a, [wCurrentStage]
 	bit 0, a
 	jr z, .asm_10e09
-	ld a, $28
-	ld hl, $6300
+	ld a, BANK(StageRedFieldBottomBaseGameBoyColorGfx)
+	ld hl, StageRedFieldBottomBaseGameBoyColorGfx + $300
 	ld de, $8ae0
 	ld bc, $0020
 	call Func_735
 	ld a, $0
-	ld hl, $2898
+	ld hl, Data_2898
 	ld de, $9906
 	ld bc, $0008
 	call Func_735
@@ -22124,8 +22124,8 @@ Func_10e0a: ; 0x10e0a
 	rl b
 	ld hl, PokemonNames + 1
 	add hl, bc
-	ld de, $2b02  ; "It evolved into an"
-	ld bc, $2b34
+	ld de, ItEvolvedIntoAnText  ; "It evolved into an"
+	ld bc, Data_2b34
 	ld a, [hl]
 	; check if mon's name starts with a vowel, so it can print "an", instead of "a"
 	cp "A"
@@ -22138,8 +22138,8 @@ Func_10e0a: ; 0x10e0a
 	jr z, .nameStartsWithVowel
 	cp "O"
 	jr z, .nameStartsWithVowel
-	ld de, $2ae9  ; "It evolved into a"
-	ld bc, $2b1c
+	ld de, ItEvolvedIntoAText  ; "It evolved into a"
+	ld bc, Data_2b1c
 .nameStartsWithVowel
 	push hl
 	push bc
@@ -22194,12 +22194,12 @@ Func_10e8b: ; 0x10e8b
 	call Func_30e8
 	call Func_30db
 	ld hl, $d5d4
-	ld de, $2b6b
+	ld de, Data_2b6b
 	call Func_32cc
 	pop de
 	pop bc
 	ld hl, $d5cc
-	ld de, $2b4c
+	ld de, EvolutionSpecialBonusText
 	call Func_32aa
 	ret
 

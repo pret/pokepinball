@@ -1,5 +1,8 @@
 INCLUDE "macros/sound.asm"
 
+AdvanceFrame EQUS "$10"
+JumpTable EQUS "$18"
+
 dex_text   EQUS "db "     ; Start beginning of pokedex description
 dex_line   EQUS "db $0d," ; Start new line in pokedex description
 dex_end    EQUS "db $00"  ; Terminate the pokedex description
@@ -38,16 +41,30 @@ bigdw: MACRO ; big-endian word
 	dx 2, \1
 	ENDM
 
+farcall: MACRO
+	ld a, BANK(\1)
+	ld hl, \1
+	call BankSwitch
+	ENDM
+
+callba EQUS "farcall"
+
+callab: MACRO
+	ld hl, \1
+	ld a, BANK(\1)
+	call BankSwitch
+	ENDM
+
 bigBCD6: MACRO
 ; There is probably a better name for this macro.
 ; It write a BCD in big-endian form.
-    dn ((\1) / 10) % 10, (\1) % 10
-    dn ((\1) / 1000) % 10, ((\1) / 100) % 10
-    dn ((\1) / 100000) % 10, ((\1) / 10000) % 10
-    dn ((\1) / 10000000) % 10, ((\1) / 1000000) % 10
-    dn ((\1) / 1000000000) % 10, ((\1) / 100000000) % 10
-    dn ((\1) / 100000000000) % 10, ((\1) / 10000000000) % 10
-    ENDM
+	dn ((\1) / 10) % 10, (\1) % 10
+	dn ((\1) / 1000) % 10, ((\1) / 100) % 10
+	dn ((\1) / 100000) % 10, ((\1) / 10000) % 10
+	dn ((\1) / 10000000) % 10, ((\1) / 1000000) % 10
+	dn ((\1) / 1000000000) % 10, ((\1) / 100000000) % 10
+	dn ((\1) / 100000000000) % 10, ((\1) / 10000000000) % 10
+	ENDM
 
 ; Constant enumeration is useful for mons, maps, etc.
 const_def: MACRO

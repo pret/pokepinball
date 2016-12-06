@@ -6478,7 +6478,7 @@ Func_3500:
 	ld bc, $d464
 	ldh [$ff8a], a
 	callba AddBCDScore
-	ret 
+	ret
 
 Func_351c: ; 0x351c
 	ld hl, $d464
@@ -10515,7 +10515,7 @@ HandleEraseAllDataMenu: ; 0x815d
 EraseAllDataMenuFunctions: ; 0x8161
 	dw CheckForResetButtonCombo
 	dw HandleEraseAllDataInput
-	dw ExitEraseAllDataMenu 
+	dw ExitEraseAllDataMenu
 
 CheckForResetButtonCombo: ; 0x8167
 	ld a, [hJoypadState]
@@ -13065,7 +13065,7 @@ HandleTitlescreenPokeballAnimation: ; 0xc278
 	ld e, $0
 	ld a, [wScreenState]  ; TODO: I think this is the "titlescreen state" byte.
 	cp $1
-	jr nz, .loadOAM  ; skip getting the correct animation frame 
+	jr nz, .loadOAM  ; skip getting the correct animation frame
 	ld a, [wTitleScreenBouncingBallAnimationFrame]
 	sla a
 	ld e, a
@@ -24814,85 +24814,85 @@ MonAnimatedCollisionMaskPointers: ; 0x134c0
 
 Data_13685: ; 0x13685
 ; Each 3-byte entry is related to an evolution line. Don't know what this is for, yet.
-	db $12, $12, $10
-	db $10, $10, $10
-	db $12, $12, $0E
-	db $14, $14, $12
-	db $14, $14, $10
-	db $0A, $0A, $0E
-	db $11, $13, $10
-	db $0B, $0B, $10
-	db $12, $12, $0E
-	db $12, $14, $0E
-	db $10, $12, $10
-	db $11, $12, $0E
-	db $11, $12, $0E
-	db $12, $13, $10
-	db $11, $11, $10
-	db $12, $12, $10
-	db $08, $08, $10
-	db $10, $10, $10
-	db $10, $10, $10
-	db $11, $11, $0E
-	db $10, $10, $0E
-	db $14, $14, $0E
-	db $30, $30, $10
-	db $12, $12, $10
-	db $12, $12, $10
-	db $10, $10, $10
-	db $10, $10, $10
-	db $12, $14, $10
-	db $10, $12, $10
-	db $0C, $0C, $12
-	db $12, $14, $0C
-	db $12, $14, $0E
-	db $30, $30, $10
-	db $14, $14, $10
-	db $12, $12, $0E
-	db $12, $12, $0E
-	db $14, $14, $0E
-	db $12, $12, $10
-	db $14, $14, $0E
-	db $10, $10, $0E
-	db $12, $12, $10
-	db $14, $14, $10
-	db $14, $12, $10
-	db $02, $02, $10
-	db $12, $12, $10
-	db $12, $12, $10
-	db $14, $10, $10
-	db $14, $10, $10
-	db $14, $12, $10
-	db $11, $11, $10
-	db $14, $14, $10
-	db $12, $12, $10
-	db $10, $10, $10
-	db $12, $12, $10
-	db $0F, $0F, $0E
-	db $12, $12, $0E
-	db $23, $23, $10
-	db $13, $13, $10
-	db $13, $13, $10
-	db $12, $12, $10
-	db $12, $14, $10
-	db $14, $14, $0E
-	db $12, $12, $0E
-	db $12, $14, $10
-	db $18, $18, $0C
-	db $16, $16, $0C
-	db $14, $14, $10
-	db $12, $12, $10
-	db $10, $10, $0E
-	db $12, $12, $0E
-	db $12, $12, $0E
-	db $0C, $0C, $12
-	db $26, $36, $12
-	db $13, $13, $10
-	db $13, $13, $10
-	db $13, $13, $10
-	db $12, $12, $0E
-	db $14, $14, $0E
-	db $14, $14, $0E
+	db $12, $12, $10 ; EVOLINE_BULBASAUR
+	db $10, $10, $10 ; EVOLINE_CHARMANDER
+	db $12, $12, $0E ; EVOLINE_SQUIRTLE
+	db $14, $14, $12 ; EVOLINE_CATERPIE
+	db $14, $14, $10 ; EVOLINE_WEEDLE
+	db $0A, $0A, $0E ; EVOLINE_PIDGEY
+	db $11, $13, $10 ; EVOLINE_RATTATA
+	db $0B, $0B, $10 ; EVOLINE_SPEAROW
+	db $12, $12, $0E ; EVOLINE_EKANS
+	db $12, $14, $0E ; EVOLINE_PIKACHU
+	db $10, $12, $10 ; EVOLINE_SANDSHREW
+	db $11, $12, $0E ; EVOLINE_NIDORAN_F
+	db $11, $12, $0E ; EVOLINE_NIDORAN_M
+	db $12, $13, $10 ; EVOLINE_CLEFAIRY
+	db $11, $11, $10 ; EVOLINE_VULPIX
+	db $12, $12, $10 ; EVOLINE_JIGGLYPUFF
+	db $08, $08, $10 ; EVOLINE_ZUBAT
+	db $10, $10, $10 ; EVOLINE_ODDISH
+	db $10, $10, $10 ; EVOLINE_PARAS
+	db $11, $11, $0E ; EVOLINE_VENONAT
+	db $10, $10, $0E ; EVOLINE_DIGLETT
+	db $14, $14, $0E ; EVOLINE_MEOWTH
+	db $30, $30, $10 ; EVOLINE_PSYDUCK
+	db $12, $12, $10 ; EVOLINE_MANKEY
+	db $12, $12, $10 ; EVOLINE_GROWLITHE
+	db $10, $10, $10 ; EVOLINE_POLIWAG
+	db $10, $10, $10 ; EVOLINE_ABRA
+	db $12, $14, $10 ; EVOLINE_MACHOP
+	db $10, $12, $10 ; EVOLINE_BELLSPROUT
+	db $0C, $0C, $12 ; EVOLINE_TENTACOOL
+	db $12, $14, $0C ; EVOLINE_GEODUDE
+	db $12, $14, $0E ; EVOLINE_PONYTA
+	db $30, $30, $10 ; EVOLINE_SLOWPOKE
+	db $14, $14, $10 ; EVOLINE_MAGNEMITE
+	db $12, $12, $0E ; EVOLINE_FARFETCH_D
+	db $12, $12, $0E ; EVOLINE_DODUO
+	db $14, $14, $0E ; EVOLINE_SEEL
+	db $12, $12, $10 ; EVOLINE_GRIMER
+	db $14, $14, $0E ; EVOLINE_SHELLDER
+	db $10, $10, $0E ; EVOLINE_GASTLY
+	db $12, $12, $10 ; EVOLINE_ONIX
+	db $14, $14, $10 ; EVOLINE_DROWZEE
+	db $14, $12, $10 ; EVOLINE_KRABBY
+	db $02, $02, $10 ; EVOLINE_VOLTORB
+	db $12, $12, $10 ; EVOLINE_EXEGGCUTE
+	db $12, $12, $10 ; EVOLINE_CUBONE
+	db $14, $10, $10 ; EVOLINE_HITMONLEE
+	db $14, $10, $10 ; EVOLINE_HITMONCHAN
+	db $14, $12, $10 ; EVOLINE_LICKITUNG
+	db $11, $11, $10 ; EVOLINE_KOFFING
+	db $14, $14, $10 ; EVOLINE_RHYHORN
+	db $12, $12, $10 ; EVOLINE_CHANSEY
+	db $10, $10, $10 ; EVOLINE_TANGELA
+	db $12, $12, $10 ; EVOLINE_KANGASKHAN
+	db $0F, $0F, $0E ; EVOLINE_HORSEA
+	db $12, $12, $0E ; EVOLINE_GOLDEEN
+	db $23, $23, $10 ; EVOLINE_STARYU
+	db $13, $13, $10 ; EVOLINE_MR_MIME
+	db $13, $13, $10 ; EVOLINE_SCYTHER
+	db $12, $12, $10 ; EVOLINE_JYNX
+	db $12, $14, $10 ; EVOLINE_ELECTABUZZ
+	db $14, $14, $0E ; EVOLINE_MAGMAR
+	db $12, $12, $0E ; EVOLINE_PINSIR
+	db $12, $14, $10 ; EVOLINE_TAUROS
+	db $18, $18, $0C ; EVOLINE_MAGIKARP
+	db $16, $16, $0C ; EVOLINE_LAPRAS
+	db $14, $14, $10 ; EVOLINE_DITTO
+	db $12, $12, $10 ; EVOLINE_EEVEE
+	db $10, $10, $0E ; EVOLINE_PORYGON
+	db $12, $12, $0E ; EVOLINE_OMANYTE
+	db $12, $12, $0E ; EVOLINE_KABUTO
+	db $0C, $0C, $12 ; EVOLINE_AERODACTYL
+	db $26, $36, $12 ; EVOLINE_SNORLAX
+	db $13, $13, $10 ; EVOLINE_ARTICUNO
+	db $13, $13, $10 ; EVOLINE_ZAPDOS
+	db $13, $13, $10 ; EVOLINE_MOLTRES
+	db $12, $12, $0E ; EVOLINE_DRATINI
+	db $14, $14, $0E ; EVOLINE_MEWTWO
+	db $14, $14, $0E ; EVOLINE_MEW
 
 SECTION "bank5", ROMX, BANK[$5]
 
@@ -34179,7 +34179,7 @@ Func_1cb1c: ; 0x1cb1c
 	ld a, [$d517]
 	ld c, a
 	ld b, $0
-	ld hl, $4b33 ; todo
+	ld hl, Data_1cb33 ; todo
 	add hl, bc
 	ld a, [hl]
 	ld e, a
@@ -34187,6 +34187,7 @@ Func_1cb1c: ; 0x1cb1c
 	call PlaySoundEffect
 	ret
 
+Data_1cb33:
 	dr $1cb33, $1cb43
 
 Func_1cb43: ; 0x1cb43
@@ -34194,11 +34195,11 @@ Func_1cb43: ; 0x1cb43
 	ld c, a
 	sla c
 	ld b, $0
-	ld hl, $4b60 ; todo
+	ld hl, Data_1cb60 ; todo
 	ld a, [hGameBoyColorFlag]
 	and a
 	jr z, .asm_1cb56
-	ld hl, $4d10 ; todo
+	ld hl, Data_1cd10 ; todo
 .asm_1cb56
 	add hl, bc
 	ld a, [hli]
@@ -34208,7 +34209,11 @@ Func_1cb43: ; 0x1cb43
 	call Func_10aa
 	ret
 
-	dr $1cb60, $1ce40
+Data_1cb60:
+	dr $1cb60, $1cd10
+
+Data_1cd10:
+	dr $1cd10, $1ce40
 
 Func_1ce40: ; 1ce40
 	ld a, [$d4d8]
@@ -47539,7 +47544,7 @@ PointerTable_301d4: ; 0x301d4
 	db Bank(Func_3161b), $00
 
 	dw Func_3161b
-	db Bank(Func_3161b), $00 
+	db Bank(Func_3161b), $00
 
 StartMapMoveMode: ; 0x301ec
 	ld a, [wInSpecialMode]
@@ -50430,12 +50435,12 @@ WavePattern2_BankF: ; 0x3cb72
 WavePattern3_BankF: ; 0x3cb82
 	db $00, $11, $22, $33, $44, $33, $22, $11, $FF, $EE, $CC, $AA, $88, $AA, $CC, $EE
 WavePattern4_BankF: ; 0x3cb92
-	db $00, $11, $22, $33, $44, $33, $22, $11, $FF, $EE, $CC, $AA, $88, $AA, $CC, $EE 
+	db $00, $11, $22, $33, $44, $33, $22, $11, $FF, $EE, $CC, $AA, $88, $AA, $CC, $EE
 
 	dr $3cba2, $3cc8e
 
 Data_3cc8e: ; 0x3cc8e
-	db $11, $22, $44, $88 
+	db $11, $22, $44, $88
 
 WRAMPointerTable_3cc92: ; 0x3cc92
 	dw $DD01

@@ -34252,11 +34252,11 @@ asm_1ce7a: ; 0x1ce7a
 	sla a
 	ld c, a
 	ld b, $0
-	ld hl, $4eca
+	ld hl, Data_1ceca
 	ld a, [hGameBoyColorFlag]
 	and a
 	jr z, .asm_1ce8a
-	ld hl, $4f3a
+	ld hl, Data_1cf3a
 .asm_1ce8a
 	add hl, bc
 	ld a, [hli]
@@ -34282,7 +34282,7 @@ Func_1ce94: ; 0x1ce94
 	sub $1
 	ld c, a
 	ld b, $0
-	ld hl, $4ec8
+	ld hl, Data_1cec8
 	add hl, bc
 	ld a, [$d7ea]
 	add [hl]
@@ -34291,7 +34291,14 @@ Func_1ce94: ; 0x1ce94
 	call PlaySoundEffect
 	ret
 
-	dr $1cec8, $1cfaa
+Data_1cec8:
+	dr $1cec8, $1ceca
+
+Data_1ceca:
+	dr $1ceca, $1cf3a
+
+Data_1cf3a:
+	dr $1cf3a, $1cfaa
 
 Func_1cfaa: ; 0x1cfaa
 	ld a, [$d51f]
@@ -34613,7 +34620,7 @@ Func_1d216: ; 0x1d216
 	callba AddBCDScore
 	ld de, $0005
 	call PlaySoundEffect
-	ld hl, $5312 ; todo
+	ld hl, Data_1d312
 	ld de, $d632
 	call CopyHLToDE
 	xor a
@@ -34626,7 +34633,7 @@ Func_1d216: ; 0x1d216
 	xor a
 	ld [$d549], a
 .asm_1d253
-	ld hl, $5312 ; todo
+	ld hl, Data_1d312
 	ld de, $d632
 	call UpdateAnimation
 	push af
@@ -34713,6 +34720,7 @@ Func_1d216: ; 0x1d216
 	ld [$d640], a
 	ret
 
+Data_1d312:
 	dr $1d312, $1d32d
 
 HandleEnteringCloyster: ; 0x1d32d
@@ -34726,7 +34734,7 @@ HandleEnteringCloyster: ; 0x1d32d
 	callba AddBCDScore
 	ld de, $0005
 	call PlaySoundEffect
-	ld hl, $541d
+	ld hl, Data_1d41d
 	ld de, $d637
 	call CopyHLToDE
 	xor a
@@ -34739,7 +34747,7 @@ HandleEnteringCloyster: ; 0x1d32d
 	xor a
 	ld [$d549], a
 .asm_1d36a
-	ld hl, $541d
+	ld hl, Data_1d41d
 	ld de, $d637
 	call UpdateAnimation
 	push af
@@ -34821,6 +34829,7 @@ HandleEnteringCloyster: ; 0x1d32d
 	ld [$d640], a
 	ret
 
+Data_1d41d:
 	dr $1d41d, $1d438
 
 Func_1d438: ; 0x1d438
@@ -35067,7 +35076,7 @@ Func_1d602: ; 0x1d602
 	ld c, a
 	ld b, $0
 	sla c
-	ld hl, $56be
+	ld hl, Data_1d6be
 	add hl, bc
 	ld a, [hli]
 	ld h, [hl]
@@ -35086,7 +35095,7 @@ Func_1d602: ; 0x1d602
 	jr c, .asm_1d638
 	set 2, c
 .asm_1d638
-	ld hl, $5946
+	ld hl, Data_1d946
 	add hl, bc
 	ld a, [hli]
 	ld h, [hl]
@@ -35104,7 +35113,7 @@ Func_1d645: ; 0x1d645
 	ld c, a
 	ld b, $0
 	sla c
-	ld hl, $597a
+	ld hl, Data_1d97a
 	add hl, bc
 	ld a, [hli]
 	ld h, [hl]
@@ -35122,7 +35131,7 @@ Func_1d65f: ; 0x1d65f
 .asm_1d669
 	ld b, a
 	xor a
-	ld hl, $568b ; todo
+	ld hl, Data_1d68b
 	ld c, $7
 .asm_1d670
 	bit 0, b
@@ -35143,6 +35152,7 @@ Func_1d65f: ; 0x1d65f
 	ld [$d60d], a
 	ret
 
+Data_1d68b:
 	dr $1d68b, $1d692
 
 Func_1d692: ; 0x1d692
@@ -35172,7 +35182,14 @@ Func_1d692: ; 0x1d692
 	call Func_1d5f2
 	ret
 
-	dr $1d6be, $1dbd2
+Data_1d6be:
+	dr $1d6be, $1d946
+
+Data_1d946:
+	dr $1d946, $1d97a
+
+Data_1d97a:
+	dr $1d97a, $1dbd2
 
 Func_1dbd2: ; 0x1dbd2
 	ld a, [$d4ed]
@@ -35351,7 +35368,8 @@ Func_1dc95: ; 0x1dc95
 	ld [$d646], a
 	ret
 
-	dr $1dd2d, $1dd2e
+; XXX
+	ret
 
 Func_1dd2e: ; 0x1dd2e
 	ld a, [$d645]
@@ -35505,11 +35523,11 @@ Func_1de4b: ; 0x1de4b
 	sla a
 	ld c, a
 	ld b, $0
-	ld hl, $5f66
+	ld hl, Data_1df66
 	ld a, [hGameBoyColorFlag]
 	and a
 	jr z, .asm_1de63
-	ld hl, $600f
+	ld hl, Data_1e00f
 .asm_1de63
 	add hl, bc
 	ld a, [hli]
@@ -35530,11 +35548,11 @@ Func_1de6f: ; 0x1de6f
 	sla a
 	ld c, a
 	ld b, $0
-	ld hl, $60a4
+	ld hl, Data_1e0a4
 	ld a, [hGameBoyColorFlag]
 	and a
 	jr z, .asm_1de87
-	ld hl, $61d6
+	ld hl, Data_1e1d6
 .asm_1de87
 	add hl, bc
 	ld a, [hli]
@@ -35682,7 +35700,17 @@ Func_1df15: ; 0x1df15
 .asm_1df65
 	ret
 
-	dr $1df66, $1e356
+Data_1df66:
+	dr $1df66, $1e00f
+
+Data_1e00f:
+	dr $1e00f, $1e0a4
+
+Data_1e0a4:
+	dr $1e0a4, $1e1d6
+
+Data_1e1d6:
+	dr $1e1d6, $1e356
 
 Func_1e356: ; 0x1e356
 	ld a, [$d5f7]
@@ -35820,22 +35848,22 @@ Func_1e484: ; 0x1e484
 	ld a, [hGameBoyColorFlag]
 	and a
 	jr nz, .asm_1e491
-	ld hl, $6520
+	ld hl, Data_1e520
 	jr .asm_1e4a3
 
 .asm_1e491
-	ld hl, $6556
+	ld hl, Data_1e556
 	jr .asm_1e4a3
 
 .asm_1e496
 	ld a, [hGameBoyColorFlag]
 	and a
 	jr nz, .asm_1e4a0
-	ld hl, $6526
+	ld hl, Data_1e526
 	jr .asm_1e4a3
 
 .asm_1e4a0
-	ld hl, $655c
+	ld hl, Data_1e55c
 .asm_1e4a3
 	push bc
 	dec b
@@ -35939,7 +35967,17 @@ BallTypeDegradation2BlueField: ; 0x1e51a
 	db ULTRA_BALL  ; unused
 	db ULTRA_BALL  ; MASTER_BALL -> GREAT_BALL
 
-	dr $1e520, $1e58c
+Data_1e520:
+	dr $1e520, $1e526
+
+Data_1e526:
+	dr $1e526, $1e556
+
+Data_1e556:
+	dr $1e556, $1e55c
+
+Data_1e55c:
+	dr $1e55c, $1e58c
 
 HandleBallTypeUpgradeCounterBlueField: ; 0x1e58c
 	ld a, [$d5f3]
@@ -36044,22 +36082,22 @@ Func_1e636: ; 0x1e636
 	ld a, [hGameBoyColorFlag]
 	and a
 	jr nz, .asm_1e643
-	ld hl, $66d7
+	ld hl, Data_1e6d7
 	jr .asm_1e655
 
 .asm_1e643
-	ld hl, $6717
+	ld hl, Data_1e717
 	jr .asm_1e655
 
 .asm_1e648
 	ld a, [hGameBoyColorFlag]
 	and a
 	jr nz, .asm_1e652
-	ld hl, $66df
+	ld hl, Data_1e6df
 	jr .asm_1e655
 
 .asm_1e652
-	ld hl, $671f
+	ld hl, Data_1e71f
 .asm_1e655
 	push bc
 	dec b
@@ -36153,7 +36191,17 @@ Func_1e66a: ; 0x1e66a
 	ld [hl], a
 	ret
 
-	dr $1e6d7, $1e757
+Data_1e6d7:
+	dr $1e6d7, $1e6df
+
+Data_1e6df:
+	dr $1e6df, $1e717
+
+Data_1e717:
+	dr $1e717, $1e71f
+
+Data_1e71f:
+	dr $1e71f, $1e757
 
 Func_1e757: ; 0x1e757
 	ld a, [$d601]
@@ -36297,7 +36345,7 @@ Func_1e830: ; 0x1e830
 	ld a, [$d498]
 	ld c, a
 	ld b, $0
-	ld hl, $68f1
+	ld hl, Data_1e8f1
 	add hl, bc
 	ld a, [hl]
 	ld [$d497], a
@@ -36334,13 +36382,13 @@ Func_1e8c3: ; 0x1e8c3
 	call Func_30db
 	ld hl, $d5dc
 	ld a, [$d497]
-	ld de, $2ed2
+	ld de, Data_2ed2
 	cp $b
 	jr z, .asm_1e8e0
-	ld de, $2eec
+	ld de, Data_2eec
 	cp $f
 	jr z, .asm_1e8e0
-	ld de, $2eb8
+	ld de, Data_2eb8
 .asm_1e8e0
 	call LoadTextHeader
 	ld de, $0000
@@ -36350,6 +36398,7 @@ Func_1e8c3: ; 0x1e8c3
 	call PlaySoundEffect
 	ret
 
+Data_1e8f1:
 	dr $1e8f1, $1e8f6
 
 Func_1e8f6: ; 0x1e8f6
@@ -36362,11 +36411,11 @@ Func_1e8f6: ; 0x1e8f6
 	sla a
 	ld c, a
 	ld b, $0
-	ld hl, $691e
+	ld hl, Data_1e91e
 	ld a, [hGameBoyColorFlag]
 	and a
 	jr z, .asm_1e912
-	ld hl, $6970
+	ld hl, Data_1e970
 .asm_1e912
 	add hl, bc
 	ld a, [hli]
@@ -36378,7 +36427,11 @@ Func_1e8f6: ; 0x1e8f6
 	call Func_10aa
 	ret
 
-	dr $1e91e, $1e9c0
+Data_1e91e:
+	dr $1e91e, $1e970
+
+Data_1e970:
+	dr $1e970, $1e9c0
 
 Func_1e9c0: ; 0x1e9c0
 	ld a, [$d607]
@@ -36482,10 +36535,10 @@ Func_1ea3b: ; 0x1ea3b
 	; fall through
 
 asm_1ea6a: ; 0x1ea6a
-	ld bc, $4000
+	ld bc, Data_f0000
 	add hl, bc
 	ld de, wBallXVelocity
-	ld a, $3c
+	ld a, BANK(Data_f0000)
 	call ReadByteFromBank
 	ld c, a
 	ld a, [de]
@@ -36493,7 +36546,7 @@ asm_1ea6a: ; 0x1ea6a
 	ld [de], a
 	inc de
 	inc hl
-	ld a, $3c
+	ld a, BANK(Data_f0000)
 	call ReadByteFromBank
 	ld b, a
 	ld a, [de]
@@ -36502,7 +36555,7 @@ asm_1ea6a: ; 0x1ea6a
 	inc de
 	inc hl
 	push bc
-	ld a, $3c
+	ld a, BANK(Data_f0000)
 	call ReadByteFromBank
 	ld c, a
 	ld a, [de]
@@ -36510,7 +36563,7 @@ asm_1ea6a: ; 0x1ea6a
 	ld [de], a
 	inc de
 	inc hl
-	ld a, $3c
+	ld a, BANK(Data_f0000)
 	call ReadByteFromBank
 	ld b, a
 	ld a, [de]
@@ -36632,11 +36685,11 @@ Func_1ead4: ; 0x1ead4
 Func_1eb41: ; 0x1eb41
 	push af
 	sla c
-	ld hl, $6b61
+	ld hl, Data_1eb61
 	ld a, [hGameBoyColorFlag]
 	and a
 	jr z, .asm_1eb4f
-	ld hl, $6d51
+	ld hl, Data_1ed51
 .asm_1eb4f
 	add hl, bc
 	ld a, [hli]
@@ -36653,7 +36706,11 @@ Func_1eb41: ; 0x1eb41
 	call Func_10aa
 	ret
 
-	dr $1eb61, $1ef09
+Data_1eb61:
+	dr $1eb61, $1ed51
+
+Data_1ed51:
+	dr $1ed51, $1ef09
 
 Func_1ef09: ; 0x1ef09
 	ld a, [wBlueStageForceFieldDirection]
@@ -36800,10 +36857,10 @@ Func_1efdc: ; 0x1efdc
 	; default to upward forcefield
 
 Func_1eff3:  ; 0x1eff3
-	ld bc, $4000
+	ld bc, Data_ec000
 	add hl, bc
 	ld de, wBallXVelocity
-	ld a, $3b
+	ld a, BANK(Data_ec000)
 	call ReadByteFromBank
 	ld c, a
 	ld a, [de]
@@ -36811,7 +36868,7 @@ Func_1eff3:  ; 0x1eff3
 	ld [de], a
 	inc de
 	inc hl
-	ld a, $3b
+	ld a, BANK(Data_ec000)
 	call ReadByteFromBank
 	ld b, a
 	ld a, [de]
@@ -36820,7 +36877,7 @@ Func_1eff3:  ; 0x1eff3
 	inc de
 	inc hl
 	push bc
-	ld a, $3b
+	ld a, BANK(Data_ec000)
 	call ReadByteFromBank
 	ld c, a
 	ld a, [de]
@@ -36828,7 +36885,7 @@ Func_1eff3:  ; 0x1eff3
 	ld [de], a
 	inc de
 	inc hl
-	ld a, $3b
+	ld a, BANK(Data_ec000)
 	call ReadByteFromBank
 	ld b, a
 	ld a, [de]
@@ -36873,12 +36930,12 @@ Func_1eff3:  ; 0x1eff3
 	ret
 
 Func_1f057: ; 0x1f057
-	ld bc, $4000
+	ld bc, Data_ec000
 	add hl, bc
 	ld de, wBallXVelocity
 	bit 2, l
 	ret nz
-	ld a, $3b
+	ld a, BANK(Data_ec000)
 	call ReadByteFromBank
 	ld c, a
 	ld a, [de]
@@ -36886,7 +36943,7 @@ Func_1f057: ; 0x1f057
 	ld [de], a
 	inc de
 	inc hl
-	ld a, $3b
+	ld a, BANK(Data_ec000)
 	call ReadByteFromBank
 	ld b, a
 	ld a, [de]
@@ -36895,7 +36952,7 @@ Func_1f057: ; 0x1f057
 	inc de
 	inc hl
 	push bc
-	ld a, $3b
+	ld a, BANK(Data_ec000)
 	call ReadByteFromBank
 	ld c, a
 	ld a, [de]
@@ -36903,7 +36960,7 @@ Func_1f057: ; 0x1f057
 	ld [de], a
 	inc de
 	inc hl
-	ld a, $3b
+	ld a, BANK(Data_ec000)
 	call ReadByteFromBank
 	ld b, a
 	ld a, [de]
@@ -36948,10 +37005,10 @@ Func_1f057: ; 0x1f057
 	ret
 
 LoadOAMData2e: ; 0x1f0be
-	ld bc, $4000
+	ld bc, Data_ec000
 	add hl, bc
 	ld de, wBallYVelocity
-	ld a, $3b
+	ld a, BANK(Data_ec000)
 	call ReadByteFromBank
 	ld c, a
 	ld a, [de]
@@ -36959,7 +37016,7 @@ LoadOAMData2e: ; 0x1f0be
 	ld [de], a
 	inc de
 	inc hl
-	ld a, $3b
+	ld a, BANK(Data_ec000)
 	call ReadByteFromBank
 	ld b, a
 	ld a, [de]
@@ -36970,7 +37027,7 @@ LoadOAMData2e: ; 0x1f0be
 	dec de
 	dec de
 	dec de
-	ld a, $3b
+	ld a, BANK(Data_ec000)
 	call ReadByteFromBank
 	ld c, a
 	ld a, [de]
@@ -36978,7 +37035,7 @@ LoadOAMData2e: ; 0x1f0be
 	ld [de], a
 	inc de
 	inc hl
-	ld a, $3b
+	ld a, BANK(Data_ec000)
 	call ReadByteFromBank
 	ld b, a
 	ld a, [de]
@@ -37023,10 +37080,10 @@ LoadOAMData2e: ; 0x1f0be
 	ret
 
 Func_1f124: ; 0x1f124
-	ld bc, $4000
+	ld bc, Data_ec000
 	add hl, bc
 	ld de, wBallYVelocity
-	ld a, $3b
+	ld a, BANK(Data_ec000)
 	call ReadByteFromBank
 	ld c, a
 	ld a, [de]
@@ -37034,7 +37091,7 @@ Func_1f124: ; 0x1f124
 	ld [de], a
 	inc de
 	inc hl
-	ld a, $3b
+	ld a, BANK(Data_ec000)
 	call ReadByteFromBank
 	ld b, a
 	ld a, [de]
@@ -37045,7 +37102,7 @@ Func_1f124: ; 0x1f124
 	dec de
 	dec de
 	dec de
-	ld a, $3b
+	ld a, BANK(Data_ec000)
 	call ReadByteFromBank
 	ld c, a
 	ld a, [de]
@@ -37053,7 +37110,7 @@ Func_1f124: ; 0x1f124
 	ld [de], a
 	inc de
 	inc hl
-	ld a, $3b
+	ld a, BANK(Data_ec000)
 	call ReadByteFromBank
 	ld b, a
 	ld a, [de]
@@ -37105,11 +37162,11 @@ Func_1f18a: ; 0x1f18a
 	sla a
 	ld c, a
 	ld b, $0
-	ld hl, $71b5
+	ld hl, Data_1f1b5
 	ld a, [hGameBoyColorFlag]
 	and a
 	jr z, .asm_1f1a4
-	ld hl, $7201
+	ld hl, Data_1f201
 .asm_1f1a4
 	add hl, bc
 	ld a, [hli]
@@ -37124,7 +37181,11 @@ Func_1f18a: ; 0x1f18a
 .asm_1f1b4
 	ret
 
-	dr $1f1b5, $1f261
+Data_1f1b5:
+	dr $1f1b5, $1f201
+
+Data_1f201:
+	dr $1f201, $1f261
 
 Func_1f261: ; 0x1f261
 	call Func_1f27b
@@ -37135,7 +37196,7 @@ Func_1f265: ; 0x1f265
 	sla a
 	ld c, a
 	ld b, $0
-	ld hl, $72b9
+	ld hl, Data_1f2b9
 	add hl, bc
 	ld a, [hli]
 	ld c, a
@@ -37183,6 +37244,7 @@ Func_1f27b: ; 0x1f27b
 	scf
 	ret
 
+Data_1f2b9:
 	dr $1f2b9, $1f2ed
 
 Func_1f2ed: ; 0x1f2ed
@@ -37255,13 +37317,13 @@ Func_1f35a: ; 0x1f35a
 
 Func_1f395: ; 0x1f395
 	ld de, $d4cd
-	ld hl, $73cf
+	ld hl, Data_1f3cf
 	call Func_1f3ad
 	ld de, $d4d0
-	ld hl, $73d5
+	ld hl, Data_1f3d5
 	call Func_1f3ad
 	ld de, $d4d3
-	ld hl, $73db
+	ld hl, Data_1f3db
 	; fall through
 
 Func_1f3ad: ; 0x1f3ad
@@ -37292,7 +37354,14 @@ Func_1f3ad: ; 0x1f3ad
 	call LoadOAMData
 	ret
 
-	dr $1f3cf, $1f3e1
+Data_1f3cf:
+	dr $1f3cf, $1f3d5
+
+Data_1f3d5:
+	dr $1f3d5, $1f3db
+
+Data_1f3db:
+	dr $1f3db, $1f3e1
 
 Func_1f3e1: ; 0x1f3e1
 	ld a, $8a
@@ -37308,12 +37377,13 @@ Func_1f3e1: ; 0x1f3e1
 	srl a
 	ld e, a
 	ld d, $0
-	ld hl, $7402
+	ld hl, Data_1f402
 	add hl, de
 	ld a, [hl]
 	call LoadOAMData
 	ret
 
+Data_1f402:
 	dr $1f402, $1f408
 
 Func_1f408: ; 0x1f408
@@ -37328,12 +37398,13 @@ Func_1f408: ; 0x1f408
 	ld a, [$d633]
 	ld e, a
 	ld d, $0
-	ld hl, $7425
+	ld hl, Data_1f425
 	add hl, de
 	ld a, [hl]
 	call LoadOAMData
 	ret
 
+Data_1f425:
 	dr $1f425, $1f428
 
 Func_1f428: ; 0x1f428
@@ -37348,12 +37419,13 @@ Func_1f428: ; 0x1f428
 	ld a, [$d638]
 	ld e, a
 	ld d, $0
-	ld hl, $7445
+	ld hl, Data_1f445
 	add hl, de
 	ld a, [hl]
 	call LoadOAMData
 	ret
 
+Data_1f445:
 	dr $1f445, $1f448
 
 Func_1f448: ; 0x1f448
@@ -37385,7 +37457,7 @@ Func_1f448: ; 0x1f448
 	sla a
 	ld c, a
 	ld b, $0
-	ld hl, $748b
+	ld hl, Data_1f48b
 	add hl, bc
 	ld a, [hli]
 	sub d
@@ -37398,6 +37470,7 @@ Func_1f448: ; 0x1f448
 	call LoadOAMData
 	ret
 
+Data_1f48b:
 	dr $1f48b, $1f48f
 
 Func_1f48f: ; 0x1f48f
@@ -37408,7 +37481,7 @@ Func_1f48f: ; 0x1f48f
 	bit 4, a
 	ret z
 	ld de, wIndicatorStates + 5
-	ld hl, $74ce
+	ld hl, Data_1f4ce
 	ld b, $6
 	jr asm_1f4b5
 
@@ -37420,7 +37493,7 @@ Func_1f4a3: ; 0x1f4a3
 	bit 4, a
 	ret z
 	ld de, wIndicatorStates + 11
-	ld hl, $74e0
+	ld hl, Data_1f4e0
 	ld b, $8
 asm_1f4b5:
 	push bc
@@ -37444,14 +37517,18 @@ asm_1f4b5:
 	jr nz, asm_1f4b5
 	ret
 
-	dr $1f4ce, $1f4f8
+Data_1f4ce:
+	dr $1f4ce, $1f4e0
+
+Data_1f4e0:
+	dr $1f4e0, $1f4f8
 
 Func_1f4f8: ; 0x1f4f8
 	ld a, [$d551]
 	and a
 	ret z
 	ld de, $d566
-	ld hl, $753a
+	ld hl, Data_1f53a
 	ld b, $c
 	ld c, $47
 	jr asm_1f518
@@ -37461,7 +37538,7 @@ Func_1f509: ; 0x1f509
 	and a
 	ret z
 	ld de, $d572
-	ld hl, $7552
+	ld hl, Data_1f552
 	ld b, $6
 	ld c, $40
 asm_1f518: ; 0x1f518
@@ -37493,7 +37570,11 @@ asm_1f518: ; 0x1f518
 	jr nz, asm_1f518
 	ret
 
-	dr $1f53a, $1f55e
+Data_1f53a:
+	dr $1f53a, $1f552
+
+Data_1f552:
+	dr $1f552, $1f55e
 
 Func_1f55e: ; 0x1f55e
 	ld a, [$d604]
@@ -37535,13 +37616,14 @@ Func_1f58b: ; 0x1f58b
 	ld a, [$d5bd]
 	ld e, a
 	ld d, $0
-	ld hl, $75ad
+	ld hl, Data_1f5ad
 	add hl, de
 	ld a, [hl]
 	call LoadOAMData
 	ret
 
-	dr $1f5ad, $20000
+Data_1f5ad:
+	dr $1f5ad, $1f5b9
 
 SECTION "bank8", ROMX, BANK[$8]
 
@@ -58271,11 +58353,11 @@ Data_e9100:
 	dr $e9100, $ec000 ; 0xe8000
 
 SECTION "bank3b", ROMX, BANK[$3b]
-
+Data_ec000:
 	dr $ec000, $f0000 ; 0xec000
 
 SECTION "bank3c", ROMX, BANK[$3c]
-
+Data_f0000:
 	dr $f0000, $f2400 ; 0xf0000
 
 TiltRightOnlyForce: ; 0xf2400

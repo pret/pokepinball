@@ -17566,7 +17566,7 @@ ReadFlipperCollisionAttributes: ; 0xe25a
 	rl b
 	sla c
 	rl b   ; bc = (x offset of flipper horizontal range) * 32
-	       ; Each row of the flipper collision attributes is 32 bytes long.
+	; Each row of the flipper collision attributes is 32 bytes long.
 	add hl, bc  ; hl points to the start of the row in the flipper collisoin attributes
 	ld a, [$ffbd]  ; y offset of flipper vertical range
 	ld c, a
@@ -30729,11 +30729,11 @@ Func_18d72: ; 0x18d72
 	sla a
 	ld c, a
 	ld b, $0
-	ld hl, $4ddb
+	ld hl, Data_18ddb
 	ld a, [hGameBoyColorFlag]
 	and a
 	jr z, .asm_18d85
-	ld hl, $4ed1
+	ld hl, Data_18ed1
 .asm_18d85
 	add hl, bc
 	ld a, [hli]
@@ -30748,9 +30748,9 @@ Func_18d72: ; 0x18d72
 Func_18d91: ; 0x18d91
 	ld a, [$d656]
 	and a
-	ld hl, $4dc9
+	ld hl, Data_18dc9
 	jr z, .asm_18d9d
-	ld hl, $4dd2
+	ld hl, Data_18dd2
 .asm_18d9d
 	ld de, $c7c7
 	call Func_18db2
@@ -30784,7 +30784,17 @@ Func_18db2: ; 0x18db2
 	pop hl
 	ret
 
-	dr $18dc9, $18faf
+Data_18dc9:
+	dr $18dc9, $18dd2
+
+Data_18dd2:
+	dr $18dd2, $18ddb
+
+Data_18ddb:
+	dr $18ddb, $18ed1
+
+Data_18ed1:
+	dr $18ed1, $18faf
 
 Func_18faf: ; 0x18faf
 	ld bc, $7f00
@@ -30799,7 +30809,44 @@ Func_18faf: ; 0x18faf
 	callba Func_17e81
 	ret
 
-	dr $18fda, $19020
+Func_18fda:
+	ld a, [hNewlyPressedButtons]
+	bit 6, a
+	ret z
+	ld a, [$d659]
+	and a
+	jr z, .asm_18ff8
+	ld a, $1
+	ld [$d67e], a
+	ld [$d687], a
+	xor a
+	ld [$d659], a
+	ld [$d662], a
+	ld [$d66b], a
+	ret
+
+.asm_18ff8
+	ld a, [$d67e]
+	and a
+	jr z, .asm_1900b
+	ld a, $1
+	ld [$d698], a
+	xor a
+	ld [$d67e], a
+	ld [$d687], a
+	ret
+
+.asm_1900b
+	ld a, [$d698]
+	and a
+	ret z
+	ld a, $1
+	ld [$d659], a
+	ld [$d662], a
+	ld [$d66b], a
+	xor a
+	ld [$d698], a
+	ret
 
 Func_19020: ; 0x19020
 	ld de, $d659
@@ -30848,13 +30895,14 @@ Func_19033: ; 0x19033
 	ld a, [de]
 	ld e, a
 	ld d, $0
-	ld hl, $506b
+	ld hl, Data_1906b
 	add hl, de
 	ld a, [hl]
 	cp $ff
 	call nz, LoadOAMData2
 	ret
 
+Data_1906b:
 	dr $1906b, $19070
 
 Func_19070: ; 0x19070
@@ -30868,7 +30916,7 @@ Func_19070: ; 0x19070
 	sla a
 	ld c, a
 	ld b, $0
-	ld hl, $50a9
+	ld hl, Data_190a9
 	add hl, bc
 	ld a, [hli]
 	ld e, a
@@ -30891,6 +30939,7 @@ Func_19070: ; 0x19070
 	scf
 	ret
 
+Data_190a9:
 	dr $190a9, $190b9
 
 Func_190b9: ; 0x190b9
@@ -30938,13 +30987,14 @@ Func_190c6: ; 0x190c6
 	ld a, [de]
 	ld e, a
 	ld d, $0
-	ld hl, $50fe
+	ld hl, Data_190fe
 	add hl, de
 	ld a, [hl]
 	cp $ff
 	call nz, LoadOAMData2
 	ret
 
+Data_190fe:
 	dr $190fe, $19104
 
 Func_19104: ; 0x19104
@@ -30959,7 +31009,7 @@ Func_19104: ; 0x19104
 	sla a
 	ld c, a
 	ld b, $0
-	ld hl, $5145
+	ld hl, Data_19145
 	add hl, bc
 	ld a, [hli]
 	ld c, a
@@ -30987,6 +31037,7 @@ Func_19104: ; 0x19104
 	scf
 	ret
 
+Data_19145:
 	dr $19145, $19185
 
 Func_19185: ; 0x19185
@@ -31032,13 +31083,14 @@ Func_1918c: ; 0x1918c
 	ld a, [de]
 	ld e, a
 	ld d, $0
-	ld hl, $51c4
+	ld hl, Data_191c4
 	add hl, de
 	ld a, [hl]
 	cp $ff
 	call nz, LoadOAMData2
 	ret
 
+Data_191c4:
 	dr $191c4, $191cb
 
 Func_191cb: ; 0x191cb
@@ -31053,7 +31105,7 @@ Func_191cb: ; 0x191cb
 	sla a
 	ld c, a
 	ld b, $0
-	ld hl, $520f
+	ld hl, Data_1920f
 	add hl, bc
 	ld a, [hli]
 	ld c, a
@@ -31082,6 +31134,7 @@ Func_191cb: ; 0x191cb
 	scf
 	ret
 
+Data_1920f:
 	dr $1920f, $1924f
 
 InitMewtwoBonusStage: ; 0x1924f
@@ -31098,7 +31151,7 @@ InitMewtwoBonusStage: ; 0x1924f
 	ld [$d4c8], a
 	ld [wBallType], a
 	ld [$d49a], a
-	ld hl, $52ab ; todo
+	ld hl, Data_192ab
 	ld de, $d6b6
 	ld b, $c
 .asm_19275
@@ -31116,7 +31169,7 @@ InitMewtwoBonusStage: ; 0x1924f
 	inc de
 	dec b
 	jr nz, .asm_19275
-	ld hl, $52db ; todo
+	ld hl, Data_192db
 	ld de, $d6ac
 	ld b, $8
 .asm_1928c
@@ -31134,7 +31187,11 @@ InitMewtwoBonusStage: ; 0x1924f
 	call PlaySong
 	ret
 
-	dr $192ab, $192e3
+Data_192ab:
+	dr $192ab, $192db
+
+Data_192db:
+	dr $192db, $192e3
 
 StartBallMewtwoBonusStage: ; 0x192e3
 	ld a, $0
@@ -31246,10 +31303,10 @@ Func_1936f: ; 0x1936f
 	rl h
 	sla l
 	rl h
-	ld de, $4000
+	ld de, Data_e4000
 	add hl, de
 	ld de, wBallXVelocity
-	ld a, $39
+	ld a, BANK(Data_e4000)
 	call ReadByteFromBank
 	ld c, a
 	ld a, [de]
@@ -31257,7 +31314,7 @@ Func_1936f: ; 0x1936f
 	ld [de], a
 	inc de
 	inc hl
-	ld a, $39
+	ld a, BANK(Data_e4000)
 	call ReadByteFromBank
 	ld b, a
 	ld a, [de]
@@ -31266,7 +31323,7 @@ Func_1936f: ; 0x1936f
 	inc de
 	inc hl
 	push bc
-	ld a, $39
+	ld a, BANK(Data_e4000)
 	call ReadByteFromBank
 	ld c, a
 	ld a, [de]
@@ -31274,7 +31331,7 @@ Func_1936f: ; 0x1936f
 	ld [de], a
 	inc de
 	inc hl
-	ld a, $39
+	ld a, BANK(Data_e4000)
 	call ReadByteFromBank
 	ld b, a
 	ld a, [de]
@@ -31403,11 +31460,11 @@ Func_194ac: ; 0x194ac
 	sla a
 	ld c, a
 	ld b, $0
-	ld hl, $54c9
+	ld hl, Data_194c9
 	ld a, [hGameBoyColorFlag]
 	and a
 	jr z, .asm_194bf
-	ld hl, $54fd
+	ld hl, Data_194fd
 .asm_194bf
 	add hl, bc
 	ld a, [hli]
@@ -31417,7 +31474,11 @@ Func_194ac: ; 0x194ac
 	call Func_10aa
 	ret
 
-	dr $194c9, $19531
+Data_194c9:
+	dr $194c9, $194fd
+
+Data_194fd:
+	dr $194fd, $19531
 
 Func_19531: ; 0x19531
 	ld a, [$d6aa]
@@ -31532,7 +31593,7 @@ Func_195f5: ; 0x195f5
 	sla a
 	ld c, a
 	ld b, $0
-	ld hl, $5691
+	ld hl, Data_19691
 	add hl, bc
 	ld a, [hli]
 	ld h, [hl]
@@ -31621,7 +31682,7 @@ Func_19679: ; 0x19679
 	sla a
 	ld c, a
 	ld b, $0
-	ld hl, $5691
+	ld hl, Data_19691
 	add hl, bc
 	ld a, [hli]
 	ld h, [hl]
@@ -31636,6 +31697,7 @@ Func_19679: ; 0x19679
 	ld [de], a
 	ret
 
+Data_19691:
 	dr $19691, $19701
 
 Func_19701: ; 0x19701
@@ -31707,7 +31769,7 @@ Func_1978b: ; 0x1978b
 	xor a
 .asm_19797
 	ld [de], a
-	ld hl, $57a4
+	ld hl, Data_197a3 + 1
 	add hl, bc
 	dec de
 	ld a, [hld]
@@ -31717,6 +31779,7 @@ Func_1978b: ; 0x1978b
 	ld [de], a
 	ret
 
+Data_197a3:
 	dr $197a3, $19833
 
 Func_19833: ; 0x19833
@@ -31731,7 +31794,7 @@ Func_19833: ; 0x19833
 	sla a
 	ld c, a
 	ld b, $0
-	ld hl, $5916
+	ld hl, Data_19916
 	add hl, bc
 	ld a, [hli]
 	ld h, [hl]
@@ -31760,7 +31823,7 @@ Func_1985a: ; 0x1985a
 	jp Func_19876
 
 Func_19863: ; 0x19863
-	 dec de
+	dec de
 	ld a, [de]
 	cp $7
 	ret nz
@@ -31783,7 +31846,7 @@ Func_19876: ; 0x19876
 	sla a
 	ld c, a
 	ld b, $0
-	ld hl, $5916
+	ld hl, Data_19916
 	add hl, bc
 	ld a, [hli]
 	ld h, [hl]
@@ -31805,7 +31868,7 @@ Func_1988e: ; 0x1988e
 	sla a
 	ld c, a
 	ld b, $0
-	ld hl, $58ce
+	ld hl, Data_198ce
 	add hl, bc
 	ld de, $d6bd
 	ld b, $6
@@ -31849,7 +31912,11 @@ Func_1988e: ; 0x1988e
 	jr nz, .asm_198a3
 	ret
 
-	dr $198ce, $1994e
+Data_198ce:
+	dr $198ce, $19916
+
+Data_19916:
+	dr $19916, $1994e
 
 Func_1994e: ; 0x1994e
 	ld bc, $7f65
@@ -31875,13 +31942,14 @@ Func_19976: ; 0x19976
 	ld a, [$d6ad]
 	ld e, a
 	ld d, $0
-	ld hl, $5995
+	ld hl, Data_19995
 	add hl, de
 	ld a, [hl]
 	cp $ff
 	call nz, LoadOAMData2
 	ret
 
+Data_19995:
 	dr $19995, $1999d
 
 Func_1999d: ; 0x1999d
@@ -31923,13 +31991,14 @@ Func_199be: ; 0x199be
 	ld a, [de]
 	ld e, a
 	ld d, $0
-	ld hl, $59e6
+	ld hl, Data_199e6
 	add hl, de
 	ld a, [hl]
 	cp $ff
 	call nz, LoadOAMData2
 	ret
 
+Data_199e6:
 	dr $199e6, $199f2
 
 InitDiglettBonusStage: ; 0x199f2
@@ -32058,7 +32127,7 @@ Func_19aba: ; 0x19aba
 	ret nc
 	ld c, a
 	ld b, $0
-	ld hl, $5b18 ; todo
+	ld hl, Data_19b18 ; todo
 	add hl, bc
 	ld a, [hl]
 	cp $a
@@ -32098,6 +32167,7 @@ Func_19aba: ; 0x19aba
 	and a
 	ret
 
+Data_19b18:
 	dr $19b18, $19b4b
 
 Func_19b4b: ; 0x19b4b
@@ -32168,11 +32238,11 @@ Func_19bbd: ; 0x19bbd
 	sla a
 	ld c, a
 	ld b, $0
-	ld hl, $5bda
+	ld hl, Data_19bda
 	ld a, [hGameBoyColorFlag]
 	and a
 	jr z, .asm_19bd0
-	ld hl, $5c16
+	ld hl, Data_19c16
 .asm_19bd0
 	add hl, bc
 	ld a, [hli]
@@ -32182,7 +32252,11 @@ Func_19bbd: ; 0x19bbd
 	call Func_10aa
 	ret
 
-	dr $19bda, $19c52
+Data_19bda:
+	dr $19bda, $19c16
+
+Data_19c16:
+	dr $19c16, $19c52
 
 Func_19c52: ; 0x19c52
 	ld a, [$d73b]
@@ -32232,7 +32306,7 @@ Func_19c52: ; 0x19c52
 	ld a, c
 	cp NUM_DIGLETTS
 	jr nz, .asm_19cc8
-	ld hl, $6c75
+	ld hl, Data_1ac75
 	ld de, wDugtrioAnimationFrameCounter
 	call CopyHLToDE
 	ld a, $1
@@ -32419,7 +32493,7 @@ Func_19dcd: ; 0x19dcd
 	add c
 	ld c, a
 	ld b, $0
-	ld hl, $5e13
+	ld hl, Data_19e13
 	add hl, bc
 	ld a, [hli]
 	ld e, a
@@ -32450,7 +32524,7 @@ Func_19df0: ; 0x19df0
 	add c
 	ld c, a
 	ld b, $0
-	ld hl, $5e13
+	ld hl, Data_19e13
 	add hl, bc
 	ld a, [hli]
 	ld e, a
@@ -32472,6 +32546,7 @@ Func_19df0: ; 0x19df0
 	ld [de], a
 	ret
 
+Data_19e13:
 	dr $19e13, $19ed1
 
 INCLUDE "data/diglett_stage/diglett_stage_animation_data.asm"
@@ -32492,7 +32567,7 @@ Func_1aad4: ; 0x1aad4
 	sla a
 	ld c, a
 	ld b, $0
-	ld hl, $6c62
+	ld hl, Data_1ac62
 	add hl, bc
 	ld a, [hli]
 	ld h, [hl]
@@ -32524,7 +32599,7 @@ Func_1ab30: ; 0x1ab30
 	sla a
 	ld c, a
 	ld b, $0
-	ld hl, $6c62
+	ld hl, Data_1ac62
 	add hl, bc
 	ld a, [hli]
 	ld h, [hl]
@@ -32540,7 +32615,7 @@ Func_1ab30: ; 0x1ab30
 	ld a, [wDugtrioAnimationFrameIndex]
 	cp $3
 	ret nz
-	ld hl, $6c75
+	ld hl, Data_1ac75
 	ld de, wDugtrioAnimationFrameCounter
 	call CopyHLToDE
 	ld a, $1
@@ -32553,7 +32628,7 @@ Func_1ab30: ; 0x1ab30
 	ld a, [wDugtrioAnimationFrameIndex]
 	cp $1
 	ret nz
-	ld hl, $6c7f
+	ld hl, Data_1ac7f
 	ld de, wDugtrioAnimationFrameCounter
 	call CopyHLToDE
 	ld a, $3
@@ -32566,7 +32641,7 @@ Func_1ab30: ; 0x1ab30
 	ld a, [wDugtrioAnimationFrameIndex]
 	cp $3
 	ret nz
-	ld hl, $6c7f
+	ld hl, Data_1ac7f
 	ld de, wDugtrioAnimationFrameCounter
 	call CopyHLToDE
 	ld a, $3
@@ -32579,7 +32654,7 @@ Func_1ab30: ; 0x1ab30
 	ld a, [wDugtrioAnimationFrameIndex]
 	cp $1
 	ret nz
-	ld hl, $6c89
+	ld hl, Data_1ac89
 	ld de, wDugtrioAnimationFrameCounter
 	call CopyHLToDE
 	ld a, $5
@@ -32592,7 +32667,7 @@ Func_1ab30: ; 0x1ab30
 	ld a, [wDugtrioAnimationFrameIndex]
 	cp $3
 	ret nz
-	ld hl, $6c89
+	ld hl, Data_1ac89
 	ld de, wDugtrioAnimationFrameCounter
 	call CopyHLToDE
 	ld a, $5
@@ -32605,7 +32680,7 @@ Func_1ab30: ; 0x1ab30
 	ld a, [wDugtrioAnimationFrameIndex]
 	cp $1
 	ret nz
-	ld hl, $6c93
+	ld hl, Data_1ac93
 	ld de, wDugtrioAnimationFrameCounter
 	call CopyHLToDE
 	ld a, $7
@@ -32625,7 +32700,7 @@ Func_1ab30: ; 0x1ab30
 .asm_1abf2
 	cp $2
 	ret nz
-	ld hl, $6c72
+	ld hl, Data_1ac72
 	ld de, wDugtrioAnimationFrameCounter
 	call CopyHLToDE
 	xor a
@@ -32643,11 +32718,11 @@ Func_1ab30: ; 0x1ab30
 	ld a, $1
 	ld [$d7be], a
 	call Func_2862
-	ld hl, $6c56
+	ld hl, Data_1ac56
 	jr asm_1ac2f
 
 Func_1ac2c: ; 0x1ac2c
-	ld hl, $6c4a
+	ld hl, Data_1ac4a
 asm_1ac2f:
 	ld de, $c768
 	ld b, $3
@@ -32673,7 +32748,29 @@ asm_1ac2f:
 	jr nz, .asm_1ac34
 	ret
 
-	dr $1ac4a, $1ac98
+Data_1ac4a:
+	dr $1ac4a, $1ac56
+
+Data_1ac56:
+	dr $1ac56, $1ac62
+
+Data_1ac62:
+	dr $1ac62, $1ac72
+
+Data_1ac72:
+	dr $1ac72, $1ac75
+
+Data_1ac75:
+	dr $1ac75, $1ac7f
+
+Data_1ac7f:
+	dr $1ac7f, $1ac89
+
+Data_1ac89:
+	dr $1ac89, $1ac93
+
+Data_1ac93:
+	dr $1ac93, $1ac98
 
 Func_1ac98: ; 0x1ac98
 	ld [$ff8a], a
@@ -32695,14 +32792,15 @@ Func_1acb0: ; 0x1acb0
 	ld a, [wDugtrioAnimationFrame]
 	ld e, a
 	ld d, $0
-	ld hl, $6ccf
+	ld hl, Data_1accf
 	add hl, de
 	ld a, [hl]
 	bit 7, a
 	call z, LoadOAMData2
 	ret
 
-	dr $1accf, $1c000
+Data_1accf:
+	dr $1accf, $1acde
 
 SECTION "bank7", ROMX, BANK[$7]
 
@@ -58101,7 +58199,7 @@ SECTION "bank38", ROMX, BANK[$38]
 	dr $e0000, $e4000 ; 0xe0000
 
 SECTION "bank39", ROMX, BANK[$39]
-
+Data_e4000:
 	dr $e4000, $e8000 ; 0xe4000
 
 SECTION "bank3a", ROMX, BANK[$3a]

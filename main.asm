@@ -6049,7 +6049,7 @@ Func_3268: ; 0x3268
 	inc e
 	jr Func_3268
 
-Func_32aa: ; 0x32aa
+LoadTextHeader: ; 0x32aa
 	ld a, $1
 	ld [hli], a
 	ld a, [de]
@@ -16475,8 +16475,8 @@ Func_da36: ; 0xda36
 	call Func_30e8
 	call Func_30db
 	ld hl, $d5dc
-	ld de, $28db
-	call Func_32aa
+	ld de, ShootAgainText
+	call LoadTextHeader
 	ret
 
 .asm_daa9
@@ -16741,7 +16741,7 @@ Func_dc6d: ; 0xdc6d
 	call Func_30db
 	ld hl, $d5dc
 	pop de
-	call Func_32aa
+	call LoadTextHeader
 	ret
 
 Func_dc7c: ; 0xdc7c
@@ -17130,8 +17130,8 @@ Func_df1a: ; 0xdf1a
 	call Func_30e8
 	call Func_30db
 	ld hl, $d5dc
-	ld de, $2f04
-	call Func_32aa
+	ld de, Data_2f04
+	call LoadTextHeader
 	ret
 
 Func_df7e: ; 0xdf7e
@@ -17181,8 +17181,8 @@ Func_df7e: ; 0xdf7e
 	call Func_30e8
 	call Func_30db
 	ld hl, $d5dc
-	ld de, $2f1c
-	call Func_32aa
+	ld de, Data_2f1c
+	call LoadTextHeader
 	ret
 
 Func_dfe2: ; 0xdfe2
@@ -17240,8 +17240,8 @@ Func_dfe2: ; 0xdfe2
 	call Func_30e8
 	call Func_30db
 	ld hl, $d5dc
-	ld de, $2f4d
-	call Func_32aa
+	ld de, Data_2f4d
+	call LoadTextHeader
 	ret
 
 Func_e056: ; 0xe056
@@ -17265,8 +17265,8 @@ Func_e056: ; 0xe056
 	call Func_30e8
 	call Func_30db
 	ld hl, $d5dc
-	ld de, $2f34
-	call Func_32aa
+	ld de, Data_2f34
+	call LoadTextHeader
 	ret
 
 Func_e08b: ; 0xe08b
@@ -17323,8 +17323,8 @@ Func_e08b: ; 0xe08b
 	call Func_30e8
 	call Func_30db
 	ld hl, $d5dc
-	ld de, $2f65
-	call Func_32aa
+	ld de, Data_2f65
+	call LoadTextHeader
 	ret
 
 HandleFlippers: ; 0xe0fe
@@ -18986,7 +18986,7 @@ UpgradeBallBlueField: ; 0xf040
 	call Func_30db
 	ld de, $2907
 	ld hl, $d5cc
-	call Func_32aa
+	call LoadTextHeader
 	; upgrade ball type
 	ld a, [wBallType]
 	ld c, a
@@ -19017,8 +19017,8 @@ UpgradeBallBlueField: ; 0xf040
 	pop de
 	pop bc
 	ld hl, $d5cc
-	ld de, $2922
-	call Func_32aa
+	ld de, FieldMultiplierSpecialBonusText
+	call LoadTextHeader
 .asm_f0b0
 	ld [$ff8a], a
 	callba Func_155bb
@@ -21235,16 +21235,16 @@ Func_10696: ; 0x10696
 	call Func_30e8
 	call Func_30db
 	ld hl, $d5cc
-	ld de, $29b7
-	call Func_32aa
+	ld de, LetsGetPokemonText
+	call LoadTextHeader
 	ret
 
 Func_106a6: ; 0x106a6
 	call Func_30e8
 	call Func_30db
 	ld hl, $d5cc
-	ld de, $29d0
-	call Func_32aa
+	ld de, PokemonRanAwayText
+	call LoadTextHeader
 	ret
 
 Func_106b6: ; 0x106b6
@@ -21261,8 +21261,8 @@ Func_106b6: ; 0x106b6
 	rl b  ; bc was just multiplied by 16
 	ld hl, PokemonNames + 1
 	add hl, bc
-	ld de, $2a67 ; todo "You got an"
-	ld bc, $2a91 ; todo
+	ld de, YouGotAnText ; todo "You got an"
+	ld bc, Data_2a91 ; todo
 	ld a, [hl]
 	; check if mon's name starts with a vowel, so it can print "an", instead of "a"
 	cp "A"
@@ -21275,8 +21275,8 @@ Func_106b6: ; 0x106b6
 	jr z, .asm_106f1
 	cp "O"
 	jr z, .asm_106f1
-	ld de, $2a56 ; todo "You got a"
-	ld bc, $2a79
+	ld de, YouGotAText ; todo "You got a"
+	ld bc, Data_2a79
 .asm_106f1
 	push hl
 	push bc
@@ -21285,10 +21285,10 @@ Func_106b6: ; 0x106b6
 	call Func_30db
 	ld hl, $d5cc
 	pop de
-	call Func_32aa
+	call LoadTextHeader
 	ld hl, $d5d4
 	pop de
-	call Func_32aa
+	call LoadTextHeader
 	pop hl
 	ld de, wcBottomMessageText + $20
 	ld b, $0  ; count the number of letters in mon's name in register b
@@ -21485,11 +21485,11 @@ Func_10848: ; 0x10848
 	call Func_30e8
 	call Func_30db
 	ld hl, $d5d4
-	ld de, $2a0c
-	call Func_32aa
+	ld de, OneBillionText
+	call LoadTextHeader
 	ld hl, $d5cc
-	ld de, $29e8
-	call Func_32aa
+	ld de, PokemonCaughtSpecialBonusText
+	call LoadTextHeader
 	call Func_3475
 	ret
 
@@ -21837,7 +21837,7 @@ Func_10b3f: ; 0x10b3f
 	jr z, .asm_10b55
 	ld de, FindItemsText
 .asm_10b55
-	call Func_32aa
+	call LoadTextHeader
 	ret
 
 Func_10b59: ; 0x10b59
@@ -22281,10 +22281,10 @@ Func_10e0a: ; 0x10e0a
 	call Func_30db
 	ld hl, $d5cc
 	pop de
-	call Func_32aa
+	call LoadTextHeader
 	ld hl, $d5d4
 	pop de
-	call Func_32aa
+	call LoadTextHeader
 	pop hl
 	ld de, wcBottomMessageText + $20
 	ld b, $0
@@ -22332,7 +22332,7 @@ Func_10e8b: ; 0x10e8b
 	pop bc
 	ld hl, $d5cc
 	ld de, EvolutionSpecialBonusText
-	call Func_32aa
+	call LoadTextHeader
 	ret
 
 Func_10ebb: ; 0x10ebb
@@ -26618,7 +26618,7 @@ Func_1535d: ; 0x1535d
 	call Func_30db
 	ld de, $2907
 	ld hl, $d5cc
-	call Func_32aa
+	call LoadTextHeader
 	ld a, [wBallType]
 	ld c, a
 	ld b, $0
@@ -26648,8 +26648,8 @@ Func_1535d: ; 0x1535d
 	pop de
 	pop bc
 	ld hl, $d5cc
-	ld de, $2922
-	call Func_32aa
+	ld de, FieldMultiplierSpecialBonusText
+	call LoadTextHeader
 .asm_15447
 	call Func_155a7
 	jr Func_15450
@@ -27782,7 +27782,7 @@ Func_163f2: ; 0x163f2
 	jr z, .asm_1640f
 	ld de, Data_2eb8
 .asm_1640f
-	call Func_32aa
+	call LoadTextHeader
 	ld de, $0000
 	call PlaySong
 	rst AdvanceFrame
@@ -28547,7 +28547,7 @@ Func_16ef5: ; 0x16ef5
 	call Func_30db
 	ld hl, $d5cc
 	ld de, BonusMultiplierText
-	call Func_32aa
+	call LoadTextHeader
 	ld hl, wcBottomMessageText + $12
 	ld a, [$d614]
 	and $7f
@@ -29071,7 +29071,7 @@ Func_17d92: ; 0x17d92
 	ld a, [hGameBoyColorFlag]
 	and a
 	ret z
-	ld hl, $7dd0
+	ld hl, Data_17dd0
 	ld de, $d504
 	call UpdateAnimation
 	ld a, [$d504]
@@ -29094,13 +29094,17 @@ Func_17d92: ; 0x17d92
 	ld a, [$d505]
 	ld e, a
 	ld d, $0
-	ld hl, $7dce
+	ld hl, Data_17dce
 	add hl, de
 	ld a, [hl]
 	call LoadOAMData
 	ret
 
-	dr $17dce, $17de1
+Data_17dce:
+	dr $17dce, $17dd0
+
+Data_17dd0:
+	dr $17dd0, $17de1
 
 Func_17de1: ; 0x17de1
 	ld a, $88
@@ -29116,12 +29120,13 @@ Func_17de1: ; 0x17de1
 	srl a
 	ld e, a
 	ld d, $0
-	ld hl, $7e02
+	ld hl, Data_17e02
 	add hl, de
 	ld a, [hl]
 	call LoadOAMData
 	ret
 
+Data_17e02:
 	dr $17e02, $17e08
 
 Func_17e08: ; 0x17e08
@@ -29153,7 +29158,7 @@ Func_17e08: ; 0x17e08
 	sla a
 	ld c, a
 	ld b, $0
-	ld hl, $7e4b
+	ld hl, Data_17e4b
 	add hl, bc
 	ld a, [hli]
 	sub d
@@ -29166,6 +29171,7 @@ Func_17e08: ; 0x17e08
 	call LoadOAMData
 	ret
 
+Data_17e4b:
 	dr $17e4b, $17e81
 
 Func_17e81: ; 0x17e81
@@ -29239,7 +29245,7 @@ Func_17efb: ; 0x17efb
 	bit 4, a
 	ret z
 	ld de, wIndicatorStates + 5
-	ld hl, $7f3a
+	ld hl, Data_17f3a
 	ld b, $6
 	jr asm_17f21
 
@@ -29251,7 +29257,7 @@ Func_17f0f: ; 0x17f0f
 	bit 4, a
 	ret z
 	ld de, wIndicatorStates + 11
-	ld hl, $7f4c
+	ld hl, Data_17f4c
 	ld b, $8
 asm_17f21: ; 0x17f21
 	push bc
@@ -29275,14 +29281,18 @@ asm_17f21: ; 0x17f21
 	jr nz, asm_17f21
 	ret
 
-	dr $17f3a, $17f64
+Data_17f3a:
+	dr $17f3a, $17f4c
+
+Data_17f4c:
+	dr $17f4c, $17f64
 
 Func_17f64: ; 0x17f64
 	ld a, [$d551]
 	and a
 	ret z
 	ld de, $d566
-	ld hl, $7fa6
+	ld hl, Data_17fa6
 	ld b, $c
 	ld c, $39
 	jr asm_17f84
@@ -29292,7 +29302,7 @@ Func_17f75: ; 0x17f75
 	and a
 	ret z
 	ld de, $d572
-	ld hl, $7fbe
+	ld hl, Data_17fbe
 	ld b, $6
 	ld c, $40
 asm_17f84: ; 0x17f84
@@ -29324,7 +29334,11 @@ asm_17f84: ; 0x17f84
 	jr nz, asm_17f84
 	ret
 
-	dr $17fa6, $17fca
+Data_17fa6:
+	dr $17fa6, $17fbe
+
+Data_17fbe:
+	dr $17fbe, $17fca
 
 Func_17fca: ; 0x17fca
 	ld a, [$d604]
@@ -29350,8 +29364,6 @@ Func_17fca: ; 0x17fca
 	cp $52
 	call nz, LoadOAMData
 	ret
-
-	dr $17ff7, $18000
 
 SECTION "bank6", ROMX, BANK[$6]
 
@@ -29453,16 +29465,16 @@ InitGengarBonusStage: ; 0x18099
 	ld [$d4c8], a
 	ld [wBallType], a
 	ld [$d49a], a
-	ld hl, $4121 ; todo
+	ld hl, Data_18121 ; todo
 	ld de, $d659
 	call Func_18112
 	call Func_18112
 	call Func_18112
-	ld hl, $413c ; todo
+	ld hl, Data_1813c ; todo
 	ld de, $d67e
 	call Func_18112
 	call Func_18112
-	ld hl, $414e ; todo
+	ld hl, Data_1814e ; todo
 	ld de, $d698
 	call Func_18112
 	xor a
@@ -29502,7 +29514,14 @@ Func_18112: ; 0x18112
 	jr nz, .asm_18114
 	ret
 
-	dr $18121, $18157
+Data_18121:
+	dr $18121, $1813c
+
+Data_1813c:
+	dr $1813c, $1814e
+
+Data_1814e:
+	dr $1814e, $18157
 
 StartBallGengarBonusStage: ; 0x18157
 	ld a, $0
@@ -29617,9 +29636,9 @@ Func_1820d: ; 0x1820d
 	ld l, b
 	ld h, $0
 	add hl, de
-	ld de, $5100
+	ld de, Data_e9100
 	add hl, de
-	ld a, $3a
+	ld a, BANK(Data_e9100)
 	call ReadByteFromBank
 	bit 7, a
 	jr nz, .asm_18257
@@ -29694,9 +29713,9 @@ Func_18298: ; 0x18298
 	ld l, b
 	ld h, $0
 	add hl, de
-	ld de, $4c00
+	ld de, Data_e8c00
 	add hl, de
-	ld a, $3a
+	ld a, BANK(Data_e8c00)
 	call ReadByteFromBank
 	bit 7, a
 	jr nz, .asm_182e2
@@ -29757,9 +29776,9 @@ Func_18308: ; 0x18308
 	ld l, b
 	ld h, $0
 	add hl, de
-	ld de, $4000
+	ld de, Data_e8000
 	add hl, de
-	ld a, $3a
+	ld a, BANK(Data_e8000)
 	call ReadByteFromBank
 	bit 7, a
 	jr nz, .asm_1834e
@@ -29775,13 +29794,17 @@ Func_18308: ; 0x18308
 	ret
 
 Func_18350: ; 0x18350
-	ld de, $4368 ; todo
-	ld hl, $435d ; todo
+	ld de, Data_18368
+	ld hl, Data_1835d
 	ld bc, $d654
 	and a
 	jp Func_2775
 
-	dr $1835d, $18377
+Data_1835d:
+	dr $1835d, $18368
+
+Data_18368:
+	dr $18368, $18377
 
 Func_18377: ; 0x18377
 	call Func_18464
@@ -29829,21 +29852,25 @@ Func_183db: ; 0x183db
 	sla a
 	ld c, a
 	ld b, $0
-	ld hl, $43f8
+	ld hl, Data_183f8
 	ld a, [hGameBoyColorFlag]
 	and a
 	jr z, .asm_183ee
-	ld hl, $442e
+	ld hl, Data_1842e
 .asm_183ee
 	add hl, bc
 	ld a, [hli]
 	ld h, [hl]
 	ld l, a
-	ld a, $6
+	ld a, BANK(Data_183f8)
 	call Func_10aa
 	ret
 
-	dr $183f8, $18464
+Data_183f8:
+	dr $183f8, $1842e
+
+Data_1842e:
+	dr $1842e, $18464
 
 Func_18464: ; 0x18464
 	ld a, [$d659]
@@ -29877,7 +29904,7 @@ Func_18464: ; 0x18464
 	dec de
 	dec de
 	dec de
-	ld hl, $45e6
+	ld hl, Data_185e6
 	call CopyHLToDE
 	pop de
 	ld a, $1
@@ -29937,7 +29964,7 @@ Func_1850c: ; 0x1850c
 	ld [hl], a
 	ld c, a
 	ld b, $0
-	ld hl, $4542
+	ld hl, Data_18542
 	add hl, bc
 	pop bc
 	pop af
@@ -29972,6 +29999,7 @@ Func_1850c: ; 0x1850c
 	ld [hl], a
 	ret
 
+Data_18542:
 	dr $18542, $18562
 
 Func_18562: ; 0x18562
@@ -29979,7 +30007,7 @@ Func_18562: ; 0x18562
 	sla a
 	ld c, a
 	ld b, $0
-	ld hl, $45d9
+	ld hl, Data_185d9
 	add hl, bc
 	ld a, [hli]
 	ld h, [hl]
@@ -29998,7 +30026,7 @@ Func_18562: ; 0x18562
 	ld a, [de]
 	cp $4
 	ret nz
-	ld hl, $45dd
+	ld hl, Data_185dd
 	dec de
 	dec de
 	call CopyHLToDE
@@ -30044,7 +30072,7 @@ Func_18562: ; 0x18562
 	ld a, c
 	cp $a
 	ret nc
-	ld hl, $45dd
+	ld hl, Data_185dd
 	push de
 	dec de
 	dec de
@@ -30055,7 +30083,14 @@ Func_18562: ; 0x18562
 	ld [de], a
 	ret
 
-	dr $185d9, $1860b
+Data_185d9:
+	dr $185d9, $185dd
+
+Data_185dd:
+	dr $185dd, $185e6
+
+Data_185e6:
+	dr $185e6, $1860b
 
 Func_1860b: ; 0x1860b
 	ld a, [$d67e]
@@ -30089,7 +30124,7 @@ Func_1860b: ; 0x1860b
 	dec de
 	dec de
 	dec de
-	ld hl, $478a
+	ld hl, Data_1878a
 	call CopyHLToDE
 	pop de
 	ld a, $1
@@ -30143,7 +30178,7 @@ Func_186a1: ; 0x186a1
 	ld [hl], a
 	ld c, a
 	ld b, $0
-	ld hl, $46d7
+	ld hl, Data_186d7
 	add hl, bc
 	pop bc
 	pop af
@@ -30178,6 +30213,7 @@ Func_186a1: ; 0x186a1
 	ld [hl], a
 	ret
 
+Data_186d7:
 	dr $186d7, $186f7
 
 Func_186f7: ; 0x186f7
@@ -30185,7 +30221,7 @@ Func_186f7: ; 0x186f7
 	sla a
 	ld c, a
 	ld b, $0
-	ld hl, $477d
+	ld hl, Data_1877d
 	add hl, bc
 	ld a, [hli]
 	ld h, [hl]
@@ -30204,7 +30240,7 @@ Func_186f7: ; 0x186f7
 	ld a, [de]
 	cp $4
 	ret nz
-	ld hl, $4781
+	ld hl, Data_18781
 	dec de
 	dec de
 	call CopyHLToDE
@@ -30242,7 +30278,7 @@ Func_186f7: ; 0x186f7
 	ld a, c
 	cp $a
 	ret nc
-	ld hl, $4781
+	ld hl, Data_18781
 	push de
 	dec de
 	dec de
@@ -30268,7 +30304,14 @@ Func_186f7: ; 0x186f7
 	call PlayCry
 	ret
 
-	dr $1877d, $187b1
+Data_1877d:
+	dr $1877d, $18781
+
+Data_18781:
+	dr $18781, $1878a
+
+Data_1878a:
+	dr $1878a, $187b1
 
 Func_187b1: ; 0x187b1
 	ld a, [$d698]
@@ -30307,7 +30350,7 @@ Func_187b1: ; 0x187b1
 	ld [$d6a2], a
 	cp $5
 	jr nc, .asm_18804
-	ld hl, $4b2b
+	ld hl, Data_18b2b
 	call CopyHLToDE
 	pop de
 	ld a, $2
@@ -30317,7 +30360,7 @@ Func_187b1: ; 0x187b1
 	jr .asm_18826
 
 .asm_18804
-	ld hl, $4b32
+	ld hl, Data_18b32
 	call CopyHLToDE
 	pop de
 	ld a, $3
@@ -30532,7 +30575,7 @@ Func_189af: ; 0x189af
 	sla a
 	ld c, a
 	ld b, $0
-	ld hl, $4a57
+	ld hl, Data_18a57
 	add hl, bc
 	ld a, [hli]
 	ld h, [hl]
@@ -30551,7 +30594,7 @@ Func_189af: ; 0x189af
 	ld a, [de]
 	cp $4
 	ret nz
-	ld hl, $4a61
+	ld hl, Data_18a61
 	dec de
 	dec de
 	call CopyHLToDE
@@ -30563,7 +30606,7 @@ Func_189af: ; 0x189af
 	ld a, [de]
 	cp $60
 	ret nz
-	ld hl, $4a61
+	ld hl, Data_18a61
 	push de
 	dec de
 	dec de
@@ -30580,7 +30623,7 @@ Func_189af: ; 0x189af
 	ld a, [de]
 	cp $3
 	ret nz
-	ld hl, $4a6a
+	ld hl, Data_18a6a
 	push de
 	dec de
 	dec de
@@ -30613,8 +30656,8 @@ Func_189af: ; 0x189af
 	call Func_30e8
 	call Func_30db
 	ld hl, $d5dc
-	ld de, $2f7b
-	call Func_32aa
+	ld de, Data_2f7b
+	call LoadTextHeader
 	ld de, $4b2a
 	call PlaySoundEffect
 	ret
@@ -30625,7 +30668,7 @@ Func_189af: ; 0x189af
 	ld a, [de]
 	cp $2
 	ret nz
-	ld hl, $4a61
+	ld hl, Data_18a61
 	push de
 	dec de
 	dec de
@@ -30638,7 +30681,20 @@ Func_189af: ; 0x189af
 	call PlaySong
 	ret
 
-	dr $18a57, $18d34
+Data_18a57:
+	dr $18a57, $18a61
+
+Data_18a61:
+	dr $18a61, $18a6a
+
+Data_18a6a:
+	dr $18a6a, $18b2b
+
+Data_18b2b:
+	dr $18b2b, $18b32
+
+Data_18b32:
+	dr $18b32, $18d34
 
 Func_18d34: ; 0x18d34
 	ld a, [$d654]
@@ -31554,8 +31610,8 @@ Func_19638: ; 0x19638
 	call Func_30db
 	ld hl, $d5dc
 .asm_1966b
-	ld de, $2f97
-	call Func_32aa
+	ld de, Data_2f97
+	call LoadTextHeader
 	ld de, $4b2a
 	call PlaySoundEffect
 	ret
@@ -32580,8 +32636,8 @@ Func_1ab30: ; 0x1ab30
 	call Func_30e8
 	call Func_30db
 	ld hl, $d5dc
-	ld de, $2fb3
-	call Func_32aa
+	ld de, Data_2fb3
+	call LoadTextHeader
 	ld de, $4b2a
 	call PlaySoundEffect
 	ld a, $1
@@ -34811,8 +34867,8 @@ Func_1d5bf: ; 0x1d5bf
 	call Func_30e8
 	call Func_30db
 	ld hl, $d5cc
-	ld de, $2958
-	call Func_32aa
+	ld de, BonusMultiplierText
+	call LoadTextHeader
 	ld hl, wcBottomMessageText + $12
 	ld a, [$d614]
 	and $7f
@@ -35549,8 +35605,8 @@ Func_1e356: ; 0x1e356
 	call Func_30e8
 	call Func_30db
 	ld hl, $d5cc
-	ld de, $2907
-	call Func_32aa
+	ld de, FieldMultiplierText
+	call LoadTextHeader
 	ld a, [wBallType]
 	ld c, a
 	ld b, $0
@@ -35575,13 +35631,13 @@ Func_1e356: ; 0x1e356
 	call Func_30e8
 	call Func_30db
 	ld hl, $d5d4
-	ld de, $2948
+	ld de, DigitsText1to8
 	call Func_32cc
 	pop de
 	pop bc
 	ld hl, $d5cc
-	ld de, $2922
-	call Func_32aa
+	ld de, FieldMultiplierSpecialBonusText
+	call LoadTextHeader
 .asm_1e465
 	ld [$ff8a], a
 	callba Func_155a7
@@ -36130,7 +36186,7 @@ Func_1e8c3: ; 0x1e8c3
 	jr z, .asm_1e8e0
 	ld de, $2eb8
 .asm_1e8e0
-	call Func_32aa
+	call LoadTextHeader
 	ld de, $0000
 	call PlaySong
 	rst AdvanceFrame
@@ -38096,7 +38152,7 @@ Func_205e0: ; 0x205e0
 	call Func_30db
 	ld de, $2bd8
 	ld hl, $d5cc
-	call Func_32aa
+	call LoadTextHeader
 	ld a, [hGameBoyColorFlag]
 	and a
 	jr z, .asm_2064f
@@ -38292,8 +38348,8 @@ Func_2077b: ; 0x2077b
 	call Func_30e8
 	call Func_30db
 	ld hl, $d5cc
-	ld de, $2ad1
-	call Func_32aa
+	ld de, EvolutionFailedText
+	call LoadTextHeader
 	ret
 
 Func_2080f: ; 0x2080f
@@ -38553,7 +38609,7 @@ Func_20977: ; 0x20977
 	ld a, [hl]
 	ld d, a
 	ld hl, $d5cc
-	call Func_32aa
+	call LoadTextHeader
 	scf
 	ret
 
@@ -38595,7 +38651,7 @@ Func_209eb: ; 0x209eb
 	jr z, .asm_20a50
 	ld de, $2b93
 .asm_20a50
-	call Func_32aa
+	call LoadTextHeader
 	scf
 	ret
 
@@ -38678,7 +38734,7 @@ asm_20a9f:
 	ld de, $2bc2
 .asm_20aed
 	ld hl, $d5cc
-	call Func_32aa
+	call LoadTextHeader
 	scf
 	ret
 
@@ -38863,7 +38919,7 @@ Func_20c08: ; 0x20c08
 	call Func_30db
 	ld de, $2bd8
 	ld hl, $d5cc
-	call Func_32aa
+	call LoadTextHeader
 	ld a, [hGameBoyColorFlag]
 	and a
 	jr z, .asm_20c74
@@ -39059,8 +39115,8 @@ Func_20da0: ; 0x20da0
 	call Func_30e8
 	call Func_30db
 	ld hl, $d5cc
-	ld de, $2ad1
-	call Func_32aa
+	ld de, EvolutionFailedText
+	call LoadTextHeader
 	ret
 
 Func_20e34: ; 0x20e34
@@ -39300,7 +39356,7 @@ Func_20f75: ; 0x20f75
 	ld a, [hl]
 	ld d, a
 	ld hl, $d5cc
-	call Func_32aa
+	call LoadTextHeader
 	scf
 	ret
 
@@ -39343,7 +39399,7 @@ Func_20fef: ; 0x20fef
 	jr z, .asm_21057
 	ld de, $2b93
 .asm_21057
-	call Func_32aa
+	call LoadTextHeader
 	scf
 	ret
 
@@ -39448,7 +39504,7 @@ asm_210c7:
 	ld de, $2bc2
 .asm_21115
 	ld hl, $d5cc
-	call Func_32aa
+	call LoadTextHeader
 	scf
 	ret
 
@@ -40157,8 +40213,8 @@ Func_2442a: ; 0x2442a
 	call Func_30e8
 	call Func_30db
 	ld hl, $d5dc
-	ld de, $2fd0
-	call Func_32aa
+	ld de, Data_2fd0
+	call LoadTextHeader
 	ld de, $4b2a
 	call PlaySoundEffect
 .asm_24498
@@ -42112,8 +42168,8 @@ Func_25c5a: ; 0x25c5a
 	call Func_30e8
 	call Func_30db
 	ld hl, $d5dc
-	ld de, $2fec
-	call Func_32aa
+	ld de, Data_2fec
+	call LoadTextHeader
 	ld a, $2
 	ld [$d794], a
 	ld de, $4b2a
@@ -47288,8 +47344,8 @@ Func_30188: ; 0x30188
 	call Func_30e8
 	call Func_30db
 	ld hl, $d5cc
-	ld de, $2974
-	call Func_32aa
+	ld de, ExtraBallText
+	call LoadTextHeader
 	jr .asm_301c9
 
 .asm_301a7
@@ -47300,13 +47356,13 @@ Func_30188: ; 0x30188
 	call Func_30e8
 	call Func_30db
 	ld hl, $d5d4
-	ld de, $29a6
+	ld de, DigitsText1to9
 	call Func_32cc
 	pop de
 	pop bc
 	ld hl, $d5cc
-	ld de, $2986
-	call Func_32aa
+	ld de, ExtraBallSpecialBonusText
+	call LoadTextHeader
 .asm_301c9
 	xor a
 	ld [$d4ca], a
@@ -47616,10 +47672,10 @@ Func_3118f: ; 0x3118f
 	ld a, [hli]
 	ld d, a
 	ld hl, $d5d4
-	call Func_32aa
+	call LoadTextHeader
 	pop de
 	ld hl, $d5cc
-	call Func_32aa
+	call LoadTextHeader
 	ret
 
 Func_311b4: ; 0x311b4
@@ -48059,8 +48115,8 @@ Func_3151f: ; 0x3151f
 	call Func_30e8
 	call Func_30db
 	ld hl, $d5cc
-	ld de, $2ca8
-	call Func_32aa
+	ld de, Data_2ca8
+	call LoadTextHeader
 	ret
 
 Func_31591: ; 0x31591
@@ -48231,8 +48287,8 @@ Func_3168c: ; 0x3168c
 	call Func_30e8
 	call Func_30db
 	ld hl, $d5cc
-	ld de, $2ca8
-	call Func_32aa
+	ld de, Data_2ca8
+	call LoadTextHeader
 	ret
 
 Func_31708: ; 0x31708
@@ -58049,8 +58105,14 @@ SECTION "bank39", ROMX, BANK[$39]
 	dr $e4000, $e8000 ; 0xe4000
 
 SECTION "bank3a", ROMX, BANK[$3a]
+Data_e8000:
+	dr $e8000, $e8c00 ; 0xe8000
 
-	dr $e8000, $ec000 ; 0xe8000
+Data_e8c00:
+	dr $e8c00, $e9100 ; 0xe8000
+
+Data_e9100:
+	dr $e9100, $ec000 ; 0xe8000
 
 SECTION "bank3b", ROMX, BANK[$3b]
 

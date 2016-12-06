@@ -33196,13 +33196,13 @@ Func_1c305: ; 0x1c305
 	ld a, [$d5f3]
 	and a
 	ret z
-	ld a, $2a
-	ld hl, $47e0
+	ld a, BANK(PikachuSaverGfx)
+	ld hl, PikachuSaverGfx + $c0
 	ld de, $87e0
 	ld bc, $0020
 	call FarCopyData
-	ld a, $2a
-	ld hl, $4800
+	ld a, BANK(StageSharedPikaBoltGfx)
+	ld hl, GFX_a8800
 	ld de, $8900
 	ld bc, $0180
 	call FarCopyData
@@ -33296,16 +33296,16 @@ Func_1c3ee: ; 0x1c3ee
 	ld a, [wCurrentStage]
 	bit 0, a
 	jr nz, .asm_1c416
-	ld a, $36
-	ld hl, $7e80
+	ld a, BANK(Data_dbe80)
+	ld hl, Data_dbe80
 	ld de, $8600
 	ld bc, $00e0
 	call FarCopyData
 	jr .asm_1c424
 
 .asm_1c416
-	ld a, $36
-	ld hl, $7e80
+	ld a, BANK(Data_dbe80)
+	ld hl, Data_dbe80
 	ld de, $8200
 	ld bc, $00e0
 	call FarCopyData
@@ -33316,8 +33316,8 @@ Func_1c3ee: ; 0x1c3ee
 	ld a, [hGameBoyColorFlag]
 	and a
 	ret z
-	ld a, $37
-	ld hl, $5188
+	ld a, BANK(Data_dd188)
+	ld hl, Data_dd188
 	ld de, $0070
 	ld bc, $0010
 	call Func_6fd
@@ -33344,8 +33344,8 @@ Func_1c43c: ; 0x1c43c
 .asm_1c458
 	ld a, [$d624]
 	call Func_1f265
-	ld a, $36
-	ld hl, $4f60
+	ld a, BANK(Data_d8f60)
+	ld hl, Data_d8f60
 	ld de, $8ae0
 	ld bc, $0020
 	call FarCopyData
@@ -33382,7 +33382,7 @@ Func_1c491: ; 0x1c491
 	ld b, $0
 	swap c
 	sla c
-	ld hl, $4e80
+	ld hl, Data_d8e80
 	add hl, bc
 	swap e
 	sla e
@@ -33393,7 +33393,7 @@ Func_1c491: ; 0x1c491
 	ld e, l
 	pop hl
 	ld bc, $0020
-	ld a, $36
+	ld a, BANK(Data_d8e80)
 	call FarCopyData
 	pop de
 	pop bc
@@ -33478,84 +33478,84 @@ Func_1c536: ; 0x1c536
 	ret
 
 Func_1c55a: ; 0x1c55a
-	ld de, $4644
-	ld hl, $462e
+	ld de, Data_1c644
+	ld hl, Data_1c62e
 	ld bc, $d4cb
 	and a
 	jp Func_2775
 
 Func_1c567: ; 0x1c567
-	ld de, $4650
+	ld de, Data_1c650
 	ld bc, $d507
 	scf
 	jp Func_2775
 
 Func_1c571: ; 0x1c571
-	ld de, $4625
-	ld hl, $4611
+	ld de, Data_1c625
+	ld hl, Data_1c611
 	ld bc, $d4d8
 	and a
 	jp Func_2775
 
 Func_1c57e: ; 0x1c57e
-	ld de, $4656
+	ld de, Data_1c656
 	ld bc, $d51f
 	scf
 	jp Func_2775
 
 Func_1c588: ; 0x1c588
-	ld de, $4665
+	ld de, Data_1c665
 	ld bc, $d635
 	scf
 	jp Func_2775
 
 Func_1c592: ; 0x1c592
-	ld de, $466b
+	ld de, Data_1c66b
 	ld bc, $d630
 	scf
 	jp Func_2775
 
 Func_1c59c: ; 0x1c59c
-	ld de, $4671
+	ld de, Data_1c671
 	ld bc, $d515
 	scf
 	jp Func_2775
 
 Func_1c5a6: ; 0x1c5a6
-	ld de, $4686
-	ld hl, $467a
+	ld de, Data_1c686
+	ld hl, Data_1c67a
 	ld bc, $d60a
 	and a
 	jp Func_2775
 
 Func_1c5b3: ; 0x1c5b3
-	ld de, $4695
-	ld hl, $468f
+	ld de, Data_1c695
+	ld hl, Data_1c68f
 	ld bc, $d4ed
 	and a
 	jp Func_2775
 
 Func_1c5c0: ; 0x1c5c0
-	ld de, $469e
+	ld de, Data_1c69e
 	ld bc, $d5f7
 	scf
 	jp Func_2775
 
 Func_1c5ca: ; 0x1c5ca
-	ld de, $46aa
+	ld de, Data_1c6aa
 	ld bc, $d50d
 	scf
 	jp Func_2775
 
 Func_1c5d4: ; 0x1c5d4
-	ld de, $46b9
+	ld de, Data_1c6b9
 	ld bc, $d601
 	scf
 	jp Func_2775
 
 Func_1c5de: ; 0x1c5de
-	ld de, $46d1
-	ld hl, $46bf
+	ld de, Data_1c6d1
+	ld hl, Data_1c6bf
 	ld bc, $d5c7
 	and a
 	jp Func_2775
@@ -33577,12 +33577,64 @@ Func_1c5eb: ; 0x1c5eb
 	jp PinballCollideWithPoints
 
 Func_1c607: ; 0x1c607
-	ld de, $470f
+	ld de, Data_1c70f
 	ld bc, $d4dc
 	scf
 	jp Func_2775
 
-	dr $1c611, $1c6d7
+Data_1c611:
+	dr $1c611, $1c625
+
+Data_1c625:
+	dr $1c625, $1c62e
+
+Data_1c62e:
+	dr $1c62e, $1c644
+
+Data_1c644:
+	dr $1c644, $1c650
+
+Data_1c650:
+	dr $1c650, $1c656
+
+Data_1c656:
+	dr $1c656, $1c665
+
+Data_1c665:
+	dr $1c665, $1c66b
+
+Data_1c66b:
+	dr $1c66b, $1c671
+
+Data_1c671:
+	dr $1c671, $1c67a
+
+Data_1c67a:
+	dr $1c67a, $1c686
+
+Data_1c686:
+	dr $1c686, $1c68f
+
+Data_1c68f:
+	dr $1c68f, $1c695
+
+Data_1c695:
+	dr $1c695, $1c69e
+
+Data_1c69e:
+	dr $1c69e, $1c6aa
+
+Data_1c6aa:
+	dr $1c6aa, $1c6b9
+
+Data_1c6b9:
+	dr $1c6b9, $1c6bf
+
+Data_1c6bf:
+	dr $1c6bf, $1c6d1
+
+Data_1c6d1:
+	dr $1c6d1, $1c6d7
 
 BlueTopEvolutionTrinketCoords: ; 0x1c6d7
 ; First byte is just non-zero to signify that the array hasn't ended.
@@ -33614,6 +33666,7 @@ BlueBottomEvolutionTrinketCoords: ; 0x1c6fc
 	db $01, $6B, $35
 	db $00
 
+Data_1c70f:
 	dr $1c70f, $1c715
 
 Func_1c715: ; 0x1c715
@@ -33773,7 +33826,7 @@ Func_1c839: ; 0x1c839
 	pop bc
 	ld [$ff8a], a
 	callba Func_30253
-	ld bc, $2cd1
+	ld bc, Data_2cd1
 	ld [$ff8a], a
 	callba Func_3118f
 	ld a, [wCurrentMap]
@@ -38700,7 +38753,7 @@ Func_20977: ; 0x20977
 	ld c, a
 	ld b, $0
 	sla c
-	ld hl, $2bf0
+	ld hl, Data_2bf0
 	add hl, bc
 	ld a, [hli]
 	ld e, a
@@ -39447,7 +39500,7 @@ Func_20f75: ; 0x20f75
 	ld c, a
 	ld b, $0
 	sla c
-	ld hl, $2bf0
+	ld hl, Data_2bf0
 	add hl, bc
 	ld a, [hli]
 	ld e, a
@@ -47763,7 +47816,7 @@ Func_3118f: ; 0x3118f
 	sla a
 	ld c, a
 	ld b, $0
-	ld hl, $2ce3  ; todo
+	ld hl, Data_2ce3
 	add hl, bc
 	ld a, [hli]
 	ld e, a
@@ -48265,7 +48318,7 @@ Func_315d5: ; 0x315d5
 	callba Func_30253
 	ld de, $2525
 	call PlaySoundEffect
-	ld bc, $2cbf
+	ld bc, Data_2cbf
 	ld [$ff8a], a
 	callba Func_3118f
 .asm_31603

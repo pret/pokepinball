@@ -130,7 +130,13 @@ Data_2bd8:
 	db "YEAH! YOU GOT IT @"
 
 Data_2bf0:
-	dr $2bf0, $2bfe
+	dw Data_2c45
+	dw Data_2c78
+	dw Data_2c14
+	dw Data_2c60
+	dw Data_2c2c
+	dw Data_2c90
+	dw Data_2bfe
 
 Data_2bfe:
 	db $05, $54, $43, $14, $00, $37
@@ -173,7 +179,24 @@ Data_2cd1:
 	db "START FROM @"
 
 Data_2ce3:
-	dr $2ce3, $2d07
+	dw Data_2d07
+	dw Data_2d1a
+	dw Data_2d2f
+	dw Data_2d46
+	dw Data_2d59
+	dw Data_2d68
+	dw Data_2d7d
+	dw Data_2d98
+	dw Data_2db3
+	dw Data_2dc8
+	dw Data_2ddd
+	dw Data_2df1
+	dw Data_2e05
+	dw Data_2e18
+	dw Data_2e2b
+	dw Data_2e3f
+	dw Data_2e56
+	dw Data_2e6d
 
 Data_2d07:
 	db $05, $5f, $44, $14, $20, $3f

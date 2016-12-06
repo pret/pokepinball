@@ -96,20 +96,20 @@ Start: ; 0x150
 	ld [MBC5RomBankOn], a   ; Enable RAM Banking Mode
 	ld a, $0
 	ld [MBC5SRamBank], a   ; Load RAM Bank $0
-	ld sp, $dfff    ; Initialize stack pointer to the end of WRAM Bank $1
+	ld sp, wdfff    ; Initialize stack pointer to the end of WRAM Bank $1
 	ld hl, hPushOAM
 	ld bc, $007e
 	call ClearData  ; Clear High RAM (HRAM)
 	call WriteDMACodeToHRAM
 	call ClearOAMBuffer
 	xor a
-	ld [$d7fb], a
-	ld [$d7fc], a
-	ld [$d7fd], a
+	ld [wd7fb], a
+	ld [wd7fc], a
+	ld [wd7fd], a
 	ld [$ffb0], a
 	ld [$ffb1], a
-	ld [$d8e1], a
-	ld [$d7fe], a
+	ld [wd8e1], a
+	ld [wd7fe], a
 	ld [$fffc], a
 	ld hl, $ff9e
 	xor a
@@ -126,8 +126,8 @@ Start: ; 0x150
 	ld a, $a6
 	ld [hli], a
 	ld a, $0
-	ld [$d849], a
-	ld [$d84a], a
+	ld [wd849], a
+	ld [wd84a], a
 	ld a, Bank(PlaySong_BankF)
 	call SetSongBank
 	call Func_23b
@@ -143,16 +143,16 @@ Start: ; 0x150
 	and a
 	jr z, .asm_222
 	ld a, $1
-	ld [$d917], a
+	ld [wd917], a
 .asm_222
 	ld a, $1
 	ld [rIE], a  ; Only enable LCD Status interrupt
 	ei
 	ld a, $ff
-	ld [$d810], a
+	ld [wd810], a
 	call Func_97a
 	xor a
-	ld [$daa3], a
+	ld [wdaa3], a
 	ld a, BANK(Func_1ffc)
 	ld hl, Func_1ffc
 	call BankSwitchSimple
@@ -226,7 +226,7 @@ VBlank: ; 0x2f2
 	ld a, [$ffad]
 	ld [$ffae], a
 	call ReadJoypad
-	ld a, [$daa3]
+	ld a, [wdaa3]
 	and a
 	jr nz, .asm_359
 	ld a, [hJoypadState]
@@ -240,7 +240,7 @@ VBlank: ; 0x2f2
 	inc hl
 	ld [hl], $3
 	ld a, $1
-	ld [$daa3], a
+	ld [wdaa3], a
 .asm_359
 	ld hl, $ffb2
 	ld a, [hl]
@@ -252,23 +252,23 @@ VBlank: ; 0x2f2
 .asm_365
 	ld hl, $ffb4
 	inc [hl]
-	ld a, [$d8e1]
+	ld a, [wd8e1]
 	and a
 	call nz, Func_167b
-	ld a, [$d849]
+	ld a, [wd849]
 	and a
 	jr nz, .asm_37d
-	ld a, [$d85d]
+	ld a, [wd85d]
 	and a
 	call nz, Func_504
 .asm_37d
-	ld a, [$d84a]
+	ld a, [wd84a]
 	and a
 	jr z, .asm_39d
 	xor a
-	ld [$d84a], a
+	ld [wd84a], a
 	ld a, $1
-	ld [$d849], a
+	ld [wd849], a
 	ld a, $bc
 	ld [rTMA], a
 	ld a, $0
@@ -279,12 +279,12 @@ VBlank: ; 0x2f2
 	ld [rTAC], a
 .asm_39d
 	ld hl, MBC5SRamBank
-	ld a, [$d917]
+	ld a, [wd917]
 	and a
 	jr nz, .asm_3b5
-	ld a, [$d803]
+	ld a, [wd803]
 	rrca
-	ld [$d803], a
+	ld [wd803], a
 	and $1
 	jr z, .asm_3b5
 	set 3, [hl]
@@ -293,7 +293,7 @@ VBlank: ; 0x2f2
 .asm_3b5
 	res 3, [hl]
 .asm_3b7
-	ld a, [$d4aa]
+	ld a, [wd4aa]
 	and a
 	call nz, Func_e69
 	pop hl
@@ -345,19 +345,19 @@ Timer: ; 0x418
 	push bc
 	push de
 	push hl
-	ld a, [$d849]
+	ld a, [wd849]
 	and a
 	jr z, .asm_42a
-	ld a, [$d85d]
+	ld a, [wd85d]
 	and a
 	call nz, Func_504
 .asm_42a
-	ld a, [$d84a]
+	ld a, [wd84a]
 	and a
 	jr z, .asm_440
 	xor a
-	ld [$d84a], a
-	ld [$d849], a
+	ld [wd84a], a
+	ld [wd849], a
 	ld a, $0
 	ld [rTAC], a
 	ld hl, rIE
@@ -447,9 +447,9 @@ PlaySong: ; 0x490
 	ld [hLoadedROMBank], a
 	ld [MBC5RomBank], a
 	ld a, e
-	ld [$d7bf], a
+	ld [wd7bf], a
 	ld a, [wCurrentSongBank]
-	ld [$d7c0], a
+	ld [wd7c0], a
 	call PlaySong_BankF  ; this function is replicated in multiple banks.
 	pop af
 	ld [hLoadedROMBank], a
@@ -458,10 +458,10 @@ PlaySong: ; 0x490
 
 PlaySoundEffect: ; 0x4af
 ; input:  de = sound effect id?  I think d specifies something special and e holds the id
-	ld a, [$dead]
+	ld a, [wdead]
 	and a
 	ret nz
-	ld a, [$d800]
+	ld a, [wd800]
 	and a
 	jr z, .asm_4bd
 	ld a, d
@@ -469,7 +469,7 @@ PlaySoundEffect: ; 0x4af
 	ret z
 .asm_4bd
 	ld a, d
-	ld [$d800], a
+	ld [wd800], a
 	ld d, $0
 	ld a, [hLoadedROMBank]
 	push af
@@ -486,10 +486,10 @@ Func_4d8: ; 0x4d8
 	push bc
 	push de
 	push hl
-	ld a, [$ddcb]
-	ld hl, $ddfd
+	ld a, [wddcb]
+	ld hl, wddfd
 	or [hl]
-	ld hl, $de2f
+	ld hl, wde2f
 	or [hl]
 	and $1
 	call z, PlaySoundEffect
@@ -522,16 +522,16 @@ Func_504: ; 0x504
 	pop af
 	ld [hLoadedROMBank], a
 	ld [MBC5RomBank], a
-	ld a, [$d801]
+	ld a, [wd801]
 	inc a
-	ld [$d801], a
+	ld [wd801], a
 	and $3
 	ret nz
-	ld a, [$d800]
+	ld a, [wd800]
 	and a
 	ret z
 	dec a
-	ld [$d800], a
+	ld [wd800], a
 	ret
 
 SetSongBank: ; 0x52c
@@ -626,7 +626,7 @@ Func_597: ; 0x597
 	inc de
 	ld b, $8
 .asm_5a0
-	ld a, [$d80c]
+	ld a, [wd80c]
 	call Func_5c2
 	dec b
 	jr nz, .asm_5a0
@@ -636,9 +636,9 @@ Func_597: ; 0x597
 	inc de
 	ld b, $4
 .asm_5b2
-	ld a, [$d80d]
+	ld a, [wd80d]
 	call Func_5c2
-	ld a, [$d80e]
+	ld a, [wd80e]
 	call Func_5c2
 	dec b
 	jr nz, .asm_5b2
@@ -1310,11 +1310,11 @@ ClearOAMBuffer: ; 0x916
 	dec b
 	jr nz, .loop
 	xor a
-	ld [$d802], a
+	ld [wd802], a
 	ret
 
 Func_926: ; 0x926
-	ld a, [$d802]
+	ld a, [wd802]
 	cp $a0
 	jr nc, .asm_93a
 	ld l, a
@@ -1329,7 +1329,7 @@ Func_926: ; 0x926
 	jr nz, .asm_936
 .asm_93a
 	xor a
-	ld [$d802], a
+	ld [wd802], a
 	ret
 
 Func_93f: ; 0x93f
@@ -1362,7 +1362,7 @@ GenRandom: ; 0x959
 	push bc
 	push de
 	push hl
-	ld a, [$d811]
+	ld a, [wd811]
 	ld c, a
 	ld b, $0
 	inc a
@@ -1372,8 +1372,8 @@ GenRandom: ; 0x959
 	xor a
 	ld bc, $0000
 .asm_96e
-	ld [$d811], a
-	ld hl, $d812
+	ld [wd811], a
+	ld hl, wd812
 	add hl, bc
 	ld a, [hl]
 	pop hl
@@ -1382,7 +1382,7 @@ GenRandom: ; 0x959
 	ret
 
 Func_97a: ; 0x97a
-	ld a, [$d810]
+	ld a, [wd810]
 	ld d, a
 	ld a, $0
 	ld a, [$afff]
@@ -1393,8 +1393,8 @@ Func_97a: ; 0x97a
 	jr .asm_983
 
 .asm_989
-	ld [$d80f], a
-	ld [$d848], a
+	ld [wd80f], a
+	ld [wd848], a
 	ld e, $1
 	ld hl, Data_9c4 ; todo
 	ld a, $36
@@ -1404,17 +1404,17 @@ Func_97a: ; 0x97a
 	inc hl
 	ld b, $0
 	push hl
-	ld hl, $d812
+	ld hl, wd812
 	add hl, bc
 	ld [hl], e
-	ld a, [$d80f]
+	ld a, [wd80f]
 	sub e
 	jr nc, .asm_9a8
 	add d
 .asm_9a8
 	ld e, a
 	ld a, [hl]
-	ld [$d80f], a
+	ld [wd80f], a
 	pop hl
 	pop af
 	dec a
@@ -1431,10 +1431,10 @@ Data_9c4:
 	dr $9c4, $9fa
 
 Func_9fa: ; 0x9fa
-	ld a, [$d810]
+	ld a, [wd810]
 	ld d, a
-	ld bc, $d812
-	ld hl, $d831
+	ld bc, wd812
+	ld hl, wd831
 	ld e, $18
 .asm_a06
 	ld a, [bc]
@@ -1445,8 +1445,8 @@ Func_9fa: ; 0x9fa
 	ld [bc], a
 	dec e
 	jr nz, .asm_a06
-	ld bc, $d82a
-	ld hl, $d812
+	ld bc, wd82a
+	ld hl, wd812
 	ld e, $1f
 .asm_a17
 	ld a, [bc]
@@ -1531,17 +1531,17 @@ ReadJoypad: ; 0xab8
 	jr nz, .asm_b1a
 	ld a, [hJoypadState]
 	ld [hPressedButtons], a
-	ld a, [$d807]
+	ld a, [wd807]
 	ld [$ff9d], a
 	jr .asm_b1a
 
 .asm_b15
-	ld a, [$d806]
+	ld a, [wd806]
 	ld [$ff9d], a
 .asm_b1a
 	ld a, [hJoypadState]
 	ld [hPreviousJoypadState], a
-	ld hl, $d808
+	ld hl, wd808
 	ld a, [hJoypadState]
 	or [hl]
 	ld [hli], a
@@ -1554,7 +1554,7 @@ ReadJoypad: ; 0xab8
 	ret
 
 Func_b2e: ; 0xb2e
-	ld hl, $d808
+	ld hl, wd808
 	xor a
 	ld [hli], a
 	ld [hli], a
@@ -1622,7 +1622,7 @@ Func_b66: ; 0xb66
 
 .asm_b73
 	ld de, rBGPI
-	ld hl, $d200 ; todo
+	ld hl, wPaletteData ; todo
 	ld b, $0
 	ld c, $20
 .asm_b7d
@@ -1679,7 +1679,7 @@ Func_bbe: ; 0xbbe
 	and a
 	jp nz, Func_c19
 	ld hl, $ffa3
-	ld de, $d80c
+	ld de, wd80c
 	ld b, $3
 .asm_bcc
 	ld a, [de]
@@ -1696,7 +1696,7 @@ Func_bbe: ; 0xbbe
 	ld bc, $0002
 	call Func_93f
 	ld hl, $ffa3
-	ld de, $d80c
+	ld de, wd80c
 	ld b, $3
 .asm_be9
 	ld a, [de]
@@ -1710,7 +1710,7 @@ Func_bbe: ; 0xbbe
 	ld bc, $0002
 	call Func_93f
 	ld hl, $ffa3
-	ld de, $d80c
+	ld de, wd80c
 	ld b, $3
 .asm_c02
 	ld a, [de]
@@ -1733,8 +1733,8 @@ Func_c19: ; 0xc19
 	ld b, $10
 .asm_c1b
 	push bc
-	ld de, $d200
-	ld hl, $d280
+	ld de, wPaletteData
+	ld hl, wd280
 	call Func_c2d
 	call Func_d61
 	pop bc
@@ -1889,16 +1889,16 @@ Func_cb5: ; 0xcb5
 	ret
 
 Func_cee: ; 0xcee
-	ld hl, $d280
+	ld hl, wd280
 	ld de, rBGPI
 	call Func_d9d
-	ld hl, $d2c0
+	ld hl, wd2c0
 	ld de, rOBPI
 	call Func_d9d
 	ld b, $10
 .asm_d02
 	push bc
-	ld hl, $d280
+	ld hl, wd280
 	call Func_d11
 	call Func_d61
 	pop bc
@@ -1967,7 +1967,7 @@ Func_d61: ; 0d61
 	ld a, [rIE]
 	res 0, a
 	ld [rIE], a
-	ld hl, $d280
+	ld hl, wd280
 	ld de, rBGPI
 	ld a, $80
 	ld [de], a
@@ -2173,9 +2173,9 @@ Func_e55: ; 0xe55
 
 Func_e5d: ; 0xe5d
 	ld a, $1
-	ld [$d84a], a
+	ld [wd84a], a
 .asm_e62
-	ld a, [$d84a]
+	ld a, [wd84a]
 	and a
 	jr nz, .asm_e62
 	ret
@@ -2641,7 +2641,7 @@ Func_10c5: ; 0x10c5
 	jr nc, .asm_10cc
 .asm_10d2
 	pop af
-	ld hl, $d7fb
+	ld hl, wd7fb
 	ld l, [hl]
 	ld h, $cb
 	inc bc
@@ -2663,7 +2663,7 @@ Func_10c5: ; 0x10c5
 	ld [MBC5RomBank], a
 	dec bc
 	ld a, [bc]
-	ld hl, $d7fa
+	ld hl, wd7fa
 	add [hl]
 	cp $30
 	jr c, .asm_10fe
@@ -2675,14 +2675,14 @@ Func_10c5: ; 0x10c5
 	pop af
 	ld [hLoadedROMBank], a
 	ld [MBC5RomBank], a
-	ld hl, $d7fb
+	ld hl, wd7fb
 	ld l, [hl]
 	ld h, $ca
 	inc l
 	ld [hl], $0
 	dec l
 	ld [hl], e
-	ld hl, $d7fb
+	ld hl, wd7fb
 	inc [hl]
 	ld a, [rLCDC]
 	bit 7, a
@@ -2697,21 +2697,21 @@ Func_10c5: ; 0x10c5
 	ret
 
 Func_1129: ; 0x1129
-	ld a, [$d7fb]
-	ld [$d7fc], a
+	ld a, [wd7fb]
+	ld [wd7fc], a
 	ret
 
 Func_1130: ; 0x1130
 	push hl
-	ld a, [$d7fb]
-	ld hl, $d7fc
+	ld a, [wd7fb]
+	ld hl, wd7fc
 	cp [hl]
 	pop hl
 	ret
 
 Func_113a: ; 0x113a
-	ld hl, $d7fc
-	ld a, [$d7fb]
+	ld hl, wd7fc
+	ld a, [wd7fb]
 	cp [hl]
 	ret z
 	ld l, [hl]
@@ -2747,12 +2747,12 @@ Func_113a: ; 0x113a
 
 .done
 	ld a, l
-	ld [$d7fc], a
-	ld hl, $d7fb
+	ld [wd7fc], a
+	ld hl, wd7fb
 	cp [hl]
 	ret nz
 	xor a
-	ld [$d7fa], a
+	ld [wd7fa], a
 	ret
 
 Func_117a: ; 0x117a
@@ -3072,23 +3072,23 @@ Func_14a4: ; 0x14a4
 	dr $14c4, $167b
 
 Func_167b: ; 0x167b
-	ld a, [$d8ad]
+	ld a, [wd8ad]
 	cp $1
 	ret nz
-	ld a, [$d8c7]
+	ld a, [wd8c7]
 	cp $ff
 	ret z
-	ld a, [$d8db]
+	ld a, [wd8db]
 	and a
 	ret nz
-	ld hl, $d8e0
+	ld hl, wd8e0
 	inc [hl]
 	ld a, [hl]
 	cp $6
 	ret c
 	xor a
 	ld [hl], a
-	ld [$d8e2], a
+	ld [wd8e2], a
 	call Func_18ac
 	ret
 
@@ -3098,42 +3098,42 @@ Func_16a2: ; 0x16a2
 	xor a
 	ld [rSB], a
 	ld [rSC], a
-	ld [$d8ad], a
+	ld [wd8ad], a
 	dec a
-	ld [$d8c7], a
-	ld [$d8c8], a
+	ld [wd8c7], a
+	ld [wd8c8], a
 	call Func_16b5
 	ret
 
 Func_16b5: ; 0x16b5
 	xor a
-	ld [$d8c5], a
-	ld [$d8ca], a
-	ld [$d8db], a
+	ld [wd8c5], a
+	ld [wd8ca], a
+	ld [wd8db], a
 	; fall through
 Func_16bf: ; 0x16bf
 	xor a
-	ld [$d8af], a
-	ld [$d8b0], a
-	ld [$d8b1], a
-	ld [$d8b2], a
-	ld [$d8c6], a
-	ld [$d8c3], a
-	ld [$d8c4], a
-	ld [$d8b9], a
-	ld [$d8ba], a
-	ld [$d8dc], a
-	ld [$d8e2], a
+	ld [wd8af], a
+	ld [wd8b0], a
+	ld [wd8b1], a
+	ld [wd8b2], a
+	ld [wd8c6], a
+	ld [wd8c3], a
+	ld [wd8c4], a
+	ld [wd8b9], a
+	ld [wd8ba], a
+	ld [wd8dc], a
+	ld [wd8e2], a
 	ret
 
 Func_16e2: ; 0x16e2
-	ld a, [$d8db]
+	ld a, [wd8db]
 	and a
 	jr z, .asm_16ec
 	call Func_16fd
 	ret nc
 .asm_16ec
-	ld a, [$d8ae]
+	ld a, [wd8ae]
 	cp $1
 	jr nz, .asm_16f7
 	call Func_16fd
@@ -3143,15 +3143,15 @@ Func_16e2: ; 0x16e2
 	jp Func_19e5
 
 Func_16fd: ; 0x16fd
-	ld a, [$d8c5]
+	ld a, [wd8c5]
 	cp $2
 	jr nz, .asm_173c
 	xor a
-	ld [$d8e0], a
-	ld [$d8ae], a
+	ld [wd8e0], a
+	ld [wd8ae], a
 	inc a
-	ld [$d8ad], a
-	ld a, [$d8c7]
+	ld [wd8ad], a
+	ld a, [wd8c7]
 	cp $ff
 	jr z, .asm_1735
 	bit 0, a
@@ -3161,9 +3161,9 @@ Func_16fd: ; 0x16fd
 	bit 4, a
 	jr z, .asm_173a
 	xor a
-	ld [$d8ad], a
-	ld [$d8ae], a
-	ld a, [$d8c7]
+	ld [wd8ad], a
+	ld [wd8ae], a
+	ld a, [wd8c7]
 	jr .asm_173a
 
 .asm_172e
@@ -3171,11 +3171,11 @@ Func_16fd: ; 0x16fd
 	ret
 
 	xor a
-	ld [$d8ae], a
+	ld [wd8ae], a
 	dec a
 .asm_1735
 	inc a
-	ld [$d8ad], a
+	ld [wd8ad], a
 	dec a
 .asm_173a
 	and a
@@ -3187,7 +3187,7 @@ Func_16fd: ; 0x16fd
 	ret
 
 Func_1740: ; 0x1740
-	ld a, [$d8ad]
+	ld a, [wd8ad]
 	cp $1
 	jr z, .asm_1752
 	cp $2
@@ -3200,22 +3200,22 @@ Func_1740: ; 0x1740
 	ret
 
 .asm_1752
-	ld a, [$d8e2]
+	ld a, [wd8e2]
 	and a
 	jr nz, .asm_174f
-	ld a, [$d8db]
+	ld a, [wd8db]
 	and a
 	jr z, .asm_1762
 	call Func_16fd
 	ret nc
 .asm_1762
-	ld a, [$d8ae]
+	ld a, [wd8ae]
 	cp $2
 	jr nz, .asm_176d
 	call Func_16fd
 	ret nc
 .asm_176d
-	ld a, [$d8c7]
+	ld a, [wd8c7]
 	cp $ff
 	ret z
 	call Func_1932
@@ -3223,11 +3223,11 @@ Func_1740: ; 0x1740
 
 Func_1779: ; 0x1779
 	ld c, a
-	ld a, [$d8ad]
+	ld a, [wd8ad]
 	and a
-	ld a, [$d8c7]
+	ld a, [wd8c7]
 	ret z
-	ld a, [$d8ad]
+	ld a, [wd8ad]
 	cp $1
 	jr z, .asm_1790
 	cp $3
@@ -3236,41 +3236,41 @@ Func_1779: ; 0x1779
 	ret
 
 .asm_1790
-	ld a, [$d8db]
+	ld a, [wd8db]
 	and a
 	jr nz, .asm_17df
 	ld a, c
 	inc a
-	ld [$d8de], a
+	ld [wd8de], a
 	ld a, l
-	ld [$d8c1], a
+	ld [wd8c1], a
 	ld a, h
-	ld [$d8c2], a
-	ld a, [$d8c7]
+	ld [wd8c2], a
+	ld a, [wd8c7]
 	cp $ff
 	ret z
-	ld a, [$d8ab]
-	ld [$d8ac], a
+	ld a, [wd8ab]
+	ld [wd8ac], a
 	and a
 	jr z, .asm_17d6
-	ld a, [$d8de]
+	ld a, [wd8de]
 	dec a
 	dec a
 	push af
 	ld c, a
 	ld b, $0
 	push hl
-	ld hl, $d89d
+	ld hl, wd89d
 	add hl, bc
 	ld a, [hl]
 	pop hl
-	ld [$d8ac], a
+	ld [wd8ac], a
 	pop af
 	add a
 	ld c, a
 	ld b, $0
 	push hl
-	ld hl, $d88b
+	ld hl, wd88b
 	add hl, bc
 	ld a, [hli]
 	ld b, [hl]
@@ -3285,12 +3285,12 @@ Func_1779: ; 0x1779
 	jp Func_19e5
 
 .asm_17df
-	ld a, [$d8c5]
+	ld a, [wd8c5]
 	cp $2
 	ld a, $f0
 	jp nz, .asm_1869
-	ld hl, $d8de
-	ld a, [$d8c7]
+	ld hl, wd8de
+	ld a, [wd8c7]
 	bit 4, a
 	jp nz, .asm_1859
 	bit 1, a
@@ -3298,75 +3298,75 @@ Func_1779: ; 0x1779
 	bit 0, a
 	jp nz, .asm_1804
 	dec [hl]
-	ld a, [$d8c7]
+	ld a, [wd8c7]
 	jr z, .asm_1860
 .asm_1804
 	ld a, [hl]
 	cp $1
 	jr z, .asm_186a
 	ld bc, $0280
-	ld a, [$d8ab]
-	ld [$d8ac], a
+	ld a, [wd8ab]
+	ld [wd8ac], a
 	and a
 	jr z, .asm_1836
-	ld a, [$d8de]
+	ld a, [wd8de]
 	dec a
 	dec a
 	push af
 	ld c, a
 	ld b, $0
 	push hl
-	ld hl, $d89d
+	ld hl, wd89d
 	add hl, bc
 	ld a, [hl]
 	pop hl
-	ld [$d8ac], a
+	ld [wd8ac], a
 	pop af
 	add a
 	ld c, a
 	ld b, $0
 	push hl
-	ld hl, $d88b
+	ld hl, wd88b
 	add hl, bc
 	ld a, [hli]
 	ld b, [hl]
 	pop hl
 	ld c, a
 .asm_1836
-	ld a, [$d8c7]
+	ld a, [wd8c7]
 	bit 1, a
 	jp nz, .asm_184e
-	ld a, [$d8bf]
+	ld a, [wd8bf]
 	add $80
-	ld [$d8bf], a
-	ld a, [$d8c0]
+	ld [wd8bf], a
+	ld a, [wd8c0]
 	adc $2
-	ld [$d8c0], a
+	ld [wd8c0], a
 .asm_184e
-	ld a, [$d8bf]
+	ld a, [wd8bf]
 	ld l, a
-	ld a, [$d8c0]
+	ld a, [wd8c0]
 	ld h, a
 	jp .asm_17d9
 
 .asm_1859
 	push af
 	ld a, $1
-	ld [$d8dc], a
+	ld [wd8dc], a
 	pop af
 .asm_1860
 	push af
 	xor a
-	ld [$d8cc], a
-	ld [$d8db], a
+	ld [wd8cc], a
+	ld [wd8db], a
 	pop af
 .asm_1869
 	ret
 
 .asm_186a
-	ld a, [$d8dd]
+	ld a, [wd8dd]
 	and a
-	ld a, [$d8c7]
+	ld a, [wd8c7]
 	jr z, .asm_1860
 	call Func_19d7
 	jp Func_19e5
@@ -3374,7 +3374,7 @@ Func_1779: ; 0x1779
 	dr $1879, $18ac
 
 Func_18ac: ; 0x18ac
-	ld a, [$d8ad]
+	ld a, [wd8ad]
 	cp $1
 	jr z, .asm_18be
 	cp $3
@@ -3386,36 +3386,36 @@ Func_18ac: ; 0x18ac
 	ret
 
 .asm_18be
-	ld a, [$d8db]
+	ld a, [wd8db]
 	and a
 	jr z, .asm_18c8
 	call Func_16fd
 	ret nc
 .asm_18c8
-	ld a, [$d8c7]
+	ld a, [wd8c7]
 	cp $ff
 	ret z
 	call Func_19ca
 	jp Func_19e5
 
 Func_18d4: ; 0x18d4
-	ld [$d8cb], a
+	ld [wd8cb], a
 	ld a, d
-	ld [$d8cc], a
+	ld [wd8cc], a
 	ld a, l
-	ld [$d8bb], a
-	ld [$d8bd], a
+	ld [wd8bb], a
+	ld [wd8bd], a
 	ld a, h
-	ld [$d8bc], a
-	ld [$d8be], a
+	ld [wd8bc], a
+	ld [wd8be], a
 	ld a, c
-	ld [$d8b3], a
-	ld [$d8b5], a
+	ld [wd8b3], a
+	ld [wd8b5], a
 	ld a, b
-	ld [$d8b4], a
-	ld [$d8b6], a
+	ld [wd8b4], a
+	ld [wd8b6], a
 	xor a
-	ld [$d8c5], a
+	ld [wd8c5], a
 	call Func_16bf
 	ret
 
@@ -3443,33 +3443,33 @@ Func_1925: ; 0x1925
 Func_1932: ; 0x19332
 	ld a, $2
 	ld d, $0
-	ld hl, $d8cd
+	ld hl, wd8cd
 	ld bc, $000c
 	call Func_18d4
 	ld hl, Data_1909
-	ld de, $d8cd
+	ld de, wd8cd
 	ld bc, $0004
 	call LocalCopyData
 	ld de, $0006
-	ld a, [$d8a8]
-	ld [$d8d1], a
+	ld a, [wd8a8]
+	ld [wd8d1], a
 	call Func_1982
-	ld a, [$d8a9]
-	ld [$d8d2], a
+	ld a, [wd8a9]
+	ld [wd8d2], a
 	call Func_1982
-	ld a, [$d8aa]
-	ld [$d8d3], a
+	ld a, [wd8aa]
+	ld [wd8d3], a
 	call Func_1982
-	ld a, [$d8a7]
-	ld [$d8d4], a
+	ld a, [wd8a7]
+	ld [wd8d4], a
 	call Func_1982
 	ld a, e
-	ld [$d8d5], a
+	ld [wd8d5], a
 	ld a, d
-	ld [$d8d6], a
+	ld [wd8d6], a
 	xor a
-	ld [$d8d7], a
-	ld [$d8d8], a
+	ld [wd8d7], a
+	ld [wd8d8], a
 	ret
 
 Func_1982: ; 0x1982
@@ -3482,28 +3482,28 @@ Func_1982: ; 0x1982
 
 Func_1989: ; 0x1989
 	ld a, l
-	ld [$d8bf], a
+	ld [wd8bf], a
 	ld a, h
-	ld [$d8c0], a
+	ld [wd8c0], a
 	ld a, c
-	ld [$d8b7], a
+	ld [wd8b7], a
 	ld a, b
-	ld [$d8b8], a
+	ld [wd8b8], a
 	push bc
 	ld a, $3
 	ld d, $1
-	ld hl, $d8cd
+	ld hl, wd8cd
 	ld bc, $0004
 	call Func_18d4
 	ld a, [$190d]
-	ld [$d8cd], a
-	ld a, [$d8ac]
-	ld [$d8ce], a
+	ld [wd8cd], a
+	ld a, [wd8ac]
+	ld [wd8ce], a
 	pop bc
 	ld a, c
-	ld [$d8cf], a
+	ld [wd8cf], a
 	ld a, b
-	ld [$d8d0], a
+	ld [wd8d0], a
 	ret
 
 	dr $19bd, $19ca
@@ -3526,12 +3526,12 @@ Func_19d7: ; 0x19d7
 	ret
 
 Func_19e5: ; 0x19e5
-	ld a, [$d8ad]
+	ld a, [wd8ad]
 	cp $1
 	jr z, .asm_19f8
 	and a
 	jr nz, .asm_19f6
-	ld a, [$d8cb]
+	ld a, [wd8cb]
 	cp $1
 	jr z, .asm_1a02
 .asm_19f6
@@ -3539,17 +3539,17 @@ Func_19e5: ; 0x19e5
 	ret
 
 .asm_19f8
-	ld a, [$d8cb]
+	ld a, [wd8cb]
 	cp $1
 	jr z, .asm_19f6
-	ld [$d8ad], a
+	ld [wd8ad], a
 .asm_1a02
 	xor a
-	ld [$d8c5], a
-	ld [$d8ae], a
+	ld [wd8c5], a
+	ld [wd8ae], a
 	ld a, $1
-	ld [$d8b9], a
-	ld [$d8db], a
+	ld [wd8b9], a
+	ld [wd8db], a
 	ld a, [$18ff]
 	ld [rSB], a
 	ld a, $1
@@ -3567,7 +3567,7 @@ Func_1a21: ; 0x1a21
 	call Func_1aa9
 	call Func_1b3d
 	jr c, .asm_1a3f
-	ld a, [$d86c]
+	ld a, [wd86c]
 	and a
 	jr z, .asm_1a29
 	call Func_1b60
@@ -3579,12 +3579,12 @@ Func_1a21: ; 0x1a21
 
 Func_1a43: ; 0x1a43
 	xor a
-	ld [$d86e], a
+	ld [wd86e], a
 	call Func_1a59
 	call Func_1a89
 	jr c, .asm_1a54
 	ld a, $1
-	ld [$d86e], a
+	ld [wd86e], a
 .asm_1a54
 	call Func_1ba7
 	ret
@@ -3592,26 +3592,26 @@ Func_1a43: ; 0x1a43
 	ret ; unused instruction?
 
 Func_1a59: ; 0x1a59
-	ld [$d86a], a
+	ld [wd86a], a
 	ld a, h
-	ld [$d869], a
+	ld [wd869], a
 	ld a, l
-	ld [$d868], a
+	ld [wd868], a
 	ld a, $80
-	ld [$d866], a
+	ld [wd866], a
 	ld a, $c2
-	ld [$d867], a
+	ld [wd867], a
 	xor a
-	ld [$d86b], a
-	ld [$d86c], a
-	ld [$d86d], a
+	ld [wd86b], a
+	ld [wd86c], a
+	ld [wd86d], a
 	call Func_16a2
 	ld hl, rIE
 	set 3, [hl]
 	xor a
 	ld [$ffb1], a
 	ld a, $1
-	ld [$d8e1], a
+	ld [wd8e1], a
 	ret
 
 Func_1a89: ; 0x1a89
@@ -3620,7 +3620,7 @@ Func_1a89: ; 0x1a89
 	jr z, .asm_1a9f
 	cp $ff
 	jp z, Func_1bb2
-	ld a, [$d8c8]
+	ld a, [wd8c8]
 	cp $81
 	jp nz, Func_1bb2
 	and a
@@ -3634,9 +3634,9 @@ Func_1a89: ; 0x1a89
 	jr Func_1a89
 
 Func_1aa9: ; 0x1aa9
-	ld a, [$d866]
+	ld a, [wd866]
 	ld l, a
-	ld a, [$d867]
+	ld a, [wd867]
 	ld h, a
 	ld de, wc000
 	ld b, $2
@@ -3656,16 +3656,16 @@ Func_1aa9: ; 0x1aa9
 	dec b
 	jr nz, .asm_1ab6
 	ld a, l
-	ld [$d866], a
+	ld [wd866], a
 	ld a, h
-	ld [$d867], a
-	ld a, [$d86b]
+	ld [wd867], a
+	ld a, [wd86b]
 	inc a
-	ld [$d86b], a
+	ld [wd86b], a
 	cp $9
 	jr nz, .asm_1ae1
 	ld a, $1
-	ld [$d86c], a
+	ld [wd86c], a
 .asm_1ae1
 	ret
 
@@ -3680,14 +3680,14 @@ Func_1ae2: ; 0x1ae2
 	ld a, c
 	and $f0
 	ld c, a
-	ld a, [$d868]
+	ld a, [wd868]
 	ld l, a
-	ld a, [$d869]
+	ld a, [wd869]
 	ld h, a
 	add hl, bc
 	ld a, [hLoadedROMBank]
 	push af
-	ld a, [$d86a]
+	ld a, [wd86a]
 	ld [hLoadedROMBank], a
 	ld [MBC5RomBank], a
 	ld a, [hli]
@@ -3746,8 +3746,8 @@ Func_1ae2: ; 0x1ae2
 	ret
 
 Func_1b3d: ; 0x1b3d
-	ld a, [$d86c]
-	ld [$d8dd], a
+	ld a, [wd86c]
+	ld [wd8dd], a
 	ld hl, wc000
 	ld a, $1
 	call Func_1779
@@ -3767,9 +3767,9 @@ Func_1b3d: ; 0x1b3d
 
 Func_1b60: ; 0x1b60
 	ld a, $1
-	ld [$d8a8], a
+	ld [wd8a8], a
 	ld a, $13
-	ld [$d8a9], a
+	ld [wd8a9], a
 	call Func_1740
 	cp $ff
 	jp z, Func_1bb2
@@ -3788,7 +3788,7 @@ Func_1b60: ; 0x1b60
 	jr Func_1b60
 
 Func_1b88: ; 0x1b88
-	ld a, [$d8c7]
+	ld a, [wd8c7]
 	ld b, a
 	cp $ff
 	jr z, Func_1bb2
@@ -3811,13 +3811,13 @@ Func_1ba7: ; 0x1ba7
 	ld hl, rIE
 	res 3, [hl]
 	xor a
-	ld [$d8e1], a
+	ld [wd8e1], a
 	and a
 	ret
 
 Func_1bb2: ; 0x1bb2
 	ld hl, Data_1bcf
-	ld a, [$d8c7]
+	ld a, [wd8c7]
 	cp $ff
 	jr z, .asm_1bc6
 	ld b, $3
@@ -3829,7 +3829,7 @@ Func_1bb2: ; 0x1bb2
 	jr nz, .asm_1bbe
 .asm_1bc6
 	ld a, [hl]
-	ld [$d86d], a
+	ld [wd86d], a
 	call Func_16a2
 	scf
 	ret
@@ -3841,7 +3841,7 @@ Func_1bd3: ; 0x1bd3
 	ld de, $0001
 	call PlaySoundEffect
 	ld a, $5
-	ld [$d86d], a
+	ld [wd86d], a
 	call Func_16a2
 	scf
 	ret
@@ -3850,7 +3850,7 @@ Func_1be3: ; 0x1be3
 	ld a, $c0
 	ld [rRP], a
 	ld a, $ff
-	ld [$d8ea], a
+	ld [wd8ea], a
 	xor a
 	ld b, a
 .asm_1bee
@@ -3858,7 +3858,7 @@ Func_1be3: ; 0x1be3
 	jr nz, .asm_1bee
 	inc b
 	jr nz, .asm_1bee
-	ld hl, $d8eb
+	ld hl, wd8eb
 	ld a, [rKEY1]
 	bit 7, a
 	jr z, .asm_1c0c
@@ -3921,7 +3921,7 @@ Func_1c32: ; 0x1c32
 
 Func_1c50: ; 0x1c50
 	ld a, $1
-	ld [$d8e9], a
+	ld [wd8e9], a
 	ld b, $1a
 	ld c, $56
 	ld d, $0
@@ -3948,7 +3948,7 @@ Func_1c50: ; 0x1c50
 	cp $2a
 	jp nc, Func_1dc2
 	ld a, $0
-	ld [$d8ea], a
+	ld [wd8ea], a
 	ld d, b
 	call Func_1c32
 	ld d, b
@@ -3963,7 +3963,7 @@ Func_1c50: ; 0x1c50
 
 Func_1ca1: ; 0x1ca1
 	ld a, $2
-	ld [$d8e9], a
+	ld [wd8e9], a
 	ld b, $1a
 	ld c, $56
 	ld d, b
@@ -4000,18 +4000,18 @@ Func_1ca1: ; 0x1ca1
 	ld d, $1a
 	call Func_1c32
 	ld a, $0
-	ld [$d8ea], a
+	ld [wd8ea], a
 	ret
 
 	dr $1cef, $1cf8
 
 Func_1cf8: ; 0x1cf8
 	xor a
-	ld [$d8e4], a
-	ld [$d8e5], a
+	ld [wd8e4], a
+	ld [wd8e5], a
 	push hl
 	push bc
-	ld hl, $d8e6
+	ld hl, wd8e6
 	ld a, $5a
 	ld [hli], a
 	ld [hl], b
@@ -4024,24 +4024,24 @@ Func_1cf8: ; 0x1cf8
 	pop hl
 	call Func_1ed3
 	call Func_1d44
-	ld a, [$d8e4]
-	ld [$d8e6], a
-	ld a, [$d8e5]
-	ld [$d8e7], a
-	ld hl, $d8e6
+	ld a, [wd8e4]
+	ld [wd8e6], a
+	ld a, [wd8e5]
+	ld [wd8e7], a
+	ld hl, wd8e6
 	ld b, $2
 	call Func_1d44
-	ld hl, $d8ea
+	ld hl, wd8ea
 	ld b, $1
 	call Func_1e3b
-	ld a, [$d8e6]
-	ld [$d8e4], a
-	ld a, [$d8e7]
-	ld [$d8e5], a
+	ld a, [wd8e6]
+	ld [wd8e4], a
+	ld a, [wd8e7]
+	ld [wd8e5], a
 	ret
 
 Func_1d44: ; 0x1d44
-	ld a, [$d8ea]
+	ld a, [wd8ea]
 	cp $0
 	ret nz
 	ld c, $56
@@ -4056,16 +4056,16 @@ Func_1d44: ; 0x1d44
 	inc b
 	jr z, .asm_1dae
 	ld a, $8
-	ld [$d8e3], a
+	ld [wd8e3], a
 	ld a, [hli]
 	ld e, a
-	ld a, [$d8e4]
+	ld a, [wd8e4]
 	add e
-	ld [$d8e4], a
+	ld [wd8e4], a
 	jr nc, .asm_1d75
-	ld a, [$d8e5]
+	ld a, [wd8e5]
 	inc a
-	ld [$d8e5], a
+	ld [wd8e5], a
 	jr .asm_1d78
 
 .asm_1d75
@@ -4075,25 +4075,25 @@ Func_1d44: ; 0x1d44
 	rlca
 	ld e, a
 	jr nc, .asm_1d8d
-	ld a, [$d8eb]
+	ld a, [wd8eb]
 	ld d, a
 	call Func_1c2b
-	ld a, [$d8ec]
+	ld a, [wd8ec]
 	ld d, a
 	call Func_1c32
 	jr .asm_1d9b
 
 .asm_1d8d
-	ld a, [$d8ed]
+	ld a, [wd8ed]
 	ld d, a
 	call Func_1c2b
-	ld a, [$d8ee]
+	ld a, [wd8ee]
 	ld d, a
 	call Func_1c32
 .asm_1d9b
-	ld a, [$d8e3]
+	ld a, [wd8e3]
 	dec a
-	ld [$d8e3], a
+	ld [wd8e3], a
 	jr z, .asm_1dac
 	call Func_1ed4
 	call Func_1ed4
@@ -4114,43 +4114,43 @@ Func_1d44: ; 0x1d44
 
 Func_1dc2: ; 0x1dc2
 	ld a, $2
-	ld [$d8ea], a
+	ld [wd8ea], a
 	ret
 
 	dr $1dc8, $1dd1
 
 Func_1dd1: ; 0x1dd1
-	ld a, [$d8ea]
+	ld a, [wd8ea]
 	or $4
-	ld [$d8ea], a
+	ld [wd8ea], a
 	ret
 
 Func_1dda: ; 0x1dda
 	xor a
-	ld [$d8e4], a
-	ld [$d8e5], a
+	ld [wd8e4], a
+	ld [wd8e5], a
 	push hl
-	ld hl, $d8e6
+	ld hl, wd8e6
 	ld b, $2
 	call Func_1e3b
-	ld a, [$d8e7]
-	ld [$d8e8], a
+	ld a, [wd8e7]
+	ld [wd8e8], a
 	ld b, a
 	pop hl
-	ld a, [$d8e6]
+	ld a, [wd8e6]
 	cp $5a
 	jp nz, Func_1dd1
 	call Func_1e3b
-	ld a, [$d8e4]
+	ld a, [wd8e4]
 	ld d, a
-	ld a, [$d8e5]
+	ld a, [wd8e5]
 	ld e, a
 	push de
-	ld hl, $d8e6
+	ld hl, wd8e6
 	ld b, $2
 	call Func_1e3b
 	pop de
-	ld hl, $d8e6
+	ld hl, wd8e6
 	ld a, [hli]
 	xor d
 	ld b, a
@@ -4158,26 +4158,26 @@ Func_1dda: ; 0x1dda
 	xor e
 	or b
 	jr z, .asm_1e22
-	ld a, [$d8ea]
+	ld a, [wd8ea]
 	or $1
-	ld [$d8ea], a
+	ld [wd8ea], a
 .asm_1e22
 	push de
-	ld hl, $d8ea
+	ld hl, wd8ea
 	ld b, $1
 	call Func_1d44
 	pop de
 	ld a, d
-	ld [$d8e4], a
+	ld [wd8e4], a
 	ld a, e
-	ld [$d8e5], a
-	ld a, [$d8e8]
+	ld [wd8e5], a
+	ld a, [wd8e8]
 	cp $82
 	ret z
 	ret
 
 Func_1e3b: ; 0x1e3b
-	ld a, [$d8ea]
+	ld a, [wd8ea]
 	cp $0
 	ret nz
 	ld c, $56
@@ -4207,12 +4207,12 @@ Func_1e3b: ; 0x1e3b
 	inc b
 	jr z, .asm_1eb9
 	ld a, $8
-	ld [$d8e3], a
+	ld [wd8e3], a
 .asm_1e74
 	ld d, $0
 	call Func_1c1b
 	call Func_1c23
-	ld a, [$d8ef]
+	ld a, [wd8ef]
 	cp d
 	jr nc, .asm_1e88
 	ld a, e
@@ -4225,9 +4225,9 @@ Func_1e3b: ; 0x1e3b
 	res 0, a
 	ld e, a
 .asm_1e8c
-	ld a, [$d8e3]
+	ld a, [wd8e3]
 	dec a
-	ld [$d8e3], a
+	ld [wd8e3], a
 	jr z, .asm_1ea0
 	ld a, e
 	rlca
@@ -4239,13 +4239,13 @@ Func_1e3b: ; 0x1e3b
 .asm_1ea0
 	ld a, e
 	ld [hli], a
-	ld a, [$d8e4]
+	ld a, [wd8e4]
 	add e
-	ld [$d8e4], a
+	ld [wd8e4], a
 	jr nc, .asm_1eb4
-	ld a, [$d8e5]
+	ld a, [wd8e5]
 	inc a
-	ld [$d8e5], a
+	ld [wd8e5], a
 	jr .asm_1eb7
 
 .asm_1eb4
@@ -4317,7 +4317,7 @@ asm_1f3b: ; 0x1f3b
 	ld e, a
 	ld a, [hl]
 	ld d, a  ; de points to OAM data
-	ld a, [$d802]
+	ld a, [wd802]
 	ld l, a
 	ld h, (wOAMBuffer >> 8)
 .loadOAMDataLoop
@@ -4341,7 +4341,7 @@ asm_1f3b: ; 0x1f3b
 
 .doneReadingOAMData
 	ld a, l
-	ld [$d802], a
+	ld [wd802], a
 	pop af
 	ld [hLoadedROMBank], a
 	ld [MBC5RomBank], a
@@ -4354,17 +4354,17 @@ asm_1f3b: ; 0x1f3b
 
 Func_1ffc: ; 0x1ffc
 	ld a, $b
-	ld [$d806], a
+	ld [wd806], a
 	ld a, $4
-	ld [$d807], a
+	ld [wd807], a
 	ld [$ff8a], a
 	callba Func_3c000
 	ld a, $1
-	ld [$d85d], a
+	ld [wd85d], a
 	ld a, $37
-	ld [$d470], a
-	ld [$d471], a
-	ld [$d472], a
+	ld [wd470], a
+	ld [wd471], a
+	ld [wd472], a
 	ld a, SCREEN_ERASE_ALL_DATA
 	ld [wCurrentScreen], a
 .asm_2025
@@ -4376,15 +4376,15 @@ Func_1ffc: ; 0x1ffc
 	jr .asm_2025
 
 Func_2034: ; 0x2034
-	ld a, [$d804]
+	ld a, [wd804]
 	and a
 	jr z, .asm_203f
 	dec a
-	ld [$d804], a
+	ld [wd804], a
 	ret
 
 .asm_203f
-	ld [$d803], a
+	ld [wd803], a
 	ret
 
 Func_2043: ; 0x2043
@@ -4635,7 +4635,7 @@ Func_2149: ; 0x2149
 
 ApplyGravityToBall: ; 0x2168
 ; Adds a constant to the pinball's y velocity.
-	ld a, [$d549]
+	ld a, [wd549]
 	and a
 	ret z
 	ld de, $000b  ; gravity added to y velocity every frame
@@ -4775,7 +4775,7 @@ Func_21e7: ; 0x21e7
 
 Func_222b: ; 0x222b
 	push hl
-	ld hl, $d7f8
+	ld hl, wd7f8
 	ld [hl], $ff
 	bit 7, d
 	jr nz, .asm_2297
@@ -4784,9 +4784,9 @@ Func_222b: ; 0x222b
 	cp $3
 	jr c, .asm_2254
 	ld a, $ff
-	ld [$d803], a
+	ld [wd803], a
 	ld a, $1
-	ld [$d804], a
+	ld [wd804], a
 	ld a, [wFlipperCollision]
 	and a
 	jr nz, .asm_2254
@@ -4803,7 +4803,7 @@ Func_222b: ; 0x222b
 	ld l, e
 	srl d
 	rr e
-	ld a, [$d7eb]
+	ld a, [wd7eb]
 	and a
 	jr z, .asm_226c
 .asm_2268
@@ -4907,9 +4907,9 @@ Func_22b5: ; 0x22b5
 	ld b, $0
 	add hl, bc
 	ld a, l
-	ld [$d7f3], a
+	ld [wd7f3], a
 	ld a, h
-	ld [$d7f4], a
+	ld [wd7f4], a
 	ld a, [wStageCollisionMapPointer]
 	ld c, a
 	ld a, [wStageCollisionMapPointer + 1]
@@ -5000,7 +5000,7 @@ Func_22b5: ; 0x22b5
 	ld a, [de]
 	inc de
 	ld c, a
-	ld hl, $d7c9
+	ld hl, wd7c9
 	add hl, bc
 	pop af
 	ld [hl], a
@@ -5010,8 +5010,8 @@ Func_22b5: ; 0x22b5
 	pop af
 	ld [hLoadedROMBank], a
 	ld [MBC5RomBank], a
-	ld hl, $d7c9
-	ld de, $d7d9
+	ld hl, wd7c9
+	ld de, wd7d9
 	ld b, $4
 .asm_239a
 	ld a, [hli]
@@ -5028,7 +5028,7 @@ Func_22b5: ; 0x22b5
 	inc de
 	dec b
 	jr nz, .asm_239a
-	ld hl, $d7c9
+	ld hl, wd7c9
 	ld de, $0000
 	ld b, $0
 	ld a, [hl]
@@ -5085,7 +5085,7 @@ Func_22b5: ; 0x22b5
 	jr c, .asm_23c1
 .asm_23ee
 	ld a, e
-	ld [$d7e9], a
+	ld [wd7e9], a
 	and a
 	ret z
 	ld a, [hLoadedROMBank]
@@ -5099,7 +5099,7 @@ Func_22b5: ; 0x22b5
 	ld hl, Data_8817
 	add hl, de
 	ld a, [hl]
-	ld [$d7ea], a
+	ld [wd7ea], a
 	sla e
 	rl d
 	ld hl, Data_8917
@@ -5161,15 +5161,15 @@ Func_22b5: ; 0x22b5
 	ld hl, wUpperLeftCollisionAttribute
 	add hl, bc
 	ld a, [hl]
-	ld [$d7f5], a
+	ld [wd7f5], a
 	ld hl, Data_250a ; todo
 	add hl, bc
-	ld a, [$d7f3]
+	ld a, [wd7f3]
 	add [hl]
-	ld [$d7f6], a
-	ld a, [$d7f4]
+	ld [wd7f6], a
+	ld a, [wd7f4]
 	adc $0
-	ld [$d7f7], a
+	ld [wd7f7], a
 	ret
 
 Func_248a: ; 0x248a
@@ -5206,11 +5206,11 @@ Func_248a: ; 0x248a
 	jr nc, .asm_24e0
 	bit 4, b
 	ld hl, Data_3800
-	ld a, [$d7af]
+	ld a, [wd7af]
 	jr z, .asm_24c8
 	res 4, b
 	ld hl, Data_3980
-	ld a, [$d7b3]
+	ld a, [wd7b3]
 .asm_24c8
 	ld de, $0080
 	cp $7
@@ -5232,11 +5232,11 @@ Func_248a: ; 0x248a
 .asm_24e0
 	bit 4, b
 	ld hl, Data_3b00
-	ld a, [$d7af]
+	ld a, [wd7af]
 	jr z, .asm_24f2
 	res 4, b
 	ld hl, Data_3c80
-	ld a, [$d7b3]
+	ld a, [wd7b3]
 .asm_24f2
 	ld de, $0080
 	cp $7
@@ -5420,10 +5420,10 @@ Data_26be:
 
 Func_2720: ; 0x2720
 	ld a, $ff
-	ld [$d4ea], a
+	ld [wd4ea], a
 	call Func_272f
-	ld a, [$d4ea]
-	ld [$d4ec], a
+	ld a, [wd4ea]
+	ld [wd4ec], a
 	ret
 
 Func_272f: ; 0x272f
@@ -5494,7 +5494,7 @@ CallTable_2735: ; 0x2735
 	db Bank(Func_25bbc), $00
 
 Func_2775: ; 0x2775
-	ld a, [$d4ea]
+	ld a, [wd4ea]
 	inc a
 	jr nz, .asm_27a2
 	ld a, [bc]
@@ -5505,17 +5505,17 @@ Func_2775: ; 0x2775
 	call nc, Func_27da
 	pop hl
 	call c, Func_27a4
-	ld a, [$d4ea]
+	ld a, [wd4ea]
 	ld b, a
 	pop hl
 	ld [hl], $0
 	jr nc, .asm_27a2
-	ld a, [$d4ec]
+	ld a, [wd4ec]
 	cp b
 	jr z, .asm_27a2
-	ld a, [$d4eb]
+	ld a, [wd4eb]
 	ld [hli], a
-	ld a, [$d4ea]
+	ld a, [wd4ea]
 	ld [hl], a
 	scf
 	ret
@@ -5526,7 +5526,7 @@ Func_2775: ; 0x2775
 
 Func_27a4: ; 0x27a4
 	xor a
-	ld [$d4eb], a
+	ld [wd4eb], a
 	ld a, [hli]
 	ld d, a
 	ld a, [hli]
@@ -5536,11 +5536,11 @@ Func_27a4: ; 0x27a4
 	ld a, [wBallYPos + 1]
 	ld c, a
 .asm_27b4
-	ld a, [$d4eb]
+	ld a, [wd4eb]
 	inc a
-	ld [$d4eb], a
+	ld [wd4eb], a
 	ld a, [hli]
-	ld [$d4ea], a
+	ld [wd4ea], a
 	cp $ff
 	ret z
 	ld a, [hli]
@@ -5576,10 +5576,10 @@ Func_27da: ; 0x27da
 	ld c, [hl]
 	add hl, bc
 .asm_27e8
-	ld a, [$d7e9]
+	ld a, [wd7e9]
 	and a
 	ret z
-	ld a, [$d7f5]
+	ld a, [wd7f5]
 	ld b, a
 	ld c, $ff
 .asm_27f3
@@ -5596,7 +5596,7 @@ PinballCollideWithPoints: ; 0x27fd
 ; Checks if pinball collides with any of the (x, y) points in the given list.
 ; Saves the index of the collided point.
 ; Input:  hl = pointer to array of (x, y) points
-; Output: Saves index of collided point in $d578
+; Output: Saves index of collided point in wd578
 	ld a, [wBallXPos + 1]
 	ld b, a
 	ld a, [wBallYPos + 1]
@@ -5616,7 +5616,7 @@ PinballCollideWithPoints: ; 0x27fd
 	cp $e8
 	jr c, .nextPoint
 	ld a, d
-	ld [$d578], a
+	ld [wd578], a
 	ret
 
 Func_281c: ; 0x281c
@@ -5687,7 +5687,7 @@ CallTable_2822: ; 0x2822
 	db Bank(Func_25c5a), $00
 
 Func_2862: ; 0x2862
-	ld a, [$d7be]
+	ld a, [wd7be]
 	and a
 	jr nz, .asm_287c
 	ld a, [hGameBoyColorFlag]
@@ -5778,8 +5778,8 @@ Func_30db: ; 0x30db
 	ld a, $86
 	ld [$ffa6], a
 	ld a, $1
-	ld [$d5ca], a
-	ld [$d5cb], a
+	ld [wd5ca], a
+	ld [wd5cb], a
 	ret
 
 Func_30e8: ; 0x30e8
@@ -5794,12 +5794,12 @@ Func_30e8: ; 0x30e8
 	dec b
 	jr nz, .asm_30ef
 	xor a
-	ld [$d5cc], a
-	ld [$d5d4], a
-	ld [$d5dc], a
-	ld [$d5e4], a
-	ld [$d5e9], a
-	ld [$d5ee], a
+	ld [wd5cc], a
+	ld [wd5d4], a
+	ld [wd5dc], a
+	ld [wd5e4], a
+	ld [wd5e9], a
+	ld [wd5ee], a
 	ret
 
 Func_310a: ; 0x310a
@@ -5831,7 +5831,7 @@ Func_3125: ; 0x3125
 Func_3129: ; 0x3129
 	ld b, $0
 asm_312b: ; 0x312b
-	ld a, [$d805]
+	ld a, [wd805]
 	and a
 	jp nz, Func_3268
 .asm_3132
@@ -6324,64 +6324,64 @@ Func_33c3: ; 0x33c3
 	ret
 
 Func_33e3: ; 0x33e3
-	ld a, [$d5ca]
+	ld a, [wd5ca]
 	and a
 	jr nz, .asm_33ed
-	ld [$d5cb], a
+	ld [wd5cb], a
 	ret
 
 .asm_33ed
 	ld c, $0
-	ld a, [$d5cc]
+	ld a, [wd5cc]
 	and a
 	jr z, .asm_33fe
 	push bc
-	ld hl, $d5cc
+	ld hl, wd5cc
 	call Func_3325
 	pop bc
 	inc c
 .asm_33fe
-	ld a, [$d5d4]
+	ld a, [wd5d4]
 	and a
 	jr z, .asm_340d
 	push bc
-	ld hl, $d5d4
+	ld hl, wd5d4
 	call Func_3325
 	pop bc
 	inc c
 .asm_340d
-	ld a, [$d5dc]
+	ld a, [wd5dc]
 	and a
 	jr z, .asm_341c
 	push bc
-	ld hl, $d5dc
+	ld hl, wd5dc
 	call Func_3325
 	pop bc
 	inc c
 .asm_341c
-	ld a, [$d5e4]
+	ld a, [wd5e4]
 	and a
 	jr z, .asm_342b
 	push bc
-	ld hl, $d5e4
+	ld hl, wd5e4
 	call Func_33c3
 	pop bc
 	inc c
 .asm_342b
-	ld a, [$d5e9]
+	ld a, [wd5e9]
 	and a
 	jr z, .asm_343a
 	push bc
-	ld hl, $d5e9
+	ld hl, wd5e9
 	call Func_33c3
 	pop bc
 	inc c
 .asm_343a
-	ld a, [$d5ee]
+	ld a, [wd5ee]
 	and a
 	jr z, .asm_3449
 	push bc
-	ld hl, $d5ee
+	ld hl, wd5ee
 	call Func_33c3
 	pop bc
 	inc c
@@ -6389,7 +6389,7 @@ Func_33e3: ; 0x33e3
 	ld a, c
 	and a
 	ret nz
-	ld [$d5ca], a
+	ld [wd5ca], a
 	call Func_30e8
 	ld a, [hGameBoyColorFlag]
 	and a
@@ -6426,7 +6426,7 @@ Func_3475: ; 0x3475
 	call Func_33e3
 	call Func_926
 	rst AdvanceFrame
-	ld a, [$d5ca]
+	ld a, [wd5ca]
 	and a
 	jr nz, Func_3475
 	ret
@@ -6463,7 +6463,7 @@ OneHundredPoints: ; 34fa
 	dx 6, $000000000100
 
 Func_3500:
-	ld hl, $d464
+	ld hl, wd464
 	ld a, e
 	ld [hli], a
 	ld a, d
@@ -6475,13 +6475,13 @@ Func_3500:
 	xor a
 	ld [hli], a
 	ld [hl], a
-	ld bc, $d464
+	ld bc, wd464
 	ldh [$ff8a], a
 	callba AddBCDScore
 	ret
 
 Func_351c: ; 0x351c
-	ld hl, $d464
+	ld hl, wd464
 	ld a, e
 	ld [hli], a
 	ld a, d
@@ -6493,13 +6493,13 @@ Func_351c: ; 0x351c
 	xor a
 	ld [hli], a
 	ld [hl], a
-	ld bc, $d464
+	ld bc, wd464
 	ld [$ff8a], a
 	callba Func_8588
 	ret
 
 Func_3538: ; 0x3538
-	ld hl, $d47a
+	ld hl, wd47a
 	ld a, [hl]
 	add e
 	daa
@@ -6517,7 +6517,7 @@ Func_3538: ; 0x3538
 	daa
 	ld [hli], a
 	ret nc
-	ld hl, $d47a
+	ld hl, wd47a
 	ld a, $99
 	ld [hli], a
 	ld [hli], a
@@ -6526,20 +6526,20 @@ Func_3538: ; 0x3538
 	ret
 
 Func_3556: ; 0x3556
-	ld a, [$d47a]
+	ld a, [wd47a]
 	ld e, a
-	ld a, [$d47b]
+	ld a, [wd47b]
 	ld d, a
-	ld a, [$d47c]
+	ld a, [wd47c]
 	ld c, a
-	ld a, [$d47d]
+	ld a, [wd47d]
 	ld b, a
 	ret
 
 	dr $3567, $3579
 
 Func_3579: ; 0x3579
-	ld hl, $d47a
+	ld hl, wd47a
 	xor a
 	ld [hli], a
 	ld [hli], a
@@ -6570,17 +6570,17 @@ HandleLeftTilt: ; 0x358c
 	ld de, $003f
 	call PlaySoundEffect
 .skipSoundEffect
-	ld a, [$d548]
-	ld hl, $d549
+	ld a, [wd548]
+	ld hl, wd549
 	and [hl]
 	jr z, .skipBallMovement
 	ld a, [wBallXPos + 1]
 	dec a  ; move ball's position to the left by 1 pixel
 	ld [wBallXPos + 1], a
 .skipBallMovement
-	ld a, [$d79f]
+	ld a, [wd79f]
 	inc a
-	ld [$d79f], a
+	ld [wd79f], a
 	ld a, $1
 	ld [wLeftTiltPushing], a
 	ret
@@ -6596,9 +6596,9 @@ HandleLeftTilt: ; 0x358c
 	jr z, .done
 	dec a
 	ld [wLeftTiltCounter], a
-	ld a, [$d79f]
+	ld a, [wd79f]
 	dec a
-	ld [$d79f], a
+	ld [wd79f], a
 	ret
 
 .done
@@ -6626,17 +6626,17 @@ HandleRightTilt: ; 0x35f3
 	ld de, $003f
 	call PlaySoundEffect
 .skipSoundEffect
-	ld a, [$d548]
-	ld hl, $d549
+	ld a, [wd548]
+	ld hl, wd549
 	and [hl]
 	jr z, .skipBallMovement
 	ld a, [wBallXPos + 1]
 	inc a  ; move ball's position to the right by 1 pixel
 	ld [wBallXPos + 1], a
 .skipBallMovement
-	ld a, [$d79f]
+	ld a, [wd79f]
 	dec a
-	ld [$d79f], a
+	ld [wd79f], a
 	ld a, $1
 	ld [wRightTiltPushing], a
 	ret
@@ -6652,9 +6652,9 @@ HandleRightTilt: ; 0x35f3
 	jr z, .done
 	dec a
 	ld [wRightTiltCounter], a
-	ld a, [$d79f]
+	ld a, [wd79f]
 	inc a
-	ld [$d79f], a
+	ld [wd79f], a
 	ret
 
 .done
@@ -6682,17 +6682,17 @@ HandleUpperTilt: ; 0x365a
 	ld de, $003f
 	call PlaySoundEffect
 .skipSoundEffect
-	ld a, [$d548]
-	ld hl, $d549
+	ld a, [wd548]
+	ld hl, wd549
 	and [hl]
 	jr z, .skipBallMovement
 	ld a, [wBallYPos + 1]
 	inc a  ; move ball's position down by 1 pixel
 	ld [wBallYPos + 1], a
 .skipBallMovement
-	ld a, [$d7a0]
+	ld a, [wd7a0]
 	dec a
-	ld [$d7a0], a
+	ld [wd7a0], a
 	ld a, $1
 	ld [wUpperTiltPushing], a
 	ret
@@ -6708,9 +6708,9 @@ HandleUpperTilt: ; 0x365a
 	jr z, .done
 	dec a
 	ld [wUpperTiltCounter], a
-	ld a, [$d7a0]
+	ld a, [wd7a0]
 	inc a
-	ld [$d7a0], a
+	ld [wd7a0], a
 	ret
 
 .done
@@ -6722,8 +6722,8 @@ HandleUpperTilt: ; 0x365a
 	ret
 
 ApplyTiltForces: ; 0x36c1
-	ld a, [$d548]
-	ld hl, $d549
+	ld a, [wd548]
+	ld hl, wd549
 	and [hl]
 	ret z
 	ld c, $0
@@ -6745,7 +6745,7 @@ ApplyTiltForces: ; 0x36c1
 	ld l, a
 	bit 7, h
 	ret nz
-	ld a, [$d7ea]
+	ld a, [wd7ea]
 	ld c, a
 	ld b, $0
 	sla c
@@ -10291,9 +10291,9 @@ Func_800a: ; 0x800a
 	ld a, $45
 	ld [$ff9e], a
 	ld a, $e4
-	ld [$d80c], a
-	ld [$d80d], a
-	ld [$d80e], a
+	ld [wd80c], a
+	ld [wd80d], a
+	ld [wd80e], a
 	xor a
 	ld [hBoardXShift], a
 	ld [hBoardYShift], a
@@ -10529,10 +10529,10 @@ CheckForResetButtonCombo: ; 0x8167
 	ld a, $41
 	ld [$ff9e], a
 	ld a, $e4
-	ld [$d80c], a
+	ld [wd80c], a
 	xor a
-	ld [$d80d], a
-	ld [$d80e], a
+	ld [wd80d], a
+	ld [wd80e], a
 	ld [hBoardXShift], a
 	ld [hBoardYShift], a
 	ld a, [hGameBoyColorFlag]
@@ -10637,10 +10637,10 @@ FadeInCopyrightScreen: ; 0x8228
 	ld a, $41
 	ld [$ff9e], a
 	ld a, $e4
-	ld [$d80c], a
+	ld [wd80c], a
 	xor a
-	ld [$d80d], a
-	ld [$d80e], a
+	ld [wd80d], a
+	ld [wd80e], a
 	ld [hBoardXShift], a
 	ld [hBoardYShift], a
 	ld a, [hGameBoyColorFlag]
@@ -10726,7 +10726,7 @@ FadeOutCopyrightScreenAndLoadData: ; 0x82a8
 	call Func_f0c
 	jr c, .asm_8308
 	xor a
-	ld [$d7c2], a  ; if this is non-zero, the main menu will prompt for "continue or new game?".
+	ld [wd7c2], a  ; if this is non-zero, the main menu will prompt for "continue or new game?".
 .asm_8308
 	ld hl, wCurrentScreen
 	inc [hl]
@@ -10740,7 +10740,7 @@ InitializeStage: ; 0x8311
 	call ClearData
 	ld a, $1
 	ld [rVBK], a
-	ld a, [$d805]
+	ld a, [wd805]
 	and a
 	jr nz, .asm_8331
 	ld hl, vBGMap1
@@ -10824,7 +10824,7 @@ CallTable_8348: ; 0x8348
 	db Bank(InitSeelBonusStage), $00
 
 Func_8388: ; 0x8388
-	ld a, [$d7c1]
+	ld a, [wd7c1]
 	and a
 	jr z, .asm_8398
 	ld hl, wSubTileBallXPos
@@ -10839,16 +10839,16 @@ Func_8388: ; 0x8388
 	ld hl, wPartyMons
 	ld bc, $0170
 	call ClearData
-	ld hl, $d473 ; todo
+	ld hl, wd473 ; todo
 	ld bc, $0039
 	call ClearData
-	ld hl, $d4ad
+	ld hl, wd4ad
 	ld bc, $034d
 	call ClearData
 	ret
 
 StartBallForStage: ; 0x83ba
-	ld a, [$d7c1]
+	ld a, [wd7c1]
 	and a
 	jr z, .asm_83c7
 	call Func_8444
@@ -10861,21 +10861,21 @@ StartBallForStage: ; 0x83ba
 	ld [wBallXVelocity + 1], a
 	ld [wBallYVelocity], a
 	ld [wBallYVelocity + 1], a
-	ld [$d7ae], a
-	ld [$d7af], a
-	ld [$d7b2], a
-	ld [$d7b3], a
-	ld [$d7b0], a
-	ld [$d7b1], a
-	ld [$d7b4], a
-	ld [$d7b5], a
+	ld [wd7ae], a
+	ld [wd7af], a
+	ld [wd7b2], a
+	ld [wd7b3], a
+	ld [wd7b0], a
+	ld [wd7b1], a
+	ld [wd7b4], a
+	ld [wd7b5], a
 	ld [wBallSpin], a
 	ld [wBallRotation], a
 	inc a
-	ld [$d548], a
-	ld [$d549], a
+	ld [wd548], a
+	ld [wd549], a
 	ld a, $20
-	ld [$d7ab], a
+	ld [wd7ab], a
 	ld a, [wCurrentStage]
 	call CallInFollowingTable
 CallTable_8404: ; 0x8404
@@ -10948,7 +10948,7 @@ Func_8444: ; 0x8444
 	ld a, [wSpecialMode]
 	and a
 	jr nz, .asm_8460
-	ld a, [$d5bb]
+	ld a, [wd5bb]
 	and a
 	jr z, .asm_8460
 	ld [$ff8a], a
@@ -10957,9 +10957,9 @@ Func_8444: ; 0x8444
 	ret
 
 Func_8461: ; 0x8461
-	ld a, [$d7c0]
+	ld a, [wd7c0]
 	call SetSongBank
-	ld a, [$d7bf]
+	ld a, [wd7bf]
 	ld e, a
 	ld d, $0
 	call PlaySong
@@ -11100,7 +11100,7 @@ PointerTable_84bd: ; 0x84bd
 	dr $84fd, $8524
 
 Func_8524: ; 0x8524
-	ld hl, $d46f
+	ld hl, wd46f
 	ld bc, $0c01
 .asm_852a
 	ld a, [hl]
@@ -11153,7 +11153,7 @@ Func_8543: ; 0x8543
 AddBCDScore: ; 0x8576
 	ld h, b
 	ld l, c
-	ld a, [$d477]
+	ld a, [wd477]
 	ld e, a
 	ld d, $d4
 	ld a, [wBallType]
@@ -11167,7 +11167,7 @@ AddBCDScore: ; 0x8576
 Func_8588: ; 0x8588
 	ld h, b
 	ld l, c
-	ld a, [$d477]
+	ld a, [wd477]
 	ld e, a
 	ld d, $d4
 	ld b, $1
@@ -11218,21 +11218,21 @@ asm_8592:
 	dec b
 	jr nz, asm_8592
 	ld a, e
-	ld [$d477], a
+	ld [wd477], a
 	ret
 
 Func_85c7: ; 0x85c7
 	ld a, [$ffb3]
 	and $3
 	ret nz
-	ld a, [$d478]
+	ld a, [wd478]
 	ld l, a
 	ld h, $d4
 	ld de, wScore
-	ld a, [$d477]
+	ld a, [wd477]
 	cp l
 	jr nz, .asm_85de
-	ld [$d479], a
+	ld [wd479], a
 .asm_85de
 	push hl
 	ld a, [hli]
@@ -11247,8 +11247,8 @@ Func_85c7: ; 0x85c7
 	or [hl]
 	pop hl
 	jr nz, .asm_85f3
-	ld a, [$d479]
-	ld [$d478], a
+	ld a, [wd479]
+	ld [wd478], a
 	ret
 
 .asm_85f3
@@ -11301,9 +11301,9 @@ Func_85c7: ; 0x85c7
 	ld l, $0
 .asm_862d
 	ld a, l
-	ld [$d478], a
+	ld [wd478], a
 	ld a, $1
-	ld [$d49f], a
+	ld [wd49f], a
 	ret
 
 SetMaxScore: ; 0x8637
@@ -11321,7 +11321,7 @@ SetMaxScore: ; 0x8637
 
 Func_8645: ; 0x8645
 	xor a
-	ld [$d49f], a
+	ld [wd49f], a
 	ld de, wcBottomMessageText + $147
 	call Func_8524
 	ret
@@ -11368,18 +11368,18 @@ StartTimer: ; 0x867d
 	ld [wTimerMinutes], a
 	xor a
 	ld [wTimerFrames], a
-	ld [$d57e], a
-	ld [$d57f], a
+	ld [wd57e], a
+	ld [wd57f], a
 	ld a, $1
-	ld [$d57d], a
+	ld [wd57d], a
 	ld a, $1
-	ld [$d580], a
+	ld [wd580], a
 	ld [$ff8a], a
 	callba Func_1404a
 	ret
 
 Func_86a4: ; 0x86a4
-	ld a, [$d57f]
+	ld a, [wd57f]
 	and a
 	ret nz
 	ld a, [wTimerFrames]
@@ -11395,7 +11395,7 @@ Func_86a4: ; 0x86a4
 	or [hl]
 	jr nz, .asm_86c3
 	ld a, $1
-	ld [$d57e], a
+	ld [wd57e], a
 	ret
 
 .asm_86c3
@@ -11414,18 +11414,18 @@ Func_86a4: ; 0x86a4
 
 Func_86d2: ; 0x86d2
 	xor a
-	ld [$d57d], a
+	ld [wd57d], a
 	ret
 
 HandleInGameMenu: ; 0x86d7
 ; Routine responsible for the "SAVE"/"CANCEL" menu.
-	ld a, [$d917]
+	ld a, [wd917]
 	push af
 	ld a, $1
-	ld [$d917], a
+	ld [wd917], a
 	call Func_30e8
 	xor a
-	ld [$d4aa], a
+	ld [wd4aa], a
 	ld hl, wcBottomMessageText
 	ld a, $81
 	ld b, $30
@@ -11463,14 +11463,14 @@ HandleInGameMenu: ; 0x86d7
 	and a
 	jr nz, .pickedCancel
 	ld a, $1
-	ld [$d7c2], a
+	ld [wd7c2], a
 	ld hl, wPartyMons
 	ld de, $a268
 	ld bc, $04c3
 	call SaveData
 	xor a
-	ld [$d803], a
-	ld [$d804], a
+	ld [wd803], a
+	ld [wd804], a
 .pickedCancel
 	ld bc, $003c
 	call Func_93f
@@ -11500,9 +11500,9 @@ HandleInGameMenu: ; 0x86d7
 .asm_8786
 	call Func_30e8
 	pop af
-	ld [$d917], a
+	ld [wd917], a
 	ld a, $1
-	ld [$d4aa], a
+	ld [wd4aa], a
 	ld a, [wInGameMenuIndex]
 	and a
 	ret
@@ -12412,7 +12412,7 @@ Func_8d17: ; 0x8d17
 	rl b
 	sla c
 	rl b
-	ld hl, $c010
+	ld hl, wc010
 	add hl, bc
 	ld d, h
 	ld e, l
@@ -12436,9 +12436,9 @@ Func_8d17: ; 0x8d17
 	ld hl, Data_8df9
 	add hl, bc
 	ld a, [hl]
-	ld [$d85e], a
+	ld [wd85e], a
 	cpl
-	ld [$d85f], a
+	ld [wd85f], a
 	ld a, c
 	add $58
 	ld b, a
@@ -12451,10 +12451,10 @@ Func_8d17: ; 0x8d17
 	ld c, a
 	ld a, [bc]
 	ld c, a
-	ld a, [$d85e]
+	ld a, [wd85e]
 	and c
 	ld c, a
-	ld a, [$d860]
+	ld a, [wd860]
 	ld b, a
 	ld a, [de]
 	xor b
@@ -12480,10 +12480,10 @@ Func_8d17: ; 0x8d17
 	ld c, a
 	ld a, [bc]
 	ld c, a
-	ld a, [$d85f]
+	ld a, [wd85f]
 	and c
 	ld c, a
-	ld a, [$d860]
+	ld a, [wd860]
 	ld b, a
 	ld a, [de]
 	xor b
@@ -12570,7 +12570,7 @@ Func_8e01: ; 0x8e01
 	ld b, a
 	sla c
 	rl b
-	ld hl, $c010
+	ld hl, wc010
 	add hl, bc
 	ld d, h
 	ld e, l
@@ -12594,9 +12594,9 @@ Func_8e01: ; 0x8e01
 	ld hl, Data_8ed8
 	add hl, bc
 	ld a, [hl]
-	ld [$d85e], a
+	ld [wd85e], a
 	cpl
-	ld [$d85f], a
+	ld [wd85f], a
 	ld a, c
 	add $58
 	ld b, a
@@ -12609,10 +12609,10 @@ Func_8e01: ; 0x8e01
 	ld c, a
 	ld a, [bc]
 	ld c, a
-	ld a, [$d85e]
+	ld a, [wd85e]
 	and c
 	ld c, a
-	ld a, [$d860]
+	ld a, [wd860]
 	ld b, a
 	ld a, [de]
 	xor b
@@ -12638,10 +12638,10 @@ Func_8e01: ; 0x8e01
 	ld c, a
 	ld a, [bc]
 	ld c, a
-	ld a, [$d85f]
+	ld a, [wd85f]
 	and c
 	ld c, a
-	ld a, [$d860]
+	ld a, [wd860]
 	ld b, a
 	ld a, [de]
 	xor b
@@ -12727,11 +12727,11 @@ FadeInTitlescreen: ; 0xc00e
 	ld a, $43
 	ld [$ff9e], a
 	ld a, $e4
-	ld [$d80c], a
+	ld [wd80c], a
 	ld a, $d2
-	ld [$d80d], a
+	ld [wd80d], a
 	ld a, $e1
-	ld [$d80e], a
+	ld [wd80e], a
 	xor a
 	ld [hBoardXShift], a
 	ld [hBoardYShift], a
@@ -12781,15 +12781,15 @@ TitlescreenLoop: ; 0xc089
 	and a
 	jr nz, .asm_c0d3
 	; player chose "Game Start"
-	ld a, [$d7c2]  ; if this is non-zero, the main menu will prompt for "continue or new game?".
+	ld a, [wd7c2]  ; if this is non-zero, the main menu will prompt for "continue or new game?".
 	and a
 	jr z, .noPreviouslySavedGame
 	ld de, $0001
 	call PlaySoundEffect
 	xor a
-	ld [$d910], a
+	ld [wd910], a
 	ld a, $2
-	ld [$d911], a
+	ld [wd911], a
 	ld a, $1
 	ld [wTitleScreenGameStartCursorSelection], a
 	ld hl, wScreenState
@@ -12846,7 +12846,7 @@ HandleTitlescreenAnimations: ; 0xc0f7
 Func_c10e: ; 0xc10e
 	call Func_c1a2
 	call Func_c1b1
-	ld a, [$d910]
+	ld a, [wd910]
 	cp $6
 	ret nz
 	ld a, [hNewlyPressedButtons]
@@ -12864,7 +12864,7 @@ Func_c10e: ; 0xc10e
 	jr z, .asm_c177
 	call Func_cb5
 	call Func_576
-	ld a, [$d7c2]
+	ld a, [wd7c2]
 	and a
 	jr z, .asm_c173
 	ld hl, $a268
@@ -12873,13 +12873,13 @@ Func_c10e: ; 0xc10e
 	call Func_f0c
 	jr nc, .asm_c173
 	xor a
-	ld [$d7c2], a
+	ld [wd7c2], a
 	ld hl, wPartyMons
 	ld de, $a268
 	ld bc, $04c3
 	call SaveData
 	ld a, $1
-	ld [$d7c1], a
+	ld [wd7c1], a
 	ld a, $4
 	ld [wCurrentScreen], a
 	ld a, $0
@@ -12888,7 +12888,7 @@ Func_c10e: ; 0xc10e
 
 .asm_c173
 	xor a
-	ld [$d7c1], a
+	ld [wd7c1], a
 .asm_c177
 	ld hl, wScreenState
 	inc [hl]
@@ -12900,14 +12900,14 @@ Func_c10e: ; 0xc10e
 	ld de, $0001
 	call PlaySoundEffect
 	ld a, $8
-	ld [$d910], a
+	ld [wd910], a
 	ld a, $2
-	ld [$d911], a
+	ld [wd911], a
 .asm_c18f
 	call Func_926
 	rst AdvanceFrame
 	call Func_c1b1
-	ld a, [$d910]
+	ld a, [wd910]
 	cp $e
 	jr nz, .asm_c18f
 	ld hl, wScreenState
@@ -12915,7 +12915,7 @@ Func_c10e: ; 0xc10e
 	ret
 
 Func_c1a2: ; 0xc1a2
-	ld a, [$d910]
+	ld a, [wd910]
 	cp $6
 	ret nz
 	ld hl, wTitleScreenGameStartCursorSelection
@@ -12962,7 +12962,7 @@ GoToHighScoresFromTitlescreen: ; 0xc1e7
 	ld a, $1
 	ld [wScreenState], a
 	xor a
-	ld [$da7f], a
+	ld [wda7f], a
 	ret
 
 Func_c1fc: ; 0xc1fc
@@ -13119,7 +13119,7 @@ TitleScreenPokeballCoordOffsets: ; 0xc2d9
 
 Func_c2df: ; 0xc2df
 	ld bc, $4446  ; pixel offsets, not data
-	ld a, [$d910]
+	ld a, [wd910]
 	cp $6
 	jr nz, .asm_c2f0
 	ld a, [wTitleScreenGameStartCursorSelection]
@@ -13127,7 +13127,7 @@ Func_c2df: ; 0xc2df
 	jr .asm_c2fd
 
 .asm_c2f0
-	ld a, [$d910]
+	ld a, [wd910]
 	sla a
 	ld e, a
 	ld d, $0
@@ -13136,10 +13136,10 @@ Func_c2df: ; 0xc2df
 	ld a, [hl]
 .asm_c2fd
 	call LoadOAMData
-	ld a, [$d911]
+	ld a, [wd911]
 	dec a
 	jr nz, .asm_c327
-	ld a, [$d910]
+	ld a, [wd910]
 	sla a
 	ld c, a
 	ld b, $0
@@ -13147,10 +13147,10 @@ Func_c2df: ; 0xc2df
 	add hl, bc
 	ld a, [hl]
 	and a
-	ld a, [$d910]
+	ld a, [wd910]
 	jr z, .asm_c31d
 	inc a
-	ld [$d910], a
+	ld [wd910], a
 .asm_c31d
 	sla a
 	ld c, a
@@ -13159,7 +13159,7 @@ Func_c2df: ; 0xc2df
 	add hl, bc
 	ld a, [hl]
 .asm_c327
-	ld [$d911], a
+	ld [wd911], a
 	ret
 
 Data_c32b: ; 0xc32b
@@ -13195,10 +13195,10 @@ Func_c35a: ; 0xc35a
 	ld a, $47
 	ld [$ff9e], a
 	ld a, $e4
-	ld [$d80c], a
-	ld [$d80d], a
+	ld [wd80c], a
+	ld [wd80d], a
 	ld a, $d2
-	ld [$d80e], a
+	ld [wd80e], a
 	xor a
 	ld [hBoardXShift], a
 	ld [hBoardYShift], a
@@ -13207,10 +13207,10 @@ Func_c35a: ; 0xc35a
 	call LoadVideoData
 	call ClearOAMBuffer
 	ld a, $2
-	ld [$d921], a
-	ld [$d91d], a
+	ld [wd921], a
+	ld [wd91d], a
 	ld a, $9
-	ld [$d91f], a
+	ld [wd91f], a
 	call Func_c43a
 	call Func_c948
 	call Func_b66
@@ -13265,7 +13265,7 @@ Func_c400: ; 0xc400
 Func_c41a: ; 0xc41a
 	ld a, [hPressedButtons]
 	ld b, a
-	ld a, [$d916]
+	ld a, [wd916]
 	bit 6, b
 	jr z, .asm_c429
 	and a
@@ -13280,7 +13280,7 @@ Func_c41a: ; 0xc41a
 	ret z
 	inc a
 .asm_c430
-	ld [$d916], a
+	ld [wd916], a
 	ld de, $0003
 	call PlaySoundEffect
 	ret
@@ -13298,7 +13298,7 @@ Func_c447: ; 0xc447
 	ret z
 	ld de, $0001
 	call PlaySoundEffect
-	ld a, [$d916]
+	ld a, [wd916]
 	and a
 	jr nz, .asm_c465
 	ld a, [$fffb]
@@ -13345,8 +13345,8 @@ Func_c493: ; 0xc493
 	ld de, $0001
 	call PlaySoundEffect
 	xor a
-	ld [$d803], a
-	ld [$d804], a
+	ld [wd803], a
+	ld [wd804], a
 	ld a, $1
 	ld [wScreenState], a
 	ret
@@ -13354,13 +13354,13 @@ Func_c493: ; 0xc493
 Func_c4b4: ; 0xc4b4
 	ld a, [hNewlyPressedButtons]
 	ld b, a
-	ld a, [$d917]
+	ld a, [wd917]
 	bit BIT_D_LEFT, b
 	jr z, .asm_c4ce
 	and a
 	ret z
 	dec a
-	ld [$d917], a
+	ld [wd917], a
 	call Func_c4f4
 	ld de, $0003
 	call PlaySoundEffect
@@ -13372,10 +13372,10 @@ Func_c4b4: ; 0xc4b4
 	cp $1
 	ret z
 	inc a
-	ld [$d917], a
+	ld [wd917], a
 	xor a
-	ld [$d803], a
-	ld [$d804], a
+	ld [wd803], a
+	ld [wd804], a
 	ld de, $0003
 	call PlaySoundEffect
 	ret
@@ -13390,12 +13390,12 @@ Func_c4e6: ; 0xc4e6
 
 Func_c4f4: ; 0xc4f4
 	xor a
-	ld [$d91c], a
-	ld [$d91e], a
+	ld [wd91c], a
+	ld [wd91e], a
 	ld a, $2
-	ld [$d91d], a
+	ld [wd91d], a
 	ld a, $9
-	ld [$d91f], a
+	ld [wd91f], a
 	ret
 
 Func_c506: ; 0xc506
@@ -13421,7 +13421,7 @@ Func_c506: ; 0xc506
 Func_c534: ; 0xc534
 	ld a, [hNewlyPressedButtons]
 	ld b, a
-	ld a, [$d918]
+	ld a, [wd918]
 	bit BIT_D_UP, b
 	jr z, .asm_c543
 	and a
@@ -13436,7 +13436,7 @@ Func_c534: ; 0xc534
 	ret z
 	inc a
 .asm_c54a
-	ld [$d918], a
+	ld [wd918], a
 	ld de, $0003
 	call PlaySoundEffect
 	ret
@@ -13447,7 +13447,7 @@ Func_c554: ; 0xc554
 	ret
 
 Func_c55a: ; 0xc55a
-	ld a, [$d918]
+	ld a, [wd918]
 	and a
 	jr nz, .asm_c572
 	ld a, [hNewlyPressedButtons]
@@ -13467,7 +13467,7 @@ Func_c55a: ; 0xc55a
 	call PlaySoundEffect
 	ld bc, $001e
 	call Func_93f
-	ld a, [$d918]
+	ld a, [wd918]
 	dec a
 	sla a
 	ld c, a
@@ -13477,7 +13477,7 @@ Func_c55a: ; 0xc55a
 	ld a, [hli]
 	ld h, [hl]
 	ld l, a
-	ld a, [$d918]
+	ld a, [wd918]
 	dec a
 	sla a
 	call Func_c644
@@ -13485,7 +13485,7 @@ Func_c55a: ; 0xc55a
 .asm_c59f
 	push bc
 	push hl
-	ld a, [$d918]
+	ld a, [wd918]
 	dec a
 	sla a
 	call Func_c621
@@ -13505,7 +13505,7 @@ Func_c55a: ; 0xc55a
 .asm_c5c2
 	or c
 	jr nz, .asm_c59f
-	ld a, [$d918]
+	ld a, [wd918]
 	dec a
 	sla a
 	call Func_c639
@@ -13515,7 +13515,7 @@ Func_c55a: ; 0xc55a
 	pop hl
 	ld bc, $0020
 	add hl, bc
-	ld a, [$d918]
+	ld a, [wd918]
 	dec a
 	sla a
 	inc a
@@ -13526,7 +13526,7 @@ Func_c55a: ; 0xc55a
 	push bc
 	push de
 	push hl
-	ld a, [$d918]
+	ld a, [wd918]
 	dec a
 	sla a
 	inc a
@@ -13551,7 +13551,7 @@ Func_c55a: ; 0xc55a
 .asm_c613
 	or c
 	jr nz, .asm_c5e9
-	ld a, [$d918]
+	ld a, [wd918]
 	dec a
 	sla a
 	inc a
@@ -13656,7 +13656,7 @@ Func_c691: ; 0xc91
 Func_c6bf: ; 0xc6bf
 	ld a, [hNewlyPressedButtons]
 	ld b, a
-	ld a, [$d919]
+	ld a, [wd919]
 	bit BIT_D_UP, b
 	jr z, .asm_c6ce
 	and a
@@ -13671,7 +13671,7 @@ Func_c6bf: ; 0xc6bf
 	ret z
 	inc a
 .asm_c6d5
-	ld [$d919], a
+	ld [wd919], a
 	ret
 
 Func_c6d9: ; 0xc6d9
@@ -13683,7 +13683,7 @@ Func_c6d9: ; 0xc6d9
 	ret
 
 Func_c6e8: ; 0xc6e8
-	ld a, [$d919]
+	ld a, [wd919]
 	and a
 	jr nz, UpdateSoundTestSoundEffectSelection
 	ld a, [hNewlyPressedButtons]
@@ -13812,16 +13812,16 @@ Func_c7ac: ; 0xc7ac
 	ld a, [wScreenState]
 	cp $1
 	jr z, .asm_c7cc
-	ld a, [$d916]
+	ld a, [wd916]
 	and a
 	jr nz, .asm_c7cc
-	ld a, [$d917]
+	ld a, [wd917]
 	and a
 	jr nz, .asm_c7cc
-	ld a, [$d91e]
+	ld a, [wd91e]
 	cp $4
 	jr nz, .asm_c7cc
-	ld a, [$d91c]
+	ld a, [wd91c]
 	ld c, a
 .asm_c7cc
 	sla c
@@ -13831,10 +13831,10 @@ Func_c7ac: ; 0xc7ac
 	ld a, [hl]
 	ld bc, $5050
 	call LoadOAMData
-	ld a, [$d91d]
+	ld a, [wd91d]
 	dec a
 	jr nz, .asm_c802
-	ld a, [$d91c]
+	ld a, [wd91c]
 	sla a
 	ld c, a
 	ld b, $0
@@ -13843,10 +13843,10 @@ Func_c7ac: ; 0xc7ac
 	ld a, [hl]
 	and a
 	jr z, .asm_c7f5
-	ld a, [$d91c]
+	ld a, [wd91c]
 	inc a
 .asm_c7f5
-	ld [$d91c], a
+	ld [wd91c], a
 	sla a
 	ld c, a
 	ld b, $0
@@ -13854,7 +13854,7 @@ Func_c7ac: ; 0xc7ac
 	add hl, bc
 	ld a, [hl]
 .asm_c802
-	ld [$d91d], a
+	ld [wd91d], a
 	ret
 
 Data_c806: ; 0xc806
@@ -13865,13 +13865,13 @@ Func_c80b: ; 0xc80b
 	ld a, [wScreenState]
 	cp $1
 	jr z, .asm_c824
-	ld a, [$d916]
+	ld a, [wd916]
 	and a
 	jr nz, .asm_c824
-	ld a, [$d917]
+	ld a, [wd917]
 	and a
 	jr nz, .asm_c824
-	ld a, [$d91e]
+	ld a, [wd91e]
 	ld c, a
 .asm_c824
 	sla c
@@ -13881,10 +13881,10 @@ Func_c80b: ; 0xc80b
 	ld bc, $7870
 	ld a, [hl]
 	call LoadOAMData
-	ld a, [$d91f]
+	ld a, [wd91f]
 	dec a
 	jr nz, .asm_c85a
-	ld a, [$d91e]
+	ld a, [wd91e]
 	sla a
 	ld c, a
 	ld b, $0
@@ -13892,10 +13892,10 @@ Func_c80b: ; 0xc80b
 	add hl, bc
 	ld a, [hl]
 	and a
-	ld a, [$d91e]
+	ld a, [wd91e]
 	jr z, .asm_c850
 	inc a
-	ld [$d91e], a
+	ld [wd91e], a
 .asm_c850
 	sla a
 	ld c, a
@@ -13904,33 +13904,33 @@ Func_c80b: ; 0xc80b
 	add hl, bc
 	ld a, [hl]
 .asm_c85a
-	ld [$d91f], a
+	ld [wd91f], a
 	ret
 
 Data_c85e: ; 0xc85e
 	db $77, $09, $78, $09, $79, $09, $7A, $0D, $7A, $01, $00
 
 Func_c869: ; 0xc869
-	ld a, [$d916]
+	ld a, [wd916]
 	and a
 	ret nz
-	ld a, [$d917]
+	ld a, [wd917]
 	and a
 	ret nz
-	ld a, [$d91e]
+	ld a, [wd91e]
 	cp $3
 	ret nz
-	ld a, [$d91f]
+	ld a, [wd91f]
 	cp $1
 	ret nz
 	ld a, $55
-	ld [$d803], a
+	ld [wd803], a
 	ld a, $40
-	ld [$d804], a
+	ld [wd804], a
 	ret
 
 Func_c88a: ; 0xc88a
-	ld a, [$d916]
+	ld a, [wd916]
 	sla a
 	ld c, a
 	ld b, $0
@@ -13944,7 +13944,7 @@ Func_c88a: ; 0xc88a
 	ld a, [wScreenState]
 	cp $1
 	jr nz, .asm_c8a9
-	ld a, [$d920]
+	ld a, [wd920]
 	sla a
 	ld e, a
 .asm_c8a9
@@ -13953,10 +13953,10 @@ Func_c88a: ; 0xc88a
 	add hl, de
 	ld a, [hl]
 	call LoadOAMData
-	ld a, [$d921]
+	ld a, [wd921]
 	dec a
 	jr nz, .asm_c8da
-	ld a, [$d920]
+	ld a, [wd920]
 	sla a
 	ld c, a
 	ld b, $0
@@ -13965,10 +13965,10 @@ Func_c88a: ; 0xc88a
 	ld a, [hl]
 	and a
 	jr z, .asm_c8cd
-	ld a, [$d920]
+	ld a, [wd920]
 	inc a
 .asm_c8cd
-	ld [$d920], a
+	ld [wd920], a
 	sla a
 	ld c, a
 	ld b, $0
@@ -13976,7 +13976,7 @@ Func_c88a: ; 0xc88a
 	add hl, bc
 	ld a, [hl]
 .asm_c8da
-	ld [$d921], a
+	ld [wd921], a
 	ret
 
 Data_c8de: ; 0xc8de
@@ -13988,7 +13988,7 @@ Data_c8eb: ; 0xc8eb
 Func_c8f1: ; 0xc8f1
 	ld c, a
 	ld b, $0
-	ld hl, $d917
+	ld hl, wd917
 	add hl, bc
 	ld e, [hl]
 	sla c
@@ -14032,7 +14032,7 @@ OAMPixelOffsetData_c92a: ; 0xc92a
 	dw $1068
 
 Func_c92e: ; 0xc92e
-	ld a, [$d917]
+	ld a, [wd917]
 	sla a
 	ld c, a
 	ld b, $0
@@ -14072,7 +14072,7 @@ Func_c95f: ; 0xc95f
 	push hl
 	push hl
 	push af
-	ld hl, $d922
+	ld hl, wd922
 	ld a, $81
 	ld [hli], a
 	ld [hli], a
@@ -14082,7 +14082,7 @@ Func_c95f: ; 0xc95f
 	ld [hli], a
 	ld [hl], a
 	pop af
-	ld hl, $d922
+	ld hl, wd922
 	ld de, Data_c9ae
 	ld b, $8
 .asm_c979
@@ -14111,7 +14111,7 @@ Func_c95f: ; 0xc95f
 	dec b
 	jr nz, .asm_c979
 	pop de
-	ld hl, $d922
+	ld hl, wd922
 	ld a, $0
 	ld bc, $0008
 	call Func_735
@@ -14136,21 +14136,21 @@ Func_c9be: ; 0xc9be
 	ld c, a
 	xor b
 	and c
-	ld hl, $d936
+	ld hl, wd936
 	call Func_c9ff
 	ld a, b
-	ld hl, $d93f
+	ld hl, wd93f
 	call Func_c9ff
-	ld a, [$d947]
+	ld a, [wd947]
 	cp $3
 	jr nc, .asm_c9f3
-	ld hl, $d93e
+	ld hl, wd93e
 	add [hl]
 	sub $4
-	ld hl, $d936
+	ld hl, wd936
 	call nc, Func_ca15
-	ld de, $d936
-	ld hl, $d93f
+	ld de, wd936
+	ld hl, wd93f
 	ld b, $8
 .asm_c9ec
 	ld a, [de]
@@ -14160,7 +14160,7 @@ Func_c9be: ; 0xc9be
 	dec b
 	jr nz, .asm_c9ec
 .asm_c9f3
-	ld hl, $d93f
+	ld hl, wd93f
 	call Func_ca29
 	pop hl
 	pop bc
@@ -14264,7 +14264,7 @@ HighScoresScreenFunctions: ; 0xca83
 	dw ExitHighScoresScreen
 
 Func_ca8f: ; 0xca8f
-	ld hl, $d473
+	ld hl, wd473
 	call GenRandom
 	ld [hli], a
 	call GenRandom
@@ -14273,15 +14273,15 @@ Func_ca8f: ; 0xca8f
 	ld [hli], a
 	call GenRandom
 	ld [hli], a
-	ld hl, $da36
+	ld hl, wda36
 	ld a, [wHighScoresStage]
 	and a
 	jr z, .asm_caae
-	ld hl, $da77
+	ld hl, wda77
 .asm_caae
 	ld b, $5
 .asm_cab0
-	ld de, $d46f
+	ld de, wd46f
 	ld c, $6
 .asm_cab5
 	ld a, [de]
@@ -14308,17 +14308,17 @@ Func_ca8f: ; 0xca8f
 	jr nz, .asm_cab0
 .asm_cad0
 	ld a, b
-	ld [$da81], a
+	ld [wda81], a
 	xor a
-	ld [$da80], a
+	ld [wda80], a
 	inc b
-	ld hl, $da30
-	ld de, $da3d
+	ld hl, wda30
+	ld de, wda3d
 	ld a, [wHighScoresStage]
 	and a
 	jr z, .asm_caeb
-	ld hl, $da71
-	ld de, $da7e
+	ld hl, wda71
+	ld de, wda7e
 .asm_caeb
 	ld a, $5
 .asm_caed
@@ -14326,7 +14326,7 @@ Func_ca8f: ; 0xca8f
 	jr c, .asm_cb02
 	push af
 	jr nz, .asm_caf6
-	ld hl, $d476
+	ld hl, wd476
 .asm_caf6
 	ld c, $d
 .asm_caf8
@@ -14339,13 +14339,13 @@ Func_ca8f: ; 0xca8f
 	dec a
 	jr nz, .asm_caed
 .asm_cb02
-	ld a, [$da81]
+	ld a, [wda81]
 	cp $5
 	ld a, $1
 	jr nz, .asm_cb0c
 	xor a
 .asm_cb0c
-	ld [$da7f], a
+	ld [wda7f], a
 	ld hl, wScreenState
 	inc [hl]
 	ret
@@ -14354,10 +14354,10 @@ Func_cb14: ; 0xcb14
 	ld a, $43
 	ld [$ff9e], a
 	ld a, $e0
-	ld [$d80c], a
+	ld [wd80c], a
 	ld a, $e1
-	ld [$d80d], a
-	ld [$d80e], a
+	ld [wd80d], a
+	ld [wd80e], a
 	xor a
 	ld [hBoardXShift], a
 	ld [$ffab], a
@@ -14385,13 +14385,13 @@ Func_cb14: ; 0xcb14
 	call LoadVideoData
 	call ClearOAMBuffer
 	ld a, $20
-	ld [$da82], a
+	ld [wda82], a
 	call Func_d211
 	ld hl, $99c0
-	ld de, $da3d
+	ld de, wda3d
 	call Func_d2cb
 	ld hl, $9dc0
-	ld de, $da7e
+	ld de, wda7e
 	call Func_d2cb
 	ld a, [wHighScoresStage]
 	and a
@@ -14400,10 +14400,10 @@ Func_cb14: ; 0xcb14
 	set 3, [hl]
 .asm_cb7f
 	call Func_b66
-	ld a, [$da7f]
+	ld a, [wda7f]
 	and a
 	jr z, .asm_cbbd
-	ld a, [$da81]
+	ld a, [wda81]
 	and a
 	jr nz, .asm_cb9b
 	ld a, $13
@@ -14573,7 +14573,7 @@ Func_ccb6: ; 0xccb6
 	jr z, .asm_ccfb
 	call Func_1a43
 	ld a, [hGameBoyColorFlag]
-	ld [$d8f0], a
+	ld [wd8f0], a
 	ld de, $0001
 	call PlaySoundEffect
 	ld hl, wScreenState
@@ -14619,10 +14619,10 @@ Func_ccb6: ; 0xccb6
 	ld bc, $01c0
 	call LoadVRAMData
 	ld hl, $99c0
-	ld de, $da3d
+	ld de, wda3d
 	call Func_d361
 	ld hl, $9dc0
-	ld de, $da7e
+	ld de, wda7e
 	call Func_d361
 	ld hl, wRedHighScore1Points
 	ld de, $a000
@@ -14641,10 +14641,10 @@ Func_cd6c: ; 0xcd6c
 	jr z, .asm_cdbb
 	ld de, $0001
 	call PlaySoundEffect
-	ld a, [$da85]
+	ld a, [wda85]
 	and a
 	jr nz, .asm_cda1
-	ld a, [$d86e]
+	ld a, [wd86e]
 	and a
 	jr z, .asm_cdbb
 	call ClearOAMBuffer
@@ -14655,7 +14655,7 @@ Func_cd6c: ; 0xcd6c
 	jr .asm_cdc6
 
 .asm_cda1
-	ld a, [$d8f0]
+	ld a, [wd8f0]
 	and a
 	jr z, .asm_cdbb
 	ld de, $0000
@@ -14693,10 +14693,10 @@ Func_cdce: ; 0xcdce
 	ld [$abf6], a
 	pop af
 	di
-	ld a, [$d8ea]
+	ld a, [wd8ea]
 	cp $0
 	jp nz, .asm_ceb6
-	ld a, [$d8e9]
+	ld a, [wd8e9]
 	cp $1
 	jr z, .asm_ce23
 	push af
@@ -14706,16 +14706,16 @@ Func_cdce: ; 0xcdce
 	ld b, $82
 	ld hl, wRedHighScore1Points
 	call Func_1cf8
-	ld a, [$d8ea]
+	ld a, [wd8ea]
 	cp $0
 	jp nz, .asm_ceb6
 	push af
 	ld a, $3
 	ld [$abf6], a
 	pop af
-	ld hl, $c4c0
+	ld hl, wc4c0
 	call Func_1dda
-	ld a, [$d8ea]
+	ld a, [wd8ea]
 	cp $0
 	jp nz, .asm_ceb6
 	jr .asm_ce4d
@@ -14725,9 +14725,9 @@ Func_cdce: ; 0xcdce
 	ld a, $4
 	ld [$abf6], a
 	pop af
-	ld hl, $c4c0
+	ld hl, wc4c0
 	call Func_1dda
-	ld a, [$d8ea]
+	ld a, [wd8ea]
 	cp $0
 	jr nz, .asm_ceb6
 	push af
@@ -14737,7 +14737,7 @@ Func_cdce: ; 0xcdce
 	ld b, $82
 	ld hl, wRedHighScore1Points
 	call Func_1cf8
-	ld a, [$d8ea]
+	ld a, [wd8ea]
 	cp $0
 	jr nz, .asm_ceb6
 .asm_ce4d
@@ -14747,14 +14747,14 @@ Func_cdce: ; 0xcdce
 	pop af
 	call Func_ceca
 	rst AdvanceFrame
-	ld hl, $c4cc
+	ld hl, wc4cc
 	ld b, $5
 .asm_ce5d
 	push bc
 	push hl
 	ld d, h
 	ld e, l
-	ld hl, $da3d
+	ld hl, wda3d
 	call Func_cfcb
 	pop hl
 	pop bc
@@ -14773,7 +14773,7 @@ Func_cdce: ; 0xcdce
 	push hl
 	ld d, h
 	ld e, l
-	ld hl, $da7e
+	ld hl, wda7e
 	call Func_cfcb
 	pop hl
 	pop bc
@@ -14786,10 +14786,10 @@ Func_cdce: ; 0xcdce
 	ld [$abf6], a
 	pop af
 	ld hl, $99c0
-	ld de, $da3d
+	ld de, wda3d
 	call Func_d361
 	ld hl, $9dc0
-	ld de, $da7e
+	ld de, wda7e
 	call Func_d361
 	ld hl, wRedHighScore1Points
 	ld de, $a000
@@ -14833,7 +14833,7 @@ SendHighScores: ; 0xced1
 	call Func_926
 	rst AdvanceFrame
 	ld a, $1
-	ld [$d8e9], a
+	ld [wd8e9], a
 	ld b, $b4  ; maximum attempts to send high scores
 .attemptToSendHighScoresLoop
 	push bc
@@ -14875,7 +14875,7 @@ SendHighScores: ; 0xced1
 	call CopyHLToDE
 .continueAttempts
 	pop bc
-	ld a, [$d8ea]
+	ld a, [wd8ea]
 	cp $0
 	ret z
 	dec b
@@ -14914,15 +14914,15 @@ Func_cf58: ; 0xcf58
 	ret
 
 Func_cf7d: ; 0xcf7d
-	ld a, [$d809]
+	ld a, [wd809]
 	ld b, a
-	ld a, [$da85]
+	ld a, [wda85]
 	bit 6, b
 	jr z, .asm_cf95
 	and a
 	ret z
 	dec a
-	ld [$da85], a
+	ld [wda85], a
 	ld de, $0003
 	call PlaySoundEffect
 	ret
@@ -14933,7 +14933,7 @@ Func_cf7d: ; 0xcf7d
 	cp $1
 	ret z
 	inc a
-	ld [$da85], a
+	ld [wda85], a
 	ld de, $0003
 	call PlaySoundEffect
 	ret
@@ -14942,18 +14942,18 @@ Func_cfa6: ; 0xcfa6
 	ld bc, $473b
 	ld a, $87
 	call LoadOAMData
-	ld a, [$d8f0]
+	ld a, [wd8f0]
 	and a
 	jr z, .asm_cfb6
 	ld a, $2
 .asm_cfb6
 	ld e, a
-	ld a, [$d86e]
+	ld a, [wd86e]
 	add e
 	xor $3
 	add $8a
 	call LoadOAMData
-	ld a, [$da85]
+	ld a, [wda85]
 	add $88
 	call LoadOAMData
 	ret
@@ -15061,7 +15061,7 @@ Func_d035: ; 0xd035
 
 Func_d042: ; 0xd042
 	ld a, [hJoypadState]
-	ld [$da86], a
+	ld [wda86], a
 	ld b, a
 	ld a, $80
 	bit BIT_D_LEFT, b
@@ -15074,57 +15074,57 @@ Func_d042: ; 0xd042
 	jr z, .asm_d058
 	ld a, $10
 .asm_d058
-	ld [$d8a7], a
+	ld [wd8a7], a
 	ld a, $e0
-	ld [$d8aa], a
+	ld [wd8aa], a
 	ld a, BANK(HighScoresTilemap)
 	ld hl, HighScoresTilemap + $3c0
-	ld de, $c280
+	ld de, wc280
 	ld bc, $0040
 	call FarCopyData
 	ld a, $0
 	ld hl, $9840
-	ld de, $c2c0
+	ld de, wc2c0
 	ld bc, $01c0
 	call LoadVRAMData
 	ld a, BANK(HighScoresTilemap)
 	ld hl, HighScoresTilemap + $280
-	ld de, $c480
+	ld de, wc480
 	ld bc, $0040
 	call FarCopyData
 	call Func_d6b6
 	call Func_d0e3
 	ret c
-	ld a, [$da86]
+	ld a, [wda86]
 	bit 2, a
 	jr z, .asm_d0a2
-	ld de, $da06
+	ld de, wda06
 	call Func_d107
 	call Func_d0f5
 	ret c
 .asm_d0a2
 	ld a, BANK(HighScoresTilemap2)
 	ld hl, HighScoresTilemap2 + $3c0 ; todo
-	ld de, $c280
+	ld de, wc280
 	ld bc, $0040
 	call FarCopyData
 	ld a, $0
 	ld hl, $9c40
-	ld de, $c2c0
+	ld de, wc2c0
 	ld bc, $01c0
 	call LoadVRAMData
 	ld a, BANK(HighScoresTilemap2)
 	ld hl, HighScoresTilemap2 + $280 ; todo
-	ld de, $c480
+	ld de, wc480
 	ld bc, $0040
 	call FarCopyData
 	call Func_d6b6
 	call Func_d0e3
 	ret c
-	ld a, [$da86]
+	ld a, [wda86]
 	bit 2, a
 	ret z
-	ld de, $da47
+	ld de, wda47
 	call Func_d107
 	call Func_d0f5
 	ret
@@ -15133,7 +15133,7 @@ Func_d0e3: ; 0xd0e3
 	ld a, BANK(HighScoresBaseGameBoyGfx)
 	ld hl, HighScoresBaseGameBoyGfx + $800
 	call Func_1a21
-	ld a, [$d86d]
+	ld a, [wd86d]
 	and a
 	ret z
 	call Func_cf58
@@ -15144,7 +15144,7 @@ Func_d0f5: ; 0xd0f5
 	ld a, BANK(GFX_a7b00)
 	ld hl, GFX_a7b00
 	call Func_1a21
-	ld a, [$d86d]
+	ld a, [wd86d]
 	and a
 	ret z
 	call Func_cf58
@@ -15152,7 +15152,7 @@ Func_d0f5: ; 0xd0f5
 	ret
 
 Func_d107: ; 0xd107
-	ld hl, $c280
+	ld hl, wc280
 	ld a, $c0
 	ld b, $20
 .asm_d10e
@@ -15161,7 +15161,7 @@ rept 32
 endr
 	dec b
 	jr nz, .asm_d10e
-	ld hl, $c280
+	ld hl, wc280
 	ld b, $5
 .asm_d136
 	ld c, $4
@@ -15227,7 +15227,7 @@ ExitHighScoresScreen: ; 0xd171
 Func_d18b: ; 0xd18b
 	ld a, [hPressedButtons]
 	ld b, a
-	ld a, [$da81]
+	ld a, [wda81]
 	ld e, a
 	sla e
 	sla e
@@ -15235,7 +15235,7 @@ Func_d18b: ; 0xd18b
 	sla e
 	add e
 	ld e, a
-	ld a, [$da80]
+	ld a, [wda80]
 	add e
 	ld e, a
 	ld d, $0
@@ -15272,7 +15272,7 @@ Func_d18b: ; 0xd18b
 Func_d1d2: ; 0xd1d2
 	ld a, [hNewlyPressedButtons]
 	ld b, a
-	ld a, [$da80]
+	ld a, [wda80]
 	bit BIT_A_BUTTON, b
 	jr z, .asm_d1fc
 	inc a
@@ -15281,7 +15281,7 @@ Func_d1d2: ; 0xd1d2
 	ld de, $0745
 	call PlaySoundEffect
 	xor a
-	ld [$da7f], a
+	ld [wda7f], a
 	ld hl, wScreenState
 	inc [hl]
 	ld hl, wRedHighScore1Points
@@ -15297,38 +15297,38 @@ Func_d1d2: ; 0xd1d2
 	ret z
 	dec a
 .asm_d202
-	ld [$da80], a
+	ld [wda80], a
 	ld a, $20
-	ld [$da82], a
+	ld [wda82], a
 	ld de, $0001
 	call PlaySoundEffect
 	ret
 
 Func_d211: ; 0xd211
 ; related to high scores name entry?
-	ld a, [$da7f]
+	ld a, [wda7f]
 	and a
 	ret z
 	ld a, [hJoypadState]
 	and (D_RIGHT | D_LEFT)
 	jr z, .asm_d221
 	xor a
-	ld [$da82], a
+	ld [wda82], a
 	ret
 
 .asm_d221
-	ld a, [$da82]
+	ld a, [wda82]
 	inc a
-	ld [$da82], a
+	ld [wda82], a
 	bit 5, a
 	ret z
-	ld a, [$da81]
+	ld a, [wda81]
 	ld e, a
 	ld d, $0
 	ld hl, OAMPixelYOffsets_d247
 	add hl, de
 	ld c, [hl]
-	ld a, [$da80]
+	ld a, [wda80]
 	ld e, a
 	ld d, $0
 	ld hl, OAMPixelXOffsets_d24c
@@ -15674,7 +15674,7 @@ CopyInitialHighScoresForStage: ; 0xd40e
 INCLUDE "data/initial_high_scores.asm" ; 0xd42e
 
 Func_d46f: ; 0xd46f
-	ld a, [$da81]
+	ld a, [wda81]
 	ld d, a
 	sla a
 	add d
@@ -15686,7 +15686,7 @@ Func_d46f: ; 0xd46f
 	rr e
 	srl d
 	rr e
-	ld a, [$da80]
+	ld a, [wda80]
 	add e
 	ld e, a
 	ld hl, $9843
@@ -15697,7 +15697,7 @@ Func_d46f: ; 0xd46f
 .asm_d496
 	add hl, de
 	push hl
-	ld a, [$da81]
+	ld a, [wda81]
 	ld e, a
 	sla e
 	sla e
@@ -15705,7 +15705,7 @@ Func_d46f: ; 0xd46f
 	sla e
 	add e
 	ld e, a
-	ld a, [$da80]
+	ld a, [wda80]
 	add e
 	ld e, a
 	ld d, $0
@@ -16011,7 +16011,7 @@ Func_d6b6: ; 0xd6b6
 	ld a, c
 	cp NUM_POKEMON
 	ret nz
-	ld hl, $c289
+	ld hl, wc289
 	ld a, $56
 	ld [hli], a
 	ld a, $57
@@ -16030,10 +16030,10 @@ LoadFieldSelectScreen: ; 0xd6dd
 	ld a, $43
 	ld [$ff9e], a
 	ld a, $e4
-	ld [$d80c], a
+	ld [wd80c], a
 	ld a, $d2
-	ld [$d80d], a
-	ld [$d80e], a
+	ld [wd80d], a
+	ld [wd80e], a
 	xor a
 	ld [hBoardXShift], a
 	ld [hBoardYShift], a
@@ -16077,7 +16077,7 @@ ChooseFieldToPlay: ; 0xd74e
 	ld a, [hNewlyPressedButtons]
 	and (A_BUTTON | B_BUTTON)
 	ret z
-	ld [$d8f6], a
+	ld [wd8f6], a
 	ld a, $18  ; number of frames to blink the border after selecting the Field
 	ld [wFieldSelectBlinkingBorderTimer], a
 	ld a, $1
@@ -16089,7 +16089,7 @@ ChooseFieldToPlay: ; 0xd74e
 	ret
 
 ExitFieldSelectScreen: ; 0xd774
-	ld a, [$d8f6]  ; this holds the button that was pressed (A or B)
+	ld a, [wd8f6]  ; this holds the button that was pressed (A or B)
 	bit BIT_A_BUTTON, a
 	jr z, .didntPressA
 	ld hl, Data_d846
@@ -16103,7 +16103,7 @@ ExitFieldSelectScreen: ; 0xd774
 	push af
 	call Func_cb5
 	call Func_576
-	ld a, [$d8f6]
+	ld a, [wd8f6]
 	bit BIT_A_BUTTON, a
 	jr z, .pressedB
 	ld a, [wSelectedFieldIndex]
@@ -16115,13 +16115,13 @@ ExitFieldSelectScreen: ; 0xd774
 	ld [wCurrentStage], a
 	pop af
 	xor a
-	ld [$d7c2], a
+	ld [wd7c2], a
 	ld hl, wPartyMons
 	ld de, $a268
 	ld bc, $04c3
 	call SaveData
 	xor a
-	ld [$d7c1], a
+	ld [wd7c1], a
 	; Start a round of Pinball! Yayy
 	ld a, SCREEN_PINBALL_GAME
 	ld [wCurrentScreen], a
@@ -16182,7 +16182,7 @@ AnimateBlinkingFieldSelectBorder: ; 0xd7fb
 	ld c, a
 	ld a, [hli]
 	ld b, a
-	ld a, [$d915]
+	ld a, [wd915]
 	sla a
 	ld e, a
 	ld d, $0
@@ -16199,10 +16199,10 @@ AnimateBlinkingFieldSelectBorder: ; 0xd7fb
 	ld a, [hl]
 	and a
 	jr z, .asm_d82b
-	ld a, [$d915]
+	ld a, [wd915]
 	inc a
 .asm_d82b
-	ld [$d915], a
+	ld [wd915], a
 	sla a
 	ld c, a
 	ld b, $0
@@ -16237,13 +16237,13 @@ PinballGameScreenFunctions: ; 0xd857
 
 Func_d861: ; 0xd861
 	xor a
-	ld [$d908], a
+	ld [wd908], a
 	ld [$ff8a], a
 	callba InitializeStage
 	call Func_30e8
 	ld a, $1
-	ld [$d85d], a
-	ld [$d4aa], a
+	ld [wd85d], a
+	ld [wd4aa], a
 	ld hl, wScreenState
 	inc [hl]
 	ret
@@ -16252,12 +16252,12 @@ Func_d87f: ; 0xd87f
 	ld a, $67
 	ld [$ff9e], a
 	ld a, $e4
-	ld [$d80c], a
+	ld [wd80c], a
 	ld a, $e1
-	ld [$d80d], a
+	ld [wd80d], a
 	ld a, $e4
-	ld [$d80e], a
-	ld a, [$d7ab]
+	ld [wd80e], a
+	ld a, [wd7ab]
 	ld [hBoardXShift], a
 	xor a
 	ld [hBoardYShift], a
@@ -16285,13 +16285,13 @@ Func_d87f: ; 0xd87f
 	call ClearOAMBuffer
 	ld [$ff8a], a
 	callba Func_84b7
-	ld a, [$d849]
+	ld a, [wd849]
 	and a
 	call nz, Func_e5d
 	ld a, $1
-	ld [$d4aa], a
+	ld [wd4aa], a
 	xor a
-	ld [$d7c1], a
+	ld [wd7c1], a
 	call Func_b66
 	call Func_588
 	call Func_bbe
@@ -16303,11 +16303,11 @@ Func_d909: ; 0xd909
 ; main loop for stage logic
 	xor a
 	ld [wFlipperCollision], a
-	ld [$d7eb], a
+	ld [wd7eb], a
 	call ApplyGravityToBall
 	call LimitBallVelocity
 	xor a
-	ld [$d7e9], a
+	ld [wd7e9], a
 	call HandleTilts
 	ld a, [wCurrentStage]
 	bit 0, a
@@ -16317,12 +16317,12 @@ Func_d909: ; 0xd909
 	call nz, BankSwitch  ; only perform flipper routines on the lower-half of stages
 	ld a, [wFlipperCollision]
 	and a
-	ld a, [$d7ea]
+	ld a, [wd7ea]
 	push af
 	call Func_22b5  ; collision stuff
 	pop af
 	jr z, .noFlipperCollision
-	ld [$d7ea], a
+	ld [wd7ea], a
 .noFlipperCollision
 	call Func_2720 ; not collision-related
 	call Func_281c ; not collision-related
@@ -16335,18 +16335,18 @@ Func_d909: ; 0xd909
 	callba HandleInGameMenu
 	jp z, SaveGame
 .didntPressMenuKey
-	ld a, [$d7e9]  ; check for collision flag
+	ld a, [wd7e9]  ; check for collision flag
 	and a
 	jr z, .asm_d9a2
 	call ApplyTiltForces
 	call LoadBallVelocity
-	ld a, [$d7ea]
+	ld a, [wd7ea]
 	call Func_21e7
 	call Func_222b
 	ld a, [wFlipperCollision]
 	and a
 	jr z, .asm_d993
-	ld hl, $d7bc
+	ld hl, wd7bc
 	ld a, [hli]
 	ld h, [hl]
 	ld l, a
@@ -16356,7 +16356,7 @@ Func_d909: ; 0xd909
 	ld a, d
 	sbc h
 	ld d, a
-	ld hl, $d7ba
+	ld hl, wd7ba
 	ld a, [hli]
 	ld h, [hl]
 	ld l, a
@@ -16369,11 +16369,11 @@ Func_d909: ; 0xd909
 	jr .asm_d999
 
 .asm_d993
-	ld a, [$d7f8]
+	ld a, [wd7f8]
 	and a
 	jr nz, .asm_d9a2
 .asm_d999
-	ld a, [$d7ea]
+	ld a, [wd7ea]
 	call Func_21e5
 	call SetBallVelocity
 .asm_d9a2
@@ -16383,7 +16383,7 @@ Func_d909: ; 0xd909
 	ld [$ff8a], a
 	callba Func_84b7
 	call Func_33e3
-	ld a, [$d5cb]
+	ld a, [wd5cb]
 	and a
 	jr nz, .asm_d9e9
 	ld [$ff8a], a
@@ -16396,17 +16396,17 @@ Func_d909: ; 0xd909
 	call Func_dc7c
 	call Func_dcb4
 .asm_d9e9
-	ld a, [$d57d]
+	ld a, [wd57d]
 	and a
 	ld [$ff8a], a
 	ld a, Bank(Func_86a4)
 	ld hl, Func_86a4
 	call nz, BankSwitch
-	ld a, [$d4ae]
+	ld a, [wd4ae]
 	and a
 	ret z
 	xor a
-	ld [$d4ae], a
+	ld [wd4ae], a
 	ld hl, wScreenState
 	inc [hl]
 	ret
@@ -16417,7 +16417,7 @@ SaveGame: ; 0xda05
 	ld bc, $0004
 	call Func_93f
 	call Func_cb5
-	ld a, [$d849]
+	ld a, [wd849]
 	and a
 	call nz, Func_e5d
 	call Func_576
@@ -16426,7 +16426,7 @@ SaveGame: ; 0xda05
 	ld hl, rIE
 	res 1, [hl]
 	xor a
-	ld [$d4aa], a
+	ld [wd4aa], a
 	ld a, SCREEN_TITLESCREEN
 	ld [wCurrentScreen], a
 	xor a
@@ -16439,11 +16439,11 @@ Func_da36: ; 0xda36
 	ld [hNewlyPressedButtons], a
 	ld [hPressedButtons], a
 	ld [wFlipperCollision], a
-	ld [$d7eb], a
+	ld [wd7eb], a
 	xor a
-	ld [$d7e9], a
-	ld [$d548], a
-	ld [$d549], a
+	ld [wd7e9], a
+	ld [wd548], a
+	ld [wd549], a
 	call HandleTilts
 	ld a, [wCurrentStage]
 	bit 0, a
@@ -16456,50 +16456,50 @@ Func_da36: ; 0xda36
 	call Func_33e3
 	ld [$ff8a], a
 	callba Func_85c7
-	ld a, [$d5ca]
+	ld a, [wd5ca]
 	and a
 	ret nz
-	ld a, [$d4c9]
+	ld a, [wd4c9]
 	and a
 	jr z, .asm_daa9
-	ld a, [$d49c]
+	ld a, [wd49c]
 	cp $2
 	jr z, .asm_daa9
 	call Func_f533
-	ld a, [$d49c]
+	ld a, [wd49c]
 	and a
 	jr z, .asm_daa9
 	ld a, $2
-	ld [$d49c], a
-	ld [$d4aa], a
+	ld [wd49c], a
+	ld [wd4aa], a
 	call Func_30e8
 	call Func_30db
-	ld hl, $d5dc
+	ld hl, wd5dc
 	ld de, ShootAgainText
 	call LoadTextHeader
 	ret
 
 .asm_daa9
 	xor a
-	ld [$d49c], a
+	ld [wd49c], a
 	ld hl, wScreenState
 	inc [hl]
 	ret
 
 Func_dab2: ; 0xdab2
 	xor a
-	ld [$d803], a
+	ld [wd803], a
 	ld a, [wGameOver]
 	and a
 	jp nz, TransitionToHighScoresScreen
-	ld a, [$d495]
+	ld a, [wd495]
 	and a
 	jr nz, .asm_dae6
-	ld a, [$d496]
+	ld a, [wd496]
 	and a
 	jr nz, .asm_db28
 	call Func_cb5
-	ld a, [$d849]
+	ld a, [wd849]
 	and a
 	call z, Func_e5d
 	call Func_576
@@ -16517,7 +16517,7 @@ Func_dab2: ; 0xdab2
 	ld bc, $0004
 	call Func_93f
 	call Func_cb5
-	ld a, [$d849]
+	ld a, [wd849]
 	and a
 	call nz, Func_e5d
 	call Func_576
@@ -16526,14 +16526,14 @@ Func_dab2: ; 0xdab2
 	ld hl, rIE
 	res 1, [hl]
 	ld a, [wCurrentStage]
-	ld [$d4ad], a
+	ld [wd4ad], a
 	ld a, [wStageCollisionState]
-	ld [$d4b0], a
-	ld a, [$d497]
+	ld [wd4b0], a
+	ld a, [wd497]
 	ld [wCurrentStage], a
 	xor a
-	ld [$d496], a
-	ld [$d495], a
+	ld [wd496], a
+	ld [wd495], a
 	ld a, $0
 	ld [wScreenState], a
 	ret
@@ -16544,7 +16544,7 @@ Func_dab2: ; 0xdab2
 	ld bc, $0004
 	call Func_93f
 	call Func_cb5
-	ld a, [$d849]
+	ld a, [wd849]
 	and a
 	call nz, Func_e5d
 	call Func_576
@@ -16552,9 +16552,9 @@ Func_dab2: ; 0xdab2
 	res 6, [hl]
 	ld hl, rIE
 	res 1, [hl]
-	ld a, [$d4ad]
+	ld a, [wd4ad]
 	ld [wCurrentStage], a
-	ld a, [$d4b0]
+	ld a, [wd4b0]
 	ld [wStageCollisionState], a
 	ld a, $1
 	ld [wScreenState], a
@@ -16574,7 +16574,7 @@ TransitionToHighScoresScreen: ; 0xdb5d
 	ld hl, rIE
 	res 1, [hl]
 	xor a
-	ld [$d4aa], a
+	ld [wd4aa], a
 	ld a, [wCurrentStage]
 	ld c, a
 	ld b, $0
@@ -16612,7 +16612,7 @@ HighScoresStageMapping: ; 0xdb99
 Func_dba9: ; 0xdba9
 	ld a, $85
 	ld [wcBottomMessageText + $144], a
-	ld a, [$d49d]
+	ld a, [wd49d]
 	xor $3
 	inc a
 	add $86
@@ -16623,13 +16623,13 @@ Func_dbba: ; 0xdbba
 	ld a, $1
 	ld [wBallSaverIconOn], a
 	ld a, $ff
-	ld [$d4a2], a
+	ld [wd4a2], a
 	ld a, $3b
 	ld [wBallSaverTimerFrames], a
 	ld a, $14
 	ld [wBallSaverTimerSeconds], a
 	ld a, $2
-	ld [$d4a5], a
+	ld [wd4a5], a
 	ret
 
 InitBallSaverForCatchEmMode: ; 0xdbd4
@@ -16637,18 +16637,18 @@ InitBallSaverForCatchEmMode: ; 0xdbd4
 	ld [wBallSaverTimerFramesBackup], a
 	ld a, [wBallSaverTimerSeconds]
 	ld [wBallSaverTimerSecondsBackup], a
-	ld a, [$d4a5]
-	ld [$d4a8], a
+	ld a, [wd4a5]
+	ld [wd4a8], a
 	ld a, $0
 	ld [wBallSaverIconOn], a
 	ld a, $ff
-	ld [$d4a2], a
+	ld [wd4a2], a
 	ld a, 59
 	ld [wBallSaverTimerFrames], a
 	ld a, 60
 	ld [wBallSaverTimerSeconds], a
 	ld a, $ff
-	ld [$d4a5], a
+	ld [wd4a5], a
 	ret
 
 Func_dc00: ; 0xdc00
@@ -16656,8 +16656,8 @@ Func_dc00: ; 0xdc00
 	ld [wBallSaverTimerFrames], a
 	ld a, [wBallSaverTimerSecondsBackup]
 	ld [wBallSaverTimerSeconds], a
-	ld a, [$d4a8]
-	ld [$d4a5], a
+	ld a, [wd4a8]
+	ld [wd4a5], a
 	ld a, [wBallSaverTimerSeconds]
 	and a
 	jr z, .asm_dc1a
@@ -16677,7 +16677,7 @@ Func_dc00: ; 0xdc00
 	ld c, $ff
 .asm_dc34
 	ld a, c
-	ld [$d4a2], a
+	ld [wd4a2], a
 	ld a, [wCurrentStage]
 	bit 0, a
 	ret z
@@ -16739,7 +16739,7 @@ Func_dc6d: ; 0xdc6d
 	push de
 	call Func_30e8
 	call Func_30db
-	ld hl, $d5dc
+	ld hl, wd5dc
 	pop de
 	call LoadTextHeader
 	ret
@@ -16778,7 +16778,7 @@ Func_dc7c: ; 0xdc7c
 	dr $dcad, $dcb4
 
 Func_dcb4: ; 0xdcb4
-	ld a, [$d517]
+	ld a, [wd517]
 	cp $f
 	ld a, $81
 	jr nz, .asm_dcbf
@@ -16789,7 +16789,7 @@ Func_dcb4: ; 0xdcb4
 
 LoadBallGfx: ; 0xdcc3
 	xor a
-	ld [$d4c8], a
+	ld [wd4c8], a
 	ld a, [wBallType]
 	cp GREAT_BALL
 	jr nc, .notPokeBall
@@ -16830,7 +16830,7 @@ LoadBallGfx: ; 0xdcc3
 
 LoadMiniBallGfx: ; 0xdd12
 	ld a, $1
-	ld [$d4c8], a
+	ld [wd4c8], a
 	ld a, [wBallType]
 	cp GREAT_BALL
 	jr nc, .notPokeBall
@@ -16871,7 +16871,7 @@ LoadMiniBallGfx: ; 0xdd12
 
 Func_dd62: ; 0xdd62
 	ld a, $2
-	ld [$d4c8], a
+	ld [wd4c8], a
 	ld a, $2a
 	ld hl, PinballBallMiniGfx
 	ld de, $8400
@@ -16884,11 +16884,11 @@ Func_dd76: ; 0xdd76
 	ld hl, wBallSaverTimerSeconds
 	or [hl]
 	jr z, .asm_dda3
-	ld a, [$d4a5]
+	ld a, [wd4a5]
 	bit 7, a
 	jr nz, .asm_dd9c
 	dec a
-	ld [$d4a5], a
+	ld [wd4a5], a
 	push af
 	ld de, $28c9
 	call Func_dc6d
@@ -16911,29 +16911,29 @@ Func_dd76: ; 0xdd76
 	call PlaySoundEffect
 	call Func_dbba
 	ld a, $1
-	ld [$d4c9], a
+	ld [wd4c9], a
 	xor a
-	ld [$d4de], a
-	ld [$d4df], a
+	ld [wd4de], a
+	ld [wd4df], a
 	call Func_ddfd
-	ld a, [$d49b]
+	ld a, [wd49b]
 	and a
 	jr z, .asm_dddd
 	dec a
-	ld [$d49b], a
+	ld [wd49b], a
 	ld a, $1
-	ld [$d49c], a
+	ld [wd49c], a
 	ld de, $28ee
 	call Func_dc6d
 	ret
 
 .asm_dddd
-	ld a, [$d49d]
-	ld hl, $d49e
+	ld a, [wd49d]
+	ld hl, wd49e
 	cp [hl]
 	jr z, .asm_ddf1
 	inc a
-	ld [$d49d], a
+	ld [wd49d], a
 	ld de, $28ee
 	call Func_dc6d
 	ret
@@ -16960,22 +16960,22 @@ Func_ddfd: ; 0xddfd
 	cp $1
 	jr nz, .asm_de2d
 	xor a
-	ld [$d604], a
+	ld [wd604], a
 	ld a, $1e
-	ld [$d607], a
+	ld [wd607], a
 	ld [$ff8a], a
 	callba Func_10ac8
 	jr .asm_de40
 
 .asm_de2d
 	xor a
-	ld [$d604], a
+	ld [wd604], a
 	ld a, $1e
-	ld [$d607], a
+	ld [wd607], a
 	ld [$ff8a], a
 	callba Func_3022b
 .asm_de40
-	ld a, [$d7ad]
+	ld a, [wd7ad]
 	ld c, a
 	ld a, [wStageCollisionState]
 	and $1
@@ -16991,11 +16991,11 @@ Func_de4f: ; 0xde4f
 	ld hl, wBallSaverTimerSeconds
 	or [hl]
 	jr z, .asm_de7c
-	ld a, [$d4a5]
+	ld a, [wd4a5]
 	bit 7, a
 	jr nz, .asm_de75
 	dec a
-	ld [$d4a5], a
+	ld [wd4a5], a
 	push af
 	ld de, $28c9
 	call Func_dc6d
@@ -17018,29 +17018,29 @@ Func_de4f: ; 0xde4f
 	call PlaySoundEffect
 	call Func_dbba
 	ld a, $1
-	ld [$d4c9], a
+	ld [wd4c9], a
 	xor a
-	ld [$d4de], a
-	ld [$d4df], a
+	ld [wd4de], a
+	ld [wd4df], a
 	call Func_ded6
-	ld a, [$d49b]
+	ld a, [wd49b]
 	and a
 	jr z, .asm_deb6
 	dec a
-	ld [$d49b], a
+	ld [wd49b], a
 	ld a, $1
-	ld [$d49c], a
+	ld [wd49c], a
 	ld de, $28ee
 	call Func_dc6d
 	ret
 
 .asm_deb6
-	ld a, [$d49d]
-	ld hl, $d49e
+	ld a, [wd49d]
+	ld hl, wd49e
 	cp [hl]
 	jr z, .asm_deca
 	inc a
-	ld [$d49d], a
+	ld [wd49d], a
 	ld de, $28ee
 	call Func_dc6d
 	ret
@@ -17067,40 +17067,40 @@ Func_ded6: ; 0xded6
 	cp $1
 	jr nz, .asm_df05
 	ld a, $0
-	ld [$d604], a
+	ld [wd604], a
 	ld a, $1e
-	ld [$d607], a
+	ld [wd607], a
 	ld [$ff8a], a
 	callba Func_10ac8
 	ret
 
 .asm_df05
 	ld a, $0
-	ld [$d604], a
+	ld [wd604], a
 	ld a, $1e
-	ld [$d607], a
+	ld [wd607], a
 	ld [$ff8a], a
 	callba Func_3022b
 	ret
 
 Func_df1a: ; 0xdf1a
-	ld a, [$d4ad]
+	ld a, [wd4ad]
 	ld hl, wCurrentStage
 	cp [hl]
 	ret z
-	ld a, [$d6a8]
+	ld a, [wd6a8]
 	and a
 	jr nz, .asm_df57
-	ld a, [$d6a2]
+	ld a, [wd6a2]
 	cp $5
 	jr c, .asm_df50
 	xor a
-	ld [$d4ae], a
-	ld a, [$d6a7]
+	ld [wd4ae], a
+	ld a, [wd6a7]
 	and a
 	ret nz
-	ld [$d548], a
-	ld [$d549], a
+	ld [wd548], a
+	ld [wd549], a
 	ld [wBallSpin], a
 	ld [wBallRotation], a
 	ld hl, wBallXVelocity
@@ -17109,7 +17109,7 @@ Func_df1a: ; 0xdf1a
 	ld [hli], a
 	ld [hli], a
 	ld a, $1
-	ld [$d6a7], a
+	ld [wd6a7], a
 .asm_df50
 	ld de, $0002
 	call PlaySoundEffect
@@ -17117,41 +17117,41 @@ Func_df1a: ; 0xdf1a
 
 .asm_df57
 	xor a
-	ld [$d495], a
+	ld [wd495], a
 	ld a, $1
-	ld [$d496], a
+	ld [wd496], a
 	ld a, $2
-	ld [$d4c8], a
+	ld [wd4c8], a
 	xor a
-	ld [$d7ac], a
-	ld a, [$d49a]
+	ld [wd7ac], a
+	ld a, [wd49a]
 	and a
 	ret nz
 	call Func_30e8
 	call Func_30db
-	ld hl, $d5dc
+	ld hl, wd5dc
 	ld de, Data_2f04
 	call LoadTextHeader
 	ret
 
 Func_df7e: ; 0xdf7e
-	ld a, [$d4ad]
+	ld a, [wd4ad]
 	ld hl, wCurrentStage
 	cp [hl]
 	ret z
-	ld a, [$d6b3]
+	ld a, [wd6b3]
 	and a
 	jr nz, .asm_dfbb
-	ld a, [$d6b1]
+	ld a, [wd6b1]
 	cp $8
 	jr c, .asm_dfb4
 	xor a
-	ld [$d4ae], a
-	ld a, [$d6b2]
+	ld [wd4ae], a
+	ld a, [wd6b2]
 	and a
 	ret nz
-	ld [$d548], a
-	ld [$d549], a
+	ld [wd548], a
+	ld [wd549], a
 	ld [wBallSpin], a
 	ld [wBallRotation], a
 	ld hl, wBallXVelocity
@@ -17160,7 +17160,7 @@ Func_df7e: ; 0xdf7e
 	ld [hli], a
 	ld [hli], a
 	ld a, $1
-	ld [$d6b2], a
+	ld [wd6b2], a
 .asm_dfb4
 	ld de, $000b
 	call PlaySoundEffect
@@ -17168,30 +17168,30 @@ Func_df7e: ; 0xdf7e
 
 .asm_dfbb
 	xor a
-	ld [$d495], a
+	ld [wd495], a
 	ld a, $1
-	ld [$d496], a
+	ld [wd496], a
 	ld a, $2
-	ld [$d4c8], a
+	ld [wd4c8], a
 	xor a
-	ld [$d7ac], a
-	ld a, [$d49a]
+	ld [wd7ac], a
+	ld a, [wd49a]
 	and a
 	ret nz
 	call Func_30e8
 	call Func_30db
-	ld hl, $d5dc
+	ld hl, wd5dc
 	ld de, Data_2f1c
 	call LoadTextHeader
 	ret
 
 Func_dfe2: ; 0xdfe2
 	xor a
-	ld [$d64e], a
-	ld a, [$d7be]
+	ld [wd64e], a
+	ld a, [wd7be]
 	and a
 	jr z, .asm_dff2
-	ld a, [$d49a]
+	ld a, [wd49a]
 	and a
 	jr z, .asm_e00f
 .asm_dff2
@@ -17210,11 +17210,11 @@ Func_dfe2: ; 0xdfe2
 	ld [$ff8a], a
 	callba Func_24fa3
 .asm_e00f
-	ld a, [$d4ad]
+	ld a, [wd4ad]
 	ld hl, wCurrentStage
 	cp [hl]
 	ret z
-	ld a, [$d712]
+	ld a, [wd712]
 	cp $0
 	jr nz, .asm_e025
 	ld de, $0002
@@ -17223,63 +17223,63 @@ Func_dfe2: ; 0xdfe2
 
 .asm_e025
 	xor a
-	ld [$d57e], a
-	ld [$d57d], a
+	ld [wd57e], a
+	ld [wd57d], a
 	xor a
-	ld [$d495], a
+	ld [wd495], a
 	ld a, $1
-	ld [$d496], a
+	ld [wd496], a
 	ld a, $2
-	ld [$d4c8], a
+	ld [wd4c8], a
 	xor a
-	ld [$d7ac], a
-	ld [$d712], a
-	ld a, [$d49a]
+	ld [wd7ac], a
+	ld [wd712], a
+	ld a, [wd49a]
 	and a
 	ret nz
 	call Func_30e8
 	call Func_30db
-	ld hl, $d5dc
+	ld hl, wd5dc
 	ld de, Data_2f4d
 	call LoadTextHeader
 	ret
 
 Func_e056: ; 0xe056
-	ld a, [$d4ad]
+	ld a, [wd4ad]
 	ld hl, wCurrentStage
 	cp [hl]
 	ret z
 	ld de, $000b
 	call PlaySoundEffect
 	xor a
-	ld [$d495], a
+	ld [wd495], a
 	ld a, $1
-	ld [$d496], a
+	ld [wd496], a
 	ld a, $2
-	ld [$d4c8], a
+	ld [wd4c8], a
 	xor a
-	ld [$d7ac], a
-	ld a, [$d49a]
+	ld [wd7ac], a
+	ld a, [wd49a]
 	and a
 	ret nz
 	call Func_30e8
 	call Func_30db
-	ld hl, $d5dc
+	ld hl, wd5dc
 	ld de, Data_2f34
 	call LoadTextHeader
 	ret
 
 Func_e08b: ; 0xe08b
 	xor a
-	ld [$d64e], a
-	ld a, [$d7be]
+	ld [wd64e], a
+	ld a, [wd7be]
 	and a
 	jr z, .asm_e09b
-	ld a, [$d49a]
+	ld a, [wd49a]
 	and a
 	jr z, .asm_e0b8
 .asm_e09b
-	ld a, [$d793]
+	ld a, [wd793]
 	cp $14
 	jr nc, .asm_e0b8
 	cp $5
@@ -17290,15 +17290,15 @@ Func_e08b: ; 0xe08b
 .asm_e0aa
 	xor a
 .asm_e0ab
-	ld [$d793], a
+	ld [wd793], a
 	ld [$ff8a], a
 	callba Func_262f4
 .asm_e0b8
-	ld a, [$d4ad]
+	ld a, [wd4ad]
 	ld hl, wCurrentStage
 	cp [hl]
 	ret z
-	ld a, [$d794]
+	ld a, [wd794]
 	cp $0
 	jr nz, .asm_e0c8
 	ret
@@ -17307,22 +17307,22 @@ Func_e08b: ; 0xe08b
 	ld de, $0002
 	call PlaySoundEffect
 	xor a
-	ld [$d57d], a
-	ld [$d57d], a
-	ld [$d495], a
+	ld [wd57d], a
+	ld [wd57d], a
+	ld [wd495], a
 	ld a, $1
-	ld [$d496], a
+	ld [wd496], a
 	ld a, $2
-	ld [$d4c8], a
+	ld [wd4c8], a
 	xor a
-	ld [$d7ac], a
-	ld [$d794], a
-	ld a, [$d49a]
+	ld [wd7ac], a
+	ld [wd794], a
+	ld a, [wd49a]
 	and a
 	ret nz
 	call Func_30e8
 	call Func_30db
-	ld hl, $d5dc
+	ld hl, wd5dc
 	ld de, Data_2f65
 	call LoadTextHeader
 	ret
@@ -17331,8 +17331,8 @@ HandleFlippers: ; 0xe0fe
 	xor a
 	ld [wFlipperCollision], a
 	ld [hFlipperYCollisionAttribute], a
-	ld [$d7ba], a
-	ld [$d7bb], a
+	ld [wd7ba], a
+	ld [wd7bb], a
 	call Func_e118
 	call CheckFlipperCollision
 	ld a, [wFlipperCollision]
@@ -17342,20 +17342,20 @@ HandleFlippers: ; 0xe0fe
 
 Func_e118: ; 0xe118
 	call PlayFlipperSoundIfPressed
-	ld a, [$d7af]
+	ld a, [wd7af]
 	ld [wLeftFlipperAnimationState], a
-	ld a, [$d7b3]
+	ld a, [wd7b3]
 	ld [wRightFlipperAnimationState], a
 	ld hl, wKeyConfigLeftFlipper
 	call IsKeyPressed2
 	ld hl, -$0333
 	jr z, .asm_e13b
-	ld a, [$d7be]
+	ld a, [wd7be]
 	and a
 	jr nz, .asm_e13b
 	ld hl,  $0333
 .asm_e13b
-	ld a, [$d7af]
+	ld a, [wd7af]
 	and a
 	jr nz, .asm_e145
 	bit 7, h
@@ -17369,12 +17369,12 @@ Func_e118: ; 0xe118
 	ld hl, $0000
 .asm_e150
 	ld a, l
-	ld [$d7b0], a
+	ld [wd7b0], a
 	ld a, h
-	ld [$d7b1], a
-	ld a, [$d7ae]
+	ld [wd7b1], a
+	ld a, [wd7ae]
 	ld c, a
-	ld a, [$d7af]
+	ld a, [wd7af]
 	ld b, a
 	add hl, bc
 	bit 7, h
@@ -17389,19 +17389,19 @@ Func_e118: ; 0xe118
 	ld hl, $0000
 .asm_e172
 	ld a, l
-	ld [$d7ae], a
+	ld [wd7ae], a
 	ld a, h
-	ld [$d7af], a
+	ld [wd7af], a
 	ld hl, wKeyConfigRightFlipper
 	call IsKeyPressed2
 	ld hl, -$0333
 	jr z, .asm_e18e
-	ld a, [$d7be]
+	ld a, [wd7be]
 	and a
 	jr nz, .asm_e18e
 	ld hl,  $0333
 .asm_e18e
-	ld a, [$d7b3]
+	ld a, [wd7b3]
 	and a
 	jr nz, .asm_e198
 	bit 7, h
@@ -17415,12 +17415,12 @@ Func_e118: ; 0xe118
 	ld hl, $0000
 .asm_e1a3
 	ld a, l
-	ld [$d7b4], a
+	ld [wd7b4], a
 	ld a, h
-	ld [$d7b5], a
-	ld a, [$d7b2]
+	ld [wd7b5], a
+	ld a, [wd7b2]
 	ld c, a
-	ld a, [$d7b3]
+	ld a, [wd7b3]
 	ld b, a
 	add hl, bc
 	bit 7, h
@@ -17435,13 +17435,13 @@ Func_e118: ; 0xe118
 	ld hl, $0000
 .asm_e1c5
 	ld a, l
-	ld [$d7b2], a
+	ld [wd7b2], a
 	ld a, h
-	ld [$d7b3], a
+	ld [wd7b3], a
 	ret
 
 PlayFlipperSoundIfPressed: ; 0xe1ce
-	ld a, [$d7be]
+	ld a, [wd7be]
 	and a
 	ret nz
 	ld hl, wKeyConfigLeftFlipper
@@ -17481,15 +17481,15 @@ CheckLeftFlipperCollision:
 	inc c
 	ld a, [wLeftFlipperAnimationState]
 	ld [$ffc2], a
-	ld a, [$d7af]
+	ld a, [wd7af]
 	ld [$ffc3], a
 	call ReadFlipperCollisionAttributes
 	ld a, [wFlipperCollision]
 	and a
 	ret z
-	ld a, [$d7b0]
+	ld a, [wd7b0]
 	ld [$ffc0], a
-	ld a, [$d7b1]
+	ld a, [wd7b1]
 	ld [$ffc1], a
 	ret
 
@@ -17515,16 +17515,16 @@ CheckRightFlipperCollision: ; 0xe226
 	inc c
 	ld a, [wRightFlipperAnimationState]
 	ld [$ffc2], a
-	ld a, [$d7b3]
+	ld a, [wd7b3]
 	ld [$ffc3], a
 	call ReadFlipperCollisionAttributes
 	ld a, [wFlipperCollision]
 	and a
 	ret z
 	; collision with flipper occurred
-	ld a, [$d7b4]
+	ld a, [wd7b4]
 	ld [$ffc0], a
-	ld a, [$d7b5]
+	ld a, [wd7b5]
 	ld [$ffc1], a
 	ret
 
@@ -17768,13 +17768,13 @@ HandleFlipperCollision: ; 0xe442
 ; This is called when the ball is colliding with either the
 ; right or left flipper.
 	ld a, $1
-	ld [$d7e9], a
+	ld [wd7e9], a
 	xor a
-	ld [$d7f3], a
-	ld [$d7f4], a
-	ld [$d7f5], a
-	ld [$d7f6], a
-	ld [$d7f7], a
+	ld [wd7f3], a
+	ld [wd7f4], a
+	ld [wd7f5], a
+	ld [wd7f6], a
+	ld [wd7f7], a
 	ld a, [hFlipperYCollisionAttribute]
 	sla a
 	ld c, a
@@ -17795,9 +17795,9 @@ HandleFlipperCollision: ; 0xe442
 	rl d  ; multiplied de by 4
 	call Func_e379
 	ld a, b
-	ld [$d7bc], a
+	ld [wd7bc], a
 	ld a, l
-	ld [$d7bd], a
+	ld [wd7bd], a
 	ld a, [wBallXPos + 1]
 	cp $50  ; which flipper did the ball hit?
 	ld a, [wFlipperXCollisionAttribute]
@@ -17805,15 +17805,15 @@ HandleFlipperCollision: ; 0xe442
 	cpl  ; invert the x collision attribute
 	inc a
 .asm_e48b
-	ld [$d7ea], a
+	ld [wd7ea], a
 	ld a, $1
-	ld [$d7eb], a
-	ld a, [$d7bd]
+	ld [wd7eb], a
+	ld a, [wd7bd]
 	bit 7, a
 	ret z
 	xor a
-	ld [$d7bc], a
-	ld [$d7bd], a
+	ld [wd7bc], a
+	ld [wd7bd], a
 	ret
 
 Func_e4a1: ; 0xe4a1
@@ -17833,7 +17833,7 @@ Func_e4a1: ; 0xe4a1
 	ld c, a
 	push hl
 	ld hl, Data_e50e
-	ld a, [$d7af]
+	ld a, [wd7af]
 	ld e, a
 	ld d, $0
 	add hl, de
@@ -17843,7 +17843,7 @@ Func_e4a1: ; 0xe4a1
 	ld a, [hGameBoyColorFlag]
 	and a
 	jr nz, .asm_e4d4
-	ld a, [$d7be]
+	ld a, [wd7be]
 	and a
 	jr z, .asm_e4d4
 	ld a, $18
@@ -17865,7 +17865,7 @@ Func_e4a1: ; 0xe4a1
 	sub e
 	ld c, a
 	ld hl, Data_e523
-	ld a, [$d7b3]
+	ld a, [wd7b3]
 	ld e, a
 	ld d, $0
 	add hl, de
@@ -17875,7 +17875,7 @@ Func_e4a1: ; 0xe4a1
 	ld a, [hGameBoyColorFlag]
 	and a
 	jr nz, .asm_e504
-	ld a, [$d7be]
+	ld a, [wd7be]
 	and a
 	jr z, .asm_e504
 	ld a, $17
@@ -18095,16 +18095,16 @@ LoadCollisionAttributes: ; 0xe656
 
 Func_e674: ; 0xe674
 	push af
-	ld a, [$d548]
+	ld a, [wd548]
 	push af
 	xor a
-	ld [$d548], a
-	ld [$d803], a
+	ld [wd548], a
+	ld [wd803], a
 	ld [$ff8a], a
 	callba Func_84b7
 	call Func_926
 	pop af
-	ld [$d548], a
+	ld [wd548], a
 	pop af
 	ld [wCurrentStage], a
 	xor a
@@ -18133,7 +18133,7 @@ Func_e6c2: ; 0xe6c2
 	bit 0, a
 	ld a, $86
 	jr z, .asm_e6d5
-	ld a, [$d5ca]
+	ld a, [wd5ca]
 	and a
 	ld a, $86
 	jr nz, .asm_e6d5
@@ -18149,7 +18149,7 @@ Func_e6c2: ; 0xe6c2
 	ld a, [wCurrentStage]
 	call LoadVideoData
 	xor a
-	ld [$d7f2], a
+	ld [wd7f2], a
 	ld [$ff8a], a
 	callba Func_8471
 	ret
@@ -18503,7 +18503,7 @@ Func_ece9: ; 0xece9
 
 .asm_ed2e
 	ld a, $1
-	ld [$d4ae], a
+	ld [wd4ae], a
 	ld [$ff8a], a
 	callba Func_dc49
 	ret
@@ -18549,8 +18549,8 @@ BallMovingDownStageTransitions: ; 0xed4e
 	db $FF                      ; STAGE_SEEL_BONUS
 
 Func_ed5e: ; 0xed5e
-	ld hl, $d7ab
-	ld a, [$d7ac]
+	ld hl, wd7ab
+	ld a, [wd7ac]
 	and a
 	jr nz, .asm_ed7f
 	ld a, [wBallXPos + 1]
@@ -18559,7 +18559,7 @@ Func_ed5e: ; 0xed5e
 	jr nc, .asm_ed72
 	ld a, $fe
 .asm_ed72
-	ld [$d7aa], a
+	ld [wd7aa], a
 	add [hl]
 	cp $22
 	jr z, .asm_ed7f
@@ -18568,29 +18568,29 @@ Func_ed5e: ; 0xed5e
 	ld [hl], a
 .asm_ed7f
 	ld a, [hl]
-	ld hl, $d79f
+	ld hl, wd79f
 	sub [hl]
 	ld [hBoardXShift], a
 	xor a
-	ld hl, $d7a0
+	ld hl, wd7a0
 	sub [hl]
 	ld [hBoardYShift], a
 	ret
 
 Func_ed8e: ; 0xed8e
 	xor a
-	ld [$d803], a
-	ld [$d804], a
-	ld [$d622], a
+	ld [wd803], a
+	ld [wd804], a
+	ld [wd622], a
 	ld a, [wNumPartyMons]
-	ld [$d620], a
+	ld [wd620], a
 	ld a, [wBallType]
 	ld c, a
 	ld b, $0
 	ld hl, BallTypeMultipliers
 	add hl, bc
 	ld a, [hl]
-	ld [$d621], a
+	ld [wd621], a
 .asm_edac
 	xor a
 	ld [hJoypadState], a
@@ -18608,10 +18608,10 @@ Func_ed8e: ; 0xed8e
 	call Func_33e3
 	call Func_926
 	rst AdvanceFrame
-	ld a, [$d7af]
+	ld a, [wd7af]
 	and a
 	jr nz, .asm_edac
-	ld a, [$d7b3]
+	ld a, [wd7b3]
 	and a
 	jr nz, .asm_edac
 	ld a, [hGameBoyColorFlag]
@@ -18619,17 +18619,17 @@ Func_ed8e: ; 0xed8e
 	call nz, Func_f269
 	call GenRandom
 	and $f0
-	ld [$d61a], a
+	ld [wd61a], a
 	xor a
-	ld [$d61b], a
-	ld [$d61e], a
+	ld [wd61b], a
+	ld [wd61e], a
 .asm_6df7
-	ld a, [$d61a]
+	ld a, [wd61a]
 	ld c, a
 	ld b, $0
 	ld hl, Data_f339
 	add hl, bc
-	ld a, [$d619]
+	ld a, [wd619]
 	add [hl]
 	ld c, a
 	ld hl, Data_f439
@@ -18638,13 +18638,13 @@ Func_ed8e: ; 0xed8e
 	bit 7, a
 	jr nz, .asm_ee56
 	call Func_eef9
-	ld [$d61d], a
+	ld [wd61d], a
 	push af
 	ld de, $0009
 	call PlaySoundEffect
 	pop af
 	call LoadBillboardOffPicture
-	ld a, [$d61b]
+	ld a, [wd61b]
 	cp $a
 	jr nc, .asm_ee29
 	ld a, $a
@@ -18653,38 +18653,38 @@ Func_ed8e: ; 0xed8e
 .asm_ee2a
 	push bc
 	call Func_eeee
-	ld a, [$d61e]
+	ld a, [wd61e]
 	and a
 	jr nz, .asm_ee47
 	call Func_ef1e
 	jr z, .asm_ee47
-	ld [$d61e], a
+	ld [wd61e], a
 	ld a, $32
-	ld [$d61b], a
+	ld [wd61b], a
 	ld de, $0728
 	call PlaySoundEffect
 .asm_ee47
 	pop bc
 	dec b
 	jr nz, .asm_ee2a
-	ld a, [$d61b]
+	ld a, [wd61b]
 	inc a
-	ld [$d61b], a
+	ld [wd61b], a
 	cp $3c
 	jr z, .asm_ee69
 .asm_ee56
-	ld a, [$d61a]
+	ld a, [wd61a]
 	and $f0
 	ld b, a
-	ld a, [$d61a]
+	ld a, [wd61a]
 	inc a
 	and $f
 	or b
-	ld [$d61a], a
+	ld [wd61a], a
 	jp .asm_6df7
 
 .asm_ee69
-	ld a, [$d61d]
+	ld a, [wd61d]
 	cp $5
 	jr nz, .asm_ee78
 	ld de, $0c42
@@ -18707,7 +18707,7 @@ Func_ed8e: ; 0xed8e
 .asm_ee8b
 	ld a, [hGameBoyColorFlag]
 	and a
-	ld a, [$d61d]
+	ld a, [wd61d]
 	call nz, Func_f2a0
 	ld b, $80
 .asm_ee96
@@ -18717,12 +18717,12 @@ Func_ed8e: ; 0xed8e
 	jr nz, .asm_eeae
 	bit 4, b
 	jr z, .asm_eea8
-	ld a, [$d61d]
+	ld a, [wd61d]
 	call LoadBillboardPicture
 	jr .asm_eeae
 
 .asm_eea8
-	ld a, [$d61d]
+	ld a, [wd61d]
 	call LoadBillboardOffPicture
 .asm_eeae
 	rst AdvanceFrame
@@ -18732,14 +18732,14 @@ Func_ed8e: ; 0xed8e
 	dec b
 	jr nz, .asm_ee96
 .asm_eeb8
-	ld a, [$d619]
+	ld a, [wd619]
 	add $a
 	cp $fa
 	jr nz, .asm_eec3
 	ld a, $64
 .asm_eec3
-	ld [$d619], a
-	ld a, [$d61d]
+	ld [wd619], a
+	ld a, [wd61d]
 	rst JumpTable  ; calls JumpToFuncInTable
 CallTable_eeca: ; 0xeeca
 	dw Func_ef35
@@ -18775,7 +18775,7 @@ Func_eeee: ; 0xeeee
 Func_eef9: ; 0xeef9
 	cp $8
 	jr nz, .asm_ef09
-	ld a, [$d620]
+	ld a, [wd620]
 	and a
 	jr nz, .asm_ef06
 	ld a, $7
@@ -18789,7 +18789,7 @@ Func_eef9: ; 0xeef9
 	cp $9
 	jr nz, .asm_ef14
 	push hl
-	ld hl, $d621
+	ld hl, wd621
 	add [hl]
 	pop hl
 	ret
@@ -18798,7 +18798,7 @@ Func_eef9: ; 0xeef9
 	cp $d
 	ret nz
 	push hl
-	ld hl, $d498
+	ld hl, wd498
 	add [hl]
 	pop hl
 	ret
@@ -18827,55 +18827,55 @@ Func_ef35: ; 0xef35
 	ld a, $0
 	ld [wBallSaverIconOn], a
 	ld a, $ff
-	ld [$d4a2], a
+	ld [wd4a2], a
 	ld a, $3b
 	ld [wBallSaverTimerFrames], a
 	ld a, $1e
 	ld [wBallSaverTimerSeconds], a
 	ld a, $2
-	ld [$d4a5], a
+	ld [wd4a5], a
 	ret
 
 Func_ef4f: ; 0xef4f
 	ld a, $0
 	ld [wBallSaverIconOn], a
 	ld a, $ff
-	ld [$d4a2], a
+	ld [wd4a2], a
 	ld a, $3b
 	ld [wBallSaverTimerFrames], a
 	ld a, $3c
 	ld [wBallSaverTimerSeconds], a
 	ld a, $2
-	ld [$d4a5], a
+	ld [wd4a5], a
 	ret
 
 Func_ef69: ; 0xef69
 	ld a, $0
 	ld [wBallSaverIconOn], a
 	ld a, $ff
-	ld [$d4a2], a
+	ld [wd4a2], a
 	ld a, $3b
 	ld [wBallSaverTimerFrames], a
 	ld a, $5a
 	ld [wBallSaverTimerSeconds], a
 	ld a, $2
-	ld [$d4a5], a
+	ld [wd4a5], a
 	ret
 
 Func_ef83: ; 0xef83
 	ld a, $1
-	ld [$d51d], a
+	ld [wd51d], a
 	ld a, $f
-	ld [$d517], a
+	ld [wd517], a
 	xor a
-	ld [$d85d], a
+	ld [wd85d], a
 	call Func_310a
 	rst AdvanceFrame
 	ld a, $0
 	ld [$ff8a], a
 	callba PlayPikachuSoundClip
 	ld a, $1
-	ld [$d85d], a
+	ld [wd85d], a
 	ret
 
 Func_efa7: ; 0xefa7
@@ -18886,7 +18886,7 @@ Func_efa7: ; 0xefa7
 Func_efb2: ; 0xefb2
 	ld a, $8
 	call Func_a21
-	ld [$d61f], a
+	ld [wd61f], a
 	ld b, $80
 .asm_efbc
 	push bc
@@ -18895,13 +18895,13 @@ Func_efb2: ; 0xefb2
 	jr nz, .asm_efd8
 	bit 4, b
 	jr z, .asm_efd0
-	ld a, [$d61f]
+	ld a, [wd61f]
 	add $12
 	call LoadBillboardPicture
 	jr .asm_efd8
 
 .asm_efd0
-	ld a, [$d61f]
+	ld a, [wd61f]
 	add $12
 	call LoadBillboardOffPicture
 .asm_efd8
@@ -18913,7 +18913,7 @@ Func_efb2: ; 0xefb2
 	dec b
 	jr nz, .asm_efbc
 .asm_efe3
-	ld a, [$d61f]
+	ld a, [wd61f]
 	inc a
 	swap a
 	ld e, a
@@ -18925,7 +18925,7 @@ Func_efb2: ; 0xefb2
 Func_eff3: ; 0xeff3
 	ld a, $8
 	call Func_a21
-	ld [$d61f], a
+	ld [wd61f], a
 	ld b, $80
 .asm_effd
 	push bc
@@ -18934,13 +18934,13 @@ Func_eff3: ; 0xeff3
 	jr nz, .asm_f019
 	bit 4, b
 	jr z, .asm_f011
-	ld a, [$d61f]
+	ld a, [wd61f]
 	add $1b
 	call LoadBillboardPicture
 	jr .asm_f019
 
 .asm_f011
-	ld a, [$d61f]
+	ld a, [wd61f]
 	add $1b
 	call LoadBillboardOffPicture
 .asm_f019
@@ -18952,7 +18952,7 @@ Func_eff3: ; 0xeff3
 	dec b
 	jr nz, .asm_effd
 .asm_f024
-	ld a, [$d61f]
+	ld a, [wd61f]
 	inc a
 	swap a
 	ld c, a
@@ -18963,12 +18963,12 @@ Func_eff3: ; 0xeff3
 
 Func_f034: ; 0xf034
 	ld a, $1
-	ld [$d622], a
+	ld [wd622], a
 	ret
 
 Func_f03a: ; 0xf03a
 	ld a, $2
-	ld [$d622], a
+	ld [wd622], a
 	ret
 
 UpgradeBallBlueField: ; 0xf040
@@ -18985,7 +18985,7 @@ UpgradeBallBlueField: ; 0xf040
 	call Func_30e8
 	call Func_30db
 	ld de, $2907
-	ld hl, $d5cc
+	ld hl, wd5cc
 	call LoadTextHeader
 	; upgrade ball type
 	ld a, [wBallType]
@@ -19011,12 +19011,12 @@ UpgradeBallBlueField: ; 0xf040
 	push de
 	call Func_30e8
 	call Func_30db
-	ld hl, $d5d4
+	ld hl, wd5d4
 	ld de, $2948
 	call Func_32cc
 	pop de
 	pop bc
-	ld hl, $d5cc
+	ld hl, wd5cc
 	ld de, FieldMultiplierSpecialBonusText
 	call LoadTextHeader
 .asm_f0b0
@@ -19036,7 +19036,7 @@ BallTypeProgressionBlueField: ; 0xf0bb
 Func_f0c1: ; 0xf0c1
 	ld a, $4
 	call Func_a21
-	ld [$d61f], a
+	ld [wd61f], a
 	ld b, $80
 .asm_f0cb
 	push bc
@@ -19045,13 +19045,13 @@ Func_f0c1: ; 0xf0c1
 	jr nz, .asm_f0e7
 	bit 4, b
 	jr z, .asm_f0df
-	ld a, [$d61f]
+	ld a, [wd61f]
 	add $24
 	call LoadBillboardPicture
 	jr .asm_f0e7
 
 .asm_f0df
-	ld a, [$d61f]
+	ld a, [wd61f]
 	add $24
 	call LoadBillboardOffPicture
 .asm_f0e7
@@ -19064,16 +19064,16 @@ Func_f0c1: ; 0xf0c1
 	jr nz, .asm_f0cb
 .asm_f0f2
 	ld a, $3
-	ld [$d610], a
+	ld [wd610], a
 	xor a
-	ld [$d611], a
-	ld [$d612], a
-	ld a, [$d482]
+	ld [wd611], a
+	ld [wd612], a
+	ld a, [wd482]
 	call Func_f14a
 	ld b, c
-	ld a, [$d61f]
+	ld a, [wd61f]
 	inc a
-	ld hl, $d482
+	ld hl, wd482
 	add [hl]
 	cp $64
 	jr c, .asm_f113
@@ -19089,10 +19089,10 @@ Func_f0c1: ; 0xf0c1
 	call nz, BankSwitch
 	ld [$ff8a], a
 	callba Func_16f95
-	ld a, [$d60c]
+	ld a, [wd60c]
 	ld [$ff8a], a
 	callba Func_f154 ; no need for BankSwitch here...
-	ld a, [$d60d]
+	ld a, [wd60d]
 	add $14
 	ld [$ff8a], a
 	callba Func_f154 ; no need for BankSwitch here...
@@ -19131,7 +19131,7 @@ CallTable_f15a: ; 0xf15a
 
 Func_f172: ; 0xf172
 	ld a, $1
-	ld [$d623], a
+	ld [wd623], a
 	ret
 
 LoadBillboardPicture: ; 0xf178
@@ -19524,7 +19524,7 @@ Func_f55c: ; 0xf55c
 
 Func_f57f: ; 0xf57f
 	xor a
-	ld [$d4aa], a
+	ld [wd4aa], a
 	ld hl, wcBottomMessageText
 	ld a, $81
 	ld b, $40
@@ -19549,18 +19549,18 @@ Func_f5a0: ; 0xf5a0
 	ld de, wcBottomMessageText + $80
 	ld hl, Data_3070
 	call PrintTextNoHeader
-	ld hl, $d489
+	ld hl, wd489
 	call Func_f8b5
-	ld hl, $d48f
+	ld hl, wd48f
 	call Func_f8b5
 	ld a, $1
-	ld [$d4ab], a
+	ld [wd4ab], a
 	call Func_f626
 	call Func_f64e
 	call Func_f60a
 	call Func_f676
 	ld a, $1
-	ld [$d4ab], a
+	ld [wd4ab], a
 	call Func_f70d
 	ld a, [wGameOver]
 	and a
@@ -19628,12 +19628,12 @@ Func_f626: ; 0xf626
 	ld hl, Data_3006 ; todo
 	call PrintTextNoHeader
 	ld hl, wcBottomMessageText + $01
-	ld a, [$d628]
+	ld a, [wd628]
 	call Func_f78e
 	ld bc, $0040
 	ld de, $0000
 	call Func_f80d
-	ld hl, $d628
+	ld hl, wd628
 	ld de, PointsData_f921
 	call Func_f853
 	call Func_f824
@@ -19644,12 +19644,12 @@ Func_f64e: ; 0xf64e
 	ld hl, Data_3019 ; todo
 	call PrintTextNoHeader
 	ld hl, wcBottomMessageText
-	ld a, [$d629]
+	ld a, [wd629]
 	call Func_f78e
 	ld bc, $0040
 	ld de, $0000
 	call Func_f80d
-	ld hl, $d629
+	ld hl, wd629
 	ld de, PointsData_f927
 	call Func_f853
 	call Func_f824
@@ -19666,7 +19666,7 @@ Func_f676: ; 0xf676
 	ld bc, $00c0
 	ld de, $0000
 	call Func_f80d
-	ld a, [$d4ab]
+	ld a, [wd4ab]
 	and a
 	jr z, .asm_f69f
 	rst AdvanceFrame
@@ -19674,7 +19674,7 @@ Func_f676: ; 0xf676
 	bit BIT_A_BUTTON, a
 	jr z, .asm_f69f
 	xor a
-	ld [$d4ab], a
+	ld [wd4ab], a
 .asm_f69f
 	pop bc
 	dec b
@@ -19686,7 +19686,7 @@ Func_f676: ; 0xf676
 	ld hl, Data_3086 ; todo
 	call PrintTextNoHeader
 	ld hl, wcBottomMessageText + $50
-	ld a, [$d482]
+	ld a, [wd482]
 	call Func_f78e
 	ld bc, $0040
 	ld de, $0040
@@ -19694,7 +19694,7 @@ Func_f676: ; 0xf676
 .asm_f6c7
 	push de
 	push hl
-	ld hl, $d494
+	ld hl, wd494
 	ld de, wcBottomMessageText + $86
 	call Func_f8bd
 	ld bc, $0040
@@ -19702,7 +19702,7 @@ Func_f676: ; 0xf676
 	call Func_f80d
 	ld de, $003e
 	call PlaySoundEffect
-	ld a, [$d4ab]
+	ld a, [wd4ab]
 	and a
 	jr z, .asm_f6f2
 	rst AdvanceFrame
@@ -19710,17 +19710,17 @@ Func_f676: ; 0xf676
 	bit BIT_A_BUTTON, a
 	jr z, .asm_f6f2
 	xor a
-	ld [$d4ab], a
+	ld [wd4ab], a
 .asm_f6f2
 	pop hl
 	pop de
-	ld a, [$d482]
+	ld a, [wd482]
 	and a
 	jr z, .asm_f709
 	dec a
-	ld [$d482], a
-	ld hl, $d48f
-	ld de, $d489
+	ld [wd482], a
+	ld hl, wd48f
+	ld de, wd489
 	call Func_f902
 	jr .asm_f6c7
 
@@ -19739,7 +19739,7 @@ Func_f70d: ; 0xf70d
 	ld bc, $00c0
 	ld de, $0000
 	call Func_f80d
-	ld a, [$d4ab]
+	ld a, [wd4ab]
 	and a
 	jr z, .asm_f736
 	rst AdvanceFrame
@@ -19747,7 +19747,7 @@ Func_f70d: ; 0xf70d
 	bit BIT_A_BUTTON, a
 	jr z, .asm_f736
 	xor a
-	ld [$d4ab], a
+	ld [wd4ab], a
 .asm_f736
 	pop bc
 	dec b
@@ -19755,7 +19755,7 @@ Func_f70d: ; 0xf70d
 	ld de, wcBottomMessageText + $60
 	ld hl, Data_308d
 	call PrintTextNoHeader
-	ld hl, $d46f
+	ld hl, wd46f
 	ld de, wcBottomMessageText + $66
 	call Func_f8bd
 	ld bc, $0040
@@ -19763,7 +19763,7 @@ Func_f70d: ; 0xf70d
 	call Func_f80d
 	ld de, $003e
 	call PlaySoundEffect
-	ld a, [$d4ab]
+	ld a, [wd4ab]
 	and a
 	jr z, .asm_f76c
 	rst AdvanceFrame
@@ -19771,12 +19771,12 @@ Func_f70d: ; 0xf70d
 	bit BIT_A_BUTTON, a
 	jr z, .asm_f76c
 	xor a
-	ld [$d4ab], a
+	ld [wd4ab], a
 .asm_f76c
 	ld hl, wScore
-	ld de, $d48f
+	ld de, wd48f
 	call Func_f902
-	ld hl, $d46f
+	ld hl, wd46f
 	ld de, wcBottomMessageText + $66
 	call Func_f8bd
 	ld bc, $0040
@@ -19814,7 +19814,7 @@ Func_f78e: ; 0xf78e
 	ret
 
 PrintTextNoHeader: ; 0xf7b1
-	ld a, [$d805]
+	ld a, [wd805]
 	and a
 	jr nz, .asm_f7e0
 .loop
@@ -19913,7 +19913,7 @@ Func_f824: ; 0xf824
 	ret
 
 Func_f83a: ; 0xf83a
-	ld a, [$d4ab]
+	ld a, [wd4ab]
 	and a
 	ret z
 	ld b, $46
@@ -19930,18 +19930,18 @@ Func_f83a: ; 0xf83a
 
 .asm_f84e
 	xor a
-	ld [$d4ab], a
+	ld [wd4ab], a
 	ret
 
 Func_f853: ; 0xf853
 	push hl
-	ld hl, $d483
+	ld hl, wd483
 	call Func_f8b5
 	pop hl
 .asm_f85b
 	push de
 	push hl
-	ld hl, $d488
+	ld hl, wd488
 	ld de, wcBottomMessageText + $46
 	call Func_f8bd
 	ld bc, $0040
@@ -19949,7 +19949,7 @@ Func_f853: ; 0xf853
 	call Func_f80d
 	ld de, $003e
 	call PlaySoundEffect
-	ld a, [$d4ab]
+	ld a, [wd4ab]
 	and a
 	jr z, .asm_f886
 	rst AdvanceFrame
@@ -19957,7 +19957,7 @@ Func_f853: ; 0xf853
 	bit BIT_A_BUTTON, a
 	jr z, .asm_f886
 	xor a
-	ld [$d4ab], a
+	ld [wd4ab], a
 .asm_f886
 	pop hl
 	pop de
@@ -19967,17 +19967,17 @@ Func_f853: ; 0xf853
 	dec [hl]
 	push de
 	push hl
-	ld hl, $d483
+	ld hl, wd483
 	call Func_f902
 	pop hl
 	pop de
 	jr .asm_f85b
 
 .asm_f899
-	ld hl, $d489
-	ld de, $d483
+	ld hl, wd489
+	ld de, wd483
 	call Func_f902
-	ld hl, $d48e
+	ld hl, wd48e
 	ld de, wcBottomMessageText + $86
 	call Func_f8bd
 	ld bc, $0040
@@ -20105,12 +20105,12 @@ Func_f952: ; 0xf952
 	ld hl, BellsproutCounterText
 	call PrintTextNoHeader
 	ld hl, wcBottomMessageText + $03
-	ld a, [$d62a]
+	ld a, [wd62a]
 	call Func_f78e
 	ld bc, $0040
 	ld de, $0000
 	call Func_f80d
-	ld hl, $d62a
+	ld hl, wd62a
 	ld de, PointsData_f92d
 	call Func_f853
 	call Func_f824
@@ -20121,12 +20121,12 @@ Func_f97a: ; 0xf97a
 	ld hl, DugtrioCounterText
 	call PrintTextNoHeader
 	ld hl, wcBottomMessageText + $04
-	ld a, [$d62b]
+	ld a, [wd62b]
 	call Func_f78e
 	ld bc, $0040
 	ld de, $0000
 	call Func_f80d
-	ld hl, $d62b
+	ld hl, wd62b
 	ld de, PointsData_f933
 	call Func_f853
 	call Func_f824
@@ -20137,12 +20137,12 @@ Func_f9a2: ; 0xf9a2
 	ld hl, CaveShotCounterText
 	call PrintTextNoHeader
 	ld hl, wcBottomMessageText + $03
-	ld a, [$d62c]
+	ld a, [wd62c]
 	call Func_f78e
 	ld bc, $0040
 	ld de, $0000
 	call Func_f80d
-	ld hl, $d62c
+	ld hl, wd62c
 	ld de, PointsData_f939
 	call Func_f853
 	call Func_f824
@@ -20153,12 +20153,12 @@ Func_f9ca: ; 0xf9ca
 	ld hl, SpinnerTurnsCounterText
 	call PrintTextNoHeader
 	ld hl, wcBottomMessageText + $01
-	ld a, [$d62d]
+	ld a, [wd62d]
 	call Func_f78e
 	ld bc, $0040
 	ld de, $0000
 	call Func_f80d
-	ld hl, $d62d
+	ld hl, wd62d
 	ld de, PointsData_f93f
 	call Func_f853
 	call Func_f824
@@ -20181,12 +20181,12 @@ Func_fa06: ; 0xfa06
 	ld hl, CloysterCounterText
 	call PrintTextNoHeader
 	ld hl, wcBottomMessageText + $04
-	ld a, [$d63b]
+	ld a, [wd63b]
 	call Func_f78e
 	ld bc, $0040
 	ld de, $0000
 	call Func_f80d
-	ld hl, $d63b
+	ld hl, wd63b
 	ld de, PointsData_f92d
 	call Func_f853
 	call Func_f824
@@ -20197,12 +20197,12 @@ Func_fa2e: ; 0xfa2e
 	ld hl, SlowpokeCounterText
 	call PrintTextNoHeader
 	ld hl, wcBottomMessageText + $04
-	ld a, [$d63a]
+	ld a, [wd63a]
 	call Func_f78e
 	ld bc, $0040
 	ld de, $0000
 	call Func_f80d
-	ld hl, $d63a
+	ld hl, wd63a
 	ld de, PointsData_f92d
 	call Func_f853
 	call Func_f824
@@ -20213,12 +20213,12 @@ Func_fa56: ; 0xfa56
 	ld hl, PoliwagCounterText
 	call PrintTextNoHeader
 	ld hl, wcBottomMessageText + $04
-	ld a, [$d63d]
+	ld a, [wd63d]
 	call Func_f78e
 	ld bc, $0040
 	ld de, $0000
 	call Func_f80d
-	ld hl, $d63d
+	ld hl, wd63d
 	ld de, PointsData_f933
 	call Func_f853
 	call Func_f824
@@ -20229,12 +20229,12 @@ Func_fa7e: ; 0xfa7e
 	ld hl, PsyduckCounterText
 	call PrintTextNoHeader
 	ld hl, wcBottomMessageText + $04
-	ld a, [$d63c]
+	ld a, [wd63c]
 	call Func_f78e
 	ld bc, $0040
 	ld de, $0000
 	call Func_f80d
-	ld hl, $d63c
+	ld hl, wd63c
 	ld de, PointsData_f933
 	call Func_f853
 	call Func_f824
@@ -20245,12 +20245,12 @@ Func_faa6: ; 0xfaa6
 	ld hl, CaveShotCounterText
 	call PrintTextNoHeader
 	ld hl, wcBottomMessageText + $03
-	ld a, [$d62c]
+	ld a, [wd62c]
 	call Func_f78e
 	ld bc, $0040
 	ld de, $0000
 	call Func_f80d
-	ld hl, $d62c
+	ld hl, wd62c
 	ld de, PointsData_f939
 	call Func_f853
 	call Func_f824
@@ -20261,12 +20261,12 @@ Func_face: ; 0xface  :)
 	ld hl, SpinnerTurnsCounterText
 	call PrintTextNoHeader
 	ld hl, wcBottomMessageText + $01
-	ld a, [$d62d]
+	ld a, [wd62d]
 	call Func_f78e
 	ld bc, $0040
 	ld de, $0000
 	call Func_f80d
-	ld hl, $d62d
+	ld hl, wd62d
 	ld de, PointsData_f93f
 	call Func_f853
 	call Func_f824
@@ -20295,7 +20295,7 @@ Func_10000: ; 0x10000
 	and a
 	ret z
 	ld a, c
-	ld [$d54c], a
+	ld [wd54c], a
 	ld a, [wSpecialMode]
 	cp $1
 	jp z, Func_10a95
@@ -20339,7 +20339,7 @@ StartCatchEmMode: ; 0x1003f
 	ld [wInSpecialMode], a  ; set special mode flag
 	xor a
 	ld [wSpecialMode], a
-	ld [$d54d], a
+	ld [wd54d], a
 	ld a, [wCurrentStage]
 	sla a
 	ld c, a
@@ -20391,14 +20391,14 @@ StartCatchEmMode: ; 0x1003f
 	ld bc, Data_13685
 	add hl, bc
 	ld a, [hli]
-	ld [$d5c1], a
-	ld [$d5be], a
+	ld [wd5c1], a
+	ld [wd5be], a
 	ld a, [hli]
-	ld [$d5c2], a
+	ld [wd5c2], a
 	ld a, [hli]
-	ld [$d5c3], a
-	ld hl, $d586
-	ld a, [$d5b6]
+	ld [wd5c3], a
+	ld hl, wd586
+	ld a, [wd5b6]
 	ld c, a
 	and a
 	ld b, $18
@@ -20507,9 +20507,9 @@ CheckForMew:
 Func_10157: ; 0x10157
 	xor a
 	ld [wInSpecialMode], a
-	ld [$d5bb], a
-	ld [$d5c6], a
-	ld [$d5b6], a
+	ld [wd5bb], a
+	ld [wd5c6], a
+	ld [wd5b6], a
 	ld [wNumMonHits], a
 	call Func_10488
 	ld [$ff8a], a
@@ -20564,7 +20564,7 @@ Func_10184: ; 0x10184
 	ld a, [hli]
 	ld [$ff91], a
 	ld de, wc000
-	ld hl, $d586
+	ld hl, wd586
 	ld c, $0
 .asm_101bb
 	ld a, [hli]
@@ -20750,7 +20750,7 @@ Func_102bc: ; 0x102bc
 	ld [$ff8d], a
 	ld a, [hl]
 	ld [$ff8e], a
-	ld de, $c1b8
+	ld de, wc1b8
 	ld a, $10
 	ld [de], a
 	inc de
@@ -20772,7 +20772,7 @@ Func_102bc: ; 0x102bc
 	ld a, $0
 	ld [de], a
 	xor a
-	ld bc, $c1b8
+	ld bc, wc1b8
 	ld de, $1266
 	call Func_10c5
 	ret
@@ -20796,7 +20796,7 @@ Func_10301: ; 0x10301
 	ld [$ff8d], a
 	ld a, [hl]
 	ld [$ff8e], a
-	ld de, $c1b8
+	ld de, wc1b8
 	ld a, $10
 	ld [de], a
 	inc de
@@ -20839,7 +20839,7 @@ Func_10301: ; 0x10301
 	ld a, $0
 	ld [de], a
 	xor a
-	ld bc, $c1b8
+	ld bc, wc1b8
 	ld de, $1266
 	call Func_10c5
 	ret
@@ -20863,7 +20863,7 @@ Func_10362: ; 0x10362
 	ld [$ff8d], a
 	ld a, [hl]
 	ld [$ff8e], a
-	ld de, $c150
+	ld de, wc150
 	ld bc, $0000
 .asm_10384
 	call Func_1038e
@@ -20993,7 +20993,7 @@ Func_10488: ; 0x10488
 
 Func_10496: ; 0x10496
 	xor a
-	ld [$d5c6], a
+	ld [wd5c6], a
 	ld a, BANK(PikachuSaverGfx)
 	ld hl, PikachuSaverGfx + $c0
 	ld de, $87e0
@@ -21009,15 +21009,15 @@ Func_10496: ; 0x10496
 	ld de, wBallCaptureAnimationFrameCounter
 	call CopyHLToDE
 	ld a, $1
-	ld [$d5f3], a
+	ld [wd5f3], a
 	xor a
 	ld [wBallXVelocity], a
 	ld [wBallXVelocity + 1], a
 	ld [wBallYVelocity], a
 	ld [wBallYVelocity + 1], a
 	xor a
-	ld [$d548], a
-	ld [$d549], a
+	ld [wd548], a
+	ld [wd549], a
 	ld de, $000b
 	call PlaySoundEffect
 	ret
@@ -21082,7 +21082,7 @@ CapturePokemon: ; 0x1052d
 	cp $1
 	jr nz, .asm_1055d
 	xor a
-	ld [$d5bb], a
+	ld [wd5bb], a
 	ret
 
 .asm_1055d
@@ -21104,24 +21104,24 @@ CapturePokemon: ; 0x1052d
 	and a
 	call z, Func_10848
 	ld a, $50
-	ld [$d4b4], a
+	ld [wd4b4], a
 	ld a, $40
-	ld [$d4b6], a
+	ld [wd4b6], a
 	ld a, $80
 	ld [wBallXVelocity], a
 	xor a
 	ld [wBallXPos], a
 	ld [wBallYPos], a
-	ld [$d5f3], a
+	ld [wd5f3], a
 	ld a, $1
-	ld [$d548], a
-	ld [$d549], a
+	ld [wd548], a
+	ld [wd549], a
 	ld [$ff8a], a
 	callba Func_dc00
 	call Func_10157
 	ld de, $0001
 	call PlaySong
-	ld hl, $d628
+	ld hl, wd628
 	call Func_e4a
 	jr nc, .asm_105d1
 	ld c, $a
@@ -21132,13 +21132,13 @@ CapturePokemon: ; 0x1052d
 	call z, BankSwitch
 .asm_105d1
 	call SetPokemonOwnedFlag
-	ld a, [$d624]
+	ld a, [wd624]
 	cp $3
 	ret z
 	inc a
-	ld [$d625], a
+	ld [wd625], a
 	ld a, $80
-	ld [$d626], a
+	ld [wd626], a
 	ret
 
 BallCaptureAnimationData: ; 0x105e4
@@ -21190,27 +21190,27 @@ Data_1062a:
 
 Func_10648: ; 0x10648
 	call Func_10184
-	ld a, [$d54e]
+	ld a, [wd54e]
 	dec a
-	ld [$d54e], a
+	ld [wd54e], a
 	jr nz, .asm_10677
 	ld a, $14
-	ld [$d54e], a
-	ld hl, $d586
+	ld [wd54e], a
+	ld hl, wd586
 	ld b, $18
 .asm_1065e
-	ld a, [$d54f]
+	ld a, [wd54f]
 	and $1
 	ld [hli], a
 	xor $1
 	ld [hli], a
 	dec b
 	jr nz, .asm_1065e
-	ld a, [$d54f]
+	ld a, [wd54f]
 	dec a
-	ld [$d54f], a
+	ld [wd54f], a
 	jr nz, .asm_10677
-	ld hl, $d54d
+	ld hl, wd54d
 	inc [hl]
 .asm_10677
 	ret
@@ -21222,19 +21222,19 @@ Func_10678: ; 0x10678
 	ld hl, MonAnimatedSpriteTypes
 	add hl, bc
 	ld a, [hl]
-	ld [$d5bc], a
-	ld [$d5bd], a
+	ld [wd5bc], a
+	ld [wd5bd], a
 	ld a, $1
-	ld [$d5bb], a
+	ld [wd5bb], a
 	xor a
-	ld [$d5bf], a
+	ld [wd5bf], a
 	ld [wNumMonHits], a
 	ret
 
 Func_10696: ; 0x10696
 	call Func_30e8
 	call Func_30db
-	ld hl, $d5cc
+	ld hl, wd5cc
 	ld de, LetsGetPokemonText
 	call LoadTextHeader
 	ret
@@ -21242,7 +21242,7 @@ Func_10696: ; 0x10696
 Func_106a6: ; 0x106a6
 	call Func_30e8
 	call Func_30db
-	ld hl, $d5cc
+	ld hl, wd5cc
 	ld de, PokemonRanAwayText
 	call LoadTextHeader
 	ret
@@ -21283,10 +21283,10 @@ Func_106b6: ; 0x106b6
 	push de
 	call Func_30e8
 	call Func_30db
-	ld hl, $d5cc
+	ld hl, wd5cc
 	pop de
 	call LoadTextHeader
-	ld hl, $d5d4
+	ld hl, wd5d4
 	pop de
 	call LoadTextHeader
 	pop hl
@@ -21307,16 +21307,16 @@ Func_106b6: ; 0x106b6
 	inc de
 	xor a
 	ld [de], a
-	ld a, [$d5db]
+	ld a, [wd5db]
 	add b
-	ld [$d5db], a
+	ld [wd5db], a
 	ld a, $14
 	sub b
 	srl a
 	ld b, a
-	ld a, [$d5d8]
+	ld a, [wd5d8]
 	add b
-	ld [$d5d8], a
+	ld [wd5d8], a
 	ret
 
 Func_10732: ; 0x10732
@@ -21394,7 +21394,7 @@ Func_107a5: ; 0x107a5
 
 Func_107b0: ; 0x107b0
 	xor a
-	ld [$d604], a
+	ld [wd604], a
 	ld [wIndicatorStates + 4], a
 	ld [$ff8a], a
 	callba Func_16425
@@ -21402,7 +21402,7 @@ Func_107b0: ; 0x107b0
 
 Func_107c2: ; 0x107c2
 	ld a, $1e
-	ld [$d607], a
+	ld [wd607], a
 	ret
 
 Func_107c8: ; 0x107c8
@@ -21430,7 +21430,7 @@ Func_107e9: ; 0x107e9
 	jr nz, .asm_107f4
 	ld a, $6
 .asm_107f4
-	ld [$d7ad], a
+	ld [wd7ad], a
 	ret
 
 Func_107f8: ; 0x107f8
@@ -21468,12 +21468,12 @@ Func_10825: ; 0x10825
 	call Func_351c
 	call Func_30e8
 	call Func_30db
-	ld hl, $d5e9
+	ld hl, wd5e9
 	ld de, $2a50
 	call Func_3372
 	pop de
 	pop bc
-	ld hl, $d5e4
+	ld hl, wd5e4
 	ld de, $2a43
 	call Func_3357
 	ret
@@ -21484,10 +21484,10 @@ Func_10848: ; 0x10848
 	callba Func_8588
 	call Func_30e8
 	call Func_30db
-	ld hl, $d5d4
+	ld hl, wd5d4
 	ld de, OneBillionText
 	call LoadTextHeader
-	ld hl, $d5cc
+	ld hl, wd5cc
 	ld de, PokemonCaughtSpecialBonusText
 	call LoadTextHeader
 	call Func_3475
@@ -21531,7 +21531,7 @@ Func_10871: ; 0x10871
 	ld [wRightAlleyCount], a
 	call Func_107b0
 	ld a, $4
-	ld [$d7ad], a
+	ld [wd7ad], a
 	ld de, $0002
 	call PlaySong
 	ld a, [wCurrentStage]
@@ -21582,7 +21582,7 @@ Func_108f5: ; 0x108f5
 	ld hl, Data_10958
 	ld a, $4
 	call Func_10aa
-	ld a, [$d624]
+	ld a, [wd624]
 	ld [$ff8a], a
 	callba Func_174d4
 	ld hl, Data_1097d
@@ -21685,7 +21685,7 @@ Func_109fc: ; 0x109fc
 	ld hl, Data_10a63
 	ld a, $4
 	call Func_10aa
-	ld a, [$d624]
+	ld a, [wd624]
 	ld [$ff8a], a
 	callba Func_174d4
 	ld hl, Data_10a88
@@ -21750,15 +21750,15 @@ CallTable_10abc: ; 0x10abc
 
 Func_10ac8: ; 0x10ac8
 	xor a
-	ld [$d5ca], a
+	ld [wd5ca], a
 	call Func_30e8
 	xor a
 	ld [wInSpecialMode], a
-	ld [$d5bb], a
-	ld [$d5b6], a
+	ld [wd5bb], a
+	ld [wd5b6], a
 	ld [wNumMonHits], a
-	ld [$d551], a
-	ld [$d554], a
+	ld [wd551], a
+	ld [wd554], a
 	call Func_10488
 	ld [$ff8a], a
 	callba Func_86d2
@@ -21830,7 +21830,7 @@ VideoData_10b2a: ; 0x10b2a
 Func_10b3f: ; 0x10b3f
 	call Func_30e8
 	call Func_30db
-	ld hl, $d5cc
+	ld hl, wd5cc
 	ld a, [wCurrentEvolutionType]
 	cp EVO_EXPERIENCE
 	ld de, StartTrainingText
@@ -21842,7 +21842,7 @@ Func_10b3f: ; 0x10b3f
 
 Func_10b59: ; 0x10b59
 	xor a
-	ld [$d4aa], a
+	ld [wd4aa], a
 	ld hl, wcBottomMessageText
 	ld a, $81
 	ld b, $30
@@ -21935,15 +21935,15 @@ Func_10ba2: ; 0x10ba2
 
 Func_10bea: ; 0x10bea
 	xor a
-	ld [$d461], a
-	ld [$d462], a
-	ld [$d463], a
+	ld [wd461], a
+	ld [wd462], a
+	ld [wd463], a
 .asm_10bf4
 	call Func_10c0c
 	call Func_b2e
 	call Func_10c38
 	rst AdvanceFrame
-	ld a, [$d809]
+	ld a, [wd809]
 	bit 0, a
 	jr z, .asm_10bf4
 	ld de, $0001
@@ -21951,17 +21951,17 @@ Func_10bea: ; 0x10bea
 	ret
 
 Func_10c0c: ; 0x10c0c
-	ld a, [$d80a]
+	ld a, [wd80a]
 	ld b, a
 	ld a, [wNumPartyMons]
 	ld c, a
-	ld a, [$d461]
+	ld a, [wd461]
 	bit 6, b
 	jr z, .asm_10c28
 	and a
 	ret z
 	dec a
-	ld [$d461], a
+	ld [wd461], a
 	ld de, $0003
 	call PlaySoundEffect
 	ret
@@ -21972,14 +21972,14 @@ Func_10c0c: ; 0x10c0c
 	inc a
 	cp c
 	ret z
-	ld [$d461], a
+	ld [wd461], a
 	ld de, $0003
 	call PlaySoundEffect
 	ret
 
 Func_10c38: ; 0x10c38
-	ld a, [$d461]
-	ld hl, $d462
+	ld a, [wd461]
+	ld hl, wd462
 	sub [hl]
 	jr nc, .asm_10c45
 	dec [hl]
@@ -22002,12 +22002,12 @@ Func_10c38: ; 0x10c38
 	call Func_10b8e
 	ld a, [hJoypadState]
 	and a
-	ld a, [$d463]
+	ld a, [wd463]
 	jr z, .asm_10c62
 	xor a
 .asm_10c62
 	inc a
-	ld [$d463], a
+	ld [wd463], a
 	bit 3, a
 	pop bc
 	jr nz, .asm_10c78
@@ -22019,13 +22019,13 @@ Func_10c38: ; 0x10c38
 	ld a, $88
 	ld [hl], a
 .asm_10c78
-	ld a, [$d462]
+	ld a, [wd462]
 	and a
 	jr z, .asm_10c83
 	ld a, $8a
 	ld [wcBottomMessageText + $11], a
 .asm_10c83
-	ld a, [$d462]
+	ld a, [wd462]
 	add $7
 	jr z, .asm_10c96
 	ld c, a
@@ -22043,7 +22043,7 @@ Func_10c38: ; 0x10c38
 	ret
 
 Func_10ca5: ; 0x10ca5
-	ld a, [$d461]
+	ld a, [wd461]
 	ld c, a
 	ld b, $0
 	ld hl, wPartyMons
@@ -22090,12 +22090,12 @@ Func_10cb7: ; 0x10cb7
 .asm_10cfc
 	call Func_30e8
 	ld a, $1
-	ld [$d4aa], a
+	ld [wd4aa], a
 	ld [wInSpecialMode], a
 	ld [wSpecialMode], a
 	xor a
-	ld [$d54d], a
-	ld a, [$d461]
+	ld [wd54d], a
+	ld a, [wd461]
 	ld c, a
 	ld b, $0
 	ld hl, wPartyMons
@@ -22105,7 +22105,7 @@ Func_10cb7: ; 0x10cb7
 	ret
 
 Func_10d1d: ; 0x10d1d
-	ld hl, $d586
+	ld hl, wd586
 	ld b, $18
 .asm_10d22
 	ld a, $1
@@ -22121,9 +22121,9 @@ Func_10d1d: ; 0x10d1d
 	add hl, bc
 	ld a, [hl]
 	add $2
-	ld [$d555], a
+	ld [wd555], a
 	xor a
-	ld hl, $d566
+	ld hl, wd566
 	ld b, $13
 .asm_10d40
 	ld [hli], a
@@ -22183,10 +22183,10 @@ Func_10d1d: ; 0x10d1d
 	ld a, [hl]  ; a = evoluion type id
 	ld [wCurrentEvolutionType], a
 	xor a
-	ld [$d554], a
-	ld [$d556], a
-	ld [$d557], a
-	ld hl, $d55c
+	ld [wd554], a
+	ld [wd556], a
+	ld [wd557], a
+	ld hl, wd55c
 	ld a, $1
 	ld b, $3
 .asm_10dac
@@ -22199,8 +22199,8 @@ Func_10d1d: ; 0x10d1d
 	ld [hli], a
 	dec b
 	jr nz, .asm_10db3
-	ld de, $d55c
-	ld a, [$d555]
+	ld de, wd55c
+	ld a, [wd555]
 	ld c, a
 	inc a
 	ld b, a
@@ -22210,7 +22210,7 @@ Func_10d1d: ; 0x10d1d
 	call Func_a21
 	ld c, a
 	ld b, $0
-	ld hl, $d55c
+	ld hl, wd55c
 	add hl, bc
 	ld c, [hl]
 	ld a, [de]
@@ -22279,10 +22279,10 @@ Func_10e0a: ; 0x10e0a
 	push de
 	call Func_30e8
 	call Func_30db
-	ld hl, $d5cc
+	ld hl, wd5cc
 	pop de
 	call LoadTextHeader
-	ld hl, $d5d4
+	ld hl, wd5d4
 	pop de
 	call LoadTextHeader
 	pop hl
@@ -22303,16 +22303,16 @@ Func_10e0a: ; 0x10e0a
 	inc de
 	xor a
 	ld [de], a
-	ld a, [$d5db]
+	ld a, [wd5db]
 	add b
-	ld [$d5db], a
+	ld [wd5db], a
 	ld a, $14
 	sub b
 	srl a
 	ld b, a
-	ld a, [$d5d8]
+	ld a, [wd5d8]
 	add b
-	ld [$d5d8], a
+	ld [wd5d8], a
 	ret
 
 Func_10e8b: ; 0x10e8b
@@ -22325,12 +22325,12 @@ Func_10e8b: ; 0x10e8b
 	push de
 	call Func_30e8
 	call Func_30db
-	ld hl, $d5d4
+	ld hl, wd5d4
 	ld de, Data_2b6b
 	call Func_32cc
 	pop de
 	pop bc
-	ld hl, $d5cc
+	ld hl, wd5cc
 	ld de, EvolutionSpecialBonusText
 	call LoadTextHeader
 	ret
@@ -22341,7 +22341,7 @@ Func_10ebb: ; 0x10ebb
 	ret z
 	call Func_10cb7
 	call Func_10d1d
-	ld a, [$d555]
+	ld a, [wd555]
 	sub $2
 	ld c, a
 	sla c
@@ -22362,7 +22362,7 @@ Func_10ebb: ; 0x10ebb
 	ld [wLeftAlleyCount], a
 	call Func_107b0
 	ld a, $2
-	ld [$d7ad], a
+	ld [wd7ad], a
 	ld de, $0002
 	call PlaySong
 	call SetPokemonSeenFlag
@@ -22459,7 +22459,7 @@ Func_10fe3: ; 0x10fe3
 	ld hl, Data_10958
 	ld a, BANK(Data_10958)
 	call Func_10aa
-	ld a, [$d624]
+	ld a, [wd624]
 	ld [$ff8a], a
 	callba Func_174d4
 	ld hl, Data_1097d
@@ -22485,8 +22485,8 @@ Func_11061: ; 0x11061
 	call Func_10cb7
 	call Func_10d1d
 	ld a, $1
-	ld [$d643], a
-	ld a, [$d555]
+	ld [wd643], a
+	ld a, [wd555]
 	sub $2
 	ld c, a
 	sla c
@@ -22508,7 +22508,7 @@ Func_11061: ; 0x11061
 	ld [$ff8a], a
 	callba Func_1f2ed
 	ld a, $2
-	ld [$d7ad], a
+	ld [wd7ad], a
 	ld de, $0002
 	call PlaySong
 	call SetPokemonSeenFlag
@@ -22576,7 +22576,7 @@ IndicatorStates_11182: ; 0x11182
 
 Func_11195: ; 0x11195
 	xor a
-	ld [$d643], a
+	ld [wd643], a
 	call Func_107a5
 	call Func_107c2
 	ld [$ff8a], a
@@ -22607,7 +22607,7 @@ Func_11195: ; 0x11195
 	ld hl, Data_10a63
 	ld a, BANK(Data_10a63)
 	call Func_10aa
-	ld a, [$d624]
+	ld a, [wd624]
 	ld [$ff8a], a
 	callba Func_174d4
 	ld hl, Data_10a88
@@ -24927,25 +24927,25 @@ Func_1401c: ; 0x1401c
 	ret
 
 Func_1404a: ; 0x1404a
-	ld a, [$d57d]
+	ld a, [wd57d]
 	and a
 	ret z
 	ld a, [hGameBoyColorFlag]
 	and a
 	ret nz
-	ld a, [$d580]
+	ld a, [wd580]
 	and a
 	ret z
 	ld a, $f
-	ld [$d581], a
+	ld [wd581], a
 	call Func_1762f
-	ld hl, $d582
+	ld hl, wd582
 	ld a, $ff
 	ld [hli], a
 	ld [hli], a
 	ld [hli], a
 	ld [hl], a
-	ld hl, $d582
+	ld hl, wd582
 	ld a, [wTimerMinutes]
 	and $f
 	call Func_1764f
@@ -24965,22 +24965,22 @@ Func_1404a: ; 0x1404a
 
 Func_14091: ; 0x14091
 	ld a, $ff
-	ld [$d4d7], a
-	ld [$d4db], a
-	ld a, [$d4b4]
-	ld [$d4c5], a
-	ld a, [$d4b6]
-	ld [$d4c6], a
+	ld [wd4d7], a
+	ld [wd4db], a
+	ld a, [wd4b4]
+	ld [wd4c5], a
+	ld a, [wd4b6]
+	ld [wd4c6], a
 	ld a, [wBallRotation]
-	ld [$d4c7], a
-	ld a, [$d503]
+	ld [wd4c7], a
+	ld a, [wd503]
 	and a
 	ret z
 	xor a
-	ld [$d503], a
-	ld a, [$d502]
+	ld [wd503], a
+	ld a, [wd502]
 	res 1, a
-	ld [$d502], a
+	ld [wd502], a
 	and $1
 	ld c, a
 	ld a, [wStageCollisionState]
@@ -24999,36 +24999,36 @@ Func_14091: ; 0x14091
 
 Func_140e2: ; 0x140e2
 	ld a, $ff
-	ld [$d60e], a
-	ld [$d60f], a
-	ld a, [$d60c]
+	ld [wd60e], a
+	ld [wd60f], a
+	ld a, [wd60c]
 	call Func_16f28
-	ld a, [$d60d]
+	ld a, [wd60d]
 	add $14
 	call Func_16f28
 	ret
 
 Func_140f9: ; 0x140f9
-	ld a, [$d4ef]
+	ld a, [wd4ef]
 	and a
 	jr z, .asm_1410c
 	xor a
 	ld a, $66
-	ld [$c7e3], a
+	ld [wc7e3], a
 	ld a, $67
-	ld [$c803], a
+	ld [wc803], a
 	ld a, $2
 .asm_1410c
 	call Func_149d9
 	ld a, [wLeftMapMoveCounter]
 	call Func_149f5
-	ld a, [$d4f1]
+	ld a, [wd4f1]
 	and a
 	jr z, .asm_14127
 	ld a, $6a
-	ld [$c7f0], a
+	ld [wc7f0], a
 	ld a, $6b
-	ld [$c810], a
+	ld [wc810], a
 	ld a, $2
 .asm_14127
 	add $3
@@ -25061,10 +25061,10 @@ Func_1414b: ; 0x1414b
 	ld a, [wSpecialMode]
 	cp $2
 	ret z
-	ld a, [$d5c6]
+	ld a, [wd5c6]
 	and a
 	jr nz, .asm_14165
-	ld a, [$d5f3]
+	ld a, [wd5f3]
 	and a
 	jr nz, .asm_14165
 	jp Func_14210
@@ -25080,7 +25080,7 @@ Func_1414b: ; 0x1414b
 	ld a, Bank(Func_10301)
 	ld hl, Func_10301
 	call nz, BankSwitch
-	ld a, [$d5f3]
+	ld a, [wd5f3]
 	and a
 	ret z
 	ld a, BANK(PikachuSaverGfx)
@@ -25152,7 +25152,7 @@ Func_14209: ; 0x14209
 	ret
 
 Func_14210: ; 0x14210
-	ld hl, $d586
+	ld hl, wd586
 	ld b, $18
 .asm_14215
 	ld a, [hli]
@@ -25177,7 +25177,7 @@ Func_14234: ; 0x14234
 	ld a, [wSpecialMode]
 	cp $1
 	ret nz
-	ld a, [$d554]
+	ld a, [wd554]
 	cp $3
 	ret z
 	ld a, [wCurrentStage]
@@ -25197,7 +25197,7 @@ Func_14234: ; 0x14234
 	ld bc, $00e0
 	call FarCopyData
 .asm_1426a
-	ld a, [$d551]
+	ld a, [wd551]
 	and a
 	ret z
 	ld a, [hGameBoyColorFlag]
@@ -25229,7 +25229,7 @@ Func_14282: ; 0x14282
 	ret
 
 .asm_1429e
-	ld a, [$d624]
+	ld a, [wd624]
 	call Func_174d4
 	ld a, BANK(Data_d8f60)
 	ld hl, Data_d8f60
@@ -25249,7 +25249,7 @@ Func_142b3: ; 0x142b3
 
 Func_142c3: ; 0x142c3
 	ld de, $0000
-	ld a, [$d554]
+	ld a, [wd554]
 	and a
 	ret z
 	ld b, a
@@ -25287,7 +25287,7 @@ Func_142d7: ; 0x142d7
 	ret
 
 Func_142fc: ; 0x142fc
-	ld a, [$d4c8]
+	ld a, [wd4c8]
 	and a
 	jr nz, .asm_1430e
 	ld [$ff8a], a
@@ -25350,17 +25350,17 @@ Func_14377: ; 0x14377
 	ld a, [wInSpecialMode]
 	and a
 	jr nz, .asm_143b1
-	ld a, [$d609]
+	ld a, [wd609]
 	and a
 	jr z, .asm_14393
-	ld a, [$d498]
+	ld a, [wd498]
 	add $15
 	ld [$ff8a], a
 	callba Func_30256
 	ret
 
 .asm_14393
-	ld a, [$d608]
+	ld a, [wd608]
 	and a
 	jr z, .asm_143a6
 	ld a, $1a
@@ -25377,7 +25377,7 @@ Func_14377: ; 0x14377
 	ld a, [wSpecialMode]
 	cp $2
 	ret nz
-	ld a, [$d54d]
+	ld a, [wd54d]
 	cp $3
 	jr nz, .asm_143c9
 	ld [$ff8a], a
@@ -25385,11 +25385,11 @@ Func_14377: ; 0x14377
 	ret
 
 .asm_143c9
-	ld a, [$d604]
+	ld a, [wd604]
 	and a
 	ld a, $14
 	jr nz, .asm_143d6
-	ld a, [$d55a]
+	ld a, [wd55a]
 	add $12
 .asm_143d6
 	ld [$ff8a], a
@@ -25426,8 +25426,8 @@ Func_143f9: ; 0x143f9
 
 Func_1441e: ; 0x1441e
 	xor a
-	ld [$d578], a
-	ld a, [$d551]
+	ld [wd578], a
+	ld a, [wd551]
 	and a
 	ret z
 	ld a, [wCurrentStage]
@@ -25443,104 +25443,104 @@ Func_1441e: ; 0x1441e
 
 Func_14439: ; 0x14439
 	ld de, Data_145b5
-	ld bc, $d5fe
+	ld bc, wd5fe
 	scf
 	jp Func_2775
 
 Func_14443: ; 0x14443
 	ld de, Data_145bb
-	ld bc, $d601
+	ld bc, wd601
 	scf
 	jp Func_2775
 
 Func_1444d: ; 0x1444d
 	ld de, Data_145af
 	ld hl, Data_1459d
-	ld bc, $d5c7
+	ld bc, wd5c7
 	and a
 	jp Func_2775
 
 Func_1445a: ; 0x1445a
 	ld de, Data_145c9
 	ld hl, Data_145c1
-	ld bc, $d60a
+	ld bc, wd60a
 	and a
 	jp Func_2775
 
 Func_14467: ; 0x14467
 	ld de, Data_144f4
 	ld hl, Data_144ee
-	ld bc, $d4ed
+	ld bc, wd4ed
 	and a
 	jp Func_2775
 
 Func_14474: ; 0x14474
 	ld de, Data_14515 ; todo
 	ld hl, Data_144fd ; todo
-	ld bc, $d4cb
+	ld bc, wd4cb
 	and a
 	jp Func_2775
 
 Func_14481: ; 0x14481
 	ld de, Data_1452d
 	ld hl, Data_14521
-	ld bc, $d4d8
+	ld bc, wd4d8
 	and a
 	jp Func_2775
 
 Func_1448e: ; 0x1448e
 	ld de, Data_14536
-	ld bc, $d4dc
+	ld bc, wd4dc
 	scf
 	jp Func_2775
 
 Func_14498: ; 0x14498
 	ld de, Data_1453c ; todo
-	ld bc, $d507
+	ld bc, wd507
 	scf
 	jp Func_2775
 
 Func_144a2: ; 0x144a2
 	ld de, Data_14542
-	ld bc, $d50d
+	ld bc, wd50d
 	scf
 	jp Func_2775
 
 Func_144ac: ; 0x144ac
 	ld de, Data_14551
-	ld bc, $d5f7
+	ld bc, wd5f7
 	scf
 	jp Func_2775
 
 Func_144b6: ; 0x144b6
 	ld de, Data_1455d ; todo
-	ld bc, $d51f
+	ld bc, wd51f
 	scf
 	jp Func_2775
 
 Func_144c0: ; 0x144c0
 	ld de, Data_1457d ; todo
 	ld hl, Data_14578 ; todo
-	ld bc, $d500
+	ld bc, wd500
 	and a
 	jp Func_2775
 
 Func_144cd: ; 0x144cd
 	ld de, Data_14588
 	ld hl, Data_14583
-	ld bc, $d500
+	ld bc, wd500
 	and a
 	jp Func_2775
 
 Func_144da: ; 0x144da
 	ld de, Data_1458e
-	ld bc, $d4fb
+	ld bc, wd4fb
 	scf
 	jp Func_2775
 
 Func_144e4: ; 0x144e4
 	ld de, Data_14594
-	ld bc, $d515
+	ld bc, wd515
 	scf
 	jp Func_2775
 
@@ -25737,9 +25737,9 @@ Func_146a9: ; 0x146a9
 	ld c, $ff
 .asm_146e4
 	ld a, c
-	ld [$d4a2], a
+	ld [wd4a2], a
 .asm_146e8
-	ld a, [$d4a2]
+	ld a, [wd4a2]
 	ld c, $0
 	and a
 	jr z, .asm_146fe
@@ -25784,21 +25784,21 @@ Data_1472f:
 
 Func_14733: ; 0x14733
 	ld c, $0
-	ld a, [$d49b]
+	ld a, [wd49b]
 	and a
 	jr z, .asm_1473d
 	ld c, $1
 .asm_1473d
-	ld a, [$d4a9]
+	ld a, [wd4a9]
 	cp c
 	ld a, c
-	ld [$d4a9], a
+	ld [wd4a9], a
 	ret z
 	; fall through
 
 Func_14746: ; 0x14746
 	ld c, $0
-	ld a, [$d49b]
+	ld a, [wd49b]
 	and a
 	jr z, .asm_14750
 	ld c, $2
@@ -25817,24 +25817,24 @@ Data_1475f:
 	dr $1475f, $14795
 
 Func_14795: ; 0x14795
-	ld a, [$d5c7]
+	ld a, [wd5c7]
 	and a
 	ret z
 	xor a
-	ld [$d5c7], a
+	ld [wd5c7], a
 	ld a, $1
-	ld [$d5bf], a
+	ld [wd5bf], a
 	ld de, $0006
 	call PlaySoundEffect
 	ret
 
 Func_147aa: ; 0x147aa
-	ld a, [$d4ed]
+	ld a, [wd4ed]
 	and a
 	jp z, .asm_14834
 	xor a
-	ld [$d4ed], a
-	ld a, [$d4ee]
+	ld [wd4ed], a
+	ld a, [wd4ee]
 	sub $1
 	sla a
 	ld c, a
@@ -25847,7 +25847,7 @@ Func_147aa: ; 0x147aa
 	inc a
 	ld [hld], a
 	ld [hl], $50
-	ld hl, $d4f7
+	ld hl, wd4f7
 	add hl, bc
 	ld a, $e0
 	ld [hli], a
@@ -25857,9 +25857,9 @@ Func_147aa: ; 0x147aa
 	and a
 	jr z, .asm_14807
 	ld a, $6a
-	ld [$c7f0], a
+	ld [wc7f0], a
 	ld a, $6b
-	ld [$c810], a
+	ld [wc810], a
 	ld a, $5
 	call Func_149d9
 	ld a, [wRightMapMoveCounter]
@@ -25875,9 +25875,9 @@ Func_147aa: ; 0x147aa
 
 .asm_14807
 	ld a, $66
-	ld [$c7e3], a
+	ld [wc7e3], a
 	ld a, $67
-	ld [$c803], a
+	ld [wc803], a
 	ld a, $2
 	call Func_149d9
 	ld a, [wLeftMapMoveCounter]
@@ -25893,11 +25893,11 @@ Func_147aa: ; 0x147aa
 	ret
 
 .asm_14834
-	ld a, [$d4ef]
+	ld a, [wd4ef]
 	and a
 	jr z, .asm_14857
 	dec a
-	ld [$d4ef], a
+	ld [wd4ef], a
 	jr nz, .asm_14857
 	ld a, [wLeftMapMoveCounter]
 	sub $3
@@ -25906,15 +25906,15 @@ Func_147aa: ; 0x147aa
 	call Func_149f5
 .asm_1484d
 	ld a, $64
-	ld [$c7e3], a
+	ld [wc7e3], a
 	ld a, $65
-	ld [$c803], a
+	ld [wc803], a
 .asm_14857
-	ld a, [$d4f1]
+	ld a, [wd4f1]
 	and a
 	jr z, .asm_1487c
 	dec a
-	ld [$d4f1], a
+	ld [wd4f1], a
 	jr nz, .asm_1487c
 	ld a, [wRightMapMoveCounter]
 	sub $3
@@ -25924,15 +25924,15 @@ Func_147aa: ; 0x147aa
 	call Func_149f5
 .asm_14872
 	ld a, $68
-	ld [$c7f0], a
+	ld [wc7f0], a
 	ld a, $69
-	ld [$c810], a
+	ld [wc810], a
 .asm_1487c
 	call Func_14990
 	ret
 
 Func_14880: ; 0x14880
-	ld hl, $d4f7
+	ld hl, wd4f7
 	dec [hl]
 	ld a, [hli]
 	cp $ff
@@ -25954,7 +25954,7 @@ Func_14880: ; 0x14880
 	ld [wLeftMapMoveCounter], a
 	call Func_149f5
 .asm_148a6
-	ld hl, $d4f9
+	ld hl, wd4f9
 	dec [hl]
 	ld a, [hli]
 	cp $ff
@@ -25981,7 +25981,7 @@ Func_14880: ; 0x14880
 
 Func_148cf: ; 0x148cf
 	ld b, $0
-	ld hl, $d4f8
+	ld hl, wd4f8
 	ld a, [hld]
 	or [hl]
 	jr z, .asm_148f8
@@ -26005,7 +26005,7 @@ Func_148cf: ; 0x148cf
 	dec a
 	ld [wLeftMapMoveCounter], a
 .asm_148f8
-	ld hl, $d4fa
+	ld hl, wd4fa
 	ld a, [hld]
 	or [hl]
 	jr z, .asm_1491f
@@ -26032,7 +26032,7 @@ Func_148cf: ; 0x148cf
 	ret
 
 Func_14920: ; 0x14920
-	ld hl, $d62b
+	ld hl, wd62b
 	call Func_e4a
 	jr nc, .asm_14937
 	ld c, $a
@@ -26043,13 +26043,13 @@ Func_14920: ; 0x14920
 	call z, BankSwitch
 .asm_14937
 	ld a, $1
-	ld [$d55a], a
+	ld [wd55a], a
 	ld [$ff8a], a
 	callba StartMapMoveMode
 	ret
 
 Func_14947: ; 0x14947
-	ld hl, $d62b
+	ld hl, wd62b
 	call Func_e4a
 	jr nc, .asm_1495e
 	ld c, $a
@@ -26060,18 +26060,18 @@ Func_14947: ; 0x14947
 	call z, BankSwitch
 .asm_1495e
 	xor a
-	ld [$d55a], a
+	ld [wd55a], a
 	ld [$ff8a], a
 	callba StartMapMoveMode
 	ret
 
 Func_1496d: ; 0x1496d
 	ld a, $55
-	ld [$d803], a
+	ld [wd803], a
 	ld a, $4
-	ld [$d804], a
+	ld [wd804], a
 	ld a, $2
-	ld [$d7eb], a
+	ld [wd7eb], a
 	ld bc, FiveHundredMillionPoints
 	ld [$ff8a], a
 	callba AddBCDScore
@@ -26080,7 +26080,7 @@ Func_1496d: ; 0x1496d
 	ret
 
 Func_14990: ; 0x14990
-	ld a, [$d4ef]
+	ld a, [wd4ef]
 	and a
 	jr nz, .asm_149b6
 	ld a, [wLeftMapMoveDiglettAnimationCounter]
@@ -26100,7 +26100,7 @@ Func_14990: ; 0x14990
 	ld [wLeftMapMoveDiglettFrame], a
 	call Func_149d9
 .asm_149b6
-	ld a, [$d4f1]
+	ld a, [wd4f1]
 	and a
 	ret nz
 	ld a, [wRightMapMoveDiglettAnimationCounter]
@@ -26173,17 +26173,17 @@ Data_14c8d:
 	dr $14c8d, $14d85
 
 Func_14d85: ; 0x14d85
-	ld a, [$d4cb]
+	ld a, [wd4cb]
 	and a
 	jr z, .asm_14db9
 	xor a
-	ld [$d4cb], a
+	ld [wd4cb], a
 	call Func_14dc9
 	ld a, $10
-	ld [$d4d6], a
-	ld a, [$d4cc]
+	ld [wd4d6], a
+	ld a, [wd4cc]
 	sub $3
-	ld [$d4d7], a
+	ld [wd4d7], a
 	ld a, $4
 	ld [$ff8a], a
 	callba Func_10000
@@ -26193,26 +26193,26 @@ Func_14d85: ; 0x14d85
 	ret
 
 .asm_14db9
-	ld a, [$d4d6]
+	ld a, [wd4d6]
 	and a
 	ret z
 	dec a
-	ld [$d4d6], a
+	ld [wd4d6], a
 	ret nz
 	ld a, $ff
-	ld [$d4d7], a
+	ld [wd4d7], a
 	ret
 
 Func_14dc9: ; 0x14dc9
 	ld a, $ff
-	ld [$d803], a
+	ld [wd803], a
 	ld a, $3
-	ld [$d804], a
+	ld [wd804], a
 	ld hl, $0200
 	ld a, l
-	ld [$d7bc], a
+	ld [wd7bc], a
 	ld a, h
-	ld [$d7bd], a
+	ld [wd7bd], a
 	ld a, $80
 	ld [wFlipperCollision], a
 	ld de, $000e
@@ -26220,31 +26220,31 @@ Func_14dc9: ; 0x14dc9
 	ret
 
 Func_14dea: ; 0x14dea
-	ld a, [$d507]
+	ld a, [wd507]
 	and a
 	jr z, Func_14e10
 	xor a
-	ld [$d507], a
+	ld [wd507], a
 	ld a, [wBallYVelocity]
 	ld c, a
 	ld a, [wBallYVelocity + 1]
 	ld b, a
 	ld a, c
-	ld [$d50b], a
+	ld [wd50b], a
 	ld a, b
-	ld [$d50c], a
+	ld [wd50c], a
 	ld a, $c
 	ld [$ff8a], a
 	callba Func_10000
 	; fall through
 Func_14e10: ; 0x14e10
-	ld hl, $d50b
+	ld hl, wd50b
 	ld a, [hli]
 	or [hl]
 	ret z
-	ld a, [$d50b]
+	ld a, [wd50b]
 	ld c, a
-	ld a, [$d50c]
+	ld a, [wd50c]
 	ld b, a
 	bit 7, b
 	jr nz, .asm_14e2e
@@ -26269,15 +26269,15 @@ Func_14e10: ; 0x14e10
 	ld bc, $0000
 .asm_14e3b
 	ld a, c
-	ld [$d50b], a
+	ld [wd50b], a
 	ld a, b
-	ld [$d50c], a
-	ld hl, $d50b
-	ld a, [$d509]
+	ld [wd50c], a
+	ld hl, wd50b
+	ld a, [wd509]
 	add [hl]
-	ld [$d509], a
+	ld [wd509], a
 	inc hl
-	ld a, [$d50a]
+	ld a, [wd50a]
 	adc [hl]
 	bit 7, a
 	ld c, $0
@@ -26292,16 +26292,16 @@ Func_14e10: ; 0x14e10
 	sub $18
 	ld c, $1
 .asm_14e66
-	ld [$d50a], a
+	ld [wd50a], a
 	ld a, c
 	and a
 	ret z
 	ld bc, OneHundredBillionPoints
 	ld [$ff8a], a
 	callba AddBCDScore
-	ld hl, $d62d
+	ld hl, wd62d
 	call Func_e4a
-	ld a, [$d517]
+	ld a, [wd517]
 	cp $f
 	jr nz, .asm_14e8a
 	call Func_14ea7
@@ -26309,13 +26309,13 @@ Func_14e10: ; 0x14e10
 
 .asm_14e8a
 	inc a
-	ld [$d517], a
+	ld [wd517], a
 	call Func_14ea7
-	ld a, [$d517]
+	ld a, [wd517]
 	cp $f
 	jr nz, .asm_14e9d
 	ld a, $64
-	ld [$d51e], a
+	ld [wd51e], a
 .asm_14e9d
 	ld a, [wCurrentStage]
 	bit 0, a
@@ -26324,10 +26324,10 @@ Func_14e10: ; 0x14e10
 	ret
 
 Func_14ea7: ; 0x14ea7
-	ld a, [$d51e]
+	ld a, [wd51e]
 	and a
 	ret nz
-	ld a, [$d517]
+	ld a, [wd517]
 	ld c, a
 	ld b, $0
 	ld hl, Data_14ebe
@@ -26342,7 +26342,7 @@ Data_14ebe:
 	dr $14ebe, $14ece
 
 Func_14ece: ; 0x14ece
-	ld a, [$d517]
+	ld a, [wd517]
 	ld c, a
 	sla c
 	ld b, $0
@@ -26367,19 +26367,19 @@ Data_1509b:
 	dr $1509b, $151cb
 
 Func_151cb: ; 0x151cb
-	ld a, [$d50d]
+	ld a, [wd50d]
 	and a
 	jr z, .asm_15229
 	xor a
-	ld [$d50d], a
-	ld a, [$d513]
+	ld [wd50d], a
+	ld a, [wd513]
 	and a
 	jr nz, .asm_15229
-	ld a, [$d50e]
+	ld a, [wd50e]
 	sub $a
 	ld c, a
 	ld b, $0
-	ld hl, $d50f
+	ld hl, wd50f
 	add hl, bc
 	ld a, [hl]
 	ld [hl], $1
@@ -26388,7 +26388,7 @@ Func_151cb: ; 0x151cb
 	ld bc, OneHundredMillionPoints
 	ld [$ff8a], a
 	callba AddBCDScore
-	ld hl, $d50f
+	ld hl, wd50f
 	ld a, [hli]
 	and [hl]
 	inc hl
@@ -26397,15 +26397,15 @@ Func_151cb: ; 0x151cb
 	and [hl]
 	jr z, Func_asm_1522d
 	ld a, $1
-	ld [$d513], a
+	ld [wd513], a
 	ld a, $80
-	ld [$d514], a
+	ld [wd514], a
 	ld bc, FourHundredMillionPoints
 	ld [$ff8a], a
 	callba AddBCDScore
 	ld de, $0009
 	call PlaySoundEffect
-	ld hl, $d62c
+	ld hl, wd62c
 	call Func_e4a
 	jr Func_asm_1522d
 
@@ -26415,7 +26415,7 @@ Func_151cb: ; 0x151cb
 	; fall through
 
 Func_asm_1522d: ; 0x1522d
-	ld hl, $d512
+	ld hl, wd512
 	ld b, $4
 .asm_15232
 	ld a, [hld]
@@ -26465,28 +26465,28 @@ Func_1523c: ; 0x1523c
 	ret
 
 Func_15270: ; 0x15270
-	ld a, [$d513]
+	ld a, [wd513]
 	and a
 	jr z, .asm_152a6
-	ld a, [$d514]
+	ld a, [wd514]
 	dec a
-	ld [$d514], a
+	ld [wd514], a
 	jr nz, .asm_1528d
-	ld [$d513], a
+	ld [wd513], a
 	ld a, $1
-	ld [$d608], a
+	ld [wd608], a
 	ld a, $3
-	ld [$d607], a
+	ld [wd607], a
 	xor a
 .asm_1528d
 	and $7
 	ret nz
-	ld a, [$d514]
+	ld a, [wd514]
 	srl a
 	srl a
 	srl a
 	and $1
-	ld hl, $d50f
+	ld hl, wd50f
 	ld [hli], a
 	ld [hli], a
 	ld [hli], a
@@ -26499,7 +26499,7 @@ Func_15270: ; 0x15270
 	ld hl, wKeyConfigLeftFlipper
 	call IsKeyPressed
 	jr z, .asm_152c2
-	ld hl, $d50f
+	ld hl, wd50f
 	ld a, [hli]
 	ld c, a
 	ld a, [hli]
@@ -26522,7 +26522,7 @@ Func_15270: ; 0x15270
 	ld hl, wKeyConfigRightFlipper
 	call IsKeyPressed
 	ret z
-	ld hl, $d50f
+	ld hl, wd50f
 	ld a, [hli]
 	ld c, a
 	ld a, [hli]
@@ -26554,15 +26554,15 @@ Data_15325:
 	dr $15325, $1535d
 
 Func_1535d: ; 0x1535d
-	ld a, [$d5f7]
+	ld a, [wd5f7]
 	and a
 	jp z, .asm_1544c
 	xor a
-	ld [$d5f7], a
+	ld [wd5f7], a
 	ld a, [wStageCollisionState]
 	bit 0, a
 	jp z, .asm_1544c
-	ld a, [$d5fc]
+	ld a, [wd5fc]
 	and a
 	jp nz, .asm_1544c
 	xor a
@@ -26573,11 +26573,11 @@ Func_1535d: ; 0x1535d
 	ld a, $b
 	ld [$ff8a], a
 	callba Func_10000
-	ld a, [$d5f8]
+	ld a, [wd5f8]
 	sub $e
 	ld c, a
 	ld b, $0
-	ld hl, $d5f9
+	ld hl, wd5f9
 	add hl, bc
 	ld a, [hl]
 	ld [hl], $1
@@ -26586,7 +26586,7 @@ Func_1535d: ; 0x1535d
 	ld bc, OneHundredMillionPoints
 	ld [$ff8a], a
 	callba AddBCDScore
-	ld hl, $d5f9
+	ld hl, wd5f9
 	ld a, [hli]
 	and [hl]
 	inc hl
@@ -26598,9 +26598,9 @@ Func_1535d: ; 0x1535d
 
 .asm_153c0
 	ld a, $1
-	ld [$d5fc], a
+	ld [wd5fc], a
 	ld a, $80
-	ld [$d5fd], a
+	ld [wd5fd], a
 	; load approximately 1 minute of frames into wBallTypeCounter
 	ld a, $10
 	ld [wBallTypeCounter], a
@@ -26617,7 +26617,7 @@ Func_1535d: ; 0x1535d
 	call Func_30e8
 	call Func_30db
 	ld de, $2907
-	ld hl, $d5cc
+	ld hl, wd5cc
 	call LoadTextHeader
 	ld a, [wBallType]
 	ld c, a
@@ -26642,12 +26642,12 @@ Func_1535d: ; 0x1535d
 	push de
 	call Func_30e8
 	call Func_30db
-	ld hl, $d5d4
+	ld hl, wd5d4
 	ld de, $2948
 	call Func_32cc
 	pop de
 	pop bc
-	ld hl, $d5cc
+	ld hl, wd5cc
 	ld de, FieldMultiplierSpecialBonusText
 	call LoadTextHeader
 .asm_15447
@@ -26662,7 +26662,7 @@ Func_15450
 	ld a, [wStageCollisionState]
 	bit 0, a
 	ret z
-	ld hl, $d5fb
+	ld hl, wd5fb
 	ld b, $3
 .asm_1545b
 	ld a, [hld]
@@ -26726,23 +26726,23 @@ Func_15499: ; 0x15499
 	ret
 
 Func_154a9: ; 0x154a9
-	ld a, [$d5fc]
+	ld a, [wd5fc]
 	and a
 	jr z, .asm_154d6
-	ld a, [$d5fd]
+	ld a, [wd5fd]
 	dec a
-	ld [$d5fd], a
+	ld [wd5fd], a
 	jr nz, .asm_154bb
-	ld [$d5fc], a
+	ld [wd5fc], a
 .asm_154bb
 	and $7
 	jr nz, .asm_154d4
-	ld a, [$d5fd]
+	ld a, [wd5fd]
 	srl a
 	srl a
 	srl a
 	and $1
-	ld hl, $d5f9
+	ld hl, wd5f9
 	ld [hli], a
 	ld [hli], a
 	ld [hl], a
@@ -26758,7 +26758,7 @@ Func_154a9: ; 0x154a9
 	ld hl, wKeyConfigLeftFlipper
 	call IsKeyPressed
 	jr z, .asm_154ee
-	ld hl, $d5f9
+	ld hl, wd5f9
 	ld a, [hli]
 	ld c, a
 	ld a, [hli]
@@ -26777,7 +26777,7 @@ Func_154a9: ; 0x154a9
 	ld hl, wKeyConfigRightFlipper
 	call IsKeyPressed
 	ret z
-	ld hl, $d5f9
+	ld hl, wd5f9
 	ld a, [hli]
 	ld c, a
 	ld a, [hli]
@@ -26823,7 +26823,7 @@ Data_15549:
 	dr $15549, $15575
 
 HandleBallTypeUpgradeCounterRedField: ; 0x15575
-	ld a, [$d5f3]
+	ld a, [wd5f3]
 	and a
 	ret nz
 	ld hl, wBallTypeCounter
@@ -26897,50 +26897,50 @@ Data_157f7:
 	dr $157f7, $1581f
 
 Func_1581f: ; 0x1581f
-	ld a, [$d51f]
+	ld a, [wd51f]
 	and a
 	ret z
 	xor a
-	ld [$d51f], a
+	ld [wd51f], a
 	ld bc, FiftyBillionPoints
 	ld [$ff8a], a
 	callba AddBCDScore
-	ld a, [$d520]
+	ld a, [wd520]
 	sub $11
 	ld c, a
 	ld b, $0
-	ld hl, $d521
+	ld hl, wd521
 	add hl, bc
 	ld [hl], $1
-	ld a, [$d521]
+	ld a, [wd521]
 	and a
 	call nz, Func_1587c
-	ld a, [$d522]
+	ld a, [wd522]
 	and a
 	call nz, Func_158c0
-	ld a, [$d523]
+	ld a, [wd523]
 	and a
 	call nz, Func_15904
-	ld a, [$d524]
+	ld a, [wd524]
 	and a
 	call nz, HandleLeftAlleyTriggerRedField
-	ld a, [$d525]
+	ld a, [wd525]
 	and a
 	call nz, Func_15931
-	ld a, [$d526]
+	ld a, [wd526]
 	and a
 	call nz, Func_15944
-	ld a, [$d527]
+	ld a, [wd527]
 	and a
 	call nz, HandleRightAlleyTriggerRedField
-	ld a, [$d528]
+	ld a, [wd528]
 	and a
 	call nz, Func_15990
 	ret
 
 Func_1587c: ; 0x1587c
 	xor a
-	ld [$d521], a
+	ld [wd521], a
 	ld a, [wLeftAlleyTrigger]
 	and a
 	ret z
@@ -26970,7 +26970,7 @@ Func_1587c: ; 0x1587c
 
 Func_158c0: ; 0x158c0
 	xor a
-	ld [$d522], a
+	ld [wd522], a
 	ld a, [wLeftAlleyTrigger]
 	and a
 	ret z
@@ -27000,7 +27000,7 @@ Func_158c0: ; 0x158c0
 
 Func_15904: ; 0x15904
 	xor a
-	ld [$d523], a
+	ld [wd523], a
 	ld a, [wSecondaryLeftAlleyTrigger]
 	and a
 	ret z
@@ -27014,7 +27014,7 @@ Func_15904: ; 0x15904
 HandleLeftAlleyTriggerRedField: ; 0x1591e
 ; Ball passed over the left alley trigger point in the Red Field.
 	xor a
-	ld [$d524], a
+	ld [wd524], a
 	ld [wRightAlleyTrigger], a
 	ld [wSecondaryLeftAlleyTrigger], a
 	ld a, $1
@@ -27024,7 +27024,7 @@ HandleLeftAlleyTriggerRedField: ; 0x1591e
 
 Func_15931: ; 0x15931
 	xor a
-	ld [$d525], a
+	ld [wd525], a
 	ld [wRightAlleyTrigger], a
 	ld [wLeftAlleyTrigger], a
 	ld a, $1
@@ -27034,7 +27034,7 @@ Func_15931: ; 0x15931
 
 Func_15944: ; 0x15944
 	xor a
-	ld [$d526], a
+	ld [wd526], a
 	ld a, [wRightAlleyTrigger]
 	and a
 	ret z
@@ -27064,7 +27064,7 @@ Func_15944: ; 0x15944
 HandleRightAlleyTriggerRedField: ; 0x1597d
 ; Ball passed over the right alley trigger point in the Red Field.
 	xor a
-	ld [$d527], a
+	ld [wd527], a
 	ld [wLeftAlleyTrigger], a
 	ld [wSecondaryLeftAlleyTrigger], a
 	ld a, $1
@@ -27074,7 +27074,7 @@ HandleRightAlleyTriggerRedField: ; 0x1597d
 
 Func_15990: ; 0x15990
 	xor a
-	ld [$d528], a
+	ld [wd528], a
 	ld a, [wRightAlleyTrigger]
 	and a
 	ret z
@@ -27102,7 +27102,7 @@ Func_15990: ; 0x15990
 	ret
 
 Func_159c9: ; 0x159c9
-	ld a, [$d7ad]
+	ld a, [wd7ad]
 	bit 7, a
 	ret nz
 	ld c, a
@@ -27111,12 +27111,12 @@ Func_159c9: ; 0x159c9
 	or c
 	ld [wStageCollisionState], a
 	ld a, $ff
-	ld [$d7ad], a
+	ld [wd7ad], a
 	ld [$ff8a], a
 	callba LoadStageCollisionAttributes
 	call Func_159f4
 	ld a, $1
-	ld [$d580], a
+	ld [wd580], a
 	call Func_1404a
 	ret
 
@@ -27124,7 +27124,7 @@ Func_159f4: ; 0x159f4
 	ld a, [$ff9e]
 	bit 7, a
 	jr z, .asm_15a13
-	ld a, [$d7f2]
+	ld a, [wd7f2]
 	and $fe
 	ld c, a
 	ld a, [wStageCollisionState]
@@ -27137,7 +27137,7 @@ Func_159f4: ; 0x159f4
 	ld de, $0000
 	call PlaySoundEffect
 .asm_15a13
-	ld a, [$d7f2]
+	ld a, [wd7f2]
 	swap a
 	ld c, a
 	ld a, [wStageCollisionState]
@@ -27160,7 +27160,7 @@ Func_159f4: ; 0x159f4
 	ld a, $5
 	call Func_10aa
 	ld a, [wStageCollisionState]
-	ld [$d7f2], a
+	ld [wd7f2], a
 	ret
 
 Data_15a3f:
@@ -27170,11 +27170,11 @@ Data_15d05:
 	dr $15d05, $15e93
 
 Func_15e93: ; 0x15e93
-	ld a, [$d4fb]
+	ld a, [wd4fb]
 	and a
 	jr z, .asm_15eda
 	xor a
-	ld [$d4fb], a
+	ld [wd4fb], a
 	ld bc, OneMillionPoints
 	ld [$ff8a], a
 	callba AddBCDScore
@@ -27195,7 +27195,7 @@ Func_15e93: ; 0x15e93
 	ld a, $78
 	ld [wBallYPos + 1], a
 	xor a
-	ld [$d549], a
+	ld [wd549], a
 .asm_15eda
 	ld hl, BellsproutAnimationData
 	ld de, wBellsproutAnimationFrameCounter
@@ -27217,7 +27217,7 @@ Func_15e93: ; 0x15e93
 	cp $1
 	jr nz, .asm_15f35
 	xor a
-	ld [$d548], a
+	ld [wd548], a
 	ld a, [wRightAlleyCount]
 	cp $2
 	jr c, .noCatchEmMode
@@ -27229,7 +27229,7 @@ Func_15e93: ; 0x15e93
 	ld [$ff8a], a
 	callba StartCatchEmMode
 .noCatchEmMode
-	ld hl, $d62a
+	ld hl, wd62a
 	call Func_e4a
 	ret nc
 	ld c, $19
@@ -27245,7 +27245,7 @@ Func_15e93: ; 0x15e93
 	cp $4
 	jr nz, .asm_15f42
 	ld a, $1
-	ld [$d548], a
+	ld [wd548], a
 	ret
 
 .asm_15f42
@@ -27253,7 +27253,7 @@ Func_15e93: ; 0x15e93
 	cp $5
 	ret nz
 	ld a, $1
-	ld [$d549], a
+	ld [wd549], a
 	xor a
 	ld [wBallXVelocity + 1], a
 	ld a, $2
@@ -27284,35 +27284,35 @@ BellsproutAnimationData: ; 0x15f69
 	db $00  ; terminator
 
 Func_15f86: ; 0x15f86
-	ld a, [$d4d8]
+	ld a, [wd4d8]
 	and a
 	jr z, .asm_15f99
 	call Func_5fb8
 	call Func_15fa6
 	xor a
-	ld [$d4d8], a
+	ld [wd4d8], a
 	call Func_15fda
 .asm_15f99
-	ld a, [$d4da]
+	ld a, [wd4da]
 	and a
 	ret z
 	dec a
-	ld [$d4da], a
+	ld [wd4da], a
 	call z, Func_5fb8
 	ret
 
 Func_15fa6: ; 0x15fa6
 	ld a, $10
-	ld [$d4da], a
-	ld a, [$d4d9]
+	ld [wd4da], a
+	ld a, [wd4d9]
 	sub $6
-	ld [$d4db], a
+	ld [wd4db], a
 	sla a
 	inc a
 	jr asm_15fc0
 
 Func_5fb8: ; 0x5fb8
-	ld a, [$d4db]
+	ld a, [wd4db]
 	cp $ff
 	ret z
 	sla a
@@ -27336,25 +27336,25 @@ asm_15fc0
 
 Func_15fda: ; 0x15fda
 	ld a, $ff
-	ld [$d803], a
+	ld [wd803], a
 	ld a, $3
-	ld [$d804], a
+	ld [wd804], a
 	ld hl, $0200
 	ld a, l
-	ld [$d7bc], a
+	ld [wd7bc], a
 	ld a, h
-	ld [$d7bd], a
+	ld [wd7bd], a
 	ld a, $80
 	ld [wFlipperCollision], a
-	ld a, [$d4d9]
+	ld a, [wd4d9]
 	sub $6
 	ld c, a
 	ld b, $0
 	ld hl, Data_1600e
 	add hl, bc
-	ld a, [$d7ea]
+	ld a, [wd7ea]
 	add [hl]
-	ld [$d7ea], a
+	ld [wd7ea], a
 	ld de, $000b
 	call PlaySoundEffect
 	ret
@@ -27369,11 +27369,11 @@ Data_16080:
 	dr $16080, $160f0
 
 Func_160f0: ; 0x160f0
-	ld a, [$d5fe]
+	ld a, [wd5fe]
 	and a
 	jr z, .asm_16137
 	xor a
-	ld [$d5fe], a
+	ld [wd5fe], a
 	ld bc, OneMillionPoints
 	ld [$ff8a], a
 	callba AddBCDScore
@@ -27385,7 +27385,7 @@ Func_160f0: ; 0x160f0
 	ld [hli], a
 	ld [hli], a
 	ld [hli], a
-	ld [$d549], a
+	ld [wd549], a
 	ld [wBallXPos], a
 	ld [wBallYPos], a
 	ld a, $11
@@ -27393,17 +27393,17 @@ Func_160f0: ; 0x160f0
 	ld a, $23
 	ld [wBallYPos + 1], a
 	ld a, $10
-	ld [$d600], a
+	ld [wd600], a
 	ld a, $5
-	ld [$d803], a
+	ld [wd803], a
 	ld a, $8
-	ld [$d804], a
+	ld [wd804], a
 .asm_16137
-	ld a, [$d600]
+	ld a, [wd600]
 	and a
 	ret z
 	dec a
-	ld [$d600], a
+	ld [wd600], a
 	cp $f
 	jr nz, .asm_1614f
 	ld [$ff8a], a
@@ -27421,7 +27421,7 @@ Func_160f0: ; 0x160f0
 	cp $9
 	jr nz, .asm_1616d
 	xor a
-	ld [$d548], a
+	ld [wd548], a
 	ld [wBallSpin], a
 	ld [wBallRotation], a
 	ret
@@ -27432,12 +27432,12 @@ Func_160f0: ; 0x160f0
 	ld [$ff8a], a
 	callba Func_10ab3
 	ld a, $1
-	ld [$d548], a
-	ld [$d549], a
+	ld [wd548], a
+	ld [wd549], a
 	ld a, $5
-	ld [$d803], a
+	ld [wd803], a
 	ld a, $8
-	ld [$d804], a
+	ld [wd804], a
 	ret
 
 .asm_1618e
@@ -27457,7 +27457,7 @@ Func_160f0: ; 0x160f0
 	ret
 
 Func_161af: ; 0x161af
-	ld a, [$d604]
+	ld a, [wd604]
 	and a
 	ret z
 	ld a, [wBallYPos + 1]
@@ -27487,7 +27487,7 @@ Func_161af: ; 0x161af
 	jr asm_1620f
 
 Func_161e0: ; 0x161e0
-	ld a, [$d604]
+	ld a, [wd604]
 	and a
 	ret z
 	ld a, [wBallYPos + 1]
@@ -27578,27 +27578,27 @@ asm_1620f: ; 0x1620f
 	ld a, h
 	cp $2
 	ret c
-	ld a, [$d804]
+	ld a, [wd804]
 	and a
 	ret nz
 	ld a, $5
-	ld [$d803], a
+	ld [wd803], a
 	ld a, $8
-	ld [$d804], a
+	ld [wd804], a
 	ld de, $0004
 	call PlaySoundEffect
 	ret
 
 Func_16279: ; 0x16279
-	ld a, [$d601]
+	ld a, [wd601]
 	and a
 	jr z, .asm_162ae
 	xor a
-	ld [$d601], a
-	ld a, [$d604]
+	ld [wd601], a
+	ld a, [wd604]
 	and a
 	ret z
-	ld a, [$d603]
+	ld a, [wd603]
 	and a
 	jr nz, .asm_162ae
 	xor a
@@ -27607,7 +27607,7 @@ Func_16279: ; 0x16279
 	ld [hli], a
 	ld [hli], a
 	ld [hli], a
-	ld [$d549], a
+	ld [wd549], a
 	ld [wBallXPos], a
 	ld [wBallYPos], a
 	ld a, $50
@@ -27615,16 +27615,16 @@ Func_16279: ; 0x16279
 	ld a, $16
 	ld [wBallYPos + 1], a
 	ld a, $13
-	ld [$d603], a
+	ld [wd603], a
 .asm_162ae
-	ld a, [$d603]
+	ld a, [wd603]
 	and a
 	ret z
 	dec a
-	ld [$d603], a
+	ld [wd603], a
 	ld a, $18
-	ld [$d606], a
-	ld a, [$d603]
+	ld [wd606], a
+	ld a, [wd603]
 	cp $12
 	jr nz, .asm_162d4
 	ld de, $0021
@@ -27644,7 +27644,7 @@ Func_16279: ; 0x16279
 	cp $c
 	jr nz, .asm_162f2
 	xor a
-	ld [$d548], a
+	ld [wd548], a
 	ld [wBallSpin], a
 	ld [wBallRotation], a
 	ret
@@ -27659,11 +27659,11 @@ Func_16279: ; 0x16279
 	cp $6
 	jr nz, .asm_16317
 	xor a
-	ld [$d604], a
+	ld [wd604], a
 	ld a, $5
-	ld [$d803], a
+	ld [wd803], a
 	ld a, $8
-	ld [$d804], a
+	ld [wd804], a
 	ld [$ff8a], a
 	callba LoadMiniBallGfx
 	ret
@@ -27683,7 +27683,7 @@ Func_16279: ; 0x16279
 	and a
 	ret nz
 	call Func_16425
-	ld a, [$d622]
+	ld a, [wd622]
 	cp $1
 	ret nz
 	call GenRandom
@@ -27692,7 +27692,7 @@ Func_16279: ; 0x16279
 	ld [$ff8a], a
 	callba StartCatchEmMode
 	xor a
-	ld [$d622], a
+	ld [wd622], a
 	ret
 
 Func_16352: ; 0x16352
@@ -27703,77 +27703,77 @@ Func_16352: ; 0x16352
 	callba Func_10000
 	jr nc, .asm_1636d
 	ld a, $1
-	ld [$d548], a
-	ld [$d549], a
+	ld [wd548], a
+	ld [wd549], a
 	ret
 
 .asm_1636d
-	ld a, [$d624]
+	ld a, [wd624]
 	cp $3
 	jr nz, .asm_163b3
-	ld a, [$d607]
+	ld a, [wd607]
 	and a
 	jr nz, .asm_163b3
 .asm_1637a
-	ld a, [$d623]
+	ld a, [wd623]
 	and a
 	jr nz, .asm_16389
 	xor a
-	ld [$d625], a
+	ld [wd625], a
 	ld a, $40
-	ld [$d626], a
+	ld [wd626], a
 .asm_16389
 	xor a
-	ld [$d623], a
+	ld [wd623], a
 	ld a, $1
-	ld [$d495], a
-	ld [$d4ae], a
-	ld a, [$d498]
+	ld [wd495], a
+	ld [wd4ae], a
+	ld a, [wd498]
 	ld c, a
 	ld b, $0
 	ld hl, Data_16420
 	add hl, bc
 	ld a, [hl]
-	ld [$d497], a
+	ld [wd497], a
 	call Func_163f2
 	xor a
-	ld [$d609], a
-	ld [$d622], a
+	ld [wd609], a
+	ld [wd622], a
 	ld a, $1e
-	ld [$d607], a
+	ld [wd607], a
 	ret
 
 .asm_163b3
 	ld [$ff8a], a
 	callba Func_ed8e
 	xor a
-	ld [$d608], a
-	ld a, [$d61d]
+	ld [wd608], a
+	ld a, [wd61d]
 	cp $d
 	jr nc, .asm_1637a
 	ld a, $1
-	ld [$d548], a
-	ld [$d549], a
-	ld a, [$d622]
+	ld [wd548], a
+	ld [wd549], a
+	ld a, [wd622]
 	cp $2
 	ret nz
 	ld [$ff8a], a
 	callba Func_10ab3
-	ld a, [$d7ad]
+	ld a, [wd7ad]
 	ld c, a
 	ld a, [wStageCollisionState]
 	and $1
 	or c
 	ld [wStageCollisionState], a
 	xor a
-	ld [$d622], a
+	ld [wd622], a
 	ret
 
 Func_163f2: ; 0x163f2
 	call Func_30e8
 	call Func_30db
-	ld hl, $d5dc
-	ld a, [$d497]
+	ld hl, wd5dc
+	ld a, [wd497]
 	ld de, Data_2e83
 	cp $d
 	jr z, .asm_1640f
@@ -27798,7 +27798,7 @@ Func_16425: ; 0x16425
 	and $1
 	sla a
 	ld c, a
-	ld a, [$d604]
+	ld a, [wd604]
 	add c
 	sla a
 	ld c, a
@@ -27826,24 +27826,24 @@ Data_164a1:
 	dr $164a1, $164e3
 
 Func_164e3: ; 0x164e3
-	ld a, [$d607]
+	ld a, [wd607]
 	and a
 	ret z
 	dec a
-	ld [$d607], a
+	ld [wd607], a
 	ret nz
 	ld a, [wInSpecialMode]
 	and a
 	ret nz
-	ld a, [$d609]
+	ld a, [wd609]
 	and a
 	jr z, .asm_164ff
-	ld a, [$d498]
+	ld a, [wd498]
 	add $15
 	jr .asm_16506
 
 .asm_164ff
-	ld a, [$d608]
+	ld a, [wd608]
 	and a
 	ret z
 	ld a, $1a
@@ -27854,11 +27854,11 @@ Func_164e3: ; 0x164e3
 	ld a, Bank(Func_30256)
 	ld hl, Func_30256
 	call nz, BankSwitch
-	ld a, [$d604]
+	ld a, [wd604]
 	and a
 	ret nz
 	ld a, $1
-	ld [$d604], a
+	ld [wd604], a
 	ld a, $80
 	ld [wIndicatorStates + 4], a
 	ld a, [wCurrentStage]
@@ -27867,12 +27867,12 @@ Func_164e3: ; 0x164e3
 	ret
 
 Func_1652d: ; 0x1652d
-	ld a, [$d4dc]
+	ld a, [wd4dc]
 	and a
 	ret z
 	xor a
-	ld [$d4dc], a
-	ld a, [$d4de]
+	ld [wd4dc], a
+	ld a, [wd4de]
 	and a
 	jr z, .asm_16566
 	xor a
@@ -27889,22 +27889,22 @@ Func_1652d: ; 0x1652d
 	ld a, $fa
 	ld [wBallYVelocity + 1], a
 	ld a, $1
-	ld [$d549], a
+	ld [wd549], a
 	ld de, $000a
 	call PlaySoundEffect
 .asm_16566
 	ld a, $ff
-	ld [$d4ec], a
-	ld a, [$d4de]
+	ld [wd4ec], a
+	ld a, [wd4de]
 	and a
 	ret nz
-	ld a, [$d4e0]
+	ld a, [wd4e0]
 	and a
 	jr nz, .asm_16582
 	call Func_1658f
 	ld a, $1
-	ld [$d4e0], a
-	ld [$d4de], a
+	ld [wd4e0], a
+	ld [wd4de], a
 	ret
 
 .asm_16582
@@ -27912,7 +27912,7 @@ Func_1652d: ; 0x1652d
 	call IsKeyPressed
 	ret z
 	ld a, $1
-	ld [$d4de], a
+	ld [wd4de], a
 	ret
 
 Func_1658f: ; 0x1658f
@@ -27964,9 +27964,9 @@ Func_1658f: ; 0x1658f
 	ld [$ff8a], a
 	callba Func_3118f
 	ld a, [wCurrentMap]
-	ld [$d4e3], a
+	ld [wd4e3], a
 	xor a
-	ld [$d4e2], a
+	ld [wd4e2], a
 	ret
 
 RedStageInitialMaps: ; 0x16605
@@ -27979,37 +27979,37 @@ RedStageInitialMaps: ; 0x16605
 	db LAVENDER_TOWN
 
 Func_1660c: ; 0x1660c
-	ld a, [$d515]
+	ld a, [wd515]
 	and a
 	jr z, .asm_1667b
 	xor a
-	ld [$d515], a
-	ld a, [$d51c]
+	ld [wd515], a
+	ld a, [wd51c]
 	and a
 	jr nz, .asm_1667b
-	ld a, [$d51d]
+	ld a, [wd51d]
 	and a
 	jr nz, .asm_16634
-	ld a, [$d516]
+	ld a, [wd516]
 	sub $1c
-	ld hl, $d518
+	ld hl, wd518
 	cp [hl]
 	jr nz, .asm_1667b
-	ld a, [$d517]
+	ld a, [wd517]
 	cp $f
 	jr nz, .asm_16667
 .asm_16634
 	ld hl, PikachuSaverAnimationDataBlueStage
 	ld de, wPikachuSaverAnimationFrameCounter
 	call CopyHLToDE
-	ld a, [$d51d]
+	ld a, [wd51d]
 	and a
 	jr nz, .asm_16647
 	xor a
-	ld [$d517], a
+	ld [wd517], a
 .asm_16647
 	ld a, $1
-	ld [$d51c], a
+	ld [wd51c], a
 	xor a
 	ld [wBallXVelocity], a
 	ld [wBallXVelocity + 1], a
@@ -28017,7 +28017,7 @@ Func_1660c: ; 0x1660c
 	ld [wBallYVelocity + 1], a
 	ld [wBallSpin], a
 	ld [wBallRotation], a
-	ld [$d549], a
+	ld [wd549], a
 	call Func_30e8
 	jr .asm_1667b
 
@@ -28026,22 +28026,22 @@ Func_1660c: ; 0x1660c
 	ld de, wPikachuSaverAnimationFrameCounter
 	call CopyHLToDE
 	ld a, $2
-	ld [$d51c], a
+	ld [wd51c], a
 	ld de, $003b
 	call PlaySoundEffect
 .asm_1667b
-	ld a, [$d51c]
+	ld a, [wd51c]
 	and a
 	call z, Func_16766
 	call Func_1669e
-	ld a, [$d517]
+	ld a, [wd517]
 	cp $f
 	ret nz
-	ld a, [$d51e]
+	ld a, [wd51e]
 	and a
 	ret z
 	dec a
-	ld [$d51e], a
+	ld [wd51e], a
 	cp $5a
 	ret nz
 	ld de, $0f22
@@ -28049,7 +28049,7 @@ Func_1660c: ; 0x1660c
 	ret
 
 Func_1669e: ; 0x1669e
-	ld a, [$d51c]
+	ld a, [wd51c]
 	cp $1
 	jr nz, .asm_16719
 	ld hl, PikachuSaverAnimationDataBlueStage
@@ -28060,19 +28060,19 @@ Func_1669e: ; 0x1669e
 	cp $1
 	jr nz, .asm_166f7
 	xor a
-	ld [$d85d], a
+	ld [wd85d], a
 	call Func_310a
 	rst AdvanceFrame
 	ld a, $1
 	ld [$ff8a], a
 	callba PlayPikachuSoundClip
 	ld a, $1
-	ld [$d85d], a
+	ld [wd85d], a
 	ld a, $ff
-	ld [$d803], a
+	ld [wd803], a
 	ld a, $60
-	ld [$d804], a
-	ld hl, $d62e
+	ld [wd804], a
+	ld hl, wd62e
 	call Func_e4a
 	jr nc, .asm_166f0
 	ld c, $a
@@ -28093,12 +28093,12 @@ Func_1669e: ; 0x1669e
 	ld a, $fc
 	ld [wBallYVelocity + 1], a
 	ld a, $1
-	ld [$d549], a
+	ld [wd549], a
 	ld bc, FiveBillionPoints
 	ld [$ff8a], a
 	callba AddBCDScore
 	xor a
-	ld [$d51c], a
+	ld [wd51c], a
 	ret
 
 .asm_16719
@@ -28112,7 +28112,7 @@ Func_1669e: ; 0x1669e
 	cp $1
 	ret nz
 	xor a
-	ld [$d51c], a
+	ld [wd51c], a
 	ret
 
 .asm_16732
@@ -28154,7 +28154,7 @@ Func_16766: ; 0x16766
 	ld hl, wKeyConfigLeftFlipper
 	call IsKeyPressed2
 	jr z, .asm_16774
-	ld hl, $d518
+	ld hl, wd518
 	ld [hl], $0
 	ret
 
@@ -28162,28 +28162,28 @@ Func_16766: ; 0x16766
 	ld hl, wKeyConfigRightFlipper
 	call IsKeyPressed2
 	ret z
-	ld hl, $d518
+	ld hl, wd518
 	ld [hl], $1
 	ret
 
 Func_16781: ; 0x16781
-	ld a, [$d500]
+	ld a, [wd500]
 	and a
 	jr z, .asm_167bd
 	xor a
-	ld [$d500], a
-	ld a, [$d503]
+	ld [wd500], a
+	ld a, [wd503]
 	and a
 	jr nz, .asm_167c2
 	ld bc, FiveBillionPoints
 	ld [$ff8a], a
 	callba AddBCDScore
-	ld a, [$d502]
+	ld a, [wd502]
 	xor $1
 	set 1, a
-	ld [$d502], a
+	ld [wd502], a
 	ld a, $14
-	ld [$d503], a
+	ld [wd503], a
 	call Func_16859
 	ld a, $6
 	ld [$ff8a], a
@@ -28191,18 +28191,18 @@ Func_16781: ; 0x16781
 	ret
 
 .asm_167bd
-	ld a, [$d503]
+	ld a, [wd503]
 	and a
 	ret z
 .asm_167c2
 	dec a
-	ld [$d503], a
+	ld [wd503], a
 	ret nz
-	ld a, [$d502]
+	ld a, [wd502]
 	res 1, a
-	ld [$d502], a
+	ld [wd502], a
 	call Func_16859
-	ld a, [$d502]
+	ld a, [wd502]
 	and $1
 	ld c, a
 	ld a, [wStageCollisionState]
@@ -28220,22 +28220,22 @@ Func_16781: ; 0x16781
 	jp Func_15499
 
 Func_167ff: ; 0x167ff
-	ld a, [$d500]
+	ld a, [wd500]
 	and a
 	jr z, .asm_16839
 	xor a
-	ld [$d500], a
-	ld a, [$d503]
+	ld [wd500], a
+	ld a, [wd503]
 	and a
 	jr nz, .asm_1683e
 	ld bc, FiveBillionPoints
 	ld [$ff8a], a
 	callba AddBCDScore
-	ld a, [$d502]
+	ld a, [wd502]
 	xor $1
-	ld [$d502], a
+	ld [wd502], a
 	ld a, $14
-	ld [$d503], a
+	ld [wd503], a
 	call Func_16878
 	ld a, $6
 	ld [$ff8a], a
@@ -28243,14 +28243,14 @@ Func_167ff: ; 0x167ff
 	ret
 
 .asm_16839
-	ld a, [$d503]
+	ld a, [wd503]
 	and a
 	ret z
 .asm_1683e
 	dec a
-	ld [$d503], a
+	ld [wd503], a
 	ret nz
-	ld a, [$d502]
+	ld a, [wd502]
 	and $1
 	ld c, a
 	ld a, [wStageCollisionState]
@@ -28262,7 +28262,7 @@ Func_167ff: ; 0x167ff
 	ret
 
 Func_16859: ; 0x16859
-	ld a, [$d502]
+	ld a, [wd502]
 	sla a
 	ld c, a
 	ld b, $0
@@ -28283,7 +28283,7 @@ Func_16859: ; 0x16859
 	ret
 
 Func_16878: ; 0x16878
-	ld a, [$d502]
+	ld a, [wd502]
 	and $1
 	sla a
 	ld c, a
@@ -28374,54 +28374,54 @@ Data_16bef:
 	dr $16bef, $16d9d
 
 Func_16d9d: ; 016d9d
-	ld a, [$d60a]
+	ld a, [wd60a]
 	and a
 	jp z, Func_16e51
 	xor a
-	ld [$d60a], a
+	ld [wd60a], a
 	ld de, $000d
 	call PlaySoundEffect
-	ld a, [$d60b]
+	ld a, [wd60b]
 	sub $21
 	jr nz, .asm_16ddc
 	ld a, $9
 	ld [$ff8a], a
 	callba Func_10000
-	ld a, [$d610]
+	ld a, [wd610]
 	cp $3
 	jr nz, .asm_16e35
 	ld a, $1
-	ld [$d610], a
+	ld [wd610], a
 	ld a, $3
-	ld [$d611], a
-	ld a, [$d60c]
+	ld [wd611], a
+	ld a, [wd60c]
 	set 7, a
-	ld [$d60c], a
+	ld [wd60c], a
 	jr .asm_16e35
 
 .asm_16ddc
 	ld a, $a
 	ld [$ff8a], a
 	callba Func_10000
-	ld a, [$d611]
+	ld a, [wd611]
 	cp $3
 	jr nz, .asm_16e35
 	ld a, $1
-	ld [$d610], a
+	ld [wd610], a
 	ld a, $1
-	ld [$d611], a
+	ld [wd611], a
 	ld a, $80
-	ld [$d612], a
-	ld a, [$d60d]
+	ld [wd612], a
+	ld a, [wd60d]
 	set 7, a
-	ld [$d60d], a
-	ld a, [$d482]
+	ld [wd60d], a
+	ld a, [wd482]
 	inc a
 	cp $64
 	jr c, .asm_16e10
 	ld a, $63
 .asm_16e10
-	ld [$d482], a
+	ld [wd482], a
 	jr nc, .asm_16e24
 	ld c, $19
 	call Func_e55
@@ -28430,56 +28430,56 @@ Func_16d9d: ; 016d9d
 	ld hl, Func_30164
 	call z, BankSwitch
 .asm_16e24
-	ld a, [$d60c]
-	ld [$d614], a
-	ld a, [$d60d]
-	ld [$d615], a
+	ld a, [wd60c]
+	ld [wd614], a
+	ld a, [wd60d]
+	ld [wd615], a
 	ld a, $1
-	ld [$d613], a
+	ld [wd613], a
 .asm_16e35
 	ld bc, OneHundredBillionPoints
 	ld [$ff8a], a
 	callba AddBCDScore
-	ld a, [$d60c]
+	ld a, [wd60c]
 	call Func_16f28
-	ld a, [$d60d]
+	ld a, [wd60d]
 	add $14
 	call Func_16f28
 	ret
 
 Func_16e51: ; 0x16e51
 	call Func_16ef5
-	ld a, [$d612]
+	ld a, [wd612]
 	and a
 	jr z, .asm_16e8f
 	dec a
-	ld [$d612], a
+	ld [wd612], a
 	cp $70
 	jr nz, .asm_16e6e
 	ld a, $2
-	ld [$d610], a
+	ld [wd610], a
 	ld a, $2
-	ld [$d611], a
+	ld [wd611], a
 	jr .asm_16e8f
 
 .asm_16e6e
 	and a
 	jr nz, .asm_16e8f
 	ld a, $3
-	ld [$d610], a
+	ld [wd610], a
 	xor a
-	ld [$d611], a
-	ld a, [$d482]
+	ld [wd611], a
+	ld a, [wd482]
 	call Func_16f95
-	ld a, [$d60c]
+	ld a, [wd60c]
 	call Func_16f28
-	ld a, [$d60d]
+	ld a, [wd60d]
 	add $14
 	call Func_16f28
 	ret
 
 .asm_16e8f
-	ld a, [$d610]
+	ld a, [wd610]
 	cp $2
 	jr c, .asm_16ec1
 	cp $3
@@ -28493,19 +28493,19 @@ Func_16e51: ; 0x16e51
 	jr nz, .asm_16ec1
 	bit 3, b
 	jr nz, .asm_16eb6
-	ld a, [$d60c]
+	ld a, [wd60c]
 	res 7, a
-	ld [$d60c], a
+	ld [wd60c], a
 	call Func_16f28
 	jr .asm_16ec1
 
 .asm_16eb6
-	ld a, [$d60c]
+	ld a, [wd60c]
 	set 7, a
-	ld [$d60c], a
+	ld [wd60c], a
 	call Func_16f28
 .asm_16ec1
-	ld a, [$d611]
+	ld a, [wd611]
 	cp $2
 	ret c
 	cp $3
@@ -28519,43 +28519,43 @@ Func_16e51: ; 0x16e51
 	ret nz
 	bit 3, b
 	jr nz, .asm_16ee7
-	ld a, [$d60d]
+	ld a, [wd60d]
 	res 7, a
-	ld [$d60d], a
+	ld [wd60d], a
 	add $14
 	call Func_16f28
 	ret
 
 .asm_16ee7
-	ld a, [$d60d]
+	ld a, [wd60d]
 	set 7, a
-	ld [$d60d], a
+	ld [wd60d], a
 	add $14
 	call Func_16f28
 	ret
 
 Func_16ef5: ; 0x16ef5
-	ld a, [$d5ca]
+	ld a, [wd5ca]
 	and a
 	ret nz
-	ld a, [$d613]
+	ld a, [wd613]
 	and a
 	ret z
 	xor a
-	ld [$d613], a
+	ld [wd613], a
 	call Func_30e8
 	call Func_30db
-	ld hl, $d5cc
+	ld hl, wd5cc
 	ld de, BonusMultiplierText
 	call LoadTextHeader
 	ld hl, wcBottomMessageText + $12
-	ld a, [$d614]
+	ld a, [wd614]
 	and $7f
 	jr z, .asm_16f1f
 	add $30
 	ld [hli], a
 .asm_16f1f
-	ld a, [$d615]
+	ld a, [wd615]
 	res 7, a
 	add $30
 	ld [hl], a
@@ -28578,10 +28578,10 @@ Func_16f28: ; 0x16f28
 Func_16f38: ; 0x16f38
 	push af
 	res 7, a
-	ld hl, $d60e
+	ld hl, wd60e
 	cp $14
 	jr c, .asm_16f47
-	ld hl, $d60f
+	ld hl, wd60f
 	sub $a
 .asm_16f47
 	cp [hl]
@@ -28637,7 +28637,7 @@ Func_16f7b: ; 0x16f7b
 	ret
 
 Func_16f95: ; 0x16f95
-	ld a, [$d482]
+	ld a, [wd482]
 	inc a
 	cp $64
 	jr c, .asm_16f9f
@@ -28660,10 +28660,10 @@ Func_16f95: ; 0x16f95
 	push af
 	swap a
 	and $f
-	ld [$d60c], a
+	ld [wd60c], a
 	pop af
 	and $f
-	ld [$d60d], a
+	ld [wd60d], a
 	ret
 
 Data_16fc1:
@@ -28699,39 +28699,39 @@ Func_174d4: ; 0x174d4
 	ret
 
 Func_174ea: ; 0x174ea
-	ld a, [$d624]
-	ld hl, $d625
+	ld a, [wd624]
+	ld hl, wd625
 	cp [hl]
 	ret z
-	ld a, [$d626]
+	ld a, [wd626]
 	dec a
-	ld [$d626], a
+	ld [wd626], a
 	jr nz, .asm_17514
-	ld a, [$d625]
-	ld [$d624], a
+	ld a, [wd625]
+	ld [wd624], a
 	cp $3
 	jr c, .asm_1750f
 	ld a, $1
-	ld [$d609], a
+	ld [wd609], a
 	ld a, $3
-	ld [$d607], a
+	ld [wd607], a
 .asm_1750f
-	ld a, [$d624]
+	ld a, [wd624]
 	scf
 	ret
 
 .asm_17514
 	and $7
 	ret nz
-	ld a, [$d626]
+	ld a, [wd626]
 	bit 3, a
 	jr nz, .asm_17523
-	ld a, [$d624]
+	ld a, [wd624]
 	scf
 	ret
 
 .asm_17523
-	ld a, [$d625]
+	ld a, [wd625]
 	scf
 	ret
 
@@ -28767,25 +28767,25 @@ Func_1757e: ; 0x1757e
 	ret
 
 Func_175a4: ; 0x175a4
-	ld a, [$d57d]
+	ld a, [wd57d]
 	and a
 	ret z
 	ld a, [hGameBoyColorFlag]
 	and a
 	jr nz, DrawTimer
-	ld a, [$d580]
+	ld a, [wd580]
 	and a
 	ret z
-	ld a, [$d581]
+	ld a, [wd581]
 	and a
 	jr z, .asm_175be
 	dec a
-	ld [$d581], a
+	ld [wd581], a
 	ret
 
 .asm_175be
 	call Func_1762f
-	ld hl, $d582
+	ld hl, wd582
 	ld a, [wTimerMinutes]
 	and $f
 	call Func_1764f
@@ -28896,7 +28896,7 @@ Data_17679:
 	dr $17679, $17c67
 
 Func_17c67: ; 0x17c67
-	ld a, [$d5f3]
+	ld a, [wd5f3]
 	and a
 	ret z
 	ld a, $50
@@ -28920,7 +28920,7 @@ Data_17c89:
 	dr $17c89, $17c96
 
 Func_17c96: ; 0x17c96
-	ld a, [$d5bb]
+	ld a, [wd5bb]
 	and a
 	ret z
 	ld a, $50
@@ -28931,7 +28931,7 @@ Func_17c96: ; 0x17c96
 	ld hl, hBoardYShift
 	sub [hl]
 	ld c, a
-	ld a, [$d5bd]
+	ld a, [wd5bd]
 	ld e, a
 	ld d, $0
 	ld hl, Data_17cb8
@@ -28944,13 +28944,13 @@ Data_17cb8:
 	dr $17cb8, $17cc4
 
 Func_17cc4: ; 0x17cc4
-	ld de, $d4cd
+	ld de, wd4cd
 	ld hl, Data_17d15
 	call Func_17cdc
-	ld de, $d4d0
+	ld de, wd4d0
 	ld hl, Data_17d1b
 	call Func_17cdc
-	ld de, $d4d3
+	ld de, wd4d3
 	ld hl, Data_17d21
 	; fall through
 
@@ -28984,7 +28984,7 @@ Func_17cdc: ; 0x17cdc
 	ld a, [hli]
 	sub c
 	ld c, a
-	ld a, [$d4d7]
+	ld a, [wd4d7]
 	sub [hl]
 	inc hl
 	jr z, .asm_17d0c
@@ -29072,16 +29072,16 @@ Func_17d92: ; 0x17d92
 	and a
 	ret z
 	ld hl, Data_17dd0
-	ld de, $d504
+	ld de, wd504
 	call UpdateAnimation
-	ld a, [$d504]
+	ld a, [wd504]
 	and a
 	jr nz, .asm_17db1
 	ld a, $13
-	ld [$d504], a
+	ld [wd504], a
 	xor a
-	ld [$d505], a
-	ld [$d506], a
+	ld [wd505], a
+	ld [wd506], a
 .asm_17db1
 	ld a, $2b
 	ld hl, hBoardXShift
@@ -29091,7 +29091,7 @@ Func_17d92: ; 0x17d92
 	ld hl, hBoardYShift
 	sub [hl]
 	ld c, a
-	ld a, [$d505]
+	ld a, [wd505]
 	ld e, a
 	ld d, $0
 	ld hl, Data_17dce
@@ -29115,7 +29115,7 @@ Func_17de1: ; 0x17de1
 	ld hl, hBoardYShift
 	sub [hl]
 	ld c, a
-	ld a, [$d50a]
+	ld a, [wd50a]
 	srl a
 	srl a
 	ld e, a
@@ -29134,11 +29134,11 @@ Func_17e08: ; 0x17e08
 	ld d, a
 	ld a, [hBoardYShift]
 	ld e, a
-	ld a, [$d51d]
+	ld a, [wd51d]
 	and a
-	ld a, [$d518]
+	ld a, [wd518]
 	jr z, .asm_17e33
-	ld a, [$d51c]
+	ld a, [wd51c]
 	and a
 	jr nz, .asm_17e29
 	ld a, [$ffb3]
@@ -29149,7 +29149,7 @@ Func_17e08: ; 0x17e08
 	jr .asm_17e33
 
 .asm_17e29
-	ld a, [$d4b4]
+	ld a, [wd4b4]
 	cp $50
 	ld a, $1
 	jr nc, .asm_17e33
@@ -29175,7 +29175,7 @@ Data_17e4b:
 	dr $17e4b, $17e81
 
 Func_17e81: ; 0x17e81
-	ld a, [$d548]
+	ld a, [wd548]
 	and a
 	ret z
 	ld hl, wBallSpin
@@ -29210,18 +29210,18 @@ Func_17e81: ; 0x17e81
 	ld a, [$fffb]
 	and a
 	ret nz
-	ld a, [$d4c5]
+	ld a, [wd4c5]
 	inc a
 	ld hl, hBoardXShift
 	sub [hl]
 	ld b, a
-	ld a, [$d4c6]
+	ld a, [wd4c6]
 	inc a
 	sub $10
 	ld hl, hBoardYShift
 	sub [hl]
 	ld c, a
-	ld a, [$d4c7]
+	ld a, [wd4c7]
 	srl a
 	srl a
 	srl a
@@ -29230,15 +29230,15 @@ Func_17e81: ; 0x17e81
 	add $0
 	call LoadOAMData
 	ld a, [wBallXPos + 1]
-	ld [$d4c5], a
+	ld [wd4c5], a
 	ld a, [wBallYPos + 1]
-	ld [$d4c6], a
+	ld [wd4c6], a
 	ld a, [wBallRotation]
-	ld [$d4c7], a
+	ld [wd4c7], a
 	ret
 
 Func_17efb: ; 0x17efb
-	ld a, [$d551]
+	ld a, [wd551]
 	and a
 	ret nz
 	ld a, [$ffb3]
@@ -29250,7 +29250,7 @@ Func_17efb: ; 0x17efb
 	jr asm_17f21
 
 Func_17f0f: ; 0x17f0f
-	ld a, [$d551]
+	ld a, [wd551]
 	and a
 	ret nz
 	ld a, [$ffb3]
@@ -29288,20 +29288,20 @@ Data_17f4c:
 	dr $17f4c, $17f64
 
 Func_17f64: ; 0x17f64
-	ld a, [$d551]
+	ld a, [wd551]
 	and a
 	ret z
-	ld de, $d566
+	ld de, wd566
 	ld hl, Data_17fa6
 	ld b, $c
 	ld c, $39
 	jr asm_17f84
 
 Func_17f75: ; 0x17f75
-	ld a, [$d551]
+	ld a, [wd551]
 	and a
 	ret z
-	ld de, $d572
+	ld de, wd572
 	ld hl, Data_17fbe
 	ld b, $6
 	ld c, $40
@@ -29341,12 +29341,12 @@ Data_17fbe:
 	dr $17fbe, $17fca
 
 Func_17fca: ; 0x17fca
-	ld a, [$d604]
+	ld a, [wd604]
 	and a
 	ret z
-	ld a, [$d606]
+	ld a, [wd606]
 	inc a
-	ld [$d606], a
+	ld [wd606], a
 	ld a, $40
 	ld hl, hBoardXShift
 	sub [hl]
@@ -29355,7 +29355,7 @@ Func_17fca: ; 0x17fca
 	ld hl, hBoardYShift
 	sub [hl]
 	ld c, a
-	ld a, [$d606]
+	ld a, [wd606]
 	srl a
 	srl a
 	srl a
@@ -29378,11 +29378,11 @@ Func_18000: ; 0x18000
 	call ClearData
 	xor a
 	ld [rVBK], a
-	ld hl, $d4cb
+	ld hl, wd4cb
 	ld bc, $032e
 	call ClearData
 	xor a
-	ld hl, $d46f
+	ld hl, wd46f
 	ld [hld], a
 	ld [hld], a
 	ld [hld], a
@@ -29390,12 +29390,12 @@ Func_18000: ; 0x18000
 	ld [hld], a
 	ld [hl], a
 	ld [wNumPartyMons], a
-	ld [$d49b], a
-	ld [$d4c9], a
+	ld [wd49b], a
+	ld [wd4c9], a
 	ld a, $1
-	ld [$d49d], a
+	ld [wd49d], a
 	ld a, $3
-	ld [$d49e], a
+	ld [wd49e], a
 	ld [$ff8a], a
 	callba Func_dbba
 	ret
@@ -29446,41 +29446,41 @@ Func_18084: ; 0x18084
 	ret
 
 InitGengarBonusStage: ; 0x18099
-	ld a, [$d7c1]
+	ld a, [wd7c1]
 	and a
 	jr z, .asm_180ac
 	xor a
-	ld [$d674], a
+	ld [wd674], a
 	ld a, $8
-	ld [$d690], a
-	ld [$d6a1], a
+	ld [wd690], a
+	ld [wd6a1], a
 	ret
 
 .asm_180ac
 	ld a, $1
-	ld [$d7ac], a
+	ld [wd7ac], a
 	ld a, [wBallType]
 	ld [wBallTypeBackup], a
 	xor a
-	ld [$d4c8], a
+	ld [wd4c8], a
 	ld [wBallType], a
-	ld [$d49a], a
+	ld [wd49a], a
 	ld hl, Data_18121 ; todo
-	ld de, $d659
+	ld de, wd659
 	call Func_18112
 	call Func_18112
 	call Func_18112
 	ld hl, Data_1813c ; todo
-	ld de, $d67e
+	ld de, wd67e
 	call Func_18112
 	call Func_18112
 	ld hl, Data_1814e ; todo
-	ld de, $d698
+	ld de, wd698
 	call Func_18112
 	xor a
-	ld [$d67b], a
-	ld [$d695], a
-	ld hl, $d6a2
+	ld [wd67b], a
+	ld [wd695], a
+	ld hl, wd6a2
 	ld [hli], a
 	ld [hli], a
 	ld [hli], a
@@ -29488,7 +29488,7 @@ InitGengarBonusStage: ; 0x18099
 	ld [hli], a
 	ld [hli], a
 	ld [hli], a
-	ld [$d656], a
+	ld [wd656], a
 	ld bc, $0130  ; 1 minute 30 seconds
 	ld [$ff8a], a
 	callba StartTimer
@@ -29533,19 +29533,19 @@ StartBallGengarBonusStage: ; 0x18157
 	ld a, $56
 	ld [wBallYPos + 1], a
 	xor a
-	ld [$d7ab], a
+	ld [wd7ab], a
 	ld [wStageCollisionState], a
-	ld [$d653], a
+	ld [wd653], a
 	xor a
-	ld [$d674], a
+	ld [wd674], a
 	ld a, $8
-	ld [$d690], a
-	ld [$d6a1], a
-	ld a, [$d4c9]
+	ld [wd690], a
+	ld [wd6a1], a
+	ld a, [wd4c9]
 	and a
 	ret z
 	xor a
-	ld [$d4c9], a
+	ld [wd4c9], a
 	ret
 
 Func_1818b: ; 0x1818b
@@ -29553,7 +29553,7 @@ Func_1818b: ; 0x1818b
 	callba Func_142fc
 	call Func_2862
 	call Func_18d72
-	ld a, [$d7c1]
+	ld a, [wd7c1]
 	ld [$ff8a], a
 	callba Func_1404a
 	and a
@@ -29570,42 +29570,42 @@ Func_181b1: ; 0x181b1
 	ret
 
 Func_181be: ; 0x181be
-	ld a, [$d659]
+	ld a, [wd659]
 	and a
 	ret z
-	ld a, [$d65f]
+	ld a, [wd65f]
 	ld b, a
-	ld a, [$d661]
+	ld a, [wd661]
 	add $10
 	ld c, a
-	ld a, [$d65b]
+	ld a, [wd65b]
 	call Func_1820d
 	ld a, $1
 	jr c, .asm_181fe
-	ld a, [$d668]
+	ld a, [wd668]
 	ld b, a
-	ld a, [$d66a]
+	ld a, [wd66a]
 	add $10
 	ld c, a
-	ld a, [$d664]
+	ld a, [wd664]
 	call Func_1820d
 	ld a, $2
 	jr c, .asm_181fe
-	ld a, [$d671]
+	ld a, [wd671]
 	ld b, a
-	ld a, [$d673]
+	ld a, [wd673]
 	add $10
 	ld c, a
-	ld a, [$d66d]
+	ld a, [wd66d]
 	call Func_1820d
 	ld a, $3
 	ret nc
 .asm_181fe
-	ld [$d4eb], a
-	ld [$d657], a
+	ld [wd4eb], a
+	ld [wd657], a
 	add $4
-	ld [$d4ea], a
-	ld [$d658], a
+	ld [wd4ea], a
+	ld [wd658], a
 	ret
 
 Func_1820d: ; 0x1820d
@@ -29643,9 +29643,9 @@ Func_1820d: ; 0x1820d
 	bit 7, a
 	jr nz, .asm_18257
 	sla a
-	ld [$d7ea], a
+	ld [wd7ea], a
 	ld a, $1
-	ld [$d7e9], a
+	ld [wd7e9], a
 	scf
 	ret
 
@@ -29654,35 +29654,35 @@ Func_1820d: ; 0x1820d
 	ret
 
 Func_18259: ; 0x18259
-	ld a, [$d67e]
+	ld a, [wd67e]
 	and a
 	ret z
-	ld a, [$d684]
+	ld a, [wd684]
 	add $fe
 	ld b, a
-	ld a, [$d686]
+	ld a, [wd686]
 	add $c
 	ld c, a
-	ld a, [$d680]
+	ld a, [wd680]
 	call Func_18298
 	ld a, $1
 	jr c, .asm_18289
-	ld a, [$d68d]
+	ld a, [wd68d]
 	add $fe
 	ld b, a
-	ld a, [$d68f]
+	ld a, [wd68f]
 	add $c
 	ld c, a
-	ld a, [$d689]
+	ld a, [wd689]
 	call Func_18298
 	ld a, $2
 	ret nc
 .asm_18289
-	ld [$d4eb], a
-	ld [$d67c], a
+	ld [wd4eb], a
+	ld [wd67c], a
 	add $7
-	ld [$d4ea], a
-	ld [$d67d], a
+	ld [wd4ea], a
+	ld [wd67d], a
 	ret
 
 Func_18298: ; 0x18298
@@ -29720,9 +29720,9 @@ Func_18298: ; 0x18298
 	bit 7, a
 	jr nz, .asm_182e2
 	sla a
-	ld [$d7ea], a
+	ld [wd7ea], a
 	ld a, $1
-	ld [$d7e9], a
+	ld [wd7e9], a
 	scf
 	ret
 
@@ -29731,22 +29731,22 @@ Func_18298: ; 0x18298
 	ret
 
 Func_182e4: ; 0x182e4
-	ld a, [$d698]
+	ld a, [wd698]
 	and a
 	ret z
-	ld a, [$d69e]
+	ld a, [wd69e]
 	ld b, a
-	ld a, [$d6a0]
+	ld a, [wd6a0]
 	add $c
 	ld c, a
 	call Func_18308
 	ld a, $1
 	ret nc
-	ld [$d4eb], a
-	ld [$d696], a
+	ld [wd4eb], a
+	ld [wd696], a
 	add $9
-	ld [$d4ea], a
-	ld [$d697], a
+	ld [wd4ea], a
+	ld [wd697], a
 	ret
 
 Func_18308: ; 0x18308
@@ -29783,9 +29783,9 @@ Func_18308: ; 0x18308
 	bit 7, a
 	jr nz, .asm_1834e
 	sla a
-	ld [$d7ea], a
+	ld [wd7ea], a
 	ld a, $1
-	ld [$d7e9], a
+	ld [wd7e9], a
 	scf
 	ret
 
@@ -29796,7 +29796,7 @@ Func_18308: ; 0x18308
 Func_18350: ; 0x18350
 	ld de, Data_18368
 	ld hl, Data_1835d
-	ld bc, $d654
+	ld bc, wd654
 	and a
 	jp Func_2775
 
@@ -29814,33 +29814,33 @@ Func_18377: ; 0x18377
 	call Func_183b7
 	ld [$ff8a], a
 	callba Func_107f8
-	ld a, [$d57e]
+	ld a, [wd57e]
 	and a
 	ret z
 	xor a
-	ld [$d57e], a
+	ld [wd57e], a
 	ld a, $1
-	ld [$d7be], a
+	ld [wd7be], a
 	call Func_2862
 	ld [$ff8a], a
 	callba Func_86d2
-	ld a, [$d6a2]
+	ld a, [wd6a2]
 	cp $5
 	ret nc
 	ld a, $1
-	ld [$d6a8], a
+	ld [wd6a8], a
 	ret
 
 Func_183b7: ; 0x183b7
-	ld a, [$d653]
+	ld a, [wd653]
 	and a
 	ret nz
-	ld a, [$d4b4]
+	ld a, [wd4b4]
 	cp $8a
 	ret nc
 	ld a, $1
 	ld [wStageCollisionState], a
-	ld [$d653], a
+	ld [wd653], a
 	ld [$ff8a], a
 	callba LoadStageCollisionAttributes
 	call Func_183db
@@ -29873,18 +29873,18 @@ Data_1842e:
 	dr $1842e, $18464
 
 Func_18464: ; 0x18464
-	ld a, [$d659]
+	ld a, [wd659]
 	and a
 	ret z
-	ld a, [$d657]
+	ld a, [wd657]
 	and a
 	jr z, .asm_184d5
 	xor a
-	ld [$d657], a
-	ld a, [$d7be]
+	ld [wd657], a
+	ld a, [wd7be]
 	and a
 	jr nz, .asm_184d5
-	ld a, [$d658]
+	ld a, [wd658]
 	sub $5
 	ld c, a
 	sla a
@@ -29893,7 +29893,7 @@ Func_18464: ; 0x18464
 	add c
 	ld c, a
 	ld b, $0
-	ld hl, $d65d
+	ld hl, wd65d
 	add hl, bc
 	ld d, h
 	ld e, l
@@ -29909,43 +29909,43 @@ Func_18464: ; 0x18464
 	pop de
 	ld a, $1
 	ld [de], a
-	ld a, [$d67b]
+	ld a, [wd67b]
 	inc a
-	ld [$d67b], a
+	ld [wd67b], a
 	ld bc, TenMillionPoints
 	ld [$ff8a], a
 	callba Func_8588
 	ld a, $33
-	ld [$d803], a
+	ld [wd803], a
 	ld a, $8
-	ld [$d804], a
+	ld [wd804], a
 	ld hl, $0100
 	ld a, l
-	ld [$d7bc], a
+	ld [wd7bc], a
 	ld a, h
-	ld [$d7bd], a
+	ld [wd7bd], a
 	ld a, $80
 	ld [wFlipperCollision], a
 	ld de, $002c
 	call PlaySoundEffect
 .asm_184d5
 	ld bc, $0830
-	ld de, $d65d
-	ld hl, $d675
+	ld de, wd65d
+	ld hl, wd675
 	call Func_1850c
 	ld bc, $5078
-	ld de, $d666
-	ld hl, $d677
+	ld de, wd666
+	ld hl, wd677
 	call Func_1850c
 	ld bc, $3050
-	ld de, $d66f
-	ld hl, $d679
+	ld de, wd66f
+	ld hl, wd679
 	call Func_1850c
-	ld de, $d65d
+	ld de, wd65d
 	call Func_18562
-	ld de, $d666
+	ld de, wd666
 	call Func_18562
-	ld de, $d66f
+	ld de, wd66f
 	call Func_18562
 	ret
 
@@ -30038,33 +30038,33 @@ Func_18562: ; 0x18562
 	ld a, [de]
 	cp $12
 	ret nz
-	ld a, [$d67b]
+	ld a, [wd67b]
 	cp $a
 	jr nz, .asm_185b1
 	ld a, $1
-	ld [$d67e], a
-	ld [$d687], a
+	ld [wd67e], a
+	ld [wd687], a
 	xor a
-	ld [$d659], a
-	ld [$d662], a
-	ld [$d66b], a
+	ld [wd659], a
+	ld [wd662], a
+	ld [wd66b], a
 	ld de, $0006
 	call PlaySong
 	ret
 
 .asm_185b1
 	ld c, a
-	ld a, [$d65d]
+	ld a, [wd65d]
 	and a
 	jr nz, .asm_185b9
 	inc c
 .asm_185b9
-	ld a, [$d666]
+	ld a, [wd666]
 	and a
 	jr nz, .asm_185c0
 	inc c
 .asm_185c0
-	ld a, [$d66f]
+	ld a, [wd66f]
 	and a
 	jr nz, .asm_185c7
 	inc c
@@ -30093,18 +30093,18 @@ Data_185e6:
 	dr $185e6, $1860b
 
 Func_1860b: ; 0x1860b
-	ld a, [$d67e]
+	ld a, [wd67e]
 	and a
 	ret z
-	ld a, [$d67c]
+	ld a, [wd67c]
 	and a
 	jr z, .asm_1867c
 	xor a
-	ld [$d67c], a
-	ld a, [$d7be]
+	ld [wd67c], a
+	ld a, [wd7be]
 	and a
 	jr nz, .asm_1867c
-	ld a, [$d67d]
+	ld a, [wd67d]
 	sub $8
 	ld c, a
 	sla a
@@ -30113,7 +30113,7 @@ Func_1860b: ; 0x1860b
 	add c
 	ld c, a
 	ld b, $0
-	ld hl, $d682
+	ld hl, wd682
 	add hl, bc
 	ld d, h
 	ld e, l
@@ -30129,37 +30129,37 @@ Func_1860b: ; 0x1860b
 	pop de
 	ld a, $1
 	ld [de], a
-	ld a, [$d695]
+	ld a, [wd695]
 	inc a
-	ld [$d695], a
+	ld [wd695], a
 	ld bc, FiftyMillionPoints
 	ld [$ff8a], a
 	callba Func_8588
 	ld a, $33
-	ld [$d803], a
+	ld [wd803], a
 	ld a, $8
-	ld [$d804], a
+	ld [wd804], a
 	ld hl, $0100
 	ld a, l
-	ld [$d7bc], a
+	ld [wd7bc], a
 	ld a, h
-	ld [$d7bd], a
+	ld [wd7bd], a
 	ld a, $80
 	ld [wFlipperCollision], a
 	ld de, $002d
 	call PlaySoundEffect
 .asm_1867c
 	ld bc, $5078
-	ld de, $d682
-	ld hl, $d691
+	ld de, wd682
+	ld hl, wd691
 	call Func_186a1
 	ld bc, $1038
-	ld de, $d68b
-	ld hl, $d693
+	ld de, wd68b
+	ld hl, wd693
 	call Func_186a1
-	ld de, $d682
+	ld de, wd682
 	call Func_186f7
-	ld de, $d68b
+	ld de, wd68b
 	call Func_186f7
 	ret
 
@@ -30252,11 +30252,11 @@ Func_186f7: ; 0x186f7
 	ld a, [de]
 	cp $12
 	jr nz, .asm_18761
-	ld a, [$d695]
+	ld a, [wd695]
 	cp $a
 	jr nz, .asm_18740
 	ld a, $1
-	ld [$d656], a
+	ld [wd656], a
 	call Func_18d72
 	call Func_18d91
 	ld de, $0000
@@ -30265,12 +30265,12 @@ Func_186f7: ; 0x186f7
 
 .asm_18740
 	ld c, a
-	ld a, [$d682]
+	ld a, [wd682]
 	and a
 	jr nz, .asm_18748
 	inc c
 .asm_18748
-	ld a, [$d68b]
+	ld a, [wd68b]
 	and a
 	jr nz, .asm_1874f
 	inc c
@@ -30292,14 +30292,14 @@ Func_186f7: ; 0x186f7
 .asm_18761
 	cp $13
 	ret nz
-	ld a, [$d695]
+	ld a, [wd695]
 	cp $a
 	ret nz
 	ld a, $1
-	ld [$d698], a
+	ld [wd698], a
 	xor a
-	ld [$d67e], a
-	ld [$d687], a
+	ld [wd67e], a
+	ld [wd687], a
 	ld de, GENGAR
 	call PlayCry
 	ret
@@ -30314,18 +30314,18 @@ Data_1878a:
 	dr $1878a, $187b1
 
 Func_187b1: ; 0x187b1
-	ld a, [$d698]
+	ld a, [wd698]
 	and a
 	ret z
-	ld a, [$d696]
+	ld a, [wd696]
 	and a
 	jp z, .asm_1885d
 	xor a
-	ld [$d696], a
-	ld a, [$d7be]
+	ld [wd696], a
+	ld a, [wd7be]
 	and a
 	jp nz, .asm_1885d
-	ld a, [$d697]
+	ld a, [wd697]
 	sub $a
 	ld c, a
 	sla a
@@ -30334,7 +30334,7 @@ Func_187b1: ; 0x187b1
 	add c
 	ld c, a
 	ld b, $0
-	ld hl, $d69c
+	ld hl, wd69c
 	add hl, bc
 	ld d, h
 	ld e, l
@@ -30345,9 +30345,9 @@ Func_187b1: ; 0x187b1
 	dec de
 	dec de
 	dec de
-	ld a, [$d6a2]
+	ld a, [wd6a2]
 	inc a
-	ld [$d6a2], a
+	ld [wd6a2], a
 	cp $5
 	jr nc, .asm_18804
 	ld hl, Data_18b2b
@@ -30366,7 +30366,7 @@ Func_187b1: ; 0x187b1
 	ld a, $3
 	ld [de], a
 	ld a, $1
-	ld [$d7be], a
+	ld [wd7be], a
 	call Func_2862
 	ld [$ff8a], a
 	callba Func_86d2
@@ -30377,24 +30377,24 @@ Func_187b1: ; 0x187b1
 	ld [$ff8a], a
 	callba Func_8588
 	ld a, $33
-	ld [$d803], a
+	ld [wd803], a
 	ld a, $8
-	ld [$d804], a
+	ld [wd804], a
 	ld hl, $0200
 	ld a, l
-	ld [$d7bc], a
+	ld [wd7bc], a
 	ld a, h
-	ld [$d7bd], a
+	ld [wd7bd], a
 	ld a, $80
 	ld [wFlipperCollision], a
-	ld a, [$d69f]
+	ld a, [wd69f]
 	add $0
-	ld [$d69f], a
-	ld a, [$d6a0]
+	ld [wd69f], a
+	ld a, [wd6a0]
 	adc $ff
-	ld [$d6a0], a
+	ld [wd6a0], a
 .asm_1885d
-	ld a, [$d69c]
+	ld a, [wd69c]
 	cp $2
 	jr nc, .asm_18869
 	call Func_18876
@@ -30403,141 +30403,141 @@ Func_187b1: ; 0x187b1
 .asm_18869
 	call Func_188e1
 .asm_1886c
-	ld de, $d69c
+	ld de, wd69c
 	call Func_189af
 	call Func_1894c
 	ret
 
 Func_18876: ; 0x18876
-	ld a, [$d6a3]
+	ld a, [wd6a3]
 	cp $1
 	jr z, .asm_1889b
 	cp $2
 	jr z, .asm_1889b
-	ld a, [$d69a]
+	ld a, [wd69a]
 	cp $1
 	jr z, .asm_1888c
 	cp $2
 	jr nz, .asm_1889b
 .asm_1888c
 	ld a, $1
-	ld [$d6a4], a
+	ld [wd6a4], a
 	ld a, $11
-	ld [$d803], a
+	ld [wd803], a
 	ld a, $8
-	ld [$d804], a
+	ld [wd804], a
 .asm_1889b
-	ld a, [$d69a]
-	ld hl, $d6a3
+	ld a, [wd69a]
+	ld hl, wd6a3
 	cp [hl]
 	ret z
-	ld a, [$d69c]
+	ld a, [wd69c]
 	and a
 	jr nz, .asm_188da
-	ld a, [$d6a0]
+	ld a, [wd6a0]
 	add $80
 	cp $a0
 	jr nc, .asm_188da
-	ld a, [$d69a]
+	ld a, [wd69a]
 	and a
 	jr z, .asm_188ca
-	ld a, [$d69f]
+	ld a, [wd69f]
 	add $0
-	ld [$d69f], a
-	ld a, [$d6a0]
+	ld [wd69f], a
+	ld a, [wd6a0]
 	adc $3
-	ld [$d6a0], a
+	ld [wd6a0], a
 	jr .asm_188da
 
 .asm_188ca
-	ld a, [$d69f]
+	ld a, [wd69f]
 	add $0
-	ld [$d69f], a
-	ld a, [$d6a0]
+	ld [wd69f], a
+	ld a, [wd6a0]
 	adc $1
-	ld [$d6a0], a
+	ld [wd6a0], a
 .asm_188da
-	ld a, [$d69a]
-	ld [$d6a3], a
+	ld a, [wd69a]
+	ld [wd6a3], a
 	ret
 
 Func_188e1: ; 0x188e1
-	ld a, [$d6a3]
+	ld a, [wd6a3]
 	cp $1
 	jr z, .asm_18901
 	cp $2
 	jr z, .asm_18901
-	ld a, [$d69a]
+	ld a, [wd69a]
 	cp $1
 	jr z, .asm_188f7
 	cp $2
 	jr nz, .asm_18901
 .asm_188f7
 	ld a, $1
-	ld [$d803], a
+	ld [wd803], a
 	ld a, $8
-	ld [$d804], a
+	ld [wd804], a
 .asm_18901
-	ld a, [$d69a]
+	ld a, [wd69a]
 	cp $6
 	ret z
-	ld a, [$d69a]
-	ld hl, $d6a3
+	ld a, [wd69a]
+	ld hl, wd6a3
 	cp [hl]
 	ret z
-	ld a, [$d69c]
+	ld a, [wd69c]
 	cp $3
 	jr nz, .asm_1891d
-	ld a, [$d69b]
+	ld a, [wd69b]
 	cp $9
 	jr c, .asm_18945
 .asm_1891d
-	ld a, [$d69a]
+	ld a, [wd69a]
 	and a
 	jr z, .asm_18935
-	ld a, [$d69f]
+	ld a, [wd69f]
 	add $0
-	ld [$d69f], a
-	ld a, [$d6a0]
+	ld [wd69f], a
+	ld a, [wd6a0]
 	adc $fd
-	ld [$d6a0], a
+	ld [wd6a0], a
 	jr .asm_18945
 
 .asm_18935
-	ld a, [$d69f]
+	ld a, [wd69f]
 	add $0
-	ld [$d69f], a
-	ld a, [$d6a0]
+	ld [wd69f], a
+	ld a, [wd6a0]
 	adc $ff
-	ld [$d6a0], a
+	ld [wd6a0], a
 .asm_18945
-	ld a, [$d69a]
-	ld [$d6a3], a
+	ld a, [wd69a]
+	ld [wd6a3], a
 	ret
 
 Func_1894c: ; 0x1894c
-	ld a, [$d6a6]
+	ld a, [wd6a6]
 	and a
 	jr nz, .asm_1898f
-	ld a, [$d6a4]
+	ld a, [wd6a4]
 	and a
 	jr z, .asm_1898f
-	ld a, [$d6a5]
+	ld a, [wd6a5]
 	cp $3
 	jr z, .asm_18980
 	inc a
-	ld [$d6a5], a
-	ld a, [$d548]
-	ld hl, $d549
+	ld [wd6a5], a
+	ld a, [wd548]
+	ld hl, wd549
 	and [hl]
 	jr z, .asm_18973
-	ld a, [$d4b6]
+	ld a, [wd4b6]
 	inc a
-	ld [$d4b6], a
+	ld [wd4b6], a
 .asm_18973
-	ld a, [$d7a0]
+	ld a, [wd7a0]
 	dec a
-	ld [$d7a0], a
+	ld [wd7a0], a
 	ld a, $1
 	ld [wUpperTiltPushing], a
 	ret
@@ -30546,28 +30546,28 @@ Func_1894c: ; 0x1894c
 	ld de, $002b
 	call PlaySoundEffect
 	ld a, $1
-	ld [$d6a6], a
+	ld [wd6a6], a
 	xor a
-	ld [$d6a4], a
+	ld [wd6a4], a
 .asm_1898f
 	xor a
 	ld [wUpperTiltPushing], a
-	ld a, [$d6a5]
+	ld a, [wd6a5]
 	and a
 	jr z, .asm_189a5
 	dec a
-	ld [$d6a5], a
-	ld a, [$d7a0]
+	ld [wd6a5], a
+	ld a, [wd7a0]
 	inc a
-	ld [$d7a0], a
+	ld [wd7a0], a
 	ret
 
 .asm_189a5
-	ld a, [$d6a4]
+	ld a, [wd6a4]
 	and a
 	ret nz
 	xor a
-	ld [$d6a6], a
+	ld [wd6a6], a
 	ret
 
 Func_189af: ; 0x189af
@@ -30648,14 +30648,14 @@ Func_189af: ; 0x189af
 	cp $fe
 	ret nz
 	ld a, $1
-	ld [$d6a8], a
+	ld [wd6a8], a
 	ld a, $1
-	ld [$d498], a
+	ld [wd498], a
 	ld a, $1
-	ld [$d49a], a
+	ld [wd49a], a
 	call Func_30e8
 	call Func_30db
-	ld hl, $d5dc
+	ld hl, wd5dc
 	ld de, Data_2f7b
 	call LoadTextHeader
 	ld de, $4b2a
@@ -30697,26 +30697,26 @@ Data_18b32:
 	dr $18b32, $18d34
 
 Func_18d34: ; 0x18d34
-	ld a, [$d654]
+	ld a, [wd654]
 	and a
 	jr z, .asm_18d71
 	xor a
-	ld [$d654], a
-	ld a, [$d7be]
+	ld [wd654], a
+	ld a, [wd7be]
 	and a
 	jr nz, .asm_18d71
 	ld bc, OneHundredMillionPoints
 	ld [$ff8a], a
 	callba Func_8588
 	ld a, $ff
-	ld [$d803], a
+	ld [wd803], a
 	ld a, $3
-	ld [$d804], a
+	ld [wd804], a
 	ld hl, $0100
 	ld a, l
-	ld [$d7bc], a
+	ld [wd7bc], a
 	ld a, h
-	ld [$d7bd], a
+	ld [wd7bd], a
 	ld a, $80
 	ld [wFlipperCollision], a
 	ld de, $002f
@@ -30725,7 +30725,7 @@ Func_18d34: ; 0x18d34
 	ret
 
 Func_18d72: ; 0x18d72
-	ld a, [$d656]
+	ld a, [wd656]
 	sla a
 	ld c, a
 	ld b, $0
@@ -30746,19 +30746,19 @@ Func_18d72: ; 0x18d72
 	ret
 
 Func_18d91: ; 0x18d91
-	ld a, [$d656]
+	ld a, [wd656]
 	and a
 	ld hl, Data_18dc9
 	jr z, .asm_18d9d
 	ld hl, Data_18dd2
 .asm_18d9d
-	ld de, $c7c7
+	ld de, wc7c7
 	call Func_18db2
-	ld de, $c7ae
+	ld de, wc7ae
 	call Func_18db2
-	ld de, $c823
+	ld de, wc823
 	call Func_18db2
-	ld de, $c84d
+	ld de, wc84d
 	; fall through
 
 Func_18db2: ; 0x18db2
@@ -30813,47 +30813,47 @@ Func_18fda:
 	ld a, [hNewlyPressedButtons]
 	bit 6, a
 	ret z
-	ld a, [$d659]
+	ld a, [wd659]
 	and a
 	jr z, .asm_18ff8
 	ld a, $1
-	ld [$d67e], a
-	ld [$d687], a
+	ld [wd67e], a
+	ld [wd687], a
 	xor a
-	ld [$d659], a
-	ld [$d662], a
-	ld [$d66b], a
+	ld [wd659], a
+	ld [wd662], a
+	ld [wd66b], a
 	ret
 
 .asm_18ff8
-	ld a, [$d67e]
+	ld a, [wd67e]
 	and a
 	jr z, .asm_1900b
 	ld a, $1
-	ld [$d698], a
+	ld [wd698], a
 	xor a
-	ld [$d67e], a
-	ld [$d687], a
+	ld [wd67e], a
+	ld [wd687], a
 	ret
 
 .asm_1900b
-	ld a, [$d698]
+	ld a, [wd698]
 	and a
 	ret z
 	ld a, $1
-	ld [$d659], a
-	ld [$d662], a
-	ld [$d66b], a
+	ld [wd659], a
+	ld [wd662], a
+	ld [wd66b], a
 	xor a
-	ld [$d698], a
+	ld [wd698], a
 	ret
 
 Func_19020: ; 0x19020
-	ld de, $d659
+	ld de, wd659
 	call Func_19033
-	ld de, $d662
+	ld de, wd662
 	call Func_19033
-	ld de, $d66b
+	ld de, wd66b
 	call Func_19033
 	ret
 
@@ -30906,12 +30906,12 @@ Data_1906b:
 	dr $1906b, $19070
 
 Func_19070: ; 0x19070
-	ld a, [$d674]
+	ld a, [wd674]
 	and a
 	ret z
 	push de
 	dec a
-	ld [$d674], a
+	ld [wd674], a
 	sla a
 	sla a
 	ld c, a
@@ -30929,12 +30929,12 @@ Func_19070: ; 0x19070
 	ld bc, $0060
 	call Func_735
 	ld a, $8
-	ld [$d690], a
-	ld [$d6a1], a
+	ld [wd690], a
+	ld [wd6a1], a
 	xor a
-	ld [$d67e], a
-	ld [$d687], a
-	ld [$d698], a
+	ld [wd67e], a
+	ld [wd687], a
+	ld [wd698], a
 	pop de
 	scf
 	ret
@@ -30943,9 +30943,9 @@ Data_190a9:
 	dr $190a9, $190b9
 
 Func_190b9: ; 0x190b9
-	ld de, $d67e
+	ld de, wd67e
 	call Func_190c6
-	ld de, $d687
+	ld de, wd687
 	call Func_190c6
 	ret
 
@@ -30998,12 +30998,12 @@ Data_190fe:
 	dr $190fe, $19104
 
 Func_19104: ; 0x19104
-	ld a, [$d690]
+	ld a, [wd690]
 	and a
 	ret z
 	push de
 	dec a
-	ld [$d690], a
+	ld [wd690], a
 	sla a
 	sla a
 	sla a
@@ -31025,14 +31025,14 @@ Func_19104: ; 0x19104
 	ld a, $21
 	call Func_735
 	ld a, $4
-	ld [$d674], a
+	ld [wd674], a
 	ld a, $8
-	ld [$d6a1], a
+	ld [wd6a1], a
 	xor a
-	ld [$d659], a
-	ld [$d662], a
-	ld [$d66b], a
-	ld [$d698], a
+	ld [wd659], a
+	ld [wd662], a
+	ld [wd66b], a
+	ld [wd698], a
 	pop de
 	scf
 	ret
@@ -31041,7 +31041,7 @@ Data_19145:
 	dr $19145, $19185
 
 Func_19185: ; 0x19185
-	ld de, $d698
+	ld de, wd698
 	call Func_1918c
 	ret
 
@@ -31094,12 +31094,12 @@ Data_191c4:
 	dr $191c4, $191cb
 
 Func_191cb: ; 0x191cb
-	ld a, [$d6a1]
+	ld a, [wd6a1]
 	and a
 	ret z
 	push de
 	dec a
-	ld [$d6a1], a
+	ld [wd6a1], a
 	sla a
 	sla a
 	sla a
@@ -31121,15 +31121,15 @@ Func_191cb: ; 0x191cb
 	ld a, $26
 	call Func_735
 	ld a, $4
-	ld [$d674], a
+	ld [wd674], a
 	ld a, $8
-	ld [$d690], a
+	ld [wd690], a
 	xor a
-	ld [$d659], a
-	ld [$d662], a
-	ld [$d66b], a
-	ld [$d67e], a
-	ld [$d687], a
+	ld [wd659], a
+	ld [wd662], a
+	ld [wd66b], a
+	ld [wd67e], a
+	ld [wd687], a
 	pop de
 	scf
 	ret
@@ -31138,21 +31138,21 @@ Data_1920f:
 	dr $1920f, $1924f
 
 InitMewtwoBonusStage: ; 0x1924f
-	ld a, [$d7c1]
+	ld a, [wd7c1]
 	and a
 	ret nz
 	xor a
 	ld [wStageCollisionState], a
 	ld a, $1
-	ld [$d7ac], a
+	ld [wd7ac], a
 	ld a, [wBallType]
 	ld [wBallTypeBackup], a
 	xor a
-	ld [$d4c8], a
+	ld [wd4c8], a
 	ld [wBallType], a
-	ld [$d49a], a
+	ld [wd49a], a
 	ld hl, Data_192ab
-	ld de, $d6b6
+	ld de, wd6b6
 	ld b, $c
 .asm_19275
 	ld a, [hli]
@@ -31170,7 +31170,7 @@ InitMewtwoBonusStage: ; 0x1924f
 	dec b
 	jr nz, .asm_19275
 	ld hl, Data_192db
-	ld de, $d6ac
+	ld de, wd6ac
 	ld b, $8
 .asm_1928c
 	ld a, [hli]
@@ -31205,14 +31205,14 @@ StartBallMewtwoBonusStage: ; 0x192e3
 	ld a, $80
 	ld [wBallXVelocity], a
 	xor a
-	ld [$d7ab], a
+	ld [wd7ab], a
 	ld [wStageCollisionState], a
-	ld [$d6a9], a
-	ld a, [$d4c9]
+	ld [wd6a9], a
+	ld a, [wd4c9]
 	and a
 	ret z
 	xor a
-	ld [$d4c9], a
+	ld [wd4c9], a
 	ret
 
 Func_19310: ; 0x19310
@@ -31221,7 +31221,7 @@ Func_19310: ; 0x19310
 	call Func_2862
 	ld [$ff8a], a
 	callba Func_1404a
-	ld a, [$d7c1]
+	ld a, [wd7c1]
 	and a
 	ret z
 	call Func_194ac
@@ -31233,7 +31233,7 @@ Func_19330: ; 0x19330
 	ret
 
 Func_19337: ; 0x19337
-	ld hl, $d6bb
+	ld hl, wd6bb
 	ld bc, $0601
 .asm_1933d
 	push bc
@@ -31264,11 +31264,11 @@ Func_19337: ; 0x19337
 	ret
 
 .asm_19360
-	ld [$d4eb], a
-	ld [$d6b4], a
+	ld [wd4eb], a
+	ld [wd6b4], a
 	add $0
-	ld [$d4ea], a
-	ld [$d6b5], a
+	ld [wd4ea], a
+	ld [wd6b5], a
 	ret
 
 Func_1936f: ; 0x1936f
@@ -31366,13 +31366,13 @@ Func_1936f: ; 0x1936f
 	ld a, h
 	cp $2
 	jr c, .asm_19410
-	ld a, [$d804]
+	ld a, [wd804]
 	and a
 	jr nz, .asm_19410
 	ld a, $5
-	ld [$d803], a
+	ld [wd803], a
 	ld a, $8
-	ld [$d804], a
+	ld [wd804], a
 .asm_19410
 	scf
 	ret
@@ -31382,33 +31382,33 @@ Func_19412: ; 0x19312
 	ret
 
 Func_19414: ; 0x19414
-	ld a, [$d4ea]
+	ld a, [wd4ea]
 	inc a
 	jr nz, .asm_1944f
-	ld a, [$d6aa]
+	ld a, [wd6aa]
 	bit 7, a
 	jr nz, .asm_1944f
-	ld a, [$d7e9]
+	ld a, [wd7e9]
 	and a
 	ret z
-	ld a, [$d7f5]
+	ld a, [wd7f5]
 	sub $10
 	ret c
 	cp $c
 	ret nc
 	ld a, $1
-	ld [$d4eb], a
+	ld [wd4eb], a
 	add $6
-	ld [$d4ea], a
+	ld [wd4ea], a
 	ld b, a
-	ld hl, $d6aa
+	ld hl, wd6aa
 	ld [hl], $0
-	ld a, [$d4ec]
+	ld a, [wd4ec]
 	cp b
 	jr z, .asm_1944f
-	ld a, [$d4eb]
+	ld a, [wd4eb]
 	ld [hli], a
-	ld a, [$d4ea]
+	ld a, [wd4ea]
 	ld [hl], a
 	scf
 	ret
@@ -31423,33 +31423,33 @@ Func_19451: ; 0x19451
 	call Func_1948b
 	ld [$ff8a], a
 	callba Func_107f8
-	ld a, [$d57e]
+	ld a, [wd57e]
 	and a
 	ret z
 	xor a
-	ld [$d57e], a
+	ld [wd57e], a
 	ld a, $1
-	ld [$d7be], a
+	ld [wd7be], a
 	call Func_2862
 	ld [$ff8a], a
 	callba Func_86d2
-	ld a, [$d6b1]
+	ld a, [wd6b1]
 	cp $8
 	ret nc
 	ld a, $1
-	ld [$d6b3], a
+	ld [wd6b3], a
 	ret
 
 Func_1948b: ; 0x1948b
-	ld a, [$d6a9]
+	ld a, [wd6a9]
 	and a
 	ret nz
-	ld a, [$d4b4]
+	ld a, [wd4b4]
 	cp $8a
 	ret nc
 	ld a, $1
 	ld [wStageCollisionState], a
-	ld [$d6a9], a
+	ld [wd6a9], a
 	ld [$ff8a], a
 	callba LoadStageCollisionAttributes
 	call Func_194ac
@@ -31481,36 +31481,36 @@ Data_194fd:
 	dr $194fd, $19531
 
 Func_19531: ; 0x19531
-	ld a, [$d6aa]
+	ld a, [wd6aa]
 	and a
 	jr z, .asm_195a2
 	xor a
-	ld [$d6aa], a
-	ld a, [$d7be]
+	ld [wd6aa], a
+	ld a, [wd7be]
 	and a
 	jr nz, .asm_195a2
-	ld a, [$d6af]
+	ld a, [wd6af]
 	cp $2
 	jr nc, .asm_195a2
 	ld bc, FiftyThousandPoints
 	ld [$ff8a], a
 	callba Func_8588
-	ld a, [$d6b0]
+	ld a, [wd6b0]
 	inc a
 	cp $3
 	jr nz, .asm_19565
-	ld a, [$d6b1]
+	ld a, [wd6b1]
 	inc a
-	ld [$d6b1], a
+	ld [wd6b1], a
 	xor a
 .asm_19565
-	ld [$d6b0], a
+	ld [wd6b0], a
 	call Func_1988e
-	ld a, [$d6b1]
+	ld a, [wd6b1]
 	cp $8
 	jr z, .asm_19582
 	ld a, $2
-	ld de, $d6ae
+	ld de, wd6ae
 	call Func_19679
 	ld de, $0039
 	call PlaySoundEffect
@@ -31518,10 +31518,10 @@ Func_19531: ; 0x19531
 
 .asm_19582
 	ld a, $3
-	ld de, $d6ae
+	ld de, wd6ae
 	call Func_19679
 	ld a, $1
-	ld [$d7be], a
+	ld [wd7be], a
 	call Func_2862
 	ld [$ff8a], a
 	callba Func_86d2
@@ -31529,15 +31529,15 @@ Func_19531: ; 0x19531
 	call PlaySong
 .asm_195a2
 	call Func_195ac
-	ld de, $d6af
+	ld de, wd6af
 	call Func_195f5
 	ret
 
 Func_195ac: ; 0x195ac
-	ld a, [$d6af]
+	ld a, [wd6af]
 	and a
 	ret nz
-	ld hl, $d6bd
+	ld hl, wd6bd
 	ld de, $0008
 	ld b, $6
 .asm_195b9
@@ -31551,7 +31551,7 @@ Func_195ac: ; 0x195ac
 	cp $2
 	ret nz
 	ld a, $1
-	ld de, $d6ae
+	ld de, wd6ae
 	call Func_19679
 	ret
 
@@ -31562,7 +31562,7 @@ Func_195ac: ; 0x195ac
 	ret
 
 Func_195d3: ; 0x195d3
-	ld hl, $d6bd
+	ld hl, wd6bd
 	ld de, $0008
 	ld b, $6
 .asm_195db
@@ -31656,9 +31656,9 @@ Func_19638: ; 0x19638
 	cp $20
 	ret nz
 	ld a, $1
-	ld [$d6b3], a
-	ld a, [$d499]
-	ld [$d498], a
+	ld [wd6b3], a
+	ld a, [wd499]
+	ld [wd498], a
 	ld a, [wNumMewtwoBonusCompletions]
 	cp $2  ; only counts up to 2. Gets reset to 0 when Mew is encountered in Catch 'Em Mode.
 	jr z, .asm_1965e
@@ -31666,10 +31666,10 @@ Func_19638: ; 0x19638
 	ld [wNumMewtwoBonusCompletions], a
 .asm_1965e
 	ld a, $1
-	ld [$d49a], a
+	ld [wd49a], a
 	call Func_30e8
 	call Func_30db
-	ld hl, $d5dc
+	ld hl, wd5dc
 .asm_1966b
 	ld de, Data_2f97
 	call LoadTextHeader
@@ -31701,22 +31701,22 @@ Data_19691:
 	dr $19691, $19701
 
 Func_19701: ; 0x19701
-	ld a, [$d6b4]
+	ld a, [wd6b4]
 	and a
 	jr z, .asm_19742
 	xor a
-	ld [$d6b4], a
-	ld a, [$d7be]
+	ld [wd6b4], a
+	ld a, [wd7be]
 	and a
 	jr nz, .asm_19742
-	ld a, [$d6b5]
+	ld a, [wd6b5]
 	sub $1
 	sla a
 	sla a
 	sla a
 	ld c, a
 	ld b, $0
-	ld hl, $d6ba
+	ld hl, wd6ba
 	add hl, bc
 	ld d, h
 	ld e, l
@@ -31732,29 +31732,29 @@ Func_19701: ; 0x19701
 	ld de, $0038
 	call PlaySoundEffect
 .asm_19742
-	ld de, $d6bd
+	ld de, wd6bd
 	call Func_1978b
-	ld de, $d6c5
+	ld de, wd6c5
 	call Func_1978b
-	ld de, $d6cd
+	ld de, wd6cd
 	call Func_1978b
-	ld de, $d6d5
+	ld de, wd6d5
 	call Func_1978b
-	ld de, $d6dd
+	ld de, wd6dd
 	call Func_1978b
-	ld de, $d6e5
+	ld de, wd6e5
 	call Func_1978b
-	ld de, $d6b6
+	ld de, wd6b6
 	call Func_19833
-	ld de, $d6be
+	ld de, wd6be
 	call Func_19833
-	ld de, $d6c6
+	ld de, wd6c6
 	call Func_19833
-	ld de, $d6ce
+	ld de, wd6ce
 	call Func_19833
-	ld de, $d6d6
+	ld de, wd6d6
 	call Func_19833
-	ld de, $d6de
+	ld de, wd6de
 	call Func_19833
 	ret
 
@@ -31862,7 +31862,7 @@ Func_19876: ; 0x19876
 	ret
 
 Func_1988e: ; 0x1988e
-	ld a, [$d6b1]
+	ld a, [wd6b1]
 	sla a
 	sla a
 	sla a
@@ -31870,7 +31870,7 @@ Func_1988e: ; 0x1988e
 	ld b, $0
 	ld hl, Data_198ce
 	add hl, bc
-	ld de, $d6bd
+	ld de, wd6bd
 	ld b, $6
 .asm_198a3
 	ld a, [hli]
@@ -31939,7 +31939,7 @@ Func_19976: ; 0x19976
 	ld hl, hBoardYShift
 	sub [hl]
 	ld c, a
-	ld a, [$d6ad]
+	ld a, [wd6ad]
 	ld e, a
 	ld d, $0
 	ld hl, Data_19995
@@ -31953,17 +31953,17 @@ Data_19995:
 	dr $19995, $1999d
 
 Func_1999d: ; 0x1999d
-	ld de, $d6b6
+	ld de, wd6b6
 	call Func_199be
-	ld de, $d6be
+	ld de, wd6be
 	call Func_199be
-	ld de, $d6c6
+	ld de, wd6c6
 	call Func_199be
-	ld de, $d6ce
+	ld de, wd6ce
 	call Func_199be
-	ld de, $d6d6
+	ld de, wd6d6
 	call Func_199be
-	ld de, $d6de
+	ld de, wd6de
 	; fall through
 
 Func_199be: ; 0x199be
@@ -32002,19 +32002,19 @@ Data_199e6:
 	dr $199e6, $199f2
 
 InitDiglettBonusStage: ; 0x199f2
-	ld a, [$d7c1]
+	ld a, [wd7c1]
 	and a
 	ret nz
 	xor a
 	ld [wStageCollisionState], a
 	ld a, $1
-	ld [$d7ac], a
+	ld [wd7ac], a
 	ld a, [wBallType]
 	ld [wBallTypeBackup], a
 	xor a
-	ld [$d4c8], a
+	ld [wd4c8], a
 	ld [wBallType], a
-	ld [$d49a], a
+	ld [wd49a], a
 	; initialize all digletts to hiding
 	ld a, $1  ; hiding diglett state
 	ld hl, wDiglettStates
@@ -32048,9 +32048,9 @@ StartBallDiglettBonusStage: ; 0x19a38
 	ld a, $40
 	ld [wBallXVelocity], a
 	xor a
-	ld [$d7ab], a
+	ld [wd7ab], a
 	ld [wStageCollisionState], a
-	ld [$d73a], a
+	ld [wd73a], a
 	ld hl, wDiglettStates
 	ld b, NUM_DIGLETTS
 .asm_19a60
@@ -32066,14 +32066,14 @@ StartBallDiglettBonusStage: ; 0x19a38
 	xor a
 	ld [wCurrentDiglett], a
 	ld [wDiglettsInitializedFlag], a
-	ld [$d765], a
+	ld [wd765], a
 	ret
 
 Func_19a76: ; 0x19a76
 	ld [$ff8a], a
 	callba Func_142fc
 	call Func_2862
-	ld a, [$d7c1]
+	ld a, [wd7c1]
 	and a
 	ret z
 	call Func_19bbd
@@ -32111,16 +32111,16 @@ Func_19ab3: ; 0x19ab3
 	ret
 
 Func_19aba: ; 0x19aba
-	ld a, [$d4ea]
+	ld a, [wd4ea]
 	inc a
 	jr nz, .asm_19b16
-	ld a, [$d73b]
+	ld a, [wd73b]
 	bit 7, a
 	jr nz, .asm_19b16
-	ld a, [$d7e9]
+	ld a, [wd7e9]
 	and a
 	ret z
-	ld a, [$d7f5]
+	ld a, [wd7f5]
 	sub $19
 	ret c
 	cp $33
@@ -32147,18 +32147,18 @@ Func_19aba: ; 0x19aba
 	xor a
 .asm_19af7
 	add [hl]
-	ld [$d4eb], a
+	ld [wd4eb], a
 	add $0
-	ld [$d4ea], a
+	ld [wd4ea], a
 	ld b, a
-	ld hl, $d73b
+	ld hl, wd73b
 	ld [hl], $0
-	ld a, [$d4ec]
+	ld a, [wd4ec]
 	cp b
 	jr z, .asm_19b16
-	ld a, [$d4eb]
+	ld a, [wd4eb]
 	ld [hli], a
-	ld a, [$d4ea]
+	ld a, [wd4ea]
 	ld [hl], a
 	scf
 	ret
@@ -32171,33 +32171,33 @@ Data_19b18:
 	dr $19b18, $19b4b
 
 Func_19b4b: ; 0x19b4b
-	ld a, [$d4ea]
+	ld a, [wd4ea]
 	inc a
 	jr nz, .asm_19b86
-	ld a, [$d75f]
+	ld a, [wd75f]
 	bit 7, a
 	jr nz, .asm_19b86
-	ld a, [$d7e9]
+	ld a, [wd7e9]
 	and a
 	ret z
-	ld a, [$d7f5]
+	ld a, [wd7f5]
 	sub $14
 	ret c
 	cp $5
 	ret nc
 	ld a, $1
-	ld [$d4eb], a
+	ld [wd4eb], a
 	add $1f
-	ld [$d4ea], a
+	ld [wd4ea], a
 	ld b, a
-	ld hl, $d75f
+	ld hl, wd75f
 	ld [hl], $0
-	ld a, [$d4ec]
+	ld a, [wd4ec]
 	cp b
 	jr z, .asm_19b86
-	ld a, [$d4eb]
+	ld a, [wd4eb]
 	ld [hli], a
-	ld a, [$d4ea]
+	ld a, [wd4ea]
 	ld [hl], a
 	scf
 	ret
@@ -32213,23 +32213,23 @@ Func_19b88: ; 0x19b88
 	ret
 
 Func_19b92: ; 0x19b92
-	ld a, [$d73a]
+	ld a, [wd73a]
 	and a
 	ret nz
-	ld a, [$d4b4]
+	ld a, [wd4b4]
 	cp $8a
 	ret nc
 	ld a, $1
 	ld [wStageCollisionState], a
-	ld [$d73a], a
+	ld [wd73a], a
 	xor a
-	ld [$c853], a
-	ld [$c873], a
-	ld [$c893], a
+	ld [wc853], a
+	ld [wc873], a
+	ld [wc893], a
 	ld a, $5
-	ld [$c872], a
+	ld [wc872], a
 	ld a, $7
-	ld [$c892], a
+	ld [wc892], a
 	call Func_19bbd
 	ret
 
@@ -32259,11 +32259,11 @@ Data_19c16:
 	dr $19c16, $19c52
 
 Func_19c52: ; 0x19c52
-	ld a, [$d73b]
+	ld a, [wd73b]
 	and a
 	jr z, .asm_19cc8
 	xor a
-	ld [$d73b], a
+	ld [wd73b], a
 	ld bc, TenMillionPoints
 	ld [$ff8a], a
 	callba Func_8588
@@ -32271,12 +32271,12 @@ Func_19c52: ; 0x19c52
 	call PlaySoundEffect
 	ld hl, $0100
 	ld a, l
-	ld [$d7bc], a
+	ld [wd7bc], a
 	ld a, h
-	ld [$d7bd], a
+	ld [wd7bd], a
 	ld a, $80
 	ld [wFlipperCollision], a
-	ld a, [$d73c]
+	ld a, [wd73c]
 	sub $1
 	ld c, a
 	ld b, $0
@@ -32316,11 +32316,11 @@ Func_19c52: ; 0x19c52
 	call PlaySong
 .asm_19cc8
 	call Func_19cdd
-	ld a, [$d765]
+	ld a, [wd765]
 	and a
 	ret nz
 	ld a, $1
-	ld [$d765], a
+	ld [wd765], a
 	ld a, [wDugrioState]
 	and a
 	call nz, Func_1ac2c
@@ -32552,11 +32552,11 @@ Data_19e13:
 INCLUDE "data/diglett_stage/diglett_stage_animation_data.asm"
 
 Func_1aad4: ; 0x1aad4
-	ld a, [$d75f]
+	ld a, [wd75f]
 	and a
 	jr z, .asm_1ab2c
 	xor a
-	ld [$d75f], a
+	ld [wd75f], a
 	ld a, [wDugrioState]
 	bit 0, a
 	jr z, .asm_1ab2c
@@ -32580,14 +32580,14 @@ Func_1aad4: ; 0x1aad4
 	ld de, $0036
 	call PlaySoundEffect
 	ld a, $33
-	ld [$d803], a
+	ld [wd803], a
 	ld a, $8
-	ld [$d804], a
+	ld [wd804], a
 	ld hl, $0200
 	ld a, l
-	ld [$d7bc], a
+	ld [wd7bc], a
 	ld a, h
-	ld [$d7bd], a
+	ld [wd7bd], a
 	ld a, $80
 	ld [wFlipperCollision], a
 .asm_1ab2c
@@ -32705,18 +32705,18 @@ Func_1ab30: ; 0x1ab30
 	call CopyHLToDE
 	xor a
 	ld [wDugrioState], a
-	ld [$d498], a
+	ld [wd498], a
 	ld a, $1
-	ld [$d49a], a
+	ld [wd49a], a
 	call Func_30e8
 	call Func_30db
-	ld hl, $d5dc
+	ld hl, wd5dc
 	ld de, Data_2fb3
 	call LoadTextHeader
 	ld de, $4b2a
 	call PlaySoundEffect
 	ld a, $1
-	ld [$d7be], a
+	ld [wd7be], a
 	call Func_2862
 	ld hl, Data_1ac56
 	jr asm_1ac2f
@@ -32724,7 +32724,7 @@ Func_1ab30: ; 0x1ab30
 Func_1ac2c: ; 0x1ac2c
 	ld hl, Data_1ac4a
 asm_1ac2f:
-	ld de, $c768
+	ld de, wc768
 	ld b, $3
 .asm_1ac34
 	ld a, [hli]
@@ -32805,11 +32805,11 @@ Data_1accf:
 SECTION "bank7", ROMX, BANK[$7]
 
 InitBlueField: ; 0x1c000
-	ld a, [$d7c1]
+	ld a, [wd7c1]
 	and a
 	ret nz
 	xor a
-	ld hl, $d46f
+	ld hl, wd46f
 	ld [hld], a
 	ld [hld], a
 	ld [hld], a
@@ -32817,41 +32817,41 @@ InitBlueField: ; 0x1c000
 	ld [hld], a
 	ld [hl], a
 	ld [wNumPartyMons], a
-	ld [$d49b], a
-	ld [$d4c9], a
+	ld [wd49b], a
+	ld [wd4c9], a
 	ld [wBallType], a
-	ld [$d4c8], a
-	ld hl, $d624
+	ld [wd4c8], a
+	ld hl, wd624
 	ld [hli], a
 	ld [hli], a
 	ld [hli], a
-	ld [$d7ac], a
-	ld [$d7be], a
+	ld [wd7ac], a
+	ld [wd7be], a
 	ld [wCurrentMap], a  ; PALLET_TOWN
 	ld a, $1
-	ld [$d49d], a
-	ld [$d482], a
+	ld [wd49d], a
+	ld [wd482], a
 	ld a, $2
 	ld [wRightAlleyCount], a
 	ld a, $3
-	ld [$d49e], a
-	ld [$d610], a
+	ld [wd49e], a
+	ld [wd610], a
 	ld a, $2
-	ld [$d498], a
-	ld [$d499], a
+	ld [wd498], a
+	ld [wd499], a
 	ld a, $80
 	ld [wIndicatorStates], a
 	ld [wIndicatorStates + 3], a
 	ld a, $82
 	ld [wIndicatorStates + 1], a
 	xor a
-	ld [$d648], a
-	ld [$d649], a
-	ld [$d64a], a
-	ld [$d643], a
-	ld [$d644], a
-	ld [$d645], a
-	ld [$d646], a
+	ld [wd648], a
+	ld [wd649], a
+	ld [wd64a], a
+	ld [wd643], a
+	ld [wd644], a
+	ld [wd645], a
+	ld [wd646], a
 	ld [$ff8a], a
 	callba Func_dbba
 	ld [$ff8a], a
@@ -32863,7 +32863,7 @@ InitBlueField: ; 0x1c000
 	ret
 
 StartBallBlueField: ; 0x1c08d
-	ld a, [$d496]
+	ld a, [wd496]
 	and a
 	jp nz, StartBallAfterBonusStageBlueField
 	ld a, $0
@@ -32875,52 +32875,52 @@ StartBallBlueField: ; 0x1c08d
 	ld a, $98
 	ld [wBallYPos + 1], a
 	xor a
-	ld [$d549], a
-	ld [$d580], a
+	ld [wd549], a
+	ld [wd580], a
 	call Func_1c7c7
-	ld a, [$d4c9]
+	ld a, [wd4c9]
 	and a
 	ret z
 	xor a
-	ld [$d4c9], a
+	ld [wd4c9], a
 	xor a
-	ld [$d50b], a
-	ld [$d50c], a
-	ld [$d51d], a
-	ld [$d51e], a
-	ld [$d517], a
-	ld hl, $d50f
+	ld [wd50b], a
+	ld [wd50c], a
+	ld [wd51d], a
+	ld [wd51e], a
+	ld [wd517], a
+	ld hl, wd50f
 	ld [hli], a
 	ld [hli], a
 	ld [hli], a
 	ld [hli], a
 	ld [wLeftMapMoveCounter], a
 	ld [wRightMapMoveCounter], a
-	ld hl, $d5f9
+	ld hl, wd5f9
 	ld [hli], a
 	ld [hli], a
 	ld [hli], a
 	ld [wBallType], a
-	ld [$d611], a
-	ld [$d612], a
-	ld [$d628], a
-	ld [$d629], a
-	ld [$d62a], a
-	ld [$d62b], a
-	ld [$d62c], a
-	ld [$d63a], a
-	ld [$d63b], a
-	ld [$d63d], a
-	ld [$d63c], a
-	ld [$d62d], a
-	ld [$d62e], a
-	ld [$d613], a
+	ld [wd611], a
+	ld [wd612], a
+	ld [wd628], a
+	ld [wd629], a
+	ld [wd62a], a
+	ld [wd62b], a
+	ld [wd62c], a
+	ld [wd63a], a
+	ld [wd63b], a
+	ld [wd63d], a
+	ld [wd63c], a
+	ld [wd62d], a
+	ld [wd62e], a
+	ld [wd613], a
 	inc a
-	ld [$d482], a
-	ld [$d4ef], a
-	ld [$d4f1], a
+	ld [wd482], a
+	ld [wd4ef], a
+	ld [wd4f1], a
 	ld a, $3
-	ld [$d610], a
+	ld [wd610], a
 	call Func_1d65f
 	ld a, $10
 	call SetSongBank
@@ -32942,9 +32942,9 @@ StartBallAfterBonusStageBlueField: ; 0x1c129
 	ld [wBallYVelocity + 1], a
 	ld [wBallXVelocity], a
 	ld [wBallXVelocity + 1], a
-	ld [$d496], a
-	ld [$d7ab], a
-	ld [$d7be], a
+	ld [wd496], a
+	ld [wd7ab], a
+	ld [wd7be], a
 	ld a, [wBallTypeBackup]
 	ld [wBallType], a
 	ld a, $10
@@ -32961,7 +32961,7 @@ Func_1c165: ; 0x1c165
 	ld [$ff8a], a
 	callba Func_142fc
 	ld a, $1
-	ld [$d640], a
+	ld [wd640], a
 	call Func_1f18a
 	ld [$ff8a], a
 	callba Func_1404a
@@ -32991,44 +32991,44 @@ Func_1c191: ; 0x1c191
 	ret
 
 Func_1c1db: ; 0x1c1db
-	ld a, [$d641]
+	ld a, [wd641]
 	cp $0
 	ret z
 	ld a, $1
-	ld [$d640], a
+	ld [wd640], a
 	ld a, $0
-	ld [$d641], a
+	ld [wd641], a
 	ld a, [wBlueStageForceFieldDirection]
 	cp $2  ; down direction
 	ret nz
 	ld a, $0
 	ld [wBlueStageForceFieldDirection], a
 	ld a, $1  ; right direction
-	ld [$d64a], a
+	ld [wd64a], a
 	xor a
-	ld [$d649], a
-	ld [$d648], a
+	ld [wd649], a
+	ld [wd648], a
 	ret
 
 Func_1c203: ; 0x1c203
 	ld a, $ff
-	ld [$d4d7], a
-	ld [$d4db], a
-	ld a, [$d4b4]
-	ld [$d4c5], a
-	ld a, [$d4b6]
-	ld [$d4c6], a
+	ld [wd4d7], a
+	ld [wd4db], a
+	ld a, [wd4b4]
+	ld [wd4c5], a
+	ld a, [wd4b6]
+	ld [wd4c6], a
 	ld a, [wBallRotation]
-	ld [$d4c7], a
+	ld [wd4c7], a
 	ret
 
 Func_1c21e: ; 0x1c21e
 	ld a, $ff
-	ld [$d60e], a
-	ld [$d60f], a
-	ld a, [$d60c]
+	ld [wd60e], a
+	ld [wd60f], a
+	ld a, [wd60c]
 	call Func_1d5f2
-	ld a, [$d60d]
+	ld a, [wd60d]
 	add $14
 	call Func_1d5f2
 	ret
@@ -33038,9 +33038,9 @@ Func_1c235: ; 0x1c235
 	and a
 	jr z, .asm_1c249
 	ld a, $54
-	ld [$c7e3], a
+	ld [wc7e3], a
 	ld a, $55
-	ld [$c803], a
+	ld [wc803], a
 	ld a, $1
 	jr .asm_1c24a
 
@@ -33072,13 +33072,13 @@ Func_1c235: ; 0x1c235
 	and a
 	jr z, .asm_1c295
 	ld a, $52
-	ld [$c7f0], a
+	ld [wc7f0], a
 	ld a, $53
-	ld [$c810], a
-	ld a, [$d644]
+	ld [wc810], a
+	ld a, [wd644]
 	and a
 	jr z, .asm_1c28a
-	ld a, [$d55a]
+	ld a, [wd55a]
 	and a
 	jr nz, .asm_1c2bd
 	jr .asm_1c291
@@ -33151,7 +33151,7 @@ Func_1c2cb: ; 0x1c2cb
 	add hl, bc
 	ld a, [hl]
 	push af
-	ld hl, $d648
+	ld hl, wd648
 	add hl, bc
 	dec hl
 	dec hl
@@ -33174,10 +33174,10 @@ Func_1c305: ; 0x1c305
 	ld a, [wSpecialMode]
 	cp $2
 	ret z
-	ld a, [$d5c6]
+	ld a, [wd5c6]
 	and a
 	jr nz, .asm_1c31f
-	ld a, [$d5f3]
+	ld a, [wd5f3]
 	and a
 	jr nz, .asm_1c31f
 	jp Func_1c3ca
@@ -33193,7 +33193,7 @@ Func_1c305: ; 0x1c305
 	ld a, Bank(Func_10301)
 	ld hl, Func_10301
 	call nz, BankSwitch
-	ld a, [$d5f3]
+	ld a, [wd5f3]
 	and a
 	ret z
 	ld a, BANK(PikachuSaverGfx)
@@ -33265,7 +33265,7 @@ Func_1c3c3: ; 0x1c3c3
 	ret
 
 Func_1c3ca: ; 0x1c3ca
-	ld hl, $d586
+	ld hl, wd586
 	ld b, $18
 .asm_1c3cf
 	ld a, [hli]
@@ -33290,7 +33290,7 @@ Func_1c3ee: ; 0x1c3ee
 	ld a, [wSpecialMode]
 	cp $1
 	ret nz
-	ld a, [$d554]
+	ld a, [wd554]
 	cp $3
 	ret z
 	ld a, [wCurrentStage]
@@ -33310,7 +33310,7 @@ Func_1c3ee: ; 0x1c3ee
 	ld bc, $00e0
 	call FarCopyData
 .asm_1c424
-	ld a, [$d551]
+	ld a, [wd551]
 	and a
 	ret z
 	ld a, [hGameBoyColorFlag]
@@ -33342,7 +33342,7 @@ Func_1c43c: ; 0x1c43c
 	ret
 
 .asm_1c458
-	ld a, [$d624]
+	ld a, [wd624]
 	call Func_1f265
 	ld a, BANK(Data_d8f60)
 	ld hl, Data_d8f60
@@ -33362,7 +33362,7 @@ Func_1c46d: ; 0x1c46d
 
 Func_1c47d: ; 0x1c47d
 	ld de, $0000
-	ld a, [$d554]
+	ld a, [wd554]
 	and a
 	ret z
 	ld b, a
@@ -33403,17 +33403,17 @@ Func_1c4b6: ; 0x1c4b6
 	ld a, [wInSpecialMode]
 	and a
 	jr nz, .asm_1c4f0
-	ld a, [$d609]
+	ld a, [wd609]
 	and a
 	jr z, .asm_1c4d2
-	ld a, [$d498]
+	ld a, [wd498]
 	add $15
 	ld [$ff8a], a
 	callba Func_30256
 	ret
 
 .asm_1c4d2
-	ld a, [$d608]
+	ld a, [wd608]
 	and a
 	jr z, .asm_1c4e5
 	ld a, $1a
@@ -33430,7 +33430,7 @@ Func_1c4b6: ; 0x1c4b6
 	ld a, [wSpecialMode]
 	cp $2
 	ret nz
-	ld a, [$d54d]
+	ld a, [wd54d]
 	cp $3
 	jr nz, .asm_1c508
 	ld [$ff8a], a
@@ -33438,11 +33438,11 @@ Func_1c4b6: ; 0x1c4b6
 	ret
 
 .asm_1c508
-	ld a, [$d604]
+	ld a, [wd604]
 	and a
 	ld a, $14
 	jr nz, .asm_1c515
-	ld a, [$d55a]
+	ld a, [wd55a]
 	add $12
 .asm_1c515
 	ld [$ff8a], a
@@ -33480,90 +33480,90 @@ Func_1c536: ; 0x1c536
 Func_1c55a: ; 0x1c55a
 	ld de, Data_1c644
 	ld hl, Data_1c62e
-	ld bc, $d4cb
+	ld bc, wd4cb
 	and a
 	jp Func_2775
 
 Func_1c567: ; 0x1c567
 	ld de, Data_1c650
-	ld bc, $d507
+	ld bc, wd507
 	scf
 	jp Func_2775
 
 Func_1c571: ; 0x1c571
 	ld de, Data_1c625
 	ld hl, Data_1c611
-	ld bc, $d4d8
+	ld bc, wd4d8
 	and a
 	jp Func_2775
 
 Func_1c57e: ; 0x1c57e
 	ld de, Data_1c656
-	ld bc, $d51f
+	ld bc, wd51f
 	scf
 	jp Func_2775
 
 Func_1c588: ; 0x1c588
 	ld de, Data_1c665
-	ld bc, $d635
+	ld bc, wd635
 	scf
 	jp Func_2775
 
 Func_1c592: ; 0x1c592
 	ld de, Data_1c66b
-	ld bc, $d630
+	ld bc, wd630
 	scf
 	jp Func_2775
 
 Func_1c59c: ; 0x1c59c
 	ld de, Data_1c671
-	ld bc, $d515
+	ld bc, wd515
 	scf
 	jp Func_2775
 
 Func_1c5a6: ; 0x1c5a6
 	ld de, Data_1c686
 	ld hl, Data_1c67a
-	ld bc, $d60a
+	ld bc, wd60a
 	and a
 	jp Func_2775
 
 Func_1c5b3: ; 0x1c5b3
 	ld de, Data_1c695
 	ld hl, Data_1c68f
-	ld bc, $d4ed
+	ld bc, wd4ed
 	and a
 	jp Func_2775
 
 Func_1c5c0: ; 0x1c5c0
 	ld de, Data_1c69e
-	ld bc, $d5f7
+	ld bc, wd5f7
 	scf
 	jp Func_2775
 
 Func_1c5ca: ; 0x1c5ca
 	ld de, Data_1c6aa
-	ld bc, $d50d
+	ld bc, wd50d
 	scf
 	jp Func_2775
 
 Func_1c5d4: ; 0x1c5d4
 	ld de, Data_1c6b9
-	ld bc, $d601
+	ld bc, wd601
 	scf
 	jp Func_2775
 
 Func_1c5de: ; 0x1c5de
 	ld de, Data_1c6d1
 	ld hl, Data_1c6bf
-	ld bc, $d5c7
+	ld bc, wd5c7
 	and a
 	jp Func_2775
 
 Func_1c5eb: ; 0x1c5eb
 	xor a
-	ld [$d578], a
-	ld a, [$d551]
+	ld [wd578], a
+	ld a, [wd551]
 	and a
 	ret z
 	ld a, [wCurrentStage]
@@ -33578,7 +33578,7 @@ Func_1c5eb: ; 0x1c5eb
 
 Func_1c607: ; 0x1c607
 	ld de, Data_1c70f
-	ld bc, $d4dc
+	ld bc, wd4dc
 	scf
 	jp Func_2775
 
@@ -33733,12 +33733,12 @@ Func_1c7c7: ; 0x1c7c7
 	ret
 
 Func_1c7d7: ; 0x1c7d7
-	ld a, [$d4dc]
+	ld a, [wd4dc]
 	and a
 	ret z
 	xor a
-	ld [$d4dc], a
-	ld a, [$d4de]
+	ld [wd4dc], a
+	ld a, [wd4de]
 	and a
 	jr z, .asm_1c810
 	xor a
@@ -33755,22 +33755,22 @@ Func_1c7d7: ; 0x1c7d7
 	ld a, $fa
 	ld [wBallYVelocity + 1], a
 	ld a, $1
-	ld [$d549], a
+	ld [wd549], a
 	ld de, $000a
 	call PlaySoundEffect
 .asm_1c810
 	ld a, $ff
-	ld [$d4ec], a
-	ld a, [$d4de]
+	ld [wd4ec], a
+	ld a, [wd4de]
 	and a
 	ret nz
-	ld a, [$d4e0]
+	ld a, [wd4e0]
 	and a
 	jr nz, .asm_1c82c
 	call Func_1c839
 	ld a, $1
-	ld [$d4e0], a
-	ld [$d4de], a
+	ld [wd4e0], a
+	ld [wd4de], a
 	ret
 
 .asm_1c82c
@@ -33778,7 +33778,7 @@ Func_1c7d7: ; 0x1c7d7
 	call IsKeyPressed
 	ret z
 	ld a, $1
-	ld [$d4de], a
+	ld [wd4de], a
 	ret
 
 Func_1c839: ; 0x1c839
@@ -33830,9 +33830,9 @@ Func_1c839: ; 0x1c839
 	ld [$ff8a], a
 	callba Func_3118f
 	ld a, [wCurrentMap]
-	ld [$d4e3], a
+	ld [wd4e3], a
 	xor a
-	ld [$d4e2], a
+	ld [wd4e2], a
 	ret
 
 BlueStageInitialMaps: ; 0x1c8af
@@ -33845,25 +33845,25 @@ BlueStageInitialMaps: ; 0x1c8af
 	db CELADON_CITY
 
 Func_1c8b6: ; 0x1c8b6
-	ld a, [$d64c]
+	ld a, [wd64c]
 	inc a
 	cp $3c
 	jr z, .asm_1c8c2
-	ld [$d64c], a
+	ld [wd64c], a
 	ret
 
 .asm_1c8c2
 	xor a
-	ld [$d64c], a
-	ld hl, $d64d
+	ld [wd64c], a
+	ld hl, wd64d
 	inc [hl]
 	ld a, [hl]
 	cp $5
 	ret nz
-	ld a, [$d644]
+	ld a, [wd644]
 	and a
 	jr nz, .asm_1c8e1
-	ld a, [$d643]
+	ld a, [wd643]
 	and a
 	jr nz, .asm_1c8e5
 	ld a, [wRightAlleyCount]
@@ -33871,12 +33871,12 @@ Func_1c8b6: ; 0x1c8b6
 	jr nc, .asm_1c8e5
 .asm_1c8e1
 	xor a
-	ld [$d64b], a
+	ld [wd64b], a
 .asm_1c8e5
-	ld a, [$d644]
+	ld a, [wd644]
 	and a
 	jr nz, .asm_1c8f8
-	ld a, [$d643]
+	ld a, [wd643]
 	and a
 	jr nz, .asm_1c8fc
 	ld a, [wLeftAlleyCount]
@@ -33884,54 +33884,54 @@ Func_1c8b6: ; 0x1c8b6
 	jr z, .asm_1c8fc
 .asm_1c8f8
 	xor a
-	ld [$d64b], a
+	ld [wd64b], a
 .asm_1c8fc
 	xor a
-	ld [$d64d], a
+	ld [wd64d], a
 	xor a
-	ld [$d64a], a
-	ld [$d649], a
-	ld [$d648], a
+	ld [wd64a], a
+	ld [wd649], a
+	ld [wd648], a
 	ld a, [wBlueStageForceFieldDirection]
 	cp $1  ; right direction
 	jr z, .asm_1c97f
 	cp $3  ; left direction
 	jr z, .asm_1c97f
 .asm_1c915
-	ld a, [$d644]
+	ld a, [wd644]
 	cp $0
 	jr z, .asm_1c925
-	ld a, [$d55a]
+	ld a, [wd55a]
 	cp $0
 	jr nz, .asm_1c933
 	jr .asm_1c947
 
 .asm_1c925
-	ld a, [$d643]
+	ld a, [wd643]
 	cp $0
 	jr nz, .asm_1c933
 	ld a, [wRightAlleyCount]
 	cp $2
 	jr c, .asm_1c947
 .asm_1c933
-	ld a, [$d64b]
+	ld a, [wd64b]
 	cp $1
 	jr z, .asm_1c947
 	ld a, $1  ; right direction
 	ld [wBlueStageForceFieldDirection], a
-	ld [$d64b], a
-	ld [$d640], a
+	ld [wd64b], a
+	ld [wd640], a
 	jr .asm_1c99e
 
 .asm_1c947
-	ld a, [$d644]
+	ld a, [wd644]
 	cp $0
 	jr z, .asm_1c955
-	ld a, [$d55a]
+	ld a, [wd55a]
 	cp $0
 	jr z, .asm_1c969
 .asm_1c955
-	ld a, [$d643]
+	ld a, [wd643]
 	cp $0
 	jr nz, .asm_1c969
 	ld a, [wLeftAlleyCount]
@@ -33941,32 +33941,32 @@ Func_1c8b6: ; 0x1c8b6
 	and a
 	jr nz, .asm_1c97f
 .asm_1c969
-	ld a, [$d64b]
+	ld a, [wd64b]
 	cp $3
 	jr z, .asm_1c915
 	ld a, $3  ; left direction
 	ld [wBlueStageForceFieldDirection], a
-	ld [$d64b], a
+	ld [wd64b], a
 	ld a, $1
-	ld [$d640], a
+	ld [wd640], a
 	jr .asm_1c99e
 
 .asm_1c97f
-	ld a, [$d641]
+	ld a, [wd641]
 	and a
 	jr nz, .asm_1c993
 	xor a
 	ld [wBlueStageForceFieldDirection], a
 	ld a, $1
-	ld [$d640], a
-	ld [$d64a], a
+	ld [wd640], a
+	ld [wd64a], a
 	jr .asm_1c99e
 
 .asm_1c993
 	ld a, $2  ; down direction
 	ld [wBlueStageForceFieldDirection], a
 	ld a, $1
-	ld [$d640], a
+	ld [wd640], a
 	ret
 
 .asm_1c99e
@@ -33974,52 +33974,52 @@ Func_1c8b6: ; 0x1c8b6
 	cp $0  ; up direction
 	jr nz, .asm_1c9ac
 	ld a, $1
-	ld [$d64a], a
+	ld [wd64a], a
 	jr .asm_1c9c0
 
 .asm_1c9ac
 	cp $1
 	jr nz, .asm_1c9b7
 	ld a, $1
-	ld [$d649], a
+	ld [wd649], a
 	jr .asm_1c9c0
 
 .asm_1c9b7
 	cp $3
 	jr nz, .asm_1c9c0
 	ld a, $1
-	ld [$d648], a
+	ld [wd648], a
 .asm_1c9c0
 	ret
 
 Func_1c9c1: ; 0x1c9c1
-	ld a, [$d4cb]
+	ld a, [wd4cb]
 	and a
 	jr z, .asm_1ca19
 	xor a
-	ld [$d4cb], a
+	ld [wd4cb], a
 	call Func_1ca29
-	ld a, [$d641]
+	ld a, [wd641]
 	and a
 	jr nz, .asm_1c9f2
 	ld a, $1
-	ld [$d641], a
+	ld [wd641], a
 	ld a, [wBlueStageForceFieldDirection]
 	cp $0  ; up direction
 	jr nz, .asm_1c9f2
 	ld a, $2  ; down direction
 	ld [wBlueStageForceFieldDirection], a
 	ld a, $1
-	ld [$d640], a
+	ld [wd640], a
 	ld a, $3
-	ld [$d64c], a
-	ld [$d64d], a
+	ld [wd64c], a
+	ld [wd64d], a
 .asm_1c9f2
 	ld a, $10
-	ld [$d4d6], a
-	ld a, [$d4cc]
+	ld [wd4d6], a
+	ld a, [wd4cc]
 	sub $3
-	ld [$d4d7], a
+	ld [wd4d7], a
 	ld a, $4
 	ld [$ff8a], a
 	callba Func_10000
@@ -34029,26 +34029,26 @@ Func_1c9c1: ; 0x1c9c1
 	ret
 
 .asm_1ca19
-	ld a, [$d4d6]
+	ld a, [wd4d6]
 	and a
 	ret z
 	dec a
-	ld [$d4d6], a
+	ld [wd4d6], a
 	ret nz
 	ld a, $ff
-	ld [$d4d7], a
+	ld [wd4d7], a
 	ret
 
 Func_1ca29: ; 0x1ca29
 	ld a, $ff
-	ld [$d803], a
+	ld [wd803], a
 	ld a, $3
-	ld [$d804], a
+	ld [wd804], a
 	ld hl, $0200
 	ld a, l
-	ld [$d7bc], a
+	ld [wd7bc], a
 	ld a, h
-	ld [$d7bd], a
+	ld [wd7bd], a
 	ld a, $80
 	ld [wFlipperCollision], a
 	ld de, $000e
@@ -34056,44 +34056,44 @@ Func_1ca29: ; 0x1ca29
 	ret
 
 Func_1ca4a: ; 1ca4a
-	ld a, [$d5c7]
+	ld a, [wd5c7]
 	and a
 	ret z
 	xor a
-	ld [$d5c7], a
+	ld [wd5c7], a
 	ld a, $1
-	ld [$d5bf], a
+	ld [wd5bf], a
 	ld de, $0006
 	call PlaySoundEffect
 	ret
 
 Func_1ca5f: ; 0x1ca5f
-	ld a, [$d507]
+	ld a, [wd507]
 	and a
 	jr z, Func_1ca85
 	xor a
-	ld [$d507], a
+	ld [wd507], a
 	ld a, [wBallYVelocity]
 	ld c, a
 	ld a, [wBallYVelocity + 1]
 	ld b, a
 	ld a, c
-	ld [$d50b], a
+	ld [wd50b], a
 	ld a, b
-	ld [$d50c], a
+	ld [wd50c], a
 	ld a, $c
 	ld [$ff8a], a
 	callba Func_10000
 	; fall through
 
 Func_1ca85: ; 0x1ca85
-	ld hl, $d50b
+	ld hl, wd50b
 	ld a, [hli]
 	or [hl]
 	ret z
-	ld a, [$d50b]
+	ld a, [wd50b]
 	ld c, a
-	ld a, [$d50c]
+	ld a, [wd50c]
 	ld b, a
 	bit 7, b
 	jr nz, .asm_1caa3
@@ -34118,15 +34118,15 @@ Func_1ca85: ; 0x1ca85
 	ld bc, $0000
 .asm_1cab0
 	ld a, c
-	ld [$d50b], a
+	ld [wd50b], a
 	ld a, b
-	ld [$d50c], a
-	ld hl, $d50b
-	ld a, [$d509]
+	ld [wd50c], a
+	ld hl, wd50b
+	ld a, [wd509]
 	add [hl]
-	ld [$d509], a
+	ld [wd509], a
 	inc hl
-	ld a, [$d50a]
+	ld a, [wd50a]
 	adc [hl]
 	bit 7, a
 	ld c, $0
@@ -34141,16 +34141,16 @@ Func_1ca85: ; 0x1ca85
 	sub $18
 	ld c, $1
 .asm_1cadb
-	ld [$d50a], a
+	ld [wd50a], a
 	ld a, c
 	and a
 	ret z
 	ld bc, OneHundredBillionPoints
 	ld [$ff8a], a
 	callba AddBCDScore
-	ld hl, $d62d
+	ld hl, wd62d
 	call Func_e4a
-	ld a, [$d517]
+	ld a, [wd517]
 	cp $f
 	jr nz, .asm_1caff
 	call Func_1cb1c
@@ -34158,13 +34158,13 @@ Func_1ca85: ; 0x1ca85
 
 .asm_1caff
 	inc a
-	ld [$d517], a
+	ld [wd517], a
 	call Func_1cb1c
-	ld a, [$d517]
+	ld a, [wd517]
 	cp $f
 	jr nz, .asm_1cb12
 	ld a, $64
-	ld [$d51e], a
+	ld [wd51e], a
 .asm_1cb12
 	ld a, [wCurrentStage]
 	bit 0, a
@@ -34173,10 +34173,10 @@ Func_1ca85: ; 0x1ca85
 	ret
 
 Func_1cb1c: ; 0x1cb1c
-	ld a, [$d51e]
+	ld a, [wd51e]
 	and a
 	ret nz
-	ld a, [$d517]
+	ld a, [wd517]
 	ld c, a
 	ld b, $0
 	ld hl, Data_1cb33 ; todo
@@ -34191,7 +34191,7 @@ Data_1cb33:
 	dr $1cb33, $1cb43
 
 Func_1cb43: ; 0x1cb43
-	ld a, [$d517]
+	ld a, [wd517]
 	ld c, a
 	sla c
 	ld b, $0
@@ -34216,35 +34216,35 @@ Data_1cd10:
 	dr $1cd10, $1ce40
 
 Func_1ce40: ; 1ce40
-	ld a, [$d4d8]
+	ld a, [wd4d8]
 	and a
 	jr z, .asm_1ce53
 	call Func_1ce72
 	call Func_1ce60
 	xor a
-	ld [$d4d8], a
+	ld [wd4d8], a
 	call Func_1ce94
 .asm_1ce53
-	ld a, [$d4da]
+	ld a, [wd4da]
 	and a
 	ret z
 	dec a
-	ld [$d4da], a
+	ld [wd4da], a
 	call z, Func_1ce72
 	ret
 
 Func_1ce60: ; 0x1ce60
 	ld a, $10
-	ld [$d4da], a
-	ld a, [$d4d9]
+	ld [wd4da], a
+	ld a, [wd4d9]
 	sub $1
-	ld [$d4db], a
+	ld [wd4db], a
 	sla a
 	inc a
 	jr asm_1ce7a
 
 Func_1ce72: ; 1ce72
-	ld a, [$d4db]
+	ld a, [wd4db]
 	cp $ff
 	ret z
 	sla a
@@ -34268,25 +34268,25 @@ asm_1ce7a: ; 0x1ce7a
 
 Func_1ce94: ; 0x1ce94
 	ld a, $ff
-	ld [$d803], a
+	ld [wd803], a
 	ld a, $3
-	ld [$d804], a
+	ld [wd804], a
 	ld hl, $0200
 	ld a, l
-	ld [$d7bc], a
+	ld [wd7bc], a
 	ld a, h
-	ld [$d7bd], a
+	ld [wd7bd], a
 	ld a, $80
 	ld [wFlipperCollision], a
-	ld a, [$d4d9]
+	ld a, [wd4d9]
 	sub $1
 	ld c, a
 	ld b, $0
 	ld hl, Data_1cec8
 	add hl, bc
-	ld a, [$d7ea]
+	ld a, [wd7ea]
 	add [hl]
-	ld [$d7ea], a
+	ld [wd7ea], a
 	ld de, $000b
 	call PlaySoundEffect
 	ret
@@ -34301,11 +34301,11 @@ Data_1cf3a:
 	dr $1cf3a, $1cfaa
 
 Func_1cfaa: ; 0x1cfaa
-	ld a, [$d51f]
+	ld a, [wd51f]
 	and a
 	ret z
 	xor a
-	ld [$d51f], a
+	ld [wd51f], a
 	ld bc, FiftyBillionPoints
 	ld [$ff8a], a
 	callba AddBCDScore
@@ -34317,34 +34317,34 @@ Func_1cfaa: ; 0x1cfaa
 	ld [$ff8a], a
 	callba LoadStageCollisionAttributes
 	ld a, $1
-	ld [$d580], a
+	ld [wd580], a
 	ld [$ff8a], a
 	callba Func_1404a
 .asm_1cfe5
-	ld a, [$d520]
+	ld a, [wd520]
 	sub $7
 	ld c, a
 	ld b, $0
-	ld hl, $d521
+	ld hl, wd521
 	add hl, bc
 	ld [hl], $1
-	ld a, [$d521]
+	ld a, [wd521]
 	and a
 	call nz, Func_1d010
-	ld a, [$d522]
+	ld a, [wd522]
 	and a
 	call nz, Func_1d047
-	ld a, [$d523]
+	ld a, [wd523]
 	and a
 	call nz, HandleLeftAlleyTriggerBlueField
-	ld a, [$d524]
+	ld a, [wd524]
 	and a
 	call nz, HandleRightAlleyTriggerBlueField
 	ret
 
 Func_1d010: ; 0x1d010
 	xor a
-	ld [$d521], a
+	ld [wd521], a
 	ld a, [wLeftAlleyTrigger]
 	and a
 	ret z
@@ -34373,7 +34373,7 @@ Func_1d010: ; 0x1d010
 
 Func_1d047: ; 0x1d047
 	xor a
-	ld [$d522], a
+	ld [wd522], a
 	ld a, [wRightAlleyTrigger]
 	and a
 	ret z
@@ -34403,7 +34403,7 @@ Func_1d047: ; 0x1d047
 HandleLeftAlleyTriggerBlueField: ; 0x1d080
 ; Ball passed over the left alley trigger point in the Blue Field.
 	xor a
-	ld [$d523], a
+	ld [wd523], a
 	ld [wRightAlleyTrigger], a
 	ld [wSecondaryLeftAlleyTrigger], a
 	ld a, $1
@@ -34414,7 +34414,7 @@ HandleLeftAlleyTriggerBlueField: ; 0x1d080
 HandleRightAlleyTriggerBlueField: ; 0x1d091
 ; Ball passed over the right alley trigger point in the Blue Field.
 	xor a
-	ld [$d524], a
+	ld [wd524], a
 	ld [wLeftAlleyTrigger], a
 	ld [wSecondaryLeftAlleyTrigger], a
 	ld a, $1
@@ -34422,37 +34422,37 @@ HandleRightAlleyTriggerBlueField: ; 0x1d091
 	ret
 
 Func_1d0a1: ; 0x1d0a1
-	ld a, [$d515]
+	ld a, [wd515]
 	and a
 	jr z, .asm_1d110
 	xor a
-	ld [$d515], a
-	ld a, [$d51c]
+	ld [wd515], a
+	ld a, [wd51c]
 	and a
 	jr nz, .asm_1d110
-	ld a, [$d51d]
+	ld a, [wd51d]
 	and a
 	jr nz, .asm_1d0c9
-	ld a, [$d516]
+	ld a, [wd516]
 	sub $d
-	ld hl, $d518
+	ld hl, wd518
 	cp [hl]
 	jr nz, .asm_1d110
-	ld a, [$d517]
+	ld a, [wd517]
 	cp $f
 	jr nz, .asm_1d0fc
 .asm_1d0c9
 	ld hl, PikachuSaverAnimationDataRedStage
 	ld de, wPikachuSaverAnimationFrameCounter
 	call CopyHLToDE
-	ld a, [$d51d]
+	ld a, [wd51d]
 	and a
 	jr nz, .asm_1d0dc
 	xor a
-	ld [$d517], a
+	ld [wd517], a
 .asm_1d0dc
 	ld a, $1
-	ld [$d51c], a
+	ld [wd51c], a
 	xor a
 	ld [wBallXVelocity], a
 	ld [wBallXVelocity + 1], a
@@ -34460,7 +34460,7 @@ Func_1d0a1: ; 0x1d0a1
 	ld [wBallYVelocity + 1], a
 	ld [wBallSpin], a
 	ld [wBallRotation], a
-	ld [$d549], a
+	ld [wd549], a
 	call Func_30e8
 	jr .asm_1d110
 
@@ -34469,22 +34469,22 @@ Func_1d0a1: ; 0x1d0a1
 	ld de, wPikachuSaverAnimationFrameCounter
 	call CopyHLToDE
 	ld a, $2
-	ld [$d51c], a
+	ld [wd51c], a
 	ld de, $003b
 	call PlaySoundEffect
 .asm_1d110
-	ld a, [$d51c]
+	ld a, [wd51c]
 	and a
 	call z, Func_1d1fb
 	call Func_1d133
-	ld a, [$d517]
+	ld a, [wd517]
 	cp $f
 	ret nz
-	ld a, [$d51e]
+	ld a, [wd51e]
 	and a
 	ret z
 	dec a
-	ld [$d51e], a
+	ld [wd51e], a
 	cp $5a
 	ret nz
 	ld de, $0f22
@@ -34492,7 +34492,7 @@ Func_1d0a1: ; 0x1d0a1
 	ret
 
 Func_1d133: ; 0x1d133
-	ld a, [$d51c]
+	ld a, [wd51c]
 	cp $1
 	jr nz, .asm_1d1ae
 	ld hl, PikachuSaverAnimationDataRedStage
@@ -34503,19 +34503,19 @@ Func_1d133: ; 0x1d133
 	cp $1
 	jr nz, .asm_1d18c
 	xor a
-	ld [$d85d], a
+	ld [wd85d], a
 	call Func_310a
 	rst AdvanceFrame
 	ld a, $1
 	ld [$ff8a], a
 	callba PlayPikachuSoundClip
 	ld a, $1
-	ld [$d85d], a
+	ld [wd85d], a
 	ld a, $ff
-	ld [$d803], a
+	ld [wd803], a
 	ld a, $60
-	ld [$d804], a
-	ld hl, $d62e
+	ld [wd804], a
+	ld hl, wd62e
 	call Func_e4a
 	jr nc, .asm_1d185
 	ld c, $a
@@ -34536,12 +34536,12 @@ Func_1d133: ; 0x1d133
 	ld a, $fc
 	ld [wBallYVelocity + 1], a
 	ld a, $1
-	ld [$d549], a
+	ld [wd549], a
 	ld bc, FiveBillionPoints
 	ld [$ff8a], a
 	callba AddBCDScore
 	xor a
-	ld [$d51c], a
+	ld [wd51c], a
 	ret
 
 .asm_1d1ae
@@ -34555,7 +34555,7 @@ Func_1d133: ; 0x1d133
 	cp $1
 	ret nz
 	xor a
-	ld [$d51c], a
+	ld [wd51c], a
 	ret
 
 .asm_1d1c7
@@ -34597,7 +34597,7 @@ Func_1d1fb: ; 0x1d1fb
 	ld hl, wKeyConfigLeftFlipper
 	call IsKeyPressed2
 	jr z, .asm_1d209
-	ld hl, $d518
+	ld hl, wd518
 	ld [hl], $0
 	ret
 
@@ -34605,23 +34605,23 @@ Func_1d1fb: ; 0x1d1fb
 	ld hl, wKeyConfigRightFlipper
 	call IsKeyPressed2
 	ret z
-	ld hl, $d518
+	ld hl, wd518
 	ld [hl], $1
 	ret
 
 Func_1d216: ; 0x1d216
-	ld a, [$d630]
+	ld a, [wd630]
 	and a
 	jr z, .asm_1d253
 	xor a
-	ld [$d630], a
+	ld [wd630], a
 	ld bc, OneMillionPoints
 	ld [$ff8a], a
 	callba AddBCDScore
 	ld de, $0005
 	call PlaySoundEffect
 	ld hl, Data_1d312
-	ld de, $d632
+	ld de, wd632
 	call CopyHLToDE
 	xor a
 	ld [wBallXVelocity], a
@@ -34631,43 +34631,43 @@ Func_1d216: ; 0x1d216
 	ld [wBallXPos], a
 	ld [wBallYPos], a
 	xor a
-	ld [$d549], a
+	ld [wd549], a
 .asm_1d253
 	ld hl, Data_1d312
-	ld de, $d632
+	ld de, wd632
 	call UpdateAnimation
 	push af
-	ld a, [$d632]
+	ld a, [wd632]
 	and a
 	jr nz, .asm_1d271
 	ld a, $19
-	ld [$d632], a
+	ld [wd632], a
 	xor a
-	ld [$d633], a
+	ld [wd633], a
 	ld a, $6
-	ld [$d634], a
+	ld [wd634], a
 .asm_1d271
 	pop af
 	ret nc
-	ld a, [$d634]
+	ld a, [wd634]
 	cp $1
 	jr nz, .asm_1d2b6
 	xor a
-	ld [$d548], a
+	ld [wd548], a
 	ld a, [wLeftAlleyCount]
 	cp $3
 	jr nz, .asm_1d299
 	ld [$ff8a], a
 	callba Func_10ab3
-	ld a, [$d643]
+	ld a, [wd643]
 	and a
 	ret z
 	ld a, $1
-	ld [$d642], a
+	ld [wd642], a
 .asm_1d299
-	ld hl, $d63a
+	ld hl, wd63a
 	call Func_e4a
-	ld hl, $d62a
+	ld hl, wd62a
 	call Func_e4a
 	ret nc
 	ld c, $19
@@ -34679,19 +34679,19 @@ Func_1d216: ; 0x1d216
 	ret
 
 .asm_1d2b6
-	ld a, [$d634]
+	ld a, [wd634]
 	cp $4
 	jr nz, .asm_1d2c3
 	ld a, $1
-	ld [$d548], a
+	ld [wd548], a
 	ret
 
 .asm_1d2c3
-	ld a, [$d634]
+	ld a, [wd634]
 	cp $5
 	ret nz
 	ld a, $1
-	ld [$d549], a
+	ld [wd549], a
 	ld a, $b0
 	ld [wBallXVelocity], a
 	ld a, $0
@@ -34701,7 +34701,7 @@ Func_1d216: ; 0x1d216
 	ld [wBallYVelocity + 1], a
 	ld de, $0006
 	call PlaySoundEffect
-	ld a, [$d642]
+	ld a, [wd642]
 	cp $0
 	jr nz, .asm_1d2f8
 	ld a, $f
@@ -34709,33 +34709,33 @@ Func_1d216: ; 0x1d216
 	callba Func_10000
 .asm_1d2f8
 	xor a
-	ld [$d642], a
-	ld [$d64c], a
-	ld [$d64d], a
+	ld [wd642], a
+	ld [wd64c], a
+	ld [wd64d], a
 	ld a, $1
-	ld [$d641], a
+	ld [wd641], a
 	ld a, $2  ; down direction
 	ld [wBlueStageForceFieldDirection], a
 	ld a, $1
-	ld [$d640], a
+	ld [wd640], a
 	ret
 
 Data_1d312:
 	dr $1d312, $1d32d
 
 HandleEnteringCloyster: ; 0x1d32d
-	ld a, [$d635]
+	ld a, [wd635]
 	and a
 	jr z, .asm_1d36a
 	xor a
-	ld [$d635], a
+	ld [wd635], a
 	ld bc, OneMillionPoints
 	ld [$ff8a], a
 	callba AddBCDScore
 	ld de, $0005
 	call PlaySoundEffect
 	ld hl, Data_1d41d
-	ld de, $d637
+	ld de, wd637
 	call CopyHLToDE
 	xor a
 	ld [wBallXVelocity], a
@@ -34745,29 +34745,29 @@ HandleEnteringCloyster: ; 0x1d32d
 	ld [wBallXPos], a
 	ld [wBallYPos], a
 	xor a
-	ld [$d549], a
+	ld [wd549], a
 .asm_1d36a
 	ld hl, Data_1d41d
-	ld de, $d637
+	ld de, wd637
 	call UpdateAnimation
 	push af
-	ld a, [$d637]
+	ld a, [wd637]
 	and a
 	jr nz, .asm_1d388
 	ld a, $19
-	ld [$d637], a
+	ld [wd637], a
 	xor a
-	ld [$d638], a
+	ld [wd638], a
 	ld a, $6
-	ld [$d639], a
+	ld [wd639], a
 .asm_1d388
 	pop af
 	ret nc
-	ld a, [$d639]
+	ld a, [wd639]
 	cp $1
 	jr nz, .asm_1d3cb
 	xor a
-	ld [$d548], a
+	ld [wd548], a
 	ld a, [wRightAlleyCount]
 	cp $2
 	jr c, .noCatchEmMode
@@ -34779,9 +34779,9 @@ HandleEnteringCloyster: ; 0x1d32d
 	ld [$ff8a], a
 	callba StartCatchEmMode
 .noCatchEmMode
-	ld hl, $d63b
+	ld hl, wd63b
 	call Func_e4a
-	ld hl, $d62a
+	ld hl, wd62a
 	call Func_e4a
 	ret nc
 	ld c, $19
@@ -34793,19 +34793,19 @@ HandleEnteringCloyster: ; 0x1d32d
 	ret
 
 .asm_1d3cb
-	ld a, [$d639]
+	ld a, [wd639]
 	cp $4
 	jr nz, .asm_1d3d8
 	ld a, $1
-	ld [$d548], a
+	ld [wd548], a
 	ret
 
 .asm_1d3d8
-	ld a, [$d639]
+	ld a, [wd639]
 	cp $5
 	ret nz
 	ld a, $1
-	ld [$d549], a
+	ld [wd549], a
 	ld a, $4f
 	ld [wBallXVelocity], a
 	ld a, $ff
@@ -34819,14 +34819,14 @@ HandleEnteringCloyster: ; 0x1d32d
 	ld [$ff8a], a
 	callba Func_10000
 	xor a
-	ld [$d64c], a
-	ld [$d64d], a
+	ld [wd64c], a
+	ld [wd64d], a
 	ld a, $1
-	ld [$d641], a
+	ld [wd641], a
 	ld a, $2  ; down direction
 	ld [wBlueStageForceFieldDirection], a
 	ld a, $1
-	ld [$d640], a
+	ld [wd640], a
 	ret
 
 Data_1d41d:
@@ -34834,14 +34834,14 @@ Data_1d41d:
 
 Func_1d438: ; 0x1d438
 	call Func_1d692
-	ld a, [$d60a]
+	ld a, [wd60a]
 	and a
 	jp z, Func_1d51b
 	xor a
-	ld [$d60a], a
+	ld [wd60a], a
 	ld de, $000d
 	call PlaySoundEffect
-	ld a, [$d60b]
+	ld a, [wd60b]
 	sub $f
 	jr nz, .asm_1d48e
 	ld a, [hGameBoyColorFlag]
@@ -34855,20 +34855,20 @@ Func_1d438: ; 0x1d438
 .asm_1d45e
 	call Func_1d5f2
 	ld a, $3c
-	ld [$d647], a
+	ld [wd647], a
 	ld a, $9
 	ld [$ff8a], a
 	callba Func_10000
-	ld a, [$d610]
+	ld a, [wd610]
 	cp $3
 	jp nz, asm_1d4fa
 	ld a, $1
-	ld [$d610], a
+	ld [wd610], a
 	ld a, $3
-	ld [$d611], a
-	ld a, [$d60c]
+	ld [wd611], a
+	ld a, [wd60c]
 	set 7, a
-	ld [$d60c], a
+	ld [wd60c], a
 	jr asm_1d4fa
 
 .asm_1d48e
@@ -34883,29 +34883,29 @@ Func_1d438: ; 0x1d438
 .asm_1d499
 	call Func_1d5f2
 	ld a, $1e
-	ld [$d647], a
+	ld [wd647], a
 	ld a, $a
 	ld [$ff8a], a
 	callba Func_10000
-	ld a, [$d611]
+	ld a, [wd611]
 	cp $3
 	jr nz, asm_1d4fa
 	ld a, $1
-	ld [$d610], a
+	ld [wd610], a
 	ld a, $1
-	ld [$d611], a
+	ld [wd611], a
 	ld a, $80
-	ld [$d612], a
-	ld a, [$d60d]
+	ld [wd612], a
+	ld a, [wd60d]
 	set 7, a
-	ld [$d60d], a
-	ld a, [$d482]
+	ld [wd60d], a
+	ld a, [wd482]
 	inc a
 	cp $64
 	jr c, .asm_1d4d5
 	ld a, $63
 .asm_1d4d5
-	ld [$d482], a
+	ld [wd482], a
 	jr nc, .asm_1d4e9
 	ld c, $19
 	call Func_e55
@@ -34914,58 +34914,58 @@ Func_1d438: ; 0x1d438
 	ld hl, Func_30164
 	call z, BankSwitch
 .asm_1d4e9
-	ld a, [$d60c]
-	ld [$d614], a
-	ld a, [$d60d]
-	ld [$d615], a
+	ld a, [wd60c]
+	ld [wd614], a
+	ld a, [wd60d]
+	ld [wd615], a
 	ld a, $1
-	ld [$d613], a
+	ld [wd613], a
 asm_1d4fa: ; 0x1d4fa
 	ld bc, OneHundredBillionPoints
 	ld [$ff8a], a
 	callba AddBCDScore
-	ld a, [$d60c]
+	ld a, [wd60c]
 	call Func_1d5f2
-	ld a, [$d60d]
+	ld a, [wd60d]
 	add $14
 	call Func_1d5f2
 	ld a, $3c
-	ld [$d647], a
+	ld [wd647], a
 	ret
 
 Func_1d51b: ; 0x1d51b
 	call Func_1d5bf
-	ld a, [$d612]
+	ld a, [wd612]
 	and a
 	jr z, .asm_1d559
 	dec a
-	ld [$d612], a
+	ld [wd612], a
 	cp $70
 	jr nz, .asm_1d538
 	ld a, $2
-	ld [$d610], a
+	ld [wd610], a
 	ld a, $2
-	ld [$d611], a
+	ld [wd611], a
 	jr .asm_1d559
 
 .asm_1d538
 	and a
 	jr nz, .asm_1d559
 	ld a, $3
-	ld [$d610], a
+	ld [wd610], a
 	xor a
-	ld [$d611], a
-	ld a, [$d482]
+	ld [wd611], a
+	ld a, [wd482]
 	call Func_1d65f
-	ld a, [$d60c]
+	ld a, [wd60c]
 	call Func_1d5f2
-	ld a, [$d60d]
+	ld a, [wd60d]
 	add $14
 	call Func_1d5f2
 	ret
 
 .asm_1d559
-	ld a, [$d610]
+	ld a, [wd610]
 	cp $2
 	jr c, .asm_1d58b
 	cp $3
@@ -34979,19 +34979,19 @@ Func_1d51b: ; 0x1d51b
 	jr nz, .asm_1d58b
 	bit 3, b
 	jr nz, .asm_1d580
-	ld a, [$d60c]
+	ld a, [wd60c]
 	res 7, a
-	ld [$d60c], a
+	ld [wd60c], a
 	call Func_1d5f2
 	jr .asm_1d58b
 
 .asm_1d580
-	ld a, [$d60c]
+	ld a, [wd60c]
 	set 7, a
-	ld [$d60c], a
+	ld [wd60c], a
 	call Func_1d5f2
 .asm_1d58b
-	ld a, [$d611]
+	ld a, [wd611]
 	cp $2
 	ret c
 	cp $3
@@ -35005,43 +35005,43 @@ Func_1d51b: ; 0x1d51b
 	ret nz
 	bit 3, b
 	jr nz, .asm_1d5b1
-	ld a, [$d60d]
+	ld a, [wd60d]
 	res 7, a
-	ld [$d60d], a
+	ld [wd60d], a
 	add $14
 	call Func_1d5f2
 	ret
 
 .asm_1d5b1
-	ld a, [$d60d]
+	ld a, [wd60d]
 	set 7, a
-	ld [$d60d], a
+	ld [wd60d], a
 	add $14
 	call Func_1d5f2
 	ret
 
 Func_1d5bf: ; 0x1d5bf
-	ld a, [$d5ca]
+	ld a, [wd5ca]
 	and a
 	ret nz
-	ld a, [$d613]
+	ld a, [wd613]
 	and a
 	ret z
 	xor a
-	ld [$d613], a
+	ld [wd613], a
 	call Func_30e8
 	call Func_30db
-	ld hl, $d5cc
+	ld hl, wd5cc
 	ld de, BonusMultiplierText
 	call LoadTextHeader
 	ld hl, wcBottomMessageText + $12
-	ld a, [$d614]
+	ld a, [wd614]
 	and $7f
 	jr z, .asm_1d5e9
 	add $30
 	ld [hli], a
 .asm_1d5e9
-	ld a, [$d615]
+	ld a, [wd615]
 	res 7, a
 	add $30
 	ld [hl], a
@@ -35064,10 +35064,10 @@ Func_1d5f2: ; 0x1d5f2
 Func_1d602: ; 0x1d602
 	push af
 	res 7, a
-	ld hl, $d60e
+	ld hl, wd60e
 	cp $14
 	jr c, .asm_1d611
-	ld hl, $d60f
+	ld hl, wd60f
 	sub $a
 .asm_1d611
 	cp [hl]
@@ -35123,7 +35123,7 @@ Func_1d645: ; 0x1d645
 	ret
 
 Func_1d65f: ; 0x1d65f
-	ld a, [$d482]
+	ld a, [wd482]
 	inc a
 	cp $64
 	jr c, .asm_1d669
@@ -35146,26 +35146,26 @@ Func_1d65f: ; 0x1d65f
 	push af
 	swap a
 	and $f
-	ld [$d60c], a
+	ld [wd60c], a
 	pop af
 	and $f
-	ld [$d60d], a
+	ld [wd60d], a
 	ret
 
 Data_1d68b:
 	dr $1d68b, $1d692
 
 Func_1d692: ; 0x1d692
-	ld a, [$d647]
+	ld a, [wd647]
 	cp $1
 	jr z, .asm_1d69e
 	dec a
-	ld [$d647], a
+	ld [wd647], a
 	ret
 
 .asm_1d69e
 	ld a, $0
-	ld [$d647], a
+	ld [wd647], a
 	ld a, [hGameBoyColorFlag]
 	and a
 	jr nz, .asm_1d6b3
@@ -35192,20 +35192,20 @@ Data_1d97a:
 	dr $1d97a, $1dbd2
 
 Func_1dbd2: ; 0x1dbd2
-	ld a, [$d4ed]
+	ld a, [wd4ed]
 	and a
 	jp z, Func_1dc8e
 	cp $2
 	jr z, .asm_1dc33
 	xor a
-	ld [$d4ed], a
+	ld [wd4ed], a
 	ld hl, wLeftMapMoveCounter
 	ld a, [hl]
 	cp $3
 	jp z, Func_1dc8e
 	inc a
 	ld [hl], a
-	ld hl, $d4f7
+	ld hl, wd4f7
 	ld a, $e0
 	ld [hli], a
 	ld a, $1
@@ -35214,9 +35214,9 @@ Func_1dbd2: ; 0x1dbd2
 	bit 0, a
 	jr z, .asm_1dc06
 	ld a, $54
-	ld [$c7e3], a
+	ld [wc7e3], a
 	ld a, $55
-	ld [$c803], a
+	ld [wc803], a
 .asm_1dc06
 	ld a, $1
 	call Func_1de4b
@@ -35228,7 +35228,7 @@ Func_1dbd2: ; 0x1dbd2
 	ld [$ff8a], a
 	callba Func_10000
 	ld a, $2
-	ld [$d646], a
+	ld [wd646], a
 	ld a, $78
 	ld [wLeftMapMoveDiglettAnimationCounter], a
 	ld a, $14
@@ -35237,14 +35237,14 @@ Func_1dbd2: ; 0x1dbd2
 
 .asm_1dc33
 	xor a
-	ld [$d4ed], a
+	ld [wd4ed], a
 	ld hl, wRightMapMoveCounter
 	ld a, [hl]
 	cp $3
 	jp z, Func_1dc8e
 	inc a
 	ld [hl], a
-	ld hl, $d4f9
+	ld hl, wd4f9
 	ld a, $e0
 	ld [hli], a
 	ld a, $1
@@ -35253,9 +35253,9 @@ Func_1dbd2: ; 0x1dbd2
 	bit 0, a
 	jr z, .asm_1dc5c
 	ld a, $52
-	ld [$c7f0], a
+	ld [wc7f0], a
 	ld a, $53
-	ld [$c810], a
+	ld [wc810], a
 .asm_1dc5c
 	ld a, $3
 	call Func_1de4b
@@ -35269,7 +35269,7 @@ Func_1dbd2: ; 0x1dbd2
 	ccf
 	call z, Func_1ddf4
 	ld a, $2
-	ld [$d645], a
+	ld [wd645], a
 	ld a, $28
 	ld [wRightMapMoveDiglettAnimationCounter], a
 	ld a, $78
@@ -35284,7 +35284,7 @@ Func_1dc8e: ; 0x1dc8e
 	ret
 
 Func_1dc95: ; 0x1dc95
-	ld a, [$d646]
+	ld a, [wd646]
 	cp $0
 	ret z
 	ld a, [wLeftMapMoveDiglettAnimationCounter]
@@ -35292,7 +35292,7 @@ Func_1dc95: ; 0x1dc95
 	jr z, .asm_1dceb
 	dec a
 	ld [wLeftMapMoveDiglettAnimationCounter], a
-	ld a, [$d644]
+	ld a, [wd644]
 	and a
 	ret nz
 	ld a, [wLeftMapMoveDiglettFrame]
@@ -35305,7 +35305,7 @@ Func_1dc95: ; 0x1dc95
 	ret
 
 .asm_1dcb9
-	ld a, [$d646]
+	ld a, [wd646]
 	cp $2
 	ret nz
 	call Func_1130
@@ -35333,11 +35333,11 @@ Func_1dc95: ; 0x1dc95
 	ccf
 	call z, Func_1ddc7
 	ld a, $1
-	ld [$d646], a
+	ld [wd646], a
 	ret
 
 .asm_1dceb
-	ld a, [$d646]
+	ld a, [wd646]
 	cp $1
 	ret nz
 	ld a, [wLeftMapMoveDiglettAnimationCounter]
@@ -35349,12 +35349,12 @@ Func_1dc95: ; 0x1dc95
 	bit 0, a
 	jr z, .asm_1dd0c
 	ld a, $5e
-	ld [$c7e3], a
+	ld [wc7e3], a
 	ld a, $5f
-	ld [$c803], a
+	ld [wc803], a
 .asm_1dd0c
 	ld a, $0
-	ld [$d646], a
+	ld [wd646], a
 	ld a, [wLeftMapMoveCounter]
 	sub $3
 	ret nz
@@ -35365,14 +35365,14 @@ Func_1dc95: ; 0x1dc95
 	ld a, $0
 	call Func_1de4b
 	ld a, $0
-	ld [$d646], a
+	ld [wd646], a
 	ret
 
 ; XXX
 	ret
 
 Func_1dd2e: ; 0x1dd2e
-	ld a, [$d645]
+	ld a, [wd645]
 	cp $0
 	ret z
 	cp $1
@@ -35390,7 +35390,7 @@ Func_1dd2e: ; 0x1dd2e
 	ld a, $2
 	call Func_1de4b
 	ld a, $1
-	ld [$d645], a
+	ld [wd645], a
 	ret
 
 .asm_1dd53
@@ -35401,7 +35401,7 @@ Func_1dd2e: ; 0x1dd2e
 	add $3
 	call Func_1de4b
 	ld a, $3
-	ld [$d645], a
+	ld [wd645], a
 	ret
 
 .asm_1dd69
@@ -35437,11 +35437,11 @@ Func_1dd2e: ; 0x1dd2e
 	bit 0, a
 	jr z, .asm_1dda9
 	ld a, $24
-	ld [$c7f0], a
+	ld [wc7f0], a
 	ld a, $25
-	ld [$c810], a
+	ld [wc810], a
 	ld a, $0
-	ld [$d645], a
+	ld [wd645], a
 .asm_1dda9
 	ld a, [wRightMapMoveCounter]
 	sub $3
@@ -35454,13 +35454,13 @@ Func_1dd2e: ; 0x1dd2e
 	ld a, $2
 	call Func_1de4b
 	ld a, $0
-	ld [$d645], a
+	ld [wd645], a
 	ret
 
 Func_1ddc7: ; 0x1ddc7
-	ld hl, $d63d
+	ld hl, wd63d
 	call Func_e4a
-	ld hl, $d62b
+	ld hl, wd62b
 	call Func_e4a
 	jr nc, .asm_1dde4
 	ld c, $a
@@ -35471,16 +35471,16 @@ Func_1ddc7: ; 0x1ddc7
 	call z, BankSwitch
 .asm_1dde4
 	xor a
-	ld [$d55a], a
+	ld [wd55a], a
 	ld [$ff8a], a
 	callba StartMapMoveMode
 	scf
 	ret
 
 Func_1ddf4: ; 0x1ddf4
-	ld hl, $d63c
+	ld hl, wd63c
 	call Func_e4a
-	ld hl, $d62b
+	ld hl, wd62b
 	call Func_e4a
 	jr nc, .asm_1de11
 	ld c, $a
@@ -35491,7 +35491,7 @@ Func_1ddf4: ; 0x1ddf4
 	call z, BankSwitch
 .asm_1de11
 	ld a, $1
-	ld [$d55a], a
+	ld [wd55a], a
 	ld [$ff8a], a
 	callba StartMapMoveMode
 	scf
@@ -35502,11 +35502,11 @@ Func_1de22: ; 0x1de22
 	bit 0, a
 	ret z
 	ld a, $55
-	ld [$d803], a
+	ld [wd803], a
 	ld a, $4
-	ld [$d804], a
+	ld [wd804], a
 	ld a, $2
-	ld [$d7eb], a
+	ld [wd7eb], a
 	ld bc, FiveHundredMillionPoints
 	ld [$ff8a], a
 	callba AddBCDScore
@@ -35565,7 +35565,7 @@ Func_1de6f: ; 0x1de6f
 	ret
 
 Func_1de93: ; 0x1de93
-	ld hl, $d4f7
+	ld hl, wd4f7
 	dec [hl]
 	ld a, [hli]
 	cp $ff
@@ -35605,7 +35605,7 @@ Func_1de93: ; 0x1de93
 .asm_1decf
 	call Func_1de6f
 .asm_1ded2
-	ld hl, $d4f9
+	ld hl, wd4f9
 	dec [hl]
 	ld a, [hli]
 	cp $ff
@@ -35650,7 +35650,7 @@ Func_1de93: ; 0x1de93
 
 Func_1df15: ; 0x1df15
 	ld b, $0
-	ld hl, $d4f8
+	ld hl, wd4f8
 	ld a, [hld]
 	or [hl]
 	jr z, .asm_1df3e
@@ -35674,7 +35674,7 @@ Func_1df15: ; 0x1df15
 	dec a
 	ld [wLeftMapMoveCounter], a
 .asm_1df3e
-	ld hl, $d4fa
+	ld hl, wd4fa
 	ld a, [hld]
 	or [hl]
 	jr z, .asm_1df65
@@ -35713,11 +35713,11 @@ Data_1e1d6:
 	dr $1e1d6, $1e356
 
 Func_1e356: ; 0x1e356
-	ld a, [$d5f7]
+	ld a, [wd5f7]
 	and a
 	jp z, Func_1e471
 	xor a
-	ld [$d5f7], a
+	ld [wd5f7], a
 	ld a, [wStageCollisionState]
 	cp $0
 	jr nz, .asm_1e386
@@ -35726,14 +35726,14 @@ Func_1e356: ; 0x1e356
 	ld [$ff8a], a
 	callba LoadStageCollisionAttributes
 	ld a, $1
-	ld [$d580], a
+	ld [wd580], a
 	ld [$ff8a], a
 	callba Func_1404a
 .asm_1e386
 	ld a, [wStageCollisionState]
 	bit 0, a
 	jp z, Func_1e471
-	ld a, [$d5fc]
+	ld a, [wd5fc]
 	and a
 	jp nz, Func_1e471
 	xor a
@@ -35743,11 +35743,11 @@ Func_1e356: ; 0x1e356
 	ld a, $b
 	ld [$ff8a], a
 	callba Func_10000
-	ld a, [$d5f8]
+	ld a, [wd5f8]
 	sub $13
 	ld c, a
 	ld b, $0
-	ld hl, $d5f9
+	ld hl, wd5f9
 	add hl, bc
 	ld a, [hl]
 	ld [hl], $1
@@ -35758,7 +35758,7 @@ Func_1e356: ; 0x1e356
 	ld bc, OneHundredMillionPoints
 	ld [$ff8a], a
 	callba AddBCDScore
-	ld hl, $d5f9
+	ld hl, wd5f9
 	ld a, [hli]
 	and [hl]
 	inc hl
@@ -35770,9 +35770,9 @@ Func_1e356: ; 0x1e356
 
 .asm_1e3de
 	ld a, $1
-	ld [$d5fc], a
+	ld [wd5fc], a
 	ld a, $80
-	ld [$d5fd], a
+	ld [wd5fd], a
 	; load approximately 1 minute of frames into wBallTypeCounter
 	ld a, $10
 	ld [wBallTypeCounter], a
@@ -35788,7 +35788,7 @@ Func_1e356: ; 0x1e356
 	call PlaySoundEffect
 	call Func_30e8
 	call Func_30db
-	ld hl, $d5cc
+	ld hl, wd5cc
 	ld de, FieldMultiplierText
 	call LoadTextHeader
 	ld a, [wBallType]
@@ -35814,12 +35814,12 @@ Func_1e356: ; 0x1e356
 	push de
 	call Func_30e8
 	call Func_30db
-	ld hl, $d5d4
+	ld hl, wd5d4
 	ld de, DigitsText1to8
 	call Func_32cc
 	pop de
 	pop bc
-	ld hl, $d5cc
+	ld hl, wd5cc
 	ld de, FieldMultiplierSpecialBonusText
 	call LoadTextHeader
 .asm_1e465
@@ -35831,7 +35831,7 @@ Func_1e471: ; 0x1e471
 	call Func_1e4b8
 	ret z
 asm_1e475: ; 0x1e475
-	ld hl, $d5fb
+	ld hl, wd5fb
 	ld b, $3
 .asm_1e47a
 	ld a, [hld]
@@ -35881,23 +35881,23 @@ Func_1e484: ; 0x1e484
 	ret
 
 Func_1e4b8: ; 0x1e4b8
-	ld a, [$d5fc]
+	ld a, [wd5fc]
 	and a
 	jr z, .asm_1e4e5
-	ld a, [$d5fd]
+	ld a, [wd5fd]
 	dec a
-	ld [$d5fd], a
+	ld [wd5fd], a
 	jr nz, .asm_1e4ca
-	ld [$d5fc], a
+	ld [wd5fc], a
 .asm_1e4ca
 	and $7
 	jr nz, .asm_1e4e3
-	ld a, [$d5fd]
+	ld a, [wd5fd]
 	srl a
 	srl a
 	srl a
 	and $1
-	ld hl, $d5f9
+	ld hl, wd5f9
 	ld [hli], a
 	ld [hli], a
 	ld [hl], a
@@ -35914,7 +35914,7 @@ Func_1e4b8: ; 0x1e4b8
 	call IsKeyPressed
 	jr z, .leftFlipperKeyIsPressed
 	; left flipper key is pressed
-	ld hl, $d5f9
+	ld hl, wd5f9
 	ld a, [hli]
 	ld c, a
 	ld a, [hli]
@@ -35934,7 +35934,7 @@ Func_1e4b8: ; 0x1e4b8
 	call IsKeyPressed
 	ret z
 	; right flipper key is pressed
-	ld hl, $d5f9
+	ld hl, wd5f9
 	ld a, [hli]
 	ld c, a
 	ld a, [hli]
@@ -35980,7 +35980,7 @@ Data_1e55c:
 	dr $1e55c, $1e58c
 
 HandleBallTypeUpgradeCounterBlueField: ; 0x1e58c
-	ld a, [$d5f3]
+	ld a, [wd5f3]
 	and a
 	ret nz
 	; check if counter is at 0
@@ -36017,19 +36017,19 @@ HandleBallTypeUpgradeCounterBlueField: ; 0x1e58c
 	ret
 
 Func_1e5c5: ; 0x1e5c5
-	ld a, [$d50d]
+	ld a, [wd50d]
 	and a
 	jr z, .asm_1e623
 	xor a
-	ld [$d50d], a
-	ld a, [$d513]
+	ld [wd50d], a
+	ld a, [wd513]
 	and a
 	jr nz, .asm_1e623
-	ld a, [$d50e]
+	ld a, [wd50e]
 	sub $16
 	ld c, a
 	ld b, $0
-	ld hl, $d50f
+	ld hl, wd50f
 	add hl, bc
 	ld a, [hl]
 	ld [hl], $1
@@ -36038,7 +36038,7 @@ Func_1e5c5: ; 0x1e5c5
 	ld bc, OneHundredMillionPoints
 	ld [$ff8a], a
 	callba AddBCDScore
-	ld hl, $d50f
+	ld hl, wd50f
 	ld a, [hli]
 	and [hl]
 	inc hl
@@ -36047,15 +36047,15 @@ Func_1e5c5: ; 0x1e5c5
 	and [hl]
 	jr z, Func_1e627
 	ld a, $1
-	ld [$d513], a
+	ld [wd513], a
 	ld a, $80
-	ld [$d514], a
+	ld [wd514], a
 	ld bc, FourHundredMillionPoints
 	ld [$ff8a], a
 	callba AddBCDScore
 	ld de, $0009
 	call PlaySoundEffect
-	ld hl, $d62c
+	ld hl, wd62c
 	call Func_e4a
 	jr Func_1e627
 
@@ -36065,7 +36065,7 @@ Func_1e5c5: ; 0x1e5c5
 	; fall through
 
 Func_1e627: ; 0x1e627
-	ld hl, $d512
+	ld hl, wd512
 	ld b, $4
 .asm_1e62c
 	ld a, [hld]
@@ -36115,28 +36115,28 @@ Func_1e636: ; 0x1e636
 	ret
 
 Func_1e66a: ; 0x1e66a
-	ld a, [$d513]
+	ld a, [wd513]
 	and a
 	jr z, .asm_1e6a0
-	ld a, [$d514]
+	ld a, [wd514]
 	dec a
-	ld [$d514], a
+	ld [wd514], a
 	jr nz, .asm_1e687
-	ld [$d513], a
+	ld [wd513], a
 	ld a, $1
-	ld [$d608], a
+	ld [wd608], a
 	ld a, $3
-	ld [$d607], a
+	ld [wd607], a
 	xor a
 .asm_1e687
 	and $7
 	ret nz
-	ld a, [$d514]
+	ld a, [wd514]
 	srl a
 	srl a
 	srl a
 	and $1
-	ld hl, $d50f
+	ld hl, wd50f
 	ld [hli], a
 	ld [hli], a
 	ld [hli], a
@@ -36149,7 +36149,7 @@ Func_1e66a: ; 0x1e66a
 	ld hl, wKeyConfigLeftFlipper
 	call IsKeyPressed
 	jr z, .asm_1e6bc
-	ld hl, $d50f
+	ld hl, wd50f
 	ld a, [hli]
 	ld c, a
 	ld a, [hli]
@@ -36172,7 +36172,7 @@ Func_1e66a: ; 0x1e66a
 	ld hl, wKeyConfigRightFlipper
 	call IsKeyPressed
 	ret z
-	ld hl, $d50f
+	ld hl, wd50f
 	ld a, [hli]
 	ld c, a
 	ld a, [hli]
@@ -36204,15 +36204,15 @@ Data_1e71f:
 	dr $1e71f, $1e757
 
 Func_1e757: ; 0x1e757
-	ld a, [$d601]
+	ld a, [wd601]
 	and a
 	jr z, .asm_1e78c
 	xor a
-	ld [$d601], a
-	ld a, [$d604]
+	ld [wd601], a
+	ld a, [wd604]
 	and a
 	ret z
-	ld a, [$d603]
+	ld a, [wd603]
 	and a
 	jr nz, .asm_1e78c
 	xor a
@@ -36221,7 +36221,7 @@ Func_1e757: ; 0x1e757
 	ld [hli], a
 	ld [hli], a
 	ld [hli], a
-	ld [$d549], a
+	ld [wd549], a
 	ld [wBallXPos], a
 	ld [wBallYPos], a
 	ld a, $50
@@ -36229,16 +36229,16 @@ Func_1e757: ; 0x1e757
 	ld a, $16
 	ld [wBallYPos + 1], a
 	ld a, $13
-	ld [$d603], a
+	ld [wd603], a
 .asm_1e78c
-	ld a, [$d603]
+	ld a, [wd603]
 	and a
 	ret z
 	dec a
-	ld [$d603], a
+	ld [wd603], a
 	ld a, $18
-	ld [$d606], a
-	ld a, [$d603]
+	ld [wd606], a
+	ld a, [wd603]
 	cp $12
 	jr nz, .asm_1e7b2
 	ld de, $0021
@@ -36258,7 +36258,7 @@ Func_1e757: ; 0x1e757
 	cp $c
 	jr nz, .asm_1e7d0
 	xor a
-	ld [$d548], a
+	ld [wd548], a
 	ld [wBallSpin], a
 	ld [wBallRotation], a
 	ret
@@ -36273,11 +36273,11 @@ Func_1e757: ; 0x1e757
 	cp $6
 	jr nz, .asm_1e7f5
 	xor a
-	ld [$d604], a
+	ld [wd604], a
 	ld a, $5
-	ld [$d803], a
+	ld [wd803], a
 	ld a, $8
-	ld [$d804], a
+	ld [wd804], a
 	ld [$ff8a], a
 	callba LoadMiniBallGfx
 	ret
@@ -36297,7 +36297,7 @@ Func_1e757: ; 0x1e757
 	and a
 	ret nz
 	call Func_1e8f6
-	ld a, [$d622]
+	ld a, [wd622]
 	cp $1
 	ret nz
 	call GenRandom
@@ -36306,7 +36306,7 @@ Func_1e757: ; 0x1e757
 	ld [$ff8a], a
 	callba StartCatchEmMode
 	xor a
-	ld [$d622], a
+	ld [wd622], a
 	ret
 
 Func_1e830: ; 0x1e830
@@ -36317,71 +36317,71 @@ Func_1e830: ; 0x1e830
 	callba Func_10000
 	jr nc, .asm_1e84b
 	ld a, $1
-	ld [$d548], a
-	ld [$d549], a
+	ld [wd548], a
+	ld [wd549], a
 	ret
 
 .asm_1e84b
-	ld a, [$d624]
+	ld a, [wd624]
 	cp $3
 	jr nz, .asm_1e891
-	ld a, [$d607]
+	ld a, [wd607]
 	and a
 	jr nz, .asm_1e891
 .asm_1e858
-	ld a, [$d623]
+	ld a, [wd623]
 	and a
 	jr nz, .asm_1e867
 	xor a
-	ld [$d625], a
+	ld [wd625], a
 	ld a, $40
-	ld [$d626], a
+	ld [wd626], a
 .asm_1e867
 	xor a
-	ld [$d623], a
+	ld [wd623], a
 	ld a, $1
-	ld [$d495], a
-	ld [$d4ae], a
-	ld a, [$d498]
+	ld [wd495], a
+	ld [wd4ae], a
+	ld a, [wd498]
 	ld c, a
 	ld b, $0
 	ld hl, Data_1e8f1
 	add hl, bc
 	ld a, [hl]
-	ld [$d497], a
+	ld [wd497], a
 	call Func_1e8c3
 	xor a
-	ld [$d609], a
-	ld [$d622], a
+	ld [wd609], a
+	ld [wd622], a
 	ld a, $1e
-	ld [$d607], a
+	ld [wd607], a
 	ret
 
 .asm_1e891
 	ld [$ff8a], a
 	callba Func_ed8e
 	xor a
-	ld [$d608], a
-	ld a, [$d61d]
+	ld [wd608], a
+	ld a, [wd61d]
 	cp $d
 	jr nc, .asm_1e858
 	ld a, $1
-	ld [$d548], a
-	ld [$d549], a
-	ld a, [$d622]
+	ld [wd548], a
+	ld [wd549], a
+	ld a, [wd622]
 	cp $2
 	ret nz
 	ld [$ff8a], a
 	callba Func_10ab3
 	xor a
-	ld [$d622], a
+	ld [wd622], a
 	ret
 
 Func_1e8c3: ; 0x1e8c3
 	call Func_30e8
 	call Func_30db
-	ld hl, $d5dc
-	ld a, [$d497]
+	ld hl, wd5dc
+	ld a, [wd497]
 	ld de, Data_2ed2
 	cp $b
 	jr z, .asm_1e8e0
@@ -36406,7 +36406,7 @@ Func_1e8f6: ; 0x1e8f6
 	and $1
 	sla a
 	ld c, a
-	ld a, [$d604]
+	ld a, [wd604]
 	add c
 	sla a
 	ld c, a
@@ -36434,24 +36434,24 @@ Data_1e970:
 	dr $1e970, $1e9c0
 
 Func_1e9c0: ; 0x1e9c0
-	ld a, [$d607]
+	ld a, [wd607]
 	and a
 	ret z
 	dec a
-	ld [$d607], a
+	ld [wd607], a
 	ret nz
 	ld a, [wInSpecialMode]
 	and a
 	ret nz
-	ld a, [$d609]
+	ld a, [wd609]
 	and a
 	jr z, .asm_1e9dc
-	ld a, [$d498]
+	ld a, [wd498]
 	add $15
 	jr .asm_1e9e3
 
 .asm_1e9dc
-	ld a, [$d608]
+	ld a, [wd608]
 	and a
 	ret z
 	ld a, $1a
@@ -36462,11 +36462,11 @@ Func_1e9c0: ; 0x1e9c0
 	ld a, Bank(Func_30256)
 	ld hl, Func_30256
 	call nz, BankSwitch
-	ld a, [$d604]
+	ld a, [wd604]
 	and a
 	ret nz
 	ld a, $1
-	ld [$d604], a
+	ld [wd604], a
 	ld a, $80
 	ld [wIndicatorStates + 4], a
 	ld a, [wCurrentStage]
@@ -36475,7 +36475,7 @@ Func_1e9c0: ; 0x1e9c0
 	ret
 
 Func_1ea0a: ; 0x1ea0a
-	ld a, [$d604]
+	ld a, [wd604]
 	and a
 	ret z
 	ld a, [wBallYPos + 1]
@@ -36505,7 +36505,7 @@ Func_1ea0a: ; 0x1ea0a
 	jr asm_1ea6a
 
 Func_1ea3b: ; 0x1ea3b
-	ld a, [$d604]
+	ld a, [wd604]
 	and a
 	ret z
 	ld a, [wBallYPos + 1]
@@ -36598,13 +36598,13 @@ asm_1ea6a: ; 0x1ea6a
 	ld a, h
 	cp $2
 	ret c
-	ld a, [$d804]
+	ld a, [wd804]
 	and a
 	ret nz
 	ld a, $5
-	ld [$d803], a
+	ld [wd803], a
 	ld a, $8
-	ld [$d804], a
+	ld [wd804], a
 	ld de, $0004
 	call PlaySoundEffect
 	ret
@@ -36666,7 +36666,7 @@ Func_1ead4: ; 0x1ead4
 	ld a, $0
 .asm_1eb2b
 	push af
-	ld hl, $d648
+	ld hl, wd648
 	add hl, bc
 	dec hl
 	dec hl
@@ -36920,13 +36920,13 @@ Func_1eff3:  ; 0x1eff3
 	ld a, h
 	cp $2
 	ret c
-	ld a, [$d804]
+	ld a, [wd804]
 	and a
 	ret nz
 	ld a, $5
-	ld [$d803], a
+	ld [wd803], a
 	ld a, $8
-	ld [$d804], a
+	ld [wd804], a
 	ret
 
 Func_1f057: ; 0x1f057
@@ -36995,13 +36995,13 @@ Func_1f057: ; 0x1f057
 	ld a, h
 	cp $2
 	ret c
-	ld a, [$d804]
+	ld a, [wd804]
 	and a
 	ret nz
 	ld a, $5
-	ld [$d803], a
+	ld [wd803], a
 	ld a, $8
-	ld [$d804], a
+	ld [wd804], a
 	ret
 
 LoadOAMData2e: ; 0x1f0be
@@ -37070,13 +37070,13 @@ LoadOAMData2e: ; 0x1f0be
 	ld a, h
 	cp $2
 	ret c
-	ld a, [$d804]
+	ld a, [wd804]
 	and a
 	ret nz
 	ld a, $5
-	ld [$d803], a
+	ld [wd803], a
 	ld a, $8
-	ld [$d804], a
+	ld [wd804], a
 	ret
 
 Func_1f124: ; 0x1f124
@@ -37145,17 +37145,17 @@ Func_1f124: ; 0x1f124
 	ld a, h
 	cp $2
 	ret c
-	ld a, [$d804]
+	ld a, [wd804]
 	and a
 	ret nz
 	ld a, $5
-	ld [$d803], a
+	ld [wd803], a
 	ld a, $8
-	ld [$d804], a
+	ld [wd804], a
 	ret
 
 Func_1f18a: ; 0x1f18a
-	ld a, [$d640]
+	ld a, [wd640]
 	cp $0
 	jr z, .asm_1f1b4
 	ld a, [wBlueStageForceFieldDirection]
@@ -37177,7 +37177,7 @@ Func_1f18a: ; 0x1f18a
 	ld a, $7
 	call Func_10aa
 	ld a, $0
-	ld [$d640], a
+	ld [wd640], a
 .asm_1f1b4
 	ret
 
@@ -37208,39 +37208,39 @@ Func_1f265: ; 0x1f265
 	ret
 
 Func_1f27b: ; 0x1f27b
-	ld a, [$d624]
-	ld hl, $d625
+	ld a, [wd624]
+	ld hl, wd625
 	cp [hl]
 	ret z
-	ld a, [$d626]
+	ld a, [wd626]
 	dec a
-	ld [$d626], a
+	ld [wd626], a
 	jr nz, .asm_1f2a5
-	ld a, [$d625]
-	ld [$d624], a
+	ld a, [wd625]
+	ld [wd624], a
 	cp $3
 	jr c, .asm_1f2a0
 	ld a, $1
-	ld [$d609], a
+	ld [wd609], a
 	ld a, $3
-	ld [$d607], a
+	ld [wd607], a
 .asm_1f2a0
-	ld a, [$d624]
+	ld a, [wd624]
 	scf
 	ret
 
 .asm_1f2a5
 	and $7
 	ret nz
-	ld a, [$d626]
+	ld a, [wd626]
 	bit 3, a
 	jr nz, .asm_1f2b4
-	ld a, [$d624]
+	ld a, [wd624]
 	scf
 	ret
 
 .asm_1f2b4
-	ld a, [$d625]
+	ld a, [wd625]
 	scf
 	ret
 
@@ -37249,7 +37249,7 @@ Data_1f2b9:
 
 Func_1f2ed: ; 0x1f2ed
 	xor a
-	ld [$d604], a
+	ld [wd604], a
 	ld [wIndicatorStates + 4], a
 	ld [$ff8a], a
 	ld a, Bank(Func_1e8f6)  ; this is in the same bank...
@@ -37316,13 +37316,13 @@ Func_1f35a: ; 0x1f35a
 	ret
 
 Func_1f395: ; 0x1f395
-	ld de, $d4cd
+	ld de, wd4cd
 	ld hl, Data_1f3cf
 	call Func_1f3ad
-	ld de, $d4d0
+	ld de, wd4d0
 	ld hl, Data_1f3d5
 	call Func_1f3ad
-	ld de, $d4d3
+	ld de, wd4d3
 	ld hl, Data_1f3db
 	; fall through
 
@@ -37337,7 +37337,7 @@ Func_1f3ad: ; 0x1f3ad
 	ld a, [hli]
 	sub c
 	ld c, a
-	ld a, [$d4d7]
+	ld a, [wd4d7]
 	sub [hl]
 	inc hl
 	jr z, .asm_1f3c4
@@ -37372,7 +37372,7 @@ Func_1f3e1: ; 0x1f3e1
 	ld hl, hBoardYShift
 	sub [hl]
 	ld c, a
-	ld a, [$d50a]
+	ld a, [wd50a]
 	srl a
 	srl a
 	ld e, a
@@ -37395,7 +37395,7 @@ Func_1f408: ; 0x1f408
 	ld hl, hBoardYShift
 	sub [hl]
 	ld c, a
-	ld a, [$d633]
+	ld a, [wd633]
 	ld e, a
 	ld d, $0
 	ld hl, Data_1f425
@@ -37416,7 +37416,7 @@ Func_1f428: ; 0x1f428
 	ld hl, hBoardYShift
 	sub [hl]
 	ld c, a
-	ld a, [$d638]
+	ld a, [wd638]
 	ld e, a
 	ld d, $0
 	ld hl, Data_1f445
@@ -37433,11 +37433,11 @@ Func_1f448: ; 0x1f448
 	ld d, a
 	ld a, [hBoardYShift]
 	ld e, a
-	ld a, [$d51d]
+	ld a, [wd51d]
 	and a
-	ld a, [$d518]
+	ld a, [wd518]
 	jr z, .asm_1f473
-	ld a, [$d51c]
+	ld a, [wd51c]
 	and a
 	jr nz, .asm_1f469
 	ld a, [$ffb3]
@@ -37448,7 +37448,7 @@ Func_1f448: ; 0x1f448
 	jr .asm_1f473
 
 .asm_1f469
-	ld a, [$d4b4]
+	ld a, [wd4b4]
 	cp $50
 	ld a, $1
 	jr nc, .asm_1f473
@@ -37474,7 +37474,7 @@ Data_1f48b:
 	dr $1f48b, $1f48f
 
 Func_1f48f: ; 0x1f48f
-	ld a, [$d551]
+	ld a, [wd551]
 	and a
 	ret nz
 	ld a, [$ffb3]
@@ -37486,7 +37486,7 @@ Func_1f48f: ; 0x1f48f
 	jr asm_1f4b5
 
 Func_1f4a3: ; 0x1f4a3
-	ld a, [$d551]
+	ld a, [wd551]
 	and a
 	ret nz
 	ld a, [$ffb3]
@@ -37524,20 +37524,20 @@ Data_1f4e0:
 	dr $1f4e0, $1f4f8
 
 Func_1f4f8: ; 0x1f4f8
-	ld a, [$d551]
+	ld a, [wd551]
 	and a
 	ret z
-	ld de, $d566
+	ld de, wd566
 	ld hl, Data_1f53a
 	ld b, $c
 	ld c, $47
 	jr asm_1f518
 
 Func_1f509: ; 0x1f509
-	ld a, [$d551]
+	ld a, [wd551]
 	and a
 	ret z
-	ld de, $d572
+	ld de, wd572
 	ld hl, Data_1f552
 	ld b, $6
 	ld c, $40
@@ -37577,12 +37577,12 @@ Data_1f552:
 	dr $1f552, $1f55e
 
 Func_1f55e: ; 0x1f55e
-	ld a, [$d604]
+	ld a, [wd604]
 	and a
 	ret z
-	ld a, [$d606]
+	ld a, [wd606]
 	inc a
-	ld [$d606], a
+	ld [wd606], a
 	ld a, $40
 	ld hl, hBoardXShift
 	sub [hl]
@@ -37591,7 +37591,7 @@ Func_1f55e: ; 0x1f55e
 	ld hl, hBoardYShift
 	sub [hl]
 	ld c, a
-	ld a, [$d606]
+	ld a, [wd606]
 	srl a
 	srl a
 	srl a
@@ -37602,7 +37602,7 @@ Func_1f55e: ; 0x1f55e
 	ret
 
 Func_1f58b: ; 0x1f58b
-	ld a, [$d5bb]
+	ld a, [wd5bb]
 	and a
 	ret z
 	ld a, $50
@@ -37613,7 +37613,7 @@ Func_1f58b: ; 0x1f58b
 	ld hl, hBoardYShift
 	sub [hl]
 	ld c, a
-	ld a, [$d5bd]
+	ld a, [wd5bd]
 	ld e, a
 	ld d, $0
 	ld hl, Data_1f5ad
@@ -37628,7 +37628,7 @@ Data_1f5ad:
 SECTION "bank8", ROMX, BANK[$8]
 
 Func_20000: ; 0x20000
-	ld a, [$d54c]
+	ld a, [wd54c]
 	cp $4
 	jp z, Func_20230
 	cp $c
@@ -37642,7 +37642,7 @@ Func_20000: ; 0x20000
 
 .asm_20018
 	call Func_201f2
-	ld a, [$d54d]
+	ld a, [wd54d]
 	call CallInFollowingTable
 PointerTable_20021: ; 0x20021
 	dw Func_20041
@@ -37670,18 +37670,18 @@ PointerTable_20021: ; 0x20021
 	db Bank(Func_201ce), $00
 
 Func_20041: ; 0x20041
-	ld a, [$d5b6]
+	ld a, [wd5b6]
 	cp $18
 	jr nz, .asm_2005d
 	ld a, [wCurrentStage]
 	bit 0, a
 	jr z, .asm_2005d
-	ld hl, $d54d
+	ld hl, wd54d
 	inc [hl]
 	ld a, $14
-	ld [$d54e], a
+	ld [wd54e], a
 	ld a, $5
-	ld [$d54f], a
+	ld [wd54f], a
 .asm_2005d
 	scf
 	ret
@@ -37710,8 +37710,8 @@ Func_2006b: ; 0x2006b
 	call nz, BankSwitch
 .asm_20098
 	ld a, $1
-	ld [$d5c6], a
-	ld hl, $d54d
+	ld [wd5c6], a
+	ld hl, wd54d
 	inc [hl]
 .asm_200a1
 	scf
@@ -37730,38 +37730,38 @@ Func_200a3: ; 0x200a3
 	callba Func_10732
 	ld [$ff8a], a
 	callba Func_10464
-	ld hl, $d54d
+	ld hl, wd54d
 	inc [hl]
 .asm_200d1
 	scf
 	ret
 
 Func_200d3: ; 0x200d3
-	ld a, [$d5be]
+	ld a, [wd5be]
 	dec a
-	ld [$d5be], a
+	ld [wd5be], a
 	jr z, .asm_200e6
-	ld a, [$d5c4]
+	ld a, [wd5c4]
 	inc a
-	ld [$d5c4], a
+	ld [wd5c4], a
 	and $3
 	ret nz
 .asm_200e6
-	ld a, [$d5bf]
+	ld a, [wd5bf]
 	and a
 	jp z, .asm_20167
 	xor a
-	ld [$d5bf], a
-	ld a, [$d5c3]
-	ld [$d5be], a
+	ld [wd5bf], a
+	ld a, [wd5c3]
+	ld [wd5be], a
 	xor a
-	ld [$d5c4], a
+	ld [wd5c4], a
 	ld a, [wCurrentCatchEmMon]
 	cp MEW - 1
 	jr nz, .notMew
-	ld a, [$d5c5]
+	ld a, [wd5c5]
 	inc a
-	ld [$d5c5], a
+	ld [wd5c5], a
 	jr nz, .asm_20116
 .notMew
 	ld a, [wNumMonHits]
@@ -37779,12 +37779,12 @@ Func_200d3: ; 0x200d3
 	push de
 	call Func_30e8
 	call Func_30db
-	ld hl, $d5e9
+	ld hl, wd5e9
 	ld de, $2a2a
 	call Func_3372
 	pop de
 	pop bc
-	ld hl, $d5e4
+	ld hl, wd5e4
 	ld de, $2a21
 	call Func_3357
 	ld a, [wNumMonHits]
@@ -37795,21 +37795,21 @@ Func_200d3: ; 0x200d3
 
 .hitMonThreeTimes
 	xor a
-	ld [$d57e], a
+	ld [wd57e], a
 	ld a, $1
-	ld [$d57f], a
-	ld hl, $d54d
+	ld [wd57f], a
+	ld hl, wd54d
 	inc [hl]
 	ld c, $2
 	jr .asm_2018a
 
 .asm_20167
-	ld a, [$d5be]
+	ld a, [wd5be]
 	and a
 	ret nz
-	ld a, [$d5bc]
+	ld a, [wd5bc]
 	ld c, a
-	ld a, [$d5bd]
+	ld a, [wd5bd]
 	sub c
 	cp $1
 	ld c, $0
@@ -37817,31 +37817,31 @@ Func_200d3: ; 0x200d3
 	ld c, $1
 .asm_2017c
 	ld b, $0
-	ld hl, $d5c1
+	ld hl, wd5c1
 	add hl, bc
 	ld a, [hl]
-	ld [$d5be], a
+	ld [wd5be], a
 	xor a
-	ld [$d5c4], a
+	ld [wd5c4], a
 .asm_2018a
-	ld a, [$d5bc]
+	ld a, [wd5bc]
 	add c
-	ld [$d5bd], a
+	ld [wd5bd], a
 	scf
 	ret
 
 Func_20193: ; 0x20193
-	ld a, [$d580]
+	ld a, [wd580]
 	and a
 	jr z, .asm_2019e
 	xor a
-	ld [$d580], a
+	ld [wd580], a
 	ret
 
 .asm_2019e
 	ld [$ff8a], a
 	callba Func_10496
-	ld hl, $d54d
+	ld hl, wd54d
 	inc [hl]
 	ld [$ff8a], a
 	callba Func_106b6
@@ -37857,7 +37857,7 @@ CapturePokemonRedStage: ; 0x201c2
 	ret
 
 Func_201ce: ; 0x201ce
-	ld a, [$d5ca]
+	ld a, [wd5ca]
 	and a
 	ret nz
 	call Func_30e8
@@ -37873,13 +37873,13 @@ Func_201ce: ; 0x201ce
 Func_201f2: ; 0x201f2
 	ld [$ff8a], a
 	callba Func_107f8
-	ld a, [$d57e]
+	ld a, [wd57e]
 	and a
 	ret z
 	xor a
-	ld [$d57e], a
+	ld [wd57e], a
 	ld a, $7
-	ld [$d54d], a
+	ld [wd54d], a
 	ld a, [wCurrentCatchEmMon]
 	cp NUM_POKEMON - 1
 	jr nz, .asm_2021b
@@ -37893,13 +37893,13 @@ Func_201f2: ; 0x201f2
 	ret
 
 Func_20230: ; 0x20230
-	ld a, [$d5b6]
+	ld a, [wd5b6]
 	cp $18
 	jr z, .asm_2029d
 	sla a
 	ld c, a
 	ld b, $0
-	ld hl, $d586
+	ld hl, wd586
 	add hl, bc
 	ld d, $4
 .asm_20242
@@ -37912,13 +37912,13 @@ Func_20230: ; 0x20230
 	dec d
 	jr nz, .asm_20242
 .asm_2024e
-	ld a, [$d5b6]
+	ld a, [wd5b6]
 	add $4
 	cp $18
 	jr c, .asm_20259
 	ld a, $18
 .asm_20259
-	ld [$d5b6], a
+	ld [wd5b6], a
 	cp $18
 	jr nz, .asm_20264
 	xor a
@@ -37935,12 +37935,12 @@ Func_20230: ; 0x20230
 	push de
 	call Func_30e8
 	call Func_30db
-	ld hl, $d5e9
+	ld hl, wd5e9
 	ld de, $2a3d
 	call Func_3372
 	pop de
 	pop bc
-	ld hl, $d5e4
+	ld hl, wd5e4
 	ld de, $2a30
 	call Func_3357
 .asm_2029d
@@ -37963,7 +37963,7 @@ Func_202b2: ; 0x202b2
 	ret
 
 Func_202bc: ; 0x202bc
-	ld a, [$d54c]
+	ld a, [wd54c]
 	cp $4
 	jp z, Func_204f1
 	cp $c
@@ -37979,7 +37979,7 @@ Func_202bc: ; 0x202bc
 
 .asm_202d9
 	call Func_204b3
-	ld a, [$d54d]
+	ld a, [wd54d]
 	call CallInFollowingTable
 PointerTable_202e2: ; 0x202e2
 	dw Func_20302
@@ -38007,18 +38007,18 @@ PointerTable_202e2: ; 0x202e2
 	db Bank(Func_2048f), $00
 
 Func_20302: ; 0x20302
-	ld a, [$d5b6]
+	ld a, [wd5b6]
 	cp $18
 	jr nz, .asm_2031e
 	ld a, [wCurrentStage]
 	bit 0, a
 	jr z, .asm_2031e
-	ld hl, $d54d
+	ld hl, wd54d
 	inc [hl]
 	ld a, $14
-	ld [$d54e], a
+	ld [wd54e], a
 	ld a, $5
-	ld [$d54f], a
+	ld [wd54f], a
 .asm_2031e
 	scf
 	ret
@@ -38047,8 +38047,8 @@ Func_2032c: ; 0x2032c
 	call nz, BankSwitch
 .asm_20333
 	ld a, $1
-	ld [$d5c6], a
-	ld hl, $d54d
+	ld [wd5c6], a
+	ld hl, wd54d
 	inc [hl]
 .asm_20362
 	scf
@@ -38067,38 +38067,38 @@ Func_20364: ; 0x20364
 	callba Func_10732
 	ld [$ff8a], a
 	callba Func_10464
-	ld hl, $d54d
+	ld hl, wd54d
 	inc [hl]
 .asm_20392
 	scf
 	ret
 
 Func_20394: ; 0x20394
-	ld a, [$d5be]
+	ld a, [wd5be]
 	dec a
-	ld [$d5be], a
+	ld [wd5be], a
 	jr z, .asm_203a7
-	ld a, [$d5c4]
+	ld a, [wd5c4]
 	inc a
-	ld [$d5c4], a
+	ld [wd5c4], a
 	and $3
 	ret nz
 .asm_203a7
-	ld a, [$d5bf]
+	ld a, [wd5bf]
 	and a
 	jp z, .asm_20428
 	xor a
-	ld [$d5bf], a
-	ld a, [$d5c3]
-	ld [$d5be], a
+	ld [wd5bf], a
+	ld a, [wd5c3]
+	ld [wd5be], a
 	xor a
-	ld [$d5c4], a
+	ld [wd5c4], a
 	ld a, [wCurrentCatchEmMon]
 	cp MEW - 1
 	jr nz, .notMew
-	ld a, [$d5c5]
+	ld a, [wd5c5]
 	inc a
-	ld [$d5c5], a
+	ld [wd5c5], a
 	jr nz, .asm_203d7
 .notMew
 	ld a, [wNumMonHits]
@@ -38116,12 +38116,12 @@ Func_20394: ; 0x20394
 	push de
 	call Func_30e8
 	call Func_30db
-	ld hl, $d5e9
+	ld hl, wd5e9
 	ld de, $2a2a
 	call Func_3372
 	pop de
 	pop bc
-	ld hl, $d5e4
+	ld hl, wd5e4
 	ld de, $2a21
 	call Func_3357
 	ld a, [wNumMonHits]
@@ -38132,21 +38132,21 @@ Func_20394: ; 0x20394
 
 .asm_20417
 	xor a
-	ld [$d57e], a
+	ld [wd57e], a
 	ld a, $1
-	ld [$d57f], a
-	ld hl, $d54d
+	ld [wd57f], a
+	ld hl, wd54d
 	inc [hl]
 	ld c, $2
 	jr .asm_2044b
 
 .asm_20428
-	ld a, [$d5be]
+	ld a, [wd5be]
 	and a
 	ret nz
-	ld a, [$d5bc]
+	ld a, [wd5bc]
 	ld c, a
-	ld a, [$d5bd]
+	ld a, [wd5bd]
 	sub c
 	cp $1
 	ld c, $0
@@ -38154,31 +38154,31 @@ Func_20394: ; 0x20394
 	ld c, $1
 .asm_2043d
 	ld b, $0
-	ld hl, $d5c1
+	ld hl, wd5c1
 	add hl, bc
 	ld a, [hl]
-	ld [$d5be], a
+	ld [wd5be], a
 	xor a
-	ld [$d5c4], a
+	ld [wd5c4], a
 .asm_2044b
-	ld a, [$d5bc]
+	ld a, [wd5bc]
 	add c
-	ld [$d5bd], a
+	ld [wd5bd], a
 	scf
 	ret
 
 Func_20454: ; 0x20454
-	ld a, [$d580]
+	ld a, [wd580]
 	and a
 	jr z, .asm_2045f
 	xor a
-	ld [$d580], a
+	ld [wd580], a
 	ret
 
 .asm_2045f
 	ld [$ff8a], a
 	callba Func_10496
-	ld hl, $d54d
+	ld hl, wd54d
 	inc [hl]
 	ld [$ff8a], a
 	callba Func_106b6
@@ -38194,7 +38194,7 @@ CapturePokemonBlueStage: ; 0x20483
 	ret
 
 Func_2048f: ; 0x2048f
-	ld a, [$d5ca]
+	ld a, [wd5ca]
 	and a
 	ret nz
 	call Func_30e8
@@ -38210,13 +38210,13 @@ Func_2048f: ; 0x2048f
 Func_204b3: ; 0x204b3
 	ld [$ff8a], a
 	callba Func_107f8
-	ld a, [$d57e]
+	ld a, [wd57e]
 	and a
 	ret z
 	xor a
-	ld [$d57e], a
+	ld [wd57e], a
 	ld a, $7
-	ld [$d54d], a
+	ld [wd54d], a
 	ld a, [wCurrentCatchEmMon]
 	cp MEW - 1
 	jr nz, .notMew
@@ -38230,13 +38230,13 @@ Func_204b3: ; 0x204b3
 	ret
 
 Func_204f1: ; 0x204f1
-	ld a, [$d5b6]
+	ld a, [wd5b6]
 	cp $18
 	jr z, .asm_2055e
 	sla a
 	ld c, a
 	ld b, $0
-	ld hl, $d586
+	ld hl, wd586
 	add hl, bc
 	ld d, $4
 .asm_20503
@@ -38249,13 +38249,13 @@ Func_204f1: ; 0x204f1
 	dec d
 	jr nz, .asm_20503
 .asm_2050f
-	ld a, [$d5b6]
+	ld a, [wd5b6]
 	add $4
 	cp $18
 	jr c, .asm_2051a
 	ld a, $18
 .asm_2051a
-	ld [$d5b6], a
+	ld [wd5b6], a
 	cp $18
 	jr nz, .asm_20525
 	xor a
@@ -38272,12 +38272,12 @@ Func_204f1: ; 0x204f1
 	push de
 	call Func_30e8
 	call Func_30db
-	ld hl, $d5e9
+	ld hl, wd5e9
 	ld de, $2a3d
 	call Func_3372
 	pop de
 	pop bc
-	ld hl, $d5e4
+	ld hl, wd5e4
 	ld de, $2a30
 	call Func_3357
 .asm_2055e
@@ -38304,7 +38304,7 @@ Func_2057a: ; 0x2057a
 	ret
 
 Func_20581: ; 0x20581
-	ld a, [$d54c]
+	ld a, [wd54c]
 	cp $4
 	jp z, Func_2080f
 	cp $3
@@ -38338,7 +38338,7 @@ Func_20581: ; 0x20581
 
 .asm_205cb
 	call Func_2077b
-	ld a, [$d54d]
+	ld a, [wd54d]
 	call CallInFollowingTable
 PointerTable_205d4: ; 0x205d4
 	dw Func_205e0
@@ -38353,7 +38353,7 @@ PointerTable_205d4: ; 0x205d4
 Func_205e0: ; 0x205e0
 	ld a, [wCurrentStage]
 	ld b, a
-	ld a, [$d578]
+	ld a, [wd578]
 	and a
 	ret z
 	dec a
@@ -38363,18 +38363,18 @@ Func_205e0: ; 0x205e0
 .asm_205f0
 	ld c, a
 	ld b, $0
-	ld hl, $d566
+	ld hl, wd566
 	add hl, bc
 	ld a, [hl]
 	and a
 	ret z
 	xor a
 	ld [hl], a
-	ld [$d551], a
+	ld [wd551], a
 	call Func_20651
-	ld a, [$d558]
+	ld a, [wd558]
 	ld [wIndicatorStates + 2], a
-	ld a, [$d559]
+	ld a, [wd559]
 	ld [wIndicatorStates + 3], a
 	ld [wIndicatorStates + 10], a
 	ld a, [wCurrentStage]
@@ -38389,7 +38389,7 @@ Func_205e0: ; 0x205e0
 	call Func_30e8
 	call Func_30db
 	ld de, $2bd8
-	ld hl, $d5cc
+	ld hl, wd5cc
 	call LoadTextHeader
 	ld a, [hGameBoyColorFlag]
 	and a
@@ -38415,7 +38415,7 @@ Func_20651: ; 0x20651
 	sla c
 	ld hl, $4e80
 	add hl, bc
-	ld a, [$d554]
+	ld a, [wd554]
 	ld c, a
 	ld b, $0
 	swap c
@@ -38430,9 +38430,9 @@ Func_20651: ; 0x20651
 	ld a, $36
 	call LoadVRAMData
 .asm_20681
-	ld a, [$d554]
+	ld a, [wd554]
 	inc a
-	ld [$d554], a
+	ld [wd554], a
 	cp $1
 	jr nz, .asm_20693
 	ld de, $0728
@@ -38452,7 +38452,7 @@ Func_20651: ; 0x20651
 	ld de, $0745
 	call PlaySoundEffect
 	ld a, $1
-	ld [$d604], a
+	ld [wd604], a
 	ld a, $80
 	ld [wIndicatorStates + 4], a
 	xor a
@@ -38467,8 +38467,8 @@ Func_20651: ; 0x20651
 	ld [wIndicatorStates + 12], a
 	ld [wIndicatorStates + 6], a
 	ld [wIndicatorStates + 7], a
-	ld [$d558], a
-	ld [$d559], a
+	ld [wd558], a
+	ld [wd559], a
 	ld a, [wCurrentStage]
 	bit 0, a
 	ret z
@@ -38499,11 +38499,11 @@ Func_2070b: ; 0x2070b
 	callba Func_10ac8
 	ld de, $0001
 	call PlaySong
-	ld hl, $d629
+	ld hl, wd629
 	call Func_e4a
 	ld [$ff8a], a
 	callba SetPokemonOwnedFlag
-	ld a, [$d624]
+	ld a, [wd624]
 	cp $3
 	ret z
 	add $2
@@ -38511,14 +38511,14 @@ Func_2070b: ; 0x2070b
 	jr c, .asm_2074d
 	ld a, $3
 .asm_2074d
-	ld [$d625], a
+	ld [wd625], a
 	ld a, $80
-	ld [$d626], a
+	ld [wd626], a
 	scf
 	ret
 
 Func_20757: ; 0x20757
-	ld a, [$d5ca]
+	ld a, [wd5ca]
 	and a
 	ret nz
 	call Func_30e8
@@ -38532,7 +38532,7 @@ Func_20757: ; 0x20757
 	ret
 
 Func_2077b: ; 0x2077b
-	ld hl, $d556
+	ld hl, wd556
 	ld a, [hli]
 	ld c, a
 	ld b, [hl]
@@ -38548,15 +38548,15 @@ Func_2077b: ; 0x2077b
 .asm_2078e
 	ld [$ff8a], a
 	callba Func_107f8
-	ld a, [$d57e]
+	ld a, [wd57e]
 	and a
 	ret z
 	xor a
-	ld [$d57e], a
+	ld [wd57e], a
 	ld a, $2
-	ld [$d54d], a
+	ld [wd54d], a
 	xor a
-	ld [$d604], a
+	ld [wd604], a
 	ld hl, wIndicatorStates
 	ld [wIndicatorStates + 4], a
 	ld [wIndicatorStates + 9], a
@@ -38570,9 +38570,9 @@ Func_2077b: ; 0x2077b
 	ld [wIndicatorStates + 12], a
 	ld [wIndicatorStates + 6], a
 	ld [wIndicatorStates + 7], a
-	ld [$d558], a
-	ld [$d559], a
-	ld [$d551], a
+	ld [wd558], a
+	ld [wd559], a
+	ld [wd551], a
 	ld a, [wCurrentStage]
 	bit 0, a
 	jr z, .asm_207f5
@@ -38585,7 +38585,7 @@ Func_2077b: ; 0x2077b
 	callba Func_86d2
 	call Func_30e8
 	call Func_30db
-	ld hl, $d5cc
+	ld hl, wd5cc
 	ld de, EvolutionFailedText
 	call LoadTextHeader
 	ret
@@ -38594,7 +38594,7 @@ Func_2080f: ; 0x2080f
 	ld bc, $0001
 	ld de, $5000
 	call Func_3538
-	ld a, [$d551]
+	ld a, [wd551]
 	and a
 	jr nz, .asm_20837
 	ld a, [wIndicatorStates + 9]
@@ -38602,10 +38602,10 @@ Func_2080f: ; 0x2080f
 	jr z, .asm_20837
 	xor a
 	ld [wIndicatorStates + 9], a
-	ld a, [$d55c]
+	ld a, [wd55c]
 	and a
 	ld a, $0
-	ld [$d55c], a
+	ld [wd55c], a
 	jp nz, Func_20977
 	jp Func_209eb
 
@@ -38614,7 +38614,7 @@ Func_2080f: ; 0x2080f
 	ret
 
 Func_20839: ; 0x20839
-	ld a, [$d551]
+	ld a, [wd551]
 	and a
 	jr nz, .asm_20858
 	ld a, [wIndicatorStates + 2]
@@ -38622,10 +38622,10 @@ Func_20839: ; 0x20839
 	jr z, .asm_20858
 	xor a
 	ld [wIndicatorStates + 2], a
-	ld a, [$d563]
+	ld a, [wd563]
 	and a
 	ld a, $0
-	ld [$d563], a
+	ld [wd563], a
 	jp nz, Func_20977
 	jp Func_209eb
 
@@ -38637,7 +38637,7 @@ Func_2085a: ; 0x2085a
 	ld bc, $0007
 	ld de, $5000
 	call Func_3538
-	ld a, [$d551]
+	ld a, [wd551]
 	and a
 	jr nz, .asm_20885
 	ld a, [wIndicatorStates + 3]
@@ -38646,10 +38646,10 @@ Func_2085a: ; 0x2085a
 	xor a
 	ld [wIndicatorStates + 3], a
 	ld [wIndicatorStates + 10], a
-	ld a, [$d562]
+	ld a, [wd562]
 	and a
 	ld a, $0
-	ld [$d562], a
+	ld [wd562], a
 	jp nz, Func_20977
 	jp Func_209eb
 
@@ -38658,7 +38658,7 @@ Func_2085a: ; 0x2085a
 	ret
 
 Func_20887: ; 0x20887
-	ld a, [$d551]
+	ld a, [wd551]
 	and a
 	jr nz, .asm_208a6
 	ld a, [wIndicatorStates + 8]
@@ -38666,10 +38666,10 @@ Func_20887: ; 0x20887
 	jr z, .asm_208a6
 	xor a
 	ld [wIndicatorStates + 8], a
-	ld a, [$d561]
+	ld a, [wd561]
 	and a
 	ld a, $0
-	ld [$d561], a
+	ld [wd561], a
 	jp nz, Func_20977
 	jp Func_209eb
 
@@ -38678,7 +38678,7 @@ Func_20887: ; 0x20887
 	ret
 
 Func_208a8: ; 0x208a8
-	ld a, [$d551]
+	ld a, [wd551]
 	and a
 	jr nz, .asm_208c7
 	ld a, [wIndicatorStates + 13]
@@ -38686,10 +38686,10 @@ Func_208a8: ; 0x208a8
 	jr z, .asm_208c7
 	xor a
 	ld [wIndicatorStates + 13], a
-	ld a, [$d55d]
+	ld a, [wd55d]
 	and a
 	ld a, $0
-	ld [$d55d], a
+	ld [wd55d], a
 	jp nz, Func_20977
 	jp Func_209eb
 
@@ -38698,7 +38698,7 @@ Func_208a8: ; 0x208a8
 	ret
 
 Func_208c9: ; 0x208c9
-	ld a, [$d551]
+	ld a, [wd551]
 	and a
 	jr nz, .asm_208e8
 	ld a, [wIndicatorStates + 14]
@@ -38706,10 +38706,10 @@ Func_208c9: ; 0x208c9
 	jr z, .asm_208e8
 	xor a
 	ld [wIndicatorStates + 14], a
-	ld a, [$d55e]
+	ld a, [wd55e]
 	and a
 	ld a, $0
-	ld [$d55e], a
+	ld [wd55e], a
 	jp nz, Func_20977
 	jp Func_209eb
 
@@ -38718,7 +38718,7 @@ Func_208c9: ; 0x208c9
 	ret
 
 Func_208ea: ; 0x208ea
-	ld a, [$d551]
+	ld a, [wd551]
 	and a
 	jr nz, .asm_20909
 	ld a, [wIndicatorStates + 11]
@@ -38726,10 +38726,10 @@ Func_208ea: ; 0x208ea
 	jr z, .asm_20909
 	xor a
 	ld [wIndicatorStates + 11], a
-	ld a, [$d55f]
+	ld a, [wd55f]
 	and a
 	ld a, $0
-	ld [$d55f], a
+	ld [wd55f], a
 	jp nz, Func_20977
 	jp Func_209eb
 
@@ -38738,7 +38738,7 @@ Func_208ea: ; 0x208ea
 	ret
 
 Func_2090b: ; 0x2090b
-	ld a, [$d551]
+	ld a, [wd551]
 	and a
 	jr nz, .asm_2092a
 	ld a, [wIndicatorStates + 12]
@@ -38746,10 +38746,10 @@ Func_2090b: ; 0x2090b
 	jr z, .asm_2092a
 	xor a
 	ld [wIndicatorStates + 12], a
-	ld a, [$d560]
+	ld a, [wd560]
 	and a
 	ld a, $0
-	ld [$d560], a
+	ld [wd560], a
 	jp nz, Func_20977
 	jp Func_209eb
 
@@ -38758,7 +38758,7 @@ Func_2090b: ; 0x2090b
 	ret
 
 Func_2092c: ; 0x2092c
-	ld a, [$d551]
+	ld a, [wd551]
 	and a
 	jr nz, .asm_2094b
 	ld a, [wIndicatorStates + 6]
@@ -38766,10 +38766,10 @@ Func_2092c: ; 0x2092c
 	jr z, .asm_2094b
 	xor a
 	ld [wIndicatorStates + 6], a
-	ld a, [$d565]
+	ld a, [wd565]
 	and a
 	ld a, $0
-	ld [$d565], a
+	ld [wd565], a
 	jp nz, Func_20977
 	jp Func_209eb
 
@@ -38781,7 +38781,7 @@ Func_2094d: ; 0x2094d
 	ld bc, $0000
 	ld de, $1500
 	call Func_3538
-	ld a, [$d551]
+	ld a, [wd551]
 	and a
 	jr nz, .asm_20975
 	ld a, [wIndicatorStates + 7]
@@ -38789,10 +38789,10 @@ Func_2094d: ; 0x2094d
 	jr z, .asm_20975
 	xor a
 	ld [wIndicatorStates + 7], a
-	ld a, [$d564]
+	ld a, [wd564]
 	and a
 	ld a, $0
-	ld [$d564], a
+	ld [wd564], a
 	jp nz, Func_20977
 	jp Func_209eb
 
@@ -38806,11 +38806,11 @@ Func_20977: ; 0x20977
 	call Func_20af5
 	ld a, [wCurrentEvolutionType]
 	ld [hl], a
-	ld [$d551], a
+	ld [wd551], a
 	ld a, [wIndicatorStates + 2]
-	ld [$d558], a
+	ld [wd558], a
 	ld a, [wIndicatorStates + 3]
-	ld [$d559], a
+	ld [wd559], a
 	xor a
 	ld [wIndicatorStates + 2], a
 	ld [wIndicatorStates + 3], a
@@ -38846,7 +38846,7 @@ Func_20977: ; 0x20977
 	ld e, a
 	ld a, [hl]
 	ld d, a
-	ld hl, $d5cc
+	ld hl, wd5cc
 	call LoadTextHeader
 	scf
 	ret
@@ -38855,14 +38855,14 @@ Func_209eb: ; 0x209eb
 	ld de, $0747
 	call PlaySoundEffect
 	ld a, $1
-	ld [$d551], a
+	ld [wd551], a
 	ld a, $80
 	ld [wIndicatorStates], a
 	ld [wIndicatorStates + 1], a
 	ld a, [wIndicatorStates + 2]
-	ld [$d558], a
+	ld [wd558], a
 	ld a, [wIndicatorStates + 3]
-	ld [$d559], a
+	ld [wd559], a
 	xor a
 	ld [wIndicatorStates + 2], a
 	ld [wIndicatorStates + 3], a
@@ -38874,15 +38874,15 @@ Func_209eb: ; 0x209eb
 	ld hl, Func_14135
 	call nz, BankSwitch
 	ld a, $58
-	ld [$d556], a
+	ld [wd556], a
 	ld a, $2
-	ld [$d557], a
+	ld [wd557], a
 	ld bc, ThirtyMillionPoints
 	ld [$ff8a], a
 	callba Func_8588
 	call Func_30e8
 	call Func_30db
-	ld hl, $d5cc
+	ld hl, wd5cc
 	ld a, [wCurrentEvolutionType]
 	cp EVO_EXPERIENCE
 	ld de, $2b7b
@@ -38894,7 +38894,7 @@ Func_209eb: ; 0x209eb
 	ret
 
 Func_20a55: ; 0x20a55
-	ld a, [$d551]
+	ld a, [wd551]
 	and a
 	jr z, .asm_20a63
 	ld a, [wIndicatorStates + 1]
@@ -38907,7 +38907,7 @@ Func_20a55: ; 0x20a55
 	ret
 
 Func_20a65: ; 0x20a65
-	ld a, [$d551]
+	ld a, [wd551]
 	and a
 	jr z, .asm_20a80
 	ld a, [wIndicatorStates + 1]
@@ -38923,7 +38923,7 @@ Func_20a65: ; 0x20a65
 	ret
 
 Func_20a82: ; 0x20a82
-	ld a, [$d551]
+	ld a, [wd551]
 	and a
 	jr z, .asm_20a9d
 	ld a, [wIndicatorStates]
@@ -38942,13 +38942,13 @@ asm_20a9f:
 	xor a
 	ld [wIndicatorStates], a
 	ld [wIndicatorStates + 1], a
-	ld [$d551], a
-	ld a, [$d558]
+	ld [wd551], a
+	ld a, [wd558]
 	ld [wIndicatorStates + 2], a
-	ld a, [$d559]
+	ld a, [wd559]
 	ld [wIndicatorStates + 3], a
 	ld [wIndicatorStates + 10], a
-	ld a, [$d4ac]
+	ld a, [wCurrentStage]
 	bit 0, a
 	ld [$ff8a], a
 	ld a, Bank(Func_14135)
@@ -38971,7 +38971,7 @@ asm_20a9f:
 	jr z, .asm_20aed
 	ld de, $2bc2
 .asm_20aed
-	ld hl, $d5cc
+	ld hl, wd5cc
 	call LoadTextHeader
 	scf
 	ret
@@ -38981,7 +38981,7 @@ Func_20af5: ; 0x20af5
 	call Func_a21
 	ld c, a
 	ld b, $0
-	ld hl, $d566
+	ld hl, wd566
 	add hl, bc
 	ret
 
@@ -39066,12 +39066,12 @@ Func_20b02: ; 0x20b02
 	callba Func_10825
 	call Func_3475
 	ld a, $1
-	ld [$d54d], a
+	ld [wd54d], a
 	scf
 	ret
 
 Func_20bae: ; 0x20bae
-	ld a, [$d54c]
+	ld a, [wd54c]
 	cp $4
 	jp z, Func_20e34
 	cp $1
@@ -39103,7 +39103,7 @@ Func_20bae: ; 0x20bae
 
 .asm_20bf3
 	call Func_20da0
-	ld a, [$d54d]
+	ld a, [wd54d]
 	call CallInFollowingTable
 PointerTable_20bfc: ; 0x20bfc
 	dw Func_20c08
@@ -39118,7 +39118,7 @@ PointerTable_20bfc: ; 0x20bfc
 Func_20c08: ; 0x20c08
 	ld a, [wCurrentStage]
 	ld b, a
-	ld a, [$d578]
+	ld a, [wd578]
 	and a
 	ret z
 	dec a
@@ -39128,18 +39128,18 @@ Func_20c08: ; 0x20c08
 .asm_20c18
 	ld c, a
 	ld b, $0
-	ld hl, $d566
+	ld hl, wd566
 	add hl, bc
 	ld a, [hl]
 	and a
 	ret z
 	xor a
 	ld [hl], a
-	ld [$d551], a
+	ld [wd551], a
 	call Func_20c76
-	ld a, [$d558]
+	ld a, [wd558]
 	ld [wIndicatorStates], a
-	ld a, [$d559]
+	ld a, [wd559]
 	ld [wIndicatorStates + 3], a
 	ld a, [wCurrentStage]
 	bit 0, a
@@ -39156,7 +39156,7 @@ Func_20c08: ; 0x20c08
 	call Func_30e8
 	call Func_30db
 	ld de, $2bd8
-	ld hl, $d5cc
+	ld hl, wd5cc
 	call LoadTextHeader
 	ld a, [hGameBoyColorFlag]
 	and a
@@ -39182,7 +39182,7 @@ Func_20c76: ; 0x20c76
 	sla c
 	ld hl, $4e80
 	add hl, bc
-	ld a, [$d554]
+	ld a, [wd554]
 	ld c, a
 	ld b, $0
 	swap c
@@ -39197,9 +39197,9 @@ Func_20c76: ; 0x20c76
 	ld a, $36
 	call LoadVRAMData
 .asm_20ca6
-	ld a, [$d554]
+	ld a, [wd554]
 	inc a
-	ld [$d554], a
+	ld [wd554], a
 	cp $1
 	jr nz, .asm_20cb8
 	ld de, $0728
@@ -39219,7 +39219,7 @@ Func_20c76: ; 0x20c76
 	ld de, $0745
 	call PlaySoundEffect
 	ld a, $1
-	ld [$d604], a
+	ld [wd604], a
 	ld a, $80
 	ld [wIndicatorStates + 4], a
 	xor a
@@ -39234,8 +39234,8 @@ Func_20c76: ; 0x20c76
 	ld [wIndicatorStates + 10], a
 	ld [wIndicatorStates + 6], a
 	ld [wIndicatorStates + 7], a
-	ld [$d558], a
-	ld [$d559], a
+	ld [wd558], a
+	ld [wd559], a
 	ld a, [wCurrentStage]
 	bit 0, a
 	ret z
@@ -39266,11 +39266,11 @@ Func_20d30: ; 0x20d30
 	callba Func_10ac8
 	ld de, $0001
 	call PlaySong
-	ld hl, $d629
+	ld hl, wd629
 	call Func_e4a
 	ld [$ff8a], a
 	callba SetPokemonOwnedFlag
-	ld a, [$d624]
+	ld a, [wd624]
 	cp $3
 	ret z
 	add $2
@@ -39278,14 +39278,14 @@ Func_20d30: ; 0x20d30
 	jr c, .asm_20d72
 	ld a, $3
 .asm_20d72
-	ld [$d625], a
+	ld [wd625], a
 	ld a, $80
-	ld [$d626], a
+	ld [wd626], a
 	scf
 	ret
 
 Func_20d7c: ; 0x20d7c
-	ld a, [$d5ca]
+	ld a, [wd5ca]
 	and a
 	ret nz
 	call Func_30e8
@@ -39299,7 +39299,7 @@ Func_20d7c: ; 0x20d7c
 	ret
 
 Func_20da0: ; 0x20da0
-	ld hl, $d556
+	ld hl, wd556
 	ld a, [hli]
 	ld c, a
 	ld b, [hl]
@@ -39315,15 +39315,15 @@ Func_20da0: ; 0x20da0
 .asm_20db3
 	ld [$ff8a], a
 	callba Func_107f8
-	ld a, [$d57e]
+	ld a, [wd57e]
 	and a
 	ret z
 	xor a
-	ld [$d57e], a
+	ld [wd57e], a
 	ld a, $2
-	ld [$d54d], a
+	ld [wd54d], a
 	xor a
-	ld [$d604], a
+	ld [wd604], a
 	ld hl, wIndicatorStates
 	ld [wIndicatorStates + 4], a
 	ld [wIndicatorStates + 9], a
@@ -39337,9 +39337,9 @@ Func_20da0: ; 0x20da0
 	ld [wIndicatorStates + 10], a
 	ld [wIndicatorStates + 6], a
 	ld [wIndicatorStates + 7], a
-	ld [$d558], a
-	ld [$d559], a
-	ld [$d551], a
+	ld [wd558], a
+	ld [wd559], a
+	ld [wd551], a
 	ld a, [wCurrentStage]
 	bit 0, a
 	jr z, .asm_20e1a
@@ -39352,7 +39352,7 @@ Func_20da0: ; 0x20da0
 	callba Func_86d2
 	call Func_30e8
 	call Func_30db
-	ld hl, $d5cc
+	ld hl, wd5cc
 	ld de, EvolutionFailedText
 	call LoadTextHeader
 	ret
@@ -39361,7 +39361,7 @@ Func_20e34: ; 0x20e34
 	ld bc, $0001
 	ld de, $5000
 	call Func_3538
-	ld a, [$d551]
+	ld a, [wd551]
 	and a
 	jr nz, .asm_20e5c
 	ld a, [wIndicatorStates + 9]
@@ -39369,10 +39369,10 @@ Func_20e34: ; 0x20e34
 	jr z, .asm_20e5c
 	xor a
 	ld [wIndicatorStates + 9], a
-	ld a, [$d55c]
+	ld a, [wd55c]
 	and a
 	ld a, $0
-	ld [$d55c], a
+	ld [wd55c], a
 	jp nz, Func_20f75
 	jp Func_20fef
 
@@ -39381,7 +39381,7 @@ Func_20e34: ; 0x20e34
 	ret
 
 Func_20e5e: ; 0x20e5e
-	ld a, [$d551]
+	ld a, [wd551]
 	and a
 	jr nz, .asm_20e80
 	ld a, [wIndicatorStates + 3]
@@ -39390,10 +39390,10 @@ Func_20e5e: ; 0x20e5e
 	xor a
 	ld [wIndicatorStates + 3], a
 	ld [wIndicatorStates + 10], a
-	ld a, [$d562]
+	ld a, [wd562]
 	and a
 	ld a, $0
-	ld [$d562], a
+	ld [wd562], a
 	jp nz, Func_20f75
 	jp Func_20fef
 
@@ -39402,7 +39402,7 @@ Func_20e5e: ; 0x20e5e
 	ret
 
 Func_20e82: ; 0x20e82
-	ld a, [$d551]
+	ld a, [wd551]
 	and a
 	jr nz, .asm_20ea4
 	ld a, [wIndicatorStates + 8]
@@ -39411,10 +39411,10 @@ Func_20e82: ; 0x20e82
 	xor a
 	ld [wIndicatorStates + 8], a
 	ld [wIndicatorStates + 2], a
-	ld a, [$d561]
+	ld a, [wd561]
 	and a
 	ld a, $0
-	ld [$d561], a
+	ld [wd561], a
 	jp nz, Func_20f75
 	jp Func_20fef
 
@@ -39423,7 +39423,7 @@ Func_20e82: ; 0x20e82
 	ret
 
 Func_20ea6: ; 0x20ea6
-	ld a, [$d551]
+	ld a, [wd551]
 	and a
 	jr nz, .asm_20ec5
 	ld a, [wIndicatorStates + 13]
@@ -39431,10 +39431,10 @@ Func_20ea6: ; 0x20ea6
 	jr z, .asm_20ec5
 	xor a
 	ld [wIndicatorStates + 13], a
-	ld a, [$d55d]
+	ld a, [wd55d]
 	and a
 	ld a, $0
-	ld [$d55d], a
+	ld [wd55d], a
 	jp nz, Func_20f75
 	jp Func_20fef
 
@@ -39443,7 +39443,7 @@ Func_20ea6: ; 0x20ea6
 	ret
 
 Func_20ec7: ; 0x20ec7
-	ld a, [$d551]
+	ld a, [wd551]
 	and a
 	jr nz, .asm_20ee6
 	ld a, [wIndicatorStates + 14]
@@ -39451,10 +39451,10 @@ Func_20ec7: ; 0x20ec7
 	jr z, .asm_20ee6
 	xor a
 	ld [wIndicatorStates + 14], a
-	ld a, [$d55e]
+	ld a, [wd55e]
 	and a
 	ld a, $0
-	ld [$d55e], a
+	ld [wd55e], a
 	jp nz, Func_20f75
 	jp Func_20fef
 
@@ -39463,7 +39463,7 @@ Func_20ec7: ; 0x20ec7
 	ret
 
 Func_20ee8: ; 0x20ee8
-	ld a, [$d551]
+	ld a, [wd551]
 	and a
 	jr nz, .asm_20f07
 	ld a, [wIndicatorStates + 11]
@@ -39471,10 +39471,10 @@ Func_20ee8: ; 0x20ee8
 	jr z, .asm_20f07
 	xor a
 	ld [wIndicatorStates + 11], a
-	ld a, [$d55f]
+	ld a, [wd55f]
 	and a
 	ld a, $0
-	ld [$d55f], a
+	ld [wd55f], a
 	jp nz, Func_20f75
 	jp Func_20fef
 
@@ -39483,7 +39483,7 @@ Func_20ee8: ; 0x20ee8
 	ret
 
 Func_20f09: ; 0x20f09
-	ld a, [$d551]
+	ld a, [wd551]
 	and a
 	jr nz, .asm_20f28
 	ld a, [wIndicatorStates + 12]
@@ -39491,10 +39491,10 @@ Func_20f09: ; 0x20f09
 	jr z, .asm_20f28
 	xor a
 	ld [wIndicatorStates + 12], a
-	ld a, [$d560]
+	ld a, [wd560]
 	and a
 	ld a, $0
-	ld [$d560], a
+	ld [wd560], a
 	jp nz, Func_20f75
 	jp Func_20fef
 
@@ -39503,7 +39503,7 @@ Func_20f09: ; 0x20f09
 	ret
 
 Func_20f2a: ; 0x20f2a
-	ld a, [$d551]
+	ld a, [wd551]
 	and a
 	jr nz, .asm_20f49
 	ld a, [wIndicatorStates + 6]
@@ -39511,10 +39511,10 @@ Func_20f2a: ; 0x20f2a
 	jr z, .asm_20f49
 	xor a
 	ld [wIndicatorStates + 6], a
-	ld a, [$d565]
+	ld a, [wd565]
 	and a
 	ld a, $0
-	ld [$d565], a
+	ld [wd565], a
 	jp nz, Func_20f75
 	jp Func_20fef
 
@@ -39526,7 +39526,7 @@ Func_20f4b: ; 0x20f4b
 	ld bc, $0000
 	ld de, $1500
 	call Func_3538
-	ld a, [$d551]
+	ld a, [wd551]
 	and a
 	jr nz, .asm_20f73
 	ld a, [wIndicatorStates + 7]
@@ -39534,10 +39534,10 @@ Func_20f4b: ; 0x20f4b
 	jr z, .asm_20f73
 	xor a
 	ld [wIndicatorStates + 7], a
-	ld a, [$d564]
+	ld a, [wd564]
 	and a
 	ld a, $0
-	ld [$d564], a
+	ld [wd564], a
 	jp nz, Func_20f75
 	jp Func_20fef
 
@@ -39551,13 +39551,13 @@ Func_20f75: ; 0x20f75
 	call Func_2111d
 	ld a, [wCurrentEvolutionType]
 	ld [hl], a
-	ld [$d551], a
+	ld [wd551], a
 	ld a, [wIndicatorStates]
-	ld [$d558], a
+	ld [wd558], a
 	ld a, [wIndicatorStates + 3]
-	ld [$d559], a
+	ld [wd559], a
 	ld a, [wIndicatorStates + 2]
-	ld [$d63f], a
+	ld [wd63f], a
 	xor a
 	ld [wIndicatorStates], a
 	ld [wIndicatorStates + 2], a
@@ -39593,7 +39593,7 @@ Func_20f75: ; 0x20f75
 	ld e, a
 	ld a, [hl]
 	ld d, a
-	ld hl, $d5cc
+	ld hl, wd5cc
 	call LoadTextHeader
 	scf
 	ret
@@ -39602,16 +39602,16 @@ Func_20fef: ; 0x20fef
 	ld de, $0747
 	call PlaySoundEffect
 	ld a, $1
-	ld [$d551], a
+	ld [wd551], a
 	ld a, [wIndicatorStates]
-	ld [$d558], a
+	ld [wd558], a
 	ld a, $80
 	ld [wIndicatorStates], a
 	ld [wIndicatorStates + 1], a
 	ld a, [wIndicatorStates + 3]
-	ld [$d559], a
+	ld [wd559], a
 	ld a, [wIndicatorStates + 2]
-	ld [$d63f], a
+	ld [wd63f], a
 	xor a
 	ld [wIndicatorStates + 2], a
 	ld [wIndicatorStates + 3], a
@@ -39622,15 +39622,15 @@ Func_20fef: ; 0x20fef
 	ld hl, Func_1c2cb
 	call nz, BankSwitch
 	ld a, $58
-	ld [$d556], a
+	ld [wd556], a
 	ld a, $2
-	ld [$d557], a
+	ld [wd557], a
 	ld bc, ThirtyMillionPoints
 	ld [$ff8a], a
 	callba Func_8588
 	call Func_30e8
 	call Func_30db
-	ld hl, $d5cc
+	ld hl, wd5cc
 	ld a, [wCurrentEvolutionType]
 	cp EVO_EXPERIENCE
 	ld de, $2b7b
@@ -39642,7 +39642,7 @@ Func_20fef: ; 0x20fef
 	ret
 
 Func_2105c: ; 0x2105c
-	ld a, [$d551]
+	ld a, [wd551]
 	and a
 	jr z, .asm_21077
 	ld a, [wIndicatorStates + 1]
@@ -39660,7 +39660,7 @@ Func_2105c: ; 0x2105c
 	ret
 
 Func_21079: ; 0x21079
-	ld a, [$d551]
+	ld a, [wd551]
 	and a
 	jr z, .asm_21087
 	ld a, [wIndicatorStates + 1]
@@ -39673,7 +39673,7 @@ Func_21079: ; 0x21079
 	ret
 
 Func_21089: ; 0x21089
-	ld a, [$d551]
+	ld a, [wd551]
 	and a
 	jr nz, .asm_210aa
 	ld a, [wIndicatorStates]
@@ -39681,10 +39681,10 @@ Func_21089: ; 0x21089
 	jr z, .asm_210a8
 	xor a
 	ld [wIndicatorStates], a
-	ld a, [$d563]
+	ld a, [wd563]
 	and a
 	ld a, $0
-	ld [$d563], a
+	ld [wd563], a
 	jp nz, Func_20f75
 	jp Func_20fef
 
@@ -39693,7 +39693,7 @@ Func_21089: ; 0x21089
 	ret
 
 .asm_210aa
-	ld a, [$d551]
+	ld a, [wd551]
 	and a
 	jr z, .asm_210c5
 	ld a, [wIndicatorStates]
@@ -39711,12 +39711,12 @@ Func_21089: ; 0x21089
 asm_210c7:
 	xor a
 	ld [wIndicatorStates + 1], a
-	ld [$d551], a
-	ld a, [$d558]
+	ld [wd551], a
+	ld a, [wd558]
 	ld [wIndicatorStates], a
-	ld a, [$d559]
+	ld a, [wd559]
 	ld [wIndicatorStates + 3], a
-	ld a, [$d63f]
+	ld a, [wd63f]
 	ld [wIndicatorStates + 2], a
 	ld a, [wCurrentStage]
 	bit 0, a
@@ -39741,7 +39741,7 @@ asm_210c7:
 	jr z, .asm_21115
 	ld de, $2bc2
 .asm_21115
-	ld hl, $d5cc
+	ld hl, wd5cc
 	call LoadTextHeader
 	scf
 	ret
@@ -39751,7 +39751,7 @@ Func_2111d: ; 0x2111d
 	call Func_a21
 	ld c, a
 	ld b, $0
-	ld hl, $d566
+	ld hl, wd566
 	add hl, bc
 	ret
 
@@ -39836,7 +39836,7 @@ Func_2112a: ; 0x2112a
 	callba Func_10825
 	call Func_3475
 	ld a, $1
-	ld [$d54d], a
+	ld [wd54d], a
 	scf
 	ret
 
@@ -39845,20 +39845,20 @@ Func_2112a: ; 0x2112a
 SECTION "bank9", ROMX, BANK[$9]
 
 InitMeowthBonusStage: ; 0x24000
-	ld a, [$d7c1]
+	ld a, [wd7c1]
 	and a
 	ret nz
 	xor a
-	ld [$d4c8], a
+	ld [wd4c8], a
 	ld [wStageCollisionState], a
 	ld a, [wBallType]
 	ld [wBallTypeBackup], a
 	xor a
-	ld [$d4c8], a
+	ld [wd4c8], a
 	ld [wBallType], a
-	ld [$d49a], a
+	ld [wd49a], a
 	ld a, $1
-	ld [$d7ac], a
+	ld [wd7ac], a
 	ld a, $40
 	ld [wMeowthXPosition], a
 	ld a, $20
@@ -39867,10 +39867,10 @@ InitMeowthBonusStage: ; 0x24000
 	ld [wMeowthAnimationFrameCounter], a
 	xor a
 	ld [wMeowthStageScore], a
-	ld [$d70b], a
+	ld [wd70b], a
 	ld [wMeowthStageBonusCounter], a
-	ld [$d713], a
-	ld [$d739], a
+	ld [wd713], a
+	ld [wd739], a
 	ld bc, $0100  ; 1 minute 0 seconds
 	ld [$ff8a], a
 	callba StartTimer
@@ -39892,10 +39892,10 @@ StartBallMeowthBonusStage: ; 0x24059
 	ld a, $40
 	ld [wBallXVelocity], a
 	xor a
-	ld [$d7ab], a
+	ld [wd7ab], a
 	ld [wStageCollisionState], a
-	ld [$d6e6], a
-	ld hl, $d6f3
+	ld [wd6e6], a
+	ld hl, wd6f3
 	ld b, $16
 .asm_24081
 	ld a, [hl]
@@ -39908,7 +39908,7 @@ StartBallMeowthBonusStage: ; 0x24059
 	dec b
 	jr nz, .asm_24081
 	ld a, $1
-	ld [$d7ac], a
+	ld [wd7ac], a
 	ld a, $40
 	ld [wMeowthXPosition], a
 	ld a, $20
@@ -39919,51 +39919,51 @@ StartBallMeowthBonusStage: ; 0x24059
 	ld [wMeowthXMovement], a
 	xor a
 	ld [wMeowthAnimationFrame], a
-	ld [$d6ec], a
+	ld [wd6ec], a
 	ld [wMeowthAnimationFrameIndex], a
-	ld [$d70b], a
-	ld [$d70c], a
+	ld [wd70b], a
+	ld [wd70c], a
 	ld a, $c8
-	ld [$d71a], a
-	ld [$d727], a
-	ld [$d71b], a
-	ld [$d728], a
-	ld [$d71c], a
-	ld [$d729], a
-	ld [$d724], a
-	ld [$d731], a
-	ld [$d725], a
-	ld [$d732], a
-	ld [$d726], a
-	ld [$d733], a
+	ld [wd71a], a
+	ld [wd727], a
+	ld [wd71b], a
+	ld [wd728], a
+	ld [wd71c], a
+	ld [wd729], a
+	ld [wd724], a
+	ld [wd731], a
+	ld [wd725], a
+	ld [wd732], a
+	ld [wd726], a
+	ld [wd733], a
 	xor a
-	ld [$d717], a
-	ld [$d718], a
-	ld [$d719], a
-	ld [$d721], a
-	ld [$d722], a
-	ld [$d723], a
-	ld [$d714], a
-	ld [$d715], a
-	ld [$d716], a
-	ld [$d71e], a
-	ld [$d71f], a
-	ld [$d720], a
-	ld [$d64e], a
-	ld [$d64f], a
-	ld [$d650], a
-	ld [$d651], a
-	ld [$d795], a
-	ld [$d796], a
-	ld [$d797], a
-	ld [$d798], a
-	ld [$d799], a
-	ld [$d79a], a
-	ld a, [$d4c9]
+	ld [wd717], a
+	ld [wd718], a
+	ld [wd719], a
+	ld [wd721], a
+	ld [wd722], a
+	ld [wd723], a
+	ld [wd714], a
+	ld [wd715], a
+	ld [wd716], a
+	ld [wd71e], a
+	ld [wd71f], a
+	ld [wd720], a
+	ld [wd64e], a
+	ld [wd64f], a
+	ld [wd650], a
+	ld [wd651], a
+	ld [wd795], a
+	ld [wd796], a
+	ld [wd797], a
+	ld [wd798], a
+	ld [wd799], a
+	ld [wd79a], a
+	ld a, [wd4c9]
 	and a
 	ret z
 	xor a
-	ld [$d4c9], a
+	ld [wd4c9], a
 	ret
 
 Func_24128: ; 0x24128
@@ -39984,7 +39984,7 @@ Func_2414d: ; 0x2414d
 	ret
 
 Func_24157: ; 0x24157
-	ld a, [$d6e7]
+	ld a, [wd6e7]
 	cp $0
 	ret nz
 	ld a, [wMeowthXPosition]
@@ -40036,15 +40036,15 @@ Func_24170: ; 0x24170
 	bit 7, a
 	jr nz, .asm_24212
 	sla a
-	ld [$d7ea], a
+	ld [wd7ea], a
 	ld a, $1
-	ld [$d7e9], a
-	ld a, [$d6ec]
+	ld [wd7e9], a
+	ld a, [wd6ec]
 	cp $2
 	ret z
 	cp $3
 	ret z
-	ld a, [$d713]
+	ld a, [wd713]
 	and a
 	ret nz
 	ld a, [wMeowthYMovement]
@@ -40053,18 +40053,18 @@ Func_24170: ; 0x24170
 	ld a, [wMeowthYMovement]
 	cp $1
 	jr nz, .asm_241df
-	ld a, [$d70b]
+	ld a, [wd70b]
 	cp $3
 	jr z, .asm_241eb
 	jr .asm_241e6
 
 .asm_241df
-	ld a, [$d70c]
+	ld a, [wd70c]
 	cp $3
 	jr z, .asm_241eb
 .asm_241e6
 	ld a, $2
-	ld [$d6e7], a
+	ld [wd6e7], a
 .asm_241eb
 	scf
 	ret
@@ -40073,7 +40073,7 @@ Func_24170: ; 0x24170
 	ld a, [wMeowthYPosition]
 	cp $20
 	jr nz, .asm_241fd
-	ld a, [$d70b]
+	ld a, [wd70b]
 	cp $3
 	jr z, .asm_24210
 	jr .asm_2420b
@@ -40082,12 +40082,12 @@ Func_24170: ; 0x24170
 	ld a, [wMeowthYPosition]
 	cp $10
 	jr nz, .asm_24210
-	ld a, [$d70c]
+	ld a, [wd70c]
 	cp $3
 	jr z, .asm_24210
 .asm_2420b
 	ld a, $1
-	ld [$d6e7], a
+	ld [wd6e7], a
 .asm_24210
 	scf
 	ret
@@ -40097,39 +40097,39 @@ Func_24170: ; 0x24170
 	ret
 
 Func_24214: ; 0x24214
-	ld a, [$d717]
+	ld a, [wd717]
 	cp $2
 	jr nz, .asm_2422e
-	ld a, [$d71a]
+	ld a, [wd71a]
 	sub $4
 	ld b, a
-	ld a, [$d727]
+	ld a, [wd727]
 	add $c
 	ld c, a
 	call Func_24272
 	ld a, $0
 	jr c, .asm_24260
 .asm_2422e
-	ld a, [$d718]
+	ld a, [wd718]
 	cp $2
 	jr nz, .asm_24248
-	ld a, [$d71b]
+	ld a, [wd71b]
 	sub $4
 	ld b, a
-	ld a, [$d728]
+	ld a, [wd728]
 	add $c
 	ld c, a
 	call Func_24272
 	ld a, $1
 	jr c, .asm_24260
 .asm_24248
-	ld a, [$d719]
+	ld a, [wd719]
 	cp $2
 	ret nz
-	ld a, [$d71c]
+	ld a, [wd71c]
 	sub $4
 	ld b, a
-	ld a, [$d729]
+	ld a, [wd729]
 	add $c
 	ld c, a
 	call Func_24272
@@ -40138,11 +40138,11 @@ Func_24214: ; 0x24214
 .asm_24260
 	ld b, $0
 	ld c, a
-	ld hl, $d717
+	ld hl, wd717
 	add hl, bc
 	ld a, $3
 	ld [hl], a
-	ld hl, $d714
+	ld hl, wd714
 	add hl, bc
 	ld a, $0
 	ld [hl], a
@@ -40184,9 +40184,9 @@ Func_24272: ; 0x24272
 	bit 7, a
 	jr nz, .asm_242b9
 	sla a
-	ld [$d7ea], a
+	ld [wd7ea], a
 	ld a, $1
-	ld [$d7e9], a
+	ld [wd7e9], a
 	scf
 	ret
 
@@ -40195,39 +40195,39 @@ Func_24272: ; 0x24272
 	ret
 
 Func_242bb: ; 0x242bb
-	ld a, [$d721]
+	ld a, [wd721]
 	cp $2
 	jr nz, .asm_242d5
-	ld a, [$d724]
+	ld a, [wd724]
 	sub $4
 	ld b, a
-	ld a, [$d731]
+	ld a, [wd731]
 	add $c
 	ld c, a
 	call Func_24272
 	ld a, $0
 	jr c, .asm_24307
 .asm_242d5
-	ld a, [$d722]
+	ld a, [wd722]
 	cp $2
 	jr nz, .asm_242ef
-	ld a, [$d725]
+	ld a, [wd725]
 	sub $4
 	ld b, a
-	ld a, [$d732]
+	ld a, [wd732]
 	add $c
 	ld c, a
 	call Func_24272
 	ld a, $1
 	jr c, .asm_24307
 .asm_242ef
-	ld a, [$d723]
+	ld a, [wd723]
 	cp $2
 	ret nz
-	ld a, [$d726]
+	ld a, [wd726]
 	sub $4
 	ld b, a
-	ld a, [$d733]
+	ld a, [wd733]
 	add $c
 	ld c, a
 	call Func_24272
@@ -40236,151 +40236,151 @@ Func_242bb: ; 0x242bb
 .asm_24307
 	ld b, $0
 	ld c, a
-	ld hl, $d721
+	ld hl, wd721
 	add hl, bc
 	ld a, $3
 	ld [hl], a
-	ld hl, $d71e
+	ld hl, wd71e
 	add hl, bc
 	ld a, $0
 	ld [hl], a
 	ret
 
 Func_24319: ; 0x2438f
-	ld a, [$d6f4]
+	ld a, [wd6f4]
 	cp $0
 	jr z, .asm_24333
-	ld a, [$d71a]
+	ld a, [wd71a]
 	sub $4
 	ld b, a
-	ld a, [$d727]
+	ld a, [wd727]
 	add $4
 	ld c, a
 	call Func_24405
 	ld a, $0
 	jr c, .asm_24373
 .asm_24333
-	ld a, [$d6f4]
+	ld a, [wd6f4]
 	cp $1
 	jr z, .asm_2434d
-	ld a, [$d71b]
+	ld a, [wd71b]
 	sub $4
 	ld b, a
-	ld a, [$d728]
+	ld a, [wd728]
 	add $4
 	ld c, a
 	call Func_24405
 	ld a, $1
 	jr c, .asm_24373
 .asm_2434d
-	ld a, [$d6f4]
+	ld a, [wd6f4]
 	cp $2
 	ret z
-	ld a, [$d71c]
+	ld a, [wd71c]
 	sub $4
 	ld b, a
-	ld a, [$d729]
+	ld a, [wd729]
 	add $4
 	ld c, a
 	call Func_24405
 	ld a, $2
 	jr c, .asm_24373
-	ld a, [$d6f4]
+	ld a, [wd6f4]
 	ld b, $0
 	ld c, a
-	ld hl, $d6f8
+	ld hl, wd6f8
 	add hl, bc
 	ld [hl], $0
 	ret
 
 .asm_24373
-	ld a, [$d6f4]
+	ld a, [wd6f4]
 	ld b, $0
 	ld c, a
-	ld hl, $d6f8
+	ld hl, wd6f8
 	add hl, bc
 	inc [hl]
 	ld d, $4
-	ld a, [$d6f4]
+	ld a, [wd6f4]
 	add d
 	ld d, a
 	ld a, [hl]
 	cp d
 	ret nc
-	ld hl, $d6f5
+	ld hl, wd6f5
 	add hl, bc
 	ld [hl], $0
 	ret
 
 Func_2438f: ; 0x2438f
-	ld a, [$d6f4]
+	ld a, [wd6f4]
 	cp $a
 	jr z, .asm_243a9
-	ld a, [$d724]
+	ld a, [wd724]
 	sub $4
 	ld b, a
-	ld a, [$d731]
+	ld a, [wd731]
 	add $4
 	ld c, a
 	call Func_24405
 	ld a, $a
 	jr c, .asm_243e9
 .asm_243a9
-	ld a, [$d6f4]
+	ld a, [wd6f4]
 	cp $b
 	jr z, .asm_243c3
-	ld a, [$d725]
+	ld a, [wd725]
 	sub $4
 	ld b, a
-	ld a, [$d732]
+	ld a, [wd732]
 	add $4
 	ld c, a
 	call Func_24405
 	ld a, $b
 	jr c, .asm_243e9
 .asm_243c3
-	ld a, [$d6f4]
+	ld a, [wd6f4]
 	cp $c
 	ret z
-	ld a, [$d726]
+	ld a, [wd726]
 	sub $4
 	ld b, a
-	ld a, [$d733]
+	ld a, [wd733]
 	add $4
 	ld c, a
 	call Func_24405
 	ld a, $c
 	jr c, .asm_243e9
-	ld a, [$d6f4]
+	ld a, [wd6f4]
 	ld b, $0
 	ld c, a
-	ld hl, $d6f8
+	ld hl, wd6f8
 	add hl, bc
 	ld [hl], $0
 	ret
 
 .asm_243e9
-	ld a, [$d6f4]
+	ld a, [wd6f4]
 	ld b, $0
 	ld c, a
-	ld hl, $d6f8
+	ld hl, wd6f8
 	add hl, bc
 	inc [hl]
 	ld d, $4
-	ld a, [$d6f4]
+	ld a, [wd6f4]
 	add d
 	ld d, a
 	ld a, [hl]
 	cp d
 	ret nc
-	ld hl, $d6f5
+	ld hl, wd6f5
 	add hl, bc
 	ld [hl], $0
 	ret
 
 Func_24405: ; 0x24405
-	ld hl, $d71a
-	ld a, [$d6f4]
+	ld hl, wd71a
+	ld a, [wd6f4]
 	ld e, a
 	ld d, $0
 	add hl, de
@@ -40390,7 +40390,7 @@ Func_24405: ; 0x24405
 	cp $18
 	jr nc, .asm_24428
 	ld b, a
-	ld hl, $d727
+	ld hl, wd727
 	add hl, de
 	ld a, [hl]
 	add $8
@@ -40407,7 +40407,7 @@ Func_24405: ; 0x24405
 	ret
 
 Func_2442a: ; 0x2442a
-	ld a, [$d710]
+	ld a, [wd710]
 	jr nz, .asm_2443f
 	ld a, [wMeowthStageBonusCounter]
 	dec a
@@ -40416,15 +40416,15 @@ Func_2442a: ; 0x2442a
 	jr z, .asm_24447
 	cp $ff
 	jr z, .asm_24447
-	ld [$d79a], a
+	ld [wd79a], a
 .asm_2443f
-	ld de, $d79a
+	ld de, wd79a
 	call Func_24f00
 	jr .asm_2444b
 
 .asm_24447
 	xor a
-	ld [$d79a], a
+	ld [wd79a], a
 .asm_2444b
 	call Func_244f5
 	call Func_245ab
@@ -40433,77 +40433,77 @@ Func_2442a: ; 0x2442a
 	ld a, [wMeowthStageScore]
 	cp $14
 	jr c, .asm_24498
-	ld a, [$d712]
+	ld a, [wd712]
 	cp $2
 	jr nc, .asm_24498
-	ld a, [$d498]
+	ld a, [wd498]
 	cp $4
 	ret z
 	ld a, $4
-	ld [$d712], a
-	ld [$d498], a
+	ld [wd712], a
+	ld [wd498], a
 	ld a, $96
-	ld [$d739], a
+	ld [wd739], a
 	ld de, $0000
 	call PlaySong
 	ld a, $1
-	ld [$d49a], a
+	ld [wd49a], a
 	call Func_30e8
 	call Func_30db
-	ld hl, $d5dc
+	ld hl, wd5dc
 	ld de, Data_2fd0
 	call LoadTextHeader
 	ld de, $4b2a
 	call PlaySoundEffect
 .asm_24498
-	ld a, [$d712]
+	ld a, [wd712]
 	cp $4
 	jr nz, .asm_244b0
-	ld a, [$d800]
+	ld a, [wd800]
 	and a
 	jr nz, .asm_244b0
 	ld de, $0004
 	call PlaySong
 	ld a, $5
-	ld [$d712], a
+	ld [wd712], a
 .asm_244b0
-	ld a, [$d712]
+	ld a, [wd712]
 	cp $4
 	jr z, .asm_244c1
 	ld [$ff8a], a
 	callba Func_107f8
 .asm_244c1
-	ld a, [$d57e]
+	ld a, [wd57e]
 	and a
 	ret z
 	xor a
-	ld [$d57e], a
+	ld [wd57e], a
 	ld a, $1
-	ld [$d7be], a
+	ld [wd7be], a
 	call Func_2862
 	ld [$ff8a], a
 	callba Func_86d2
 	ld a, $1
-	ld [$d713], a
+	ld [wd713], a
 	ld a, $1
-	ld [$d712], a
+	ld [wd712], a
 	ld hl, $4704
 	ld de, wMeowthAnimationFrameCounter
 	call CopyHLToDE
 	ld a, $4
-	ld [$d6ec], a
+	ld [wd6ec], a
 	ret
 
 Func_244f5: ; 0x244f5
-	ld a, [$d6e6]
+	ld a, [wd6e6]
 	and a
 	ret nz
-	ld a, [$d4b4]
+	ld a, [wd4b4]
 	cp $8a
 	ret nc
 	ld a, $1
 	ld [wStageCollisionState], a
-	ld [$d6e6], a
+	ld [wd6e6], a
 	ld [$ff8a], a
 	callba LoadStageCollisionAttributes
 	call Func_24516
@@ -40531,13 +40531,13 @@ Func_24516: ; 0x24516
 	dr $24533, $245ab
 
 Func_245ab: ; 0x245ab
-	ld a, [$d6e7]
+	ld a, [wd6e7]
 	and a
 	jr z, .asm_24621
 	cp $2
 	jr z, .asm_24621
 	ld a, $1
-	ld [$d6f3], a
+	ld [wd6f3], a
 	ld a, [wMeowthYPosition]
 	cp $20
 	jr z, .asm_245c7
@@ -40553,12 +40553,12 @@ Func_245ab: ; 0x245ab
 	call Func_24c28
 .asm_245cf
 	xor a
-	ld [$d6e7], a
-	ld [$d6f3], a
+	ld [wd6e7], a
+	ld [wd6f3], a
 	ld a, $ff
-	ld [$d803], a
+	ld [wd803], a
 	ld a, $3
-	ld [$d804], a
+	ld [wd804], a
 	ld de, $0033
 	call PlaySoundEffect
 	ld bc, OneBillionPoints
@@ -40566,7 +40566,7 @@ Func_245ab: ; 0x245ab
 	callba AddBCDScore
 	xor a
 	ld [wMeowthStageBonusCounter], a
-	ld a, [$d6ec]
+	ld a, [wd6ec]
 	cp $2
 	jr nc, .asm_24621
 	and a
@@ -40575,7 +40575,7 @@ Func_245ab: ; 0x245ab
 	ld de, wMeowthAnimationFrameCounter
 	call CopyHLToDE
 	ld a, $2
-	ld [$d6ec], a
+	ld [wd6ec], a
 	jr .asm_24651
 
 .asm_24611
@@ -40583,41 +40583,41 @@ Func_245ab: ; 0x245ab
 	ld de, wMeowthAnimationFrameCounter
 	call CopyHLToDE
 	ld a, $3
-	ld [$d6ec], a
+	ld [wd6ec], a
 	jr .asm_24651
 
 .asm_24621
-	ld a, [$d713]
+	ld a, [wd713]
 	and a
 	jr z, .asm_2462e
 	ld a, $4
-	ld [$d6ec], a
+	ld [wd6ec], a
 	jr .asm_24651
 
 .asm_2462e
-	ld a, [$d6ec]
+	ld a, [wd6ec]
 	cp $2
 	jr nc, .asm_24651
-	ld a, [$d70b]
+	ld a, [wd70b]
 	cp $3
 	jr nz, .asm_24651
-	ld a, [$d70c]
+	ld a, [wd70c]
 	cp $3
 	jr nz, .asm_24651
 	ld hl, $4704
 	ld de, wMeowthAnimationFrameCounter
 	call CopyHLToDE
 	ld a, $4
-	ld [$d6ec], a
+	ld [wd6ec], a
 .asm_24651
-	ld a, [$d6ec]
+	ld a, [wd6ec]
 	cp $2
 	call c, Func_24709
 	call Func_2465d
 	ret
 
 Func_2465d: ; 0x2465d
-	ld a, [$d6ec]
+	ld a, [wd6ec]
 	sla a
 	ld c, a
 	ld b, $0
@@ -40629,7 +40629,7 @@ Func_2465d: ; 0x2465d
 	ld de, wMeowthAnimationFrameCounter
 	call UpdateAnimation
 	ret nc
-	ld a, [$d6ec]
+	ld a, [wd6ec]
 	and a
 	jr nz, .asm_24689
 	ld a, [wMeowthAnimationFrameIndex]
@@ -40661,7 +40661,7 @@ Func_2465d: ; 0x2465d
 	ld de, wMeowthAnimationFrameCounter
 	call CopyHLToDE
 	xor a
-	ld [$d6ec], a
+	ld [wd6ec], a
 	ret
 
 .asm_246b5
@@ -40674,7 +40674,7 @@ Func_2465d: ; 0x2465d
 	ld de, wMeowthAnimationFrameCounter
 	call CopyHLToDE
 	ld a, $1
-	ld [$d6ec], a
+	ld [wd6ec], a
 	ret
 
 .asm_246ce
@@ -40747,7 +40747,7 @@ Func_24737: ; 0x24737
 	jr z, .asm_24764
 	xor a
 .asm_24764
-	ld [$d6ec], a
+	ld [wd6ec], a
 	ld a, $2
 	ld [wMeowthAnimationFrameCounter], a
 	ret
@@ -40761,11 +40761,11 @@ Func_2476d: ; 0x2476d
 	ld a, [wMeowthYPosition]
 	cp $10
 	jr nz, .asm_2478d
-	ld a, [$d6e7]
+	ld a, [wd6e7]
 	cp $2
 	jr nz, .asm_2478a
 	ld a, $1
-	ld [$d6e7], a
+	ld [wd6e7], a
 .asm_2478a
 	xor a
 	jr .asm_247c9
@@ -40778,11 +40778,11 @@ Func_2476d: ; 0x2476d
 	ld a, [wMeowthYPosition]
 	cp $20
 	jr nz, .asm_247a7
-	ld a, [$d6e7]
+	ld a, [wd6e7]
 	cp $2
 	jr nz, .asm_247a4
 	ld a, $1
-	ld [$d6e7], a
+	ld [wd6e7], a
 .asm_247a4
 	xor a
 	jr .asm_247c9
@@ -40792,10 +40792,10 @@ Func_2476d: ; 0x2476d
 	jr .asm_247c9
 
 .asm_247ab
-	ld a, [$d70b]
+	ld a, [wd70b]
 	cp $3
 	jr z, .asm_247cd
-	ld a, [$d70c]
+	ld a, [wd70c]
 	cp $3
 	jr z, .asm_247d3
 	ld a, [$ffb3]
@@ -40821,194 +40821,194 @@ Func_2476d: ; 0x2476d
 	ret
 
 Func_247d9: ; 0x247d9
-	ld a, [$d6f3]
+	ld a, [wd6f3]
 	and a
 	ret z
-	ld a, [$d71a]
+	ld a, [wd71a]
 	cp $c8
 	jr nz, .asm_24823
 	ld a, [wMeowthXPosition]
 	add $8
-	ld [$d71a], a
+	ld [wd71a], a
 	ld a, [wMeowthYPosition]
 	add $fb
-	ld [$d727], a
+	ld [wd727], a
 	ld a, $1
-	ld [$d717], a
+	ld [wd717], a
 	xor a
-	ld [$d6f3], a
-	ld [$d714], a
-	ld [$d6f5], a
-	ld [$d6f8], a
-	ld [$d6fb], a
+	ld [wd6f3], a
+	ld [wd714], a
+	ld [wd6f5], a
+	ld [wd6f8], a
+	ld [wd6fb], a
 	ld a, [wMeowthXPosition]
 	add $14
 	ld b, a
-	ld a, [$d4b4]
+	ld a, [wd4b4]
 	cp b
 	jr nc, .asm_2481d
 	ld a, $0
-	ld [$d72a], a
+	ld [wd72a], a
 	jr .asm_24822
 
 .asm_2481d
 	ld a, $1
-	ld [$d72a], a
+	ld [wd72a], a
 .asm_24822
 	ret
 
 .asm_24823
-	ld a, [$d71b]
+	ld a, [wd71b]
 	cp $c8
 	jr nz, .asm_24868
 	ld a, [wMeowthXPosition]
 	add $8
-	ld [$d71b], a
+	ld [wd71b], a
 	ld a, [wMeowthYPosition]
 	add $fb
-	ld [$d728], a
+	ld [wd728], a
 	ld a, $1
-	ld [$d718], a
+	ld [wd718], a
 	xor a
-	ld [$d6f3], a
-	ld [$d715], a
-	ld [$d6f6], a
-	ld [$d6f9], a
-	ld [$d6fc], a
+	ld [wd6f3], a
+	ld [wd715], a
+	ld [wd6f6], a
+	ld [wd6f9], a
+	ld [wd6fc], a
 	ld a, [wMeowthXPosition]
 	add $14
 	ld b, a
-	ld a, [$d4b4]
+	ld a, [wd4b4]
 	cp b
 	jr nc, .asm_24862
 	ld a, $0
-	ld [$d72b], a
+	ld [wd72b], a
 	jr .asm_24867
 
 .asm_24862
 	ld a, $1
-	ld [$d72b], a
+	ld [wd72b], a
 .asm_24867
 	ret
 
 .asm_24868
-	ld a, [$d71c]
+	ld a, [wd71c]
 	cp $c8
 	ret nz
 	ld a, [wMeowthXPosition]
 	add $8
-	ld [$d71c], a
+	ld [wd71c], a
 	ld a, [wMeowthYPosition]
 	add $fb
-	ld [$d729], a
+	ld [wd729], a
 	ld a, $1
-	ld [$d719], a
+	ld [wd719], a
 	xor a
-	ld [$d6f3], a
-	ld [$d716], a
-	ld [$d6f7], a
-	ld [$d6fa], a
-	ld [$d6fd], a
+	ld [wd6f3], a
+	ld [wd716], a
+	ld [wd6f7], a
+	ld [wd6fa], a
+	ld [wd6fd], a
 	ld a, [wMeowthXPosition]
 	add $14
 	ld b, a
-	ld a, [$d4b4]
+	ld a, [wd4b4]
 	cp b
 	jr nc, .asm_248a6
 	ld a, $0
-	ld [$d72c], a
+	ld [wd72c], a
 	jr .asm_248ab
 
 .asm_248a6
 	ld a, $1
-	ld [$d72c], a
+	ld [wd72c], a
 .asm_248ab
 	ret
 
 Func_248ac: ; 0x248ac
-	ld a, [$d717]
+	ld a, [wd717]
 	cp $1
 	jr nz, .asm_248d3
-	ld a, [$d714]
+	ld a, [wd714]
 	cp $a
 	jr z, .asm_248c4
 	ld a, $0
-	ld [$d6f4], a
+	ld [wd6f4], a
 	call Func_24a30
 	jr .asm_248d3
 
 .asm_248c4
-	ld hl, $d70b
+	ld hl, wd70b
 	inc [hl]
 	ld a, $2
-	ld [$d717], a
+	ld [wd717], a
 	ld de, $0034
 	call PlaySoundEffect
 .asm_248d3
-	ld a, [$d718]
+	ld a, [wd718]
 	cp $1
 	jr nz, .asm_248fa
-	ld a, [$d715]
+	ld a, [wd715]
 	cp $a
 	jr z, .asm_248eb
 	ld a, $1
-	ld [$d6f4], a
+	ld [wd6f4], a
 	call Func_24a30
 	jr .asm_248fa
 
 .asm_248eb
-	ld hl, $d70b
+	ld hl, wd70b
 	inc [hl]
 	ld a, $2
-	ld [$d718], a
+	ld [wd718], a
 	ld de, $0034
 	call PlaySoundEffect
 .asm_248fa
-	ld a, [$d719]
+	ld a, [wd719]
 	cp $1
 	jr nz, .asm_24921
-	ld a, [$d716]
+	ld a, [wd716]
 	cp $a
 	jr z, .asm_24912
 	ld a, $2
-	ld [$d6f4], a
+	ld [wd6f4], a
 	call Func_24a30
 	jr .asm_24921
 
 .asm_24912
-	ld hl, $d70b
+	ld hl, wd70b
 	inc [hl]
 	ld a, $2
-	ld [$d719], a
+	ld [wd719], a
 	ld de, $0034
 	call PlaySoundEffect
 .asm_24921
-	ld a, [$d717]
+	ld a, [wd717]
 	cp $2
 	jr nz, .asm_2492c
-	ld hl, $d714
+	ld hl, wd714
 	inc [hl]
 .asm_2492c
-	ld a, [$d718]
+	ld a, [wd718]
 	cp $2
 	jr nz, .asm_24937
-	ld hl, $d715
+	ld hl, wd715
 	inc [hl]
 .asm_24937
-	ld a, [$d719]
+	ld a, [wd719]
 	cp $2
 	jr nz, .asm_24942
-	ld hl, $d716
+	ld hl, wd716
 	inc [hl]
 .asm_24942
-	ld a, [$d717]
+	ld a, [wd717]
 	cp $3
 	jr nz, .asm_24968
-	ld a, [$d71a]
+	ld a, [wd71a]
 	ld b, a
-	ld a, [$d727]
+	ld a, [wd727]
 	ld c, a
-	ld hl, $d714
+	ld hl, wd714
 	inc [hl]
 	ld a, [hl]
 	cp $2
@@ -41020,16 +41020,16 @@ Func_248ac: ; 0x248ac
 	cp $a
 	jr nz, .asm_24968
 	ld a, $4
-	ld [$d717], a
+	ld [wd717], a
 .asm_24968
-	ld a, [$d718]
+	ld a, [wd718]
 	cp $3
 	jr nz, .asm_2498e
-	ld a, [$d71b]
+	ld a, [wd71b]
 	ld b, a
-	ld a, [$d728]
+	ld a, [wd728]
 	ld c, a
-	ld hl, $d715
+	ld hl, wd715
 	inc [hl]
 	ld a, [hl]
 	cp $2
@@ -41041,16 +41041,16 @@ Func_248ac: ; 0x248ac
 	cp $a
 	jr nz, .asm_2498e
 	ld a, $4
-	ld [$d718], a
+	ld [wd718], a
 .asm_2498e
-	ld a, [$d719]
+	ld a, [wd719]
 	cp $3
 	jr nz, .asm_249b4
-	ld a, [$d71c]
+	ld a, [wd71c]
 	ld b, a
-	ld a, [$d729]
+	ld a, [wd729]
 	ld c, a
-	ld hl, $d716
+	ld hl, wd716
 	inc [hl]
 	ld a, [hl]
 	cp $2
@@ -41062,51 +41062,51 @@ Func_248ac: ; 0x248ac
 	cp $a
 	jr nz, .asm_249b4
 	ld a, $4
-	ld [$d719], a
+	ld [wd719], a
 .asm_249b4
-	ld a, [$d717]
+	ld a, [wd717]
 	cp $4
 	jr nz, .asm_249d0
 	ld a, $c8
-	ld [$d71a], a
-	ld [$d727], a
+	ld [wd71a], a
+	ld [wd727], a
 	xor a
-	ld [$d717], a
-	ld hl, $d70b
+	ld [wd717], a
+	ld hl, wd70b
 	dec [hl]
 	ld a, [hl]
 	cp $2
 	jr z, .asm_24a06
 .asm_249d0
-	ld a, [$d718]
+	ld a, [wd718]
 	cp $4
 	jr nz, .asm_249ec
 	ld a, $c8
-	ld [$d71b], a
-	ld [$d728], a
+	ld [wd71b], a
+	ld [wd728], a
 	xor a
-	ld [$d718], a
-	ld hl, $d70b
+	ld [wd718], a
+	ld hl, wd70b
 	dec [hl]
 	ld a, [hl]
 	cp $2
 	jr z, .asm_24a06
 .asm_249ec
-	ld a, [$d719]
+	ld a, [wd719]
 	cp $4
 	ret nz
 	ld a, $c8
-	ld [$d71c], a
-	ld [$d729], a
+	ld [wd71c], a
+	ld [wd729], a
 	xor a
-	ld [$d719], a
-	ld hl, $d70b
+	ld [wd719], a
+	ld hl, wd70b
 	dec [hl]
 	ld a, [hl]
 	cp $2
 	ret nz
 .asm_24a06
-	ld a, [$d713]
+	ld a, [wd713]
 	and a
 	ret nz
 	ld a, [wMeowthXMovement]
@@ -41116,7 +41116,7 @@ Func_248ac: ; 0x248ac
 	ld de, wMeowthAnimationFrameCounter
 	call CopyHLToDE
 	ld a, $1
-	ld [$d6ec], a
+	ld [wd6ec], a
 	ret
 
 .asm_24a21
@@ -41124,14 +41124,14 @@ Func_248ac: ; 0x248ac
 	ld de, wMeowthAnimationFrameCounter
 	call CopyHLToDE
 	ld a, $0
-	ld [$d6ec], a
+	ld [wd6ec], a
 	ret
 
 Func_24a30: ; 0x24a30
-	ld a, [$d6f4]
+	ld a, [wd6f4]
 	ld c, a
 	ld b, $0
-	ld hl, $d6f8
+	ld hl, wd6f8
 	add hl, bc
 	ld a, [hl]
 	and a
@@ -41140,10 +41140,10 @@ Func_24a30: ; 0x24a30
 	ret
 
 .asm_24a42
-	ld a, [$d6f4]
+	ld a, [wd6f4]
 	ld c, a
 	ld b, $0
-	ld hl, $d6f5
+	ld hl, wd6f5
 	add hl, bc
 	ld a, [hl]
 	bit 2, a
@@ -41152,31 +41152,31 @@ Func_24a30: ; 0x24a30
 	jr nz, .asm_24a5e
 	bit 0, a
 	jr nz, .asm_24a5e
-	ld hl, $d714
+	ld hl, wd714
 	add hl, bc
 	inc [hl]
 .asm_24a5e
-	ld hl, $d6f5
+	ld hl, wd6f5
 	add hl, bc
 	ld a, [hl]
 	ld hl, $4af1
 	ld e, a
 	ld d, $0
 	add hl, de
-	ld hl, $d72a
+	ld hl, wd72a
 	add hl, bc
 	ld a, [hl]
 	and a
 	jr nz, .asm_24a97
 .asm_24a72
-	ld hl, $d72a
+	ld hl, wd72a
 	add hl, bc
 	ld [hl], $0
-	ld hl, $d71a
+	ld hl, wd71a
 	add hl, bc
 	ld a, [hl]
 	push af
-	ld hl, $d6f5
+	ld hl, wd6f5
 	add hl, bc
 	ld a, [hl]
 	ld e, a
@@ -41187,16 +41187,16 @@ Func_24a30: ; 0x24a30
 	add [hl]
 	cp $8e
 	jr nc, .asm_24a97
-	ld hl, $d71a
+	ld hl, wd71a
 	add hl, bc
 	ld [hl], a
 	jr .asm_24abf
 
 .asm_24a97
-	ld hl, $d72a
+	ld hl, wd72a
 	add hl, bc
 	ld [hl], $1
-	ld hl, $d6f5
+	ld hl, wd6f5
 	add hl, bc
 	ld a, [hl]
 	ld e, a
@@ -41209,17 +41209,17 @@ Func_24a30: ; 0x24a30
 	sub d
 	inc a
 	ld d, a
-	ld hl, $d71a
+	ld hl, wd71a
 	add hl, bc
 	ld a, [hl]
 	add d
 	cp $5
 	jr c, .asm_24a72
-	ld hl, $d71a
+	ld hl, wd71a
 	add hl, bc
 	ld [hl], a
 .asm_24abf
-	ld hl, $d6f5
+	ld hl, wd6f5
 	add hl, bc
 	ld a, [hl]
 	ld e, a
@@ -41229,14 +41229,14 @@ Func_24a30: ; 0x24a30
 	inc hl
 	ld a, [hl]
 	ld d, a
-	ld hl, $d727
+	ld hl, wd727
 	add hl, bc
 	ld a, [hl]
 	add d
-	ld hl, $d727
+	ld hl, wd727
 	add hl, bc
 	ld [hl], a
-	ld hl, $d6f5
+	ld hl, wd6f5
 	add hl, bc
 	inc [hl]
 	inc [hl]
@@ -41257,35 +41257,35 @@ Func_24a30: ; 0x24a30
 	dr $24af1, $24b41
 
 Func_24b41: ; 0x24b41
-	ld a, [$d6f4]
+	ld a, [wd6f4]
 	ld b, $0
 	ld c, a
-	ld hl, $d6f5
+	ld hl, wd6f5
 	add hl, bc
 	ld a, [hl]
 	cp $14
 	jp nc, Func_24bf6
-	ld hl, $d6f5
+	ld hl, wd6f5
 	add hl, bc
 	ld a, [hl]
 	ld hl, $4c0a
 	ld e, a
 	ld d, $0
 	add hl, de
-	ld hl, $d72a
+	ld hl, wd72a
 	add hl, bc
 	ld a, [hl]
 	and a
 	jr nz, .asm_24b8a
 .asm_24b65
-	ld hl, $d72a
+	ld hl, wd72a
 	add hl, bc
 	ld [hl], $0
-	ld hl, $d71a
+	ld hl, wd71a
 	add hl, bc
 	ld a, [hl]
 	push af
-	ld hl, $d6f5
+	ld hl, wd6f5
 	add hl, bc
 	ld a, [hl]
 	ld e, a
@@ -41296,16 +41296,16 @@ Func_24b41: ; 0x24b41
 	add [hl]
 	cp $90
 	jr nc, .asm_24b8a
-	ld hl, $d71a
+	ld hl, wd71a
 	add hl, bc
 	ld [hl], a
 	jr .asm_24bb2
 
 .asm_24b8a
-	ld hl, $d72a
+	ld hl, wd72a
 	add hl, bc
 	ld [hl], $1
-	ld hl, $d6f5
+	ld hl, wd6f5
 	add hl, bc
 	ld a, [hl]
 	ld e, a
@@ -41318,17 +41318,17 @@ Func_24b41: ; 0x24b41
 	sub d
 	inc a
 	ld d, a
-	ld hl, $d71a
+	ld hl, wd71a
 	add hl, bc
 	ld a, [hl]
 	add d
 	cp $6
 	jr c, .asm_24b65
-	ld hl, $d71a
+	ld hl, wd71a
 	add hl, bc
 	ld [hl], a
 .asm_24bb2
-	ld hl, $d6f5
+	ld hl, wd6f5
 	add hl, bc
 	ld a, [hl]
 	ld e, a
@@ -41338,14 +41338,14 @@ Func_24b41: ; 0x24b41
 	inc hl
 	ld a, [hl]
 	ld d, a
-	ld hl, $d727
+	ld hl, wd727
 	add hl, bc
 	ld a, [hl]
 	add d
-	ld hl, $d727
+	ld hl, wd727
 	add hl, bc
 	ld [hl], a
-	ld hl, $d6f5
+	ld hl, wd6f5
 	add hl, bc
 	inc [hl]
 	inc [hl]
@@ -41361,10 +41361,10 @@ Func_24b41: ; 0x24b41
 .asm_24be1
 	call Func_24319
 .asm_24be4
-	ld a, [$d6f4]
+	ld a, [wd6f4]
 	ld b, $0
 	ld c, a
-	ld hl, $d6f8
+	ld hl, wd6f8
 	add hl, bc
 	ld a, [hl]
 	and a
@@ -41375,13 +41375,13 @@ Func_24b41: ; 0x24b41
 	ret
 
 Func_24bf6: ; 0x24bf6
-	ld a, [$d6f4]
+	ld a, [wd6f4]
 	ld b, $0
 	ld c, a
-	ld hl, $d6f8
+	ld hl, wd6f8
 	add hl, bc
 	ld [hl], $0
-	ld hl, $d714
+	ld hl, wd714
 	add hl, bc
 	ld [hl], $a
 	ccf
@@ -41390,194 +41390,194 @@ Func_24bf6: ; 0x24bf6
 	dr $24c0a, $24c28
 
 Func_24c28: ; 0x24c28
-	ld a, [$d6f3]
+	ld a, [wd6f3]
 	and a
 	ret z
-	ld a, [$d724]
+	ld a, [wd724]
 	cp $c8
 	jr nz, .asm_24c76
 	ld a, [wMeowthXPosition]
 	add $8
-	ld [$d724], a
+	ld [wd724], a
 	ld a, [wMeowthYPosition]
 	add $fb
-	ld [$d731], a
+	ld [wd731], a
 	ld a, $1
-	ld [$d721], a
-	ld hl, $d70c
+	ld [wd721], a
+	ld hl, wd70c
 	inc [hl]
 	xor a
-	ld [$d6f3], a
-	ld [$d71e], a
-	ld [$d6ff], a
-	ld [$d702], a
-	ld [$d705], a
+	ld [wd6f3], a
+	ld [wd71e], a
+	ld [wd6ff], a
+	ld [wd702], a
+	ld [wd705], a
 	ld a, [wMeowthXPosition]
 	add $14
 	ld b, a
-	ld a, [$d4b4]
+	ld a, [wd4b4]
 	cp b
 	jr nc, .asm_24c70
 	ld a, $0
-	ld [$d734], a
+	ld [wd734], a
 	jr .asm_24c75
 
 .asm_24c70
 	ld a, $1
-	ld [$d734], a
+	ld [wd734], a
 .asm_24c75
 	ret
 
 .asm_24c76
-	ld a, [$d725]
+	ld a, [wd725]
 	cp $c8
 	jr nz, .asm_24cbf
 	ld a, [wMeowthXPosition]
 	add $8
-	ld [$d725], a
+	ld [wd725], a
 	ld a, [wMeowthYPosition]
 	add $fb
-	ld [$d732], a
+	ld [wd732], a
 	ld a, $1
-	ld [$d722], a
-	ld hl, $d70c
+	ld [wd722], a
+	ld hl, wd70c
 	inc [hl]
 	xor a
-	ld [$d6f3], a
-	ld [$d71f], a
-	ld [$d700], a
-	ld [$d703], a
-	ld [$d706], a
-	ld a, [$d6f7]
+	ld [wd6f3], a
+	ld [wd71f], a
+	ld [wd700], a
+	ld [wd703], a
+	ld [wd706], a
+	ld a, [wd6f7]
 	add $14
 	ld b, a
-	ld a, [$d4b4]
+	ld a, [wd4b4]
 	cp b
 	jr nc, .asm_24cb9
 	ld a, $0
-	ld [$d735], a
+	ld [wd735], a
 	jr .asm_24cbe
 
 .asm_24cb9
 	ld a, $1
-	ld [$d735], a
+	ld [wd735], a
 .asm_24cbe
 	ret
 
 .asm_24cbf
-	ld a, [$d726]
+	ld a, [wd726]
 	cp $c8
 	ret nz
 	ld a, [wMeowthXPosition]
 	add $8
-	ld [$d726], a
+	ld [wd726], a
 	ld a, [wMeowthYPosition]
 	add $fb
-	ld [$d733], a
+	ld [wd733], a
 	ld a, $1
-	ld [$d723], a
-	ld hl, $d70c
+	ld [wd723], a
+	ld hl, wd70c
 	inc [hl]
 	xor a
-	ld [$d6f3], a
-	ld [$d720], a
-	ld [$d701], a
-	ld [$d704], a
-	ld [$d707], a
+	ld [wd6f3], a
+	ld [wd720], a
+	ld [wd701], a
+	ld [wd704], a
+	ld [wd707], a
 	ld a, [wMeowthXPosition]
 	add $14
 	ld b, a
-	ld a, [$d4b4]
+	ld a, [wd4b4]
 	cp b
 	jr nc, .asm_24d01
 	ld a, $0
-	ld [$d736], a
+	ld [wd736], a
 	jr .asm_24d06
 
 .asm_24d01
 	ld a, $1
-	ld [$d736], a
+	ld [wd736], a
 .asm_24d06
 	ret
 
 Func_24d07: ; 0x24d07
-	ld a, [$d721]
+	ld a, [wd721]
 	cp $1
 	jr nz, .asm_24d2a
-	ld a, [$d71e]
+	ld a, [wd71e]
 	cp $a
 	jr z, .asm_24d1f
 	ld a, $a
-	ld [$d6f4], a
+	ld [wd6f4], a
 	call Func_24a30
 	jr .asm_24d2a
 
 .asm_24d1f
 	ld a, $2
-	ld [$d721], a
+	ld [wd721], a
 	ld de, $0034
 	call PlaySoundEffect
 .asm_24d2a
-	ld a, [$d722]
+	ld a, [wd722]
 	cp $1
 	jr nz, .asm_24d4d
-	ld a, [$d71f]
+	ld a, [wd71f]
 	cp $a
 	jr z, .asm_24d42
 	ld a, $b
-	ld [$d6f4], a
+	ld [wd6f4], a
 	call Func_24a30
 	jr .asm_24d4d
 
 .asm_24d42
 	ld a, $2
-	ld [$d722], a
+	ld [wd722], a
 	ld de, $0034
 	call PlaySoundEffect
 .asm_24d4d
-	ld a, [$d723]
+	ld a, [wd723]
 	cp $1
 	jr nz, .asm_24d70
-	ld a, [$d720]
+	ld a, [wd720]
 	cp $a
 	jr z, .asm_24d65
 	ld a, $c
-	ld [$d6f4], a
+	ld [wd6f4], a
 	call Func_24a30
 	jr .asm_24d70
 
 .asm_24d65
 	ld a, $2
-	ld [$d723], a
+	ld [wd723], a
 	ld de, $0034
 	call PlaySoundEffect
 .asm_24d70
-	ld a, [$d721]
+	ld a, [wd721]
 	cp $2
 	jr nz, .asm_24d7b
-	ld hl, $d71e
+	ld hl, wd71e
 	inc [hl]
 .asm_24d7b
-	ld a, [$d722]
+	ld a, [wd722]
 	cp $2
 	jr nz, .asm_24d86
-	ld hl, $d71f
+	ld hl, wd71f
 	inc [hl]
 .asm_24d86
-	ld a, [$d723]
+	ld a, [wd723]
 	cp $2
 	jr nz, .asm_24d91
-	ld hl, $d720
+	ld hl, wd720
 	inc [hl]
 .asm_24d91
-	ld a, [$d721]
+	ld a, [wd721]
 	cp $3
 	jr nz, .asm_24db7
-	ld a, [$d724]
+	ld a, [wd724]
 	ld b, a
-	ld a, [$d731]
+	ld a, [wd731]
 	ld c, a
-	ld hl, $d71e
+	ld hl, wd71e
 	inc [hl]
 	ld a, [hl]
 	cp $2
@@ -41589,16 +41589,16 @@ Func_24d07: ; 0x24d07
 	cp $a
 	jr nz, .asm_24db7
 	ld a, $4
-	ld [$d721], a
+	ld [wd721], a
 .asm_24db7
-	ld a, [$d722]
+	ld a, [wd722]
 	cp $3
 	jr nz, .asm_24ddd
-	ld a, [$d725]
+	ld a, [wd725]
 	ld b, a
-	ld a, [$d732]
+	ld a, [wd732]
 	ld c, a
-	ld hl, $d71f
+	ld hl, wd71f
 	inc [hl]
 	ld a, [hl]
 	cp $2
@@ -41610,16 +41610,16 @@ Func_24d07: ; 0x24d07
 	cp $a
 	jr nz, .asm_24ddd
 	ld a, $4
-	ld [$d722], a
+	ld [wd722], a
 .asm_24ddd
-	ld a, [$d723]
+	ld a, [wd723]
 	cp $3
 	jr nz, .asm_24e03
-	ld a, [$d726]
+	ld a, [wd726]
 	ld b, a
-	ld a, [$d733]
+	ld a, [wd733]
 	ld c, a
-	ld hl, $d720
+	ld hl, wd720
 	inc [hl]
 	ld a, [hl]
 	cp $2
@@ -41631,51 +41631,51 @@ Func_24d07: ; 0x24d07
 	cp $a
 	jr nz, .asm_24e03
 	ld a, $4
-	ld [$d723], a
+	ld [wd723], a
 .asm_24e03
-	ld a, [$d721]
+	ld a, [wd721]
 	cp $4
 	jr nz, .asm_24e1f
 	ld a, $c8
-	ld [$d724], a
-	ld [$d731], a
+	ld [wd724], a
+	ld [wd731], a
 	xor a
-	ld [$d721], a
-	ld hl, $d70c
+	ld [wd721], a
+	ld hl, wd70c
 	dec [hl]
 	ld a, [hl]
 	cp $2
 	jr z, .asm_24e55
 .asm_24e1f
-	ld a, [$d722]
+	ld a, [wd722]
 	cp $4
 	jr nz, .asm_24e3b
 	ld a, $c8
-	ld [$d725], a
-	ld [$d732], a
+	ld [wd725], a
+	ld [wd732], a
 	xor a
-	ld [$d722], a
-	ld hl, $d70c
+	ld [wd722], a
+	ld hl, wd70c
 	dec [hl]
 	ld a, [hl]
 	cp $2
 	jr z, .asm_24e55
 .asm_24e3b
-	ld a, [$d723]
+	ld a, [wd723]
 	cp $4
 	ret nz
 	ld a, $c8
-	ld [$d726], a
-	ld [$d733], a
+	ld [wd726], a
+	ld [wd733], a
 	xor a
-	ld [$d723], a
-	ld hl, $d70c
+	ld [wd723], a
+	ld hl, wd70c
 	dec [hl]
 	ld a, [hl]
 	cp $2
 	ret nz
 .asm_24e55
-	ld a, [$d713]
+	ld a, [wd713]
 	and a
 	ret nz
 	ld a, [wMeowthXMovement]
@@ -41685,7 +41685,7 @@ Func_24d07: ; 0x24d07
 	ld de, wMeowthAnimationFrameCounter
 	call CopyHLToDE
 	ld a, $1
-	ld [$d6ec], a
+	ld [wd6ec], a
 	ret
 
 .asm_24e70
@@ -41693,14 +41693,14 @@ Func_24d07: ; 0x24d07
 	ld de, wMeowthAnimationFrameCounter
 	call CopyHLToDE
 	ld a, $0
-	ld [$d6ec], a
+	ld [wd6ec], a
 	ret
 
 Func_24e7f: ; 0x24e7f
 	ld a, b
-	ld [$d79c], a
+	ld [wd79c], a
 	ld a, c
-	ld [$d79e], a
+	ld [wd79e], a
 	ld hl, wMeowthStageBonusCounter
 	inc [hl]
 	ld a, [hl]
@@ -41710,9 +41710,9 @@ Func_24e7f: ; 0x24e7f
 	ld [hl], a
 .asm_24e92
 	ld a, $ff
-	ld [$d803], a
+	ld [wd803], a
 	ld a, $3
-	ld [$d804], a
+	ld [wd804], a
 	ld de, $0032
 	call PlaySoundEffect
 	ld a, [wMeowthStageBonusCounter]
@@ -41738,24 +41738,24 @@ Func_24e7f: ; 0x24e7f
 	jr z, .asm_24ed7
 	cp $ff
 	jr z, .asm_24ed7
-	ld [$d79a], a
-	ld de, $d79a
+	ld [wd79a], a
+	ld de, wd79a
 	call Func_24ee7
 	jr .asm_24ede
 
 .asm_24ed7
 	xor a
-	ld [$d79a], a
-	ld [$d795], a
+	ld [wd79a], a
+	ld [wd795], a
 .asm_24ede
 	ld a, $1
-	ld [$d64e], a
+	ld [wd64e], a
 	call Func_24fa3
 	ret
 
 Func_24ee7: ; 0x24ee7
 	ld a, $ff
-	ld [$d795], a
+	ld [wd795], a
 	ld a, [de]
 	sla a
 	ld c, a
@@ -41788,7 +41788,7 @@ Func_24f00: ; 0x24f00
 	call UpdateAnimation
 	pop de
 	ld a, $1
-	ld [$d710], a
+	ld [wd710], a
 	ret nc
 	dec de
 	ld a, [de]
@@ -41796,11 +41796,11 @@ Func_24f00: ; 0x24f00
 	ret nz
 	xor a
 	ld [de], a
-	ld [$d79c], a
-	ld [$d79e], a
-	ld [$d795], a
+	ld [wd79c], a
+	ld [wd79e], a
+	ld [wd795], a
 	xor a
-	ld [$d710], a
+	ld [wd710], a
 	ret
 
 	dr $24f30, $24fa3
@@ -41826,7 +41826,7 @@ Func_24fa3: ; 0x24fa3
 	jr z, .asm_24fbb
 	sub $8
 .asm_24fbb
-	ld [$d652], a
+	ld [wd652], a
 	ld a, [wMeowthStageBonusCounter]
 	and a
 	jr z, .asm_24fca
@@ -41835,9 +41835,9 @@ Func_24fa3: ; 0x24fa3
 	inc a
 	sub b
 .asm_24fca
-	ld [$d651], a
+	ld [wd651], a
 	ld a, $0
-	ld [$d64e], a
+	ld [wd64e], a
 	ld a, [wMeowthStageScore]
 	and a
 	ret z
@@ -41850,9 +41850,9 @@ Func_24fa3: ; 0x24fa3
 .asm_24fe2
 	push af
 	xor a
-	ld [$d650], a
+	ld [wd650], a
 	ld a, $1
-	ld [$d64e], a
+	ld [wd64e], a
 	pop af
 .asm_24fed
 	sla a
@@ -41910,33 +41910,33 @@ Func_2586c: ; 0x2586c
 	dr $2588b, $25895
 
 Func_25895: ; 0x25895
-	ld a, [$d714]
+	ld a, [wd714]
 	cp $b
 	jr nz, .asm_258a0
 	xor a
-	ld [$d714], a
+	ld [wd714], a
 .asm_258a0
-	ld a, [$d715]
+	ld a, [wd715]
 	cp $b
 	jr nz, .asm_258ab
 	xor a
-	ld [$d715], a
+	ld [wd715], a
 .asm_258ab
-	ld a, [$d716]
+	ld a, [wd716]
 	cp $b
 	jr nz, .asm_258b6
 	xor a
-	ld [$d716], a
+	ld [wd716], a
 .asm_258b6
-	ld a, [$d71a]
+	ld a, [wd71a]
 	ld hl, hBoardXShift
 	sub [hl]
 	ld b, a
-	ld a, [$d727]
+	ld a, [wd727]
 	ld hl, hBoardYShift
 	sub [hl]
 	ld c, a
-	ld a, [$d717]
+	ld a, [wd717]
 	sla a
 	ld e, a
 	ld d, $0
@@ -41945,21 +41945,21 @@ Func_25895: ; 0x25895
 	ld a, [hli]
 	ld h, [hl]
 	ld l, a
-	ld a, [$d714]
+	ld a, [wd714]
 	ld e, a
 	ld d, $0
 	add hl, de
 	ld a, [hl]
 	call LoadOAMData2
-	ld a, [$d71b]
+	ld a, [wd71b]
 	ld hl, hBoardXShift
 	sub [hl]
 	ld b, a
-	ld a, [$d728]
+	ld a, [wd728]
 	ld hl, hBoardYShift
 	sub [hl]
 	ld c, a
-	ld a, [$d718]
+	ld a, [wd718]
 	sla a
 	ld e, a
 	ld d, $0
@@ -41968,21 +41968,21 @@ Func_25895: ; 0x25895
 	ld a, [hli]
 	ld h, [hl]
 	ld l, a
-	ld a, [$d715]
+	ld a, [wd715]
 	ld e, a
 	ld d, $0
 	add hl, de
 	ld a, [hl]
 	call LoadOAMData2
-	ld a, [$d71c]
+	ld a, [wd71c]
 	ld hl, hBoardXShift
 	sub [hl]
 	ld b, a
-	ld a, [$d729]
+	ld a, [wd729]
 	ld hl, hBoardYShift
 	sub [hl]
 	ld c, a
-	ld a, [$d719]
+	ld a, [wd719]
 	sla a
 	ld e, a
 	ld d, $0
@@ -41991,7 +41991,7 @@ Func_25895: ; 0x25895
 	ld a, [hli]
 	ld h, [hl]
 	ld l, a
-	ld a, [$d716]
+	ld a, [wd716]
 	ld e, a
 	ld d, $0
 	add hl, de
@@ -42002,33 +42002,33 @@ Func_25895: ; 0x25895
 	dr $25935, $2595e
 
 Func_2595e: ; 0x2595e
-	ld a, [$d71e]
+	ld a, [wd71e]
 	cp $b
 	jr nz, .asm_25969
 	xor a
-	ld [$d71e], a
+	ld [wd71e], a
 .asm_25969
-	ld a, [$d71f]
+	ld a, [wd71f]
 	cp $b
 	jr nz, .asm_25974
 	xor a
-	ld [$d71f], a
+	ld [wd71f], a
 .asm_25974
-	ld a, [$d720]
+	ld a, [wd720]
 	cp $b
 	jr nz, .asm_2597f
 	xor a
-	ld [$d720], a
+	ld [wd720], a
 .asm_2597f
-	ld a, [$d724]
+	ld a, [wd724]
 	ld hl, hBoardXShift
 	sub [hl]
 	ld b, a
-	ld a, [$d731]
+	ld a, [wd731]
 	ld hl, hBoardYShift
 	sub [hl]
 	ld c, a
-	ld a, [$d721]
+	ld a, [wd721]
 	sla a
 	ld e, a
 	ld d, $0
@@ -42037,21 +42037,21 @@ Func_2595e: ; 0x2595e
 	ld a, [hli]
 	ld h, [hl]
 	ld l, a
-	ld a, [$d71e]
+	ld a, [wd71e]
 	ld e, a
 	ld d, $0
 	add hl, de
 	ld a, [hl]
 	call LoadOAMData2
-	ld a, [$d725]
+	ld a, [wd725]
 	ld hl, hBoardXShift
 	sub [hl]
 	ld b, a
-	ld a, [$d732]
+	ld a, [wd732]
 	ld hl, hBoardYShift
 	sub [hl]
 	ld c, a
-	ld a, [$d722]
+	ld a, [wd722]
 	sla a
 	ld e, a
 	ld d, $0
@@ -42060,21 +42060,21 @@ Func_2595e: ; 0x2595e
 	ld a, [hli]
 	ld h, [hl]
 	ld l, a
-	ld a, [$d71f]
+	ld a, [wd71f]
 	ld e, a
 	ld d, $0
 	add hl, de
 	ld a, [hl]
 	call LoadOAMData2
-	ld a, [$d726]
+	ld a, [wd726]
 	ld hl, hBoardXShift
 	sub [hl]
 	ld b, a
-	ld a, [$d733]
+	ld a, [wd733]
 	ld hl, hBoardYShift
 	sub [hl]
 	ld c, a
-	ld a, [$d723]
+	ld a, [wd723]
 	sla a
 	ld e, a
 	ld d, $0
@@ -42083,7 +42083,7 @@ Func_2595e: ; 0x2595e
 	ld a, [hli]
 	ld h, [hl]
 	ld l, a
-	ld a, [$d720]
+	ld a, [wd720]
 	ld e, a
 	ld d, $0
 	add hl, de
@@ -42092,10 +42092,10 @@ Func_2595e: ; 0x2595e
 	ret
 
 Func_259fe: ; 0x259fe
-	ld a, [$d795]
+	ld a, [wd795]
 	and a
 	ret z
-	ld de, $d79c
+	ld de, wd79c
 	ld a, [de]
 	ld hl, hBoardXShift
 	sub [hl]
@@ -42125,10 +42125,10 @@ Func_259fe: ; 0x259fe
 	dr $25a29, $25a39
 
 Func_25a39: ; 0x25a39
-	ld a, [$d64e]
+	ld a, [wd64e]
 	and a
 	ret z
-	ld a, [$d652]
+	ld a, [wd652]
 	ld hl, hBoardXShift
 	sub [hl]
 	ld b, a
@@ -42136,7 +42136,7 @@ Func_25a39: ; 0x25a39
 	ld hl, hBoardYShift
 	sub [hl]
 	ld c, a
-	ld a, [$d64f]
+	ld a, [wd64f]
 	cp $a
 	jr c, .asm_25a58
 	ld de, $0000
@@ -42149,50 +42149,50 @@ Func_25a39: ; 0x25a39
 	add hl, de
 	ld a, [hl]
 	call LoadOAMData2
-	ld hl, $d64f
+	ld hl, wd64f
 	inc [hl]
 	ld a, [hl]
 	cp $14
 	ret c
 	ld [hl], $0
-	ld hl, $d650
+	ld hl, wd650
 	inc [hl]
 	ld a, [hl]
 	cp $a
 	ret nz
 	xor a
-	ld [$d64e], a
+	ld [wd64e], a
 	ret
 
 	dr $25a7a, $25a7c
 
 InitSeelBonusStage: ; 0x25a7c
-	ld a, [$d7c1]
+	ld a, [wd7c1]
 	and a
 	ret nz
 	xor a
-	ld [$d4c8], a
+	ld [wd4c8], a
 	ld [wStageCollisionState], a
 	ld a, $1
-	ld [$d7ac], a
+	ld [wd7ac], a
 	ld a, [wBallType]
 	ld [wBallTypeBackup], a
 	xor a
-	ld [$d4c8], a
+	ld [wd4c8], a
 	ld [wBallType], a
-	ld [$d49a], a
+	ld [wd49a], a
 	ld hl, $5ae5 ; todo
-	ld de, $d76d
+	ld de, wd76d
 	call Func_25ad8
-	ld de, $d777
+	ld de, wd777
 	call Func_25ad8
-	ld de, $d781
+	ld de, wd781
 	call Func_25ad8
 	xor a
-	ld [$d793], a
-	ld [$d791], a
-	ld [$d792], a
-	ld [$d739], a
+	ld [wd793], a
+	ld [wd791], a
+	ld [wd792], a
+	ld [wd739], a
 	ld bc, $0130  ; 1 minute 30 seconds
 	ld [$ff8a], a
 	callba StartTimer
@@ -42231,58 +42231,58 @@ StartBallSeelBonusStage: ; 0x25af1
 	ld a, $80
 	ld [wBallXVelocity], a
 	xor a
-	ld [$d7ab], a
+	ld [wd7ab], a
 	ld [wStageCollisionState], a
-	ld [$d766], a
+	ld [wd766], a
 	ld a, $0
-	ld [$d772], a
+	ld [wd772], a
 	ld a, $1
-	ld [$d77c], a
+	ld [wd77c], a
 	ld a, $0
-	ld [$d786], a
+	ld [wd786], a
 	ld a, $4
-	ld [$d775], a
-	ld [$d77f], a
-	ld [$d76b], a
+	ld [wd775], a
+	ld [wd77f], a
+	ld [wd76b], a
 	ld a, $1
-	ld [$d76c], a
+	ld [wd76c], a
 	ld a, $4
-	ld [$d776], a
+	ld [wd776], a
 	ld a, $1
-	ld [$d780], a
+	ld [wd780], a
 	ld a, $5
-	ld [$d771], a
-	ld [$d77b], a
-	ld [$d785], a
+	ld [wd771], a
+	ld [wd77b], a
+	ld [wd785], a
 	ld a, $ff
-	ld [$d79a], a
+	ld [wd79a], a
 	xor a
-	ld [$d792], a
-	ld [$d791], a
-	ld [$d64e], a
-	ld [$d64f], a
-	ld [$d650], a
-	ld [$d651], a
-	ld [$d795], a
-	ld [$d796], a
-	ld [$d797], a
-	ld [$d798], a
-	ld [$d799], a
-	ld [$d79a], a
-	ld de, $d76b
-	ld a, [$d76c]
+	ld [wd792], a
+	ld [wd791], a
+	ld [wd64e], a
+	ld [wd64f], a
+	ld [wd650], a
+	ld [wd651], a
+	ld [wd795], a
+	ld [wd796], a
+	ld [wd797], a
+	ld [wd798], a
+	ld [wd799], a
+	ld [wd79a], a
+	ld de, wd76b
+	ld a, [wd76c]
 	call Func_26137
-	ld de, $d775
-	ld a, [$d776]
+	ld de, wd775
+	ld a, [wd776]
 	call Func_26137
-	ld de, $d77f
-	ld a, [$d780]
+	ld de, wd77f
+	ld a, [wd780]
 	call Func_26137
-	ld a, [$d4c9]
+	ld a, [wd4c9]
 	and a
 	ret z
 	xor a
-	ld [$d4c9], a
+	ld [wd4c9], a
 	ret
 
 Func_25b97: ; 0x25b97
@@ -42301,36 +42301,36 @@ Func_25bbc: ; 0x25bbc
 	ret
 
 Func_25bc0: ; 0x25bc0
-	ld a, [$d76c]
+	ld a, [wd76c]
 	cp $0
 	jr nz, .asm_25bd8
-	ld a, [$d76e]
+	ld a, [wd76e]
 	ld b, a
-	ld a, [$d770]
+	ld a, [wd770]
 	add $14
 	ld c, a
 	call Func_25c12
 	ld a, $0
 	jr c, .asm_25c09
 .asm_25bd8
-	ld a, [$d776]
+	ld a, [wd776]
 	cp $0
 	jr nz, .asm_25bf0
-	ld a, [$d778]
+	ld a, [wd778]
 	ld b, a
-	ld a, [$d77a]
+	ld a, [wd77a]
 	add $14
 	ld c, a
 	call Func_25c12
 	ld a, $1
 	jr c, .asm_25c09
 .asm_25bf0
-	ld a, [$d780]
+	ld a, [wd780]
 	cp $0
 	jr nz, .asm_25c08
-	ld a, [$d782]
+	ld a, [wd782]
 	ld b, a
-	ld a, [$d784]
+	ld a, [wd784]
 	add $14
 	ld c, a
 	call Func_25c12
@@ -42340,9 +42340,9 @@ Func_25bc0: ; 0x25bc0
 	ret
 
 .asm_25c09
-	ld [$d768], a
+	ld [wd768], a
 	ld a, $1
-	ld [$d767], a
+	ld [wd767], a
 	ret
 
 Func_25c12: ; 0x25c12
@@ -42378,9 +42378,9 @@ Func_25c12: ; 0x25c12
 	bit 7, a
 	jr nz, .asm_25c58
 	sla a
-	ld [$d7ea], a
+	ld [wd7ea], a
 	ld a, $1
-	ld [$d7e9], a
+	ld [wd7e9], a
 	scf
 	ret
 
@@ -42391,74 +42391,74 @@ Func_25c12: ; 0x25c12
 Func_25c5a: ; 0x25c5a
 	call Func_25da3
 	call Func_25ced
-	ld a, [$d793]
+	ld a, [wd793]
 	cp $14
 	jr c, .asm_25c98
-	ld a, [$d794]
+	ld a, [wd794]
 	cp $2
 	jr nc, .asm_25c98
 	ld a, $1
-	ld [$d498], a
+	ld [wd498], a
 	ld de, $0000
 	call PlaySong
 	ld a, $1
-	ld [$d49a], a
+	ld [wd49a], a
 	call Func_30e8
 	call Func_30db
-	ld hl, $d5dc
+	ld hl, wd5dc
 	ld de, Data_2fec
 	call LoadTextHeader
 	ld a, $2
-	ld [$d794], a
+	ld [wd794], a
 	ld de, $4b2a
 	call PlaySoundEffect
 .asm_25c98
-	ld a, [$d794]
+	ld a, [wd794]
 	cp $2
 	jr nz, .asm_25cb0
-	ld a, [$d800]
+	ld a, [wd800]
 	and a
 	jr nz, .asm_25cb0
 	ld de, $0003
 	call PlaySong
 	ld a, $5
-	ld [$d794], a
+	ld [wd794], a
 .asm_25cb0
-	ld a, [$d794]
+	ld a, [wd794]
 	cp $2
 	jr z, .asm_25cc1
 	ld [$ff8a], a
 	callba Func_107f8
 .asm_25cc1
-	ld a, [$d57e]
+	ld a, [wd57e]
 	and a
 	ret z
 	xor a
-	ld [$d57e], a
+	ld [wd57e], a
 	ld a, $1
-	ld [$d7be], a
+	ld [wd7be], a
 	call Func_2862
 	ld [$ff8a], a
 	callba Func_86d2
 	ld a, $3
-	ld [$d791], a
-	ld a, [$d794]
+	ld [wd791], a
+	ld a, [wd794]
 	cp $5
 	ret z
 	ld a, $1
-	ld [$d794], a
+	ld [wd794], a
 	ret
 
 Func_25ced: ; 0x25ced
-	ld a, [$d766]
+	ld a, [wd766]
 	and a
 	ret nz
-	ld a, [$d4b4]
+	ld a, [wd4b4]
 	cp $8a
 	ret nc
 	ld a, $1
 	ld [wStageCollisionState], a
-	ld [$d766], a
+	ld [wd766], a
 	ld [$ff8a], a
 	callba LoadStageCollisionAttributes
 	call Func_25d0e
@@ -42486,12 +42486,12 @@ Func_25d0e: ; 0x25d0e
 	dr $25d2b, $25da3
 
 Func_25da3: ; 0x25da3
-	ld a, [$d767]
+	ld a, [wd767]
 	and a
 	jp z, .asm_25e38
 	xor a
-	ld [$d767], a
-	ld a, [$d768]
+	ld [wd767], a
+	ld a, [wd768]
 	sla a
 	ld c, a
 	sla a
@@ -42499,7 +42499,7 @@ Func_25da3: ; 0x25da3
 	add c
 	ld c, a
 	ld b, $0
-	ld hl, $d76c
+	ld hl, wd76c
 	add hl, bc
 	ld d, h
 	ld e, l
@@ -42512,92 +42512,92 @@ Func_25da3: ; 0x25da3
 	ld hl, $61d8
 	call CopyHLToDE
 	pop bc
-	ld hl, $d76e
+	ld hl, wd76e
 	add hl, bc
 	ld a, [hl]
-	ld [$d79c], a
-	ld hl, $d770
+	ld [wd79c], a
+	ld hl, wd770
 	add hl, bc
 	ld a, [hl]
 	add $8
-	ld [$d79e], a
-	ld a, [$d792]
+	ld [wd79e], a
+	ld a, [wd792]
 	cp $9
 	jr nz, .asm_25df1
 	ld a, $0
-	ld [$d792], a
-	ld [$d79a], a
+	ld [wd792], a
+	ld [wd79a], a
 .asm_25df1
-	ld a, [$d792]
+	ld a, [wd792]
 	dec a
 	cp $ff
 	jr z, .asm_25e04
-	ld [$d79a], a
-	ld de, $d79a
+	ld [wd79a], a
+	ld de, wd79a
 	call Func_261f9
 	jr .asm_25e07
 
 .asm_25e04
-	ld [$d79a], a
+	ld [wd79a], a
 .asm_25e07
 	ld a, $33
-	ld [$d803], a
+	ld [wd803], a
 	ld a, $8
-	ld [$d804], a
+	ld [wd804], a
 	ld de, $0030
 	call PlaySoundEffect
 	call Func_25e85
-	ld hl, $d792
+	ld hl, wd792
 	inc [hl]
-	ld a, [$d793]
+	ld a, [wd793]
 	cp $14
 	ret nc
-	ld hl, $d793
+	ld hl, wd793
 	inc [hl]
-	ld a, [$d792]
+	ld a, [wd792]
 	dec a
 	ld b, a
 	ld a, [hl]
 	add b
 	ld [hl], a
 	ld a, $1
-	ld [$d64e], a
+	ld [wd64e], a
 	call Func_262f4
 .asm_25e38
-	ld de, $d76c    ; I think these three calls are one for each Seel swimming around
+	ld de, wd76c    ; I think these three calls are one for each Seel swimming around
 	call Func_25f47
-	ld de, $d776
+	ld de, wd776
 	call Func_25f47
-	ld de, $d780
+	ld de, wd780
 	call Func_25f47
-	ld a, [$d792]
+	ld a, [wd792]
 	dec a
 	cp $ff
 	jr z, .asm_25e5d
-	ld [$d79a], a
-	ld de, $d79a
+	ld [wd79a], a
+	ld de, wd79a
 	call Func_26212
 	jr .asm_25e60
 
 .asm_25e5d
-	ld [$d79a], a
+	ld [wd79a], a
 .asm_25e60
 	ld bc, $087a  ; again, probably one call for each Seel swimming around
-	ld de, $d76d
-	ld hl, $d772
+	ld de, wd76d
+	ld hl, wd772
 	call Func_25ec5
 	ld bc, $087a
-	ld de, $d777
-	ld hl, $d77c
+	ld de, wd777
+	ld hl, wd77c
 	call Func_25ec5
 	ld bc, $087a
-	ld de, $d781
-	ld hl, $d786
+	ld de, wd781
+	ld hl, wd786
 	call Func_25ec5
 	ret
 
 Func_25e85: ; 0x25e85
-	ld a, [$d792]
+	ld a, [wd792]
 	inc a
 	ld d, $1
 	ld e, a
@@ -42774,7 +42774,7 @@ Func_25f77: ; 0x25f77
 	jp Func_26137
 
 .asm_25f8f
-	ld hl, $d792
+	ld hl, wd792
 	ld [hl], $0
 	call GenRandom
 	bit 7, a
@@ -42829,7 +42829,7 @@ Func_25fbe: ; 0x25fbe
 	jp Func_26137
 
 .asm_25fd5
-	ld a, [$d791]
+	ld a, [wd791]
 	cp $0
 	jr z, .asm_25fe9
 	ld a, $2
@@ -42843,7 +42843,7 @@ Func_25fbe: ; 0x25fbe
 	ret ; unused instruction
 
 .asm_25fe9
-	ld hl, $d791
+	ld hl, wd791
 	inc [hl]
 	pop de
 	ld a, $2
@@ -42861,7 +42861,7 @@ Func_25ff3: ; 0x25ff3
 	inc de
 	inc de
 	inc de
-	ld a, [$d792]
+	ld a, [wd792]
 	cp $6
 	jr nc, .asm_26020
 	cp $2
@@ -42908,7 +42908,7 @@ Func_2602a: ; 0x2602a
 	ld a, $5
 .asm_26046
 	ld [de], a
-	ld hl, $d791
+	ld hl, wd791
 	dec [hl]
 	ret
 
@@ -42933,7 +42933,7 @@ Func_2604c: ; 0x2604c
 	jp Func_26137
 
 .asm_26063
-	ld a, [$d791]
+	ld a, [wd791]
 	cp $0
 	jr z, .asm_26075
 	ld a, $2
@@ -42946,7 +42946,7 @@ Func_2604c: ; 0x2604c
 	ret ; unused instruction
 
 .asm_26075
-	ld hl, $d791
+	ld hl, wd791
 	inc [hl]
 	pop de
 	ld a, $5
@@ -42964,7 +42964,7 @@ Func_2607f: ; 0x2607f
 	inc de
 	inc de
 	inc de
-	ld a, [$d792]
+	ld a, [wd792]
 	cp $6
 	jr nc, .asm_260ac
 	cp $2
@@ -43011,7 +43011,7 @@ Func_260b6: ; 0x260b6
 	ld a, $5
 .asm_260d2
 	ld [de], a
-	ld hl, $d791
+	ld hl, wd791
 	dec [hl]
 	ret
 
@@ -43070,7 +43070,7 @@ Func_26109: ; 0x26109
 	inc de
 	ld a, $5
 	ld [de], a
-	ld hl, $d791
+	ld hl, wd791
 	dec [hl]
 	ret
 
@@ -43088,7 +43088,7 @@ Func_26120: ; 0x26120
 	inc de
 	ld a, $5
 	ld [de], a
-	ld hl, $d791
+	ld hl, wd791
 	dec [hl]
 	ret
 
@@ -43116,7 +43116,7 @@ Func_26137: ; 0x26137
 
 Func_261f9: ; 0x261f9
 	ld a, $ff
-	ld [$d795], a
+	ld [wd795], a
 	ld a, [de]
 	sla a
 	ld c, a
@@ -43155,16 +43155,16 @@ Func_26212: ; 0x26212
 	ret nz
 	xor a
 	ld [de], a
-	ld [$d79c], a
-	ld [$d79e], a
+	ld [wd79c], a
+	ld [wd79e], a
 	ld a, a
-	ld [$d795], a
+	ld [wd795], a
 	ret
 
 	dr $2623a, $262f4
 
 Func_262f4: ; 0x262f4
-	ld a, [$d793]
+	ld a, [wd793]
 	ld c, a
 	ld b, $0
 .asm_262fa
@@ -43184,25 +43184,25 @@ Func_262f4: ; 0x262f4
 	jr z, .asm_2630c
 	sub $8
 .asm_2630c
-	ld [$d652], a
-	ld a, [$d792]
+	ld [wd652], a
+	ld a, [wd792]
 	and a
 	jr z, .asm_2631b
 	ld b, a
-	ld a, [$d793]
+	ld a, [wd793]
 	inc a
 	sub b
 .asm_2631b
-	ld [$d651], a
-	ld a, [$d793]
+	ld [wd651], a
+	ld a, [wd793]
 	cp $15
 	jr c, .asm_2632a
 	ld a, $14
-	ld [$d793], a
+	ld [wd793], a
 .asm_2632a
 	push af
 	xor a
-	ld [$d650], a
+	ld [wd650], a
 	pop af
 	sla a
 	ld c, a
@@ -43237,11 +43237,11 @@ Func_26b7e: ; 0x26b7e
 	ret
 
 Func_26ba9: ; 0x26ba9
-	ld de, $d76e
+	ld de, wd76e
 	call Func_26bbc
-	ld de, $d778
+	ld de, wd778
 	call Func_26bbc
-	ld de, $d782
+	ld de, wd782
 	call Func_26bbc
 	ret
 
@@ -43275,10 +43275,10 @@ Func_26bbc: ; 0x26bbc
 	dr $26bdf, $26bf7
 
 Func_26bf7: ; 0x26bf7: ; 0x26bf7
-	ld a, [$d795]
+	ld a, [wd795]
 	cp $0
 	ret z
-	ld de, $d79c
+	ld de, wd79c
 	ld a, [de]
 	ld hl, hBoardXShift
 	sub [hl]
@@ -43308,10 +43308,10 @@ Func_26bf7: ; 0x26bf7: ; 0x26bf7
 	dr $26c23, $26c3c
 
 Func_26c3c: ; 0x26c3c
-	ld a, [$d64e]
+	ld a, [wd64e]
 	and a
 	ret z
-	ld a, [$d652]
+	ld a, [wd652]
 	ld hl, hBoardXShift
 	sub [hl]
 	ld b, a
@@ -43319,7 +43319,7 @@ Func_26c3c: ; 0x26c3c
 	ld hl, hBoardYShift
 	sub [hl]
 	ld c, a
-	ld a, [$d64f]
+	ld a, [wd64f]
 	cp $a
 	jr c, .asm_26c5b
 	ld de, $0000
@@ -43332,19 +43332,19 @@ Func_26c3c: ; 0x26c3c
 	add hl, de
 	ld a, [hl]
 	call LoadOAMData2
-	ld hl, $d64f
+	ld hl, wd64f
 	inc [hl]
 	ld a, [hl]
 	cp $14
 	ret c
 	ld [hl], $0
-	ld hl, $d650
+	ld hl, wd650
 	inc [hl]
 	ld a, [hl]
 	cp $a
 	ret nz
 	xor a
-	ld [$d64e], a
+	ld [wd64e], a
 	ret
 
 	dr $26c7d, $28000
@@ -43365,11 +43365,11 @@ LoadPokedexScreen: ; 0x2800e
 	ld a, $23
 	ld [$ff9e], a
 	ld a, $e4
-	ld [$d80c], a
+	ld [wd80c], a
 	ld a, $93
-	ld [$d80d], a
+	ld [wd80d], a
 	ld a, $e4
-	ld [$d80e], a
+	ld [wd80e], a
 	xor a
 	ld [hBoardXShift], a
 	ld a, $8
@@ -43395,13 +43395,13 @@ LoadPokedexScreen: ; 0x2800e
 	xor a
 	ld [wCurPokedexIndex], a
 	ld [wPokedexOffset], a
-	ld [$d95b], a
-	ld [$d95c], a
-	ld [$d960], a
-	ld [$d961], a
-	ld [$d95e], a
+	ld [wd95b], a
+	ld [wd95c], a
+	ld [wd960], a
+	ld [wd961], a
+	ld [wd95e], a
 	ld a, $1
-	ld [$d862], a
+	ld [wd862], a
 	call ClearOAMBuffer
 	call Func_285db
 	call Func_28931
@@ -43498,7 +43498,7 @@ MainPokedexScreen: ; 0x280fe
 	ld a, [hNewlyPressedButtons]
 	bit BIT_A_BUTTON, a
 	jr z, .asm_28142
-	ld a, [$d95f]
+	ld a, [wd95f]
 	and a
 	jp nz, .asm_28174
 	ld a, [wCurPokedexIndex]
@@ -43542,25 +43542,25 @@ MainPokedexScreen: ; 0x280fe
 	ld a, [hJoypadState]
 	bit BIT_START, a
 	jr z, .asm_28168
-	ld a, [$d960]
+	ld a, [wd960]
 	and a
 	ld a, $ff
-	ld [$d960], a
+	ld [wd960], a
 	call z, Func_28add
 	jr .asm_28174
 
 .asm_28168
-	ld a, [$d960]
+	ld a, [wd960]
 	and a
 	ld a, $0
-	ld [$d960], a
+	ld [wd960], a
 	call nz, Func_28add
 .asm_28174
 	call Func_285db
 	ret
 
 MonInfoPokedexScreen: ; 0x28178
-	ld a, [$d956]
+	ld a, [wd956]
 	bit 0, a
 	jr z, .asm_28190
 	ld a, [hNewlyPressedButtons]
@@ -43592,18 +43592,18 @@ MonInfoPokedexScreen: ; 0x28178
 	ld a, [hJoypadState]
 	bit BIT_START, a
 	jr z, .asm_281bb
-	ld a, [$d960]
+	ld a, [wd960]
 	and a
 	ld a, $ff
-	ld [$d960], a
+	ld [wd960], a
 	call z, Func_28add
 	jr .asm_281c7
 
 .asm_281bb
-	ld a, [$d960]
+	ld a, [wd960]
 	and a
 	ld a, $0
-	ld [$d960], a
+	ld [wd960], a
 	call nz, Func_28add
 .asm_281c7
 	call Func_2885c
@@ -43612,7 +43612,7 @@ MonInfoPokedexScreen: ; 0x28178
 	dr $281cb, $282e9
 
 Func_282e9: ; 0x282e9
-	ld a, [$d960]
+	ld a, [wd960]
 	and a
 	jr z, .asm_28318
 	ld a, [wCurPokedexIndex]
@@ -43639,7 +43639,7 @@ Func_282e9: ; 0x282e9
 	ld bc, $2030
 	call LoadOAMData
 .asm_28318
-	ld a, [$daa2]
+	ld a, [wdaa2]
 	sla a
 	ld c, a
 	ld b, $0
@@ -43686,10 +43686,10 @@ Func_28368: ; 0x28368
 .asm_28371
 	ld a, [hPressedButtons]
 	ld b, a
-	ld a, [$daa2]
+	ld a, [wdaa2]
 	ld e, a
 	ld d, $0
-	ld hl, $da8a
+	ld hl, wda8a
 	add hl, de
 	ld a, [hl]
 	bit 5, b
@@ -43755,7 +43755,7 @@ Func_28368: ; 0x28368
 	ld a, [hl]
 	or c
 	ld c, a
-	ld a, [$d960]
+	ld a, [wd960]
 	and a
 	jr nz, .asm_283ff
 	ld hl, $445c ; todo
@@ -43798,7 +43798,7 @@ Func_28368: ; 0x28368
 Func_284bc: ; 0x284bc
 	ld a, [hPressedButtons]
 	ld b, a
-	ld a, [$daa2]
+	ld a, [wdaa2]
 	bit 5, b
 	jr z, .asm_284cd
 	dec a
@@ -43837,7 +43837,7 @@ Func_284bc: ; 0x284bc
 .asm_284f3
 	sub $18
 .asm_284f5
-	ld [$daa2], a
+	ld [wdaa2], a
 	ret
 
 ExitPokedexScreen: ; 0x284f9
@@ -43855,15 +43855,15 @@ ExitPokedexScreen: ; 0x284f9
 
 Func_28513: ; 0x28513
 	ld a, [hPressedButtons]
-	ld hl, $d95e
+	ld hl, wd95e
 	or [hl]
 	ld [hl], a
-	ld a, [$d95c]
+	ld a, [wd95c]
 	and a
 	ret nz
-	ld a, [$d95e]
+	ld a, [wd95e]
 	ld b, a
-	ld a, [$d9f8]
+	ld a, [wd9f8]
 	and a
 	ld a, NUM_POKEMON - 1
 	jr z, .asm_2852d
@@ -43878,9 +43878,9 @@ Func_28513: ; 0x28513
 	dec a
 	ld [wCurPokedexIndex], a
 	ld a, $4
-	ld [$d95c], a
+	ld [wd95c], a
 	ld a, $1
-	ld [$d95f], a
+	ld [wd95f], a
 	jr .asm_285a9
 
 .asm_28548
@@ -43891,9 +43891,9 @@ Func_28513: ; 0x28513
 	jr z, .asm_285a9
 	ld [wCurPokedexIndex], a
 	ld a, $4
-	ld [$d95c], a
+	ld [wd95c], a
 	ld a, $1
-	ld [$d95f], a
+	ld [wd95f], a
 	jr .asm_285a9
 
 .asm_2855f
@@ -43914,7 +43914,7 @@ Func_28513: ; 0x28513
 	sub c
 	ld [wCurPokedexIndex], a
 	ld a, $1
-	ld [$d95f], a
+	ld [wd95f], a
 	call Func_285ca
 	jr .asm_285aa
 
@@ -43936,18 +43936,18 @@ Func_28513: ; 0x28513
 	add c
 	ld [wCurPokedexIndex], a
 	ld a, $1
-	ld [$d95f], a
+	ld [wd95f], a
 	call Func_285ca
 	jr .asm_285aa
 
 .asm_285a9
 	xor a
 .asm_285aa
-	ld [$d95e], a
+	ld [wd95e], a
 	ret
 
 .asm_285ae
-	ld a, [$d95f]
+	ld a, [wd95f]
 	and a
 	ret z
 	ld de, $0003
@@ -43957,16 +43957,16 @@ Func_28513: ; 0x28513
 	call Func_28a15
 	call Func_28add
 	xor a
-	ld [$d95f], a
+	ld [wd95f], a
 	ret
 
 Func_285ca: ; 0x285ca
 	xor a
-	ld [$d80a], a
+	ld [wd80a], a
 	call Func_28972
 	call Func_28a8a
 	call Func_28ad1
-	ld a, [$d80a]
+	ld a, [wd80a]
 	ret
 
 Func_285db: ; 0x285db
@@ -43996,7 +43996,7 @@ Func_285db: ; 0x285db
 	add $49
 	ld c, a
 	ld b, $90
-	ld a, [$d95b]
+	ld a, [wd95b]
 	srl a
 	srl a
 	and $3
@@ -44012,7 +44012,7 @@ Func_285db: ; 0x285db
 	jr nc, .asm_2863b
 	dec [hl]
 	ld a, $1
-	ld [$d95d], a
+	ld [wd95d], a
 	xor a
 	jr .asm_28647
 
@@ -44020,7 +44020,7 @@ Func_285db: ; 0x285db
 	cp $5
 	jr c, .asm_28647
 	ld a, $1
-	ld [$d95d], a
+	ld [wd95d], a
 	inc [hl]
 	ld a, $4
 .asm_28647
@@ -44028,12 +44028,12 @@ Func_285db: ; 0x285db
 	push bc
 	ld a, [hJoypadState]
 	and a
-	ld a, [$d95b]
+	ld a, [wd95b]
 	jr z, .asm_28652
 	xor a
 .asm_28652
 	inc a
-	ld [$d95b], a
+	ld [wd95b], a
 	bit 3, a
 	jr nz, .asm_28667
 	swap c
@@ -44045,11 +44045,11 @@ Func_285db: ; 0x285db
 	call LoadOAMData
 .asm_28667
 	pop bc
-	ld a, [$d95c]
+	ld a, [wd95c]
 	and a
 	ret z
 	dec a
-	ld [$d95c], a
+	ld [wd95c], a
 	sla a
 	ld e, a
 	ld d, $0
@@ -44113,31 +44113,31 @@ LoadSeenOwnDigitOAM: ; 0x286d1
 
 Func_286dd: ; 0x286dd
 	pop hl
-	ld a, [$d862]
+	ld a, [wd862]
 	and a
 	jr nz, .asm_286ff
 	push bc
 	push hl
-	ld a, [$d863]
+	ld a, [wd863]
 	ld e, a
-	ld a, [$d864]
+	ld a, [wd864]
 	ld d, a
-	ld hl, $c010
+	ld hl, wc010
 	xor a
 	ld bc, $00a0
 	call Func_735
 	ld a, $1
-	ld [$d862], a
+	ld [wd862], a
 	pop hl
 	pop bc
 .asm_286ff
-	ld a, [$d95d]
+	ld a, [wd95d]
 	and a
 	ret z
-	ld a, [$d95c]
+	ld a, [wd95c]
 	and a
 	jr nz, .asm_2870d
-	ld [$d95d], a
+	ld [wd95d], a
 .asm_2870d
 	ld a, c
 	and a
@@ -44159,7 +44159,7 @@ Func_286dd: ; 0x286dd
 
 Func_28721: ; 0x28721
 	pop hl
-	ld a, [$d95d]
+	ld a, [wd95d]
 	and a
 	ret z
 	ld a, c
@@ -44209,7 +44209,7 @@ Func_28721: ; 0x28721
 
 Func_28765: ; 0x28765
 	pop hl
-	ld a, [$d95d]
+	ld a, [wd95d]
 	and a
 	ret z
 	ld a, c
@@ -44234,7 +44234,7 @@ Func_28765: ; 0x28765
 	dec [hl]
 	pop hl
 	xor a
-	ld [$d862], a
+	ld [wd862], a
 	ld a, [hl]
 	call Func_28993
 	ret
@@ -44260,7 +44260,7 @@ Func_28765: ; 0x28765
 	inc [hl]
 	pop hl
 	xor a
-	ld [$d862], a
+	ld [wd862], a
 	ld a, [hl]
 	add $5
 	call Func_28993
@@ -44269,10 +44269,10 @@ Func_28765: ; 0x28765
 	dr $287b7, $287e7
 
 Func_287e7: ; 0x287e7
-	ld a, [$d960]
+	ld a, [wd960]
 	and a
 	ret z
-	ld a, [$d95f]
+	ld a, [wd95f]
 	and a
 	ret nz
 	ld a, [wCurPokedexIndex]
@@ -44284,35 +44284,35 @@ Func_287e7: ; 0x287e7
 	call ReadByteFromBank
 	bit 7, a
 	ret nz
-	ld [$d5bc], a
+	ld [wd5bc], a
 	call Func_28815
-	ld a, [$d5bd]
+	ld a, [wd5bd]
 	add $a5
 	ld bc, $2030
 	call LoadOAMData
 	ret
 
 Func_28815: ; 0x28815
-	ld a, [$d5be]
+	ld a, [wd5be]
 	dec a
-	ld [$d5be], a
+	ld [wd5be], a
 	ret nz
-	ld a, [$d5bf]
+	ld a, [wd5bf]
 	inc a
 	and $7
-	ld [$d5bf], a
+	ld [wd5bf], a
 	jr nz, .asm_28836
-	ld a, [$d5c3]
-	ld [$d5be], a
+	ld a, [wd5c3]
+	ld [wd5be], a
 	xor a
-	ld [$d5c4], a
+	ld [wd5c4], a
 	ld c, $2
 	jr .asm_28854
 
 .asm_28836
-	ld a, [$d5bc]
+	ld a, [wd5bc]
 	ld c, a
-	ld a, [$d5bd]
+	ld a, [wd5bd]
 	sub c
 	cp $1
 	ld c, $0
@@ -44320,16 +44320,16 @@ Func_28815: ; 0x28815
 	ld c, $1
 .asm_28846
 	ld b, $0
-	ld hl, $d5c1
+	ld hl, wd5c1
 	add hl, bc
 	ld a, [hl]
-	ld [$d5be], a
+	ld [wd5be], a
 	xor a
-	ld [$d5c4], a
+	ld [wd5c4], a
 .asm_28854
-	ld a, [$d5bc]
+	ld a, [wd5bc]
 	add c
-	ld [$d5bd], a
+	ld [wd5bd], a
 	ret
 
 Func_2885c: ; 0x2885c
@@ -44422,33 +44422,33 @@ Func_288c6: ; 0x288c6
 	ld l, c
 .asm_288f4
 	xor a
-	ld [$d860], a
-	ld [$d861], a
+	ld [wd860], a
+	ld [wd861], a
 	ld bc, $906c
 	ld de, $8900
 	call Func_28d97
 	rl a
-	ld [$d956], a
+	ld [wd956], a
 	ld a, l
-	ld [$d957], a
+	ld [wd957], a
 	ld a, h
-	ld [$d958], a
+	ld [wd958], a
 	ret
 
 Func_28912: ; 0x28912
 	ld bc, $906c
 	ld de, $8900
-	ld a, [$d957]
+	ld a, [wd957]
 	ld l, a
-	ld a, [$d958]
+	ld a, [wd958]
 	ld h, a
 	call Func_28d97
 	rl a
-	ld [$d956], a
+	ld [wd956], a
 	ld a, l
-	ld [$d957], a
+	ld [wd957], a
 	ld a, h
-	ld [$d958], a
+	ld [wd958], a
 	ret
 
 Func_28931: ; 0x28931
@@ -44479,9 +44479,9 @@ Func_28931: ; 0x28931
 	add hl, bc
 .asm_2895d
 	ld a, $ff
-	ld [$d860], a
+	ld [wd860], a
 	xor a
-	ld [$d861], a
+	ld [wd861], a
 	ld bc, $500a
 	ld de, $9500
 	call Func_28e09
@@ -44539,8 +44539,8 @@ Func_28993: ; 0x28993
 	add hl, bc
 .asm_289b7
 	xor a
-	ld [$d860], a
-	ld [$d861], a
+	ld [wd860], a
+	ld [wd861], a
 	ld bc, $500a ; todo
 	call Func_28e09
 	pop hl
@@ -44581,9 +44581,9 @@ Func_289c8: ; 0x289c8
 	add hl, bc
 .asm_289fe
 	ld a, $ff
-	ld [$d860], a
+	ld [wd860], a
 	ld a, $4
-	ld [$d861], a
+	ld [wd861], a
 	ld bc, $5816
 	ld de, $95a0
 	call Func_28e09
@@ -44611,7 +44611,7 @@ Func_28a15: ; 0x28a15
 	ld d, h
 	ld e, l
 	ld a, $0
-	ld [$d865], a
+	ld [wd865], a
 	push de
 	ld hl, $9844
 	call Func_28d71
@@ -44706,7 +44706,7 @@ Func_28aaa: ; 0x28aaa
 	ld d, h
 	ld e, l
 	ld a, $23
-	ld [$d865], a
+	ld [wd865], a
 	pop hl
 	push hl
 	call Func_28d71
@@ -44732,7 +44732,7 @@ Func_28add: ; 0x28add
 	jp z, Func_28b76
 	dec a
 	jp z, Func_28baf
-	ld a, [$d960]
+	ld a, [wd960]
 	and a
 	jr z, .asm_28afc
 	call Func_28cc2
@@ -44915,16 +44915,16 @@ Func_28bf5: ; 0x28bf5
 	add hl, bc
 	ld a, Bank(Data_13685)
 	call ReadByteFromBank
-	ld [$d5c1], a
-	ld [$d5be], a
+	ld [wd5c1], a
+	ld [wd5be], a
 	inc hl
 	ld a, Bank(Data_13685)
 	call ReadByteFromBank
-	ld [$d5c2], a
+	ld [wd5c2], a
 	inc hl
 	ld a, Bank(Data_13685)
 	call ReadByteFromBank
-	ld [$d5c3], a
+	ld [wd5c3], a
 	ld a, [wCurPokedexIndex]
 	ld c, a
 	ld b, $0
@@ -44932,8 +44932,8 @@ Func_28bf5: ; 0x28bf5
 	add hl, bc
 	ld a, Bank(MonAnimatedSpriteTypes)
 	call ReadByteFromBank
-	ld [$d5bc], a
-	ld [$d5bd], a
+	ld [wd5bc], a
+	ld [wd5bd], a
 	call Func_28cf8
 	pop bc
 	ld a, [hGameBoyColorFlag]
@@ -44981,7 +44981,7 @@ Func_28cc2: ; 0x28cc2
 
 Func_28cd4: ; 0x28cd4
 	xor a
-	ld hl, $d961
+	ld hl, wd961
 	cp [hl]
 	ret z
 	ld [hl], a
@@ -45016,7 +45016,7 @@ Func_28cd4: ; 0x28cd4
 
 Func_28cf8: ; 0x28cf8
 	ld a, $1
-	ld hl, $d961
+	ld hl, wd961
 	cp [hl]
 	ret z
 	ld [hl], a
@@ -45111,7 +45111,7 @@ ClearPokedexData: ; 0x28d66
 	ret
 
 Func_28d71: ; 0x28d71
-	ld a, [$d865]
+	ld a, [wd865]
 	ld c, a
 	ld a, [de]
 	inc de
@@ -45180,10 +45180,10 @@ Func_28d97: ; 0x28d97
 	pop de
 	push af
 	ld a, e
-	ld [$d863], a
+	ld [wd863], a
 	ld a, d
-	ld [$d864], a
-	ld a, [$d862]
+	ld [wd864], a
+	ld a, [wd862]
 	and a
 	jr nz, .asm_28ddd
 	pop af
@@ -45191,14 +45191,14 @@ Func_28d97: ; 0x28d97
 
 .asm_28ddd
 	push hl
-	ld a, [$d861]
+	ld a, [wd861]
 	ld c, a
 	ld b, $0
 	bit 7, c
 	jr z, .asm_28de9
 	dec b
 .asm_28de9
-	ld hl, $c010
+	ld hl, wc010
 	add hl, bc
 	ld a, [$ff8f]
 	ld c, a
@@ -45248,10 +45248,10 @@ Func_28e09: ; 0x28e09
 	pop de
 	push af
 	ld a, e
-	ld [$d863], a
+	ld [wd863], a
 	ld a, d
-	ld [$d864], a
-	ld a, [$d862]
+	ld [wd864], a
+	ld a, [wd862]
 	and a
 	jr nz, .asm_28e47
 	pop af
@@ -45259,14 +45259,14 @@ Func_28e09: ; 0x28e09
 
 .asm_28e47
 	push hl
-	ld a, [$d861]
+	ld a, [wd861]
 	ld c, a
 	ld b, $0
 	bit 7, c
 	jr z, .asm_28e53
 	dec b
 .asm_28e53
-	ld hl, $c010
+	ld hl, wc010
 	add hl, bc
 	ld a, [$ff8f]
 	ld c, a
@@ -45307,7 +45307,7 @@ Func_28e73: ; 0x28e73
 	ld h, a
 	push hl
 	ld hl, wc000
-	ld a, [$d860]
+	ld a, [wd860]
 	ret
 
 	dr $28e9a, $2957c
@@ -47404,11 +47404,11 @@ VictreebellPokedexDescription: ; 0x2f8d8
 SECTION "bankc", ROMX, BANK[$c]
 
 InitRedField: ; 0x30000
-	ld a, [$d7c1]
+	ld a, [wd7c1]
 	and a
 	ret nz
 	xor a
-	ld hl, $d46f
+	ld hl, wd46f
 	ld [hld], a
 	ld [hld], a
 	ld [hld], a
@@ -47416,30 +47416,30 @@ InitRedField: ; 0x30000
 	ld [hld], a
 	ld [hl], a
 	ld [wNumPartyMons], a
-	ld [$d49b], a
-	ld [$d4c9], a
+	ld [wd49b], a
+	ld [wd4c9], a
 	ld [wBallType], a
-	ld [$d4c8], a
-	ld hl, $d624
+	ld [wd4c8], a
+	ld hl, wd624
 	ld [hli], a
 	ld [hli], a
 	ld [hli], a
-	ld [$d7ac], a
-	ld [$d7be], a
+	ld [wd7ac], a
+	ld [wd7be], a
 	ld [wCurrentMap], a  ; PALLET_TOWN
 	ld a, $1
-	ld [$d49d], a
-	ld [$d482], a
+	ld [wd49d], a
+	ld [wd482], a
 	ld a, $2
 	ld [wRightAlleyCount], a
 	ld a, $3
-	ld [$d49e], a
-	ld [$d610], a
-	ld [$d498], a
-	ld [$d499], a
+	ld [wd49e], a
+	ld [wd610], a
+	ld [wd498], a
+	ld [wd499], a
 	ld a, $4
 	ld [wStageCollisionState], a
-	ld [$d7ad], a
+	ld [wd7ad], a
 	ld a, $80
 	ld [wIndicatorStates], a
 	ld [wIndicatorStates + 3], a
@@ -47456,7 +47456,7 @@ InitRedField: ; 0x30000
 	ret
 
 StartBallRedField: ; 0x3007d
-	ld a, [$d496]
+	ld a, [wd496]
 	and a
 	jp nz, StartBallAfterBonusStageRedField
 	ld a, $0
@@ -47468,57 +47468,57 @@ StartBallRedField: ; 0x3007d
 	ld a, $98
 	ld [wBallYPos + 1], a
 	xor a
-	ld [$d549], a
-	ld [$d580], a
-	ld a, [$d7ad]
+	ld [wd549], a
+	ld [wd580], a
+	ld a, [wd7ad]
 	bit 7, a
 	jr z, .asm_300ae
 	ld a, [wStageCollisionState]
 	res 0, a
-	ld [$d7ad], a
+	ld [wd7ad], a
 .asm_300ae
 	ld a, [wStageCollisionState]
 	and $1
 	ld [wStageCollisionState], a
-	ld a, [$d4c9]
+	ld a, [wd4c9]
 	and a
 	ret z
 	xor a
-	ld [$d4c9], a
+	ld [wd4c9], a
 	xor a
-	ld [$d50b], a
-	ld [$d50c], a
-	ld [$d51d], a
-	ld [$d517], a
-	ld [$d51e], a
-	ld hl, $d50f
+	ld [wd50b], a
+	ld [wd50c], a
+	ld [wd51d], a
+	ld [wd517], a
+	ld [wd51e], a
+	ld hl, wd50f
 	ld [hli], a
 	ld [hli], a
 	ld [hli], a
 	ld [hli], a
 	ld [wLeftMapMoveCounter], a
 	ld [wRightMapMoveCounter], a
-	ld hl, $d5f9
+	ld hl, wd5f9
 	ld [hli], a
 	ld [hli], a
 	ld [hli], a
 	ld [wBallType], a
-	ld [$d611], a
-	ld [$d612], a
-	ld [$d628], a
-	ld [$d629], a
-	ld [$d62a], a
-	ld [$d62b], a
-	ld [$d62c], a
-	ld [$d62d], a
-	ld [$d62e], a
-	ld [$d613], a
+	ld [wd611], a
+	ld [wd612], a
+	ld [wd628], a
+	ld [wd629], a
+	ld [wd62a], a
+	ld [wd62b], a
+	ld [wd62c], a
+	ld [wd62d], a
+	ld [wd62e], a
+	ld [wd613], a
 	inc a
-	ld [$d482], a
-	ld [$d4ef], a
-	ld [$d4f1], a
+	ld [wd482], a
+	ld [wd4ef], a
+	ld [wd4f1], a
 	ld a, $3
-	ld [$d610], a
+	ld [wd610], a
 	ld [$ff8a], a
 	callba Func_16f95
 	ld a, $f
@@ -47541,9 +47541,9 @@ StartBallAfterBonusStageRedField: ; 0x30128
 	ld [wBallYVelocity + 1], a
 	ld [wBallXVelocity], a
 	ld [wBallXVelocity + 1], a
-	ld [$d496], a
-	ld [$d7ab], a
-	ld [$d7be], a
+	ld [wd496], a
+	ld [wd7ab], a
+	ld [wd7be], a
 	ld a, [wBallTypeBackup]
 	ld [wBallType], a
 	ld a, $f
@@ -47553,13 +47553,13 @@ StartBallAfterBonusStageRedField: ; 0x30128
 	ret
 
 Func_30164: ; 0x30164
-	ld a, [$d49b]
+	ld a, [wd49b]
 	inc a
 	cp $b
 	jr z, .asm_30175
-	ld [$d49b], a
+	ld [wd49b], a
 	ld a, $1
-	ld [$d4ca], a
+	ld [wd4ca], a
 	ret
 
 .asm_30175
@@ -47567,21 +47567,21 @@ Func_30164: ; 0x30164
 	ld [$ff8a], a
 	callba Func_8588
 	ld a, $2
-	ld [$d4ca], a
+	ld [wd4ca], a
 	ret
 
 Func_30188: ; 0x30188
-	ld a, [$d5ca]
+	ld a, [wd5ca]
 	and a
 	ret nz
-	ld a, [$d4ca]
+	ld a, [wd4ca]
 	and a
 	ret z
 	cp $1
 	jr nz, .asm_301a7
 	call Func_30e8
 	call Func_30db
-	ld hl, $d5cc
+	ld hl, wd5cc
 	ld de, ExtraBallText
 	call LoadTextHeader
 	jr .asm_301c9
@@ -47593,17 +47593,17 @@ Func_30188: ; 0x30188
 	push de
 	call Func_30e8
 	call Func_30db
-	ld hl, $d5d4
+	ld hl, wd5d4
 	ld de, DigitsText1to9
 	call Func_32cc
 	pop de
 	pop bc
-	ld hl, $d5cc
+	ld hl, wd5cc
 	ld de, ExtraBallSpecialBonusText
 	call LoadTextHeader
 .asm_301c9
 	xor a
-	ld [$d4ca], a
+	ld [wd4ca], a
 	ret
 
 Func_301ce: ; 0x301ce
@@ -47637,14 +47637,14 @@ StartMapMoveMode: ; 0x301ec
 	ld a, $2
 	ld [wSpecialMode], a
 	xor a
-	ld [$d54d], a
+	ld [wd54d], a
 	ld bc, $0030  ; 30 seconds
 	ld [$ff8a], a
 	callba StartTimer
 	ld a, [wCurrentStage]
 	bit 0, a
 	jr z, .asm_3021b
-	ld a, [$d55a]
+	ld a, [wd55a]
 	add $12
 	call Func_30256
 .asm_3021b
@@ -47669,7 +47669,7 @@ CallTable_3021f: ; 0x3021f
 
 Func_3022b: ; 0x3022b
 	xor a
-	ld [$d5ca], a
+	ld [wd5ca], a
 	call Func_30e8
 	xor a
 	ld [wInSpecialMode], a
@@ -47909,15 +47909,15 @@ Func_3118f: ; 0x3118f
 	ld e, a
 	ld a, [hli]
 	ld d, a
-	ld hl, $d5d4
+	ld hl, wd5d4
 	call LoadTextHeader
 	pop de
-	ld hl, $d5cc
+	ld hl, wd5cc
 	call LoadTextHeader
 	ret
 
 Func_311b4: ; 0x311b4
-	ld a, [$d55a]
+	ld a, [wd55a]
 	and a
 	jr nz, .asm_311ce
 	ld a, $80
@@ -47947,17 +47947,17 @@ Func_311b4: ; 0x311b4
 	ld [$ff8a], a
 	callba Func_149d9
 	ld a, $6a
-	ld [$c7f0], a
+	ld [wc7f0], a
 	ld a, $6b
-	ld [$c810], a
+	ld [wc810], a
 	ld a, $66
-	ld [$c7e3], a
+	ld [wc7e3], a
 	ld a, $67
-	ld [$c803], a
+	ld [wc803], a
 	ld [$ff8a], a
 	callba Func_107b0
 	ld a, $4
-	ld [$d7ad], a
+	ld [wd7ad], a
 	ld de, $0003
 	call PlaySong
 	ld a, [wCurrentStage]
@@ -47988,27 +47988,27 @@ Func_31234: ; 0x31234
 	ret
 
 Func_31281: ; 0x31282
-	ld a, [$d4e2]
+	ld a, [wd4e2]
 	inc a
 	cp $6
 	jr c, .asm_3129e
 	ld a, $ff
-	ld [$d4e3], a
-	ld [$d4e4], a
-	ld [$d4e5], a
-	ld [$d4e6], a
-	ld [$d4e7], a
-	ld [$d4e8], a
+	ld [wd4e3], a
+	ld [wd4e4], a
+	ld [wd4e5], a
+	ld [wd4e6], a
+	ld [wd4e7], a
+	ld [wd4e8], a
 	xor a
 .asm_3129e
-	ld [$d4e2], a
+	ld [wd4e2], a
 	cp $3
 	jr c, .asm_312b2
 	cp $5
 	jr c, .asm_312e7
 	ld a, INDIGO_PLATEAU
 	ld [wCurrentMap], a
-	ld [$d4e8], a
+	ld [wd4e8], a
 	ret
 
 .asm_312b2
@@ -48021,8 +48021,8 @@ Func_31281: ; 0x31282
 	ld hl, $5319
 	add hl, bc
 	ld c, [hl]
-	ld hl, $d4e3
-	ld a, [$d4e2]
+	ld hl, wd4e3
+	ld a, [wd4e2]
 	and a
 	jr z, .asm_312d4
 	ld b, a
@@ -48035,10 +48035,10 @@ Func_31281: ; 0x31282
 .asm_312d4
 	ld a, c
 	ld [wCurrentMap], a
-	ld a, [$d4e2]
+	ld a, [wd4e2]
 	ld c, a
 	ld b, $0
-	ld hl, $d4e3
+	ld hl, wd4e3
 	add hl, bc
 	ld a, [wCurrentMap]
 	ld [hl], a
@@ -48052,8 +48052,8 @@ Func_31281: ; 0x31282
 	ld hl, $5320
 	add hl, bc
 	ld c, [hl]
-	ld hl, $d4e6
-	ld a, [$d4e2]
+	ld hl, wd4e6
+	ld a, [wd4e2]
 	sub $3
 	jr z, .asm_31306
 	ld b, a
@@ -48066,10 +48066,10 @@ Func_31281: ; 0x31282
 .asm_31306
 	ld a, c
 	ld [wCurrentMap], a
-	ld a, [$d4e2]
+	ld a, [wd4e2]
 	ld c, a
 	ld b, $0
-	ld hl, $d4e3
+	ld hl, wd4e3
 	add hl, bc
 	ld a, [wCurrentMap]
 	ld [hl], a
@@ -48084,7 +48084,7 @@ Func_31325: ; 0x31325
 	ret
 
 Func_31326: ; 0x31326
-	ld a, [$d55a]
+	ld a, [wd55a]
 	and a
 	jr nz, .asm_3134c
 	ld a, $80
@@ -48121,16 +48121,16 @@ Func_31326: ; 0x31326
 	bit 0, a
 	jr z, .asm_3139d
 	ld a, $54
-	ld [$c7e3], a
+	ld [wc7e3], a
 	ld a, $55
-	ld [$c803], a
+	ld [wc803], a
 	ld a, $52
-	ld [$c7f0], a
+	ld [wc7f0], a
 	ld a, $53
-	ld [$c810], a
+	ld [wc810], a
 .asm_3139d
 	ld a, $1
-	ld [$d644], a
+	ld [wd644], a
 	ld [$ff8a], a
 	callba Func_1f2ed
 	ld de, $0003
@@ -48150,7 +48150,7 @@ Func_313c3: ; 0x313c3
 	ld [$ff8a], a
 	callba Func_1f2ff
 	ld a, $0
-	ld [$d644], a
+	ld [wd644], a
 	ld a, [wCurrentStage]
 	bit 0, a
 	ret z
@@ -48163,27 +48163,27 @@ Func_313c3: ; 0x313c3
 	ret
 
 Func_3140b: ; 0x3140b
-	ld a, [$d4e2]
+	ld a, [wd4e2]
 	inc a
 	cp $6
 	jr c, .asm_31428
 	ld a, $ff
-	ld [$d4e3], a
-	ld [$d4e4], a
-	ld [$d4e5], a
-	ld [$d4e6], a
-	ld [$d4e7], a
-	ld [$d4e8], a
+	ld [wd4e3], a
+	ld [wd4e4], a
+	ld [wd4e5], a
+	ld [wd4e6], a
+	ld [wd4e7], a
+	ld [wd4e8], a
 	xor a
 .asm_31428
-	ld [$d4e2], a
+	ld [wd4e2], a
 	cp $3
 	jr c, .asm_3143c
 	cp $5
 	jr c, .asm_31471
 	ld a, INDIGO_PLATEAU
 	ld [wCurrentMap], a
-	ld [$d4e8], a
+	ld [wd4e8], a
 	ret
 
 .asm_3143c
@@ -48196,8 +48196,8 @@ Func_3140b: ; 0x3140b
 	ld hl, $54a3
 	add hl, bc
 	ld c, [hl]
-	ld hl, $d4e3
-	ld a, [$d4e2]
+	ld hl, wd4e3
+	ld a, [wd4e2]
 	and a
 	jr z, .asm_3145e
 	ld b, a
@@ -48210,10 +48210,10 @@ Func_3140b: ; 0x3140b
 .asm_3145e
 	ld a, c
 	ld [wCurrentMap], a
-	ld a, [$d4e2]
+	ld a, [wd4e2]
 	ld c, a
 	ld b, $0
-	ld hl, $d4e3
+	ld hl, wd4e3
 	add hl, bc
 	ld a, [wCurrentMap]
 	ld [hl], a
@@ -48227,8 +48227,8 @@ Func_3140b: ; 0x3140b
 	ld hl, $54aa
 	add hl, bc
 	ld c, [hl]
-	ld hl, $d4e6
-	ld a, [$d4e2]
+	ld hl, wd4e6
+	ld a, [wd4e2]
 	sub $3
 	jr z, .asm_31490
 	ld b, a
@@ -48241,10 +48241,10 @@ Func_3140b: ; 0x3140b
 .asm_31490
 	ld a, c
 	ld [wCurrentMap], a
-	ld a, [$d4e2]
+	ld a, [wd4e2]
 	ld c, a
 	ld b, $0
-	ld hl, $d4e3
+	ld hl, wd4e3
 	add hl, bc
 	ld a, [wCurrentMap]
 	ld [hl], a
@@ -48253,9 +48253,9 @@ Func_3140b: ; 0x3140b
 	dr $314a3, $314ae
 
 Func_314ae: ; 0x314ae
-	ld a, [$d57d]
+	ld a, [wd57d]
 	and a
-	ld a, [$d54c]
+	ld a, [wd54c]
 	jr z, .asm_314d0
 	cp $1
 	jp z, Func_31591
@@ -48275,7 +48275,7 @@ Func_314ae: ; 0x314ae
 
 .asm_314d6
 	call Func_3151f
-	ld a, [$d54d]
+	ld a, [wd54d]
 	call CallInFollowingTable
 PointerTable_314df: ; 0xd13df
 	dw Func_314ef
@@ -48307,7 +48307,7 @@ Func_314f3: ; 0x314f3
 	ret
 
 Func_31505: ; 0x31505
-	ld a, [$d5ca]
+	ld a, [wd5ca]
 	and a
 	ret nz
 	call Func_30e8
@@ -48320,19 +48320,19 @@ Func_31505: ; 0x31505
 
 Func_3151f: ; 0x3151f
 	ld a, $50
-	ld [$d4ef], a
-	ld [$d4f1], a
+	ld [wd4ef], a
+	ld [wd4f1], a
 	ld [$ff8a], a
 	callba Func_107f8
-	ld a, [$d57e]
+	ld a, [wd57e]
 	and a
 	ret z
 	xor a
-	ld [$d57e], a
+	ld [wd57e], a
 	ld a, $3
-	ld [$d54d], a
+	ld [wd54d], a
 	xor a
-	ld [$d604], a
+	ld [wd604], a
 	ld [wIndicatorStates], a
 	ld [wIndicatorStates + 1], a
 	ld [wIndicatorStates + 2], a
@@ -48352,13 +48352,13 @@ Func_3151f: ; 0x3151f
 	callba Func_86d2
 	call Func_30e8
 	call Func_30db
-	ld hl, $d5cc
+	ld hl, wd5cc
 	ld de, Data_2ca8
 	call LoadTextHeader
 	ret
 
 Func_31591: ; 0x31591
-	ld a, [$d55a]
+	ld a, [wd55a]
 	and a
 	jr nz, .asm_315b1
 	ld a, [wIndicatorStates]
@@ -48370,14 +48370,14 @@ Func_31591: ; 0x31591
 	ld a, $80
 	ld [wIndicatorStates + 4], a
 	ld a, $1
-	ld [$d604], a
-	ld [$d54d], a
+	ld [wd604], a
+	ld [wd54d], a
 .asm_315b1
 	scf
 	ret
 
 Func_315b3: ; 0x315b3
-	ld a, [$d55a]
+	ld a, [wd55a]
 	and a
 	jr z, .asm_315d3
 	ld a, [wIndicatorStates + 1]
@@ -48389,8 +48389,8 @@ Func_315b3: ; 0x315b3
 	ld a, $80
 	ld [wIndicatorStates + 4], a
 	ld a, $1
-	ld [$d604], a
-	ld [$d54d], a
+	ld [wd604], a
+	ld [wd54d], a
 .asm_315d3
 	scf
 	ret
@@ -48412,18 +48412,18 @@ Func_315d5: ; 0x315d5
 	ld [$ff8a], a
 	callba Func_33e3
 	rst AdvanceFrame
-	ld a, [$d5ca]
+	ld a, [wd5ca]
 	and a
 	jr nz, .asm_31603
 	ld a, $2
-	ld [$d54d], a
+	ld [wd54d], a
 	scf
 	ret
 
 Func_3161b: ; 0x3161b
-	ld a, [$d57d]
+	ld a, [wd57d]
 	and a
-	ld a, [$d54c]
+	ld a, [wd54c]
 	jr z, .asm_3163d
 	cp $1
 	jp z, Func_31708
@@ -48443,7 +48443,7 @@ Func_3161b: ; 0x3161b
 
 .asm_31643
 	call Func_3168c
-	ld a, [$d54d]
+	ld a, [wd54d]
 	call CallInFollowingTable
 PointerTable_3164c: ; 0x3164c
 	dw Func_3165c
@@ -48475,7 +48475,7 @@ Func_31660: ; 0x31660
 	ret
 
 Func_31672: ; 0x31672
-	ld a, [$d5ca]
+	ld a, [wd5ca]
 	and a
 	ret nz
 	call Func_30e8
@@ -48491,20 +48491,20 @@ Func_3168c: ; 0x3168c
 	ld [wLeftMapMoveDiglettAnimationCounter], a
 	ld [wRightMapMoveDiglettFrame], a
 	ld a, $3
-	ld [$d645], a
+	ld [wd645], a
 	ld a, $1
-	ld [$d646], a
+	ld [wd646], a
 	ld [$ff8a], a
 	callba Func_107f8
-	ld a, [$d57e]
+	ld a, [wd57e]
 	and a
 	ret z
 	xor a
-	ld [$d57e], a
+	ld [wd57e], a
 	ld a, $3
-	ld [$d54d], a
+	ld [wd54d], a
 	xor a
-	ld [$d604], a
+	ld [wd604], a
 	ld [wIndicatorStates], a
 	ld [wIndicatorStates + 1], a
 	ld [wIndicatorStates + 2], a
@@ -48524,13 +48524,13 @@ Func_3168c: ; 0x3168c
 	callba Func_86d2
 	call Func_30e8
 	call Func_30db
-	ld hl, $d5cc
+	ld hl, wd5cc
 	ld de, Data_2ca8
 	call LoadTextHeader
 	ret
 
 Func_31708: ; 0x31708
-	ld a, [$d55a]
+	ld a, [wd55a]
 	and a
 	jr nz, .asm_31728
 	ld a, [wIndicatorStates]
@@ -48542,14 +48542,14 @@ Func_31708: ; 0x31708
 	ld a, $80
 	ld [wIndicatorStates + 4], a
 	ld a, $1
-	ld [$d604], a
-	ld [$d54d], a
+	ld [wd604], a
+	ld [wd54d], a
 .asm_31728
 	scf
 	ret
 
 Func_3172a: ; 0x3172a
-	ld a, [$d55a]
+	ld a, [wd55a]
 	and a
 	jr z, .asm_3174a
 	ld a, [wIndicatorStates + 1]
@@ -48561,8 +48561,8 @@ Func_3172a: ; 0x3172a
 	ld a, $80
 	ld [wIndicatorStates + 4], a
 	ld a, $1
-	ld [$d604], a
-	ld [$d54d], a
+	ld [wd604], a
+	ld [wd54d], a
 .asm_3174a
 	scf
 	ret
@@ -48584,11 +48584,11 @@ Func_3174c: ; 0x3174c
 	ld [$ff8a], a
 	callba Func_33e3
 	rst AdvanceFrame
-	ld a, [$d5ca]
+	ld a, [wd5ca]
 	and a
 	jr nz, .asm_3177a
 	ld a, $2
-	ld [$d54d], a
+	ld [wd54d], a
 	scf
 	ret
 
@@ -48673,7 +48673,7 @@ Func_3c000: ; 0x3c000
 	push bc
 	push af
 	call Func_3cb1b
-	ld hl, $dd01
+	ld hl, wdd01
 	ld de, $01af
 .clearLoop
 	xor a
@@ -48703,9 +48703,9 @@ Func_3c000: ; 0x3c000
 	dec e
 	jr nz, .asm_3c022
 	ld a, $8
-	ld [$de9a], a
+	ld [wde9a], a
 	ld a, $77
-	ld [$de98], a
+	ld [wde98], a
 	call Func_3cb15
 	pop af
 	pop bc
@@ -48717,7 +48717,7 @@ Func_3c042: ; 0x3c042
 	ld a, [de]
 	inc de
 	and $7
-	ld [$deae], a
+	ld [wdeae], a
 	ld c, a
 	ld b, $0
 	ld hl, WRAMPointerTable_3cc92
@@ -48758,9 +48758,9 @@ Func_3c042: ; 0x3c042
 	inc de
 	ld hl, $0000
 	add hl, bc
-	ld a, [$de9b]
+	ld a, [wde9b]
 	ld [hli], a
-	ld a, [$de9c]
+	ld a, [wde9c]
 	ld [hl], a
 	ret
 
@@ -48771,7 +48771,7 @@ PlaySong_BankF: ; 0x3c090
 	call Func_3c000
 	pop de
 	call Func_3cb1b
-	ld hl, $de9b
+	ld hl, wde9b
 	ld [hl], e
 	inc hl
 	ld [hl], d
@@ -48800,7 +48800,7 @@ PlaySong_BankF: ; 0x3c090
 
 PlaySoundEffect_BankF: ; 0x3c0c0
 	call Func_3cb1b
-	ld hl, $de9b
+	ld hl, wde9b
 	ld [hl], e
 	inc hl
 	ld [hl], d
@@ -48851,14 +48851,14 @@ PlayCry_BankF: ; 0x3c0f0
 	ld d, [hl]  ; de = base cry id
 	inc hl
 	ld a, [hli]
-	ld [$dea8], a
+	ld [wdea8], a
 	ld a, [hli]
-	ld [$dea9], a  ; dea8 = cry pitch
+	ld [wdea9], a  ; dea8 = cry pitch
 	ld a, [hli]
-	ld [$deaa], a
+	ld [wdeaa], a
 	ld a, [hl]
-	ld [$deab], a  ; deaa = cry length
-	ld hl, $de9b
+	ld [wdeab], a  ; deaa = cry length
+	ld hl, wde9b
 	ld [hl], e
 	inc hl
 	ld [hl], d
@@ -48884,48 +48884,48 @@ PlayCry_BankF: ; 0x3c0f0
 	set 4, [hl]
 	ld hl, $0026
 	add hl, bc
-	ld a, [$dea8]
+	ld a, [wdea8]
 	ld [hli], a
-	ld a, [$dea9]
+	ld a, [wdea9]
 	ld [hl], a
-	ld a, [$de97]
+	ld a, [wde97]
 	and $3
 	cp $3
 	jr nc, .asm_3c15b
 	ld hl, $0017
 	add hl, bc
-	ld a, [$deaa]
+	ld a, [wdeaa]
 	ld [hli], a
-	ld a, [$deab]
+	ld a, [wdeab]
 	ld [hl], a
 .asm_3c15b
 	call Func_3cadf
 	pop af
 	dec a
 	jr nz, .asm_3c12a
-	ld a, [$deac]
+	ld a, [wdeac]
 	and a
 	jr nz, .asm_3c173
-	ld a, [$de98]
-	ld [$deac], a
+	ld a, [wde98]
+	ld [wdeac], a
 	ld a, $77
-	ld [$de98], a
+	ld [wde98], a
 .asm_3c173
 	ld a, $1
-	ld [$dead], a
+	ld [wdead], a
 	call Func_3cb15
 	ret
 
 	dr $3c17c, $3c180
 
 Func_3c180: ; 0x3c180
-	ld a, [$dd00]
+	ld a, [wdd00]
 	and a
 	ret z
 	xor a
-	ld [$de97], a
-	ld [$de99], a
-	ld bc, $dd01
+	ld [wde97], a
+	ld [wde99], a
+	ld bc, wdd01
 .asm_3c18f
 	ld hl, $0002
 	add hl, bc
@@ -48960,31 +48960,31 @@ Func_3c180: ; 0x3c180
 	ld hl, $000d
 	add hl, bc
 	ld a, [hli]
-	ld [$de91], a
+	ld [wde91], a
 	ld a, [hli]
-	ld [$de92], a
+	ld [wde92], a
 	ld a, [hli]
-	ld [$de93], a
+	ld [wde93], a
 	ld a, [hl]
-	ld [$de94], a
+	ld [wde94], a
 	call Func_3c4f0
 	call Func_3c632
-	ld a, [$dead]
+	ld a, [wdead]
 	and a
 	jr z, .asm_3c20a
-	ld a, [$de97]
+	ld a, [wde97]
 	cp $4
 	jr nc, .asm_3c219
-	ld hl, $ddcb
+	ld hl, wddcb
 	bit 0, [hl]
 	jr nz, .asm_3c204
-	ld hl, $ddfd
+	ld hl, wddfd
 	bit 0, [hl]
 	jr nz, .asm_3c204
-	ld hl, $de2f
+	ld hl, wde2f
 	bit 0, [hl]
 	jr nz, .asm_3c204
-	ld hl, $de61
+	ld hl, wde61
 	bit 0, [hl]
 	jr z, .asm_3c20a
 .asm_3c204
@@ -48992,7 +48992,7 @@ Func_3c180: ; 0x3c180
 	add hl, bc
 	set 5, [hl]
 .asm_3c20a
-	ld a, [$de97]
+	ld a, [wde97]
 	cp $4
 	jr nc, .asm_3c219
 	ld hl, $00ca
@@ -49003,9 +49003,9 @@ Func_3c180: ; 0x3c180
 	call Func_3c24d
 	ld hl, $0019
 	add hl, bc
-	ld a, [$de99]
+	ld a, [wde99]
 	or [hl]
-	ld [$de99], a
+	ld [wde99], a
 .asm_3c227
 	ld hl, $000b
 	add hl, bc
@@ -49016,21 +49016,21 @@ Func_3c180: ; 0x3c180
 	add hl, bc
 	ld c, l
 	ld b, h
-	ld a, [$de97]
+	ld a, [wde97]
 	inc a
-	ld [$de97], a
+	ld [wde97], a
 	cp $8
 	jp nz, .asm_3c18f
 	call Func_3c40d
-	ld a, [$de98]
+	ld a, [wde98]
 	ld [rNR50], a
-	ld a, [$de99]
+	ld a, [wde99]
 	ld [rNR51], a
 	ret
 
 Func_3c24d: ; 0x3c24d
 	ld hl, PointerTable_3c25e
-	ld a, [$de97]
+	ld a, [wde97]
 	and $7
 	add a
 	ld e, a
@@ -49056,7 +49056,7 @@ Func_3c26e: ; 0x3c26e
 	add hl, bc
 	bit 3, [hl]
 	jr z, .asm_3c27b
-	ld a, [$de9a]
+	ld a, [wde9a]
 	ld [rNR10], a
 .asm_3c27b
 	bit 5, [hl]
@@ -49067,22 +49067,22 @@ Func_3c26e: ; 0x3c26e
 	jr nz, .asm_3c2b4
 	bit 1, [hl]
 	jr z, .asm_3c295
-	ld a, [$de93]
+	ld a, [wde93]
 	ld [rNR13], a
-	ld a, [$de94]
+	ld a, [wde94]
 	ld [rNR14], a
 .asm_3c295
 	bit 2, [hl]
 	jr z, .asm_3c2a5
-	ld a, [$de92]
+	ld a, [wde92]
 	ld [rNR12], a
-	ld a, [$de94]
+	ld a, [wde94]
 	or $80
 	ld [rNR14], a
 .asm_3c2a5
 	bit 0, [hl]
 	ret z
-	ld a, [$de91]
+	ld a, [wde91]
 	ld d, a
 	ld a, [rNR11]
 	and $3f
@@ -49091,28 +49091,28 @@ Func_3c26e: ; 0x3c26e
 	ret
 
 .asm_3c2b4
-	ld a, [$de93]
+	ld a, [wde93]
 	ld [rNR13], a
 	ret
 
 .asm_3c2ba
 	ld a, $8
 	ld [rNR12], a
-	ld a, [$de94]
+	ld a, [wde94]
 	or $80
 	ld [rNR14], a
 	ret
 
 .asm_3c2c6
-	ld hl, $de91
+	ld hl, wde91
 	ld a, $3f
 	or [hl]
 	ld [rNR11], a
-	ld a, [$de92]
+	ld a, [wde92]
 	ld [rNR12], a
-	ld a, [$de93]
+	ld a, [wde93]
 	ld [rNR13], a
-	ld a, [$de94]
+	ld a, [wde94]
 	or $80
 	ld [rNR14], a
 	ret
@@ -49128,22 +49128,22 @@ Func_3c2e0: ; 0x3c2e0
 	jr nz, .asm_3c31d
 	bit 1, [hl]
 	jr z, .asm_3c2fe
-	ld a, [$de93]
+	ld a, [wde93]
 	ld [rNR23], a
-	ld a, [$de94]
+	ld a, [wde94]
 	ld [rNR24], a
 .asm_3c2fe
 	bit 2, [hl]
 	jr z, .asm_3c30e
-	ld a, [$de92]
+	ld a, [wde92]
 	ld [rNR22], a
-	ld a, [$de94]
+	ld a, [wde94]
 	or $80
 	ld [rNR24], a
 .asm_3c30e
 	bit 0, [hl]
 	ret z
-	ld a, [$de91]
+	ld a, [wde91]
 	ld d, a
 	ld a, [rNR21]
 	and $3f
@@ -49152,28 +49152,28 @@ Func_3c2e0: ; 0x3c2e0
 	ret
 
 .asm_3c31d
-	ld a, [$de93]
+	ld a, [wde93]
 	ld [rNR23], a
 	ret
 
 .asm_3c323
 	ld a, $8
 	ld [rNR22], a
-	ld a, [$de94]
+	ld a, [wde94]
 	or $80
 	ld [rNR24], a
 	ret
 
 .asm_3c32f
-	ld hl, $de91
+	ld hl, wde91
 	ld a, $3f
 	or [hl]
 	ld [rNR21], a
-	ld a, [$de92]
+	ld a, [wde92]
 	ld [rNR22], a
-	ld a, [$de93]
+	ld a, [wde93]
 	ld [rNR23], a
-	ld a, [$de94]
+	ld a, [wde94]
 	or $80
 	ld [rNR24], a
 	ret
@@ -49189,9 +49189,9 @@ Func_3c349: ; 0x3c349
 	jr nz, .asm_3c381
 	bit 1, [hl]
 	jr z, .asm_3c367
-	ld a, [$de93]
+	ld a, [wde93]
 	ld [rNR33], a
-	ld a, [$de94]
+	ld a, [wde94]
 	ld [rNR34], a
 .asm_3c367
 	bit 2, [hl]
@@ -49201,15 +49201,15 @@ Func_3c349: ; 0x3c349
 	call LoadWavePattern
 	ld a, $80
 	ld [rNR30], a
-	ld a, [$de93]
+	ld a, [wde93]
 	ld [rNR33], a
-	ld a, [$de94]
+	ld a, [wde94]
 	or $80
 	ld [rNR34], a
 	ret
 
 .asm_3c381
-	ld a, [$de93]
+	ld a, [wde93]
 	ld [rNR33], a
 	ret
 
@@ -49226,16 +49226,16 @@ Func_3c349: ; 0x3c349
 	call LoadWavePattern
 	ld a, $80
 	ld [rNR30], a
-	ld a, [$de93]
+	ld a, [wde93]
 	ld [rNR33], a
-	ld a, [$de94]
+	ld a, [wde94]
 	or $80
 	ld [rNR34], a
 	ret
 
 LoadWavePattern: ; 0x3c3a6
 	push hl
-	ld a, [$de92]
+	ld a, [wde92]
 	and $f
 	ld l, a
 	ld h, $0
@@ -49256,7 +49256,7 @@ LoadWavePattern: ; 0x3c3a6
 	jr nz, .loop
 	pop bc
 	pop hl
-	ld a, [$de92]
+	ld a, [wde92]
 	and $f0
 	sla a
 	ld [rNR32], a  ; set volume of wave channel
@@ -49271,12 +49271,12 @@ Func_3c3cf: ; 0x3c3cf
 	jr nz, .asm_3c3fa
 	bit 1, [hl]
 	jr z, .asm_3c3e4
-	ld a, [$de93]
+	ld a, [wde93]
 	ld [rNR43], a
 .asm_3c3e4
 	bit 2, [hl]
 	ret z
-	ld a, [$de92]
+	ld a, [wde92]
 	ld [rNR42], a
 	ld a, $80
 	ld [rNR44], a
@@ -49292,31 +49292,31 @@ Func_3c3cf: ; 0x3c3cf
 .asm_3c3fa
 	ld a, $3f
 	ld [rNR41], a
-	ld a, [$de92]
+	ld a, [wde92]
 	ld [rNR42], a
-	ld a, [$de93]
+	ld a, [wde93]
 	ld [rNR43], a
 	ld a, $80
 	ld [rNR44], a
 	ret
 
 Func_3c40d: ; 0x3c40d
-	ld a, [$dea2]
+	ld a, [wdea2]
 	and a
 	ret z
-	ld a, [$dea3]
+	ld a, [wdea3]
 	and a
 	jr z, .asm_3c41d
 	dec a
-	ld [$dea3], a
+	ld [wdea3], a
 	ret
 
 .asm_3c41d
-	ld a, [$dea2]
+	ld a, [wdea2]
 	ld d, a
 	and $7f
-	ld [$dea3], a
-	ld a, [$de98]
+	ld [wdea3], a
+	ld a, [wde98]
 	and $7
 	bit 7, d
 	jr nz, .asm_3c448
@@ -49326,14 +49326,14 @@ Func_3c40d: ; 0x3c40d
 	jr .asm_3c454
 
 .asm_3c435
-	ld a, [$dea4]
+	ld a, [wdea4]
 	ld e, a
-	ld a, [$dea5]
+	ld a, [wdea5]
 	ld d, a
 	push bc
 	call PlaySong_BankF
 	pop bc
-	ld hl, $dea2
+	ld hl, wdea2
 	set 7, [hl]
 	ret
 
@@ -49345,14 +49345,14 @@ Func_3c40d: ; 0x3c40d
 
 .asm_3c44f
 	xor a
-	ld [$dea2], a
+	ld [wdea2], a
 	ret
 
 .asm_3c454
 	ld d, a
 	swap a
 	or d
-	ld [$de98], a
+	ld [wde98], a
 	ret
 
 Func_3c45c: ; 0x3c45c
@@ -49363,7 +49363,7 @@ Func_3c45c: ; 0x3c45c
 	ld hl, $0014
 	add hl, bc
 	ld a, [hl]
-	ld hl, $de95
+	ld hl, wde95
 	sub [hl]
 	jr nc, .asm_3c470
 	ld a, $1
@@ -49432,7 +49432,7 @@ Func_3c45c: ; 0x3c45c
 	ld d, a
 .asm_3c4c9
 	push bc
-	ld hl, $de95
+	ld hl, wde95
 	ld b, $0
 .asm_3c4cf
 	inc b
@@ -49476,7 +49476,7 @@ Func_3c4f0: ; 0x3c4f0
 	rlca
 	ld [hl], a
 	and $c0
-	ld [$de91], a
+	ld [wde91], a
 	ld hl, $000b
 	add hl, bc
 	set 0, [hl]
@@ -49490,14 +49490,14 @@ Func_3c4f0: ; 0x3c4f0
 	ld e, [hl]
 	inc hl
 	ld d, [hl]
-	ld hl, $de93
+	ld hl, wde93
 	ld a, [hli]
 	ld h, [hl]
 	ld l, a
 	add hl, de
 	ld e, l
 	ld d, h
-	ld hl, $de93
+	ld hl, wde93
 	ld [hl], e
 	inc hl
 	ld [hl], d
@@ -49631,7 +49631,7 @@ Func_3c4f0: ; 0x3c4f0
 	swap [hl]
 	or [hl]
 	ld [hl], a
-	ld a, [$de93]
+	ld a, [wde93]
 	ld e, a
 	ld hl, $0004
 	add hl, bc
@@ -49656,7 +49656,7 @@ Func_3c4f0: ; 0x3c4f0
 	jr nc, .asm_3c611
 	ld a, $ff
 .asm_3c611
-	ld [$de93], a
+	ld [wde93], a
 	ld hl, $000b
 	add hl, bc
 	set 6, [hl]
@@ -49684,15 +49684,15 @@ Func_3c632: ; 0x3c632
 	add hl, bc
 	bit 4, [hl]
 	ret z
-	ld a, [$de9f]
+	ld a, [wde9f]
 	and a
 	jr z, .asm_3c644
 	dec a
-	ld [$de9f], a
+	ld [wde9f], a
 	ret
 
 .asm_3c644
-	ld hl, $de9d
+	ld hl, wde9d
 	ld e, [hl]
 	inc hl
 	ld d, [hl]
@@ -49702,16 +49702,16 @@ Func_3c632: ; 0x3c632
 	ret z
 	and $f
 	inc a
-	ld [$de9f], a
+	ld [wde9f], a
 	ld a, [de]
 	inc de
-	ld [$de92], a
+	ld [wde92], a
 	ld a, [de]
 	inc de
-	ld [$de93], a
+	ld [wde93], a
 	xor a
-	ld [$de94], a
-	ld hl, $de9d
+	ld [wde94], a
+	ld hl, wde9d
 	ld [hl], e
 	inc hl
 	ld [hl], d
@@ -49739,10 +49739,10 @@ Func_3c670: ; 0x3c670
 	jp nz, Func_3c723
 	bit 4, [hl]
 	jp nz, Func_3c750
-	ld a, [$de96]
+	ld a, [wde96]
 	and $f
 	call Func_3ca5b
-	ld a, [$de96]
+	ld a, [wde96]
 	swap a
 	and $f
 	jr z, .asm_3c6c2
@@ -49775,7 +49775,7 @@ Func_3c670: ; 0x3c670
 	add hl, bc
 	bit 1, [hl]
 	jr nz, .asm_3c67b
-	ld a, [$de97]
+	ld a, [wde97]
 	cp $4
 	jr nc, .asm_3c6e0
 	ld hl, $00ca
@@ -49787,12 +49787,12 @@ Func_3c670: ; 0x3c670
 	add hl, bc
 	bit 5, [hl]
 	call nz, Func_3c704
-	ld a, [$de97]
+	ld a, [wde97]
 	cp $4
 	jr nz, .asm_3c6f6
 	xor a
 	ld [rNR10], a
-	ld [$de9a], a
+	ld [wde9a], a
 .asm_3c6f6
 	ld hl, $0002
 	add hl, bc
@@ -49805,28 +49805,28 @@ Func_3c670: ; 0x3c670
 	ret
 
 Func_3c704: ; 0x3c704
-	ld a, [$de97]
+	ld a, [wde97]
 	cp $4
 	ret nz
 	xor a
-	ld hl, $de21
+	ld hl, wde21
 	ld [hli], a
 	ld [hl], a
-	ld hl, $de85
+	ld hl, wde85
 	ld [hli], a
 	ld [hl], a
-	ld a, [$deac]
-	ld [$de98], a
+	ld a, [wdeac]
+	ld [wde98], a
 	xor a
-	ld [$deac], a
-	ld [$dead], a
+	ld [wdeac], a
+	ld [wdead], a
 	ret
 
 Func_3c723: ; 0x3c723
 	ld hl, $000b
 	add hl, bc
 	set 4, [hl]
-	ld a, [$de96]
+	ld a, [wde96]
 	call Func_3ca5b
 	call Func_3ca10
 	ld hl, $000e
@@ -49836,7 +49836,7 @@ Func_3c723: ; 0x3c723
 	ld hl, $000f
 	add hl, bc
 	ld [hl], a
-	ld a, [$de97]
+	ld a, [wde97]
 	and $3
 	cp $3
 	ret z
@@ -49847,13 +49847,13 @@ Func_3c723: ; 0x3c723
 	ret
 
 Func_3c750: ; 0x3c750
-	ld a, [$de97]
+	ld a, [wde97]
 	cp $3
 	ret nz
-	ld a, [$de96]
+	ld a, [wde96]
 	and $f
 	call Func_3ca5b
-	ld a, [$dea1]
+	ld a, [wdea1]
 	ld e, a
 	ld d, $0
 	ld hl, $4ba2
@@ -49862,7 +49862,7 @@ Func_3c750: ; 0x3c750
 	ld a, [hli]
 	ld h, [hl]
 	ld l, a
-	ld a, [$de96]
+	ld a, [wde96]
 	swap a
 	and $f
 	ret z
@@ -49871,15 +49871,15 @@ Func_3c750: ; 0x3c750
 	add hl, de
 	add hl, de
 	ld a, [hli]
-	ld [$de9d], a
+	ld [wde9d], a
 	ld a, [hl]
-	ld [$de9e], a
+	ld [wde9e], a
 	xor a
-	ld [$de9f], a
+	ld [wde9f], a
 	ret
 
 Func_3c786: ; 0x3c786
-	ld a, [$de96]
+	ld a, [wde96]
 	sub $d0
 	ld e, a
 	ld d, $0
@@ -50132,7 +50132,7 @@ Func_3c8c4: ; 0x3c8c4
 
 Func_3c8ff: ; 0x3c8ff
 	call Func_3ca10
-	ld [$de95], a
+	ld [wde95], a
 	call Func_3ca10
 	ld d, a
 	and $f
@@ -50204,7 +50204,7 @@ Func_3c95f: ; 0x3c95f
 .asm_3c96a
 	set 4, [hl]
 	call Func_3ca10
-	ld [$dea1], a
+	ld [wdea1], a
 	ret
 
 Func_3c973: ; 0x3c973
@@ -50212,7 +50212,7 @@ Func_3c973: ; 0x3c973
 	ld hl, $0028
 	add hl, bc
 	ld [hl], a
-	ld a, [$de97]
+	ld a, [wde97]
 	and $3
 	cp $3
 	ret z
@@ -50221,7 +50221,7 @@ Func_3c973: ; 0x3c973
 
 Func_3c987: ; 0x3c987
 	call Func_3ca10
-	ld [$de9a], a
+	ld [wde9a], a
 	ld hl, $000b
 	add hl, bc
 	set 3, [hl]
@@ -50255,7 +50255,7 @@ Func_3c9aa: ; 0x3c9aa
 Func_3c9b6: ; 0x3c9b6
 	ld hl, $0012
 	add hl, bc
-	ld a, [$de96]
+	ld a, [wde96]
 	and $7
 	ld [hl], a
 	ret
@@ -50268,7 +50268,7 @@ Func_3c9c1: ; 0x3c9c1
 	ret
 
 Func_3c9ca: ; 0x3c9ca
-	ld a, [$de97]
+	ld a, [wde97]
 	call Func_3caf4
 	call Func_3ca10
 	ld hl, $0019
@@ -50279,11 +50279,11 @@ Func_3c9ca: ; 0x3c9ca
 
 Func_3c9da: ; 0x3c9da
 	call Func_3ca10
-	ld a, [$dea2]
+	ld a, [wdea2]
 	and a
 	ret nz
-	ld a, [$de96]
-	ld [$de98], a
+	ld a, [wde96]
+	ld [wde98], a
 	ret
 
 Func_3c9e9: ; 0x3c9e9
@@ -50310,12 +50310,12 @@ Func_3c9e9: ; 0x3c9e9
 
 Func_3ca05: ; 0x3ca05
 	ld a, $1
-	ld [$dead], a
+	ld [wdead], a
 	ret
 
 Func_3ca0b: ; 0x3ca0b
 	xor a
-	ld [$dead], a
+	ld [wdead], a
 	ret
 
 Func_3ca10: ; 0x3ca10
@@ -50327,7 +50327,7 @@ Func_3ca10: ; 0x3ca10
 	inc hl
 	ld d, [hl]
 	ld a, [de]
-	ld [$de96], a
+	ld [wde96], a
 	inc de
 	ld hl, $0005
 	add hl, bc
@@ -50336,7 +50336,7 @@ Func_3ca10: ; 0x3ca10
 	ld [hl], d
 	pop de
 	pop hl
-	ld a, [$de96]
+	ld a, [wde96]
 	ret
 
 Func_3ca2b: ; 0x3ca2b
@@ -50420,27 +50420,27 @@ Func_3ca86: ; 0x3ca86
 
 Func_3ca95: ; 0x3ca95
 	push bc
-	ld a, [$de97]
+	ld a, [wde97]
 	cp $4
 	jr nc, .asm_3cab7
-	ld bc, $dd01
+	ld bc, wdd01
 	call Func_3cad1
-	ld bc, $dd33
+	ld bc, wdd33
 	call Func_3cad1
-	ld bc, $dd65
+	ld bc, wdd65
 	call Func_3cad1
-	ld bc, $dd97
+	ld bc, wdd97
 	call Func_3cad1
 	jr .asm_3cacf
 
 .asm_3cab7
-	ld bc, $ddc9
+	ld bc, wddc9
 	call Func_3cad1
-	ld bc, $ddfb
+	ld bc, wddfb
 	call Func_3cad1
-	ld bc, $de2d
+	ld bc, wde2d
 	call Func_3cad1
-	ld bc, $de5f
+	ld bc, wde5f
 	call Func_3cad1
 .asm_3cacf
 	pop bc
@@ -50460,10 +50460,10 @@ Func_3cad1: ; 0x3cad1
 
 Func_3cadf: ; 0x3cadf
 	call Func_3cb06
-	ld a, [$deae]
+	ld a, [wdeae]
 	jr .asm_3caea
 
-	ld a, [$de97]
+	ld a, [wde97]
 .asm_3caea
 	call Func_3caf4
 	ld hl, $0002
@@ -50486,23 +50486,23 @@ Func_3caf4: ; 0x3caf4
 	ret
 
 Func_3cb06: ; 0x3cb06
-	ld a, [$deae]
+	ld a, [wdeae]
 	and $3
 	cp $0
 	ret nz
 	xor a
 	ld [rNR10], a
-	ld [$de9a], a
+	ld [wde9a], a
 	ret
 
 Func_3cb15: ; 0x3cb15
 	ld a, $1
-	ld [$dd00], a
+	ld [wdd00], a
 	ret
 
 Func_3cb1b: ; 0x3cb1b
 	xor a
-	ld [$dd00], a
+	ld [wdd00], a
 	ret
 
 	dr $3cb20, $3cb52
@@ -51241,7 +51241,7 @@ PlayPikachuSoundClip: ; 0x50000
 	ld [rNR52], a
 	xor a
 	ld [rNR30], a
-	ld hl, $d84b
+	ld hl, wd84b
 	ld c, $30
 	ld b, $10
 .asm_5002b
@@ -51272,7 +51272,7 @@ PlayPikachuSoundClip: ; 0x50000
 	ld [rNR50], a
 	ld [rNR51], a
 	ld [rNR52], a
-	ld hl, $d84b
+	ld hl, wd84b
 	ld c, $30
 	ld b, $10
 .asm_50062

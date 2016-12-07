@@ -3429,8 +3429,258 @@ Func_14a4: ; 0x14a4
 	ld [$fffc], a
 	ret
 
-	dr $14c4, $167b
+Func_14c4: ; 14c4 (0:14c4)
+	ld a, [wd8dc]
+	and a
+	jp nz, Func_165f
+	ld a, [wd8ad]
+	cp $7
+	jp z, Func_1612
+	ld a, [wd8af]
+	and a
+	jr nz, .asm_14df
+	call Func_1502
+	jp Func_1663
 
+.asm_14df
+	ld a, [wd8b0]
+	and a
+	jr z, .asm_14fc
+	ld a, [wd8b1]
+	and a
+	jr z, .asm_14fc
+	ld a, [wd8b2]
+	cp $2
+	jr z, .asm_14f7
+	call Func_15e1
+	jr .asm_14ff
+
+.asm_14f7
+	call Func_15f8
+	jr .asm_14ff
+
+.asm_14fc
+	call Func_1527
+.asm_14ff
+	jp Func_1663
+
+Func_1502: ; 1502 (0:1502)
+	ld hl, wd8b9
+	ld c, [hl]
+	inc [hl]
+	ld b, $0
+	ld hl, Data_18ff
+	add hl, bc
+	ld a, [hl]
+	ld [rSB], a
+	ld a, $1
+	ld [rSC], a
+	ld a, $81
+	ld [rSC], a
+	ld a, [wd8b9]
+	cp $2
+	ret nz
+	xor a
+	ld [wd8b9], a
+	inc a
+	ld [wd8af], a
+	ret
+
+Func_1527: ; 1527 (0:1527)
+	ld a, [wd8b9]
+	ld c, a
+	ld a, [wd8ba]
+	ld b, a
+	ld a, [wd8bb]
+	ld l, a
+	ld a, [wd8bc]
+	ld h, a
+	add hl, bc
+	ld a, [rSB]
+	ld [wd8c8 + 1], a
+	ld a, [hl]
+	ld [rSB], a
+	ld l, a
+	ld a, [wd8c3]
+	add l
+	ld [wd8c3], a
+	ld a, [wd8c4]
+	adc $0
+	ld [wd8c4], a
+	ld a, $1
+	ld [rSC], a
+	ld a, $81
+	ld [rSC], a
+	ld hl, wd8b9
+	inc [hl]
+	jr nz, .asm_1560
+	inc hl
+	inc [hl]
+.asm_1560
+	ld hl, wd8b9
+	ld a, [wd8b3]
+	cp [hl]
+	jr nz, .asm_1570
+	inc hl
+	ld a, [wd8b4]
+	cp [hl]
+	jr z, .asm_1572
+.asm_1570
+	jr .asm_15b0
+
+.asm_1572
+	ld hl, wd8b0
+	ld a, [hl]
+	and a
+	jr z, .asm_157c
+	ld hl, wd8b1
+.asm_157c
+	inc [hl]
+	ld a, [wd8cc]
+	and a
+	jr z, .asm_15b5
+	ld a, [wd8ad]
+	cp $6
+	jr z, .asm_15b5
+	ld hl, wd8b1
+	ld a, [hl]
+	and a
+	jr nz, .asm_15b1
+	xor a
+	ld [wd8b9], a
+	ld [wd8ba], a
+	ld a, [wd8bf]
+	ld [wd8bb], a
+	ld a, [wd8c0]
+	ld [wd8bc], a
+	ld a, [wd8b7]
+	ld [wd8b3], a
+	ld a, [wd8b8]
+	ld [wd8b4], a
+.asm_15b0
+	ret
+
+.asm_15b1
+	call Func_15c8
+	ret
+
+.asm_15b5
+	ld a, [wd8c8 + 1]
+	ld [wd8c8], a
+asm_15bb
+	ld a, $7
+	ld [wd8ad], a
+	ld a, $1
+	ld [wd8c5], a
+	call Func_16bf
+Func_15c8: ; 15c8 (0:15c8)
+	ld a, [wd8b5]
+	ld [wd8b3], a
+	ld a, [wd8b6]
+	ld [wd8b4], a
+	ld a, [wd8bd]
+	ld [wd8bb], a
+	ld a, [wd8be]
+	ld [wd8bc], a
+	ret
+
+Func_15e1: ; 15e1 (0:15e1)
+	ld c, a
+	ld b, $0
+	ld hl, wd8c3
+	add hl, bc
+	ld a, [hl]
+	ld [rSB], a
+	ld a, $1
+	ld [rSC], a
+	ld a, $81
+	ld [rSC], a
+	ld hl, wd8b2
+	inc [hl]
+	ret
+
+Func_15f8: ; 15f8 (0:15f8)
+	ld a, [rSB]
+	ld [wd8c8], a
+	xor a
+	ld [rSB], a
+	ld a, $1
+	ld [rSC], a
+	ld a, $81
+	ld [rSC], a
+	ld hl, wd8c6
+	inc [hl]
+	ld a, [hl]
+	cp $2
+	jr z, asm_15bb
+	ret
+
+Func_1612: ; 1612 (0:1612)
+	ld a, [wd8cb]
+	ld [wd8ae], a
+	ld a, [wd8c7]
+	ld [wd86e + 2], a
+	cp $ff
+	jr z, .asm_1625
+	ld [wd86e + 1], a
+.asm_1625
+	ld a, [rSB]
+	ld [wd8c7], a
+	cp $ff
+	jr nz, .asm_163a
+	ld a, $0
+	ld [wd8db], a
+	ld [wd8ad], a
+	ld a, $2
+	jr .asm_1652
+
+.asm_163a
+	bit 1, a
+	jr z, .asm_1643
+	ld a, $1
+	ld [wd8e2], a
+.asm_1643
+	bit 4, a
+	ld a, $0
+	ld [wd8ad], a
+	ld a, $1
+	jr nz, .asm_1651
+	ld [wd8ad], a
+.asm_1651
+	inc a
+.asm_1652
+	ld [wd8c5], a
+	ld a, [wd8cc]
+	and a
+	jr nz, Func_165f
+	xor a
+	ld [wd8db], a
+Func_165f: ; 165f (0:165f)
+	ret
+
+Func_1660:
+	xor a
+	ld [rSC], a
+Func_1663: ; 1663 (0:1663)
+	ret
+
+Func_1664:
+	push af
+	ld a, [rSC]
+	bit 7, a
+	jr nz, .asm_1679
+	push bc
+	push de
+	push hl
+	ld a, $1
+	ld [wd8ca], a
+	call Func_14c4
+	pop hl
+	pop de
+	pop bc
+.asm_1679
+	pop af
+	reti
 Func_167b: ; 0x167b
 	ld a, [wd8ad]
 	cp $1
@@ -3452,7 +3702,11 @@ Func_167b: ; 0x167b
 	call Func_18ac
 	ret
 
-	dr $169d, $16a2
+Func_169d:
+	xor a
+	ld [rSC], a
+	ld [rSB], a
+	; fallthrough
 
 Func_16a2: ; 0x16a2
 	xor a
@@ -3530,6 +3784,7 @@ Func_16fd: ; 0x16fd
 	scf
 	ret
 
+.asm_1730
 	xor a
 	ld [wd8ae], a
 	dec a
@@ -3731,7 +3986,36 @@ Func_1779: ; 0x1779
 	call Func_19d7
 	jp Func_19e5
 
-	dr $1879, $18ac
+Func_1879:
+	ld a, [wd8ad]
+	cp $1
+	jr z, .asm_188b
+	cp $3
+	jr z, .asm_188b
+	and a
+	ld a, $ff
+	ret z
+	ld a, $f0
+	ret
+
+.asm_188b
+	ld a, [wd8db]
+	and a
+	jr z, .asm_1895
+	call Func_16fd
+	ret nc
+.asm_1895
+	ld a, [wd8ae]
+	cp $4
+	jr nz, .asm_18a0
+	call Func_16fd
+	ret nc
+.asm_18a0
+	ld a, [wd8c7]
+	cp $ff
+	ret z
+	call Func_19bd
+	jp Func_19e5
 
 Func_18ac: ; 0x18ac
 	ld a, [wd8ad]
@@ -3779,6 +4063,7 @@ Func_18d4: ; 0x18d4
 	call Func_16bf
 	ret
 
+Data_18ff:
 	dr $18ff, $1901
 
 Data_1901:
@@ -3788,7 +4073,10 @@ Data_1909:
 	dr $1909, $190d
 
 Data_190d:
-	dr $190d, $191d
+	dr $190d, $1915
+
+Data_1915:
+	dr $1915, $191d
 
 Data_191d:
 	dr $191d, $1925
@@ -3866,7 +4154,12 @@ Func_1989: ; 0x1989
 	ld [wd8d0], a
 	ret
 
-	dr $19bd, $19ca
+Func_19bd: ; 19bd (0:19bd)
+	ld a, $4
+	ld d, $0
+	ld hl, Data_1915
+	ld bc, $8
+	jp Func_18d4
 
 Func_19ca: ; 0x19ca
 	ld a, $5
@@ -4277,13 +4570,27 @@ Func_1c32: ; 0x1c32
 	jr nz, .asm_1c35
 	ret
 
-	dr $1c39, $1c50
+Func_1c39:
+	xor a
+	ld [hNumFramesSinceLastVBlank], a
+	ld a, $1
+	ld [wd8e9], a
+.asm_1c41
+	ld b, $2
+	ld c, rRP % $100
+	ld a, [$ff00+c]
+	and b
+	jr z, Func_1c50
+	ld a, [hNumFramesSinceLastVBlank]
+	and a
+	jr nz, Func_1ca1
+	jr .asm_1c41
 
 Func_1c50: ; 0x1c50
 	ld a, $1
 	ld [wd8e9], a
 	ld b, $1a
-	ld c, $56
+	ld c, rRP % $100
 	ld d, $0
 	ld e, d
 	call Func_1c23
@@ -4325,7 +4632,7 @@ Func_1ca1: ; 0x1ca1
 	ld a, $2
 	ld [wd8e9], a
 	ld b, $1a
-	ld c, $56
+	ld c, rRP % $100
 	ld d, b
 	ld e, $0
 	call Func_1c32
@@ -4363,7 +4670,12 @@ Func_1ca1: ; 0x1ca1
 	ld [wd8ea], a
 	ret
 
-	dr $1cef, $1cf8
+Func_1cef:
+	xor a
+	ld [rRP], a
+	ld a, $ff
+	ld [wd8ea], a
+	ret
 
 Func_1cf8: ; 0x1cf8
 	xor a
@@ -4404,7 +4716,7 @@ Func_1d44: ; 0x1d44
 	ld a, [wd8ea]
 	cp $0
 	ret nz
-	ld c, $56
+	ld c, rRP % $100
 	ld d, $16
 	call Func_1c2b
 	ld d, $16
@@ -4477,7 +4789,11 @@ Func_1dc2: ; 0x1dc2
 	ld [wd8ea], a
 	ret
 
-	dr $1dc8, $1dd1
+Func_1dc8:
+	ld a, [wd8ea]
+	or $1
+	ld [wd8ea], a
+	ret
 
 Func_1dd1: ; 0x1dd1
 	ld a, [wd8ea]
@@ -4540,7 +4856,7 @@ Func_1e3b: ; 0x1e3b
 	ld a, [wd8ea]
 	cp $0
 	ret nz
-	ld c, $56
+	ld c, rRP % $100
 	ld d, $0
 	call Func_1c23
 	ld a, d
@@ -4623,7 +4939,13 @@ Func_1e3b: ; 0x1e3b
 	call Func_1c32
 	ret
 
-	dr $1ec9, $1ed3
+Func_1ec9:
+	ld b, $00
+	jp Func_1cf8
+
+Func_1ece:
+	ld b, $00
+	jp Func_1dda
 
 Func_1ed3: ; 0x1ed3
 	ret
@@ -4635,7 +4957,37 @@ Func_1ed4: ; 0x1ed4
 .asm_1ed8
 	ret
 
-	dr $1ed9, $1f0b
+Func_1ed9:
+	push bc
+	push de
+	push hl
+	ld e, a
+	ld d, $0
+	sla e
+	rl d
+	ld a, [hLoadedROMBank]
+	push af
+	ld a, BANK(Data_8f06)
+	ld [hLoadedROMBank], a
+	ld [MBC5RomBank], a
+	ld hl, Data_8f06
+	jr asm_1f3b
+
+Func_1ef2:
+	push bc
+	push de
+	push hl
+	ld e, a
+	ld d, $0
+	sla e
+	rl d
+	ld a, [hLoadedROMBank]
+	push af
+	ld a, BANK(Data_8f06)
+	ld [hLoadedROMBank], a
+	ld [MBC5RomBank], a
+	ld hl, Data_8f06
+	jr asm_1f3b
 
 LoadOAMData2: ; 0x1f0b
 ; This function loads OAM data, but it adds b and c to the x and y values
@@ -5150,15 +5502,15 @@ AddVelocityToPosition: ; 0x21c3
 	ld a, [de]
 	bit 7, a
 	jr nz, .asm_21d1
-	cp $5
+	cp 1+4
 	jr c, .asm_21da
 	ld bc, $04ff
 	jr .asm_21de
 
 .asm_21d1
-	cp $fc
+	cp -4
 	jr nc, .asm_21da
-	ld bc, $fb01
+	ld bc, -$04ff
 	jr .asm_21de
 
 .asm_21da
@@ -6959,7 +7311,27 @@ Func_3556: ; 0x3556
 	ld b, a
 	ret
 
-	dr $3567, $3579
+Func_3567:
+	ld a, l
+	add c
+	daa
+	ld l, a
+	ld a, h
+	adc b
+	daa
+	ld h, a
+	ret
+
+Func_3570:
+	ld a, l
+	add e
+	daa
+	ld l, a
+	ld a, h
+	adc d
+	daa
+	ld h, a
+	ret
 
 Func_3579: ; 0x3579
 	ld hl, wd47a
@@ -7211,7 +7583,7 @@ Data_372d:
 	dw TiltUpRightForce
 	dw TiltUpOnlyForce
 
-	dr $373d, $3800
+SECTION "bank0.2", ROM0 [$3800]
 
 Data_3800:
 	dr $3800, $3980
@@ -7225,7 +7597,19 @@ Data_3b00:
 Data_3c80:
 	dr $3c80, $3e00
 
-	dr $3e00, $4000
+SquaresLow:
+x = 0
+rept 256
+	db (x * x) % $100
+x = x + 1
+endr
+
+SquaresHigh:
+x = 0
+rept 256
+	db (x * x) / $100
+x = x + 1
+endr
 
 SECTION "bank1", ROMX, BANK[$1]
 

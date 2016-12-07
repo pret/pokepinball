@@ -25,6 +25,11 @@ dab: MACRO
 	dwb \1, BANK(\1)
 	ENDM
 
+padded_dab: MACRO
+	dab \1
+	db $00
+	ENDM
+
 dn: MACRO
 	rept _NARG / 2
 	db (\1) << 4 + (\2)

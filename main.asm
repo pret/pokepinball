@@ -106,12 +106,12 @@ Start: ; 0x150
 	ld [wd7fb], a
 	ld [wd7fc], a
 	ld [wd7fd], a
-	ld [$ffb0], a
+	ld [hHBlankRoutine], a
 	ld [$ffb1], a
 	ld [wd8e1], a
 	ld [wd7fe], a
 	ld [$fffc], a
-	ld hl, $ff9e
+	ld hl, hLCDC
 	xor a
 	ld [hli], a
 	ld [hli], a
@@ -179,7 +179,7 @@ VBlank: ; 0x2f2
 	push de
 	push hl
 	call hPushOAM ; OAM DMA transfer
-	ld a, [$ff9e]
+	ld a, [hLCDC]
 	ld [rLCDC], a
 	call Func_113a
 	ei
@@ -219,12 +219,12 @@ VBlank: ; 0x2f2
 .asm_328
 	ld a, [hLYC]
 	ld [hLastLYC], a
-	ld a, [$ffa9]
-	ld [$ffaa], a
-	ld a, [$ffab]
-	ld [$ffac], a
-	ld a, [$ffad]
-	ld [$ffae], a
+	ld a, [hNextLYCSub]
+	ld [hLYCSub], a
+	ld a, [hNextFrameHBlankSCX]
+	ld [hHBlankSCX], a
+	ld a, [hNextFrameHBlankSCY]
+	ld [hHBlankSCY], a
 	call ReadJoypad
 	ld a, [wdaa3]
 	and a
@@ -309,7 +309,7 @@ LCD: ; 0x3ec
 	push bc
 	push de
 	push hl
-	ld a, [$ffb0]
+	ld a, [hHBlankRoutine]
 	sla a
 	ld c, a
 	ld b, $0
@@ -591,18 +591,18 @@ BankSwitch: ; 0x54f
 	ret
 
 .doJump
-	ld a, [$ff8b]
+	ld a, [hFarCallTempE]
 	ld e, a
-	ld a, [$ff8a]
+	ld a, [hFarCallTempA]
 	jp [hl]
 
 Func_576: ; 0x576
 	ld a, [rLCDC]
 	bit 7, a
 	ret z
-	ld a, [$ff9e]
+	ld a, [hLCDC]
 	res 7, a
-	ld [$ff9e], a
+	ld [hLCDC], a
 .asm_581
 	ld a, [rLCDC]
 	bit 7, a
@@ -610,13 +610,13 @@ Func_576: ; 0x576
 	ret
 
 Func_588: ; 0x588
-	ld a, [$ffc4]
+	ld a, [hFFC4]
 	and a
 	call nz, Func_597
-	ld a, [$ff9e]
+	ld a, [hLCDC]
 	set 7, a
 	ld [rLCDC], a
-	ld [$ff9e], a
+	ld [hLCDC], a
 	ret
 
 Func_597: ; 0x597
@@ -673,7 +673,7 @@ Data_5e1:
 	dr $5e1, $5f7
 
 WriteDMACodeToHRAM: ; 0x5f7
-; Initializes registers hPushOAM - $ff8a
+; Initializes registers hPushOAM - hFarCallTempA
 	ld c, $80
 	ld b, $a  ; number of bytes to load
 	ld hl, DMARoutine
@@ -686,7 +686,7 @@ WriteDMACodeToHRAM: ; 0x5f7
 	ret
 
 DMARoutine:
-; This routine is initially loaded into hPushOAM - $ff8a by WriteDMACodeToHRAM.
+; This routine is initially loaded into hPushOAM - hFarCallTempA by WriteDMACodeToHRAM.
 	ld a, (wOAMBuffer >> 8)
 	ld [rDMA], a   ; start DMA
 	ld a, $28
@@ -774,10 +774,10 @@ FarCopyData: ; 0x666 spooky
 ;        bc = number of bytes to copy
 	bit 7, h
 	jr nz, .copyFromSRAM
-	ld [$fffa], a
+	ld [hROMBankBuffer], a
 	ld a, [hLoadedROMBank]
 	push af
-	ld a, [$fffa]
+	ld a, [hROMBankBuffer]
 	ld [hLoadedROMBank], a
 	ld [MBC5RomBank], a
 	scf
@@ -867,10 +867,10 @@ Func_6cb: ; 0x6cb
 	jp Func_6d5 ; This jumps to the next instruction... Strange.
 
 Func_6d5: ; 0x6d5
-	ld [$fffa], a  ; save bank of data to be loaded
+	ld [hROMBankBuffer], a  ; save bank of data to be loaded
 	ld a, [hLoadedROMBank]
 	push af
-	ld a, [$fffa]  ; a contains bank of data to be loaded
+	ld a, [hROMBankBuffer]  ; a contains bank of data to be loaded
 	ld [hLoadedROMBank], a
 	ld [MBC5RomBank], a  ; switch bank to the bank of data to be loaded
 	srl b
@@ -894,10 +894,10 @@ Func_6d5: ; 0x6d5
 	ret
 
 Func_6fd: ; 0x6fd
-	ld [$fffa], a  ; save bank of data to be loaded
+	ld [hROMBankBuffer], a  ; save bank of data to be loaded
 	ld a, [hLoadedROMBank]
 	push af
-	ld a, [$fffa]  ; a contains bank of data to be loaded
+	ld a, [hROMBankBuffer]  ; a contains bank of data to be loaded
 	ld [hLoadedROMBank], a
 	ld [MBC5RomBank], a  ; switch bank to the bank of data to be loaded
 	ld a, e
@@ -947,10 +947,10 @@ LoadVRAMData: ; 0x73f
 ;         bc = number of bytes to copy
 	bit 7, h
 	jr nz, .asm_752
-	ld [$fffa], a
+	ld [hROMBankBuffer], a
 	ld a, [hLoadedROMBank]
 	push af
-	ld a, [$fffa]
+	ld a, [hROMBankBuffer]
 	ld [hLoadedROMBank], a
 	ld [MBC5RomBank], a
 	scf
@@ -1018,10 +1018,10 @@ FarCopyPalettes: ; 0x790
 	jp nz, Func_7dc
 	bit 7, h
 	jr nz, .asm_7ad
-	ld [$fffa], a
+	ld [hROMBankBuffer], a
 	ld a, [hLoadedROMBank]
 	push af
-	ld a, [$fffa]
+	ld a, [hROMBankBuffer]
 	ld [hLoadedROMBank], a
 	ld [MBC5RomBank], a
 	scf
@@ -1068,10 +1068,10 @@ FarCopyPalettes: ; 0x790
 Func_7dc: ; 0x7dc
 	bit 7, h
 	jr nz, .asm_7ef
-	ld [$fffa], a
+	ld [hROMBankBuffer], a
 	ld a, [hLoadedROMBank]
 	push af
-	ld a, [$fffa]
+	ld a, [hROMBankBuffer]
 	ld [hLoadedROMBank], a
 	ld [MBC5RomBank], a
 	scf
@@ -1181,10 +1181,10 @@ Func_858: ; 0x858
 	ret
 
 Func_86f: ; 0x86f
-	ld [$fffa], a
+	ld [hROMBankBuffer], a
 	ld a, [hLoadedROMBank]
 	push af
-	ld a, [$fffa]
+	ld a, [hROMBankBuffer]
 	ld [hLoadedROMBank], a
 	ld [MBC5RomBank], a
 	ld a, [rLCDC]
@@ -1263,10 +1263,10 @@ Func_86f: ; 0x86f
 	ret
 
 Func_8e1: ; 0x8e1
-	ld [$fffa], a
+	ld [hROMBankBuffer], a
 	ld a, [hLoadedROMBank]
 	push af
-	ld a, [$fffa]
+	ld a, [hROMBankBuffer]
 	ld [hLoadedROMBank], a
 	ld [MBC5RomBank], a
 	ld a, [rLCDC]
@@ -1526,18 +1526,18 @@ ReadJoypad: ; 0xab8
 	jr nz, .asm_b15
 	; button(s) is pressed, and they're identical to the buttons pressed last frame.
 	; this code is related to holding down a button for an extended period of time.
-	ld hl, $ff9d
+	ld hl, hJoyRepeatDelay
 	dec [hl]
 	jr nz, .asm_b1a
 	ld a, [hJoypadState]
 	ld [hPressedButtons], a
 	ld a, [wd807]
-	ld [$ff9d], a
+	ld [hJoyRepeatDelay], a
 	jr .asm_b1a
 
 .asm_b15
 	ld a, [wd806]
-	ld [$ff9d], a
+	ld [hJoyRepeatDelay], a
 .asm_b1a
 	ld a, [hJoypadState]
 	ld [hPreviousJoypadState], a
@@ -2459,9 +2459,9 @@ Func_fbf: ; 0xfbf
 	inc c
 	cp c
 	jp nc, Func_3ff
-	ld a, [$ffaf]
+	ld a, [hLCDCMask]
 	ld c, a
-	ld a, [$ff9e]
+	ld a, [hLCDC]
 	xor $10
 	and c
 	ld c, a
@@ -2478,16 +2478,16 @@ Func_fbf: ; 0xfbf
 
 Func_fea: ; 0xfea
 	ld hl, hLastLYC
-	ld a, [$ffaa]
+	ld a, [hLYCSub]
 	cp [hl]
 	jr nz, .asm_1015
 	ld a, [rLY]
 	cp [hl]
 	jp nz, Func_3ff
-	ld a, [$ff9e]
+	ld a, [hLCDC]
 	xor $18
 	ld c, a
-	ld a, [$ffac]
+	ld a, [hHBlankSCX]
 	ld b, a
 	ld hl, rSTAT
 .asm_1003
@@ -2507,11 +2507,11 @@ Func_fea: ; 0xfea
 	cp [hl]
 	jr nz, .asm_1037
 	ld a, [hLastLYC]
-	ld hl, $ffaa
+	ld hl, hLYCSub
 	sub [hl]
 	add $40
 	ld c, a
-	ld a, [$ffaa]
+	ld a, [hLYCSub]
 	ld b, a
 	ld hl, rSTAT
 .asm_1029
@@ -2525,14 +2525,14 @@ Func_fea: ; 0xfea
 	jp Func_3ff
 
 .asm_1037
-	ld hl, $ffaa
+	ld hl, hLYCSub
 	ld a, [rLY]
 	cp [hl]
 	jp nz, Func_3ff
-	ld a, [$ff9e]
+	ld a, [hLCDC]
 	xor $18
 	ld c, a
-	ld a, [$ffac]
+	ld a, [hHBlankSCX]
 	ld b, a
 	ld hl, rSTAT
 .asm_104b
@@ -2556,9 +2556,9 @@ Func_105d: ; 0x105d
 	cp [hl]
 	jr nz, .asm_1080
 .asm_1069
-	ld a, [$ffaa]
+	ld a, [hLYCSub]
 	ld c, a
-	ld a, [$ffac]
+	ld a, [hHBlankSCX]
 	ld b, a
 	ld hl, rSTAT
 .asm_1072
@@ -2572,7 +2572,7 @@ Func_105d: ; 0x105d
 	jp Func_3ff
 
 .asm_1080
-	ld hl, $ffaa
+	ld hl, hLYCSub
 	ld a, [rLY]
 	cp [hl]
 	jr z, .asm_108d
@@ -2580,7 +2580,7 @@ Func_105d: ; 0x105d
 	cp [hl]
 	jp nz, Func_3ff
 .asm_108d
-	ld a, [$ffae]
+	ld a, [hHBlankSCY]
 	ld b, a
 	ld hl, rSTAT
 .asm_1093
@@ -2655,10 +2655,10 @@ Func_10c5: ; 0x10c5
 	inc h
 	ld [hl], d
 	ld e, $ff
-	ld [$fffa], a
+	ld [hROMBankBuffer], a
 	ld a, [hLoadedROMBank]
 	push af
-	ld a, [$fffa]
+	ld a, [hROMBankBuffer]
 	ld [hLoadedROMBank], a
 	ld [MBC5RomBank], a
 	dec bc
@@ -2793,10 +2793,10 @@ Func_118d: ; 0x118d
 	dr $1198, $12a1
 
 Func_12a1: ; 0x12a1
-	ld [$fffa], a
+	ld [hROMBankBuffer], a
 	ld a, [hLoadedROMBank]
 	push af
-	ld a, [$fffa]
+	ld a, [hROMBankBuffer]
 	ld [hLoadedROMBank], a
 	ld [MBC5RomBank], a
 	ld a, [hl]
@@ -2905,10 +2905,10 @@ Func_12f8: ; 0x12f8
 	ret
 
 Func_1353: ; 0x1353
-	ld [$fffa], a
+	ld [hROMBankBuffer], a
 	ld a, [hLoadedROMBank]
 	push af
-	ld a, [$fffa]
+	ld a, [hROMBankBuffer]
 	ld [hLoadedROMBank], a
 	ld [MBC5RomBank], a
 	push af
@@ -2944,7 +2944,7 @@ Func_1353: ; 0x1353
 	call Func_948
 	ld a, [hBGP]
 	ld [rBGP], a
-	ld a, [$ff9e]
+	ld a, [hLCDC]
 	ld [rLCDC], a
 	pop af
 	ld [hLoadedROMBank], a
@@ -4350,14 +4350,117 @@ asm_1f3b: ; 0x1f3b
 	pop bc
 	ret
 
-	dr $1f68, $1ffc
+Func_1f68:
+	push bc
+	push de
+	push hl
+	ld e, a
+	ld d, $0
+	sla e
+	rl d
+	ld a, [hLoadedROMBank]
+	push af
+	ld a, BANK(Data_8f06)
+	ld [hLoadedROMBank], a
+	ld [MBC5RomBank], a
+	ld hl, Data_8f06 ; all 0s
+	jr asm_1fca
+
+Func_1f81:
+	push bc
+	push de
+	push hl
+	ld e, a
+	ld d, $0
+	sla e
+	rl d
+	ld a, [hLoadedROMBank]
+	push af
+	ld a, BANK(Data_8f06)
+	ld [hLoadedROMBank], a
+	ld [MBC5RomBank], a
+	ld hl, Data_8f06 ; all 0s
+	jr asm_1fca
+
+Func_1f9a:
+	push bc
+	push de
+	push hl
+	ld e, a
+	ld d, $0
+	sla e
+	rl d
+	ld a, [hLoadedROMBank]
+	push af
+	ld a, BANK(OAMDataPointers2)
+	ld [hLoadedROMBank], a
+	ld [MBC5RomBank], a
+	ld hl, OAMDataPointers2
+	jr asm_1fca
+
+Func_1fb3:
+	push bc
+	push de
+	push hl
+	ld e, a
+	ld d, $0
+	sla e
+	rl d
+	ld a, [hLoadedROMBank]
+	push af
+	ld a, BANK(OAMDataPointers)
+	ld [hLoadedROMBank], a
+	ld [MBC5RomBank], a
+	ld hl, OAMDataPointers
+asm_1fca
+	add hl, de
+	ld a, [hli]
+	ld e, a
+	ld a, [hl]
+	ld d, a
+	ld a, [wd802]
+	ld l, a
+	ld h, $d0
+.asm_1fd5
+	ld a, [de]
+	cp $80
+	jr z, .asm_1fee
+	add c
+	ld [hli], a
+	inc de
+	ld a, [de]
+	add b
+	ld [hli], a
+	inc de
+	ld a, [de]
+	push hl
+	ld hl, sp+$7
+	add [hl]
+	pop hl
+	ld [hli], a
+	inc de
+	ld a, [de]
+	ld [hli], a
+	inc de
+	jr .asm_1fd5
+
+.asm_1fee
+	ld a, l
+	ld [wd802], a
+	pop af
+	ld [hLoadedROMBank], a
+	ld [MBC5RomBank], a
+	pop hl
+	pop de
+	pop bc
+	ret
 
 Func_1ffc: ; 0x1ffc
 	ld a, $b
 	ld [wd806], a
 	ld a, $4
 	ld [wd807], a
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_3c000
 	ld a, $1
 	ld [wd85d], a
@@ -4394,40 +4497,31 @@ CallTable_2049: ; 0x2049
 ; First two bytes is function pointer.
 ; Third byte is bank of function.
 ; Fourth byte seems to be unused.
-	dw Func_8000
-	db Bank(Func_8000), $00
+	padded_dab Func_8000
 
 	; SCREEN_ERASE_ALL_DATA
-	dw HandleEraseAllDataMenu
-	db Bank(HandleEraseAllDataMenu), $00
+	padded_dab HandleEraseAllDataMenu
 
 	; SCREEN_COPYRIGHT
-	dw HandleCopyrightScreen
-	db Bank(HandleCopyrightScreen), $00
+	padded_dab HandleCopyrightScreen
 
 	; SCREEN_TITLESCREEN
-	dw HandleTitlescreen
-	db Bank(HandleTitlescreen), $00
+	padded_dab HandleTitlescreen
 
 	; SCREEN_PINBALL_GAME
-	dw HandlePinballGame
-	db Bank(HandlePinballGame), $00
+	padded_dab HandlePinballGame
 
 	; SCREEN_POKEDEX
-	dw HandlePokedexScreen
-	db Bank(HandlePokedexScreen), $00
+	padded_dab HandlePokedexScreen
 
 	; SCREEN_OPTIONS
-	dw HandleOptionsScreen
-	db Bank(HandleOptionsScreen), $00
+	padded_dab HandleOptionsScreen
 
 	; SCREEN_HIGH_SCORES
-	dw HandleHighScoresScreen
-	db Bank(HandleHighScoresScreen), $00
+	padded_dab HandleHighScoresScreen
 
 	; SCREEN_FIELD_SELECT
-	dw HandleFieldSelectScreen
-	db Bank(HandleFieldSelectScreen), $00
+	padded_dab HandleFieldSelectScreen
 	; end of call table
 
 Func_206d: ; 0x206d
@@ -5432,66 +5526,50 @@ Func_272f: ; 0x272f
 	call CallInFollowingTable
 CallTable_2735: ; 0x2735
 	; STAGE_RED_FIELD_TOP
-	dw Func_143e1
-	db Bank(Func_143e1), $00
+	padded_dab Func_143e1
 
 	; STAGE_RED_FIELD_BOTTOM
-	dw Func_143f9
-	db Bank(Func_143f9), $00
+	padded_dab Func_143f9
 
-	dw Func_18061
-	db Bank(Func_18061), $00
+	padded_dab Func_18061
 
-	dw Func_18062
-	db Bank(Func_18062), $00
+	padded_dab Func_18062
 
 	; STAGE_BLUE_FIELD_TOP
-	dw Func_1c520
-	db Bank(Func_1c520), $00
+	padded_dab Func_1c520
 
 	; STAGE_BLUE_FIELD_BOTTOM
-	dw Func_1c536
-	db Bank(Func_1c536), $00
+	padded_dab Func_1c536
 
 	; STAGE_GENGAR_BONUS
-	dw Func_181b1
-	db Bank(Func_181b1), $00
+	padded_dab Func_181b1
 
 	; STAGE_GENGAR_BONUS
-	dw Func_181b1
-	db Bank(Func_181b1), $00
+	padded_dab Func_181b1
 
 	; STAGE_MEWTWO_BONUS
-	dw Func_19330
-	db Bank(Func_19330), $00
+	padded_dab Func_19330
 
 	; STAGE_MEWTWO_BONUS
-	dw Func_19330
-	db Bank(Func_19330), $00
+	padded_dab Func_19330
 
 	; STAGE_MEOWTH_BONUS
-	dw Func_2414d
-	db Bank(Func_2414d), $00
+	padded_dab Func_2414d
 
 	; STAGE_MEOWTH_BONUS
-	dw Func_2414d
-	db Bank(Func_2414d), $00
+	padded_dab Func_2414d
 
 	; STAGE_DIGLETT_BONUS
-	dw Func_19ab3
-	db Bank(Func_19ab3), $00
+	padded_dab Func_19ab3
 
 	; STAGE_DIGLETT_BONUS
-	dw Func_19ab3
-	db Bank(Func_19ab3), $00
+	padded_dab Func_19ab3
 
 	; STAGE_SEEL_BONUS
-	dw Func_25bbc
-	db Bank(Func_25bbc), $00
+	padded_dab Func_25bbc
 
 	; STAGE_SEEL_BONUS
-	dw Func_25bbc
-	db Bank(Func_25bbc), $00
+	padded_dab Func_25bbc
 
 Func_2775: ; 0x2775
 	ld a, [wd4ea]
@@ -5625,66 +5703,50 @@ Func_281c: ; 0x281c
 CallTable_2822: ; 0x2822
 ; not collisions
 	; STAGE_RED_FIELD_TOP
-	dw Func_1460e
-	db Bank(Func_1460e), $00
+	padded_dab Func_1460e
 
 	; STAGE_RED_FIELD_BOTTOM
-	dw Func_14652
-	db Bank(Func_14652), $00
+	padded_dab Func_14652
 
-	dw Func_1806d
-	db Bank(Func_1806d), $00
+	padded_dab Func_1806d
 
-	dw Func_1806e
-	db Bank(Func_1806e), $00
+	padded_dab Func_1806e
 
 	; STAGE_BLUE_FIELD_TOP
-	dw Func_1c715
-	db Bank(Func_1c715), $00
+	padded_dab Func_1c715
 
 	; STAGE_BLUE_FIELD_BOTTOM
-	dw Func_1c769
-	db Bank(Func_1c769), $00
+	padded_dab Func_1c769
 
 	; STAGE_GENGAR_BONUS
-	dw Func_18377
-	db Bank(Func_18377), $00
+	padded_dab Func_18377
 
 	; STAGE_GENGAR_BONUS
-	dw Func_18377
-	db Bank(Func_18377), $00
+	padded_dab Func_18377
 
 	; STAGE_MEWTWO_BONUS
-	dw Func_19451
-	db Bank(Func_19451), $00
+	padded_dab Func_19451
 
 	; STAGE_MEWTWO_BONUS
-	dw Func_19451
-	db Bank(Func_19451), $00
+	padded_dab Func_19451
 
 	; STAGE_MEOWTH_BONUS
-	dw Func_2442a
-	db Bank(Func_2442a), $00
+	padded_dab Func_2442a
 
 	; STAGE_MEOWTH_BONUS
-	dw Func_2442a
-	db Bank(Func_2442a), $00
+	padded_dab Func_2442a
 
 	; STAGE_DIGLETT_BONUS
-	dw Func_19b88
-	db Bank(Func_19b88), $00
+	padded_dab Func_19b88
 
 	; STAGE_DIGLETT_BONUS
-	dw Func_19b88
-	db Bank(Func_19b88), $00
+	padded_dab Func_19b88
 
 	; STAGE_SEEL_BONUS
-	dw Func_25c5a
-	db Bank(Func_25c5a), $00
+	padded_dab Func_25c5a
 
 	; STAGE_SEEL_BONUS
-	dw Func_25c5a
-	db Bank(Func_25c5a), $00
+	padded_dab Func_25c5a
 
 Func_2862: ; 0x2862
 	ld a, [wd7be]
@@ -6417,11 +6479,11 @@ Func_3475: ; 0x3475
 	call HandleTilts
 	ld a, [wCurrentStage]
 	bit 0, a
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	ld a, Bank(HandleFlippers)
 	ld hl, HandleFlippers
 	call nz, BankSwitch
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_84b7
 	call Func_33e3
 	call Func_926
@@ -6476,7 +6538,7 @@ Func_3500:
 	ld [hli], a
 	ld [hl], a
 	ld bc, wd464
-	ldh [$ff8a], a
+	ldh [hFarCallTempA], a
 	callba AddBCDScore
 	ret
 
@@ -6494,7 +6556,7 @@ Func_351c: ; 0x351c
 	ld [hli], a
 	ld [hl], a
 	ld bc, wd464
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_8588
 	ret
 
@@ -10274,7 +10336,7 @@ CallTable_8004: ; 0x8004
 
 Func_800a: ; 0x800a
 	xor a
-	ld [$ffc4], a
+	ld [hFFC4], a
 	ld a, [hJoypadState]
 	cp D_UP
 	jr nz, .asm_8018
@@ -10290,14 +10352,14 @@ Func_800a: ; 0x800a
 
 .asm_8021
 	ld a, $45
-	ld [$ff9e], a
+	ld [hLCDC], a
 	ld a, $e4
 	ld [wd80c], a
 	ld [wd80d], a
 	ld [wd80e], a
 	xor a
-	ld [hBoardXShift], a
-	ld [hBoardYShift], a
+	ld [hSCX], a
+	ld [hSCY], a
 	call Func_8049
 	call ClearOAMBuffer
 	call Func_b66
@@ -10450,7 +10512,7 @@ Func_8104: ; 0x8104
 	and (D_DOWN | D_UP)
 	jr z, .asm_8115
 	ld a, [hGameBoyColorFlag]
-	ld [$ffc4], a
+	ld [hFFC4], a
 	xor $1
 	ld [hGameBoyColorFlag], a
 	jr .asm_811d
@@ -10528,14 +10590,14 @@ CheckForResetButtonCombo: ; 0x8167
 
 .heldCorrectButtons
 	ld a, $41
-	ld [$ff9e], a
+	ld [hLCDC], a
 	ld a, $e4
 	ld [wd80c], a
 	xor a
 	ld [wd80d], a
 	ld [wd80e], a
-	ld [hBoardXShift], a
-	ld [hBoardYShift], a
+	ld [hSCX], a
+	ld [hSCY], a
 	ld a, [hGameBoyColorFlag]
 	ld hl, EraseAllDataGfxPointers
 	call LoadVideoData
@@ -10636,14 +10698,14 @@ CopyrightScreenFunctions: ; 0x8222
 
 FadeInCopyrightScreen: ; 0x8228
 	ld a, $41
-	ld [$ff9e], a
+	ld [hLCDC], a
 	ld a, $e4
 	ld [wd80c], a
 	xor a
 	ld [wd80d], a
 	ld [wd80e], a
-	ld [hBoardXShift], a
-	ld [hBoardYShift], a
+	ld [hSCX], a
+	ld [hSCY], a
 	ld a, [hGameBoyColorFlag]
 	ld hl, CopyrightTextGfxPointers
 	call LoadVideoData
@@ -10702,7 +10764,7 @@ FadeOutCopyrightScreenAndLoadData: ; 0x82a8
 	ld bc, $0082
 	call Func_f0c
 	jr c, .loadedHighScores
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba CopyInitialHighScores
 .loadedHighScores
 	ld hl, $a10c
@@ -10710,7 +10772,7 @@ FadeOutCopyrightScreenAndLoadData: ; 0x82a8
 	ld bc, $0098
 	call Func_f0c
 	jr c, .asm_82de
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba ClearPokedexData
 .asm_82de
 	ld hl, $a244
@@ -10718,7 +10780,7 @@ FadeOutCopyrightScreenAndLoadData: ; 0x82a8
 	ld bc, $000e
 	call Func_f0c
 	jr c, .asm_82f6
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba SaveDefaultKeyConfigs
 .asm_82f6
 	ld hl, $a268
@@ -10763,66 +10825,50 @@ InitializeStage: ; 0x8311
 	call CallInFollowingTable
 CallTable_8348: ; 0x8348
 	; STAGE_RED_FIELD_TOP
-	dw InitRedField
-	db Bank(InitRedField), $00
+	padded_dab InitRedField
 
 	; STAGE_RED_FIELD_BOTTOM
-	dw InitRedField
-	db Bank(InitRedField), $00
+	padded_dab InitRedField
 
-	dw Func_18000
-	db Bank(Func_18000), $00
+	padded_dab Func_18000
 
-	dw Func_18000
-	db Bank(Func_18000), $00
+	padded_dab Func_18000
 
 	; STAGE_BLUE_FIELD_TOP
-	dw InitBlueField
-	db Bank(InitBlueField), $00
+	padded_dab InitBlueField
 
 	; STAGE_BLUE_FIELD_BOTTOM
-	dw InitBlueField
-	db Bank(InitBlueField), $00
+	padded_dab InitBlueField
 
 	; STAGE_GENGAR_BONUS
-	dw InitGengarBonusStage
-	db Bank(InitGengarBonusStage), $00
+	padded_dab InitGengarBonusStage
 
 	; STAGE_GENGAR_BONUS
-	dw InitGengarBonusStage
-	db Bank(InitGengarBonusStage), $00
+	padded_dab InitGengarBonusStage
 
 	; STAGE_MEWTWO_BONUS
-	dw InitMewtwoBonusStage
-	db Bank(InitMewtwoBonusStage), $00
+	padded_dab InitMewtwoBonusStage
 
 	; STAGE_MEWTWO_BONUS
-	dw InitMewtwoBonusStage
-	db Bank(InitMewtwoBonusStage), $00
+	padded_dab InitMewtwoBonusStage
 
 	; STAGE_MEOWTH_BONUS
-	dw InitMeowthBonusStage
-	db Bank(InitMeowthBonusStage), $00
+	padded_dab InitMeowthBonusStage
 
 	; STAGE_MEOWTH_BONUS
-	dw InitMeowthBonusStage
-	db Bank(InitMeowthBonusStage), $00
+	padded_dab InitMeowthBonusStage
 
 	; STAGE_DIGLETT_BONUS
-	dw InitDiglettBonusStage
-	db Bank(InitDiglettBonusStage), $00
+	padded_dab InitDiglettBonusStage
 
 	; STAGE_DIGLETT_BONUS
-	dw InitDiglettBonusStage
-	db Bank(InitDiglettBonusStage), $00
+	padded_dab InitDiglettBonusStage
 
 	; STAGE_SEEL_BONUS
-	dw InitSeelBonusStage
-	db Bank(InitSeelBonusStage), $00
+	padded_dab InitSeelBonusStage
 
 	; STAGE_SEEL_BONUS
-	dw InitSeelBonusStage
-	db Bank(InitSeelBonusStage), $00
+	padded_dab InitSeelBonusStage
 
 Func_8388: ; 0x8388
 	ld a, [wd7c1]
@@ -10881,66 +10927,50 @@ StartBallForStage: ; 0x83ba
 	call CallInFollowingTable
 CallTable_8404: ; 0x8404
 	; STAGE_RED_FIELD_TOP
-	dw StartBallRedField
-	db Bank(StartBallRedField), $00
+	padded_dab StartBallRedField
 
 	; STAGE_RED_FIELD_BOTTOM
-	dw StartBallRedField
-	db Bank(StartBallRedField), $00
+	padded_dab StartBallRedField
 
-	dw Func_1804a
-	db Bank(Func_1804a), $00
+	padded_dab Func_1804a
 
-	dw Func_1804a
-	db Bank(Func_1804a), $00
+	padded_dab Func_1804a
 
 	; STAGE_BLUE_FIELD_TOP
-	dw StartBallBlueField
-	db Bank(StartBallBlueField), $00
+	padded_dab StartBallBlueField
 
 	; STAGE_BLUE_FIELD_BOTTOM
-	dw StartBallBlueField
-	db Bank(StartBallBlueField), $00
+	padded_dab StartBallBlueField
 
 	; STAGE_GENGAR_BONUS
-	dw StartBallGengarBonusStage
-	db Bank(StartBallGengarBonusStage), $00
+	padded_dab StartBallGengarBonusStage
 
 	; STAGE_GENGAR_BONUS
-	dw StartBallGengarBonusStage
-	db Bank(StartBallGengarBonusStage), $00
+	padded_dab StartBallGengarBonusStage
 
 	; STAGE_MEWTWO_BONUS
-	dw StartBallMewtwoBonusStage
-	db Bank(StartBallMewtwoBonusStage), $00
+	padded_dab StartBallMewtwoBonusStage
 
 	; STAGE_MEWTWO_BONUS
-	dw StartBallMewtwoBonusStage
-	db Bank(StartBallMewtwoBonusStage), $00
+	padded_dab StartBallMewtwoBonusStage
 
 	; STAGE_MEOWTH_BONUS
-	dw StartBallMeowthBonusStage
-	db Bank(StartBallMeowthBonusStage), $00
+	padded_dab StartBallMeowthBonusStage
 
 	; STAGE_MEOWTH_BONUS
-	dw StartBallMeowthBonusStage
-	db Bank(StartBallMeowthBonusStage), $00
+	padded_dab StartBallMeowthBonusStage
 
 	; STAGE_DIGLETT_BONUS
-	dw StartBallDiglettBonusStage
-	db Bank(StartBallDiglettBonusStage), $00
+	padded_dab StartBallDiglettBonusStage
 
 	; STAGE_DIGLETT_BONUS
-	dw StartBallDiglettBonusStage
-	db Bank(StartBallDiglettBonusStage), $00
+	padded_dab StartBallDiglettBonusStage
 
 	; STAGE_SEEL_BONUS
-	dw StartBallSeelBonusStage
-	db Bank(StartBallSeelBonusStage), $00
+	padded_dab StartBallSeelBonusStage
 
 	; STAGE_SEEL_BONUS
-	dw StartBallSeelBonusStage
-	db Bank(StartBallSeelBonusStage), $00
+	padded_dab StartBallSeelBonusStage
 
 Func_8444: ; 0x8444
 	ld a, [wInSpecialMode]
@@ -10952,7 +10982,7 @@ Func_8444: ; 0x8444
 	ld a, [wd5bb]
 	and a
 	jr z, .asm_8460
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_10464
 .asm_8460
 	ret
@@ -10971,132 +11001,100 @@ Func_8471: ; 0x8471
 	call CallInFollowingTable
 CallTable_8477: ; 0x8477
 	; STAGE_RED_FIELD_TOP
-	dw Func_14000
-	db Bank(Func_14000), $00
+	padded_dab Func_14000
 
 	; STAGE_RED_FIELD_BOTTOM
-	dw Func_1401c
-	db Bank(Func_1401c), $00
+	padded_dab Func_1401c
 
-	dw Func_1805f
-	db Bank(Func_1805f), $00
+	padded_dab Func_1805f
 
-	dw Func_18060
-	db Bank(Func_18060), $00
+	padded_dab Func_18060
 
 	; STAGE_BLUE_FIELD_TOP
-	dw Func_1c165
-	db Bank(Func_1c165), $00
+	padded_dab Func_1c165
 
 	; STAGE_BLUE_FIELD_BOTTOM
-	dw Func_1c191
-	db Bank(Func_1c191), $00
+	padded_dab Func_1c191
 
 	; STAGE_GENGAR_BONUS
-	dw Func_1818b
-	db Bank(Func_1818b), $00
+	padded_dab Func_1818b
 
 	; STAGE_GENGAR_BONUS
-	dw Func_1818b
-	db Bank(Func_1818b), $00
+	padded_dab Func_1818b
 
 	; STAGE_MEWTWO_BONUS
-	dw Func_19310
-	db Bank(Func_19310), $00
+	padded_dab Func_19310
 
 	; STAGE_MEWTWO_BONUS
-	dw Func_19310
-	db Bank(Func_19310), $00
+	padded_dab Func_19310
 
 	; STAGE_MEOWTH_BONUS
-	dw Func_24128
-	db Bank(Func_24128), $00
+	padded_dab Func_24128
 
 	; STAGE_MEOWTH_BONUS
-	dw Func_24128
-	db Bank(Func_24128), $00
+	padded_dab Func_24128
 
 	; STAGE_DIGLETT_BONUS
-	dw Func_19a76
-	db Bank(Func_19a76), $00
+	padded_dab Func_19a76
 
 	; STAGE_DIGLETT_BONUS
-	dw Func_19a76
-	db Bank(Func_19a76), $00
+	padded_dab Func_19a76
 
 	; STAGE_SEEL_BONUS
-	dw Func_25b97
-	db Bank(Func_25b97), $00
+	padded_dab Func_25b97
 
 	; STAGE_SEEL_BONUS
-	dw Func_25b97
-	db Bank(Func_25b97), $00
+	padded_dab Func_25b97
 
 Func_84b7: ; 0x84b7
 	ld a, [wCurrentStage]
 	call CallInFollowingTable
 PointerTable_84bd: ; 0x84bd
 	; STAGE_RED_FIELD_TOP
-	dw Func_1755c
-	db Bank(Func_1755c), $00
+	padded_dab Func_1755c
 
 	; STAGE_RED_FIELD_BOTTOM
-	dw Func_1757e
-	db Bank(Func_1757e), $00
+	padded_dab Func_1757e
 
-	dw Func_18079
-	db Bank(Func_18079), $00
+	padded_dab Func_18079
 
-	dw Func_18084
-	db Bank(Func_18084), $00
+	padded_dab Func_18084
 
 	; STAGE_BLUE_FIELD_TOP
-	dw Func_1f330
-	db Bank(Func_1f330), $00
+	padded_dab Func_1f330
 
 	; STAGE_BLUE_FIELD_BOTTOM
-	dw Func_1f35a
-	db Bank(Func_1f35a), $00
+	padded_dab Func_1f35a
 
 	; STAGE_GENGAR_BONUS
-	dw Func_18faf
-	db Bank(Func_18faf), $00
+	padded_dab Func_18faf
 
 	; STAGE_GENGAR_BONUS
-	dw Func_18faf
-	db Bank(Func_18faf), $00
+	padded_dab Func_18faf
 
 	; STAGE_MEWTWO_BONUS
-	dw Func_1994e
-	db Bank(Func_1994e), $00
+	padded_dab Func_1994e
 
 	; STAGE_MEWTWO_BONUS
-	dw Func_1994e
-	db Bank(Func_1994e), $00
+	padded_dab Func_1994e
 
 	; STAGE_MEOWTH_BONUS
-	dw Func_2583b
-	db Bank(Func_2583b), $00
+	padded_dab Func_2583b
 
 	; STAGE_MEOWTH_BONUS
-	dw Func_2583b
-	db Bank(Func_2583b), $00
+	padded_dab Func_2583b
 
 	; STAGE_DIGLETT_BONUS
-	dw Func_1ac98
-	db Bank(Func_1ac98), $00
+	padded_dab Func_1ac98
 
 	; STAGE_DIGLETT_BONUS
-	dw Func_1ac98
-	db Bank(Func_1ac98), $00
+	padded_dab Func_1ac98
 
 	; STAGE_SEEL_BONUS
-	dw Func_26b7e
-	db Bank(Func_26b7e), $00
+	padded_dab Func_26b7e
 
 	; STAGE_SEEL_BONUS
-	dw Func_26b7e
-	db Bank(Func_26b7e), $00
+	padded_dab Func_26b7e
 
 	dr $84fd, $8524
 
@@ -11375,7 +11373,7 @@ StartTimer: ; 0x867d
 	ld [wd57d], a
 	ld a, $1
 	ld [wd580], a
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_1404a
 	ret
 
@@ -11458,7 +11456,7 @@ HandleInGameMenu: ; 0x86d7
 	dec a
 	ld [hLYC], a
 	ld a, $fd
-	ld [$ffaf], a
+	ld [hLCDCMask], a
 	call HandleInGameMenuSelection
 	ld a, [wInGameMenuIndex]
 	and a
@@ -11481,7 +11479,7 @@ HandleInGameMenu: ; 0x86d7
 	ld [hLYC], a
 	ld [hLastLYC], a
 	ld a, $ff
-	ld [$ffaf], a
+	ld [hLCDCMask], a
 	ld a, [hGameBoyColorFlag]
 	and a
 	jr nz, .asm_8778
@@ -12707,6 +12705,7 @@ Func_8ee0: ; 0x8ee0
 	cp l
 	ret
 
+Data_8f06:
 	dr $8f06, $a000
 
 PokedexCharactersGfx: ; 0xa000
@@ -12726,7 +12725,7 @@ TitlescreenFunctions: ; 0xc004
 
 FadeInTitlescreen: ; 0xc00e
 	ld a, $43
-	ld [$ff9e], a
+	ld [hLCDC], a
 	ld a, $e4
 	ld [wd80c], a
 	ld a, $d2
@@ -12734,8 +12733,8 @@ FadeInTitlescreen: ; 0xc00e
 	ld a, $e1
 	ld [wd80e], a
 	xor a
-	ld [hBoardXShift], a
-	ld [hBoardYShift], a
+	ld [hSCX], a
+	ld [hSCY], a
 	ld hl, TitlescreenFadeInGfxPointers
 	ld a, [hGameBoyColorFlag]
 	call LoadVideoData
@@ -13194,15 +13193,15 @@ OptionsScreenFunctions: ; 0xc34e
 
 Func_c35a: ; 0xc35a
 	ld a, $47
-	ld [$ff9e], a
+	ld [hLCDC], a
 	ld a, $e4
 	ld [wd80c], a
 	ld [wd80d], a
 	ld a, $d2
 	ld [wd80e], a
 	xor a
-	ld [hBoardXShift], a
-	ld [hBoardYShift], a
+	ld [hSCX], a
+	ld [hSCY], a
 	ld hl, OptionsScreenVideoDataPointers
 	ld a, [hGameBoyColorFlag]
 	call LoadVideoData
@@ -13314,7 +13313,7 @@ Func_c447: ; 0xc447
 	cp $1
 	jr nz, .asm_c477
 	call ClearOAMBuffer
-	ld hl, $ff9e
+	ld hl, hLCDC
 	set 3, [hl]
 	ld a, $4
 	ld [wScreenState], a
@@ -13409,7 +13408,7 @@ Func_c506: ; 0xc506
 	ld de, $0001
 	call PlaySoundEffect
 	call ClearOAMBuffer
-	ld hl, $ff9e
+	ld hl, hLCDC
 	res 3, [hl]
 	ld hl, wKeyConfigBallStart
 	ld de, $a244
@@ -14353,29 +14352,29 @@ Func_ca8f: ; 0xca8f
 
 Func_cb14: ; 0xcb14
 	ld a, $43
-	ld [$ff9e], a
+	ld [hLCDC], a
 	ld a, $e0
 	ld [wd80c], a
 	ld a, $e1
 	ld [wd80d], a
 	ld [wd80e], a
 	xor a
-	ld [hBoardXShift], a
-	ld [$ffab], a
-	ld [hBoardYShift], a
-	ld [$ffad], a
+	ld [hSCX], a
+	ld [hNextFrameHBlankSCX], a
+	ld [hSCY], a
+	ld [hNextFrameHBlankSCY], a
 	ld a, $e
 	ld [hLYC], a
 	ld [hLastLYC], a
 	ld a, $82
-	ld [$ffa9], a
-	ld [$ffaa], a
+	ld [hNextLYCSub], a
+	ld [hLYCSub], a
 	ld hl, hSTAT
 	set 6, [hl]
 	ld hl, rIE
 	set 1, [hl]
 	ld a, $3
-	ld [$ffb0], a
+	ld [hHBlankRoutine], a
 	ld a, [hGameBoyColorFlag]
 	and a
 	jr z, .asm_cb51
@@ -14397,7 +14396,7 @@ Func_cb14: ; 0xcb14
 	ld a, [wHighScoresStage]
 	and a
 	jr z, .asm_cb7f
-	ld hl, $ff9e
+	ld hl, hLCDC
 	set 3, [hl]
 .asm_cb7f
 	call Func_b66
@@ -15433,7 +15432,7 @@ Func_d2cb: ; 0xd2cb
 	xor a
 	call Func_d317
 	pop hl
-	ld bc, hBoardYShift
+	ld bc, hSCY
 	add hl, bc
 	pop bc
 	dec b
@@ -15555,7 +15554,7 @@ Func_d361: ; 0xd361
 	xor a
 	call Func_d3ad
 	pop hl
-	ld bc, hBoardYShift
+	ld bc, hSCY
 	add hl, bc
 	pop bc
 	dec b
@@ -15760,8 +15759,8 @@ Func_d4cf: ; 0xd4cf
 	xor a
 	ld [hWY], a
 	ld a, $2
-	ld [hBoardXShift], a
-	ld hl, $ff9e
+	ld [hSCX], a
+	ld hl, hLCDC
 	set 5, [hl]
 	ld b, $27
 .asm_d508
@@ -15775,7 +15774,7 @@ Func_d4cf: ; 0xd4cf
 	dec [hl]
 	dec [hl]
 	dec [hl]
-	ld hl, hBoardXShift
+	ld hl, hSCX
 	inc [hl]
 	inc [hl]
 	inc [hl]
@@ -15785,8 +15784,8 @@ Func_d4cf: ; 0xd4cf
 	dec b
 	jr nz, .asm_d508
 	xor a
-	ld [hBoardXShift], a
-	ld hl, $ff9e
+	ld [hSCX], a
+	ld hl, hLCDC
 	res 5, [hl]
 	set 3, [hl]
 	ld a, $1
@@ -15802,8 +15801,8 @@ Func_d4cf: ; 0xd4cf
 	xor a
 	ld [hWY], a
 	ld a, $a0
-	ld [hBoardXShift], a
-	ld hl, $ff9e
+	ld [hSCX], a
+	ld hl, hLCDC
 	set 5, [hl]
 	res 3, [hl]
 	ld b, $27
@@ -15817,7 +15816,7 @@ Func_d4cf: ; 0xd4cf
 	inc [hl]
 	inc [hl]
 	inc [hl]
-	ld hl, hBoardXShift
+	ld hl, hSCX
 	dec [hl]
 	dec [hl]
 	dec [hl]
@@ -15827,8 +15826,8 @@ Func_d4cf: ; 0xd4cf
 	dec b
 	jr nz, .asm_d551
 	xor a
-	ld [hBoardXShift], a
-	ld hl, $ff9e
+	ld [hSCX], a
+	ld hl, hLCDC
 	res 5, [hl]
 	xor a
 	ld [wHighScoresStage], a
@@ -15837,11 +15836,11 @@ Func_d4cf: ; 0xd4cf
 
 Func_d57b: ; 0xd57b
 	ld a, $f0
-	ld [hBoardYShift], a
+	ld [hSCY], a
 	xor a
-	ld [$ffab], a
+	ld [hNextFrameHBlankSCX], a
 	ld a, $10
-	ld [$ffad], a
+	ld [hNextFrameHBlankSCY], a
 	rst AdvanceFrame
 	ld a, BANK(HighScoresTilemap)
 	ld hl, HighScoresTilemap
@@ -15866,9 +15865,9 @@ Func_d57b: ; 0xd57b
 	ld b, $10
 .asm_d5c1
 	push bc
-	ld hl, hBoardYShift
+	ld hl, hSCY
 	inc [hl]
-	ld hl, $ffad
+	ld hl, hNextFrameHBlankSCY
 	dec [hl]
 	rst AdvanceFrame
 	pop bc
@@ -15880,9 +15879,9 @@ Func_d5d0: ; 0xd5d0
 	ld b, $10
 .asm_d5d2
 	push bc
-	ld hl, hBoardYShift
+	ld hl, hSCY
 	dec [hl]
-	ld hl, $ffad
+	ld hl, hNextFrameHBlankSCY
 	inc [hl]
 	rst AdvanceFrame
 	pop bc
@@ -15911,9 +15910,9 @@ Func_d5d0: ; 0xd5d0
 	ld bc, $0009
 	call Func_d68a
 	xor a
-	ld [hBoardYShift], a
-	ld [$ffab], a
-	ld [$ffad], a
+	ld [hSCY], a
+	ld [hNextFrameHBlankSCX], a
+	ld [hNextFrameHBlankSCY], a
 	ret
 
 Func_d626: ; 0xd626
@@ -16029,15 +16028,15 @@ FieldSelectScreenFunctions: ; 0xd6d7
 
 LoadFieldSelectScreen: ; 0xd6dd
 	ld a, $43
-	ld [$ff9e], a
+	ld [hLCDC], a
 	ld a, $e4
 	ld [wd80c], a
 	ld a, $d2
 	ld [wd80d], a
 	ld [wd80e], a
 	xor a
-	ld [hBoardXShift], a
-	ld [hBoardYShift], a
+	ld [hSCX], a
+	ld [hSCY], a
 	ld hl, FieldSelectGfxPointers
 	ld a, [hGameBoyColorFlag]
 	call LoadVideoData
@@ -16239,7 +16238,7 @@ PinballGameScreenFunctions: ; 0xd857
 Func_d861: ; 0xd861
 	xor a
 	ld [wd908], a
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba InitializeStage
 	call Func_30e8
 	ld a, $1
@@ -16251,7 +16250,7 @@ Func_d861: ; 0xd861
 
 Func_d87f: ; 0xd87f
 	ld a, $67
-	ld [$ff9e], a
+	ld [hLCDC], a
 	ld a, $e4
 	ld [wd80c], a
 	ld a, $e1
@@ -16259,32 +16258,32 @@ Func_d87f: ; 0xd87f
 	ld a, $e4
 	ld [wd80e], a
 	ld a, [wd7ab]
-	ld [hBoardXShift], a
+	ld [hSCX], a
 	xor a
-	ld [hBoardYShift], a
+	ld [hSCY], a
 	ld a, $7
 	ld [hWX], a
 	ld a, $83
 	ld [hLYC], a
 	ld [hLastLYC], a
 	ld a, $ff
-	ld [$ffaf], a
+	ld [hLCDCMask], a
 	ld hl, hSTAT
 	set 6, [hl]
 	ld hl, rIE
 	set 1, [hl]
 	ld a, $1
-	ld [$ffb0], a
-	ld [$ff8a], a
+	ld [hHBlankRoutine], a
+	ld [hFarCallTempA], a
 	callba StartBallForStage
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba LoadStageCollisionAttributes
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_e6c2
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_ed5e
 	call ClearOAMBuffer
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_84b7
 	ld a, [wd849]
 	and a
@@ -16312,7 +16311,7 @@ Func_d909: ; 0xd909
 	call HandleTilts
 	ld a, [wCurrentStage]
 	bit 0, a
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	ld a, Bank(HandleFlippers)
 	ld hl, HandleFlippers
 	call nz, BankSwitch  ; only perform flipper routines on the lower-half of stages
@@ -16332,7 +16331,7 @@ Func_d909: ; 0xd909
 	jr z, .didntPressMenuKey
 	ld de, $034c
 	call PlaySoundEffect
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba HandleInGameMenu
 	jp z, SaveGame
 .didntPressMenuKey
@@ -16379,19 +16378,19 @@ Func_d909: ; 0xd909
 	call SetBallVelocity
 .asm_d9a2
 	call MoveBallPosition
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_ece9
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_84b7
 	call Func_33e3
 	ld a, [wd5cb]
 	and a
 	jr nz, .asm_d9e9
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_85c7
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_8650
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_8645
 	call Func_dba9
 	call Func_dc7c
@@ -16399,7 +16398,7 @@ Func_d909: ; 0xd909
 .asm_d9e9
 	ld a, [wd57d]
 	and a
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	ld a, Bank(Func_86a4)
 	ld hl, Func_86a4
 	call nz, BankSwitch
@@ -16448,14 +16447,14 @@ Func_da36: ; 0xda36
 	call HandleTilts
 	ld a, [wCurrentStage]
 	bit 0, a
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	ld a, Bank(HandleFlippers)
 	ld hl, HandleFlippers
 	call nz, BankSwitch
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_84b7
 	call Func_33e3
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_85c7
 	ld a, [wd5ca]
 	and a
@@ -16682,7 +16681,7 @@ Func_dc00: ; 0xdc00
 	ld a, [wCurrentStage]
 	bit 0, a
 	ret z
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_14707
 	ret
 
@@ -16953,7 +16952,7 @@ Func_ddfd: ; 0xddfd
 	ld a, [wSpecialMode]
 	and a
 	jr nz, .asm_de14
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_10157
 	jr .asm_de40
 
@@ -16964,7 +16963,7 @@ Func_ddfd: ; 0xddfd
 	ld [wd604], a
 	ld a, $1e
 	ld [wd607], a
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_10ac8
 	jr .asm_de40
 
@@ -16973,7 +16972,7 @@ Func_ddfd: ; 0xddfd
 	ld [wd604], a
 	ld a, $1e
 	ld [wd607], a
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_3022b
 .asm_de40
 	ld a, [wd7ad]
@@ -17060,7 +17059,7 @@ Func_ded6: ; 0xded6
 	ld a, [wSpecialMode]
 	and a
 	jr nz, .asm_deec
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_10157
 	ret
 
@@ -17071,7 +17070,7 @@ Func_ded6: ; 0xded6
 	ld [wd604], a
 	ld a, $1e
 	ld [wd607], a
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_10ac8
 	ret
 
@@ -17080,7 +17079,7 @@ Func_ded6: ; 0xded6
 	ld [wd604], a
 	ld a, $1e
 	ld [wd607], a
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_3022b
 	ret
 
@@ -17208,7 +17207,7 @@ Func_dfe2: ; 0xdfe2
 	xor a
 .asm_e002
 	ld [wMeowthStageScore], a
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_24fa3
 .asm_e00f
 	ld a, [wd4ad]
@@ -17292,7 +17291,7 @@ Func_e08b: ; 0xe08b
 	xor a
 .asm_e0ab
 	ld [wd793], a
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_262f4
 .asm_e0b8
 	ld a, [wd4ad]
@@ -17822,9 +17821,9 @@ Func_e4a1: ; 0xe4a1
 	and a
 	ret z
 	ld hl, Data_e50a
-	ld a, [hBoardXShift]
+	ld a, [hSCX]
 	ld d, a
-	ld a, [hBoardYShift]
+	ld a, [hSCY]
 	ld e, a
 	ld a, [hli]
 	sub d
@@ -17855,9 +17854,9 @@ Func_e4a1: ; 0xe4a1
 .asm_e4d6
 	call LoadOAMData
 	pop hl
-	ld a, [hBoardXShift]
+	ld a, [hSCX]
 	ld d, a
-	ld a, [hBoardYShift]
+	ld a, [hSCY]
 	ld e, a
 	ld a, [hli]
 	sub d
@@ -18101,7 +18100,7 @@ Func_e674: ; 0xe674
 	xor a
 	ld [wd548], a
 	ld [wd803], a
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_84b7
 	call Func_926
 	pop af
@@ -18151,7 +18150,7 @@ Func_e6c2: ; 0xe6c2
 	call LoadVideoData
 	xor a
 	ld [wd7f2], a
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_8471
 	ret
 
@@ -18505,7 +18504,7 @@ Func_ece9: ; 0xece9
 .asm_ed2e
 	ld a, $1
 	ld [wd4ae], a
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_dc49
 	ret
 
@@ -18571,11 +18570,11 @@ Func_ed5e: ; 0xed5e
 	ld a, [hl]
 	ld hl, wd79f
 	sub [hl]
-	ld [hBoardXShift], a
+	ld [hSCX], a
 	xor a
 	ld hl, wd7a0
 	sub [hl]
-	ld [hBoardYShift], a
+	ld [hSCY], a
 	ret
 
 Func_ed8e: ; 0xed8e
@@ -18600,11 +18599,11 @@ Func_ed8e: ; 0xed8e
 	call HandleTilts
 	ld a, [wCurrentStage]
 	bit 0, a
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	ld a, $3
 	ld hl, HandleFlippers
 	call nz, BankSwitch
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_84b7
 	call Func_33e3
 	call Func_926
@@ -18873,14 +18872,14 @@ Func_ef83: ; 0xef83
 	call Func_310a
 	rst AdvanceFrame
 	ld a, $0
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba PlayPikachuSoundClip
 	ld a, $1
 	ld [wd85d], a
 	ret
 
 Func_efa7: ; 0xefa7
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_30164
 	ret
 
@@ -19004,7 +19003,7 @@ UpgradeBallBlueField: ; 0xf040
 	ld de, $0f4d
 	call PlaySoundEffect
 	ld bc, TenThousandPoints
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_8588
 	ld bc, $100
 	ld de, $0000
@@ -19021,7 +19020,7 @@ UpgradeBallBlueField: ; 0xf040
 	ld de, FieldMultiplierSpecialBonusText
 	call LoadTextHeader
 .asm_f0b0
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_155bb
 	ret
 
@@ -19084,18 +19083,18 @@ Func_f0c1: ; 0xf0c1
 	call Func_f14a
 	ld a, c
 	cp b
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	ld a, Bank(Func_30164)
 	ld hl, Func_30164
 	call nz, BankSwitch
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_16f95
 	ld a, [wd60c]
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_f154 ; no need for BankSwitch here...
 	ld a, [wd60d]
 	add $14
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_f154 ; no need for BankSwitch here...
 	ret
 
@@ -19112,23 +19111,17 @@ Func_f154: ; 0xf154
 	ld a, [wCurrentStage]
 	call CallInFollowingTable
 CallTable_f15a: ; 0xf15a
-	dw Func_16f28
-	db Bank(Func_16f28), $00
+	padded_dab Func_16f28
 
-	dw Func_16f28
-	db Bank(Func_16f28), $00
+	padded_dab Func_16f28
 
-	dw Func_16f28
-	db Bank(Func_16f28), $00
+	padded_dab Func_16f28
 
-	dw Func_16f28
-	db Bank(Func_16f28), $00
+	padded_dab Func_16f28
 
-	dw Func_1d5f2
-	db Bank(Func_1d5f2), $00
+	padded_dab Func_1d5f2
 
-	dw Func_1d5f2
-	db Bank(Func_1d5f2), $00
+	padded_dab Func_1d5f2
 
 Func_f172: ; 0xf172
 	ld a, $1
@@ -19492,7 +19485,7 @@ Func_f533: ; 0xf533
 	dec a
 	ld [hLYC], a
 	ld a, $fd
-	ld [$ffaf], a
+	ld [hLCDCMask], a
 	call Func_f5a0
 	ld a, $90
 	ld [hWY], a
@@ -19500,7 +19493,7 @@ Func_f533: ; 0xf533
 	ld [hLYC], a
 	ld [hLastLYC], a
 	ld a, $ff
-	ld [$ffaf], a
+	ld [hLCDCMask], a
 	call Func_30e8
 	ret
 
@@ -20302,7 +20295,7 @@ Func_10000: ; 0x10000
 	jp z, Func_10a95
 	cp $2
 	jr nz, .asm_10021
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_301ce
 	ret
 
@@ -20311,26 +20304,20 @@ Func_10000: ; 0x10000
 	call CallInFollowingTable
 CallTable_10027: ; 0x10027
 	; STAGE_RED_FIELD_TOP
-	dw Func_20000
-	db Bank(Func_20000), $00
+	padded_dab Func_20000
 
 	; STAGE_RED_FIELD_BOTTOM
-	dw Func_20000
-	db Bank(Func_20000), $00
+	padded_dab Func_20000
 
-	dw Func_20000
-	db Bank(Func_20000), $00
+	padded_dab Func_20000
 
-	dw Func_20000
-	db Bank(Func_20000), $00
+	padded_dab Func_20000
 
 	; STAGE_BLUE_FIELD_TOP
-	dw Func_202bc
-	db Bank(Func_202bc), $00
+	padded_dab Func_202bc
 
 	; STAGE_BLUE_FIELD_BOTTOM
-	dw Func_202bc
-	db Bank(Func_202bc), $00
+	padded_dab Func_202bc
 
 StartCatchEmMode: ; 0x1003f
 	ld a, [wInSpecialMode]  ; current game mode?
@@ -20434,9 +20421,9 @@ StartCatchEmMode: ; 0x1003f
 	ld c, a
 	ld a, [hl]
 	ld b, a
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba StartTimer
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba InitBallSaverForCatchEmMode
 	call Func_10696
 	call Func_3579
@@ -20513,7 +20500,7 @@ Func_10157: ; 0x10157
 	ld [wd5b6], a
 	ld [wNumMonHits], a
 	call Func_10488
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_86d2
 	ld a, [wCurrentStage]
 	rst JumpTable  ; calls JumpToFuncInTable
@@ -21117,7 +21104,7 @@ CapturePokemon: ; 0x1052d
 	ld a, $1
 	ld [wd548], a
 	ld [wd549], a
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_dc00
 	call Func_10157
 	ld de, $0001
@@ -21127,7 +21114,7 @@ CapturePokemon: ; 0x1052d
 	jr nc, .asm_105d1
 	ld c, $a
 	call Func_e55
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	ld a, Bank(Func_30164)
 	ld hl, Func_30164
 	call z, BankSwitch
@@ -21397,7 +21384,7 @@ Func_107b0: ; 0x107b0
 	xor a
 	ld [wd604], a
 	ld [wIndicatorStates + 4], a
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_16425
 	ret
 
@@ -21481,7 +21468,7 @@ Func_10825: ; 0x10825
 
 Func_10848: ; 0x10848
 	ld bc, OneHundredPoints
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_8588
 	call Func_30e8
 	call Func_30db
@@ -21538,20 +21525,20 @@ Func_10871: ; 0x10871
 	ld a, [wCurrentStage]
 	bit 0, a
 	jr nz, .asm_108d3
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba LoadStageCollisionAttributes
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_159f4
 	ret
 
 .asm_108d3
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_14135
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_10184
 	ld a, [hGameBoyColorFlag]
 	and a
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	ld a, Bank(Func_102bc)
 	ld hl, Func_102bc
 	call nz, BankSwitch
@@ -21565,10 +21552,10 @@ Func_108f5: ; 0x108f5
 	ld a, [wCurrentStage]
 	bit 0, a
 	ret z
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_14135
 	call Func_10432
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_30253
 	ld a, Bank(StageSharedBonusSlotGlowGfx)
 	ld hl, StageSharedBonusSlotGlowGfx
@@ -21584,7 +21571,7 @@ Func_108f5: ; 0x108f5
 	ld a, $4
 	call Func_10aa
 	ld a, [wd624]
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_174d4
 	ld hl, Data_1097d
 	ld a, $4
@@ -21639,22 +21626,22 @@ Func_1098c: ; 0x1098c
 	jr nz, .loop
 	xor a
 	ld [wRightAlleyCount], a
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_1f2ed
 	ld de, $0002
 	call PlaySong
 	ld a, [wCurrentStage]
 	bit 0, a
 	ret z
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_1c2cb
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	ld a, $4
 	ld hl, Func_10184
 	call BankSwitch
 	ld a, [hGameBoyColorFlag]
 	and a
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	ld a, Bank(Func_102bc)
 	ld hl, Func_102bc
 	call nz, BankSwitch
@@ -21663,15 +21650,15 @@ Func_1098c: ; 0x1098c
 Func_109fc: ; 0x109fc
 	call Func_107a5
 	call Func_107c2
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_1f2ff
 	ld a, [wCurrentStage]
 	bit 0, a
 	ret z
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_1c2cb
 	call Func_10432
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_30253
 	ld a, BANK(StageSharedBonusSlotGlowGfx)
 	ld hl, StageSharedBonusSlotGlowGfx
@@ -21687,7 +21674,7 @@ Func_109fc: ; 0x109fc
 	ld a, $4
 	call Func_10aa
 	ld a, [wd624]
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_174d4
 	ld hl, Data_10a88
 	ld a, $4
@@ -21705,26 +21692,20 @@ Func_10a95: ; 0x19a95
 	call CallInFollowingTable
 PointerTable_10a9b: ; 0x10a9b
 	; STAGE_RED_FIELD_TOP
-	dw Func_20581
-	db Bank(Func_20581), $00
+	padded_dab Func_20581
 
 	; STAGE_RED_FIELD_BOTTOM
-	dw Func_20581
-	db Bank(Func_20581), $00
+	padded_dab Func_20581
 
-	dw Func_20581
-	db Bank(Func_20581), $00
+	padded_dab Func_20581
 
-	dw Func_20581
-	db Bank(Func_20581), $00
+	padded_dab Func_20581
 
 	; STAGE_BLUE_FIELD_TOP
-	dw Func_20bae
-	db Bank(Func_20bae), $00
+	padded_dab Func_20bae
 
 	; STAGE_BLUE_FIELD_BOTTOM
-	dw Func_20bae
-	db Bank(Func_20bae), $00
+	padded_dab Func_20bae
 
 Func_10ab3: ; 0x10ab3
 	ld a, [wInSpecialMode]
@@ -21761,7 +21742,7 @@ Func_10ac8: ; 0x10ac8
 	ld [wd551], a
 	ld [wd554], a
 	call Func_10488
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_86d2
 	ld a, [wCurrentStage]
 	rst JumpTable  ; calls JumpToFuncInTable
@@ -22063,7 +22044,7 @@ Func_10cb7: ; 0x10cb7
 	dec a
 	ld [hLYC], a
 	ld a, $fd
-	ld [$ffaf], a
+	ld [hLCDCMask], a
 	call Func_10bea
 	ld a, $86
 	ld [hWY], a
@@ -22071,7 +22052,7 @@ Func_10cb7: ; 0x10cb7
 	ld [hLYC], a
 	ld [hLastLYC], a
 	ld a, $ff
-	ld [$ffaf], a
+	ld [hLCDCMask], a
 	ld a, [hGameBoyColorFlag]
 	and a
 	jr nz, .asm_10cee
@@ -22141,7 +22122,7 @@ Func_10d1d: ; 0x10d1d
 	ld c, a
 	ld a, [hl]
 	ld b, a
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba StartTimer
 	ld a, [wCurrentCatchEmMon]
 	ld c, a
@@ -22222,7 +22203,7 @@ Func_10d1d: ; 0x10d1d
 	inc de
 	dec b
 	jr nz, .asm_10dc0
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba InitBallSaverForCatchEmMode
 	call Func_10b3f
 	call Func_3579
@@ -22318,7 +22299,7 @@ Func_10e0a: ; 0x10e0a
 
 Func_10e8b: ; 0x10e8b
 	ld bc, TenThousandPoints
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_8588
 	ld bc, $0100
 	ld de, $0000
@@ -22383,13 +22364,13 @@ Func_10ebb: ; 0x10ebb
 	ld de, $8200
 	ld bc, $00e0
 	call LoadOrCopyVRAMData
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_14135
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_10184
 	ld a, [hGameBoyColorFlag]
 	and a
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	ld a, Bank(Func_102bc)
 	ld hl, Func_102bc
 	call nz, BankSwitch
@@ -22437,11 +22418,11 @@ Func_10fe3: ; 0x10fe3
 	ld a, [wCurrentStage]
 	bit 0, a
 	jp z, Func_10aff
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_14135
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_16425
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_30253
 	ld a, BANK(StageSharedBonusSlotGlowGfx)
 	ld hl, StageSharedBonusSlotGlowGfx + $60
@@ -22461,7 +22442,7 @@ Func_10fe3: ; 0x10fe3
 	ld a, BANK(Data_10958)
 	call Func_10aa
 	ld a, [wd624]
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_174d4
 	ld hl, Data_1097d
 	ld a, BANK(Data_1097d)
@@ -22506,7 +22487,7 @@ Func_11061: ; 0x11061
 	jr nz, .asm_11085
 	xor a
 	ld [wLeftAlleyCount], a
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_1f2ed
 	ld a, $2
 	ld [wd7ad], a
@@ -22529,13 +22510,13 @@ Func_11061: ; 0x11061
 	ld de, $8200
 	ld bc, $00e0
 	call LoadOrCopyVRAMData
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_1c2cb
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_10184
 	ld a, [hGameBoyColorFlag]
 	and a
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	ld a, Bank(Func_102bc)
 	ld hl, Func_102bc
 	call nz, BankSwitch
@@ -22580,16 +22561,16 @@ Func_11195: ; 0x11195
 	ld [wd643], a
 	call Func_107a5
 	call Func_107c2
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_1f2ff
 	ld a, [wCurrentStage]
 	bit 0, a
 	jp z, Func_1120e
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_1c2cb
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_1e8f6
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_30253
 	ld a, Bank(StageSharedBonusSlotGlowGfx)
 	ld hl, StageSharedBonusSlotGlowGfx + $60
@@ -22609,7 +22590,7 @@ Func_11195: ; 0x11195
 	ld a, BANK(Data_10a63)
 	call Func_10aa
 	ld a, [wd624]
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_174d4
 	ld hl, Data_10a88
 	ld a, BANK(Data_10a88)
@@ -24993,7 +24974,7 @@ Func_14091: ; 0x14091
 	ld a, [wCurrentStage]
 	bit 0, a
 	ret nz
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba LoadStageCollisionAttributes
 	call Func_159f4
 	ret
@@ -25071,13 +25052,13 @@ Func_1414b: ; 0x1414b
 	jp Func_14210
 
 .asm_14165
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_141f2
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_10362
 	ld a, [hGameBoyColorFlag]
 	and a
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	ld a, Bank(Func_10301)
 	ld hl, Func_10301
 	call nz, BankSwitch
@@ -25161,11 +25142,11 @@ Func_14210: ; 0x14210
 	ld [hli], a
 	dec b
 	jr nz, .asm_14215
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_10184
 	ld a, [hGameBoyColorFlag]
 	and a
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	ld a, Bank(Func_102bc)
 	ld hl, Func_102bc
 	call nz, BankSwitch
@@ -25241,7 +25222,7 @@ Func_14282: ; 0x14282
 
 Func_142b3: ; 0x142b3
 	push af
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_10611
 	pop af
 	dec a
@@ -25291,19 +25272,19 @@ Func_142fc: ; 0x142fc
 	ld a, [wd4c8]
 	and a
 	jr nz, .asm_1430e
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba LoadBallGfx
 	jr .asm_14328
 
 .asm_1430e
 	cp $1
 	jr nz, .asm_1431e
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba LoadMiniBallGfx
 	jr .asm_14328
 
 .asm_1431e
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_dd62
 .asm_14328
 	ld a, [hGameBoyColorFlag]
@@ -25356,7 +25337,7 @@ Func_14377: ; 0x14377
 	jr z, .asm_14393
 	ld a, [wd498]
 	add $15
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_30256
 	ret
 
@@ -25365,12 +25346,12 @@ Func_14377: ; 0x14377
 	and a
 	jr z, .asm_143a6
 	ld a, $1a
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_30256
 	ret
 
 .asm_143a6
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_30253
 	ret
 
@@ -25381,7 +25362,7 @@ Func_14377: ; 0x14377
 	ld a, [wd54d]
 	cp $3
 	jr nz, .asm_143c9
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_30253
 	ret
 
@@ -25393,7 +25374,7 @@ Func_14377: ; 0x14377
 	ld a, [wd55a]
 	add $12
 .asm_143d6
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_30256
 	ret
 
@@ -25665,10 +25646,10 @@ Func_1460e: ; 0x1460e
 	call Func_146a9
 	call Func_174ea
 	call Func_148cf
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_30188
 	ld a, $0
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_10000
 	ret
 
@@ -25692,10 +25673,10 @@ Func_14652: ; 0x14652
 	call Func_14733
 	call Func_146a2
 	call Func_174d0
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_30188
 	ld a, $0
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_10000
 	ret
 
@@ -25867,7 +25848,7 @@ Func_147aa: ; 0x147aa
 	add $4
 	call Func_149f5
 	ld a, $8
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_10000
 	ld a, [wRightMapMoveCounter]
 	cp $3
@@ -25884,7 +25865,7 @@ Func_147aa: ; 0x147aa
 	ld a, [wLeftMapMoveCounter]
 	call Func_149f5
 	ld a, $7
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_10000
 	ld a, [wLeftMapMoveCounter]
 	cp $3
@@ -26038,14 +26019,14 @@ Func_14920: ; 0x14920
 	jr nc, .asm_14937
 	ld c, $a
 	call Func_e55
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	ld a, Bank(Func_30164)
 	ld hl, Func_30164
 	call z, BankSwitch
 .asm_14937
 	ld a, $1
 	ld [wd55a], a
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba StartMapMoveMode
 	ret
 
@@ -26055,14 +26036,14 @@ Func_14947: ; 0x14947
 	jr nc, .asm_1495e
 	ld c, $a
 	call Func_e55
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	ld a, Bank(Func_30164)
 	ld hl, Func_30164
 	call z, BankSwitch
 .asm_1495e
 	xor a
 	ld [wd55a], a
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba StartMapMoveMode
 	ret
 
@@ -26074,7 +26055,7 @@ Func_1496d: ; 0x1496d
 	ld a, $2
 	ld [wd7eb], a
 	ld bc, FiveHundredMillionPoints
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba AddBCDScore
 	ld de, $000f
 	call PlaySoundEffect
@@ -26186,10 +26167,10 @@ Func_14d85: ; 0x14d85
 	sub $3
 	ld [wd4d7], a
 	ld a, $4
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_10000
 	ld bc, FiveHundredMillionPoints
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba AddBCDScore
 	ret
 
@@ -26235,7 +26216,7 @@ Func_14dea: ; 0x14dea
 	ld a, b
 	ld [wd50c], a
 	ld a, $c
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_10000
 	; fall through
 Func_14e10: ; 0x14e10
@@ -26298,7 +26279,7 @@ Func_14e10: ; 0x14e10
 	and a
 	ret z
 	ld bc, OneHundredBillionPoints
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba AddBCDScore
 	ld hl, wd62d
 	call Func_e4a
@@ -26387,7 +26368,7 @@ Func_151cb: ; 0x151cb
 	and a
 	ret nz
 	ld bc, OneHundredMillionPoints
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba AddBCDScore
 	ld hl, wd50f
 	ld a, [hli]
@@ -26402,7 +26383,7 @@ Func_151cb: ; 0x151cb
 	ld a, $80
 	ld [wd514], a
 	ld bc, FourHundredMillionPoints
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba AddBCDScore
 	ld de, $0009
 	call PlaySoundEffect
@@ -26572,7 +26553,7 @@ Func_1535d: ; 0x1535d
 	ld [wSecondaryLeftAlleyTrigger], a
 	call Func_159c9
 	ld a, $b
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_10000
 	ld a, [wd5f8]
 	sub $e
@@ -26585,7 +26566,7 @@ Func_1535d: ; 0x1535d
 	and a
 	ret nz
 	ld bc, OneHundredMillionPoints
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba AddBCDScore
 	ld hl, wd5f9
 	ld a, [hli]
@@ -26608,7 +26589,7 @@ Func_1535d: ; 0x1535d
 	ld a, $e
 	ld [wBallTypeCounter + 1], a
 	ld bc, FourHundredMillionPoints
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba AddBCDScore
 	ld a, [wBallType]
 	cp MASTER_BALL
@@ -26635,7 +26616,7 @@ Func_1535d: ; 0x1535d
 	ld de, $0f4d
 	call PlaySoundEffect
 	ld bc, TenThousandPoints
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_8588
 	ld bc, $0100
 	ld de, $0000
@@ -26904,7 +26885,7 @@ Func_1581f: ; 0x1581f
 	xor a
 	ld [wd51f], a
 	ld bc, FiftyBillionPoints
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba AddBCDScore
 	ld a, [wd520]
 	sub $11
@@ -26948,7 +26929,7 @@ Func_1587c: ; 0x1587c
 	xor a
 	ld [wLeftAlleyTrigger], a
 	ld a, $1
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_10000
 	ret c
 	ld a, [wLeftAlleyCount]
@@ -26964,7 +26945,7 @@ Func_1587c: ; 0x1587c
 	and $1
 	or $6
 	ld [wStageCollisionState], a
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba LoadStageCollisionAttributes
 	call Func_159f4
 	ret
@@ -26978,7 +26959,7 @@ Func_158c0: ; 0x158c0
 	xor a
 	ld [wLeftAlleyTrigger], a
 	ld a, $1
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_10000
 	ret c
 	ld a, [wLeftAlleyCount]
@@ -26994,7 +26975,7 @@ Func_158c0: ; 0x158c0
 	and $1
 	or $6
 	ld [wStageCollisionState], a
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba LoadStageCollisionAttributes
 	call Func_159f4
 	ret
@@ -27008,7 +26989,7 @@ Func_15904: ; 0x15904
 	xor a
 	ld [wSecondaryLeftAlleyTrigger], a
 	ld a, $3
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_10000
 	ret
 
@@ -27042,7 +27023,7 @@ Func_15944: ; 0x15944
 	xor a
 	ld [wRightAlleyTrigger], a
 	ld a, $2
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_10000
 	ret c
 	ld a, [wRightAlleyCount]
@@ -27082,7 +27063,7 @@ Func_15990: ; 0x15990
 	xor a
 	ld [wRightAlleyTrigger], a
 	ld a, $2
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_10000
 	ret c
 	ld a, [wRightAlleyCount]
@@ -27113,7 +27094,7 @@ Func_159c9: ; 0x159c9
 	ld [wStageCollisionState], a
 	ld a, $ff
 	ld [wd7ad], a
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba LoadStageCollisionAttributes
 	call Func_159f4
 	ld a, $1
@@ -27122,7 +27103,7 @@ Func_159c9: ; 0x159c9
 	ret
 
 Func_159f4: ; 0x159f4
-	ld a, [$ff9e]
+	ld a, [hLCDC]
 	bit 7, a
 	jr z, .asm_15a13
 	ld a, [wd7f2]
@@ -27177,7 +27158,7 @@ Func_15e93: ; 0x15e93
 	xor a
 	ld [wd4fb], a
 	ld bc, OneMillionPoints
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba AddBCDScore
 	ld de, $0005
 	call PlaySoundEffect
@@ -27227,7 +27208,7 @@ Func_15e93: ; 0x15e93
 	xor a
 .asm_15f11
 	ld [wRareMonsFlag], a
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba StartCatchEmMode
 .noCatchEmMode
 	ld hl, wd62a
@@ -27235,7 +27216,7 @@ Func_15e93: ; 0x15e93
 	ret nc
 	ld c, $19
 	call Func_e55
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	ld a, Bank(Func_30164)
 	ld hl, Func_30164
 	call z, BankSwitch
@@ -27262,7 +27243,7 @@ Func_15e93: ; 0x15e93
 	ld de, $0006
 	call PlaySoundEffect
 	ld a, $5
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_10000
 	ret
 
@@ -27376,7 +27357,7 @@ Func_160f0: ; 0x160f0
 	xor a
 	ld [wd5fe], a
 	ld bc, OneMillionPoints
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba AddBCDScore
 	ld de, $0021
 	call PlaySoundEffect
@@ -27407,14 +27388,14 @@ Func_160f0: ; 0x160f0
 	ld [wd600], a
 	cp $f
 	jr nz, .asm_1614f
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba LoadMiniBallGfx
 	ret
 
 .asm_1614f
 	cp $c
 	jr nz, .asm_1615e
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_dd62
 	ret
 
@@ -27430,7 +27411,7 @@ Func_160f0: ; 0x160f0
 .asm_1616d
 	cp $6
 	jr nz, .asm_1618e
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_10ab3
 	ld a, $1
 	ld [wd548], a
@@ -27444,14 +27425,14 @@ Func_160f0: ; 0x160f0
 .asm_1618e
 	cp $3
 	jr nz, .asm_1619d
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba LoadMiniBallGfx
 	ret
 
 .asm_1619d
 	and a
 	ret nz
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba LoadBallGfx
 	ld a, $2
 	ld [wBallYVelocity + 1], a
@@ -27630,14 +27611,14 @@ Func_16279: ; 0x16279
 	jr nz, .asm_162d4
 	ld de, $0021
 	call PlaySoundEffect
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba LoadMiniBallGfx
 	ret
 
 .asm_162d4
 	cp $f
 	jr nz, .asm_162e3
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_dd62
 	ret
 
@@ -27665,14 +27646,14 @@ Func_16279: ; 0x16279
 	ld [wd803], a
 	ld a, $8
 	ld [wd804], a
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba LoadMiniBallGfx
 	ret
 
 .asm_16317
 	cp $3
 	jr nz, .asm_16330
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba LoadBallGfx
 	ld a, $2
 	ld [wBallYVelocity + 1], a
@@ -27690,7 +27671,7 @@ Func_16279: ; 0x16279
 	call GenRandom
 	and $8
 	ld [wRareMonsFlag], a
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba StartCatchEmMode
 	xor a
 	ld [wd622], a
@@ -27700,7 +27681,7 @@ Func_16352: ; 0x16352
 	xor a
 	ld [wIndicatorStates + 4], a
 	ld a, $d
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_10000
 	jr nc, .asm_1636d
 	ld a, $1
@@ -27745,7 +27726,7 @@ Func_16352: ; 0x16352
 	ret
 
 .asm_163b3
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_ed8e
 	xor a
 	ld [wd608], a
@@ -27758,7 +27739,7 @@ Func_16352: ; 0x16352
 	ld a, [wd622]
 	cp $2
 	ret nz
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_10ab3
 	ld a, [wd7ad]
 	ld c, a
@@ -27851,7 +27832,7 @@ Func_164e3: ; 0x164e3
 .asm_16506
 	ld hl, wCurrentStage
 	bit 0, [hl]
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	ld a, Bank(Func_30256)
 	ld hl, Func_30256
 	call nz, BankSwitch
@@ -27919,7 +27900,7 @@ Func_1652d: ; 0x1652d
 Func_1658f: ; 0x1658f
 	ld a, [hGameBoyColorFlag]
 	and a
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	ld a, Bank(Func_f269)
 	ld hl, Func_f269
 	call nz, BankSwitch
@@ -27942,12 +27923,12 @@ Func_1658f: ; 0x1658f
 	call PlaySoundEffect
 	pop af
 	add $29  ; map billboard pictures start at the $29th entry in BillboardPicturePointers
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba LoadBillboardPicture
 	ld b, $20  ; number of frames to delay before the next map is shown
 .waitOnCurrentMap
 	push bc
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_eeee
 	ld hl, wKeyConfigBallStart
 	call IsKeyPressed
@@ -27959,10 +27940,10 @@ Func_1658f: ; 0x1658f
 
 .ballStartKeyPressed
 	pop bc
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_30253
 	ld bc, Data_2cd1
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_3118f
 	ld a, [wCurrentMap]
 	ld [wd4e3], a
@@ -28065,7 +28046,7 @@ Func_1669e: ; 0x1669e
 	call Func_310a
 	rst AdvanceFrame
 	ld a, $1
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba PlayPikachuSoundClip
 	ld a, $1
 	ld [wd85d], a
@@ -28078,7 +28059,7 @@ Func_1669e: ; 0x1669e
 	jr nc, .asm_166f0
 	ld c, $a
 	call Func_e55
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	ld a, Bank(Func_30164)
 	ld hl, Func_30164
 	call z, BankSwitch
@@ -28096,7 +28077,7 @@ Func_1669e: ; 0x1669e
 	ld a, $1
 	ld [wd549], a
 	ld bc, FiveBillionPoints
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba AddBCDScore
 	xor a
 	ld [wd51c], a
@@ -28177,7 +28158,7 @@ Func_16781: ; 0x16781
 	and a
 	jr nz, .asm_167c2
 	ld bc, FiveBillionPoints
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba AddBCDScore
 	ld a, [wd502]
 	xor $1
@@ -28187,7 +28168,7 @@ Func_16781: ; 0x16781
 	ld [wd503], a
 	call Func_16859
 	ld a, $6
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_10000
 	ret
 
@@ -28210,7 +28191,7 @@ Func_16781: ; 0x16781
 	and $fe
 	or c
 	ld [wStageCollisionState], a
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba LoadStageCollisionAttributes
 	call Func_159f4
 	ld de, $0007
@@ -28230,7 +28211,7 @@ Func_167ff: ; 0x167ff
 	and a
 	jr nz, .asm_1683e
 	ld bc, FiveBillionPoints
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba AddBCDScore
 	ld a, [wd502]
 	xor $1
@@ -28239,7 +28220,7 @@ Func_167ff: ; 0x167ff
 	ld [wd503], a
 	call Func_16878
 	ld a, $6
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_10000
 	ret
 
@@ -28386,7 +28367,7 @@ Func_16d9d: ; 016d9d
 	sub $21
 	jr nz, .asm_16ddc
 	ld a, $9
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_10000
 	ld a, [wd610]
 	cp $3
@@ -28402,7 +28383,7 @@ Func_16d9d: ; 016d9d
 
 .asm_16ddc
 	ld a, $a
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_10000
 	ld a, [wd611]
 	cp $3
@@ -28426,7 +28407,7 @@ Func_16d9d: ; 016d9d
 	jr nc, .asm_16e24
 	ld c, $19
 	call Func_e55
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	ld a, Bank(Func_30164)
 	ld hl, Func_30164
 	call z, BankSwitch
@@ -28439,7 +28420,7 @@ Func_16d9d: ; 016d9d
 	ld [wd613], a
 .asm_16e35
 	ld bc, OneHundredBillionPoints
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba AddBCDScore
 	ld a, [wd60c]
 	call Func_16f28
@@ -28759,7 +28740,7 @@ Func_1757e: ; 0x1757e
 	call Func_17c67
 	call Func_17c96
 	call Func_17e08
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_e4a1
 	call Func_17e81
 	call Func_17f0f
@@ -28901,11 +28882,11 @@ Func_17c67: ; 0x17c67
 	and a
 	ret z
 	ld a, $50
-	ld hl, hBoardXShift
+	ld hl, hSCX
 	sub [hl]
 	ld b, a
 	ld a, $38
-	ld hl, hBoardYShift
+	ld hl, hSCY
 	sub [hl]
 	ld c, a
 	ld a, [wBallCaptureAnimationFrame]
@@ -28925,11 +28906,11 @@ Func_17c96: ; 0x17c96
 	and a
 	ret z
 	ld a, $50
-	ld hl, hBoardXShift
+	ld hl, hSCX
 	sub [hl]
 	ld b, a
 	ld a, $3e
-	ld hl, hBoardYShift
+	ld hl, hSCY
 	sub [hl]
 	ld c, a
 	ld a, [wd5bd]
@@ -28975,12 +28956,12 @@ Func_17cdc: ; 0x17cdc
 .asm_17cf6
 	pop hl
 	inc de
-	ld a, [hBoardXShift]
+	ld a, [hSCX]
 	ld b, a
 	ld a, [hli]
 	sub b
 	ld b, a
-	ld a, [hBoardYShift]
+	ld a, [hSCY]
 	ld c, a
 	ld a, [hli]
 	sub c
@@ -29012,11 +28993,11 @@ Data_17d27:
 
 Func_17d34: ; 0x17d34
 	ld a, $0
-	ld hl, hBoardXShift
+	ld hl, hSCX
 	sub [hl]
 	ld b, a
 	ld a, $10
-	ld hl, hBoardYShift
+	ld hl, hSCY
 	sub [hl]
 	ld c, a
 	ld a, [wStageCollisionState]
@@ -29033,11 +29014,11 @@ Data_17d51:
 
 Func_17d59: ; 0x17d59
 	ld a, $74
-	ld hl, hBoardXShift
+	ld hl, hSCX
 	sub [hl]
 	ld b, a
 	ld a, $52
-	ld hl, hBoardYShift
+	ld hl, hSCY
 	sub [hl]
 	ld c, a
 	ld a, [wBellsproutAnimationFrame]
@@ -29057,11 +29038,11 @@ Func_17d7a: ; 0x17d7a
 	and a
 	ret z
 	ld a, $67
-	ld hl, hBoardXShift
+	ld hl, hSCX
 	sub [hl]
 	ld b, a
 	ld a, $54
-	ld hl, hBoardYShift
+	ld hl, hSCY
 	sub [hl]
 	ld c, a
 	ld a, $cc
@@ -29085,11 +29066,11 @@ Func_17d92: ; 0x17d92
 	ld [wd506], a
 .asm_17db1
 	ld a, $2b
-	ld hl, hBoardXShift
+	ld hl, hSCX
 	sub [hl]
 	ld b, a
 	ld a, $69
-	ld hl, hBoardYShift
+	ld hl, hSCY
 	sub [hl]
 	ld c, a
 	ld a, [wd505]
@@ -29109,11 +29090,11 @@ Data_17dd0:
 
 Func_17de1: ; 0x17de1
 	ld a, $88
-	ld hl, hBoardXShift
+	ld hl, hSCX
 	sub [hl]
 	ld b, a
 	ld a, $5a
-	ld hl, hBoardYShift
+	ld hl, hSCY
 	sub [hl]
 	ld c, a
 	ld a, [wd50a]
@@ -29131,9 +29112,9 @@ Data_17e02:
 	dr $17e02, $17e08
 
 Func_17e08: ; 0x17e08
-	ld a, [hBoardXShift]
+	ld a, [hSCX]
 	ld d, a
-	ld a, [hBoardYShift]
+	ld a, [hSCY]
 	ld e, a
 	ld a, [wd51d]
 	and a
@@ -29185,13 +29166,13 @@ Func_17e81: ; 0x17e81
 	ld [wBallRotation], a
 	ld a, [wBallXPos + 1]
 	inc a
-	ld hl, hBoardXShift
+	ld hl, hSCX
 	sub [hl]
 	ld b, a
 	ld a, [wBallYPos + 1]
 	inc a
 	sub $10
-	ld hl, hBoardYShift
+	ld hl, hSCY
 	sub [hl]
 	ld c, a
 	ld a, [wBallRotation]
@@ -29213,13 +29194,13 @@ Func_17e81: ; 0x17e81
 	ret nz
 	ld a, [wd4c5]
 	inc a
-	ld hl, hBoardXShift
+	ld hl, hSCX
 	sub [hl]
 	ld b, a
 	ld a, [wd4c6]
 	inc a
 	sub $10
-	ld hl, hBoardYShift
+	ld hl, hSCY
 	sub [hl]
 	ld c, a
 	ld a, [wd4c7]
@@ -29262,12 +29243,12 @@ Func_17f0f: ; 0x17f0f
 	ld b, $8
 asm_17f21: ; 0x17f21
 	push bc
-	ld a, [hBoardXShift]
+	ld a, [hSCX]
 	ld b, a
 	ld a, [hli]
 	sub b
 	ld b, a
-	ld a, [hBoardYShift]
+	ld a, [hSCY]
 	ld c, a
 	ld a, [hli]
 	sub c
@@ -29312,12 +29293,12 @@ asm_17f84: ; 0x17f84
 	add c
 	cp c
 	push af
-	ld a, [hBoardXShift]
+	ld a, [hSCX]
 	ld b, a
 	ld a, [hli]
 	sub b
 	ld b, a
-	ld a, [hBoardYShift]
+	ld a, [hSCY]
 	ld c, a
 	ld a, [hli]
 	sub c
@@ -29349,11 +29330,11 @@ Func_17fca: ; 0x17fca
 	inc a
 	ld [wd606], a
 	ld a, $40
-	ld hl, hBoardXShift
+	ld hl, hSCX
 	sub [hl]
 	ld b, a
 	ld a, $1
-	ld hl, hBoardYShift
+	ld hl, hSCY
 	sub [hl]
 	ld c, a
 	ld a, [wd606]
@@ -29397,7 +29378,7 @@ Func_18000: ; 0x18000
 	ld [wd49d], a
 	ld a, $3
 	ld [wd49e], a
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_dbba
 	ret
 
@@ -29422,7 +29403,7 @@ Func_18061: ; 0x18061
 	ret
 
 Func_18062: ; 0x18062
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_1448e
 	ret
 
@@ -29430,19 +29411,19 @@ Func_1806d: ; 0x1806d
 	ret
 
 Func_1806e: ; 0x1806e
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_1652d
 	ret
 
 Func_18079: ; 0x18079
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_17e81
 	ret
 
 Func_18084: ; 0x18084
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_e4a1
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_17e81
 	ret
 
@@ -29491,7 +29472,7 @@ InitGengarBonusStage: ; 0x18099
 	ld [hli], a
 	ld [wd656], a
 	ld bc, $0130  ; 1 minute 30 seconds
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba StartTimer
 	ld a, $f
 	call SetSongBank
@@ -29550,12 +29531,12 @@ StartBallGengarBonusStage: ; 0x18157
 	ret
 
 Func_1818b: ; 0x1818b
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_142fc
 	call Func_2862
 	call Func_18d72
 	ld a, [wd7c1]
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_1404a
 	and a
 	ret z
@@ -29813,7 +29794,7 @@ Func_18377: ; 0x18377
 	call Func_187b1
 	call Func_18d34
 	call Func_183b7
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_107f8
 	ld a, [wd57e]
 	and a
@@ -29823,7 +29804,7 @@ Func_18377: ; 0x18377
 	ld a, $1
 	ld [wd7be], a
 	call Func_2862
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_86d2
 	ld a, [wd6a2]
 	cp $5
@@ -29842,7 +29823,7 @@ Func_183b7: ; 0x183b7
 	ld a, $1
 	ld [wStageCollisionState], a
 	ld [wd653], a
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba LoadStageCollisionAttributes
 	call Func_183db
 	call Func_18d91
@@ -29914,7 +29895,7 @@ Func_18464: ; 0x18464
 	inc a
 	ld [wd67b], a
 	ld bc, TenMillionPoints
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_8588
 	ld a, $33
 	ld [wd803], a
@@ -30134,7 +30115,7 @@ Func_1860b: ; 0x1860b
 	inc a
 	ld [wd695], a
 	ld bc, FiftyMillionPoints
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_8588
 	ld a, $33
 	ld [wd803], a
@@ -30369,13 +30350,13 @@ Func_187b1: ; 0x187b1
 	ld a, $1
 	ld [wd7be], a
 	call Func_2862
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_86d2
 	ld de, $0000
 	call PlaySong
 .asm_18826
 	ld bc, FiftyThousandPoints
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_8588
 	ld a, $33
 	ld [wd803], a
@@ -30707,7 +30688,7 @@ Func_18d34: ; 0x18d34
 	and a
 	jr nz, .asm_18d71
 	ld bc, OneHundredMillionPoints
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_8588
 	ld a, $ff
 	ld [wd803], a
@@ -30799,14 +30780,14 @@ Data_18ed1:
 
 Func_18faf: ; 0x18faf
 	ld bc, $7f00
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_175a4
 	call Func_19020
 	call Func_190b9
 	call Func_19185
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_e4a1
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_17e81
 	ret
 
@@ -30878,13 +30859,13 @@ Func_19033: ; 0x19033
 	inc de
 	inc de
 	ld a, [de]
-	ld hl, hBoardXShift
+	ld hl, hSCX
 	sub [hl]
 	ld b, a
 	inc de
 	inc de
 	ld a, [de]
-	ld hl, hBoardYShift
+	ld hl, hSCY
 	sub [hl]
 	ld c, a
 	dec de
@@ -30970,13 +30951,13 @@ Func_190c6: ; 0x190c6
 	inc de
 	inc de
 	ld a, [de]
-	ld hl, hBoardXShift
+	ld hl, hSCX
 	sub [hl]
 	ld b, a
 	inc de
 	inc de
 	ld a, [de]
-	ld hl, hBoardYShift
+	ld hl, hSCY
 	sub [hl]
 	ld c, a
 	dec de
@@ -31066,13 +31047,13 @@ Func_1918c: ; 0x1918c
 	inc de
 	inc de
 	ld a, [de]
-	ld hl, hBoardXShift
+	ld hl, hSCX
 	sub [hl]
 	ld b, a
 	inc de
 	inc de
 	ld a, [de]
-	ld hl, hBoardYShift
+	ld hl, hSCY
 	sub [hl]
 	ld c, a
 	dec de
@@ -31180,7 +31161,7 @@ InitMewtwoBonusStage: ; 0x1924f
 	dec b
 	jr nz, .asm_1928c
 	ld bc, $0200  ; 2 minutes 0 seconds
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba StartTimer
 	ld a, $12
 	call SetSongBank
@@ -31217,10 +31198,10 @@ StartBallMewtwoBonusStage: ; 0x192e3
 	ret
 
 Func_19310: ; 0x19310
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_142fc
 	call Func_2862
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_1404a
 	ld a, [wd7c1]
 	and a
@@ -31422,7 +31403,7 @@ Func_19451: ; 0x19451
 	call Func_19531
 	call Func_19701
 	call Func_1948b
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_107f8
 	ld a, [wd57e]
 	and a
@@ -31432,7 +31413,7 @@ Func_19451: ; 0x19451
 	ld a, $1
 	ld [wd7be], a
 	call Func_2862
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_86d2
 	ld a, [wd6b1]
 	cp $8
@@ -31451,7 +31432,7 @@ Func_1948b: ; 0x1948b
 	ld a, $1
 	ld [wStageCollisionState], a
 	ld [wd6a9], a
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba LoadStageCollisionAttributes
 	call Func_194ac
 	ret
@@ -31494,7 +31475,7 @@ Func_19531: ; 0x19531
 	cp $2
 	jr nc, .asm_195a2
 	ld bc, FiftyThousandPoints
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_8588
 	ld a, [wd6b0]
 	inc a
@@ -31524,7 +31505,7 @@ Func_19531: ; 0x19531
 	ld a, $1
 	ld [wd7be], a
 	call Func_2862
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_86d2
 	ld de, $0000
 	call PlaySong
@@ -31728,7 +31709,7 @@ Func_19701: ; 0x19701
 	ld a, $2
 	call Func_19876
 	ld bc, TenMillionPoints
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_8588
 	ld de, $0038
 	call PlaySoundEffect
@@ -31921,23 +31902,23 @@ Data_19916:
 
 Func_1994e: ; 0x1994e
 	ld bc, $7f65
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_175a4
 	call Func_1999d
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_e4a1
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_17e81
 	call Func_19976
 	ret
 
 Func_19976: ; 0x19976
 	ld a, $40
-	ld hl, hBoardXShift
+	ld hl, hSCX
 	sub [hl]
 	ld b, a
 	ld a, $0
-	ld hl, hBoardYShift
+	ld hl, hSCY
 	sub [hl]
 	ld c, a
 	ld a, [wd6ad]
@@ -31977,12 +31958,12 @@ Func_199be: ; 0x199be
 	inc de
 	inc de
 	ld a, [de]
-	ld hl, hBoardXShift
+	ld hl, hSCX
 	sub [hl]
 	ld b, a
 	inc de
 	ld a, [de]
-	ld hl, hBoardYShift
+	ld hl, hSCY
 	sub [hl]
 	ld c, a
 	dec de
@@ -32071,7 +32052,7 @@ StartBallDiglettBonusStage: ; 0x19a38
 	ret
 
 Func_19a76: ; 0x19a76
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_142fc
 	call Func_2862
 	ld a, [wd7c1]
@@ -32266,7 +32247,7 @@ Func_19c52: ; 0x19c52
 	xor a
 	ld [wd73b], a
 	ld bc, TenMillionPoints
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_8588
 	ld de, $0035
 	call PlaySoundEffect
@@ -32576,7 +32557,7 @@ Func_1aad4: ; 0x1aad4
 	ld de, wDugtrioAnimationFrameCounter
 	call CopyHLToDE
 	ld bc, FiftyThousandPoints
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_8588
 	ld de, $0036
 	call PlaySoundEffect
@@ -32774,20 +32755,20 @@ Data_1ac93:
 	dr $1ac93, $1ac98
 
 Func_1ac98: ; 0x1ac98
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_e4a1
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_17e81
 	call Func_1acb0
 	ret
 
 Func_1acb0: ; 0x1acb0
 	ld a, $40
-	ld hl, hBoardXShift
+	ld hl, hSCX
 	sub [hl]
 	ld b, a
 	ld a, $0
-	ld hl, hBoardYShift
+	ld hl, hSCY
 	sub [hl]
 	ld c, a
 	ld a, [wDugtrioAnimationFrame]
@@ -32853,9 +32834,9 @@ InitBlueField: ; 0x1c000
 	ld [wd644], a
 	ld [wd645], a
 	ld [wd646], a
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_dbba
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_1d65f
 	ld a, $10
 	call SetSongBank
@@ -32959,12 +32940,12 @@ Func_1c165: ; 0x1c165
 	call Func_1cb43
 	call Func_1c3ee
 	call Func_1e8f6
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_142fc
 	ld a, $1
 	ld [wd640], a
 	call Func_1f18a
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_1404a
 	call Func_1c203
 	ret
@@ -32977,16 +32958,16 @@ Func_1c191: ; 0x1c191
 	call Func_1c43c
 	call Func_1c305
 	call Func_1c3ee
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_14746
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_14707
 	call Func_1c235
 	call Func_1c21e
 	call Func_1e8f6
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_142fc
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_1404a
 	call Func_1c203
 	ret
@@ -33184,13 +33165,13 @@ Func_1c305: ; 0x1c305
 	jp Func_1c3ca
 
 .asm_1c31f
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_1c3ac
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_10362
 	ld a, [hGameBoyColorFlag]
 	and a
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	ld a, Bank(Func_10301)
 	ld hl, Func_10301
 	call nz, BankSwitch
@@ -33274,11 +33255,11 @@ Func_1c3ca: ; 0x1c3ca
 	ld [hli], a
 	dec b
 	jr nz, .asm_1c3cf
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_10184
 	ld a, [hGameBoyColorFlag]
 	and a
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	ld a, Bank(Func_102bc)
 	ld hl, Func_102bc
 	call nz, BankSwitch
@@ -33354,7 +33335,7 @@ Func_1c43c: ; 0x1c43c
 
 Func_1c46d: ; 0x1c46d
 	push af
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_10611
 	pop af
 	dec a
@@ -33409,7 +33390,7 @@ Func_1c4b6: ; 0x1c4b6
 	jr z, .asm_1c4d2
 	ld a, [wd498]
 	add $15
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_30256
 	ret
 
@@ -33418,12 +33399,12 @@ Func_1c4b6: ; 0x1c4b6
 	and a
 	jr z, .asm_1c4e5
 	ld a, $1a
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_30256
 	ret
 
 .asm_1c4e5
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_30253
 	ret
 
@@ -33434,7 +33415,7 @@ Func_1c4b6: ; 0x1c4b6
 	ld a, [wd54d]
 	cp $3
 	jr nz, .asm_1c508
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_30253
 	ret
 
@@ -33446,7 +33427,7 @@ Func_1c4b6: ; 0x1c4b6
 	ld a, [wd55a]
 	add $12
 .asm_1c515
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_30256
 	ret
 
@@ -33686,14 +33667,14 @@ Func_1c715: ; 0x1c715
 	call Func_1e9c0
 	call Func_1c8b6
 	call Func_1f18a
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_146a9
 	call Func_1f27b
 	call Func_1df15
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_30188
 	ld a, $0
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_10000
 	ret
 
@@ -33713,23 +33694,23 @@ Func_1c769: ; 0x1c769
 	call Func_1e9c0
 	call Func_1ea0a
 	call Func_1c8b6
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_14733
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_146a2
 	call Func_1f261
 	call Func_1de93
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_30188
 	ld a, $0
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_10000
 	ret
 
 Func_1c7c7: ; 0x1c7c7
 	ld a, $0
 	ld [wStageCollisionState], a
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba LoadStageCollisionAttributes
 	ret
 
@@ -33785,7 +33766,7 @@ Func_1c7d7: ; 0x1c7d7
 Func_1c839: ; 0x1c839
 	ld a, [hGameBoyColorFlag]
 	and a
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	ld a, Bank(Func_f269)
 	ld hl, Func_f269
 	call nz, BankSwitch
@@ -33808,12 +33789,12 @@ Func_1c839: ; 0x1c839
 	call PlaySoundEffect
 	pop af
 	add $29  ; map billboard pictures start at the $29th entry in BillboardPicturePointers
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba LoadBillboardPicture
 	ld b, $20  ; number of frames to delay before the next map is shown
 .waitOnCurrentMap
 	push bc
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_eeee
 	ld hl, wKeyConfigBallStart
 	call IsKeyPressed
@@ -33825,10 +33806,10 @@ Func_1c839: ; 0x1c839
 
 .ballStartKeyPressed
 	pop bc
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_30253
 	ld bc, Data_2cd1
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_3118f
 	ld a, [wCurrentMap]
 	ld [wd4e3], a
@@ -34022,10 +34003,10 @@ Func_1c9c1: ; 0x1c9c1
 	sub $3
 	ld [wd4d7], a
 	ld a, $4
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_10000
 	ld bc, FiveHundredMillionPoints
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba AddBCDScore
 	ret
 
@@ -34083,7 +34064,7 @@ Func_1ca5f: ; 0x1ca5f
 	ld a, b
 	ld [wd50c], a
 	ld a, $c
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_10000
 	; fall through
 
@@ -34147,7 +34128,7 @@ Func_1ca85: ; 0x1ca85
 	and a
 	ret z
 	ld bc, OneHundredBillionPoints
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba AddBCDScore
 	ld hl, wd62d
 	call Func_e4a
@@ -34308,18 +34289,18 @@ Func_1cfaa: ; 0x1cfaa
 	xor a
 	ld [wd51f], a
 	ld bc, FiftyBillionPoints
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba AddBCDScore
 	ld a, [wStageCollisionState]
 	cp $0
 	jr nz, .asm_1cfe5
 	ld a, $1
 	ld [wStageCollisionState], a
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba LoadStageCollisionAttributes
 	ld a, $1
 	ld [wd580], a
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_1404a
 .asm_1cfe5
 	ld a, [wd520]
@@ -34352,7 +34333,7 @@ Func_1d010: ; 0x1d010
 	xor a
 	ld [wLeftAlleyTrigger], a
 	ld a, $1
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_10000
 	ret c
 	ld a, [wLeftAlleyCount]
@@ -34381,7 +34362,7 @@ Func_1d047: ; 0x1d047
 	xor a
 	ld [wRightAlleyTrigger], a
 	ld a, $2
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_10000
 	ret c
 	ld a, [wRightAlleyCount]
@@ -34508,7 +34489,7 @@ Func_1d133: ; 0x1d133
 	call Func_310a
 	rst AdvanceFrame
 	ld a, $1
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba PlayPikachuSoundClip
 	ld a, $1
 	ld [wd85d], a
@@ -34521,7 +34502,7 @@ Func_1d133: ; 0x1d133
 	jr nc, .asm_1d185
 	ld c, $a
 	call Func_e55
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	ld a, Bank(Func_30164)
 	ld hl, Func_30164
 	call z, BankSwitch
@@ -34539,7 +34520,7 @@ Func_1d133: ; 0x1d133
 	ld a, $1
 	ld [wd549], a
 	ld bc, FiveBillionPoints
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba AddBCDScore
 	xor a
 	ld [wd51c], a
@@ -34617,7 +34598,7 @@ Func_1d216: ; 0x1d216
 	xor a
 	ld [wd630], a
 	ld bc, OneMillionPoints
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba AddBCDScore
 	ld de, $0005
 	call PlaySoundEffect
@@ -34658,7 +34639,7 @@ Func_1d216: ; 0x1d216
 	ld a, [wLeftAlleyCount]
 	cp $3
 	jr nz, .asm_1d299
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_10ab3
 	ld a, [wd643]
 	and a
@@ -34673,7 +34654,7 @@ Func_1d216: ; 0x1d216
 	ret nc
 	ld c, $19
 	call Func_e55
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	ld a, Bank(Func_30164)
 	ld hl, Func_30164
 	call z, BankSwitch
@@ -34706,7 +34687,7 @@ Func_1d216: ; 0x1d216
 	cp $0
 	jr nz, .asm_1d2f8
 	ld a, $f
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_10000
 .asm_1d2f8
 	xor a
@@ -34731,7 +34712,7 @@ HandleEnteringCloyster: ; 0x1d32d
 	xor a
 	ld [wd635], a
 	ld bc, OneMillionPoints
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba AddBCDScore
 	ld de, $0005
 	call PlaySoundEffect
@@ -34777,7 +34758,7 @@ HandleEnteringCloyster: ; 0x1d32d
 	xor a
 .asm_1d3a1
 	ld [wRareMonsFlag], a
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba StartCatchEmMode
 .noCatchEmMode
 	ld hl, wd63b
@@ -34787,7 +34768,7 @@ HandleEnteringCloyster: ; 0x1d32d
 	ret nc
 	ld c, $19
 	call Func_e55
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	ld a, Bank(Func_30164)
 	ld hl, Func_30164
 	call z, BankSwitch
@@ -34817,7 +34798,7 @@ HandleEnteringCloyster: ; 0x1d32d
 	ld de, $0006
 	call PlaySoundEffect
 	ld a, $e
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_10000
 	xor a
 	ld [wd64c], a
@@ -34858,7 +34839,7 @@ Func_1d438: ; 0x1d438
 	ld a, $3c
 	ld [wd647], a
 	ld a, $9
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_10000
 	ld a, [wd610]
 	cp $3
@@ -34886,7 +34867,7 @@ Func_1d438: ; 0x1d438
 	ld a, $1e
 	ld [wd647], a
 	ld a, $a
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_10000
 	ld a, [wd611]
 	cp $3
@@ -34910,7 +34891,7 @@ Func_1d438: ; 0x1d438
 	jr nc, .asm_1d4e9
 	ld c, $19
 	call Func_e55
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	ld a, Bank(Func_30164)
 	ld hl, Func_30164
 	call z, BankSwitch
@@ -34923,7 +34904,7 @@ Func_1d438: ; 0x1d438
 	ld [wd613], a
 asm_1d4fa: ; 0x1d4fa
 	ld bc, OneHundredBillionPoints
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba AddBCDScore
 	ld a, [wd60c]
 	call Func_1d5f2
@@ -35226,7 +35207,7 @@ Func_1dbd2: ; 0x1dbd2
 	ld a, [wLeftMapMoveCounter]
 	cp $3
 	ld a, $7
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_10000
 	ld a, $2
 	ld [wd646], a
@@ -35263,7 +35244,7 @@ Func_1dbd2: ; 0x1dbd2
 	ld a, [wRightMapMoveCounter]
 	cp $3
 	ld a, $8
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_10000
 	ld a, [wRightMapMoveCounter]
 	cp $3
@@ -35466,14 +35447,14 @@ Func_1ddc7: ; 0x1ddc7
 	jr nc, .asm_1dde4
 	ld c, $a
 	call Func_e55
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	ld a, Bank(Func_30164)
 	ld hl, Func_30164
 	call z, BankSwitch
 .asm_1dde4
 	xor a
 	ld [wd55a], a
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba StartMapMoveMode
 	scf
 	ret
@@ -35486,14 +35467,14 @@ Func_1ddf4: ; 0x1ddf4
 	jr nc, .asm_1de11
 	ld c, $a
 	call Func_e55
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	ld a, Bank(Func_30164)
 	ld hl, Func_30164
 	call z, BankSwitch
 .asm_1de11
 	ld a, $1
 	ld [wd55a], a
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba StartMapMoveMode
 	scf
 	ret
@@ -35509,7 +35490,7 @@ Func_1de22: ; 0x1de22
 	ld a, $2
 	ld [wd7eb], a
 	ld bc, FiveHundredMillionPoints
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba AddBCDScore
 	ld de, $000f
 	call PlaySoundEffect
@@ -35724,11 +35705,11 @@ Func_1e356: ; 0x1e356
 	jr nz, .asm_1e386
 	ld a, $1
 	ld [wStageCollisionState], a
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba LoadStageCollisionAttributes
 	ld a, $1
 	ld [wd580], a
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_1404a
 .asm_1e386
 	ld a, [wStageCollisionState]
@@ -35742,7 +35723,7 @@ Func_1e356: ; 0x1e356
 	ld [wLeftAlleyTrigger], a
 	ld [wSecondaryLeftAlleyTrigger], a
 	ld a, $b
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_10000
 	ld a, [wd5f8]
 	sub $13
@@ -35757,7 +35738,7 @@ Func_1e356: ; 0x1e356
 	ld [hl], $0
 .asm_1e3bf
 	ld bc, OneHundredMillionPoints
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba AddBCDScore
 	ld hl, wd5f9
 	ld a, [hli]
@@ -35780,7 +35761,7 @@ Func_1e356: ; 0x1e356
 	ld a, $e
 	ld [wBallTypeCounter + 1], a
 	ld bc, FourHundredMillionPoints
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba AddBCDScore
 	ld a, [wBallType]
 	cp MASTER_BALL
@@ -35807,7 +35788,7 @@ Func_1e356: ; 0x1e356
 	ld de, $0f4d
 	call PlaySoundEffect
 	ld bc, TenThousandPoints
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_8588
 	ld bc, $0100
 	ld de, $0000
@@ -35824,7 +35805,7 @@ Func_1e356: ; 0x1e356
 	ld de, FieldMultiplierSpecialBonusText
 	call LoadTextHeader
 .asm_1e465
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_155a7
 	jr asm_1e475
 
@@ -36013,7 +35994,7 @@ HandleBallTypeUpgradeCounterBlueField: ; 0x1e58c
 	ld a, $e
 	ld [wBallTypeCounter + 1], a
 .pokeball
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_155a7
 	ret
 
@@ -36037,7 +36018,7 @@ Func_1e5c5: ; 0x1e5c5
 	and a
 	ret nz
 	ld bc, OneHundredMillionPoints
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba AddBCDScore
 	ld hl, wd50f
 	ld a, [hli]
@@ -36052,7 +36033,7 @@ Func_1e5c5: ; 0x1e5c5
 	ld a, $80
 	ld [wd514], a
 	ld bc, FourHundredMillionPoints
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba AddBCDScore
 	ld de, $0009
 	call PlaySoundEffect
@@ -36244,14 +36225,14 @@ Func_1e757: ; 0x1e757
 	jr nz, .asm_1e7b2
 	ld de, $0021
 	call PlaySoundEffect
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba LoadMiniBallGfx
 	ret
 
 .asm_1e7b2
 	cp $f
 	jr nz, .asm_1e7c1
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_dd62
 	ret
 
@@ -36279,14 +36260,14 @@ Func_1e757: ; 0x1e757
 	ld [wd803], a
 	ld a, $8
 	ld [wd804], a
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba LoadMiniBallGfx
 	ret
 
 .asm_1e7f5
 	cp $3
 	jr nz, .asm_1e80e
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba LoadBallGfx
 	ld a, $2
 	ld [wBallYVelocity + 1], a
@@ -36304,7 +36285,7 @@ Func_1e757: ; 0x1e757
 	call GenRandom
 	and $8
 	ld [wRareMonsFlag], a
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba StartCatchEmMode
 	xor a
 	ld [wd622], a
@@ -36314,7 +36295,7 @@ Func_1e830: ; 0x1e830
 	xor a
 	ld [wIndicatorStates + 4], a
 	ld a, $d
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_10000
 	jr nc, .asm_1e84b
 	ld a, $1
@@ -36359,7 +36340,7 @@ Func_1e830: ; 0x1e830
 	ret
 
 .asm_1e891
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_ed8e
 	xor a
 	ld [wd608], a
@@ -36372,7 +36353,7 @@ Func_1e830: ; 0x1e830
 	ld a, [wd622]
 	cp $2
 	ret nz
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_10ab3
 	xor a
 	ld [wd622], a
@@ -36459,7 +36440,7 @@ Func_1e9c0: ; 0x1e9c0
 .asm_1e9e3
 	ld hl, wCurrentStage
 	bit 0, [hl]
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	ld a, Bank(Func_30256)
 	ld hl, Func_30256
 	call nz, BankSwitch
@@ -37252,7 +37233,7 @@ Func_1f2ed: ; 0x1f2ed
 	xor a
 	ld [wd604], a
 	ld [wIndicatorStates + 4], a
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	ld a, Bank(Func_1e8f6)  ; this is in the same bank...
 	ld hl, Func_1e8f6
 	call BankSwitch
@@ -37287,13 +37268,13 @@ Func_1f2ff: ; 0x1f2ff
 
 Func_1f330: ; 0x1f330
 	ld bc, $7f00
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_175a4
 	call Func_1f395
 	call Func_1f3e1
 	call Func_1f408
 	call Func_1f428
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_17e81
 	call Func_1f48f
 	call Func_1f4f8
@@ -37301,15 +37282,15 @@ Func_1f330: ; 0x1f330
 
 Func_1f35a: ; 0x1f35a
 	ld bc, $7f00
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_175a4
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_17c67
 	call Func_1f58b
 	call Func_1f448
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_e4a1
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_17e81
 	call Func_1f4a3
 	call Func_1f509
@@ -37328,12 +37309,12 @@ Func_1f395: ; 0x1f395
 	; fall through
 
 Func_1f3ad: ; 0x1f3ad
-	ld a, [hBoardXShift]
+	ld a, [hSCX]
 	ld b, a
 	ld a, [hli]
 	sub b
 	ld b, a
-	ld a, [hBoardYShift]
+	ld a, [hSCY]
 	ld c, a
 	ld a, [hli]
 	sub c
@@ -37366,11 +37347,11 @@ Data_1f3db:
 
 Func_1f3e1: ; 0x1f3e1
 	ld a, $8a
-	ld hl, hBoardXShift
+	ld hl, hSCX
 	sub [hl]
 	ld b, a
 	ld a, $53
-	ld hl, hBoardYShift
+	ld hl, hSCY
 	sub [hl]
 	ld c, a
 	ld a, [wd50a]
@@ -37389,11 +37370,11 @@ Data_1f402:
 
 Func_1f408: ; 0x1f408
 	ld a, $18
-	ld hl, hBoardXShift
+	ld hl, hSCX
 	sub [hl]
 	ld b, a
 	ld a, $5f
-	ld hl, hBoardYShift
+	ld hl, hSCY
 	sub [hl]
 	ld c, a
 	ld a, [wd633]
@@ -37410,11 +37391,11 @@ Data_1f425:
 
 Func_1f428: ; 0x1f428
 	ld a, $70
-	ld hl, hBoardXShift
+	ld hl, hSCX
 	sub [hl]
 	ld b, a
 	ld a, $59
-	ld hl, hBoardYShift
+	ld hl, hSCY
 	sub [hl]
 	ld c, a
 	ld a, [wd638]
@@ -37430,9 +37411,9 @@ Data_1f445:
 	dr $1f445, $1f448
 
 Func_1f448: ; 0x1f448
-	ld a, [hBoardXShift]
+	ld a, [hSCX]
 	ld d, a
-	ld a, [hBoardYShift]
+	ld a, [hSCY]
 	ld e, a
 	ld a, [wd51d]
 	and a
@@ -37498,12 +37479,12 @@ Func_1f4a3: ; 0x1f4a3
 	ld b, $8
 asm_1f4b5:
 	push bc
-	ld a, [hBoardXShift]
+	ld a, [hSCX]
 	ld b, a
 	ld a, [hli]
 	sub b
 	ld b, a
-	ld a, [hBoardYShift]
+	ld a, [hSCY]
 	ld c, a
 	ld a, [hli]
 	sub c
@@ -37548,12 +37529,12 @@ asm_1f518: ; 0x1f518
 	add c
 	cp c
 	push af
-	ld a, [hBoardXShift]
+	ld a, [hSCX]
 	ld b, a
 	ld a, [hli]
 	sub b
 	ld b, a
-	ld a, [hBoardYShift]
+	ld a, [hSCY]
 	ld c, a
 	ld a, [hli]
 	sub c
@@ -37585,11 +37566,11 @@ Func_1f55e: ; 0x1f55e
 	inc a
 	ld [wd606], a
 	ld a, $40
-	ld hl, hBoardXShift
+	ld hl, hSCX
 	sub [hl]
 	ld b, a
 	ld a, $1
-	ld hl, hBoardYShift
+	ld hl, hSCY
 	sub [hl]
 	ld c, a
 	ld a, [wd606]
@@ -37607,11 +37588,11 @@ Func_1f58b: ; 0x1f58b
 	and a
 	ret z
 	ld a, $50
-	ld hl, hBoardXShift
+	ld hl, hSCX
 	sub [hl]
 	ld b, a
 	ld a, $3e
-	ld hl, hBoardYShift
+	ld hl, hSCY
 	sub [hl]
 	ld c, a
 	ld a, [wd5bd]
@@ -37646,29 +37627,21 @@ Func_20000: ; 0x20000
 	ld a, [wd54d]
 	call CallInFollowingTable
 PointerTable_20021: ; 0x20021
-	dw Func_20041
-	db Bank(Func_20041), $00
+	padded_dab Func_20041
 
-	dw Func_2005f
-	db Bank(Func_2005f), $00
+	padded_dab Func_2005f
 
-	dw Func_2006b
-	db Bank(Func_2006b), $00
+	padded_dab Func_2006b
 
-	dw Func_200a3
-	db Bank(Func_200a3), $00
+	padded_dab Func_200a3
 
-	dw Func_200d3
-	db Bank(Func_200d3), $00
+	padded_dab Func_200d3
 
-	dw Func_20193
-	db Bank(Func_20193), $00
+	padded_dab Func_20193
 
-	dw CapturePokemonRedStage
-	db Bank(CapturePokemonRedStage), $00
+	padded_dab CapturePokemonRedStage
 
-	dw Func_201ce
-	db Bank(Func_201ce), $00
+	padded_dab Func_201ce
 
 Func_20041: ; 0x20041
 	ld a, [wd5b6]
@@ -37688,7 +37661,7 @@ Func_20041: ; 0x20041
 	ret
 
 Func_2005f: ; 0x2005f
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_10648
 	scf
 	ret
@@ -37699,13 +37672,13 @@ Func_2006b: ; 0x2006b
 	jr z, .asm_20098
 	call Func_1130
 	jr nz, .asm_200a1
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_10414
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_10362
 	ld a, [hGameBoyColorFlag]
 	and a
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	ld a, Bank(Func_10301)
 	ld hl, Func_10301
 	call nz, BankSwitch
@@ -37725,11 +37698,11 @@ Func_200a3: ; 0x200a3
 	call Func_1130
 	jr nz, .asm_200d1
 .asm_200af
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_10678
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_10732
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_10464
 	ld hl, wd54d
 	inc [hl]
@@ -37772,7 +37745,7 @@ Func_200d3: ; 0x200d3
 	ld [wNumMonHits], a
 .asm_20116
 	ld bc, ThirtyMillionPoints
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_8588
 	ld bc, $0030
 	ld de, $0000
@@ -37789,7 +37762,7 @@ Func_200d3: ; 0x200d3
 	ld de, $2a21
 	call Func_3357
 	ld a, [wNumMonHits]
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_10611
 	ld c, $2
 	jr .asm_2018a
@@ -37840,19 +37813,19 @@ Func_20193: ; 0x20193
 	ret
 
 .asm_2019e
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_10496
 	ld hl, wd54d
 	inc [hl]
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_106b6
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba AddCaughtPokemonToParty
 	scf
 	ret
 
 CapturePokemonRedStage: ; 0x201c2
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba CapturePokemon
 	scf
 	ret
@@ -37862,9 +37835,9 @@ Func_201ce: ; 0x201ce
 	and a
 	ret nz
 	call Func_30e8
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_dc00
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_10157
 	ld de, $0001
 	call PlaySong
@@ -37872,7 +37845,7 @@ Func_201ce: ; 0x201ce
 	ret
 
 Func_201f2: ; 0x201f2
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_107f8
 	ld a, [wd57e]
 	and a
@@ -37884,12 +37857,12 @@ Func_201f2: ; 0x201f2
 	ld a, [wCurrentCatchEmMon]
 	cp NUM_POKEMON - 1
 	jr nz, .asm_2021b
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba SetPokemonOwnedFlag
 .asm_2021b
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_86d2
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_106a6
 	ret
 
@@ -37925,10 +37898,10 @@ Func_20230: ; 0x20230
 	xor a
 	ld [wIndicatorStates + 9], a
 .asm_20264
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_10184
 	ld bc, TenMillionPoints
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_8588
 	ld bc, $0010
 	ld de, $0000
@@ -37983,29 +37956,21 @@ Func_202bc: ; 0x202bc
 	ld a, [wd54d]
 	call CallInFollowingTable
 PointerTable_202e2: ; 0x202e2
-	dw Func_20302
-	db Bank(Func_20302), $00
+	padded_dab Func_20302
 
-	dw Func_20320
-	db Bank(Func_20320), $00
+	padded_dab Func_20320
 
-	dw Func_2032c
-	db Bank(Func_2032c), $00
+	padded_dab Func_2032c
 
-	dw Func_20364
-	db Bank(Func_20364), $00
+	padded_dab Func_20364
 
-	dw Func_20394
-	db Bank(Func_20394), $00
+	padded_dab Func_20394
 
-	dw Func_20454
-	db Bank(Func_20454), $00
+	padded_dab Func_20454
 
-	dw CapturePokemonBlueStage
-	db Bank(CapturePokemonBlueStage), $00
+	padded_dab CapturePokemonBlueStage
 
-	dw Func_2048f
-	db Bank(Func_2048f), $00
+	padded_dab Func_2048f
 
 Func_20302: ; 0x20302
 	ld a, [wd5b6]
@@ -38025,7 +37990,7 @@ Func_20302: ; 0x20302
 	ret
 
 Func_20320: ; 0x20320
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_10648
 	scf
 	ret
@@ -38036,13 +38001,13 @@ Func_2032c: ; 0x2032c
 	jr z, .asm_20333
 	call Func_1130
 	jr nz, .asm_20362
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_10414
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_10362
 	ld a, [hGameBoyColorFlag]
 	and a
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	ld a, Bank(Func_10301)
 	ld hl, Func_10301
 	call nz, BankSwitch
@@ -38062,11 +38027,11 @@ Func_20364: ; 0x20364
 	call Func_1130
 	jr nz, .asm_20392
 .asm_20370
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_10678
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_10732
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_10464
 	ld hl, wd54d
 	inc [hl]
@@ -38109,7 +38074,7 @@ Func_20394: ; 0x20394
 	ld [wNumMonHits], a
 .asm_203d7
 	ld bc, ThirtyMillionPoints
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_8588
 	ld bc, $0030
 	ld de, $0000
@@ -38126,7 +38091,7 @@ Func_20394: ; 0x20394
 	ld de, $2a21
 	call Func_3357
 	ld a, [wNumMonHits]
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_10611
 	ld c, $2
 	jr .asm_2044b
@@ -38177,19 +38142,19 @@ Func_20454: ; 0x20454
 	ret
 
 .asm_2045f
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_10496
 	ld hl, wd54d
 	inc [hl]
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_106b6
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba AddCaughtPokemonToParty
 	scf
 	ret
 
 CapturePokemonBlueStage: ; 0x20483
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba CapturePokemon
 	scf
 	ret
@@ -38199,9 +38164,9 @@ Func_2048f: ; 0x2048f
 	and a
 	ret nz
 	call Func_30e8
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_dc00
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_10157
 	ld de, $0001
 	call PlaySong
@@ -38209,7 +38174,7 @@ Func_2048f: ; 0x2048f
 	ret
 
 Func_204b3: ; 0x204b3
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_107f8
 	ld a, [wd57e]
 	and a
@@ -38221,12 +38186,12 @@ Func_204b3: ; 0x204b3
 	ld a, [wCurrentCatchEmMon]
 	cp MEW - 1
 	jr nz, .notMew
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba SetPokemonOwnedFlag
 .notMew
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_86d2
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_106a6
 	ret
 
@@ -38262,10 +38227,10 @@ Func_204f1: ; 0x204f1
 	xor a
 	ld [wIndicatorStates + 9], a
 .asm_20525
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_10184
 	ld bc, TenMillionPoints
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_8588
 	ld bc, $0010
 	ld de, $0000
@@ -38342,14 +38307,11 @@ Func_20581: ; 0x20581
 	ld a, [wd54d]
 	call CallInFollowingTable
 PointerTable_205d4: ; 0x205d4
-	dw Func_205e0
-	db Bank(Func_205e0), $00
+	padded_dab Func_205e0
 
-	dw Func_2070b
-	db Bank(Func_2070b), $00
+	padded_dab Func_2070b
 
-	dw Func_20757
-	db Bank(Func_20757), $00
+	padded_dab Func_20757
 
 Func_205e0: ; 0x205e0
 	ld a, [wCurrentStage]
@@ -38380,12 +38342,12 @@ Func_205e0: ; 0x205e0
 	ld [wIndicatorStates + 10], a
 	ld a, [wCurrentStage]
 	bit 0, a
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	ld a, Bank(Func_14135)
 	ld hl, Func_14135
 	call nz, BankSwitch
 	ld bc, TenThousandPoints
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_8588
 	call Func_30e8
 	call Func_30db
@@ -38487,22 +38449,22 @@ Func_20651: ; 0x20651
 	ld bc, $0008
 	call Func_7dc
 .asm_20700
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_16425
 	ret
 
 Func_2070b: ; 0x2070b
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_dc00
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_10ca5
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_10ac8
 	ld de, $0001
 	call PlaySong
 	ld hl, wd629
 	call Func_e4a
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba SetPokemonOwnedFlag
 	ld a, [wd624]
 	cp $3
@@ -38523,9 +38485,9 @@ Func_20757: ; 0x20757
 	and a
 	ret nz
 	call Func_30e8
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_dc00
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_10ac8
 	ld de, $0001
 	call PlaySong
@@ -38547,7 +38509,7 @@ Func_2077b: ; 0x2077b
 	jr nz, .asm_2078e
 	call Func_20a55
 .asm_2078e
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_107f8
 	ld a, [wd57e]
 	and a
@@ -38577,12 +38539,12 @@ Func_2077b: ; 0x2077b
 	ld a, [wCurrentStage]
 	bit 0, a
 	jr z, .asm_207f5
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_14135
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_16425
 .asm_207f5
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_86d2
 	call Func_30e8
 	call Func_30db
@@ -38818,7 +38780,7 @@ Func_20977: ; 0x20977
 	ld [wIndicatorStates + 10], a
 	ld a, [wCurrentStage]
 	bit 0, a
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	ld a, Bank(Func_14135)
 	ld hl, Func_14135
 	call nz, BankSwitch
@@ -38832,7 +38794,7 @@ Func_20977: ; 0x20977
 	call Func_7dc
 .asm_209bf
 	ld bc, ThirtyMillionPoints
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_8588
 	call Func_30e8
 	call Func_30db
@@ -38870,7 +38832,7 @@ Func_209eb: ; 0x209eb
 	ld [wIndicatorStates + 10], a
 	ld a, [wCurrentStage]
 	bit 0, a
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	ld a, Bank(Func_14135)
 	ld hl, Func_14135
 	call nz, BankSwitch
@@ -38879,7 +38841,7 @@ Func_209eb: ; 0x209eb
 	ld a, $2
 	ld [wd557], a
 	ld bc, ThirtyMillionPoints
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_8588
 	call Func_30e8
 	call Func_30db
@@ -38915,7 +38877,7 @@ Func_20a65: ; 0x20a65
 	and a
 	jr z, .asm_20a80
 	ld bc, OneMillionPoints
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_8588
 	jr asm_20a9f
 
@@ -38931,7 +38893,7 @@ Func_20a82: ; 0x20a82
 	and a
 	jr z, .asm_20a9d
 	ld bc, OneMillionPoints
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_8588
 	jr asm_20a9f
 
@@ -38951,7 +38913,7 @@ asm_20a9f:
 	ld [wIndicatorStates + 10], a
 	ld a, [wCurrentStage]
 	bit 0, a
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	ld a, Bank(Func_14135)
 	ld hl, Func_14135
 	call nz, BankSwitch
@@ -39055,7 +39017,7 @@ Func_20b02: ; 0x20b02
 	ld hl, rBGPI
 	call Func_8e1
 .asm_20b80
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_10e0a
 	call Func_3475
 	ld de, $0000
@@ -39063,7 +39025,7 @@ Func_20b02: ; 0x20b02
 	rst AdvanceFrame
 	ld de, $2d26
 	call PlaySoundEffect
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_10825
 	call Func_3475
 	ld a, $1
@@ -39107,14 +39069,11 @@ Func_20bae: ; 0x20bae
 	ld a, [wd54d]
 	call CallInFollowingTable
 PointerTable_20bfc: ; 0x20bfc
-	dw Func_20c08
-	db Bank(Func_20c08), $00
+	padded_dab Func_20c08
 
-	dw Func_20d30
-	db Bank(Func_20d30), $00
+	padded_dab Func_20d30
 
-	dw Func_20d7c
-	db Bank(Func_20d7c), $00
+	padded_dab Func_20d7c
 
 Func_20c08: ; 0x20c08
 	ld a, [wCurrentStage]
@@ -39144,12 +39103,12 @@ Func_20c08: ; 0x20c08
 	ld [wIndicatorStates + 3], a
 	ld a, [wCurrentStage]
 	bit 0, a
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	ld a, Bank(Func_1c2cb)
 	ld hl, Func_1c2cb
 	call nz, BankSwitch
 	ld bc, TenThousandPoints
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_8588
 	call Func_30e8
 	call Func_30db
@@ -39251,22 +39210,22 @@ Func_20c76: ; 0x20c76
 	ld bc, $0008
 	call Func_7dc
 .asm_20d25
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_1e8f6
 	ret
 
 Func_20d30: ; 0x20d30
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_dc00
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_10ca5
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_10ac8
 	ld de, $0001
 	call PlaySong
 	ld hl, wd629
 	call Func_e4a
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba SetPokemonOwnedFlag
 	ld a, [wd624]
 	cp $3
@@ -39287,9 +39246,9 @@ Func_20d7c: ; 0x20d7c
 	and a
 	ret nz
 	call Func_30e8
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_dc00
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_10ac8
 	ld de, $0001
 	call PlaySong
@@ -39311,7 +39270,7 @@ Func_20da0: ; 0x20da0
 	jr nz, .asm_20db3
 	call Func_21079
 .asm_20db3
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_107f8
 	ld a, [wd57e]
 	and a
@@ -39341,12 +39300,12 @@ Func_20da0: ; 0x20da0
 	ld a, [wCurrentStage]
 	bit 0, a
 	jr z, .asm_20e1a
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_1c2cb
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_1e8f6
 .asm_20e1a
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_86d2
 	call Func_30e8
 	call Func_30db
@@ -39562,7 +39521,7 @@ Func_20f75: ; 0x20f75
 	ld [wIndicatorStates + 3], a
 	ld a, [wCurrentStage]
 	bit 0, a
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	ld a, Bank(Func_1c2cb)
 	ld hl, Func_1c2cb
 	call nz, BankSwitch
@@ -39576,7 +39535,7 @@ Func_20f75: ; 0x20f75
 	call Func_7dc
 .asm_20fc3
 	ld bc, ThirtyMillionPoints
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_8588
 	call Func_30e8
 	call Func_30db
@@ -39615,7 +39574,7 @@ Func_20fef: ; 0x20fef
 	ld [wIndicatorStates + 3], a
 	ld a, [wCurrentStage]
 	bit 0, a
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	ld a, Bank(Func_1c2cb)
 	ld hl, Func_1c2cb
 	call nz, BankSwitch
@@ -39624,7 +39583,7 @@ Func_20fef: ; 0x20fef
 	ld a, $2
 	ld [wd557], a
 	ld bc, ThirtyMillionPoints
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_8588
 	call Func_30e8
 	call Func_30db
@@ -39647,7 +39606,7 @@ Func_2105c: ; 0x2105c
 	and a
 	jr z, .asm_21077
 	ld bc, OneMillionPoints
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_8588
 	jr asm_210c7
 
@@ -39696,7 +39655,7 @@ Func_21089: ; 0x21089
 	and a
 	jr z, .asm_210c5
 	ld bc, OneMillionPoints
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_8588
 	jr asm_210c7
 
@@ -39716,7 +39675,7 @@ asm_210c7:
 	ld [wIndicatorStates + 2], a
 	ld a, [wCurrentStage]
 	bit 0, a
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	ld a, Bank(Func_1c2cb)
 	ld hl, Func_1c2cb
 	call nz, BankSwitch
@@ -39820,7 +39779,7 @@ Func_2112a: ; 0x2112a
 	ld hl, rBGPI
 	call Func_8e1
 .asm_211a8
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_10e0a
 	call Func_3475
 	ld de, $0000
@@ -39828,7 +39787,7 @@ Func_2112a: ; 0x2112a
 	rst AdvanceFrame
 	ld de, $2d26
 	call PlaySoundEffect
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_10825
 	call Func_3475
 	ld a, $1
@@ -39866,7 +39825,7 @@ InitMeowthBonusStage: ; 0x24000
 	ld [wd713], a
 	ld [wd739], a
 	ld bc, $0100  ; 1 minute 0 seconds
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba StartTimer
 	ld a, $12
 	call SetSongBank
@@ -39961,13 +39920,13 @@ StartBallMeowthBonusStage: ; 0x24059
 	ret
 
 Func_24128: ; 0x24128
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_142fc
 	call Func_2862
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_24fa3
 	call Func_24516
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_1404a
 	ret
 
@@ -40464,7 +40423,7 @@ Func_2442a: ; 0x2442a
 	ld a, [wd712]
 	cp $4
 	jr z, .asm_244c1
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_107f8
 .asm_244c1
 	ld a, [wd57e]
@@ -40475,7 +40434,7 @@ Func_2442a: ; 0x2442a
 	ld a, $1
 	ld [wd7be], a
 	call Func_2862
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_86d2
 	ld a, $1
 	ld [wd713], a
@@ -40498,7 +40457,7 @@ Func_244f5: ; 0x244f5
 	ld a, $1
 	ld [wStageCollisionState], a
 	ld [wd6e6], a
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba LoadStageCollisionAttributes
 	call Func_24516
 	ret
@@ -40560,7 +40519,7 @@ Func_245ab: ; 0x245ab
 	ld de, $0033
 	call PlaySoundEffect
 	ld bc, OneBillionPoints
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba AddBCDScore
 	xor a
 	ld [wMeowthStageBonusCounter], a
@@ -41736,7 +41695,7 @@ Func_24e7f: ; 0x24e7f
 .asm_24ea6
 	push af
 	ld bc, TenMillionPoints
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba AddBCDScore
 	ld hl, wMeowthStageScore
 	inc [hl]
@@ -41897,26 +41856,26 @@ Data_25421:
 
 Func_2583b: ; 0x2583b
 	ld bc, $7f65
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_175a4
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_e4a1
 	call Func_259fe
 	call Func_25895
 	call Func_2595e
 	call Func_2586c
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_17e81
 	call Func_25a39
 	ret
 
 Func_2586c: ; 0x2586c
 	ld a, [wMeowthXPosition]
-	ld hl, hBoardXShift
+	ld hl, hSCX
 	sub [hl]
 	ld b, a
 	ld a, [wMeowthYPosition]
-	ld hl, hBoardYShift
+	ld hl, hSCY
 	sub [hl]
 	ld c, a
 	ld a, [wMeowthAnimationFrame]
@@ -41951,11 +41910,11 @@ Func_25895: ; 0x25895
 	ld [wd716], a
 .asm_258b6
 	ld a, [wd71a]
-	ld hl, hBoardXShift
+	ld hl, hSCX
 	sub [hl]
 	ld b, a
 	ld a, [wd727]
-	ld hl, hBoardYShift
+	ld hl, hSCY
 	sub [hl]
 	ld c, a
 	ld a, [wd717]
@@ -41974,11 +41933,11 @@ Func_25895: ; 0x25895
 	ld a, [hl]
 	call LoadOAMData2
 	ld a, [wd71b]
-	ld hl, hBoardXShift
+	ld hl, hSCX
 	sub [hl]
 	ld b, a
 	ld a, [wd728]
-	ld hl, hBoardYShift
+	ld hl, hSCY
 	sub [hl]
 	ld c, a
 	ld a, [wd718]
@@ -41997,11 +41956,11 @@ Func_25895: ; 0x25895
 	ld a, [hl]
 	call LoadOAMData2
 	ld a, [wd71c]
-	ld hl, hBoardXShift
+	ld hl, hSCX
 	sub [hl]
 	ld b, a
 	ld a, [wd729]
-	ld hl, hBoardYShift
+	ld hl, hSCY
 	sub [hl]
 	ld c, a
 	ld a, [wd719]
@@ -42044,11 +42003,11 @@ Func_2595e: ; 0x2595e
 	ld [wd720], a
 .asm_2597f
 	ld a, [wd724]
-	ld hl, hBoardXShift
+	ld hl, hSCX
 	sub [hl]
 	ld b, a
 	ld a, [wd731]
-	ld hl, hBoardYShift
+	ld hl, hSCY
 	sub [hl]
 	ld c, a
 	ld a, [wd721]
@@ -42067,11 +42026,11 @@ Func_2595e: ; 0x2595e
 	ld a, [hl]
 	call LoadOAMData2
 	ld a, [wd725]
-	ld hl, hBoardXShift
+	ld hl, hSCX
 	sub [hl]
 	ld b, a
 	ld a, [wd732]
-	ld hl, hBoardYShift
+	ld hl, hSCY
 	sub [hl]
 	ld c, a
 	ld a, [wd722]
@@ -42090,11 +42049,11 @@ Func_2595e: ; 0x2595e
 	ld a, [hl]
 	call LoadOAMData2
 	ld a, [wd726]
-	ld hl, hBoardXShift
+	ld hl, hSCX
 	sub [hl]
 	ld b, a
 	ld a, [wd733]
-	ld hl, hBoardYShift
+	ld hl, hSCY
 	sub [hl]
 	ld c, a
 	ld a, [wd723]
@@ -42120,13 +42079,13 @@ Func_259fe: ; 0x259fe
 	ret z
 	ld de, wd79c
 	ld a, [de]
-	ld hl, hBoardXShift
+	ld hl, hSCX
 	sub [hl]
 	ld b, a
 	inc de
 	inc de
 	ld a, [de]
-	ld hl, hBoardYShift
+	ld hl, hSCY
 	sub [hl]
 	ld c, a
 	dec de
@@ -42153,11 +42112,11 @@ Func_25a39: ; 0x25a39
 	and a
 	ret z
 	ld a, [wd652]
-	ld hl, hBoardXShift
+	ld hl, hSCX
 	sub [hl]
 	ld b, a
 	xor a
-	ld hl, hBoardYShift
+	ld hl, hSCY
 	sub [hl]
 	ld c, a
 	ld a, [wd64f]
@@ -42219,7 +42178,7 @@ InitSeelBonusStage: ; 0x25a7c
 	ld [wd792], a
 	ld [wd739], a
 	ld bc, $0130  ; 1 minute 30 seconds
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba StartTimer
 	ld a, $11
 	call SetSongBank
@@ -42312,13 +42271,13 @@ StartBallSeelBonusStage: ; 0x25af1
 	ret
 
 Func_25b97: ; 0x25b97
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_142fc
 	call Func_2862
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_262f4
 	call Func_25d0e
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_1404a
 	ret
 
@@ -42453,7 +42412,7 @@ Func_25c5a: ; 0x25c5a
 	ld a, [wd794]
 	cp $2
 	jr z, .asm_25cc1
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_107f8
 .asm_25cc1
 	ld a, [wd57e]
@@ -42464,7 +42423,7 @@ Func_25c5a: ; 0x25c5a
 	ld a, $1
 	ld [wd7be], a
 	call Func_2862
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_86d2
 	ld a, $3
 	ld [wd791], a
@@ -42485,7 +42444,7 @@ Func_25ced: ; 0x25ced
 	ld a, $1
 	ld [wStageCollisionState], a
 	ld [wd766], a
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba LoadStageCollisionAttributes
 	call Func_25d0e
 	ret
@@ -42645,7 +42604,7 @@ Func_25e85: ; 0x25e85
 	cp $32
 	jr nc, .asm_25ead
 	ld bc, TenMillionPoints
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba AddBCDScore
 	pop de
 	dec d
@@ -42653,7 +42612,7 @@ Func_25e85: ; 0x25e85
 
 .asm_25ead
 	ld bc, FiftyThousandPoints
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba AddBCDScore
 	pop de
 	ld a, d
@@ -43271,12 +43230,12 @@ Data_26764:
 
 Func_26b7e: ; 0x26b7e
 	ld bc, $7f65
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_175a4
 	call Func_26bf7
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_e4a1
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_17e81
 	call Func_26ba9
 	call Func_26c3c
@@ -43293,13 +43252,13 @@ Func_26ba9: ; 0x26ba9
 
 Func_26bbc: ; 0x26bbc
 	ld a, [de]
-	ld hl, hBoardXShift
+	ld hl, hSCX
 	sub [hl]
 	ld b, a
 	inc de
 	inc de
 	ld a, [de]
-	ld hl, hBoardYShift
+	ld hl, hSCY
 	sub [hl]
 	ld c, a
 	dec de
@@ -43327,13 +43286,13 @@ Func_26bf7: ; 0x26bf7: ; 0x26bf7
 	ret z
 	ld de, wd79c
 	ld a, [de]
-	ld hl, hBoardXShift
+	ld hl, hSCX
 	sub [hl]
 	ld b, a
 	inc de
 	inc de
 	ld a, [de]
-	ld hl, hBoardYShift
+	ld hl, hSCY
 	sub [hl]
 	ld c, a
 	dec de
@@ -43360,11 +43319,11 @@ Func_26c3c: ; 0x26c3c
 	and a
 	ret z
 	ld a, [wd652]
-	ld hl, hBoardXShift
+	ld hl, hSCX
 	sub [hl]
 	ld b, a
 	xor a
-	ld hl, hBoardYShift
+	ld hl, hSCY
 	sub [hl]
 	ld c, a
 	ld a, [wd64f]
@@ -43412,7 +43371,7 @@ PointerTable_28004: ; 0x28004
 
 LoadPokedexScreen: ; 0x2800e
 	ld a, $23
-	ld [$ff9e], a
+	ld [hLCDC], a
 	ld a, $e4
 	ld [wd80c], a
 	ld a, $93
@@ -43420,9 +43379,9 @@ LoadPokedexScreen: ; 0x2800e
 	ld a, $e4
 	ld [wd80e], a
 	xor a
-	ld [hBoardXShift], a
+	ld [hSCX], a
 	ld a, $8
-	ld [hBoardYShift], a
+	ld [hSCY], a
 	ld a, $7
 	ld [hWX], a
 	ld a, $8c
@@ -43430,14 +43389,14 @@ LoadPokedexScreen: ; 0x2800e
 	ld a, $3b
 	ld [hLYC], a
 	ld [hLastLYC], a
-	ld [$ffa9], a
-	ld [$ffaa], a
+	ld [hNextLYCSub], a
+	ld [hLYCSub], a
 	ld hl, hSTAT
 	set 6, [hl]
 	ld hl, rIE
 	set 1, [hl]
 	ld a, $2
-	ld [$ffb0], a
+	ld [hHBlankRoutine], a
 	ld hl, PointerTable_280a2
 	ld a, [hGameBoyColorFlag]
 	call LoadVideoData
@@ -44193,7 +44152,7 @@ Func_286dd: ; 0x286dd
 	ld a, c
 	and a
 	jr nz, .asm_28719
-	ld hl, $ffab
+	ld hl, hNextFrameHBlankSCX
 	dec [hl]
 	dec [hl]
 	dec [hl]
@@ -44201,7 +44160,7 @@ Func_286dd: ; 0x286dd
 	ret
 
 .asm_28719
-	ld hl, $ffab
+	ld hl, hNextFrameHBlankSCX
 	inc [hl]
 	inc [hl]
 	inc [hl]
@@ -44229,7 +44188,7 @@ Func_28721: ; 0x28721
 	ld l, a
 	pop af
 	call Func_28aaa
-	ld hl, $ffab
+	ld hl, hNextFrameHBlankSCX
 	dec [hl]
 	dec [hl]
 	dec [hl]
@@ -44251,7 +44210,7 @@ Func_28721: ; 0x28721
 	ld l, a
 	pop af
 	call Func_28aaa
-	ld hl, $ffab
+	ld hl, hNextFrameHBlankSCX
 	inc [hl]
 	inc [hl]
 	inc [hl]
@@ -44278,7 +44237,7 @@ Func_28765: ; 0x28765
 	ld e, a
 	ld a, [hli]
 	ld d, a
-	ld hl, $ffab
+	ld hl, hNextFrameHBlankSCX
 	dec [hl]
 	dec [hl]
 	dec [hl]
@@ -44304,7 +44263,7 @@ Func_28765: ; 0x28765
 	ld e, a
 	ld a, [hli]
 	ld d, a
-	ld hl, $ffab
+	ld hl, hNextFrameHBlankSCX
 	inc [hl]
 	inc [hl]
 	inc [hl]
@@ -44412,13 +44371,13 @@ Func_2887c: ; 0x2887c
 	ld a, $3f
 	ld [hLYC], a
 	ld a, $47
-	ld [$ffa9], a
+	ld [hNextLYCSub], a
 	ld b, $33
 .asm_28894
 	push bc
 	ld a, $7a
 	sub b
-	ld [$ffa9], a
+	ld [hNextLYCSub], a
 	rst AdvanceFrame
 	pop bc
 	dec b
@@ -44433,7 +44392,7 @@ Func_288a2: ; 0x288a2
 	push bc
 	ld a, $44
 	add b
-	ld [$ffa9], a
+	ld [hNextLYCSub], a
 	rst AdvanceFrame
 	pop bc
 	dec b
@@ -44442,7 +44401,7 @@ Func_288a2: ; 0x288a2
 	jr nz, .asm_288a4
 	ld a, $3b
 	ld [hLYC], a
-	ld [$ffa9], a
+	ld [hNextLYCSub], a
 	ld a, BANK(Data_c5100)
 	ld hl, Data_c5100
 	ld de, $9900
@@ -44777,7 +44736,7 @@ Func_28ad1: ; 0x28ad1
 	swap a
 	and $f0
 	sub $3c
-	ld [$ffab], a
+	ld [hNextFrameHBlankSCX], a
 	ret
 
 Func_28add: ; 0x28add
@@ -47524,9 +47483,9 @@ InitRedField: ; 0x30000
 	ld [wIndicatorStates + 3], a
 	ld a, $82
 	ld [wIndicatorStates + 1], a
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_dbba
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_16f95
 	ld a, $f
 	call SetSongBank
@@ -47598,7 +47557,7 @@ StartBallRedField: ; 0x3007d
 	ld [wd4f1], a
 	ld a, $3
 	ld [wd610], a
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_16f95
 	ld a, $f
 	call SetSongBank
@@ -47643,7 +47602,7 @@ Func_30164: ; 0x30164
 
 .asm_30175
 	ld bc, OneHundredThousandPoints
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_8588
 	ld a, $2
 	ld [wd4ca], a
@@ -47690,26 +47649,20 @@ Func_301ce: ; 0x301ce
 	call CallInFollowingTable
 PointerTable_301d4: ; 0x301d4
 	; STAGE_RED_FIELD_TOP
-	dw Func_314ae
-	db Bank(Func_314ae), $00
+	padded_dab Func_314ae
 
 	; STAGE_RED_FIELD_BOTTOM
-	dw Func_314ae
-	db Bank(Func_314ae), $00
+	padded_dab Func_314ae
 
-	dw Func_314ae
-	db Bank(Func_314ae), $00
+	padded_dab Func_314ae
 
-	dw Func_314ae
-	db Bank(Func_314ae), $00
+	padded_dab Func_314ae
 
 	; STAGE_BLUE_FIELD_TOP
-	dw Func_3161b
-	db Bank(Func_3161b), $00
+	padded_dab Func_3161b
 
 	; STAGE_BLUE_FIELD_BOTTOM
-	dw Func_3161b
-	db Bank(Func_3161b), $00
+	padded_dab Func_3161b
 
 StartMapMoveMode: ; 0x301ec
 	ld a, [wInSpecialMode]
@@ -47722,7 +47675,7 @@ StartMapMoveMode: ; 0x301ec
 	xor a
 	ld [wd54d], a
 	ld bc, $0030  ; 30 seconds
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba StartTimer
 	ld a, [wCurrentStage]
 	bit 0, a
@@ -47757,7 +47710,7 @@ Func_3022b: ; 0x3022b
 	xor a
 	ld [wInSpecialMode], a
 	ld [wSpecialMode], a
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_86d2
 	ld a, [wCurrentStage]
 	rst JumpTable  ; calls JumpToFuncInTable
@@ -48024,10 +47977,10 @@ Func_311b4: ; 0x311b4
 
 .asm_311e2
 	ld a, $2
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_149d9
 	ld a, $5
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_149d9
 	ld a, $6a
 	ld [wc7f0], a
@@ -48037,7 +47990,7 @@ Func_311b4: ; 0x311b4
 	ld [wc7e3], a
 	ld a, $67
 	ld [wc803], a
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_107b0
 	ld a, $4
 	ld [wd7ad], a
@@ -48046,27 +47999,27 @@ Func_311b4: ; 0x311b4
 	ld a, [wCurrentStage]
 	bit 0, a
 	ret z
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_14135
 	ret
 
 Func_31234: ; 0x31234
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_107a5
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_107c2
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_107c8
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_107e9
 	ld a, [wCurrentStage]
 	bit 0, a
 	ret z
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_14135
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_16425
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_30253
 	ret
 
@@ -48182,7 +48135,7 @@ Func_31326: ; 0x31326
 	ld [wIndicatorStates + 3], a
 	ld [wIndicatorStates + 4], a
 	ld a, $3
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_1de4b
 	jr .asm_31382
 
@@ -48195,13 +48148,13 @@ Func_31326: ; 0x31326
 	ld [wIndicatorStates + 2], a
 	ld [wIndicatorStates + 4], a
 	ld a, $1
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_1de4b
 	ld a, $6
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_1de4b
 	ld a, $7
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_1de6f
 .asm_31382
 	ld a, [wCurrentStage]
@@ -48218,34 +48171,34 @@ Func_31326: ; 0x31326
 .asm_3139d
 	ld a, $1
 	ld [wd644], a
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_1f2ed
 	ld de, $0003
 	call PlaySong
 	ld a, [wCurrentStage]
 	bit 0, a
 	ret z
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_1c2cb
 	ret
 
 Func_313c3: ; 0x313c3
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_107a5
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_107c2
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_1f2ff
 	ld a, $0
 	ld [wd644], a
 	ld a, [wCurrentStage]
 	bit 0, a
 	ret z
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_1c2cb
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_1e8f6
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_30253
 	ret
 
@@ -48369,17 +48322,13 @@ Func_314ae: ; 0x314ae
 	ld a, [wd54d]
 	call CallInFollowingTable
 PointerTable_314df: ; 0xd13df
-	dw Func_314ef
-	db Bank(Func_314ef), $00
+	padded_dab Func_314ef
 
-	dw Func_314f1
-	db Bank(Func_314f1), $00
+	padded_dab Func_314f1
 
-	dw Func_314f3
-	db Bank(Func_314f3), $00
+	padded_dab Func_314f3
 
-	dw Func_31505
-	db Bank(Func_31505), $00
+	padded_dab Func_31505
 
 Func_314ef: ; 0x314ef
 	scf
@@ -48390,7 +48339,7 @@ Func_314f1: ; 0x314f1
 	ret
 
 Func_314f3: ; 0x314f3
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_3022b
 	ld de, $0001
 	call PlaySong
@@ -48402,7 +48351,7 @@ Func_31505: ; 0x31505
 	and a
 	ret nz
 	call Func_30e8
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_3022b
 	ld de, $0001
 	call PlaySong
@@ -48413,7 +48362,7 @@ Func_3151f: ; 0x3151f
 	ld a, $50
 	ld [wd4ef], a
 	ld [wd4f1], a
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_107f8
 	ld a, [wd57e]
 	and a
@@ -48432,14 +48381,14 @@ Func_3151f: ; 0x3151f
 	ld a, [wCurrentStage]
 	bit 0, a
 	jr z, .asm_31577
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_14135
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_16425
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_30253
 .asm_31577
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_86d2
 	call Func_30e8
 	call Func_30db
@@ -48490,17 +48439,17 @@ Func_315d5: ; 0x315d5
 	ld de, $0000
 	call PlaySong
 	rst AdvanceFrame
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_31281
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_30253
 	ld de, $2525
 	call PlaySoundEffect
 	ld bc, Data_2cbf
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_3118f
 .asm_31603
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_33e3
 	rst AdvanceFrame
 	ld a, [wd5ca]
@@ -48537,17 +48486,13 @@ Func_3161b: ; 0x3161b
 	ld a, [wd54d]
 	call CallInFollowingTable
 PointerTable_3164c: ; 0x3164c
-	dw Func_3165c
-	db Bank(Func_3165c), $00
+	padded_dab Func_3165c
 
-	dw Func_3165e
-	db Bank(Func_3165e), $00
+	padded_dab Func_3165e
 
-	dw Func_31660
-	db Bank(Func_31660), $00
+	padded_dab Func_31660
 
-	dw Func_31672
-	db Bank(Func_31672), $00
+	padded_dab Func_31672
 
 Func_3165c: ; 0x3165c
 	scf
@@ -48558,7 +48503,7 @@ Func_3165e: ; 0x3165e
 	ret
 
 Func_31660: ; 0x31660
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_3022b
 	ld de, $0001
 	call PlaySong
@@ -48570,7 +48515,7 @@ Func_31672: ; 0x31672
 	and a
 	ret nz
 	call Func_30e8
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_3022b
 	ld de, $0001
 	call PlaySong
@@ -48585,7 +48530,7 @@ Func_3168c: ; 0x3168c
 	ld [wd645], a
 	ld a, $1
 	ld [wd646], a
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_107f8
 	ld a, [wd57e]
 	and a
@@ -48604,14 +48549,14 @@ Func_3168c: ; 0x3168c
 	ld a, [wCurrentStage]
 	bit 0, a
 	jr z, .asm_316ee
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_1c2cb
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_1e8f6
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_30253
 .asm_316ee
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_86d2
 	call Func_30e8
 	call Func_30db
@@ -48662,17 +48607,17 @@ Func_3174c: ; 0x3174c
 	ld de, $0000
 	call PlaySong
 	rst AdvanceFrame
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_3140b
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_30253
 	ld de, $2525
 	call PlaySoundEffect
 	ld bc, Data_2cbf
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_3118f
 .asm_3177a
-	ld [$ff8a], a
+	ld [hFarCallTempA], a
 	callba Func_33e3
 	rst AdvanceFrame
 	ld a, [wd5ca]

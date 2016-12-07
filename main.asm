@@ -39723,8 +39723,8 @@ asm_210c7:
 	ld a, [hGameBoyColorFlag]
 	and a
 	jr z, .asm_21102
-	ld a, $37
-	ld hl, $4bf0
+	ld a, BANK(StageBlueFieldBottomOBJPalette6)
+	ld hl, StageBlueFieldBottomOBJPalette6
 	ld de, $0070
 	ld bc, $0008
 	call Func_7dc
@@ -39835,8 +39835,6 @@ Func_2112a: ; 0x2112a
 	ld [wd54d], a
 	scf
 	ret
-
-	dr $211d6, $24000
 
 SECTION "bank9", ROMX, BANK[$9]
 
@@ -40025,9 +40023,9 @@ Func_24170: ; 0x24170
 	ld l, b
 	ld h, $0
 	add hl, de
-	ld de, $5500
+	ld de, Data_e9500
 	add hl, de
-	ld a, $3a
+	ld a, BANK(Data_e9500)
 	call ReadByteFromBank
 	bit 7, a
 	jr nz, .asm_24212
@@ -40173,9 +40171,9 @@ Func_24272: ; 0x24272
 	ld l, b
 	ld h, $0
 	add hl, de
-	ld de, $5c80 ; todo
+	ld de, Data_e9c80
 	add hl, de
-	ld a, $3a
+	ld a, BANK(Data_e9c80)
 	call ReadByteFromBank
 	bit 7, a
 	jr nz, .asm_242b9
@@ -40483,7 +40481,7 @@ Func_2442a: ; 0x2442a
 	ld [wd713], a
 	ld a, $1
 	ld [wd712], a
-	ld hl, $4704
+	ld hl, Data_24704
 	ld de, wMeowthAnimationFrameCounter
 	call CopyHLToDE
 	ld a, $4
@@ -40510,11 +40508,11 @@ Func_24516: ; 0x24516
 	sla a
 	ld c, a
 	ld b, $0
-	ld hl, $4533
+	ld hl, Data_24533
 	ld a, [hGameBoyColorFlag]
 	and a
 	jr z, .asm_24529
-	ld hl, $456f
+	ld hl, Data_2456f
 .asm_24529
 	add hl, bc
 	ld a, [hli]
@@ -40524,7 +40522,11 @@ Func_24516: ; 0x24516
 	call Func_10aa
 	ret
 
-	dr $24533, $245ab
+Data_24533:
+	dr $24533, $2456f
+
+Data_2456f:
+	dr $2456f, $245ab
 
 Func_245ab: ; 0x245ab
 	ld a, [wd6e7]
@@ -40567,7 +40569,7 @@ Func_245ab: ; 0x245ab
 	jr nc, .asm_24621
 	and a
 	jr nz, .asm_24611
-	ld hl, $46fe
+	ld hl, Data_246fe
 	ld de, wMeowthAnimationFrameCounter
 	call CopyHLToDE
 	ld a, $2
@@ -40575,7 +40577,7 @@ Func_245ab: ; 0x245ab
 	jr .asm_24651
 
 .asm_24611
-	ld hl, $4701
+	ld hl, Data_24701
 	ld de, wMeowthAnimationFrameCounter
 	call CopyHLToDE
 	ld a, $3
@@ -40600,7 +40602,7 @@ Func_245ab: ; 0x245ab
 	ld a, [wd70c]
 	cp $3
 	jr nz, .asm_24651
-	ld hl, $4704
+	ld hl, Data_24704
 	ld de, wMeowthAnimationFrameCounter
 	call CopyHLToDE
 	ld a, $4
@@ -40617,7 +40619,7 @@ Func_2465d: ; 0x2465d
 	sla a
 	ld c, a
 	ld b, $0
-	ld hl, $46e2
+	ld hl, Data_246e2
 	add hl, bc
 	ld a, [hli]
 	ld h, [hl]
@@ -40631,7 +40633,7 @@ Func_2465d: ; 0x2465d
 	ld a, [wMeowthAnimationFrameIndex]
 	cp $4
 	ret nz
-	ld hl, $46ec
+	ld hl, Data_246ec
 	ld de, wMeowthAnimationFrameCounter
 	call CopyHLToDE
 	ret
@@ -40642,7 +40644,7 @@ Func_2465d: ; 0x2465d
 	ld a, [wMeowthAnimationFrameIndex]
 	cp $4
 	ret nz
-	ld hl, $46f5
+	ld hl, Data_246f5
 	ld de, wMeowthAnimationFrameCounter
 	call CopyHLToDE
 	ret
@@ -40653,7 +40655,7 @@ Func_2465d: ; 0x2465d
 	ld a, [wMeowthAnimationFrameIndex]
 	cp $1
 	ret nz
-	ld hl, $46ec
+	ld hl, Data_246ec
 	ld de, wMeowthAnimationFrameCounter
 	call CopyHLToDE
 	xor a
@@ -40666,7 +40668,7 @@ Func_2465d: ; 0x2465d
 	ld a, [wMeowthAnimationFrameIndex]
 	cp $1
 	ret nz
-	ld hl, $46f5
+	ld hl, Data_246f5
 	ld de, wMeowthAnimationFrameCounter
 	call CopyHLToDE
 	ld a, $1
@@ -40679,12 +40681,28 @@ Func_2465d: ; 0x2465d
 	ld a, [wMeowthAnimationFrameIndex]
 	cp $2
 	ret nz
-	ld hl, $4704
+	ld hl, Data_24704
 	ld de, wMeowthAnimationFrameCounter
 	call CopyHLToDE
 	ret
 
-	dr $246e2, $24709
+Data_246e2:
+	dr $246e2, $246ec
+
+Data_246ec:
+	dr $246ec, $246f5
+
+Data_246f5:
+	dr $246f5, $246fe
+
+Data_246fe:
+	dr $246fe, $24701
+
+Data_24701:
+	dr $24701, $24704
+
+Data_24704:
+	dr $24704, $24709
 
 Func_24709: ; 0x24709
 	ld a, [wMeowthXPosition]
@@ -41108,7 +41126,7 @@ Func_248ac: ; 0x248ac
 	ld a, [wMeowthXMovement]
 	cp $ff
 	jr z, .asm_24a21
-	ld hl, $46f5
+	ld hl, Data_246f5
 	ld de, wMeowthAnimationFrameCounter
 	call CopyHLToDE
 	ld a, $1
@@ -41116,7 +41134,7 @@ Func_248ac: ; 0x248ac
 	ret
 
 .asm_24a21
-	ld hl, $46ec
+	ld hl, Data_246ec
 	ld de, wMeowthAnimationFrameCounter
 	call CopyHLToDE
 	ld a, $0
@@ -41155,7 +41173,7 @@ Func_24a30: ; 0x24a30
 	ld hl, wd6f5
 	add hl, bc
 	ld a, [hl]
-	ld hl, $4af1
+	ld hl, Data_24af1
 	ld e, a
 	ld d, $0
 	add hl, de
@@ -41177,7 +41195,7 @@ Func_24a30: ; 0x24a30
 	ld a, [hl]
 	ld e, a
 	ld d, $0
-	ld hl, $4af1
+	ld hl, Data_24af1
 	add hl, de
 	pop af
 	add [hl]
@@ -41197,7 +41215,7 @@ Func_24a30: ; 0x24a30
 	ld a, [hl]
 	ld e, a
 	ld d, $0
-	ld hl, $4af1
+	ld hl, Data_24af1
 	add hl, de
 	ld a, [hl]
 	ld d, a
@@ -41220,7 +41238,7 @@ Func_24a30: ; 0x24a30
 	ld a, [hl]
 	ld e, a
 	ld d, $0
-	ld hl, $4af1
+	ld hl, Data_24af1
 	add hl, de
 	inc hl
 	ld a, [hl]
@@ -41250,6 +41268,7 @@ Func_24a30: ; 0x24a30
 .asm_24af0
 	ret
 
+Data_24af1:
 	dr $24af1, $24b41
 
 Func_24b41: ; 0x24b41
@@ -41264,7 +41283,7 @@ Func_24b41: ; 0x24b41
 	ld hl, wd6f5
 	add hl, bc
 	ld a, [hl]
-	ld hl, $4c0a
+	ld hl, Data_24c0a
 	ld e, a
 	ld d, $0
 	add hl, de
@@ -41286,7 +41305,7 @@ Func_24b41: ; 0x24b41
 	ld a, [hl]
 	ld e, a
 	ld d, $0
-	ld hl, $4c0a
+	ld hl, Data_24c0a
 	add hl, de
 	pop af
 	add [hl]
@@ -41306,7 +41325,7 @@ Func_24b41: ; 0x24b41
 	ld a, [hl]
 	ld e, a
 	ld d, $0
-	ld hl, $4c0a
+	ld hl, Data_24c0a
 	add hl, de
 	ld a, [hl]
 	ld d, a
@@ -41329,7 +41348,7 @@ Func_24b41: ; 0x24b41
 	ld a, [hl]
 	ld e, a
 	ld d, $0
-	ld hl, $4c0a
+	ld hl, Data_24c0a
 	add hl, de
 	inc hl
 	ld a, [hl]
@@ -41383,6 +41402,7 @@ Func_24bf6: ; 0x24bf6
 	ccf
 	ret
 
+Data_24c0a:
 	dr $24c0a, $24c28
 
 Func_24c28: ; 0x24c28
@@ -41677,7 +41697,7 @@ Func_24d07: ; 0x24d07
 	ld a, [wMeowthXMovement]
 	cp $ff
 	jr z, .asm_24e70
-	ld hl, $46f5
+	ld hl, Data_246f5
 	ld de, wMeowthAnimationFrameCounter
 	call CopyHLToDE
 	ld a, $1
@@ -41685,7 +41705,7 @@ Func_24d07: ; 0x24d07
 	ret
 
 .asm_24e70
-	ld hl, $46ec
+	ld hl, Data_246ec
 	ld de, wMeowthAnimationFrameCounter
 	call CopyHLToDE
 	ld a, $0
@@ -41756,7 +41776,7 @@ Func_24ee7: ; 0x24ee7
 	sla a
 	ld c, a
 	ld b, $0
-	ld hl, $4f30
+	ld hl, Data_24f30
 	add hl, bc
 	ld a, [hli]
 	ld h, [hl]
@@ -41772,7 +41792,7 @@ Func_24f00: ; 0x24f00
 	sla a
 	ld c, a
 	ld b, $0
-	ld hl, $4f30
+	ld hl, Data_24f30
 	add hl, bc
 	ld a, [hli]
 	ld h, [hl]
@@ -41799,6 +41819,7 @@ Func_24f00: ; 0x24f00
 	ld [wd710], a
 	ret
 
+Data_24f30:
 	dr $24f30, $24fa3
 
 Func_24fa3: ; 0x24fa3
@@ -41854,11 +41875,11 @@ Func_24fa3: ; 0x24fa3
 	sla a
 	ld c, a
 	ld b, $0
-	ld hl, $5007
+	ld hl, Data_25007
 	ld a, [hGameBoyColorFlag]
 	and a
 	jr z, .asm_24ffd
-	ld hl, $5421
+	ld hl, Data_25421
 .asm_24ffd
 	add hl, bc
 	ld a, [hli]
@@ -41868,7 +41889,11 @@ Func_24fa3: ; 0x24fa3
 	call Func_10aa
 	ret
 
-	dr $25007, $2583b
+Data_25007:
+	dr $25007, $25421
+
+Data_25421:
+	dr $25421, $2583b
 
 Func_2583b: ; 0x2583b
 	ld bc, $7f65
@@ -41897,12 +41922,13 @@ Func_2586c: ; 0x2586c
 	ld a, [wMeowthAnimationFrame]
 	ld e, a
 	ld d, $0
-	ld hl, $588b
+	ld hl, Data_2588b
 	add hl, de
 	ld a, [hl]
 	call LoadOAMData2
 	ret
 
+Data_2588b:
 	dr $2588b, $25895
 
 Func_25895: ; 0x25895
@@ -41936,7 +41962,7 @@ Func_25895: ; 0x25895
 	sla a
 	ld e, a
 	ld d, $0
-	ld hl, $5935
+	ld hl, Data_25935
 	add hl, de
 	ld a, [hli]
 	ld h, [hl]
@@ -41959,7 +41985,7 @@ Func_25895: ; 0x25895
 	sla a
 	ld e, a
 	ld d, $0
-	ld hl, $5935
+	ld hl, Data_25935
 	add hl, de
 	ld a, [hli]
 	ld h, [hl]
@@ -41982,7 +42008,7 @@ Func_25895: ; 0x25895
 	sla a
 	ld e, a
 	ld d, $0
-	ld hl, $5935
+	ld hl, Data_25935
 	add hl, de
 	ld a, [hli]
 	ld h, [hl]
@@ -41995,6 +42021,7 @@ Func_25895: ; 0x25895
 	call LoadOAMData2
 	ret
 
+Data_25935:
 	dr $25935, $2595e
 
 Func_2595e: ; 0x2595e
@@ -42028,7 +42055,7 @@ Func_2595e: ; 0x2595e
 	sla a
 	ld e, a
 	ld d, $0
-	ld hl, $5935
+	ld hl, Data_25935
 	add hl, de
 	ld a, [hli]
 	ld h, [hl]
@@ -42051,7 +42078,7 @@ Func_2595e: ; 0x2595e
 	sla a
 	ld e, a
 	ld d, $0
-	ld hl, $5935
+	ld hl, Data_25935
 	add hl, de
 	ld a, [hli]
 	ld h, [hl]
@@ -42074,7 +42101,7 @@ Func_2595e: ; 0x2595e
 	sla a
 	ld e, a
 	ld d, $0
-	ld hl, $5935
+	ld hl, Data_25935
 	add hl, de
 	ld a, [hli]
 	ld h, [hl]
@@ -42111,13 +42138,14 @@ Func_259fe: ; 0x259fe
 	ld a, [de]
 	ld e, a
 	ld d, $0
-	ld hl, $5a29
+	ld hl, Data_25a29
 	add hl, de
 	ld a, [hl]
 	cp $ff
 	call nz, LoadOAMData2
 	ret
 
+Data_25a29:
 	dr $25a29, $25a39
 
 Func_25a39: ; 0x25a39
@@ -42141,7 +42169,7 @@ Func_25a39: ; 0x25a39
 .asm_25a58
 	ld de, $0001
 .asm_25a5b
-	ld hl, $5a7a
+	ld hl, Data_25a7a
 	add hl, de
 	ld a, [hl]
 	call LoadOAMData2
@@ -42160,6 +42188,7 @@ Func_25a39: ; 0x25a39
 	ld [wd64e], a
 	ret
 
+Data_25a7a:
 	dr $25a7a, $25a7c
 
 InitSeelBonusStage: ; 0x25a7c
@@ -42177,7 +42206,7 @@ InitSeelBonusStage: ; 0x25a7c
 	ld [wd4c8], a
 	ld [wBallType], a
 	ld [wd49a], a
-	ld hl, $5ae5 ; todo
+	ld hl, Data_25ae5
 	ld de, wd76d
 	call Func_25ad8
 	ld de, wd777
@@ -42213,6 +42242,7 @@ Func_25ad8: ; 0x25ad8
 	inc de
 	ret
 
+Data_25ae5:
 	dr $25ae5, $25af1
 
 StartBallSeelBonusStage: ; 0x25af1
@@ -42367,9 +42397,9 @@ Func_25c12: ; 0x25c12
 	ld l, b
 	ld h, $0
 	add hl, de
-	ld de, $5100 ; todo
+	ld de, Data_e9100
 	add hl, de
-	ld a, $3a  ; TODO: hardcoded bank
+	ld a, BANK(Data_e9100)
 	call ReadByteFromBank
 	bit 7, a
 	jr nz, .asm_25c58
@@ -42465,11 +42495,11 @@ Func_25d0e: ; 0x25d0e
 	sla a
 	ld c, a
 	ld b, $0
-	ld hl, $5d2b
+	ld hl, Data_25d2b
 	ld a, [hGameBoyColorFlag]
 	and a
 	jr z, .asm_25d21
-	ld hl, $5d67
+	ld hl, Data_25d67
 .asm_25d21
 	add hl, bc
 	ld a, [hli]
@@ -42479,7 +42509,11 @@ Func_25d0e: ; 0x25d0e
 	call Func_10aa
 	ret
 
-	dr $25d2b, $25da3
+Data_25d2b:
+	dr $25d2b, $25d67
+
+Data_25d67:
+	dr $25d67, $25da3
 
 Func_25da3: ; 0x25da3
 	ld a, [wd767]
@@ -42505,7 +42539,7 @@ Func_25da3: ; 0x25da3
 	dec de
 	dec de
 	push bc
-	ld hl, $61d8
+	ld hl, Data_261d8
 	call CopyHLToDE
 	pop bc
 	ld hl, wd76e
@@ -42648,7 +42682,7 @@ Func_25ec5: ; 0x25ec5
 	and $f
 	ld c, a
 	ld b, $0
-	ld hl, $5f27
+	ld hl, Data_25f27
 	add hl, bc
 	pop bc
 	pop af
@@ -42679,7 +42713,7 @@ Func_25ec5: ; 0x25ec5
 	dec hl
 	ld d, h
 	ld e, l
-	ld hl, $61c2
+	ld hl, Data_261c2
 	call CopyHLToDE
 	ret
 
@@ -42709,10 +42743,11 @@ Func_25ec5: ; 0x25ec5
 	dec hl
 	ld d, h
 	ld e, l
-	ld hl, $61cd
+	ld hl, Data_261cd
 	call CopyHLToDE
 	ret
 
+Data_25f27:
 	dr $25f27, $25f47
 
 Func_25f47: ; 0x25f47
@@ -42720,7 +42755,7 @@ Func_25f47: ; 0x25f47
 	sla a
 	ld c, a
 	ld b, $0
-	ld hl, $614f
+	ld hl, Data_2614f
 	add hl, bc
 	ld a, [hli]
 	ld h, [hl]
@@ -43093,7 +43128,7 @@ Func_26137: ; 0x26137
 	sla a
 	ld c, a
 	ld b, $0
-	ld hl, $614f ; todo
+	ld hl, Data_2614f ; todo
 	add hl, bc
 	ld a, [hli]
 	ld h, [hl]
@@ -43108,7 +43143,17 @@ Func_26137: ; 0x26137
 	ld [de], a
 	ret
 
-	dr $2614f, $261f9
+Data_2614f:
+	dr $2614f, $261c2
+
+Data_261c2:
+	dr $261c2, $261cd
+
+Data_261cd:
+	dr $261cd, $261d8
+
+Data_261d8:
+	dr $261d8, $261f9
 
 Func_261f9: ; 0x261f9
 	ld a, $ff
@@ -43117,7 +43162,7 @@ Func_261f9: ; 0x261f9
 	sla a
 	ld c, a
 	ld b, $0
-	ld hl, $623a
+	ld hl, Data_2623a
 	add hl, bc
 	ld a, [hli]
 	ld h, [hl]
@@ -43133,7 +43178,7 @@ Func_26212: ; 0x26212
 	sla a
 	ld c, a
 	ld b, $0
-	ld hl, $623a
+	ld hl, Data_2623a
 	add hl, bc
 	ld a, [hli]
 	ld h, [hl]
@@ -43157,6 +43202,7 @@ Func_26212: ; 0x26212
 	ld [wd795], a
 	ret
 
+Data_2623a:
 	dr $2623a, $262f4
 
 Func_262f4: ; 0x262f4
@@ -43203,11 +43249,11 @@ Func_262f4: ; 0x262f4
 	sla a
 	ld c, a
 	ld b, $0
-	ld hl, $634a
+	ld hl, Data_2634a
 	ld a, [hGameBoyColorFlag]
 	and a
 	jr z, .asm_26340
-	ld hl, $6764
+	ld hl, Data_26764
 .asm_26340
 	add hl, bc
 	ld a, [hli]
@@ -43217,7 +43263,11 @@ Func_262f4: ; 0x262f4
 	call Func_10aa
 	ret
 
-	dr $2634a, $26b7e
+Data_2634a:
+	dr $2634a, $26764
+
+Data_26764:
+	dr $26764, $26b7e
 
 Func_26b7e: ; 0x26b7e
 	ld bc, $7f65
@@ -43261,13 +43311,14 @@ Func_26bbc: ; 0x26bbc
 	ld a, [de]
 	ld e, a
 	ld d, $0
-	ld hl, $6bdf
+	ld hl, Data_26bdf
 	add hl, de
 	ld a, [hl]
 	cp $ff
 	call nz, LoadOAMData2
 	ret
 
+Data_26bdf:
 	dr $26bdf, $26bf7
 
 Func_26bf7: ; 0x26bf7: ; 0x26bf7
@@ -43294,13 +43345,14 @@ Func_26bf7: ; 0x26bf7: ; 0x26bf7
 	ld a, [de]
 	ld e, a
 	ld d, $0
-	ld hl, $6c23
+	ld hl, Data_26c23
 	add hl, de
 	ld a, [hl]
 	cp $ff
 	call nz, LoadOAMData2
 	ret
 
+Data_26c23:
 	dr $26c23, $26c3c
 
 Func_26c3c: ; 0x26c3c
@@ -43324,7 +43376,7 @@ Func_26c3c: ; 0x26c3c
 .asm_26c5b
 	ld de, $0001
 .asm_26c5e
-	ld hl, $6c7d
+	ld hl, Data_26c7d
 	add hl, de
 	ld a, [hl]
 	call LoadOAMData2
@@ -43343,7 +43395,8 @@ Func_26c3c: ; 0x26c3c
 	ld [wd64e], a
 	ret
 
-	dr $26c7d, $28000
+Data_26c7d:
+	dr $26c7d, $26c7f
 
 SECTION "banka", ROMX, BANK[$a]
 
@@ -58346,7 +58399,13 @@ Data_e8c00:
 	dr $e8c00, $e9100 ; 0xe8000
 
 Data_e9100:
-	dr $e9100, $ec000 ; 0xe8000
+	dr $e9100, $e9500 ; 0xe8000
+
+Data_e9500:
+	dr $e9500, $e9c80 ; 0xe8000
+
+Data_e9c80:
+	dr $e9c80, $ec000 ; 0xe8000
 
 SECTION "bank3b", ROMX, BANK[$3b]
 Data_ec000:

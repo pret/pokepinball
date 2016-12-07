@@ -100,7 +100,10 @@ wd2c0:: ; 0xd2c0
 	ds $40
 
 wPartyMons:: ; 0xd300
-	ds $160
+	ds $100
+
+wd400:: ; 0xd400
+	ds $60
 
 wNumPartyMons:: ; 0xd460
 	ds $1

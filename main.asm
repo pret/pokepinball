@@ -186,7 +186,7 @@ VBlank: ; 0x2f2
 	ld a, [rLY]
 	cp $90
 	jr c, .asm_328
-	ld hl, $ff9f
+	ld hl, hSTAT
 	ld c, rSTAT - $ff00
 	ld a, [hli]
 	ld [$ff00+c], a
@@ -217,8 +217,8 @@ VBlank: ; 0x2f2
 	ld a, [hli]
 	ld [$ff00+c], a
 .asm_328
-	ld a, [$ffa2]
-	ld [$ffa8], a
+	ld a, [hLYC]
+	ld [hLastLYC], a
 	ld a, [$ffa9]
 	ld [$ffaa], a
 	ld a, [$ffab]
@@ -242,15 +242,15 @@ VBlank: ; 0x2f2
 	ld a, $1
 	ld [wdaa3], a
 .asm_359
-	ld hl, $ffb2
+	ld hl, hNumFramesSinceLastVBlank
 	ld a, [hl]
 	inc [hl]
 	and a
 	jr nz, .asm_365
-	ld hl, $ffb3
+	ld hl, hNumFramesDropped
 	inc [hl]
 .asm_365
-	ld hl, $ffb4
+	ld hl, hVBlankCount
 	inc [hl]
 	ld a, [wd8e1]
 	and a
@@ -401,7 +401,7 @@ DelayFrame: ; 0x468
 	ld a, [rLCDC]
 	bit 7, a
 	ret z
-	ld hl, $ffb2
+	ld hl, hNumFramesSinceLastVBlank
 	xor a
 	ld [hl], a
 .asm_472
@@ -1615,9 +1615,9 @@ Func_b66: ; 0xb66
 	and a
 	jr nz, .asm_b73
 	xor a
-	ld [$ffa3], a
-	ld [$ffa4], a
-	ld [$ffa5], a
+	ld [hBGP], a
+	ld [hOBP0], a
+	ld [hOBP1], a
 	ret
 
 .asm_b73
@@ -1678,7 +1678,7 @@ Func_bbe: ; 0xbbe
 	ld a, [hGameBoyColorFlag]
 	and a
 	jp nz, Func_c19
-	ld hl, $ffa3
+	ld hl, hBGP
 	ld de, wd80c
 	ld b, $3
 .asm_bcc
@@ -1695,7 +1695,7 @@ Func_bbe: ; 0xbbe
 	jr nz, .asm_bcc
 	ld bc, $0002
 	call Func_93f
-	ld hl, $ffa3
+	ld hl, hBGP
 	ld de, wd80c
 	ld b, $3
 .asm_be9
@@ -1709,7 +1709,7 @@ Func_bbe: ; 0xbbe
 	jr nz, .asm_be9
 	ld bc, $0002
 	call Func_93f
-	ld hl, $ffa3
+	ld hl, hBGP
 	ld de, wd80c
 	ld b, $3
 .asm_c02
@@ -1853,7 +1853,7 @@ Func_cb5: ; 0xcb5
 	ld a, [hGameBoyColorFlag]
 	and a
 	jp nz, Func_cee
-	ld hl, $ffa3
+	ld hl, hBGP
 	ld b, $3
 .asm_cc0
 	push bc
@@ -1880,7 +1880,7 @@ Func_cb5: ; 0xcb5
 	dec b
 	jr nz, .asm_cc0
 	xor a
-	ld hl, $ffa3
+	ld hl, hBGP
 	ld [hli], a
 	ld [hli], a
 	ld [hl], a
@@ -2450,7 +2450,7 @@ Func_fbc: ; 0xfbc
 	jp Func_3ff
 
 Func_fbf: ; 0xfbf
-	ld hl, $ffa8
+	ld hl, hLastLYC
 	ld c, [hl]
 	ld a, [rLY]
 	cp c
@@ -2477,7 +2477,7 @@ Func_fbf: ; 0xfbf
 	jp Func_3ff
 
 Func_fea: ; 0xfea
-	ld hl, $ffa8
+	ld hl, hLastLYC
 	ld a, [$ffaa]
 	cp [hl]
 	jr nz, .asm_1015
@@ -2506,7 +2506,7 @@ Func_fea: ; 0xfea
 	ld a, [rLY]
 	cp [hl]
 	jr nz, .asm_1037
-	ld a, [$ffa8]
+	ld a, [hLastLYC]
 	ld hl, $ffaa
 	sub [hl]
 	add $40
@@ -2548,7 +2548,7 @@ Func_fea: ; 0xfea
 	jp Func_3ff
 
 Func_105d: ; 0x105d
-	ld hl, $ffa8
+	ld hl, hLastLYC
 	ld a, [rLY]
 	cp [hl]
 	jr z, .asm_1069
@@ -2942,7 +2942,7 @@ Func_1353: ; 0x1353
 	call Func_12a1
 	ld bc, $0006
 	call Func_948
-	ld a, [$ffa3]
+	ld a, [hBGP]
 	ld [rBGP], a
 	ld a, [$ff9e]
 	ld [rLCDC], a
@@ -5776,7 +5776,7 @@ INCLUDE "text.asm"
 
 Func_30db: ; 0x30db
 	ld a, $86
-	ld [$ffa6], a
+	ld [hWY], a
 	ld a, $1
 	ld [wd5ca], a
 	ld [wd5cb], a
@@ -11223,12 +11223,12 @@ asm_8592:
 	ret
 
 Func_85c7: ; 0x85c7
-	ld a, [$ffb3]
+	ld a, [hNumFramesDropped]
 	and $3
 	ret nz
 	ld a, [wd478]
 	ld l, a
-	ld h, $d4
+	ld h, wd400 / $100
 	ld de, wScore
 	ld a, [wd477]
 	cp l
@@ -11332,30 +11332,30 @@ Func_8650: ; 0x8650
 	bit 0, a
 	jr nz, .bottomStage
 	ld a, $86
-	ld [$ffa6], a
+	ld [hWY], a
 	ret
 
 .bottomStage
 	ld a, [wBallYPos + 1]
 	cp $84
 	jr nc, .asm_8670
-	ld a, [$ffa6]
+	ld a, [hWY]
 	sub $3
 	cp $86
 	jr nc, .asm_866d
 	ld a, $86
 .asm_866d
-	ld [$ffa6], a
+	ld [hWY], a
 	ret
 
 .asm_8670
-	ld a, [$ffa6]
+	ld a, [hWY]
 	add $3
 	cp $90
 	jr c, .asm_867a
 	ld a, $90
 .asm_867a
-	ld [$ffa6], a
+	ld [hWY], a
 	ret
 
 StartTimer: ; 0x867d
@@ -11454,9 +11454,9 @@ HandleInGameMenu: ; 0x86d7
 	ld bc, $00c0
 	call LoadVRAMData
 	ld a, $60
-	ld [$ffa6], a
+	ld [hWY], a
 	dec a
-	ld [$ffa2], a
+	ld [hLYC], a
 	ld a, $fd
 	ld [$ffaf], a
 	call HandleInGameMenuSelection
@@ -11476,10 +11476,10 @@ HandleInGameMenu: ; 0x86d7
 	ld bc, $003c
 	call Func_93f
 	ld a, $86
-	ld [$ffa6], a
+	ld [hWY], a
 	ld a, $83
-	ld [$ffa2], a
-	ld [$ffa8], a
+	ld [hLYC], a
+	ld [hLastLYC], a
 	ld a, $ff
 	ld [$ffaf], a
 	ld a, [hGameBoyColorFlag]
@@ -13569,7 +13569,7 @@ Func_c621: ; 0xc621
 	ld c, a
 	ld a, [hl]
 	ld b, a
-	ld a, [$ffb3]
+	ld a, [hNumFramesDropped]
 	bit 2, a
 	ret z
 	ld a, $84
@@ -14365,12 +14365,12 @@ Func_cb14: ; 0xcb14
 	ld [hBoardYShift], a
 	ld [$ffad], a
 	ld a, $e
-	ld [$ffa2], a
-	ld [$ffa8], a
+	ld [hLYC], a
+	ld [hLastLYC], a
 	ld a, $82
 	ld [$ffa9], a
 	ld [$ffaa], a
-	ld hl, $ff9f
+	ld hl, hSTAT
 	set 6, [hl]
 	ld hl, rIE
 	set 1, [hl]
@@ -14632,7 +14632,7 @@ Func_ccb6: ; 0xccb6
 	ret
 
 Func_cd6c: ; 0xcd6c
-	ld a, [$ffb3]
+	ld a, [hNumFramesDropped]
 	and $1f
 	call z, Func_1a43
 	call Func_cf7d
@@ -14839,14 +14839,14 @@ SendHighScores: ; 0xced1
 .attemptToSendHighScoresLoop
 	push bc
 	xor a
-	ld [$ffb2], a
+	ld [hNumFramesSinceLastVBlank], a
 .asm_cefa
 	ld b, $2
 	ld c, $56
 	ld a, [$ff00+c]
 	and b
 	jr z, .asm_cf09
-	ld a, [$ffb2]
+	ld a, [hNumFramesSinceLastVBlank]
 	and a
 	jr z, .asm_cefa
 	jr .asm_cf0e
@@ -15215,7 +15215,7 @@ Func_d159: ; 0xd159
 ExitHighScoresScreen: ; 0xd171
 	call Func_cb5
 	call Func_576
-	ld hl, $ff9f
+	ld hl, hSTAT
 	res 6, [hl]
 	ld hl, rIE
 	res 1, [hl]
@@ -15756,9 +15756,9 @@ Func_d4cf: ; 0xd4cf
 	call ClearOAMBuffer
 	call Func_d57b
 	ld a, $a5
-	ld [$ffa7], a
+	ld [hWX], a
 	xor a
-	ld [$ffa6], a
+	ld [hWY], a
 	ld a, $2
 	ld [hBoardXShift], a
 	ld hl, $ff9e
@@ -15770,7 +15770,7 @@ Func_d4cf: ; 0xd4cf
 	sub b
 	bit 0, b
 	call nz, Func_d626
-	ld hl, $ffa7
+	ld hl, hWX
 	dec [hl]
 	dec [hl]
 	dec [hl]
@@ -15798,9 +15798,9 @@ Func_d4cf: ; 0xd4cf
 	call ClearOAMBuffer
 	call Func_d57b
 	ld a, $7
-	ld [$ffa7], a
+	ld [hWX], a
 	xor a
-	ld [$ffa6], a
+	ld [hWY], a
 	ld a, $a0
 	ld [hBoardXShift], a
 	ld hl, $ff9e
@@ -15812,7 +15812,7 @@ Func_d4cf: ; 0xd4cf
 	ld a, b
 	bit 0, b
 	call nz, Func_d626
-	ld hl, $ffa7
+	ld hl, hWX
 	inc [hl]
 	inc [hl]
 	inc [hl]
@@ -16263,13 +16263,13 @@ Func_d87f: ; 0xd87f
 	xor a
 	ld [hBoardYShift], a
 	ld a, $7
-	ld [$ffa7], a
+	ld [hWX], a
 	ld a, $83
-	ld [$ffa2], a
-	ld [$ffa8], a
+	ld [hLYC], a
+	ld [hLastLYC], a
 	ld a, $ff
 	ld [$ffaf], a
-	ld hl, $ff9f
+	ld hl, hSTAT
 	set 6, [hl]
 	ld hl, rIE
 	set 1, [hl]
@@ -16422,7 +16422,7 @@ SaveGame: ; 0xda05
 	and a
 	call nz, Func_e5d
 	call Func_576
-	ld hl, $ff9f
+	ld hl, hSTAT
 	res 6, [hl]
 	ld hl, rIE
 	res 1, [hl]
@@ -16504,7 +16504,7 @@ Func_dab2: ; 0xdab2
 	and a
 	call z, Func_e5d
 	call Func_576
-	ld hl, $ff9f
+	ld hl, hSTAT
 	res 6, [hl]
 	ld hl, rIE
 	res 1, [hl]
@@ -16522,7 +16522,7 @@ Func_dab2: ; 0xdab2
 	and a
 	call nz, Func_e5d
 	call Func_576
-	ld hl, $ff9f
+	ld hl, hSTAT
 	res 6, [hl]
 	ld hl, rIE
 	res 1, [hl]
@@ -16549,7 +16549,7 @@ Func_dab2: ; 0xdab2
 	and a
 	call nz, Func_e5d
 	call Func_576
-	ld hl, $ff9f
+	ld hl, hSTAT
 	res 6, [hl]
 	ld hl, rIE
 	res 1, [hl]
@@ -16570,7 +16570,7 @@ TransitionToHighScoresScreen: ; 0xdb5d
 	call Func_93f
 	call Func_cb5
 	call Func_576
-	ld hl, $ff9f
+	ld hl, hSTAT
 	res 6, [hl]
 	ld hl, rIE
 	res 1, [hl]
@@ -18109,9 +18109,9 @@ Func_e674: ; 0xe674
 	pop af
 	ld [wCurrentStage], a
 	xor a
-	ld [$ffa3], a
-	ld [$ffa4], a
-	ld [$ffa5], a
+	ld [hBGP], a
+	ld [hOBP0], a
+	ld [hOBP1], a
 	rst AdvanceFrame
 	call Func_e5d
 	call Func_576
@@ -18122,11 +18122,11 @@ Func_e674: ; 0xe674
 	call Func_e5d
 	call Func_588
 	ld a, $e4
-	ld [$ffa3], a
+	ld [hBGP], a
 	ld a, $e1
-	ld [$ffa4], a
+	ld [hOBP0], a
 	ld a, $e4
-	ld [$ffa5], a
+	ld [hOBP1], a
 	ret
 
 Func_e6c2: ; 0xe6c2
@@ -18140,7 +18140,7 @@ Func_e6c2: ; 0xe6c2
 	jr nz, .asm_e6d5
 	ld a, $90
 .asm_e6d5
-	ld [$ffa6], a
+	ld [hWY], a
 	ld hl, StageGfxPointers_GameBoy
 	ld a, [hGameBoyColorFlag]
 	and a
@@ -19488,17 +19488,17 @@ Func_f533: ; 0xf533
 	call Func_f55c
 	call Func_f57f
 	ld a, $60
-	ld [$ffa6], a
+	ld [hWY], a
 	dec a
-	ld [$ffa2], a
+	ld [hLYC], a
 	ld a, $fd
 	ld [$ffaf], a
 	call Func_f5a0
 	ld a, $90
-	ld [$ffa6], a
+	ld [hWY], a
 	ld a, $83
-	ld [$ffa2], a
-	ld [$ffa8], a
+	ld [hLYC], a
+	ld [hLastLYC], a
 	ld a, $ff
 	ld [$ffaf], a
 	call Func_30e8
@@ -22059,17 +22059,17 @@ Func_10cb7: ; 0x10cb7
 	call Func_30e8
 	call Func_10b59
 	ld a, $60
-	ld [$ffa6], a
+	ld [hWY], a
 	dec a
-	ld [$ffa2], a
+	ld [hLYC], a
 	ld a, $fd
 	ld [$ffaf], a
 	call Func_10bea
 	ld a, $86
-	ld [$ffa6], a
+	ld [hWY], a
 	ld a, $83
-	ld [$ffa2], a
-	ld [$ffa8], a
+	ld [hLYC], a
+	ld [hLastLYC], a
 	ld a, $ff
 	ld [$ffaf], a
 	ld a, [hGameBoyColorFlag]
@@ -25747,7 +25747,7 @@ Func_146a9: ; 0x146a9
 	ld c, $1
 	cp $ff
 	jr z, .asm_146fe
-	ld hl, $ffb3
+	ld hl, hNumFramesDropped
 	and [hl]
 	jr z, .asm_146fe
 	ld c, $0
@@ -28117,7 +28117,7 @@ Func_1669e: ; 0x1669e
 	ret
 
 .asm_16732
-	ld a, [$ffb3]
+	ld a, [hNumFramesDropped]
 	swap a
 	and $1
 	ld [wPikachuSaverAnimationFrame], a
@@ -28318,7 +28318,7 @@ Data_16980:
 	dr $16980, $169a6
 
 Func_169a6: ; 0x169a6
-	ld a, [$ffb3]
+	ld a, [hNumFramesDropped]
 	and $1f
 	ret nz
 	ld bc, $0000
@@ -28330,7 +28330,7 @@ Func_169a6: ; 0x169a6
 	jr z, .asm_169c5
 	ld a, [hl]
 	res 7, a
-	ld hl, $ffb3
+	ld hl, hNumFramesDropped
 	bit 5, [hl]
 	jr z, .asm_169c2
 	inc a
@@ -28484,7 +28484,7 @@ Func_16e51: ; 0x16e51
 	cp $2
 	jr c, .asm_16ec1
 	cp $3
-	ld a, [$ffb3]
+	ld a, [hNumFramesDropped]
 	jr c, .asm_16ea0
 	srl a
 	srl a
@@ -28510,7 +28510,7 @@ Func_16e51: ; 0x16e51
 	cp $2
 	ret c
 	cp $3
-	ld a, [$ffb3]
+	ld a, [hNumFramesDropped]
 	jr c, .asm_16ed1
 	srl a
 	srl a
@@ -29142,7 +29142,7 @@ Func_17e08: ; 0x17e08
 	ld a, [wd51c]
 	and a
 	jr nz, .asm_17e29
-	ld a, [$ffb3]
+	ld a, [hNumFramesDropped]
 	srl a
 	srl a
 	srl a
@@ -29242,7 +29242,7 @@ Func_17efb: ; 0x17efb
 	ld a, [wd551]
 	and a
 	ret nz
-	ld a, [$ffb3]
+	ld a, [hNumFramesDropped]
 	bit 4, a
 	ret z
 	ld de, wIndicatorStates + 5
@@ -29254,7 +29254,7 @@ Func_17f0f: ; 0x17f0f
 	ld a, [wd551]
 	and a
 	ret nz
-	ld a, [$ffb3]
+	ld a, [hNumFramesDropped]
 	bit 4, a
 	ret z
 	ld de, wIndicatorStates + 11
@@ -29322,7 +29322,7 @@ asm_17f84: ; 0x17f84
 	ld a, [hli]
 	sub c
 	ld c, a
-	ld a, [$ffb3]
+	ld a, [hNumFramesDropped]
 	and $e
 	jr nz, .asm_17f9c
 	dec c
@@ -34560,7 +34560,7 @@ Func_1d133: ; 0x1d133
 	ret
 
 .asm_1d1c7
-	ld a, [$ffb3]
+	ld a, [hNumFramesDropped]
 	swap a
 	and $1
 	ld [wPikachuSaverAnimationFrame], a
@@ -34970,7 +34970,7 @@ Func_1d51b: ; 0x1d51b
 	cp $2
 	jr c, .asm_1d58b
 	cp $3
-	ld a, [$ffb3]
+	ld a, [hNumFramesDropped]
 	jr c, .asm_1d56a
 	srl a
 	srl a
@@ -34996,7 +34996,7 @@ Func_1d51b: ; 0x1d51b
 	cp $2
 	ret c
 	cp $3
-	ld a, [$ffb3]
+	ld a, [hNumFramesDropped]
 	jr c, .asm_1d59b
 	srl a
 	srl a
@@ -36611,7 +36611,7 @@ asm_1ea6a: ; 0x1ea6a
 	ret
 
 Func_1ead4: ; 0x1ead4
-	ld a, [$ffb3]
+	ld a, [hNumFramesDropped]
 	and $f
 	ret nz
 	ld bc, $0000
@@ -36626,7 +36626,7 @@ Func_1ead4: ; 0x1ead4
 	jr z, .asm_1eaf8
 	ld a, [hl]
 	res 7, a
-	ld hl, $ffb3
+	ld hl, hNumFramesDropped
 	bit 4, [hl]
 	jr z, .asm_1eaf5
 	inc a
@@ -36638,7 +36638,7 @@ Func_1ead4: ; 0x1ead4
 	ld a, c
 	cp $2
 	jr nz, .asm_1eadc
-	ld a, [$ffb3]
+	ld a, [hNumFramesDropped]
 	and $f
 	ret nz
 	ld a, [wCurrentStage]
@@ -36656,7 +36656,7 @@ Func_1ead4: ; 0x1ead4
 	jr z, .asm_1eb29
 	ld a, [hl]
 	res 7, a
-	ld hl, $ffb3
+	ld hl, hNumFramesDropped
 	bit 4, [hl]
 	jr z, .asm_1eb2b
 	inc a
@@ -37441,7 +37441,7 @@ Func_1f448: ; 0x1f448
 	ld a, [wd51c]
 	and a
 	jr nz, .asm_1f469
-	ld a, [$ffb3]
+	ld a, [hNumFramesDropped]
 	srl a
 	srl a
 	srl a
@@ -37478,7 +37478,7 @@ Func_1f48f: ; 0x1f48f
 	ld a, [wd551]
 	and a
 	ret nz
-	ld a, [$ffb3]
+	ld a, [hNumFramesDropped]
 	bit 4, a
 	ret z
 	ld de, wIndicatorStates + 5
@@ -37490,7 +37490,7 @@ Func_1f4a3: ; 0x1f4a3
 	ld a, [wd551]
 	and a
 	ret nz
-	ld a, [$ffb3]
+	ld a, [hNumFramesDropped]
 	bit 4, a
 	ret z
 	ld de, wIndicatorStates + 11
@@ -37558,7 +37558,7 @@ asm_1f518: ; 0x1f518
 	ld a, [hli]
 	sub c
 	ld c, a
-	ld a, [$ffb3]
+	ld a, [hNumFramesDropped]
 	and $e
 	jr nz, .asm_1f530
 	dec c
@@ -40746,7 +40746,7 @@ Func_24737: ; 0x24737
 	jr .asm_2475a
 
 .asm_2474a
-	ld a, [$ffb3]
+	ld a, [hNumFramesDropped]
 	and $3f
 	ret nz
 	call GenRandom
@@ -40812,7 +40812,7 @@ Func_2476d: ; 0x2476d
 	ld a, [wd70c]
 	cp $3
 	jr z, .asm_247d3
-	ld a, [$ffb3]
+	ld a, [hNumFramesDropped]
 	and $3f
 	ret nz
 	call GenRandom
@@ -43424,15 +43424,15 @@ LoadPokedexScreen: ; 0x2800e
 	ld a, $8
 	ld [hBoardYShift], a
 	ld a, $7
-	ld [$ffa7], a
+	ld [hWX], a
 	ld a, $8c
-	ld [$ffa6], a
+	ld [hWY], a
 	ld a, $3b
-	ld [$ffa2], a
-	ld [$ffa8], a
+	ld [hLYC], a
+	ld [hLastLYC], a
 	ld [$ffa9], a
 	ld [$ffaa], a
-	ld hl, $ff9f
+	ld hl, hSTAT
 	set 6, [hl]
 	ld hl, rIE
 	set 1, [hl]
@@ -43672,7 +43672,7 @@ Func_282e9: ; 0x282e9
 	ld a, Bank(MonAnimatedSpriteTypes)
 	call ReadByteFromBank
 	ld c, a
-	ld a, [$ffb3]
+	ld a, [hNumFramesDropped]
 	swap a
 	and $7
 	cp $7
@@ -43892,7 +43892,7 @@ Func_284bc: ; 0x284bc
 ExitPokedexScreen: ; 0x284f9
 	call Func_cb5
 	call Func_576
-	ld hl, $ff9f
+	ld hl, hSTAT
 	res 6, [hl]
 	ld hl, rIE
 	res 1, [hl]
@@ -44404,7 +44404,7 @@ Func_2887c: ; 0x2887c
 	ld bc, $0100
 	call LoadVRAMData
 	ld a, $3f
-	ld [$ffa2], a
+	ld [hLYC], a
 	ld a, $47
 	ld [$ffa9], a
 	ld b, $33
@@ -44435,7 +44435,7 @@ Func_288a2: ; 0x288a2
 	dec b
 	jr nz, .asm_288a4
 	ld a, $3b
-	ld [$ffa2], a
+	ld [hLYC], a
 	ld [$ffa9], a
 	ld a, $31
 	ld hl, $5100 ; todo

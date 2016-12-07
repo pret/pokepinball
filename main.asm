@@ -47689,6 +47689,11 @@ Func_301ce: ; 0x301ce
 	ld a, [wCurrentStage]
 	call CallInFollowingTable
 PointerTable_301d4: ; 0x301d4
+	; STAGE_RED_FIELD_TOP
+	dw Func_314ae
+	db Bank(Func_314ae), $00
+
+	; STAGE_RED_FIELD_BOTTOM
 	dw Func_314ae
 	db Bank(Func_314ae), $00
 
@@ -47698,12 +47703,11 @@ PointerTable_301d4: ; 0x301d4
 	dw Func_314ae
 	db Bank(Func_314ae), $00
 
-	dw Func_314ae
-	db Bank(Func_314ae), $00
-
+	; STAGE_BLUE_FIELD_TOP
 	dw Func_3161b
 	db Bank(Func_3161b), $00
 
+	; STAGE_BLUE_FIELD_BOTTOM
 	dw Func_3161b
 	db Bank(Func_3161b), $00
 
@@ -48097,7 +48101,7 @@ Func_31281: ; 0x31282
 	jr nc, .asm_312b2
 	ld c, a
 	ld b, $0
-	ld hl, $5319
+	ld hl, Data_31319
 	add hl, bc
 	ld c, [hl]
 	ld hl, wd4e3
@@ -48128,7 +48132,7 @@ Func_31281: ; 0x31282
 	and $3
 	ld c, a
 	ld b, $0
-	ld hl, $5320
+	ld hl, Data_31320
 	add hl, bc
 	ld c, [hl]
 	ld hl, wd4e6
@@ -48154,7 +48158,11 @@ Func_31281: ; 0x31282
 	ld [hl], a
 	ret
 
-	dr $31319, $31324
+Data_31319:
+	dr $31319, $31320
+
+Data_31320:
+	dr $31320, $31324
 
 Func_31324: ; 0x31324
 	ret
@@ -48192,7 +48200,7 @@ Func_31326: ; 0x31326
 	ld a, $6
 	ld [$ff8a], a
 	callba Func_1de4b
-	ld a, $7  ; TODO: this might be the bank of Func_1de6f
+	ld a, $7
 	ld [$ff8a], a
 	callba Func_1de6f
 .asm_31382
@@ -48272,7 +48280,7 @@ Func_3140b: ; 0x3140b
 	jr nc, .asm_3143c
 	ld c, a
 	ld b, $0
-	ld hl, $54a3
+	ld hl, Data_314a3
 	add hl, bc
 	ld c, [hl]
 	ld hl, wd4e3
@@ -48303,7 +48311,7 @@ Func_3140b: ; 0x3140b
 	and $3
 	ld c, a
 	ld b, $0
-	ld hl, $54aa
+	ld hl, Data_314aa
 	add hl, bc
 	ld c, [hl]
 	ld hl, wd4e6
@@ -48329,7 +48337,11 @@ Func_3140b: ; 0x3140b
 	ld [hl], a
 	ret
 
-	dr $314a3, $314ae
+Data_314a3:
+	dr $314a3, $314aa
+
+Data_314aa:
+	dr $314aa, $314ae
 
 Func_314ae: ; 0x314ae
 	ld a, [wd57d]
@@ -48670,8 +48682,6 @@ Func_3174c: ; 0x3174c
 	ld [wd54d], a
 	scf
 	ret
-
-	dr $31792, $34000
 
 SECTION "bankd", ROMX, BANK[$d]
 

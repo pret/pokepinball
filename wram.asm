@@ -148,16 +148,7 @@ wd479:: ; 0xd479
 	ds $1
 
 wd47a:: ; 0xd47a
-	ds $1
-
-wd47b:: ; 0xd47b
-	ds $1
-
-wd47c:: ; 0xd47c
-	ds $1
-
-wd47d:: ; 0xd47d
-	ds $1
+	ds $4
 
 wBallType:: ; 0xd47e
 	ds $1

@@ -6499,6 +6499,7 @@ Func_351c: ; 0x351c
 	ret
 
 Func_3538: ; 0x3538
+; Add BCD value bcde to [wd47a].  Cap at $99999999.
 	ld hl, wd47a
 	ld a, [hl]
 	add e
@@ -6528,11 +6529,11 @@ Func_3538: ; 0x3538
 Func_3556: ; 0x3556
 	ld a, [wd47a]
 	ld e, a
-	ld a, [wd47b]
+	ld a, [wd47a + 1]
 	ld d, a
-	ld a, [wd47c]
+	ld a, [wd47a + 2]
 	ld c, a
-	ld a, [wd47d]
+	ld a, [wd47a + 3]
 	ld b, a
 	ret
 
@@ -38388,14 +38389,14 @@ Func_205e0: ; 0x205e0
 	callba Func_8588
 	call Func_30e8
 	call Func_30db
-	ld de, $2bd8
+	ld de, YeahYouGotItText
 	ld hl, wd5cc
 	call LoadTextHeader
 	ld a, [hGameBoyColorFlag]
 	and a
 	jr z, .asm_2064f
-	ld a, $37
-	ld hl, $4af0
+	ld a, BANK(StageRedFieldBottomOBJPalette6)
+	ld hl, StageRedFieldBottomOBJPalette6
 	ld de, $0070
 	ld bc, $0008
 	call Func_7dc
@@ -38413,7 +38414,7 @@ Func_20651: ; 0x20651
 	ld b, $0
 	swap c
 	sla c
-	ld hl, $4e80
+	ld hl, Data_d8e80
 	add hl, bc
 	ld a, [wd554]
 	ld c, a
@@ -38427,7 +38428,7 @@ Func_20651: ; 0x20651
 	ld e, l
 	pop hl
 	ld bc, $0020
-	ld a, $36
+	ld a, BANK(Data_d8e80)
 	call LoadVRAMData
 .asm_20681
 	ld a, [wd554]
@@ -38472,16 +38473,16 @@ Func_20651: ; 0x20651
 	ld a, [wCurrentStage]
 	bit 0, a
 	ret z
-	ld a, $36
-	ld hl, $6c60
+	ld a, BANK(StageSharedBonusSlotGlowGfx)
+	ld hl, StageSharedBonusSlotGlowGfx + $60
 	ld de, $8200
 	ld bc, $00e0
 	call LoadVRAMData
 	ld a, [hGameBoyColorFlag]
 	and a
 	jr z, .asm_20700
-	ld a, $37
-	ld hl, $4af8
+	ld a, BANK(StageRedFieldBottomOBJPalette7)
+	ld hl, StageRedFieldBottomOBJPalette7
 	ld de, $0078
 	ld bc, $0008
 	call Func_7dc
@@ -38824,8 +38825,8 @@ Func_20977: ; 0x20977
 	ld a, [hGameBoyColorFlag]
 	and a
 	jr z, .asm_209bf
-	ld a, $37
-	ld hl, $5188
+	ld a, BANK(Data_dd188)
+	ld hl, Data_dd188
 	ld de, $0070
 	ld bc, $0010
 	call Func_7dc
@@ -38885,9 +38886,9 @@ Func_209eb: ; 0x209eb
 	ld hl, wd5cc
 	ld a, [wCurrentEvolutionType]
 	cp EVO_EXPERIENCE
-	ld de, $2b7b
+	ld de, PokemonIsTiredText
 	jr z, .asm_20a50
-	ld de, $2b93
+	ld de, ItemNotFoundText
 .asm_20a50
 	call LoadTextHeader
 	scf
@@ -38957,8 +38958,8 @@ asm_20a9f:
 	ld a, [hGameBoyColorFlag]
 	and a
 	jr z, .asm_20ada
-	ld a, $37
-	ld hl, $4af0
+	ld a, BANK(StageRedFieldBottomOBJPalette6)
+	ld hl, StageRedFieldBottomOBJPalette6
 	ld de, $0070
 	ld bc, $0008
 	call Func_7dc
@@ -38967,9 +38968,9 @@ asm_20a9f:
 	call Func_30db
 	ld a, [wCurrentEvolutionType]
 	cp EVO_EXPERIENCE
-	ld de, $2ba9
+	ld de, PokemonRecoveredText
 	jr z, .asm_20aed
-	ld de, $2bc2
+	ld de, TryNextPlaceText
 .asm_20aed
 	ld hl, wd5cc
 	call LoadTextHeader
@@ -39149,20 +39150,17 @@ Func_20c08: ; 0x20c08
 	call nz, BankSwitch
 	ld bc, TenThousandPoints
 	ld [$ff8a], a
-	ld a, $2
-	ld hl, $4588
-.asm_20c4f
-	call BankSwitch
+	callba Func_8588
 	call Func_30e8
 	call Func_30db
-	ld de, $2bd8
+	ld de, YeahYouGotItText
 	ld hl, wd5cc
 	call LoadTextHeader
 	ld a, [hGameBoyColorFlag]
 	and a
 	jr z, .asm_20c74
-	ld a, $37
-	ld hl, $4bf0
+	ld a, BANK(StageBlueFieldBottomOBJPalette6)
+	ld hl, StageBlueFieldBottomOBJPalette6
 	ld de, $0070
 	ld bc, $0008
 	call Func_7dc
@@ -39180,7 +39178,7 @@ Func_20c76: ; 0x20c76
 	ld b, $0
 	swap c
 	sla c
-	ld hl, $4e80
+	ld hl, Data_d8e80
 	add hl, bc
 	ld a, [wd554]
 	ld c, a
@@ -39194,7 +39192,7 @@ Func_20c76: ; 0x20c76
 	ld e, l
 	pop hl
 	ld bc, $0020
-	ld a, $36
+	ld a, BANK(Data_d8e80)
 	call LoadVRAMData
 .asm_20ca6
 	ld a, [wd554]
@@ -39239,16 +39237,16 @@ Func_20c76: ; 0x20c76
 	ld a, [wCurrentStage]
 	bit 0, a
 	ret z
-	ld a, $36
-	ld hl, $6c60
+	ld a, BANK(StageSharedBonusSlotGlowGfx)
+	ld hl, StageSharedBonusSlotGlowGfx + $60
 	ld de, $8200
 	ld bc, $00e0
 	call LoadVRAMData
 	ld a, [hGameBoyColorFlag]
 	and a
 	jr z, .asm_20d25
-	ld a, $37
-	ld hl, $4bf8
+	ld a, BANK(StageBlueFieldBottomOBJPalette7)
+	ld hl, StageBlueFieldBottomOBJPalette7
 	ld de, $0078
 	ld bc, $0008
 	call Func_7dc
@@ -39571,8 +39569,8 @@ Func_20f75: ; 0x20f75
 	ld a, [hGameBoyColorFlag]
 	and a
 	jr z, .asm_20fc3
-	ld a, $37
-	ld hl, $5188
+	ld a, BANK(Data_dd188)
+	ld hl, Data_dd188
 	ld de, $0070
 	ld bc, $0010
 	call Func_7dc
@@ -39633,9 +39631,9 @@ Func_20fef: ; 0x20fef
 	ld hl, wd5cc
 	ld a, [wCurrentEvolutionType]
 	cp EVO_EXPERIENCE
-	ld de, $2b7b
+	ld de, PokemonIsTiredText
 	jr z, .asm_21057
-	ld de, $2b93
+	ld de, ItemNotFoundText
 .asm_21057
 	call LoadTextHeader
 	scf
@@ -39650,9 +39648,7 @@ Func_2105c: ; 0x2105c
 	jr z, .asm_21077
 	ld bc, OneMillionPoints
 	ld [$ff8a], a
-	ld a, $2
-	ld hl, $4588
-	call BankSwitch
+	callba Func_8588
 	jr asm_210c7
 
 .asm_21077
@@ -39737,9 +39733,9 @@ asm_210c7:
 	call Func_30db
 	ld a, [wCurrentEvolutionType]
 	cp EVO_EXPERIENCE
-	ld de, $2ba9
+	ld de, PokemonRecoveredText
 	jr z, .asm_21115
-	ld de, $2bc2
+	ld de, TryNextPlaceText
 .asm_21115
 	ld hl, wd5cc
 	call LoadTextHeader

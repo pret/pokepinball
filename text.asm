@@ -109,23 +109,23 @@ Data_2b6b:
 	db $07, $6c, $46, $14, $20, $49
 	db "12345678 @"
 
-Data_2b7b:
+PokemonIsTiredText:
 	db $05, $54, $42, $14, $00, $39
 	db "POKeMON IS TIRED @"
 
-Data_2b93:
+ItemNotFoundText:
 	db $05, $54, $43, $14, $00, $37
 	db "ITEM NOT FOUND @"
 
-Data_2ba9:
+PokemonRecoveredText:
 	db $05, $54, $41, $14, $00, $3a
 	db "POKeMON RECOVERED @"
 
-Data_2bc2:
+TryNextPlaceText:
 	db $05, $54, $43, $14, $00, $37
 	db "TRY NEXT PLACE @"
 
-Data_2bd8:
+YeahYouGotItText:
 	db $05, $54, $42, $14, $00, $39
 	db "YEAH! YOU GOT IT @"
 

@@ -35,7 +35,10 @@ wc4cc:: ; 0xc4cc
 	ds $34
 
 wcBottomMessageText:: ; 0xc500
-	ds $200
+	ds $147
+
+wc647::
+	ds $b9
 
 wStageCollisionMap:: ; 0xc700
 	ds $68

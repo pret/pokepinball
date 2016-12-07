@@ -11840,7 +11840,32 @@ PointerTable_84bd: ; 0x84bd
 	; STAGE_SEEL_BONUS
 	padded_dab Func_26b7e
 
-	dr $84fd, $8524
+Func_84fd:
+	ld a, [hGameBoyColorFlag]
+	and a
+	jr z, .asm_850d
+	ld a, $1
+	ld [rVBK], a
+	xor a
+	call Func_8519
+	xor a
+	ld [rVBK], a
+.asm_850d
+	ld a, $81
+	call Func_8519
+	ld de, wc647
+	call Func_8524
+	ret
+
+Func_8519: ; 8519 (2:4519)
+	ld hl, $9c00
+	ld b, $20
+.asm_851e
+	ld [hli], a
+	ld [hli], a
+	dec b
+	jr nz, .asm_851e
+	ret
 
 Func_8524: ; 0x8524
 	ld hl, wd46f
@@ -11891,7 +11916,17 @@ Func_8543: ; 0x8543
 	res 7, e
 	ret
 
-	dr $8569, $8576
+Func_8569:
+	xor a
+	ld hl, wd400
+	ld b, $31
+.asm_856f
+	ld [hli], a
+	ld [hli], a
+	dec b
+	jr nz, .asm_856f
+	ld [hli], a
+	ret
 
 AddBCDScore: ; 0x8576
 	ld h, b
@@ -13450,7 +13485,27 @@ Func_8ee0: ; 0x8ee0
 	ret
 
 Data_8f06:
-	dr $8f06, $a000
+
+SECTION "bank2.2", ROMX [$5800], BANK[$2]
+Data_9800:
+
+macro_9800: MACRO
+x = 0
+rept \1
+y = 0
+rept $100 / \1
+	db (x + y) & $ff
+y = y + \1
+endr
+x = x + 1
+endr
+endm
+
+w = $100
+rept 8
+	macro_9800 w
+w = w >> 1
+endr
 
 PokedexCharactersGfx: ; 0xa000
 	INCBIN "gfx/pokedex/characters.interleave.2bpp"

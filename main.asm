@@ -15049,7 +15049,23 @@ DefaultKeyConfigs: ; 0xca55
 	db SELECT,   $00  ; wKeyConfigUpperTilt
 	db START,    $00  ; wKeyConfigMenu
 
-	dr $ca63, $ca7f
+Data_ca63:
+	db A_BUTTON,       $00  ; wKeyConfigBallStart
+	db D_LEFT,         $00  ; wKeyConfigLeftFlipper
+	db A_BUTTON,       $00  ; wKeyConfigRightFlipper
+	db D_DOWN,         $00  ; wKeyConfigLeftTilt
+	db B_BUTTON,       $00  ; wKeyConfigRightTilt
+	db START,          $04  ; wKeyConfigUpperTilt
+	db D_UP | D_RIGHT, $00  ; wKeyConfigMenu
+
+Data_ca71:
+	db A_BUTTON,              $00  ; wKeyConfigBallStart
+	db D_LEFT,                $00  ; wKeyConfigLeftFlipper
+	db A_BUTTON,              $00  ; wKeyConfigRightFlipper
+	db D_DOWN,                $00  ; wKeyConfigLeftTilt
+	db B_BUTTON,              $00  ; wKeyConfigRightTilt
+	db START,                 $00  ; wKeyConfigUpperTilt
+	db D_UP | START | SELECT, $00  ; wKeyConfigMenu
 
 HandleHighScoresScreen: ; 0xca7f
 	ld a, [wScreenState]
@@ -17574,7 +17590,9 @@ Func_dc7c: ; 0xdc7c
 	ld [hli], a
 	ret
 
-	dr $dcad, $dcb4
+Data_dcad:
+; BCD powers of 2
+	db $01, $02, $04, $08, $16, $32, $64
 
 Func_dcb4: ; 0xdcb4
 	ld a, [wd517]
@@ -17689,7 +17707,7 @@ Func_dd76: ; 0xdd76
 	dec a
 	ld [wd4a5], a
 	push af
-	ld de, $28c9
+	ld de, BallSavedText
 	call Func_dc6d
 	pop af
 	jr nz, .asm_dd9c
@@ -17722,7 +17740,7 @@ Func_dd76: ; 0xdd76
 	ld [wd49b], a
 	ld a, $1
 	ld [wd49c], a
-	ld de, $28ee
+	ld de, EndOfBallBonusText
 	call Func_dc6d
 	ret
 
@@ -17733,12 +17751,12 @@ Func_dd76: ; 0xdd76
 	jr z, .asm_ddf1
 	inc a
 	ld [wd49d], a
-	ld de, $28ee
+	ld de, EndOfBallBonusText
 	call Func_dc6d
 	ret
 
 .asm_ddf1
-	ld de, $28ee
+	ld de, EndOfBallBonusText
 	call Func_dc6d
 	ld a, $1
 	ld [wGameOver], a
@@ -17796,7 +17814,7 @@ Func_de4f: ; 0xde4f
 	dec a
 	ld [wd4a5], a
 	push af
-	ld de, $28c9
+	ld de, BallSavedText
 	call Func_dc6d
 	pop af
 	jr nz, .asm_de75
@@ -17829,7 +17847,7 @@ Func_de4f: ; 0xde4f
 	ld [wd49b], a
 	ld a, $1
 	ld [wd49c], a
-	ld de, $28ee
+	ld de, EndOfBallBonusText
 	call Func_dc6d
 	ret
 
@@ -17840,12 +17858,12 @@ Func_de4f: ; 0xde4f
 	jr z, .asm_deca
 	inc a
 	ld [wd49d], a
-	ld de, $28ee
+	ld de, EndOfBallBonusText
 	call Func_dc6d
 	ret
 
 .asm_deca
-	ld de, $28ee
+	ld de, EndOfBallBonusText
 	call Func_dc6d
 	ld a, $1
 	ld [wGameOver], a
@@ -18426,7 +18444,128 @@ ReadFlipperCollisionAttributes: ; 0xe25a
 	ld [wFlipperCollision], a
 	ret
 
-	dr $e2e4, $e379
+Func_e2e4:
+	ld a, c
+	or b
+	or l
+	or h
+	or e
+	or d
+	jr nz, .asm_e2f3
+	ld a, [$ffba]
+	ld e, a
+	ld a, [$ffbb]
+	ld d, a
+	ret
+
+.asm_e2f3
+	ld a, d
+	xor h
+	push af
+	bit 7, d
+	jr z, .asm_e301
+	ld a, e
+	cpl
+	ld e, a
+	ld a, d
+	cpl
+	ld d, a
+	inc de
+.asm_e301
+	bit 7, h
+	jr z, .asm_e317
+	ld a, c
+	cpl
+	ld c, a
+	ld a, b
+	cpl
+	ld b, a
+	ld a, l
+	cpl
+	ld l, a
+	ld a, h
+	cpl
+	ld h, a
+	inc bc
+	ld a, b
+	or c
+	jr nz, .asm_e317
+	inc hl
+.asm_e317
+	push bc
+	ld c, $11
+	ld a, d
+	or e
+	jr nz, .asm_e324
+	pop bc
+	ld de, $7fff
+	jr .asm_e36a
+
+.asm_e324
+	bit 7, d
+	jr nz, .asm_e32f
+	sla e
+	rl d
+	inc c
+	jr .asm_e324
+
+.asm_e32f
+	ld a, c
+	ld [$ff8c], a
+	pop bc
+	xor a
+	ld [$ff8d], a
+	ld [$ff8e], a
+.asm_e338
+	jr c, .asm_e344
+	ld a, d
+	cp h
+	jr nz, .asm_e342
+	ld a, e
+	cp l
+	jr z, .asm_e344
+.asm_e342
+	jr nc, .asm_e34b
+.asm_e344
+	ld a, l
+	sub e
+	ld l, a
+	ld a, h
+	sbc d
+	ld h, a
+	scf
+.asm_e34b
+	ld a, [$ff8d]
+	rla
+	ld [$ff8d], a
+	ld a, [$ff8e]
+	rla
+	ld [$ff8e], a
+	sla c
+	rl b
+	rl l
+	rl h
+	ld a, [$ff8c]
+	dec a
+	ld [$ff8c], a
+	jr nz, .asm_e338
+	ld a, [$ff8d]
+	ld e, a
+	ld a, [$ff8e]
+	ld d, a
+.asm_e36a
+	pop af
+	bit 7, a
+	ret z
+	ld a, e
+	sub $1
+	cpl
+	ld e, a
+	ld a, d
+	sbc $0
+	cpl
+	ld d, a
+	ret
 
 Func_e379: ; 0xe379
 	ld a, b
@@ -18514,7 +18653,52 @@ Data_e3c0:
 	ld h, a
 	ret
 
-	dr $e3de, $e410
+Func_e3de:
+	push bc
+	push de
+	ld c, d
+	call Func_e410
+	pop de
+	pop bc
+	push hl
+
+	push bc
+	push de
+	ld c, e
+	call Func_e410
+	pop de
+	pop bc
+	push hl
+
+	push bc
+	push de
+	ld b, d
+	call Func_e410
+	pop de
+	pop bc
+	push hl
+
+	ld b, e
+	call Func_e410
+	ld c, l
+
+	ld l, h
+	xor a
+	ld h, a
+	pop de
+	add hl, de
+	rl a
+	pop de
+	add hl, de
+	jr nc, .asm_e40a
+	inc a
+.asm_e40a
+	ld b, l
+	ld l, h
+	ld h, a
+	pop de
+	add hl, de
+	ret
 
 Func_e410: ; 0xe410
 	ld a, b
@@ -56577,3 +56761,4 @@ SECTION "bank3f", ROMX, BANK[$3f]
 
 FlipperVerticalCollisionAttributes2: ; 0xfc000
 	INCBIN "data/collision/flippers/vertical_attributes_1"
+

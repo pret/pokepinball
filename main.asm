@@ -42,7 +42,7 @@ SECTION "Header", ROM0 [$104]
 	; The space here is allocated to prevent code from being overwritten.
 	ds $150 - $104
 
-SECTION "Main", ROM0
+SECTION "Main", ROM0 [$150]
 
 Start: ; 0x150
 	ld [hGameBoyColorFlag], a
@@ -171,7 +171,83 @@ Func_23b: ; 0x23b
 	ld [$fffd], a
 	ret
 
-	dr $24e, $2f2
+SoftReset:
+	di
+	ld sp, hGameBoyColorFlag
+	xor a
+	ld [rIF], a
+	ld bc, $2
+	call Func_948
+	ld hl, wc000
+	ld bc, $2000
+	call ClearData
+	ld hl, $8000
+	ld bc, $1000
+	call ClearData
+	ld a, $a
+	ld [MBC5SRamEnable], a
+	ld a, $1
+	ld [MBC5RomBank], a
+	ld a, $0
+	ld [MBC5RomBankOn], a
+	ld a, $0
+	ld [MBC5SRamBank], a
+	ld a, $1
+	ld [hLoadedROMBank], a
+	ld a, $1
+	ld [MBC5RomBankOn], a
+	ld a, $0
+	ld [MBC5SRamBank], a
+	ld sp, wdfff
+	call WriteDMACodeToHRAM
+	call ClearOAMBuffer
+	xor a
+	ld [wd7fb], a
+	ld [wd7fc], a
+	ld [wd7fd], a
+	ld [hHBlankRoutine], a
+	ld [$ffb1], a
+	ld [wd8e1], a
+	ld [wd7fe], a
+	ld hl, hLCDC
+	xor a
+	ld [hli], a
+	ld [hli], a
+	ld [hli], a
+	ld [hli], a
+	ld [hli], a
+	ld [hli], a
+	ld [hli], a
+	ld [hli], a
+	ld a, $8f
+	ld [hli], a
+	ld a, $a6
+	ld [hli], a
+	ld a, $0
+	ld [wd849], a
+	ld [wd84a], a
+	ld a, $f
+	call SetSongBank
+	ld a, [$fffb]
+	and a
+	jr z, .asm_02d5
+	ld a, $1
+	ld [wd917], a
+.asm_02d5
+	ld a, $1
+	ld [rIE], a
+	ei
+	ld a, $ff
+	ld [wd810], a
+	call Func_97a
+	ld a, [hGameBoyColorFlag]
+	ld [$fffd], a
+	xor a
+	ld [wdaa3], a
+	ld a, $0
+	ld hl, Func_1ffc
+	call BankSwitchSimple
+	; fallthrough
 
 VBlank: ; 0x2f2
 	push af
@@ -302,7 +378,26 @@ VBlank: ; 0x2f2
 	pop af
 	reti
 
-	dr $3c3, $3ec
+Func_3c3:
+	ld a, [rLCDC]
+	bit 7, a
+	jr z, .asm_03cf
+	call Func_cb5
+	call Func_576
+.asm_03cf
+	ld hl, hSTAT
+	res 6, [hl]
+	ld hl, rIE
+	res 1, [hl]
+	xor a
+	ld [MBC5SRamEnable], a
+	ld [rSB], a
+	ld [rSC], a
+	ld [rIE], a
+	ld [rNR52], a
+	ld a, [$fffd]
+	ld [hGameBoyColorFlag], a
+	jp SoftReset
 
 LCD: ; 0x3ec
 	push af
@@ -670,7 +765,19 @@ Func_5c2: ; 0x5c2
 	ret
 
 Data_5e1:
-	dr $5e1, $5f7
+	dr $5e1, $5e9
+
+Func_5e9:
+	ld a, [rIE]
+	res 0, a
+	ld [rIE], a
+	ret
+
+Func_5f0:
+	ld a, [rIE]
+	set 0, a
+	ld [rIE], a
+	ret
 
 WriteDMACodeToHRAM: ; 0x5f7
 ; Initializes registers hPushOAM - hFarCallTempA
@@ -742,7 +849,19 @@ Func_63e: ; 0xc3e
 	jr z, .asm_63f
 	ret
 
-	dr $646, $654
+Func_646:
+	srl b
+	rr c
+.asm_064a
+	ld a, e
+	ld [hli], a
+	ld a, d
+	ld [hli], a
+	dec bc
+	ld a, b
+	or c
+	jr nz, .asm_064a
+	ret
 
 ClearData: ; 0x654
 ; Clears bc bytes starting at hl.
@@ -1428,7 +1547,12 @@ Func_97a: ; 0x97a
 	ret
 
 Data_9c4:
-	dr $9c4, $9fa
+	db $14, $29, $07, $1c, $31, $0f, $24, $02, $17
+	db $2c, $0a, $1f, $34, $12, $27, $05, $1a, $2f
+	db $0d, $22, $00, $15, $2a, $08, $1d, $32, $10
+	db $25, $03, $18, $2d, $0b, $20, $35, $13, $28
+	db $06, $1b, $30, $0e, $23, $01, $16, $2b, $09
+	db $1e, $33, $11, $26, $04, $19, $2e, $0c, $21
 
 Func_9fa: ; 0x9fa
 	ld a, [wd810]
@@ -1477,7 +1601,14 @@ Func_a21: ; 0xa21
 	ret
 
 Data_a38:
-	dr $a38, $ab8
+x = 0
+REPT 128
+	db x
+x = x + 2
+IF x == $80
+x = x + 1
+ENDC
+ENDR
 
 ReadJoypad: ; 0xab8
 ; Reads the current state of the joypad and saves the state into
@@ -2790,7 +2921,236 @@ Func_118d: ; 0x118d
 	ld [rVBK], a
 	ret
 
-	dr $1198, $12a1
+Func_1198:
+	ld h, d
+	ld l, e
+.asm_119a
+	ld a, [hli]
+	and a
+	ret z
+	ld b, a
+	ld a, [hli]
+	ld e, a
+	ld a, [hli]
+	ld d, a
+	srl b
+	jr nc, .asm_11a8
+	ld a, [hli]
+	ld c, a
+.asm_11a8
+	push hl
+	ld h, d
+	ld l, e
+	ld a, c
+.asm_11ac
+	ld [hli], a
+	inc a
+	dec b
+	jr nz, .asm_11ac
+	ld c, a
+	pop hl
+	jr .asm_119a
+
+Func_11b5: ; 11b5 (0:11b5)
+	ld h, d
+	ld l, e
+.asm_11b7
+	ld a, [hli]
+	and a
+	ret z
+	ld b, a
+	ld a, [hli]
+	ld e, a
+	ld a, [hli]
+	ld d, a
+	ld a, [hli]
+.asm_11c0
+	ld [de], a
+	inc de
+	dec b
+	jr nz, .asm_11c0
+	jr .asm_11b7
+
+Func_11c7:
+	ld a, $1
+	ld [rVBK], a
+	call Func_11b5
+	xor a
+	ld [rVBK], a
+	ret
+
+Func_11d2:
+	ld h, d
+	ld l, e
+	ld a, [hLoadedROMBank]
+	ld [$ff94], a
+.asm_11d8
+	ld a, [hli]
+	and a
+	ret z
+	ld [$ff95], a
+	ld a, [hli]
+	ld e, a
+	ld a, [hli]
+	ld d, a
+	ld a, [hli]
+	ld c, a
+	ld a, [hli]
+	ld b, a
+	ld a, [hli]
+	ld [hLoadedROMBank], a
+	ld [MBC5RomBank], a
+	push hl
+	ld h, b
+	ld l, c
+	ld a, [$ff95]
+	ld b, a
+.asm_11f1
+	ld a, [hli]
+	ld [de], a
+	inc e
+	ld a, [hli]
+	ld [de], a
+	inc e
+	ld a, [hli]
+	ld [de], a
+	inc e
+	ld a, [hli]
+	ld [de], a
+	inc e
+	ld a, [hli]
+	ld [de], a
+	inc e
+	ld a, [hli]
+	ld [de], a
+	inc e
+	ld a, [hli]
+	ld [de], a
+	inc e
+	ld a, [hli]
+	ld [de], a
+	inc e
+	ld a, [hli]
+	ld [de], a
+	inc e
+	ld a, [hli]
+	ld [de], a
+	inc e
+	ld a, [hli]
+	ld [de], a
+	inc e
+	ld a, [hli]
+	ld [de], a
+	inc e
+	ld a, [hli]
+	ld [de], a
+	inc e
+	ld a, [hli]
+	ld [de], a
+	inc e
+	ld a, [hli]
+	ld [de], a
+	inc e
+	ld a, [hli]
+	ld [de], a
+	inc de
+	dec b
+	jr nz, .asm_11f1
+	pop hl
+	ld a, [$ff94]
+	ld [hLoadedROMBank], a
+	ld [MBC5RomBank], a
+	jr .asm_11d8
+
+Func_122e:
+	ld a, $1
+	ld [rVBK], a
+	ld h, d
+	ld l, e
+	ld a, [hLoadedROMBank]
+	ld [$ff94], a
+.asm_1238
+	ld a, [hli]
+	and a
+	jr nz, .asm_1240
+	xor a
+	ld [rVBK], a
+	ret
+
+.asm_1240
+	ld [$ff95], a
+	ld a, [hli]
+	ld e, a
+	ld a, [hli]
+	ld d, a
+	ld a, [hli]
+	ld c, a
+	ld a, [hli]
+	ld b, a
+	ld a, [hli]
+	ld [hLoadedROMBank], a
+	ld [MBC5RomBank], a
+	push hl
+	ld h, b
+	ld l, c
+	ld a, [$ff95]
+	ld b, a
+.asm_1256
+	ld a, [hli]
+	ld [de], a
+	inc de
+	dec b
+	jr nz, .asm_1256
+	pop hl
+	ld a, [$ff94]
+	ld [hLoadedROMBank], a
+	ld [MBC5RomBank], a
+	jr .asm_1238
+
+Func_1266:
+	ld h, d
+	ld l, e
+.asm_1268
+	ld a, [hli]
+	and a
+	ret z
+	ld [$ff94], a
+	ld a, [hli]
+	bit 6, a
+	ld de, rBGPI
+	jr z, .asm_127a
+	res 6, a
+	ld de, rOBPI
+.asm_127a
+	set 7, a
+	ld [de], a
+	inc de
+	ld a, [hli]
+	ld c, a
+	ld a, [hli]
+	ld b, a
+	ld a, [hLoadedROMBank]
+	push af
+	ld a, [hli]
+	ld [hLoadedROMBank], a
+	ld [MBC5RomBank], a
+	push hl
+	ld h, b
+	ld l, c
+	ld a, [$ff94]
+	ld b, a
+.asm_1291
+	ld a, [hli]
+	ld [de], a
+	ld a, [hli]
+	ld [de], a
+	dec b
+	jr nz, .asm_1291
+	pop hl
+	pop af
+	ld [hLoadedROMBank], a
+	ld [MBC5RomBank], a
+	jr .asm_1268
 
 Func_12a1: ; 0x12a1
 	ld [hROMBankBuffer], a

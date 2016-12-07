@@ -83,7 +83,7 @@ PokemonNames: ; 0x11a4e
 	db "*SLOWBRO@       "
 	db " MAGNEMITE@     "
 	db "*MAGNETON@      "
-	db "*FARFETCH'D@    "
+	db "*FARFETCH`D@    "
 	db " DODUO@         "
 	db "*DODRIO@        "
 	db " SEEL@          "

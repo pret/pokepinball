@@ -17,6 +17,14 @@ dwb: MACRO
 	db \2
 	ENDM
 
+dba: MACRO
+	dbw BANK(\1), \1
+	ENDM
+
+dab: MACRO
+	dwb \1, BANK(\1)
+	ENDM
+
 dn: MACRO
 	rept _NARG / 2
 	db (\1) << 4 + (\2)

@@ -932,7 +932,7 @@ Func_724: ; 0x724
 	jr z, .copyByte
 	ret
 
-Func_735: ; 0x735
+LoadOrCopyVRAMData: ; 0x735
 	push hl
 	ld hl, rLCDC
 	bit 7, [hl]
@@ -6398,7 +6398,7 @@ Func_33e3: ; 0x33e3
 	ld hl, $30 + StageRedFieldTopStatusBarSymbolsGfx_GameBoy
 	ld de, $8830
 	ld bc, $0040
-	call Func_735
+	call LoadOrCopyVRAMData
 	ret
 
 .gameboyColor
@@ -6406,7 +6406,7 @@ Func_33e3: ; 0x33e3
 	ld hl, $30 + StageRedFieldTopStatusBarSymbolsGfx_GameBoyColor
 	ld de, $8830
 	ld bc, $0040
-	call Func_735
+	call LoadOrCopyVRAMData
 	ret
 
 Func_3475: ; 0x3475
@@ -14115,7 +14115,7 @@ Func_c95f: ; 0xc95f
 	ld hl, wd922
 	ld a, $0
 	ld bc, $0008
-	call Func_735
+	call LoadOrCopyVRAMData
 	pop hl
 	pop de
 	pop bc
@@ -16798,7 +16798,7 @@ LoadBallGfx: ; 0xdcc3
 	ld hl, PinballPokeballGfx
 	ld de, $8400
 	ld bc, $0200
-	call Func_735
+	call LoadOrCopyVRAMData
 	ret
 
 .notPokeBall
@@ -16808,7 +16808,7 @@ LoadBallGfx: ; 0xdcc3
 	ld hl, PinballGreatballGfx
 	ld de, $8400
 	ld bc, $0200
-	call Func_735
+	call LoadOrCopyVRAMData
 	ret
 
 .notGreatBall
@@ -16818,7 +16818,7 @@ LoadBallGfx: ; 0xdcc3
 	ld hl, PinballUltraballGfx
 	ld de, $8400
 	ld bc, $0200
-	call Func_735
+	call LoadOrCopyVRAMData
 	ret
 
 .notUltraBall
@@ -16826,7 +16826,7 @@ LoadBallGfx: ; 0xdcc3
 	ld hl, PinballMasterballGfx
 	ld de, $8400
 	ld bc, $0200
-	call Func_735
+	call LoadOrCopyVRAMData
 	ret
 
 LoadMiniBallGfx: ; 0xdd12
@@ -16839,7 +16839,7 @@ LoadMiniBallGfx: ; 0xdd12
 	ld hl, PinballPokeballMiniGfx
 	ld de, $8400
 	ld bc, $0200
-	call Func_735
+	call LoadOrCopyVRAMData
 	ret
 
 .notPokeBall
@@ -16849,7 +16849,7 @@ LoadMiniBallGfx: ; 0xdd12
 	ld hl, PinballGreatballMiniGfx
 	ld de, $8400
 	ld bc, $0200
-	call Func_735
+	call LoadOrCopyVRAMData
 	ret
 
 .notGreatBall
@@ -16859,7 +16859,7 @@ LoadMiniBallGfx: ; 0xdd12
 	ld hl, PinballUltraballMiniGfx
 	ld de, $8400
 	ld bc, $0200
-	call Func_735
+	call LoadOrCopyVRAMData
 	ret
 
 .notUltraBall
@@ -16867,7 +16867,7 @@ LoadMiniBallGfx: ; 0xdd12
 	ld hl, PinballMasterballMiniGfx
 	ld de, $8400
 	ld bc, $0200
-	call Func_735
+	call LoadOrCopyVRAMData
 	ret
 
 Func_dd62: ; 0xdd62
@@ -16877,7 +16877,7 @@ Func_dd62: ; 0xdd62
 	ld hl, PinballBallMiniGfx
 	ld de, $8400
 	ld bc, $0200
-	call Func_735
+	call LoadOrCopyVRAMData
 	ret
 
 Func_dd76: ; 0xdd76
@@ -20447,12 +20447,12 @@ StartCatchEmMode: ; 0x1003f
 	ld hl, StageRedFieldBottomBaseGameBoyColorGfx + $300
 	ld de, $8ae0
 	ld bc, $0020
-	call Func_735
+	call LoadOrCopyVRAMData
 	ld a, $0
 	ld hl, Data_2898
 	ld de, $9906
 	ld bc, $0008
-	call Func_735
+	call LoadOrCopyVRAMData
 .asm_1011d
 	call SetPokemonSeenFlag
 	ld a, [wCurrentStage]
@@ -22233,12 +22233,12 @@ Func_10d1d: ; 0x10d1d
 	ld hl, StageRedFieldBottomBaseGameBoyColorGfx + $300
 	ld de, $8ae0
 	ld bc, $0020
-	call Func_735
+	call LoadOrCopyVRAMData
 	ld a, $0
 	ld hl, Data_2898
 	ld de, $9906
 	ld bc, $0008
-	call Func_735
+	call LoadOrCopyVRAMData
 .asm_10e09
 	ret
 
@@ -22374,7 +22374,7 @@ Func_10ebb: ; 0x10ebb
 	ld hl, Data_dbe80
 	ld de, $8900
 	ld bc, $00e0
-	call Func_735
+	call LoadOrCopyVRAMData
 	ret
 
 .asm_10f0b
@@ -22382,7 +22382,7 @@ Func_10ebb: ; 0x10ebb
 	ld hl, Data_dbe80
 	ld de, $8200
 	ld bc, $00e0
-	call Func_735
+	call LoadOrCopyVRAMData
 	ld [$ff8a], a
 	callba Func_14135
 	ld [$ff8a], a
@@ -22520,7 +22520,7 @@ Func_11061: ; 0x11061
 	ld hl, Data_dbe80
 	ld de, $8600
 	ld bc, $00e0
-	call Func_735
+	call LoadOrCopyVRAMData
 	ret
 
 .asm_110bd
@@ -22528,7 +22528,7 @@ Func_11061: ; 0x11061
 	ld hl, Data_dbe80
 	ld de, $8200
 	ld bc, $00e0
-	call Func_735
+	call LoadOrCopyVRAMData
 	ld [$ff8a], a
 	callba Func_1c2cb
 	ld [$ff8a], a
@@ -25766,7 +25766,7 @@ Func_14707: ; 0x14707
 	ld hl, Data_1172b
 	ld de, $99a8
 	ld bc, $0004
-	call Func_735
+	call LoadOrCopyVRAMData
 	ret
 
 .asm_1471c
@@ -25774,7 +25774,7 @@ Func_14707: ; 0x14707
 	ld hl, Data_1472f
 	ld de, $99a8
 	ld bc, $0004
-	call Func_735
+	call LoadOrCopyVRAMData
 	ret
 
 Data_1172b:
@@ -30928,7 +30928,7 @@ Func_19070: ; 0x19070
 	ld l, a
 	ld a, $22
 	ld bc, $0060
-	call Func_735
+	call LoadOrCopyVRAMData
 	ld a, $8
 	ld [wd690], a
 	ld [wd6a1], a
@@ -31024,7 +31024,7 @@ Func_19104: ; 0x19104
 	ld h, [hl]
 	ld l, a
 	ld a, $21
-	call Func_735
+	call LoadOrCopyVRAMData
 	ld a, $4
 	ld [wd674], a
 	ld a, $8
@@ -31120,7 +31120,7 @@ Func_191cb: ; 0x191cb
 	ld h, [hl]
 	ld l, a
 	ld a, $26
-	call Func_735
+	call LoadOrCopyVRAMData
 	ld a, $4
 	ld [wd674], a
 	ld a, $8
@@ -39018,7 +39018,7 @@ Func_20b02: ; 0x20b02
 	ld l, c
 	ld de, $8900
 	ld bc, $0180
-	call Func_735
+	call LoadOrCopyVRAMData
 	pop bc
 	ld a, [hGameBoyColorFlag]
 	and a
@@ -39783,7 +39783,7 @@ Func_2112a: ; 0x2112a
 	ld l, c
 	ld de, $8900
 	ld bc, $0180
-	call Func_735
+	call LoadOrCopyVRAMData
 	pop bc
 	ld a, [hGameBoyColorFlag]
 	and a
@@ -43477,70 +43477,58 @@ PointerTable_280a2: ; 0x280a2
 	dw Data_280c4
 
 Data_280a6: ; 0x280a6
-	dw $5800
-	db $2B
+	dab Data_ad800
 	dw vTiles0
 	dw $6000
 
-	dw $5000
-	db $31
+	dab Data_c5000
 	dw $9800
 	dw $1000
 
-	dw $4800
-	db $31
+	dab Data_c4800
 	dw vBGMap1
 	dw $800
 
-	dw $4800
-	db $31
+	dab Data_c4800
 	dw $9e00
 	dw $800
 
-	db $FF, $FF ; terminators
+	dw $FFFF ; terminators
 
 Data_280c4: ; 0x280c4
-	dw $5800
-	db $2B
+	dab Data_ad800
 	dw vTiles0
 	dw $6000
 
-	dw $5000
-	db $31
+	dab Data_c5000
 	dw $9800
 	dw $1000
 
-	dw $5400
-	db $31
+	dab Data_c5400
 	dw $9800
 	dw $1002
 
-	dw $4800
-	db $31
+	dab Data_c4800
 	dw vBGMap1
 	dw $800
 
-	dw $4800
-	db $31
+	dab Data_c4800
 	dw $9e00
 	dw $800
 
-	dw $4c00
-	db $31
+	dab Data_c4c00
 	dw vBGMap1
 	dw $802
 
-	dw $4c00
-	db $31
+	dab Data_c4c00
 	dw $9e00
 	dw $802
 
-	dw $4e80
-	db $37
+	dab Data_dce80
 	dw $0000
 	dw $101
 
-	db $FF, $FF ; terminators
+	dw $FFFF ; terminators
 
 MainPokedexScreen: ; 0x280fe
 	call Func_28513
@@ -43658,7 +43646,13 @@ MonInfoPokedexScreen: ; 0x28178
 	call Func_2885c
 	ret
 
-	dr $281cb, $282e9
+	dr $281cb, $28289
+
+Data_28289:
+	dr $28289, $282b9
+
+Data_282b9:
+	dr $282b9, $282e9
 
 Func_282e9: ; 0x282e9
 	ld a, [wd960]
@@ -43692,7 +43686,7 @@ Func_282e9: ; 0x282e9
 	sla a
 	ld c, a
 	ld b, $0
-	ld hl, $42b9 ; todo
+	ld hl, Data_282b9
 	add hl, bc
 	ld a, [hli]
 	ld c, a
@@ -43704,15 +43698,15 @@ Func_282e9: ; 0x282e9
 	ld a, [hNewlyPressedButtons]
 	and $6
 	jr z, .asm_28367
-	ld a, $31
-	ld hl, $4800 ; todo
+	ld a, BANK(Data_c4800)
+	ld hl, Data_c4800
 	ld de, vBGMap1
 	ld bc, $0200
 	call LoadVRAMData
 	ld a, $1
 	ld [rVBK], a
-	ld a, $31
-	ld hl, $4c00 ; todo
+	ld a, BANK(Data_c4c00)
+	ld hl, Data_c4c00
 	ld de, vBGMap1
 	ld bc, $0200
 	call LoadVRAMData
@@ -43756,7 +43750,7 @@ Func_28368: ; 0x28368
 	push af
 	sla e
 	rl d
-	ld hl, $4289 ; todo
+	ld hl, Data_28289
 	add hl, de
 	ld a, [hli]
 	ld h, [hl]
@@ -43770,7 +43764,7 @@ Func_28368: ; 0x28368
 	pop af
 	and $f
 	call PutTileInVRAM
-	ld hl, $442c ; todo
+	ld hl, Data_2842c
 	add hl, de
 	ld a, [hli]
 	ld h, [hl]
@@ -43807,7 +43801,7 @@ Func_28368: ; 0x28368
 	ld a, [wd960]
 	and a
 	jr nz, .asm_283ff
-	ld hl, $445c ; todo
+	ld hl, Data_2845c
 	add hl, de
 	ld a, [hl]
 	ld hl, rBGPI
@@ -43820,7 +43814,7 @@ Func_28368: ; 0x28368
 	ret
 
 .asm_283ff
-	ld hl, $445c ; todo
+	ld hl, Data_2845c
 	add hl, de
 	ld a, [hl]
 	ld hl, rBGPI
@@ -43830,7 +43824,7 @@ Func_28368: ; 0x28368
 	call PutTileInVRAM
 	ld a, b
 	call PutTileInVRAM
-	ld hl, $448c ; todo
+	ld hl, Data_2848c
 	add hl, de
 	ld a, [hl]
 	ld hl, rOBPI
@@ -43842,7 +43836,14 @@ Func_28368: ; 0x28368
 	call PutTileInVRAM
 	ret
 
-	dr $2842c, $284bc
+Data_2842c:
+	dr $2842c, $2845c
+
+Data_2845c:
+	dr $2845c, $2848c
+
+Data_2848c:
+	dr $2848c, $284bc
 
 Func_284bc: ; 0x284bc
 	ld a, [hPressedButtons]
@@ -44039,7 +44040,7 @@ Func_285db: ; 0x285db
 	ld a, [wCurPokedexIndex]
 	ld c, a
 	ld b, $0
-	ld hl, $7136  ; todo
+	ld hl, Data_2b136
 	add hl, bc
 	ld a, [hl]
 	add $49
@@ -44051,7 +44052,7 @@ Func_285db: ; 0x285db
 	and $3
 	ld e, a
 	ld d, $0
-	ld hl, $4687 ; todo
+	ld hl, Data_28687
 	add hl, de
 	ld a, [hl]
 	call LoadOAMData
@@ -44116,6 +44117,7 @@ PointerTable_2867f: ; 0x2867f
 	dw Func_286dd
 	dw Func_28765
 
+Data_28687:
 	dr $28687, $2868b
 
 DrawCornerInfoPokedexScreen: ; 0x2868b
@@ -44174,7 +44176,7 @@ Func_286dd: ; 0x286dd
 	ld hl, wc010
 	xor a
 	ld bc, $00a0
-	call Func_735
+	call LoadOrCopyVRAMData
 	ld a, $1
 	ld [wd862], a
 	pop hl
@@ -44220,7 +44222,7 @@ Func_28721: ; 0x28721
 	and $1e
 	ld c, a
 	ld b, $0
-	ld hl, $47c7
+	ld hl, Data_287c7
 	add hl, bc
 	ld a, [hli]
 	ld h, [hl]
@@ -44242,7 +44244,7 @@ Func_28721: ; 0x28721
 	and $1e
 	ld c, a
 	ld b, $0
-	ld hl, $47c7
+	ld hl, Data_287c7
 	add hl, bc
 	ld a, [hli]
 	ld h, [hl]
@@ -44270,7 +44272,7 @@ Func_28765: ; 0x28765
 	and $e
 	ld c, a
 	ld b, $0
-	ld hl, $47b7
+	ld hl, Data_287b7
 	add hl, bc
 	ld a, [hli]
 	ld e, a
@@ -44296,7 +44298,7 @@ Func_28765: ; 0x28765
 	and $e
 	ld c, a
 	ld b, $0
-	ld hl, $47b7
+	ld hl, Data_287b7
 	add hl, bc
 	ld a, [hli]
 	ld e, a
@@ -44315,7 +44317,11 @@ Func_28765: ; 0x28765
 	call Func_28993
 	ret
 
-	dr $287b7, $287e7
+Data_287b7:
+	dr $287b7, $287c7
+
+Data_287c7:
+	dr $287c7, $287e7
 
 Func_287e7: ; 0x287e7
 	ld a, [wd960]
@@ -44398,8 +44404,8 @@ Func_2885c: ; 0x2885c
 	ret
 
 Func_2887c: ; 0x2887c
-	ld a, $31
-	ld hl, $5120 ; todo
+	ld a, BANK(Data_c5120)
+	ld hl, Data_c5120
 	ld de, $9900
 	ld bc, $0100
 	call LoadVRAMData
@@ -44437,8 +44443,8 @@ Func_288a2: ; 0x288a2
 	ld a, $3b
 	ld [hLYC], a
 	ld [$ffa9], a
-	ld a, $31
-	ld hl, $5100 ; todo
+	ld a, BANK(Data_c5100)
+	ld hl, Data_c5100
 	ld de, $9900
 	ld bc, $0020
 	call LoadVRAMData
@@ -44451,20 +44457,20 @@ Func_288c6: ; 0x288c6
 	ld hl, wPokedexFlags
 	add hl, bc
 	bit 1, [hl]
-	ld hl, $4000
+	ld hl, Unknown_2c000
 	jr z, .asm_288f4
 	ld a, [wCurPokedexIndex]
 	ld c, a
 	ld b, $0
 	sla c
 	rl b
-	ld hl, $4002 ; todo
+	ld hl, PokedexDescriptionPointers
 	add hl, bc
-	ld a, $b
+	ld a, BANK(PokedexDescriptionPointers)
 	call ReadByteFromBank
 	inc hl
 	ld c, a
-	ld a, $b
+	ld a, BANK(PokedexDescriptionPointers)
 	call ReadByteFromBank
 	ld b, a
 	ld h, b
@@ -44508,7 +44514,7 @@ Func_28931: ; 0x28931
 	add hl, bc
 	ld a, [hl]
 	and a
-	ld hl, $4970 ; todo
+	ld hl, Data_28970
 	jr z, .asm_2895d
 	ld a, [wCurPokedexIndex]
 	ld c, a
@@ -44524,7 +44530,7 @@ Func_28931: ; 0x28931
 	add hl, bc
 	add hl, bc
 	add hl, bc
-	ld bc, $5892
+	ld bc, Data_29892
 	add hl, bc
 .asm_2895d
 	ld a, $ff
@@ -44536,6 +44542,7 @@ Func_28931: ; 0x28931
 	call Func_28e09
 	ret
 
+Data_28970:
 	dr $28970, $28972
 
 Func_28972: ; 0x28972
@@ -44549,7 +44556,7 @@ Func_28972: ; 0x28972
 	and $e
 	ld e, a
 	ld d, $0
-	ld hl, $47b7 ; todo
+	ld hl, Data_287b7
 	add hl, de
 	ld a, [hli]
 	ld e, a
@@ -44571,7 +44578,7 @@ Func_28993: ; 0x28993
 	add hl, bc
 	ld a, [hl]
 	and a
-	ld hl, $49c6 ; todo
+	ld hl, Data_289c6
 	jr z, .asm_289b7
 	ld h, b
 	ld l, c
@@ -44584,17 +44591,18 @@ Func_28993: ; 0x28993
 	add hl, bc
 	add hl, bc
 	add hl, bc
-	ld bc, $5892 ; todo
+	ld bc, Data_29892
 	add hl, bc
 .asm_289b7
 	xor a
 	ld [wd860], a
 	ld [wd861], a
-	ld bc, $500a ; todo
+	ld bc, $500a ; not a pointer
 	call Func_28e09
 	pop hl
 	ret
 
+Data_289c6:
 	dr $289c6, $289c8
 
 Func_289c8: ; 0x289c8
@@ -44604,7 +44612,7 @@ Func_289c8: ; 0x289c8
 	ld hl, wPokedexFlags
 	add hl, bc
 	bit 1, [hl]
-	ld hl, $4a12 ; todo
+	ld hl, Data_28a12
 	jr z, .asm_289fe
 	ld a, [wCurPokedexIndex]
 	ld c, a
@@ -44626,7 +44634,7 @@ Func_289c8: ; 0x289c8
 	sla l
 	rl h
 	add hl, bc  ; value * 23
-	ld bc, $5fa6 ; todo
+	ld bc, Data_29fa6
 	add hl, bc
 .asm_289fe
 	ld a, $ff
@@ -44638,6 +44646,7 @@ Func_289c8: ; 0x289c8
 	call Func_28e09
 	ret
 
+Data_28a12:
 	dr $28a12, $28a15
 
 Func_28a15: ; 0x28a15
@@ -44655,7 +44664,7 @@ Func_28a15: ; 0x28a15
 	sla l
 	rl h
 	add hl, bc
-	ld bc, $685d ; todo
+	ld bc, Data_2a85d
 	add hl, bc
 	ld d, h
 	ld e, l
@@ -44676,7 +44685,7 @@ Func_28a15: ; 0x28a15
 	add hl, bc
 	bit 1, [hl]
 	jr nz, .asm_28a54
-	ld de, $4a7f ; todo
+	ld de, Data_28a7f
 .asm_28a54
 	push de
 	ld hl, $98c8
@@ -44709,6 +44718,7 @@ Func_28a15: ; 0x28a15
 	call PutTileInVRAM
 	ret
 
+Data_28a7f:
 	dr $28a7f, $28a8a
 
 Func_28a8a: ; 0x28a8a
@@ -44722,7 +44732,7 @@ Func_28a8a: ; 0x28a8a
 	and $1e
 	ld e, a
 	ld d, $0
-	ld hl, $47c7 ; todo
+	ld hl, Data_287c7
 	add hl, de
 	ld a, [hli]
 	ld h, [hl]
@@ -44750,7 +44760,7 @@ Func_28aaa: ; 0x28aaa
 	sla l
 	rl h
 	add hl, bc
-	ld bc, $685d ; todo
+	ld bc, Data_2a85d
 	add hl, bc
 	ld d, h
 	ld e, l
@@ -44814,7 +44824,7 @@ Func_28add: ; 0x28add
 	ld l, c
 	ld de, $9000
 	ld bc, $0180
-	call Func_735
+	call LoadOrCopyVRAMData
 	call Func_28cd4
 	pop bc
 	ld a, [hGameBoyColorFlag]
@@ -44854,21 +44864,22 @@ Func_28add: ; 0x28add
 	ret
 
 Func_28b76: ; 0x28b76
-	ld a, $1c
-	ld hl, $5500
+	ld a, BANK(Data_71500)
+	ld hl, Data_71500
 	ld de, $9000
 	ld bc, $0180
-	call Func_735
+	call LoadOrCopyVRAMData
 	call Func_28cd4
 	ld a, [hGameBoyColorFlag]
 	and a
 	ret z
-	ld a, $a
-	ld de, $4b97
+	ld a, BANK(Data_28b97)
+	ld de, Data_28b97
 	ld hl, $9861
 	call Func_86f
 	ret
 
+Data_28b97:
 	dr $28b97, $28baf
 
 Func_28baf: ; 0x28baf
@@ -44898,13 +44909,13 @@ Func_28baf: ; 0x28baf
 	add hl, bc
 	ld de, $9000
 	ld bc, $0180
-	call Func_735
+	call LoadOrCopyVRAMData
 	call Func_28cd4
 	ld a, [hGameBoyColorFlag]
 	and a
 	ret z
-	ld a, $a
-	ld de, $4b97 ; todo
+	ld a, BANK(Data_28b97)
+	ld de, Data_28b97
 	ld hl, $9861
 	call Func_86f
 	ret
@@ -44939,7 +44950,7 @@ Func_28bf5: ; 0x28bf5
 	ld l, c
 	ld de, vTiles0
 	ld bc, $0300
-	call Func_735
+	call LoadOrCopyVRAMData
 	xor a
 	ld [rVBK], a
 	pop bc
@@ -44947,9 +44958,9 @@ Func_28bf5: ; 0x28bf5
 	ld a, [wCurPokedexIndex]
 	ld c, a
 	ld b, $0
-	ld hl, $561d ; todo
+	ld hl, EvolutionLineIds
 	add hl, bc
-	ld a, $4
+	ld a, BANK(EvolutionLineIds)
 	call ReadByteFromBank
 	ld c, a
 	ld b, $0
@@ -45261,7 +45272,7 @@ Func_28d97: ; 0x28d97
 	sla c
 	rl b
 	xor a
-	call Func_735
+	call LoadOrCopyVRAMData
 	pop hl
 	pop af
 	ret
@@ -45329,7 +45340,7 @@ Func_28e09: ; 0x28e09
 	sla c
 	rl b
 	xor a
-	call Func_735
+	call LoadOrCopyVRAMData
 	pop hl
 	pop af
 	ret
@@ -45362,44 +45373,44 @@ Func_28e73: ; 0x28e73
 	dr $28e9a, $2957c
 
 Func_2957c: ; 0x2957c
-	ld a, $b
+	ld a, BANK(PokedexDescriptionPointers)
 	call ReadByteFromBank
 	inc hl
 	and a
 	ret z
-	cp $d
+	cp $d ; carriage return
 	jr nz, .asm_2958c
 	ld a, $ff
 	scf
 	ret
 
 .asm_2958c
-	cp $30
+	cp "0"
 	jr c, .asm_29594
-	cp $3a
+	cp "9" + 1
 	jr c, .asm_295be
 .asm_29594
-	cp $41
+	cp "A"
 	jr c, .asm_2959c
-	cp $5b
+	cp "Z" + 1
 	jr c, .asm_295c2
 .asm_2959c
-	cp $61
+	cp "a"
 	jr c, .asm_295a4
-	cp $7b
+	cp "z" + 1
 	jr c, .asm_295c6
 .asm_295a4
-	cp $20
+	cp " "
 	jr z, .asm_295ca
-	cp $2c
+	cp ","
 	jr z, .asm_295cd
-	cp $2e
+	cp "."
 	jr z, .asm_295d1
-	cp $60
+	cp "`"
 	jr z, .asm_295d5
-	cp $2d
+	cp "-"
 	jr z, .asm_295d9
-	cp $40
+	cp "é"
 	jr z, .asm_295dd
 	and a
 	ret
@@ -45487,7 +45498,7 @@ Func_29605: ; 0x29605
 	ld a, b
 	cp $81
 	jr nz, .asm_29611
-	ld hl, $562f ; todo
+	ld hl, Data_2962f
 	ld a, c
 	sub $40
 	ret
@@ -45495,7 +45506,7 @@ Func_29605: ; 0x29605
 .asm_29611
 	cp $83
 	jr nz, .asm_2961c
-	ld hl, $573b ; todo
+	ld hl, Data_2973b
 	ld a, c
 	sub $40
 	ret
@@ -45504,18 +45515,28 @@ Func_29605: ; 0x29605
 	ld a, c
 	cp $9f
 	jr nc, .asm_29628
-	ld hl, $569c ; todo
+	ld hl, Data_2969c
 	ld a, c
 	sub $4f
 	ret
 
 .asm_29628
-	ld hl, $56e8 ; todo
+	ld hl, Data_296e8
 	ld a, c
 	sub $9f
 	ret
 
-	dr $2962f, $29792
+Data_2962f:
+	dr $2962f, $2969c
+
+Data_2969c:
+	dr $2969c, $296e8
+
+Data_296e8:
+	dr $296e8, $2973b
+
+Data_2973b:
+	dr $2973b, $29792
 
 CharacterWidths: ; 0x29792
 ; The Pokedex shows variable-width font. This list specifies the width of every letter (tile?)
@@ -45776,6 +45797,7 @@ CharacterWidths: ; 0x29792
 	db $07
 	db $07
 
+Data_29892:
 	dr $29892, $29f0f
 
 MonDexTypeIDs: ; 0x29f0f
@@ -45931,12 +45953,20 @@ MonDexTypeIDs: ; 0x29f0f
 	db $5E
 	db $5F
 
-	dr $29fa6, $2c000
+Data_29fa6:
+	dr $29fa6, $2a85d
+
+Data_2a85d:
+	dr $2a85d, $2b136
+
+Data_2b136:
+	dr $2b136, $2b1cd
 
 SECTION "bankb", ROMX, BANK[$b]
 
 Unknown_2c000: ; 0x2c000
-	db $20, $00
+	dex_text " "
+	dex_end
 
 PokedexDescriptionPointers: ; 0x2c002
 	dw BulbasaurPokedexDescription
@@ -52074,6 +52104,7 @@ MewPic: ; 0x71200
 MewSilhouettePic:  ; 0x71380
 	INCBIN "gfx/billboard/mon_silhouettes/mew.2bpp"
 
+Data_71500:
 	dr $71500, $73000
 
 GengarBonusBaseGameBoyGfx: ; 0x73000
@@ -53640,6 +53671,7 @@ SECTION "bank2b", ROMX, BANK[$2b]
 TitlescreenFadeInGfx: ; 0xac000
 	INCBIN "gfx/titlescreen/titlescreen_fade_in.2bpp"
 
+Data_ad800:
 	dr $ad800, $af000
 
 StageBlueFieldBottomCollisionMasks: ; 0xaf000
@@ -53977,7 +54009,25 @@ SECTION "bank31", ROMX, BANK[$31]
 StageBlueFieldBottomCollisionAttributes: ; 0xc4000
 	INCBIN "data/collision/maps/blue_stage_bottom.collision"
 
-	dr $c4400, $c5800
+	dr $c4400, $c4800
+
+Data_c4800:
+	dr $c4800, $c4c00
+
+Data_c4c00:
+	dr $c4c00, $c5000
+
+Data_c5000:
+	dr $c5000, $c5100
+
+Data_c5100:
+	dr $c5100, $c5120
+
+Data_c5120:
+	dr $c5120, $c5400
+
+Data_c5400:
+	dr $c5400, $c5800
 
 TitlescreenTilemap: ; 0xc5800
 	INCBIN "gfx/tilemaps/titlescreen.map"
@@ -57955,6 +58005,7 @@ OptionMenuOBJPalette7: ; 0xdce78
 	RGB 31, 31, 31
 	RGB 31, 31, 31
 
+Data_dce80:
 	dr $dce80, $dcf00
 
 MewtwoBonusPalettes: ; 0xdcf00

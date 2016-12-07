@@ -40,7 +40,7 @@ DigitsText1to9:
 
 LetsGetPokemonText:
 	db $05, $54, $41, $14, $00, $3a
-	db "LET'S GET POKeMON @"
+	db "LET`S GET POKeMON @"
 
 PokemonRanAwayText:
 	db $05, $54, $42, $14, $00, $39

@@ -50701,7 +50701,7 @@ PikachuSaverGfx: ; 0xa8720
 	INCBIN "gfx/stage/pikachu_saver.2bpp"
 
 GFX_a8800:
-	INCBIN "gfx/unknown/a8800.2bpp"
+	INCBIN "gfx/unknown/a8800.interleave.w32.2bpp"
 
 	dr $a8980, $a8a00
 

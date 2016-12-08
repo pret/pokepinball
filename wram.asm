@@ -86,7 +86,10 @@ wc893:: ; 0xc893
 	ds $1d0
 
 wca63:: ; 0xca63
-	ds $59d
+	ds $9d
+
+wcb00:: ; 0xcb00
+	ds $500
 
 SECTION "WRAM Bank 1", WRAMX, BANK[1]
 

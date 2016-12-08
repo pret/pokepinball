@@ -2774,7 +2774,7 @@ Func_10c5: ; 0x10c5
 	pop af
 	ld hl, wd7fb
 	ld l, [hl]
-	ld h, $cb
+	ld h, wcb00 / $100
 	inc bc
 	ld [hl], c
 	inc h
@@ -22553,21 +22553,35 @@ Func_108f5: ; 0x108f5
 	ld bc, $0020
 	call LoadVRAMData
 	ld hl, Data_10958
-	ld a, $4
+	ld a, BANK(Data_10958)
 	call Func_10aa
 	ld a, [wd624]
 	ld [hFarCallTempA], a
 	callba Func_174d4
 	ld hl, Data_1097d
-	ld a, $4
+	ld a, BANK(Data_1097d)
 	call Func_10aa
 	ret
 
 Data_10958:
-	dr $10958, $1097d
+	db 3
+	dw Data_1095f
+	dw Data_10969
+	dw Data_10973
+
+Data_1095f:
+	dr $1095f, $10969
+Data_10969:
+	dr $10969, $10973
+Data_10973:
+	dr $10973, $1097d
 
 Data_1097d:
-	dr $1097d, $1098a
+	db 1
+	dw Data_10980
+
+Data_10980:
+	dr $10980, $1098a
 
 Func_1098a: ; 0x1098a
 	ret
@@ -22656,21 +22670,35 @@ Func_109fc: ; 0x109fc
 	ld bc, $0020
 	call LoadVRAMData
 	ld hl, Data_10a63
-	ld a, $4
+	ld a, BANK(Data_10a63)
 	call Func_10aa
 	ld a, [wd624]
 	ld [hFarCallTempA], a
 	callba Func_174d4
 	ld hl, Data_10a88
-	ld a, $4
+	ld a, BANK(Data_10a88)
 	call Func_10aa
 	ret
 
 Data_10a63:
-	dr $10a63, $10a88
+	db 3
+	dw Data_10a6a
+	dw Data_10a74
+	dw Data_10a7e
+
+Data_10a6a:
+	dr $10a6a, $10a74
+Data_10a74:
+	dr $10a74, $10a7e
+Data_10a7e:
+	dr $10a7e, $10a88
 
 Data_10a88:
-	dr $10a88, $10a95
+	db 1
+	dw Data_10a8b
+
+Data_10a8b:
+	dr $10a8b, $10a95
 
 Func_10a95: ; 0x19a95
 	ld a, [wCurrentStage]
@@ -26020,7 +26048,30 @@ Func_14746: ; 0x14746
 	ret
 
 Data_1475f:
-	dr $1475f, $14795
+	dw Data_14763
+	dw Data_14768
+
+Data_14763:
+	db 2
+	dw Data_1476d
+	dw Data_14777
+
+Data_14768:
+	db 2
+	dw Data_14781
+	dw Data_1478b
+
+Data_1476d:
+	dr $1476d, $14777
+
+Data_14777:
+	dr $14777, $14781
+
+Data_14781:
+	dr $14781, $1478b
+
+Data_1478b:
+	dr $1478b, $14795
 
 Func_14795: ; 0x14795
 	ld a, [wd5c7]

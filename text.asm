@@ -55,7 +55,23 @@ OneBillionText:
 	db "1,000,000,000 @"
 
 Data_2a21:
-	dr $2a21, $2a56
+	db $44, $00, $40, $00
+	db "HIT @"
+	db $48, $10, $40, $00, $00, $00
+
+Data_2a30:
+	db $42, $00, $40, $00
+	db "FLIPPED @"
+
+Data_2a3d:
+	db $4a, $10, $40, $00, $00, $00
+
+JackpotText:
+	db $42, $00, $b4, $00
+	db "JACKPOT @"
+
+Data_2a50:
+	db $4a, $10, $b4, $00, $00, $00
 
 YouGotAText:
 	db $05, $54, $00, $00, $00, $1e

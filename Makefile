@@ -6,7 +6,7 @@
 
 # Build Pokemon Pinball.
 ROMS := pokepinball.gbc
-OBJS := main.o wram.o
+OBJS := main.o wram.o sram.o
 
 # If your default python is 3, you may want to change this to python27.
 PYTHON := python

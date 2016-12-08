@@ -83,7 +83,10 @@ wc892:: ; 0xc892
 	ds $1
 
 wc893:: ; 0xc893
-	ds $1d0
+	ds $16d
+
+wca00::
+	ds $63
 
 wca63:: ; 0xca63
 	ds $9d

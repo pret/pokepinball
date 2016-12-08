@@ -2808,7 +2808,7 @@ Func_10c5: ; 0x10c5
 	ld [MBC5RomBank], a
 	ld hl, wd7fb
 	ld l, [hl]
-	ld h, $ca
+	ld h, wca00 / $100
 	inc l
 	ld [hl], $0
 	dec l
@@ -2913,7 +2913,7 @@ LoadTileLists: ; 0x117b
 	jr nz, .loadTileData
 	jr .loadTileSequence
 
-Func_118d: ; 0x118d
+LoadTileListsBank1: ; 0x118d
 	ld a, $1
 	ld [rVBK], a
 	call LoadTileLists
@@ -21666,7 +21666,7 @@ Func_10230: ; 0x10230
 	pop bc
 	push de
 	xor a
-	ld de, Func_118d
+	ld de, LoadTileListsBank1
 	call Func_10c5
 	pop de
 	pop hl
@@ -21914,7 +21914,25 @@ Func_10414: ; 0x10414
 	ret
 
 Data_10420:
-	dr $10420, $10432
+	db $18
+
+	db $06
+	dw $9887
+	db $80
+
+	db $06
+	dw $98a7
+	db $80
+
+	db $06
+	dw $98c7
+	db $80
+
+	db $06
+	dw $98e7
+	db $80
+
+	db $00
 
 Func_10432: ; 0x10432
 	ld a, BANK(Data_1043e)
@@ -21924,7 +21942,25 @@ Func_10432: ; 0x10432
 	ret
 
 Data_1043e:
-	dr $1043e, $10464
+	db $18
+
+	db $06
+	dw $9887
+	db $90, $91, $92, $93, $94, $95
+
+	db $06
+	dw $98a7
+	db $96, $97, $98, $99, $9a, $9b
+
+	db $06
+	dw $98c7
+	db $9c, $9d, $9e, $9f, $a0, $a1
+
+	db $06
+	dw $98e7
+	db $a2, $a3, $a4, $a5, $a6, $a7
+
+	db $00
 
 Func_10464: ; 0x10464
 	ld a, [wCurrentCatchEmMon]
@@ -22159,7 +22195,39 @@ Func_10611: ; 0x10611
 	ret
 
 Data_1062a:
-	dr $1062a, $10648
+	dw Data_10630
+	dw Data_10638
+	dw Data_10640
+
+Data_10630:
+	db $20
+
+	db $02
+	dw $8ae0
+	dw CatchTextGfx + $00
+	db BANK(CatchTextGfx)
+
+	db $00
+
+Data_10638:
+	db $20
+
+	db $02
+	dw $8b00
+	dw CatchTextGfx + $20
+	db BANK(CatchTextGfx)
+
+	db $00
+
+Data_10640:
+	db $20
+
+	db $02
+	dw $8b20
+	dw CatchTextGfx + $40
+	db BANK(CatchTextGfx)
+
+	db $00
 
 Func_10648: ; 0x10648
 	call Func_10184
@@ -52560,7 +52628,12 @@ RhydonBillboardBGPaletteMap: ; 0xd8968
 SaverTextOffGfx: ; 0xd8c00
 	INCBIN "gfx/stage/saver_off.2bpp"
 
-	dr $d8c40, $d8e80
+	dr $d8c40, $d8c80
+
+CatchTextGfx:
+	INCBIN "gfx/stage/catch.w48.2bpp"
+
+	dr $d8ce0, $d8e80
 
 Data_d8e80:
 	dr $d8e80, $d8f60

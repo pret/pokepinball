@@ -25,6 +25,10 @@ dab: MACRO
 	dwb \1, BANK(\1)
 	ENDM
 
+lb: MACRO
+	ld \1, (\2 << 8) | \3
+	ENDM
+
 padded_dab: MACRO
 	dab \1
 	db $00

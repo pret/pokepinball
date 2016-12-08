@@ -1,3 +1,6 @@
+; 6-byte header
+; Byte 1: Character delay
+
 BallSavedText:
 	db $05, $54, $45, $14, $00, $33
 	db "BALL SAVED @"
@@ -57,6 +60,8 @@ OneBillionText:
 Data_2a21:
 	db $44, $00, $40, $00
 	db "HIT @"
+
+Data_2a2a:
 	db $48, $10, $40, $00, $00, $00
 
 Data_2a30:

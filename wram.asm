@@ -35,10 +35,10 @@ wc4cc:: ; 0xc4cc
 	ds $34
 
 wcBottomMessageText:: ; 0xc500
-	ds $147
+	ds $100
 
-wc647::
-	ds $b9
+wc600::
+	ds $100
 
 wStageCollisionMap:: ; 0xc700
 	ds $68
@@ -729,7 +729,7 @@ wd5bd:: ; 0xd5bd
 wd5be:: ; 0xd5be
 	ds $1
 
-wd5bf:: ; 0xd5bf
+wBallHitWildMon:: ; 0xd5bf
 	ds $1
 
 wNumMonHits:: ; 0xd5c0
@@ -747,7 +747,7 @@ wd5c3:: ; 0xd5c3
 wd5c4:: ; 0xd5c4
 	ds $1
 
-wd5c5:: ; 0xd5c5
+wNumMewHitsLow:: ; 0xd5c5
 	ds $1
 
 wd5c6:: ; 0xd5c6
@@ -2616,7 +2616,10 @@ wdead:: ; 0xdead
 	ds $1
 
 wdeae:: ; 0xdeae
-	ds $151
+	ds $52
+
+wStack::
+	ds $ff
 
 wdfff:: ; 0xdfff
 	ds $1

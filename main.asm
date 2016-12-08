@@ -6578,7 +6578,7 @@ Func_30e8: ; 0x30e8
 
 Func_310a: ; 0x310a
 	ld a, $81
-	ld hl, wcBottomMessageText + $140
+	ld hl, wc600 + $40
 	ld b, $5
 .asm_3111
 	ld [hli], a
@@ -6587,7 +6587,7 @@ Func_310a: ; 0x310a
 	ld [hli], a
 	dec b
 	jr nz, .asm_3111
-	ld hl, wcBottomMessageText + $1c0
+	ld hl, wc600 + $c0
 	ld b, $5
 .asm_311d
 	ld [hli], a
@@ -6608,126 +6608,126 @@ asm_312b: ; 0x312b
 	ld a, [wd805]
 	and a
 	jp nz, Func_3268
-.asm_3132
+.next_char
 	ld a, [hli]
 	and a
 	ret z
 	ld c, $81
-	cp $20
-	jr z, .asm_3175
-	cp $2c
-	jr z, .asm_3178
-	cp $24
-	jr z, .asm_317c
-	cp $5c
-	jr z, .asm_3184
-	cp $60
-	jr z, .asm_318d
-	cp $21
-	jr z, .asm_31a8
-	cp $78
-	jr z, .asm_31b1
-	cp $65
-	jr z, .asm_3196
-	cp $2a
-	jr z, .asm_319f
-	cp $2e
-	jr z, .asm_31ba
-	cp $3a
-	jr z, .asm_31c3
-	cp $30
-	jr c, .asm_316b
-	cp $3a
-	jr c, .asm_31cc
-.asm_316b
-	cp $41
-	jr c, .asm_3173
-	cp $5b
-	jr c, .asm_31d0
-.asm_3173
-	jr .asm_3132
+	cp " "
+	jr z, .space
+	cp ","
+	jr z, .comma
+	cp "♂"
+	jr z, .male
+	cp "♀"
+	jr z, .female
+	cp "`"
+	jr z, .apostrophe
+	cp "!"
+	jr z, .exclamation
+	cp "x"
+	jr z, .little_x
+	cp "e"
+	jr z, .e_acute
+	cp "*"
+	jr z, .asterisk
+	cp "."
+	jr z, .period
+	cp ":"
+	jr z, .colon
+	cp "0"
+	jr c, .check_atoz
+	cp "9" + 1
+	jr c, .digit
+.check_atoz
+	cp "A"
+	jr c, .invalid
+	cp "Z" + 1
+	jr c, .alphabet
+.invalid
+	jr .next_char
 
-.asm_3175
+.space
 	ld a, c
-	jr .asm_31d2
+	jr .load_char
 
-.asm_3178
+.comma
 	inc c
 	dec e
-	jr .asm_31d3
+	jr .check_special_load
 
-.asm_317c
+.male
 	xor a
 	call Func_31e1
 	ld a, $83
-	jr .asm_31d2
+	jr .load_char
 
-.asm_3184
+.female
 	ld a, $1
 	call Func_31e1
 	ld a, $84
-	jr .asm_31d2
+	jr .load_char
 
-.asm_318d
+.apostrophe
 	ld a, $2
 	call Func_31e1
 	ld a, $85
-	jr .asm_31d2
+	jr .load_char
 
-.asm_3196
+.e_acute
 	ld a, $3
 	call Func_31e1
 	ld a, $83
-	jr .asm_31d2
+	jr .load_char
 
-.asm_319f
+.asterisk
 	ld a, $4
 	call Func_31e1
 	ld a, $87
-	jr .asm_31d2
+	jr .load_char
 
-.asm_31a8
+.exclamation
 	ld a, $5
 	call Func_31e1
 	ld a, $85
-	jr .asm_31d2
+	jr .load_char
 
-.asm_31b1
+.little_x
 	ld a, $6
 	call Func_31e1
 	ld a, $85
-	jr .asm_31d2
+	jr .load_char
 
-.asm_31ba
+.period
 	ld a, $7
 	call Func_31e1
 	ld a, $86
-	jr .asm_31d2
+	jr .load_char
 
-.asm_31c3
+.colon
 	ld a, $8
 	call Func_31e1
 	ld a, $83
-	jr .asm_31d2
+	jr .load_char
 
-.asm_31cc
+.digit
 	add $56
-	jr .asm_31d2
+	jr .load_char
 
-.asm_31d0
+.alphabet
 	add $bf
-.asm_31d2
+.load_char
 	ld [de], a
-.asm_31d3
+.check_special_load
 	bit 0, b
-	jr nz, .asm_31dd
+	jr nz, .no_special_load
 	set 7, e
 	ld a, c
 	ld [de], a
 	res 7, e
-.asm_31dd
+.no_special_load
 	inc e
-	jp .asm_3132
+	jp .next_char
 
 Func_31e1: ; 0x31e1
 	push bc
@@ -6882,9 +6882,9 @@ Func_32cc: ; 0x32cc
 	inc de
 	pop af
 	ld e, a
-	ld d, $c5
+	ld d, wcBottomMessageText / $100
 	ld hl, [sp+$5]
-	ld bc, $0801
+	lb bc, 8, 1
 .asm_32ec
 	ld a, [hl]
 	swap a
@@ -6896,10 +6896,10 @@ Func_32cc: ; 0x32cc
 	call Func_3309
 	dec b
 	jr nz, .asm_32ec
-	ld a, $30
+	ld a, "0"
 	ld [de], a
 	inc de
-	ld a, $20
+	ld a, " "
 	ld [de], a
 	inc de
 	xor a
@@ -6956,11 +6956,11 @@ Func_3325: ; 0x3325
 	dec e
 .asm_333d
 	push de
-	ld d, $c6
+	ld d, wc600 / $100
 	inc hl
 	push hl
 	ld l, [hl]
-	ld h, $c5
+	ld h, wcBottomMessageText / $100
 	call Func_3129
 	pop hl
 	inc hl
@@ -6995,7 +6995,7 @@ Func_3357: ; 0x3357
 	inc de
 	pop af
 	ld l, a
-	ld h, $c5
+	ld h, wcBottomMessageText / $100
 .asm_336b
 	ld a, [de]
 	ld [hli], a
@@ -7021,9 +7021,9 @@ Func_3372: ; 0x3372
 	ld [hli], a
 	pop af
 	ld e, a
-	ld d, $c5
+	ld d, wcBottomMessageText / $100
 	ld hl, [sp+$5]
-	ld bc, $0801
+	lb bc, 8, 1
 .asm_338a
 	ld a, [hl]
 	swap a
@@ -7075,10 +7075,10 @@ Func_33c3: ; 0x33c3
 	ret z
 	ld a, [hli]
 	ld e, a
-	ld d, $c6
+	ld d, wc600 / $100
 	push hl
 	ld l, [hl]
-	ld h, $c5
+	ld h, wcBottomMessageText / $100
 	call Func_3129
 	pop hl
 	inc hl
@@ -11853,7 +11853,7 @@ Func_84fd:
 .asm_850d
 	ld a, $81
 	call Func_8519
-	ld de, wc647
+	ld de, wc600 + $47
 	call Func_8524
 	ret
 
@@ -19967,7 +19967,7 @@ UpgradeBallBlueField: ; 0xf040
 	call PlaySoundEffect
 	call Func_30e8
 	call Func_30db
-	ld de, $2907
+	ld de, FieldMultiplierText
 	ld hl, wd5cc
 	call LoadTextHeader
 	; upgrade ball type
@@ -19995,7 +19995,7 @@ UpgradeBallBlueField: ; 0xf040
 	call Func_30e8
 	call Func_30db
 	ld hl, wd5d4
-	ld de, $2948
+	ld de, DigitsText1to8
 	call Func_32cc
 	pop de
 	pop bc
@@ -22268,7 +22268,7 @@ Func_10678: ; 0x10678
 	ld a, $1
 	ld [wd5bb], a
 	xor a
-	ld [wd5bf], a
+	ld [wBallHitWildMon], a
 	ld [wNumMonHits], a
 	ret
 
@@ -26148,7 +26148,7 @@ Func_14795: ; 0x14795
 	xor a
 	ld [wd5c7], a
 	ld a, $1
-	ld [wd5bf], a
+	ld [wBallHitWildMon], a
 	ld de, $0006
 	call PlaySoundEffect
 	ret
@@ -26941,7 +26941,7 @@ Func_1535d: ; 0x1535d
 	call PlaySoundEffect
 	call Func_30e8
 	call Func_30db
-	ld de, $2907
+	ld de, FieldMultiplierText
 	ld hl, wd5cc
 	call LoadTextHeader
 	ld a, [wBallType]
@@ -26968,7 +26968,7 @@ Func_1535d: ; 0x1535d
 	call Func_30e8
 	call Func_30db
 	ld hl, wd5d4
-	ld de, $2948
+	ld de, DigitsText1to8
 	call Func_32cc
 	pop de
 	pop bc
@@ -34387,7 +34387,7 @@ Func_1ca4a: ; 1ca4a
 	xor a
 	ld [wd5c7], a
 	ld a, $1
-	ld [wd5bf], a
+	ld [wBallHitWildMon], a
 	ld de, $0006
 	call PlaySoundEffect
 	ret
@@ -38064,11 +38064,11 @@ Func_200d3: ; 0x200d3
 	and $3
 	ret nz
 .asm_200e6
-	ld a, [wd5bf]
+	ld a, [wBallHitWildMon]
 	and a
 	jp z, .asm_20167
 	xor a
-	ld [wd5bf], a
+	ld [wBallHitWildMon], a
 	ld a, [wd5c3]
 	ld [wd5be], a
 	xor a
@@ -38076,9 +38076,9 @@ Func_200d3: ; 0x200d3
 	ld a, [wCurrentCatchEmMon]
 	cp MEW - 1
 	jr nz, .notMew
-	ld a, [wd5c5]
+	ld a, [wNumMewHitsLow]
 	inc a
-	ld [wd5c5], a
+	ld [wNumMewHitsLow], a
 	jr nz, .asm_20116
 .notMew
 	ld a, [wNumMonHits]
@@ -38097,12 +38097,12 @@ Func_200d3: ; 0x200d3
 	call Func_30e8
 	call Func_30db
 	ld hl, wd5e9
-	ld de, $2a2a
+	ld de, Data_2a2a
 	call Func_3372
 	pop de
 	pop bc
 	ld hl, wd5e4
-	ld de, $2a21
+	ld de, Data_2a21
 	call Func_3357
 	ld a, [wNumMonHits]
 	ld [hFarCallTempA], a
@@ -38197,8 +38197,9 @@ Func_201f2: ; 0x201f2
 	ld [wd57e], a
 	ld a, $7
 	ld [wd54d], a
+	; Automatically set Mew as caught, since you can't possibly catch it
 	ld a, [wCurrentCatchEmMon]
-	cp NUM_POKEMON - 1
+	cp MEW - 1
 	jr nz, .asm_2021b
 	ld [hFarCallTempA], a
 	callba SetPokemonOwnedFlag
@@ -38224,7 +38225,7 @@ Func_20230: ; 0x20230
 	ld [hli], a
 	inc hl
 	ld a, l
-	cp $b6
+	cp wd5b6 % $100
 	jr z, .asm_2024e
 	dec d
 	jr nz, .asm_20242
@@ -38253,12 +38254,12 @@ Func_20230: ; 0x20230
 	call Func_30e8
 	call Func_30db
 	ld hl, wd5e9
-	ld de, $2a3d
+	ld de, Data_2a3d
 	call Func_3372
 	pop de
 	pop bc
 	ld hl, wd5e4
-	ld de, $2a30
+	ld de, Data_2a30
 	call Func_3357
 .asm_2029d
 	ld bc, $0001
@@ -38393,11 +38394,11 @@ Func_20394: ; 0x20394
 	and $3
 	ret nz
 .asm_203a7
-	ld a, [wd5bf]
+	ld a, [wBallHitWildMon]
 	and a
 	jp z, .asm_20428
 	xor a
-	ld [wd5bf], a
+	ld [wBallHitWildMon], a
 	ld a, [wd5c3]
 	ld [wd5be], a
 	xor a
@@ -38405,9 +38406,9 @@ Func_20394: ; 0x20394
 	ld a, [wCurrentCatchEmMon]
 	cp MEW - 1
 	jr nz, .notMew
-	ld a, [wd5c5]
+	ld a, [wNumMewHitsLow]
 	inc a
-	ld [wd5c5], a
+	ld [wNumMewHitsLow], a
 	jr nz, .asm_203d7
 .notMew
 	ld a, [wNumMonHits]
@@ -38426,12 +38427,12 @@ Func_20394: ; 0x20394
 	call Func_30e8
 	call Func_30db
 	ld hl, wd5e9
-	ld de, $2a2a
+	ld de, Data_2a2a
 	call Func_3372
 	pop de
 	pop bc
 	ld hl, wd5e4
-	ld de, $2a21
+	ld de, Data_2a21
 	call Func_3357
 	ld a, [wNumMonHits]
 	ld [hFarCallTempA], a
@@ -38526,6 +38527,7 @@ Func_204b3: ; 0x204b3
 	ld [wd57e], a
 	ld a, $7
 	ld [wd54d], a
+	; Automatically set Mew as caught, since you can't possibly catch it
 	ld a, [wCurrentCatchEmMon]
 	cp MEW - 1
 	jr nz, .notMew
@@ -38553,7 +38555,7 @@ Func_204f1: ; 0x204f1
 	ld [hli], a
 	inc hl
 	ld a, l
-	cp $b6 ; TODO: This is the low byte of a pointer
+	cp wd5b6 % $100
 	jr z, .asm_2050f
 	dec d
 	jr nz, .asm_20503
@@ -38582,12 +38584,12 @@ Func_204f1: ; 0x204f1
 	call Func_30e8
 	call Func_30db
 	ld hl, wd5e9
-	ld de, $2a3d
+	ld de, Data_2a3d
 	call Func_3372
 	pop de
 	pop bc
 	ld hl, wd5e4
-	ld de, $2a30
+	ld de, Data_2a30
 	call Func_3357
 .asm_2055e
 	ld bc, $0001
@@ -44770,10 +44772,10 @@ Func_28815: ; 0x28815
 	dec a
 	ld [wd5be], a
 	ret nz
-	ld a, [wd5bf]
+	ld a, [wBallHitWildMon]
 	inc a
 	and $7
-	ld [wd5bf], a
+	ld [wBallHitWildMon], a
 	jr nz, .asm_28836
 	ld a, [wd5c3]
 	ld [wd5be], a

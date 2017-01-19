@@ -114,8 +114,9 @@ wd2c0:: ; 0xd2c0
 wPartyMons:: ; 0xd300
 	ds $100
 
-wd400:: ; 0xd400
+wAddScoreQueue:: ; 0xd400
 	ds $60
+wAddScoreQueueEnd:: ; 0xd460
 
 wNumPartyMons:: ; 0xd460
 	ds $1
@@ -153,7 +154,7 @@ wd473:: ; 0xd473
 wd476:: ; 0xd476
 	ds $1
 
-wd477:: ; 0xd477
+wAddScoreQueueOffset:: ; 0xd477
 	ds $1
 
 wd478:: ; 0xd478

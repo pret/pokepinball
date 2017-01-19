@@ -96,9 +96,15 @@ ENDM
 ;\1 = X
 ;\2 = Y
 ;\3 = Reference Background Map (e.g. vBGMap0 or vBGMap1)
-hlCoord: MACRO
-	ld hl, \3 + $20 * \2 + \1
+coord: MACRO
+	ld \1, \4 + $20 * \3 + \2
 	ENDM
+
+hlCoord EQUS "coord hl,"
+deCoord EQUS "coord de,"
+bcCoord EQUS "coord bc,"
+
+tile EQUS "+ $10 *"
 
 ;\1 = 5-bit Blue value
 ;\2 = 5-bit Green value

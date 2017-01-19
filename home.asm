@@ -6147,7 +6147,7 @@ Func_3500:
 	ld [hl], a
 	ld bc, wd464
 	ldh [hFarCallTempA], a
-	callba AddBCDScore
+	callba AddBigBCD6FromQueueWithBallMultiplier
 	ret
 
 Func_351c: ; 0x351c
@@ -6165,7 +6165,7 @@ Func_351c: ; 0x351c
 	ld [hl], a
 	ld bc, wd464
 	ld [hFarCallTempA], a
-	callba Func_8588
+	callba AddBigBCD6FromQueue
 	ret
 
 Func_3538: ; 0x3538

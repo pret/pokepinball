@@ -4239,7 +4239,7 @@ Func_8543: ; 0x8543
 
 Func_8569:
 	xor a
-	ld hl, wd400
+	ld hl, wAddScoreQueue
 	ld b, $31
 .asm_856f
 	ld [hli], a
@@ -4249,12 +4249,12 @@ Func_8569:
 	ld [hli], a
 	ret
 
-AddBCDScore: ; 0x8576
+AddBigBCD6FromQueueWithBallMultiplier: ; 0x8576
 	ld h, b
 	ld l, c
-	ld a, [wd477]
+	ld a, [wAddScoreQueueOffset]
 	ld e, a
-	ld d, $d4
+	ld d, wAddScoreQueue / $100
 	ld a, [wBallType]
 	and a
 	jr nz, .asm_8585
@@ -4263,61 +4263,39 @@ AddBCDScore: ; 0x8576
 	ld b, a
 	jr asm_8592
 
-Func_8588: ; 0x8588
+AddBigBCD6FromQueue: ; 0x8588
 	ld h, b
 	ld l, c
-	ld a, [wd477]
+	ld a, [wAddScoreQueueOffset]
 	ld e, a
-	ld d, wd400 / $100
+	ld d, wAddScoreQueue / $100
 	ld b, $1
 asm_8592:
 	push hl
+x = 0
+rept 6
 	ld a, [de]
+if x == 0
 	add [hl]
-	daa
-	ld [de], a
-	inc de
-	inc hl
-	ld a, [de]
+else
 	adc [hl]
+endc
 	daa
 	ld [de], a
 	inc de
 	inc hl
-	ld a, [de]
-	adc [hl]
-	daa
-	ld [de], a
-	inc de
-	inc hl
-	ld a, [de]
-	adc [hl]
-	daa
-	ld [de], a
-	inc de
-	inc hl
-	ld a, [de]
-	adc [hl]
-	daa
-	ld [de], a
-	inc de
-	inc hl
-	ld a, [de]
-	adc [hl]
-	daa
-	ld [de], a
-	inc de
-	inc hl
+x = x + 1
+endr
 	ld a, e
-	cp $60
-	jr nz, .asm_85be
-	ld e, $0
-.asm_85be
+	cp wAddScoreQueueEnd % $100
+	jr nz, .okay
+	ld e, wAddScoreQueue % $100
+.okay
 	pop hl
 	dec b
 	jr nz, asm_8592
 	ld a, e
-	ld [wd477], a
+	ld [wAddScoreQueueOffset], a
 	ret
 
 Func_85c7: ; 0x85c7
@@ -4326,9 +4304,9 @@ Func_85c7: ; 0x85c7
 	ret nz
 	ld a, [wd478]
 	ld l, a
-	ld h, wd400 / $100
+	ld h, wAddScoreQueue / $100
 	ld de, wScore
-	ld a, [wd477]
+	ld a, [wAddScoreQueueOffset]
 	cp l
 	jr nz, .asm_85de
 	ld [wd479], a
@@ -4345,12 +4323,12 @@ Func_85c7: ; 0x85c7
 	inc hl
 	or [hl]
 	pop hl
-	jr nz, .asm_85f3
+	jr nz, .value_is_nonzero
 	ld a, [wd479]
 	ld [wd478], a
 	ret
 
-.asm_85f3
+.value_is_nonzero
 	ld a, [de]
 	add [hl]
 	daa
@@ -7731,12 +7709,12 @@ Func_ccb6: ; 0xccb6
 	call CopyInitialHighScores
 	ld a, BANK(HighScoresTilemap)
 	ld hl, HighScoresTilemap + $40
-	ld de, $9840
+	deCoord 0, 2, vBGMap0
 	ld bc, $01c0
 	call LoadVRAMData
 	ld a, BANK(HighScoresTilemap2)
 	ld hl, HighScoresTilemap2 + $40
-	ld de, $9c40
+	deCoord 0, 2, vBGMap1
 	ld bc, $01c0
 	call LoadVRAMData
 	hlCoord 0, 14, vBGMap0
@@ -8965,22 +8943,22 @@ Func_d57b: ; 0xd57b
 	rst AdvanceFrame
 	ld a, BANK(HighScoresTilemap)
 	ld hl, HighScoresTilemap
-	ld de, $9800
+	deCoord 0, 0, vBGMap0
 	ld bc, $0040
 	call LoadVRAMData
 	ld a, BANK(HighScoresTilemap)
 	ld hl, HighScoresTilemap + $200
-	ld de, $9a00
+	deCoord 0, 16, vBGMap0
 	ld bc, $0040
 	call LoadVRAMData
 	ld a, BANK(HighScoresTilemap2)
 	ld hl, HighScoresTilemap2
-	ld de, $9c00
+	deCoord 0, 0, vBGMap1
 	ld bc, $0040
 	call LoadVRAMData
 	ld a, BANK(HighScoresTilemap2)
 	ld hl, HighScoresTilemap2 + $200
-	ld de, $9e00
+	deCoord 0, 16, vBGMap1
 	ld bc, $0040
 	call LoadVRAMData
 	ld b, $10
@@ -9010,22 +8988,22 @@ Func_d5d0: ; 0xd5d0
 	jr nz, .asm_d5d2
 	ld a, BANK(HighScoresTilemap)
 	ld hl, HighScoresTilemap + $3c0
-	ld de, $9800
+	deCoord 0, 0, vBGMap0
 	ld bc, $0040
 	call LoadVRAMData
 	ld a, BANK(HighScoresTilemap)
 	ld hl, HighScoresTilemap + $280
-	ld de, $9a00
+	deCoord 0, 16, vBGMap0
 	ld bc, $0040
 	call LoadVRAMData
 	ld a, BANK(HighScoresTilemap2)
 	ld hl, HighScoresTilemap2 + $3c0
-	ld de, $9c00
+	deCoord 0, 0, vBGMap1
 	ld bc, $0040
 	call LoadVRAMData
 	ld a, BANK(HighScoresTilemap2)
 	ld hl, HighScoresTilemap2 + $280
-	ld de, $9e00
+	deCoord 0, 16, vBGMap1
 	ld bc, $0040
 	call LoadVRAMData
 	ld bc, $0009
@@ -12259,7 +12237,7 @@ UpgradeBallBlueField: ; 0xf040
 	call PlaySoundEffect
 	ld bc, OneMillionPoints
 	ld [hFarCallTempA], a
-	callba Func_8588
+	callba AddBigBCD6FromQueue
 	ld bc, $100
 	ld de, $0000
 	push bc
@@ -12840,7 +12818,7 @@ Func_f676: ; 0xf676
 	ld [wd482], a
 	ld hl, wd48f
 	ld de, wd489
-	call Func_f902
+	call AddBigBCD6
 	jr .asm_f6c7
 
 .asm_f709
@@ -12894,7 +12872,7 @@ Func_f70d: ; 0xf70d
 .asm_f76c
 	ld hl, wScore
 	ld de, wd48f
-	call Func_f902
+	call AddBigBCD6
 	ld hl, wd46f
 	ld de, wcBottomMessageText + $66
 	call Func_f8bd
@@ -13087,7 +13065,7 @@ Func_f853: ; 0xf853
 	push de
 	push hl
 	ld hl, wd483
-	call Func_f902
+	call AddBigBCD6
 	pop hl
 	pop de
 	jr .asm_f85b
@@ -13095,7 +13073,7 @@ Func_f853: ; 0xf853
 .asm_f899
 	ld hl, wd489
 	ld de, wd483
-	call Func_f902
+	call AddBigBCD6
 	ld hl, wd48e
 	ld de, wcBottomMessageText + $86
 	call Func_f8bd
@@ -13166,37 +13144,20 @@ Func_f8d5: ; 0xf8d5
 	pop de
 	ret
 
-Func_f902: ; 0xf902
+AddBigBCD6: ; 0xf902
+x = 0
+rept 6
 	ld a, [de]
+if x == 0
 	add [hl]
-	daa
-	ld [hli], a
-	inc de
-	ld a, [de]
+else
 	adc [hl]
+endc
+x = x + 1
 	daa
 	ld [hli], a
 	inc de
-	ld a, [de]
-	adc [hl]
-	daa
-	ld [hli], a
-	inc de
-	ld a, [de]
-	adc [hl]
-	daa
-	ld [hli], a
-	inc de
-	ld a, [de]
-	adc [hl]
-	daa
-	ld [hli], a
-	inc de
-	ld a, [de]
-	adc [hl]
-	daa
-	ld [hli], a
-	inc de
+endr
 	ret
 
 PointsData_f921: ; 0xf921
@@ -13557,7 +13518,7 @@ StartCatchEmMode: ; 0x1003f
 	call LoadOrCopyVRAMData
 	ld a, $0
 	ld hl, Data_2898
-	ld de, $9906
+	deCoord 6, 8, vBGMap0
 	ld bc, $0008
 	call LoadOrCopyVRAMData
 .asm_1011d
@@ -14633,7 +14594,7 @@ Func_10825: ; 0x10825
 Func_10848: ; 0x10848
 	ld bc, OneHundredMillionPoints
 	ld [hFarCallTempA], a
-	callba Func_8588
+	callba AddBigBCD6FromQueue
 	call Func_30e8
 	call Func_30db
 	ld hl, wd5d4
@@ -15019,7 +14980,7 @@ Func_10b59: ; 0x10b59
 	call LoadVRAMData
 	ld a, $0
 	ld hl, wcBottomMessageText
-	ld de, $9c00
+	deCoord 0, 0, vBGMap1
 	ld bc, $00c0
 	call LoadVRAMData
 	ret
@@ -15194,7 +15155,7 @@ Func_10c38: ; 0x10c38
 .asm_10c96
 	ld a, $0
 	ld hl, wcBottomMessageText
-	ld de, $9c00
+	deCoord 0, 0, vBGMap1
 	ld bc, $00c0
 	call LoadVRAMData
 	ret
@@ -15392,7 +15353,7 @@ Func_10d1d: ; 0x10d1d
 	call LoadOrCopyVRAMData
 	ld a, $0
 	ld hl, Data_2898
-	ld de, $9906
+	deCoord 6, 8, vBGMap0
 	ld bc, $0008
 	call LoadOrCopyVRAMData
 .asm_10e09
@@ -15475,7 +15436,7 @@ Func_10e0a: ; 0x10e0a
 Func_10e8b: ; 0x10e8b
 	ld bc, OneMillionPoints
 	ld [hFarCallTempA], a
-	callba Func_8588
+	callba AddBigBCD6FromQueue
 	ld bc, $0100
 	ld de, $0000
 	push bc
@@ -18153,7 +18114,7 @@ Func_14707: ; 0x14707
 	jr nz, .asm_1471c
 	ld a, BANK(Data_1172b)
 	ld hl, Data_1172b
-	ld de, $99a8
+	deCoord 8, 13, vBGMap0
 	ld bc, $0004
 	call LoadOrCopyVRAMData
 	ret
@@ -18161,7 +18122,7 @@ Func_14707: ; 0x14707
 .asm_1471c
 	ld a, BANK(Data_1472f)
 	ld hl, Data_1472f
-	ld de, $99a8
+	deCoord 8, 13, vBGMap0
 	ld bc, $0004
 	call LoadOrCopyVRAMData
 	ret
@@ -18487,7 +18448,7 @@ Func_1496d: ; 0x1496d
 	ld [wd7eb], a
 	ld bc, FiveHundredPoints
 	ld [hFarCallTempA], a
-	callba AddBCDScore
+	callba AddBigBCD6FromQueueWithBallMultiplier
 	ld de, $000f
 	call PlaySoundEffect
 	ret
@@ -18602,7 +18563,7 @@ Func_14d85: ; 0x14d85
 	callba Func_10000
 	ld bc, FiveHundredPoints
 	ld [hFarCallTempA], a
-	callba AddBCDScore
+	callba AddBigBCD6FromQueueWithBallMultiplier
 	ret
 
 .asm_14db9
@@ -18711,7 +18672,7 @@ Func_14e10: ; 0x14e10
 	ret z
 	ld bc, TenPoints
 	ld [hFarCallTempA], a
-	callba AddBCDScore
+	callba AddBigBCD6FromQueueWithBallMultiplier
 	ld hl, wd62d
 	call Func_e4a
 	ld a, [wd517]
@@ -18800,7 +18761,7 @@ Func_151cb: ; 0x151cb
 	ret nz
 	ld bc, OneHundredPoints
 	ld [hFarCallTempA], a
-	callba AddBCDScore
+	callba AddBigBCD6FromQueueWithBallMultiplier
 	ld hl, wd50f
 	ld a, [hli]
 	and [hl]
@@ -18815,7 +18776,7 @@ Func_151cb: ; 0x151cb
 	ld [wd514], a
 	ld bc, FourHundredPoints
 	ld [hFarCallTempA], a
-	callba AddBCDScore
+	callba AddBigBCD6FromQueueWithBallMultiplier
 	ld de, $0009
 	call PlaySoundEffect
 	ld hl, wd62c
@@ -18998,7 +18959,7 @@ Func_1535d: ; 0x1535d
 	ret nz
 	ld bc, OneHundredPoints
 	ld [hFarCallTempA], a
-	callba AddBCDScore
+	callba AddBigBCD6FromQueueWithBallMultiplier
 	ld hl, wd5f9
 	ld a, [hli]
 	and [hl]
@@ -19021,7 +18982,7 @@ Func_1535d: ; 0x1535d
 	ld [wBallTypeCounter + 1], a
 	ld bc, FourHundredPoints
 	ld [hFarCallTempA], a
-	callba AddBCDScore
+	callba AddBigBCD6FromQueueWithBallMultiplier
 	ld a, [wBallType]
 	cp MASTER_BALL
 	jr z, .masterBall
@@ -19048,7 +19009,7 @@ Func_1535d: ; 0x1535d
 	call PlaySoundEffect
 	ld bc, OneMillionPoints
 	ld [hFarCallTempA], a
-	callba Func_8588
+	callba AddBigBCD6FromQueue
 	ld bc, $0100
 	ld de, $0000
 	push bc
@@ -19317,7 +19278,7 @@ Func_1581f: ; 0x1581f
 	ld [wd51f], a
 	ld bc, FivePoints
 	ld [hFarCallTempA], a
-	callba AddBCDScore
+	callba AddBigBCD6FromQueueWithBallMultiplier
 	ld a, [wd520]
 	sub $11
 	ld c, a
@@ -19590,7 +19551,7 @@ Func_15e93: ; 0x15e93
 	ld [wd4fb], a
 	ld bc, TenThousandPoints
 	ld [hFarCallTempA], a
-	callba AddBCDScore
+	callba AddBigBCD6FromQueueWithBallMultiplier
 	ld de, $0005
 	call PlaySoundEffect
 	ld hl, BellsproutAnimationData
@@ -19789,7 +19750,7 @@ Func_160f0: ; 0x160f0
 	ld [wd5fe], a
 	ld bc, TenThousandPoints
 	ld [hFarCallTempA], a
-	callba AddBCDScore
+	callba AddBigBCD6FromQueueWithBallMultiplier
 	ld de, $0021
 	call PlaySoundEffect
 	xor a
@@ -20509,7 +20470,7 @@ Func_1669e: ; 0x1669e
 	ld [wd549], a
 	ld bc, FiveThousandPoints
 	ld [hFarCallTempA], a
-	callba AddBCDScore
+	callba AddBigBCD6FromQueueWithBallMultiplier
 	xor a
 	ld [wd51c], a
 	ret
@@ -20590,7 +20551,7 @@ Func_16781: ; 0x16781
 	jr nz, .asm_167c2
 	ld bc, FiveThousandPoints
 	ld [hFarCallTempA], a
-	callba AddBCDScore
+	callba AddBigBCD6FromQueueWithBallMultiplier
 	ld a, [wd502]
 	xor $1
 	set 1, a
@@ -20643,7 +20604,7 @@ Func_167ff: ; 0x167ff
 	jr nz, .asm_1683e
 	ld bc, FiveThousandPoints
 	ld [hFarCallTempA], a
-	callba AddBCDScore
+	callba AddBigBCD6FromQueueWithBallMultiplier
 	ld a, [wd502]
 	xor $1
 	ld [wd502], a
@@ -20852,7 +20813,7 @@ Func_16d9d: ; 016d9d
 .asm_16e35
 	ld bc, TenPoints
 	ld [hFarCallTempA], a
-	callba AddBCDScore
+	callba AddBigBCD6FromQueueWithBallMultiplier
 	ld a, [wd60c]
 	call Func_16f28
 	ld a, [wd60d]
@@ -22327,7 +22288,7 @@ Func_18464: ; 0x18464
 	ld [wd67b], a
 	ld bc, OneHundredThousandPoints
 	ld [hFarCallTempA], a
-	callba Func_8588
+	callba AddBigBCD6FromQueue
 	ld a, $33
 	ld [wd803], a
 	ld a, $8
@@ -22547,7 +22508,7 @@ Func_1860b: ; 0x1860b
 	ld [wd695], a
 	ld bc, FiveHundredThousandPoints
 	ld [hFarCallTempA], a
-	callba Func_8588
+	callba AddBigBCD6FromQueue
 	ld a, $33
 	ld [wd803], a
 	ld a, $8
@@ -22788,7 +22749,7 @@ Func_187b1: ; 0x187b1
 .asm_18826
 	ld bc, FiveMillionPoints
 	ld [hFarCallTempA], a
-	callba Func_8588
+	callba AddBigBCD6FromQueue
 	ld a, $33
 	ld [wd803], a
 	ld a, $8
@@ -23120,7 +23081,7 @@ Func_18d34: ; 0x18d34
 	jr nz, .asm_18d71
 	ld bc, OneHundredPoints
 	ld [hFarCallTempA], a
-	callba Func_8588
+	callba AddBigBCD6FromQueue
 	ld a, $ff
 	ld [wd803], a
 	ld a, $3
@@ -23907,7 +23868,7 @@ Func_19531: ; 0x19531
 	jr nc, .asm_195a2
 	ld bc, FiveMillionPoints
 	ld [hFarCallTempA], a
-	callba Func_8588
+	callba AddBigBCD6FromQueue
 	ld a, [wd6b0]
 	inc a
 	cp $3
@@ -24141,7 +24102,7 @@ Func_19701: ; 0x19701
 	call Func_19876
 	ld bc, OneHundredThousandPoints
 	ld [hFarCallTempA], a
-	callba Func_8588
+	callba AddBigBCD6FromQueue
 	ld de, $0038
 	call PlaySoundEffect
 .asm_19742
@@ -24679,7 +24640,7 @@ Func_19c52: ; 0x19c52
 	ld [wd73b], a
 	ld bc, OneHundredThousandPoints
 	ld [hFarCallTempA], a
-	callba Func_8588
+	callba AddBigBCD6FromQueue
 	ld de, $0035
 	call PlaySoundEffect
 	ld hl, $0100
@@ -24989,7 +24950,7 @@ Func_1aad4: ; 0x1aad4
 	call CopyHLToDE
 	ld bc, FiveMillionPoints
 	ld [hFarCallTempA], a
-	callba Func_8588
+	callba AddBigBCD6FromQueue
 	ld de, $0036
 	call PlaySoundEffect
 	ld a, $33
@@ -26438,7 +26399,7 @@ Func_1c9c1: ; 0x1c9c1
 	callba Func_10000
 	ld bc, FiveHundredPoints
 	ld [hFarCallTempA], a
-	callba AddBCDScore
+	callba AddBigBCD6FromQueueWithBallMultiplier
 	ret
 
 .asm_1ca19
@@ -26560,7 +26521,7 @@ Func_1ca85: ; 0x1ca85
 	ret z
 	ld bc, TenPoints
 	ld [hFarCallTempA], a
-	callba AddBCDScore
+	callba AddBigBCD6FromQueueWithBallMultiplier
 	ld hl, wd62d
 	call Func_e4a
 	ld a, [wd517]
@@ -26721,7 +26682,7 @@ Func_1cfaa: ; 0x1cfaa
 	ld [wd51f], a
 	ld bc, FivePoints
 	ld [hFarCallTempA], a
-	callba AddBCDScore
+	callba AddBigBCD6FromQueueWithBallMultiplier
 	ld a, [wStageCollisionState]
 	cp $0
 	jr nz, .asm_1cfe5
@@ -26952,7 +26913,7 @@ Func_1d133: ; 0x1d133
 	ld [wd549], a
 	ld bc, FiveThousandPoints
 	ld [hFarCallTempA], a
-	callba AddBCDScore
+	callba AddBigBCD6FromQueueWithBallMultiplier
 	xor a
 	ld [wd51c], a
 	ret
@@ -27030,7 +26991,7 @@ Func_1d216: ; 0x1d216
 	ld [wd630], a
 	ld bc, TenThousandPoints
 	ld [hFarCallTempA], a
-	callba AddBCDScore
+	callba AddBigBCD6FromQueueWithBallMultiplier
 	ld de, $0005
 	call PlaySoundEffect
 	ld hl, Data_1d312
@@ -27144,7 +27105,7 @@ HandleEnteringCloyster: ; 0x1d32d
 	ld [wd635], a
 	ld bc, TenThousandPoints
 	ld [hFarCallTempA], a
-	callba AddBCDScore
+	callba AddBigBCD6FromQueueWithBallMultiplier
 	ld de, $0005
 	call PlaySoundEffect
 	ld hl, Data_1d41d
@@ -27336,7 +27297,7 @@ Func_1d438: ; 0x1d438
 asm_1d4fa: ; 0x1d4fa
 	ld bc, TenPoints
 	ld [hFarCallTempA], a
-	callba AddBCDScore
+	callba AddBigBCD6FromQueueWithBallMultiplier
 	ld a, [wd60c]
 	call Func_1d5f2
 	ld a, [wd60d]
@@ -27922,7 +27883,7 @@ Func_1de22: ; 0x1de22
 	ld [wd7eb], a
 	ld bc, FiveHundredPoints
 	ld [hFarCallTempA], a
-	callba AddBCDScore
+	callba AddBigBCD6FromQueueWithBallMultiplier
 	ld de, $000f
 	call PlaySoundEffect
 	ret
@@ -28170,7 +28131,7 @@ Func_1e356: ; 0x1e356
 .asm_1e3bf
 	ld bc, OneHundredPoints
 	ld [hFarCallTempA], a
-	callba AddBCDScore
+	callba AddBigBCD6FromQueueWithBallMultiplier
 	ld hl, wd5f9
 	ld a, [hli]
 	and [hl]
@@ -28193,7 +28154,7 @@ Func_1e356: ; 0x1e356
 	ld [wBallTypeCounter + 1], a
 	ld bc, FourHundredPoints
 	ld [hFarCallTempA], a
-	callba AddBCDScore
+	callba AddBigBCD6FromQueueWithBallMultiplier
 	ld a, [wBallType]
 	cp MASTER_BALL
 	jr z, .masterBall
@@ -28220,7 +28181,7 @@ Func_1e356: ; 0x1e356
 	call PlaySoundEffect
 	ld bc, OneMillionPoints
 	ld [hFarCallTempA], a
-	callba Func_8588
+	callba AddBigBCD6FromQueue
 	ld bc, $0100
 	ld de, $0000
 	push bc
@@ -28450,7 +28411,7 @@ Func_1e5c5: ; 0x1e5c5
 	ret nz
 	ld bc, OneHundredPoints
 	ld [hFarCallTempA], a
-	callba AddBCDScore
+	callba AddBigBCD6FromQueueWithBallMultiplier
 	ld hl, wd50f
 	ld a, [hli]
 	and [hl]
@@ -28465,7 +28426,7 @@ Func_1e5c5: ; 0x1e5c5
 	ld [wd514], a
 	ld bc, FourHundredPoints
 	ld [hFarCallTempA], a
-	callba AddBCDScore
+	callba AddBigBCD6FromQueueWithBallMultiplier
 	ld de, $0009
 	call PlaySoundEffect
 	ld hl, wd62c
@@ -30168,7 +30129,7 @@ Func_200d3: ; 0x200d3
 .asm_20116
 	ld bc, ThreeHundredThousandPoints
 	ld [hFarCallTempA], a
-	callba Func_8588
+	callba AddBigBCD6FromQueue
 	ld bc, $0030
 	ld de, $0000
 	push bc
@@ -30325,7 +30286,7 @@ Func_20230: ; 0x20230
 	callba Func_10184
 	ld bc, OneHundredThousandPoints
 	ld [hFarCallTempA], a
-	callba Func_8588
+	callba AddBigBCD6FromQueue
 	ld bc, $0010
 	ld de, $0000
 	push bc
@@ -30491,7 +30452,7 @@ Func_20394: ; 0x20394
 .asm_203d7
 	ld bc, ThreeHundredThousandPoints
 	ld [hFarCallTempA], a
-	callba Func_8588
+	callba AddBigBCD6FromQueue
 	ld bc, $0030
 	ld de, $0000
 	push bc
@@ -30648,7 +30609,7 @@ Func_204f1: ; 0x204f1
 	callba Func_10184
 	ld bc, OneHundredThousandPoints
 	ld [hFarCallTempA], a
-	callba Func_8588
+	callba AddBigBCD6FromQueue
 	ld bc, $0010
 	ld de, $0000
 	push bc
@@ -30763,7 +30724,7 @@ Func_205e0: ; 0x205e0
 	call nz, BankSwitch
 	ld bc, OneMillionPoints
 	ld [hFarCallTempA], a
-	callba Func_8588
+	callba AddBigBCD6FromQueue
 	call Func_30e8
 	call Func_30db
 	ld de, YeahYouGotItText
@@ -31210,7 +31171,7 @@ Func_20977: ; 0x20977
 .asm_209bf
 	ld bc, ThreeHundredThousandPoints
 	ld [hFarCallTempA], a
-	callba Func_8588
+	callba AddBigBCD6FromQueue
 	call Func_30e8
 	call Func_30db
 	ld a, [wCurrentEvolutionType]
@@ -31257,7 +31218,7 @@ Func_209eb: ; 0x209eb
 	ld [wd557], a
 	ld bc, ThreeHundredThousandPoints
 	ld [hFarCallTempA], a
-	callba Func_8588
+	callba AddBigBCD6FromQueue
 	call Func_30e8
 	call Func_30db
 	ld hl, wd5cc
@@ -31293,7 +31254,7 @@ Func_20a65: ; 0x20a65
 	jr z, .asm_20a80
 	ld bc, TenThousandPoints
 	ld [hFarCallTempA], a
-	callba Func_8588
+	callba AddBigBCD6FromQueue
 	jr asm_20a9f
 
 .asm_20a80
@@ -31309,7 +31270,7 @@ Func_20a82: ; 0x20a82
 	jr z, .asm_20a9d
 	ld bc, TenThousandPoints
 	ld [hFarCallTempA], a
-	callba Func_8588
+	callba AddBigBCD6FromQueue
 	jr asm_20a9f
 
 .asm_20a9d
@@ -31522,7 +31483,7 @@ Func_20c08: ; 0x20c08
 	call nz, BankSwitch
 	ld bc, OneMillionPoints
 	ld [hFarCallTempA], a
-	callba Func_8588
+	callba AddBigBCD6FromQueue
 	call Func_30e8
 	call Func_30db
 	ld de, YeahYouGotItText
@@ -31949,7 +31910,7 @@ Func_20f75: ; 0x20f75
 .asm_20fc3
 	ld bc, ThreeHundredThousandPoints
 	ld [hFarCallTempA], a
-	callba Func_8588
+	callba AddBigBCD6FromQueue
 	call Func_30e8
 	call Func_30db
 	ld a, [wCurrentEvolutionType]
@@ -31997,7 +31958,7 @@ Func_20fef: ; 0x20fef
 	ld [wd557], a
 	ld bc, ThreeHundredThousandPoints
 	ld [hFarCallTempA], a
-	callba Func_8588
+	callba AddBigBCD6FromQueue
 	call Func_30e8
 	call Func_30db
 	ld hl, wd5cc
@@ -32020,7 +31981,7 @@ Func_2105c: ; 0x2105c
 	jr z, .asm_21077
 	ld bc, TenThousandPoints
 	ld [hFarCallTempA], a
-	callba Func_8588
+	callba AddBigBCD6FromQueue
 	jr asm_210c7
 
 .asm_21077
@@ -32069,7 +32030,7 @@ Func_21089: ; 0x21089
 	jr z, .asm_210c5
 	ld bc, TenThousandPoints
 	ld [hFarCallTempA], a
-	callba Func_8588
+	callba AddBigBCD6FromQueue
 	jr asm_210c7
 
 .asm_210c5
@@ -32933,7 +32894,7 @@ Func_245ab: ; 0x245ab
 	call PlaySoundEffect
 	ld bc, OneThousandPoints
 	ld [hFarCallTempA], a
-	callba AddBCDScore
+	callba AddBigBCD6FromQueueWithBallMultiplier
 	xor a
 	ld [wMeowthStageBonusCounter], a
 	ld a, [wd6ec]
@@ -34109,7 +34070,7 @@ Func_24e7f: ; 0x24e7f
 	push af
 	ld bc, OneHundredThousandPoints
 	ld [hFarCallTempA], a
-	callba AddBCDScore
+	callba AddBigBCD6FromQueueWithBallMultiplier
 	ld hl, wMeowthStageScore
 	inc [hl]
 	pop af
@@ -35018,7 +34979,7 @@ Func_25e85: ; 0x25e85
 	jr nc, .asm_25ead
 	ld bc, OneHundredThousandPoints
 	ld [hFarCallTempA], a
-	callba AddBCDScore
+	callba AddBigBCD6FromQueueWithBallMultiplier
 	pop de
 	dec d
 	jr .asm_25ebf
@@ -35026,7 +34987,7 @@ Func_25e85: ; 0x25e85
 .asm_25ead
 	ld bc, FiveMillionPoints
 	ld [hFarCallTempA], a
-	callba AddBCDScore
+	callba AddBigBCD6FromQueueWithBallMultiplier
 	pop de
 	ld a, d
 	sub $32
@@ -36880,7 +36841,7 @@ Func_2885c: ; 0x2885c
 Func_2887c: ; 0x2887c
 	ld a, BANK(Data_c5120)
 	ld hl, Data_c5120
-	ld de, $9900
+	deCoord 0, 8, vBGMap0
 	ld bc, $0100
 	call LoadVRAMData
 	ld a, $3f
@@ -36919,7 +36880,7 @@ Func_288a2: ; 0x288a2
 	ld [hNextLYCSub], a
 	ld a, BANK(Data_c5100)
 	ld hl, Data_c5100
-	ld de, $9900
+	deCoord 0, 8, vBGMap0
 	ld bc, $0020
 	call LoadVRAMData
 	ret
@@ -40127,7 +40088,7 @@ Func_30164: ; 0x30164
 .asm_30175
 	ld bc, TenMillionPoints
 	ld [hFarCallTempA], a
-	callba Func_8588
+	callba AddBigBCD6FromQueue
 	ld a, $2
 	ld [wd4ca], a
 	ret

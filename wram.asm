@@ -34,10 +34,10 @@ wc4c0:: ; 0xc4c0
 wc4cc:: ; 0xc4cc
 	ds $34
 
-wcBottomMessageText:: ; 0xc500
+wBottomMessageText:: ; 0xc500
 	ds $100
 
-wc600::
+wc600:: ; 0xc600
 	ds $100
 
 wStageCollisionMap:: ; 0xc700
@@ -1843,7 +1843,7 @@ wd7fd:: ; 0xd7fd
 wd7fe:: ; 0xd7fe
 	ds $2
 
-wd800:: ; 0xd800
+wSFXTimer:: ; 0xd800
 	ds $1
 
 wd801:: ; 0xd801

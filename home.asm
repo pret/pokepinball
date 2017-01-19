@@ -552,7 +552,7 @@ PlaySoundEffect: ; 0x4af
 	ld a, [wdead]
 	and a
 	ret nz
-	ld a, [wd800]
+	ld a, [wSFXTimer]
 	and a
 	jr z, .asm_4bd
 	ld a, d
@@ -560,7 +560,7 @@ PlaySoundEffect: ; 0x4af
 	ret z
 .asm_4bd
 	ld a, d
-	ld [wd800], a
+	ld [wSFXTimer], a
 	ld d, $0
 	ld a, [hLoadedROMBank]
 	push af
@@ -609,7 +609,7 @@ Func_504: ; 0x504
 	ld a, [wCurrentSongBank]
 	ld [hLoadedROMBank], a
 	ld [MBC5RomBank], a
-	call $4180 
+	call Func_3c180 
 	pop af
 	ld [hLoadedROMBank], a
 	ld [MBC5RomBank], a
@@ -618,11 +618,11 @@ Func_504: ; 0x504
 	ld [wd801], a
 	and $3
 	ret nz
-	ld a, [wd800]
+	ld a, [wSFXTimer]
 	and a
 	ret z
 	dec a
-	ld [wd800], a
+	ld [wSFXTimer], a
 	ret
 
 SetSongBank: ; 0x52c
@@ -2316,7 +2316,7 @@ Func_e69: ; 0xe69
 .asm_e77
 	dec a
 	jr nz, .asm_e77
-	ld hl, wcBottomMessageText + $140
+	ld hl, wBottomMessageText + $140
 	call Func_eef
 	push hl
 	ld hl, $9c00
@@ -2342,7 +2342,7 @@ Func_e69: ; 0xe69
 	ld hl, $9c10
 	call Func_ef8
 	pop hl
-	ld hl, wcBottomMessageText + $1c0
+	ld hl, wBottomMessageText + $1c0
 	call Func_eef
 	push hl
 	ld hl, $9c20
@@ -2731,7 +2731,7 @@ Func_10aa: ; 0x10aa
 	ld c, a
 	ld a, [hli]
 	ld b, a
-.asm_10ad
+.loop
 	push bc
 	ld a, c
 	ld c, [hl]
@@ -2751,19 +2751,19 @@ Func_10aa: ; 0x10aa
 	pop hl
 	pop bc
 	dec b
-	jr nz, .asm_10ad
+	jr nz, .loop
 	ret
 
 Func_10c5: ; 0x10c5
 	push af
 	ld a, [rLCDC]
 	bit 7, a
-	jr z, .asm_10d2
-.asm_10cc
+	jr z, .skip_wait_ly
+.wait_ly
 	ld a, [rLY]
 	cp $88
-	jr nc, .asm_10cc
-.asm_10d2
+	jr nc, .wait_ly
+.skip_wait_ly
 	pop af
 	ld hl, wd7fb
 	ld l, [hl]
@@ -2790,10 +2790,10 @@ Func_10c5: ; 0x10c5
 	ld hl, wd7fa
 	add [hl]
 	cp $30
-	jr c, .asm_10fe
+	jr c, .size_okay
 	ld a, [bc]
 	ld e, $0
-.asm_10fe
+.size_okay
 	add $4
 	ld [hl], a
 	pop af
@@ -3387,7 +3387,7 @@ Data_1bcf:
 	dr $1bcf, $1bd3
 
 Func_1bd3: ; 0x1bd3
-	ld de, $0001
+	lb de, $00, $01
 	call PlaySoundEffect
 	ld a, $5
 	ld [wd86d], a
@@ -5454,7 +5454,7 @@ Func_30db: ; 0x30db
 
 Func_30e8: ; 0x30e8
 	ld a, $81
-	ld hl, wcBottomMessageText + $100
+	ld hl, wBottomMessageText + $100
 	ld b, $40
 .asm_30ef
 	ld [hli], a
@@ -5744,7 +5744,7 @@ LoadTextHeader: ; 0x32aa
 	inc de
 	pop af
 	ld l, a
-	ld h, wcBottomMessageText / $100
+	ld h, wBottomMessageText / $100
 .asm_32c5
 	ld a, [de]
 	ld [hli], a
@@ -5778,7 +5778,7 @@ Func_32cc: ; 0x32cc
 	inc de
 	pop af
 	ld e, a
-	ld d, wcBottomMessageText / $100
+	ld d, wBottomMessageText / $100
 	ld hl, [sp+$5]
 	lb bc, 8, 1
 .asm_32ec
@@ -5856,7 +5856,7 @@ Func_3325: ; 0x3325
 	inc hl
 	push hl
 	ld l, [hl]
-	ld h, wcBottomMessageText / $100
+	ld h, wBottomMessageText / $100
 	call Func_3129
 	pop hl
 	inc hl
@@ -5891,7 +5891,7 @@ Func_3357: ; 0x3357
 	inc de
 	pop af
 	ld l, a
-	ld h, wcBottomMessageText / $100
+	ld h, wBottomMessageText / $100
 .asm_336b
 	ld a, [de]
 	ld [hli], a
@@ -5917,7 +5917,7 @@ Func_3372: ; 0x3372
 	ld [hli], a
 	pop af
 	ld e, a
-	ld d, wcBottomMessageText / $100
+	ld d, wBottomMessageText / $100
 	ld hl, [sp+$5]
 	lb bc, 8, 1
 .asm_338a
@@ -5974,7 +5974,7 @@ Func_33c3: ; 0x33c3
 	ld d, wc600 / $100
 	push hl
 	ld l, [hl]
-	ld h, wcBottomMessageText / $100
+	ld h, wBottomMessageText / $100
 	call Func_3129
 	pop hl
 	inc hl
@@ -6258,7 +6258,7 @@ HandleLeftTilt: ; 0x358c
 	ld [wLeftTiltCounter], a
 	cp $1
 	jr nz, .skipSoundEffect
-	ld de, $003f
+	lb de, $00, $3f
 	call PlaySoundEffect
 .skipSoundEffect
 	ld a, [wd548]
@@ -6314,7 +6314,7 @@ HandleRightTilt: ; 0x35f3
 	ld [wRightTiltCounter], a
 	cp $1
 	jr nz, .skipSoundEffect
-	ld de, $003f
+	lb de, $00, $3f
 	call PlaySoundEffect
 .skipSoundEffect
 	ld a, [wd548]
@@ -6370,7 +6370,7 @@ HandleUpperTilt: ; 0x365a
 	ld [wUpperTiltCounter], a
 	cp $1
 	jr nz, .skipSoundEffect
-	ld de, $003f
+	lb de, $00, $3f
 	call PlaySoundEffect
 .skipSoundEffect
 	ld a, [wd548]

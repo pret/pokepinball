@@ -1187,7 +1187,7 @@ Func_3c750: ; 0x3c750
 	ld a, [wdea1]
 	ld e, a
 	ld d, $0
-	ld hl, $4ba2
+	ld hl, Data_3cba2
 	add hl, de
 	add hl, de
 	ld a, [hli]
@@ -1687,7 +1687,7 @@ Func_3ca2b: ; 0x3ca2b
 	ld h, d
 	add hl, de
 	add hl, hl
-	ld de, $4b20 
+	ld de, Data_3cb20 
 	add hl, de
 	ld e, [hl]
 	inc hl
@@ -1836,6 +1836,7 @@ Func_3cb1b: ; 0x3cb1b
 	ld [wdd00], a
 	ret
 
+Data_3cb20:
 	dr $3cb20, $3cb52
 
 WavePatterns_BankF:
@@ -1850,6 +1851,7 @@ WavePattern3_BankF: ; 0x3cb82
 WavePattern4_BankF: ; 0x3cb92
 	db $00, $11, $22, $33, $44, $33, $22, $11, $FF, $EE, $CC, $AA, $88, $AA, $CC, $EE
 
+Data_3cba2:
 	dr $3cba2, $3cc8e
 
 Data_3cc8e: ; 0x3cc8e
@@ -1884,86 +1886,318 @@ INCLUDE "audio/music/haunterinthegraveyard.asm"
 INCLUDE "audio/music/gengarinthegraveyard.asm"
 
 PointerTable_3e3ce: ; 0x3e3ce
-	dw $646A
-	dw $6480
-	dw $649A
-	dw $64BA
-	dw $64D0
-	dw $64E0
-	dw $64F0
-	dw $6500
-	dw $651A
-	dw $652E
-	dw $6544
-	dw $6554
-	dw $657C
-	dw $6589
-	dw $659F
-	dw $65B5
-	dw $65C5
-	dw $65E2
-	dw $65F4
-	dw $6606
-	dw $6618
-	dw $662A
-	dw $663C
-	dw $664E
-	dw $6660
-	dw $6672
-	dw $6684
-	dw $6696
-	dw $66A8
-	dw $66BA
-	dw $66CC
-	dw $66DE
-	dw $66F0
-	dw $6702
-	dw $671A
-	dw $675D
-	dw $6810
-	dw $68AE
-	dw $696D
-	dw $6A25
-	dw $6A68
-	dw $6A82
-	dw $6B17
-	dw $6BF9
-	dw $6C17
-	dw $6C31
-	dw $6C4B
-	dw $6C7D
-	dw $6C8F
-	dw $6CA7
-	dw $6CB7
-	dw $6CD1
-	dw $6CE9
-	dw $6CFF
-	dw $6D15
-	dw $6D31
-	dw $6D4D
-	dw $6D65
-	dw $6D78
-	dw $6D98
-	dw $6DB0
-	dw $6DC0
-	dw $6DD0
-	dw $6DE3
-	dw $6DF3
-	dw $6E1C
-	dw $6E32
-	dw $6E48
-	dw $6E5E
-	dw $6E78
-	dw $6E92
-	dw $6EAA
-	dw $6EC4
-	dw $6ED4
-	dw $6EEA
-	dw $6F00
-	dw $6F16
-	dw $6F27
+	dw Data_3e46a
+	dw Data_3e480
+	dw Data_3e49a
+	dw Data_3e4ba
+	dw Data_3e4d0
+	dw Data_3e4e0
+	dw Data_3e4f0
+	dw Data_3e500
+	dw Data_3e51a
+	dw Data_3e52e
+	dw Data_3e544
+	dw Data_3e554
+	dw Data_3e57c
+	dw Data_3e589
+	dw Data_3e59f
+	dw Data_3e5b5
+	dw Data_3e5c5
+	dw Data_3e5e2
+	dw Data_3e5f4
+	dw Data_3e606
+	dw Data_3e618
+	dw Data_3e62a
+	dw Data_3e63c
+	dw Data_3e64e
+	dw Data_3e660
+	dw Data_3e672
+	dw Data_3e684
+	dw Data_3e696
+	dw Data_3e6a8
+	dw Data_3e6ba
+	dw Data_3e6cc
+	dw Data_3e6de
+	dw Data_3e6f0
+	dw Data_3e702
+	dw Data_3e71a
+	dw Data_3e75d
+	dw Data_3e810
+	dw Data_3e8ae
+	dw Data_3e96d
+	dw Data_3ea25
+	dw Data_3ea68
+	dw Data_3ea82
+	dw Data_3eb17
+	dw Data_3ebf9
+	dw Data_3ec17
+	dw Data_3ec31
+	dw Data_3ec4b
+	dw Data_3ec7d
+	dw Data_3ec8f
+	dw Data_3eca7
+	dw Data_3ecb7
+	dw Data_3ecd1
+	dw Data_3ece9
+	dw Data_3ecff
+	dw Data_3ed15
+	dw Data_3ed31
+	dw Data_3ed4d
+	dw Data_3ed65
+	dw Data_3ed78
+	dw Data_3ed98
+	dw Data_3edb0
+	dw Data_3edc0
+	dw Data_3edd0
+	dw Data_3ede3
+	dw Data_3edf3
+	dw Data_3ee1c
+	dw Data_3ee32
+	dw Data_3ee48
+	dw Data_3ee5e
+	dw Data_3ee78
+	dw Data_3ee92
+	dw Data_3eeaa
+	dw Data_3eec4
+	dw Data_3eed4
+	dw Data_3eeea
+	dw Data_3ef00
+	dw Data_3ef16
+	dw Data_3ef27
 
-	dr $3e46a, $3ef63
+Data_3e46a:
+	dr $3e46a, $3e480
+
+Data_3e480:
+	dr $3e480, $3e49a
+
+Data_3e49a:
+	dr $3e49a, $3e4ba
+
+Data_3e4ba:
+	dr $3e4ba, $3e4d0
+
+Data_3e4d0:
+	dr $3e4d0, $3e4e0
+
+Data_3e4e0:
+	dr $3e4e0, $3e4f0
+
+Data_3e4f0:
+	dr $3e4f0, $3e500
+
+Data_3e500:
+	dr $3e500, $3e51a
+
+Data_3e51a:
+	dr $3e51a, $3e52e
+
+Data_3e52e:
+	dr $3e52e, $3e544
+
+Data_3e544:
+	dr $3e544, $3e554
+
+Data_3e554:
+	dr $3e554, $3e57c
+
+Data_3e57c:
+	dr $3e57c, $3e589
+
+Data_3e589:
+	dr $3e589, $3e59f
+
+Data_3e59f:
+	dr $3e59f, $3e5b5
+
+Data_3e5b5:
+	dr $3e5b5, $3e5c5
+
+Data_3e5c5:
+	dr $3e5c5, $3e5e2
+
+Data_3e5e2:
+	dr $3e5e2, $3e5f4
+
+Data_3e5f4:
+	dr $3e5f4, $3e606
+
+Data_3e606:
+	dr $3e606, $3e618
+
+Data_3e618:
+	dr $3e618, $3e62a
+
+Data_3e62a:
+	dr $3e62a, $3e63c
+
+Data_3e63c:
+	dr $3e63c, $3e64e
+
+Data_3e64e:
+	dr $3e64e, $3e660
+
+Data_3e660:
+	dr $3e660, $3e672
+
+Data_3e672:
+	dr $3e672, $3e684
+
+Data_3e684:
+	dr $3e684, $3e696
+
+Data_3e696:
+	dr $3e696, $3e6a8
+
+Data_3e6a8:
+	dr $3e6a8, $3e6ba
+
+Data_3e6ba:
+	dr $3e6ba, $3e6cc
+
+Data_3e6cc:
+	dr $3e6cc, $3e6de
+
+Data_3e6de:
+	dr $3e6de, $3e6f0
+
+Data_3e6f0:
+	dr $3e6f0, $3e702
+
+Data_3e702:
+	dr $3e702, $3e71a
+
+Data_3e71a:
+	dr $3e71a, $3e75d
+
+Data_3e75d:
+	dr $3e75d, $3e810
+
+Data_3e810:
+	dr $3e810, $3e8ae
+
+Data_3e8ae:
+	dr $3e8ae, $3e96d
+
+Data_3e96d:
+	dr $3e96d, $3ea25
+
+Data_3ea25:
+	dr $3ea25, $3ea68
+
+Data_3ea68:
+	dr $3ea68, $3ea82
+
+Data_3ea82:
+	dr $3ea82, $3eb17
+
+Data_3eb17:
+	dr $3eb17, $3ebf9
+
+Data_3ebf9:
+	dr $3ebf9, $3ec17
+
+Data_3ec17:
+	dr $3ec17, $3ec31
+
+Data_3ec31:
+	dr $3ec31, $3ec4b
+
+Data_3ec4b:
+	dr $3ec4b, $3ec7d
+
+Data_3ec7d:
+	dr $3ec7d, $3ec8f
+
+Data_3ec8f:
+	dr $3ec8f, $3eca7
+
+Data_3eca7:
+	dr $3eca7, $3ecb7
+
+Data_3ecb7:
+	dr $3ecb7, $3ecd1
+
+Data_3ecd1:
+	dr $3ecd1, $3ece9
+
+Data_3ece9:
+	dr $3ece9, $3ecff
+
+Data_3ecff:
+	dr $3ecff, $3ed15
+
+Data_3ed15:
+	dr $3ed15, $3ed31
+
+Data_3ed31:
+	dr $3ed31, $3ed4d
+
+Data_3ed4d:
+	dr $3ed4d, $3ed65
+
+Data_3ed65:
+	dr $3ed65, $3ed78
+
+Data_3ed78:
+	dr $3ed78, $3ed98
+
+Data_3ed98:
+	dr $3ed98, $3edb0
+
+Data_3edb0:
+	dr $3edb0, $3edc0
+
+Data_3edc0:
+	dr $3edc0, $3edd0
+
+Data_3edd0:
+	dr $3edd0, $3ede3
+
+Data_3ede3:
+	dr $3ede3, $3edf3
+
+Data_3edf3:
+	dr $3edf3, $3ee1c
+
+Data_3ee1c:
+	dr $3ee1c, $3ee32
+
+Data_3ee32:
+	dr $3ee32, $3ee48
+
+Data_3ee48:
+	dr $3ee48, $3ee5e
+
+Data_3ee5e:
+	dr $3ee5e, $3ee78
+
+Data_3ee78:
+	dr $3ee78, $3ee92
+
+Data_3ee92:
+	dr $3ee92, $3eeaa
+
+Data_3eeaa:
+	dr $3eeaa, $3eec4
+
+Data_3eec4:
+	dr $3eec4, $3eed4
+
+Data_3eed4:
+	dr $3eed4, $3eeea
+
+Data_3eeea:
+	dr $3eeea, $3ef00
+
+Data_3ef00:
+	dr $3ef00, $3ef16
+
+Data_3ef16:
+	dr $3ef16, $3ef27
+
+Data_3ef27:
+	dr $3ef27, $3ef63
 
 CryBasePointers: ; 0x3ef63
 	dw Cry_00_Header_BankF

@@ -4399,7 +4399,7 @@ SetMaxScore: ; 0x8637
 Func_8645: ; 0x8645
 	xor a
 	ld [wd49f], a
-	ld de, wcBottomMessageText + $147
+	ld de, wBottomMessageText + $147
 	call Func_8524
 	ret
 
@@ -4503,7 +4503,7 @@ HandleInGameMenu: ; 0x86d7
 	call Func_30e8
 	xor a
 	ld [wd4aa], a
-	ld hl, wcBottomMessageText
+	ld hl, wBottomMessageText
 	ld a, $81
 	ld b, $30
 .clearLoop
@@ -4513,10 +4513,10 @@ HandleInGameMenu: ; 0x86d7
 	ld [hli], a
 	dec b
 	jr nz, .clearLoop
-	ld de, wcBottomMessageText + $24
+	ld de, wBottomMessageText + $24
 	ld hl, SaveText
 	call Func_8797
-	ld de, wcBottomMessageText + $64
+	ld de, wBottomMessageText + $64
 	ld hl, CancelText
 	call Func_8797
 	ld a, Bank(InGameMenuSymbolsGfx)
@@ -4525,7 +4525,7 @@ HandleInGameMenu: ; 0x86d7
 	ld bc, $0010
 	call LoadVRAMData
 	ld a, $0
-	ld hl, wcBottomMessageText
+	ld hl, wBottomMessageText
 	ld de, vBGMap1
 	ld bc, $00c0
 	call LoadVRAMData
@@ -4609,7 +4609,7 @@ HandleInGameMenuSelection: ; 0x87ac
 	ld a, [hNewlyPressedButtons]
 	bit BIT_A_BUTTON, a
 	jr z, .waitForAButton
-	ld de, $0001
+	lb de, $00, $01
 	call PlaySoundEffect
 	ret
 
@@ -4624,7 +4624,7 @@ MoveInGameMenuCursor: ; 0x87c5
 	ret z
 	dec a
 	ld [wInGameMenuIndex], a
-	ld de, $0003
+	lb de, $00, $03
 	call PlaySoundEffect
 	ret
 
@@ -4635,26 +4635,26 @@ MoveInGameMenuCursor: ; 0x87c5
 	ret z
 	inc a
 	ld [wInGameMenuIndex], a
-	ld de, $0003
+	lb de, $00, $03
 	call PlaySoundEffect
 	ret
 
 DrawInGameMenu: ; 0x87ed
 	ld a, $81
-	ld [wcBottomMessageText + $23], a
-	ld [wcBottomMessageText + $63], a
+	ld [wBottomMessageText + $23], a
+	ld [wBottomMessageText + $63], a
 	ld a, [wInGameMenuIndex]
 	ld c, a
 	swap c
 	sla c
 	sla c
 	ld b, $0
-	ld hl, wcBottomMessageText + $23
+	ld hl, wBottomMessageText + $23
 	add hl, bc
 	ld a, $86
 	ld [hl], a
 	ld a, $0
-	ld hl, wcBottomMessageText
+	ld hl, wBottomMessageText
 	ld de, vBGMap1
 	ld bc, $00c0
 	call LoadVRAMData
@@ -5882,7 +5882,7 @@ TitlescreenLoop: ; 0xc089
 	ld a, [wd7c2]  ; if this is non-zero, the main menu will prompt for "continue or new game?".
 	and a
 	jr z, .noPreviouslySavedGame
-	ld de, $0001
+	lb de, $00, $01
 	call PlaySoundEffect
 	xor a
 	ld [wd910], a
@@ -5898,7 +5898,7 @@ TitlescreenLoop: ; 0xc089
 	ld de, $0000
 	call PlaySong
 	rst AdvanceFrame
-	ld de, $0027
+	lb de, $00, $27
 	call PlaySoundEffect
 	ld bc, $0037
 	call AdvanceFrames
@@ -5907,7 +5907,7 @@ TitlescreenLoop: ; 0xc089
 	ret
 
 .asm_c0d3
-	ld de, $0001
+	lb de, $00, $01
 	call PlaySoundEffect
 	ld a, $3
 	ld [wScreenState], a
@@ -5916,7 +5916,7 @@ TitlescreenLoop: ; 0xc089
 .AButtonNotPressed
 	bit BIT_B_BUTTON, a  ; was B button pressed?
 	ret z
-	ld de, $0001
+	lb de, $00, $01
 	call PlaySoundEffect
 	ld a, $4
 	ld [wScreenState], a
@@ -5953,7 +5953,7 @@ Func_c10e: ; 0xc10e
 	ld de, $0000
 	call PlaySong
 	rst AdvanceFrame
-	ld de, $0027
+	lb de, $00, $27
 	call PlaySoundEffect
 	ld bc, $0041
 	call AdvanceFrames
@@ -5995,7 +5995,7 @@ Func_c10e: ; 0xc10e
 .asm_c17c
 	bit 1, a
 	ret z
-	ld de, $0001
+	lb de, $00, $01
 	call PlaySoundEffect
 	ld a, $8
 	ld [wd910], a
@@ -6073,7 +6073,7 @@ Func_c1fc: ; 0xc1fc
 	ret z
 	dec a
 	ld [hl], a
-	ld de, $0003
+	lb de, $00, $03
 	call PlaySoundEffect
 	ret
 
@@ -6084,7 +6084,7 @@ Func_c1fc: ; 0xc1fc
 	ret z
 	inc a
 	ld [hl], a
-	ld de, $0003
+	lb de, $00, $03
 	call PlaySoundEffect
 	ret
 
@@ -6354,7 +6354,7 @@ Func_c400: ; 0xc400
 	ld a, [hNewlyPressedButtons]
 	bit 1, a
 	ret z
-	ld de, $0001
+	lb de, $00, $01
 	call PlaySoundEffect
 	ld a, $2
 	ld [wScreenState], a
@@ -6379,7 +6379,7 @@ Func_c41a: ; 0xc41a
 	inc a
 .asm_c430
 	ld [wd916], a
-	ld de, $0003
+	lb de, $00, $03
 	call PlaySoundEffect
 	ret
 
@@ -6394,7 +6394,7 @@ Func_c447: ; 0xc447
 	ld a, [hNewlyPressedButtons]
 	bit BIT_A_BUTTON, a
 	ret z
-	ld de, $0001
+	lb de, $00, $01
 	call PlaySoundEffect
 	ld a, [wd916]
 	and a
@@ -6440,7 +6440,7 @@ Func_c493: ; 0xc493
 	ld a, [hNewlyPressedButtons]
 	bit BIT_B_BUTTON, a
 	ret z
-	ld de, $0001
+	lb de, $00, $01
 	call PlaySoundEffect
 	xor a
 	ld [wd803], a
@@ -6460,7 +6460,7 @@ Func_c4b4: ; 0xc4b4
 	dec a
 	ld [wd917], a
 	call Func_c4f4
-	ld de, $0003
+	lb de, $00, $03
 	call PlaySoundEffect
 	ret
 
@@ -6474,7 +6474,7 @@ Func_c4b4: ; 0xc4b4
 	xor a
 	ld [wd803], a
 	ld [wd804], a
-	ld de, $0003
+	lb de, $00, $03
 	call PlaySoundEffect
 	ret
 
@@ -6503,7 +6503,7 @@ Func_c506: ; 0xc506
 	ld a, [hNewlyPressedButtons]
 	bit BIT_B_BUTTON, a
 	ret z
-	ld de, $0001
+	lb de, $00, $01
 	call PlaySoundEffect
 	call ClearOAMBuffer
 	ld hl, hLCDC
@@ -6535,7 +6535,7 @@ Func_c534: ; 0xc534
 	inc a
 .asm_c54a
 	ld [wd918], a
-	ld de, $0003
+	lb de, $00, $03
 	call PlaySoundEffect
 	ret
 
@@ -6551,7 +6551,7 @@ Func_c55a: ; 0xc55a
 	ld a, [hNewlyPressedButtons]
 	bit BIT_A_BUTTON, a
 	ret z
-	ld de, $0001
+	lb de, $00, $01
 	call PlaySoundEffect
 	call SaveDefaultKeyConfigs
 	call Func_c948
@@ -6561,7 +6561,7 @@ Func_c55a: ; 0xc55a
 	ld a, [hNewlyPressedButtons]
 	bit BIT_A_BUTTON, a
 	ret z
-	ld de, $0001
+	lb de, $00, $01
 	call PlaySoundEffect
 	ld bc, $001e
 	call AdvanceFrames
@@ -6745,7 +6745,7 @@ Func_c691: ; 0xc91
 	call SetSongBank
 	ld de, $0002
 	call PlaySong
-	ld de, $0001
+	lb de, $00, $01
 	call PlaySoundEffect
 	ld a, $1
 	ld [wScreenState], a
@@ -7648,7 +7648,7 @@ Func_ccb6: ; 0xccb6
 	ld a, [hNewlyPressedButtons]
 	bit BIT_A_BUTTON, a
 	jr z, .asm_ccd1
-	ld de, $0001
+	lb de, $00, $01
 	call PlaySoundEffect
 	ld hl, wScreenState
 	inc [hl]
@@ -7659,7 +7659,7 @@ Func_ccb6: ; 0xccb6
 .asm_ccd1
 	bit 1, a
 	jr z, .asm_cce4
-	ld de, $0001
+	lb de, $00, $01
 	call PlaySoundEffect
 	ld hl, wScreenState
 	inc [hl]
@@ -7673,7 +7673,7 @@ Func_ccb6: ; 0xccb6
 	call Func_1a43
 	ld a, [hGameBoyColorFlag]
 	ld [wd8f0], a
-	ld de, $0001
+	lb de, $00, $01
 	call PlaySoundEffect
 	ld hl, wScreenState
 	inc [hl]
@@ -7686,7 +7686,7 @@ Func_ccb6: ; 0xccb6
 	ld a, [hNewlyPressedButtons]
 	and (SELECT | D_UP)
 	ret z
-	ld de, $0001
+	lb de, $00, $01
 	call PlaySoundEffect
 	call ClearOAMBuffer
 	ld bc, $473b
@@ -7697,14 +7697,14 @@ Func_ccb6: ; 0xccb6
 	ld a, [hNewlyPressedButtons]
 	bit BIT_B_BUTTON, a
 	jr z, .asm_cd24
-	ld de, $0001
+	lb de, $00, $01
 	call PlaySoundEffect
 	ret
 
 .asm_cd24
 	bit 0, a
 	jr z, .asm_cd16
-	ld de, $0001
+	lb de, $00, $01
 	call PlaySoundEffect
 	call CopyInitialHighScores
 	ld a, BANK(HighScoresTilemap)
@@ -7738,7 +7738,7 @@ Func_cd6c: ; 0xcd6c
 	ld a, [hNewlyPressedButtons]
 	bit BIT_A_BUTTON, a
 	jr z, .asm_cdbb
-	ld de, $0001
+	lb de, $00, $01
 	call PlaySoundEffect
 	ld a, [wda85]
 	and a
@@ -7770,7 +7770,7 @@ Func_cd6c: ; 0xcd6c
 	ld a, [hNewlyPressedButtons]
 	bit BIT_B_BUTTON, a
 	ret z
-	ld de, $0001
+	lb de, $00, $01
 	call PlaySoundEffect
 .asm_cdc6
 	xor a
@@ -7865,7 +7865,7 @@ Func_cdce: ; 0xcdce
 	ld a, $7
 	ld [$abf6], a
 	pop af
-	ld hl, wcBottomMessageText + $0d
+	ld hl, wBottomMessageText + $0d
 	ld b, $5
 .asm_ce7c
 	push bc
@@ -7995,7 +7995,7 @@ Func_cf58: ; 0xcf58
 	cp $5
 	ret z
 	push af
-	ld de, $0002
+	lb de, $00, $02
 	call PlaySoundEffect
 	call ClearOAMBuffer
 	rst AdvanceFrame
@@ -8008,7 +8008,7 @@ Func_cf58: ; 0xcf58
 	ld a, [hNewlyPressedButtons]
 	bit BIT_A_BUTTON, a
 	jr z, .asm_cf6f
-	ld de, $0001
+	lb de, $00, $01
 	call PlaySoundEffect
 	ret
 
@@ -8022,7 +8022,7 @@ Func_cf7d: ; 0xcf7d
 	ret z
 	dec a
 	ld [wda85], a
-	ld de, $0003
+	lb de, $00, $03
 	call PlaySoundEffect
 	ret
 
@@ -8033,7 +8033,7 @@ Func_cf7d: ; 0xcf7d
 	ret z
 	inc a
 	ld [wda85], a
-	ld de, $0003
+	lb de, $00, $03
 	call PlaySoundEffect
 	ret
 
@@ -8364,7 +8364,7 @@ Func_d18b: ; 0xd18b
 .asm_d1c7
 	ld [hl], a
 	call Func_d46f
-	ld de, $0003
+	lb de, $00, $03
 	call PlaySoundEffect
 	ret
 
@@ -8377,7 +8377,7 @@ Func_d1d2: ; 0xd1d2
 	inc a
 	cp $3
 	jr nz, .asm_d202
-	ld de, $0745
+	lb de, $07, $45
 	call PlaySoundEffect
 	xor a
 	ld [wda7f], a
@@ -8399,7 +8399,7 @@ Func_d1d2: ; 0xd1d2
 	ld [wda80], a
 	ld a, $20
 	ld [wda82], a
-	ld de, $0001
+	lb de, $00, $01
 	call PlaySoundEffect
 	ret
 
@@ -8837,7 +8837,7 @@ Func_d4cf: ; 0xd4cf
 	jr z, .asm_d4e3
 	and a
 	ret nz
-	ld de, $0003
+	lb de, $00, $03
 	call PlaySoundEffect
 	jr .asm_d4f0
 
@@ -8846,7 +8846,7 @@ Func_d4cf: ; 0xd4cf
 	ret z
 	and a
 	ret z
-	ld de, $0003
+	lb de, $00, $03
 	call PlaySoundEffect
 	jr .asm_d537
 
@@ -9181,7 +9181,7 @@ ChooseFieldToPlay: ; 0xd74e
 	ld [wFieldSelectBlinkingBorderTimer], a
 	ld a, $1
 	ld [wFieldSelectBlinkingBorderFrame], a
-	ld de, $0001
+	lb de, $00, $01
 	call PlaySoundEffect
 	ld hl, wScreenState
 	inc [hl]
@@ -9253,7 +9253,7 @@ MoveFieldSelectCursor: ; 0xd7d3
 	ret z  ; if cursor is already hovering over Red stage, don't do anything
 	dec a  ; move cursor over Red stage
 	ld [wSelectedFieldIndex], a
-	ld de, $003c
+	lb de, $00, $3c
 	call PlaySoundEffect
 	ret
 
@@ -9264,7 +9264,7 @@ MoveFieldSelectCursor: ; 0xd7d3
 	ret z  ; if cursor is already hovering over Blue stage, don't do anything
 	inc a  ; move cursor over Red stage
 	ld [wSelectedFieldIndex], a
-	ld de, $003d
+	lb de, $00, $3d
 	call PlaySoundEffect
 	ret
 
@@ -9428,7 +9428,7 @@ Func_d909: ; 0xd909
 	ld hl, wKeyConfigMenu
 	call IsKeyPressed
 	jr z, .didntPressMenuKey
-	ld de, $034c
+	lb de, $03, $4c
 	call PlaySoundEffect
 	ld [hFarCallTempA], a
 	callba HandleInGameMenu
@@ -9710,12 +9710,12 @@ HighScoresStageMapping: ; 0xdb99
 
 Func_dba9: ; 0xdba9
 	ld a, $85
-	ld [wcBottomMessageText + $144], a
+	ld [wBottomMessageText + $144], a
 	ld a, [wd49d]
 	xor $3
 	inc a
 	add $86
-	ld [wcBottomMessageText + $145], a
+	ld [wBottomMessageText + $145], a
 	ret
 
 Func_dbba: ; 0xdbba
@@ -9829,7 +9829,7 @@ Func_dc6d: ; 0xdc6d
 	ret
 
 Func_dc7c: ; 0xdc7c
-	ld hl, wcBottomMessageText + $140
+	ld hl, wBottomMessageText + $140
 	ld a, $83
 	ld [hli], a
 	ld a, $81
@@ -9838,7 +9838,7 @@ Func_dc7c: ; 0xdc7c
 	ld [hl], a
 	ld a, [wNumPartyMons]
 	call ConvertHexByteToDecWord
-	ld hl, wcBottomMessageText + $141
+	ld hl, wBottomMessageText + $141
 	ld c, $1
 	ld a, d
 	call .asm_dca0
@@ -9870,7 +9870,7 @@ Func_dcb4: ; 0xdcb4
 	jr nz, .asm_dcbf
 	ld a, $84
 .asm_dcbf
-	ld [wcBottomMessageText + $146], a
+	ld [wBottomMessageText + $146], a
 	ret
 
 LoadBallGfx: ; 0xdcc3
@@ -9984,7 +9984,7 @@ Func_dd76: ; 0xdd76
 	ld [wBallSaverTimerFrames], a
 	ld [wBallSaverTimerSeconds], a
 .asm_dd9c
-	ld de, $1502
+	lb de, $15, $02
 	call PlaySoundEffect
 	ret
 
@@ -9993,7 +9993,7 @@ Func_dd76: ; 0xdd76
 	call PlaySong
 	ld bc, $001e
 	call AdvanceFrames
-	ld de, $2524
+	lb de, $25, $24
 	call PlaySoundEffect
 	call Func_dbba
 	ld a, $1
@@ -10091,7 +10091,7 @@ Func_de4f: ; 0xde4f
 	ld [wBallSaverTimerFrames], a
 	ld [wBallSaverTimerSeconds], a
 .asm_de75
-	ld de, $1502
+	lb de, $15, $02
 	call PlaySoundEffect
 	ret
 
@@ -10100,7 +10100,7 @@ Func_de4f: ; 0xde4f
 	call PlaySong
 	ld bc, $001e
 	call AdvanceFrames
-	ld de, $2524
+	lb de, $25, $24
 	call PlaySoundEffect
 	call Func_dbba
 	ld a, $1
@@ -10197,7 +10197,7 @@ Func_df1a: ; 0xdf1a
 	ld a, $1
 	ld [wd6a7], a
 .asm_df50
-	ld de, $0002
+	lb de, $00, $02
 	call PlaySoundEffect
 	ret
 
@@ -10248,7 +10248,7 @@ Func_df7e: ; 0xdf7e
 	ld a, $1
 	ld [wd6b2], a
 .asm_dfb4
-	ld de, $000b
+	lb de, $00, $0b
 	call PlaySoundEffect
 	ret
 
@@ -10303,7 +10303,7 @@ Func_dfe2: ; 0xdfe2
 	ld a, [wd712]
 	cp $0
 	jr nz, .asm_e025
-	ld de, $0002
+	lb de, $00, $02
 	call PlaySoundEffect
 	ret
 
@@ -10335,7 +10335,7 @@ Func_e056: ; 0xe056
 	ld hl, wCurrentStage
 	cp [hl]
 	ret z
-	ld de, $000b
+	lb de, $00, $0b
 	call PlaySoundEffect
 	xor a
 	ld [wd495], a
@@ -10390,7 +10390,7 @@ Func_e08b: ; 0xe08b
 	ret
 
 .asm_e0c8
-	ld de, $0002
+	lb de, $00, $02
 	call PlaySoundEffect
 	xor a
 	ld [wd57d], a
@@ -10533,7 +10533,7 @@ PlayFlipperSoundIfPressed: ; 0xe1ce
 	ld hl, wKeyConfigLeftFlipper
 	call IsKeyPressed
 	jr z, .asm_e1e2
-	ld de, $000c
+	lb de, $00, $0c
 	call PlaySoundEffect
 	ret
 
@@ -10541,7 +10541,7 @@ PlayFlipperSoundIfPressed: ; 0xe1ce
 	ld hl, wKeyConfigRightFlipper
 	call IsKeyPressed
 	ret z
-	ld de, $000c
+	lb de, $00, $0c
 	call PlaySoundEffect
 	ret
 
@@ -11873,7 +11873,7 @@ Func_ed8e: ; 0xed8e
 	call Func_eef9
 	ld [wd61d], a
 	push af
-	ld de, $0009
+	lb de, $00, $09
 	call PlaySoundEffect
 	pop af
 	call LoadBillboardOffPicture
@@ -11894,7 +11894,7 @@ Func_ed8e: ; 0xed8e
 	ld [wd61e], a
 	ld a, $32
 	ld [wd61b], a
-	ld de, $0728
+	lb de, $07, $28
 	call PlaySoundEffect
 .asm_ee47
 	pop bc
@@ -11920,12 +11920,12 @@ Func_ed8e: ; 0xed8e
 	ld a, [wd61d]
 	cp $5
 	jr nz, .asm_ee78
-	ld de, $0c42
+	lb de, $0c, $42
 	call PlaySoundEffect
 	jr .asm_ee7e
 
 .asm_ee78
-	ld de, $0c43
+	lb de, $0c, $43
 	call PlaySoundEffect
 .asm_ee7e
 	ld b, $28
@@ -12213,7 +12213,7 @@ UpgradeBallBlueField: ; 0xf040
 	ld a, [wBallType]
 	cp MASTER_BALL
 	jr z, .masterBall
-	ld de, $063a
+	lb de, $06, $3a
 	call PlaySoundEffect
 	call Func_30e8
 	call Func_30db
@@ -12229,11 +12229,11 @@ UpgradeBallBlueField: ; 0xf040
 	ld a, [hl]
 	ld [wBallType], a
 	add $30
-	ld [wcBottomMessageText + $12], a
+	ld [wBottomMessageText + $12], a
 	jr .asm_f0b0
 
 .masterBall
-	ld de, $0f4d
+	lb de, $0f, $4d
 	call PlaySoundEffect
 	ld bc, OneMillionPoints
 	ld [hFarCallTempA], a
@@ -12633,7 +12633,7 @@ Func_f55c: ; 0xf55c
 Func_f57f: ; 0xf57f
 	xor a
 	ld [wd4aa], a
-	ld hl, wcBottomMessageText
+	ld hl, wBottomMessageText
 	ld a, $81
 	ld b, $40
 .clearLoop
@@ -12644,17 +12644,17 @@ Func_f57f: ; 0xf57f
 	dec b
 	jr nz, .clearLoop
 	ld a, $0
-	ld hl, wcBottomMessageText
+	ld hl, wBottomMessageText
 	ld de, vBGMap1
 	ld bc, $00c0
 	call LoadVRAMData
 	ret
 
 Func_f5a0: ; 0xf5a0
-	ld de, wcBottomMessageText + $40
+	ld de, wBottomMessageText + $40
 	ld hl, Data_3069
 	call PrintTextNoHeader
-	ld de, wcBottomMessageText + $80
+	ld de, wBottomMessageText + $80
 	ld hl, Data_3070
 	call PrintTextNoHeader
 	ld hl, wd489
@@ -12677,10 +12677,10 @@ Func_f5a0: ; 0xf5a0
 	call SetSongBank
 	ld de, $0005
 	call PlaySong
-	ld hl, wcBottomMessageText
+	ld hl, wBottomMessageText
 	ld bc, $0040
 	call Func_f81b
-	ld de, wcBottomMessageText + $20
+	ld de, wBottomMessageText + $20
 	ld hl, Data_3094
 	call PrintTextNoHeader
 	ld bc, $0040
@@ -12721,10 +12721,10 @@ CallTable_f60d: ; 0xf60d
 	dw Func_faf8
 
 Func_f626: ; 0xf626
-	ld de, wcBottomMessageText + $01
+	ld de, wBottomMessageText + $01
 	ld hl, Data_3006
 	call PrintTextNoHeader
-	ld hl, wcBottomMessageText + $01
+	ld hl, wBottomMessageText + $01
 	ld a, [wd628]
 	call Func_f78e
 	ld bc, $0040
@@ -12737,10 +12737,10 @@ Func_f626: ; 0xf626
 	ret
 
 Func_f64e: ; 0xf64e
-	ld de, wcBottomMessageText
+	ld de, wBottomMessageText
 	ld hl, Data_3019
 	call PrintTextNoHeader
-	ld hl, wcBottomMessageText
+	ld hl, wBottomMessageText
 	ld a, [wd629]
 	call Func_f78e
 	ld bc, $0040
@@ -12756,8 +12756,8 @@ Func_f676: ; 0xf676
 	ld b, $4
 .asm_f678
 	push bc
-	ld hl, wcBottomMessageText + $20
-	ld de, wcBottomMessageText
+	ld hl, wBottomMessageText + $20
+	ld de, wBottomMessageText
 	ld bc, $00e0
 	call LocalCopyData
 	ld bc, $00c0
@@ -12776,13 +12776,13 @@ Func_f676: ; 0xf676
 	pop bc
 	dec b
 	jr nz, .asm_f678
-	ld de, wcBottomMessageText + $40
+	ld de, wBottomMessageText + $40
 	ld hl, Data_307a
 	call PrintTextNoHeader
-	ld de, wcBottomMessageText + $80
+	ld de, wBottomMessageText + $80
 	ld hl, Data_3086
 	call PrintTextNoHeader
-	ld hl, wcBottomMessageText + $50
+	ld hl, wBottomMessageText + $50
 	ld a, [wd482]
 	call Func_f78e
 	ld bc, $0040
@@ -12792,12 +12792,12 @@ Func_f676: ; 0xf676
 	push de
 	push hl
 	ld hl, wd494
-	ld de, wcBottomMessageText + $86
+	ld de, wBottomMessageText + $86
 	call Func_f8bd
 	ld bc, $0040
 	ld de, $0080
 	call Func_f80d
-	ld de, $003e
+	lb de, $00, $3e
 	call PlaySoundEffect
 	ld a, [wd4ab]
 	and a
@@ -12829,8 +12829,8 @@ Func_f70d: ; 0xf70d
 	ld b, $4
 .asm_f70f
 	push bc
-	ld hl, wcBottomMessageText + $20
-	ld de, wcBottomMessageText
+	ld hl, wBottomMessageText + $20
+	ld de, wBottomMessageText
 	ld bc, $00e0
 	call LocalCopyData
 	ld bc, $00c0
@@ -12849,16 +12849,16 @@ Func_f70d: ; 0xf70d
 	pop bc
 	dec b
 	jr nz, .asm_f70f
-	ld de, wcBottomMessageText + $60
+	ld de, wBottomMessageText + $60
 	ld hl, Data_308d
 	call PrintTextNoHeader
 	ld hl, wd46f
-	ld de, wcBottomMessageText + $66
+	ld de, wBottomMessageText + $66
 	call Func_f8bd
 	ld bc, $0040
 	ld de, $0060
 	call Func_f80d
-	ld de, $003e
+	lb de, $00, $3e
 	call PlaySoundEffect
 	ld a, [wd4ab]
 	and a
@@ -12874,7 +12874,7 @@ Func_f70d: ; 0xf70d
 	ld de, wd48f
 	call AddBigBCD6
 	ld hl, wd46f
-	ld de, wcBottomMessageText + $66
+	ld de, wBottomMessageText + $66
 	call Func_f8bd
 	ld bc, $0040
 	ld de, $0060
@@ -12984,7 +12984,7 @@ Func_f80d: ; 0xf80d
 	hlCoord 0, 0, vBGMap1
 	add hl, de
 	push hl
-	ld hl, wcBottomMessageText
+	ld hl, wBottomMessageText
 	add hl, de
 	pop de
 	call LoadVRAMData
@@ -13001,10 +13001,10 @@ Func_f81b: ; 0xf81b
 
 Func_f824: ; 0xf824
 	call Func_f83a
-	ld hl, wcBottomMessageText
+	ld hl, wBottomMessageText
 	ld bc, $0040
 	call Func_f81b
-	ld hl, wcBottomMessageText + $48
+	ld hl, wBottomMessageText + $48
 	ld bc, $0038
 	call Func_f81b
 	ret
@@ -13039,12 +13039,12 @@ Func_f853: ; 0xf853
 	push de
 	push hl
 	ld hl, wd488
-	ld de, wcBottomMessageText + $46
+	ld de, wBottomMessageText + $46
 	call Func_f8bd
 	ld bc, $0040
 	ld de, $0040
 	call Func_f80d
-	ld de, $003e
+	lb de, $00, $3e
 	call PlaySoundEffect
 	ld a, [wd4ab]
 	and a
@@ -13075,7 +13075,7 @@ Func_f853: ; 0xf853
 	ld de, wd483
 	call AddBigBCD6
 	ld hl, wd48e
-	ld de, wcBottomMessageText + $86
+	ld de, wBottomMessageText + $86
 	call Func_f8bd
 	ld bc, $0040
 	ld de, $0080
@@ -13181,10 +13181,10 @@ Func_f945: ; 0xf945
 	ret
 
 Func_f952: ; 0xf952
-	ld de, wcBottomMessageText + $03
+	ld de, wBottomMessageText + $03
 	ld hl, BellsproutCounterText
 	call PrintTextNoHeader
-	ld hl, wcBottomMessageText + $03
+	ld hl, wBottomMessageText + $03
 	ld a, [wd62a]
 	call Func_f78e
 	ld bc, $0040
@@ -13197,10 +13197,10 @@ Func_f952: ; 0xf952
 	ret
 
 Func_f97a: ; 0xf97a
-	ld de, wcBottomMessageText + $04
+	ld de, wBottomMessageText + $04
 	ld hl, DugtrioCounterText
 	call PrintTextNoHeader
-	ld hl, wcBottomMessageText + $04
+	ld hl, wBottomMessageText + $04
 	ld a, [wd62b]
 	call Func_f78e
 	ld bc, $0040
@@ -13213,10 +13213,10 @@ Func_f97a: ; 0xf97a
 	ret
 
 Func_f9a2: ; 0xf9a2
-	ld de, wcBottomMessageText + $03
+	ld de, wBottomMessageText + $03
 	ld hl, CaveShotCounterText
 	call PrintTextNoHeader
-	ld hl, wcBottomMessageText + $03
+	ld hl, wBottomMessageText + $03
 	ld a, [wd62c]
 	call Func_f78e
 	ld bc, $0040
@@ -13229,10 +13229,10 @@ Func_f9a2: ; 0xf9a2
 	ret
 
 Func_f9ca: ; 0xf9ca
-	ld de, wcBottomMessageText + $01
+	ld de, wBottomMessageText + $01
 	ld hl, SpinnerTurnsCounterText
 	call PrintTextNoHeader
-	ld hl, wcBottomMessageText + $01
+	ld hl, wBottomMessageText + $01
 	ld a, [wd62d]
 	call Func_f78e
 	ld bc, $0040
@@ -13257,10 +13257,10 @@ Func_f9f3: ; 0xf9f3
 	ret
 
 Func_fa06: ; 0xfa06
-	ld de, wcBottomMessageText + $04
+	ld de, wBottomMessageText + $04
 	ld hl, CloysterCounterText
 	call PrintTextNoHeader
-	ld hl, wcBottomMessageText + $04
+	ld hl, wBottomMessageText + $04
 	ld a, [wd63b]
 	call Func_f78e
 	ld bc, $0040
@@ -13273,10 +13273,10 @@ Func_fa06: ; 0xfa06
 	ret
 
 Func_fa2e: ; 0xfa2e
-	ld de, wcBottomMessageText + $04
+	ld de, wBottomMessageText + $04
 	ld hl, SlowpokeCounterText
 	call PrintTextNoHeader
-	ld hl, wcBottomMessageText + $04
+	ld hl, wBottomMessageText + $04
 	ld a, [wd63a]
 	call Func_f78e
 	ld bc, $0040
@@ -13289,10 +13289,10 @@ Func_fa2e: ; 0xfa2e
 	ret
 
 Func_fa56: ; 0xfa56
-	ld de, wcBottomMessageText + $04
+	ld de, wBottomMessageText + $04
 	ld hl, PoliwagCounterText
 	call PrintTextNoHeader
-	ld hl, wcBottomMessageText + $04
+	ld hl, wBottomMessageText + $04
 	ld a, [wd63d]
 	call Func_f78e
 	ld bc, $0040
@@ -13305,10 +13305,10 @@ Func_fa56: ; 0xfa56
 	ret
 
 Func_fa7e: ; 0xfa7e
-	ld de, wcBottomMessageText + $04
+	ld de, wBottomMessageText + $04
 	ld hl, PsyduckCounterText
 	call PrintTextNoHeader
-	ld hl, wcBottomMessageText + $04
+	ld hl, wBottomMessageText + $04
 	ld a, [wd63c]
 	call Func_f78e
 	ld bc, $0040
@@ -13321,10 +13321,10 @@ Func_fa7e: ; 0xfa7e
 	ret
 
 Func_faa6: ; 0xfaa6
-	ld de, wcBottomMessageText + $03
+	ld de, wBottomMessageText + $03
 	ld hl, CaveShotCounterText
 	call PrintTextNoHeader
-	ld hl, wcBottomMessageText + $03
+	ld hl, wBottomMessageText + $03
 	ld a, [wd62c]
 	call Func_f78e
 	ld bc, $0040
@@ -13337,10 +13337,10 @@ Func_faa6: ; 0xfaa6
 	ret
 
 Func_face: ; 0xface  :)
-	ld de, wcBottomMessageText + $01
+	ld de, wBottomMessageText + $01
 	ld hl, SpinnerTurnsCounterText
 	call PrintTextNoHeader
-	ld hl, wcBottomMessageText + $01
+	ld hl, wBottomMessageText + $01
 	ld a, [wd62d]
 	call Func_f78e
 	ld bc, $0040
@@ -14105,7 +14105,7 @@ Func_10496: ; 0x10496
 	xor a
 	ld [wd548], a
 	ld [wd549], a
-	ld de, $000b
+	lb de, $00, $0b
 	call PlaySoundEffect
 	ret
 
@@ -14156,7 +14156,7 @@ CapturePokemon: ; 0x1052d
 	ld a, [wBallCaptureAnimationFrameCounter]
 	cp $1
 	jr nz, .asm_10541
-	ld de, $0041
+	lb de, $00, $41
 	call PlaySoundEffect
 .asm_10541
 	ld hl, BallCaptureAnimationData
@@ -14183,7 +14183,7 @@ CapturePokemon: ; 0x1052d
 	ld de, $0000
 	call PlaySong
 	rst AdvanceFrame
-	ld de, $2329
+	lb de, $23, $29
 	call PlaySoundEffect
 	call Func_10825
 	call Func_3475
@@ -14403,7 +14403,7 @@ Func_106b6: ; 0x106b6
 	pop de
 	call LoadTextHeader
 	pop hl
-	ld de, wcBottomMessageText + $20
+	ld de, wBottomMessageText + $20
 	ld b, $0  ; count the number of letters in mon's name in register b
 .readLetter
 	ld a, [hli]
@@ -14556,21 +14556,21 @@ Func_107f8: ; 0x107f8
 	ld a, [wTimerSeconds]
 	cp $20
 	jr nz, .asm_10810
-	ld de, $0749
+	lb de, $07, $49
 	call PlaySoundEffect
 	ret
 
 .asm_10810
 	cp $10
 	jr nz, .asm_1081b
-	ld de, $0a4a
+	lb de, $0a, $4a
 	call PlaySoundEffect
 	ret
 
 .asm_1081b
 	cp $5
 	ret nz
-	ld de, $0d4b
+	lb de, $0d, $4b
 	call PlaySoundEffect
 	ret
 
@@ -14961,7 +14961,7 @@ Func_10b3f: ; 0x10b3f
 Func_10b59: ; 0x10b59
 	xor a
 	ld [wd4aa], a
-	ld hl, wcBottomMessageText
+	ld hl, wBottomMessageText
 	ld a, $81
 	ld b, $30
 .asm_10b64
@@ -14979,7 +14979,7 @@ Func_10b59: ; 0x10b59
 	ld bc, $0030
 	call LoadVRAMData
 	ld a, $0
-	ld hl, wcBottomMessageText
+	ld hl, wBottomMessageText
 	deCoord 0, 0, vBGMap1
 	ld bc, $00c0
 	call LoadVRAMData
@@ -15007,7 +15007,7 @@ Func_10ba2: ; 0x10ba2
 	swap c
 	sla c
 	ld b, $0
-	ld hl, wcBottomMessageText
+	ld hl, wBottomMessageText
 	add hl, bc
 	ld d, h
 	ld e, l
@@ -15064,7 +15064,7 @@ Func_10bea: ; 0x10bea
 	ld a, [wd809]
 	bit 0, a
 	jr z, .asm_10bf4
-	ld de, $0001
+	lb de, $00, $01
 	call PlaySoundEffect
 	ret
 
@@ -15080,7 +15080,7 @@ Func_10c0c: ; 0x10c0c
 	ret z
 	dec a
 	ld [wd461], a
-	ld de, $0003
+	lb de, $00, $03
 	call PlaySoundEffect
 	ret
 
@@ -15091,7 +15091,7 @@ Func_10c0c: ; 0x10c0c
 	cp c
 	ret z
 	ld [wd461], a
-	ld de, $0003
+	lb de, $00, $03
 	call PlaySoundEffect
 	ret
 
@@ -15132,7 +15132,7 @@ Func_10c38: ; 0x10c38
 	swap c
 	sla c
 	ld b, $0
-	ld hl, wcBottomMessageText + $03
+	ld hl, wBottomMessageText + $03
 	add hl, bc
 	ld a, $88
 	ld [hl], a
@@ -15141,7 +15141,7 @@ Func_10c38: ; 0x10c38
 	and a
 	jr z, .asm_10c83
 	ld a, $8a
-	ld [wcBottomMessageText + $11], a
+	ld [wBottomMessageText + $11], a
 .asm_10c83
 	ld a, [wd462]
 	add $7
@@ -15151,10 +15151,10 @@ Func_10c38: ; 0x10c38
 	cp c
 	jr c, .asm_10c96
 	ld a, $89
-	ld [wcBottomMessageText + $b1], a
+	ld [wBottomMessageText + $b1], a
 .asm_10c96
 	ld a, $0
-	ld hl, wcBottomMessageText
+	ld hl, wBottomMessageText
 	deCoord 0, 0, vBGMap1
 	ld bc, $00c0
 	call LoadVRAMData
@@ -15404,7 +15404,7 @@ Func_10e0a: ; 0x10e0a
 	pop de
 	call LoadTextHeader
 	pop hl
-	ld de, wcBottomMessageText + $20
+	ld de, wBottomMessageText + $20
 	ld b, $0
 .asm_10e67
 	ld a, [hli]
@@ -17338,7 +17338,7 @@ Func_14091: ; 0x14091
 	and $fe
 	or c
 	ld [wStageCollisionState], a
-	ld de, $0007
+	lb de, $00, $07
 	call PlaySoundEffect
 	ld a, [wCurrentStage]
 	bit 0, a
@@ -18198,7 +18198,7 @@ Func_14795: ; 0x14795
 	ld [wd5c7], a
 	ld a, $1
 	ld [wBallHitWildMon], a
-	ld de, $0006
+	lb de, $00, $06
 	call PlaySoundEffect
 	ret
 
@@ -18449,7 +18449,7 @@ Func_1496d: ; 0x1496d
 	ld bc, FiveHundredPoints
 	ld [hFarCallTempA], a
 	callba AddBigBCD6FromQueueWithBallMultiplier
-	ld de, $000f
+	lb de, $00, $0f
 	call PlaySoundEffect
 	ret
 
@@ -18589,7 +18589,7 @@ Func_14dc9: ; 0x14dc9
 	ld [wd7bd], a
 	ld a, $80
 	ld [wFlipperCollision], a
-	ld de, $000e
+	lb de, $00, $0e
 	call PlaySoundEffect
 	ret
 
@@ -18777,7 +18777,7 @@ Func_151cb: ; 0x151cb
 	ld bc, FourHundredPoints
 	ld [hFarCallTempA], a
 	callba AddBigBCD6FromQueueWithBallMultiplier
-	ld de, $0009
+	lb de, $00, $09
 	call PlaySoundEffect
 	ld hl, wd62c
 	call Func_e4a
@@ -18966,7 +18966,7 @@ Func_1535d: ; 0x1535d
 	inc hl
 	and [hl]
 	jr nz, .asm_153c0
-	ld de, $0009
+	lb de, $00, $09
 	call PlaySoundEffect
 	jp Func_15450
 
@@ -18986,7 +18986,7 @@ Func_1535d: ; 0x1535d
 	ld a, [wBallType]
 	cp MASTER_BALL
 	jr z, .masterBall
-	ld de, $063a
+	lb de, $06, $3a
 	call PlaySoundEffect
 	call Func_30e8
 	call Func_30db
@@ -19001,11 +19001,11 @@ Func_1535d: ; 0x1535d
 	ld a, [hl]
 	ld [wBallType], a
 	add $30
-	ld [wcBottomMessageText + $12], a
+	ld [wBottomMessageText + $12], a
 	jr .asm_15447
 
 .masterBall
-	ld de, $0f4d
+	lb de, $0f, $4d
 	call PlaySoundEffect
 	ld bc, OneMillionPoints
 	ld [hFarCallTempA], a
@@ -19508,7 +19508,7 @@ Func_159f4: ; 0x159f4
 	add c
 	cp $2
 	jr z, .asm_15a13
-	ld de, $0000
+	lb de, $00, $00
 	call PlaySoundEffect
 .asm_15a13
 	ld a, [wd7f2]
@@ -19552,7 +19552,7 @@ Func_15e93: ; 0x15e93
 	ld bc, TenThousandPoints
 	ld [hFarCallTempA], a
 	callba AddBigBCD6FromQueueWithBallMultiplier
-	ld de, $0005
+	lb de, $00, $05
 	call PlaySoundEffect
 	ld hl, BellsproutAnimationData
 	ld de, wBellsproutAnimationFrameCounter
@@ -19632,7 +19632,7 @@ Func_15e93: ; 0x15e93
 	ld [wBallXVelocity + 1], a
 	ld a, $2
 	ld [wBallYVelocity + 1], a
-	ld de, $0006
+	lb de, $00, $06
 	call PlaySoundEffect
 	ld a, $5
 	ld [hFarCallTempA], a
@@ -19729,7 +19729,7 @@ Func_15fda: ; 0x15fda
 	ld a, [wd7ea]
 	add [hl]
 	ld [wd7ea], a
-	ld de, $000b
+	lb de, $00, $0b
 	call PlaySoundEffect
 	ret
 
@@ -19751,7 +19751,7 @@ Func_160f0: ; 0x160f0
 	ld bc, TenThousandPoints
 	ld [hFarCallTempA], a
 	callba AddBigBCD6FromQueueWithBallMultiplier
-	ld de, $0021
+	lb de, $00, $21
 	call PlaySoundEffect
 	xor a
 	ld hl, wBallXVelocity
@@ -19959,7 +19959,7 @@ asm_1620f: ; 0x1620f
 	ld [wd803], a
 	ld a, $8
 	ld [wd804], a
-	ld de, $0004
+	lb de, $00, $04
 	call PlaySoundEffect
 	ret
 
@@ -20001,7 +20001,7 @@ Func_16279: ; 0x16279
 	ld a, [wd603]
 	cp $12
 	jr nz, .asm_162d4
-	ld de, $0021
+	lb de, $00, $21
 	call PlaySoundEffect
 	ld [hFarCallTempA], a
 	callba LoadMiniBallGfx
@@ -20160,7 +20160,7 @@ Func_163f2: ; 0x163f2
 	ld de, $0000
 	call PlaySong
 	rst AdvanceFrame
-	ld de, $3c23
+	lb de, $3c, $23
 	call PlaySoundEffect
 	ret
 
@@ -20264,7 +20264,7 @@ Func_1652d: ; 0x1652d
 	ld [wBallYVelocity + 1], a
 	ld a, $1
 	ld [wd549], a
-	ld de, $000a
+	lb de, $00, $0a
 	call PlaySoundEffect
 .asm_16566
 	ld a, $ff
@@ -20311,7 +20311,7 @@ Func_1658f: ; 0x1658f
 	ld a, [hl]
 	ld [wCurrentMap], a
 	push af
-	ld de, $0048
+	lb de, $00, $48
 	call PlaySoundEffect
 	pop af
 	add (PalletTownPic_Pointer - BillboardPicturePointers) / 3 ; map billboard pictures start at the $29th entry in BillboardPicturePointers
@@ -20401,7 +20401,7 @@ Func_1660c: ; 0x1660c
 	call CopyHLToDE
 	ld a, $2
 	ld [wd51c], a
-	ld de, $003b
+	lb de, $00, $3b
 	call PlaySoundEffect
 .asm_1667b
 	ld a, [wd51c]
@@ -20418,7 +20418,7 @@ Func_1660c: ; 0x1660c
 	ld [wd51e], a
 	cp $5a
 	ret nz
-	ld de, $0f22
+	lb de, $0f, $22
 	call PlaySoundEffect
 	ret
 
@@ -20456,7 +20456,7 @@ Func_1669e: ; 0x1669e
 	ld hl, Func_30164
 	call z, BankSwitch
 .asm_166f0
-	ld de, $1610
+	lb de, $16, $10
 	call PlaySoundEffect
 	ret
 
@@ -20586,7 +20586,7 @@ Func_16781: ; 0x16781
 	ld [hFarCallTempA], a
 	callba LoadStageCollisionAttributes
 	call Func_159f4
-	ld de, $0007
+	lb de, $00, $07
 	call PlaySoundEffect
 	ld a, [wStageCollisionState]
 	bit 0, a
@@ -20631,7 +20631,7 @@ Func_167ff: ; 0x167ff
 	and $fe
 	or c
 	ld [wStageCollisionState], a
-	ld de, $0007
+	lb de, $00, $07
 	call PlaySoundEffect
 	ret
 
@@ -20753,7 +20753,7 @@ Func_16d9d: ; 016d9d
 	jp z, Func_16e51
 	xor a
 	ld [wd60a], a
-	ld de, $000d
+	lb de, $00, $0d
 	call PlaySoundEffect
 	ld a, [wd60b]
 	sub $21
@@ -20922,7 +20922,7 @@ Func_16ef5: ; 0x16ef5
 	ld hl, wd5cc
 	ld de, BonusMultiplierText
 	call LoadTextHeader
-	ld hl, wcBottomMessageText + $12
+	ld hl, wBottomMessageText + $12
 	ld a, [wd614]
 	and $7f
 	jr z, .asm_16f1f
@@ -21200,12 +21200,13 @@ DrawTimer: ; 0x175f5
 	ret
 
 Data_17615:
-	dr $17615, $17625
+	db $d7, $da, $d8, $d9
+	db $dc, $df, $dd, $de
+	db $dc, $db, $dd, $de
+	db $f5, $f8, $f6, $f7
 
 DrawTimerDigit: ; 0x17625
 	add $b1  ; the timer digits' OAM ids start at $b1
-	; fall through
-
 Func_17627: ; 0x17627
 	call LoadOAMData
 	ld a, b
@@ -21214,28 +21215,28 @@ Func_17627: ; 0x17627
 	ret
 
 Func_1762f: ; 0x1762f
-	ld de, $600c
+	lb de, $60, $0c
 	ld a, [wCurrentStage]
 	cp $6
 	ret nc
-	ld de, $0000
+	lb de, $00, $00
 	bit 0, a
 	ret z
-	ld de, $3004
+	lb de, $30, $04
 	ld a, [wInSpecialMode]
 	and a
 	ret z
 	ld a, [wSpecialMode]
 	and a
 	ret nz
-	ld de, $3008
+	lb de, $30, $08
 	ret
 
 Func_1764f: ; 0x1764f
 	push bc
 	push de
 	cp [hl]
-	jr z, .asm_1765d
+	jr z, .skip
 	push af
 	push hl
 	add d
@@ -21243,7 +21244,7 @@ Func_1764f: ; 0x1764f
 	pop hl
 	pop af
 	ld [hl], a
-.asm_1765d
+.skip
 	inc hl
 	pop de
 	ld a, d
@@ -21267,7 +21268,7 @@ Func_17665: ; 0x17665
 	ret
 
 Data_17679:
-	dr $17679, $17c67
+INCLUDE "data/unknown_17679.asm"
 
 Func_17c67: ; 0x17c67
 	ld a, [wd5f3]
@@ -22300,7 +22301,7 @@ Func_18464: ; 0x18464
 	ld [wd7bd], a
 	ld a, $80
 	ld [wFlipperCollision], a
-	ld de, $002c
+	lb de, $00, $2c
 	call PlaySoundEffect
 .asm_184d5
 	ld bc, $0830
@@ -22520,7 +22521,7 @@ Func_1860b: ; 0x1860b
 	ld [wd7bd], a
 	ld a, $80
 	ld [wFlipperCollision], a
-	ld de, $002d
+	lb de, $00, $2d
 	call PlaySoundEffect
 .asm_1867c
 	ld bc, $5078
@@ -22729,7 +22730,7 @@ Func_187b1: ; 0x187b1
 	pop de
 	ld a, $2
 	ld [de], a
-	ld de, $0037
+	lb de, $00, $37
 	call PlaySoundEffect
 	jr .asm_18826
 
@@ -22917,7 +22918,7 @@ Func_1894c: ; 0x1894c
 	ret
 
 .asm_18980
-	ld de, $002b
+	lb de, $00, $2b
 	call PlaySoundEffect
 	ld a, $1
 	ld [wd6a6], a
@@ -23014,7 +23015,7 @@ Func_189af: ; 0x189af
 	ld a, [de]
 	cp $1
 	jr nz, .asm_18a14
-	ld de, $002e
+	lb de, $00, $2e
 	call PlaySoundEffect
 	ret
 
@@ -23032,7 +23033,7 @@ Func_189af: ; 0x189af
 	ld hl, wd5dc
 	ld de, Data_2f7b
 	call LoadTextHeader
-	ld de, $4b2a
+	lb de, $4b, $2a
 	call PlaySoundEffect
 	ret
 
@@ -23886,7 +23887,7 @@ Func_19531: ; 0x19531
 	ld a, $2
 	ld de, wd6ae
 	call Func_19679
-	ld de, $0039
+	lb de, $00, $39
 	call PlaySoundEffect
 	jr .asm_195a2
 
@@ -24022,7 +24023,7 @@ Func_19638: ; 0x19638
 	ld a, [de]
 	cp $1
 	jr nz, .asm_19645
-	ld de, $0040
+	lb de, $00, $40
 	call PlaySoundEffect
 	ret
 
@@ -24047,7 +24048,7 @@ Func_19638: ; 0x19638
 .asm_1966b
 	ld de, Data_2f97
 	call LoadTextHeader
-	ld de, $4b2a
+	lb de, $4b, $2a
 	call PlaySoundEffect
 	ret
 
@@ -24103,7 +24104,7 @@ Func_19701: ; 0x19701
 	ld bc, OneHundredThousandPoints
 	ld [hFarCallTempA], a
 	callba AddBigBCD6FromQueue
-	ld de, $0038
+	lb de, $00, $38
 	call PlaySoundEffect
 .asm_19742
 	ld de, wd6bd
@@ -24641,7 +24642,7 @@ Func_19c52: ; 0x19c52
 	ld bc, OneHundredThousandPoints
 	ld [hFarCallTempA], a
 	callba AddBigBCD6FromQueue
-	ld de, $0035
+	lb de, $00, $35
 	call PlaySoundEffect
 	ld hl, $0100
 	ld a, l
@@ -24951,7 +24952,7 @@ Func_1aad4: ; 0x1aad4
 	ld bc, FiveMillionPoints
 	ld [hFarCallTempA], a
 	callba AddBigBCD6FromQueue
-	ld de, $0036
+	lb de, $00, $36
 	call PlaySoundEffect
 	ld a, $33
 	ld [wd803], a
@@ -25087,7 +25088,7 @@ Func_1ab30: ; 0x1ab30
 	ld hl, wd5dc
 	ld de, Data_2fb3
 	call LoadTextHeader
-	ld de, $4b2a
+	lb de, $4b, $2a
 	call PlaySoundEffect
 	ld a, $1
 	ld [wd7be], a
@@ -26130,7 +26131,7 @@ Func_1c7d7: ; 0x1c7d7
 	ld [wBallYVelocity + 1], a
 	ld a, $1
 	ld [wd549], a
-	ld de, $000a
+	lb de, $00, $0a
 	call PlaySoundEffect
 .asm_1c810
 	ld a, $ff
@@ -26177,7 +26178,7 @@ Func_1c839: ; 0x1c839
 	ld a, [hl]
 	ld [wCurrentMap], a
 	push af
-	ld de, $0048
+	lb de, $00, $48
 	call PlaySoundEffect
 	pop af
 	add (PalletTownPic_Pointer - BillboardPicturePointers) / 3  ; map billboard pictures start at the $29th entry in BillboardPicturePointers
@@ -26425,7 +26426,7 @@ Func_1ca29: ; 0x1ca29
 	ld [wd7bd], a
 	ld a, $80
 	ld [wFlipperCollision], a
-	ld de, $000e
+	lb de, $00, $0e
 	call PlaySoundEffect
 	ret
 
@@ -26437,7 +26438,7 @@ Func_1ca4a: ; 1ca4a
 	ld [wd5c7], a
 	ld a, $1
 	ld [wBallHitWildMon], a
-	ld de, $0006
+	lb de, $00, $06
 	call PlaySoundEffect
 	ret
 
@@ -26661,7 +26662,7 @@ Func_1ce94: ; 0x1ce94
 	ld a, [wd7ea]
 	add [hl]
 	ld [wd7ea], a
-	ld de, $000b
+	lb de, $00, $0b
 	call PlaySoundEffect
 	ret
 
@@ -26844,7 +26845,7 @@ Func_1d0a1: ; 0x1d0a1
 	call CopyHLToDE
 	ld a, $2
 	ld [wd51c], a
-	ld de, $003b
+	lb de, $00, $3b
 	call PlaySoundEffect
 .asm_1d110
 	ld a, [wd51c]
@@ -26861,7 +26862,7 @@ Func_1d0a1: ; 0x1d0a1
 	ld [wd51e], a
 	cp $5a
 	ret nz
-	ld de, $0f22
+	lb de, $0f, $22
 	call PlaySoundEffect
 	ret
 
@@ -26899,7 +26900,7 @@ Func_1d133: ; 0x1d133
 	ld hl, Func_30164
 	call z, BankSwitch
 .asm_1d185
-	ld de, $1610
+	lb de, $16, $10
 	call PlaySoundEffect
 	ret
 
@@ -26992,7 +26993,7 @@ Func_1d216: ; 0x1d216
 	ld bc, TenThousandPoints
 	ld [hFarCallTempA], a
 	callba AddBigBCD6FromQueueWithBallMultiplier
-	ld de, $0005
+	lb de, $00, $05
 	call PlaySoundEffect
 	ld hl, Data_1d312
 	ld de, wd632
@@ -27073,7 +27074,7 @@ Func_1d216: ; 0x1d216
 	xor a
 	ld [wBallYVelocity], a
 	ld [wBallYVelocity + 1], a
-	ld de, $0006
+	lb de, $00, $06
 	call PlaySoundEffect
 	ld a, [wd642]
 	cp $0
@@ -27106,7 +27107,7 @@ HandleEnteringCloyster: ; 0x1d32d
 	ld bc, TenThousandPoints
 	ld [hFarCallTempA], a
 	callba AddBigBCD6FromQueueWithBallMultiplier
-	ld de, $0005
+	lb de, $00, $05
 	call PlaySoundEffect
 	ld hl, Data_1d41d
 	ld de, wd637
@@ -27187,7 +27188,7 @@ HandleEnteringCloyster: ; 0x1d32d
 	xor a
 	ld [wBallYVelocity], a
 	ld [wBallYVelocity + 1], a
-	ld de, $0006
+	lb de, $00, $06
 	call PlaySoundEffect
 	ld a, $e
 	ld [hFarCallTempA], a
@@ -27213,7 +27214,7 @@ Func_1d438: ; 0x1d438
 	jp z, Func_1d51b
 	xor a
 	ld [wd60a], a
-	ld de, $000d
+	lb de, $00, $0d
 	call PlaySoundEffect
 	ld a, [wd60b]
 	sub $f
@@ -27408,7 +27409,7 @@ Func_1d5bf: ; 0x1d5bf
 	ld hl, wd5cc
 	ld de, BonusMultiplierText
 	call LoadTextHeader
-	ld hl, wcBottomMessageText + $12
+	ld hl, wBottomMessageText + $12
 	ld a, [wd614]
 	and $7f
 	jr z, .asm_1d5e9
@@ -27884,7 +27885,7 @@ Func_1de22: ; 0x1de22
 	ld bc, FiveHundredPoints
 	ld [hFarCallTempA], a
 	callba AddBigBCD6FromQueueWithBallMultiplier
-	ld de, $000f
+	lb de, $00, $0f
 	call PlaySoundEffect
 	ret
 
@@ -28138,7 +28139,7 @@ Func_1e356: ; 0x1e356
 	inc hl
 	and [hl]
 	jr nz, .asm_1e3de
-	ld de, $0009
+	lb de, $00, $09
 	call PlaySoundEffect
 	jp asm_1e475
 
@@ -28158,7 +28159,7 @@ Func_1e356: ; 0x1e356
 	ld a, [wBallType]
 	cp MASTER_BALL
 	jr z, .masterBall
-	ld de, $063a
+	lb de, $06, $3a
 	call PlaySoundEffect
 	call Func_30e8
 	call Func_30db
@@ -28173,11 +28174,11 @@ Func_1e356: ; 0x1e356
 	ld a, [hl]
 	ld [wBallType], a
 	add $30
-	ld [wcBottomMessageText + $12], a
+	ld [wBottomMessageText + $12], a
 	jr .asm_1e465
 
 .masterBall
-	ld de, $0f4d
+	lb de, $0f, $4d
 	call PlaySoundEffect
 	ld bc, OneMillionPoints
 	ld [hFarCallTempA], a
@@ -28427,7 +28428,7 @@ Func_1e5c5: ; 0x1e5c5
 	ld bc, FourHundredPoints
 	ld [hFarCallTempA], a
 	callba AddBigBCD6FromQueueWithBallMultiplier
-	ld de, $0009
+	lb de, $00, $09
 	call PlaySoundEffect
 	ld hl, wd62c
 	call Func_e4a
@@ -28615,7 +28616,7 @@ Func_1e757: ; 0x1e757
 	ld a, [wd603]
 	cp $12
 	jr nz, .asm_1e7b2
-	ld de, $0021
+	lb de, $00, $21
 	call PlaySoundEffect
 	ld [hFarCallTempA], a
 	callba LoadMiniBallGfx
@@ -28768,7 +28769,7 @@ Func_1e8c3: ; 0x1e8c3
 	ld de, $0000
 	call PlaySong
 	rst AdvanceFrame
-	ld de, $3c23
+	lb de, $3c, $23
 	call PlaySoundEffect
 	ret
 
@@ -28979,7 +28980,7 @@ asm_1ea6a: ; 0x1ea6a
 	ld [wd803], a
 	ld a, $8
 	ld [wd804], a
-	ld de, $0004
+	lb de, $00, $04
 	call PlaySoundEffect
 	ret
 
@@ -30774,21 +30775,21 @@ Func_20651: ; 0x20651
 	ld [wd554], a
 	cp $1
 	jr nz, .asm_20693
-	ld de, $0728
+	lb de, $07, $28
 	call PlaySoundEffect
 	ret
 
 .asm_20693
 	cp $2
 	jr nz, .asm_2069e
-	ld de, $0744
+	lb de, $07, $44
 	call PlaySoundEffect
 	ret
 
 .asm_2069e
 	cp $3
 	ret nz
-	ld de, $0745
+	lb de, $07, $45
 	call PlaySoundEffect
 	ld a, $1
 	ld [wd604], a
@@ -31140,7 +31141,7 @@ Func_2094d: ; 0x2094d
 	ret
 
 Func_20977: ; 0x20977
-	ld de, $0746
+	lb de, $07, $46
 	call PlaySoundEffect
 	call Func_20af5
 	ld a, [wCurrentEvolutionType]
@@ -31191,7 +31192,7 @@ Func_20977: ; 0x20977
 	ret
 
 Func_209eb: ; 0x209eb
-	ld de, $0747
+	lb de, $07, $47
 	call PlaySoundEffect
 	ld a, $1
 	ld [wd551], a
@@ -31399,7 +31400,7 @@ Func_20b02: ; 0x20b02
 	ld de, $0000
 	call PlaySong
 	rst AdvanceFrame
-	ld de, $2d26
+	lb de, $2d, $26
 	call PlaySoundEffect
 	ld [hFarCallTempA], a
 	callba Func_10825
@@ -31533,21 +31534,21 @@ Func_20c76: ; 0x20c76
 	ld [wd554], a
 	cp $1
 	jr nz, .asm_20cb8
-	ld de, $0728
+	lb de, $07, $28
 	call PlaySoundEffect
 	ret
 
 .asm_20cb8
 	cp $2
 	jr nz, .asm_20cc3
-	ld de, $0744
+	lb de, $07, $44
 	call PlaySoundEffect
 	ret
 
 .asm_20cc3
 	cp $3
 	ret nz
-	ld de, $0745
+	lb de, $07, $45
 	call PlaySoundEffect
 	ld a, $1
 	ld [wd604], a
@@ -31877,7 +31878,7 @@ Func_20f4b: ; 0x20f4b
 	ret
 
 Func_20f75: ; 0x20f75
-	ld de, $0746
+	lb de, $07, $46
 	call PlaySoundEffect
 	call Func_2111d
 	ld a, [wCurrentEvolutionType]
@@ -31930,7 +31931,7 @@ Func_20f75: ; 0x20f75
 	ret
 
 Func_20fef: ; 0x20fef
-	ld de, $0747
+	lb de, $07, $47
 	call PlaySoundEffect
 	ld a, $1
 	ld [wd551], a
@@ -32159,7 +32160,7 @@ Func_2112a: ; 0x2112a
 	ld de, $0000
 	call PlaySong
 	rst AdvanceFrame
-	ld de, $2d26
+	lb de, $2d, $26
 	call PlaySoundEffect
 	ld [hFarCallTempA], a
 	callba Func_10825
@@ -32780,13 +32781,13 @@ Func_2442a: ; 0x2442a
 	ld hl, wd5dc
 	ld de, Data_2fd0
 	call LoadTextHeader
-	ld de, $4b2a
+	lb de, $4b, $2a
 	call PlaySoundEffect
 .asm_24498
 	ld a, [wd712]
 	cp $4
 	jr nz, .asm_244b0
-	ld a, [wd800]
+	ld a, [wSFXTimer]
 	and a
 	jr nz, .asm_244b0
 	ld de, $0004
@@ -32890,7 +32891,7 @@ Func_245ab: ; 0x245ab
 	ld [wd803], a
 	ld a, $3
 	ld [wd804], a
-	ld de, $0033
+	lb de, $00, $33
 	call PlaySoundEffect
 	ld bc, OneThousandPoints
 	ld [hFarCallTempA], a
@@ -33289,7 +33290,7 @@ Func_248ac: ; 0x248ac
 	inc [hl]
 	ld a, $2
 	ld [wd717], a
-	ld de, $0034
+	lb de, $00, $34
 	call PlaySoundEffect
 .asm_248d3
 	ld a, [wd718]
@@ -33308,7 +33309,7 @@ Func_248ac: ; 0x248ac
 	inc [hl]
 	ld a, $2
 	ld [wd718], a
-	ld de, $0034
+	lb de, $00, $34
 	call PlaySoundEffect
 .asm_248fa
 	ld a, [wd719]
@@ -33327,7 +33328,7 @@ Func_248ac: ; 0x248ac
 	inc [hl]
 	ld a, $2
 	ld [wd719], a
-	ld de, $0034
+	lb de, $00, $34
 	call PlaySoundEffect
 .asm_24921
 	ld a, [wd717]
@@ -33864,7 +33865,7 @@ Func_24d07: ; 0x24d07
 .asm_24d1f
 	ld a, $2
 	ld [wd721], a
-	ld de, $0034
+	lb de, $00, $34
 	call PlaySoundEffect
 .asm_24d2a
 	ld a, [wd722]
@@ -33881,7 +33882,7 @@ Func_24d07: ; 0x24d07
 .asm_24d42
 	ld a, $2
 	ld [wd722], a
-	ld de, $0034
+	lb de, $00, $34
 	call PlaySoundEffect
 .asm_24d4d
 	ld a, [wd723]
@@ -33898,7 +33899,7 @@ Func_24d07: ; 0x24d07
 .asm_24d65
 	ld a, $2
 	ld [wd723], a
-	ld de, $0034
+	lb de, $00, $34
 	call PlaySoundEffect
 .asm_24d70
 	ld a, [wd721]
@@ -34062,7 +34063,7 @@ Func_24e7f: ; 0x24e7f
 	ld [wd803], a
 	ld a, $3
 	ld [wd804], a
-	ld de, $0032
+	lb de, $00, $32
 	call PlaySoundEffect
 	ld a, [wMeowthStageBonusCounter]
 	dec a
@@ -34769,13 +34770,13 @@ Func_25c5a: ; 0x25c5a
 	call LoadTextHeader
 	ld a, $2
 	ld [wd794], a
-	ld de, $4b2a
+	lb de, $4b, $2a
 	call PlaySoundEffect
 .asm_25c98
 	ld a, [wd794]
 	cp $2
 	jr nz, .asm_25cb0
-	ld a, [wd800]
+	ld a, [wSFXTimer]
 	and a
 	jr nz, .asm_25cb0
 	ld de, $0003
@@ -34907,7 +34908,7 @@ Func_25da3: ; 0x25da3
 	ld [wd803], a
 	ld a, $8
 	ld [wd804], a
-	ld de, $0030
+	lb de, $00, $30
 	call PlaySoundEffect
 	call Func_25e85
 	ld hl, wd792
@@ -35166,7 +35167,7 @@ Func_25f77: ; 0x25f77
 	ld a, $3
 .asm_25fb2
 	push af
-	ld de, $0031
+	lb de, $00, $31
 	call PlaySoundEffect
 	pop af
 	pop de
@@ -35231,21 +35232,21 @@ Func_25ff3: ; 0x25ff3
 	jr nc, .asm_26016
 	ld a, $3
 	ld [de], a
-	ld de, $0031
+	lb de, $00, $31
 	call PlaySoundEffect
 	ret
 
 .asm_26016
 	ld a, $2
 	ld [de], a
-	ld de, $0031
+	lb de, $00, $31
 	call PlaySoundEffect
 	ret
 
 .asm_26020
 	ld a, $1
 	ld [de], a
-	ld de, $0031
+	lb de, $00, $31
 	call PlaySoundEffect
 	ret
 
@@ -35333,21 +35334,21 @@ Func_2607f: ; 0x2607f
 	jr nc, .asm_260a2
 	ld a, $3
 	ld [de], a
-	ld de, $0031
+	lb de, $00, $31
 	call PlaySoundEffect
 	ret
 
 .asm_260a2
 	ld a, $2
 	ld [de], a
-	ld de, $0031
+	lb de, $00, $31
 	call PlaySoundEffect
 	ret
 
 .asm_260ac
 	ld a, $1
 	ld [de], a
-	ld de, $0031
+	lb de, $00, $31
 	call PlaySoundEffect
 	ret
 
@@ -36435,7 +36436,7 @@ Func_28513: ; 0x28513
 	ld a, [wd95f]
 	and a
 	ret z
-	ld de, $0003
+	lb de, $00, $03
 	call PlaySoundEffect
 	call Func_28931
 	call Func_289c8
@@ -40908,7 +40909,7 @@ Func_315d5: ; 0x315d5
 	callba Func_31281
 	ld [hFarCallTempA], a
 	callba Func_30253
-	ld de, $2525
+	lb de, $25, $25
 	call PlaySoundEffect
 	ld bc, Data_2cbf
 	ld [hFarCallTempA], a
@@ -41073,7 +41074,7 @@ Func_3174c: ; 0x3174c
 	callba Func_3140b
 	ld [hFarCallTempA], a
 	callba Func_30253
-	ld de, $2525
+	lb de, $25, $25
 	call PlaySoundEffect
 	ld bc, Data_2cbf
 	ld [hFarCallTempA], a

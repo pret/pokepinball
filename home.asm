@@ -1599,11 +1599,8 @@ Func_a21: ; 0xa21
 Data_a38:
 x = 0
 REPT 128
-	db x
+	db x | ((x >> 7) & 1)
 x = x + 2
-IF x == $80
-x = x + 1
-ENDC
 ENDR
 
 ReadJoypad: ; 0xab8

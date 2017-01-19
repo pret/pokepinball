@@ -2963,7 +2963,6 @@ OAMData2_3e: ; 0x
 OAMData2_3f: ; 0x
 	db $08, $10, $D8, $00
 	db $08, $08, $D0, $00
-
 	db $80  ; terminator
 
 OAMData2_40: ; 0x
@@ -3546,19 +3545,14 @@ UnusedTextVideoData: ; 0x808b
 
 UnusedTileListData_8094: ; 0x8094
 	db $13
-
 	dbw $06, $98A3
 	db $BC, $AF, $B6, $AF, $AD, $BD
-
 	dbw $06, $98AA
 	db $BD, $AB, $BB, $B1, $AF, $BD
-
 	dbw $04, $98E3
 	db $D0, $AD, $B1, $AC
-
 	dbw $03, $9924
 	db $AE, $B7, $B1
-
 	db $00  ; terminator
 
 FillBackgroundsVRAM: ; 0x80b5
@@ -3680,24 +3674,18 @@ Func_8104: ; 0x8104
 
 Data_813a: ; 0x813a
 	db $02
-
 	dbw $01, $98E3
 	db $D1
-
 	dbw $01, $9923
 	db $D0
-
 	db $00  ; terminator
 
 Data_8144: ; 0x8144
 	db $02
-
 	dbw $01, $98E3
 	db $D0
-
 	dbw $01, $9923
 	db $D1
-
 	db $00  ; terminator
 
 Func_814e: ; 0x414e
@@ -3963,47 +3951,32 @@ InitializeStage: ; 0x8311
 CallTable_8348: ; 0x8348
 	; STAGE_RED_FIELD_TOP
 	padded_dab InitRedField
-
 	; STAGE_RED_FIELD_BOTTOM
 	padded_dab InitRedField
-
 	padded_dab Func_18000
-
 	padded_dab Func_18000
-
 	; STAGE_BLUE_FIELD_TOP
 	padded_dab InitBlueField
-
 	; STAGE_BLUE_FIELD_BOTTOM
 	padded_dab InitBlueField
-
 	; STAGE_GENGAR_BONUS
 	padded_dab InitGengarBonusStage
-
 	; STAGE_GENGAR_BONUS
 	padded_dab InitGengarBonusStage
-
 	; STAGE_MEWTWO_BONUS
 	padded_dab InitMewtwoBonusStage
-
 	; STAGE_MEWTWO_BONUS
 	padded_dab InitMewtwoBonusStage
-
 	; STAGE_MEOWTH_BONUS
 	padded_dab InitMeowthBonusStage
-
 	; STAGE_MEOWTH_BONUS
 	padded_dab InitMeowthBonusStage
-
 	; STAGE_DIGLETT_BONUS
 	padded_dab InitDiglettBonusStage
-
 	; STAGE_DIGLETT_BONUS
 	padded_dab InitDiglettBonusStage
-
 	; STAGE_SEEL_BONUS
 	padded_dab InitSeelBonusStage
-
 	; STAGE_SEEL_BONUS
 	padded_dab InitSeelBonusStage
 
@@ -4065,47 +4038,32 @@ StartBallForStage: ; 0x83ba
 CallTable_8404: ; 0x8404
 	; STAGE_RED_FIELD_TOP
 	padded_dab StartBallRedField
-
 	; STAGE_RED_FIELD_BOTTOM
 	padded_dab StartBallRedField
-
 	padded_dab Func_1804a
-
 	padded_dab Func_1804a
-
 	; STAGE_BLUE_FIELD_TOP
 	padded_dab StartBallBlueField
-
 	; STAGE_BLUE_FIELD_BOTTOM
 	padded_dab StartBallBlueField
-
 	; STAGE_GENGAR_BONUS
 	padded_dab StartBallGengarBonusStage
-
 	; STAGE_GENGAR_BONUS
 	padded_dab StartBallGengarBonusStage
-
 	; STAGE_MEWTWO_BONUS
 	padded_dab StartBallMewtwoBonusStage
-
 	; STAGE_MEWTWO_BONUS
 	padded_dab StartBallMewtwoBonusStage
-
 	; STAGE_MEOWTH_BONUS
 	padded_dab StartBallMeowthBonusStage
-
 	; STAGE_MEOWTH_BONUS
 	padded_dab StartBallMeowthBonusStage
-
 	; STAGE_DIGLETT_BONUS
 	padded_dab StartBallDiglettBonusStage
-
 	; STAGE_DIGLETT_BONUS
 	padded_dab StartBallDiglettBonusStage
-
 	; STAGE_SEEL_BONUS
 	padded_dab StartBallSeelBonusStage
-
 	; STAGE_SEEL_BONUS
 	padded_dab StartBallSeelBonusStage
 
@@ -4139,47 +4097,32 @@ Func_8471: ; 0x8471
 CallTable_8477: ; 0x8477
 	; STAGE_RED_FIELD_TOP
 	padded_dab Func_14000
-
 	; STAGE_RED_FIELD_BOTTOM
 	padded_dab Func_1401c
-
 	padded_dab Func_1805f
-
 	padded_dab Func_18060
-
 	; STAGE_BLUE_FIELD_TOP
 	padded_dab Func_1c165
-
 	; STAGE_BLUE_FIELD_BOTTOM
 	padded_dab Func_1c191
-
 	; STAGE_GENGAR_BONUS
 	padded_dab Func_1818b
-
 	; STAGE_GENGAR_BONUS
 	padded_dab Func_1818b
-
 	; STAGE_MEWTWO_BONUS
 	padded_dab Func_19310
-
 	; STAGE_MEWTWO_BONUS
 	padded_dab Func_19310
-
 	; STAGE_MEOWTH_BONUS
 	padded_dab Func_24128
-
 	; STAGE_MEOWTH_BONUS
 	padded_dab Func_24128
-
 	; STAGE_DIGLETT_BONUS
 	padded_dab Func_19a76
-
 	; STAGE_DIGLETT_BONUS
 	padded_dab Func_19a76
-
 	; STAGE_SEEL_BONUS
 	padded_dab Func_25b97
-
 	; STAGE_SEEL_BONUS
 	padded_dab Func_25b97
 
@@ -4189,47 +4132,32 @@ Func_84b7: ; 0x84b7
 PointerTable_84bd: ; 0x84bd
 	; STAGE_RED_FIELD_TOP
 	padded_dab Func_1755c
-
 	; STAGE_RED_FIELD_BOTTOM
 	padded_dab Func_1757e
-
 	padded_dab Func_18079
-
 	padded_dab Func_18084
-
 	; STAGE_BLUE_FIELD_TOP
 	padded_dab Func_1f330
-
 	; STAGE_BLUE_FIELD_BOTTOM
 	padded_dab Func_1f35a
-
 	; STAGE_GENGAR_BONUS
 	padded_dab Func_18faf
-
 	; STAGE_GENGAR_BONUS
 	padded_dab Func_18faf
-
 	; STAGE_MEWTWO_BONUS
 	padded_dab Func_1994e
-
 	; STAGE_MEWTWO_BONUS
 	padded_dab Func_1994e
-
 	; STAGE_MEOWTH_BONUS
 	padded_dab Func_2583b
-
 	; STAGE_MEOWTH_BONUS
 	padded_dab Func_2583b
-
 	; STAGE_DIGLETT_BONUS
 	padded_dab Func_1ac98
-
 	; STAGE_DIGLETT_BONUS
 	padded_dab Func_1ac98
-
 	; STAGE_SEEL_BONUS
 	padded_dab Func_26b7e
-
 	; STAGE_SEEL_BONUS
 	padded_dab Func_26b7e
 
@@ -4251,7 +4179,7 @@ Func_84fd:
 	ret
 
 Func_8519: ; 8519 (2:4519)
-	ld hl, $9c00
+	hlCoord 0, 0, vBGMap1
 	ld b, $20
 .asm_851e
 	ld [hli], a
@@ -4340,7 +4268,7 @@ Func_8588: ; 0x8588
 	ld l, c
 	ld a, [wd477]
 	ld e, a
-	ld d, $d4
+	ld d, wd400 / $100
 	ld b, $1
 asm_8592:
 	push hl
@@ -6412,10 +6340,10 @@ Func_c35a: ; 0xc35a
 	call PlaySong
 	call Func_588
 	ld a, [wSoundTestCurrentBackgroundMusic]
-	ld hl, $9967
+	hlCoord 7, 11, vBGMap0
 	call RedrawSoundTestID
 	ld a, [wSoundTextCurrentSoundEffect]
-	ld hl, $99a7
+	hlCoord 7, 13, vBGMap0
 	call RedrawSoundTestID
 	call Func_bbe
 	ld hl, wScreenState
@@ -7243,7 +7171,7 @@ OAMPixelOffsetData_c944: ; 0xc944
 	dw $7018
 
 Func_c948: ; 0xc948
-	ld hl, $9c6d
+	hlCoord 13, 3, vBGMap1
 	ld de, wKeyConfigBallStart
 	ld b, $e
 .asm_c950
@@ -7595,10 +7523,10 @@ Func_cb14: ; 0xcb14
 	ld a, $20
 	ld [wda82], a
 	call Func_d211
-	ld hl, $99c0
+	hlCoord 0, 14, vBGMap0
 	ld de, wda3d
 	call Func_d2cb
-	ld hl, $9dc0
+	hlCoord 0, 14, vBGMap1
 	ld de, wda7e
 	call Func_d2cb
 	ld a, [wHighScoresStage]
@@ -7662,27 +7590,22 @@ HighScoresVideoData_GameBoy: ; 0xcbe9
 	VIDEO_DATA_TILES HighScoresBaseGameBoyGfx, vTiles0, $1800
 	VIDEO_DATA_TILEMAP HighScoresTilemap, vBGMap0, $400
 	VIDEO_DATA_TILEMAP HighScoresTilemap2, vBGMap1, $400
-
 	dw HighScoresTilemap + $3c0
 	db Bank(HighScoresTilemap)
 	dw vBGMap0
 	dw ($40 << 2)
-
 	dw HighScoresTilemap + $280
 	db Bank(HighScoresTilemap)
 	dw vBGMap0 + $200
 	dw ($40 << 2)
-
 	dw HighScoresTilemap2 + $3c0
 	db Bank(HighScoresTilemap2)
 	dw vBGMap1
 	dw ($40 << 2)
-
 	dw HighScoresTilemap2 + $280
 	db Bank(HighScoresTilemap2)
 	dw vBGMap1 + $200
 	dw ($40 << 2)
-
 	db $FF, $FF  ; terminators
 
 HighScoresRedStageVideoData_GameBoyColor: ; 0xcc1c
@@ -7691,27 +7614,22 @@ HighScoresRedStageVideoData_GameBoyColor: ; 0xcc1c
 	VIDEO_DATA_TILEMAP HighScoresTilemap2, vBGMap1, $400
 	VIDEO_DATA_TILEMAP_BANK2 HighScoresTilemap4, vBGMap0, $400
 	VIDEO_DATA_TILEMAP_BANK2 HighScoresTilemap5, vBGMap1, $400
-
 	dw HighScoresTilemap + $3c0
 	db Bank(HighScoresTilemap)
 	dw vBGMap0
 	dw ($40 << 2)
-
 	dw HighScoresTilemap + $280
 	db Bank(HighScoresTilemap)
 	dw vBGMap0 + $200
 	dw ($40 << 2)
-
 	dw HighScoresTilemap2 + $3c0
 	db Bank(HighScoresTilemap2)
 	dw vBGMap1
 	dw ($40 << 2)
-
 	dw HighScoresTilemap2 + $280
 	db Bank(HighScoresTilemap2)
 	dw vBGMap1 + $200
 	dw ($40 << 2)
-
 	VIDEO_DATA_PALETTES HighScoresRedStagePalettes, $80
 	db $FF, $FF
 
@@ -7721,27 +7639,22 @@ HighScoresBlueStageVideoData_GameBoyColor: ; 0xcc64
 	VIDEO_DATA_TILEMAP HighScoresTilemap2, vBGMap1, $400
 	VIDEO_DATA_TILEMAP_BANK2 HighScoresTilemap4, vBGMap0, $400
 	VIDEO_DATA_TILEMAP_BANK2 HighScoresTilemap5, vBGMap1, $400
-
 	dw HighScoresTilemap + $3c0
 	db Bank(HighScoresTilemap)
 	dw vBGMap0
 	dw ($40 << 2)
-
 	dw HighScoresTilemap + $280
 	db Bank(HighScoresTilemap)
 	dw vBGMap0 + $200
 	dw ($40 << 2)
-
 	dw HighScoresTilemap2 + $3c0
 	db Bank(HighScoresTilemap2)
 	dw vBGMap1
 	dw ($40 << 2)
-
 	dw HighScoresTilemap2 + $280
 	db Bank(HighScoresTilemap2)
 	dw vBGMap1 + $200
 	dw ($40 << 2)
-
 	VIDEO_DATA_PALETTES HighScoresBlueStagePalettes, $80
 	db $FF, $FF  ; terminators
 
@@ -7826,10 +7739,10 @@ Func_ccb6: ; 0xccb6
 	ld de, $9c40
 	ld bc, $01c0
 	call LoadVRAMData
-	ld hl, $99c0
+	hlCoord 0, 14, vBGMap0
 	ld de, wda3d
 	call Func_d361
-	ld hl, $9dc0
+	hlCoord 0, 14, vBGMap1
 	ld de, wda7e
 	call Func_d361
 	ld hl, wRedHighScore1Points
@@ -7993,10 +7906,10 @@ Func_cdce: ; 0xcdce
 	ld a, $8
 	ld [$abf6], a
 	pop af
-	ld hl, $99c0
+	hlCoord 0, 14, vBGMap0
 	ld de, wda3d
 	call Func_d361
-	ld hl, $9dc0
+	hlCoord 0, 14, vBGMap1
 	ld de, wda7e
 	call Func_d361
 	ld hl, wRedHighScore1Points
@@ -8291,7 +8204,7 @@ Func_d042: ; 0xd042
 	ld bc, $0040
 	call FarCopyData
 	ld a, $0
-	ld hl, $9840
+	hlCoord 0, 2, vBGMap0
 	ld de, wc2c0
 	ld bc, $01c0
 	call LoadVRAMData
@@ -8317,7 +8230,7 @@ Func_d042: ; 0xd042
 	ld bc, $0040
 	call FarCopyData
 	ld a, $0
-	ld hl, $9c40
+	hlCoord 0, 2, vBGMap1
 	ld de, wc2c0
 	ld bc, $01c0
 	call LoadVRAMData
@@ -8897,11 +8810,11 @@ Func_d46f: ; 0xd46f
 	ld a, [wda80]
 	add e
 	ld e, a
-	ld hl, $9843
+	hlCoord 3, 2, vBGMap0
 	ld a, [wHighScoresStage]
 	and a
 	jr z, .asm_d496
-	ld hl, $9c43
+	hlCoord 3, 2, vBGMap1
 .asm_d496
 	add hl, de
 	push hl
@@ -9899,47 +9812,32 @@ Func_dc49: ; 0xdc49
 CallTable_dc4d: ; 0xdc4d
 	; STAGE_RED_FIELD_TOP
 	dw Func_dd76
-
 	; STAGE_RED_FIELD_BOTTOM
 	dw Func_dd76
-
 	dw Func_de4e
-
 	dw Func_de4e
-
 	; STAGE_BLUE_FIELD_TOP
 	dw Func_de4f
-
 	; STAGE_BLUE_FIELD_TOP
 	dw Func_de4f
-
 	; STAGE_GENGAR_BONUS
 	dw Func_df1a
-
 	; STAGE_GENGAR_BONUS
 	dw Func_df1a
-
 	; STAGE_MEWTWO_BONUS
 	dw Func_df7e
-
 	; STAGE_MEWTWO_BONUS
 	dw Func_df7e
-
 	; STAGE_MEOWTH_BONUS
 	dw Func_dfe2
-
 	; STAGE_MEOWTH_BONUS
 	dw Func_dfe2
-
 	; STAGE_DIGLETT_BONUS
 	dw Func_e056
-
 	; STAGE_DIGLETT_BONUS
 	dw Func_e056
-
 	; STAGE_SEEL_BONUS
 	dw Func_e08b
-
 	; STAGE_SEEL_BONUS
 	dw Func_e08b
 
@@ -11054,7 +10952,6 @@ Func_e3de:
 	pop de
 	pop bc
 	push hl
-
 	push bc
 	push de
 	ld c, e
@@ -11062,7 +10959,6 @@ Func_e3de:
 	pop de
 	pop bc
 	push hl
-
 	push bc
 	push de
 	ld b, d
@@ -11070,11 +10966,9 @@ Func_e3de:
 	pop de
 	pop bc
 	push hl
-
 	ld b, e
 	call Func_e410
 	ld c, l
-
 	ld l, h
 	xor a
 	ld h, a
@@ -11361,25 +11255,18 @@ StageRedFieldTopCollisionAttributesPointers: ; 0xe5c7
 	db $01  ; multiple pair entries
 	dwb StageRedFieldTopCollisionAttributes0, Bank(StageRedFieldTopCollisionAttributes0)
 	dwb StageRedFieldTopCollisionMasks0, Bank(StageRedFieldTopCollisionMasks0)
-
 	dwb StageRedFieldTopCollisionAttributes1, Bank(StageRedFieldTopCollisionAttributes1)
 	dwb StageRedFieldTopCollisionMasks0, Bank(StageRedFieldTopCollisionMasks0)
-
 	dwb StageRedFieldTopCollisionAttributes2, Bank(StageRedFieldTopCollisionAttributes2)
 	dwb StageRedFieldTopCollisionMasks1, Bank(StageRedFieldTopCollisionMasks1)
-
 	dwb StageRedFieldTopCollisionAttributes3, Bank(StageRedFieldTopCollisionAttributes3)
 	dwb StageRedFieldTopCollisionMasks1, Bank(StageRedFieldTopCollisionMasks1)
-
 	dwb StageRedFieldTopCollisionAttributes4, Bank(StageRedFieldTopCollisionAttributes4)
 	dwb StageRedFieldTopCollisionMasks2, Bank(StageRedFieldTopCollisionMasks2)
-
 	dwb StageRedFieldTopCollisionAttributes5, Bank(StageRedFieldTopCollisionAttributes5)
 	dwb StageRedFieldTopCollisionMasks2, Bank(StageRedFieldTopCollisionMasks2)
-
 	dwb StageRedFieldTopCollisionAttributes6, Bank(StageRedFieldTopCollisionAttributes6)
 	dwb StageRedFieldTopCollisionMasks3, Bank(StageRedFieldTopCollisionMasks3)
-
 	dwb StageRedFieldTopCollisionAttributes7, Bank(StageRedFieldTopCollisionAttributes7)
 	dwb StageRedFieldTopCollisionMasks3, Bank(StageRedFieldTopCollisionMasks3)
 
@@ -11400,7 +11287,6 @@ StageBlueFieldTopCollisionAttributesPointers: ; 0xe601
 	db $01  ; multiple pair entries
 	dwb StageBlueFieldTopCollisionAttributesBallEntrance, Bank(StageBlueFieldTopCollisionAttributesBallEntrance)
 	dwb StageBlueFieldTopCollisionMasks, Bank(StageBlueFieldTopCollisionMasks)
-
 	dwb StageBlueFieldTopCollisionAttributes, Bank(StageBlueFieldTopCollisionAttributes)
 	dwb StageBlueFieldTopCollisionMasks, Bank(StageBlueFieldTopCollisionMasks)
 
@@ -11413,7 +11299,6 @@ StageGengarBonusCollisionAttributesPointers: ; 0xe615
 	db $01  ; multiple pair entries
 	dwb StageGengarBonusCollisionAttributesBallEntrance, Bank(StageGengarBonusCollisionAttributesBallEntrance)
 	dwb StageGengarBonusCollisionMasks, Bank(StageGengarBonusCollisionMasks)
-
 	dwb StageGengarBonusCollisionAttributes, Bank(StageGengarBonusCollisionAttributes)
 	dwb StageGengarBonusCollisionMasks, Bank(StageGengarBonusCollisionMasks)
 
@@ -11421,7 +11306,6 @@ StageMewtwoBonusCollisionAttributesPointers: ; 0xe622
 	db $01  ; multiple pair entries
 	dwb StageMewtwoBonusCollisionAttributesBallEntrance, Bank(StageMewtwoBonusCollisionAttributesBallEntrance)
 	dwb StageMewtwoBonusCollisionMasks, Bank(StageMewtwoBonusCollisionMasks)
-
 	dwb StageMewtwoBonusCollisionAttributes, Bank(StageMewtwoBonusCollisionAttributes)
 	dwb StageMewtwoBonusCollisionMasks, Bank(StageMewtwoBonusCollisionMasks)
 
@@ -11429,7 +11313,6 @@ StageMeowthBonusCollisionAttributesPointers: ; 0xe62f
 	db $01  ; multiple pair entries
 	dwb StageMeowthBonusCollisionAttributesBallEntrance, Bank(StageMeowthBonusCollisionAttributesBallEntrance)
 	dwb StageMeowthBonusCollisionMasks, Bank(StageMeowthBonusCollisionMasks)
-
 	dwb StageMeowthBonusCollisionAttributes, Bank(StageMeowthBonusCollisionAttributes)
 	dwb StageMeowthBonusCollisionMasks, Bank(StageMeowthBonusCollisionMasks)
 
@@ -11437,7 +11320,6 @@ StageDiglettBonusCollisionAttributesPointers: ; 0xe63c
 	db $01  ; multiple pair entries
 	dwb StageDiglettBonusCollisionAttributesBallEntrance, Bank(StageDiglettBonusCollisionAttributesBallEntrance)
 	dwb StageDiglettBonusCollisionMasks, Bank(StageDiglettBonusCollisionMasks)
-
 	dwb StageDiglettBonusCollisionAttributes, Bank(StageDiglettBonusCollisionAttributes)
 	dwb StageDiglettBonusCollisionMasks, Bank(StageDiglettBonusCollisionMasks)
 
@@ -11445,7 +11327,6 @@ StageSeelBonusCollisionAttributesPointers: ; 0xe649
 	db $01  ; multiple pair entries
 	dwb StageSeelBonusCollisionAttributesBallEntrance, Bank(StageSeelBonusCollisionAttributesBallEntrance)
 	dwb StageSeelBonusCollisionMasks, Bank(StageSeelBonusCollisionMasks)
-
 	dwb StageSeelBonusCollisionAttributes, Bank(StageSeelBonusCollisionAttributes)
 	dwb StageSeelBonusCollisionMasks, Bank(StageSeelBonusCollisionMasks)
 
@@ -11752,13 +11633,11 @@ StageMewtwoBonusGfx_GameBoyColor: ; 0xeaf8
 	VIDEO_DATA_TILES   MewtwoBonusBaseGameBoyColorGfx, vTiles1, $1000
 	VIDEO_DATA_TILES   MewtwoBonus3Gfx, vTiles1 + $100, $1a0
 	VIDEO_DATA_TILES   MewtwoBonus4Gfx, vTiles1 + $2a0, $2a0
-
 	; Can't use a macro here because it's copying the tiles from VRAM, not ROM.
 	dw vTiles0
 	db $20  ; This is an arbitrary bank, since the data is in VRAM, not ROM.
 	dw vTiles1
 	dw $4002
-
 	VIDEO_DATA_TILES_BANK2   TimerDigitsGfx, vTiles0 + $600, $160
 	VIDEO_DATA_TILEMAP       MewtoBonusBottomTilemap_GameBoyColor, vBGMap0, $400
 	VIDEO_DATA_TILEMAP_BANK2 MewtoBonusBottomTilemap2_GameBoyColor, vBGMap0, $400
@@ -12130,7 +12009,7 @@ CallTable_eeca: ; 0xeeca
 	dw UpgradeBallBlueField
 	dw UpgradeBallBlueField
 	dw UpgradeBallBlueField
-	dw Func_f0c1
+	dw SlotBonusMultiplier
 	dw Func_f172
 	dw Func_f172
 	dw Func_f172
@@ -12262,7 +12141,7 @@ Func_efa7: ; 0xefa7
 Func_efb2: ; 0xefb2
 	ld a, $8
 	call Func_a21
-	ld [wd61f], a
+	ld [wCurSlotBonus], a
 	ld b, $80
 .asm_efbc
 	push bc
@@ -12271,25 +12150,25 @@ Func_efb2: ; 0xefb2
 	jr nz, .asm_efd8
 	bit 4, b
 	jr z, .asm_efd0
-	ld a, [wd61f]
-	add $12
+	ld a, [wCurSlotBonus]
+	add (SmallReward100PointsOnPic_Pointer - BillboardPicturePointers) / 3
 	call LoadBillboardPicture
 	jr .asm_efd8
 
 .asm_efd0
-	ld a, [wd61f]
-	add $12
+	ld a, [wCurSlotBonus]
+	add (SmallReward100PointsOnPic_Pointer - BillboardPicturePointers) / 3
 	call LoadBillboardOffPicture
 .asm_efd8
 	rst AdvanceFrame
 	pop bc
 	ld a, [hNewlyPressedButtons]
-	and $21
+	and FLIPPERS
 	jr nz, .asm_efe3
 	dec b
 	jr nz, .asm_efbc
 .asm_efe3
-	ld a, [wd61f]
+	ld a, [wCurSlotBonus]
 	inc a
 	swap a
 	ld e, a
@@ -12301,7 +12180,7 @@ Func_efb2: ; 0xefb2
 Func_eff3: ; 0xeff3
 	ld a, $8
 	call Func_a21
-	ld [wd61f], a
+	ld [wCurSlotBonus], a
 	ld b, $80
 .asm_effd
 	push bc
@@ -12310,25 +12189,25 @@ Func_eff3: ; 0xeff3
 	jr nz, .asm_f019
 	bit 4, b
 	jr z, .asm_f011
-	ld a, [wd61f]
-	add $1b
+	ld a, [wCurSlotBonus]
+	add (BigReward1000000PointsOnPic_Pointer - BillboardPicturePointers) / 3
 	call LoadBillboardPicture
 	jr .asm_f019
 
 .asm_f011
-	ld a, [wd61f]
-	add $1b
+	ld a, [wCurSlotBonus]
+	add (BigReward1000000PointsOnPic_Pointer - BillboardPicturePointers) / 3
 	call LoadBillboardOffPicture
 .asm_f019
 	rst AdvanceFrame
 	pop bc
 	ld a, [hNewlyPressedButtons]
-	and $21
+	and FLIPPERS
 	jr nz, .asm_f024
 	dec b
 	jr nz, .asm_effd
 .asm_f024
-	ld a, [wd61f]
+	ld a, [wCurSlotBonus]
 	inc a
 	swap a
 	ld c, a
@@ -12409,10 +12288,10 @@ BallTypeProgressionBlueField: ; 0xf0bb
 	db MASTER_BALL  ; unused
 	db MASTER_BALL  ; MASTER_BALL -> MASTER_BALL
 
-Func_f0c1: ; 0xf0c1
+SlotBonusMultiplier: ; 0xf0c1
 	ld a, $4
 	call Func_a21
-	ld [wd61f], a
+	ld [wCurSlotBonus], a
 	ld b, $80
 .asm_f0cb
 	push bc
@@ -12421,20 +12300,20 @@ Func_f0c1: ; 0xf0c1
 	jr nz, .asm_f0e7
 	bit 4, b
 	jr z, .asm_f0df
-	ld a, [wd61f]
-	add $24
+	ld a, [wCurSlotBonus]
+	add (BonusMultiplierX1OnPic_Pointer - BillboardPicturePointers) / 3
 	call LoadBillboardPicture
 	jr .asm_f0e7
 
 .asm_f0df
-	ld a, [wd61f]
-	add $24
+	ld a, [wCurSlotBonus]
+	add (BonusMultiplierX1OnPic_Pointer - BillboardPicturePointers) / 3
 	call LoadBillboardOffPicture
 .asm_f0e7
 	rst AdvanceFrame
 	pop bc
 	ld a, [hNewlyPressedButtons]
-	and $21
+	and FLIPPERS
 	jr nz, .asm_f0f2
 	dec b
 	jr nz, .asm_f0cb
@@ -12445,18 +12324,18 @@ Func_f0c1: ; 0xf0c1
 	ld [wd611], a
 	ld [wd612], a
 	ld a, [wd482]
-	call Func_f14a
+	call .DivideBy25
 	ld b, c
-	ld a, [wd61f]
+	ld a, [wCurSlotBonus]
 	inc a
 	ld hl, wd482
 	add [hl]
-	cp $64
+	cp 100
 	jr c, .asm_f113
-	ld a, $63
+	ld a, 99
 .asm_f113
 	ld [hl], a
-	call Func_f14a
+	call .DivideBy25
 	ld a, c
 	cp b
 	ld [hFarCallTempA], a
@@ -12474,29 +12353,24 @@ Func_f0c1: ; 0xf0c1
 	callba Func_f154 ; no need for BankSwitch here...
 	ret
 
-Func_f14a: ; 0xf14a
+.DivideBy25: ; 0xf14a
 	ld c, $0
-.asm_f14c
-	cp $19
+.div_25
+	cp 25
 	ret c
-	sub $19
+	sub 25
 	inc c
-	jr .asm_f14c
+	jr .div_25
 
 Func_f154: ; 0xf154
 	ld a, [wCurrentStage]
 	call CallInFollowingTable
 CallTable_f15a: ; 0xf15a
 	padded_dab Func_16f28
-
 	padded_dab Func_16f28
-
 	padded_dab Func_16f28
-
 	padded_dab Func_16f28
-
 	padded_dab Func_1d5f2
-
 	padded_dab Func_1d5f2
 
 Func_f172: ; 0xf172
@@ -12555,182 +12429,68 @@ LoadBillboardOffPicture: ; 0xf196
 	ret
 
 BillboardPicturePointers: ; 0xf1b8
-	dw BallSaver30SecondsOnPic
-	db Bank(BallSaver30SecondsOnPic)
-
-	dw BallSaver60SecondsOnPic
-	db Bank(BallSaver60SecondsOnPic)
-
-	dw BallSaver90SecondsOnPic
-	db Bank(BallSaver90SecondsOnPic)
-
-	dw PikachuSaverOnPic
-	db Bank(PikachuSaverOnPic)
-
-	dw ExtraBallOnPic
-	db Bank(ExtraBallOnPic)
-
-	dw SmallRewardOnPic
-	db Bank(SmallRewardOnPic)
-
-	dw BigRewardOnPic
-	db Bank(BigRewardOnPic)
-
-	dw CatchEmModeOnPic
-	db Bank(CatchEmModeOnPic)
-
-	dw EvolutionModeOnPic
-	db Bank(EvolutionModeOnPic)
-
-	dw GreatBallOnPic
-	db Bank(GreatBallOnPic)
-
-	dw UltraBallOnPic
-	db Bank(UltraBallOnPic)
-
-	dw MasterBallOnPic
-	db Bank(MasterBallOnPic)
-
-	dw BonusMultiplierOnPic
-	db Bank(BonusMultiplierOnPic)
-
-	dw GoToGengarBonusOnPic
-	db Bank(GoToGengarBonusOnPic)
-
-	dw GoToMewtwoBonusOnPic
-	db Bank(GoToMewtwoBonusOnPic)
-
-	dw GoToMeowthBonusOnPic
-	db Bank(GoToMeowthBonusOnPic)
-
-	dw GoToDiglettBonusOnPic
-	db Bank(GoToDiglettBonusOnPic)
-
-	dw GoToSeelBonusOnPic
-	db Bank(GoToSeelBonusOnPic)
-
-	dw SmallReward100PointsOnPic
-	db Bank(SmallReward100PointsOnPic)
-
-	dw SmallReward200PointsOnPic
-	db Bank(SmallReward200PointsOnPic)
-
-	dw SmallReward300PointsOnPic
-	db Bank(SmallReward300PointsOnPic)
-
-	dw SmallReward400PointsOnPic
-	db Bank(SmallReward400PointsOnPic)
-
-	dw SmallReward500PointsOnPic
-	db Bank(SmallReward500PointsOnPic)
-
-	dw SmallReward600PointsOnPic
-	db Bank(SmallReward600PointsOnPic)
-
-	dw SmallReward700PointsOnPic
-	db Bank(SmallReward700PointsOnPic)
-
-	dw SmallReward800PointsOnPic
-	db Bank(SmallReward800PointsOnPic)
-
-	dw SmallReward900PointsOnPic
-	db Bank(SmallReward900PointsOnPic)
-
-	dw BigReward1000000PointsOnPic
-	db Bank(BigReward1000000PointsOnPic)
-
-	dw BigReward2000000PointsOnPic
-	db Bank(BigReward2000000PointsOnPic)
-
-	dw BigReward3000000PointsOnPic
-	db Bank(BigReward3000000PointsOnPic)
-
-	dw BigReward4000000PointsOnPic
-	db Bank(BigReward4000000PointsOnPic)
-
-	dw BigReward5000000PointsOnPic
-	db Bank(BigReward5000000PointsOnPic)
-
-	dw BigReward6000000PointsOnPic
-	db Bank(BigReward6000000PointsOnPic)
-
-	dw BigReward7000000PointsOnPic
-	db Bank(BigReward7000000PointsOnPic)
-
-	dw BigReward8000000PointsOnPic
-	db Bank(BigReward8000000PointsOnPic)
-
-	dw BigReward9000000PointsOnPic
-	db Bank(BigReward9000000PointsOnPic)
-
-	dw BonusMultiplierX1OnPic
-	db Bank(BonusMultiplierX1OnPic)
-
-	dw BonusMultiplierX2OnPic
-	db Bank(BonusMultiplierX2OnPic)
-
-	dw BonusMultiplierX3OnPic
-	db Bank(BonusMultiplierX3OnPic)
-
-	dw BonusMultiplierX4OnPic
-	db Bank(BonusMultiplierX4OnPic)
-
-	dw BonusMultiplierX5OnPic
-	db Bank(BonusMultiplierX5OnPic)
-
-	dw PalletTownPic
-	db Bank(PalletTownPic)
-
-	dw ViridianCityPic
-	db Bank(ViridianCityPic)
-
-	dw ViridianForestPic
-	db Bank(ViridianForestPic)
-
-	dw PewterCityPic
-	db Bank(PewterCityPic)
-
-	dw MtMoonPic
-	db Bank(MtMoonPic)
-
-	dw CeruleanCityPic
-	db Bank(CeruleanCityPic)
-
-	dw VermilionCitySeasidePic
-	db Bank(VermilionCitySeasidePic)
-
-	dw VermilionCityStreetsPic
-	db Bank(VermilionCityStreetsPic)
-
-	dw RockMountainPic
-	db Bank(RockMountainPic)
-
-	dw LavenderTownPic
-	db Bank(LavenderTownPic)
-
-	dw CeladonCityPic
-	db Bank(CeladonCityPic)
-
-	dw CyclingRoadPic
-	db Bank(CyclingRoadPic)
-
-	dw FuchsiaCityPic
-	db Bank(FuchsiaCityPic)
-
-	dw SafariZonePic
-	db Bank(SafariZonePic)
-
-	dw SaffronCityPic
-	db Bank(SaffronCityPic)
-
-	dw SeafoamIslandsPic
-	db Bank(SeafoamIslandsPic)
-
-	dw CinnabarIslandPic
-	db Bank(CinnabarIslandPic)
-
-	dw IndigoPlateauPic
-	db Bank(IndigoPlateauPic)
+BillboardPicturePointer: MACRO
+\1_Pointer: dab \1
+ENDM
+	BillboardPicturePointer BallSaver30SecondsOnPic
+	BillboardPicturePointer BallSaver60SecondsOnPic
+	BillboardPicturePointer BallSaver90SecondsOnPic
+	BillboardPicturePointer PikachuSaverOnPic
+	BillboardPicturePointer ExtraBallOnPic
+	BillboardPicturePointer SmallRewardOnPic
+	BillboardPicturePointer BigRewardOnPic
+	BillboardPicturePointer CatchEmModeOnPic
+	BillboardPicturePointer EvolutionModeOnPic
+	BillboardPicturePointer GreatBallOnPic
+	BillboardPicturePointer UltraBallOnPic
+	BillboardPicturePointer MasterBallOnPic
+	BillboardPicturePointer BonusMultiplierOnPic
+	BillboardPicturePointer GoToGengarBonusOnPic
+	BillboardPicturePointer GoToMewtwoBonusOnPic
+	BillboardPicturePointer GoToMeowthBonusOnPic
+	BillboardPicturePointer GoToDiglettBonusOnPic
+	BillboardPicturePointer GoToSeelBonusOnPic
+	BillboardPicturePointer SmallReward100PointsOnPic
+	BillboardPicturePointer SmallReward200PointsOnPic
+	BillboardPicturePointer SmallReward300PointsOnPic
+	BillboardPicturePointer SmallReward400PointsOnPic
+	BillboardPicturePointer SmallReward500PointsOnPic
+	BillboardPicturePointer SmallReward600PointsOnPic
+	BillboardPicturePointer SmallReward700PointsOnPic
+	BillboardPicturePointer SmallReward800PointsOnPic
+	BillboardPicturePointer SmallReward900PointsOnPic
+	BillboardPicturePointer BigReward1000000PointsOnPic
+	BillboardPicturePointer BigReward2000000PointsOnPic
+	BillboardPicturePointer BigReward3000000PointsOnPic
+	BillboardPicturePointer BigReward4000000PointsOnPic
+	BillboardPicturePointer BigReward5000000PointsOnPic
+	BillboardPicturePointer BigReward6000000PointsOnPic
+	BillboardPicturePointer BigReward7000000PointsOnPic
+	BillboardPicturePointer BigReward8000000PointsOnPic
+	BillboardPicturePointer BigReward9000000PointsOnPic
+	BillboardPicturePointer BonusMultiplierX1OnPic
+	BillboardPicturePointer BonusMultiplierX2OnPic
+	BillboardPicturePointer BonusMultiplierX3OnPic
+	BillboardPicturePointer BonusMultiplierX4OnPic
+	BillboardPicturePointer BonusMultiplierX5OnPic
+	BillboardPicturePointer PalletTownPic
+	BillboardPicturePointer ViridianCityPic
+	BillboardPicturePointer ViridianForestPic
+	BillboardPicturePointer PewterCityPic
+	BillboardPicturePointer MtMoonPic
+	BillboardPicturePointer CeruleanCityPic
+	BillboardPicturePointer VermilionCitySeasidePic
+	BillboardPicturePointer VermilionCityStreetsPic
+	BillboardPicturePointer RockMountainPic
+	BillboardPicturePointer LavenderTownPic
+	BillboardPicturePointer CeladonCityPic
+	BillboardPicturePointer CyclingRoadPic
+	BillboardPicturePointer FuchsiaCityPic
+	BillboardPicturePointer SafariZonePic
+	BillboardPicturePointer SaffronCityPic
+	BillboardPicturePointer SeafoamIslandsPic
+	BillboardPicturePointer CinnabarIslandPic
+	BillboardPicturePointer IndigoPlateauPic
 
 Func_f269: ; 0xf269
 	ld a, [hGameBoyColorFlag]
@@ -12744,7 +12504,7 @@ Func_f269: ; 0xf269
 .asm_f27c
 	ld a, BANK(Data_f288)
 	ld de, Data_f288
-	ld hl, $9887
+	hlCoord 7, 4, vBGMap0
 	call Func_86f
 	ret
 
@@ -12961,35 +12721,24 @@ Func_f60a: ; 0xf60a
 CallTable_f60d: ; 0xf60d
 	; STAGE_RED_FIELD_TOP
 	dw Func_f945
-
 	; STAGE_RED_FIELD_BOTTOM
 	dw Func_f945
-
 	dw Func_f9f2
-
 	dw Func_f9f2
-
 	; STAGE_BLUE_FIELD_TOP
 	dw Func_f9f3
-
 	; STAGE_BLUE_FIELD_BOTTOM
 	dw Func_f9f3
-
 	; STAGE_GENGAR_BONUS
 	dw Func_faf6
-
 	; STAGE_GENGAR_BONUS
 	dw Func_faf6
-
 	; STAGE_MEWTWO_BONUS
 	dw Func_faf7
-
 	; STAGE_MEWTWO_BONUS
 	dw Func_faf7
-
 	; STAGE_MEOWTH_BONUS
 	dw Func_faf8
-
 	; STAGE_MEOWTH_BONUS
 	dw Func_faf8
 
@@ -13254,7 +13003,7 @@ PrintTextNoHeader: ; 0xf7b1
 	jr .asm_f7e0
 
 Func_f80d: ; 0xf80d
-	ld hl, $9c00
+	hlCoord 0, 0, vBGMap1
 	add hl, de
 	push hl
 	ld hl, wcBottomMessageText
@@ -13681,17 +13430,12 @@ Func_10000: ; 0x10000
 CallTable_10027: ; 0x10027
 	; STAGE_RED_FIELD_TOP
 	padded_dab Func_20000
-
 	; STAGE_RED_FIELD_BOTTOM
 	padded_dab Func_20000
-
 	padded_dab Func_20000
-
 	padded_dab Func_20000
-
 	; STAGE_BLUE_FIELD_TOP
 	padded_dab Func_202bc
-
 	; STAGE_BLUE_FIELD_BOTTOM
 	padded_dab Func_202bc
 
@@ -13823,17 +13567,12 @@ StartCatchEmMode: ; 0x1003f
 CallTable_10124: ; 0x10124
 	; STAGE_RED_FIELD_TOP
 	dw Func_10871
-
 	; STAGE_RED_FIELD_BOTTOM
 	dw Func_10871
-
 	dw Func_1098a
-
 	dw Func_1098a
-
 	; STAGE_BLUE_FIELD_TOP
 	dw Func_1098c
-
 	; STAGE_BLUE_FIELD_BOTTOM
 	dw Func_1098c
 
@@ -13883,17 +13622,12 @@ Func_10157: ; 0x10157
 CallTable_10178: ; 0x10178
 	; STAGE_RED_FIELD_TOP
 	dw Func_108f5
-
 	; STAGE_RED_FIELD_BOTTOM
 	dw Func_108f5
-
 	dw Func_1098b
-
 	dw Func_1098b
-
 	; STAGE_BLUE_FIELD_TOP
 	dw Func_109fc
-
 	; STAGE_BLUE_FIELD_BOTTOM
 	dw Func_109fc
 
@@ -14308,23 +14042,18 @@ Func_10414: ; 0x10414
 
 Data_10420:
 	db $18
-
 	db $06
 	dw $9887
 	db $80
-
 	db $06
 	dw $98a7
 	db $80
-
 	db $06
 	dw $98c7
 	db $80
-
 	db $06
 	dw $98e7
 	db $80
-
 	db $00
 
 Func_10432: ; 0x10432
@@ -14336,23 +14065,18 @@ Func_10432: ; 0x10432
 
 Data_1043e:
 	db $18
-
 	db $06
 	dw $9887
 	db $90, $91, $92, $93, $94, $95
-
 	db $06
 	dw $98a7
 	db $96, $97, $98, $99, $9a, $9b
-
 	db $06
 	dw $98c7
 	db $9c, $9d, $9e, $9f, $a0, $a1
-
 	db $06
 	dw $98e7
 	db $a2, $a3, $a4, $a5, $a6, $a7
-
 	db $00
 
 Func_10464: ; 0x10464
@@ -14594,32 +14318,26 @@ Data_1062a:
 
 Data_10630:
 	db $20
-
 	db $02
 	dw $8ae0
 	dw CatchTextGfx + $00
 	db BANK(CatchTextGfx)
-
 	db $00
 
 Data_10638:
 	db $20
-
 	db $02
 	dw $8b00
 	dw CatchTextGfx + $20
 	db BANK(CatchTextGfx)
-
 	db $00
 
 Data_10640:
 	db $20
-
 	db $02
 	dw $8b20
 	dw CatchTextGfx + $40
 	db BANK(CatchTextGfx)
-
 	db $00
 
 Func_10648: ; 0x10648
@@ -15167,17 +14885,12 @@ Func_10a95: ; 0x19a95
 PointerTable_10a9b: ; 0x10a9b
 	; STAGE_RED_FIELD_TOP
 	padded_dab Func_20581
-
 	; STAGE_RED_FIELD_BOTTOM
 	padded_dab Func_20581
-
 	padded_dab Func_20581
-
 	padded_dab Func_20581
-
 	; STAGE_BLUE_FIELD_TOP
 	padded_dab Func_20bae
-
 	; STAGE_BLUE_FIELD_BOTTOM
 	padded_dab Func_20bae
 
@@ -15190,17 +14903,12 @@ Func_10ab3: ; 0x10ab3
 CallTable_10abc: ; 0x10abc
 	; STAGE_RED_FIELD_TOP
 	dw Func_10ebb
-
 	; STAGE_RED_FIELD_BOTTOM
 	dw Func_10ebb
-
 	dw Func_11054
-
 	dw Func_11054
-
 	; STAGE_BLUE_FIELD_TOP
 	dw Func_11061
-
 	; STAGE_BLUE_FIELD_BOTTOM
 	dw Func_11061
 
@@ -15223,17 +14931,12 @@ Func_10ac8: ; 0x10ac8
 CallTable_10af3: ; 0x10af3
 	; STAGE_RED_FIELD_TOP
 	dw Func_10fe3
-
 	; STAGE_RED_FIELD_BOTTOM
 	dw Func_10fe3
-
 	dw Func_11060
-
 	dw Func_11060
-
 	; STAGE_BLUE_FIELD_TOP
 	dw Func_11195
-
 	; STAGE_BLUE_FIELD_TOP
 	dw Func_11195
 
@@ -15274,11 +14977,9 @@ VideoData_10b2a: ; 0x10b2a
 	dab StageRedFieldTopGfx3
 	dw $8900
 	dw $E0
-
 	dab StageRedFieldTopGfx3
 	dw $8900
 	dw $E0
-
 	dab StageRedFieldTopGfx3
 	dw $8900
 	dw $E0
@@ -16108,22 +15809,16 @@ Func_1120e: ; 0x1120e
 VRAMData_1123b: ; 0x1123b
 	dab StageBlueFieldTopGfx3
 	dw $8600, $E0
-
 	dab StageBlueFieldTopGfx3
 	dw $8600, $E0
-
 	dab StageBlueFieldTopGfx3
 	dw $8600, $E0
-
 	dab StageBlueFieldTopGfx3
 	dw $8600, $E0
-
 	dab StageBlueFieldTopGfx3
 	dw $8600, $E0
-
 	dab StageBlueFieldTopGfx3
 	dw $8600, $E0
-
 	dab StageBlueFieldTopGfx3
 	dw $8600, $E0
 
@@ -17828,13 +17523,13 @@ Func_1414b: ; 0x1414b
 
 Func_141f2: ; 0x141f2
 	ld a, $80
-	ld hl, $9887
+	hlCoord 7, 4, vBGMap0
 	call Func_14209
-	ld hl, $98a7
+	hlCoord 7, 5, vBGMap0
 	call Func_14209
-	ld hl, $98c7
+	hlCoord 7, 6, vBGMap0
 	call Func_14209
-	ld hl, $98e7
+	hlCoord 7, 7, vBGMap0
 	; fall through
 
 Func_14209: ; 0x14209
@@ -20658,7 +20353,7 @@ Func_1658f: ; 0x1658f
 	ld de, $0048
 	call PlaySoundEffect
 	pop af
-	add $29  ; map billboard pictures start at the $29th entry in BillboardPicturePointers
+	add (PalletTownPic_Pointer - BillboardPicturePointers) / 3 ; map billboard pictures start at the $29th entry in BillboardPicturePointers
 	ld [hFarCallTempA], a
 	callba LoadBillboardPicture
 	ld b, $20  ; number of frames to delay before the next map is shown
@@ -21135,9 +20830,9 @@ Func_16d9d: ; 016d9d
 	ld [wd60d], a
 	ld a, [wd482]
 	inc a
-	cp $64
+	cp 100
 	jr c, .asm_16e10
-	ld a, $63
+	ld a, 99
 .asm_16e10
 	ld [wd482], a
 	jr nc, .asm_16e24
@@ -21357,9 +21052,9 @@ Func_16f7b: ; 0x16f7b
 Func_16f95: ; 0x16f95
 	ld a, [wd482]
 	inc a
-	cp $64
+	cp 100
 	jr c, .asm_16f9f
-	ld a, $63
+	ld a, 99
 .asm_16f9f
 	ld b, a
 	xor a
@@ -22091,7 +21786,7 @@ Func_18000: ; 0x18000
 	call ClearData
 	ld a, $1
 	ld [rVBK], a
-	ld hl, $9c00
+	hlCoord 0, 0, vBGMap1
 	ld bc, $0400
 	call ClearData
 	xor a
@@ -25964,13 +25659,13 @@ Func_1c305: ; 0x1c305
 
 Func_1c3ac: ; 0x1c3ac
 	ld a, $80
-	ld hl, $9887
+	hlCoord 7, 4, vBGMap0
 	call Func_1c3c3
-	ld hl, $98a7
+	hlCoord 7, 5, vBGMap0
 	call Func_1c3c3
-	ld hl, $98c7
+	hlCoord 7, 6, vBGMap0
 	call Func_1c3c3
-	ld hl, $98e7
+	hlCoord 7, 7, vBGMap0
 	; fall through
 
 Func_1c3c3: ; 0x1c3c3
@@ -26524,7 +26219,7 @@ Func_1c839: ; 0x1c839
 	ld de, $0048
 	call PlaySoundEffect
 	pop af
-	add $29  ; map billboard pictures start at the $29th entry in BillboardPicturePointers
+	add (PalletTownPic_Pointer - BillboardPicturePointers) / 3  ; map billboard pictures start at the $29th entry in BillboardPicturePointers
 	ld [hFarCallTempA], a
 	callba LoadBillboardPicture
 	ld b, $20  ; number of frames to delay before the next map is shown
@@ -27619,9 +27314,9 @@ Func_1d438: ; 0x1d438
 	ld [wd60d], a
 	ld a, [wd482]
 	inc a
-	cp $64
+	cp 100
 	jr c, .asm_1d4d5
-	ld a, $63
+	ld a, 99
 .asm_1d4d5
 	ld [wd482], a
 	jr nc, .asm_1d4e9
@@ -29440,7 +29135,6 @@ Func_1ef09: ; 0x1ef09
 	jp z, Func_1ef7e
 	cp $3  ; left direction
 	jp z, Func_1efae
-
 	; fall through
 	; default to upward forcefield
 
@@ -29570,7 +29264,6 @@ Func_1efdc: ; 0x1efdc
 	jp z, Func_1f057
 	cp $3  ; left direction
 	jp z, Func_1f124
-
 	; fall through
 	; default to upward forcefield
 
@@ -30364,19 +30057,12 @@ Func_20000: ; 0x20000
 	call CallInFollowingTable
 PointerTable_20021: ; 0x20021
 	padded_dab Func_20041
-
 	padded_dab Func_2005f
-
 	padded_dab Func_2006b
-
 	padded_dab Func_200a3
-
 	padded_dab Func_200d3
-
 	padded_dab Func_20193
-
 	padded_dab CapturePokemonRedStage
-
 	padded_dab Func_201ce
 
 Func_20041: ; 0x20041
@@ -30694,19 +30380,12 @@ Func_202bc: ; 0x202bc
 	call CallInFollowingTable
 PointerTable_202e2: ; 0x202e2
 	padded_dab Func_20302
-
 	padded_dab Func_20320
-
 	padded_dab Func_2032c
-
 	padded_dab Func_20364
-
 	padded_dab Func_20394
-
 	padded_dab Func_20454
-
 	padded_dab CapturePokemonBlueStage
-
 	padded_dab Func_2048f
 
 Func_20302: ; 0x20302
@@ -31046,9 +30725,7 @@ Func_20581: ; 0x20581
 	call CallInFollowingTable
 PointerTable_205d4: ; 0x205d4
 	padded_dab Func_205e0
-
 	padded_dab Func_2070b
-
 	padded_dab Func_20757
 
 Func_205e0: ; 0x205e0
@@ -31736,7 +31413,7 @@ Func_20b02: ; 0x20b02
 	ld d, a
 	ld a, Bank(MonBillboardPaletteMapPointers)
 	call ReadByteFromBank
-	ld hl, $9887
+	hlCoord 7, 4, vBGMap0
 	call Func_86f
 	pop bc
 	ld hl, MonBillboardPalettePointers
@@ -31808,9 +31485,7 @@ Func_20bae: ; 0x20bae
 	call CallInFollowingTable
 PointerTable_20bfc: ; 0x20bfc
 	padded_dab Func_20c08
-
 	padded_dab Func_20d30
-
 	padded_dab Func_20d7c
 
 Func_20c08: ; 0x20c08
@@ -32498,7 +32173,7 @@ Func_2112a: ; 0x2112a
 	ld d, a
 	ld a, Bank(MonBillboardPaletteMapPointers)
 	call ReadByteFromBank
-	ld hl, $9887
+	hlCoord 7, 4, vBGMap0
 	call Func_86f
 	pop bc
 	ld hl, MonBillboardPalettePointers
@@ -35567,7 +35242,6 @@ Func_25fbe: ; 0x25fbe
 	ld [de], a
 	ld a, $1
 	jp Func_26137
-
 	ret ; unused instruction
 
 .asm_25fe9
@@ -35670,7 +35344,6 @@ Func_2604c: ; 0x2604c
 	ld a, $4
 	ld [de], a
 	jp Func_26137
-
 	ret ; unused instruction
 
 .asm_26075
@@ -36177,54 +35850,42 @@ Data_280a6: ; 0x280a6
 	dab Data_ad800
 	dw vTiles0
 	dw $6000
-
 	dab Data_c5000
 	dw $9800
 	dw $1000
-
 	dab Data_c4800
 	dw vBGMap1
 	dw $800
-
 	dab Data_c4800
 	dw $9e00
 	dw $800
-
 	dw $FFFF ; terminators
 
 Data_280c4: ; 0x280c4
 	dab Data_ad800
 	dw vTiles0
 	dw $6000
-
 	dab Data_c5000
 	dw $9800
 	dw $1000
-
 	dab Data_c5400
 	dw $9800
 	dw $1002
-
 	dab Data_c4800
 	dw vBGMap1
 	dw $800
-
 	dab Data_c4800
 	dw $9e00
 	dw $800
-
 	dab Data_c4c00
 	dw vBGMap1
 	dw $802
-
 	dab Data_c4c00
 	dw $9e00
 	dw $802
-
 	dab Data_dce80
 	dw $0000
 	dw $101
-
 	dw $FFFF ; terminators
 
 MainPokedexScreen: ; 0x280fe
@@ -37484,7 +37145,7 @@ Func_28a15: ; 0x28a15
 	ld a, $0
 	ld [wd865], a
 	push de
-	ld hl, $9844
+	hlCoord 4, 2, vBGMap0
 	call Func_28d71
 	pop de
 	inc de
@@ -37501,7 +37162,7 @@ Func_28a15: ; 0x28a15
 	ld de, Data_28a7f
 .asm_28a54
 	push de
-	ld hl, $98c8
+	hlCoord 8, 6, vBGMap0
 	call Func_28d71
 	pop de
 	inc de
@@ -37510,7 +37171,7 @@ Func_28a15: ; 0x28a15
 	inc de
 	inc de
 	push de
-	ld hl, $98ce
+	hlCoord 14, 6, vBGMap0
 	call Func_28d71
 	pop de
 	inc de
@@ -37518,7 +37179,7 @@ Func_28a15: ; 0x28a15
 	inc de
 	inc de
 	inc de
-	ld hl, $98f0
+	hlCoord 16, 7, vBGMap0
 	ld a, [rLCDC]
 	bit 7, a
 	jr nz, .asm_28a7a
@@ -37656,7 +37317,7 @@ Func_28add: ; 0x28add
 	ld d, a
 	ld a, Bank(MonBillboardPaletteMapPointers)
 	call ReadByteFromBank
-	ld hl, $9861
+	hlCoord 1, 3, vBGMap0
 	call Func_86f
 	pop bc
 	ld hl, MonBillboardPalettePointers
@@ -37688,7 +37349,7 @@ Func_28b76: ; 0x28b76
 	ret z
 	ld a, BANK(Data_28b97)
 	ld de, Data_28b97
-	ld hl, $9861
+	hlCoord 1, 3, vBGMap0
 	call Func_86f
 	ret
 
@@ -37729,7 +37390,7 @@ Func_28baf: ; 0x28baf
 	ret z
 	ld a, BANK(Data_28b97)
 	ld de, Data_28b97
-	ld hl, $9861
+	hlCoord 1, 3, vBGMap0
 	call Func_86f
 	ret
 
@@ -37923,7 +37584,7 @@ Func_28cf8: ; 0x28cf8
 	db $fe
 
 asm_28d1d
-	ld hl, $9861
+	hlCoord 1, 3, vBGMap0
 	ld b, $4
 .asm_28d22
 	ld c, $6
@@ -40513,17 +40174,12 @@ Func_301ce: ; 0x301ce
 PointerTable_301d4: ; 0x301d4
 	; STAGE_RED_FIELD_TOP
 	padded_dab Func_314ae
-
 	; STAGE_RED_FIELD_BOTTOM
 	padded_dab Func_314ae
-
 	padded_dab Func_314ae
-
 	padded_dab Func_314ae
-
 	; STAGE_BLUE_FIELD_TOP
 	padded_dab Func_3161b
-
 	; STAGE_BLUE_FIELD_BOTTOM
 	padded_dab Func_3161b
 
@@ -40552,17 +40208,12 @@ StartMapMoveMode: ; 0x301ec
 CallTable_3021f: ; 0x3021f
 	; STAGE_RED_FIELD_TOP
 	dw Func_311b4
-
 	; STAGE_RED_FIELD_BOTTOM
 	dw Func_311b4
-
 	dw Func_31324
-
 	dw Func_31324
-
 	; STAGE_BLUE_FIELD_TOP
 	dw Func_31326
-
 	; STAGE_BLUE_FIELD_BOTTOM
 	dw Func_31326
 
@@ -40580,17 +40231,12 @@ Func_3022b: ; 0x3022b
 CallTable_30247: ; 0x30247
 	; STAGE_RED_FIELD_TOP
 	dw Func_31234
-
 	; STAGE_RED_FIELD_BOTTOM
 	dw Func_31234
-
 	dw Func_31325
-
 	dw Func_31325
-
 	; STAGE_BLUE_FIELD_TOP
 	dw Func_313c3
-
 	; STAGE_BLUE_FIELD_TOP
 	dw Func_313c3
 
@@ -40705,7 +40351,6 @@ Data_30459: ; 0x30459
 	db $08, $4B, $4C, $55, $4C, $5F, $4C, $69, $4C, $73, $4C, $7D, $4C, $87, $4C, $91, $4C
 Data_3046a: ; 0x3046a
 	db $08, $9B, $4C, $A5, $4C, $AF, $4C, $B9, $4C, $C3, $4C, $CD, $4C, $D7, $4C, $E1, $4C
-
 	dr $3047b, $30ceb
 
 PointerTable_30ceb: ; 0x30ceb
@@ -40791,7 +40436,6 @@ Data_30d9e: ; 0x30d9e
 	db $02, $45, $51, $4E, $51
 Data_30da3: ; 0x30da3
 	db $02, $6A, $51, $73, $51
-
 	dr $30da8, $3118f
 
 Func_3118f: ; 0x3118f
@@ -41186,11 +40830,8 @@ Func_314ae: ; 0x314ae
 	call CallInFollowingTable
 PointerTable_314df: ; 0xd13df
 	padded_dab Func_314ef
-
 	padded_dab Func_314f1
-
 	padded_dab Func_314f3
-
 	padded_dab Func_31505
 
 Func_314ef: ; 0x314ef
@@ -41350,11 +40991,8 @@ Func_3161b: ; 0x3161b
 	call CallInFollowingTable
 PointerTable_3164c: ; 0x3164c
 	padded_dab Func_3165c
-
 	padded_dab Func_3165e
-
 	padded_dab Func_31660
-
 	padded_dab Func_31672
 
 Func_3165c: ; 0x3165c
@@ -41515,7 +41153,6 @@ Data_38020:
 
 Data_38030:
 	db $a9, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00
-
 	dr $38040, $3809a ; 38040
 
 Data_3809a:
@@ -41997,7 +41634,6 @@ KadabraSilhouettePic: ; 0x62e80
 
 StageRedFieldTopStatusBarSymbolsGfx_GameBoy: ; 0x63000
 	INCBIN "gfx/stage/red_top/status_bar_symbols_gameboy.2bpp"
-
 	dr $63100, $632a0
 
 StageRedFieldTopBaseGameBoyGfx: ; 0x632a0
@@ -42142,7 +41778,6 @@ TaurosSilhouettePic: ; 0x6ae80
 
 StageBlueFieldTopStatusBarSymbolsGfx_GameBoy: ; 0x6b000
 	INCBIN "gfx/stage/blue_top/status_bar_symbols_gameboy.2bpp"
-
 	dr $6b100, $6b2a0
 
 StageBlueFieldTopBaseGameBoyGfx: ; 0x6b2a0
@@ -42703,12 +42338,10 @@ MewtwoAnimatedPic: ; 0x86700
 	INCBIN "gfx/billboard/mon_animated/mewtwo.w32.interleave.2bpp"
 MewAnimatedPic: ; 0x86a00
 	INCBIN "gfx/billboard/mon_animated/mew.w32.interleave.2bpp"
-
 	dr $86d00, $87000
 
 DiglettBonusBaseGameBoyColorGfx: ; 0x87000
 	INCBIN "gfx/stage/diglett_bonus/diglett_bonus_base_gameboycolor.2bpp"
-
 	dr $87e00, $87e80
 
 GengarBonusHaunter1Gfx: ; 0x87e80
@@ -42759,7 +42392,6 @@ FieldSelectGfx: ; 0x8b100
 
 GengarBonusGastlyGfx: ; 0x8bd00
 	INCBIN "gfx/stage/gengar_bonus/gastly.w32.interleave.2bpp"
-
 	dr $8be80, $8bf00
 
 BulbasaurBillboardBGPalette1: ; 0x8bf00
@@ -42975,7 +42607,6 @@ JigglypuffAnimatedPic: ; 0x8ed00
 
 DiglettBonusBaseGameBoyGfx: ; 0x8f000
 	INCBIN "gfx/stage/diglett_bonus/diglett_bonus_base_gameboy.2bpp"
-
 	dr $8fd00, $8ff00
 
 PalletTownBillboardBGPalette1: ; 0x8ff00
@@ -43235,7 +42866,6 @@ IndigoPlateauBillboardBGPaletteMap: ; 0x93c18
 	db $6, $6, $6, $6, $6, $6
 	db $6, $6, $6, $6, $6, $6
 	db $7, $7, $7, $7, $7, $7
-
 	dr $93c39, $94000
 
 SECTION "bank25", ROMX, BANK[$25]
@@ -43390,7 +43020,6 @@ SeelBonusSeel2Gfx: ; 0x9b400
 	INCBIN "gfx/stage/seel_bonus/seel_2.2bpp"
 SeelBonusSeel4Gfx: ; 0x9b460
 	INCBIN "gfx/stage/seel_bonus/seel_4.2bpp"
-
 	dr $9b900, $9bba0
 
 GengarBonusGengar1Gfx: ; 0x9bba0
@@ -43404,7 +43033,6 @@ SECTION "bank27", ROMX, BANK[$27]
 
 StageRedFieldTopStatusBarSymbolsGfx_GameBoyColor: ; 0x9c000
 	INCBIN "gfx/stage/red_top/status_bar_symbols_gameboycolor.2bpp"
-
 	dr $9c100, $9c2a0
 
 StageRedFieldTopBaseGameBoyColorGfx: ; 0x9c2a0
@@ -43422,7 +43050,6 @@ SECTION "bank28", ROMX, BANK[$28]
 
 StageBlueFieldTopStatusBarSymbolsGfx_GameBoyColor: ; 0xa0000
 	INCBIN "gfx/stage/blue_top/status_bar_symbols_gameboycolor.2bpp"
-
 	dr $a0100, $a02a0
 
 StageBlueFieldTopBaseGameBoyColorGfx: ; 0xa02a0
@@ -43484,7 +43111,6 @@ GFX_a7b00:
 	dr $a7b00, $a8000 ; 0xa7b00
 
 SECTION "bank2a", ROMX, BANK[$2a]
-
 	dr $a8000, $a82c0
 
 PinballGreatballShakeGfx: ; 0xa82c0
@@ -43510,7 +43136,6 @@ PikachuSaverGfx: ; 0xa8720
 
 GFX_a8800:
 	INCBIN "gfx/unknown/a8800.interleave.w32.2bpp"
-
 	dr $a8980, $a8a00
 
 PinballGreatballGfx: ; 0xa8a00
@@ -43632,7 +43257,6 @@ SeafoamIslandsBillboardBGPaletteMap: ; 0xabc68
 	db $7, $7, $6, $7, $7, $7
 	db $7, $7, $7, $6, $7, $7
 	db $7, $7, $7, $7, $7, $7
-
 	dr $abc80, $abf00
 
 BulbasaurAnimatedObjPalette1: ; 0xabf00
@@ -43821,7 +43445,6 @@ Data_ad800:
 
 StageBlueFieldBottomCollisionMasks: ; 0xaf000
 	INCBIN "data/collision/masks/blue_stage_bottom.masks"
-
 	dr $af800, $af900
 
 DiglettBonusDugtrio3Gfx: ; 0xaf900
@@ -43834,12 +43457,10 @@ DiglettBonusDugtrio4Gfx: ; 0xafd60
 	INCBIN "gfx/stage/diglett_bonus/dugtrio_4.2bpp"
 
 SECTION "bank2c", ROMX, BANK[$2c]
-
 	dr $b0000, $b3000
 
 StageRedFieldTopCollisionAttributes6: ; 0xb3000
 	INCBIN "data/collision/maps/red_stage_top_6.collision"
-
 	dr $b3400, $b3800
 
 FieldSelectTilemap: ; 0xb3800
@@ -43916,12 +43537,10 @@ OptionMenuBGMSETextGfx: ; 0xb6b10
 
 StageRedFieldTopCollisionAttributes5: ; 0xb6c00
 	INCBIN "data/collision/maps/red_stage_top_5.collision"
-
 	dr $b7000, $b7400
 
 StageRedFieldTopCollisionAttributes4: ; 0xb7400
 	INCBIN "data/collision/maps/red_stage_top_4.collision"
-
 	dr $b7800, $b7c00
 
 PidgeottoBillboardBGPaletteMap: ; 0xb7c00
@@ -44019,39 +43638,32 @@ NidoranMBillboardBGPaletteMap: ; 0xb7d68
 	db $7, $7, $7, $7, $7, $7
 	db $7, $7, $7, $7, $7, $7
 	db $7, $7, $7, $7, $7, $7
-
 	dr $b7d80, $b8000 ; 0xb7d80
 
 SECTION "bank2e", ROMX, BANK[$2e]
 
 StageRedFieldTopCollisionAttributes3: ; 0xb8000
 	INCBIN "data/collision/maps/red_stage_top_3.collision"
-
 	dr $b8400, $b8800
 
 StageRedFieldTopCollisionAttributes2: ; 0xb8800
 	INCBIN "data/collision/maps/red_stage_top_2.collision"
-
 	dr $b8c00, $b9000
 
 StageRedFieldTopCollisionAttributes1: ; 0xb9000
 	INCBIN "data/collision/maps/red_stage_top_1.collision"
-
 	dr $b9400, $b9800
 
 StageRedFieldTopCollisionAttributes0: ; 0xb9800
 	INCBIN "data/collision/maps/red_stage_top_0.collision"
-
 	dr $b9c00, $ba000
 
 StageRedFieldTopTilemap_GameBoy: ; 0xba000
 	INCBIN "gfx/tilemaps/stage_red_field_top_gameboy.map"
-
 	dr $ba400, $ba800
 
 StageRedFieldBottomTilemap_GameBoy: ; 0xba800
 	INCBIN "gfx/tilemaps/stage_red_field_bottom_gameboy.map"
-
 	dr $bac00, $bb000
 
 StageRedFieldTopCollisionMasks0: ; 0xbb000
@@ -44070,12 +43682,10 @@ StageRedFieldTopCollisionMasks3: ; 0xbc800
 
 StageRedFieldTopCollisionAttributes7: ; 0xbd000
 	INCBIN "data/collision/maps/red_stage_top_7.collision"
-
 	dr $bd400, $bd800
 
 StageRedFieldBottomCollisionAttributes: ; 0xbd800
 	INCBIN "data/collision/maps/red_stage_bottom.collision"
-
 	dr $bdc00, $be000
 
 StageRedFieldTopTilemap_GameBoyColor: ; 0xbe000
@@ -44092,7 +43702,6 @@ StageRedFieldBottomTilemap2_GameBoyColor: ; 0xbec00
 
 StageBlueFieldTopTilemap_GameBoy: ; 0xbf000
 	INCBIN "gfx/tilemaps/stage_blue_field_top_gameboy.map"
-
 	dr $bf400, $bf800
 
 EraseAllDataTilemap: ; 0xbf800
@@ -44104,7 +43713,6 @@ SECTION "bank30", ROMX, BANK[$30]
 
 StageBlueFieldBottomTilemap_GameBoy: ; 0xc0000
 	INCBIN "gfx/tilemaps/stage_blue_field_bottom_gameboy.map"
-
 	dr $c0400, $c0800
 
 StageBlueFieldTopCollisionMasks: ; 0xc0800
@@ -44112,7 +43720,6 @@ StageBlueFieldTopCollisionMasks: ; 0xc0800
 
 StageBlueFieldTopCollisionAttributesBallEntrance: ; 0xc1000
 	INCBIN "data/collision/maps/blue_stage_top_ball_entrance.collision"
-
 	dr $c1400, $c1800
 
 HighScoresTilemap2: ; 0xc1800
@@ -44126,34 +43733,28 @@ HighScoresTilemap4: ; 0xc2400
 
 StageBlueFieldTopCollisionAttributes: ; 0xc2800
 	INCBIN "data/collision/maps/blue_stage_top.collision"
-
 	dr $c2c00, $c3000
 
 OptionMenuTilemap2: ; 0xc3000
 	INCBIN "gfx/tilemaps/option_menu_2.map"
-
 	dr $c3240, $c3400
 
 OptionMenuTilemap4: ; 0xc3400
 	INCBIN "gfx/tilemaps/option_menu_4.map"
-
 	dr $c3640, $c3800
 
 OptionMenuTilemap: ; 0xc3800
 	INCBIN "gfx/tilemaps/option_menu.map"
-
 	dr $c3a40, $c3c00
 
 OptionMenuTilemap3: ; 0xc3c00
 	INCBIN "gfx/tilemaps/option_menu_3.map"
-
 	dr $c3e40, $c4000
 
 SECTION "bank31", ROMX, BANK[$31]
 
 StageBlueFieldBottomCollisionAttributes: ; 0xc4000
 	INCBIN "data/collision/maps/blue_stage_bottom.collision"
-
 	dr $c4400, $c4800
 
 Data_c4800:
@@ -44178,7 +43779,6 @@ TitlescreenTilemap: ; 0xc5800
 	INCBIN "gfx/tilemaps/titlescreen.map"
 TitlescreenBGAttributes: ; 0xc5c00
 	INCBIN "gfx/bgattr/titlescreen.bgattr"
-
 	dr $c5e40, $c6000
 
 CopyrightScreenTilemap: ; 0xc6000
@@ -44203,12 +43803,10 @@ SECTION "bank32", ROMX, BANK[$32]
 
 StageGengarBonusCollisionAttributes: ; 0xc8000
 	INCBIN "data/collision/maps/gengar_bonus.collision"
-
 	dr $c8400, $c8800
 
 GengarBonusTilemap_GameBoy: ; 0xc8800
 	INCBIN "gfx/tilemaps/stage_gengar_bonus_gameboy.map"
-
 	dr $c8c00, $c9000
 
 GengarBonusBottomTilemap_GameBoyColor: ; 0xc9000
@@ -44224,22 +43822,18 @@ MewtwoBonus2Gfx: ; 0xc9c00
 	INCBIN "gfx/stage/mewtwo_bonus/mewtwo_2.2bpp"
 MewtwoBonus4Gfx: ; 0xc9c60
 	INCBIN "gfx/stage/mewtwo_bonus/mewtwo_4.2bpp"
-
 	dr $c9f00, $ca000
 
 StageMewtwoBonusCollisionAttributesBallEntrance: ; 0xca000
 	INCBIN "data/collision/maps/mewtwo_bonus_ball_entrance.collision"
-
 	dr $ca400, $ca800
 
 StageMewtwoBonusCollisionAttributes: ; 0xca800
 	INCBIN "data/collision/maps/mewtwo_bonus.collision"
-
 	dr $cac00, $cb000
 
 MewtwoBonusTilemap_GameBoy: ; 0xcb000
 	INCBIN "gfx/tilemaps/stage_mewtwo_bonus_gameboy.map"
-
 	dr $cb400, $cb800
 
 MewtoBonusBottomTilemap_GameBoyColor: ; 0xcb800
@@ -44257,22 +43851,18 @@ MeowthBonusMeowth2Gfx: ; 0xcc400
 	INCBIN "gfx/stage/meowth_bonus/meowth_2.2bpp"
 MeowthBonusMeowth4Gfx: ; 0xcc460
 	INCBIN "gfx/stage/meowth_bonus/meowth_4.2bpp"
-
 	dr $cc7c0, $cc800
 
 StageMeowthBonusCollisionAttributesBallEntrance: ; 0xcc800
 	INCBIN "data/collision/maps/meowth_bonus_ball_entrance.collision"
-
 	dr $ccc00, $cd000
 
 StageMeowthBonusCollisionAttributes: ; 0xcd000
 	INCBIN "data/collision/maps/meowth_bonus.collision"
-
 	dr $cd400, $cd800
 
 MeowthBonusTilemap_GameBoy: ; 0xcd800
 	INCBIN "gfx/tilemaps/stage_meowth_bonus_gameboy.map"
-
 	dr $cdc00, $ce000
 
 MeowthBonusTilemap_GameBoyColor: ; 0xce000
@@ -44282,17 +43872,14 @@ MeowthBonusTilemap2_GameBoyColor: ; 0xce400
 
 StageDiglettBonusCollisionAttributesBallEntrance: ; 0xce800
 	INCBIN "data/collision/maps/diglett_bonus_ball_entrance.collision"
-
 	dr $cec00, $cf000
 
 StageDiglettBonusCollisionAttributes: ; 0xcf000
 	INCBIN "data/collision/maps/diglett_bonus.collision"
-
 	dr $cf400, $cf800
 
 DiglettBonusTilemap_GameBoy: ; 0xcf800
 	INCBIN "gfx/tilemaps/stage_diglett_bonus_gameboy.map"
-
 	dr $cfc00, $d0000
 
 SECTION "bank34", ROMX, BANK[$34]
@@ -44458,31 +44045,26 @@ VulpixAnimatedCollisionMask: ; 0xd06700
 	INCBIN "data/collision/mon_masks/vulpix_collision.1bpp"
 JigglypuffAnimatedCollisionMask: ; 0xd06780
 	INCBIN "data/collision/mon_masks/jigglypuff_collision.1bpp"
-
 	dr $d2800, $d3000
 
 DiglettBonusTilemap_GameBoyColor: ; 0xd3000
 	INCBIN "gfx/tilemaps/stage_diglett_bonus_gameboycolor.map"
 DiglettBonusTilemap2_GameBoyColor: ; 0xd3400
 	INCBIN "gfx/tilemaps/stage_diglett_bonus_gameboycolor_2.map"
-
 	dr $d3800, $d4000
 
 SECTION "bank35", ROMX, BANK[$35]
 
 StageSeelBonusCollisionAttributesBallEntrance: ; 0xd4000
 	INCBIN "data/collision/maps/seel_bonus_ball_entrance.collision"
-
 	dr $d4400, $d4800
 
 StageSeelBonusCollisionAttributes: ; 0xd4800
 	INCBIN "data/collision/maps/seel_bonus.collision"
-
 	dr $d4c00, $d5000
 
 SeelBonusTilemap_GameBoy: ; 0xd5000
 	INCBIN "gfx/tilemaps/stage_seel_bonus_gameboy.map"
-
 	dr $d5400, $d5800
 
 SeelBonusTilemap_GameBoyColor: ; 0xd5800
@@ -44492,17 +44074,14 @@ SeelBonusTilemap2_GameBoyColor: ; 0xd5c00
 
 Alphabet1Gfx: ; 0xd6000
 	INCBIN "gfx/stage/alphabet_1.2bpp"
-
 	dr $d61a0, $d61c0
 
 GFX_d61c0:
 	INCBIN "gfx/stage/e_acute_mono.2bpp"
-
 	dr $d61d0, $d6200
 
 Alphabet2Gfx: ; 0xd6200
 	INCBIN "gfx/stage/alphabet_2.2bpp"
-
 	dr $d63a0, $d63c0
 
 GFX_d63c0:
@@ -44511,7 +44090,6 @@ GFX_d63c0:
 
 InGameMenuSymbolsGfx: ; 0xd6450
 	INCBIN "gfx/stage/menu_symbols.2bpp"
-
 	dr $d6490, $d6600
 
 StageBlueFieldTopGfx3: ; 0xd6600
@@ -44621,7 +44199,6 @@ VenonatBillboardBGPaletteMap: ; 0xd7368
 	db $6, $6, $6, $6, $6, $6
 	db $6, $6, $6, $6, $6, $6
 	db $6, $6, $6, $6, $6, $6
-
 	dr $d7380, $d7600
 
 VenomothBillboardBGPaletteMap: ; 0xd7600
@@ -44719,7 +44296,6 @@ KadabraBillboardBGPaletteMap: ; 0xd7768
 	db $6, $7, $6, $6, $6, $6
 	db $6, $7, $6, $6, $6, $6
 	db $6, $6, $6, $6, $6, $6
-
 	dr $d7780, $d7a00
 
 AlakazamBillboardBGPaletteMap: ; 0xd7a00
@@ -44817,11 +44393,9 @@ SlowbroBillboardBGPaletteMap: ; 0xd7b68
 	db $6, $6, $6, $6, $6, $6
 	db $6, $6, $6, $6, $6, $6
 	db $6, $6, $6, $6, $6, $6
-
 	dr $d7b80, $d8000
 
 SECTION "bank36", ROMX, BANK[$36]
-
 	dr $d8000, $d8400
 
 MagnemiteBillboardBGPaletteMap: ; 0xd8400
@@ -44919,7 +44493,6 @@ DrowzeeBillboardBGPaletteMap: ; 0xd8568
 	db $6, $6, $6, $6, $6, $6
 	db $6, $6, $6, $6, $6, $6
 	db $6, $6, $6, $6, $6, $6
-
 	dr $d8580, $d8800
 
 HypnoBillboardBGPaletteMap: ; 0xd8800
@@ -45017,17 +44590,14 @@ RhydonBillboardBGPaletteMap: ; 0xd8968
 	db $6, $6, $6, $6, $6, $6
 	db $6, $6, $6, $6, $6, $6
 	db $6, $6, $6, $6, $6, $6
-
 	dr $d8980, $d8c00
 
 SaverTextOffGfx: ; 0xd8c00
 	INCBIN "gfx/stage/saver_off.2bpp"
-
 	dr $d8c40, $d8c80
 
 CatchTextGfx:
 	INCBIN "gfx/stage/catch.w48.2bpp"
-
 	dr $d8ce0, $d8e80
 
 Data_d8e80:
@@ -45134,7 +44704,6 @@ ArticunoBillboardBGPaletteMap: ; 0xd9568
 	db $6, $6, $6, $6, $6, $6
 	db $6, $6, $6, $6, $6, $6
 	db $6, $6, $6, $6, $6, $6
-
 	dr $d9580, $d9800
 
 ZapdosBillboardBGPaletteMap: ; 0xd9800
@@ -45178,7 +44747,6 @@ MewBillboardBGPaletteMap: ; 0xd9890
 	db $6, $6, $7, $7, $6, $6
 	db $6, $6, $6, $6, $6, $6
 	db $6, $6, $6, $6, $6, $6
-
 	dr $d98a8, $d9c00
 
 UnusedTextGfx: ; 0xd9c00
@@ -45282,7 +44850,6 @@ TaurosBillboardBGPaletteMap: ; 0xda568
 	db $7, $7, $6, $7, $7, $7
 	db $6, $7, $6, $6, $6, $6
 	db $6, $6, $6, $6, $6, $6
-
 	dr $da580, $da800
 
 BulbasaurBillboardBGPaletteMap: ; 0xda800
@@ -45380,12 +44947,10 @@ PidgeyBillboardBGPaletteMap: ; 0xda968
 	db $7, $7, $7, $7, $7, $7
 	db $7, $7, $7, $7, $7, $7
 	db $7, $7, $7, $7, $7, $7
-
 	dr $da980, $dac00
 
 StageSharedBonusSlotGlowGfx: ; 0xdac00
 	INCBIN "gfx/stage/shared/bonus_slot_glow.2bpp"
-
 	dr $dad60, $dade0
 
 StageSharedBonusSlotGlow2Gfx: ; 0xdade0
@@ -45393,12 +44958,10 @@ StageSharedBonusSlotGlow2Gfx: ; 0xdade0
 
 StageRedFieldTopGfx5: ; 0xdae00
 	INCBIN "gfx/stage/red_top/red_top_5.2bpp"
-
 	dr $db000, $db200
 
 TimerDigitsGfx: ; 0xdb200
 	INCBIN "gfx/stage/timer_digits.2bpp"
-
 	dr $db360, $db600
 
 StageGengarBonusCollisionMasks: ; 0xdb600
@@ -46110,7 +45673,6 @@ NidoranMBillboardBGPalette2: ; 0xdbb78
 
 StageRedFieldTopGfx6: ; 0xdbb80
 	INCBIN "gfx/stage/red_top/red_top_6.2bpp"
-
 	dr $dbbc0, $dbc80
 
 StageMewtwoBonusCollisionMasks: ; 0xdbc80
@@ -46280,7 +45842,6 @@ MewAnimatedObjPalette2: ; 0xdbe68
 	RGB 31, 19, 27
 	RGB 23, 8, 17
 	RGB 0, 0, 0
-
 	dr $dbe70, $dbe80
 
 Data_dbe80:
@@ -46290,7 +45851,6 @@ SECTION "bank37", ROMX, BANK[$37]
 
 StageSharedArrowsGfx: ; 0xdc000
 	INCBIN "gfx/stage/shared/arrows.2bpp"
-
 	dr $dc080, $dc100
 
 NidorinoBillboardBGPalette1: ; 0xdc100
@@ -47252,7 +46812,6 @@ MewBillboardBGPalette2: ; 0xdc768
 	RGB 31, 18, 24
 	RGB 0, 10, 31
 	RGB 0, 0, 0
-
 	dr $dc770, $dc880
 
 SeelBonusPalettes: ; 0xdc880
@@ -47337,7 +46896,6 @@ SeelBonusOBJPalette7: ; 0xdc8f8
 	RGB 20, 20, 20
 	RGB 8, 8, 8
 	RGB 0, 0, 0
-
 	dr $dc900, $dc980
 
 StageRedFieldTopPalettes: ; 0xdc980
@@ -47820,7 +47378,6 @@ PaletteData_dcc60:  ; 0xdcc60
 	RGB 20, 20, 26
 	RGB 31, 11, 10
 	RGB 0, 0, 0
-
 	dr $dcc68, $dcc80
 
 MeowthBonusPalettes: ; 0xdcc80
@@ -48585,7 +48142,6 @@ Data_dd188:
 	dr $dd188, $e0000
 
 SECTION "bank38", ROMX, BANK[$38]
-
 	dr $e0000, $e4000 ; 0xe0000
 
 SECTION "bank39", ROMX, BANK[$39]
@@ -48626,7 +48182,6 @@ TiltUpLeftForce:
 	INCBIN "data/tilt/up_left"
 TiltLeftOnlyForce:
 	INCBIN "data/tilt/left_only"
-
 	dr $f3800, $f4000 ; 0xf0000
 
 SECTION "bank3d", ROMX, BANK[$3d]
@@ -48646,4 +48201,3 @@ SECTION "bank3f", ROMX, BANK[$3f]
 
 FlipperVerticalCollisionAttributes2: ; 0xfc000
 	INCBIN "data/collision/flippers/vertical_attributes_1"
-

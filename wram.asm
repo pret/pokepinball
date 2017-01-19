@@ -900,7 +900,7 @@ wd61d:: ; 0xd61d
 wd61e:: ; 0xd61e
 	ds $1
 
-wd61f:: ; 0xd61f
+wCurSlotBonus:: ; 0xd61f
 	ds $1
 
 wd620:: ; 0xd620

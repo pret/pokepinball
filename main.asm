@@ -7205,36 +7205,36 @@ Func_3475: ; 0x3475
 	jr nz, Func_3475
 	ret
 
-FiftyBillionPoints:       ; 34a6
-	dx 6, $050000000000
-OneHundredBillionPoints:  ; 34ac
-	dx 6, $100000000000
-OneHundredMillionPoints:  ; 34b2
-	dx 6, $000100000000
-FourHundredMillionPoints: ; 34b8
-	dx 6, $000400000000
-FiveHundredMillionPoints: ; 34be
-	dx 6, $000500000000
-OneBillionPoints:         ; 34c4
-	dx 6, $001000000000
-FiveBillionPoints:        ; 34ca
-	dx 6, $005000000000
-OneMillionPoints: ; 34d0
-	dx 6, $000001000000
-TenMillionPoints: ; 34d6
-	dx 6, $000010000000
-ThirtyMillionPoints: ; 34dc
-	dx 6, $000030000000
-FiftyMillionPoints: ; 34e2
-	dx 6, $000050000000
-TenThousandPoints: ; 34e8
-	dx 6, $000000010000
-FiftyThousandPoints: ; 34ee
-	dx 6, $000000050000
-OneHundredThousandPoints: ; 34f4
-	dx 6, $000000100000
-OneHundredPoints: ; 34fa
-	dx 6, $000000000100
+FivePoints:       ; 34a6
+	bigBCD6 000000000005
+TenPoints:  ; 34ac
+	bigBCD6 000000000010
+OneHundredPoints:  ; 34b2
+	bigBCD6 000000000100
+FourHundredPoints: ; 34b8
+	bigBCD6 000000000400
+FiveHundredPoints: ; 34be
+	bigBCD6 000000000500
+OneThousandPoints:         ; 34c4
+	bigBCD6 000000001000
+FiveThousandPoints:        ; 34ca
+	bigBCD6 000000005000
+TenThousandPoints: ; 34d0
+	bigBCD6 000000010000
+OneHundredThousandPoints: ; 34d6
+	bigBCD6 000000100000
+ThreeHundredThousandPoints: ; 34dc
+	bigBCD6 000000300000
+FiveHundredThousandPoints: ; 34e2
+	bigBCD6 000000500000
+OneMillionPoints: ; 34e8
+	bigBCD6 000001000000
+FiveMillionPoints: ; 34ee
+	bigBCD6 000005000000
+TenMillionPoints: ; 34f4
+	bigBCD6 000010000000
+OneHundredMillionPoints: ; 34fa
+	bigBCD6 000100000000
 
 Func_3500:
 	ld hl, wd464
@@ -19985,7 +19985,7 @@ UpgradeBallBlueField: ; 0xf040
 .masterBall
 	ld de, $0f4d
 	call PlaySoundEffect
-	ld bc, TenThousandPoints
+	ld bc, OneMillionPoints
 	ld [hFarCallTempA], a
 	callba Func_8588
 	ld bc, $100
@@ -22520,7 +22520,7 @@ Func_10825: ; 0x10825
 	ret
 
 Func_10848: ; 0x10848
-	ld bc, OneHundredPoints
+	ld bc, OneHundredMillionPoints
 	ld [hFarCallTempA], a
 	callba Func_8588
 	call Func_30e8
@@ -23379,7 +23379,7 @@ Func_10e0a: ; 0x10e0a
 	ret
 
 Func_10e8b: ; 0x10e8b
-	ld bc, TenThousandPoints
+	ld bc, OneMillionPoints
 	ld [hFarCallTempA], a
 	callba Func_8588
 	ld bc, $0100
@@ -26397,7 +26397,7 @@ Func_1496d: ; 0x1496d
 	ld [wd804], a
 	ld a, $2
 	ld [wd7eb], a
-	ld bc, FiveHundredMillionPoints
+	ld bc, FiveHundredPoints
 	ld [hFarCallTempA], a
 	callba AddBCDScore
 	ld de, $000f
@@ -26512,7 +26512,7 @@ Func_14d85: ; 0x14d85
 	ld a, $4
 	ld [hFarCallTempA], a
 	callba Func_10000
-	ld bc, FiveHundredMillionPoints
+	ld bc, FiveHundredPoints
 	ld [hFarCallTempA], a
 	callba AddBCDScore
 	ret
@@ -26621,7 +26621,7 @@ Func_14e10: ; 0x14e10
 	ld a, c
 	and a
 	ret z
-	ld bc, OneHundredBillionPoints
+	ld bc, TenPoints
 	ld [hFarCallTempA], a
 	callba AddBCDScore
 	ld hl, wd62d
@@ -26710,7 +26710,7 @@ Func_151cb: ; 0x151cb
 	ld [hl], $1
 	and a
 	ret nz
-	ld bc, OneHundredMillionPoints
+	ld bc, OneHundredPoints
 	ld [hFarCallTempA], a
 	callba AddBCDScore
 	ld hl, wd50f
@@ -26725,7 +26725,7 @@ Func_151cb: ; 0x151cb
 	ld [wd513], a
 	ld a, $80
 	ld [wd514], a
-	ld bc, FourHundredMillionPoints
+	ld bc, FourHundredPoints
 	ld [hFarCallTempA], a
 	callba AddBCDScore
 	ld de, $0009
@@ -26908,7 +26908,7 @@ Func_1535d: ; 0x1535d
 	ld [hl], $1
 	and a
 	ret nz
-	ld bc, OneHundredMillionPoints
+	ld bc, OneHundredPoints
 	ld [hFarCallTempA], a
 	callba AddBCDScore
 	ld hl, wd5f9
@@ -26931,7 +26931,7 @@ Func_1535d: ; 0x1535d
 	ld [wBallTypeCounter], a
 	ld a, $e
 	ld [wBallTypeCounter + 1], a
-	ld bc, FourHundredMillionPoints
+	ld bc, FourHundredPoints
 	ld [hFarCallTempA], a
 	callba AddBCDScore
 	ld a, [wBallType]
@@ -26958,7 +26958,7 @@ Func_1535d: ; 0x1535d
 .masterBall
 	ld de, $0f4d
 	call PlaySoundEffect
-	ld bc, TenThousandPoints
+	ld bc, OneMillionPoints
 	ld [hFarCallTempA], a
 	callba Func_8588
 	ld bc, $0100
@@ -27227,7 +27227,7 @@ Func_1581f: ; 0x1581f
 	ret z
 	xor a
 	ld [wd51f], a
-	ld bc, FiftyBillionPoints
+	ld bc, FivePoints
 	ld [hFarCallTempA], a
 	callba AddBCDScore
 	ld a, [wd520]
@@ -27500,7 +27500,7 @@ Func_15e93: ; 0x15e93
 	jr z, .asm_15eda
 	xor a
 	ld [wd4fb], a
-	ld bc, OneMillionPoints
+	ld bc, TenThousandPoints
 	ld [hFarCallTempA], a
 	callba AddBCDScore
 	ld de, $0005
@@ -27699,7 +27699,7 @@ Func_160f0: ; 0x160f0
 	jr z, .asm_16137
 	xor a
 	ld [wd5fe], a
-	ld bc, OneMillionPoints
+	ld bc, TenThousandPoints
 	ld [hFarCallTempA], a
 	callba AddBCDScore
 	ld de, $0021
@@ -28419,7 +28419,7 @@ Func_1669e: ; 0x1669e
 	ld [wBallYVelocity + 1], a
 	ld a, $1
 	ld [wd549], a
-	ld bc, FiveBillionPoints
+	ld bc, FiveThousandPoints
 	ld [hFarCallTempA], a
 	callba AddBCDScore
 	xor a
@@ -28500,7 +28500,7 @@ Func_16781: ; 0x16781
 	ld a, [wd503]
 	and a
 	jr nz, .asm_167c2
-	ld bc, FiveBillionPoints
+	ld bc, FiveThousandPoints
 	ld [hFarCallTempA], a
 	callba AddBCDScore
 	ld a, [wd502]
@@ -28553,7 +28553,7 @@ Func_167ff: ; 0x167ff
 	ld a, [wd503]
 	and a
 	jr nz, .asm_1683e
-	ld bc, FiveBillionPoints
+	ld bc, FiveThousandPoints
 	ld [hFarCallTempA], a
 	callba AddBCDScore
 	ld a, [wd502]
@@ -28762,7 +28762,7 @@ Func_16d9d: ; 016d9d
 	ld a, $1
 	ld [wd613], a
 .asm_16e35
-	ld bc, OneHundredBillionPoints
+	ld bc, TenPoints
 	ld [hFarCallTempA], a
 	callba AddBCDScore
 	ld a, [wd60c]
@@ -30237,7 +30237,7 @@ Func_18464: ; 0x18464
 	ld a, [wd67b]
 	inc a
 	ld [wd67b], a
-	ld bc, TenMillionPoints
+	ld bc, OneHundredThousandPoints
 	ld [hFarCallTempA], a
 	callba Func_8588
 	ld a, $33
@@ -30457,7 +30457,7 @@ Func_1860b: ; 0x1860b
 	ld a, [wd695]
 	inc a
 	ld [wd695], a
-	ld bc, FiftyMillionPoints
+	ld bc, FiveHundredThousandPoints
 	ld [hFarCallTempA], a
 	callba Func_8588
 	ld a, $33
@@ -30698,7 +30698,7 @@ Func_187b1: ; 0x187b1
 	ld de, $0000
 	call PlaySong
 .asm_18826
-	ld bc, FiftyThousandPoints
+	ld bc, FiveMillionPoints
 	ld [hFarCallTempA], a
 	callba Func_8588
 	ld a, $33
@@ -31030,7 +31030,7 @@ Func_18d34: ; 0x18d34
 	ld a, [wd7be]
 	and a
 	jr nz, .asm_18d71
-	ld bc, OneHundredMillionPoints
+	ld bc, OneHundredPoints
 	ld [hFarCallTempA], a
 	callba Func_8588
 	ld a, $ff
@@ -31817,7 +31817,7 @@ Func_19531: ; 0x19531
 	ld a, [wd6af]
 	cp $2
 	jr nc, .asm_195a2
-	ld bc, FiftyThousandPoints
+	ld bc, FiveMillionPoints
 	ld [hFarCallTempA], a
 	callba Func_8588
 	ld a, [wd6b0]
@@ -32051,7 +32051,7 @@ Func_19701: ; 0x19701
 	dec de
 	ld a, $2
 	call Func_19876
-	ld bc, TenMillionPoints
+	ld bc, OneHundredThousandPoints
 	ld [hFarCallTempA], a
 	callba Func_8588
 	ld de, $0038
@@ -32589,7 +32589,7 @@ Func_19c52: ; 0x19c52
 	jr z, .asm_19cc8
 	xor a
 	ld [wd73b], a
-	ld bc, TenMillionPoints
+	ld bc, OneHundredThousandPoints
 	ld [hFarCallTempA], a
 	callba Func_8588
 	ld de, $0035
@@ -32899,7 +32899,7 @@ Func_1aad4: ; 0x1aad4
 	ld l, a
 	ld de, wDugtrioAnimationFrameCounter
 	call CopyHLToDE
-	ld bc, FiftyThousandPoints
+	ld bc, FiveMillionPoints
 	ld [hFarCallTempA], a
 	callba Func_8588
 	ld de, $0036
@@ -34348,7 +34348,7 @@ Func_1c9c1: ; 0x1c9c1
 	ld a, $4
 	ld [hFarCallTempA], a
 	callba Func_10000
-	ld bc, FiveHundredMillionPoints
+	ld bc, FiveHundredPoints
 	ld [hFarCallTempA], a
 	callba AddBCDScore
 	ret
@@ -34470,7 +34470,7 @@ Func_1ca85: ; 0x1ca85
 	ld a, c
 	and a
 	ret z
-	ld bc, OneHundredBillionPoints
+	ld bc, TenPoints
 	ld [hFarCallTempA], a
 	callba AddBCDScore
 	ld hl, wd62d
@@ -34631,7 +34631,7 @@ Func_1cfaa: ; 0x1cfaa
 	ret z
 	xor a
 	ld [wd51f], a
-	ld bc, FiftyBillionPoints
+	ld bc, FivePoints
 	ld [hFarCallTempA], a
 	callba AddBCDScore
 	ld a, [wStageCollisionState]
@@ -34862,7 +34862,7 @@ Func_1d133: ; 0x1d133
 	ld [wBallYVelocity + 1], a
 	ld a, $1
 	ld [wd549], a
-	ld bc, FiveBillionPoints
+	ld bc, FiveThousandPoints
 	ld [hFarCallTempA], a
 	callba AddBCDScore
 	xor a
@@ -34940,7 +34940,7 @@ Func_1d216: ; 0x1d216
 	jr z, .asm_1d253
 	xor a
 	ld [wd630], a
-	ld bc, OneMillionPoints
+	ld bc, TenThousandPoints
 	ld [hFarCallTempA], a
 	callba AddBCDScore
 	ld de, $0005
@@ -35054,7 +35054,7 @@ HandleEnteringCloyster: ; 0x1d32d
 	jr z, .asm_1d36a
 	xor a
 	ld [wd635], a
-	ld bc, OneMillionPoints
+	ld bc, TenThousandPoints
 	ld [hFarCallTempA], a
 	callba AddBCDScore
 	ld de, $0005
@@ -35246,7 +35246,7 @@ Func_1d438: ; 0x1d438
 	ld a, $1
 	ld [wd613], a
 asm_1d4fa: ; 0x1d4fa
-	ld bc, OneHundredBillionPoints
+	ld bc, TenPoints
 	ld [hFarCallTempA], a
 	callba AddBCDScore
 	ld a, [wd60c]
@@ -35832,7 +35832,7 @@ Func_1de22: ; 0x1de22
 	ld [wd804], a
 	ld a, $2
 	ld [wd7eb], a
-	ld bc, FiveHundredMillionPoints
+	ld bc, FiveHundredPoints
 	ld [hFarCallTempA], a
 	callba AddBCDScore
 	ld de, $000f
@@ -36080,7 +36080,7 @@ Func_1e356: ; 0x1e356
 	jr z, .asm_1e3bf
 	ld [hl], $0
 .asm_1e3bf
-	ld bc, OneHundredMillionPoints
+	ld bc, OneHundredPoints
 	ld [hFarCallTempA], a
 	callba AddBCDScore
 	ld hl, wd5f9
@@ -36103,7 +36103,7 @@ Func_1e356: ; 0x1e356
 	ld [wBallTypeCounter], a
 	ld a, $e
 	ld [wBallTypeCounter + 1], a
-	ld bc, FourHundredMillionPoints
+	ld bc, FourHundredPoints
 	ld [hFarCallTempA], a
 	callba AddBCDScore
 	ld a, [wBallType]
@@ -36130,7 +36130,7 @@ Func_1e356: ; 0x1e356
 .masterBall
 	ld de, $0f4d
 	call PlaySoundEffect
-	ld bc, TenThousandPoints
+	ld bc, OneMillionPoints
 	ld [hFarCallTempA], a
 	callba Func_8588
 	ld bc, $0100
@@ -36360,7 +36360,7 @@ Func_1e5c5: ; 0x1e5c5
 	ld [hl], $1
 	and a
 	ret nz
-	ld bc, OneHundredMillionPoints
+	ld bc, OneHundredPoints
 	ld [hFarCallTempA], a
 	callba AddBCDScore
 	ld hl, wd50f
@@ -36375,7 +36375,7 @@ Func_1e5c5: ; 0x1e5c5
 	ld [wd513], a
 	ld a, $80
 	ld [wd514], a
-	ld bc, FourHundredMillionPoints
+	ld bc, FourHundredPoints
 	ld [hFarCallTempA], a
 	callba AddBCDScore
 	ld de, $0009
@@ -38087,7 +38087,7 @@ Func_200d3: ; 0x200d3
 	inc a
 	ld [wNumMonHits], a
 .asm_20116
-	ld bc, ThirtyMillionPoints
+	ld bc, ThreeHundredThousandPoints
 	ld [hFarCallTempA], a
 	callba Func_8588
 	ld bc, $0030
@@ -38244,7 +38244,7 @@ Func_20230: ; 0x20230
 .asm_20264
 	ld [hFarCallTempA], a
 	callba Func_10184
-	ld bc, TenMillionPoints
+	ld bc, OneHundredThousandPoints
 	ld [hFarCallTempA], a
 	callba Func_8588
 	ld bc, $0010
@@ -38417,7 +38417,7 @@ Func_20394: ; 0x20394
 	inc a
 	ld [wNumMonHits], a
 .asm_203d7
-	ld bc, ThirtyMillionPoints
+	ld bc, ThreeHundredThousandPoints
 	ld [hFarCallTempA], a
 	callba Func_8588
 	ld bc, $0030
@@ -38574,7 +38574,7 @@ Func_204f1: ; 0x204f1
 .asm_20525
 	ld [hFarCallTempA], a
 	callba Func_10184
-	ld bc, TenMillionPoints
+	ld bc, OneHundredThousandPoints
 	ld [hFarCallTempA], a
 	callba Func_8588
 	ld bc, $0010
@@ -38691,7 +38691,7 @@ Func_205e0: ; 0x205e0
 	ld a, Bank(Func_14135)
 	ld hl, Func_14135
 	call nz, BankSwitch
-	ld bc, TenThousandPoints
+	ld bc, OneMillionPoints
 	ld [hFarCallTempA], a
 	callba Func_8588
 	call Func_30e8
@@ -39138,7 +39138,7 @@ Func_20977: ; 0x20977
 	ld bc, $0010
 	call Func_7dc
 .asm_209bf
-	ld bc, ThirtyMillionPoints
+	ld bc, ThreeHundredThousandPoints
 	ld [hFarCallTempA], a
 	callba Func_8588
 	call Func_30e8
@@ -39185,7 +39185,7 @@ Func_209eb: ; 0x209eb
 	ld [wd556], a
 	ld a, $2
 	ld [wd557], a
-	ld bc, ThirtyMillionPoints
+	ld bc, ThreeHundredThousandPoints
 	ld [hFarCallTempA], a
 	callba Func_8588
 	call Func_30e8
@@ -39221,7 +39221,7 @@ Func_20a65: ; 0x20a65
 	ld a, [wIndicatorStates + 1]
 	and a
 	jr z, .asm_20a80
-	ld bc, OneMillionPoints
+	ld bc, TenThousandPoints
 	ld [hFarCallTempA], a
 	callba Func_8588
 	jr asm_20a9f
@@ -39237,7 +39237,7 @@ Func_20a82: ; 0x20a82
 	ld a, [wIndicatorStates]
 	and a
 	jr z, .asm_20a9d
-	ld bc, OneMillionPoints
+	ld bc, TenThousandPoints
 	ld [hFarCallTempA], a
 	callba Func_8588
 	jr asm_20a9f
@@ -39452,7 +39452,7 @@ Func_20c08: ; 0x20c08
 	ld a, Bank(Func_1c2cb)
 	ld hl, Func_1c2cb
 	call nz, BankSwitch
-	ld bc, TenThousandPoints
+	ld bc, OneMillionPoints
 	ld [hFarCallTempA], a
 	callba Func_8588
 	call Func_30e8
@@ -39879,7 +39879,7 @@ Func_20f75: ; 0x20f75
 	ld bc, $0010
 	call Func_7dc
 .asm_20fc3
-	ld bc, ThirtyMillionPoints
+	ld bc, ThreeHundredThousandPoints
 	ld [hFarCallTempA], a
 	callba Func_8588
 	call Func_30e8
@@ -39927,7 +39927,7 @@ Func_20fef: ; 0x20fef
 	ld [wd556], a
 	ld a, $2
 	ld [wd557], a
-	ld bc, ThirtyMillionPoints
+	ld bc, ThreeHundredThousandPoints
 	ld [hFarCallTempA], a
 	callba Func_8588
 	call Func_30e8
@@ -39950,7 +39950,7 @@ Func_2105c: ; 0x2105c
 	ld a, [wIndicatorStates + 1]
 	and a
 	jr z, .asm_21077
-	ld bc, OneMillionPoints
+	ld bc, TenThousandPoints
 	ld [hFarCallTempA], a
 	callba Func_8588
 	jr asm_210c7
@@ -39999,7 +39999,7 @@ Func_21089: ; 0x21089
 	ld a, [wIndicatorStates]
 	and a
 	jr z, .asm_210c5
-	ld bc, OneMillionPoints
+	ld bc, TenThousandPoints
 	ld [hFarCallTempA], a
 	callba Func_8588
 	jr asm_210c7
@@ -40863,7 +40863,7 @@ Func_245ab: ; 0x245ab
 	ld [wd804], a
 	ld de, $0033
 	call PlaySoundEffect
-	ld bc, OneBillionPoints
+	ld bc, OneThousandPoints
 	ld [hFarCallTempA], a
 	callba AddBCDScore
 	xor a
@@ -42039,7 +42039,7 @@ Func_24e7f: ; 0x24e7f
 	dec a
 .asm_24ea6
 	push af
-	ld bc, TenMillionPoints
+	ld bc, OneHundredThousandPoints
 	ld [hFarCallTempA], a
 	callba AddBCDScore
 	ld hl, wMeowthStageScore
@@ -42948,7 +42948,7 @@ Func_25e85: ; 0x25e85
 	ld a, d
 	cp $32
 	jr nc, .asm_25ead
-	ld bc, TenMillionPoints
+	ld bc, OneHundredThousandPoints
 	ld [hFarCallTempA], a
 	callba AddBCDScore
 	pop de
@@ -42956,7 +42956,7 @@ Func_25e85: ; 0x25e85
 	jr .asm_25ebf
 
 .asm_25ead
-	ld bc, FiftyThousandPoints
+	ld bc, FiveMillionPoints
 	ld [hFarCallTempA], a
 	callba AddBCDScore
 	pop de
@@ -48071,7 +48071,7 @@ Func_30164: ; 0x30164
 	ret
 
 .asm_30175
-	ld bc, OneHundredThousandPoints
+	ld bc, TenMillionPoints
 	ld [hFarCallTempA], a
 	callba Func_8588
 	ld a, $2

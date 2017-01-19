@@ -97,7 +97,10 @@ wcb00:: ; 0xcb00
 SECTION "WRAM Bank 1", WRAMX, BANK[1]
 
 wOAMBuffer:: ; 0xd000
-	ds $200
+	ds $a0
+
+wOAMBufferEnd:: ; 0xd0a0
+	ds $160
 
 wPaletteData:: ; 0xd200
 	ds $80
@@ -1845,7 +1848,7 @@ wd800:: ; 0xd800
 wd801:: ; 0xd801
 	ds $1
 
-wd802:: ; 0xd802
+wOAMBufferSize:: ; 0xd802
 	ds $1
 
 wd803:: ; 0xd803
@@ -2616,9 +2619,12 @@ wdead:: ; 0xdead
 	ds $1
 
 wdeae:: ; 0xdeae
-	ds $52
+	ds $2
 
-wStack::
+wdeb0:: ; 0xdeb0
+	ds $50
+
+wStack:: ; 0xdf00
 	ds $ff
 
 wdfff:: ; 0xdfff

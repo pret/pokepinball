@@ -5,7 +5,7 @@ Func_3c000: ; 0x3c000
 	push af
 	call Func_3cb1b
 	ld hl, wdd01
-	ld de, $01af
+	ld de, wdeb0 - wdd01
 .clearLoop
 	xor a
 	ld [hli], a
@@ -1687,7 +1687,7 @@ Func_3ca2b: ; 0x3ca2b
 	ld h, d
 	add hl, de
 	add hl, hl
-	ld de, $4b20  ; todo
+	ld de, $4b20 
 	add hl, de
 	ld e, [hl]
 	inc hl

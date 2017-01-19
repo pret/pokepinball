@@ -42,4 +42,6 @@ hFFC4 = $FFC4
 
 hLoadedROMBank   EQU $FFF8  ; this is updated whenever the code switches ROM Banks
 hROMBankBuffer EQU $FFFA
+hSGBFlag EQU $FFFB
+hSGBInit EQU $FFFC
 hGameBoyColorFlag  EQU $FFFE  ; this is set to $01 if a GameBoy Color is running the game. $00, otherwise.

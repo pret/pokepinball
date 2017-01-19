@@ -9881,7 +9881,7 @@ LoadBallGfx: ; 0xdcc3
 	jr nc, .notPokeBall
 	ld a, Bank(PinballPokeballGfx)
 	ld hl, PinballPokeballGfx
-	ld de, $8400
+	ld de, vTiles0 tile $40
 	ld bc, $0200
 	call LoadOrCopyVRAMData
 	ret
@@ -9891,7 +9891,7 @@ LoadBallGfx: ; 0xdcc3
 	jr nc, .notGreatBall
 	ld a, Bank(PinballGreatballGfx)
 	ld hl, PinballGreatballGfx
-	ld de, $8400
+	ld de, vTiles0 tile $40
 	ld bc, $0200
 	call LoadOrCopyVRAMData
 	ret
@@ -9901,7 +9901,7 @@ LoadBallGfx: ; 0xdcc3
 	jr nc, .notUltraBall
 	ld a, Bank(PinballUltraballGfx)
 	ld hl, PinballUltraballGfx
-	ld de, $8400
+	ld de, vTiles0 tile $40
 	ld bc, $0200
 	call LoadOrCopyVRAMData
 	ret
@@ -9909,7 +9909,7 @@ LoadBallGfx: ; 0xdcc3
 .notUltraBall
 	ld a, Bank(PinballMasterballGfx)
 	ld hl, PinballMasterballGfx
-	ld de, $8400
+	ld de, vTiles0 tile $40
 	ld bc, $0200
 	call LoadOrCopyVRAMData
 	ret
@@ -9922,7 +9922,7 @@ LoadMiniBallGfx: ; 0xdd12
 	jr nc, .notPokeBall
 	ld a, Bank(PinballPokeballMiniGfx)
 	ld hl, PinballPokeballMiniGfx
-	ld de, $8400
+	ld de, vTiles0 tile $40
 	ld bc, $0200
 	call LoadOrCopyVRAMData
 	ret
@@ -9932,7 +9932,7 @@ LoadMiniBallGfx: ; 0xdd12
 	jr nc, .notGreatBall
 	ld a, Bank(PinballGreatballMiniGfx)
 	ld hl, PinballGreatballMiniGfx
-	ld de, $8400
+	ld de, vTiles0 tile $40
 	ld bc, $0200
 	call LoadOrCopyVRAMData
 	ret
@@ -9942,7 +9942,7 @@ LoadMiniBallGfx: ; 0xdd12
 	jr nc, .notUltraBall
 	ld a, Bank(PinballUltraballMiniGfx)
 	ld hl, PinballUltraballMiniGfx
-	ld de, $8400
+	ld de, vTiles0 tile $40
 	ld bc, $0200
 	call LoadOrCopyVRAMData
 	ret
@@ -9950,7 +9950,7 @@ LoadMiniBallGfx: ; 0xdd12
 .notUltraBall
 	ld a, Bank(PinballMasterballMiniGfx)
 	ld hl, PinballMasterballMiniGfx
-	ld de, $8400
+	ld de, vTiles0 tile $40
 	ld bc, $0200
 	call LoadOrCopyVRAMData
 	ret
@@ -9960,7 +9960,7 @@ Func_dd62: ; 0xdd62
 	ld [wd4c8], a
 	ld a, $2a
 	ld hl, PinballBallMiniGfx
-	ld de, $8400
+	ld de, vTiles0 tile $40
 	ld bc, $0200
 	call LoadOrCopyVRAMData
 	ret
@@ -12374,7 +12374,7 @@ LoadBillboardPicture: ; 0xf178
 	ld a, [hl]
 	ld h, b
 	ld l, c
-	ld de, $8900   ; destination address to copy the tiles
+	ld de, vTiles1 tile $10   ; destination address to copy the tiles
 	ld bc, $180    ; billboard pictures are $180 bytes
 	call LoadVRAMData  ; loads the tiles into VRAM
 	pop hl
@@ -12400,7 +12400,7 @@ LoadBillboardOffPicture: ; 0xf196
 	ld l, c
 	ld bc, $0180  ; get the address of the "off" version of the picture
 	add hl, bc
-	ld de, $8900
+	ld de, vTiles1 tile $10
 	ld bc, $0180
 	call LoadVRAMData
 	pop hl
@@ -12617,7 +12617,7 @@ Func_f55c: ; 0xf55c
 	jr nz, .gameboyColor
 	ld a, BANK(GFX_d61c0)
 	ld hl, GFX_d61c0
-	ld de, $8830
+	ld de, vTiles1 tile $03
 	ld bc, $0010
 	call LoadVRAMData
 	ret
@@ -12625,7 +12625,7 @@ Func_f55c: ; 0xf55c
 .gameboyColor
 	ld a, BANK(GFX_d63c0)
 	ld hl, GFX_d63c0
-	ld de, $8830
+	ld de, vTiles1 tile $03
 	ld bc, $0010
 	call LoadVRAMData
 	ret
@@ -13513,7 +13513,7 @@ StartCatchEmMode: ; 0x1003f
 	jr z, .asm_1011d
 	ld a, BANK(StageRedFieldBottomBaseGameBoyColorGfx)
 	ld hl, StageRedFieldBottomBaseGameBoyColorGfx + $300
-	ld de, $8ae0
+	ld de, vTiles1 tile $2e
 	ld bc, $0020
 	call LoadOrCopyVRAMData
 	ld a, $0
@@ -13669,7 +13669,7 @@ Func_101d9: ; 0x101d9
 	rl b
 	sla c
 	rl b
-	ld hl, $8900
+	ld hl, vTiles1 tile $10
 	add hl, bc
 	ld a, l
 	ld [de], a
@@ -14083,12 +14083,12 @@ Func_10496: ; 0x10496
 	ld [wd5c6], a
 	ld a, BANK(PikachuSaverGfx)
 	ld hl, PikachuSaverGfx + $c0
-	ld de, $87e0
+	ld de, vTiles0 tile $7e
 	ld bc, $0020
 	call LoadVRAMData
 	ld a, BANK(GFX_a8800)
 	ld hl, GFX_a8800
-	ld de, $8900
+	ld de, vTiles1 tile $10
 	ld bc, $0180
 	call LoadVRAMData
 	call LoadShakeBallGfx
@@ -14116,7 +14116,7 @@ LoadShakeBallGfx: ; 0x104e2
 	jr nc, .notPokeball
 	ld a, Bank(PinballPokeballShakeGfx)
 	ld hl, PinballPokeballShakeGfx
-	ld de, $8380
+	ld de, vTiles0 tile $38
 	ld bc, $0040
 	call LoadVRAMData
 	ret
@@ -14126,7 +14126,7 @@ LoadShakeBallGfx: ; 0x104e2
 	jr nc, .notGreatball
 	ld a, Bank(PinballGreatballShakeGfx)
 	ld hl, PinballGreatballShakeGfx
-	ld de, $8380
+	ld de, vTiles0 tile $38
 	ld bc, $0040
 	call LoadVRAMData
 	ret
@@ -14136,7 +14136,7 @@ LoadShakeBallGfx: ; 0x104e2
 	jr nc, .notUltraBall
 	ld a, Bank(PinballUltraballShakeGfx)
 	ld hl, PinballUltraballShakeGfx
-	ld de, $8380
+	ld de, vTiles0 tile $38
 	ld bc, $0040
 	call LoadVRAMData
 	ret
@@ -14144,7 +14144,7 @@ LoadShakeBallGfx: ; 0x104e2
 .notUltraBall
 	ld a, Bank(PinballMasterballShakeGfx)
 	ld hl, PinballMasterballShakeGfx
-	ld de, $8380
+	ld de, vTiles0 tile $38
 	ld bc, $0040
 	call LoadVRAMData
 	ret
@@ -14684,12 +14684,12 @@ Func_108f5: ; 0x108f5
 	callba Func_30253
 	ld a, Bank(StageSharedBonusSlotGlowGfx)
 	ld hl, StageSharedBonusSlotGlowGfx
-	ld de, $81a0
+	ld de, vTiles0 tile $1a
 	ld bc, $0160
 	call LoadVRAMData
 	ld a, BANK(StageSharedBonusSlotGlow2Gfx)
 	ld hl, StageSharedBonusSlotGlow2Gfx
-	ld de, $8380
+	ld de, vTiles0 tile $38
 	ld bc, $0020
 	call LoadVRAMData
 	ld hl, Data_10958
@@ -14801,12 +14801,12 @@ Func_109fc: ; 0x109fc
 	callba Func_30253
 	ld a, BANK(StageSharedBonusSlotGlowGfx)
 	ld hl, StageSharedBonusSlotGlowGfx
-	ld de, $81a0
+	ld de, vTiles0 tile $1a
 	ld bc, $0160
 	call LoadVRAMData
 	ld a, BANK(StageSharedBonusSlotGlow2Gfx)
 	ld hl, StageSharedBonusSlotGlow2Gfx
-	ld de, $8380
+	ld de, vTiles0 tile $38
 	ld bc, $0020
 	call LoadVRAMData
 	ld hl, Data_10a63
@@ -14975,7 +14975,7 @@ Func_10b59: ; 0x10b59
 	call Func_10b8e
 	ld a, BANK(InGameMenuSymbolsGfx)
 	ld hl, InGameMenuSymbolsGfx
-	ld de, $8880
+	ld de, vTiles1 tile $08
 	ld bc, $0030
 	call LoadVRAMData
 	ld a, $0
@@ -15194,7 +15194,7 @@ Func_10cb7: ; 0x10cb7
 	jr nz, .asm_10cee
 	ld a, BANK(StageRedFieldTopStatusBarSymbolsGfx_GameBoy)
 	ld hl, StageRedFieldTopStatusBarSymbolsGfx_GameBoy + $80
-	ld de, $8880
+	ld de, vTiles1 tile $08
 	ld bc, $0030
 	call LoadVRAMData
 	jr .asm_10cfc
@@ -15202,7 +15202,7 @@ Func_10cb7: ; 0x10cb7
 .asm_10cee
 	ld a, BANK(StageRedFieldTopStatusBarSymbolsGfx_GameBoyColor)
 	ld hl, StageRedFieldTopStatusBarSymbolsGfx_GameBoyColor + $80
-	ld de, $8880
+	ld de, vTiles1 tile $08
 	ld bc, $0030
 	call LoadVRAMData
 .asm_10cfc
@@ -15348,7 +15348,7 @@ Func_10d1d: ; 0x10d1d
 	jr z, .asm_10e09
 	ld a, BANK(StageRedFieldBottomBaseGameBoyColorGfx)
 	ld hl, StageRedFieldBottomBaseGameBoyColorGfx + $300
-	ld de, $8ae0
+	ld de, vTiles1 tile $2e
 	ld bc, $0020
 	call LoadOrCopyVRAMData
 	ld a, $0
@@ -15489,7 +15489,7 @@ Func_10ebb: ; 0x10ebb
 	jr nz, .asm_10f0b
 	ld a, BANK(Data_dbe80)
 	ld hl, Data_dbe80
-	ld de, $8900
+	ld de, vTiles1 tile $10
 	ld bc, $00e0
 	call LoadOrCopyVRAMData
 	ret
@@ -15497,7 +15497,7 @@ Func_10ebb: ; 0x10ebb
 .asm_10f0b
 	ld a, BANK(Data_dbe80)
 	ld hl, Data_dbe80
-	ld de, $8200
+	ld de, vTiles0 tile $20
 	ld bc, $00e0
 	call LoadOrCopyVRAMData
 	ld [hFarCallTempA], a
@@ -15562,7 +15562,7 @@ Func_10fe3: ; 0x10fe3
 	callba Func_30253
 	ld a, BANK(StageSharedBonusSlotGlowGfx)
 	ld hl, StageSharedBonusSlotGlowGfx + $60
-	ld de, $8200
+	ld de, vTiles0 tile $20
 	ld bc, $00e0
 	call LoadVRAMData
 	ld a, [hGameBoyColorFlag]
@@ -15635,7 +15635,7 @@ Func_11061: ; 0x11061
 	jr nz, .asm_110bd
 	ld a, BANK(Data_dbe80)
 	ld hl, Data_dbe80
-	ld de, $8600
+	ld de, vTiles0 tile $60
 	ld bc, $00e0
 	call LoadOrCopyVRAMData
 	ret
@@ -15643,7 +15643,7 @@ Func_11061: ; 0x11061
 .asm_110bd
 	ld a, BANK(Data_dbe80)
 	ld hl, Data_dbe80
-	ld de, $8200
+	ld de, vTiles0 tile $20
 	ld bc, $00e0
 	call LoadOrCopyVRAMData
 	ld [hFarCallTempA], a
@@ -15710,7 +15710,7 @@ Func_11195: ; 0x11195
 	callba Func_30253
 	ld a, Bank(StageSharedBonusSlotGlowGfx)
 	ld hl, StageSharedBonusSlotGlowGfx + $60
-	ld de, $8200
+	ld de, vTiles0 tile $20
 	ld bc, $00e0
 	call LoadVRAMData
 	ld a, [hGameBoyColorFlag]
@@ -17436,12 +17436,12 @@ Func_1414b: ; 0x1414b
 	ret z
 	ld a, BANK(PikachuSaverGfx)
 	ld hl, PikachuSaverGfx + $c0
-	ld de, $87e0
+	ld de, vTiles0 tile $7e
 	ld bc, $0020
 	call FarCopyData
 	ld a, BANK(GFX_a8800)
 	ld hl, GFX_a8800
-	ld de, $8900
+	ld de, vTiles1 tile $10
 	ld bc, $0180
 	call FarCopyData
 	ld a, [wBallType]
@@ -17449,7 +17449,7 @@ Func_1414b: ; 0x1414b
 	jr nc, .notPokeball
 	ld a, Bank(PinballPokeballShakeGfx)
 	ld hl, PinballPokeballShakeGfx
-	ld de, $8380
+	ld de, vTiles0 tile $38
 	ld bc, $0040
 	call FarCopyData
 	ret
@@ -17459,7 +17459,7 @@ Func_1414b: ; 0x1414b
 	jr nc, .notGreatball
 	ld a, Bank(PinballGreatballShakeGfx)
 	ld hl, PinballGreatballShakeGfx
-	ld de, $8380
+	ld de, vTiles0 tile $38
 	ld bc, $0040
 	call FarCopyData
 	ret
@@ -17469,7 +17469,7 @@ Func_1414b: ; 0x1414b
 	jr nc, .notUltraball
 	ld a, Bank(PinballUltraballShakeGfx)
 	ld hl, PinballUltraballShakeGfx
-	ld de, $8380
+	ld de, vTiles0 tile $38
 	ld bc, $0040
 	call FarCopyData
 	ret
@@ -17477,7 +17477,7 @@ Func_1414b: ; 0x1414b
 .notUltraball
 	ld a, Bank(PinballMasterballShakeGfx)
 	ld hl, PinballMasterballShakeGfx
-	ld de, $8380
+	ld de, vTiles0 tile $38
 	ld bc, $0040
 	call FarCopyData
 	ret
@@ -17536,7 +17536,7 @@ Func_14234: ; 0x14234
 	jr nz, .asm_1425c
 	ld a, BANK(Data_dbe80)
 	ld hl, Data_dbe80
-	ld de, $8900
+	ld de, vTiles1 tile $10
 	ld bc, $00e0
 	call FarCopyData
 	jr .asm_1426a
@@ -17544,7 +17544,7 @@ Func_14234: ; 0x14234
 .asm_1425c
 	ld a, BANK(Data_dbe80)
 	ld hl, Data_dbe80
-	ld de, $8200
+	ld de, vTiles0 tile $20
 	ld bc, $00e0
 	call FarCopyData
 .asm_1426a
@@ -17584,7 +17584,7 @@ Func_14282: ; 0x14282
 	call Func_174d4
 	ld a, BANK(Data_d8f60)
 	ld hl, Data_d8f60
-	ld de, $8ae0
+	ld de, vTiles1 tile $2e
 	ld bc, $0020
 	call FarCopyData
 	ret
@@ -17625,7 +17625,7 @@ Func_142d7: ; 0x142d7
 	swap e
 	sla e
 	push hl
-	ld hl, $8ae0
+	ld hl, vTiles1 tile $2e
 	add hl, de
 	ld d, h
 	ld e, l
@@ -25572,12 +25572,12 @@ Func_1c305: ; 0x1c305
 	ret z
 	ld a, BANK(PikachuSaverGfx)
 	ld hl, PikachuSaverGfx + $c0
-	ld de, $87e0
+	ld de, vTiles0 tile $7e
 	ld bc, $0020
 	call FarCopyData
 	ld a, BANK(StageSharedPikaBoltGfx)
 	ld hl, GFX_a8800
-	ld de, $8900
+	ld de, vTiles1 tile $10
 	ld bc, $0180
 	call FarCopyData
 	ld a, [wBallType]
@@ -25585,7 +25585,7 @@ Func_1c305: ; 0x1c305
 	jr nc, .notPokeball
 	ld a, Bank(PinballPokeballShakeGfx)
 	ld hl, PinballPokeballShakeGfx
-	ld de, $8380
+	ld de, vTiles0 tile $38
 	ld bc, $0040
 	call FarCopyData
 	ret
@@ -25595,7 +25595,7 @@ Func_1c305: ; 0x1c305
 	jr nc, .notGreatball
 	ld a, Bank(PinballGreatballShakeGfx)
 	ld hl, PinballGreatballShakeGfx
-	ld de, $8380
+	ld de, vTiles0 tile $38
 	ld bc, $0040
 	call FarCopyData
 	ret
@@ -25605,7 +25605,7 @@ Func_1c305: ; 0x1c305
 	jr nc, .notUltraBall
 	ld a, Bank(PinballUltraballShakeGfx)
 	ld hl, PinballUltraballShakeGfx
-	ld de, $8380
+	ld de, vTiles0 tile $38
 	ld bc, $0040
 	call FarCopyData
 	ret
@@ -25613,7 +25613,7 @@ Func_1c305: ; 0x1c305
 .notUltraBall
 	ld a, Bank(PinballMasterballShakeGfx)
 	ld hl, PinballMasterballShakeGfx
-	ld de, $8380
+	ld de, vTiles0 tile $38
 	ld bc, $0040
 	call FarCopyData
 	ret
@@ -25672,7 +25672,7 @@ Func_1c3ee: ; 0x1c3ee
 	jr nz, .asm_1c416
 	ld a, BANK(Data_dbe80)
 	ld hl, Data_dbe80
-	ld de, $8600
+	ld de, vTiles0 tile $60
 	ld bc, $00e0
 	call FarCopyData
 	jr .asm_1c424
@@ -25680,7 +25680,7 @@ Func_1c3ee: ; 0x1c3ee
 .asm_1c416
 	ld a, BANK(Data_dbe80)
 	ld hl, Data_dbe80
-	ld de, $8200
+	ld de, vTiles0 tile $20
 	ld bc, $00e0
 	call FarCopyData
 .asm_1c424
@@ -25720,7 +25720,7 @@ Func_1c43c: ; 0x1c43c
 	call Func_1f265
 	ld a, BANK(Data_d8f60)
 	ld hl, Data_d8f60
-	ld de, $8ae0
+	ld de, vTiles1 tile $2e
 	ld bc, $0020
 	call FarCopyData
 	ret
@@ -25761,7 +25761,7 @@ Func_1c491: ; 0x1c491
 	swap e
 	sla e
 	push hl
-	ld hl, $8ae0
+	ld hl, vTiles1 tile $2e
 	add hl, de
 	ld d, h
 	ld e, l
@@ -30760,7 +30760,7 @@ Func_20651: ; 0x20651
 	swap c
 	sla c
 	push hl
-	ld hl, $8ae0
+	ld hl, vTiles1 tile $2e
 	add hl, bc
 	ld d, h
 	ld e, l
@@ -30813,7 +30813,7 @@ Func_20651: ; 0x20651
 	ret z
 	ld a, BANK(StageSharedBonusSlotGlowGfx)
 	ld hl, StageSharedBonusSlotGlowGfx + $60
-	ld de, $8200
+	ld de, vTiles0 tile $20
 	ld bc, $00e0
 	call LoadVRAMData
 	ld a, [hGameBoyColorFlag]
@@ -31354,7 +31354,7 @@ Func_20b02: ; 0x20b02
 	call ReadByteFromBank
 	ld h, b
 	ld l, c
-	ld de, $8900
+	ld de, vTiles1 tile $10
 	ld bc, $0180
 	call LoadOrCopyVRAMData
 	pop bc
@@ -31519,7 +31519,7 @@ Func_20c76: ; 0x20c76
 	swap c
 	sla c
 	push hl
-	ld hl, $8ae0
+	ld hl, vTiles1 tile $2e
 	add hl, bc
 	ld d, h
 	ld e, l
@@ -31572,7 +31572,7 @@ Func_20c76: ; 0x20c76
 	ret z
 	ld a, BANK(StageSharedBonusSlotGlowGfx)
 	ld hl, StageSharedBonusSlotGlowGfx + $60
-	ld de, $8200
+	ld de, vTiles0 tile $20
 	ld bc, $00e0
 	call LoadVRAMData
 	ld a, [hGameBoyColorFlag]
@@ -32114,7 +32114,7 @@ Func_2112a: ; 0x2112a
 	call ReadByteFromBank
 	ld h, b
 	ld l, c
-	ld de, $8900
+	ld de, vTiles1 tile $10
 	ld bc, $0180
 	call LoadOrCopyVRAMData
 	pop bc
@@ -36465,7 +36465,7 @@ Func_285db: ; 0x285db
 	ld bc, $8c38
 	ld a, $64
 	call LoadOAMData
-	ld bc, $8840
+	ld bc, vTiles1 tile $04
 	ld a, $65
 	call LoadOAMData
 	ld bc, $8888
@@ -36915,7 +36915,7 @@ Func_288c6: ; 0x288c6
 	ld [wd860], a
 	ld [wd861], a
 	ld bc, $906c
-	ld de, $8900
+	ld de, vTiles1 tile $10
 	call Func_28d97
 	rl a
 	ld [wd956], a
@@ -36927,7 +36927,7 @@ Func_288c6: ; 0x288c6
 
 Func_28912: ; 0x28912
 	ld bc, $906c
-	ld de, $8900
+	ld de, vTiles1 tile $10
 	ld a, [wd957]
 	ld l, a
 	ld a, [wd958]
@@ -36973,7 +36973,7 @@ Func_28931: ; 0x28931
 	xor a
 	ld [wd861], a
 	ld bc, $500a
-	ld de, $9500
+	ld de, vTiles2 tile $50
 	call Func_28e09
 	ret
 
@@ -37077,7 +37077,7 @@ Func_289c8: ; 0x289c8
 	ld a, $4
 	ld [wd861], a
 	ld bc, $5816
-	ld de, $95a0
+	ld de, vTiles2 tile $5a
 	call Func_28e09
 	ret
 
@@ -37257,7 +37257,7 @@ Func_28add: ; 0x28add
 	call ReadByteFromBank
 	ld h, b
 	ld l, c
-	ld de, $9000
+	ld de, vTiles2 tile $00
 	ld bc, $0180
 	call LoadOrCopyVRAMData
 	call Func_28cd4
@@ -37301,7 +37301,7 @@ Func_28add: ; 0x28add
 Func_28b76: ; 0x28b76
 	ld a, BANK(Data_71500)
 	ld hl, Data_71500
-	ld de, $9000
+	ld de, vTiles2 tile $00
 	ld bc, $0180
 	call LoadOrCopyVRAMData
 	call Func_28cd4
@@ -37342,7 +37342,7 @@ Func_28baf: ; 0x28baf
 	call ReadByteFromBank
 	ld hl, $0180
 	add hl, bc
-	ld de, $9000
+	ld de, vTiles2 tile $00
 	ld bc, $0180
 	call LoadOrCopyVRAMData
 	call Func_28cd4

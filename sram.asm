@@ -1,7 +1,15 @@
 SECTION "SRAM 0", SRAM, BANK [$0]
 
-s0_a000::
-	ds $10c
+saved_data: MACRO
+\1:: ds \2
+\1Signature:: ds 2
+\1Checksum:: dw
+\1Backup:: ds \2
+\1BackupSignature:: ds 2
+\1BackupChecksum:: dw
+ENDM
 
-sPokedexFlags:: ; 0xa10c
-	ds $98
+	saved_data sHighScores, $82
+	saved_data sPokedexFlags, $98
+	saved_data sKeyConfigs, $e
+	saved_data sSaveGame, $4c3

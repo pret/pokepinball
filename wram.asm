@@ -2366,90 +2366,25 @@ wNumPokemonSeen:: ; 0xd9f9
 wNumPokemonOwned:: ; 0xd9fb
 	ds $2
 
+high_scores: MACRO
+\1Points:: ds 6
+\1Name:: ds 3
+\1Unknown0x09:: ds 4
+ENDM
+
 wRedHighScores:: ; 0xd9fd
-wRedHighScore1Points::
-	ds $6
+	high_scores wRedHighScore1
+	high_scores wRedHighScore2
+	high_scores wRedHighScore3
+	high_scores wRedHighScore4
+	high_scores wRedHighScore5
 
-wRedHighScore1Name:: ; 0xda03
-	ds $3
-
-wda06:: ; 0xda06
-	ds $4
-
-wRedHighScore2Points:: ; 0xda0a
-	ds $6
-
-wRedHighScore2Name:: ; 0xda10
-	ds $7
-
-wRedHighScore3Points:: ; 0xda17
-	ds $6
-
-wRedHighScore3Name:: ; 0xda1d
-	ds $7
-
-wRedHighScore4Points:: ; 0xda24
-	ds $6
-
-wRedHighScore4Name:: ; 0xda2a
-	ds $6
-
-wda30:: ; 0xda30
-	ds $1
-
-wRedHighScore5Points:: ; 0xda31
-	ds $5
-
-wda36:: ; 0xda36
-	ds $1
-
-wRedHighScore5Name:: ; 0xda37
-	ds $6
-
-wda3d:: ; 0xda3d
-	ds $1
-
-wBlueHighScore1Points:: ; 0xda3e
-	ds $6
-
-wBlueHighScore1Name:: ; 0xda44
-	ds $3
-
-wda47:: ; 0xda47
-	ds $4
-
-wBlueHighScore2Points:: ; 0xda4b
-	ds $6
-
-wBlueHighScore2Name:: ; 0xda51
-	ds $7
-
-wBlueHighScore3Points:: ; 0xda58
-	ds $6
-
-wBlueHighScore3Name:: ; 0xda5e
-	ds $7
-
-wBlueHighScore4Points:: ; 0xda65
-	ds $6
-
-wBlueHighScore4Name:: ; 0xda6b
-	ds $6
-
-wda71:: ; 0xda71
-	ds $1
-
-wBlueHighScore5Points:: ; 0xda72
-	ds $5
-
-wda77:: ; 0xda77
-	ds $1
-
-wBlueHighScore5Name:: ; 0xda78
-	ds $6
-
-wda7e:: ; 0xda7e
-	ds $1
+wBlueHighScores:: ; 0xd9fd
+	high_scores wBlueHighScore1
+	high_scores wBlueHighScore2
+	high_scores wBlueHighScore3
+	high_scores wBlueHighScore4
+	high_scores wBlueHighScore5
 
 wda7f:: ; 0xda7f
 	ds $1

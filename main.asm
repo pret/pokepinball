@@ -4264,6 +4264,7 @@ AddBigBCD6FromQueueWithBallMultiplier: ; 0x8576
 	jr asm_8592
 
 AddBigBCD6FromQueue: ; 0x8588
+; bc - Points to BCD buffer
 	ld h, b
 	ld l, c
 	ld a, [wAddScoreQueueOffset]
@@ -4399,7 +4400,7 @@ SetMaxScore: ; 0x8637
 Func_8645: ; 0x8645
 	xor a
 	ld [wd49f], a
-	ld de, wBottomMessageText + $147
+	ld de, wc600 + $47
 	call Func_8524
 	ret
 
@@ -4500,7 +4501,7 @@ HandleInGameMenu: ; 0x86d7
 	push af
 	ld a, $1
 	ld [wd917], a
-	call Func_30e8
+	call Fillwc600WithBlackTile
 	xor a
 	ld [wd4aa], a
 	ld hl, wBottomMessageText
@@ -4575,7 +4576,7 @@ HandleInGameMenu: ; 0x86d7
 	ld bc, $0010
 	call LoadVRAMData
 .asm_8786
-	call Func_30e8
+	call Fillwc600WithBlackTile
 	pop af
 	ld [wd917], a
 	ld a, $1
@@ -9339,7 +9340,7 @@ Func_d861: ; 0xd861
 	ld [wd908], a
 	ld [hFarCallTempA], a
 	callba InitializeStage
-	call Func_30e8
+	call Fillwc600WithBlackTile
 	ld a, $1
 	ld [wd85d], a
 	ld [wd4aa], a
@@ -9571,7 +9572,7 @@ Func_da36: ; 0xda36
 	ld a, $2
 	ld [wd49c], a
 	ld [wd4aa], a
-	call Func_30e8
+	call Fillwc600WithBlackTile
 	call Func_30db
 	ld hl, wd5dc
 	ld de, ShootAgainText
@@ -9710,12 +9711,12 @@ HighScoresStageMapping: ; 0xdb99
 
 Func_dba9: ; 0xdba9
 	ld a, $85
-	ld [wBottomMessageText + $144], a
+	ld [wc600 + $44], a
 	ld a, [wd49d]
 	xor $3
 	inc a
 	add $86
-	ld [wBottomMessageText + $145], a
+	ld [wc600 + $45], a
 	ret
 
 Func_dbba: ; 0xdbba
@@ -9821,7 +9822,7 @@ CallTable_dc4d: ; 0xdc4d
 
 Func_dc6d: ; 0xdc6d
 	push de
-	call Func_30e8
+	call Fillwc600WithBlackTile
 	call Func_30db
 	ld hl, wd5dc
 	pop de
@@ -9829,7 +9830,7 @@ Func_dc6d: ; 0xdc6d
 	ret
 
 Func_dc7c: ; 0xdc7c
-	ld hl, wBottomMessageText + $140
+	ld hl, wc600 + $40
 	ld a, $83
 	ld [hli], a
 	ld a, $81
@@ -9838,7 +9839,7 @@ Func_dc7c: ; 0xdc7c
 	ld [hl], a
 	ld a, [wNumPartyMons]
 	call ConvertHexByteToDecWord
-	ld hl, wBottomMessageText + $141
+	ld hl, wc600 + $41
 	ld c, $1
 	ld a, d
 	call .asm_dca0
@@ -9870,7 +9871,7 @@ Func_dcb4: ; 0xdcb4
 	jr nz, .asm_dcbf
 	ld a, $84
 .asm_dcbf
-	ld [wBottomMessageText + $146], a
+	ld [wc600 + $46], a
 	ret
 
 LoadBallGfx: ; 0xdcc3
@@ -10213,7 +10214,7 @@ Func_df1a: ; 0xdf1a
 	ld a, [wd49a]
 	and a
 	ret nz
-	call Func_30e8
+	call Fillwc600WithBlackTile
 	call Func_30db
 	ld hl, wd5dc
 	ld de, Data_2f04
@@ -10264,7 +10265,7 @@ Func_df7e: ; 0xdf7e
 	ld a, [wd49a]
 	and a
 	ret nz
-	call Func_30e8
+	call Fillwc600WithBlackTile
 	call Func_30db
 	ld hl, wd5dc
 	ld de, Data_2f1c
@@ -10323,7 +10324,7 @@ Func_dfe2: ; 0xdfe2
 	ld a, [wd49a]
 	and a
 	ret nz
-	call Func_30e8
+	call Fillwc600WithBlackTile
 	call Func_30db
 	ld hl, wd5dc
 	ld de, Data_2f4d
@@ -10348,7 +10349,7 @@ Func_e056: ; 0xe056
 	ld a, [wd49a]
 	and a
 	ret nz
-	call Func_30e8
+	call Fillwc600WithBlackTile
 	call Func_30db
 	ld hl, wd5dc
 	ld de, Data_2f34
@@ -10406,7 +10407,7 @@ Func_e08b: ; 0xe08b
 	ld a, [wd49a]
 	and a
 	ret nz
-	call Func_30e8
+	call Fillwc600WithBlackTile
 	call Func_30db
 	ld hl, wd5dc
 	ld de, Data_2f65
@@ -12152,7 +12153,7 @@ Func_efb2: ; 0xefb2
 	ld e, a
 	ld d, $0
 	ld bc, $0000
-	call Func_351c
+	call AddBCDEToCurBufferValue
 	ret
 
 Func_eff3: ; 0xeff3
@@ -12191,7 +12192,7 @@ Func_eff3: ; 0xeff3
 	ld c, a
 	ld b, $0
 	ld de, $0000
-	call Func_351c
+	call AddBCDEToCurBufferValue
 	ret
 
 Func_f034: ; 0xf034
@@ -12215,7 +12216,7 @@ UpgradeBallBlueField: ; 0xf040
 	jr z, .masterBall
 	lb de, $06, $3a
 	call PlaySoundEffect
-	call Func_30e8
+	call Fillwc600WithBlackTile
 	call Func_30db
 	ld de, FieldMultiplierText
 	ld hl, wd5cc
@@ -12242,7 +12243,7 @@ UpgradeBallBlueField: ; 0xf040
 	ld de, $0000
 	push bc
 	push de
-	call Func_30e8
+	call Fillwc600WithBlackTile
 	call Func_30db
 	ld hl, wd5d4
 	ld de, DigitsText1to8
@@ -12591,7 +12592,7 @@ Data_f439: ; 0xf439
 	db $01, $26, $06, $26, $0D, $26, $04, $8C, $FF, $00
 
 Func_f533: ; 0xf533
-	call Func_30e8
+	call Fillwc600WithBlackTile
 	call Func_f55c
 	call Func_f57f
 	ld a, $60
@@ -12608,7 +12609,7 @@ Func_f533: ; 0xf533
 	ld [hLastLYC], a
 	ld a, $ff
 	ld [hLCDCMask], a
-	call Func_30e8
+	call Fillwc600WithBlackTile
 	ret
 
 Func_f55c: ; 0xf55c
@@ -14345,7 +14346,7 @@ Func_10678: ; 0x10678
 	ret
 
 Func_10696: ; 0x10696
-	call Func_30e8
+	call Fillwc600WithBlackTile
 	call Func_30db
 	ld hl, wd5cc
 	ld de, LetsGetPokemonText
@@ -14353,7 +14354,7 @@ Func_10696: ; 0x10696
 	ret
 
 Func_106a6: ; 0x106a6
-	call Func_30e8
+	call Fillwc600WithBlackTile
 	call Func_30db
 	ld hl, wd5cc
 	ld de, PokemonRanAwayText
@@ -14394,7 +14395,7 @@ Func_106b6: ; 0x106b6
 	push hl
 	push bc
 	push de
-	call Func_30e8
+	call Fillwc600WithBlackTile
 	call Func_30db
 	ld hl, wd5cc
 	pop de
@@ -14575,11 +14576,11 @@ Func_107f8: ; 0x107f8
 	ret
 
 Func_10825: ; 0x10825
-	call Func_3556
+	call Retrieve8DigitBCDValueAtwd47a
 	push bc
 	push de
-	call Func_351c
-	call Func_30e8
+	call AddBCDEToCurBufferValue
+	call Fillwc600WithBlackTile
 	call Func_30db
 	ld hl, wd5e9
 	ld de, Data_2a50
@@ -14595,7 +14596,7 @@ Func_10848: ; 0x10848
 	ld bc, OneHundredMillionPoints
 	ld [hFarCallTempA], a
 	callba AddBigBCD6FromQueue
-	call Func_30e8
+	call Fillwc600WithBlackTile
 	call Func_30db
 	ld hl, wd5d4
 	ld de, OneBillionText
@@ -14876,7 +14877,7 @@ CallTable_10abc: ; 0x10abc
 Func_10ac8: ; 0x10ac8
 	xor a
 	ld [wd5ca], a
-	call Func_30e8
+	call Fillwc600WithBlackTile
 	xor a
 	ld [wInSpecialMode], a
 	ld [wd5bb], a
@@ -14946,7 +14947,7 @@ VideoData_10b2a: ; 0x10b2a
 	dw $E0
 
 Func_10b3f: ; 0x10b3f
-	call Func_30e8
+	call Fillwc600WithBlackTile
 	call Func_30db
 	ld hl, wd5cc
 	ld a, [wCurrentEvolutionType]
@@ -15173,7 +15174,7 @@ Func_10ca5: ; 0x10ca5
 	ret
 
 Func_10cb7: ; 0x10cb7
-	call Func_30e8
+	call Fillwc600WithBlackTile
 	call Func_10b59
 	ld a, $60
 	ld [hWY], a
@@ -15206,7 +15207,7 @@ Func_10cb7: ; 0x10cb7
 	ld bc, $0030
 	call LoadVRAMData
 .asm_10cfc
-	call Func_30e8
+	call Fillwc600WithBlackTile
 	ld a, $1
 	ld [wd4aa], a
 	ld [wInSpecialMode], a
@@ -15395,7 +15396,7 @@ Func_10e0a: ; 0x10e0a
 	push hl
 	push bc
 	push de
-	call Func_30e8
+	call Fillwc600WithBlackTile
 	call Func_30db
 	ld hl, wd5cc
 	pop de
@@ -15441,7 +15442,7 @@ Func_10e8b: ; 0x10e8b
 	ld de, $0000
 	push bc
 	push de
-	call Func_30e8
+	call Fillwc600WithBlackTile
 	call Func_30db
 	ld hl, wd5d4
 	ld de, Data_2b6b
@@ -18988,7 +18989,7 @@ Func_1535d: ; 0x1535d
 	jr z, .masterBall
 	lb de, $06, $3a
 	call PlaySoundEffect
-	call Func_30e8
+	call Fillwc600WithBlackTile
 	call Func_30db
 	ld de, FieldMultiplierText
 	ld hl, wd5cc
@@ -19014,7 +19015,7 @@ Func_1535d: ; 0x1535d
 	ld de, $0000
 	push bc
 	push de
-	call Func_30e8
+	call Fillwc600WithBlackTile
 	call Func_30db
 	ld hl, wd5d4
 	ld de, DigitsText1to8
@@ -19265,10 +19266,217 @@ Func_155bb: ; 0x155bb
 	ret
 
 Data_155d7:
-	dr $155d7, $157f7
+	dw Data_155e3
+	dw Data_155e3
+	dw Data_155fa
+	dw Data_15611
+	dw Data_15611
+	dw Data_15628
+
+Data_155e3:
+	db 11
+	dw Data_1563f
+	dw Data_15649
+	dw Data_15653
+	dw Data_1565d
+	dw Data_15667
+	dw Data_15671
+	dw Data_1567b
+	dw Data_15685
+	dw Data_1568f
+	dw Data_15699
+	dw Data_156a3
+
+Data_155fa:
+	db 11
+	dw Data_156ad
+	dw Data_156b7
+	dw Data_156c1
+	dw Data_156cb
+	dw Data_156d5
+	dw Data_156df
+	dw Data_156e9
+	dw Data_156f3
+	dw Data_156fd
+	dw Data_15707
+	dw Data_15711
+
+Data_15611:
+	db 11
+	dw Data_1571b
+	dw Data_15725
+	dw Data_1572f
+	dw Data_15739
+	dw Data_15743
+	dw Data_1574d
+	dw Data_15757
+	dw Data_15761
+	dw Data_1576b
+	dw Data_15775
+	dw Data_1577f
+
+Data_15628:
+	db 11
+	dw Data_15789
+	dw Data_15793
+	dw Data_1579d
+	dw Data_157a7
+	dw Data_157b1
+	dw Data_157bb
+	dw Data_157c5
+	dw Data_157cf
+	dw Data_157d9
+	dw Data_157e3
+	dw Data_157ed
+
+Data_1563f:
+	dr $1563f, $15649
+
+Data_15649:
+	dr $15649, $15653
+
+Data_15653:
+	dr $15653, $1565d
+
+Data_1565d:
+	dr $1565d, $15667
+
+Data_15667:
+	dr $15667, $15671
+
+Data_15671:
+	dr $15671, $1567b
+
+Data_1567b:
+	dr $1567b, $15685
+
+Data_15685:
+	dr $15685, $1568f
+
+Data_1568f:
+	dr $1568f, $15699
+
+Data_15699:
+	dr $15699, $156a3
+
+Data_156a3:
+	dr $156a3, $156ad
+
+Data_156ad:
+	dr $156ad, $156b7
+
+Data_156b7:
+	dr $156b7, $156c1
+
+Data_156c1:
+	dr $156c1, $156cb
+
+Data_156cb:
+	dr $156cb, $156d5
+
+Data_156d5:
+	dr $156d5, $156df
+
+Data_156df:
+	dr $156df, $156e9
+
+Data_156e9:
+	dr $156e9, $156f3
+
+Data_156f3:
+	dr $156f3, $156fd
+
+Data_156fd:
+	dr $156fd, $15707
+
+Data_15707:
+	dr $15707, $15711
+
+Data_15711:
+	dr $15711, $1571b
+
+Data_1571b:
+	dr $1571b, $15725
+
+Data_15725:
+	dr $15725, $1572f
+
+Data_1572f:
+	dr $1572f, $15739
+
+Data_15739:
+	dr $15739, $15743
+
+Data_15743:
+	dr $15743, $1574d
+
+Data_1574d:
+	dr $1574d, $15757
+
+Data_15757:
+	dr $15757, $15761
+
+Data_15761:
+	dr $15761, $1576b
+
+Data_1576b:
+	dr $1576b, $15775
+
+Data_15775:
+	dr $15775, $1577f
+
+Data_1577f:
+	dr $1577f, $15789
+
+Data_15789:
+	dr $15789, $15793
+
+Data_15793:
+	dr $15793, $1579d
+
+Data_1579d:
+	dr $1579d, $157a7
+
+Data_157a7:
+	dr $157a7, $157b1
+
+Data_157b1:
+	dr $157b1, $157bb
+
+Data_157bb:
+	dr $157bb, $157c5
+
+Data_157c5:
+	dr $157c5, $157cf
+
+Data_157cf:
+	dr $157cf, $157d9
+
+Data_157d9:
+	dr $157d9, $157e3
+
+Data_157e3:
+	dr $157e3, $157ed
+
+Data_157ed:
+	dr $157ed, $157f7
 
 Data_157f7:
-	dr $157f7, $1581f
+	dw Data_15803
+	dw Data_15803
+	dw Data_1580a
+	dw Data_15811
+	dw Data_15811
+	dw Data_15818
+
+Data_15803:
+	db $08, $04, $40, $68, $51, $37, $00
+Data_1580a:
+	db $08, $04, $40, $70, $51, $37, $00
+Data_15811:
+	db $08, $04, $40, $78, $51, $37, $00
+Data_15818:
+	db $08, $04, $40, $80, $51, $37, $00
 
 Func_1581f: ; 0x1581f
 	ld a, [wd51f]
@@ -20144,7 +20352,7 @@ Func_16352: ; 0x16352
 	ret
 
 Func_163f2: ; 0x163f2
-	call Func_30e8
+	call Fillwc600WithBlackTile
 	call Func_30db
 	ld hl, wd5dc
 	ld a, [wd497]
@@ -20392,7 +20600,7 @@ Func_1660c: ; 0x1660c
 	ld [wBallSpin], a
 	ld [wBallRotation], a
 	ld [wd549], a
-	call Func_30e8
+	call Fillwc600WithBlackTile
 	jr .asm_1667b
 
 .asm_16667
@@ -20917,7 +21125,7 @@ Func_16ef5: ; 0x16ef5
 	ret z
 	xor a
 	ld [wd613], a
-	call Func_30e8
+	call Fillwc600WithBlackTile
 	call Func_30db
 	ld hl, wd5cc
 	ld de, BonusMultiplierText
@@ -23028,7 +23236,7 @@ Func_189af: ; 0x189af
 	ld [wd498], a
 	ld a, $1
 	ld [wd49a], a
-	call Func_30e8
+	call Fillwc600WithBlackTile
 	call Func_30db
 	ld hl, wd5dc
 	ld de, Data_2f7b
@@ -24042,7 +24250,7 @@ Func_19638: ; 0x19638
 .asm_1965e
 	ld a, $1
 	ld [wd49a], a
-	call Func_30e8
+	call Fillwc600WithBlackTile
 	call Func_30db
 	ld hl, wd5dc
 .asm_1966b
@@ -25083,7 +25291,7 @@ Func_1ab30: ; 0x1ab30
 	ld [wd498], a
 	ld a, $1
 	ld [wd49a], a
-	call Func_30e8
+	call Fillwc600WithBlackTile
 	call Func_30db
 	ld hl, wd5dc
 	ld de, Data_2fb3
@@ -26836,7 +27044,7 @@ Func_1d0a1: ; 0x1d0a1
 	ld [wBallSpin], a
 	ld [wBallRotation], a
 	ld [wd549], a
-	call Func_30e8
+	call Fillwc600WithBlackTile
 	jr .asm_1d110
 
 .asm_1d0fc
@@ -27404,7 +27612,7 @@ Func_1d5bf: ; 0x1d5bf
 	ret z
 	xor a
 	ld [wd613], a
-	call Func_30e8
+	call Fillwc600WithBlackTile
 	call Func_30db
 	ld hl, wd5cc
 	ld de, BonusMultiplierText
@@ -28161,7 +28369,7 @@ Func_1e356: ; 0x1e356
 	jr z, .masterBall
 	lb de, $06, $3a
 	call PlaySoundEffect
-	call Func_30e8
+	call Fillwc600WithBlackTile
 	call Func_30db
 	ld hl, wd5cc
 	ld de, FieldMultiplierText
@@ -28187,7 +28395,7 @@ Func_1e356: ; 0x1e356
 	ld de, $0000
 	push bc
 	push de
-	call Func_30e8
+	call Fillwc600WithBlackTile
 	call Func_30db
 	ld hl, wd5d4
 	ld de, DigitsText1to8
@@ -28753,7 +28961,7 @@ Func_1e830: ; 0x1e830
 	ret
 
 Func_1e8c3: ; 0x1e8c3
-	call Func_30e8
+	call Fillwc600WithBlackTile
 	call Func_30db
 	ld hl, wd5dc
 	ld a, [wd497]
@@ -30135,7 +30343,7 @@ Func_200d3: ; 0x200d3
 	ld de, $0000
 	push bc
 	push de
-	call Func_30e8
+	call Fillwc600WithBlackTile
 	call Func_30db
 	ld hl, wd5e9
 	ld de, Data_2a2a
@@ -30218,7 +30426,7 @@ Func_201ce: ; 0x201ce
 	ld a, [wd5ca]
 	and a
 	ret nz
-	call Func_30e8
+	call Fillwc600WithBlackTile
 	ld [hFarCallTempA], a
 	callba Func_dc00
 	ld [hFarCallTempA], a
@@ -30292,7 +30500,7 @@ Func_20230: ; 0x20230
 	ld de, $0000
 	push bc
 	push de
-	call Func_30e8
+	call Fillwc600WithBlackTile
 	call Func_30db
 	ld hl, wd5e9
 	ld de, Data_2a3d
@@ -30458,7 +30666,7 @@ Func_20394: ; 0x20394
 	ld de, $0000
 	push bc
 	push de
-	call Func_30e8
+	call Fillwc600WithBlackTile
 	call Func_30db
 	ld hl, wd5e9
 	ld de, Data_2a2a
@@ -30541,7 +30749,7 @@ Func_2048f: ; 0x2048f
 	ld a, [wd5ca]
 	and a
 	ret nz
-	call Func_30e8
+	call Fillwc600WithBlackTile
 	ld [hFarCallTempA], a
 	callba Func_dc00
 	ld [hFarCallTempA], a
@@ -30615,7 +30823,7 @@ Func_204f1: ; 0x204f1
 	ld de, $0000
 	push bc
 	push de
-	call Func_30e8
+	call Fillwc600WithBlackTile
 	call Func_30db
 	ld hl, wd5e9
 	ld de, Data_2a3d
@@ -30726,7 +30934,7 @@ Func_205e0: ; 0x205e0
 	ld bc, OneMillionPoints
 	ld [hFarCallTempA], a
 	callba AddBigBCD6FromQueue
-	call Func_30e8
+	call Fillwc600WithBlackTile
 	call Func_30db
 	ld de, YeahYouGotItText
 	ld hl, wd5cc
@@ -30861,7 +31069,7 @@ Func_20757: ; 0x20757
 	ld a, [wd5ca]
 	and a
 	ret nz
-	call Func_30e8
+	call Fillwc600WithBlackTile
 	ld [hFarCallTempA], a
 	callba Func_dc00
 	ld [hFarCallTempA], a
@@ -30923,7 +31131,7 @@ Func_2077b: ; 0x2077b
 .asm_207f5
 	ld [hFarCallTempA], a
 	callba Func_86d2
-	call Func_30e8
+	call Fillwc600WithBlackTile
 	call Func_30db
 	ld hl, wd5cc
 	ld de, EvolutionFailedText
@@ -31173,7 +31381,7 @@ Func_20977: ; 0x20977
 	ld bc, ThreeHundredThousandPoints
 	ld [hFarCallTempA], a
 	callba AddBigBCD6FromQueue
-	call Func_30e8
+	call Fillwc600WithBlackTile
 	call Func_30db
 	ld a, [wCurrentEvolutionType]
 	dec a
@@ -31220,7 +31428,7 @@ Func_209eb: ; 0x209eb
 	ld bc, ThreeHundredThousandPoints
 	ld [hFarCallTempA], a
 	callba AddBigBCD6FromQueue
-	call Func_30e8
+	call Fillwc600WithBlackTile
 	call Func_30db
 	ld hl, wd5cc
 	ld a, [wCurrentEvolutionType]
@@ -31303,7 +31511,7 @@ asm_20a9f:
 	ld bc, $0008
 	call Func_7dc
 .asm_20ada
-	call Func_30e8
+	call Fillwc600WithBlackTile
 	call Func_30db
 	ld a, [wCurrentEvolutionType]
 	cp EVO_EXPERIENCE
@@ -31485,7 +31693,7 @@ Func_20c08: ; 0x20c08
 	ld bc, OneMillionPoints
 	ld [hFarCallTempA], a
 	callba AddBigBCD6FromQueue
-	call Func_30e8
+	call Fillwc600WithBlackTile
 	call Func_30db
 	ld de, YeahYouGotItText
 	ld hl, wd5cc
@@ -31620,7 +31828,7 @@ Func_20d7c: ; 0x20d7c
 	ld a, [wd5ca]
 	and a
 	ret nz
-	call Func_30e8
+	call Fillwc600WithBlackTile
 	ld [hFarCallTempA], a
 	callba Func_dc00
 	ld [hFarCallTempA], a
@@ -31682,7 +31890,7 @@ Func_20da0: ; 0x20da0
 .asm_20e1a
 	ld [hFarCallTempA], a
 	callba Func_86d2
-	call Func_30e8
+	call Fillwc600WithBlackTile
 	call Func_30db
 	ld hl, wd5cc
 	ld de, EvolutionFailedText
@@ -31912,7 +32120,7 @@ Func_20f75: ; 0x20f75
 	ld bc, ThreeHundredThousandPoints
 	ld [hFarCallTempA], a
 	callba AddBigBCD6FromQueue
-	call Func_30e8
+	call Fillwc600WithBlackTile
 	call Func_30db
 	ld a, [wCurrentEvolutionType]
 	dec a
@@ -31960,7 +32168,7 @@ Func_20fef: ; 0x20fef
 	ld bc, ThreeHundredThousandPoints
 	ld [hFarCallTempA], a
 	callba AddBigBCD6FromQueue
-	call Func_30e8
+	call Fillwc600WithBlackTile
 	call Func_30db
 	ld hl, wd5cc
 	ld a, [wCurrentEvolutionType]
@@ -32063,7 +32271,7 @@ asm_210c7:
 	ld bc, $0008
 	call Func_7dc
 .asm_21102
-	call Func_30e8
+	call Fillwc600WithBlackTile
 	call Func_30db
 	ld a, [wCurrentEvolutionType]
 	cp EVO_EXPERIENCE
@@ -32776,7 +32984,7 @@ Func_2442a: ; 0x2442a
 	call PlaySong
 	ld a, $1
 	ld [wd49a], a
-	call Func_30e8
+	call Fillwc600WithBlackTile
 	call Func_30db
 	ld hl, wd5dc
 	ld de, Data_2fd0
@@ -34763,7 +34971,7 @@ Func_25c5a: ; 0x25c5a
 	call PlaySong
 	ld a, $1
 	ld [wd49a], a
-	call Func_30e8
+	call Fillwc600WithBlackTile
 	call Func_30db
 	ld hl, wd5dc
 	ld de, Data_2fec
@@ -40103,7 +40311,7 @@ Func_30188: ; 0x30188
 	ret z
 	cp $1
 	jr nz, .asm_301a7
-	call Func_30e8
+	call Fillwc600WithBlackTile
 	call Func_30db
 	ld hl, wd5cc
 	ld de, ExtraBallText
@@ -40115,7 +40323,7 @@ Func_30188: ; 0x30188
 	ld de, $0000
 	push bc
 	push de
-	call Func_30e8
+	call Fillwc600WithBlackTile
 	call Func_30db
 	ld hl, wd5d4
 	ld de, DigitsText1to9
@@ -40182,7 +40390,7 @@ CallTable_3021f: ; 0x3021f
 Func_3022b: ; 0x3022b
 	xor a
 	ld [wd5ca], a
-	call Func_30e8
+	call Fillwc600WithBlackTile
 	xor a
 	ld [wInSpecialMode], a
 	ld [wSpecialMode], a
@@ -40402,7 +40610,7 @@ Data_30da3: ; 0x30da3
 
 Func_3118f: ; 0x3118f
 	push bc
-	call Func_30e8
+	call Fillwc600WithBlackTile
 	call Func_30db
 	ld a, [wCurrentMap]
 	sla a
@@ -40816,7 +41024,7 @@ Func_31505: ; 0x31505
 	ld a, [wd5ca]
 	and a
 	ret nz
-	call Func_30e8
+	call Fillwc600WithBlackTile
 	ld [hFarCallTempA], a
 	callba Func_3022b
 	ld de, $0001
@@ -40856,7 +41064,7 @@ Func_3151f: ; 0x3151f
 .asm_31577
 	ld [hFarCallTempA], a
 	callba Func_86d2
-	call Func_30e8
+	call Fillwc600WithBlackTile
 	call Func_30db
 	ld hl, wd5cc
 	ld de, Data_2ca8
@@ -40977,7 +41185,7 @@ Func_31672: ; 0x31672
 	ld a, [wd5ca]
 	and a
 	ret nz
-	call Func_30e8
+	call Fillwc600WithBlackTile
 	ld [hFarCallTempA], a
 	callba Func_3022b
 	ld de, $0001
@@ -41021,7 +41229,7 @@ Func_3168c: ; 0x3168c
 .asm_316ee
 	ld [hFarCallTempA], a
 	callba Func_86d2
-	call Func_30e8
+	call Fillwc600WithBlackTile
 	call Func_30db
 	ld hl, wd5cc
 	ld de, Data_2ca8
@@ -44036,22 +44244,35 @@ SeelBonusTilemap2_GameBoyColor: ; 0xd5c00
 
 Alphabet1Gfx: ; 0xd6000
 	INCBIN "gfx/stage/alphabet_1.2bpp"
-	dr $d61a0, $d61c0
 
-GFX_d61c0:
-	INCBIN "gfx/stage/e_acute_mono.2bpp"
-	dr $d61d0, $d6200
+GFX_d61a0: INCBIN "gfx/unknown/d61a0.2bpp"
+GFX_d61b0: INCBIN "gfx/unknown/d61b0.2bpp"
+GFX_d61c0: INCBIN "gfx/stage/e_acute_mono.2bpp"
+GFX_d61d0: INCBIN "gfx/unknown/d61d0.2bpp"
+GFX_d61e0: INCBIN "gfx/unknown/d61e0.2bpp"
+	dr $d61f0, $d6200
 
 Alphabet2Gfx: ; 0xd6200
 	INCBIN "gfx/stage/alphabet_2.2bpp"
-	dr $d63a0, $d63c0
 
-GFX_d63c0:
-	INCBIN "gfx/stage/e_acute_color.2bpp"
-	dr $d63d0, $d6450
+GFX_d63a0: INCBIN "gfx/unknown/d63a0.2bpp"
+GFX_d63b0: INCBIN "gfx/unknown/d63b0.2bpp"
+GFX_d63c0: INCBIN "gfx/stage/e_acute_color.2bpp"
+GFX_d63d0: INCBIN "gfx/unknown/d63d0.2bpp"
+GFX_d63e0: INCBIN "gfx/unknown/d63e0.2bpp"
+
+	dr $d63f0, $d6410
+
+GFX_d6410: INCBIN "gfx/unknown/d6410.2bpp"
+
+	dr $d6420, $d6430
+
+GFX_d6430: INCBIN "gfx/unknown/d6430.2bpp"
+GFX_d6440: INCBIN "gfx/unknown/d6440.2bpp"
 
 InGameMenuSymbolsGfx: ; 0xd6450
 	INCBIN "gfx/stage/menu_symbols.2bpp"
+GFX_d6480: INCBIN "gfx/unknown/d6480.2bpp"
 	dr $d6490, $d6600
 
 StageBlueFieldTopGfx3: ; 0xd6600

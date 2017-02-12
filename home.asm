@@ -75,7 +75,7 @@ Start: ; 0x150
 	ld hl, wc000
 	ld bc, $2000
 	call ClearData  ; Clear WRAM Bank 0
-	ld hl, vTiles0
+	ld hl, vTilesOB
 	ld bc, $1000
 	call ClearData  ; Clear First half of VRAM
 	ld a, SRAM_ENABLE
@@ -3899,7 +3899,6 @@ Func_1ffc: ; 0x1ffc
 	ld [wd806], a
 	ld a, $4
 	ld [wd807], a
-	ld [hFarCallTempA], a
 	callba Func_3c000
 	ld a, $1
 	ld [wd85d], a
@@ -5290,7 +5289,6 @@ Func_3500:
 	ld [hli], a
 	ld [hl], a
 	ld bc, wd464
-	ldh [hFarCallTempA], a
 	callba AddBigBCD6FromQueueWithBallMultiplier
 	ret
 
@@ -5308,7 +5306,6 @@ AddBCDEToCurBufferValue: ; 0x351c
 	ld [hli], a
 	ld [hl], a
 	ld bc, wd464
-	ld [hFarCallTempA], a
 	callba AddBigBCD6FromQueue
 	ret
 

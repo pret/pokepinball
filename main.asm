@@ -87,7 +87,7 @@ PointerTable_8089: ; 0x8089
 	dw UnusedTextVideoData
 
 UnusedTextVideoData: ; 0x808b
-	VIDEO_DATA_TILES UnusedTextGfx, vTiles1 + $200, $400
+	VIDEO_DATA_TILES UnusedTextGfx, vTilesSH + $200, $400
 	db $FF, $FF ; terminators
 
 UnusedTileListData_8094: ; 0x8094
@@ -103,7 +103,7 @@ UnusedTileListData_8094: ; 0x8094
 	db $00  ; terminator
 
 FillBackgroundsVRAM: ; 0x80b5
-	ld hl, vBGMap0
+	ld hl, vBGMap
 .fillLoop
 	xor a
 	ld [hli], a
@@ -116,7 +116,7 @@ FillBackgroundsVRAM: ; 0x80b5
 	ret
 
 FillTilesVRAM: ; 0x80c3
-	ld hl, vTiles0
+	ld hl, vTilesOB
 .fillLoop
 	ld a, c
 	ld [hli], a
@@ -124,7 +124,7 @@ FillTilesVRAM: ; 0x80c3
 	ld [hli], a
 	ld [hli], a
 	ld a, h
-	cp (vBGMap0 >> 8)
+	cp (vBGMap >> 8)
 	jr nz, .fillLoop
 	ret
 
@@ -287,14 +287,14 @@ EraseAllDataGfxPointers: ; 0x81a2
 	dw EraseAllDataGfx_GameBoyColor
 
 EraseAllDataGfx_GameBoy: ; 0x81a6
-	VIDEO_DATA_TILES   EraseAllDataGfx, vTiles2, $300
-	VIDEO_DATA_TILEMAP EraseAllDataTilemap, vBGMap0, $400
+	VIDEO_DATA_TILES   EraseAllDataGfx, vTilesBG, $300
+	VIDEO_DATA_TILEMAP EraseAllDataTilemap, vBGMap, $400
 	db $FF, $FF ; terminators
 
 EraseAllDataGfx_GameBoyColor: ; 0x81b6
-	VIDEO_DATA_TILES    EraseAllDataGfx, vTiles2, $300
-	VIDEO_DATA_TILEMAP  EraseAllDataTilemap, vBGMap0, $400
-	VIDEO_DATA_BGATTR   EraseAllDataBGAttributes, vBGMap0, $400
+	VIDEO_DATA_TILES    EraseAllDataGfx, vTilesBG, $300
+	VIDEO_DATA_TILEMAP  EraseAllDataTilemap, vBGMap, $400
+	VIDEO_DATA_BGATTR   EraseAllDataBGAttributes, vBGMap, $400
 	VIDEO_DATA_PALETTES HighScoresRedStagePalettes, $80
 	db $FF, $FF ; terminators
 
@@ -397,14 +397,14 @@ CopyrightTextGfxPointers: ; 0x825e
 	dw CopyrightTextGfx_GameBoyColor
 
 CopyrightTextGfx_GameBoy: ; 0x8262
-	VIDEO_DATA_TILES   CopyrightTextGfx, vTiles1, $400
-	VIDEO_DATA_TILEMAP CopyrightScreenTilemap, vBGMap0, $400
+	VIDEO_DATA_TILES   CopyrightTextGfx, vTilesSH, $400
+	VIDEO_DATA_TILEMAP CopyrightScreenTilemap, vBGMap, $400
 	db $FF, $FF  ; terminators
 
 CopyrightTextGfx_GameBoyColor: ; 0x8272
-	VIDEO_DATA_TILES    CopyrightTextGfx, vTiles1, $400
-	VIDEO_DATA_TILEMAP  CopyrightScreenTilemap, vBGMap0, $400
-	VIDEO_DATA_BGATTR   CopyrightScreenBGAttributes, vBGMap0, $400
+	VIDEO_DATA_TILES    CopyrightTextGfx, vTilesSH, $400
+	VIDEO_DATA_TILEMAP  CopyrightScreenTilemap, vBGMap, $400
+	VIDEO_DATA_BGATTR   CopyrightScreenBGAttributes, vBGMap, $400
 	VIDEO_DATA_PALETTES CopyrightScreenPalettes, $80
 	db $FF, $FF ; terminators
 
@@ -436,7 +436,6 @@ FadeOutCopyrightScreenAndLoadData: ; 0x82a8
 	ld bc, $0082
 	call LoadSavedData
 	jr c, .loadedHighScores
-	ld [hFarCallTempA], a
 	callba CopyInitialHighScores
 .loadedHighScores
 	ld hl, sPokedexFlags
@@ -444,7 +443,6 @@ FadeOutCopyrightScreenAndLoadData: ; 0x82a8
 	ld bc, $0098
 	call LoadSavedData
 	jr c, .asm_82de
-	ld [hFarCallTempA], a
 	callba ClearPokedexData
 .asm_82de
 	ld hl, sKeyConfigs
@@ -452,7 +450,6 @@ FadeOutCopyrightScreenAndLoadData: ; 0x82a8
 	ld bc, $000e
 	call LoadSavedData
 	jr c, .asm_82f6
-	ld [hFarCallTempA], a
 	callba SaveDefaultKeyConfigs
 .asm_82f6
 	ld hl, sSaveGame
@@ -478,14 +475,14 @@ InitializeStage: ; 0x8311
 	ld a, [wd805]
 	and a
 	jr nz, .asm_8331
-	ld hl, vBGMap1
+	ld hl, vBGWin
 	ld bc, $0400
 	ld a, $0
 	call Func_63e
 	jr .asm_833c
 
 .asm_8331
-	ld hl, vBGMap1
+	ld hl, vBGWin
 	ld bc, $0400
 	ld a, $8
 	call Func_63e
@@ -624,7 +621,6 @@ Func_8444: ; 0x8444
 	ld a, [wd5bb]
 	and a
 	jr z, .asm_8460
-	ld [hFarCallTempA], a
 	callba Func_10464
 .asm_8460
 	ret
@@ -711,75 +707,75 @@ PointerTable_84bd: ; 0x84bd
 Func_84fd:
 	ld a, [hGameBoyColorFlag]
 	and a
-	jr z, .asm_850d
+	jr z, .not_cgb
 	ld a, $1
 	ld [rVBK], a
 	xor a
-	call Func_8519
+	call .FillAttrsOrBGMap
 	xor a
 	ld [rVBK], a
-.asm_850d
+.not_cgb
 	ld a, $81
-	call Func_8519
+	call .FillAttrsOrBGMap
 	ld de, wc600 + $47
 	call Func_8524
 	ret
 
-Func_8519: ; 8519 (2:4519)
-	hlCoord 0, 0, vBGMap1
+.FillAttrsOrBGMap: ; 8519 (2:4519)
+	hlCoord 0, 0, vBGWin
 	ld b, $20
-.asm_851e
+.loop
 	ld [hli], a
 	ld [hli], a
 	dec b
-	jr nz, .asm_851e
+	jr nz, .loop
 	ret
 
 Func_8524: ; 0x8524
-	ld hl, wd46f
-	ld bc, $0c01
-.asm_852a
+	ld hl, wScore + $5
+	lb bc, $0c, $01
+.loop
 	ld a, [hl]
 	swap a
 	and $f
-	call Func_8543
+	call .GetDigit
 	inc de
 	dec b
 	ld a, [hld]
 	and $f
-	call Func_8543
+	call .GetDigit
 	inc de
 	dec b
-	jr nz, .asm_852a
+	jr nz, .loop
 	ld a, $86
 	ld [de], a
 	inc de
 	ret
 
-Func_8543: ; 0x8543
-	jr nz, .asm_854c
+.GetDigit: ; 0x8543
+	jr nz, .okay
 	ld a, b
 	dec a
-	jr z, .asm_854c
+	jr z, .okay
 	ld a, c
 	and a
 	ret nz
-.asm_854c
-	add $86
+.okay
+	add $86 ; 0
 	ld [de], a
 	ld c, $0
 	ld a, b
 	cp $c
-	jr z, .asm_8561
+	jr z, .load_tile_82
 	cp $9
-	jr z, .asm_8561
+	jr z, .load_tile_82
 	cp $6
-	jr z, .asm_8561
+	jr z, .load_tile_82
 	cp $3
 	ret nz
-.asm_8561
+.load_tile_82
 	set 7, e
-	ld a, $82
+	ld a, $82 ; ,
 	ld [de], a
 	res 7, e
 	ret
@@ -999,7 +995,6 @@ StartTimer: ; 0x867d
 	ld [wd57d], a
 	ld a, $1
 	ld [wd580], a
-	ld [hFarCallTempA], a
 	callba Func_1404a
 	ret
 
@@ -1069,12 +1064,12 @@ HandleInGameMenu: ; 0x86d7
 	call Func_8797
 	ld a, Bank(InGameMenuSymbolsGfx)
 	ld hl, InGameMenuSymbolsGfx
-	ld de, vTiles1 + $60
+	ld de, vTilesSH + $60
 	ld bc, $0010
 	call LoadVRAMData
 	ld a, $0
 	ld hl, wBottomMessageText
-	ld de, vBGMap1
+	ld de, vBGWin
 	ld bc, $00c0
 	call LoadVRAMData
 	ld a, $60
@@ -1111,7 +1106,7 @@ HandleInGameMenu: ; 0x86d7
 	jr nz, .asm_8778
 	ld a, Bank(StageRedFieldTopStatusBarSymbolsGfx_GameBoy)
 	ld hl, StageRedFieldTopStatusBarSymbolsGfx_GameBoy + $60
-	ld de, vTiles1 + $60
+	ld de, vTilesSH + $60
 	ld bc, $0010
 	call LoadVRAMData
 	jr .asm_8786
@@ -1119,7 +1114,7 @@ HandleInGameMenu: ; 0x86d7
 .asm_8778
 	ld a, Bank(StageRedFieldTopStatusBarSymbolsGfx_GameBoyColor)
 	ld hl, StageRedFieldTopStatusBarSymbolsGfx_GameBoyColor + $60
-	ld de, vTiles1 + $60
+	ld de, vTilesSH + $60
 	ld bc, $0010
 	call LoadVRAMData
 .asm_8786
@@ -1203,7 +1198,7 @@ DrawInGameMenu: ; 0x87ed
 	ld [hl], a
 	ld a, $0
 	ld hl, wBottomMessageText
-	ld de, vBGMap1
+	ld de, vBGWin
 	ld bc, $00c0
 	call LoadVRAMData
 	ret
@@ -2406,14 +2401,14 @@ TitlescreenFadeInGfxPointers: ; 0xc057
 	dw TitlescreenFadeInGfx_GameBoyColor
 
 TitlescreenFadeInGfx_GameBoy: ; 0xc05b
-	VIDEO_DATA_TILES   TitlescreenGfx, vTiles0, $1800
-	VIDEO_DATA_TILEMAP TitlescreenTilemap, vBGMap0, $240
+	VIDEO_DATA_TILES   TitlescreenGfx, vTilesOB, $1800
+	VIDEO_DATA_TILEMAP TitlescreenTilemap, vBGMap, $240
 	db $FF, $FF ; terminators
 
 TitlescreenFadeInGfx_GameBoyColor: ; 0xc06b
-	VIDEO_DATA_TILES    TitlescreenFadeInGfx, vTiles0, $1800
-	VIDEO_DATA_TILEMAP  TitlescreenTilemap, vBGMap0, $240
-	VIDEO_DATA_BGATTR   TitlescreenBGAttributes, vBGMap0, $240
+	VIDEO_DATA_TILES    TitlescreenFadeInGfx, vTilesOB, $1800
+	VIDEO_DATA_TILEMAP  TitlescreenTilemap, vBGMap, $240
+	VIDEO_DATA_BGATTR   TitlescreenBGAttributes, vBGMap, $240
 	VIDEO_DATA_PALETTES TitlescreenPalettes, $80
 	db $FF, $FF ; terminators
 
@@ -2866,10 +2861,10 @@ Func_c35a: ; 0xc35a
 	call PlaySong
 	call Func_588
 	ld a, [wSoundTestCurrentBackgroundMusic]
-	hlCoord 7, 11, vBGMap0
+	hlCoord 7, 11, vBGMap
 	call RedrawSoundTestID
 	ld a, [wSoundTextCurrentSoundEffect]
-	hlCoord 7, 13, vBGMap0
+	hlCoord 7, 13, vBGMap
 	call RedrawSoundTestID
 	call Func_bbe
 	ld hl, wScreenState
@@ -2881,17 +2876,17 @@ OptionsScreenVideoDataPointers: ; 0xc3b9
 	dw OptionsScreenVideoData_GameBoyColor
 
 OptionsScreenVideoData_GameBoy: ; 0xc3bd
-	VIDEO_DATA_TILES   OptionMenuAndKeyConfigGfx, vTiles0, $1400
-	VIDEO_DATA_TILEMAP OptionMenuTilemap,  vBGMap0, $240
-	VIDEO_DATA_TILEMAP OptionMenuTilemap2, vBGMap1, $240
+	VIDEO_DATA_TILES   OptionMenuAndKeyConfigGfx, vTilesOB, $1400
+	VIDEO_DATA_TILEMAP OptionMenuTilemap,  vBGMap, $240
+	VIDEO_DATA_TILEMAP OptionMenuTilemap2, vBGWin, $240
 	db $FF, $FF ; terminators
 
 OptionsScreenVideoData_GameBoyColor: ; 0xc3d4
-	VIDEO_DATA_TILES         OptionMenuAndKeyConfigGfx, vTiles0, $1400
-	VIDEO_DATA_TILEMAP       OptionMenuTilemap, vBGMap0, $240
-	VIDEO_DATA_TILEMAP_BANK2 OptionMenuTilemap3, vBGMap0, $240
-	VIDEO_DATA_TILEMAP       OptionMenuTilemap2, vBGMap1, $240
-	VIDEO_DATA_TILEMAP_BANK2 OptionMenuTilemap4, vBGMap1, $240
+	VIDEO_DATA_TILES         OptionMenuAndKeyConfigGfx, vTilesOB, $1400
+	VIDEO_DATA_TILEMAP       OptionMenuTilemap, vBGMap, $240
+	VIDEO_DATA_TILEMAP_BANK2 OptionMenuTilemap3, vBGMap, $240
+	VIDEO_DATA_TILEMAP       OptionMenuTilemap2, vBGWin, $240
+	VIDEO_DATA_TILEMAP_BANK2 OptionMenuTilemap4, vBGWin, $240
 	VIDEO_DATA_PALETTES      OptionMenuPalettes, $80
 	db $FF, $FF ; terminators
 
@@ -3375,7 +3370,7 @@ UpdateSoundTestBackgroundMusicSelection: ; 0xc715
 	xor a
 .saveBackgroundMusicID
 	ld [wSoundTestCurrentBackgroundMusic], a
-	hlCoord 7, 11, vBGMap0
+	hlCoord 7, 11, vBGMap
 	jp RedrawSoundTestID
 
 UpdateSoundTestSoundEffectSelection: ; 0xc73a
@@ -3409,7 +3404,7 @@ UpdateSoundTestSoundEffectSelection: ; 0xc73a
 	xor a
 .saveSoundEffectID
 	ld [wSoundTextCurrentSoundEffect], a
-	hlCoord 7, 13, vBGMap0
+	hlCoord 7, 13, vBGMap
 	; fall through
 
 RedrawSoundTestID: ; 0xc76c
@@ -3697,7 +3692,7 @@ OAMPixelOffsetData_c944: ; 0xc944
 	dw $7018
 
 Func_c948: ; 0xc948
-	hlCoord 13, 3, vBGMap1
+	hlCoord 13, 3, vBGWin
 	ld de, wKeyConfigBallStart
 	ld b, $e
 .asm_c950
@@ -3943,7 +3938,7 @@ Func_ca8f: ; 0xca8f
 .asm_caae
 	ld b, $5
 .asm_cab0
-	ld de, wd46f
+	ld de, wScore + $5
 	ld c, $6
 .asm_cab5
 	ld a, [de]
@@ -3988,7 +3983,7 @@ Func_ca8f: ; 0xca8f
 	jr c, .asm_cb02
 	push af
 	jr nz, .asm_caf6
-	ld hl, wd476
+	ld hl, wd473 + $3
 .asm_caf6
 	ld c, $d
 .asm_caf8
@@ -4049,10 +4044,10 @@ Func_cb14: ; 0xcb14
 	ld a, $20
 	ld [wda82], a
 	call Func_d211
-	hlCoord 0, 14, vBGMap0
+	hlCoord 0, 14, vBGMap
 	ld de, wRedHighScore5Unknown0x09 + $3
 	call Func_d2cb
-	hlCoord 0, 14, vBGMap1
+	hlCoord 0, 14, vBGWin
 	ld de, wBlueHighScore5Unknown0x09 + $3
 	call Func_d2cb
 	ld a, [wHighScoresStage]
@@ -4113,73 +4108,73 @@ HighScoresVideoDataPointers: ; 0xcbe3
 	dw HighScoresBlueStageVideoData_GameBoyColor
 
 HighScoresVideoData_GameBoy: ; 0xcbe9
-	VIDEO_DATA_TILES HighScoresBaseGameBoyGfx, vTiles0, $1800
-	VIDEO_DATA_TILEMAP HighScoresTilemap, vBGMap0, $400
-	VIDEO_DATA_TILEMAP HighScoresTilemap2, vBGMap1, $400
+	VIDEO_DATA_TILES HighScoresBaseGameBoyGfx, vTilesOB, $1800
+	VIDEO_DATA_TILEMAP HighScoresTilemap, vBGMap, $400
+	VIDEO_DATA_TILEMAP HighScoresTilemap2, vBGWin, $400
 	dw HighScoresTilemap + $3c0
 	db Bank(HighScoresTilemap)
-	dw vBGMap0
+	dw vBGMap
 	dw ($40 << 2)
 	dw HighScoresTilemap + $280
 	db Bank(HighScoresTilemap)
-	dw vBGMap0 + $200
+	dw vBGMap + $200
 	dw ($40 << 2)
 	dw HighScoresTilemap2 + $3c0
 	db Bank(HighScoresTilemap2)
-	dw vBGMap1
+	dw vBGWin
 	dw ($40 << 2)
 	dw HighScoresTilemap2 + $280
 	db Bank(HighScoresTilemap2)
-	dw vBGMap1 + $200
+	dw vBGWin + $200
 	dw ($40 << 2)
 	db $FF, $FF  ; terminators
 
 HighScoresRedStageVideoData_GameBoyColor: ; 0xcc1c
-	VIDEO_DATA_TILES HighScoresBaseGameBoyGfx, vTiles0, $1800
-	VIDEO_DATA_TILEMAP HighScoresTilemap, vBGMap0, $400
-	VIDEO_DATA_TILEMAP HighScoresTilemap2, vBGMap1, $400
-	VIDEO_DATA_TILEMAP_BANK2 HighScoresTilemap4, vBGMap0, $400
-	VIDEO_DATA_TILEMAP_BANK2 HighScoresTilemap5, vBGMap1, $400
+	VIDEO_DATA_TILES HighScoresBaseGameBoyGfx, vTilesOB, $1800
+	VIDEO_DATA_TILEMAP HighScoresTilemap, vBGMap, $400
+	VIDEO_DATA_TILEMAP HighScoresTilemap2, vBGWin, $400
+	VIDEO_DATA_TILEMAP_BANK2 HighScoresTilemap4, vBGMap, $400
+	VIDEO_DATA_TILEMAP_BANK2 HighScoresTilemap5, vBGWin, $400
 	dw HighScoresTilemap + $3c0
 	db Bank(HighScoresTilemap)
-	dw vBGMap0
+	dw vBGMap
 	dw ($40 << 2)
 	dw HighScoresTilemap + $280
 	db Bank(HighScoresTilemap)
-	dw vBGMap0 + $200
+	dw vBGMap + $200
 	dw ($40 << 2)
 	dw HighScoresTilemap2 + $3c0
 	db Bank(HighScoresTilemap2)
-	dw vBGMap1
+	dw vBGWin
 	dw ($40 << 2)
 	dw HighScoresTilemap2 + $280
 	db Bank(HighScoresTilemap2)
-	dw vBGMap1 + $200
+	dw vBGWin + $200
 	dw ($40 << 2)
 	VIDEO_DATA_PALETTES HighScoresRedStagePalettes, $80
 	db $FF, $FF
 
 HighScoresBlueStageVideoData_GameBoyColor: ; 0xcc64
-	VIDEO_DATA_TILES HighScoresBaseGameBoyGfx, vTiles0, $1800
-	VIDEO_DATA_TILEMAP HighScoresTilemap, vBGMap0, $400
-	VIDEO_DATA_TILEMAP HighScoresTilemap2, vBGMap1, $400
-	VIDEO_DATA_TILEMAP_BANK2 HighScoresTilemap4, vBGMap0, $400
-	VIDEO_DATA_TILEMAP_BANK2 HighScoresTilemap5, vBGMap1, $400
+	VIDEO_DATA_TILES HighScoresBaseGameBoyGfx, vTilesOB, $1800
+	VIDEO_DATA_TILEMAP HighScoresTilemap, vBGMap, $400
+	VIDEO_DATA_TILEMAP HighScoresTilemap2, vBGWin, $400
+	VIDEO_DATA_TILEMAP_BANK2 HighScoresTilemap4, vBGMap, $400
+	VIDEO_DATA_TILEMAP_BANK2 HighScoresTilemap5, vBGWin, $400
 	dw HighScoresTilemap + $3c0
 	db Bank(HighScoresTilemap)
-	dw vBGMap0
+	dw vBGMap
 	dw ($40 << 2)
 	dw HighScoresTilemap + $280
 	db Bank(HighScoresTilemap)
-	dw vBGMap0 + $200
+	dw vBGMap + $200
 	dw ($40 << 2)
 	dw HighScoresTilemap2 + $3c0
 	db Bank(HighScoresTilemap2)
-	dw vBGMap1
+	dw vBGWin
 	dw ($40 << 2)
 	dw HighScoresTilemap2 + $280
 	db Bank(HighScoresTilemap2)
-	dw vBGMap1 + $200
+	dw vBGWin + $200
 	dw ($40 << 2)
 	VIDEO_DATA_PALETTES HighScoresBlueStagePalettes, $80
 	db $FF, $FF  ; terminators
@@ -4257,18 +4252,18 @@ Func_ccb6: ; 0xccb6
 	call CopyInitialHighScores
 	ld a, BANK(HighScoresTilemap)
 	ld hl, HighScoresTilemap + $40
-	deCoord 0, 2, vBGMap0
+	deCoord 0, 2, vBGMap
 	ld bc, $01c0
 	call LoadVRAMData
 	ld a, BANK(HighScoresTilemap2)
 	ld hl, HighScoresTilemap2 + $40
-	deCoord 0, 2, vBGMap1
+	deCoord 0, 2, vBGWin
 	ld bc, $01c0
 	call LoadVRAMData
-	hlCoord 0, 14, vBGMap0
+	hlCoord 0, 14, vBGMap
 	ld de, wRedHighScore5Unknown0x09 + $3
 	call Func_d361
-	hlCoord 0, 14, vBGMap1
+	hlCoord 0, 14, vBGWin
 	ld de, wBlueHighScore5Unknown0x09 + $3
 	call Func_d361
 	ld hl, wRedHighScore1Points
@@ -4432,10 +4427,10 @@ Func_cdce: ; 0xcdce
 	ld a, $8
 	ld [$abf6], a
 	pop af
-	hlCoord 0, 14, vBGMap0
+	hlCoord 0, 14, vBGMap
 	ld de, wRedHighScore5Unknown0x09 + $3
 	call Func_d361
-	hlCoord 0, 14, vBGMap1
+	hlCoord 0, 14, vBGWin
 	ld de, wBlueHighScore5Unknown0x09 + $3
 	call Func_d361
 	ld hl, wRedHighScore1Points
@@ -4730,7 +4725,7 @@ Func_d042: ; 0xd042
 	ld bc, $0040
 	call FarCopyData
 	ld a, $0
-	hlCoord 0, 2, vBGMap0
+	hlCoord 0, 2, vBGMap
 	ld de, wc2c0
 	ld bc, $01c0
 	call LoadVRAMData
@@ -4756,7 +4751,7 @@ Func_d042: ; 0xd042
 	ld bc, $0040
 	call FarCopyData
 	ld a, $0
-	hlCoord 0, 2, vBGMap1
+	hlCoord 0, 2, vBGWin
 	ld de, wc2c0
 	ld bc, $01c0
 	call LoadVRAMData
@@ -5336,11 +5331,11 @@ Func_d46f: ; 0xd46f
 	ld a, [wda80]
 	add e
 	ld e, a
-	hlCoord 3, 2, vBGMap0
+	hlCoord 3, 2, vBGMap
 	ld a, [wHighScoresStage]
 	and a
 	jr z, .asm_d496
-	hlCoord 3, 2, vBGMap1
+	hlCoord 3, 2, vBGWin
 .asm_d496
 	add hl, de
 	push hl
@@ -5491,22 +5486,22 @@ Func_d57b: ; 0xd57b
 	rst AdvanceFrame
 	ld a, BANK(HighScoresTilemap)
 	ld hl, HighScoresTilemap
-	deCoord 0, 0, vBGMap0
+	deCoord 0, 0, vBGMap
 	ld bc, $0040
 	call LoadVRAMData
 	ld a, BANK(HighScoresTilemap)
 	ld hl, HighScoresTilemap + $200
-	deCoord 0, 16, vBGMap0
+	deCoord 0, 16, vBGMap
 	ld bc, $0040
 	call LoadVRAMData
 	ld a, BANK(HighScoresTilemap2)
 	ld hl, HighScoresTilemap2
-	deCoord 0, 0, vBGMap1
+	deCoord 0, 0, vBGWin
 	ld bc, $0040
 	call LoadVRAMData
 	ld a, BANK(HighScoresTilemap2)
 	ld hl, HighScoresTilemap2 + $200
-	deCoord 0, 16, vBGMap1
+	deCoord 0, 16, vBGWin
 	ld bc, $0040
 	call LoadVRAMData
 	ld b, $10
@@ -5536,22 +5531,22 @@ Func_d5d0: ; 0xd5d0
 	jr nz, .asm_d5d2
 	ld a, BANK(HighScoresTilemap)
 	ld hl, HighScoresTilemap + $3c0
-	deCoord 0, 0, vBGMap0
+	deCoord 0, 0, vBGMap
 	ld bc, $0040
 	call LoadVRAMData
 	ld a, BANK(HighScoresTilemap)
 	ld hl, HighScoresTilemap + $280
-	deCoord 0, 16, vBGMap0
+	deCoord 0, 16, vBGMap
 	ld bc, $0040
 	call LoadVRAMData
 	ld a, BANK(HighScoresTilemap2)
 	ld hl, HighScoresTilemap2 + $3c0
-	deCoord 0, 0, vBGMap1
+	deCoord 0, 0, vBGWin
 	ld bc, $0040
 	call LoadVRAMData
 	ld a, BANK(HighScoresTilemap2)
 	ld hl, HighScoresTilemap2 + $280
-	deCoord 0, 16, vBGMap1
+	deCoord 0, 16, vBGWin
 	ld bc, $0040
 	call LoadVRAMData
 	ld bc, $0009
@@ -5630,10 +5625,10 @@ Func_d68a: ; 0xd68a
 	pop bc
 	cp NUM_POKEMON
 	ret nz
-	ld hl, vBGMap0
+	ld hl, vBGMap
 	add hl, bc
 	call Func_d6aa
-	ld hl, vBGMap1
+	ld hl, vBGWin
 	add hl, bc
 	; fall through
 Func_d6aa: ; 0xd6aa
@@ -5706,14 +5701,14 @@ FieldSelectGfxPointers: ; 0xd71c
 	dw FieldSelectGfx_GameBoyColor
 
 FieldSelectGfx_GameBoy: ; 0xd720
-	VIDEO_DATA_TILES   FieldSelectScreenGfx, vTiles1 - $100, $d00
-	VIDEO_DATA_TILEMAP FieldSelectTilemap, vBGMap0, $240
+	VIDEO_DATA_TILES   FieldSelectScreenGfx, vTilesSH - $100, $d00
+	VIDEO_DATA_TILEMAP FieldSelectTilemap, vBGMap, $240
 	db $FF, $FF ; terminators
 
 FieldSelectGfx_GameBoyColor: ; 0xd730
-	VIDEO_DATA_TILES    FieldSelectScreenGfx, vTiles1 - $100, $d00
-	VIDEO_DATA_TILEMAP  FieldSelectTilemap, vBGMap0, $240
-	VIDEO_DATA_BGATTR   FieldSelectBGAttributes, vBGMap0, $240
+	VIDEO_DATA_TILES    FieldSelectScreenGfx, vTilesSH - $100, $d00
+	VIDEO_DATA_TILEMAP  FieldSelectTilemap, vBGMap, $240
+	VIDEO_DATA_BGATTR   FieldSelectBGAttributes, vBGMap, $240
 	VIDEO_DATA_PALETTES FieldSelectScreenPalettes, $48
 	db $FF, $FF ; terminators
 
@@ -5885,7 +5880,6 @@ PinballGameScreenFunctions: ; 0xd857
 Func_d861: ; 0xd861
 	xor a
 	ld [wd908], a
-	ld [hFarCallTempA], a
 	callba InitializeStage
 	call Fillwc600WithBlackTile
 	ld a, $1
@@ -5921,16 +5915,11 @@ Func_d87f: ; 0xd87f
 	set 1, [hl]
 	ld a, $1
 	ld [hHBlankRoutine], a
-	ld [hFarCallTempA], a
 	callba StartBallForStage
-	ld [hFarCallTempA], a
 	callba LoadStageCollisionAttributes
-	ld [hFarCallTempA], a
 	callba Func_e6c2
-	ld [hFarCallTempA], a
 	callba Func_ed5e
 	call ClearOAMBuffer
-	ld [hFarCallTempA], a
 	callba Func_84b7
 	ld a, [wd849]
 	and a
@@ -5978,7 +5967,6 @@ Func_d909: ; 0xd909
 	jr z, .didntPressMenuKey
 	lb de, $03, $4c
 	call PlaySoundEffect
-	ld [hFarCallTempA], a
 	callba HandleInGameMenu
 	jp z, SaveGame
 .didntPressMenuKey
@@ -6025,19 +6013,14 @@ Func_d909: ; 0xd909
 	call SetBallVelocity
 .asm_d9a2
 	call MoveBallPosition
-	ld [hFarCallTempA], a
-	callba Func_ece9
-	ld [hFarCallTempA], a
+	callba CheckStageTransition
 	callba Func_84b7
 	call Func_33e3
 	ld a, [wd5cb]
 	and a
 	jr nz, .asm_d9e9
-	ld [hFarCallTempA], a
 	callba Func_85c7
-	ld [hFarCallTempA], a
 	callba Func_8650
-	ld [hFarCallTempA], a
 	callba Func_8645
 	call Func_dba9
 	call Func_dc7c
@@ -6098,10 +6081,8 @@ Func_da36: ; 0xda36
 	ld a, Bank(HandleFlippers)
 	ld hl, HandleFlippers
 	call nz, BankSwitch
-	ld [hFarCallTempA], a
 	callba Func_84b7
 	call Func_33e3
-	ld [hFarCallTempA], a
 	callba Func_85c7
 	ld a, [wd5ca]
 	and a
@@ -6266,17 +6247,17 @@ Func_dba9: ; 0xdba9
 	ld [wc600 + $45], a
 	ret
 
-Func_dbba: ; 0xdbba
+Start20SecondSaverTimer: ; 0xdbba
 	ld a, $1
 	ld [wBallSaverIconOn], a
 	ld a, $ff
 	ld [wd4a2], a
-	ld a, $3b
+	ld a, 59
 	ld [wBallSaverTimerFrames], a
-	ld a, $14
+	ld a, 20
 	ld [wBallSaverTimerSeconds], a
 	ld a, $2
-	ld [wd4a5], a
+	ld [wNumTimesBallSavedTextWillDisplay], a
 	ret
 
 InitBallSaverForCatchEmMode: ; 0xdbd4
@@ -6284,7 +6265,7 @@ InitBallSaverForCatchEmMode: ; 0xdbd4
 	ld [wBallSaverTimerFramesBackup], a
 	ld a, [wBallSaverTimerSeconds]
 	ld [wBallSaverTimerSecondsBackup], a
-	ld a, [wd4a5]
+	ld a, [wNumTimesBallSavedTextWillDisplay]
 	ld [wd4a8], a
 	ld a, $0
 	ld [wBallSaverIconOn], a
@@ -6295,16 +6276,16 @@ InitBallSaverForCatchEmMode: ; 0xdbd4
 	ld a, 60
 	ld [wBallSaverTimerSeconds], a
 	ld a, $ff
-	ld [wd4a5], a
+	ld [wNumTimesBallSavedTextWillDisplay], a
 	ret
 
-Func_dc00: ; 0xdc00
+RestoreBallSaverAfterCatchEmMode: ; 0xdc00
 	ld a, [wBallSaverTimerFramesBackup]
 	ld [wBallSaverTimerFrames], a
 	ld a, [wBallSaverTimerSecondsBackup]
 	ld [wBallSaverTimerSeconds], a
 	ld a, [wd4a8]
-	ld [wd4a5], a
+	ld [wNumTimesBallSavedTextWillDisplay], a
 	ld a, [wBallSaverTimerSeconds]
 	and a
 	jr z, .asm_dc1a
@@ -6328,24 +6309,23 @@ Func_dc00: ; 0xdc00
 	ld a, [wCurrentStage]
 	bit 0, a
 	ret z
-	ld [hFarCallTempA], a
 	callba Func_14707
 	ret
 
-Func_dc49: ; 0xdc49
+HandleBallLoss: ; 0xdc49
 	ld a, [wCurrentStage]
 	rst JumpTable  ; calls JumpToFuncInTable
 CallTable_dc4d: ; 0xdc4d
 	; STAGE_RED_FIELD_TOP
-	dw Func_dd76
+	dw RedField_HandleBallLoss
 	; STAGE_RED_FIELD_BOTTOM
-	dw Func_dd76
+	dw RedField_HandleBallLoss
 	dw Func_de4e
 	dw Func_de4e
 	; STAGE_BLUE_FIELD_TOP
-	dw Func_de4f
+	dw BlueField_HandleBallLoss
 	; STAGE_BLUE_FIELD_TOP
-	dw Func_de4f
+	dw BlueField_HandleBallLoss
 	; STAGE_GENGAR_BONUS
 	dw Func_df1a
 	; STAGE_GENGAR_BONUS
@@ -6429,7 +6409,7 @@ LoadBallGfx: ; 0xdcc3
 	jr nc, .notPokeBall
 	ld a, Bank(PinballPokeballGfx)
 	ld hl, PinballPokeballGfx
-	ld de, vTiles0 tile $40
+	ld de, vTilesOB tile $40
 	ld bc, $0200
 	call LoadOrCopyVRAMData
 	ret
@@ -6439,7 +6419,7 @@ LoadBallGfx: ; 0xdcc3
 	jr nc, .notGreatBall
 	ld a, Bank(PinballGreatballGfx)
 	ld hl, PinballGreatballGfx
-	ld de, vTiles0 tile $40
+	ld de, vTilesOB tile $40
 	ld bc, $0200
 	call LoadOrCopyVRAMData
 	ret
@@ -6449,7 +6429,7 @@ LoadBallGfx: ; 0xdcc3
 	jr nc, .notUltraBall
 	ld a, Bank(PinballUltraballGfx)
 	ld hl, PinballUltraballGfx
-	ld de, vTiles0 tile $40
+	ld de, vTilesOB tile $40
 	ld bc, $0200
 	call LoadOrCopyVRAMData
 	ret
@@ -6457,7 +6437,7 @@ LoadBallGfx: ; 0xdcc3
 .notUltraBall
 	ld a, Bank(PinballMasterballGfx)
 	ld hl, PinballMasterballGfx
-	ld de, vTiles0 tile $40
+	ld de, vTilesOB tile $40
 	ld bc, $0200
 	call LoadOrCopyVRAMData
 	ret
@@ -6470,7 +6450,7 @@ LoadMiniBallGfx: ; 0xdd12
 	jr nc, .notPokeBall
 	ld a, Bank(PinballPokeballMiniGfx)
 	ld hl, PinballPokeballMiniGfx
-	ld de, vTiles0 tile $40
+	ld de, vTilesOB tile $40
 	ld bc, $0200
 	call LoadOrCopyVRAMData
 	ret
@@ -6480,7 +6460,7 @@ LoadMiniBallGfx: ; 0xdd12
 	jr nc, .notGreatBall
 	ld a, Bank(PinballGreatballMiniGfx)
 	ld hl, PinballGreatballMiniGfx
-	ld de, vTiles0 tile $40
+	ld de, vTilesOB tile $40
 	ld bc, $0200
 	call LoadOrCopyVRAMData
 	ret
@@ -6490,7 +6470,7 @@ LoadMiniBallGfx: ; 0xdd12
 	jr nc, .notUltraBall
 	ld a, Bank(PinballUltraballMiniGfx)
 	ld hl, PinballUltraballMiniGfx
-	ld de, vTiles0 tile $40
+	ld de, vTilesOB tile $40
 	ld bc, $0200
 	call LoadOrCopyVRAMData
 	ret
@@ -6498,7 +6478,7 @@ LoadMiniBallGfx: ; 0xdd12
 .notUltraBall
 	ld a, Bank(PinballMasterballMiniGfx)
 	ld hl, PinballMasterballMiniGfx
-	ld de, vTiles0 tile $40
+	ld de, vTilesOB tile $40
 	ld bc, $0200
 	call LoadOrCopyVRAMData
 	ret
@@ -6508,42 +6488,42 @@ Func_dd62: ; 0xdd62
 	ld [wd4c8], a
 	ld a, $2a
 	ld hl, PinballBallMiniGfx
-	ld de, vTiles0 tile $40
+	ld de, vTilesOB tile $40
 	ld bc, $0200
 	call LoadOrCopyVRAMData
 	ret
 
-Func_dd76: ; 0xdd76
+RedField_HandleBallLoss: ; 0xdd76
 	ld a, [wBallSaverTimerFrames]
 	ld hl, wBallSaverTimerSeconds
 	or [hl]
-	jr z, .asm_dda3
-	ld a, [wd4a5]
+	jr z, .rip
+	ld a, [wNumTimesBallSavedTextWillDisplay]
 	bit 7, a
-	jr nz, .asm_dd9c
+	jr nz, .skip_save_text
 	dec a
-	ld [wd4a5], a
+	ld [wNumTimesBallSavedTextWillDisplay], a
 	push af
 	ld de, BallSavedText
 	call Func_dc6d
 	pop af
-	jr nz, .asm_dd9c
+	jr nz, .skip_save_text
 	ld a, $1
 	ld [wBallSaverTimerFrames], a
 	ld [wBallSaverTimerSeconds], a
-.asm_dd9c
+.skip_save_text
 	lb de, $15, $02
 	call PlaySoundEffect
 	ret
 
-.asm_dda3
+.rip
 	ld de, $0000
 	call PlaySong
 	ld bc, $001e
 	call AdvanceFrames
 	lb de, $25, $24
 	call PlaySoundEffect
-	call Func_dbba
+	call Start20SecondSaverTimer
 	ld a, $1
 	ld [wd4c9], a
 	xor a
@@ -6586,7 +6566,6 @@ Func_ddfd: ; 0xddfd
 	ld a, [wSpecialMode]
 	and a
 	jr nz, .asm_de14
-	ld [hFarCallTempA], a
 	callba Func_10157
 	jr .asm_de40
 
@@ -6597,7 +6576,6 @@ Func_ddfd: ; 0xddfd
 	ld [wd604], a
 	ld a, $1e
 	ld [wd607], a
-	ld [hFarCallTempA], a
 	callba Func_10ac8
 	jr .asm_de40
 
@@ -6606,7 +6584,6 @@ Func_ddfd: ; 0xddfd
 	ld [wd604], a
 	ld a, $1e
 	ld [wd607], a
-	ld [hFarCallTempA], a
 	callba Func_3022b
 .asm_de40
 	ld a, [wd7ad]
@@ -6620,37 +6597,37 @@ Func_ddfd: ; 0xddfd
 Func_de4e: ; 0xde4e
 	ret
 
-Func_de4f: ; 0xde4f
+BlueField_HandleBallLoss: ; 0xde4f
 	ld a, [wBallSaverTimerFrames]
 	ld hl, wBallSaverTimerSeconds
 	or [hl]
-	jr z, .asm_de7c
-	ld a, [wd4a5]
+	jr z, .rip
+	ld a, [wNumTimesBallSavedTextWillDisplay]
 	bit 7, a
-	jr nz, .asm_de75
+	jr nz, .skip_save_text
 	dec a
-	ld [wd4a5], a
+	ld [wNumTimesBallSavedTextWillDisplay], a
 	push af
 	ld de, BallSavedText
 	call Func_dc6d
 	pop af
-	jr nz, .asm_de75
+	jr nz, .skip_save_text
 	ld a, $1
 	ld [wBallSaverTimerFrames], a
 	ld [wBallSaverTimerSeconds], a
-.asm_de75
+.skip_save_text
 	lb de, $15, $02
 	call PlaySoundEffect
 	ret
 
-.asm_de7c
+.rip
 	ld de, $0000
 	call PlaySong
 	ld bc, $001e
 	call AdvanceFrames
 	lb de, $25, $24
 	call PlaySoundEffect
-	call Func_dbba
+	call Start20SecondSaverTimer
 	ld a, $1
 	ld [wd4c9], a
 	xor a
@@ -6693,7 +6670,6 @@ Func_ded6: ; 0xded6
 	ld a, [wSpecialMode]
 	and a
 	jr nz, .asm_deec
-	ld [hFarCallTempA], a
 	callba Func_10157
 	ret
 
@@ -6704,7 +6680,6 @@ Func_ded6: ; 0xded6
 	ld [wd604], a
 	ld a, $1e
 	ld [wd607], a
-	ld [hFarCallTempA], a
 	callba Func_10ac8
 	ret
 
@@ -6713,7 +6688,6 @@ Func_ded6: ; 0xded6
 	ld [wd604], a
 	ld a, $1e
 	ld [wd607], a
-	ld [hFarCallTempA], a
 	callba Func_3022b
 	ret
 
@@ -6841,7 +6815,6 @@ Func_dfe2: ; 0xdfe2
 	xor a
 .asm_e002
 	ld [wMeowthStageScore], a
-	ld [hFarCallTempA], a
 	callba Func_24fa3
 .asm_e00f
 	ld a, [wd4ad]
@@ -6925,7 +6898,6 @@ Func_e08b: ; 0xe08b
 	xor a
 .asm_e0ab
 	ld [wd793], a
-	ld [hFarCallTempA], a
 	callba Func_262f4
 .asm_e0b8
 	ld a, [wd4ad]
@@ -7876,14 +7848,13 @@ LoadCollisionAttributes: ; 0xe656
 	ld [hl], $0  ; Bank 0, because the data is in WRAM, so it doesn't matter which bank is saved
 	ret
 
-Func_e674: ; 0xe674
+FieldVerticalTransition: ; 0xe674
 	push af
 	ld a, [wd548]
 	push af
 	xor a
 	ld [wd548], a
 	ld [wd803], a
-	ld [hFarCallTempA], a
 	callba Func_84b7
 	call Func_926
 	pop af
@@ -7933,7 +7904,6 @@ Func_e6c2: ; 0xe6c2
 	call LoadVideoData
 	xor a
 	ld [wd7f2], a
-	ld [hFarCallTempA], a
 	callba Func_8471
 	ret
 
@@ -7974,283 +7944,283 @@ StageGfxPointers_GameBoyColor: ; 0xe717
 	dw StageSeelBonusGfx_GameBoyColor
 
 StageRedFieldTopGfx_GameBoy: ; 0xe737
-	VIDEO_DATA_TILES   Alphabet1Gfx, vTiles0, $1a0
-	VIDEO_DATA_TILES   StageRedFieldTopGfx1, vTiles0 + $1a0, $260
-	VIDEO_DATA_TILES   PinballPokeballGfx, vTiles0 + $400, $200
-	VIDEO_DATA_TILES   StageRedFieldTopGfx2, vTiles0 + $600, $200
-	VIDEO_DATA_TILES   StageRedFieldTopStatusBarSymbolsGfx_GameBoy, vTiles1, $100
-	VIDEO_DATA_TILES   StageRedFieldTopGfx3, vTiles1 + $100, $1a0
-	VIDEO_DATA_TILES   StageRedFieldTopBaseGameBoyGfx, vTiles1 + $2a0, $d60
-	VIDEO_DATA_TILEMAP StageRedFieldTopTilemap_GameBoy, vBGMap0, $400
+	VIDEO_DATA_TILES   Alphabet1Gfx, vTilesOB, $1a0
+	VIDEO_DATA_TILES   StageRedFieldTopGfx1, vTilesOB + $1a0, $260
+	VIDEO_DATA_TILES   PinballPokeballGfx, vTilesOB + $400, $200
+	VIDEO_DATA_TILES   StageRedFieldTopGfx2, vTilesOB + $600, $200
+	VIDEO_DATA_TILES   StageRedFieldTopStatusBarSymbolsGfx_GameBoy, vTilesSH, $100
+	VIDEO_DATA_TILES   StageRedFieldTopGfx3, vTilesSH + $100, $1a0
+	VIDEO_DATA_TILES   StageRedFieldTopBaseGameBoyGfx, vTilesSH + $2a0, $d60
+	VIDEO_DATA_TILEMAP StageRedFieldTopTilemap_GameBoy, vBGMap, $400
 	db $FF, $FF  ; terminators
 
 StageRedFieldTopGfx_GameBoyColor: ; 0xe771
-	VIDEO_DATA_TILES         Alphabet2Gfx, vTiles0, $1a0
-	VIDEO_DATA_TILES         StageRedFieldTopGfx1, vTiles0 + $1a0, $260
-	VIDEO_DATA_TILES         PinballPokeballGfx, vTiles0 + $400, $200
-	VIDEO_DATA_TILES         StageRedFieldTopGfx2, vTiles0 + $600, $200
-	VIDEO_DATA_TILES         StageRedFieldTopStatusBarSymbolsGfx_GameBoyColor, vTiles1, $100
-	VIDEO_DATA_TILES         StageRedFieldTopGfx3, vTiles1 + $100, $1a0
-	VIDEO_DATA_TILES         StageRedFieldTopBaseGameBoyColorGfx, vTiles1 + $2a0, $d60
-	VIDEO_DATA_TILES_BANK2   StageRedFieldTopGfx4, vTiles1, $1000
-	VIDEO_DATA_TILES_BANK2   StageRedFieldTopGfx5, vTiles0, $200
-	VIDEO_DATA_TILES_BANK2   TimerDigitsGfx, vTiles0 + $600, $160
-	VIDEO_DATA_TILES_BANK2   StageRedJapaneseCharactersGfx, vTiles0 + $200, $400
-	VIDEO_DATA_TILES_BANK2   StageRedJapaneseCharactersGfx2, vTiles1 + $100, $200
-	VIDEO_DATA_TILES_BANK2   StageRedFieldTopStatusBarSymbolsGfx_GameBoyColor, vTiles1, $100
-	VIDEO_DATA_TILEMAP       StageRedFieldTopTilemap_GameBoyColor, vBGMap0, $400
-	VIDEO_DATA_TILEMAP_BANK2 StageRedFieldTopTilemap2_GameBoyColor, vBGMap0, $400
+	VIDEO_DATA_TILES         Alphabet2Gfx, vTilesOB, $1a0
+	VIDEO_DATA_TILES         StageRedFieldTopGfx1, vTilesOB + $1a0, $260
+	VIDEO_DATA_TILES         PinballPokeballGfx, vTilesOB + $400, $200
+	VIDEO_DATA_TILES         StageRedFieldTopGfx2, vTilesOB + $600, $200
+	VIDEO_DATA_TILES         StageRedFieldTopStatusBarSymbolsGfx_GameBoyColor, vTilesSH, $100
+	VIDEO_DATA_TILES         StageRedFieldTopGfx3, vTilesSH + $100, $1a0
+	VIDEO_DATA_TILES         StageRedFieldTopBaseGameBoyColorGfx, vTilesSH + $2a0, $d60
+	VIDEO_DATA_TILES_BANK2   StageRedFieldTopGfx4, vTilesSH, $1000
+	VIDEO_DATA_TILES_BANK2   StageRedFieldTopGfx5, vTilesOB, $200
+	VIDEO_DATA_TILES_BANK2   TimerDigitsGfx, vTilesOB + $600, $160
+	VIDEO_DATA_TILES_BANK2   StageRedJapaneseCharactersGfx, vTilesOB + $200, $400
+	VIDEO_DATA_TILES_BANK2   StageRedJapaneseCharactersGfx2, vTilesSH + $100, $200
+	VIDEO_DATA_TILES_BANK2   StageRedFieldTopStatusBarSymbolsGfx_GameBoyColor, vTilesSH, $100
+	VIDEO_DATA_TILEMAP       StageRedFieldTopTilemap_GameBoyColor, vBGMap, $400
+	VIDEO_DATA_TILEMAP_BANK2 StageRedFieldTopTilemap2_GameBoyColor, vBGMap, $400
 	VIDEO_DATA_PALETTES      StageRedFieldTopPalettes, $80
-	VIDEO_DATA_TILES_BANK2   StageRedFieldTopGfx6, vTiles0 + $7c0, $40
+	VIDEO_DATA_TILES_BANK2   StageRedFieldTopGfx6, vTilesOB + $7c0, $40
 	db $FF, $FF  ; terminators
 
 StageRedFieldBottomGfx_GameBoy: ; 0xe7ea
-	VIDEO_DATA_TILES    Alphabet1Gfx, vTiles0, $1a0
-	VIDEO_DATA_TILES    StageSharedBonusSlotGlowGfx, vTiles0 + $1a0, $160
-	VIDEO_DATA_TILES    StageSharedArrowsGfx, vTiles0 + $300, $80
-	VIDEO_DATA_TILES    StageSharedBonusSlotGlow2Gfx, vTiles0 + $380, $20
-	VIDEO_DATA_TILES    StageSharedPikaBoltGfx, vTiles0 + $3c0, $440
-	VIDEO_DATA_TILES    StageRedFieldBottomBaseGameBoyGfx, vTiles1, $1000
-	VIDEO_DATA_TILES    SaverTextOffGfx, vTiles1 + $2a0, $40
-	VIDEO_DATA_TILEMAP  StageRedFieldBottomTilemap_GameBoy, vBGMap0, $400
+	VIDEO_DATA_TILES    Alphabet1Gfx, vTilesOB, $1a0
+	VIDEO_DATA_TILES    StageSharedBonusSlotGlowGfx, vTilesOB + $1a0, $160
+	VIDEO_DATA_TILES    StageSharedArrowsGfx, vTilesOB + $300, $80
+	VIDEO_DATA_TILES    StageSharedBonusSlotGlow2Gfx, vTilesOB + $380, $20
+	VIDEO_DATA_TILES    StageSharedPikaBoltGfx, vTilesOB + $3c0, $440
+	VIDEO_DATA_TILES    StageRedFieldBottomBaseGameBoyGfx, vTilesSH, $1000
+	VIDEO_DATA_TILES    SaverTextOffGfx, vTilesSH + $2a0, $40
+	VIDEO_DATA_TILEMAP  StageRedFieldBottomTilemap_GameBoy, vBGMap, $400
 	db $FF, $FF  ; terminators
 
 StageRedFieldBottomGfx_GameBoyColor: ; 0xe824
-	VIDEO_DATA_TILES         Alphabet2Gfx, vTiles0, $1a0
-	VIDEO_DATA_TILES         StageSharedBonusSlotGlowGfx, vTiles0 + $1a0, $160
-	VIDEO_DATA_TILES         StageSharedArrowsGfx, vTiles0 + $300, $80
-	VIDEO_DATA_TILES         StageSharedBonusSlotGlow2Gfx, vTiles0 + $380, $20
-	VIDEO_DATA_TILES         StageSharedPikaBoltGfx, vTiles0 + $3c0, $440
-	VIDEO_DATA_TILES         StageRedFieldBottomBaseGameBoyColorGfx, vTiles1, $1000
-	VIDEO_DATA_TILES_BANK2   StageRedFieldBottomGfx5, vTiles1, $1000
-	VIDEO_DATA_TILES_BANK2   TimerDigitsGfx, vTiles0 + $600, $160
-	VIDEO_DATA_TILES         SaverTextOffGfx, vTiles1 + $2a0, $40
-	VIDEO_DATA_TILES_BANK2   StageRedJapaneseCharactersGfx, vTiles0 + $200, $400
-	VIDEO_DATA_TILES_BANK2   StageRedJapaneseCharactersGfx2, vTiles1 + $100, $200
-	VIDEO_DATA_TILES_BANK2   StageRedFieldBottomBaseGameBoyColorGfx, vTiles1, $100
-	VIDEO_DATA_TILEMAP       StageRedFieldBottomTilemap_GameBoyColor, vBGMap0, $400
-	VIDEO_DATA_TILEMAP_BANK2 StageRedFieldBottomTilemap2_GameBoyColor, vBGMap0, $400
+	VIDEO_DATA_TILES         Alphabet2Gfx, vTilesOB, $1a0
+	VIDEO_DATA_TILES         StageSharedBonusSlotGlowGfx, vTilesOB + $1a0, $160
+	VIDEO_DATA_TILES         StageSharedArrowsGfx, vTilesOB + $300, $80
+	VIDEO_DATA_TILES         StageSharedBonusSlotGlow2Gfx, vTilesOB + $380, $20
+	VIDEO_DATA_TILES         StageSharedPikaBoltGfx, vTilesOB + $3c0, $440
+	VIDEO_DATA_TILES         StageRedFieldBottomBaseGameBoyColorGfx, vTilesSH, $1000
+	VIDEO_DATA_TILES_BANK2   StageRedFieldBottomGfx5, vTilesSH, $1000
+	VIDEO_DATA_TILES_BANK2   TimerDigitsGfx, vTilesOB + $600, $160
+	VIDEO_DATA_TILES         SaverTextOffGfx, vTilesSH + $2a0, $40
+	VIDEO_DATA_TILES_BANK2   StageRedJapaneseCharactersGfx, vTilesOB + $200, $400
+	VIDEO_DATA_TILES_BANK2   StageRedJapaneseCharactersGfx2, vTilesSH + $100, $200
+	VIDEO_DATA_TILES_BANK2   StageRedFieldBottomBaseGameBoyColorGfx, vTilesSH, $100
+	VIDEO_DATA_TILEMAP       StageRedFieldBottomTilemap_GameBoyColor, vBGMap, $400
+	VIDEO_DATA_TILEMAP_BANK2 StageRedFieldBottomTilemap2_GameBoyColor, vBGMap, $400
 	VIDEO_DATA_PALETTES      StageRedFieldBottomPalettes, $80
-	VIDEO_DATA_TILES_BANK2   StageRedFieldTopGfx6, vTiles0 + $7c0, $40
+	VIDEO_DATA_TILES_BANK2   StageRedFieldTopGfx6, vTilesOB + $7c0, $40
 	db $FF, $FF  ; terminators
 
 VideoData_e896: ; 0xe896
-	VIDEO_DATA_TILES Alphabet1Gfx, vTiles0, $1a0
-	VIDEO_DATA_TILES PinballPokeballGfx, vTiles0 + $400, $200
+	VIDEO_DATA_TILES Alphabet1Gfx, vTilesOB, $1a0
+	VIDEO_DATA_TILES PinballPokeballGfx, vTilesOB + $400, $200
 	db $FF, $FF  ; terminators
 
 VideoData_e8a6: ; 0xe8a6
-	VIDEO_DATA_TILES       Alphabet2Gfx, vTiles0, $1a0
-	VIDEO_DATA_TILES       PinballPokeballGfx, vTiles0 + $400, $200
-	VIDEO_DATA_TILES_BANK2 TimerDigitsGfx, vTiles0 + $600, $160
+	VIDEO_DATA_TILES       Alphabet2Gfx, vTilesOB, $1a0
+	VIDEO_DATA_TILES       PinballPokeballGfx, vTilesOB + $400, $200
+	VIDEO_DATA_TILES_BANK2 TimerDigitsGfx, vTilesOB + $600, $160
 	db $FF, $FF  ; terminators
 
 VideoData_e8bd: ; 0xe8bd
-	VIDEO_DATA_TILES Alphabet1Gfx, vTiles0, $1a0
-	VIDEO_DATA_TILES PinballPokeballShakeGfx, vTiles0 + $380, $480
-	VIDEO_DATA_TILES SaverTextOffGfx, vTiles1 + $2a0, $40
+	VIDEO_DATA_TILES Alphabet1Gfx, vTilesOB, $1a0
+	VIDEO_DATA_TILES PinballPokeballShakeGfx, vTilesOB + $380, $480
+	VIDEO_DATA_TILES SaverTextOffGfx, vTilesSH + $2a0, $40
 	db $FF, $FF  ; terminators
 
 VideoData_e8d4: ; 0xe8d4
-	VIDEO_DATA_TILES       Alphabet2Gfx, vTiles0, $1a0
-	VIDEO_DATA_TILES       PinballPokeballShakeGfx, vTiles0 + $380, $480
-	VIDEO_DATA_TILES_BANK2 TimerDigitsGfx, vTiles0 + $600, $160
-	VIDEO_DATA_TILES       SaverTextOffGfx, vTiles1 + $2a0, $40
+	VIDEO_DATA_TILES       Alphabet2Gfx, vTilesOB, $1a0
+	VIDEO_DATA_TILES       PinballPokeballShakeGfx, vTilesOB + $380, $480
+	VIDEO_DATA_TILES_BANK2 TimerDigitsGfx, vTilesOB + $600, $160
+	VIDEO_DATA_TILES       SaverTextOffGfx, vTilesSH + $2a0, $40
 	db $FF, $FF  ; terminators
 
 StageBlueFieldTopGfx_GameBoy: ; 0xe8f2
-	VIDEO_DATA_TILES   Alphabet1Gfx, vTiles0, $1a0
-	VIDEO_DATA_TILES   StageBlueFieldTopGfx1, vTiles0 + $1a0, $260
-	VIDEO_DATA_TILES   PinballPokeballGfx, vTiles0 + $400, $200
-	VIDEO_DATA_TILES   StageBlueFieldTopGfx2, vTiles0 + $600, $200
-	VIDEO_DATA_TILES   StageBlueFieldTopStatusBarSymbolsGfx_GameBoy, vTiles1, $100
-	VIDEO_DATA_TILES   StageBlueFieldTopGfx3, vTiles1 + $100, $1a0
-	VIDEO_DATA_TILES   StageBlueFieldTopBaseGameBoyGfx, vTiles1 + $2a0, $d60
-	VIDEO_DATA_TILEMAP StageBlueFieldTopTilemap_GameBoy, vBGMap0, $400
+	VIDEO_DATA_TILES   Alphabet1Gfx, vTilesOB, $1a0
+	VIDEO_DATA_TILES   StageBlueFieldTopGfx1, vTilesOB + $1a0, $260
+	VIDEO_DATA_TILES   PinballPokeballGfx, vTilesOB + $400, $200
+	VIDEO_DATA_TILES   StageBlueFieldTopGfx2, vTilesOB + $600, $200
+	VIDEO_DATA_TILES   StageBlueFieldTopStatusBarSymbolsGfx_GameBoy, vTilesSH, $100
+	VIDEO_DATA_TILES   StageBlueFieldTopGfx3, vTilesSH + $100, $1a0
+	VIDEO_DATA_TILES   StageBlueFieldTopBaseGameBoyGfx, vTilesSH + $2a0, $d60
+	VIDEO_DATA_TILEMAP StageBlueFieldTopTilemap_GameBoy, vBGMap, $400
 	db $FF, $FF  ; terminators
 
 StageBlueFieldTopGfx_GameBoyColor: ; 0xe92c
-	VIDEO_DATA_TILES         Alphabet2Gfx, vTiles0, $1a0
-	VIDEO_DATA_TILES         StageBlueFieldTopGfx1, vTiles0 + $1a0, $260
-	VIDEO_DATA_TILES         PinballPokeballGfx, vTiles0 + $400, $200
-	VIDEO_DATA_TILES         StageBlueFieldTopGfx2, vTiles0 + $600, $200
-	VIDEO_DATA_TILES         StageBlueFieldTopStatusBarSymbolsGfx_GameBoyColor, vTiles1, $100
-	VIDEO_DATA_TILES         StageBlueFieldTopGfx3, vTiles1 + $100, $1a0
-	VIDEO_DATA_TILES         StageBlueFieldTopBaseGameBoyColorGfx, vTiles1 + $2a0, $d60
-	VIDEO_DATA_TILES_BANK2   StageBlueFieldTopGfx4, vTiles1, $1000
-	VIDEO_DATA_TILES_BANK2   TimerDigitsGfx, vTiles0 + $600, $160
-	VIDEO_DATA_TILEMAP       StageBlueFieldTopTilemap_GameBoyColor, vBGMap0, $400
-	VIDEO_DATA_TILEMAP_BANK2 StageBlueFieldTopTilemap2_GameBoyColor, vBGMap0, $400
+	VIDEO_DATA_TILES         Alphabet2Gfx, vTilesOB, $1a0
+	VIDEO_DATA_TILES         StageBlueFieldTopGfx1, vTilesOB + $1a0, $260
+	VIDEO_DATA_TILES         PinballPokeballGfx, vTilesOB + $400, $200
+	VIDEO_DATA_TILES         StageBlueFieldTopGfx2, vTilesOB + $600, $200
+	VIDEO_DATA_TILES         StageBlueFieldTopStatusBarSymbolsGfx_GameBoyColor, vTilesSH, $100
+	VIDEO_DATA_TILES         StageBlueFieldTopGfx3, vTilesSH + $100, $1a0
+	VIDEO_DATA_TILES         StageBlueFieldTopBaseGameBoyColorGfx, vTilesSH + $2a0, $d60
+	VIDEO_DATA_TILES_BANK2   StageBlueFieldTopGfx4, vTilesSH, $1000
+	VIDEO_DATA_TILES_BANK2   TimerDigitsGfx, vTilesOB + $600, $160
+	VIDEO_DATA_TILEMAP       StageBlueFieldTopTilemap_GameBoyColor, vBGMap, $400
+	VIDEO_DATA_TILEMAP_BANK2 StageBlueFieldTopTilemap2_GameBoyColor, vBGMap, $400
 	VIDEO_DATA_PALETTES      StageBlueFieldTopPalettes, $80
 	db $FF, $FF  ; terminators
 
 StageBlueFieldBottomGfx_GameBoy: ; 0xe982
-	VIDEO_DATA_TILES    Alphabet1Gfx, vTiles0, $1a0
-	VIDEO_DATA_TILES    StageSharedBonusSlotGlowGfx, vTiles0 + $1a0, $160
-	VIDEO_DATA_TILES    StageSharedArrowsGfx, vTiles0 + $300, $80
-	VIDEO_DATA_TILES    StageSharedBonusSlotGlow2Gfx, vTiles0 + $380, $20
-	VIDEO_DATA_TILES    StageSharedPikaBoltGfx, vTiles0 + $3c0, $440
-	VIDEO_DATA_TILES    StageBlueFieldBottomBaseGameBoyGfx, vTiles1, $1000
-	VIDEO_DATA_TILES    SaverTextOffGfx, vTiles1 + $2a0, $40
-	VIDEO_DATA_TILEMAP  StageBlueFieldBottomTilemap_GameBoy, vBGMap0, $400
+	VIDEO_DATA_TILES    Alphabet1Gfx, vTilesOB, $1a0
+	VIDEO_DATA_TILES    StageSharedBonusSlotGlowGfx, vTilesOB + $1a0, $160
+	VIDEO_DATA_TILES    StageSharedArrowsGfx, vTilesOB + $300, $80
+	VIDEO_DATA_TILES    StageSharedBonusSlotGlow2Gfx, vTilesOB + $380, $20
+	VIDEO_DATA_TILES    StageSharedPikaBoltGfx, vTilesOB + $3c0, $440
+	VIDEO_DATA_TILES    StageBlueFieldBottomBaseGameBoyGfx, vTilesSH, $1000
+	VIDEO_DATA_TILES    SaverTextOffGfx, vTilesSH + $2a0, $40
+	VIDEO_DATA_TILEMAP  StageBlueFieldBottomTilemap_GameBoy, vBGMap, $400
 	db $FF, $FF  ; terminators
 
 StageBlueFieldBottomGfx_GameBoyColor: ; 0xe9bc
-	VIDEO_DATA_TILES         Alphabet2Gfx, vTiles0, $1a0
-	VIDEO_DATA_TILES         StageSharedBonusSlotGlowGfx, vTiles0 + $1a0, $160
-	VIDEO_DATA_TILES         StageSharedArrowsGfx, vTiles0 + $300, $80
-	VIDEO_DATA_TILES         StageSharedBonusSlotGlow2Gfx, vTiles0 + $380, $20
-	VIDEO_DATA_TILES         StageSharedPikaBoltGfx, vTiles0 + $3c0, $440
-	VIDEO_DATA_TILES         StageBlueFieldBottomBaseGameBoyColorGfx, vTiles1, $1000
-	VIDEO_DATA_TILES_BANK2   StageBlueFieldBottomGfx1, vTiles1, $1000
-	VIDEO_DATA_TILES_BANK2   TimerDigitsGfx, vTiles0 + $600, $160
-	VIDEO_DATA_TILES         SaverTextOffGfx, vTiles1 + $2a0, $40
-	VIDEO_DATA_TILEMAP       StageBlueFieldBottomTilemap_GameBoyColor, vBGMap0, $400
-	VIDEO_DATA_TILEMAP_BANK2 StageBlueFieldBottomTilemap2_GameBoyColor, vBGMap0, $400
+	VIDEO_DATA_TILES         Alphabet2Gfx, vTilesOB, $1a0
+	VIDEO_DATA_TILES         StageSharedBonusSlotGlowGfx, vTilesOB + $1a0, $160
+	VIDEO_DATA_TILES         StageSharedArrowsGfx, vTilesOB + $300, $80
+	VIDEO_DATA_TILES         StageSharedBonusSlotGlow2Gfx, vTilesOB + $380, $20
+	VIDEO_DATA_TILES         StageSharedPikaBoltGfx, vTilesOB + $3c0, $440
+	VIDEO_DATA_TILES         StageBlueFieldBottomBaseGameBoyColorGfx, vTilesSH, $1000
+	VIDEO_DATA_TILES_BANK2   StageBlueFieldBottomGfx1, vTilesSH, $1000
+	VIDEO_DATA_TILES_BANK2   TimerDigitsGfx, vTilesOB + $600, $160
+	VIDEO_DATA_TILES         SaverTextOffGfx, vTilesSH + $2a0, $40
+	VIDEO_DATA_TILEMAP       StageBlueFieldBottomTilemap_GameBoyColor, vBGMap, $400
+	VIDEO_DATA_TILEMAP_BANK2 StageBlueFieldBottomTilemap2_GameBoyColor, vBGMap, $400
 	VIDEO_DATA_PALETTES      StageBlueFieldBottomPalettes, $80
 	db $FF, $FF  ; terminators
 
 StageGengarBonusGfx_GameBoy: ; 0xea12
-	VIDEO_DATA_TILES   Alphabet1Gfx, vTiles0, $1a0
-	VIDEO_DATA_TILES   PinballPokeballGfx, vTiles0 + $400, $320
-	VIDEO_DATA_TILES   GengarBonusBaseGameBoyGfx, vTiles1, $1000
-	VIDEO_DATA_TILES   GengarBonusGastlyGfx, vTiles1 + $100, $180
-	VIDEO_DATA_TILES   GengarBonusHaunter1Gfx, vTiles1 + $280, $20
-	VIDEO_DATA_TILES   GengarBonusHaunter2Gfx, vTiles0 + $1a0, $100
-	VIDEO_DATA_TILES   GengarBonusGengar1Gfx, vTiles0 + $2a0, $160
-	VIDEO_DATA_TILES   GengarBonusGengar2Gfx, vTiles0 + $7a0, $60
-	VIDEO_DATA_TILES   GengarBonusGengar3Gfx, vTiles1 + $2a0, $2a0
-	VIDEO_DATA_TILEMAP GengarBonusTilemap_GameBoy, vBGMap0, $400
+	VIDEO_DATA_TILES   Alphabet1Gfx, vTilesOB, $1a0
+	VIDEO_DATA_TILES   PinballPokeballGfx, vTilesOB + $400, $320
+	VIDEO_DATA_TILES   GengarBonusBaseGameBoyGfx, vTilesSH, $1000
+	VIDEO_DATA_TILES   GengarBonusGastlyGfx, vTilesSH + $100, $180
+	VIDEO_DATA_TILES   GengarBonusHaunter1Gfx, vTilesSH + $280, $20
+	VIDEO_DATA_TILES   GengarBonusHaunter2Gfx, vTilesOB + $1a0, $100
+	VIDEO_DATA_TILES   GengarBonusGengar1Gfx, vTilesOB + $2a0, $160
+	VIDEO_DATA_TILES   GengarBonusGengar2Gfx, vTilesOB + $7a0, $60
+	VIDEO_DATA_TILES   GengarBonusGengar3Gfx, vTilesSH + $2a0, $2a0
+	VIDEO_DATA_TILEMAP GengarBonusTilemap_GameBoy, vBGMap, $400
 	db $FF, $FF  ; terminators
 
 StageGengarBonusGfx_GameBoyColor: ; 0xea5a
-	VIDEO_DATA_TILES         Alphabet2Gfx, vTiles0, $1a0
-	VIDEO_DATA_TILES         StageSharedPikaBoltGfx, vTiles0 + $3c0, $440
-	VIDEO_DATA_TILES         GengarBonusBaseGameBoyColorGfx, vTiles1, $1000
-	VIDEO_DATA_TILES         GengarBonusGastlyGfx, vTiles1 + $100, $180
-	VIDEO_DATA_TILES         GengarBonusHaunter1Gfx, vTiles1 + $280, $20
-	VIDEO_DATA_TILES         GengarBonusHaunter2Gfx, vTiles0 + $1a0, $100
-	VIDEO_DATA_TILES         GengarBonusGengar1Gfx, vTiles0 + $2a0, $160
-	VIDEO_DATA_TILES         GengarBonusGengar2Gfx, vTiles0 + $7a0, $60
-	VIDEO_DATA_TILES         GengarBonusGengar3Gfx, vTiles1 + $2a0, $2a0
-	VIDEO_DATA_TILES_BANK2   GengarBonus1Gfx, vTiles1, $1000
-	VIDEO_DATA_TILES_BANK2   TimerDigitsGfx, vTiles0 + $600, $160
-	VIDEO_DATA_TILEMAP       GengarBonusBottomTilemap_GameBoyColor, vBGMap0, $400
-	VIDEO_DATA_TILEMAP_BANK2 GengarBonusBottomTilemap2_GameBoyColor, vBGMap0, $400
+	VIDEO_DATA_TILES         Alphabet2Gfx, vTilesOB, $1a0
+	VIDEO_DATA_TILES         StageSharedPikaBoltGfx, vTilesOB + $3c0, $440
+	VIDEO_DATA_TILES         GengarBonusBaseGameBoyColorGfx, vTilesSH, $1000
+	VIDEO_DATA_TILES         GengarBonusGastlyGfx, vTilesSH + $100, $180
+	VIDEO_DATA_TILES         GengarBonusHaunter1Gfx, vTilesSH + $280, $20
+	VIDEO_DATA_TILES         GengarBonusHaunter2Gfx, vTilesOB + $1a0, $100
+	VIDEO_DATA_TILES         GengarBonusGengar1Gfx, vTilesOB + $2a0, $160
+	VIDEO_DATA_TILES         GengarBonusGengar2Gfx, vTilesOB + $7a0, $60
+	VIDEO_DATA_TILES         GengarBonusGengar3Gfx, vTilesSH + $2a0, $2a0
+	VIDEO_DATA_TILES_BANK2   GengarBonus1Gfx, vTilesSH, $1000
+	VIDEO_DATA_TILES_BANK2   TimerDigitsGfx, vTilesOB + $600, $160
+	VIDEO_DATA_TILEMAP       GengarBonusBottomTilemap_GameBoyColor, vBGMap, $400
+	VIDEO_DATA_TILEMAP_BANK2 GengarBonusBottomTilemap2_GameBoyColor, vBGMap, $400
 	VIDEO_DATA_PALETTES      GengarBonusPalettes, $80
 	db $FF, $FF  ; terminators
 
 StageMewtwoBonusGfx_GameBoy: ; 0xeabe
-	VIDEO_DATA_TILES   Alphabet1Gfx, vTiles0, $1a0
-	VIDEO_DATA_TILES   MewtwoBonus1Gfx, vTiles0 + $1a0, $260
-	VIDEO_DATA_TILES   PinballPokeballGfx, vTiles0 + $400, $320
-	VIDEO_DATA_TILES   MewtwoBonus2Gfx, vTiles0 + $7a0, $60
-	VIDEO_DATA_TILES   MewtwoBonusBaseGameBoyGfx, vTiles1, $1000
-	VIDEO_DATA_TILES   MewtwoBonus3Gfx, vTiles1 + $100, $1a0
-	VIDEO_DATA_TILES   MewtwoBonus4Gfx, vTiles1 + $2a0, $2a0
-	VIDEO_DATA_TILEMAP MewtwoBonusTilemap_GameBoy, vBGMap0, $400
+	VIDEO_DATA_TILES   Alphabet1Gfx, vTilesOB, $1a0
+	VIDEO_DATA_TILES   MewtwoBonus1Gfx, vTilesOB + $1a0, $260
+	VIDEO_DATA_TILES   PinballPokeballGfx, vTilesOB + $400, $320
+	VIDEO_DATA_TILES   MewtwoBonus2Gfx, vTilesOB + $7a0, $60
+	VIDEO_DATA_TILES   MewtwoBonusBaseGameBoyGfx, vTilesSH, $1000
+	VIDEO_DATA_TILES   MewtwoBonus3Gfx, vTilesSH + $100, $1a0
+	VIDEO_DATA_TILES   MewtwoBonus4Gfx, vTilesSH + $2a0, $2a0
+	VIDEO_DATA_TILEMAP MewtwoBonusTilemap_GameBoy, vBGMap, $400
 	db $FF, $FF  ; terminators
 
 StageMewtwoBonusGfx_GameBoyColor: ; 0xeaf8
-	VIDEO_DATA_TILES   Alphabet2Gfx, vTiles0, $1a0
-	VIDEO_DATA_TILES   MewtwoBonus1Gfx, vTiles0 + $1a0, $260
-	VIDEO_DATA_TILES   PinballPokeballGfx, vTiles0 + $400, $320
-	VIDEO_DATA_TILES   MewtwoBonus2Gfx, vTiles0 + $7a0, $60
-	VIDEO_DATA_TILES   MewtwoBonusBaseGameBoyColorGfx, vTiles1, $1000
-	VIDEO_DATA_TILES   MewtwoBonus3Gfx, vTiles1 + $100, $1a0
-	VIDEO_DATA_TILES   MewtwoBonus4Gfx, vTiles1 + $2a0, $2a0
+	VIDEO_DATA_TILES   Alphabet2Gfx, vTilesOB, $1a0
+	VIDEO_DATA_TILES   MewtwoBonus1Gfx, vTilesOB + $1a0, $260
+	VIDEO_DATA_TILES   PinballPokeballGfx, vTilesOB + $400, $320
+	VIDEO_DATA_TILES   MewtwoBonus2Gfx, vTilesOB + $7a0, $60
+	VIDEO_DATA_TILES   MewtwoBonusBaseGameBoyColorGfx, vTilesSH, $1000
+	VIDEO_DATA_TILES   MewtwoBonus3Gfx, vTilesSH + $100, $1a0
+	VIDEO_DATA_TILES   MewtwoBonus4Gfx, vTilesSH + $2a0, $2a0
 	; Can't use a macro here because it's copying the tiles from VRAM, not ROM.
-	dw vTiles0
+	dw vTilesOB
 	db $20  ; This is an arbitrary bank, since the data is in VRAM, not ROM.
-	dw vTiles1
+	dw vTilesSH
 	dw $4002
-	VIDEO_DATA_TILES_BANK2   TimerDigitsGfx, vTiles0 + $600, $160
-	VIDEO_DATA_TILEMAP       MewtoBonusBottomTilemap_GameBoyColor, vBGMap0, $400
-	VIDEO_DATA_TILEMAP_BANK2 MewtoBonusBottomTilemap2_GameBoyColor, vBGMap0, $400
+	VIDEO_DATA_TILES_BANK2   TimerDigitsGfx, vTilesOB + $600, $160
+	VIDEO_DATA_TILEMAP       MewtoBonusBottomTilemap_GameBoyColor, vBGMap, $400
+	VIDEO_DATA_TILEMAP_BANK2 MewtoBonusBottomTilemap2_GameBoyColor, vBGMap, $400
 	VIDEO_DATA_PALETTES      MewtwoBonusPalettes, $80
 	db $FF, $FF  ; terminators
 
 StageMeowthBonusGfx_GameBoy: ; 0xeb4e
-	VIDEO_DATA_TILES   Alphabet1Gfx, vTiles0, $1a0
-	VIDEO_DATA_TILES   MeowthBonusMeowth1Gfx, vTiles0 + $1a0, $260
-	VIDEO_DATA_TILES   PinballPokeballGfx, vTiles0 + $400, $320
-	VIDEO_DATA_TILES   MeowthBonusMeowth2Gfx, vTiles0 + $7a0, $60
-	VIDEO_DATA_TILES   MeowthBonusBaseGameBoyGfx, vTiles1, $a00
-	VIDEO_DATA_TILES   MeowthBonusMeowth3Gfx, vTiles1 + $100, $1a0
-	VIDEO_DATA_TILES   MeowthBonusMeowth4Gfx, vTiles1 + $2a0, $360
-	VIDEO_DATA_TILEMAP MeowthBonusTilemap_GameBoy, vBGMap0, $400
+	VIDEO_DATA_TILES   Alphabet1Gfx, vTilesOB, $1a0
+	VIDEO_DATA_TILES   MeowthBonusMeowth1Gfx, vTilesOB + $1a0, $260
+	VIDEO_DATA_TILES   PinballPokeballGfx, vTilesOB + $400, $320
+	VIDEO_DATA_TILES   MeowthBonusMeowth2Gfx, vTilesOB + $7a0, $60
+	VIDEO_DATA_TILES   MeowthBonusBaseGameBoyGfx, vTilesSH, $a00
+	VIDEO_DATA_TILES   MeowthBonusMeowth3Gfx, vTilesSH + $100, $1a0
+	VIDEO_DATA_TILES   MeowthBonusMeowth4Gfx, vTilesSH + $2a0, $360
+	VIDEO_DATA_TILEMAP MeowthBonusTilemap_GameBoy, vBGMap, $400
 	db $FF, $FF  ; terminators
 
 StageMeowthBonusGfx_GameBoyColor: ; 0xeb88
-	VIDEO_DATA_TILES         Alphabet2Gfx, vTiles0, $1a0
-	VIDEO_DATA_TILES         MeowthBonusMeowth1Gfx, vTiles0 + $1a0, $260
-	VIDEO_DATA_TILES         PinballPokeballGfx, vTiles0 + $400, $320
-	VIDEO_DATA_TILES         MeowthBonusMeowth2Gfx, vTiles0 + $7a0, $60
-	VIDEO_DATA_TILES         MeowthBonusBaseGameBoyColorGfx, vTiles1, $900
-	VIDEO_DATA_TILES         MeowthBonusMeowth3Gfx, vTiles1 + $100, $1a0
-	VIDEO_DATA_TILES         MeowthBonusMeowth4Gfx, vTiles1 + $2a0, $360
-	VIDEO_DATA_TILES_BANK2   TimerDigitsGfx, vTiles0 + $600, $160
-	VIDEO_DATA_TILEMAP       MeowthBonusTilemap_GameBoyColor, vBGMap0, $400
-	VIDEO_DATA_TILEMAP_BANK2 MeowthBonusTilemap2_GameBoyColor, vBGMap0, $400
+	VIDEO_DATA_TILES         Alphabet2Gfx, vTilesOB, $1a0
+	VIDEO_DATA_TILES         MeowthBonusMeowth1Gfx, vTilesOB + $1a0, $260
+	VIDEO_DATA_TILES         PinballPokeballGfx, vTilesOB + $400, $320
+	VIDEO_DATA_TILES         MeowthBonusMeowth2Gfx, vTilesOB + $7a0, $60
+	VIDEO_DATA_TILES         MeowthBonusBaseGameBoyColorGfx, vTilesSH, $900
+	VIDEO_DATA_TILES         MeowthBonusMeowth3Gfx, vTilesSH + $100, $1a0
+	VIDEO_DATA_TILES         MeowthBonusMeowth4Gfx, vTilesSH + $2a0, $360
+	VIDEO_DATA_TILES_BANK2   TimerDigitsGfx, vTilesOB + $600, $160
+	VIDEO_DATA_TILEMAP       MeowthBonusTilemap_GameBoyColor, vBGMap, $400
+	VIDEO_DATA_TILEMAP_BANK2 MeowthBonusTilemap2_GameBoyColor, vBGMap, $400
 	VIDEO_DATA_PALETTES      MeowthBonusPalettes, $80
 	db $FF, $FF  ; terminators
 
 StageDiglettBonusGfx_GameBoy: ; 0xebd7
-	VIDEO_DATA_TILES   Alphabet1Gfx, vTiles0, $1a0
-	VIDEO_DATA_TILES   DiglettBonusDugtrio1Gfx, vTiles0 + $1a0, $260
-	VIDEO_DATA_TILES   PinballPokeballGfx, vTiles0 + $400, $320
-	VIDEO_DATA_TILES   DiglettBonusDugtrio2Gfx, vTiles0 + $7a0, $60
-	VIDEO_DATA_TILES   DiglettBonusBaseGameBoyGfx, vTiles1, $e00  ; $e00 is actually $100 too many bytes. Should only be $d00. This accidentally loads palette data after the tile graphics.
-	VIDEO_DATA_TILES   DiglettBonusDugtrio3Gfx, vTiles1 + $100, $1a0
-	VIDEO_DATA_TILES   DiglettBonusDugtrio4Gfx, vTiles1 + $2a0, $280
-	VIDEO_DATA_TILEMAP DiglettBonusTilemap_GameBoy, vBGMap0, $400
+	VIDEO_DATA_TILES   Alphabet1Gfx, vTilesOB, $1a0
+	VIDEO_DATA_TILES   DiglettBonusDugtrio1Gfx, vTilesOB + $1a0, $260
+	VIDEO_DATA_TILES   PinballPokeballGfx, vTilesOB + $400, $320
+	VIDEO_DATA_TILES   DiglettBonusDugtrio2Gfx, vTilesOB + $7a0, $60
+	VIDEO_DATA_TILES   DiglettBonusBaseGameBoyGfx, vTilesSH, $e00  ; $e00 is actually $100 too many bytes. Should only be $d00. This accidentally loads palette data after the tile graphics.
+	VIDEO_DATA_TILES   DiglettBonusDugtrio3Gfx, vTilesSH + $100, $1a0
+	VIDEO_DATA_TILES   DiglettBonusDugtrio4Gfx, vTilesSH + $2a0, $280
+	VIDEO_DATA_TILEMAP DiglettBonusTilemap_GameBoy, vBGMap, $400
 	db $FF, $FF  ; terminators
 
 StageDiglettBonusGfx_GameBoyColor: ; 0xec11
-	VIDEO_DATA_TILES         Alphabet2Gfx, vTiles0, $1a0
-	VIDEO_DATA_TILES         DiglettBonusDugtrio1Gfx, vTiles0 + $1a0, $260
-	VIDEO_DATA_TILES         PinballPokeballGfx, vTiles0 + $400, $320
-	VIDEO_DATA_TILES         DiglettBonusDugtrio2Gfx, vTiles0 + $7a0, $60
-	VIDEO_DATA_TILES         DiglettBonusBaseGameBoyColorGfx, vTiles1, $e00
-	VIDEO_DATA_TILES         DiglettBonusDugtrio3Gfx, vTiles1 + $100, $1a0
-	VIDEO_DATA_TILES         DiglettBonusDugtrio4Gfx, vTiles1 + $2a0, $280
-	VIDEO_DATA_TILES_BANK2   TimerDigitsGfx, vTiles0 + $600, $160
-	VIDEO_DATA_TILEMAP       DiglettBonusTilemap_GameBoyColor, vBGMap0, $400
-	VIDEO_DATA_TILEMAP_BANK2 DiglettBonusTilemap2_GameBoyColor, vBGMap0, $400
+	VIDEO_DATA_TILES         Alphabet2Gfx, vTilesOB, $1a0
+	VIDEO_DATA_TILES         DiglettBonusDugtrio1Gfx, vTilesOB + $1a0, $260
+	VIDEO_DATA_TILES         PinballPokeballGfx, vTilesOB + $400, $320
+	VIDEO_DATA_TILES         DiglettBonusDugtrio2Gfx, vTilesOB + $7a0, $60
+	VIDEO_DATA_TILES         DiglettBonusBaseGameBoyColorGfx, vTilesSH, $e00
+	VIDEO_DATA_TILES         DiglettBonusDugtrio3Gfx, vTilesSH + $100, $1a0
+	VIDEO_DATA_TILES         DiglettBonusDugtrio4Gfx, vTilesSH + $2a0, $280
+	VIDEO_DATA_TILES_BANK2   TimerDigitsGfx, vTilesOB + $600, $160
+	VIDEO_DATA_TILEMAP       DiglettBonusTilemap_GameBoyColor, vBGMap, $400
+	VIDEO_DATA_TILEMAP_BANK2 DiglettBonusTilemap2_GameBoyColor, vBGMap, $400
 	VIDEO_DATA_PALETTES      DiglettBonusPalettes, $80
 	db $FF, $FF  ; terminators
 
 StageSeelBonusGfx_GameBoy: ; 0xec60
-	VIDEO_DATA_TILES   Alphabet1Gfx, vTiles0, $1a0
-	VIDEO_DATA_TILES   SeelBonusSeel1Gfx, vTiles0 + $1a0, $260
-	VIDEO_DATA_TILES   PinballPokeballGfx, vTiles0 + $400, $320
-	VIDEO_DATA_TILES   SeelBonusSeel2Gfx, vTiles0 + $7a0, $60
-	VIDEO_DATA_TILES   SeelBonusBaseGameBoyGfx, vTiles1, $d00  ; $d00 is actually $100 too many bytes. Should only be $c00. This accidentally loads palette data after the tile graphics.
-	VIDEO_DATA_TILES   SeelBonusSeel3Gfx, vTiles1 + $100, $1a0
-	VIDEO_DATA_TILES   SeelBonusSeel4Gfx, vTiles1 + $2a0, $4a0
-	VIDEO_DATA_TILEMAP SeelBonusTilemap_GameBoy, vBGMap0, $400
+	VIDEO_DATA_TILES   Alphabet1Gfx, vTilesOB, $1a0
+	VIDEO_DATA_TILES   SeelBonusSeel1Gfx, vTilesOB + $1a0, $260
+	VIDEO_DATA_TILES   PinballPokeballGfx, vTilesOB + $400, $320
+	VIDEO_DATA_TILES   SeelBonusSeel2Gfx, vTilesOB + $7a0, $60
+	VIDEO_DATA_TILES   SeelBonusBaseGameBoyGfx, vTilesSH, $d00  ; $d00 is actually $100 too many bytes. Should only be $c00. This accidentally loads palette data after the tile graphics.
+	VIDEO_DATA_TILES   SeelBonusSeel3Gfx, vTilesSH + $100, $1a0
+	VIDEO_DATA_TILES   SeelBonusSeel4Gfx, vTilesSH + $2a0, $4a0
+	VIDEO_DATA_TILEMAP SeelBonusTilemap_GameBoy, vBGMap, $400
 	db $FF, $FF  ; terminators
 
 StageSeelBonusGfx_GameBoyColor: ; 0xec9a
-	VIDEO_DATA_TILES         Alphabet2Gfx, vTiles0, $1a0
-	VIDEO_DATA_TILES         SeelBonusSeel1Gfx, vTiles0 + $1a0, $260
-	VIDEO_DATA_TILES         PinballPokeballGfx, vTiles0 + $400, $320
-	VIDEO_DATA_TILES         SeelBonusSeel2Gfx, vTiles0 + $7a0, $60
-	VIDEO_DATA_TILES         SeelBonusBaseGameBoyColorGfx, vTiles1, $b00  ; Should actually be $a00 bytes, not $b00
-	VIDEO_DATA_TILES         SeelBonusSeel3Gfx, vTiles1 + $100, $1a0
-	VIDEO_DATA_TILES         SeelBonusSeel4Gfx, vTiles1 + $2a0, $4a0
-	VIDEO_DATA_TILES_BANK2   TimerDigitsGfx, vTiles0 + $600, $160
-	VIDEO_DATA_TILEMAP       SeelBonusTilemap_GameBoyColor, vBGMap0, $400
-	VIDEO_DATA_TILEMAP_BANK2 SeelBonusTilemap2_GameBoyColor, vBGMap0, $400
+	VIDEO_DATA_TILES         Alphabet2Gfx, vTilesOB, $1a0
+	VIDEO_DATA_TILES         SeelBonusSeel1Gfx, vTilesOB + $1a0, $260
+	VIDEO_DATA_TILES         PinballPokeballGfx, vTilesOB + $400, $320
+	VIDEO_DATA_TILES         SeelBonusSeel2Gfx, vTilesOB + $7a0, $60
+	VIDEO_DATA_TILES         SeelBonusBaseGameBoyColorGfx, vTilesSH, $b00  ; Should actually be $a00 bytes, not $b00
+	VIDEO_DATA_TILES         SeelBonusSeel3Gfx, vTilesSH + $100, $1a0
+	VIDEO_DATA_TILES         SeelBonusSeel4Gfx, vTilesSH + $2a0, $4a0
+	VIDEO_DATA_TILES_BANK2   TimerDigitsGfx, vTilesOB + $600, $160
+	VIDEO_DATA_TILEMAP       SeelBonusTilemap_GameBoyColor, vBGMap, $400
+	VIDEO_DATA_TILEMAP_BANK2 SeelBonusTilemap2_GameBoyColor, vBGMap, $400
 	VIDEO_DATA_PALETTES      SeelBonusPalettes, $80
 	db $FF, $FF  ; terminators
 
-Func_ece9: ; 0xece9
+CheckStageTransition: ; 0xece9
 	call Func_ed5e
 	ld a, [wBallYPos + 1]
 	add $10
 	cp $18
-	jr c, .asm_ed13
+	jr c, .moving_up
 	cp $b8
 	ret c
 	ld a, [wCurrentStage]
@@ -8260,14 +8230,14 @@ Func_ece9: ; 0xece9
 	add hl, bc
 	ld a, [hl]
 	cp $ff
-	jr z, .asm_ed2e
-	call Func_e674
+	jr z, .rip
+	call FieldVerticalTransition
 	ld a, [wBallYPos + 1]
 	sub $88
 	ld [wBallYPos + 1], a
 	ret
 
-.asm_ed13
+.moving_up
 	ld a, [wCurrentStage]
 	ld c, a
 	ld b, $0
@@ -8275,18 +8245,17 @@ Func_ece9: ; 0xece9
 	add hl, bc
 	ld a, [hl]
 	cp $ff
-	jr z, .asm_ed2e
-	call Func_e674
+	jr z, .rip
+	call FieldVerticalTransition
 	ld a, [wBallYPos + 1]
 	add $88
 	ld [wBallYPos + 1], a
 	ret
 
-.asm_ed2e
+.rip
 	ld a, $1
 	ld [wd4ae], a
-	ld [hFarCallTempA], a
-	callba Func_dc49
+	callba HandleBallLoss
 	ret
 
 BallMovingUpStageTransitions: ; 0xed3e
@@ -8333,21 +8302,21 @@ Func_ed5e: ; 0xed5e
 	ld hl, wd7ab
 	ld a, [wd7ac]
 	and a
-	jr nz, .asm_ed7f
+	jr nz, .modify_scx_and_scy
 	ld a, [wBallXPos + 1]
 	cp $9a
-	ld a, $2
-	jr nc, .asm_ed72
-	ld a, $fe
-.asm_ed72
+	ld a,  2
+	jr nc, .okay1
+	ld a, -2
+.okay1
 	ld [wd7aa], a
 	add [hl]
 	cp $22
-	jr z, .asm_ed7f
+	jr z, .modify_scx_and_scy
 	bit 7, a
-	jr nz, .asm_ed7f
+	jr nz, .modify_scx_and_scy
 	ld [hl], a
-.asm_ed7f
+.modify_scx_and_scy
 	ld a, [hl]
 	ld hl, wd79f
 	sub [hl]
@@ -8384,7 +8353,6 @@ Func_ed8e: ; 0xed8e
 	ld a, $3
 	ld hl, HandleFlippers
 	call nz, BankSwitch
-	ld [hFarCallTempA], a
 	callba Func_84b7
 	call Func_33e3
 	call Func_926
@@ -8523,9 +8491,9 @@ Func_ed8e: ; 0xed8e
 	ld a, [wd61d]
 	rst JumpTable  ; calls JumpToFuncInTable
 CallTable_eeca: ; 0xeeca
-	dw Func_ef35
-	dw Func_ef4f
-	dw Func_ef69
+	dw Start30SecondSaverTimer
+	dw Start60SecondSaverTimer
+	dw Start90SecondSaverTimer
 	dw Func_ef83
 	dw Func_efa7
 	dw Func_efb2
@@ -8604,43 +8572,43 @@ BallTypeMultipliers: ; 0xef2f
 	db $02
 	db $02  ; MASTER_BALL
 
-Func_ef35: ; 0xef35
+Start30SecondSaverTimer: ; 0xef35
 	ld a, $0
 	ld [wBallSaverIconOn], a
 	ld a, $ff
 	ld [wd4a2], a
-	ld a, $3b
+	ld a, 59
 	ld [wBallSaverTimerFrames], a
-	ld a, $1e
+	ld a, 30
 	ld [wBallSaverTimerSeconds], a
 	ld a, $2
-	ld [wd4a5], a
+	ld [wNumTimesBallSavedTextWillDisplay], a
 	ret
 
-Func_ef4f: ; 0xef4f
+Start60SecondSaverTimer: ; 0xef4f
 	ld a, $0
 	ld [wBallSaverIconOn], a
 	ld a, $ff
 	ld [wd4a2], a
-	ld a, $3b
+	ld a, 59
 	ld [wBallSaverTimerFrames], a
-	ld a, $3c
+	ld a, 60
 	ld [wBallSaverTimerSeconds], a
 	ld a, $2
-	ld [wd4a5], a
+	ld [wNumTimesBallSavedTextWillDisplay], a
 	ret
 
-Func_ef69: ; 0xef69
+Start90SecondSaverTimer: ; 0xef69
 	ld a, $0
 	ld [wBallSaverIconOn], a
 	ld a, $ff
 	ld [wd4a2], a
-	ld a, $3b
+	ld a, 59
 	ld [wBallSaverTimerFrames], a
-	ld a, $5a
+	ld a, 90
 	ld [wBallSaverTimerSeconds], a
 	ld a, $2
-	ld [wd4a5], a
+	ld [wNumTimesBallSavedTextWillDisplay], a
 	ret
 
 Func_ef83: ; 0xef83
@@ -8653,14 +8621,12 @@ Func_ef83: ; 0xef83
 	call Func_310a
 	rst AdvanceFrame
 	ld a, $0
-	ld [hFarCallTempA], a
 	callba PlayPikachuSoundClip
 	ld a, $1
 	ld [wd85d], a
 	ret
 
 Func_efa7: ; 0xefa7
-	ld [hFarCallTempA], a
 	callba Func_30164
 	ret
 
@@ -8784,7 +8750,6 @@ UpgradeBallBlueField: ; 0xf040
 	lb de, $0f, $4d
 	call PlaySoundEffect
 	ld bc, OneMillionPoints
-	ld [hFarCallTempA], a
 	callba AddBigBCD6FromQueue
 	ld bc, $100
 	ld de, $0000
@@ -8801,7 +8766,6 @@ UpgradeBallBlueField: ; 0xf040
 	ld de, FieldMultiplierSpecialBonusText
 	call LoadTextHeader
 .asm_f0b0
-	ld [hFarCallTempA], a
 	callba Func_155bb
 	ret
 
@@ -8868,14 +8832,11 @@ SlotBonusMultiplier: ; 0xf0c1
 	ld a, Bank(Func_30164)
 	ld hl, Func_30164
 	call nz, BankSwitch
-	ld [hFarCallTempA], a
 	callba Func_16f95
 	ld a, [wd60c]
-	ld [hFarCallTempA], a
 	callba Func_f154 ; no need for BankSwitch here...
 	ld a, [wd60d]
 	add $14
-	ld [hFarCallTempA], a
 	callba Func_f154 ; no need for BankSwitch here...
 	ret
 
@@ -8922,7 +8883,7 @@ LoadBillboardPicture: ; 0xf178
 	ld a, [hl]
 	ld h, b
 	ld l, c
-	ld de, vTiles1 tile $10   ; destination address to copy the tiles
+	ld de, vTilesSH tile $10   ; destination address to copy the tiles
 	ld bc, $180    ; billboard pictures are $180 bytes
 	call LoadVRAMData  ; loads the tiles into VRAM
 	pop hl
@@ -8948,7 +8909,7 @@ LoadBillboardOffPicture: ; 0xf196
 	ld l, c
 	ld bc, $0180  ; get the address of the "off" version of the picture
 	add hl, bc
-	ld de, vTiles1 tile $10
+	ld de, vTilesSH tile $10
 	ld bc, $0180
 	call LoadVRAMData
 	pop hl
@@ -9030,7 +8991,7 @@ Func_f269: ; 0xf269
 .asm_f27c
 	ld a, BANK(Data_f288)
 	ld de, Data_f288
-	hlCoord 7, 4, vBGMap0
+	hlCoord 7, 4, vBGMap
 	call Func_86f
 	ret
 
@@ -9165,7 +9126,7 @@ Func_f55c: ; 0xf55c
 	jr nz, .gameboyColor
 	ld a, BANK(GFX_d61c0)
 	ld hl, GFX_d61c0
-	ld de, vTiles1 tile $03
+	ld de, vTilesSH tile $03
 	ld bc, $0010
 	call LoadVRAMData
 	ret
@@ -9173,7 +9134,7 @@ Func_f55c: ; 0xf55c
 .gameboyColor
 	ld a, BANK(GFX_d63c0)
 	ld hl, GFX_d63c0
-	ld de, vTiles1 tile $03
+	ld de, vTilesSH tile $03
 	ld bc, $0010
 	call LoadVRAMData
 	ret
@@ -9193,7 +9154,7 @@ Func_f57f: ; 0xf57f
 	jr nz, .clearLoop
 	ld a, $0
 	ld hl, wBottomMessageText
-	ld de, vBGMap1
+	ld de, vBGWin
 	ld bc, $00c0
 	call LoadVRAMData
 	ret
@@ -9400,7 +9361,7 @@ Func_f70d: ; 0xf70d
 	ld de, wBottomMessageText + $60
 	ld hl, Data_308d
 	call PrintTextNoHeader
-	ld hl, wd46f
+	ld hl, wScore + $5
 	ld de, wBottomMessageText + $66
 	call Func_f8bd
 	ld bc, $0040
@@ -9421,7 +9382,7 @@ Func_f70d: ; 0xf70d
 	ld hl, wScore
 	ld de, wd48f
 	call AddBigBCD6
-	ld hl, wd46f
+	ld hl, wScore + $5
 	ld de, wBottomMessageText + $66
 	call Func_f8bd
 	ld bc, $0040
@@ -9529,7 +9490,7 @@ PrintTextNoHeader: ; 0xf7b1
 	jr .asm_f7e0
 
 Func_f80d: ; 0xf80d
-	hlCoord 0, 0, vBGMap1
+	hlCoord 0, 0, vBGWin
 	add hl, de
 	push hl
 	ld hl, wBottomMessageText
@@ -9929,7 +9890,6 @@ Func_10000: ; 0x10000
 	jp z, Func_10a95
 	cp $2
 	jr nz, .asm_10021
-	ld [hFarCallTempA], a
 	callba Func_301ce
 	ret
 
@@ -10050,9 +10010,7 @@ StartCatchEmMode: ; 0x1003f
 	ld c, a
 	ld a, [hl]
 	ld b, a
-	ld [hFarCallTempA], a
 	callba StartTimer
-	ld [hFarCallTempA], a
 	callba InitBallSaverForCatchEmMode
 	call Func_10696
 	call Func_3579
@@ -10061,12 +10019,12 @@ StartCatchEmMode: ; 0x1003f
 	jr z, .asm_1011d
 	ld a, BANK(StageRedFieldBottomBaseGameBoyColorGfx)
 	ld hl, StageRedFieldBottomBaseGameBoyColorGfx + $300
-	ld de, vTiles1 tile $2e
+	ld de, vTilesSH tile $2e
 	ld bc, $0020
 	call LoadOrCopyVRAMData
 	ld a, $0
 	ld hl, Data_2898
-	deCoord 6, 8, vBGMap0
+	deCoord 6, 8, vBGMap
 	ld bc, $0008
 	call LoadOrCopyVRAMData
 .asm_1011d
@@ -10124,7 +10082,6 @@ Func_10157: ; 0x10157
 	ld [wd5b6], a
 	ld [wNumMonHits], a
 	call Func_10488
-	ld [hFarCallTempA], a
 	callba Func_86d2
 	ld a, [wCurrentStage]
 	rst JumpTable  ; calls JumpToFuncInTable
@@ -10217,7 +10174,7 @@ Func_101d9: ; 0x101d9
 	rl b
 	sla c
 	rl b
-	ld hl, vTiles1 tile $10
+	ld hl, vTilesSH tile $10
 	add hl, bc
 	ld a, l
 	ld [de], a
@@ -10631,12 +10588,12 @@ Func_10496: ; 0x10496
 	ld [wd5c6], a
 	ld a, BANK(PikachuSaverGfx)
 	ld hl, PikachuSaverGfx + $c0
-	ld de, vTiles0 tile $7e
+	ld de, vTilesOB tile $7e
 	ld bc, $0020
 	call LoadVRAMData
 	ld a, BANK(GFX_a8800)
 	ld hl, GFX_a8800
-	ld de, vTiles1 tile $10
+	ld de, vTilesSH tile $10
 	ld bc, $0180
 	call LoadVRAMData
 	call LoadShakeBallGfx
@@ -10664,7 +10621,7 @@ LoadShakeBallGfx: ; 0x104e2
 	jr nc, .notPokeball
 	ld a, Bank(PinballPokeballShakeGfx)
 	ld hl, PinballPokeballShakeGfx
-	ld de, vTiles0 tile $38
+	ld de, vTilesOB tile $38
 	ld bc, $0040
 	call LoadVRAMData
 	ret
@@ -10674,7 +10631,7 @@ LoadShakeBallGfx: ; 0x104e2
 	jr nc, .notGreatball
 	ld a, Bank(PinballGreatballShakeGfx)
 	ld hl, PinballGreatballShakeGfx
-	ld de, vTiles0 tile $38
+	ld de, vTilesOB tile $38
 	ld bc, $0040
 	call LoadVRAMData
 	ret
@@ -10684,7 +10641,7 @@ LoadShakeBallGfx: ; 0x104e2
 	jr nc, .notUltraBall
 	ld a, Bank(PinballUltraballShakeGfx)
 	ld hl, PinballUltraballShakeGfx
-	ld de, vTiles0 tile $38
+	ld de, vTilesOB tile $38
 	ld bc, $0040
 	call LoadVRAMData
 	ret
@@ -10692,7 +10649,7 @@ LoadShakeBallGfx: ; 0x104e2
 .notUltraBall
 	ld a, Bank(PinballMasterballShakeGfx)
 	ld hl, PinballMasterballShakeGfx
-	ld de, vTiles0 tile $38
+	ld de, vTilesOB tile $38
 	ld bc, $0040
 	call LoadVRAMData
 	ret
@@ -10751,8 +10708,7 @@ CapturePokemon: ; 0x1052d
 	ld a, $1
 	ld [wd548], a
 	ld [wd549], a
-	ld [hFarCallTempA], a
-	callba Func_dc00
+	callba RestoreBallSaverAfterCatchEmMode
 	call Func_10157
 	ld de, $0001
 	call PlaySong
@@ -11057,7 +11013,6 @@ Func_107b0: ; 0x107b0
 	xor a
 	ld [wd604], a
 	ld [wIndicatorStates + 4], a
-	ld [hFarCallTempA], a
 	callba Func_16425
 	ret
 
@@ -11141,7 +11096,6 @@ Func_10825: ; 0x10825
 
 Func_10848: ; 0x10848
 	ld bc, OneHundredMillionPoints
-	ld [hFarCallTempA], a
 	callba AddBigBCD6FromQueue
 	call Fillwc600WithBlackTile
 	call Func_30db
@@ -11198,16 +11152,12 @@ Func_10871: ; 0x10871
 	ld a, [wCurrentStage]
 	bit 0, a
 	jr nz, .asm_108d3
-	ld [hFarCallTempA], a
 	callba LoadStageCollisionAttributes
-	ld [hFarCallTempA], a
 	callba Func_159f4
 	ret
 
 .asm_108d3
-	ld [hFarCallTempA], a
 	callba Func_14135
-	ld [hFarCallTempA], a
 	callba Func_10184
 	ld a, [hGameBoyColorFlag]
 	and a
@@ -11225,26 +11175,23 @@ Func_108f5: ; 0x108f5
 	ld a, [wCurrentStage]
 	bit 0, a
 	ret z
-	ld [hFarCallTempA], a
 	callba Func_14135
 	call Func_10432
-	ld [hFarCallTempA], a
 	callba Func_30253
 	ld a, Bank(StageSharedBonusSlotGlowGfx)
 	ld hl, StageSharedBonusSlotGlowGfx
-	ld de, vTiles0 tile $1a
+	ld de, vTilesOB tile $1a
 	ld bc, $0160
 	call LoadVRAMData
 	ld a, BANK(StageSharedBonusSlotGlow2Gfx)
 	ld hl, StageSharedBonusSlotGlow2Gfx
-	ld de, vTiles0 tile $38
+	ld de, vTilesOB tile $38
 	ld bc, $0020
 	call LoadVRAMData
 	ld hl, Data_10958
 	ld a, BANK(Data_10958)
 	call Func_10aa
 	ld a, [wd624]
-	ld [hFarCallTempA], a
 	callba Func_174d4
 	ld hl, Data_1097d
 	ld a, BANK(Data_1097d)
@@ -11313,14 +11260,12 @@ Func_1098c: ; 0x1098c
 	jr nz, .loop
 	xor a
 	ld [wRightAlleyCount], a
-	ld [hFarCallTempA], a
 	callba Func_1f2ed
 	ld de, $0002
 	call PlaySong
 	ld a, [wCurrentStage]
 	bit 0, a
 	ret z
-	ld [hFarCallTempA], a
 	callba Func_1c2cb
 	ld [hFarCallTempA], a
 	ld a, $4
@@ -11337,31 +11282,27 @@ Func_1098c: ; 0x1098c
 Func_109fc: ; 0x109fc
 	call Func_107a5
 	call Func_107c2
-	ld [hFarCallTempA], a
 	callba Func_1f2ff
 	ld a, [wCurrentStage]
 	bit 0, a
 	ret z
-	ld [hFarCallTempA], a
 	callba Func_1c2cb
 	call Func_10432
-	ld [hFarCallTempA], a
 	callba Func_30253
 	ld a, BANK(StageSharedBonusSlotGlowGfx)
 	ld hl, StageSharedBonusSlotGlowGfx
-	ld de, vTiles0 tile $1a
+	ld de, vTilesOB tile $1a
 	ld bc, $0160
 	call LoadVRAMData
 	ld a, BANK(StageSharedBonusSlotGlow2Gfx)
 	ld hl, StageSharedBonusSlotGlow2Gfx
-	ld de, vTiles0 tile $38
+	ld de, vTilesOB tile $38
 	ld bc, $0020
 	call LoadVRAMData
 	ld hl, Data_10a63
 	ld a, BANK(Data_10a63)
 	call Func_10aa
 	ld a, [wd624]
-	ld [hFarCallTempA], a
 	callba Func_174d4
 	ld hl, Data_10a88
 	ld a, BANK(Data_10a88)
@@ -11433,7 +11374,6 @@ Func_10ac8: ; 0x10ac8
 	ld [wd551], a
 	ld [wd554], a
 	call Func_10488
-	ld [hFarCallTempA], a
 	callba Func_86d2
 	ld a, [wCurrentStage]
 	rst JumpTable  ; calls JumpToFuncInTable
@@ -11523,12 +11463,12 @@ Func_10b59: ; 0x10b59
 	call Func_10b8e
 	ld a, BANK(InGameMenuSymbolsGfx)
 	ld hl, InGameMenuSymbolsGfx
-	ld de, vTiles1 tile $08
+	ld de, vTilesSH tile $08
 	ld bc, $0030
 	call LoadVRAMData
 	ld a, $0
 	ld hl, wBottomMessageText
-	deCoord 0, 0, vBGMap1
+	deCoord 0, 0, vBGWin
 	ld bc, $00c0
 	call LoadVRAMData
 	ret
@@ -11703,7 +11643,7 @@ Func_10c38: ; 0x10c38
 .asm_10c96
 	ld a, $0
 	ld hl, wBottomMessageText
-	deCoord 0, 0, vBGMap1
+	deCoord 0, 0, vBGWin
 	ld bc, $00c0
 	call LoadVRAMData
 	ret
@@ -11742,7 +11682,7 @@ Func_10cb7: ; 0x10cb7
 	jr nz, .asm_10cee
 	ld a, BANK(StageRedFieldTopStatusBarSymbolsGfx_GameBoy)
 	ld hl, StageRedFieldTopStatusBarSymbolsGfx_GameBoy + $80
-	ld de, vTiles1 tile $08
+	ld de, vTilesSH tile $08
 	ld bc, $0030
 	call LoadVRAMData
 	jr .asm_10cfc
@@ -11750,7 +11690,7 @@ Func_10cb7: ; 0x10cb7
 .asm_10cee
 	ld a, BANK(StageRedFieldTopStatusBarSymbolsGfx_GameBoyColor)
 	ld hl, StageRedFieldTopStatusBarSymbolsGfx_GameBoyColor + $80
-	ld de, vTiles1 tile $08
+	ld de, vTilesSH tile $08
 	ld bc, $0030
 	call LoadVRAMData
 .asm_10cfc
@@ -11806,7 +11746,6 @@ Func_10d1d: ; 0x10d1d
 	ld c, a
 	ld a, [hl]
 	ld b, a
-	ld [hFarCallTempA], a
 	callba StartTimer
 	ld a, [wCurrentCatchEmMon]
 	ld c, a
@@ -11887,7 +11826,6 @@ Func_10d1d: ; 0x10d1d
 	inc de
 	dec b
 	jr nz, .asm_10dc0
-	ld [hFarCallTempA], a
 	callba InitBallSaverForCatchEmMode
 	call Func_10b3f
 	call Func_3579
@@ -11896,12 +11834,12 @@ Func_10d1d: ; 0x10d1d
 	jr z, .asm_10e09
 	ld a, BANK(StageRedFieldBottomBaseGameBoyColorGfx)
 	ld hl, StageRedFieldBottomBaseGameBoyColorGfx + $300
-	ld de, vTiles1 tile $2e
+	ld de, vTilesSH tile $2e
 	ld bc, $0020
 	call LoadOrCopyVRAMData
 	ld a, $0
 	ld hl, Data_2898
-	deCoord 6, 8, vBGMap0
+	deCoord 6, 8, vBGMap
 	ld bc, $0008
 	call LoadOrCopyVRAMData
 .asm_10e09
@@ -11983,7 +11921,6 @@ Func_10e0a: ; 0x10e0a
 
 Func_10e8b: ; 0x10e8b
 	ld bc, OneMillionPoints
-	ld [hFarCallTempA], a
 	callba AddBigBCD6FromQueue
 	ld bc, $0100
 	ld de, $0000
@@ -12037,7 +11974,7 @@ Func_10ebb: ; 0x10ebb
 	jr nz, .asm_10f0b
 	ld a, BANK(Data_dbe80)
 	ld hl, Data_dbe80
-	ld de, vTiles1 tile $10
+	ld de, vTilesSH tile $10
 	ld bc, $00e0
 	call LoadOrCopyVRAMData
 	ret
@@ -12045,12 +11982,10 @@ Func_10ebb: ; 0x10ebb
 .asm_10f0b
 	ld a, BANK(Data_dbe80)
 	ld hl, Data_dbe80
-	ld de, vTiles0 tile $20
+	ld de, vTilesOB tile $20
 	ld bc, $00e0
 	call LoadOrCopyVRAMData
-	ld [hFarCallTempA], a
 	callba Func_14135
-	ld [hFarCallTempA], a
 	callba Func_10184
 	ld a, [hGameBoyColorFlag]
 	and a
@@ -12102,15 +12037,12 @@ Func_10fe3: ; 0x10fe3
 	ld a, [wCurrentStage]
 	bit 0, a
 	jp z, Func_10aff
-	ld [hFarCallTempA], a
 	callba Func_14135
-	ld [hFarCallTempA], a
 	callba Func_16425
-	ld [hFarCallTempA], a
 	callba Func_30253
 	ld a, BANK(StageSharedBonusSlotGlowGfx)
 	ld hl, StageSharedBonusSlotGlowGfx + $60
-	ld de, vTiles0 tile $20
+	ld de, vTilesOB tile $20
 	ld bc, $00e0
 	call LoadVRAMData
 	ld a, [hGameBoyColorFlag]
@@ -12126,7 +12058,6 @@ Func_10fe3: ; 0x10fe3
 	ld a, BANK(Data_10958)
 	call Func_10aa
 	ld a, [wd624]
-	ld [hFarCallTempA], a
 	callba Func_174d4
 	ld hl, Data_1097d
 	ld a, BANK(Data_1097d)
@@ -12171,7 +12102,6 @@ Func_11061: ; 0x11061
 	jr nz, .asm_11085
 	xor a
 	ld [wLeftAlleyCount], a
-	ld [hFarCallTempA], a
 	callba Func_1f2ed
 	ld a, $2
 	ld [wd7ad], a
@@ -12183,7 +12113,7 @@ Func_11061: ; 0x11061
 	jr nz, .asm_110bd
 	ld a, BANK(Data_dbe80)
 	ld hl, Data_dbe80
-	ld de, vTiles0 tile $60
+	ld de, vTilesOB tile $60
 	ld bc, $00e0
 	call LoadOrCopyVRAMData
 	ret
@@ -12191,12 +12121,10 @@ Func_11061: ; 0x11061
 .asm_110bd
 	ld a, BANK(Data_dbe80)
 	ld hl, Data_dbe80
-	ld de, vTiles0 tile $20
+	ld de, vTilesOB tile $20
 	ld bc, $00e0
 	call LoadOrCopyVRAMData
-	ld [hFarCallTempA], a
 	callba Func_1c2cb
-	ld [hFarCallTempA], a
 	callba Func_10184
 	ld a, [hGameBoyColorFlag]
 	and a
@@ -12245,20 +12173,16 @@ Func_11195: ; 0x11195
 	ld [wd643], a
 	call Func_107a5
 	call Func_107c2
-	ld [hFarCallTempA], a
 	callba Func_1f2ff
 	ld a, [wCurrentStage]
 	bit 0, a
 	jp z, Func_1120e
-	ld [hFarCallTempA], a
 	callba Func_1c2cb
-	ld [hFarCallTempA], a
 	callba Func_1e8f6
-	ld [hFarCallTempA], a
 	callba Func_30253
 	ld a, Bank(StageSharedBonusSlotGlowGfx)
 	ld hl, StageSharedBonusSlotGlowGfx + $60
-	ld de, vTiles0 tile $20
+	ld de, vTilesOB tile $20
 	ld bc, $00e0
 	call LoadVRAMData
 	ld a, [hGameBoyColorFlag]
@@ -12274,7 +12198,6 @@ Func_11195: ; 0x11195
 	ld a, BANK(Data_10a63)
 	call Func_10aa
 	ld a, [wd624]
-	ld [hFarCallTempA], a
 	callba Func_174d4
 	ld hl, Data_10a88
 	ld a, BANK(Data_10a88)
@@ -13891,7 +13814,6 @@ Func_14091: ; 0x14091
 	ld a, [wCurrentStage]
 	bit 0, a
 	ret nz
-	ld [hFarCallTempA], a
 	callba LoadStageCollisionAttributes
 	call Func_159f4
 	ret
@@ -13969,9 +13891,7 @@ Func_1414b: ; 0x1414b
 	jp Func_14210
 
 .asm_14165
-	ld [hFarCallTempA], a
 	callba Func_141f2
-	ld [hFarCallTempA], a
 	callba Func_10362
 	ld a, [hGameBoyColorFlag]
 	and a
@@ -13984,12 +13904,12 @@ Func_1414b: ; 0x1414b
 	ret z
 	ld a, BANK(PikachuSaverGfx)
 	ld hl, PikachuSaverGfx + $c0
-	ld de, vTiles0 tile $7e
+	ld de, vTilesOB tile $7e
 	ld bc, $0020
 	call FarCopyData
 	ld a, BANK(GFX_a8800)
 	ld hl, GFX_a8800
-	ld de, vTiles1 tile $10
+	ld de, vTilesSH tile $10
 	ld bc, $0180
 	call FarCopyData
 	ld a, [wBallType]
@@ -13997,7 +13917,7 @@ Func_1414b: ; 0x1414b
 	jr nc, .notPokeball
 	ld a, Bank(PinballPokeballShakeGfx)
 	ld hl, PinballPokeballShakeGfx
-	ld de, vTiles0 tile $38
+	ld de, vTilesOB tile $38
 	ld bc, $0040
 	call FarCopyData
 	ret
@@ -14007,7 +13927,7 @@ Func_1414b: ; 0x1414b
 	jr nc, .notGreatball
 	ld a, Bank(PinballGreatballShakeGfx)
 	ld hl, PinballGreatballShakeGfx
-	ld de, vTiles0 tile $38
+	ld de, vTilesOB tile $38
 	ld bc, $0040
 	call FarCopyData
 	ret
@@ -14017,7 +13937,7 @@ Func_1414b: ; 0x1414b
 	jr nc, .notUltraball
 	ld a, Bank(PinballUltraballShakeGfx)
 	ld hl, PinballUltraballShakeGfx
-	ld de, vTiles0 tile $38
+	ld de, vTilesOB tile $38
 	ld bc, $0040
 	call FarCopyData
 	ret
@@ -14025,20 +13945,20 @@ Func_1414b: ; 0x1414b
 .notUltraball
 	ld a, Bank(PinballMasterballShakeGfx)
 	ld hl, PinballMasterballShakeGfx
-	ld de, vTiles0 tile $38
+	ld de, vTilesOB tile $38
 	ld bc, $0040
 	call FarCopyData
 	ret
 
 Func_141f2: ; 0x141f2
 	ld a, $80
-	hlCoord 7, 4, vBGMap0
+	hlCoord 7, 4, vBGMap
 	call Func_14209
-	hlCoord 7, 5, vBGMap0
+	hlCoord 7, 5, vBGMap
 	call Func_14209
-	hlCoord 7, 6, vBGMap0
+	hlCoord 7, 6, vBGMap
 	call Func_14209
-	hlCoord 7, 7, vBGMap0
+	hlCoord 7, 7, vBGMap
 	; fall through
 
 Func_14209: ; 0x14209
@@ -14059,7 +13979,6 @@ Func_14210: ; 0x14210
 	ld [hli], a
 	dec b
 	jr nz, .asm_14215
-	ld [hFarCallTempA], a
 	callba Func_10184
 	ld a, [hGameBoyColorFlag]
 	and a
@@ -14084,7 +14003,7 @@ Func_14234: ; 0x14234
 	jr nz, .asm_1425c
 	ld a, BANK(Data_dbe80)
 	ld hl, Data_dbe80
-	ld de, vTiles1 tile $10
+	ld de, vTilesSH tile $10
 	ld bc, $00e0
 	call FarCopyData
 	jr .asm_1426a
@@ -14092,7 +14011,7 @@ Func_14234: ; 0x14234
 .asm_1425c
 	ld a, BANK(Data_dbe80)
 	ld hl, Data_dbe80
-	ld de, vTiles0 tile $20
+	ld de, vTilesOB tile $20
 	ld bc, $00e0
 	call FarCopyData
 .asm_1426a
@@ -14132,14 +14051,13 @@ Func_14282: ; 0x14282
 	call Func_174d4
 	ld a, BANK(Data_d8f60)
 	ld hl, Data_d8f60
-	ld de, vTiles1 tile $2e
+	ld de, vTilesSH tile $2e
 	ld bc, $0020
 	call FarCopyData
 	ret
 
 Func_142b3: ; 0x142b3
 	push af
-	ld [hFarCallTempA], a
 	callba Func_10611
 	pop af
 	dec a
@@ -14173,7 +14091,7 @@ Func_142d7: ; 0x142d7
 	swap e
 	sla e
 	push hl
-	ld hl, vTiles1 tile $2e
+	ld hl, vTilesSH tile $2e
 	add hl, de
 	ld d, h
 	ld e, l
@@ -14189,19 +14107,16 @@ Func_142fc: ; 0x142fc
 	ld a, [wd4c8]
 	and a
 	jr nz, .asm_1430e
-	ld [hFarCallTempA], a
 	callba LoadBallGfx
 	jr .asm_14328
 
 .asm_1430e
 	cp $1
 	jr nz, .asm_1431e
-	ld [hFarCallTempA], a
 	callba LoadMiniBallGfx
 	jr .asm_14328
 
 .asm_1431e
-	ld [hFarCallTempA], a
 	callba Func_dd62
 .asm_14328
 	ld a, [hGameBoyColorFlag]
@@ -14254,7 +14169,6 @@ Func_14377: ; 0x14377
 	jr z, .asm_14393
 	ld a, [wd498]
 	add $15
-	ld [hFarCallTempA], a
 	callba Func_30256
 	ret
 
@@ -14263,12 +14177,10 @@ Func_14377: ; 0x14377
 	and a
 	jr z, .asm_143a6
 	ld a, $1a
-	ld [hFarCallTempA], a
 	callba Func_30256
 	ret
 
 .asm_143a6
-	ld [hFarCallTempA], a
 	callba Func_30253
 	ret
 
@@ -14279,7 +14191,6 @@ Func_14377: ; 0x14377
 	ld a, [wd54d]
 	cp $3
 	jr nz, .asm_143c9
-	ld [hFarCallTempA], a
 	callba Func_30253
 	ret
 
@@ -14291,7 +14202,6 @@ Func_14377: ; 0x14377
 	ld a, [wd55a]
 	add $12
 .asm_143d6
-	ld [hFarCallTempA], a
 	callba Func_30256
 	ret
 
@@ -14563,10 +14473,8 @@ Func_1460e: ; 0x1460e
 	call Func_146a9
 	call Func_174ea
 	call Func_148cf
-	ld [hFarCallTempA], a
 	callba Func_30188
 	ld a, $0
-	ld [hFarCallTempA], a
 	callba Func_10000
 	ret
 
@@ -14590,10 +14498,8 @@ Func_14652: ; 0x14652
 	call Func_14733
 	call Func_146a2
 	call Func_174d0
-	ld [hFarCallTempA], a
 	callba Func_30188
 	ld a, $0
-	ld [hFarCallTempA], a
 	callba Func_10000
 	ret
 
@@ -14615,7 +14521,7 @@ Func_146a9: ; 0x146a9
 	ld [wBallSaverTimerFrames], a
 	bit 7, a
 	jr z, .asm_146e8
-	ld a, $3b
+	ld a, 59
 	ld [wBallSaverTimerFrames], a
 	ld a, [hl]
 	dec a
@@ -14662,7 +14568,7 @@ Func_14707: ; 0x14707
 	jr nz, .asm_1471c
 	ld a, BANK(Data_1172b)
 	ld hl, Data_1172b
-	deCoord 8, 13, vBGMap0
+	deCoord 8, 13, vBGMap
 	ld bc, $0004
 	call LoadOrCopyVRAMData
 	ret
@@ -14670,7 +14576,7 @@ Func_14707: ; 0x14707
 .asm_1471c
 	ld a, BANK(Data_1472f)
 	ld hl, Data_1472f
-	deCoord 8, 13, vBGMap0
+	deCoord 8, 13, vBGMap
 	ld bc, $0004
 	call LoadOrCopyVRAMData
 	ret
@@ -14788,7 +14694,6 @@ Func_147aa: ; 0x147aa
 	add $4
 	call Func_149f5
 	ld a, $8
-	ld [hFarCallTempA], a
 	callba Func_10000
 	ld a, [wRightMapMoveCounter]
 	cp $3
@@ -14805,7 +14710,6 @@ Func_147aa: ; 0x147aa
 	ld a, [wLeftMapMoveCounter]
 	call Func_149f5
 	ld a, $7
-	ld [hFarCallTempA], a
 	callba Func_10000
 	ld a, [wLeftMapMoveCounter]
 	cp $3
@@ -14966,7 +14870,6 @@ Func_14920: ; 0x14920
 .asm_14937
 	ld a, $1
 	ld [wd55a], a
-	ld [hFarCallTempA], a
 	callba StartMapMoveMode
 	ret
 
@@ -14983,7 +14886,6 @@ Func_14947: ; 0x14947
 .asm_1495e
 	xor a
 	ld [wd55a], a
-	ld [hFarCallTempA], a
 	callba StartMapMoveMode
 	ret
 
@@ -14995,7 +14897,6 @@ Func_1496d: ; 0x1496d
 	ld a, $2
 	ld [wd7eb], a
 	ld bc, FiveHundredPoints
-	ld [hFarCallTempA], a
 	callba AddBigBCD6FromQueueWithBallMultiplier
 	lb de, $00, $0f
 	call PlaySoundEffect
@@ -15107,10 +15008,8 @@ Func_14d85: ; 0x14d85
 	sub $3
 	ld [wd4d7], a
 	ld a, $4
-	ld [hFarCallTempA], a
 	callba Func_10000
 	ld bc, FiveHundredPoints
-	ld [hFarCallTempA], a
 	callba AddBigBCD6FromQueueWithBallMultiplier
 	ret
 
@@ -15156,7 +15055,6 @@ Func_14dea: ; 0x14dea
 	ld a, b
 	ld [wd50c], a
 	ld a, $c
-	ld [hFarCallTempA], a
 	callba Func_10000
 	; fall through
 Func_14e10: ; 0x14e10
@@ -15219,7 +15117,6 @@ Func_14e10: ; 0x14e10
 	and a
 	ret z
 	ld bc, TenPoints
-	ld [hFarCallTempA], a
 	callba AddBigBCD6FromQueueWithBallMultiplier
 	ld hl, wd62d
 	call Func_e4a
@@ -15308,7 +15205,6 @@ Func_151cb: ; 0x151cb
 	and a
 	ret nz
 	ld bc, OneHundredPoints
-	ld [hFarCallTempA], a
 	callba AddBigBCD6FromQueueWithBallMultiplier
 	ld hl, wd50f
 	ld a, [hli]
@@ -15323,7 +15219,6 @@ Func_151cb: ; 0x151cb
 	ld a, $80
 	ld [wd514], a
 	ld bc, FourHundredPoints
-	ld [hFarCallTempA], a
 	callba AddBigBCD6FromQueueWithBallMultiplier
 	lb de, $00, $09
 	call PlaySoundEffect
@@ -15493,7 +15388,6 @@ Func_1535d: ; 0x1535d
 	ld [wSecondaryLeftAlleyTrigger], a
 	call Func_159c9
 	ld a, $b
-	ld [hFarCallTempA], a
 	callba Func_10000
 	ld a, [wd5f8]
 	sub $e
@@ -15506,7 +15400,6 @@ Func_1535d: ; 0x1535d
 	and a
 	ret nz
 	ld bc, OneHundredPoints
-	ld [hFarCallTempA], a
 	callba AddBigBCD6FromQueueWithBallMultiplier
 	ld hl, wd5f9
 	ld a, [hli]
@@ -15529,7 +15422,6 @@ Func_1535d: ; 0x1535d
 	ld a, $e
 	ld [wBallTypeCounter + 1], a
 	ld bc, FourHundredPoints
-	ld [hFarCallTempA], a
 	callba AddBigBCD6FromQueueWithBallMultiplier
 	ld a, [wBallType]
 	cp MASTER_BALL
@@ -15556,7 +15448,6 @@ Func_1535d: ; 0x1535d
 	lb de, $0f, $4d
 	call PlaySoundEffect
 	ld bc, OneMillionPoints
-	ld [hFarCallTempA], a
 	callba AddBigBCD6FromQueue
 	ld bc, $0100
 	ld de, $0000
@@ -16032,7 +15923,6 @@ Func_1581f: ; 0x1581f
 	xor a
 	ld [wd51f], a
 	ld bc, FivePoints
-	ld [hFarCallTempA], a
 	callba AddBigBCD6FromQueueWithBallMultiplier
 	ld a, [wd520]
 	sub $11
@@ -16076,7 +15966,6 @@ Func_1587c: ; 0x1587c
 	xor a
 	ld [wLeftAlleyTrigger], a
 	ld a, $1
-	ld [hFarCallTempA], a
 	callba Func_10000
 	ret c
 	ld a, [wLeftAlleyCount]
@@ -16092,7 +15981,6 @@ Func_1587c: ; 0x1587c
 	and $1
 	or $6
 	ld [wStageCollisionState], a
-	ld [hFarCallTempA], a
 	callba LoadStageCollisionAttributes
 	call Func_159f4
 	ret
@@ -16106,7 +15994,6 @@ Func_158c0: ; 0x158c0
 	xor a
 	ld [wLeftAlleyTrigger], a
 	ld a, $1
-	ld [hFarCallTempA], a
 	callba Func_10000
 	ret c
 	ld a, [wLeftAlleyCount]
@@ -16122,7 +16009,6 @@ Func_158c0: ; 0x158c0
 	and $1
 	or $6
 	ld [wStageCollisionState], a
-	ld [hFarCallTempA], a
 	callba LoadStageCollisionAttributes
 	call Func_159f4
 	ret
@@ -16136,7 +16022,6 @@ Func_15904: ; 0x15904
 	xor a
 	ld [wSecondaryLeftAlleyTrigger], a
 	ld a, $3
-	ld [hFarCallTempA], a
 	callba Func_10000
 	ret
 
@@ -16170,7 +16055,6 @@ Func_15944: ; 0x15944
 	xor a
 	ld [wRightAlleyTrigger], a
 	ld a, $2
-	ld [hFarCallTempA], a
 	callba Func_10000
 	ret c
 	ld a, [wRightAlleyCount]
@@ -16210,7 +16094,6 @@ Func_15990: ; 0x15990
 	xor a
 	ld [wRightAlleyTrigger], a
 	ld a, $2
-	ld [hFarCallTempA], a
 	callba Func_10000
 	ret c
 	ld a, [wRightAlleyCount]
@@ -16241,7 +16124,6 @@ Func_159c9: ; 0x159c9
 	ld [wStageCollisionState], a
 	ld a, $ff
 	ld [wd7ad], a
-	ld [hFarCallTempA], a
 	callba LoadStageCollisionAttributes
 	call Func_159f4
 	ld a, $1
@@ -16305,7 +16187,6 @@ Func_15e93: ; 0x15e93
 	xor a
 	ld [wd4fb], a
 	ld bc, TenThousandPoints
-	ld [hFarCallTempA], a
 	callba AddBigBCD6FromQueueWithBallMultiplier
 	lb de, $00, $05
 	call PlaySoundEffect
@@ -16355,7 +16236,6 @@ Func_15e93: ; 0x15e93
 	xor a
 .asm_15f11
 	ld [wRareMonsFlag], a
-	ld [hFarCallTempA], a
 	callba StartCatchEmMode
 .noCatchEmMode
 	ld hl, wd62a
@@ -16390,7 +16270,6 @@ Func_15e93: ; 0x15e93
 	lb de, $00, $06
 	call PlaySoundEffect
 	ld a, $5
-	ld [hFarCallTempA], a
 	callba Func_10000
 	ret
 
@@ -16504,7 +16383,6 @@ Func_160f0: ; 0x160f0
 	xor a
 	ld [wd5fe], a
 	ld bc, TenThousandPoints
-	ld [hFarCallTempA], a
 	callba AddBigBCD6FromQueueWithBallMultiplier
 	lb de, $00, $21
 	call PlaySoundEffect
@@ -16535,14 +16413,12 @@ Func_160f0: ; 0x160f0
 	ld [wd600], a
 	cp $f
 	jr nz, .asm_1614f
-	ld [hFarCallTempA], a
 	callba LoadMiniBallGfx
 	ret
 
 .asm_1614f
 	cp $c
 	jr nz, .asm_1615e
-	ld [hFarCallTempA], a
 	callba Func_dd62
 	ret
 
@@ -16558,7 +16434,6 @@ Func_160f0: ; 0x160f0
 .asm_1616d
 	cp $6
 	jr nz, .asm_1618e
-	ld [hFarCallTempA], a
 	callba Func_10ab3
 	ld a, $1
 	ld [wd548], a
@@ -16572,14 +16447,12 @@ Func_160f0: ; 0x160f0
 .asm_1618e
 	cp $3
 	jr nz, .asm_1619d
-	ld [hFarCallTempA], a
 	callba LoadMiniBallGfx
 	ret
 
 .asm_1619d
 	and a
 	ret nz
-	ld [hFarCallTempA], a
 	callba LoadBallGfx
 	ld a, $2
 	ld [wBallYVelocity + 1], a
@@ -16758,14 +16631,12 @@ Func_16279: ; 0x16279
 	jr nz, .asm_162d4
 	lb de, $00, $21
 	call PlaySoundEffect
-	ld [hFarCallTempA], a
 	callba LoadMiniBallGfx
 	ret
 
 .asm_162d4
 	cp $f
 	jr nz, .asm_162e3
-	ld [hFarCallTempA], a
 	callba Func_dd62
 	ret
 
@@ -16793,14 +16664,12 @@ Func_16279: ; 0x16279
 	ld [wd803], a
 	ld a, $8
 	ld [wd804], a
-	ld [hFarCallTempA], a
 	callba LoadMiniBallGfx
 	ret
 
 .asm_16317
 	cp $3
 	jr nz, .asm_16330
-	ld [hFarCallTempA], a
 	callba LoadBallGfx
 	ld a, $2
 	ld [wBallYVelocity + 1], a
@@ -16818,7 +16687,6 @@ Func_16279: ; 0x16279
 	call GenRandom
 	and $8
 	ld [wRareMonsFlag], a
-	ld [hFarCallTempA], a
 	callba StartCatchEmMode
 	xor a
 	ld [wd622], a
@@ -16828,7 +16696,6 @@ Func_16352: ; 0x16352
 	xor a
 	ld [wIndicatorStates + 4], a
 	ld a, $d
-	ld [hFarCallTempA], a
 	callba Func_10000
 	jr nc, .asm_1636d
 	ld a, $1
@@ -16873,7 +16740,6 @@ Func_16352: ; 0x16352
 	ret
 
 .asm_163b3
-	ld [hFarCallTempA], a
 	callba Func_ed8e
 	xor a
 	ld [wd608], a
@@ -16886,7 +16752,6 @@ Func_16352: ; 0x16352
 	ld a, [wd622]
 	cp $2
 	ret nz
-	ld [hFarCallTempA], a
 	callba Func_10ab3
 	ld a, [wd7ad]
 	ld c, a
@@ -17070,12 +16935,10 @@ Func_1658f: ; 0x1658f
 	call PlaySoundEffect
 	pop af
 	add (PalletTownPic_Pointer - BillboardPicturePointers) / 3 ; map billboard pictures start at the $29th entry in BillboardPicturePointers
-	ld [hFarCallTempA], a
 	callba LoadBillboardPicture
 	ld b, $20  ; number of frames to delay before the next map is shown
 .waitOnCurrentMap
 	push bc
-	ld [hFarCallTempA], a
 	callba Func_eeee
 	ld hl, wKeyConfigBallStart
 	call IsKeyPressed
@@ -17087,10 +16950,8 @@ Func_1658f: ; 0x1658f
 
 .ballStartKeyPressed
 	pop bc
-	ld [hFarCallTempA], a
 	callba Func_30253
 	ld bc, Data_2cd1
-	ld [hFarCallTempA], a
 	callba Func_3118f
 	ld a, [wCurrentMap]
 	ld [wd4e3], a
@@ -17193,7 +17054,6 @@ Func_1669e: ; 0x1669e
 	call Func_310a
 	rst AdvanceFrame
 	ld a, $1
-	ld [hFarCallTempA], a
 	callba PlayPikachuSoundClip
 	ld a, $1
 	ld [wd85d], a
@@ -17224,7 +17084,6 @@ Func_1669e: ; 0x1669e
 	ld a, $1
 	ld [wd549], a
 	ld bc, FiveThousandPoints
-	ld [hFarCallTempA], a
 	callba AddBigBCD6FromQueueWithBallMultiplier
 	xor a
 	ld [wd51c], a
@@ -17305,7 +17164,6 @@ Func_16781: ; 0x16781
 	and a
 	jr nz, .asm_167c2
 	ld bc, FiveThousandPoints
-	ld [hFarCallTempA], a
 	callba AddBigBCD6FromQueueWithBallMultiplier
 	ld a, [wd502]
 	xor $1
@@ -17315,7 +17173,6 @@ Func_16781: ; 0x16781
 	ld [wd503], a
 	call Func_16859
 	ld a, $6
-	ld [hFarCallTempA], a
 	callba Func_10000
 	ret
 
@@ -17338,7 +17195,6 @@ Func_16781: ; 0x16781
 	and $fe
 	or c
 	ld [wStageCollisionState], a
-	ld [hFarCallTempA], a
 	callba LoadStageCollisionAttributes
 	call Func_159f4
 	lb de, $00, $07
@@ -17358,7 +17214,6 @@ Func_167ff: ; 0x167ff
 	and a
 	jr nz, .asm_1683e
 	ld bc, FiveThousandPoints
-	ld [hFarCallTempA], a
 	callba AddBigBCD6FromQueueWithBallMultiplier
 	ld a, [wd502]
 	xor $1
@@ -17367,7 +17222,6 @@ Func_167ff: ; 0x167ff
 	ld [wd503], a
 	call Func_16878
 	ld a, $6
-	ld [hFarCallTempA], a
 	callba Func_10000
 	ret
 
@@ -17514,7 +17368,6 @@ Func_16d9d: ; 016d9d
 	sub $21
 	jr nz, .asm_16ddc
 	ld a, $9
-	ld [hFarCallTempA], a
 	callba Func_10000
 	ld a, [wd610]
 	cp $3
@@ -17530,7 +17383,6 @@ Func_16d9d: ; 016d9d
 
 .asm_16ddc
 	ld a, $a
-	ld [hFarCallTempA], a
 	callba Func_10000
 	ld a, [wd611]
 	cp $3
@@ -17567,7 +17419,6 @@ Func_16d9d: ; 016d9d
 	ld [wd613], a
 .asm_16e35
 	ld bc, TenPoints
-	ld [hFarCallTempA], a
 	callba AddBigBCD6FromQueueWithBallMultiplier
 	ld a, [wd60c]
 	call Func_16f28
@@ -17887,7 +17738,6 @@ Func_1757e: ; 0x1757e
 	call Func_17c67
 	call Func_17c96
 	call Func_17e08
-	ld [hFarCallTempA], a
 	callba Func_e4a1
 	call Func_17e81
 	call Func_17f0f
@@ -18503,7 +18353,7 @@ Func_18000: ; 0x18000
 	call ClearData
 	ld a, $1
 	ld [rVBK], a
-	hlCoord 0, 0, vBGMap1
+	hlCoord 0, 0, vBGWin
 	ld bc, $0400
 	call ClearData
 	xor a
@@ -18512,7 +18362,7 @@ Func_18000: ; 0x18000
 	ld bc, $032e
 	call ClearData
 	xor a
-	ld hl, wd46f
+	ld hl, wScore + $5
 	ld [hld], a
 	ld [hld], a
 	ld [hld], a
@@ -18526,8 +18376,7 @@ Func_18000: ; 0x18000
 	ld [wd49d], a
 	ld a, $3
 	ld [wd49e], a
-	ld [hFarCallTempA], a
-	callba Func_dbba
+	callba Start20SecondSaverTimer
 	ret
 
 Func_1804a: ; 0x1804a
@@ -18551,7 +18400,6 @@ Func_18061: ; 0x18061
 	ret
 
 Func_18062: ; 0x18062
-	ld [hFarCallTempA], a
 	callba Func_1448e
 	ret
 
@@ -18559,19 +18407,15 @@ Func_1806d: ; 0x1806d
 	ret
 
 Func_1806e: ; 0x1806e
-	ld [hFarCallTempA], a
 	callba Func_1652d
 	ret
 
 Func_18079: ; 0x18079
-	ld [hFarCallTempA], a
 	callba Func_17e81
 	ret
 
 Func_18084: ; 0x18084
-	ld [hFarCallTempA], a
 	callba Func_e4a1
-	ld [hFarCallTempA], a
 	callba Func_17e81
 	ret
 
@@ -18620,7 +18464,6 @@ InitGengarBonusStage: ; 0x18099
 	ld [hli], a
 	ld [wd656], a
 	ld bc, $0130  ; 1 minute 30 seconds
-	ld [hFarCallTempA], a
 	callba StartTimer
 	ld a, $f
 	call SetSongBank
@@ -18679,12 +18522,10 @@ StartBallGengarBonusStage: ; 0x18157
 	ret
 
 Func_1818b: ; 0x1818b
-	ld [hFarCallTempA], a
 	callba Func_142fc
 	call Func_2862
 	call Func_18d72
 	ld a, [wd7c1]
-	ld [hFarCallTempA], a
 	callba Func_1404a
 	and a
 	ret z
@@ -18942,7 +18783,6 @@ Func_18377: ; 0x18377
 	call Func_187b1
 	call Func_18d34
 	call Func_183b7
-	ld [hFarCallTempA], a
 	callba Func_107f8
 	ld a, [wd57e]
 	and a
@@ -18952,7 +18792,6 @@ Func_18377: ; 0x18377
 	ld a, $1
 	ld [wd7be], a
 	call Func_2862
-	ld [hFarCallTempA], a
 	callba Func_86d2
 	ld a, [wd6a2]
 	cp $5
@@ -18971,7 +18810,6 @@ Func_183b7: ; 0x183b7
 	ld a, $1
 	ld [wStageCollisionState], a
 	ld [wd653], a
-	ld [hFarCallTempA], a
 	callba LoadStageCollisionAttributes
 	call Func_183db
 	call Func_18d91
@@ -19043,7 +18881,6 @@ Func_18464: ; 0x18464
 	inc a
 	ld [wd67b], a
 	ld bc, OneHundredThousandPoints
-	ld [hFarCallTempA], a
 	callba AddBigBCD6FromQueue
 	ld a, $33
 	ld [wd803], a
@@ -19263,7 +19100,6 @@ Func_1860b: ; 0x1860b
 	inc a
 	ld [wd695], a
 	ld bc, FiveHundredThousandPoints
-	ld [hFarCallTempA], a
 	callba AddBigBCD6FromQueue
 	ld a, $33
 	ld [wd803], a
@@ -19498,13 +19334,11 @@ Func_187b1: ; 0x187b1
 	ld a, $1
 	ld [wd7be], a
 	call Func_2862
-	ld [hFarCallTempA], a
 	callba Func_86d2
 	ld de, $0000
 	call PlaySong
 .asm_18826
 	ld bc, FiveMillionPoints
-	ld [hFarCallTempA], a
 	callba AddBigBCD6FromQueue
 	ld a, $33
 	ld [wd803], a
@@ -19836,7 +19670,6 @@ Func_18d34: ; 0x18d34
 	and a
 	jr nz, .asm_18d71
 	ld bc, OneHundredPoints
-	ld [hFarCallTempA], a
 	callba AddBigBCD6FromQueue
 	ld a, $ff
 	ld [wd803], a
@@ -19928,14 +19761,11 @@ Data_18ed1:
 
 Func_18faf: ; 0x18faf
 	ld bc, $7f00
-	ld [hFarCallTempA], a
 	callba Func_175a4
 	call Func_19020
 	call Func_190b9
 	call Func_19185
-	ld [hFarCallTempA], a
 	callba Func_e4a1
-	ld [hFarCallTempA], a
 	callba Func_17e81
 	ret
 
@@ -20309,7 +20139,6 @@ InitMewtwoBonusStage: ; 0x1924f
 	dec b
 	jr nz, .asm_1928c
 	ld bc, $0200  ; 2 minutes 0 seconds
-	ld [hFarCallTempA], a
 	callba StartTimer
 	ld a, $12
 	call SetSongBank
@@ -20346,10 +20175,8 @@ StartBallMewtwoBonusStage: ; 0x192e3
 	ret
 
 Func_19310: ; 0x19310
-	ld [hFarCallTempA], a
 	callba Func_142fc
 	call Func_2862
-	ld [hFarCallTempA], a
 	callba Func_1404a
 	ld a, [wd7c1]
 	and a
@@ -20551,7 +20378,6 @@ Func_19451: ; 0x19451
 	call Func_19531
 	call Func_19701
 	call Func_1948b
-	ld [hFarCallTempA], a
 	callba Func_107f8
 	ld a, [wd57e]
 	and a
@@ -20561,7 +20387,6 @@ Func_19451: ; 0x19451
 	ld a, $1
 	ld [wd7be], a
 	call Func_2862
-	ld [hFarCallTempA], a
 	callba Func_86d2
 	ld a, [wd6b1]
 	cp $8
@@ -20580,7 +20405,6 @@ Func_1948b: ; 0x1948b
 	ld a, $1
 	ld [wStageCollisionState], a
 	ld [wd6a9], a
-	ld [hFarCallTempA], a
 	callba LoadStageCollisionAttributes
 	call Func_194ac
 	ret
@@ -20623,7 +20447,6 @@ Func_19531: ; 0x19531
 	cp $2
 	jr nc, .asm_195a2
 	ld bc, FiveMillionPoints
-	ld [hFarCallTempA], a
 	callba AddBigBCD6FromQueue
 	ld a, [wd6b0]
 	inc a
@@ -20653,7 +20476,6 @@ Func_19531: ; 0x19531
 	ld a, $1
 	ld [wd7be], a
 	call Func_2862
-	ld [hFarCallTempA], a
 	callba Func_86d2
 	ld de, $0000
 	call PlaySong
@@ -20857,7 +20679,6 @@ Func_19701: ; 0x19701
 	ld a, $2
 	call Func_19876
 	ld bc, OneHundredThousandPoints
-	ld [hFarCallTempA], a
 	callba AddBigBCD6FromQueue
 	lb de, $00, $38
 	call PlaySoundEffect
@@ -21050,12 +20871,9 @@ Data_19916:
 
 Func_1994e: ; 0x1994e
 	ld bc, $7f65
-	ld [hFarCallTempA], a
 	callba Func_175a4
 	call Func_1999d
-	ld [hFarCallTempA], a
 	callba Func_e4a1
-	ld [hFarCallTempA], a
 	callba Func_17e81
 	call Func_19976
 	ret
@@ -21200,7 +21018,6 @@ StartBallDiglettBonusStage: ; 0x19a38
 	ret
 
 Func_19a76: ; 0x19a76
-	ld [hFarCallTempA], a
 	callba Func_142fc
 	call Func_2862
 	ld a, [wd7c1]
@@ -21395,7 +21212,6 @@ Func_19c52: ; 0x19c52
 	xor a
 	ld [wd73b], a
 	ld bc, OneHundredThousandPoints
-	ld [hFarCallTempA], a
 	callba AddBigBCD6FromQueue
 	lb de, $00, $35
 	call PlaySoundEffect
@@ -21705,7 +21521,6 @@ Func_1aad4: ; 0x1aad4
 	ld de, wDugtrioAnimationFrameCounter
 	call CopyHLToDE
 	ld bc, FiveMillionPoints
-	ld [hFarCallTempA], a
 	callba AddBigBCD6FromQueue
 	lb de, $00, $36
 	call PlaySoundEffect
@@ -21903,9 +21718,7 @@ Data_1ac93:
 	dr $1ac93, $1ac98
 
 Func_1ac98: ; 0x1ac98
-	ld [hFarCallTempA], a
 	callba Func_e4a1
-	ld [hFarCallTempA], a
 	callba Func_17e81
 	call Func_1acb0
 	ret
@@ -21939,7 +21752,7 @@ InitBlueField: ; 0x1c000
 	and a
 	ret nz
 	xor a
-	ld hl, wd46f
+	ld hl, wScore + $5
 	ld [hld], a
 	ld [hld], a
 	ld [hld], a
@@ -21982,9 +21795,7 @@ InitBlueField: ; 0x1c000
 	ld [wd644], a
 	ld [wd645], a
 	ld [wd646], a
-	ld [hFarCallTempA], a
-	callba Func_dbba
-	ld [hFarCallTempA], a
+	callba Start20SecondSaverTimer
 	callba Func_1d65f
 	ld a, $10
 	call SetSongBank
@@ -22088,12 +21899,10 @@ Func_1c165: ; 0x1c165
 	call Func_1cb43
 	call Func_1c3ee
 	call Func_1e8f6
-	ld [hFarCallTempA], a
 	callba Func_142fc
 	ld a, $1
 	ld [wd640], a
 	call Func_1f18a
-	ld [hFarCallTempA], a
 	callba Func_1404a
 	call Func_1c203
 	ret
@@ -22106,16 +21915,12 @@ Func_1c191: ; 0x1c191
 	call Func_1c43c
 	call Func_1c305
 	call Func_1c3ee
-	ld [hFarCallTempA], a
 	callba Func_14746
-	ld [hFarCallTempA], a
 	callba Func_14707
 	call Func_1c235
 	call Func_1c21e
 	call Func_1e8f6
-	ld [hFarCallTempA], a
 	callba Func_142fc
-	ld [hFarCallTempA], a
 	callba Func_1404a
 	call Func_1c203
 	ret
@@ -22313,9 +22118,7 @@ Func_1c305: ; 0x1c305
 	jp Func_1c3ca
 
 .asm_1c31f
-	ld [hFarCallTempA], a
 	callba Func_1c3ac
-	ld [hFarCallTempA], a
 	callba Func_10362
 	ld a, [hGameBoyColorFlag]
 	and a
@@ -22328,12 +22131,12 @@ Func_1c305: ; 0x1c305
 	ret z
 	ld a, BANK(PikachuSaverGfx)
 	ld hl, PikachuSaverGfx + $c0
-	ld de, vTiles0 tile $7e
+	ld de, vTilesOB tile $7e
 	ld bc, $0020
 	call FarCopyData
 	ld a, BANK(StageSharedPikaBoltGfx)
 	ld hl, GFX_a8800
-	ld de, vTiles1 tile $10
+	ld de, vTilesSH tile $10
 	ld bc, $0180
 	call FarCopyData
 	ld a, [wBallType]
@@ -22341,7 +22144,7 @@ Func_1c305: ; 0x1c305
 	jr nc, .notPokeball
 	ld a, Bank(PinballPokeballShakeGfx)
 	ld hl, PinballPokeballShakeGfx
-	ld de, vTiles0 tile $38
+	ld de, vTilesOB tile $38
 	ld bc, $0040
 	call FarCopyData
 	ret
@@ -22351,7 +22154,7 @@ Func_1c305: ; 0x1c305
 	jr nc, .notGreatball
 	ld a, Bank(PinballGreatballShakeGfx)
 	ld hl, PinballGreatballShakeGfx
-	ld de, vTiles0 tile $38
+	ld de, vTilesOB tile $38
 	ld bc, $0040
 	call FarCopyData
 	ret
@@ -22361,7 +22164,7 @@ Func_1c305: ; 0x1c305
 	jr nc, .notUltraBall
 	ld a, Bank(PinballUltraballShakeGfx)
 	ld hl, PinballUltraballShakeGfx
-	ld de, vTiles0 tile $38
+	ld de, vTilesOB tile $38
 	ld bc, $0040
 	call FarCopyData
 	ret
@@ -22369,20 +22172,20 @@ Func_1c305: ; 0x1c305
 .notUltraBall
 	ld a, Bank(PinballMasterballShakeGfx)
 	ld hl, PinballMasterballShakeGfx
-	ld de, vTiles0 tile $38
+	ld de, vTilesOB tile $38
 	ld bc, $0040
 	call FarCopyData
 	ret
 
 Func_1c3ac: ; 0x1c3ac
 	ld a, $80
-	hlCoord 7, 4, vBGMap0
+	hlCoord 7, 4, vBGMap
 	call Func_1c3c3
-	hlCoord 7, 5, vBGMap0
+	hlCoord 7, 5, vBGMap
 	call Func_1c3c3
-	hlCoord 7, 6, vBGMap0
+	hlCoord 7, 6, vBGMap
 	call Func_1c3c3
-	hlCoord 7, 7, vBGMap0
+	hlCoord 7, 7, vBGMap
 	; fall through
 
 Func_1c3c3: ; 0x1c3c3
@@ -22403,7 +22206,6 @@ Func_1c3ca: ; 0x1c3ca
 	ld [hli], a
 	dec b
 	jr nz, .asm_1c3cf
-	ld [hFarCallTempA], a
 	callba Func_10184
 	ld a, [hGameBoyColorFlag]
 	and a
@@ -22428,7 +22230,7 @@ Func_1c3ee: ; 0x1c3ee
 	jr nz, .asm_1c416
 	ld a, BANK(Data_dbe80)
 	ld hl, Data_dbe80
-	ld de, vTiles0 tile $60
+	ld de, vTilesOB tile $60
 	ld bc, $00e0
 	call FarCopyData
 	jr .asm_1c424
@@ -22436,7 +22238,7 @@ Func_1c3ee: ; 0x1c3ee
 .asm_1c416
 	ld a, BANK(Data_dbe80)
 	ld hl, Data_dbe80
-	ld de, vTiles0 tile $20
+	ld de, vTilesOB tile $20
 	ld bc, $00e0
 	call FarCopyData
 .asm_1c424
@@ -22476,14 +22278,13 @@ Func_1c43c: ; 0x1c43c
 	call Func_1f265
 	ld a, BANK(Data_d8f60)
 	ld hl, Data_d8f60
-	ld de, vTiles1 tile $2e
+	ld de, vTilesSH tile $2e
 	ld bc, $0020
 	call FarCopyData
 	ret
 
 Func_1c46d: ; 0x1c46d
 	push af
-	ld [hFarCallTempA], a
 	callba Func_10611
 	pop af
 	dec a
@@ -22517,7 +22318,7 @@ Func_1c491: ; 0x1c491
 	swap e
 	sla e
 	push hl
-	ld hl, vTiles1 tile $2e
+	ld hl, vTilesSH tile $2e
 	add hl, de
 	ld d, h
 	ld e, l
@@ -22538,7 +22339,6 @@ Func_1c4b6: ; 0x1c4b6
 	jr z, .asm_1c4d2
 	ld a, [wd498]
 	add $15
-	ld [hFarCallTempA], a
 	callba Func_30256
 	ret
 
@@ -22547,12 +22347,10 @@ Func_1c4b6: ; 0x1c4b6
 	and a
 	jr z, .asm_1c4e5
 	ld a, $1a
-	ld [hFarCallTempA], a
 	callba Func_30256
 	ret
 
 .asm_1c4e5
-	ld [hFarCallTempA], a
 	callba Func_30253
 	ret
 
@@ -22563,7 +22361,6 @@ Func_1c4b6: ; 0x1c4b6
 	ld a, [wd54d]
 	cp $3
 	jr nz, .asm_1c508
-	ld [hFarCallTempA], a
 	callba Func_30253
 	ret
 
@@ -22575,7 +22372,6 @@ Func_1c4b6: ; 0x1c4b6
 	ld a, [wd55a]
 	add $12
 .asm_1c515
-	ld [hFarCallTempA], a
 	callba Func_30256
 	ret
 
@@ -22815,14 +22611,11 @@ Func_1c715: ; 0x1c715
 	call Func_1e9c0
 	call Func_1c8b6
 	call Func_1f18a
-	ld [hFarCallTempA], a
 	callba Func_146a9
 	call Func_1f27b
 	call Func_1df15
-	ld [hFarCallTempA], a
 	callba Func_30188
 	ld a, $0
-	ld [hFarCallTempA], a
 	callba Func_10000
 	ret
 
@@ -22842,23 +22635,18 @@ Func_1c769: ; 0x1c769
 	call Func_1e9c0
 	call Func_1ea0a
 	call Func_1c8b6
-	ld [hFarCallTempA], a
 	callba Func_14733
-	ld [hFarCallTempA], a
 	callba Func_146a2
 	call Func_1f261
 	call Func_1de93
-	ld [hFarCallTempA], a
 	callba Func_30188
 	ld a, $0
-	ld [hFarCallTempA], a
 	callba Func_10000
 	ret
 
 Func_1c7c7: ; 0x1c7c7
 	ld a, $0
 	ld [wStageCollisionState], a
-	ld [hFarCallTempA], a
 	callba LoadStageCollisionAttributes
 	ret
 
@@ -22937,12 +22725,10 @@ Func_1c839: ; 0x1c839
 	call PlaySoundEffect
 	pop af
 	add (PalletTownPic_Pointer - BillboardPicturePointers) / 3  ; map billboard pictures start at the $29th entry in BillboardPicturePointers
-	ld [hFarCallTempA], a
 	callba LoadBillboardPicture
 	ld b, $20  ; number of frames to delay before the next map is shown
 .waitOnCurrentMap
 	push bc
-	ld [hFarCallTempA], a
 	callba Func_eeee
 	ld hl, wKeyConfigBallStart
 	call IsKeyPressed
@@ -22954,10 +22740,8 @@ Func_1c839: ; 0x1c839
 
 .ballStartKeyPressed
 	pop bc
-	ld [hFarCallTempA], a
 	callba Func_30253
 	ld bc, Data_2cd1
-	ld [hFarCallTempA], a
 	callba Func_3118f
 	ld a, [wCurrentMap]
 	ld [wd4e3], a
@@ -23151,10 +22935,8 @@ Func_1c9c1: ; 0x1c9c1
 	sub $3
 	ld [wd4d7], a
 	ld a, $4
-	ld [hFarCallTempA], a
 	callba Func_10000
 	ld bc, FiveHundredPoints
-	ld [hFarCallTempA], a
 	callba AddBigBCD6FromQueueWithBallMultiplier
 	ret
 
@@ -23212,7 +22994,6 @@ Func_1ca5f: ; 0x1ca5f
 	ld a, b
 	ld [wd50c], a
 	ld a, $c
-	ld [hFarCallTempA], a
 	callba Func_10000
 	; fall through
 
@@ -23276,7 +23057,6 @@ Func_1ca85: ; 0x1ca85
 	and a
 	ret z
 	ld bc, TenPoints
-	ld [hFarCallTempA], a
 	callba AddBigBCD6FromQueueWithBallMultiplier
 	ld hl, wd62d
 	call Func_e4a
@@ -23437,18 +23217,15 @@ Func_1cfaa: ; 0x1cfaa
 	xor a
 	ld [wd51f], a
 	ld bc, FivePoints
-	ld [hFarCallTempA], a
 	callba AddBigBCD6FromQueueWithBallMultiplier
 	ld a, [wStageCollisionState]
 	cp $0
 	jr nz, .asm_1cfe5
 	ld a, $1
 	ld [wStageCollisionState], a
-	ld [hFarCallTempA], a
 	callba LoadStageCollisionAttributes
 	ld a, $1
 	ld [wd580], a
-	ld [hFarCallTempA], a
 	callba Func_1404a
 .asm_1cfe5
 	ld a, [wd520]
@@ -23481,7 +23258,6 @@ Func_1d010: ; 0x1d010
 	xor a
 	ld [wLeftAlleyTrigger], a
 	ld a, $1
-	ld [hFarCallTempA], a
 	callba Func_10000
 	ret c
 	ld a, [wLeftAlleyCount]
@@ -23510,7 +23286,6 @@ Func_1d047: ; 0x1d047
 	xor a
 	ld [wRightAlleyTrigger], a
 	ld a, $2
-	ld [hFarCallTempA], a
 	callba Func_10000
 	ret c
 	ld a, [wRightAlleyCount]
@@ -23637,7 +23412,6 @@ Func_1d133: ; 0x1d133
 	call Func_310a
 	rst AdvanceFrame
 	ld a, $1
-	ld [hFarCallTempA], a
 	callba PlayPikachuSoundClip
 	ld a, $1
 	ld [wd85d], a
@@ -23668,7 +23442,6 @@ Func_1d133: ; 0x1d133
 	ld a, $1
 	ld [wd549], a
 	ld bc, FiveThousandPoints
-	ld [hFarCallTempA], a
 	callba AddBigBCD6FromQueueWithBallMultiplier
 	xor a
 	ld [wd51c], a
@@ -23746,7 +23519,6 @@ Func_1d216: ; 0x1d216
 	xor a
 	ld [wd630], a
 	ld bc, TenThousandPoints
-	ld [hFarCallTempA], a
 	callba AddBigBCD6FromQueueWithBallMultiplier
 	lb de, $00, $05
 	call PlaySoundEffect
@@ -23787,7 +23559,6 @@ Func_1d216: ; 0x1d216
 	ld a, [wLeftAlleyCount]
 	cp $3
 	jr nz, .asm_1d299
-	ld [hFarCallTempA], a
 	callba Func_10ab3
 	ld a, [wd643]
 	and a
@@ -23835,7 +23606,6 @@ Func_1d216: ; 0x1d216
 	cp $0
 	jr nz, .asm_1d2f8
 	ld a, $f
-	ld [hFarCallTempA], a
 	callba Func_10000
 .asm_1d2f8
 	xor a
@@ -23860,7 +23630,6 @@ HandleEnteringCloyster: ; 0x1d32d
 	xor a
 	ld [wd635], a
 	ld bc, TenThousandPoints
-	ld [hFarCallTempA], a
 	callba AddBigBCD6FromQueueWithBallMultiplier
 	lb de, $00, $05
 	call PlaySoundEffect
@@ -23906,7 +23675,6 @@ HandleEnteringCloyster: ; 0x1d32d
 	xor a
 .asm_1d3a1
 	ld [wRareMonsFlag], a
-	ld [hFarCallTempA], a
 	callba StartCatchEmMode
 .noCatchEmMode
 	ld hl, wd63b
@@ -23946,7 +23714,6 @@ HandleEnteringCloyster: ; 0x1d32d
 	lb de, $00, $06
 	call PlaySoundEffect
 	ld a, $e
-	ld [hFarCallTempA], a
 	callba Func_10000
 	xor a
 	ld [wd64c], a
@@ -23987,7 +23754,6 @@ Func_1d438: ; 0x1d438
 	ld a, $3c
 	ld [wd647], a
 	ld a, $9
-	ld [hFarCallTempA], a
 	callba Func_10000
 	ld a, [wd610]
 	cp $3
@@ -24015,7 +23781,6 @@ Func_1d438: ; 0x1d438
 	ld a, $1e
 	ld [wd647], a
 	ld a, $a
-	ld [hFarCallTempA], a
 	callba Func_10000
 	ld a, [wd611]
 	cp $3
@@ -24052,7 +23817,6 @@ Func_1d438: ; 0x1d438
 	ld [wd613], a
 asm_1d4fa: ; 0x1d4fa
 	ld bc, TenPoints
-	ld [hFarCallTempA], a
 	callba AddBigBCD6FromQueueWithBallMultiplier
 	ld a, [wd60c]
 	call Func_1d5f2
@@ -24355,7 +24119,6 @@ Func_1dbd2: ; 0x1dbd2
 	ld a, [wLeftMapMoveCounter]
 	cp $3
 	ld a, $7
-	ld [hFarCallTempA], a
 	callba Func_10000
 	ld a, $2
 	ld [wd646], a
@@ -24392,7 +24155,6 @@ Func_1dbd2: ; 0x1dbd2
 	ld a, [wRightMapMoveCounter]
 	cp $3
 	ld a, $8
-	ld [hFarCallTempA], a
 	callba Func_10000
 	ld a, [wRightMapMoveCounter]
 	cp $3
@@ -24602,7 +24364,6 @@ Func_1ddc7: ; 0x1ddc7
 .asm_1dde4
 	xor a
 	ld [wd55a], a
-	ld [hFarCallTempA], a
 	callba StartMapMoveMode
 	scf
 	ret
@@ -24622,7 +24383,6 @@ Func_1ddf4: ; 0x1ddf4
 .asm_1de11
 	ld a, $1
 	ld [wd55a], a
-	ld [hFarCallTempA], a
 	callba StartMapMoveMode
 	scf
 	ret
@@ -24638,7 +24398,6 @@ Func_1de22: ; 0x1de22
 	ld a, $2
 	ld [wd7eb], a
 	ld bc, FiveHundredPoints
-	ld [hFarCallTempA], a
 	callba AddBigBCD6FromQueueWithBallMultiplier
 	lb de, $00, $0f
 	call PlaySoundEffect
@@ -24853,11 +24612,9 @@ Func_1e356: ; 0x1e356
 	jr nz, .asm_1e386
 	ld a, $1
 	ld [wStageCollisionState], a
-	ld [hFarCallTempA], a
 	callba LoadStageCollisionAttributes
 	ld a, $1
 	ld [wd580], a
-	ld [hFarCallTempA], a
 	callba Func_1404a
 .asm_1e386
 	ld a, [wStageCollisionState]
@@ -24871,7 +24628,6 @@ Func_1e356: ; 0x1e356
 	ld [wLeftAlleyTrigger], a
 	ld [wSecondaryLeftAlleyTrigger], a
 	ld a, $b
-	ld [hFarCallTempA], a
 	callba Func_10000
 	ld a, [wd5f8]
 	sub $13
@@ -24886,7 +24642,6 @@ Func_1e356: ; 0x1e356
 	ld [hl], $0
 .asm_1e3bf
 	ld bc, OneHundredPoints
-	ld [hFarCallTempA], a
 	callba AddBigBCD6FromQueueWithBallMultiplier
 	ld hl, wd5f9
 	ld a, [hli]
@@ -24909,7 +24664,6 @@ Func_1e356: ; 0x1e356
 	ld a, $e
 	ld [wBallTypeCounter + 1], a
 	ld bc, FourHundredPoints
-	ld [hFarCallTempA], a
 	callba AddBigBCD6FromQueueWithBallMultiplier
 	ld a, [wBallType]
 	cp MASTER_BALL
@@ -24936,7 +24690,6 @@ Func_1e356: ; 0x1e356
 	lb de, $0f, $4d
 	call PlaySoundEffect
 	ld bc, OneMillionPoints
-	ld [hFarCallTempA], a
 	callba AddBigBCD6FromQueue
 	ld bc, $0100
 	ld de, $0000
@@ -24953,7 +24706,6 @@ Func_1e356: ; 0x1e356
 	ld de, FieldMultiplierSpecialBonusText
 	call LoadTextHeader
 .asm_1e465
-	ld [hFarCallTempA], a
 	callba Func_155a7
 	jr asm_1e475
 
@@ -25142,7 +24894,6 @@ HandleBallTypeUpgradeCounterBlueField: ; 0x1e58c
 	ld a, $e
 	ld [wBallTypeCounter + 1], a
 .pokeball
-	ld [hFarCallTempA], a
 	callba Func_155a7
 	ret
 
@@ -25166,7 +24917,6 @@ Func_1e5c5: ; 0x1e5c5
 	and a
 	ret nz
 	ld bc, OneHundredPoints
-	ld [hFarCallTempA], a
 	callba AddBigBCD6FromQueueWithBallMultiplier
 	ld hl, wd50f
 	ld a, [hli]
@@ -25181,7 +24931,6 @@ Func_1e5c5: ; 0x1e5c5
 	ld a, $80
 	ld [wd514], a
 	ld bc, FourHundredPoints
-	ld [hFarCallTempA], a
 	callba AddBigBCD6FromQueueWithBallMultiplier
 	lb de, $00, $09
 	call PlaySoundEffect
@@ -25373,14 +25122,12 @@ Func_1e757: ; 0x1e757
 	jr nz, .asm_1e7b2
 	lb de, $00, $21
 	call PlaySoundEffect
-	ld [hFarCallTempA], a
 	callba LoadMiniBallGfx
 	ret
 
 .asm_1e7b2
 	cp $f
 	jr nz, .asm_1e7c1
-	ld [hFarCallTempA], a
 	callba Func_dd62
 	ret
 
@@ -25408,14 +25155,12 @@ Func_1e757: ; 0x1e757
 	ld [wd803], a
 	ld a, $8
 	ld [wd804], a
-	ld [hFarCallTempA], a
 	callba LoadMiniBallGfx
 	ret
 
 .asm_1e7f5
 	cp $3
 	jr nz, .asm_1e80e
-	ld [hFarCallTempA], a
 	callba LoadBallGfx
 	ld a, $2
 	ld [wBallYVelocity + 1], a
@@ -25433,7 +25178,6 @@ Func_1e757: ; 0x1e757
 	call GenRandom
 	and $8
 	ld [wRareMonsFlag], a
-	ld [hFarCallTempA], a
 	callba StartCatchEmMode
 	xor a
 	ld [wd622], a
@@ -25443,7 +25187,6 @@ Func_1e830: ; 0x1e830
 	xor a
 	ld [wIndicatorStates + 4], a
 	ld a, $d
-	ld [hFarCallTempA], a
 	callba Func_10000
 	jr nc, .asm_1e84b
 	ld a, $1
@@ -25488,7 +25231,6 @@ Func_1e830: ; 0x1e830
 	ret
 
 .asm_1e891
-	ld [hFarCallTempA], a
 	callba Func_ed8e
 	xor a
 	ld [wd608], a
@@ -25501,7 +25243,6 @@ Func_1e830: ; 0x1e830
 	ld a, [wd622]
 	cp $2
 	ret nz
-	ld [hFarCallTempA], a
 	callba Func_10ab3
 	xor a
 	ld [wd622], a
@@ -26414,13 +26155,11 @@ Func_1f2ff: ; 0x1f2ff
 
 Func_1f330: ; 0x1f330
 	ld bc, $7f00
-	ld [hFarCallTempA], a
 	callba Func_175a4
 	call Func_1f395
 	call Func_1f3e1
 	call Func_1f408
 	call Func_1f428
-	ld [hFarCallTempA], a
 	callba Func_17e81
 	call Func_1f48f
 	call Func_1f4f8
@@ -26428,15 +26167,11 @@ Func_1f330: ; 0x1f330
 
 Func_1f35a: ; 0x1f35a
 	ld bc, $7f00
-	ld [hFarCallTempA], a
 	callba Func_175a4
-	ld [hFarCallTempA], a
 	callba Func_17c67
 	call Func_1f58b
 	call Func_1f448
-	ld [hFarCallTempA], a
 	callba Func_e4a1
-	ld [hFarCallTempA], a
 	callba Func_17e81
 	call Func_1f4a3
 	call Func_1f509
@@ -26800,7 +26535,6 @@ Func_20041: ; 0x20041
 	ret
 
 Func_2005f: ; 0x2005f
-	ld [hFarCallTempA], a
 	callba Func_10648
 	scf
 	ret
@@ -26811,9 +26545,7 @@ Func_2006b: ; 0x2006b
 	jr z, .asm_20098
 	call Func_1130
 	jr nz, .asm_200a1
-	ld [hFarCallTempA], a
 	callba Func_10414
-	ld [hFarCallTempA], a
 	callba Func_10362
 	ld a, [hGameBoyColorFlag]
 	and a
@@ -26837,11 +26569,8 @@ Func_200a3: ; 0x200a3
 	call Func_1130
 	jr nz, .asm_200d1
 .asm_200af
-	ld [hFarCallTempA], a
 	callba Func_10678
-	ld [hFarCallTempA], a
 	callba Func_10732
-	ld [hFarCallTempA], a
 	callba Func_10464
 	ld hl, wd54d
 	inc [hl]
@@ -26884,7 +26613,6 @@ Func_200d3: ; 0x200d3
 	ld [wNumMonHits], a
 .asm_20116
 	ld bc, ThreeHundredThousandPoints
-	ld [hFarCallTempA], a
 	callba AddBigBCD6FromQueue
 	ld bc, $0030
 	ld de, $0000
@@ -26901,7 +26629,6 @@ Func_200d3: ; 0x200d3
 	ld de, Data_2a21
 	call Func_3357
 	ld a, [wNumMonHits]
-	ld [hFarCallTempA], a
 	callba Func_10611
 	ld c, $2
 	jr .asm_2018a
@@ -26952,19 +26679,15 @@ Func_20193: ; 0x20193
 	ret
 
 .asm_2019e
-	ld [hFarCallTempA], a
 	callba Func_10496
 	ld hl, wd54d
 	inc [hl]
-	ld [hFarCallTempA], a
 	callba Func_106b6
-	ld [hFarCallTempA], a
 	callba AddCaughtPokemonToParty
 	scf
 	ret
 
 CapturePokemonRedStage: ; 0x201c2
-	ld [hFarCallTempA], a
 	callba CapturePokemon
 	scf
 	ret
@@ -26974,9 +26697,7 @@ Func_201ce: ; 0x201ce
 	and a
 	ret nz
 	call Fillwc600WithBlackTile
-	ld [hFarCallTempA], a
-	callba Func_dc00
-	ld [hFarCallTempA], a
+	callba RestoreBallSaverAfterCatchEmMode
 	callba Func_10157
 	ld de, $0001
 	call PlaySong
@@ -26984,7 +26705,6 @@ Func_201ce: ; 0x201ce
 	ret
 
 Func_201f2: ; 0x201f2
-	ld [hFarCallTempA], a
 	callba Func_107f8
 	ld a, [wd57e]
 	and a
@@ -26997,12 +26717,9 @@ Func_201f2: ; 0x201f2
 	ld a, [wCurrentCatchEmMon]
 	cp MEW - 1
 	jr nz, .asm_2021b
-	ld [hFarCallTempA], a
 	callba SetPokemonOwnedFlag
 .asm_2021b
-	ld [hFarCallTempA], a
 	callba Func_86d2
-	ld [hFarCallTempA], a
 	callba Func_106a6
 	ret
 
@@ -27038,10 +26755,8 @@ Func_20230: ; 0x20230
 	xor a
 	ld [wIndicatorStates + 9], a
 .asm_20264
-	ld [hFarCallTempA], a
 	callba Func_10184
 	ld bc, OneHundredThousandPoints
-	ld [hFarCallTempA], a
 	callba AddBigBCD6FromQueue
 	ld bc, $0010
 	ld de, $0000
@@ -27123,7 +26838,6 @@ Func_20302: ; 0x20302
 	ret
 
 Func_20320: ; 0x20320
-	ld [hFarCallTempA], a
 	callba Func_10648
 	scf
 	ret
@@ -27134,9 +26848,7 @@ Func_2032c: ; 0x2032c
 	jr z, .asm_20333
 	call Func_1130
 	jr nz, .asm_20362
-	ld [hFarCallTempA], a
 	callba Func_10414
-	ld [hFarCallTempA], a
 	callba Func_10362
 	ld a, [hGameBoyColorFlag]
 	and a
@@ -27160,11 +26872,8 @@ Func_20364: ; 0x20364
 	call Func_1130
 	jr nz, .asm_20392
 .asm_20370
-	ld [hFarCallTempA], a
 	callba Func_10678
-	ld [hFarCallTempA], a
 	callba Func_10732
-	ld [hFarCallTempA], a
 	callba Func_10464
 	ld hl, wd54d
 	inc [hl]
@@ -27207,7 +26916,6 @@ Func_20394: ; 0x20394
 	ld [wNumMonHits], a
 .asm_203d7
 	ld bc, ThreeHundredThousandPoints
-	ld [hFarCallTempA], a
 	callba AddBigBCD6FromQueue
 	ld bc, $0030
 	ld de, $0000
@@ -27224,7 +26932,6 @@ Func_20394: ; 0x20394
 	ld de, Data_2a21
 	call Func_3357
 	ld a, [wNumMonHits]
-	ld [hFarCallTempA], a
 	callba Func_10611
 	ld c, $2
 	jr .asm_2044b
@@ -27275,19 +26982,15 @@ Func_20454: ; 0x20454
 	ret
 
 .asm_2045f
-	ld [hFarCallTempA], a
 	callba Func_10496
 	ld hl, wd54d
 	inc [hl]
-	ld [hFarCallTempA], a
 	callba Func_106b6
-	ld [hFarCallTempA], a
 	callba AddCaughtPokemonToParty
 	scf
 	ret
 
 CapturePokemonBlueStage: ; 0x20483
-	ld [hFarCallTempA], a
 	callba CapturePokemon
 	scf
 	ret
@@ -27297,9 +27000,7 @@ Func_2048f: ; 0x2048f
 	and a
 	ret nz
 	call Fillwc600WithBlackTile
-	ld [hFarCallTempA], a
-	callba Func_dc00
-	ld [hFarCallTempA], a
+	callba RestoreBallSaverAfterCatchEmMode
 	callba Func_10157
 	ld de, $0001
 	call PlaySong
@@ -27307,7 +27008,6 @@ Func_2048f: ; 0x2048f
 	ret
 
 Func_204b3: ; 0x204b3
-	ld [hFarCallTempA], a
 	callba Func_107f8
 	ld a, [wd57e]
 	and a
@@ -27320,12 +27020,9 @@ Func_204b3: ; 0x204b3
 	ld a, [wCurrentCatchEmMon]
 	cp MEW - 1
 	jr nz, .notMew
-	ld [hFarCallTempA], a
 	callba SetPokemonOwnedFlag
 .notMew
-	ld [hFarCallTempA], a
 	callba Func_86d2
-	ld [hFarCallTempA], a
 	callba Func_106a6
 	ret
 
@@ -27361,10 +27058,8 @@ Func_204f1: ; 0x204f1
 	xor a
 	ld [wIndicatorStates + 9], a
 .asm_20525
-	ld [hFarCallTempA], a
 	callba Func_10184
 	ld bc, OneHundredThousandPoints
-	ld [hFarCallTempA], a
 	callba AddBigBCD6FromQueue
 	ld bc, $0010
 	ld de, $0000
@@ -27479,7 +27174,6 @@ Func_205e0: ; 0x205e0
 	ld hl, Func_14135
 	call nz, BankSwitch
 	ld bc, OneMillionPoints
-	ld [hFarCallTempA], a
 	callba AddBigBCD6FromQueue
 	call Fillwc600WithBlackTile
 	call Func_30db
@@ -27516,7 +27210,7 @@ Func_20651: ; 0x20651
 	swap c
 	sla c
 	push hl
-	ld hl, vTiles1 tile $2e
+	ld hl, vTilesSH tile $2e
 	add hl, bc
 	ld d, h
 	ld e, l
@@ -27569,7 +27263,7 @@ Func_20651: ; 0x20651
 	ret z
 	ld a, BANK(StageSharedBonusSlotGlowGfx)
 	ld hl, StageSharedBonusSlotGlowGfx + $60
-	ld de, vTiles0 tile $20
+	ld de, vTilesOB tile $20
 	ld bc, $00e0
 	call LoadVRAMData
 	ld a, [hGameBoyColorFlag]
@@ -27581,22 +27275,17 @@ Func_20651: ; 0x20651
 	ld bc, $0008
 	call Func_7dc
 .asm_20700
-	ld [hFarCallTempA], a
 	callba Func_16425
 	ret
 
 Func_2070b: ; 0x2070b
-	ld [hFarCallTempA], a
-	callba Func_dc00
-	ld [hFarCallTempA], a
+	callba RestoreBallSaverAfterCatchEmMode
 	callba Func_10ca5
-	ld [hFarCallTempA], a
 	callba Func_10ac8
 	ld de, $0001
 	call PlaySong
 	ld hl, wd629
 	call Func_e4a
-	ld [hFarCallTempA], a
 	callba SetPokemonOwnedFlag
 	ld a, [wd624]
 	cp $3
@@ -27617,9 +27306,7 @@ Func_20757: ; 0x20757
 	and a
 	ret nz
 	call Fillwc600WithBlackTile
-	ld [hFarCallTempA], a
-	callba Func_dc00
-	ld [hFarCallTempA], a
+	callba RestoreBallSaverAfterCatchEmMode
 	callba Func_10ac8
 	ld de, $0001
 	call PlaySong
@@ -27641,7 +27328,6 @@ Func_2077b: ; 0x2077b
 	jr nz, .asm_2078e
 	call Func_20a55
 .asm_2078e
-	ld [hFarCallTempA], a
 	callba Func_107f8
 	ld a, [wd57e]
 	and a
@@ -27671,12 +27357,9 @@ Func_2077b: ; 0x2077b
 	ld a, [wCurrentStage]
 	bit 0, a
 	jr z, .asm_207f5
-	ld [hFarCallTempA], a
 	callba Func_14135
-	ld [hFarCallTempA], a
 	callba Func_16425
 .asm_207f5
-	ld [hFarCallTempA], a
 	callba Func_86d2
 	call Fillwc600WithBlackTile
 	call Func_30db
@@ -27926,7 +27609,6 @@ Func_20977: ; 0x20977
 	call Func_7dc
 .asm_209bf
 	ld bc, ThreeHundredThousandPoints
-	ld [hFarCallTempA], a
 	callba AddBigBCD6FromQueue
 	call Fillwc600WithBlackTile
 	call Func_30db
@@ -27973,7 +27655,6 @@ Func_209eb: ; 0x209eb
 	ld a, $2
 	ld [wd557], a
 	ld bc, ThreeHundredThousandPoints
-	ld [hFarCallTempA], a
 	callba AddBigBCD6FromQueue
 	call Fillwc600WithBlackTile
 	call Func_30db
@@ -28009,7 +27690,6 @@ Func_20a65: ; 0x20a65
 	and a
 	jr z, .asm_20a80
 	ld bc, TenThousandPoints
-	ld [hFarCallTempA], a
 	callba AddBigBCD6FromQueue
 	jr asm_20a9f
 
@@ -28025,7 +27705,6 @@ Func_20a82: ; 0x20a82
 	and a
 	jr z, .asm_20a9d
 	ld bc, TenThousandPoints
-	ld [hFarCallTempA], a
 	callba AddBigBCD6FromQueue
 	jr asm_20a9f
 
@@ -28110,7 +27789,7 @@ Func_20b02: ; 0x20b02
 	call ReadByteFromBank
 	ld h, b
 	ld l, c
-	ld de, vTiles1 tile $10
+	ld de, vTilesSH tile $10
 	ld bc, $0180
 	call LoadOrCopyVRAMData
 	pop bc
@@ -28130,7 +27809,7 @@ Func_20b02: ; 0x20b02
 	ld d, a
 	ld a, Bank(MonBillboardPaletteMapPointers)
 	call ReadByteFromBank
-	hlCoord 7, 4, vBGMap0
+	hlCoord 7, 4, vBGMap
 	call Func_86f
 	pop bc
 	ld hl, MonBillboardPalettePointers
@@ -28149,7 +27828,6 @@ Func_20b02: ; 0x20b02
 	ld hl, rBGPI
 	call Func_8e1
 .asm_20b80
-	ld [hFarCallTempA], a
 	callba Func_10e0a
 	call Func_3475
 	ld de, $0000
@@ -28157,7 +27835,6 @@ Func_20b02: ; 0x20b02
 	rst AdvanceFrame
 	lb de, $2d, $26
 	call PlaySoundEffect
-	ld [hFarCallTempA], a
 	callba Func_10825
 	call Func_3475
 	ld a, $1
@@ -28238,7 +27915,6 @@ Func_20c08: ; 0x20c08
 	ld hl, Func_1c2cb
 	call nz, BankSwitch
 	ld bc, OneMillionPoints
-	ld [hFarCallTempA], a
 	callba AddBigBCD6FromQueue
 	call Fillwc600WithBlackTile
 	call Func_30db
@@ -28275,7 +27951,7 @@ Func_20c76: ; 0x20c76
 	swap c
 	sla c
 	push hl
-	ld hl, vTiles1 tile $2e
+	ld hl, vTilesSH tile $2e
 	add hl, bc
 	ld d, h
 	ld e, l
@@ -28328,7 +28004,7 @@ Func_20c76: ; 0x20c76
 	ret z
 	ld a, BANK(StageSharedBonusSlotGlowGfx)
 	ld hl, StageSharedBonusSlotGlowGfx + $60
-	ld de, vTiles0 tile $20
+	ld de, vTilesOB tile $20
 	ld bc, $00e0
 	call LoadVRAMData
 	ld a, [hGameBoyColorFlag]
@@ -28340,22 +28016,17 @@ Func_20c76: ; 0x20c76
 	ld bc, $0008
 	call Func_7dc
 .asm_20d25
-	ld [hFarCallTempA], a
 	callba Func_1e8f6
 	ret
 
 Func_20d30: ; 0x20d30
-	ld [hFarCallTempA], a
-	callba Func_dc00
-	ld [hFarCallTempA], a
+	callba RestoreBallSaverAfterCatchEmMode
 	callba Func_10ca5
-	ld [hFarCallTempA], a
 	callba Func_10ac8
 	ld de, $0001
 	call PlaySong
 	ld hl, wd629
 	call Func_e4a
-	ld [hFarCallTempA], a
 	callba SetPokemonOwnedFlag
 	ld a, [wd624]
 	cp $3
@@ -28376,9 +28047,7 @@ Func_20d7c: ; 0x20d7c
 	and a
 	ret nz
 	call Fillwc600WithBlackTile
-	ld [hFarCallTempA], a
-	callba Func_dc00
-	ld [hFarCallTempA], a
+	callba RestoreBallSaverAfterCatchEmMode
 	callba Func_10ac8
 	ld de, $0001
 	call PlaySong
@@ -28400,7 +28069,6 @@ Func_20da0: ; 0x20da0
 	jr nz, .asm_20db3
 	call Func_21079
 .asm_20db3
-	ld [hFarCallTempA], a
 	callba Func_107f8
 	ld a, [wd57e]
 	and a
@@ -28430,12 +28098,9 @@ Func_20da0: ; 0x20da0
 	ld a, [wCurrentStage]
 	bit 0, a
 	jr z, .asm_20e1a
-	ld [hFarCallTempA], a
 	callba Func_1c2cb
-	ld [hFarCallTempA], a
 	callba Func_1e8f6
 .asm_20e1a
-	ld [hFarCallTempA], a
 	callba Func_86d2
 	call Fillwc600WithBlackTile
 	call Func_30db
@@ -28665,7 +28330,6 @@ Func_20f75: ; 0x20f75
 	call Func_7dc
 .asm_20fc3
 	ld bc, ThreeHundredThousandPoints
-	ld [hFarCallTempA], a
 	callba AddBigBCD6FromQueue
 	call Fillwc600WithBlackTile
 	call Func_30db
@@ -28713,7 +28377,6 @@ Func_20fef: ; 0x20fef
 	ld a, $2
 	ld [wd557], a
 	ld bc, ThreeHundredThousandPoints
-	ld [hFarCallTempA], a
 	callba AddBigBCD6FromQueue
 	call Fillwc600WithBlackTile
 	call Func_30db
@@ -28736,7 +28399,6 @@ Func_2105c: ; 0x2105c
 	and a
 	jr z, .asm_21077
 	ld bc, TenThousandPoints
-	ld [hFarCallTempA], a
 	callba AddBigBCD6FromQueue
 	jr asm_210c7
 
@@ -28785,7 +28447,6 @@ Func_21089: ; 0x21089
 	and a
 	jr z, .asm_210c5
 	ld bc, TenThousandPoints
-	ld [hFarCallTempA], a
 	callba AddBigBCD6FromQueue
 	jr asm_210c7
 
@@ -28870,7 +28531,7 @@ Func_2112a: ; 0x2112a
 	call ReadByteFromBank
 	ld h, b
 	ld l, c
-	ld de, vTiles1 tile $10
+	ld de, vTilesSH tile $10
 	ld bc, $0180
 	call LoadOrCopyVRAMData
 	pop bc
@@ -28890,7 +28551,7 @@ Func_2112a: ; 0x2112a
 	ld d, a
 	ld a, Bank(MonBillboardPaletteMapPointers)
 	call ReadByteFromBank
-	hlCoord 7, 4, vBGMap0
+	hlCoord 7, 4, vBGMap
 	call Func_86f
 	pop bc
 	ld hl, MonBillboardPalettePointers
@@ -28909,7 +28570,6 @@ Func_2112a: ; 0x2112a
 	ld hl, rBGPI
 	call Func_8e1
 .asm_211a8
-	ld [hFarCallTempA], a
 	callba Func_10e0a
 	call Func_3475
 	ld de, $0000
@@ -28917,7 +28577,6 @@ Func_2112a: ; 0x2112a
 	rst AdvanceFrame
 	lb de, $2d, $26
 	call PlaySoundEffect
-	ld [hFarCallTempA], a
 	callba Func_10825
 	call Func_3475
 	ld a, $1
@@ -28955,7 +28614,6 @@ InitMeowthBonusStage: ; 0x24000
 	ld [wd713], a
 	ld [wd739], a
 	ld bc, $0100  ; 1 minute 0 seconds
-	ld [hFarCallTempA], a
 	callba StartTimer
 	ld a, $12
 	call SetSongBank
@@ -29050,13 +28708,10 @@ StartBallMeowthBonusStage: ; 0x24059
 	ret
 
 Func_24128: ; 0x24128
-	ld [hFarCallTempA], a
 	callba Func_142fc
 	call Func_2862
-	ld [hFarCallTempA], a
 	callba Func_24fa3
 	call Func_24516
-	ld [hFarCallTempA], a
 	callba Func_1404a
 	ret
 
@@ -29553,7 +29208,6 @@ Func_2442a: ; 0x2442a
 	ld a, [wd712]
 	cp $4
 	jr z, .asm_244c1
-	ld [hFarCallTempA], a
 	callba Func_107f8
 .asm_244c1
 	ld a, [wd57e]
@@ -29564,7 +29218,6 @@ Func_2442a: ; 0x2442a
 	ld a, $1
 	ld [wd7be], a
 	call Func_2862
-	ld [hFarCallTempA], a
 	callba Func_86d2
 	ld a, $1
 	ld [wd713], a
@@ -29587,7 +29240,6 @@ Func_244f5: ; 0x244f5
 	ld a, $1
 	ld [wStageCollisionState], a
 	ld [wd6e6], a
-	ld [hFarCallTempA], a
 	callba LoadStageCollisionAttributes
 	call Func_24516
 	ret
@@ -29649,7 +29301,6 @@ Func_245ab: ; 0x245ab
 	lb de, $00, $33
 	call PlaySoundEffect
 	ld bc, OneThousandPoints
-	ld [hFarCallTempA], a
 	callba AddBigBCD6FromQueueWithBallMultiplier
 	xor a
 	ld [wMeowthStageBonusCounter], a
@@ -30825,7 +30476,6 @@ Func_24e7f: ; 0x24e7f
 .asm_24ea6
 	push af
 	ld bc, OneHundredThousandPoints
-	ld [hFarCallTempA], a
 	callba AddBigBCD6FromQueueWithBallMultiplier
 	ld hl, wMeowthStageScore
 	inc [hl]
@@ -30986,15 +30636,12 @@ Data_25421:
 
 Func_2583b: ; 0x2583b
 	ld bc, $7f65
-	ld [hFarCallTempA], a
 	callba Func_175a4
-	ld [hFarCallTempA], a
 	callba Func_e4a1
 	call Func_259fe
 	call Func_25895
 	call Func_2595e
 	call Func_2586c
-	ld [hFarCallTempA], a
 	callba Func_17e81
 	call Func_25a39
 	ret
@@ -31308,7 +30955,6 @@ InitSeelBonusStage: ; 0x25a7c
 	ld [wd792], a
 	ld [wd739], a
 	ld bc, $0130  ; 1 minute 30 seconds
-	ld [hFarCallTempA], a
 	callba StartTimer
 	ld a, $11
 	call SetSongBank
@@ -31401,13 +31047,10 @@ StartBallSeelBonusStage: ; 0x25af1
 	ret
 
 Func_25b97: ; 0x25b97
-	ld [hFarCallTempA], a
 	callba Func_142fc
 	call Func_2862
-	ld [hFarCallTempA], a
 	callba Func_262f4
 	call Func_25d0e
-	ld [hFarCallTempA], a
 	callba Func_1404a
 	ret
 
@@ -31542,7 +31185,6 @@ Func_25c5a: ; 0x25c5a
 	ld a, [wd794]
 	cp $2
 	jr z, .asm_25cc1
-	ld [hFarCallTempA], a
 	callba Func_107f8
 .asm_25cc1
 	ld a, [wd57e]
@@ -31553,7 +31195,6 @@ Func_25c5a: ; 0x25c5a
 	ld a, $1
 	ld [wd7be], a
 	call Func_2862
-	ld [hFarCallTempA], a
 	callba Func_86d2
 	ld a, $3
 	ld [wd791], a
@@ -31574,7 +31215,6 @@ Func_25ced: ; 0x25ced
 	ld a, $1
 	ld [wStageCollisionState], a
 	ld [wd766], a
-	ld [hFarCallTempA], a
 	callba LoadStageCollisionAttributes
 	call Func_25d0e
 	ret
@@ -31734,7 +31374,6 @@ Func_25e85: ; 0x25e85
 	cp $32
 	jr nc, .asm_25ead
 	ld bc, OneHundredThousandPoints
-	ld [hFarCallTempA], a
 	callba AddBigBCD6FromQueueWithBallMultiplier
 	pop de
 	dec d
@@ -31742,7 +31381,6 @@ Func_25e85: ; 0x25e85
 
 .asm_25ead
 	ld bc, FiveMillionPoints
-	ld [hFarCallTempA], a
 	callba AddBigBCD6FromQueueWithBallMultiplier
 	pop de
 	ld a, d
@@ -32358,12 +31996,9 @@ Data_26764:
 
 Func_26b7e: ; 0x26b7e
 	ld bc, $7f65
-	ld [hFarCallTempA], a
 	callba Func_175a4
 	call Func_26bf7
-	ld [hFarCallTempA], a
 	callba Func_e4a1
-	ld [hFarCallTempA], a
 	callba Func_17e81
 	call Func_26ba9
 	call Func_26c3c
@@ -32565,13 +32200,13 @@ PointerTable_280a2: ; 0x280a2
 
 Data_280a6: ; 0x280a6
 	dab Data_ad800
-	dw vTiles0
+	dw vTilesOB
 	dw $6000
 	dab Data_c5000
 	dw $9800
 	dw $1000
 	dab Data_c4800
-	dw vBGMap1
+	dw vBGWin
 	dw $800
 	dab Data_c4800
 	dw $9e00
@@ -32580,7 +32215,7 @@ Data_280a6: ; 0x280a6
 
 Data_280c4: ; 0x280c4
 	dab Data_ad800
-	dw vTiles0
+	dw vTilesOB
 	dw $6000
 	dab Data_c5000
 	dw $9800
@@ -32589,13 +32224,13 @@ Data_280c4: ; 0x280c4
 	dw $9800
 	dw $1002
 	dab Data_c4800
-	dw vBGMap1
+	dw vBGWin
 	dw $800
 	dab Data_c4800
 	dw $9e00
 	dw $800
 	dab Data_c4c00
-	dw vBGMap1
+	dw vBGWin
 	dw $802
 	dab Data_c4c00
 	dw $9e00
@@ -32891,14 +32526,14 @@ Func_282e9: ; 0x282e9
 	jr z, .asm_28367
 	ld a, BANK(Data_c4800)
 	ld hl, Data_c4800
-	ld de, vBGMap1
+	ld de, vBGWin
 	ld bc, $0200
 	call LoadVRAMData
 	ld a, $1
 	ld [rVBK], a
 	ld a, BANK(Data_c4c00)
 	ld hl, Data_c4c00
-	ld de, vBGMap1
+	ld de, vBGWin
 	ld bc, $0200
 	call LoadVRAMData
 	xor a
@@ -33221,7 +32856,7 @@ Func_285db: ; 0x285db
 	ld bc, $8c38
 	ld a, $64
 	call LoadOAMData
-	ld bc, vTiles1 tile $04
+	ld bc, vTilesSH tile $04
 	ld a, $65
 	call LoadOAMData
 	ld bc, $8888
@@ -33597,7 +33232,7 @@ Func_2885c: ; 0x2885c
 Func_2887c: ; 0x2887c
 	ld a, BANK(Data_c5120)
 	ld hl, Data_c5120
-	deCoord 0, 8, vBGMap0
+	deCoord 0, 8, vBGMap
 	ld bc, $0100
 	call LoadVRAMData
 	ld a, $3f
@@ -33636,7 +33271,7 @@ Func_288a2: ; 0x288a2
 	ld [hNextLYCSub], a
 	ld a, BANK(Data_c5100)
 	ld hl, Data_c5100
-	deCoord 0, 8, vBGMap0
+	deCoord 0, 8, vBGMap
 	ld bc, $0020
 	call LoadVRAMData
 	ret
@@ -33671,7 +33306,7 @@ Func_288c6: ; 0x288c6
 	ld [wd860], a
 	ld [wd861], a
 	ld bc, $906c
-	ld de, vTiles1 tile $10
+	ld de, vTilesSH tile $10
 	call Func_28d97
 	rl a
 	ld [wd956], a
@@ -33683,7 +33318,7 @@ Func_288c6: ; 0x288c6
 
 Func_28912: ; 0x28912
 	ld bc, $906c
-	ld de, vTiles1 tile $10
+	ld de, vTilesSH tile $10
 	ld a, [wd957]
 	ld l, a
 	ld a, [wd958]
@@ -33729,7 +33364,7 @@ Func_28931: ; 0x28931
 	xor a
 	ld [wd861], a
 	ld bc, $500a
-	ld de, vTiles2 tile $50
+	ld de, vTilesBG tile $50
 	call Func_28e09
 	ret
 
@@ -33833,7 +33468,7 @@ Func_289c8: ; 0x289c8
 	ld a, $4
 	ld [wd861], a
 	ld bc, $5816
-	ld de, vTiles2 tile $5a
+	ld de, vTilesBG tile $5a
 	call Func_28e09
 	ret
 
@@ -33862,7 +33497,7 @@ Func_28a15: ; 0x28a15
 	ld a, $0
 	ld [wd865], a
 	push de
-	hlCoord 4, 2, vBGMap0
+	hlCoord 4, 2, vBGMap
 	call Func_28d71
 	pop de
 	inc de
@@ -33879,7 +33514,7 @@ Func_28a15: ; 0x28a15
 	ld de, Data_28a7f
 .asm_28a54
 	push de
-	hlCoord 8, 6, vBGMap0
+	hlCoord 8, 6, vBGMap
 	call Func_28d71
 	pop de
 	inc de
@@ -33888,7 +33523,7 @@ Func_28a15: ; 0x28a15
 	inc de
 	inc de
 	push de
-	hlCoord 14, 6, vBGMap0
+	hlCoord 14, 6, vBGMap
 	call Func_28d71
 	pop de
 	inc de
@@ -33896,7 +33531,7 @@ Func_28a15: ; 0x28a15
 	inc de
 	inc de
 	inc de
-	hlCoord 16, 7, vBGMap0
+	hlCoord 16, 7, vBGMap
 	ld a, [rLCDC]
 	bit 7, a
 	jr nz, .asm_28a7a
@@ -34013,7 +33648,7 @@ Func_28add: ; 0x28add
 	call ReadByteFromBank
 	ld h, b
 	ld l, c
-	ld de, vTiles2 tile $00
+	ld de, vTilesBG tile $00
 	ld bc, $0180
 	call LoadOrCopyVRAMData
 	call Func_28cd4
@@ -34034,7 +33669,7 @@ Func_28add: ; 0x28add
 	ld d, a
 	ld a, Bank(MonBillboardPaletteMapPointers)
 	call ReadByteFromBank
-	hlCoord 1, 3, vBGMap0
+	hlCoord 1, 3, vBGMap
 	call Func_86f
 	pop bc
 	ld hl, MonBillboardPalettePointers
@@ -34057,7 +33692,7 @@ Func_28add: ; 0x28add
 Func_28b76: ; 0x28b76
 	ld a, BANK(Data_71500)
 	ld hl, Data_71500
-	ld de, vTiles2 tile $00
+	ld de, vTilesBG tile $00
 	ld bc, $0180
 	call LoadOrCopyVRAMData
 	call Func_28cd4
@@ -34066,7 +33701,7 @@ Func_28b76: ; 0x28b76
 	ret z
 	ld a, BANK(Data_28b97)
 	ld de, Data_28b97
-	hlCoord 1, 3, vBGMap0
+	hlCoord 1, 3, vBGMap
 	call Func_86f
 	ret
 
@@ -34098,7 +33733,7 @@ Func_28baf: ; 0x28baf
 	call ReadByteFromBank
 	ld hl, $0180
 	add hl, bc
-	ld de, vTiles2 tile $00
+	ld de, vTilesBG tile $00
 	ld bc, $0180
 	call LoadOrCopyVRAMData
 	call Func_28cd4
@@ -34107,7 +33742,7 @@ Func_28baf: ; 0x28baf
 	ret z
 	ld a, BANK(Data_28b97)
 	ld de, Data_28b97
-	hlCoord 1, 3, vBGMap0
+	hlCoord 1, 3, vBGMap
 	call Func_86f
 	ret
 
@@ -34139,7 +33774,7 @@ Func_28bf5: ; 0x28bf5
 	call ReadByteFromBank
 	ld h, b
 	ld l, c
-	ld de, vTiles0
+	ld de, vTilesOB
 	ld bc, $0300
 	call LoadOrCopyVRAMData
 	xor a
@@ -34301,7 +33936,7 @@ Func_28cf8: ; 0x28cf8
 	db $fe
 
 asm_28d1d
-	hlCoord 1, 3, vBGMap0
+	hlCoord 1, 3, vBGMap
 	ld b, $4
 .asm_28d22
 	ld c, $6
@@ -36687,7 +36322,7 @@ InitRedField: ; 0x30000
 	and a
 	ret nz
 	xor a
-	ld hl, wd46f
+	ld hl, wScore + $5
 	ld [hld], a
 	ld [hld], a
 	ld [hld], a
@@ -36724,9 +36359,7 @@ InitRedField: ; 0x30000
 	ld [wIndicatorStates + 3], a
 	ld a, $82
 	ld [wIndicatorStates + 1], a
-	ld [hFarCallTempA], a
-	callba Func_dbba
-	ld [hFarCallTempA], a
+	callba Start20SecondSaverTimer
 	callba Func_16f95
 	ld a, $f
 	call SetSongBank
@@ -36798,7 +36431,6 @@ StartBallRedField: ; 0x3007d
 	ld [wd4f1], a
 	ld a, $3
 	ld [wd610], a
-	ld [hFarCallTempA], a
 	callba Func_16f95
 	ld a, $f
 	call SetSongBank
@@ -36843,7 +36475,6 @@ Func_30164: ; 0x30164
 
 .asm_30175
 	ld bc, TenMillionPoints
-	ld [hFarCallTempA], a
 	callba AddBigBCD6FromQueue
 	ld a, $2
 	ld [wd4ca], a
@@ -36911,7 +36542,6 @@ StartMapMoveMode: ; 0x301ec
 	xor a
 	ld [wd54d], a
 	ld bc, $0030  ; 30 seconds
-	ld [hFarCallTempA], a
 	callba StartTimer
 	ld a, [wCurrentStage]
 	bit 0, a
@@ -36941,7 +36571,6 @@ Func_3022b: ; 0x3022b
 	xor a
 	ld [wInSpecialMode], a
 	ld [wSpecialMode], a
-	ld [hFarCallTempA], a
 	callba Func_86d2
 	ld a, [wCurrentStage]
 	rst JumpTable  ; calls JumpToFuncInTable
@@ -37201,10 +36830,8 @@ Func_311b4: ; 0x311b4
 
 .asm_311e2
 	ld a, $2
-	ld [hFarCallTempA], a
 	callba Func_149d9
 	ld a, $5
-	ld [hFarCallTempA], a
 	callba Func_149d9
 	ld a, $6a
 	ld [wc7f0], a
@@ -37214,7 +36841,6 @@ Func_311b4: ; 0x311b4
 	ld [wc7e3], a
 	ld a, $67
 	ld [wc803], a
-	ld [hFarCallTempA], a
 	callba Func_107b0
 	ld a, $4
 	ld [wd7ad], a
@@ -37223,27 +36849,19 @@ Func_311b4: ; 0x311b4
 	ld a, [wCurrentStage]
 	bit 0, a
 	ret z
-	ld [hFarCallTempA], a
 	callba Func_14135
 	ret
 
 Func_31234: ; 0x31234
-	ld [hFarCallTempA], a
 	callba Func_107a5
-	ld [hFarCallTempA], a
 	callba Func_107c2
-	ld [hFarCallTempA], a
 	callba Func_107c8
-	ld [hFarCallTempA], a
 	callba Func_107e9
 	ld a, [wCurrentStage]
 	bit 0, a
 	ret z
-	ld [hFarCallTempA], a
 	callba Func_14135
-	ld [hFarCallTempA], a
 	callba Func_16425
-	ld [hFarCallTempA], a
 	callba Func_30253
 	ret
 
@@ -37359,7 +36977,6 @@ Func_31326: ; 0x31326
 	ld [wIndicatorStates + 3], a
 	ld [wIndicatorStates + 4], a
 	ld a, $3
-	ld [hFarCallTempA], a
 	callba Func_1de4b
 	jr .asm_31382
 
@@ -37372,13 +36989,10 @@ Func_31326: ; 0x31326
 	ld [wIndicatorStates + 2], a
 	ld [wIndicatorStates + 4], a
 	ld a, $1
-	ld [hFarCallTempA], a
 	callba Func_1de4b
 	ld a, $6
-	ld [hFarCallTempA], a
 	callba Func_1de4b
 	ld a, $7
-	ld [hFarCallTempA], a
 	callba Func_1de6f
 .asm_31382
 	ld a, [wCurrentStage]
@@ -37395,34 +37009,26 @@ Func_31326: ; 0x31326
 .asm_3139d
 	ld a, $1
 	ld [wd644], a
-	ld [hFarCallTempA], a
 	callba Func_1f2ed
 	ld de, $0003
 	call PlaySong
 	ld a, [wCurrentStage]
 	bit 0, a
 	ret z
-	ld [hFarCallTempA], a
 	callba Func_1c2cb
 	ret
 
 Func_313c3: ; 0x313c3
-	ld [hFarCallTempA], a
 	callba Func_107a5
-	ld [hFarCallTempA], a
 	callba Func_107c2
-	ld [hFarCallTempA], a
 	callba Func_1f2ff
 	ld a, $0
 	ld [wd644], a
 	ld a, [wCurrentStage]
 	bit 0, a
 	ret z
-	ld [hFarCallTempA], a
 	callba Func_1c2cb
-	ld [hFarCallTempA], a
 	callba Func_1e8f6
-	ld [hFarCallTempA], a
 	callba Func_30253
 	ret
 
@@ -37560,7 +37166,6 @@ Func_314f1: ; 0x314f1
 	ret
 
 Func_314f3: ; 0x314f3
-	ld [hFarCallTempA], a
 	callba Func_3022b
 	ld de, $0001
 	call PlaySong
@@ -37572,7 +37177,6 @@ Func_31505: ; 0x31505
 	and a
 	ret nz
 	call Fillwc600WithBlackTile
-	ld [hFarCallTempA], a
 	callba Func_3022b
 	ld de, $0001
 	call PlaySong
@@ -37583,7 +37187,6 @@ Func_3151f: ; 0x3151f
 	ld a, $50
 	ld [wd4ef], a
 	ld [wd4f1], a
-	ld [hFarCallTempA], a
 	callba Func_107f8
 	ld a, [wd57e]
 	and a
@@ -37602,14 +37205,10 @@ Func_3151f: ; 0x3151f
 	ld a, [wCurrentStage]
 	bit 0, a
 	jr z, .asm_31577
-	ld [hFarCallTempA], a
 	callba Func_14135
-	ld [hFarCallTempA], a
 	callba Func_16425
-	ld [hFarCallTempA], a
 	callba Func_30253
 .asm_31577
-	ld [hFarCallTempA], a
 	callba Func_86d2
 	call Fillwc600WithBlackTile
 	call Func_30db
@@ -37660,17 +37259,13 @@ Func_315d5: ; 0x315d5
 	ld de, $0000
 	call PlaySong
 	rst AdvanceFrame
-	ld [hFarCallTempA], a
 	callba Func_31281
-	ld [hFarCallTempA], a
 	callba Func_30253
 	lb de, $25, $25
 	call PlaySoundEffect
 	ld bc, Data_2cbf
-	ld [hFarCallTempA], a
 	callba Func_3118f
 .asm_31603
-	ld [hFarCallTempA], a
 	callba Func_33e3
 	rst AdvanceFrame
 	ld a, [wd5ca]
@@ -37721,7 +37316,6 @@ Func_3165e: ; 0x3165e
 	ret
 
 Func_31660: ; 0x31660
-	ld [hFarCallTempA], a
 	callba Func_3022b
 	ld de, $0001
 	call PlaySong
@@ -37733,7 +37327,6 @@ Func_31672: ; 0x31672
 	and a
 	ret nz
 	call Fillwc600WithBlackTile
-	ld [hFarCallTempA], a
 	callba Func_3022b
 	ld de, $0001
 	call PlaySong
@@ -37748,7 +37341,6 @@ Func_3168c: ; 0x3168c
 	ld [wd645], a
 	ld a, $1
 	ld [wd646], a
-	ld [hFarCallTempA], a
 	callba Func_107f8
 	ld a, [wd57e]
 	and a
@@ -37767,14 +37359,10 @@ Func_3168c: ; 0x3168c
 	ld a, [wCurrentStage]
 	bit 0, a
 	jr z, .asm_316ee
-	ld [hFarCallTempA], a
 	callba Func_1c2cb
-	ld [hFarCallTempA], a
 	callba Func_1e8f6
-	ld [hFarCallTempA], a
 	callba Func_30253
 .asm_316ee
-	ld [hFarCallTempA], a
 	callba Func_86d2
 	call Fillwc600WithBlackTile
 	call Func_30db
@@ -37825,17 +37413,13 @@ Func_3174c: ; 0x3174c
 	ld de, $0000
 	call PlaySong
 	rst AdvanceFrame
-	ld [hFarCallTempA], a
 	callba Func_3140b
-	ld [hFarCallTempA], a
 	callba Func_30253
 	lb de, $25, $25
 	call PlaySoundEffect
 	ld bc, Data_2cbf
-	ld [hFarCallTempA], a
 	callba Func_3118f
 .asm_3177a
-	ld [hFarCallTempA], a
 	callba Func_33e3
 	rst AdvanceFrame
 	ld a, [wd5ca]

@@ -134,10 +134,7 @@ wd464:: ; 0xd464
 	ds $6
 
 wScore:: ; 0xd46a
-	ds $5
-
-wd46f:: ; 0xd46f
-	ds $1
+	ds $6
 
 wd470:: ; 0xd470
 	ds $1
@@ -149,10 +146,7 @@ wd472:: ; 0xd472
 	ds $1
 
 wd473:: ; 0xd473
-	ds $3
-
-wd476:: ; 0xd476
-	ds $1
+	ds $4
 
 wAddScoreQueueOffset:: ; 0xd477
 	ds $1
@@ -241,7 +235,7 @@ wBallSaverTimerFrames:: ; 0xd4a3
 wBallSaverTimerSeconds:: ; 0xd4a4
 	ds $1
 
-wd4a5:: ; 0xd4a5
+wNumTimesBallSavedTextWillDisplay:: ; 0xd4a5
 	ds $1
 
 wBallSaverTimerFramesBackup:: ; 0xd4a6

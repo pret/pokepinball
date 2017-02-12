@@ -124,9 +124,9 @@ FarSendSGBPacket_BGMapRows: ; 0x1353
 	ld [rBGP], a
 	ld de, $0010
 	add hl, de
-	ld de, vTiles1 ; tiles
+	ld de, vTilesSH ; tiles
 	call LocalCopyData
-	ld hl, vBGMap0 ; bgmap
+	ld hl, vBGMap ; bgmap
 	ld de, $000c
 	ld a, $80
 	ld c, $d

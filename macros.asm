@@ -58,17 +58,10 @@ bigdw: MACRO ; big-endian word
 	dx 2, \1
 	ENDM
 
-farcall: MACRO
+callba: MACRO
+	ld [hFarCallTempA], a
 	ld a, BANK(\1)
 	ld hl, \1
-	call BankSwitch
-	ENDM
-
-callba EQUS "farcall"
-
-callab: MACRO
-	ld hl, \1
-	ld a, BANK(\1)
 	call BankSwitch
 	ENDM
 
@@ -95,7 +88,7 @@ ENDM
 
 ;\1 = X
 ;\2 = Y
-;\3 = Reference Background Map (e.g. vBGMap0 or vBGMap1)
+;\3 = Reference Background Map (e.g. vBGMap or vBGWin)
 coord: MACRO
 	ld \1, \4 + $20 * \3 + \2
 	ENDM

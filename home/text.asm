@@ -217,7 +217,7 @@ Func_31e1: ; 0x31e1
 
 Data_320e:
 macro_320e: MACRO
-	dw vTiles1 tile \1
+	dw vTilesSH tile \1
 	dba \2
 	ENDM
 	macro_320e 3, GFX_d6440
@@ -666,7 +666,6 @@ Func_3475: ; 0x3475
 	ld a, Bank(HandleFlippers)
 	ld hl, HandleFlippers
 	call nz, BankSwitch
-	ld [hFarCallTempA], a
 	callba Func_84b7
 	call Func_33e3
 	call Func_926

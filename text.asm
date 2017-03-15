@@ -57,14 +57,14 @@ OneBillionText:
 	db $07, $6e, $45, $14, $20, $50
 	db "1,000,000,000 @"
 
-Data_2a21:
+HitText:
 	db $44, $00, $40, $00
 	db "HIT @"
 
 Data_2a2a:
 	db $48, $10, $40, $00, $00, $00
 
-Data_2a30:
+FlippedText:
 	db $42, $00, $40, $00
 	db "FLIPPED @"
 
@@ -150,211 +150,211 @@ YeahYouGotItText:
 	db $05, $54, $42, $14, $00, $39
 	db "YEAH! YOU GOT IT @"
 
-Data_2bf0:
-	dw Data_2c45
-	dw Data_2c78
-	dw Data_2c14
-	dw Data_2c60
-	dw Data_2c2c
-	dw Data_2c90
-	dw Data_2bfe
+EvolutionTypeGetTextPointers:
+	dw GetThunderStoneText
+	dw GetMoonStoneText
+	dw GetFireStoneText
+	dw GetLeafStoneText
+	dw GetWaterStoneText
+	dw GetLinkCableText
+	dw GetExperienceText
 
-Data_2bfe:
+GetExperienceText:
 	db $05, $54, $43, $14, $00, $37
 	db "GET EXPERIENCE @"
 
-Data_2c14:
+GetFireStoneText:
 	db $05, $54, $42, $14, $00, $39
 	db "GET A FIRE STONE @"
 
-Data_2c2c:
+GetWaterStoneText:
 	db $05, $54, $41, $14, $00, $3a
 	db "GET A WATER STONE @"
 
-Data_2c45:
+GetThunderStoneText:
 	db $05, $54, $40, $14, $00, $3c
 	db "GET A THUNDER STONE @"
 
-Data_2c60:
+GetLeafStoneText:
 	db $05, $54, $42, $14, $00, $39
 	db "GET A LEAF STONE @"
 
-Data_2c78:
+GetMoonStoneText:
 	db $05, $54, $42, $14, $00, $39
 	db "GET A MOON STONE @"
 
-Data_2c90:
+GetLinkCableText:
 	db $05, $54, $42, $14, $00, $39
 	db "GET A LINK CABLE @"
 
-Data_2ca8:
+MapMoveFailedText:
 	db $05, $54, $42, $14, $00, $38
 	db "MAP MOVE FAILED @"
 
-Data_2cbf:
+ArrivedAtMapText:
 	db $05, $54, $00, $00, $00, $1f
 	db "ARRIVED AT @"
 
-Data_2cd1:
+StartFromMapText:
 	db $05, $54, $00, $00, $00, $1f
 	db "START FROM @"
 
-Data_2ce3:
-	dw Data_2d07
-	dw Data_2d1a
-	dw Data_2d2f
-	dw Data_2d46
-	dw Data_2d59
-	dw Data_2d68
-	dw Data_2d7d
-	dw Data_2d98
-	dw Data_2db3
-	dw Data_2dc8
-	dw Data_2ddd
-	dw Data_2df1
-	dw Data_2e05
-	dw Data_2e18
-	dw Data_2e2b
-	dw Data_2e3f
-	dw Data_2e56
-	dw Data_2e6d
+MapNames:
+	dw PalletTownText
+	dw ViridianCityText
+	dw ViridianForestText
+	dw PewterCityText
+	dw MtMoonText
+	dw CeruleanCityText
+	dw VermilionSeasideText
+	dw VermilionStreetsText
+	dw RockMountainText
+	dw LavenderTownText
+	dw CeladonCityText
+	dw CyclingRoadText
+	dw FuchiaCityText ; mispelling -- should be fuchsia
+	dw SafariZoneText
+	dw SaffronCityText
+	dw SeafoamIslandsText
+	dw CinnabarIslandText
+	dw IndigoPlateauText
 
-Data_2d07:
+PalletTownText:
 	db $05, $5f, $44, $14, $20, $3f
 	db "PALLET TOWN @"
 
-Data_2d1a:
+ViridianCityText:
 	db $05, $5f, $43, $14, $20, $41
 	db "VIRIDIAN CITY @"
 
-Data_2d2f:
+ViridianForestText:
 	db $05, $5f, $42, $14, $20, $43
 	db "VIRIDIAN FOREST @"
 
-Data_2d46:
+PewterCityText:
 	db $05, $5f, $44, $14, $20, $3f
 	db "PEWTER CITY @"
 
-Data_2d59:
+MtMoonText:
 	db $05, $5f, $46, $14, $20, $3b
 	db "MT.MOON @"
 
-Data_2d68:
+CeruleanCityText:
 	db $05, $5f, $43, $14, $20, $41
 	db "CERULEAN CITY @"
 
-Data_2d7d:
+VermilionSeasideText:
 	db $05, $5f, $40, $14, $20, $47
 	db "VERMILION : SEASIDE @"
 
-Data_2d98:
+VermilionStreetsText:
 	db $05, $5f, $40, $14, $20, $47
 	db "VERMILION : STREETS @"
 
-Data_2db3:
+RockMountainText:
 	db $05, $5f, $43, $14, $20, $41
 	db "ROCK MOUNTAIN @"
 
-Data_2dc8:
+LavenderTownText:
 	db $05, $5f, $43, $14, $20, $41
 	db "LAVENDER TOWN @"
 
-Data_2ddd:
+CeladonCityText:
 	db $05, $5f, $44, $14, $20, $40
 	db "CELADON CITY @"
 
-Data_2df1:
+CyclingRoadText:
 	db $05, $5f, $44, $14, $20, $40
 	db "CYCLING ROAD @"
 
-Data_2e05:
+FuchiaCityText:
 	db $05, $5f, $44, $14, $20, $3f
-	db "FUCHIA CITY @"
+	db "FUCHIA CITY @" ; mispelling -- should be fuchsia
 
-Data_2e18:
+SafariZoneText:
 	db $05, $5f, $44, $14, $20, $3f
 	db "SAFARI ZONE @"
 
-Data_2e2b:
+SaffronCityText:
 	db $05, $5f, $44, $14, $20, $40
 	db "SAFFRON CITY @"
 
-Data_2e3f:
+SeafoamIslandsText:
 	db $05, $5f, $42, $14, $20, $43
 	db "SEAFOAM ISLANDS @"
 
-Data_2e56:
+CinnabarIslandText:
 	db $05, $5f, $42, $14, $20, $43
 	db "CINNABAR ISLAND @"
 
-Data_2e6d:
+IndigoPlateauText:
 	db $05, $5f, $43, $14, $20, $42
 	db "INDIGO PLATEAU @"
 
-Data_2e83:
+GoToDiglettStageText:
 	db $05, $54, $40, $14, $00, $3c
 	db "GO TO DIGLETT STAGE @"
 
-Data_2e9e:
+GoToGengarStageText:
 	db $05, $54, $41, $14, $00, $3b
 	db "GO TO GENGAR STAGE @"
 
-Data_2eb8:
+GoToMewtwoStageText:
 	db $05, $54, $41, $14, $00, $3b
 	db "GO TO MEWTWO STAGE @"
 
-Data_2ed2:
+GoToMeowthStageText:
 	db $05, $54, $41, $14, $00, $3b
 	db "GO TO MEOWTH STAGE @"
 
-Data_2eec:
+GoToSeelStageText:
 	db $05, $54, $42, $14, $00, $39
 	db "GO TO SEEL STAGE @"
 
-Data_2f04:
+EndGengarStageText:
 	db $05, $54, $42, $14, $00, $39
 	db "END GENGAR STAGE @"
 
-Data_2f1c:
+EndMewtwoStageText:
 	db $05, $54, $42, $14, $00, $39
 	db "END MEWTWO STAGE @"
 
-Data_2f34:
+EndDiglettStageText:
 	db $05, $54, $41, $14, $00, $3a
 	db "END DIGLETT STAGE @"
 
-Data_2f4d:
+EndMeowthStageText:
 	db $05, $54, $42, $14, $00, $39
 	db "END MEOWTH STAGE @"
 
-Data_2f65:
+EndSeelStageText:
 	db $05, $54, $43, $14, $00, $37
 	db "END SEEL STAGE @"
 
-Data_2f7b:
+GengarStageClearedText:
 	db $05, $54, $40, $14, $00, $3d
 	db "GENGAR STAGE CLEARED @"
 
-Data_2f97:
+MewtwoStageClearedText:
 	db $05, $54, $40, $14, $00, $3d
 	db "MEWTWO STAGE CLEARED @"
 
-Data_2fb3:
+DiglettStageClearedText:
 	db $05, $54, $3f, $14, $00, $3e
 	db "DIGLETT STAGE CLEARED @"
 
-Data_2fd0:
+MeowthStageClearedText:
 	db $05, $54, $40, $14, $00, $3d
 	db "MEOWTH STAGE CLEARED @"
 
-Data_2fec:
+SeelStageClearedText:
 	db $05, $54, $41, $14, $00, $3b
 	db "SEEL STAGE CLEARED @"
 
-Data_3006:
+NumPokemonCaughtText:
 	db "  0 POKeMON CAUGHT@"
 
-Data_3019:
+NumPokemonEvolvedText:
 	db "  0 POKeMON EVOLVED@"
 
 BellsproutCounterText:
@@ -369,22 +369,22 @@ CaveShotCounterText:
 SpinnerTurnsCounterText:
 	db "  0 SPINNER TURNS@"
 
-Data_3069:
+BonusPointsText:
 	db " BONUS@"
 
-Data_3070:
+SubtotalPointsText:
 	db " SUBTOTAL@"
 
-Data_307a:
+MultiplierPointsText:
 	db " MULTIPLIER@"
 
-Data_3086:
+TotalPointsText:
 	db " TOTAL@"
 
-Data_308d:
+ScoreText:
 	db " SCORE@"
 
-Data_3094:
+GameOverText:
 	db "     GAME  OVER     @"
 
 PsyduckCounterText:

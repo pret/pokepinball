@@ -6738,7 +6738,7 @@ Func_df1a: ; 0xdf1a
 	call Fillwc600WithBlackTile
 	call Func_30db
 	ld hl, wd5dc
-	ld de, Data_2f04
+	ld de, EndGengarStageText
 	call LoadTextHeader
 	ret
 
@@ -6789,7 +6789,7 @@ Func_df7e: ; 0xdf7e
 	call Fillwc600WithBlackTile
 	call Func_30db
 	ld hl, wd5dc
-	ld de, Data_2f1c
+	ld de, EndMewtwoStageText
 	call LoadTextHeader
 	ret
 
@@ -6847,7 +6847,7 @@ Func_dfe2: ; 0xdfe2
 	call Fillwc600WithBlackTile
 	call Func_30db
 	ld hl, wd5dc
-	ld de, Data_2f4d
+	ld de, EndMeowthStageText
 	call LoadTextHeader
 	ret
 
@@ -6872,7 +6872,7 @@ Func_e056: ; 0xe056
 	call Fillwc600WithBlackTile
 	call Func_30db
 	ld hl, wd5dc
-	ld de, Data_2f34
+	ld de, EndDiglettStageText
 	call LoadTextHeader
 	ret
 
@@ -6929,7 +6929,7 @@ Func_e08b: ; 0xe08b
 	call Fillwc600WithBlackTile
 	call Func_30db
 	ld hl, wd5dc
-	ld de, Data_2f65
+	ld de, EndSeelStageText
 	call LoadTextHeader
 	ret
 
@@ -9161,10 +9161,10 @@ Func_f57f: ; 0xf57f
 
 Func_f5a0: ; 0xf5a0
 	ld de, wBottomMessageText + $40
-	ld hl, Data_3069
+	ld hl, BonusPointsText
 	call PrintTextNoHeader
 	ld de, wBottomMessageText + $80
-	ld hl, Data_3070
+	ld hl, SubtotalPointsText
 	call PrintTextNoHeader
 	ld hl, wd489
 	call Func_f8b5
@@ -9190,7 +9190,7 @@ Func_f5a0: ; 0xf5a0
 	ld bc, $0040
 	call Func_f81b
 	ld de, wBottomMessageText + $20
-	ld hl, Data_3094
+	ld hl, GameOverText
 	call PrintTextNoHeader
 	ld bc, $0040
 	ld de, $0000
@@ -9231,7 +9231,7 @@ CallTable_f60d: ; 0xf60d
 
 ValidateSignature6: ; 0xf626
 	ld de, wBottomMessageText + $01
-	ld hl, Data_3006
+	ld hl, NumPokemonCaughtText
 	call PrintTextNoHeader
 	ld hl, wBottomMessageText + $01
 	ld a, [wd628]
@@ -9247,7 +9247,7 @@ ValidateSignature6: ; 0xf626
 
 Func_f64e: ; 0xf64e
 	ld de, wBottomMessageText
-	ld hl, Data_3019
+	ld hl, NumPokemonEvolvedText
 	call PrintTextNoHeader
 	ld hl, wBottomMessageText
 	ld a, [wd629]
@@ -9286,10 +9286,10 @@ Func_f676: ; 0xf676
 	dec b
 	jr nz, .asm_f678
 	ld de, wBottomMessageText + $40
-	ld hl, Data_307a
+	ld hl, MultiplierPointsText
 	call PrintTextNoHeader
 	ld de, wBottomMessageText + $80
-	ld hl, Data_3086
+	ld hl, TotalPointsText
 	call PrintTextNoHeader
 	ld hl, wBottomMessageText + $50
 	ld a, [wd482]
@@ -9359,7 +9359,7 @@ Func_f70d: ; 0xf70d
 	dec b
 	jr nz, .asm_f70f
 	ld de, wBottomMessageText + $60
-	ld hl, Data_308d
+	ld hl, ScoreText
 	call PrintTextNoHeader
 	ld hl, wScore + $5
 	ld de, wBottomMessageText + $66
@@ -16768,13 +16768,13 @@ Func_163f2: ; 0x163f2
 	call Func_30db
 	ld hl, wd5dc
 	ld a, [wd497]
-	ld de, Data_2e83
+	ld de, GoToDiglettStageText
 	cp $d
 	jr z, .asm_1640f
-	ld de, Data_2e9e
+	ld de, GoToGengarStageText
 	cp $7
 	jr z, .asm_1640f
-	ld de, Data_2eb8
+	ld de, GoToMewtwoStageText
 .asm_1640f
 	call LoadTextHeader
 	ld de, $0000
@@ -16951,7 +16951,7 @@ Func_1658f: ; 0x1658f
 .ballStartKeyPressed
 	pop bc
 	callba Func_30253
-	ld bc, Data_2cd1
+	ld bc, StartFromMapText
 	callba Func_3118f
 	ld a, [wCurrentMap]
 	ld [wd4e3], a
@@ -19620,7 +19620,7 @@ Func_189af: ; 0x189af
 	call Fillwc600WithBlackTile
 	call Func_30db
 	ld hl, wd5dc
-	ld de, Data_2f7b
+	ld de, GengarStageClearedText
 	call LoadTextHeader
 	lb de, $4b, $2a
 	call PlaySoundEffect
@@ -20623,7 +20623,7 @@ Func_19638: ; 0x19638
 	call Func_30db
 	ld hl, wd5dc
 .asm_1966b
-	ld de, Data_2f97
+	ld de, MewtwoStageClearedText
 	call LoadTextHeader
 	lb de, $4b, $2a
 	call PlaySoundEffect
@@ -21656,7 +21656,7 @@ Func_1ab30: ; 0x1ab30
 	call Fillwc600WithBlackTile
 	call Func_30db
 	ld hl, wd5dc
-	ld de, Data_2fb3
+	ld de, DiglettStageClearedText
 	call LoadTextHeader
 	lb de, $4b, $2a
 	call PlaySoundEffect
@@ -22741,7 +22741,7 @@ Func_1c839: ; 0x1c839
 .ballStartKeyPressed
 	pop bc
 	callba Func_30253
-	ld bc, Data_2cd1
+	ld bc, StartFromMapText
 	callba Func_3118f
 	ld a, [wCurrentMap]
 	ld [wd4e3], a
@@ -25253,13 +25253,13 @@ Func_1e8c3: ; 0x1e8c3
 	call Func_30db
 	ld hl, wd5dc
 	ld a, [wd497]
-	ld de, Data_2ed2
+	ld de, GoToMeowthStageText
 	cp $b
 	jr z, .asm_1e8e0
-	ld de, Data_2eec
+	ld de, GoToSeelStageText
 	cp $f
 	jr z, .asm_1e8e0
-	ld de, Data_2eb8
+	ld de, GoToMewtwoStageText
 .asm_1e8e0
 	call LoadTextHeader
 	ld de, $0000
@@ -26626,7 +26626,7 @@ Func_200d3: ; 0x200d3
 	pop de
 	pop bc
 	ld hl, wd5e4
-	ld de, Data_2a21
+	ld de, HitText
 	call Func_3357
 	ld a, [wNumMonHits]
 	callba Func_10611
@@ -26770,7 +26770,7 @@ Func_20230: ; 0x20230
 	pop de
 	pop bc
 	ld hl, wd5e4
-	ld de, Data_2a30
+	ld de, FlippedText
 	call Func_3357
 .asm_2029d
 	ld bc, $0001
@@ -26929,7 +26929,7 @@ Func_20394: ; 0x20394
 	pop de
 	pop bc
 	ld hl, wd5e4
-	ld de, Data_2a21
+	ld de, HitText
 	call Func_3357
 	ld a, [wNumMonHits]
 	callba Func_10611
@@ -27073,7 +27073,7 @@ Func_204f1: ; 0x204f1
 	pop de
 	pop bc
 	ld hl, wd5e4
-	ld de, Data_2a30
+	ld de, FlippedText
 	call Func_3357
 .asm_2055e
 	ld bc, $0001
@@ -27617,7 +27617,7 @@ Func_20977: ; 0x20977
 	ld c, a
 	ld b, $0
 	sla c
-	ld hl, Data_2bf0
+	ld hl, EvolutionTypeGetTextPointers
 	add hl, bc
 	ld a, [hli]
 	ld e, a
@@ -28338,7 +28338,7 @@ Func_20f75: ; 0x20f75
 	ld c, a
 	ld b, $0
 	sla c
-	ld hl, Data_2bf0
+	ld hl, EvolutionTypeGetTextPointers
 	add hl, bc
 	ld a, [hli]
 	ld e, a
@@ -29189,7 +29189,7 @@ Func_2442a: ; 0x2442a
 	call Fillwc600WithBlackTile
 	call Func_30db
 	ld hl, wd5dc
-	ld de, Data_2fd0
+	ld de, MeowthStageClearedText
 	call LoadTextHeader
 	lb de, $4b, $2a
 	call PlaySoundEffect
@@ -31164,7 +31164,7 @@ Func_25c5a: ; 0x25c5a
 	call Fillwc600WithBlackTile
 	call Func_30db
 	ld hl, wd5dc
-	ld de, Data_2fec
+	ld de, SeelStageClearedText
 	call LoadTextHeader
 	ld a, $2
 	ld [wd794], a
@@ -36792,7 +36792,7 @@ Func_3118f: ; 0x3118f
 	sla a
 	ld c, a
 	ld b, $0
-	ld hl, Data_2ce3
+	ld hl, MapNames
 	add hl, bc
 	ld a, [hli]
 	ld e, a
@@ -37213,7 +37213,7 @@ Func_3151f: ; 0x3151f
 	call Fillwc600WithBlackTile
 	call Func_30db
 	ld hl, wd5cc
-	ld de, Data_2ca8
+	ld de, MapMoveFailedText
 	call LoadTextHeader
 	ret
 
@@ -37263,7 +37263,7 @@ Func_315d5: ; 0x315d5
 	callba Func_30253
 	lb de, $25, $25
 	call PlaySoundEffect
-	ld bc, Data_2cbf
+	ld bc, ArrivedAtMapText
 	callba Func_3118f
 .asm_31603
 	callba Func_33e3
@@ -37367,7 +37367,7 @@ Func_3168c: ; 0x3168c
 	call Fillwc600WithBlackTile
 	call Func_30db
 	ld hl, wd5cc
-	ld de, Data_2ca8
+	ld de, MapMoveFailedText
 	call LoadTextHeader
 	ret
 
@@ -37417,7 +37417,7 @@ Func_3174c: ; 0x3174c
 	callba Func_30253
 	lb de, $25, $25
 	call PlaySoundEffect
-	ld bc, Data_2cbf
+	ld bc, ArrivedAtMapText
 	callba Func_3118f
 .asm_3177a
 	callba Func_33e3

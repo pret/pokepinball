@@ -717,7 +717,7 @@ Func_84fd:
 .not_cgb
 	ld a, $81
 	call .FillAttrsOrBGMap
-	ld de, wc600 + $47
+	ld de, wBottomMessageBuffer + $47
 	call Func_8524
 	ret
 
@@ -943,7 +943,7 @@ SetMaxScore: ; 0x8637
 Func_8645: ; 0x8645
 	xor a
 	ld [wd49f], a
-	ld de, wc600 + $47
+	ld de, wBottomMessageBuffer + $47
 	call Func_8524
 	ret
 
@@ -1043,7 +1043,7 @@ HandleInGameMenu: ; 0x86d7
 	push af
 	ld a, $1
 	ld [wd917], a
-	call Fillwc600WithBlackTile
+	call FillBottomMessageBufferWithBlackTile
 	xor a
 	ld [wd4aa], a
 	ld hl, wBottomMessageText
@@ -1118,7 +1118,7 @@ HandleInGameMenu: ; 0x86d7
 	ld bc, $0010
 	call LoadVRAMData
 .asm_8786
-	call Fillwc600WithBlackTile
+	call FillBottomMessageBufferWithBlackTile
 	pop af
 	ld [wd917], a
 	ld a, $1
@@ -5881,7 +5881,7 @@ Func_d861: ; 0xd861
 	xor a
 	ld [wd908], a
 	callba InitializeStage
-	call Fillwc600WithBlackTile
+	call FillBottomMessageBufferWithBlackTile
 	ld a, $1
 	ld [wd85d], a
 	ld [wd4aa], a
@@ -6100,7 +6100,7 @@ Func_da36: ; 0xda36
 	ld a, $2
 	ld [wd49c], a
 	ld [wd4aa], a
-	call Fillwc600WithBlackTile
+	call FillBottomMessageBufferWithBlackTile
 	call Func_30db
 	ld hl, wd5dc
 	ld de, ShootAgainText
@@ -6239,12 +6239,12 @@ HighScoresStageMapping: ; 0xdb99
 
 Func_dba9: ; 0xdba9
 	ld a, $85
-	ld [wc600 + $44], a
+	ld [wBottomMessageBuffer + $44], a
 	ld a, [wd49d]
 	xor $3
 	inc a
 	add $86
-	ld [wc600 + $45], a
+	ld [wBottomMessageBuffer + $45], a
 	ret
 
 Start20SecondSaverTimer: ; 0xdbba
@@ -6349,7 +6349,7 @@ CallTable_dc4d: ; 0xdc4d
 
 Func_dc6d: ; 0xdc6d
 	push de
-	call Fillwc600WithBlackTile
+	call FillBottomMessageBufferWithBlackTile
 	call Func_30db
 	ld hl, wd5dc
 	pop de
@@ -6357,7 +6357,7 @@ Func_dc6d: ; 0xdc6d
 	ret
 
 Func_dc7c: ; 0xdc7c
-	ld hl, wc600 + $40
+	ld hl, wBottomMessageBuffer + $40
 	ld a, $83
 	ld [hli], a
 	ld a, $81
@@ -6366,7 +6366,7 @@ Func_dc7c: ; 0xdc7c
 	ld [hl], a
 	ld a, [wNumPartyMons]
 	call ConvertHexByteToDecWord
-	ld hl, wc600 + $41
+	ld hl, wBottomMessageBuffer + $41
 	ld c, $1
 	ld a, d
 	call .asm_dca0
@@ -6398,7 +6398,7 @@ Func_dcb4: ; 0xdcb4
 	jr nz, .asm_dcbf
 	ld a, $84
 .asm_dcbf
-	ld [wc600 + $46], a
+	ld [wBottomMessageBuffer + $46], a
 	ret
 
 LoadBallGfx: ; 0xdcc3
@@ -6735,7 +6735,7 @@ Func_df1a: ; 0xdf1a
 	ld a, [wd49a]
 	and a
 	ret nz
-	call Fillwc600WithBlackTile
+	call FillBottomMessageBufferWithBlackTile
 	call Func_30db
 	ld hl, wd5dc
 	ld de, EndGengarStageText
@@ -6786,7 +6786,7 @@ Func_df7e: ; 0xdf7e
 	ld a, [wd49a]
 	and a
 	ret nz
-	call Fillwc600WithBlackTile
+	call FillBottomMessageBufferWithBlackTile
 	call Func_30db
 	ld hl, wd5dc
 	ld de, EndMewtwoStageText
@@ -6844,7 +6844,7 @@ Func_dfe2: ; 0xdfe2
 	ld a, [wd49a]
 	and a
 	ret nz
-	call Fillwc600WithBlackTile
+	call FillBottomMessageBufferWithBlackTile
 	call Func_30db
 	ld hl, wd5dc
 	ld de, EndMeowthStageText
@@ -6869,7 +6869,7 @@ Func_e056: ; 0xe056
 	ld a, [wd49a]
 	and a
 	ret nz
-	call Fillwc600WithBlackTile
+	call FillBottomMessageBufferWithBlackTile
 	call Func_30db
 	ld hl, wd5dc
 	ld de, EndDiglettStageText
@@ -6926,7 +6926,7 @@ Func_e08b: ; 0xe08b
 	ld a, [wd49a]
 	and a
 	ret nz
-	call Fillwc600WithBlackTile
+	call FillBottomMessageBufferWithBlackTile
 	call Func_30db
 	ld hl, wd5dc
 	ld de, EndSeelStageText
@@ -8729,7 +8729,7 @@ UpgradeBallBlueField: ; 0xf040
 	jr z, .masterBall
 	lb de, $06, $3a
 	call PlaySoundEffect
-	call Fillwc600WithBlackTile
+	call FillBottomMessageBufferWithBlackTile
 	call Func_30db
 	ld de, FieldMultiplierText
 	ld hl, wd5cc
@@ -8755,7 +8755,7 @@ UpgradeBallBlueField: ; 0xf040
 	ld de, $0000
 	push bc
 	push de
-	call Fillwc600WithBlackTile
+	call FillBottomMessageBufferWithBlackTile
 	call Func_30db
 	ld hl, wd5d4
 	ld de, DigitsText1to8
@@ -9100,7 +9100,7 @@ Data_f439: ; 0xf439
 	db $01, $26, $06, $26, $0D, $26, $04, $8C, $FF, $00
 
 Func_f533: ; 0xf533
-	call Fillwc600WithBlackTile
+	call FillBottomMessageBufferWithBlackTile
 	call Func_f55c
 	call Func_f57f
 	ld a, $60
@@ -9117,7 +9117,7 @@ Func_f533: ; 0xf533
 	ld [hLastLYC], a
 	ld a, $ff
 	ld [hLCDCMask], a
-	call Fillwc600WithBlackTile
+	call FillBottomMessageBufferWithBlackTile
 	ret
 
 Func_f55c: ; 0xf55c
@@ -10849,7 +10849,7 @@ Func_10678: ; 0x10678
 	ret
 
 Func_10696: ; 0x10696
-	call Fillwc600WithBlackTile
+	call FillBottomMessageBufferWithBlackTile
 	call Func_30db
 	ld hl, wd5cc
 	ld de, LetsGetPokemonText
@@ -10857,7 +10857,7 @@ Func_10696: ; 0x10696
 	ret
 
 Func_106a6: ; 0x106a6
-	call Fillwc600WithBlackTile
+	call FillBottomMessageBufferWithBlackTile
 	call Func_30db
 	ld hl, wd5cc
 	ld de, PokemonRanAwayText
@@ -10898,7 +10898,7 @@ Func_106b6: ; 0x106b6
 	push hl
 	push bc
 	push de
-	call Fillwc600WithBlackTile
+	call FillBottomMessageBufferWithBlackTile
 	call Func_30db
 	ld hl, wd5cc
 	pop de
@@ -11082,7 +11082,7 @@ Func_10825: ; 0x10825
 	push bc
 	push de
 	call AddBCDEToCurBufferValue
-	call Fillwc600WithBlackTile
+	call FillBottomMessageBufferWithBlackTile
 	call Func_30db
 	ld hl, wd5e9
 	ld de, Data_2a50
@@ -11097,7 +11097,7 @@ Func_10825: ; 0x10825
 Func_10848: ; 0x10848
 	ld bc, OneHundredMillionPoints
 	callba AddBigBCD6FromQueue
-	call Fillwc600WithBlackTile
+	call FillBottomMessageBufferWithBlackTile
 	call Func_30db
 	ld hl, wd5d4
 	ld de, OneBillionText
@@ -11365,7 +11365,7 @@ CallTable_10abc: ; 0x10abc
 Func_10ac8: ; 0x10ac8
 	xor a
 	ld [wd5ca], a
-	call Fillwc600WithBlackTile
+	call FillBottomMessageBufferWithBlackTile
 	xor a
 	ld [wInSpecialMode], a
 	ld [wd5bb], a
@@ -11434,7 +11434,7 @@ VideoData_10b2a: ; 0x10b2a
 	dw $E0
 
 Func_10b3f: ; 0x10b3f
-	call Fillwc600WithBlackTile
+	call FillBottomMessageBufferWithBlackTile
 	call Func_30db
 	ld hl, wd5cc
 	ld a, [wCurrentEvolutionType]
@@ -11661,7 +11661,7 @@ Func_10ca5: ; 0x10ca5
 	ret
 
 Func_10cb7: ; 0x10cb7
-	call Fillwc600WithBlackTile
+	call FillBottomMessageBufferWithBlackTile
 	call Func_10b59
 	ld a, $60
 	ld [hWY], a
@@ -11694,7 +11694,7 @@ Func_10cb7: ; 0x10cb7
 	ld bc, $0030
 	call LoadVRAMData
 .asm_10cfc
-	call Fillwc600WithBlackTile
+	call FillBottomMessageBufferWithBlackTile
 	ld a, $1
 	ld [wd4aa], a
 	ld [wInSpecialMode], a
@@ -11881,7 +11881,7 @@ Func_10e0a: ; 0x10e0a
 	push hl
 	push bc
 	push de
-	call Fillwc600WithBlackTile
+	call FillBottomMessageBufferWithBlackTile
 	call Func_30db
 	ld hl, wd5cc
 	pop de
@@ -11926,7 +11926,7 @@ Func_10e8b: ; 0x10e8b
 	ld de, $0000
 	push bc
 	push de
-	call Fillwc600WithBlackTile
+	call FillBottomMessageBufferWithBlackTile
 	call Func_30db
 	ld hl, wd5d4
 	ld de, Data_2b6b
@@ -15428,7 +15428,7 @@ Func_1535d: ; 0x1535d
 	jr z, .masterBall
 	lb de, $06, $3a
 	call PlaySoundEffect
-	call Fillwc600WithBlackTile
+	call FillBottomMessageBufferWithBlackTile
 	call Func_30db
 	ld de, FieldMultiplierText
 	ld hl, wd5cc
@@ -15453,7 +15453,7 @@ Func_1535d: ; 0x1535d
 	ld de, $0000
 	push bc
 	push de
-	call Fillwc600WithBlackTile
+	call FillBottomMessageBufferWithBlackTile
 	call Func_30db
 	ld hl, wd5d4
 	ld de, DigitsText1to8
@@ -16764,7 +16764,7 @@ Func_16352: ; 0x16352
 	ret
 
 Func_163f2: ; 0x163f2
-	call Fillwc600WithBlackTile
+	call FillBottomMessageBufferWithBlackTile
 	call Func_30db
 	ld hl, wd5dc
 	ld a, [wd497]
@@ -17008,7 +17008,7 @@ Func_1660c: ; 0x1660c
 	ld [wBallSpin], a
 	ld [wBallRotation], a
 	ld [wd549], a
-	call Fillwc600WithBlackTile
+	call FillBottomMessageBufferWithBlackTile
 	jr .asm_1667b
 
 .asm_16667
@@ -17523,7 +17523,7 @@ Func_16ef5: ; 0x16ef5
 	ret z
 	xor a
 	ld [wd613], a
-	call Fillwc600WithBlackTile
+	call FillBottomMessageBufferWithBlackTile
 	call Func_30db
 	ld hl, wd5cc
 	ld de, BonusMultiplierText
@@ -19617,7 +19617,7 @@ Func_189af: ; 0x189af
 	ld [wd498], a
 	ld a, $1
 	ld [wd49a], a
-	call Fillwc600WithBlackTile
+	call FillBottomMessageBufferWithBlackTile
 	call Func_30db
 	ld hl, wd5dc
 	ld de, GengarStageClearedText
@@ -20619,7 +20619,7 @@ Func_19638: ; 0x19638
 .asm_1965e
 	ld a, $1
 	ld [wd49a], a
-	call Fillwc600WithBlackTile
+	call FillBottomMessageBufferWithBlackTile
 	call Func_30db
 	ld hl, wd5dc
 .asm_1966b
@@ -21653,7 +21653,7 @@ Func_1ab30: ; 0x1ab30
 	ld [wd498], a
 	ld a, $1
 	ld [wd49a], a
-	call Fillwc600WithBlackTile
+	call FillBottomMessageBufferWithBlackTile
 	call Func_30db
 	ld hl, wd5dc
 	ld de, DiglettStageClearedText
@@ -23366,7 +23366,7 @@ Func_1d0a1: ; 0x1d0a1
 	ld [wBallSpin], a
 	ld [wBallRotation], a
 	ld [wd549], a
-	call Fillwc600WithBlackTile
+	call FillBottomMessageBufferWithBlackTile
 	jr .asm_1d110
 
 .asm_1d0fc
@@ -23923,7 +23923,7 @@ Func_1d5bf: ; 0x1d5bf
 	ret z
 	xor a
 	ld [wd613], a
-	call Fillwc600WithBlackTile
+	call FillBottomMessageBufferWithBlackTile
 	call Func_30db
 	ld hl, wd5cc
 	ld de, BonusMultiplierText
@@ -24670,7 +24670,7 @@ Func_1e356: ; 0x1e356
 	jr z, .masterBall
 	lb de, $06, $3a
 	call PlaySoundEffect
-	call Fillwc600WithBlackTile
+	call FillBottomMessageBufferWithBlackTile
 	call Func_30db
 	ld hl, wd5cc
 	ld de, FieldMultiplierText
@@ -24695,7 +24695,7 @@ Func_1e356: ; 0x1e356
 	ld de, $0000
 	push bc
 	push de
-	call Fillwc600WithBlackTile
+	call FillBottomMessageBufferWithBlackTile
 	call Func_30db
 	ld hl, wd5d4
 	ld de, DigitsText1to8
@@ -25249,7 +25249,7 @@ Func_1e830: ; 0x1e830
 	ret
 
 Func_1e8c3: ; 0x1e8c3
-	call Fillwc600WithBlackTile
+	call FillBottomMessageBufferWithBlackTile
 	call Func_30db
 	ld hl, wd5dc
 	ld a, [wd497]
@@ -26618,7 +26618,7 @@ Func_200d3: ; 0x200d3
 	ld de, $0000
 	push bc
 	push de
-	call Fillwc600WithBlackTile
+	call FillBottomMessageBufferWithBlackTile
 	call Func_30db
 	ld hl, wd5e9
 	ld de, Data_2a2a
@@ -26696,7 +26696,7 @@ Func_201ce: ; 0x201ce
 	ld a, [wd5ca]
 	and a
 	ret nz
-	call Fillwc600WithBlackTile
+	call FillBottomMessageBufferWithBlackTile
 	callba RestoreBallSaverAfterCatchEmMode
 	callba Func_10157
 	ld de, $0001
@@ -26762,7 +26762,7 @@ Func_20230: ; 0x20230
 	ld de, $0000
 	push bc
 	push de
-	call Fillwc600WithBlackTile
+	call FillBottomMessageBufferWithBlackTile
 	call Func_30db
 	ld hl, wd5e9
 	ld de, Data_2a3d
@@ -26921,7 +26921,7 @@ Func_20394: ; 0x20394
 	ld de, $0000
 	push bc
 	push de
-	call Fillwc600WithBlackTile
+	call FillBottomMessageBufferWithBlackTile
 	call Func_30db
 	ld hl, wd5e9
 	ld de, Data_2a2a
@@ -26999,7 +26999,7 @@ Func_2048f: ; 0x2048f
 	ld a, [wd5ca]
 	and a
 	ret nz
-	call Fillwc600WithBlackTile
+	call FillBottomMessageBufferWithBlackTile
 	callba RestoreBallSaverAfterCatchEmMode
 	callba Func_10157
 	ld de, $0001
@@ -27065,7 +27065,7 @@ Func_204f1: ; 0x204f1
 	ld de, $0000
 	push bc
 	push de
-	call Fillwc600WithBlackTile
+	call FillBottomMessageBufferWithBlackTile
 	call Func_30db
 	ld hl, wd5e9
 	ld de, Data_2a3d
@@ -27175,7 +27175,7 @@ Func_205e0: ; 0x205e0
 	call nz, BankSwitch
 	ld bc, OneMillionPoints
 	callba AddBigBCD6FromQueue
-	call Fillwc600WithBlackTile
+	call FillBottomMessageBufferWithBlackTile
 	call Func_30db
 	ld de, YeahYouGotItText
 	ld hl, wd5cc
@@ -27305,7 +27305,7 @@ Func_20757: ; 0x20757
 	ld a, [wd5ca]
 	and a
 	ret nz
-	call Fillwc600WithBlackTile
+	call FillBottomMessageBufferWithBlackTile
 	callba RestoreBallSaverAfterCatchEmMode
 	callba Func_10ac8
 	ld de, $0001
@@ -27361,7 +27361,7 @@ Func_2077b: ; 0x2077b
 	callba Func_16425
 .asm_207f5
 	callba Func_86d2
-	call Fillwc600WithBlackTile
+	call FillBottomMessageBufferWithBlackTile
 	call Func_30db
 	ld hl, wd5cc
 	ld de, EvolutionFailedText
@@ -27610,7 +27610,7 @@ Func_20977: ; 0x20977
 .asm_209bf
 	ld bc, ThreeHundredThousandPoints
 	callba AddBigBCD6FromQueue
-	call Fillwc600WithBlackTile
+	call FillBottomMessageBufferWithBlackTile
 	call Func_30db
 	ld a, [wCurrentEvolutionType]
 	dec a
@@ -27656,7 +27656,7 @@ Func_209eb: ; 0x209eb
 	ld [wd557], a
 	ld bc, ThreeHundredThousandPoints
 	callba AddBigBCD6FromQueue
-	call Fillwc600WithBlackTile
+	call FillBottomMessageBufferWithBlackTile
 	call Func_30db
 	ld hl, wd5cc
 	ld a, [wCurrentEvolutionType]
@@ -27737,7 +27737,7 @@ asm_20a9f:
 	ld bc, $0008
 	call Func_7dc
 .asm_20ada
-	call Fillwc600WithBlackTile
+	call FillBottomMessageBufferWithBlackTile
 	call Func_30db
 	ld a, [wCurrentEvolutionType]
 	cp EVO_EXPERIENCE
@@ -27916,7 +27916,7 @@ Func_20c08: ; 0x20c08
 	call nz, BankSwitch
 	ld bc, OneMillionPoints
 	callba AddBigBCD6FromQueue
-	call Fillwc600WithBlackTile
+	call FillBottomMessageBufferWithBlackTile
 	call Func_30db
 	ld de, YeahYouGotItText
 	ld hl, wd5cc
@@ -28046,7 +28046,7 @@ Func_20d7c: ; 0x20d7c
 	ld a, [wd5ca]
 	and a
 	ret nz
-	call Fillwc600WithBlackTile
+	call FillBottomMessageBufferWithBlackTile
 	callba RestoreBallSaverAfterCatchEmMode
 	callba Func_10ac8
 	ld de, $0001
@@ -28102,7 +28102,7 @@ Func_20da0: ; 0x20da0
 	callba Func_1e8f6
 .asm_20e1a
 	callba Func_86d2
-	call Fillwc600WithBlackTile
+	call FillBottomMessageBufferWithBlackTile
 	call Func_30db
 	ld hl, wd5cc
 	ld de, EvolutionFailedText
@@ -28331,7 +28331,7 @@ Func_20f75: ; 0x20f75
 .asm_20fc3
 	ld bc, ThreeHundredThousandPoints
 	callba AddBigBCD6FromQueue
-	call Fillwc600WithBlackTile
+	call FillBottomMessageBufferWithBlackTile
 	call Func_30db
 	ld a, [wCurrentEvolutionType]
 	dec a
@@ -28378,7 +28378,7 @@ Func_20fef: ; 0x20fef
 	ld [wd557], a
 	ld bc, ThreeHundredThousandPoints
 	callba AddBigBCD6FromQueue
-	call Fillwc600WithBlackTile
+	call FillBottomMessageBufferWithBlackTile
 	call Func_30db
 	ld hl, wd5cc
 	ld a, [wCurrentEvolutionType]
@@ -28479,7 +28479,7 @@ asm_210c7:
 	ld bc, $0008
 	call Func_7dc
 .asm_21102
-	call Fillwc600WithBlackTile
+	call FillBottomMessageBufferWithBlackTile
 	call Func_30db
 	ld a, [wCurrentEvolutionType]
 	cp EVO_EXPERIENCE
@@ -29186,7 +29186,7 @@ Func_2442a: ; 0x2442a
 	call PlaySong
 	ld a, $1
 	ld [wd49a], a
-	call Fillwc600WithBlackTile
+	call FillBottomMessageBufferWithBlackTile
 	call Func_30db
 	ld hl, wd5dc
 	ld de, MeowthStageClearedText
@@ -31161,7 +31161,7 @@ Func_25c5a: ; 0x25c5a
 	call PlaySong
 	ld a, $1
 	ld [wd49a], a
-	call Fillwc600WithBlackTile
+	call FillBottomMessageBufferWithBlackTile
 	call Func_30db
 	ld hl, wd5dc
 	ld de, SeelStageClearedText
@@ -36489,7 +36489,7 @@ Func_30188: ; 0x30188
 	ret z
 	cp $1
 	jr nz, .asm_301a7
-	call Fillwc600WithBlackTile
+	call FillBottomMessageBufferWithBlackTile
 	call Func_30db
 	ld hl, wd5cc
 	ld de, ExtraBallText
@@ -36501,7 +36501,7 @@ Func_30188: ; 0x30188
 	ld de, $0000
 	push bc
 	push de
-	call Fillwc600WithBlackTile
+	call FillBottomMessageBufferWithBlackTile
 	call Func_30db
 	ld hl, wd5d4
 	ld de, DigitsText1to9
@@ -36567,7 +36567,7 @@ CallTable_3021f: ; 0x3021f
 Func_3022b: ; 0x3022b
 	xor a
 	ld [wd5ca], a
-	call Fillwc600WithBlackTile
+	call FillBottomMessageBufferWithBlackTile
 	xor a
 	ld [wInSpecialMode], a
 	ld [wSpecialMode], a
@@ -36786,7 +36786,7 @@ Data_30da3: ; 0x30da3
 
 Func_3118f: ; 0x3118f
 	push bc
-	call Fillwc600WithBlackTile
+	call FillBottomMessageBufferWithBlackTile
 	call Func_30db
 	ld a, [wCurrentMap]
 	sla a
@@ -37176,7 +37176,7 @@ Func_31505: ; 0x31505
 	ld a, [wd5ca]
 	and a
 	ret nz
-	call Fillwc600WithBlackTile
+	call FillBottomMessageBufferWithBlackTile
 	callba Func_3022b
 	ld de, $0001
 	call PlaySong
@@ -37210,7 +37210,7 @@ Func_3151f: ; 0x3151f
 	callba Func_30253
 .asm_31577
 	callba Func_86d2
-	call Fillwc600WithBlackTile
+	call FillBottomMessageBufferWithBlackTile
 	call Func_30db
 	ld hl, wd5cc
 	ld de, MapMoveFailedText
@@ -37326,7 +37326,7 @@ Func_31672: ; 0x31672
 	ld a, [wd5ca]
 	and a
 	ret nz
-	call Fillwc600WithBlackTile
+	call FillBottomMessageBufferWithBlackTile
 	callba Func_3022b
 	ld de, $0001
 	call PlaySong
@@ -37364,7 +37364,7 @@ Func_3168c: ; 0x3168c
 	callba Func_30253
 .asm_316ee
 	callba Func_86d2
-	call Fillwc600WithBlackTile
+	call FillBottomMessageBufferWithBlackTile
 	call Func_30db
 	ld hl, wd5cc
 	ld de, MapMoveFailedText

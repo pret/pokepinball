@@ -37,7 +37,10 @@ wc4cc:: ; 0xc4cc
 wBottomMessageText:: ; 0xc500
 	ds $100
 
-wc600:: ; 0xc600
+wBottomMessageBuffer:: ; 0xc600
+; This acts as a buffer to hold the scrolling text message.
+; Rather than storing the raw text, it stores tile ids for the text.
+; The lower-left most tile is at 0xc640, so everything before isn't visible on screen.
 	ds $100
 
 wStageCollisionMap:: ; 0xc700

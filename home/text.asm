@@ -6,9 +6,9 @@ Func_30db: ; 0x30db
 	ld [wd5cb], a
 	ret
 
-Fillwc600WithBlackTile: ; 0x30e8
+FillBottomMessageBufferWithBlackTile: ; 0x30e8
 	ld a, $81
-	ld hl, wc600
+	ld hl, wBottomMessageBuffer
 	ld b, $40
 .loop
 	ld [hli], a
@@ -28,7 +28,7 @@ Fillwc600WithBlackTile: ; 0x30e8
 
 Func_310a: ; 0x310a
 	ld a, $81
-	ld hl, wc600 + $40
+	ld hl, wBottomMessageBuffer + $40
 	ld b, $5
 .asm_3111
 	ld [hli], a
@@ -37,7 +37,7 @@ Func_310a: ; 0x310a
 	ld [hli], a
 	dec b
 	jr nz, .asm_3111
-	ld hl, wc600 + $c0
+	ld hl, wBottomMessageBuffer + $c0
 	ld b, $5
 .asm_311d
 	ld [hli], a
@@ -295,11 +295,23 @@ Func_3268: ; 0x3268
 	jr Func_3268
 
 LoadTextHeader: ; 0x32aa
+; Loads scrolling text into the specified buffer.
+; Scrolling text appears in a black bar at the bottom of the screen during pinball gameplay.
+; Input: de = pointer to scrolling text
+;        hl = pointer to text header buffer
+; Text Header Format:
+;	Byte 1: Step delay (in frames)
+;	Byte 2: Starting wBottomMessageBuffer offset (wBottomMessageBuffer + $40 = left-most tile)
+;	Byte 3: Stopping wBottomMessageBuffer offset (stops scrolling in the middle of the screen)
+;	Byte 4: Number of steps to pause
+;	Byte 5: Text offset in wBottomMessageText
+;	Byte 6: Total number of steps in the entire scolling animation
+;	Remaining Bytes: Raw text to load
 	ld a, $1
 	ld [hli], a
 	ld a, [de]
-	ld [hli], a
-	ld [hli], a
+	ld [hli], a  ; frame delay counter
+	ld [hli], a  ; frame delay
 	inc de
 	ld a, [de]
 	ld [hli], a
@@ -320,12 +332,12 @@ LoadTextHeader: ; 0x32aa
 	pop af
 	ld l, a
 	ld h, wBottomMessageText / $100
-.asm_32c5
+.copyTextLoop
 	ld a, [de]
 	ld [hli], a
 	inc de
-	and a
-	jr nz, .asm_32c5
+	and a  ; cmp "@"
+	jr nz, .copyTextLoop
 	ret
 
 Func_32cc: ; 0x32cc
@@ -427,7 +439,7 @@ Func_3325: ; 0x3325
 	dec e
 .asm_333d
 	push de
-	ld d, wc600 / $100
+	ld d, wBottomMessageBuffer / $100
 	inc hl
 	push hl
 	ld l, [hl]
@@ -546,7 +558,7 @@ Func_33c3: ; 0x33c3
 	ret z
 	ld a, [hli]
 	ld e, a
-	ld d, wc600 / $100
+	ld d, wBottomMessageBuffer / $100
 	push hl
 	ld l, [hl]
 	ld h, wBottomMessageText / $100
@@ -635,7 +647,7 @@ Func_33e3: ; 0x33e3
 	and a
 	ret nz
 	ld [wd5ca], a
-	call Fillwc600WithBlackTile
+	call FillBottomMessageBufferWithBlackTile
 	ld a, [hGameBoyColorFlag]
 	and a
 	jr nz, .gameboyColor

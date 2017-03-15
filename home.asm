@@ -2316,7 +2316,7 @@ Func_e69: ; 0xe69
 .asm_e77
 	dec a
 	jr nz, .asm_e77
-	ld hl, wc600 + $40
+	ld hl, wBottomMessageBuffer + $40
 	call Func_eef
 	push hl
 	ld hl, $9c00
@@ -2342,7 +2342,7 @@ Func_e69: ; 0xe69
 	ld hl, $9c10
 	call Func_ef8
 	pop hl
-	ld hl, wc600 + $c0
+	ld hl, wBottomMessageBuffer + $c0
 	call Func_eef
 	push hl
 	ld hl, $9c20

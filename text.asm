@@ -1,5 +1,4 @@
-; 6-byte header
-; Byte 1: Character delay
+; 6-byte header for scrolling text. See LoadTextHeader for documentation.
 
 BallSavedText:
 	db $05, $54, $45, $14, $00, $33

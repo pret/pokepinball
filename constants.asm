@@ -1,5 +1,6 @@
 INCLUDE "hram.asm"
 INCLUDE "vram.asm"
+INCLUDE "gbhw.asm"
 
 INCLUDE "constants/ball_types.asm"
 INCLUDE "constants/diglett_stage_constants.asm"

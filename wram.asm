@@ -1,676 +1,2562 @@
 
 SECTION "WRAM Bank 0", WRAM0
 
-wc000::
-    ds $400
+wc000:: ; 0xc000
+	ds $10
+
+wc010:: ; 0xc010
+	ds $140
+
+wc150:: ; 0xc150
+	ds $68
+
+wc1b8:: ; 0xc1b8
+	ds $c8
+
+wc280:: ; 0xc280
+	ds $9
+
+wc289:: ; 0xc289
+	ds $37
+
+wc2c0:: ; 0xc2c0
+	ds $140
 
 wMonAnimatedCollisionMask:: ; 0xc400
-    ds $80
+	ds $80
 
-    ds $80
+wc480:: ; 0xc480
+	ds $40
 
-wcBottomMessageText:: ; 0xc500
-    ds $200
+wc4c0:: ; 0xc4c0
+	ds $c
+
+wc4cc:: ; 0xc4cc
+	ds $34
+
+wBottomMessageText:: ; 0xc500
+	ds $100
+
+wc600:: ; 0xc600
+	ds $100
 
 wStageCollisionMap:: ; 0xc700
-; Collision data for each tile for the current stage.
-    ds $300
+	ds $68
 
-    ds $600
+wc768:: ; 0xc768
+	ds $46
+
+wc7ae:: ; 0xc7ae
+	ds $19
+
+wc7c7:: ; 0xc7c7
+	ds $1c
+
+wc7e3:: ; 0xc7e3
+	ds $d
+
+wc7f0:: ; 0xc7f0
+	ds $13
+
+wc803:: ; 0xc803
+	ds $d
+
+wc810:: ; 0xc810
+	ds $13
+
+wc823:: ; 0xc823
+	ds $2a
+
+wc84d:: ; 0xc84d
+	ds $6
+
+wc853:: ; 0xc853
+	ds $1f
+
+wc872:: ; 0xc872
+	ds $1
+
+wc873:: ; 0xc873
+	ds $1f
+
+wc892:: ; 0xc892
+	ds $1
+
+wc893:: ; 0xc893
+	ds $16d
+
+wca00::
+	ds $63
+
+wca63:: ; 0xca63
+	ds $9d
+
+wcb00:: ; 0xcb00
+	ds $500
 
 SECTION "WRAM Bank 1", WRAMX, BANK[1]
 
-wOAMBuffer:: ; d000
-    ; buffer for OAM data. Copied to OAM by DMA
-    ds 4 * 40
+wOAMBuffer:: ; 0xd000
+	ds $a0
 
-    ds $160
+wOAMBufferEnd:: ; 0xd0a0
+	ds $160
 
 wPaletteData:: ; 0xd200
-    ; 16 palette definitions
-    ds $100
+	ds $80
+
+wd280:: ; 0xd280
+	ds $40
+
+wd2c0:: ; 0xd2c0
+	ds $40
 
 wPartyMons:: ; 0xd300
-; List of pokemon in the player's party.
-; When a pokemon is caught, it's appended to this list.
-; When a pokemon is evolved, the pokemon's evolution replaces its entry in the list.
-    ds $160
+	ds $100
 
-wNumPartyMons:: ; ; 0xd460
-; Number of pokemon in the wPartyMons list.
-    ds 1
+wAddScoreQueue:: ; 0xd400
+	ds $60
+wAddScoreQueueEnd:: ; 0xd460
 
-    ds 9
+wNumPartyMons:: ; 0xd460
+	ds $1
+
+wd461:: ; 0xd461
+	ds $1
+
+wd462:: ; 0xd462
+	ds $1
+
+wd463:: ; 0xd463
+	ds $1
+
+wd464:: ; 0xd464
+	ds $6
 
 wScore:: ; 0xd46a
-; player's current score
-    ds 6
+	ds $6
 
-    ds $e
+wd470:: ; 0xd470
+	ds $1
+
+wd471:: ; 0xd471
+	ds $1
+
+wd472:: ; 0xd472
+	ds $1
+
+wd473:: ; 0xd473
+	ds $4
+
+wAddScoreQueueOffset:: ; 0xd477
+	ds $1
+
+wd478:: ; 0xd478
+	ds $1
+
+wd479:: ; 0xd479
+	ds $1
+
+wd47a:: ; 0xd47a
+	ds $4
 
 wBallType:: ; 0xd47e
-; PokeBall, Great Ball, Ultra Ball, or Master Ball
-    ds 1
-wBallTypeCounter:: ; 0xd47f
-; two-byte counter that represents how many frames remain until the Ball uprade goes down to the next level.
-    ds 2
-wBallTypeBackup:: ; 0xd481
-; Holds the ball type during bonus stages, since they always use a regular pokeball.
-    ds 1
+	ds $1
 
-    ds $1f
+wBallTypeCounter:: ; 0xd47f
+	ds $2
+
+wBallTypeBackup:: ; 0xd481
+	ds $1
+
+wd482:: ; 0xd482
+	ds $1
+
+wd483:: ; 0xd483
+	ds $5
+
+wd488:: ; 0xd488
+	ds $1
+
+wd489:: ; 0xd489
+	ds $5
+
+wd48e:: ; 0xd48e
+	ds $1
+
+wd48f:: ; 0xd48f
+	ds $5
+
+wd494:: ; 0xd494
+	ds $1
+
+wd495:: ; 0xd495
+	ds $1
+
+wd496:: ; 0xd496
+	ds $1
+
+wd497:: ; 0xd497
+	ds $1
+
+wd498:: ; 0xd498
+	ds $1
+
+wd499:: ; 0xd499
+	ds $1
+
+wd49a:: ; 0xd49a
+	ds $1
+
+wd49b:: ; 0xd49b
+	ds $1
+
+wd49c:: ; 0xd49c
+	ds $1
+
+wd49d:: ; 0xd49d
+	ds $1
+
+wd49e:: ; 0xd49e
+	ds $1
+
+wd49f:: ; 0xd49f
+	ds $2
 
 wBallSaverIconOn:: ; 0xd4a1
-; The blue Ball Saver icon is illuminated when this byte is non-zero.
-    ds 1
+	ds $1
 
-    ds 1
+wd4a2:: ; 0xd4a2
+	ds $1
 
 wBallSaverTimerFrames:: ; 0xd4a3
-; Count the number of frames until wBallSaverTimerSeconds should be decremented
-    ds 1
-wBallSaverTimerSeconds:: ; 0xd4a4
-; Remaining seconds for Ball Saver
-    ds 1
+	ds $1
 
-    ds 1
+wBallSaverTimerSeconds:: ; 0xd4a4
+	ds $1
+
+wNumTimesBallSavedTextWillDisplay:: ; 0xd4a5
+	ds $1
 
 wBallSaverTimerFramesBackup:: ; 0xd4a6
-; Used to store a backup of wBallSaverTimerFrames
-    ds 1
+	ds $1
+
 wBallSaverTimerSecondsBackup:: ; 0xd4a7
-; Used to store a backup of wBallSaverTimerSeconds
-    ds 1
+	ds $1
 
+wd4a8:: ; 0xd4a8
+	ds $1
 
-    ds 4
+wd4a9:: ; 0xd4a9
+	ds $1
+
+wd4aa:: ; 0xd4aa
+	ds $1
+
+wd4ab:: ; 0xd4ab
+	ds $1
 
 wCurrentStage:: ; 0xd4ac
-    ds 1
+	ds $1
 
-    ds 2
+wd4ad:: ; 0xd4ad
+	ds $1
+
+wd4ae:: ; 0xd4ae
+	ds $1
 
 wStageCollisionState:: ; 0xd4af
-; Stores the current collision state id for the stage
-; For example, the Red stage can have different collision states when
-; the Ditto lane is open, or when there is a wall above the Voltorbs.
-    ds 1
+	ds $1
 
-    ds 3
+wd4b0:: ; 0xd4b0
+	ds $3
 
 wBallXPos:: ; 0xd4b3
-; x coordinate of the center of the pokeball
-; little-endian word
-; Most-significant byte is the pixel, and least-significant byte is fraction of a pixel
-    ds 2
+	ds $1
+
+wd4b4:: ; 0xd4b4
+	ds $1
 
 wBallYPos:: ; 0xd4b5
-; y coordinate of the center of the pokeball
-; little-endian word
-; Most-significant byte is the pixel, and least-significant byte is fraction of a pixel
-    ds 2
+	ds $1
+
+wd4b6:: ; 0xd4b6
+	ds $1
 
 wPreviousBallXPos:: ; 0xd4b7
-; x coordinate of the center of the pokeball in the previous frame
-; little-endian word
-; Most-significant byte is the pixel, and least-significant byte is fraction of a pixel
-    ds 2
+	ds $2
 
 wPreviousBallYPos:: ; 0xd4b9
-; y coordinate of the center of the pokeball in the previous frame
-; little-endian word
-; Most-significant byte is the pixel, and least-significant byte is fraction of a pixel
-    ds 2
+	ds $2
 
 wBallXVelocity:: ; 0xd4bb
-; little-endian word
-; This is added to wBallXPos every frame.
-    ds 2
+	ds $2
 
 wBallYVelocity:: ; 0xd4bd
-; little-endian word
-; This is added to wBallYPos every frame.
-    ds 2
-
-    ds 4
+	ds $6
 
 wBallSpin:: ; 0xd4c3
-    ds 1
-wBallRotation:: ; 0xd4c4
-; wBallSpin is added to this every frame
-    ds 1
+	ds $1
 
-    ds $1c
+wBallRotation:: ; 0xd4c4
+	ds $1
+
+wd4c5:: ; 0xd4c5
+	ds $1
+
+wd4c6:: ; 0xd4c6
+	ds $1
+
+wd4c7:: ; 0xd4c7
+	ds $1
+
+wd4c8:: ; 0xd4c8
+	ds $1
+
+wd4c9:: ; 0xd4c9
+	ds $1
+
+wd4ca:: ; 0xd4ca
+	ds $1
+
+wd4cb:: ; 0xd4cb
+	ds $1
+
+wd4cc:: ; 0xd4cc
+	ds $1
+
+wd4cd:: ; 0xd4cd
+	ds $3
+
+wd4d0:: ; 0xd4d0
+	ds $3
+
+wd4d3:: ; 0xd4d3
+	ds $3
+
+wd4d6:: ; 0xd4d6
+	ds $1
+
+wd4d7:: ; 0xd4d7
+	ds $1
+
+wd4d8:: ; 0xd4d8
+	ds $1
+
+wd4d9:: ; 0xd4d9
+	ds $1
+
+wd4da:: ; 0xd4da
+	ds $1
+
+wd4db:: ; 0xd4db
+	ds $1
+
+wd4dc:: ; 0xd4dc
+	ds $2
+
+wd4de:: ; 0xd4de
+	ds $1
+
+wd4df:: ; 0xd4df
+	ds $1
+
+wd4e0:: ; 0xd4e0
+	ds $1
 
 wInitialMapSelectionIndex:: ; 0xd4e1
-; index to keep track of the spinning map selection at the start of a new game
-    ds 1
+	ds $1
 
-    ds $d
+wd4e2:: ; 0xd4e2
+	ds $1
 
-    ds 1
+wd4e3:: ; 0xd4e3
+	ds $1
+
+wd4e4:: ; 0xd4e4
+	ds $1
+
+wd4e5:: ; 0xd4e5
+	ds $1
+
+wd4e6:: ; 0xd4e6
+	ds $1
+
+wd4e7:: ; 0xd4e7
+	ds $1
+
+wd4e8:: ; 0xd4e8
+	ds $2
+
+wd4ea:: ; 0xd4ea
+	ds $1
+
+wd4eb:: ; 0xd4eb
+	ds $1
+
+wd4ec:: ; 0xd4ec
+	ds $1
+
+wd4ed:: ; 0xd4ed
+	ds $1
+
+wd4ee:: ; 0xd4ee
+	ds $1
+
+wd4ef:: ; 0xd4ef
+	ds $1
 
 wLeftMapMoveCounter:: ; 0xd4f0
-; Diglett or Poliwag counter that counts to three to trigger a Map Move
-    ds 1
+	ds $1
 
-    ds 1
+wd4f1:: ; 0xd4f1
+	ds $1
 
 wRightMapMoveCounter:: ; 0xd4f2
-; Diglett or Psyduck counter that counts to three to trigger a Map Move\
-    ds 1
+	ds $1
 
 wLeftMapMoveDiglettAnimationCounter:: ; 0xd4f3
-; Counter that loops to control the left-side map move diglett head bobbing animation
-    ds 1
-wLeftMapMoveDiglettFrame:: ; 0xd4f4
-; Contains frame for map move diglett head bobbing animation
-    ds 1
-wRightMapMoveDiglettAnimationCounter :: ; 0xd4f5
-; Counter that loops to control the left-side map move diglett head bobbing animation
-    ds 1
-wRightMapMoveDiglettFrame:: ; 0xd4f6
-; Contains frame for map move diglett head bobbing animation
-    ds 1
+	ds $1
 
-    ds 6
+wLeftMapMoveDiglettFrame:: ; 0xd4f4
+	ds $1
+
+wRightMapMoveDiglettAnimationCounter:: ; 0xd4f5
+	ds $1
+
+wRightMapMoveDiglettFrame:: ; 0xd4f6
+	ds $1
+
+wd4f7:: ; 0xd4f7
+	ds $1
+
+wd4f8:: ; 0xd4f8
+	ds $1
+
+wd4f9:: ; 0xd4f9
+	ds $1
+
+wd4fa:: ; 0xd4fa
+	ds $1
+
+wd4fb:: ; 0xd4fb
+	ds $2
 
 wBellsproutAnimationFrameCounter:: ; 0xd4fd
-    ds 1
-wBellsproutAnimationFrame:: ; 0xd4fe
-    ds 1
-wBellsproutAnimationFrameIndex:: ; 0xd4ff
-    ds 1
+	ds $1
 
-    ds $19
+wBellsproutAnimationFrame:: ; 0xd4fe
+	ds $1
+
+wBellsproutAnimationFrameIndex:: ; 0xd4ff
+	ds $1
+
+wd500:: ; 0xd500
+	ds $2
+
+wd502:: ; 0xd502
+	ds $1
+
+wd503:: ; 0xd503
+	ds $1
+
+wd504:: ; 0xd504
+	ds $1
+
+wd505:: ; 0xd505
+	ds $1
+
+wd506:: ; 0xd506
+	ds $1
+
+wd507:: ; 0xd507
+	ds $2
+
+wd509:: ; 0xd509
+	ds $1
+
+wd50a:: ; 0xd50a
+	ds $1
+
+wd50b:: ; 0xd50b
+	ds $1
+
+wd50c:: ; 0xd50c
+	ds $1
+
+wd50d:: ; 0xd50d
+	ds $1
+
+wd50e:: ; 0xd50e
+	ds $1
+
+wd50f:: ; 0xd50f
+	ds $3
+
+wd512:: ; 0xd512
+	ds $1
+
+wd513:: ; 0xd513
+	ds $1
+
+wd514:: ; 0xd514
+	ds $1
+
+wd515:: ; 0xd515
+	ds $1
+
+wd516:: ; 0xd516
+	ds $1
+
+wd517:: ; 0xd517
+	ds $1
+
+wd518:: ; 0xd518
+	ds $1
 
 wPikachuSaverAnimationFrameCounter:: ; 0xd519
-    ds 1
-wPikachuSaverAnimationFrame:: ; 0xd51a
-    ds 1
-wPikachuSaverAnimationFrameIndex:: ; 0xd51b
-    ds 1
+	ds $1
 
-    ds $13
+wPikachuSaverAnimationFrame:: ; 0xd51a
+	ds $1
+
+wPikachuSaverAnimationFrameIndex:: ; 0xd51b
+	ds $1
+
+wd51c:: ; 0xd51c
+	ds $1
+
+wd51d:: ; 0xd51d
+	ds $1
+
+wd51e:: ; 0xd51e
+	ds $1
+
+wd51f:: ; 0xd51f
+	ds $1
+
+wd520:: ; 0xd520
+	ds $1
+
+wd521:: ; 0xd521
+	ds $1
+
+wd522:: ; 0xd522
+	ds $1
+
+wd523:: ; 0xd523
+	ds $1
+
+wd524:: ; 0xd524
+	ds $1
+
+wd525:: ; 0xd525
+	ds $1
+
+wd526:: ; 0xd526
+	ds $1
+
+wd527:: ; 0xd527
+	ds $1
+
+wd528:: ; 0xd528
+	ds $7
 
 wIndicatorStates:: ; 0xd52f
-; Each byte represents the status of each possible indicator on the stage.
-; An indicator is a blinking icon telling the player to hit the pinball in
-; a certain area.  For example, when the Cloyster can be entered in the Blue
-; Stage, the blue right arrow will starting blinking in the bottom half of that
-; stage.
-    ds $13
+	ds $13
 
 wLeftAlleyTrigger:: ; 0xd542
-; Set to $1 when ball passes over the bottom-left corner of the Blue/Red field top screen
-; It's used to determine if the Ball was hit up the left side alley.
-    ds 1
-wLeftAlleyCount:: ; 0xd543
-; Increments when the Ball travels up the left alley.
-; When the count is 3, evolution mode can be triggered.
-    ds 1
-wRightAlleyTrigger:: ; 0xd544
-; Set to $1 when Ball passes over the bottom-right corner of the Blue/Red field top screen
-; It's used to determine if the Ball was hit up the right side alley.
-    ds 1
-wRightAlleyCount:: ; 0xd545
-; Increments when the Ball travels up the right alley.
-; When the count is 2, Catch 'Em Mode can be triggered.
-; If the count is 3, the current map's rare pokemon will be used for Catch 'Em Mode.
-    ds 1
-wSecondaryLeftAlleyTrigger:: ; 0xd546
-; Set to $1 when Ball passes over the bottom of the skinny alley between the left alley and Staryu button on the Red Field top screen.
-; It's used to determine if the Ball was hit up the Red Stage's secondary left-side alley.
-    ds 1
+	ds $1
 
-    ds 3
+wLeftAlleyCount:: ; 0xd543
+	ds $1
+
+wRightAlleyTrigger:: ; 0xd544
+	ds $1
+
+wRightAlleyCount:: ; 0xd545
+	ds $1
+
+wSecondaryLeftAlleyTrigger:: ; 0xd546
+	ds $2
+
+wd548:: ; 0xd548
+	ds $1
+
+wd549:: ; 0xd549
+	ds $1
 
 wCurrentMap:: ; 0xd54a
-; Current map during play. See map_constants.asm
-    ds 1
+	ds $1
 
 wInSpecialMode:: ; 0xd54b
-; Set to non-zero when things like Catch 'em Mode or Map Move mode start.
-    ds 1
+	ds $1
 
-    ds 4
+wd54c:: ; 0xd54c
+	ds $1
+
+wd54d:: ; 0xd54d
+	ds $1
+
+wd54e:: ; 0xd54e
+	ds $1
+
+wd54f:: ; 0xd54f
+	ds $1
 
 wSpecialMode:: ; 0xd550
-; wInSpecialMode must be non-zero to activate this.
-; 0 = Catch Em Mode
-; 1 = Evolution Mode
-; 2 = Map Move Mode
-    ds 1
+	ds $1
 
-    ds 1
+wd551:: ; 0xd551
+	ds $1
 
 wCurrentEvolutionMon:: ; 0xd552
-; Current mon id for Evolution Mode.
-; It stores (mon id - 1).
-    ds 1
-wCurrentEvolutionType:: ; 0xd553
-; Evolution type for the current mon in Evolution Mode.
-; See evolution_type_constants.asm
-    ds 1
+	ds $1
 
-    ds 7
+wCurrentEvolutionType:: ; 0xd553
+	ds $1
+
+wd554:: ; 0xd554
+	ds $1
+
+wd555:: ; 0xd555
+	ds $1
+
+wd556:: ; 0xd556
+	ds $1
+
+wd557:: ; 0xd557
+	ds $1
+
+wd558:: ; 0xd558
+	ds $1
+
+wd559:: ; 0xd559
+	ds $1
+
+wd55a:: ; 0xd55a
+	ds $1
 
 wRareMonsFlag:: ; 0xd55b
-; Gets set to $8 when the rare mons should be used for catch 'em mode.  $8 is then doubled to add $10 to the base address of the map's wild mons table.
-    ds 1
+	ds $1
 
-    ds $1d
+wd55c:: ; 0xd55c
+	ds $1
+
+wd55d:: ; 0xd55d
+	ds $1
+
+wd55e:: ; 0xd55e
+	ds $1
+
+wd55f:: ; 0xd55f
+	ds $1
+
+wd560:: ; 0xd560
+	ds $1
+
+wd561:: ; 0xd561
+	ds $1
+
+wd562:: ; 0xd562
+	ds $1
+
+wd563:: ; 0xd563
+	ds $1
+
+wd564:: ; 0xd564
+	ds $1
+
+wd565:: ; 0xd565
+	ds $1
+
+wd566:: ; 0xd566
+	ds $c
+
+wd572:: ; 0xd572
+	ds $6
+
+wd578:: ; 0xd578
+	ds $1
 
 wCurrentCatchEmMon:: ; 0xd579
-; Current mon id for CatchEm Mode.
-; It stores (mon id - 1).
-    ds 1
+	ds $1
 
 wTimerSeconds:: ; 0xd57a
-    ds 1
-wTimerMinutes:: ; 0xd57b
-    ds 1
-wTimerFrames::  ; 0xd57c
-    ds 1
+	ds $1
 
-    ds $43
+wTimerMinutes:: ; 0xd57b
+	ds $1
+
+wTimerFrames:: ; 0xd57c
+	ds $1
+
+wd57d:: ; 0xd57d
+	ds $1
+
+wd57e:: ; 0xd57e
+	ds $1
+
+wd57f:: ; 0xd57f
+	ds $1
+
+wd580:: ; 0xd580
+	ds $1
+
+wd581:: ; 0xd581
+	ds $1
+
+wd582:: ; 0xd582
+	ds $4
+
+wd586:: ; 0xd586
+	ds $30
+
+wd5b6:: ; 0xd5b6
+	ds $5
+
+wd5bb:: ; 0xd5bb
+	ds $1
+
+wd5bc:: ; 0xd5bc
+	ds $1
+
+wd5bd:: ; 0xd5bd
+	ds $1
+
+wd5be:: ; 0xd5be
+	ds $1
+
+wBallHitWildMon:: ; 0xd5bf
+	ds $1
 
 wNumMonHits:: ; 0xd5c0
-; Number of times the wild pokemon has been hit in Catch'em mode
-    ds 1
+	ds $1
 
-    ds $33
+wd5c1:: ; 0xd5c1
+	ds $1
+
+wd5c2:: ; 0xd5c2
+	ds $1
+
+wd5c3:: ; 0xd5c3
+	ds $1
+
+wd5c4:: ; 0xd5c4
+	ds $1
+
+wNumMewHitsLow:: ; 0xd5c5
+	ds $1
+
+wd5c6:: ; 0xd5c6
+	ds $1
+
+wd5c7:: ; 0xd5c7
+	ds $3
+
+wd5ca:: ; 0xd5ca
+	ds $1
+
+wd5cb:: ; 0xd5cb
+	ds $1
+
+wd5cc:: ; 0xd5cc
+	ds $8
+
+wd5d4:: ; 0xd5d4
+	ds $4
+
+wd5d8:: ; 0xd5d8
+	ds $3
+
+wd5db:: ; 0xd5db
+	ds $1
+
+wd5dc:: ; 0xd5dc
+	ds $8
+
+wd5e4:: ; 0xd5e4
+	ds $5
+
+wd5e9:: ; 0xd5e9
+	ds $5
+
+wd5ee:: ; 0xd5ee
+	ds $5
+
+wd5f3:: ; 0xd5f3
+	ds $1
 
 wBallCaptureAnimationFrameCounter:: ; 0xd5f4
-    ds 1
+	ds $1
+
 wBallCaptureAnimationFrame:: ; 0xd5f5
-; OAM id
-    ds 1
+	ds $1
+
 wBallCaptureAnimationFrameIndex:: ; 0xd5f6
-    ds 1
+	ds $1
 
-    ds $38
+wd5f7:: ; 0xd5f7
+	ds $1
 
-; Number of times the Mewtwo Bonus stage has been defeated.
-; Counts up at most to 2, and is reset if Mew is encountered.
+wd5f8:: ; 0xd5f8
+	ds $1
+
+wd5f9:: ; 0xd5f9
+	ds $2
+
+wd5fb:: ; 0xd5fb
+	ds $1
+
+wd5fc:: ; 0xd5fc
+	ds $1
+
+wd5fd:: ; 0xd5fd
+	ds $1
+
+wd5fe:: ; 0xd5fe
+	ds $2
+
+wd600:: ; 0xd600
+	ds $1
+
+wd601:: ; 0xd601
+	ds $2
+
+wd603:: ; 0xd603
+	ds $1
+
+wd604:: ; 0xd604
+	ds $2
+
+wd606:: ; 0xd606
+	ds $1
+
+wd607:: ; 0xd607
+	ds $1
+
+wd608:: ; 0xd608
+	ds $1
+
+wd609:: ; 0xd609
+	ds $1
+
+wd60a:: ; 0xd60a
+	ds $1
+
+wd60b:: ; 0xd60b
+	ds $1
+
+wd60c:: ; 0xd60c
+	ds $1
+
+wd60d:: ; 0xd60d
+	ds $1
+
+wd60e:: ; 0xd60e
+	ds $1
+
+wd60f:: ; 0xd60f
+	ds $1
+
+wd610:: ; 0xd610
+	ds $1
+
+wd611:: ; 0xd611
+	ds $1
+
+wd612:: ; 0xd612
+	ds $1
+
+wd613:: ; 0xd613
+	ds $1
+
+wd614:: ; 0xd614
+	ds $1
+
+wd615:: ; 0xd615
+	ds $1
+
+wGameOver:: ; 0xd616
+	ds $3
+
+wd619:: ; 0xd619
+	ds $1
+
+wd61a:: ; 0xd61a
+	ds $1
+
+wd61b:: ; 0xd61b
+	ds $2
+
+wd61d:: ; 0xd61d
+	ds $1
+
+wd61e:: ; 0xd61e
+	ds $1
+
+wCurSlotBonus:: ; 0xd61f
+	ds $1
+
+wd620:: ; 0xd620
+	ds $1
+
+wd621:: ; 0xd621
+	ds $1
+
+wd622:: ; 0xd622
+	ds $1
+
+wd623:: ; 0xd623
+	ds $1
+
+wd624:: ; 0xd624
+	ds $1
+
+wd625:: ; 0xd625
+	ds $1
+
+wd626:: ; 0xd626
+	ds $2
+
+wd628:: ; 0xd628
+	ds $1
+
+wd629:: ; 0xd629
+	ds $1
+
+wd62a:: ; 0xd62a
+	ds $1
+
+wd62b:: ; 0xd62b
+	ds $1
+
+wd62c:: ; 0xd62c
+	ds $1
+
+wd62d:: ; 0xd62d
+	ds $1
+
+wd62e:: ; 0xd62e
+	ds $1
+
 wNumMewtwoBonusCompletions:: ; 0xd62f
-    ds 1
+	ds $1
 
-    ds $e
+wd630:: ; 0xd630
+	ds $2
+
+wd632:: ; 0xd632
+	ds $1
+
+wd633:: ; 0xd633
+	ds $1
+
+wd634:: ; 0xd634
+	ds $1
+
+wd635:: ; 0xd635
+	ds $2
+
+wd637:: ; 0xd637
+	ds $1
+
+wd638:: ; 0xd638
+	ds $1
+
+wd639:: ; 0xd639
+	ds $1
+
+wd63a:: ; 0xd63a
+	ds $1
+
+wd63b:: ; 0xd63b
+	ds $1
+
+wd63c:: ; 0xd63c
+	ds $1
+
+wd63d:: ; 0xd63d
+	ds $1
 
 wBlueStageForceFieldDirection:: ; 0xd63e
-; Controls the direction of the arrow force field in between Cloyster and Slowpoke in the Blue Stage.
-; $0 = up
-; $1 = right
-; $2 = down
-; $3 = left
-    ds 1
+	ds $1
 
-    ds $aa
+wd63f:: ; 0xd63f
+	ds $1
+
+wd640:: ; 0xd640
+	ds $1
+
+wd641:: ; 0xd641
+	ds $1
+
+wd642:: ; 0xd642
+	ds $1
+
+wd643:: ; 0xd643
+	ds $1
+
+wd644:: ; 0xd644
+	ds $1
+
+wd645:: ; 0xd645
+	ds $1
+
+wd646:: ; 0xd646
+	ds $1
+
+wd647:: ; 0xd647
+	ds $1
+
+wd648:: ; 0xd648
+	ds $1
+
+wd649:: ; 0xd649
+	ds $1
+
+wd64a:: ; 0xd64a
+	ds $1
+
+wd64b:: ; 0xd64b
+	ds $1
+
+wd64c:: ; 0xd64c
+	ds $1
+
+wd64d:: ; 0xd64d
+	ds $1
+
+wd64e:: ; 0xd64e
+	ds $1
+
+wd64f:: ; 0xd64f
+	ds $1
+
+wd650:: ; 0xd650
+	ds $1
+
+wd651:: ; 0xd651
+	ds $1
+
+wd652:: ; 0xd652
+	ds $1
+
+wd653:: ; 0xd653
+	ds $1
+
+wd654:: ; 0xd654
+	ds $2
+
+wd656:: ; 0xd656
+	ds $1
+
+wd657:: ; 0xd657
+	ds $1
+
+wd658:: ; 0xd658
+	ds $1
+
+wd659:: ; 0xd659
+	ds $2
+
+wd65b:: ; 0xd65b
+	ds $2
+
+wd65d:: ; 0xd65d
+	ds $2
+
+wd65f:: ; 0xd65f
+	ds $2
+
+wd661:: ; 0xd661
+	ds $1
+
+wd662:: ; 0xd662
+	ds $2
+
+wd664:: ; 0xd664
+	ds $2
+
+wd666:: ; 0xd666
+	ds $2
+
+wd668:: ; 0xd668
+	ds $2
+
+wd66a:: ; 0xd66a
+	ds $1
+
+wd66b:: ; 0xd66b
+	ds $2
+
+wd66d:: ; 0xd66d
+	ds $2
+
+wd66f:: ; 0xd66f
+	ds $2
+
+wd671:: ; 0xd671
+	ds $2
+
+wd673:: ; 0xd673
+	ds $1
+
+wd674:: ; 0xd674
+	ds $1
+
+wd675:: ; 0xd675
+	ds $2
+
+wd677:: ; 0xd677
+	ds $2
+
+wd679:: ; 0xd679
+	ds $2
+
+wd67b:: ; 0xd67b
+	ds $1
+
+wd67c:: ; 0xd67c
+	ds $1
+
+wd67d:: ; 0xd67d
+	ds $1
+
+wd67e:: ; 0xd67e
+	ds $2
+
+wd680:: ; 0xd680
+	ds $2
+
+wd682:: ; 0xd682
+	ds $2
+
+wd684:: ; 0xd684
+	ds $2
+
+wd686:: ; 0xd686
+	ds $1
+
+wd687:: ; 0xd687
+	ds $2
+
+wd689:: ; 0xd689
+	ds $2
+
+wd68b:: ; 0xd68b
+	ds $2
+
+wd68d:: ; 0xd68d
+	ds $2
+
+wd68f:: ; 0xd68f
+	ds $1
+
+wd690:: ; 0xd690
+	ds $1
+
+wd691:: ; 0xd691
+	ds $2
+
+wd693:: ; 0xd693
+	ds $2
+
+wd695:: ; 0xd695
+	ds $1
+
+wd696:: ; 0xd696
+	ds $1
+
+wd697:: ; 0xd697
+	ds $1
+
+wd698:: ; 0xd698
+	ds $2
+
+wd69a:: ; 0xd69a
+	ds $1
+
+wd69b:: ; 0xd69b
+	ds $1
+
+wd69c:: ; 0xd69c
+	ds $2
+
+wd69e:: ; 0xd69e
+	ds $1
+
+wd69f:: ; 0xd69f
+	ds $1
+
+wd6a0:: ; 0xd6a0
+	ds $1
+
+wd6a1:: ; 0xd6a1
+	ds $1
+
+wd6a2:: ; 0xd6a2
+	ds $1
+
+wd6a3:: ; 0xd6a3
+	ds $1
+
+wd6a4:: ; 0xd6a4
+	ds $1
+
+wd6a5:: ; 0xd6a5
+	ds $1
+
+wd6a6:: ; 0xd6a6
+	ds $1
+
+wd6a7:: ; 0xd6a7
+	ds $1
+
+wd6a8:: ; 0xd6a8
+	ds $1
+
+wd6a9:: ; 0xd6a9
+	ds $1
+
+wd6aa:: ; 0xd6aa
+	ds $2
+
+wd6ac:: ; 0xd6ac
+	ds $1
+
+wd6ad:: ; 0xd6ad
+	ds $1
+
+wd6ae:: ; 0xd6ae
+	ds $1
+
+wd6af:: ; 0xd6af
+	ds $1
+
+wd6b0:: ; 0xd6b0
+	ds $1
+
+wd6b1:: ; 0xd6b1
+	ds $1
+
+wd6b2:: ; 0xd6b2
+	ds $1
+
+wd6b3:: ; 0xd6b3
+	ds $1
+
+wd6b4:: ; 0xd6b4
+	ds $1
+
+wd6b5:: ; 0xd6b5
+	ds $1
+
+wd6b6:: ; 0xd6b6
+	ds $4
+
+wd6ba:: ; 0xd6ba
+	ds $1
+
+wd6bb:: ; 0xd6bb
+	ds $2
+
+wd6bd:: ; 0xd6bd
+	ds $1
+
+wd6be:: ; 0xd6be
+	ds $7
+
+wd6c5:: ; 0xd6c5
+	ds $1
+
+wd6c6:: ; 0xd6c6
+	ds $7
+
+wd6cd:: ; 0xd6cd
+	ds $1
+
+wd6ce:: ; 0xd6ce
+	ds $7
+
+wd6d5:: ; 0xd6d5
+	ds $1
+
+wd6d6:: ; 0xd6d6
+	ds $7
+
+wd6dd:: ; 0xd6dd
+	ds $1
+
+wd6de:: ; 0xd6de
+	ds $7
+
+wd6e5:: ; 0xd6e5
+	ds $1
+
+wd6e6:: ; 0xd6e6
+	ds $1
+
+wd6e7:: ; 0xd6e7
+	ds $2
 
 wMeowthAnimationFrameCounter:: ; 0xd6e9
-; Counts down. When it hits 0, the next animation frame happens.
-    ds 1
-wMeowthAnimationFrame:: ; 0xd6ea
-; OAM id
-    ds 1
-wMeowthAnimationFrameIndex:: ; 0xd6eb
-    ds 1
+	ds $1
 
-    ds 1
+wMeowthAnimationFrame:: ; 0xd6ea
+	ds $1
+
+wMeowthAnimationFrameIndex:: ; 0xd6eb
+	ds $1
+
+wd6ec:: ; 0xd6ec
+	ds $1
 
 wMeowthXPosition:: ; 0xd6ed
-    ds 1
-wMeowthYPosition:: ; 0xd6ee
-    ds 1
+	ds $1
 
-    ds 1
+wMeowthYPosition:: ; 0xd6ee
+	ds $2
 
 wMeowthXMovement:: ; 0xd6f0
-; Used to move meowth horizontally.
-; Value is $01 when moving right.
-; Value is $ff when moving left.
-    ds 1
-wMeowthYMovement:: ; 0xd6f1
-; Used to move meowth vertically.
-; Value is $01 when moving down.
-; Value is $ff when moving up.
-    ds 1
+	ds $1
 
-    ds $1d
+wMeowthYMovement:: ; 0xd6f1
+	ds $2
+
+wd6f3:: ; 0xd6f3
+	ds $1
+
+wd6f4:: ; 0xd6f4
+	ds $1
+
+wd6f5:: ; 0xd6f5
+	ds $1
+
+wd6f6:: ; 0xd6f6
+	ds $1
+
+wd6f7:: ; 0xd6f7
+	ds $1
+
+wd6f8:: ; 0xd6f8
+	ds $1
+
+wd6f9:: ; 0xd6f9
+	ds $1
+
+wd6fa:: ; 0xd6fa
+	ds $1
+
+wd6fb:: ; 0xd6fb
+	ds $1
+
+wd6fc:: ; 0xd6fc
+	ds $1
+
+wd6fd:: ; 0xd6fd
+	ds $2
+
+wd6ff:: ; 0xd6ff
+	ds $1
+
+wd700:: ; 0xd700
+	ds $1
+
+wd701:: ; 0xd701
+	ds $1
+
+wd702:: ; 0xd702
+	ds $1
+
+wd703:: ; 0xd703
+	ds $1
+
+wd704:: ; 0xd704
+	ds $1
+
+wd705:: ; 0xd705
+	ds $1
+
+wd706:: ; 0xd706
+	ds $1
+
+wd707:: ; 0xd707
+	ds $4
+
+wd70b:: ; 0xd70b
+	ds $1
+
+wd70c:: ; 0xd70c
+	ds $3
 
 wMeowthStageBonusCounter:: ; 0xd70f
-; Keeps track of how many bonus points you get from collecting a coin.
-; The bonus increases by 1 each time you collect a coin.
-; If Meowth is hit, the bonus resets to 0.
-    ds 1
+	ds $1
 
-    ds 1
+wd710:: ; 0xd710
+	ds $1
 
 wMeowthStageScore:: ; 0xd711
-; Number of Meowth coins collected.
-    ds 1
+	ds $1
 
-    ds $2b
+wd712:: ; 0xd712
+	ds $1
+
+wd713:: ; 0xd713
+	ds $1
+
+wd714:: ; 0xd714
+	ds $1
+
+wd715:: ; 0xd715
+	ds $1
+
+wd716:: ; 0xd716
+	ds $1
+
+wd717:: ; 0xd717
+	ds $1
+
+wd718:: ; 0xd718
+	ds $1
+
+wd719:: ; 0xd719
+	ds $1
+
+wd71a:: ; 0xd71a
+	ds $1
+
+wd71b:: ; 0xd71b
+	ds $1
+
+wd71c:: ; 0xd71c
+	ds $2
+
+wd71e:: ; 0xd71e
+	ds $1
+
+wd71f:: ; 0xd71f
+	ds $1
+
+wd720:: ; 0xd720
+	ds $1
+
+wd721:: ; 0xd721
+	ds $1
+
+wd722:: ; 0xd722
+	ds $1
+
+wd723:: ; 0xd723
+	ds $1
+
+wd724:: ; 0xd724
+	ds $1
+
+wd725:: ; 0xd725
+	ds $1
+
+wd726:: ; 0xd726
+	ds $1
+
+wd727:: ; 0xd727
+	ds $1
+
+wd728:: ; 0xd728
+	ds $1
+
+wd729:: ; 0xd729
+	ds $1
+
+wd72a:: ; 0xd72a
+	ds $1
+
+wd72b:: ; 0xd72b
+	ds $1
+
+wd72c:: ; 0xd72c
+	ds $5
+
+wd731:: ; 0xd731
+	ds $1
+
+wd732:: ; 0xd732
+	ds $1
+
+wd733:: ; 0xd733
+	ds $1
+
+wd734:: ; 0xd734
+	ds $1
+
+wd735:: ; 0xd735
+	ds $1
+
+wd736:: ; 0xd736
+	ds $3
+
+wd739:: ; 0xd739
+	ds $1
+
+wd73a:: ; 0xd73a
+	ds $1
+
+wd73b:: ; 0xd73b
+	ds $1
+
+wd73c:: ; 0xd73c
+	ds $1
 
 wDiglettStates:: ; 0xd73d
-; Each diglett has a sprite state 1 - 5.
-; The animation wiggles back and forth.
-; $0 = diglett has been hit
-; $1 = hiding in hole
-; $2 = straight up
-; $3 = leaning left
-; $4 = straight up
-; $5 = leaning right
-; $6 = getting hit
-    ds 31
+	ds $1f
 
 wCurrentDiglett:: ; 0xd75c
-; Keeps track of which diglett is being updated.
-    ds 1
+	ds $1
 
 wDiglettsInitializedFlag:: ; 0xd75d
-; bit 0 is set after all digletts have been initialized
-    ds 1
+	ds $1
 
 wDiglettInitDelayCounter:: ; 0xd75e
-; used to faciliate how fast the digletts are initialized
-    ds 1
+	ds $1
 
-    ds 2
+wd75f:: ; 0xd75f
+	ds $2
 
 wDugtrioAnimationFrameCounter:: ; 0xd761
-    ds 1
+	ds $1
+
 wDugtrioAnimationFrame:: ; 0xd762
-; OAM id
-    ds 1
+	ds $1
+
 wDugtrioAnimationFrameIndex:: ; 0xd763
-    ds 1
+	ds $1
 
 wDugrioState:: ; 0xd764
-; Similar function as wDiglettStates.
-; $0 = Dugtrio hasn't appeared yet
-; $1 = 3 healthy dugtrio
-; $2 = Getting hit first time
-; $3 = 2 healthy dugtrio
-; $4 = Getting hit second time
-; $5 = 1 healthy dugtrio
-; $6 = Getting hit third time
-; $7 = Disappearing
-    ds 1
+	ds $1
 
-    ds $3c
+wd765:: ; 0xd765
+	ds $1
+
+wd766:: ; 0xd766
+	ds $1
+
+wd767:: ; 0xd767
+	ds $1
+
+wd768:: ; 0xd768
+	ds $3
+
+wd76b:: ; 0xd76b
+	ds $1
+
+wd76c:: ; 0xd76c
+	ds $1
+
+wd76d:: ; 0xd76d
+	ds $1
+
+wd76e:: ; 0xd76e
+	ds $2
+
+wd770:: ; 0xd770
+	ds $1
+
+wd771:: ; 0xd771
+	ds $1
+
+wd772:: ; 0xd772
+	ds $3
+
+wd775:: ; 0xd775
+	ds $1
+
+wd776:: ; 0xd776
+	ds $1
+
+wd777:: ; 0xd777
+	ds $1
+
+wd778:: ; 0xd778
+	ds $2
+
+wd77a:: ; 0xd77a
+	ds $1
+
+wd77b:: ; 0xd77b
+	ds $1
+
+wd77c:: ; 0xd77c
+	ds $3
+
+wd77f:: ; 0xd77f
+	ds $1
+
+wd780:: ; 0xd780
+	ds $1
+
+wd781:: ; 0xd781
+	ds $1
+
+wd782:: ; 0xd782
+	ds $2
+
+wd784:: ; 0xd784
+	ds $1
+
+wd785:: ; 0xd785
+	ds $1
+
+wd786:: ; 0xd786
+	ds $b
+
+wd791:: ; 0xd791
+	ds $1
+
+wd792:: ; 0xd792
+	ds $1
+
+wd793:: ; 0xd793
+	ds $1
+
+wd794:: ; 0xd794
+	ds $1
+
+wd795:: ; 0xd795
+	ds $1
+
+wd796:: ; 0xd796
+	ds $1
+
+wd797:: ; 0xd797
+	ds $1
+
+wd798:: ; 0xd798
+	ds $1
+
+wd799:: ; 0xd799
+	ds $1
+
+wd79a:: ; 0xd79a
+	ds $2
+
+wd79c:: ; 0xd79c
+	ds $2
+
+wd79e:: ; 0xd79e
+	ds $1
+
+wd79f:: ; 0xd79f
+	ds $1
+
+wd7a0:: ; 0xd7a0
+	ds $1
 
 wLeftTiltCounter:: ; 0xd7a1
-; Counts up to 3 and back down to time the left tilt animation
-    ds 1
+	ds $1
+
 wLeftTiltReset:: ; 0xd7a2
-; Set to $1 when the left tilt button has been held down long enough
-    ds 1
+	ds $1
+
 wRightTiltCounter:: ; 0xd7a3
-; Counts up to 3 and back down to time the right tilt animation
-    ds 1
+	ds $1
+
 wRightTiltReset:: ; 0xd7a4
-; Set to $1 when the right tilt button has been held down long enough
-    ds 1
+	ds $1
+
 wUpperTiltCounter:: ; 0xd7a5
-; Counts up to 3 and back down to time the upper tilt animation
-    ds 1
+	ds $1
+
 wUpperTiltReset:: ; 0xd7a6
-; Set to $1 when the upper tilt button has been held down long enough
-    ds 1
+	ds $1
 
 wLeftTiltPushing:: ; 0xd7a7
-; Set to $1 when the left tilt is in the first half of its animation
-    ds 1
-wRightTiltPushing:: ; 0xd7a8
-; Set to $1 when the right tilt is in the first half of its animation
-    ds 1
-wUpperTiltPushing:: ; 0xd7a9
-; Set to $1 when the upper tilt is in the first half of its animation
-    ds 1
+	ds $1
 
-    ds 12
+wRightTiltPushing:: ; 0xd7a8
+	ds $1
+
+wUpperTiltPushing:: ; 0xd7a9
+	ds $1
+
+wd7aa:: ; 0xd7aa
+	ds $1
+
+wd7ab:: ; 0xd7ab
+	ds $1
+
+wd7ac:: ; 0xd7ac
+	ds $1
+
+wd7ad:: ; 0xd7ad
+	ds $1
+
+wd7ae:: ; 0xd7ae
+	ds $1
+
+wd7af:: ; 0xd7af
+	ds $1
+
+wd7b0:: ; 0xd7b0
+	ds $1
+
+wd7b1:: ; 0xd7b1
+	ds $1
+
+wd7b2:: ; 0xd7b2
+	ds $1
+
+wd7b3:: ; 0xd7b3
+	ds $1
+
+wd7b4:: ; 0xd7b4
+	ds $1
+
+wd7b5:: ; 0xd7b5
+	ds $1
 
 wLeftFlipperAnimationState:: ; 0xd7b6
-; Counts from $0 to $f when using the left flipper.
-    ds 1
+	ds $1
+
 wRightFlipperAnimationState:: ; 0xd7b7
-; Counts from $0 to $f when using the right flipper.
-    ds 1
+	ds $1
 
 wFlipperXCollisionAttribute:: ; 0xd7b8
-; Goes with hFlipperYCollisionAttribute
-    ds 1
+	ds $1
 
 wFlipperCollision:: ; 0xd7b9
-; Set to $1 when the ball is colliding with a flipper
-    ds 1
+	ds $1
 
-    ds 9
+wd7ba:: ; 0xd7ba
+	ds $1
+
+wd7bb:: ; 0xd7bb
+	ds $1
+
+wd7bc:: ; 0xd7bc
+	ds $1
+
+wd7bd:: ; 0xd7bd
+	ds $1
+
+wd7be:: ; 0xd7be
+	ds $1
+
+wd7bf:: ; 0xd7bf
+	ds $1
+
+wd7c0:: ; 0xd7c0
+	ds $1
+
+wd7c1:: ; 0xd7c1
+	ds $1
+
+wd7c2:: ; 0xd7c2
+	ds $1
 
 wSubTileBallXPos:: ; 0xd7c3
-    ds 1
+	ds $1
+
 wSubTileBallYPos:: ; 0xd7c4
-    ds 1
+	ds $1
 
 wUpperLeftCollisionAttribute:: ; 0xd7c5
-    ds 1
-wLowerLeftCollisionAttribute:: ; 0xd7c6
-    ds 1
-wUpperRightCollisionAttribute:: ; 0xd7c7
-    ds 1
-wLowerRightCollisionAttribute:: ; 0xd7c8
-    ds 1
+	ds $1
 
-    ds $23
+wLowerLeftCollisionAttribute:: ; 0xd7c6
+	ds $1
+
+wUpperRightCollisionAttribute:: ; 0xd7c7
+	ds $1
+
+wLowerRightCollisionAttribute:: ; 0xd7c8
+	ds $1
+
+wd7c9:: ; 0xd7c9
+	ds $10
+
+wd7d9:: ; 0xd7d9
+	ds $10
+
+wd7e9:: ; 0xd7e9
+	ds $1
+
+wd7ea:: ; 0xd7ea
+	ds $1
+
+wd7eb:: ; 0xd7eb
+	ds $1
 
 wStageCollisionMapPointer:: ; 0xd7ec
-; pointer to the current collision map (always points to wStageCollisionMapPointer, except when loading new attributes)
-    ds 2
+	ds $2
+
 wStageCollisionMapBank:: ; 0xd7ee
-; holds bank of current collision map (always $00, except when loading new attributes)
-    ds 1
+	ds $1
 
 wStageCollisionMasksPointer:: ; 0xd7ef
-; Pointer to the current collision masks array
-    ds 2
-wStageCollisionMasksBank:: ; 0xd7f1
-; Holds bank of current collision masks array
-    ds 1
+	ds $2
 
-    ds 7
+wStageCollisionMasksBank:: ; 0xd7f1
+	ds $1
+
+wd7f2:: ; 0xd7f2
+	ds $1
+
+wd7f3:: ; 0xd7f3
+	ds $1
+
+wd7f4:: ; 0xd7f4
+	ds $1
+
+wd7f5:: ; 0xd7f5
+	ds $1
+
+wd7f6:: ; 0xd7f6
+	ds $1
+
+wd7f7:: ; 0xd7f7
+	ds $1
+
+wd7f8:: ; 0xd7f8
+	ds $1
 
 wInGameMenuIndex:: ; 0xd7f9
-    ds 1
+	ds $1
 
-    ds $61
+wd7fa:: ; 0xd7fa
+	ds $1
+
+wd7fb:: ; 0xd7fb
+	ds $1
+
+wd7fc:: ; 0xd7fc
+	ds $1
+
+wd7fd:: ; 0xd7fd
+	ds $1
+
+wd7fe:: ; 0xd7fe
+	ds $2
+
+wSFXTimer:: ; 0xd800
+	ds $1
+
+wd801:: ; 0xd801
+	ds $1
+
+wOAMBufferSize:: ; 0xd802
+	ds $1
+
+wd803:: ; 0xd803
+	ds $1
+
+wd804:: ; 0xd804
+	ds $1
+
+wd805:: ; 0xd805
+	ds $1
+
+wd806:: ; 0xd806
+	ds $1
+
+wd807:: ; 0xd807
+	ds $1
+
+wd808:: ; 0xd808
+	ds $1
+
+wd809:: ; 0xd809
+	ds $1
+
+wd80a:: ; 0xd80a
+	ds $2
+
+wd80c:: ; 0xd80c
+	ds $1
+
+wd80d:: ; 0xd80d
+	ds $1
+
+wd80e:: ; 0xd80e
+	ds $1
+
+wd80f:: ; 0xd80f
+	ds $1
+
+wd810:: ; 0xd810
+	ds $1
+
+wd811:: ; 0xd811
+	ds $1
+
+wd812:: ; 0xd812
+	ds $18
+
+wd82a:: ; 0xd82a
+	ds $7
+
+wd831:: ; 0xd831
+	ds $c
+
+wd83d:: ; 0xd83d
+	ds $9
+
+wd846:: ; 0xd846
+	ds $2
+
+wd848:: ; 0xd848
+	ds $1
+
+wd849:: ; 0xd849
+	ds $1
+
+wd84a:: ; 0xd84a
+	ds $1
+
+wd84b:: ; 0xd84b
+	ds $4
+
+wd84f:: ; 0xd84f
+	ds $c
 
 wCurrentSongBank:: ; 0xd85b
-    ds 1
+	ds $2
 
-    ds $95
+wd85d:: ; 0xd85d
+	ds $1
+
+wd85e:: ; 0xd85e
+	ds $1
+
+wd85f:: ; 0xd85f
+	ds $1
+
+wd860:: ; 0xd860
+	ds $1
+
+wd861:: ; 0xd861
+	ds $1
+
+wd862:: ; 0xd862
+	ds $1
+
+wd863:: ; 0xd863
+	ds $1
+
+wd864:: ; 0xd864
+	ds $1
+
+wd865:: ; 0xd865
+	ds $1
+
+wd866:: ; 0xd866
+	ds $1
+
+wd867:: ; 0xd867
+	ds $1
+
+wd868:: ; 0xd868
+	ds $1
+
+wd869:: ; 0xd869
+	ds $1
+
+wd86a:: ; 0xd86a
+	ds $1
+
+wd86b:: ; 0xd86b
+	ds $1
+
+wd86c:: ; 0xd86c
+	ds $1
+
+wd86d:: ; 0xd86d
+	ds $1
+
+wd86e:: ; 0xd86e
+	ds $1d
+
+wd88b:: ; 0xd88b
+	ds $12
+
+wd89d:: ; 0xd89d
+	ds $a
+
+wd8a7:: ; 0xd8a7
+	ds $1
+
+wd8a8:: ; 0xd8a8
+	ds $1
+
+wd8a9:: ; 0xd8a9
+	ds $1
+
+wd8aa:: ; 0xd8aa
+	ds $1
+
+wd8ab:: ; 0xd8ab
+	ds $1
+
+wd8ac:: ; 0xd8ac
+	ds $1
+
+wd8ad:: ; 0xd8ad
+	ds $1
+
+wd8ae:: ; 0xd8ae
+	ds $1
+
+wd8af:: ; 0xd8af
+	ds $1
+
+wd8b0:: ; 0xd8b0
+	ds $1
+
+wd8b1:: ; 0xd8b1
+	ds $1
+
+wd8b2:: ; 0xd8b2
+	ds $1
+
+wd8b3:: ; 0xd8b3
+	ds $1
+
+wd8b4:: ; 0xd8b4
+	ds $1
+
+wd8b5:: ; 0xd8b5
+	ds $1
+
+wd8b6:: ; 0xd8b6
+	ds $1
+
+wd8b7:: ; 0xd8b7
+	ds $1
+
+wd8b8:: ; 0xd8b8
+	ds $1
+
+wd8b9:: ; 0xd8b9
+	ds $1
+
+wd8ba:: ; 0xd8ba
+	ds $1
+
+wd8bb:: ; 0xd8bb
+	ds $1
+
+wd8bc:: ; 0xd8bc
+	ds $1
+
+wd8bd:: ; 0xd8bd
+	ds $1
+
+wd8be:: ; 0xd8be
+	ds $1
+
+wd8bf:: ; 0xd8bf
+	ds $1
+
+wd8c0:: ; 0xd8c0
+	ds $1
+
+wd8c1:: ; 0xd8c1
+	ds $1
+
+wd8c2:: ; 0xd8c2
+	ds $1
+
+wd8c3:: ; 0xd8c3
+	ds $1
+
+wd8c4:: ; 0xd8c4
+	ds $1
+
+wd8c5:: ; 0xd8c5
+	ds $1
+
+wd8c6:: ; 0xd8c6
+	ds $1
+
+wd8c7:: ; 0xd8c7
+	ds $1
+
+wd8c8:: ; 0xd8c8
+	ds $2
+
+wd8ca:: ; 0xd8ca
+	ds $1
+
+wd8cb:: ; 0xd8cb
+	ds $1
+
+wd8cc:: ; 0xd8cc
+	ds $1
+
+wd8cd:: ; 0xd8cd
+	ds $1
+
+wd8ce:: ; 0xd8ce
+	ds $1
+
+wd8cf:: ; 0xd8cf
+	ds $1
+
+wd8d0:: ; 0xd8d0
+	ds $1
+
+wd8d1:: ; 0xd8d1
+	ds $1
+
+wd8d2:: ; 0xd8d2
+	ds $1
+
+wd8d3:: ; 0xd8d3
+	ds $1
+
+wd8d4:: ; 0xd8d4
+	ds $1
+
+wd8d5:: ; 0xd8d5
+	ds $1
+
+wd8d6:: ; 0xd8d6
+	ds $1
+
+wd8d7:: ; 0xd8d7
+	ds $1
+
+wd8d8:: ; 0xd8d8
+	ds $3
+
+wd8db:: ; 0xd8db
+	ds $1
+
+wd8dc:: ; 0xd8dc
+	ds $1
+
+wd8dd:: ; 0xd8dd
+	ds $1
+
+wd8de:: ; 0xd8de
+	ds $2
+
+wd8e0:: ; 0xd8e0
+	ds $1
+
+wd8e1:: ; 0xd8e1
+	ds $1
+
+wd8e2:: ; 0xd8e2
+	ds $1
+
+wd8e3:: ; 0xd8e3
+	ds $1
+
+wd8e4:: ; 0xd8e4
+	ds $1
+
+wd8e5:: ; 0xd8e5
+	ds $1
+
+wd8e6:: ; 0xd8e6
+	ds $1
+
+wd8e7:: ; 0xd8e7
+	ds $1
+
+wd8e8:: ; 0xd8e8
+	ds $1
+
+wd8e9:: ; 0xd8e9
+	ds $1
+
+wd8ea:: ; 0xd8ea
+	ds $1
+
+wd8eb:: ; 0xd8eb
+	ds $1
+
+wd8ec:: ; 0xd8ec
+	ds $1
+
+wd8ed:: ; 0xd8ed
+	ds $1
+
+wd8ee:: ; 0xd8ee
+	ds $1
+
+wd8ef:: ; 0xd8ef
+	ds $1
+
+wd8f0:: ; 0xd8f0
+	ds $1
 
 wCurrentScreen:: ; 0xd8f1
-; The game is driven by state machines. This is the current screen.
-    ds 1
-wScreenState:: ; 0xd8f2
-; The game is driven by state machines. This is the current state for the current screen.
-    ds 1
+	ds $1
 
-    ds 22
+wScreenState:: ; 0xd8f2
+	ds $4
+
+wd8f6:: ; 0xd8f6
+	ds $12
+
+wd908:: ; 0xd908
+	ds $1
 
 wTitleScreenCursorSelection:: ; 0xd909
-; 0 = Game Start
-; 1 = PokeDex
-; 2 = Option
-    ds 1
+	ds $1
 
 wTitleScreenGameStartCursorSelection:: ; 0xd90a
-; 0 = New Game
-; 1 = Continue
-    ds 1
-
-    ds 1
+	ds $2
 
 wTitleScreenBlinkAnimationFrame:: ; 0xd90c
-; Pikachu's blinking animation is looped through frames. This keeps track of the current frame.
-    ds 1
+	ds $1
 
 wTitleScreenBlinkAnimationCounter:: ; 0xd90d
-; Counts down. When it hits 0, wTitleScreenBlinkAnimationFrame is incremented.
-    ds 1
+	ds $1
 
 wTitleScreenBouncingBallAnimationFrame:: ; 0xd90e
-; The bouncing Pokeball on the title screen has a 6-frame animation. This keeps track of the current frame.
-    ds 1
+	ds $1
 
 wTitleScreenPokeballAnimationCounter:: ; 0xd90f
-    ds 1
+	ds $1
 
-    ds 2
+wd910:: ; 0xd910
+	ds $1
+
+wd911:: ; 0xd911
+	ds $1
 
 wFieldSelectBlinkingBorderTimer:: ; 0xd912
-; Number of frames to blink the field select screen border after the player chooses a field.
-    ds 1
+	ds $1
 
-wSelectedFieldIndex:: ; d913
-; $0 if player is hovering cursor over Red Stage
-; $1 if player is hovering cursor over Blue Stage
-    ds 1
+wSelectedFieldIndex:: ; 0xd913
+	ds $1
 
 wFieldSelectBlinkingBorderFrame:: ; 0xd914
-; The blinking border's current animation frame.
-    ds 1
+	ds $1
 
-    ds 5
+wd915:: ; 0xd915
+	ds $1
 
-wSoundTestCurrentBackgroundMusic:: ; d91a
-    ds 1
+wd916:: ; 0xd916
+	ds $1
+
+wd917:: ; 0xd917
+	ds $1
+
+wd918:: ; 0xd918
+	ds $1
+
+wd919:: ; 0xd919
+	ds $1
+
+wSoundTestCurrentBackgroundMusic:: ; 0xd91a
+	ds $1
+
 wSoundTextCurrentSoundEffect:: ; 0xd91b
-    ds 1
+	ds $1
 
-    ds 44
+wd91c:: ; 0xd91c
+	ds $1
 
-wKeyConfigs:: ; 0xd948
-; each function map to two joypad buttons (see joy_constants.asm)
+wd91d:: ; 0xd91d
+	ds $1
+
+wd91e:: ; 0xd91e
+	ds $1
+
+wd91f:: ; 0xd91f
+	ds $1
+
+wd920:: ; 0xd920
+	ds $1
+
+wd921:: ; 0xd921
+	ds $1
+
+wd922:: ; 0xd922
+	ds $14
+
+wd936:: ; 0xd936
+	ds $8
+
+wd93e:: ; 0xd93e
+	ds $1
+
+wd93f:: ; 0xd93f
+	ds $8
+
+wd947:: ; 0xd947
+	ds $1
+
+wKeyConfigs::
 wKeyConfigBallStart:: ; 0xd948
-    ds 2
-wKeyConfigLeftFlipper:: ; 0xd94a
-    ds 2
-wKeyConfigRightFlipper:: ; 0xd94c
-    ds 2
-wKeyConfigLeftTilt:: ; 0xd94e
-    ds 2
-wKeyConfigRightTilt:: ; 0xd950
-    ds 2
-wKeyConfigUpperTilt:: ; 0xd952
-    ds 2
-wKeyConfigMenu:: ; 0xd954
-    ds 2
+	ds $2
 
-    ds 3
+wKeyConfigLeftFlipper:: ; 0xd94a
+	ds $2
+
+wKeyConfigRightFlipper:: ; 0xd94c
+	ds $2
+
+wKeyConfigLeftTilt:: ; 0xd94e
+	ds $2
+
+wKeyConfigRightTilt:: ; 0xd950
+	ds $2
+
+wKeyConfigUpperTilt:: ; 0xd952
+	ds $2
+
+wKeyConfigMenu:: ; 0xd954
+	ds $2
+
+wd956:: ; 0xd956
+	ds $1
+
+wd957:: ; 0xd957
+	ds $1
+
+wd958:: ; 0xd958
+	ds $1
 
 wCurPokedexIndex:: ; 0xd959
-; Stores the mon index of which pokemon the cursor is on in the Pokedex screen.
-    ds 1
-wPokedexOffset:: ; 0xd95a
-; Stores the number of pokedex entries that are above the current displayed pokemon entries.
-    ds 1
+	ds $1
 
-    ds 7
+wPokedexOffset:: ; 0xd95a
+	ds $1
+
+wd95b:: ; 0xd95b
+	ds $1
+
+wd95c:: ; 0xd95c
+	ds $1
+
+wd95d:: ; 0xd95d
+	ds $1
+
+wd95e:: ; 0xd95e
+	ds $1
+
+wd95f:: ; 0xd95f
+	ds $1
+
+wd960:: ; 0xd960
+	ds $1
+
+wd961:: ; 0xd961
+	ds $1
 
 wPokedexFlags:: ; 0xd962
-; Each pokemon is represented by one byte in the normal Pokedex order
-;     byte == 0: mon hasn't been seen
-;     byte == 1: mon has been seen
-;     byte >= 2: mon has been captured
-    ds 151
+	ds $96
+
+wd9f8:: ; 0xd9f8
+	ds $1
+
 wNumPokemonSeen:: ; 0xd9f9
-    ds 2
+	ds $2
+
 wNumPokemonOwned:: ; 0xd9fb
-    ds 2
+	ds $2
+
+high_scores: MACRO
+\1Points:: ds 6
+\1Name:: ds 3
+\1Unknown0x09:: ds 4
+ENDM
 
 wRedHighScores:: ; 0xd9fd
-wRedHighScore1Points:: ; 0xd9fd
-    ds 6
-wRedHighScore1Name:: ; 0xda03
-    ds 3
-    ds 4
+	high_scores wRedHighScore1
+	high_scores wRedHighScore2
+	high_scores wRedHighScore3
+	high_scores wRedHighScore4
+	high_scores wRedHighScore5
 
-wRedHighScore2Points:: ; 0xda0a
-    ds 6
-wRedHighScore2Name:: ; 0xda10
-    ds 3
-    ds 4
+wBlueHighScores:: ; 0xd9fd
+	high_scores wBlueHighScore1
+	high_scores wBlueHighScore2
+	high_scores wBlueHighScore3
+	high_scores wBlueHighScore4
+	high_scores wBlueHighScore5
 
-wRedHighScore3Points:: ; 0xda17
-    ds 6
-wRedHighScore3Name:: ; 0xda1d
-    ds 3
-    ds 4
+wda7f:: ; 0xda7f
+	ds $1
 
-wRedHighScore4Points:: ; 0xda24
-    ds 6
-wRedHighScore4Name:: ; 0xda2a
-    ds 3
-    ds 4
+wda80:: ; 0xda80
+	ds $1
 
-wRedHighScore5Points:: ; 0xda31
-    ds 6
-wRedHighScore5Name:: ; 0xda37
-    ds 3
-    ds 4
+wda81:: ; 0xda81
+	ds $1
 
-wBlueHighScores:: ; 0xda3e
-wBlueHighScore1Points:: ; 0xda3e
-    ds 6
-wBlueHighScore1Name:: ; 0xda44
-    ds 3
-    ds 4
-
-wBlueHighScore2Points:: ; 0xda4b
-    ds 6
-wBlueHighScore2Name:: ; 0xda52
-    ds 3
-    ds 4
-
-wBlueHighScore3Points:: ; 0xda58
-    ds 6
-wBlueHighScore3Name:: ; 0xda5e
-    ds 3
-    ds 4
-
-wBlueHighScore4Points:: ; 0xda65
-    ds 6
-wBlueHighScore4Name:: ; 0xda6b
-    ds 3
-    ds 4
-
-wBlueHighScore5Points:: ; 0xda72
-    ds 6
-wBlueHighScore5Name:: ; 0xda78
-    ds 3
-    ds 4
-
-    ds 4
+wda82:: ; 0xda82
+	ds $1
 
 wHighScoresStage:: ; 0xda83
-; Current stage's high scores.
-; 0 = Red Stage
-; 1 = Blue stage
-    ds 1
+	ds $1
 
 wHighScoresArrowAnimationCounter:: ; 0xda84
-; Counts up to $28 and wraps around to $0 to control the animation of the
-; arrows in the bottom corner of the high scores screen.
-    ds 1
+	ds $1
 
-    ds 2
+wda85:: ; 0xda85
+	ds $1
+
+wda86:: ; 0xda86
+	ds $1
 
 wSendHighScoresAnimationFrameCounter:: ; 0xda87
-    ds 1
+	ds $1
+
 wSendHighScoresAnimationFrame:: ; 0xda88
-    ds 1
+	ds $1
+
 wSendHighScoresAnimationFrameIndex:: ; 0xda89
-    ds 1
+	ds $1
+
+wda8a:: ; 0xda8a
+	ds $18
+
+wdaa2:: ; 0xdaa2
+	ds $1
+
+wdaa3:: ; 0xdaa3
+	ds $20a
+
+wdcad:: ; 0xdcad
+	ds $53
+
+wdd00:: ; 0xdd00
+	ds $1
+
+wdd01:: ; 0xdd01
+	ds $32
+
+wdd33:: ; 0xdd33
+	ds $32
+
+wdd65:: ; 0xdd65
+	ds $32
+
+wdd97:: ; 0xdd97
+	ds $32
+
+wddc9:: ; 0xddc9
+	ds $2
+
+wddcb:: ; 0xddcb
+	ds $30
+
+wddfb:: ; 0xddfb
+	ds $2
+
+wddfd:: ; 0xddfd
+	ds $24
+
+wde21:: ; 0xde21
+	ds $c
+
+wde2d:: ; 0xde2d
+	ds $2
+
+wde2f:: ; 0xde2f
+	ds $30
+
+wde5f:: ; 0xde5f
+	ds $2
+
+wde61:: ; 0xde61
+	ds $24
+
+wde85:: ; 0xde85
+	ds $c
+
+wde91:: ; 0xde91
+	ds $1
+
+wde92:: ; 0xde92
+	ds $1
+
+wde93:: ; 0xde93
+	ds $1
+
+wde94:: ; 0xde94
+	ds $1
+
+wde95:: ; 0xde95
+	ds $1
+
+wde96:: ; 0xde96
+	ds $1
+
+wde97:: ; 0xde97
+	ds $1
+
+wde98:: ; 0xde98
+	ds $1
+
+wde99:: ; 0xde99
+	ds $1
+
+wde9a:: ; 0xde9a
+	ds $1
+
+wde9b:: ; 0xde9b
+	ds $1
+
+wde9c:: ; 0xde9c
+	ds $1
+
+wde9d:: ; 0xde9d
+	ds $1
+
+wde9e:: ; 0xde9e
+	ds $1
+
+wde9f:: ; 0xde9f
+	ds $2
+
+wdea1:: ; 0xdea1
+	ds $1
+
+wdea2:: ; 0xdea2
+	ds $1
+
+wdea3:: ; 0xdea3
+	ds $1
+
+wdea4:: ; 0xdea4
+	ds $1
+
+wdea5:: ; 0xdea5
+	ds $3
+
+wdea8:: ; 0xdea8
+	ds $1
+
+wdea9:: ; 0xdea9
+	ds $1
+
+wdeaa:: ; 0xdeaa
+	ds $1
+
+wdeab:: ; 0xdeab
+	ds $1
+
+wdeac:: ; 0xdeac
+	ds $1
+
+wdead:: ; 0xdead
+	ds $1
+
+wdeae:: ; 0xdeae
+	ds $2
+
+wdeb0:: ; 0xdeb0
+	ds $50
+
+wStack:: ; 0xdf00
+	ds $ff
+
+wdfff:: ; 0xdfff
+	ds $1
+

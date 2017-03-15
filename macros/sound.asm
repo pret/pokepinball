@@ -1,3 +1,13 @@
+channelcount: MACRO
+nchannels = \1 - 1
+	ENDM
+
+channel: MACRO
+	db (nchannels << 6) | \1
+	dw \2
+nchannels = 0
+	ENDM
+
 note: MACRO
 	dn (\1), (\2) - 1
 	ENDM
@@ -227,4 +237,3 @@ callchannel: macro
 endchannel: macro
 	db $ff
 	endm
-

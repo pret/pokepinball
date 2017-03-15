@@ -1,5 +1,8 @@
 INCLUDE "macros/sound.asm"
 
+AdvanceFrame EQUS "$10"
+JumpTable EQUS "$18"
+
 dex_text   EQUS "db "     ; Start beginning of pokedex description
 dex_line   EQUS "db $0d," ; Start new line in pokedex description
 dex_end    EQUS "db $00"  ; Terminate the pokedex description
@@ -14,12 +17,33 @@ dwb: MACRO
 	db \2
 	ENDM
 
+dba: MACRO
+	dbw BANK(\1), \1
+	ENDM
+
+dab: MACRO
+	dwb \1, BANK(\1)
+	ENDM
+
+lb: MACRO
+	ld \1, (\2 << 8) | \3
+	ENDM
+
+padded_dab: MACRO
+	dab \1
+	db $00
+	ENDM
+
 dn: MACRO
 	rept _NARG / 2
 	db (\1) << 4 + (\2)
 	shift
 	shift
 	endr
+	ENDM
+
+dr: MACRO
+INCBIN "baserom.gbc", \1, \2 - \1
 	ENDM
 
 dx: MACRO
@@ -34,16 +58,23 @@ bigdw: MACRO ; big-endian word
 	dx 2, \1
 	ENDM
 
+callba: MACRO
+	ld [hFarCallTempA], a
+	ld a, BANK(\1)
+	ld hl, \1
+	call BankSwitch
+	ENDM
+
 bigBCD6: MACRO
 ; There is probably a better name for this macro.
 ; It write a BCD in big-endian form.
-    dn ((\1) / 10) % 10, (\1) % 10
-    dn ((\1) / 1000) % 10, ((\1) / 100) % 10
-    dn ((\1) / 100000) % 10, ((\1) / 10000) % 10
-    dn ((\1) / 10000000) % 10, ((\1) / 1000000) % 10
-    dn ((\1) / 1000000000) % 10, ((\1) / 100000000) % 10
-    dn ((\1) / 100000000000) % 10, ((\1) / 10000000000) % 10
-    ENDM
+	dn ((\1) / 10) % 10, (\1) % 10
+	dn ((\1) / 1000) % 10, ((\1) / 100) % 10
+	dn ((\1) / 100000) % 10, ((\1) / 10000) % 10
+	dn ((\1) / 10000000) % 10, ((\1) / 1000000) % 10
+	dn ((\1) / 1000000000) % 10, ((\1) / 100000000) % 10
+	dn ((\1) / 100000000000) % 10, ((\1) / 10000000000) % 10
+	ENDM
 
 ; Constant enumeration is useful for mons, maps, etc.
 const_def: MACRO
@@ -57,10 +88,16 @@ ENDM
 
 ;\1 = X
 ;\2 = Y
-;\3 = Reference Background Map (e.g. vBGMap0 or vBGMap1)
-hlCoord: MACRO
-	ld hl, \3 + $20 * \2 + \1
+;\3 = Reference Background Map (e.g. vBGMap or vBGWin)
+coord: MACRO
+	ld \1, \4 + $20 * \3 + \2
 	ENDM
+
+hlCoord EQUS "coord hl,"
+deCoord EQUS "coord de,"
+bcCoord EQUS "coord bc,"
+
+tile EQUS "+ $10 *"
 
 ;\1 = 5-bit Blue value
 ;\2 = 5-bit Green value

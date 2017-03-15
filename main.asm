@@ -7599,7 +7599,7 @@ Func_e4a1: ; 0xe4a1
 	ld a, [wCurrentStage]
 	and a
 	ret z
-	ld hl, Data_e50a
+	ld hl, FlippersOAMPixelOffsetData
 	ld a, [hSCX]
 	ld d, a
 	ld a, [hSCY]
@@ -7611,7 +7611,7 @@ Func_e4a1: ; 0xe4a1
 	sub e
 	ld c, a
 	push hl
-	ld hl, Data_e50e
+	ld hl, LeftFlipperOAMIds
 	ld a, [wd7af]
 	ld e, a
 	ld d, $0
@@ -7643,7 +7643,7 @@ Func_e4a1: ; 0xe4a1
 	ld a, [hli]
 	sub e
 	ld c, a
-	ld hl, Data_e523
+	ld hl, RightFlipperOAMIds
 	ld a, [wd7b3]
 	ld e, a
 	ld d, $0
@@ -7666,14 +7666,22 @@ Func_e4a1: ; 0xe4a1
 	call LoadOAMData
 	ret
 
-Data_e50a:
-	dr $e50a, $e50e
+FlippersOAMPixelOffsetData:
+; flipper oam pixel offsets
+	dw $7b38 ; left flipper
+	dw $7b68 ; right flipper
 
-Data_e50e:
-	dr $e50e, $e523
+LeftFlipperOAMIds:
+; TODO: Don't know how exactly these are used, but it is used by the animation
+; when the flipper is activated and rotates upward to hit the pinball.
+	db $0b, $0b, $0b, $0b, $0b, $0b, $0b
+	db $0c, $0c, $0c, $0c, $0c, $0c, $0c
+	db $0d, $0d, $0d, $0d, $0d, $0d, $0d
 
-Data_e523:
-	dr $e523, $e538
+RightFlipperOAMIds:
+	db $08, $08, $08, $08, $08, $08, $08
+	db $09, $09, $09, $09, $09, $09, $09
+	db $0A, $0A, $0A, $0A, $0A, $0A, $0A
 
 Data_e538: ; 0xe538
 	dw $0000

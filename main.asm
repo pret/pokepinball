@@ -40216,7 +40216,7 @@ MewtwoAnimatedCollisionMask: ; 0xd04680
 MewAnimatedCollisionMask: ; 0xd04700
 	INCBIN "data/collision/mon_masks/mew_collision.1bpp"
 
-INCBIN "baserom.gbc",$d0780,$80
+	dr $d0780, $d0800
 
 LickitungAnimatedCollisionMask: ; 0xd04800
 	INCBIN "data/collision/mon_masks/lickitung_collision.1bpp"

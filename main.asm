@@ -5714,7 +5714,7 @@ FieldSelectGfx_GameBoyColor: ; 0xd730
 
 ChooseFieldToPlay: ; 0xd74e
 	call MoveFieldSelectCursor
-	ld hl, Data_d83d
+	ld hl, FieldSelectBorderAnimationData
 	call AnimateBlinkingFieldSelectBorder
 	ld a, [hNewlyPressedButtons]
 	and (A_BUTTON | B_BUTTON)
@@ -5734,7 +5734,7 @@ ExitFieldSelectScreen: ; 0xd774
 	ld a, [wd8f6]  ; this holds the button that was pressed (A or B)
 	bit BIT_A_BUTTON, a
 	jr z, .didntPressA
-	ld hl, Data_d846
+	ld hl, FieldSelectConfirmationAnimationData
 	call AnimateBlinkingFieldSelectBorder
 	ld a, [wFieldSelectBlinkingBorderTimer]
 	dec a
@@ -5818,7 +5818,7 @@ AnimateBlinkingFieldSelectBorder: ; 0xd7fb
 	sla a
 	ld c, a
 	ld b, $0
-	ld hl, Data_d84f
+	ld hl, FieldSelectBorderOAMPixelOffsetData
 	add hl, bc
 	ld a, [hli]
 	ld c, a
@@ -5858,14 +5858,25 @@ AnimateBlinkingFieldSelectBorder: ; 0xd7fb
 	pop hl
 	ret
 
-Data_d83d:
-	dr $d83d, $d846
+FieldSelectBorderAnimationData:
+; [OAM id][duration]
+	db $9e, $08
+	db $9f, $08
+	db $9e, $08
+	db $a0, $08
+	db $00  ; terminator
 
-Data_d846:
-	dr $d846, $d84f
+FieldSelectConfirmationAnimationData:
+; [OAM id][duration]
+	db $9F, $03
+	db $A0, $03
+	db $9F, $03
+	db $A0, $03
+	db $00  ; terminator
 
-Data_d84f:
-	dr $d84f, $d853
+FieldSelectBorderOAMPixelOffsetData:
+	dw $2A42
+	dw $7242
 
 HandlePinballGame: ; 0xd853
 	ld a, [wScreenState]

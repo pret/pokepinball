@@ -157,9 +157,9 @@ OAMDataPointers: ; 0x4000
 	dw SendHighScoresAnimation4OAM
 	dw SendHighScoresAnimation5OAM
 	dw SendHighScoresAnimation6OAM
-	dw FieldSelectRedStageBorderOAM
-	dw FieldSelectBlueStageBorderOAM
-	dw OAMData_a0
+	dw FieldSelectGreyBorderOAM
+	dw FieldSelectWhiteBorderOAM
+	dw FieldSelectBlackBorderOAM
 	dw OAMData_a1
 	dw OAMData_a2
 	dw OAMData_a3
@@ -1470,7 +1470,7 @@ SendHighScoresAnimation6OAM: ; 0x4e17
 	db $10, $08, $94, $04
 	db $80 ; terminator
 
-FieldSelectRedStageBorderOAM: ; 0x4e28
+FieldSelectGreyBorderOAM: ; 0x4e28
 	db $36, $1c, $71, $40
 	db $26, $24, $72, $60
 	db $2e, $24, $72, $60
@@ -1511,7 +1511,7 @@ FieldSelectRedStageBorderOAM: ; 0x4e28
 	db $e2, $e8, $70, $00
 	db $80 ; terminator
 
-FieldSelectBlueStageBorderOAM: ; 0x4ec1
+FieldSelectWhiteBorderOAM: ; 0x4ec1
 	db $36, $1c, $74, $40
 	db $26, $24, $75, $60
 	db $2e, $24, $75, $60
@@ -1552,7 +1552,7 @@ FieldSelectBlueStageBorderOAM: ; 0x4ec1
 	db $e2, $e8, $73, $00
 	db $80 ; terminator
 
-OAMData_a0: ; 0x4f5a
+FieldSelectBlackBorderOAM: ; 0x4f5a
 	db $36, $1c, $77, $40
 	db $26, $24, $78, $60
 	db $2e, $24, $78, $60

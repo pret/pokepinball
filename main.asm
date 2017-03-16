@@ -8384,7 +8384,7 @@ Func_ed8e: ; 0xed8e
 	jr nz, .asm_edac
 	ld a, [hGameBoyColorFlag]
 	and a
-	call nz, Func_f269
+	call nz, LoadGreyBillboardPaletteData
 	call GenRandom
 	and $f0
 	ld [wd61a], a
@@ -8998,24 +8998,27 @@ ENDM
 	BillboardPicturePointer CinnabarIslandPic
 	BillboardPicturePointer IndigoPlateauPic
 
-Func_f269: ; 0xf269
+LoadGreyBillboardPaletteData: ; 0xf269
 	ld a, [hGameBoyColorFlag]
 	and a
-	jr z, .asm_f27c
-	ld a, BANK(StageRedFieldBottomBGPalette5)
+	jr z, .loadPaletteMap
+	ld a, BANK(StageRedFieldBottomBGPalette5) ; also used in blue stage
 	ld hl, StageRedFieldBottomBGPalette5
 	ld de, $0030
 	ld bc, $0008
 	call Func_7dc
-.asm_f27c
-	ld a, BANK(Data_f288)
-	ld de, Data_f288
+.loadPaletteMap
+	ld a, BANK(GreyBillboardPaletteMap)
+	ld de, GreyBillboardPaletteMap
 	hlCoord 7, 4, vBGMap
 	call Func_86f
 	ret
 
-Data_f288:
-	dr $f288, $f2a0
+GreyBillboardPaletteMap:
+	db $06, $06, $06, $06, $06, $06
+	db $06, $06, $06, $06, $06, $06
+	db $06, $06, $06, $06, $06, $06
+	db $06, $06, $06, $06, $06, $06
 
 Func_f2a0: ; 0xf2a0
 	push hl
@@ -16932,8 +16935,8 @@ Func_1658f: ; 0x1658f
 	ld a, [hGameBoyColorFlag]
 	and a
 	ld [hFarCallTempA], a
-	ld a, Bank(Func_f269)
-	ld hl, Func_f269
+	ld a, Bank(LoadGreyBillboardPaletteData)
+	ld hl, LoadGreyBillboardPaletteData
 	call nz, BankSwitch
 .showNextMap
 	ld a, [wInitialMapSelectionIndex]
@@ -22722,8 +22725,8 @@ Func_1c839: ; 0x1c839
 	ld a, [hGameBoyColorFlag]
 	and a
 	ld [hFarCallTempA], a
-	ld a, Bank(Func_f269)
-	ld hl, Func_f269
+	ld a, Bank(LoadGreyBillboardPaletteData)
+	ld hl, LoadGreyBillboardPaletteData
 	call nz, BankSwitch
 .showNextMap
 	ld a, [wInitialMapSelectionIndex]

@@ -44515,7 +44515,6 @@ TiltUpLeftForce:
 	INCBIN "data/tilt/up_left"
 TiltLeftOnlyForce:
 	INCBIN "data/tilt/left_only"
-	dr $f3800, $f4000 ; 0xf0000
 
 SECTION "bank3d", ROMX, BANK[$3d]
 

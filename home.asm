@@ -4950,24 +4950,23 @@ SubTileXPos_CollisionData7: ; 0x268e
 Data_26be:
 	dr $26be, $2720
 
-Func_2720: ; 0x2720
+CheckGameObjectCollisions: ; 0x2720
 	ld a, $ff
 	ld [wTriggeredGameObject], a
-	call Func_272f
+	call CheckGameObjectCollisions_
 	ld a, [wTriggeredGameObject]
 	ld [wPreviousTriggeredGameObject], a
 	ret
 
-Func_272f: ; 0x272f
-; not collisions
+CheckGameObjectCollisions_: ; 0x272f
 	ld a, [wCurrentStage]
 	call CallInFollowingTable
-CallTable_2735: ; 0x2735
+GameObjectCollisions_CallTable: ; 0x2735
 	; STAGE_RED_FIELD_TOP
 	padded_dab Func_143e1
 
 	; STAGE_RED_FIELD_BOTTOM
-	padded_dab StageRedBottom_Func_143f9
+	padded_dab CheckRedStageBottomGameObjectCollisions
 
 	padded_dab Func_18061
 
@@ -5123,7 +5122,7 @@ IsCollisionInList: ; 0x27da
 	scf
 	ret
 
-PinballCollideWithPoints: ; 0x27fd
+PinballCollidesWithPoints: ; 0x27fd
 ; Checks if pinball collides with any of the (x, y) points in the given list.
 ; Saves the index of the collided point.
 ; Input:  hl = pointer to array of (x, y) points

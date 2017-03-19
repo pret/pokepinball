@@ -411,10 +411,9 @@ wPreviousTriggeredGameObject:: ; 0xd4ec
 ; and object two frames in a row. It has to "un-collide" before it can collide again.
 	ds $1
 
-wd4ed:: ; 0xd4ed
+wWhichDiglett:: ; 0xd4ed
 	ds $1
-
-wd4ee:: ; 0xd4ee
+wWhichDiglettId:: ; 0xd4ee
 	ds $1
 
 wd4ef:: ; 0xd4ef
@@ -465,7 +464,8 @@ wBellsproutAnimationFrame:: ; 0xd4fe
 wBellsproutAnimationFrameIndex:: ; 0xd4ff
 	ds $1
 
-wd500:: ; 0xd500
+wStaryuCollision:: ; 0xd500
+; Second byte is set by HandleGameObjectCollision, but is unused
 	ds $2
 
 wd502:: ; 0xd502
@@ -763,8 +763,12 @@ wNumMewHitsLow:: ; 0xd5c5
 wd5c6:: ; 0xd5c6
 	ds $1
 
-wd5c7:: ; 0xd5c7
-	ds $3
+wWildMonCollision:: ; 0xd5c7
+; Set by HandleGameObjectCollision
+; Second byte gets set, but is unused
+	ds $2
+
+	ds $1
 
 wd5ca:: ; 0xd5ca
 	ds $1
@@ -832,7 +836,8 @@ wd5fe:: ; 0xd5fe
 wd600:: ; 0xd600
 	ds $1
 
-wd601:: ; 0xd601
+wSlotCollision:: ; 0xd601
+; Second byte is set by HandleGameObjectCollision, but is unused
 	ds $2
 
 wd603:: ; 0xd603
@@ -853,10 +858,9 @@ wd608:: ; 0xd608
 wd609:: ; 0xd609
 	ds $1
 
-wd60a:: ; 0xd60a
+wWhichBonusMultiplierRailing:: ; 0xd60a
 	ds $1
-
-wd60b:: ; 0xd60b
+wWhichBonusMultiplierRailingId:: ; 0xd60b
 	ds $1
 
 wd60c:: ; 0xd60c

@@ -5971,7 +5971,7 @@ Func_d909: ; 0xd909
 	jr z, .noFlipperCollision
 	ld [wd7ea], a
 .noFlipperCollision
-	call Func_2720 ; not collision-related
+	call CheckGameObjectCollisions
 	call Func_281c ; not collision-related
 	ld hl, wKeyConfigMenu
 	call IsKeyPressed
@@ -14236,18 +14236,18 @@ Func_143e1: ; 0x143e1
 	call Func_144da
 	call Func_14439
 	call Func_144ac
-	jp Func_1441e
+	jp CheckRedStageEvolutionTrinketCollision
 
-StageRedBottom_Func_143f9: ; 0x143f9
+CheckRedStageBottomGameObjectCollisions: ; 0x143f9
 	ld a, [wBallYPos + 1]
 	cp $56
 	jr nc, .lowerHalfOfScreen
-	call Func_1444d
-	call Func_144cd
-	call Func_14467
-	call Func_1445a
-	call Func_14443
-	jp Func_1441e
+	call CheckRedStageWildPokemonCollision
+	call CheckRedStageBottomStaryuCollision
+	call CheckRedStageDiglettCollision
+	call CheckRedStageBonusMultiplierCollision
+	call CheckRedStageSlotCollision
+	jp CheckRedStageEvolutionTrinketCollision
 
 .lowerHalfOfScreen
 	call CheckRedStageBumpersCollision
@@ -14255,7 +14255,7 @@ StageRedBottom_Func_143f9: ; 0x143f9
 	call CheckRedStageCAVELightsCollision
 	jp CheckRedStageLaunchAlleyCollision
 
-Func_1441e: ; 0x1441e
+CheckRedStageEvolutionTrinketCollision: ; 0x1441e
 	xor a
 	ld [wd578], a
 	ld a, [wd551]
@@ -14270,7 +14270,7 @@ Func_1441e: ; 0x1441e
 	ld a, [hli]
 	ld h, [hl]
 	ld l, a
-	jp PinballCollideWithPoints
+	jp PinballCollidesWithPoints
 
 Func_14439: ; 0x14439
 	ld de, Data_145b5
@@ -14278,30 +14278,32 @@ Func_14439: ; 0x14439
 	scf
 	jp HandleGameObjectCollision
 
-Func_14443: ; 0x14443
-	ld de, Data_145bb
-	ld bc, wd601
+CheckRedStageSlotCollision: ; 0x14443
+	ld de, RedStageSlotCollisionData
+	ld bc, wSlotCollision
 	scf
 	jp HandleGameObjectCollision
 
-Func_1444d: ; 0x1444d
-	ld de, Data_145af
-	ld hl, Data_1459d
-	ld bc, wd5c7
+CheckRedStageWildPokemonCollision: ; 0x1444d
+	ld de, RedStageWildPokemonCollisionData
+	ld hl, RedStageWildPokemonCollisionAttributes
+	ld bc, wWildMonCollision
 	and a
 	jp HandleGameObjectCollision
 
-Func_1445a: ; 0x1445a
-	ld de, Data_145c9
-	ld hl, Data_145c1
-	ld bc, wd60a
+CheckRedStageBonusMultiplierCollision: ; 0x1445a
+; There are two small railings above the Digletts. If you hit them, you get a bonus
+; multiplier. I can't think of a good name for these two obsjects.
+	ld de, RedStageBonusMultipliersCollisionData
+	ld hl, RedStageBonusMultipliersCollisionAttributes
+	ld bc, wWhichBonusMultiplierRailing
 	and a
 	jp HandleGameObjectCollision
 
-Func_14467: ; 0x14467
-	ld de, Data_144f4
-	ld hl, Data_144ee
-	ld bc, wd4ed
+CheckRedStageDiglettCollision: ; 0x14467
+	ld de, RedStageDiglettCollisionData
+	ld hl, RedStageDiglettCollisionAttributes
+	ld bc, wWhichDiglett
 	and a
 	jp HandleGameObjectCollision
 
@@ -14352,14 +14354,16 @@ Func_144b6: ; 0x144b6
 Func_144c0: ; 0x144c0
 	ld de, Data_1457d
 	ld hl, Data_14578
-	ld bc, wd500
+	ld bc, wStaryuCollision
 	and a
 	jp HandleGameObjectCollision
 
-Func_144cd: ; 0x144cd
-	ld de, Data_14588
-	ld hl, Data_14583
-	ld bc, wd500
+CheckRedStageBottomStaryuCollision: ; 0x144cd
+; Staryu collision can actually be hit via the bottom screen, despite the fact
+; that the Staryu is located on the (bottom of the) top screen.
+	ld de, RedStageStaryuCollisionData
+	ld hl, RedStageStaryuCollisionAttributes
+	ld bc, wStaryuCollision
 	and a
 	jp HandleGameObjectCollision
 
@@ -14369,17 +14373,22 @@ Func_144da: ; 0x144da
 	scf
 	jp HandleGameObjectCollision
 
-CheckRedStagePikachuCollision
+CheckRedStagePikachuCollision:
 	ld de, RedStagePikachuCollisionData
 	ld bc, wWhichPikachu
 	scf
 	jp HandleGameObjectCollision
 
-Data_144ee:
-	db $00, $64, $65, $68, $69, $FF
+RedStageDiglettCollisionAttributes:
+	db $00  ; flat list
+	db $64, $65, $68, $69
+	db $FF ; terminator
 
-Data_144f4:
-	db $08, $0C, $01, $20, $40, $02, $80, $40, $FF
+RedStageDiglettCollisionData:
+	db $08, $0C  ; x, y bounding box
+	db $01, $20, $40  ; id, x, y
+	db $02, $80, $40  ; id, x, y
+	db $FF ; terminator
 
 Data_144fd:
 	dr $144fd, $14515
@@ -14426,11 +14435,15 @@ Data_14578:
 Data_1457d:
 	dr $1457d, $14583
 
-Data_14583:
-	dr $14583, $14588
+RedStageStaryuCollisionAttributes:
+	db $00  ; flat list
+	db $56, $5B, $5C
+	db $FF ; terminator
 
-Data_14588:
-	dr $14588, $1458e
+RedStageStaryuCollisionData:
+	db $08, $06  ; x, y bounding box
+	db $1A, $40, $08  ; id, x, y
+	db $FF ; terminator
 
 Data_1458e:
 	dr $1458e, $14594
@@ -14441,23 +14454,34 @@ RedStagePikachuCollisionData:
 	db $1D, $92, $7C  ; id, x, y
 	db $FF ; terminator
 
-Data_1459d:
-	dr $1459d, $145af
+RedStageWildPokemonCollisionAttributes:
+	db $00  ; flat list
+	db $D0, $D1, $D2, $D3, $D4, $D5, $D6, $D7, $D8, $D9, $DA, $DB, $DC, $DD, $DE, $DF
+	db $FF ; terminator
 
-Data_145af:
-	dr $145af, $145b5
+RedStageWildPokemonCollisionData:
+	db $1A, $1A  ; x, y bounding box
+	db $1E, $50, $40  ; id, x, y
+	db $FF ; terminator
 
 Data_145b5:
 	dr $145b5, $145bb
 
-Data_145bb:
-	dr $145bb, $145c1
+RedStageSlotCollisionData:
+	db $04, $04  ; x, y bounding box
+	db $20, $50, $16  ; id, x, y
+	db $FF ; terminator
 
-Data_145c1:
-	dr $145c1, $145c9
+RedStageBonusMultipliersCollisionAttributes:
+	db $00  ; flat list
+	db $4C, $4B, $48, $47, $4D, $4A
+	db $FF ; terminator
 
-Data_145c9:
-	dr $145c9, $145d2
+RedStageBonusMultipliersCollisionData:
+	db $07, $07  ; x, y bounding box
+	db $21, $2C, $20  ; id, x, y
+	db $22, $74, $20  ; id, x, y
+	db $FF ; terminator
 
 RedStageEvolutionTrinketCoordinatePointers: ; 0x145d2
 	dw RedStageTopEvolutionTrinketCoords
@@ -14682,11 +14706,11 @@ Data_1478b:
 	dr $1478b, $14795
 
 Func_14795: ; 0x14795
-	ld a, [wd5c7]
+	ld a, [wWildMonCollision]
 	and a
 	ret z
 	xor a
-	ld [wd5c7], a
+	ld [wWildMonCollision], a
 	ld a, $1
 	ld [wBallHitWildMon], a
 	lb de, $00, $06
@@ -14694,12 +14718,12 @@ Func_14795: ; 0x14795
 	ret
 
 Func_147aa: ; 0x147aa
-	ld a, [wd4ed]
+	ld a, [wWhichDiglett]
 	and a
 	jp z, .asm_14834
 	xor a
-	ld [wd4ed], a
-	ld a, [wd4ee]
+	ld [wWhichDiglett], a
+	ld a, [wWhichDiglettId]
 	sub $1
 	sla a
 	ld c, a
@@ -16629,11 +16653,11 @@ asm_1620f: ; 0x1620f
 	ret
 
 Func_16279: ; 0x16279
-	ld a, [wd601]
+	ld a, [wSlotCollision]
 	and a
 	jr z, .asm_162ae
 	xor a
-	ld [wd601], a
+	ld [wSlotCollision], a
 	ld a, [wd604]
 	and a
 	ret z
@@ -17192,11 +17216,11 @@ Func_16766: ; 0x16766
 	ret
 
 Func_16781: ; 0x16781
-	ld a, [wd500]
+	ld a, [wStaryuCollision]
 	and a
 	jr z, .asm_167bd
 	xor a
-	ld [wd500], a
+	ld [wStaryuCollision], a
 	ld a, [wd503]
 	and a
 	jr nz, .asm_167c2
@@ -17242,11 +17266,11 @@ Func_16781: ; 0x16781
 	jp Func_15499
 
 Func_167ff: ; 0x167ff
-	ld a, [wd500]
+	ld a, [wStaryuCollision]
 	and a
 	jr z, .asm_16839
 	xor a
-	ld [wd500], a
+	ld [wStaryuCollision], a
 	ld a, [wd503]
 	and a
 	jr nz, .asm_1683e
@@ -17394,14 +17418,14 @@ Data_16bef:
 	dr $16bef, $16d9d
 
 Func_16d9d: ; 016d9d
-	ld a, [wd60a]
+	ld a, [wWhichBonusMultiplierRailing]
 	and a
 	jp z, Func_16e51
 	xor a
-	ld [wd60a], a
+	ld [wWhichBonusMultiplierRailing], a
 	lb de, $00, $0d
 	call PlaySoundEffect
-	ld a, [wd60b]
+	ld a, [wWhichBonusMultiplierRailingId]
 	sub $21
 	jr nz, .asm_16ddc
 	ld a, $9
@@ -18436,7 +18460,7 @@ Func_18060: ; 0x18060
 Func_18061: ; 0x18061
 	ret
 
-CheckRedStageLaunchAlleyCollision: ; 0x18062
+CheckRedStageLaunchAlleyCollision_: ; 0x18062
 	callba CheckRedStageLaunchAlleyCollision
 	ret
 
@@ -22487,14 +22511,14 @@ Func_1c59c: ; 0x1c59c
 Func_1c5a6: ; 0x1c5a6
 	ld de, Data_1c686
 	ld hl, Data_1c67a
-	ld bc, wd60a
+	ld bc, wWhichBonusMultiplierRailing
 	and a
 	jp HandleGameObjectCollision
 
 Func_1c5b3: ; 0x1c5b3
 	ld de, Data_1c695
 	ld hl, Data_1c68f
-	ld bc, wd4ed
+	ld bc, wWhichDiglett
 	and a
 	jp HandleGameObjectCollision
 
@@ -22512,14 +22536,14 @@ Func_1c5ca: ; 0x1c5ca
 
 Func_1c5d4: ; 0x1c5d4
 	ld de, Data_1c6b9
-	ld bc, wd601
+	ld bc, wSlotCollision
 	scf
 	jp HandleGameObjectCollision
 
 Func_1c5de: ; 0x1c5de
 	ld de, Data_1c6d1
 	ld hl, Data_1c6bf
-	ld bc, wd5c7
+	ld bc, wWildMonCollision
 	and a
 	jp HandleGameObjectCollision
 
@@ -22533,11 +22557,11 @@ Func_1c5eb: ; 0x1c5eb
 	bit 0, a
 	jr nz, .asm_1c601
 	ld hl, BlueTopEvolutionTrinketCoords
-	jp PinballCollideWithPoints
+	jp PinballCollidesWithPoints
 
 .asm_1c601
 	ld hl, BlueBottomEvolutionTrinketCoords
-	jp PinballCollideWithPoints
+	jp PinballCollidesWithPoints
 
 Func_1c607: ; 0x1c607
 	ld de, Data_1c70f
@@ -23005,11 +23029,11 @@ Func_1ca29: ; 0x1ca29
 	ret
 
 Func_1ca4a: ; 1ca4a
-	ld a, [wd5c7]
+	ld a, [wWildMonCollision]
 	and a
 	ret z
 	xor a
-	ld [wd5c7], a
+	ld [wWildMonCollision], a
 	ld a, $1
 	ld [wBallHitWildMon], a
 	lb de, $00, $06
@@ -23768,14 +23792,14 @@ Data_1d41d:
 
 Func_1d438: ; 0x1d438
 	call Func_1d692
-	ld a, [wd60a]
+	ld a, [wWhichBonusMultiplierRailing]
 	and a
 	jp z, Func_1d51b
 	xor a
-	ld [wd60a], a
+	ld [wWhichBonusMultiplierRailing], a
 	lb de, $00, $0d
 	call PlaySoundEffect
-	ld a, [wd60b]
+	ld a, [wWhichBonusMultiplierRailingId]
 	sub $f
 	jr nz, .asm_1d48e
 	ld a, [hGameBoyColorFlag]
@@ -24123,13 +24147,13 @@ Data_1d97a:
 	dr $1d97a, $1dbd2
 
 Func_1dbd2: ; 0x1dbd2
-	ld a, [wd4ed]
+	ld a, [wWhichDiglett]
 	and a
 	jp z, Func_1dc8e
 	cp $2
 	jr z, .asm_1dc33
 	xor a
-	ld [wd4ed], a
+	ld [wWhichDiglett], a
 	ld hl, wLeftMapMoveCounter
 	ld a, [hl]
 	cp $3
@@ -24167,7 +24191,7 @@ Func_1dbd2: ; 0x1dbd2
 
 .asm_1dc33
 	xor a
-	ld [wd4ed], a
+	ld [wWhichDiglett], a
 	ld hl, wRightMapMoveCounter
 	ld a, [hl]
 	cp $3
@@ -25120,11 +25144,11 @@ Data_1e71f:
 	dr $1e71f, $1e757
 
 Func_1e757: ; 0x1e757
-	ld a, [wd601]
+	ld a, [wSlotCollision]
 	and a
 	jr z, .asm_1e78c
 	xor a
-	ld [wd601], a
+	ld [wSlotCollision], a
 	ld a, [wd604]
 	and a
 	ret z

@@ -4693,7 +4693,7 @@ Func_22b5: ; 0x22b5
 	ld hl, wUpperLeftCollisionAttribute
 	add hl, bc
 	ld a, [hl]
-	ld [wd7f5], a
+	ld [wCurCollisionAttribute], a
 	ld hl, Data_250a
 	add hl, bc
 	ld a, [wd7f3]
@@ -4952,10 +4952,10 @@ Data_26be:
 
 Func_2720: ; 0x2720
 	ld a, $ff
-	ld [wd4ea], a
+	ld [wTriggeredGameObject], a
 	call Func_272f
-	ld a, [wd4ea]
-	ld [wd4ec], a
+	ld a, [wTriggeredGameObject]
+	ld [wPreviousTriggeredGameObject], a
 	ret
 
 Func_272f: ; 0x272f
@@ -4967,11 +4967,11 @@ CallTable_2735: ; 0x2735
 	padded_dab Func_143e1
 
 	; STAGE_RED_FIELD_BOTTOM
-	padded_dab Func_143f9
+	padded_dab StageRedBottom_Func_143f9
 
 	padded_dab Func_18061
 
-	padded_dab Func_18062
+	padded_dab CheckRedStageLaunchAlleyCollision_
 
 	; STAGE_BLUE_FIELD_TOP
 	padded_dab Func_1c520
@@ -5009,81 +5009,96 @@ CallTable_2735: ; 0x2735
 	; STAGE_SEEL_BONUS
 	padded_dab Func_25bbc
 
-Func_2775: ; 0x2775
-	ld a, [wd4ea]
+HandleGameObjectCollision: ; 0x2775
+; Handle collision checking for one set of game objects, such as the bumpers, Pikachu savers, etc.
+; Input: hl = pointer to collision attribute list for game objects
+;        de = pointer to object collision struct
+;        carry flag = unset to skip the collision attribute list check
+	ld a, [wTriggeredGameObject]
 	inc a
-	jr nz, .asm_27a2
+	jr nz, .noTrigger
 	ld a, [bc]
 	bit 7, a
-	jr nz, .asm_27a2
+	jr nz, .noTrigger
 	push bc
 	push de
-	call nc, Func_27da
+	call nc, IsCollisionInList
 	pop hl
-	call c, Func_27a4
-	ld a, [wd4ea]
+	call c, CheckGameObjectCollision
+	ld a, [wTriggeredGameObject]
 	ld b, a
 	pop hl
 	ld [hl], $0
-	jr nc, .asm_27a2
-	ld a, [wd4ec]
+	jr nc, .noTrigger
+	ld a, [wPreviousTriggeredGameObject]
 	cp b
-	jr z, .asm_27a2
-	ld a, [wd4eb]
+	jr z, .noTrigger
+	ld a, [wTriggeredGameObjectIndex]
 	ld [hli], a
-	ld a, [wd4ea]
+	ld a, [wTriggeredGameObject]
 	ld [hl], a
 	scf
 	ret
 
-.asm_27a2
+.noTrigger
 	and a
 	ret
 
-Func_27a4: ; 0x27a4
+CheckGameObjectCollision: ; 0x27a4
+; Checks if any of the given game objects are colliding with the pinball.
+; Saves information about which game object was collided.
+; Sets carry flag if a game object was collided.
+; Input: hl = pointer to game object struct with the following format:
+;             [x distance][y distance] (defines bounding box for the following list of objects)
+;             [game object id][object x][object y] (terminate this list with $FF)
 	xor a
-	ld [wd4eb], a
-	ld a, [hli]
+	ld [wTriggeredGameObjectIndex], a
+	ld a, [hli] ; x distance threshold
 	ld d, a
-	ld a, [hli]
+	ld a, [hli] ; y distance threshold
 	ld e, a
 	ld a, [wBallXPos + 1]
 	ld b, a
 	ld a, [wBallYPos + 1]
 	ld c, a
-.asm_27b4
-	ld a, [wd4eb]
+.loop
+	ld a, [wTriggeredGameObjectIndex]
 	inc a
-	ld [wd4eb], a
+	ld [wTriggeredGameObjectIndex], a
 	ld a, [hli]
-	ld [wd4ea], a
+	ld [wTriggeredGameObject], a
 	cp $ff
 	ret z
 	ld a, [hli]
 	sub b
 	bit 7, a
-	jr z, .asm_27ca
-	cpl
+	jr z, .compareXDifference
+	cpl   ; calculate absolute value of the difference
 	inc a
-.asm_27ca
+.compareXDifference
 	cp d
 	ld a, [hli]
-	jr nc, .asm_27b4
+	jr nc, .loop
 	sub c
 	bit 7, a
-	jr z, .asm_27d5
-	cpl
+	jr z, .compareYDifference
+	cpl   ; calculate absolute value of the difference
 	inc a
-.asm_27d5
+.compareYDifference
 	cp e
-	jr nc, .asm_27b4
+	jr nc, .loop
 	scf
 	ret
 
-Func_27da: ; 0x27da
+IsCollisionInList: ; 0x27da
+; Checks if the pinball's current collision attribute is in the given list.
+; Input: hl = pointer to list of collision attributes, terminated by $FF.
+; Output: Sets carry flag if the attribute is in the list.
+; First byte in list is 0 if the list is independent of the stage's current collision state (Red stage's
+; top section changes during gameply.)
 	ld a, [hli]
 	and a
-	jr z, .asm_27e8
+	jr z, .checkList
 	dec hl
 	ld a, [wStageCollisionState]
 	ld c, a
@@ -5091,20 +5106,20 @@ Func_27da: ; 0x27da
 	add hl, bc
 	ld c, [hl]
 	add hl, bc
-.asm_27e8
+.checkList
 	ld a, [wd7e9]
 	and a
 	ret z
-	ld a, [wd7f5]
+	ld a, [wCurCollisionAttribute]
 	ld b, a
-	ld c, $ff
-.asm_27f3
+	ld c, -1 ; This saves the list offset in C, but the result isn't used by any callers of this routine.
+.loop
 	inc c
 	ld a, [hli]
 	cp $ff
 	ret z
 	cp b
-	jr nz, .asm_27f3
+	jr nz, .loop
 	scf
 	ret
 

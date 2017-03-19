@@ -7551,7 +7551,7 @@ HandleFlipperCollision: ; 0xe442
 	xor a
 	ld [wd7f3], a
 	ld [wd7f4], a
-	ld [wd7f5], a
+	ld [wCurCollisionAttribute], a
 	ld [wd7f6], a
 	ld [wd7f7], a
 	ld a, [hFlipperYCollisionAttribute]
@@ -14238,10 +14238,10 @@ Func_143e1: ; 0x143e1
 	call Func_144ac
 	jp Func_1441e
 
-Func_143f9: ; 0x143f9
+StageRedBottom_Func_143f9: ; 0x143f9
 	ld a, [wBallYPos + 1]
 	cp $56
-	jr nc, .asm_14412
+	jr nc, .lowerHalfOfScreen
 	call Func_1444d
 	call Func_144cd
 	call Func_14467
@@ -14249,11 +14249,11 @@ Func_143f9: ; 0x143f9
 	call Func_14443
 	jp Func_1441e
 
-.asm_14412
-	call Func_14481
-	call Func_144e4
-	call Func_144a2
-	jp Func_1448e
+.lowerHalfOfScreen
+	call CheckRedStageBumpersCollision
+	call CheckRedStagePikachuCollision
+	call CheckRedStageCAVELightsCollision
+	jp CheckRedStageLaunchAlleyCollision
 
 Func_1441e: ; 0x1441e
 	xor a
@@ -14276,110 +14276,110 @@ Func_14439: ; 0x14439
 	ld de, Data_145b5
 	ld bc, wd5fe
 	scf
-	jp Func_2775
+	jp HandleGameObjectCollision
 
 Func_14443: ; 0x14443
 	ld de, Data_145bb
 	ld bc, wd601
 	scf
-	jp Func_2775
+	jp HandleGameObjectCollision
 
 Func_1444d: ; 0x1444d
 	ld de, Data_145af
 	ld hl, Data_1459d
 	ld bc, wd5c7
 	and a
-	jp Func_2775
+	jp HandleGameObjectCollision
 
 Func_1445a: ; 0x1445a
 	ld de, Data_145c9
 	ld hl, Data_145c1
 	ld bc, wd60a
 	and a
-	jp Func_2775
+	jp HandleGameObjectCollision
 
 Func_14467: ; 0x14467
 	ld de, Data_144f4
 	ld hl, Data_144ee
 	ld bc, wd4ed
 	and a
-	jp Func_2775
+	jp HandleGameObjectCollision
 
 Func_14474: ; 0x14474
 	ld de, Data_14515
 	ld hl, Data_144fd
 	ld bc, wd4cb
 	and a
-	jp Func_2775
+	jp HandleGameObjectCollision
 
-Func_14481: ; 0x14481
-	ld de, Data_1452d
-	ld hl, Data_14521
-	ld bc, wd4d8
+CheckRedStageBumpersCollision: ; 0x14481
+	ld de, RedStageBumpersCollisionData
+	ld hl, RedStageBumpersCollisionAttributes
+	ld bc, wWhichBumper
 	and a
-	jp Func_2775
+	jp HandleGameObjectCollision
 
-Func_1448e: ; 0x1448e
-	ld de, Data_14536
-	ld bc, wd4dc
+CheckRedStageLaunchAlleyCollision: ; 0x1448e
+	ld de, RedStageLaunchAlleyCollisionData
+	ld bc, wPinballLaunchAlley
 	scf
-	jp Func_2775
+	jp HandleGameObjectCollision
 
 Func_14498: ; 0x14498
 	ld de, Data_1453c
 	ld bc, wd507
 	scf
-	jp Func_2775
+	jp HandleGameObjectCollision
 
-Func_144a2: ; 0x144a2
-	ld de, Data_14542
-	ld bc, wd50d
+CheckRedStageCAVELightsCollision: ; 0x144a2
+	ld de, RedStageCAVELightsCollisionData
+	ld bc, wWhichCAVELight
 	scf
-	jp Func_2775
+	jp HandleGameObjectCollision
 
 Func_144ac: ; 0x144ac
 	ld de, Data_14551
 	ld bc, wd5f7
 	scf
-	jp Func_2775
+	jp HandleGameObjectCollision
 
 Func_144b6: ; 0x144b6
 	ld de, Data_1455d
 	ld bc, wd51f
 	scf
-	jp Func_2775
+	jp HandleGameObjectCollision
 
 Func_144c0: ; 0x144c0
 	ld de, Data_1457d
 	ld hl, Data_14578
 	ld bc, wd500
 	and a
-	jp Func_2775
+	jp HandleGameObjectCollision
 
 Func_144cd: ; 0x144cd
 	ld de, Data_14588
 	ld hl, Data_14583
 	ld bc, wd500
 	and a
-	jp Func_2775
+	jp HandleGameObjectCollision
 
 Func_144da: ; 0x144da
 	ld de, Data_1458e
 	ld bc, wd4fb
 	scf
-	jp Func_2775
+	jp HandleGameObjectCollision
 
-Func_144e4: ; 0x144e4
-	ld de, Data_14594
-	ld bc, wd515
+CheckRedStagePikachuCollision
+	ld de, RedStagePikachuCollisionData
+	ld bc, wWhichPikachu
 	scf
-	jp Func_2775
+	jp HandleGameObjectCollision
 
 Data_144ee:
-	dr $144ee, $144f4
+	db $00, $64, $65, $68, $69, $FF
 
 Data_144f4:
-	dr $144f4, $144fd
+	db $08, $0C, $01, $20, $40, $02, $80, $40, $FF
 
 Data_144fd:
 	dr $144fd, $14515
@@ -14387,20 +14387,32 @@ Data_144fd:
 Data_14515:
 	dr $14515, $14521
 
-Data_14521:
-	dr $14521, $1452d
+RedStageBumpersCollisionAttributes:
+	db $00  ; flat list
+	db $32, $3F, $37, $3C, $34, $31, $3E, $36, $3B, $3D
+	db $FF ; terminator
 
-Data_1452d:
-	dr $1452d, $14536
+RedStageBumpersCollisionData:
+	db $06, $0B  ; x, y bounding box
+	db $06, $30, $66  ; id, x, y
+	db $07, $6F, $66  ; id, x, y
+	db $FF ; terminator
 
-Data_14536:
-	dr $14536, $1453c
+RedStageLaunchAlleyCollisionData:
+	db $08, $08  ; x, y bounding box
+	db $08, $A8, $98  ; id, x, y
+	db $FF ; terminator
 
 Data_1453c:
 	dr $1453c, $14542
 
-Data_14542:
-	dr $14542, $14551
+RedStageCAVELightsCollisionData:
+	db $05, $03  ; x, y bounding box
+	db $0A, $0E, $65  ; id, x, y
+	db $0B, $1E, $65  ; id, x, y
+	db $0C, $82, $65  ; id, x, y
+	db $0D, $92, $65  ; id, x, y
+	db $FF ; terminator
 
 Data_14551:
 	dr $14551, $1455d
@@ -14423,8 +14435,11 @@ Data_14588:
 Data_1458e:
 	dr $1458e, $14594
 
-Data_14594:
-	dr $14594, $1459d
+RedStagePikachuCollisionData:
+	db $03, $05  ; x, y bounding box
+	db $1C, $0E, $7C  ; id, x, y
+	db $1D, $92, $7C  ; id, x, y
+	db $FF ; terminator
 
 Data_1459d:
 	dr $1459d, $145af
@@ -15208,15 +15223,15 @@ Data_1509b:
 	dr $1509b, $151cb
 
 Func_151cb: ; 0x151cb
-	ld a, [wd50d]
+	ld a, [wWhichCAVELight]
 	and a
 	jr z, .asm_15229
 	xor a
-	ld [wd50d], a
+	ld [wWhichCAVELight], a
 	ld a, [wd513]
 	and a
 	jr nz, .asm_15229
-	ld a, [wd50e]
+	ld a, [wWhichCAVELightId]
 	sub $a
 	ld c, a
 	ld b, $0
@@ -16314,13 +16329,13 @@ BellsproutAnimationData: ; 0x15f69
 	db $00  ; terminator
 
 Func_15f86: ; 0x15f86
-	ld a, [wd4d8]
+	ld a, [wWhichBumper]
 	and a
 	jr z, .asm_15f99
 	call Func_5fb8
 	call Func_15fa6
 	xor a
-	ld [wd4d8], a
+	ld [wWhichBumper], a
 	call Func_15fda
 .asm_15f99
 	ld a, [wd4da]
@@ -16334,7 +16349,7 @@ Func_15f86: ; 0x15f86
 Func_15fa6: ; 0x15fa6
 	ld a, $10
 	ld [wd4da], a
-	ld a, [wd4d9]
+	ld a, [wWhichBumperId]
 	sub $6
 	ld [wd4db], a
 	sla a
@@ -16376,7 +16391,7 @@ Func_15fda: ; 0x15fda
 	ld [wd7bd], a
 	ld a, $80
 	ld [wFlipperCollision], a
-	ld a, [wd4d9]
+	ld a, [wWhichBumperId]
 	sub $6
 	ld c, a
 	ld b, $0
@@ -16883,11 +16898,11 @@ Func_164e3: ; 0x164e3
 	ret
 
 Func_1652d: ; 0x1652d
-	ld a, [wd4dc]
+	ld a, [wPinballLaunchAlley]
 	and a
 	ret z
 	xor a
-	ld [wd4dc], a
+	ld [wPinballLaunchAlley], a
 	ld a, [wd4de]
 	and a
 	jr z, .asm_16566
@@ -16910,7 +16925,7 @@ Func_1652d: ; 0x1652d
 	call PlaySoundEffect
 .asm_16566
 	ld a, $ff
-	ld [wd4ec], a
+	ld [wPreviousTriggeredGameObject], a
 	ld a, [wd4de]
 	and a
 	ret nz
@@ -16991,18 +17006,18 @@ RedStageInitialMaps: ; 0x16605
 	db LAVENDER_TOWN
 
 Func_1660c: ; 0x1660c
-	ld a, [wd515]
+	ld a, [wWhichPikachu]
 	and a
 	jr z, .asm_1667b
 	xor a
-	ld [wd515], a
+	ld [wWhichPikachu], a
 	ld a, [wd51c]
 	and a
 	jr nz, .asm_1667b
 	ld a, [wd51d]
 	and a
 	jr nz, .asm_16634
-	ld a, [wd516]
+	ld a, [wWhichPikachuId]
 	sub $1c
 	ld hl, wd518
 	cp [hl]
@@ -18421,8 +18436,8 @@ Func_18060: ; 0x18060
 Func_18061: ; 0x18061
 	ret
 
-Func_18062: ; 0x18062
-	callba Func_1448e
+CheckRedStageLaunchAlleyCollision: ; 0x18062
+	callba CheckRedStageLaunchAlleyCollision
 	ret
 
 Func_1806d: ; 0x1806d
@@ -18594,10 +18609,10 @@ Func_181be: ; 0x181be
 	ld a, $3
 	ret nc
 .asm_181fe
-	ld [wd4eb], a
+	ld [wTriggeredGameObjectIndex], a
 	ld [wd657], a
 	add $4
-	ld [wd4ea], a
+	ld [wTriggeredGameObject], a
 	ld [wd658], a
 	ret
 
@@ -18671,10 +18686,10 @@ Func_18259: ; 0x18259
 	ld a, $2
 	ret nc
 .asm_18289
-	ld [wd4eb], a
+	ld [wTriggeredGameObjectIndex], a
 	ld [wd67c], a
 	add $7
-	ld [wd4ea], a
+	ld [wTriggeredGameObject], a
 	ld [wd67d], a
 	ret
 
@@ -18735,10 +18750,10 @@ Func_182e4: ; 0x182e4
 	call Func_18308
 	ld a, $1
 	ret nc
-	ld [wd4eb], a
+	ld [wTriggeredGameObjectIndex], a
 	ld [wd696], a
 	add $9
-	ld [wd4ea], a
+	ld [wTriggeredGameObject], a
 	ld [wd697], a
 	ret
 
@@ -18791,7 +18806,7 @@ Func_18350: ; 0x18350
 	ld hl, Data_1835d
 	ld bc, wd654
 	and a
-	jp Func_2775
+	jp HandleGameObjectCollision
 
 Data_1835d:
 	dr $1835d, $18368
@@ -20243,10 +20258,10 @@ Func_19337: ; 0x19337
 	ret
 
 .asm_19360
-	ld [wd4eb], a
+	ld [wTriggeredGameObjectIndex], a
 	ld [wd6b4], a
 	add $0
-	ld [wd4ea], a
+	ld [wTriggeredGameObject], a
 	ld [wd6b5], a
 	ret
 
@@ -20361,7 +20376,7 @@ Func_19412: ; 0x19312
 	ret
 
 Func_19414: ; 0x19414
-	ld a, [wd4ea]
+	ld a, [wTriggeredGameObject]
 	inc a
 	jr nz, .asm_1944f
 	ld a, [wd6aa]
@@ -20370,24 +20385,24 @@ Func_19414: ; 0x19414
 	ld a, [wd7e9]
 	and a
 	ret z
-	ld a, [wd7f5]
+	ld a, [wCurCollisionAttribute]
 	sub $10
 	ret c
 	cp $c
 	ret nc
 	ld a, $1
-	ld [wd4eb], a
+	ld [wTriggeredGameObjectIndex], a
 	add $6
-	ld [wd4ea], a
+	ld [wTriggeredGameObject], a
 	ld b, a
 	ld hl, wd6aa
 	ld [hl], $0
-	ld a, [wd4ec]
+	ld a, [wPreviousTriggeredGameObject]
 	cp b
 	jr z, .asm_1944f
-	ld a, [wd4eb]
+	ld a, [wTriggeredGameObjectIndex]
 	ld [hli], a
-	ld a, [wd4ea]
+	ld a, [wTriggeredGameObject]
 	ld [hl], a
 	scf
 	ret
@@ -21080,7 +21095,7 @@ Func_19ab3: ; 0x19ab3
 	ret
 
 Func_19aba: ; 0x19aba
-	ld a, [wd4ea]
+	ld a, [wTriggeredGameObject]
 	inc a
 	jr nz, .asm_19b16
 	ld a, [wd73b]
@@ -21089,7 +21104,7 @@ Func_19aba: ; 0x19aba
 	ld a, [wd7e9]
 	and a
 	ret z
-	ld a, [wd7f5]
+	ld a, [wCurCollisionAttribute]
 	sub $19
 	ret c
 	cp $33
@@ -21116,18 +21131,18 @@ Func_19aba: ; 0x19aba
 	xor a
 .asm_19af7
 	add [hl]
-	ld [wd4eb], a
+	ld [wTriggeredGameObjectIndex], a
 	add $0
-	ld [wd4ea], a
+	ld [wTriggeredGameObject], a
 	ld b, a
 	ld hl, wd73b
 	ld [hl], $0
-	ld a, [wd4ec]
+	ld a, [wPreviousTriggeredGameObject]
 	cp b
 	jr z, .asm_19b16
-	ld a, [wd4eb]
+	ld a, [wTriggeredGameObjectIndex]
 	ld [hli], a
-	ld a, [wd4ea]
+	ld a, [wTriggeredGameObject]
 	ld [hl], a
 	scf
 	ret
@@ -21140,7 +21155,7 @@ Data_19b18:
 	dr $19b18, $19b4b
 
 Func_19b4b: ; 0x19b4b
-	ld a, [wd4ea]
+	ld a, [wTriggeredGameObject]
 	inc a
 	jr nz, .asm_19b86
 	ld a, [wd75f]
@@ -21149,24 +21164,24 @@ Func_19b4b: ; 0x19b4b
 	ld a, [wd7e9]
 	and a
 	ret z
-	ld a, [wd7f5]
+	ld a, [wCurCollisionAttribute]
 	sub $14
 	ret c
 	cp $5
 	ret nc
 	ld a, $1
-	ld [wd4eb], a
+	ld [wTriggeredGameObjectIndex], a
 	add $1f
-	ld [wd4ea], a
+	ld [wTriggeredGameObject], a
 	ld b, a
 	ld hl, wd75f
 	ld [hl], $0
-	ld a, [wd4ec]
+	ld a, [wPreviousTriggeredGameObject]
 	cp b
 	jr z, .asm_19b86
-	ld a, [wd4eb]
+	ld a, [wTriggeredGameObjectIndex]
 	ld [hli], a
-	ld a, [wd4ea]
+	ld a, [wTriggeredGameObject]
 	ld [hl], a
 	scf
 	ret
@@ -22430,83 +22445,83 @@ Func_1c55a: ; 0x1c55a
 	ld hl, Data_1c62e
 	ld bc, wd4cb
 	and a
-	jp Func_2775
+	jp HandleGameObjectCollision
 
 Func_1c567: ; 0x1c567
 	ld de, Data_1c650
 	ld bc, wd507
 	scf
-	jp Func_2775
+	jp HandleGameObjectCollision
 
 Func_1c571: ; 0x1c571
 	ld de, Data_1c625
 	ld hl, Data_1c611
-	ld bc, wd4d8
+	ld bc, wWhichBumper
 	and a
-	jp Func_2775
+	jp HandleGameObjectCollision
 
 Func_1c57e: ; 0x1c57e
 	ld de, Data_1c656
 	ld bc, wd51f
 	scf
-	jp Func_2775
+	jp HandleGameObjectCollision
 
 Func_1c588: ; 0x1c588
 	ld de, Data_1c665
 	ld bc, wd635
 	scf
-	jp Func_2775
+	jp HandleGameObjectCollision
 
 Func_1c592: ; 0x1c592
 	ld de, Data_1c66b
 	ld bc, wd630
 	scf
-	jp Func_2775
+	jp HandleGameObjectCollision
 
 Func_1c59c: ; 0x1c59c
 	ld de, Data_1c671
-	ld bc, wd515
+	ld bc, wWhichPikachu
 	scf
-	jp Func_2775
+	jp HandleGameObjectCollision
 
 Func_1c5a6: ; 0x1c5a6
 	ld de, Data_1c686
 	ld hl, Data_1c67a
 	ld bc, wd60a
 	and a
-	jp Func_2775
+	jp HandleGameObjectCollision
 
 Func_1c5b3: ; 0x1c5b3
 	ld de, Data_1c695
 	ld hl, Data_1c68f
 	ld bc, wd4ed
 	and a
-	jp Func_2775
+	jp HandleGameObjectCollision
 
 Func_1c5c0: ; 0x1c5c0
 	ld de, Data_1c69e
 	ld bc, wd5f7
 	scf
-	jp Func_2775
+	jp HandleGameObjectCollision
 
 Func_1c5ca: ; 0x1c5ca
 	ld de, Data_1c6aa
-	ld bc, wd50d
+	ld bc, wWhichCAVELight
 	scf
-	jp Func_2775
+	jp HandleGameObjectCollision
 
 Func_1c5d4: ; 0x1c5d4
 	ld de, Data_1c6b9
 	ld bc, wd601
 	scf
-	jp Func_2775
+	jp HandleGameObjectCollision
 
 Func_1c5de: ; 0x1c5de
 	ld de, Data_1c6d1
 	ld hl, Data_1c6bf
 	ld bc, wd5c7
 	and a
-	jp Func_2775
+	jp HandleGameObjectCollision
 
 Func_1c5eb: ; 0x1c5eb
 	xor a
@@ -22526,9 +22541,9 @@ Func_1c5eb: ; 0x1c5eb
 
 Func_1c607: ; 0x1c607
 	ld de, Data_1c70f
-	ld bc, wd4dc
+	ld bc, wPinballLaunchAlley
 	scf
-	jp Func_2775
+	jp HandleGameObjectCollision
 
 Data_1c611:
 	dr $1c611, $1c625
@@ -22673,11 +22688,11 @@ Func_1c7c7: ; 0x1c7c7
 	ret
 
 Func_1c7d7: ; 0x1c7d7
-	ld a, [wd4dc]
+	ld a, [wPinballLaunchAlley]
 	and a
 	ret z
 	xor a
-	ld [wd4dc], a
+	ld [wPinballLaunchAlley], a
 	ld a, [wd4de]
 	and a
 	jr z, .asm_1c810
@@ -22700,7 +22715,7 @@ Func_1c7d7: ; 0x1c7d7
 	call PlaySoundEffect
 .asm_1c810
 	ld a, $ff
-	ld [wd4ec], a
+	ld [wPreviousTriggeredGameObject], a
 	ld a, [wd4de]
 	and a
 	ret nz
@@ -23148,13 +23163,13 @@ Data_1cd10:
 	dr $1cd10, $1ce40
 
 Func_1ce40: ; 1ce40
-	ld a, [wd4d8]
+	ld a, [wWhichBumper]
 	and a
 	jr z, .asm_1ce53
 	call Func_1ce72
 	call Func_1ce60
 	xor a
-	ld [wd4d8], a
+	ld [wWhichBumper], a
 	call Func_1ce94
 .asm_1ce53
 	ld a, [wd4da]
@@ -23168,7 +23183,7 @@ Func_1ce40: ; 1ce40
 Func_1ce60: ; 0x1ce60
 	ld a, $10
 	ld [wd4da], a
-	ld a, [wd4d9]
+	ld a, [wWhichBumperId]
 	sub $1
 	ld [wd4db], a
 	sla a
@@ -23210,7 +23225,7 @@ Func_1ce94: ; 0x1ce94
 	ld [wd7bd], a
 	ld a, $80
 	ld [wFlipperCollision], a
-	ld a, [wd4d9]
+	ld a, [wWhichBumperId]
 	sub $1
 	ld c, a
 	ld b, $0
@@ -23349,18 +23364,18 @@ HandleRightAlleyTriggerBlueField: ; 0x1d091
 	ret
 
 Func_1d0a1: ; 0x1d0a1
-	ld a, [wd515]
+	ld a, [wWhichPikachu]
 	and a
 	jr z, .asm_1d110
 	xor a
-	ld [wd515], a
+	ld [wWhichPikachu], a
 	ld a, [wd51c]
 	and a
 	jr nz, .asm_1d110
 	ld a, [wd51d]
 	and a
 	jr nz, .asm_1d0c9
-	ld a, [wd516]
+	ld a, [wWhichPikachuId]
 	sub $d
 	ld hl, wd518
 	cp [hl]
@@ -24920,15 +24935,15 @@ HandleBallTypeUpgradeCounterBlueField: ; 0x1e58c
 	ret
 
 Func_1e5c5: ; 0x1e5c5
-	ld a, [wd50d]
+	ld a, [wWhichCAVELight]
 	and a
 	jr z, .asm_1e623
 	xor a
-	ld [wd50d], a
+	ld [wWhichCAVELight], a
 	ld a, [wd513]
 	and a
 	jr nz, .asm_1e623
-	ld a, [wd50e]
+	ld a, [wWhichCAVELightId]
 	sub $16
 	ld c, a
 	ld b, $0

@@ -343,10 +343,12 @@ wd4d6:: ; 0xd4d6
 wd4d7:: ; 0xd4d7
 	ds $1
 
-wd4d8:: ; 0xd4d8
+wWhichBumper:: ; 0xd4d8
+; 0 = neither
+; 1 = left bumper
+; 2 = right bumper
 	ds $1
-
-wd4d9:: ; 0xd4d9
+wWhichBumperId:: ; 0xd4d9
 	ds $1
 
 wd4da:: ; 0xd4da
@@ -355,7 +357,10 @@ wd4da:: ; 0xd4da
 wd4db:: ; 0xd4db
 	ds $1
 
-wd4dc:: ; 0xd4dc
+wPinballLaunchAlley:: ; 0xd4dc
+; 0 = pinball isn't resting at the start, waiting to be launched by the player
+; 1 = pinball can be launched to start the round
+; second byte is unused, but it's written by HandleGameObjectCollision
 	ds $2
 
 wd4de:: ; 0xd4de
@@ -391,13 +396,19 @@ wd4e7:: ; 0xd4e7
 wd4e8:: ; 0xd4e8
 	ds $2
 
-wd4ea:: ; 0xd4ea
+wTriggeredGameObject:: ; 0xd4ea
+; Game objects, such as the two bumpers, Pikachu savers, CAVE, etc. have unique ids.
+; This byte saves the object which the pinball is currently colliding with.
 	ds $1
 
-wd4eb:: ; 0xd4eb
+wTriggeredGameObjectIndex:: ; 0xd4eb
+; Many game objects come in pairs, wuch as the two bumpers, Pikachu savers, etc.
+; This byte stores which of them the pinball is currently colliding with.
 	ds $1
 
-wd4ec:: ; 0xd4ec
+wPreviousTriggeredGameObject:: ; 0xd4ec
+; Store the previous triggered game object's id, so that the pinball cant trigger
+; and object two frames in a row. It has to "un-collide" before it can collide again.
 	ds $1
 
 wd4ed:: ; 0xd4ed
@@ -487,10 +498,9 @@ wd50b:: ; 0xd50b
 wd50c:: ; 0xd50c
 	ds $1
 
-wd50d:: ; 0xd50d
+wWhichCAVELight:: ; 0xd50d
 	ds $1
-
-wd50e:: ; 0xd50e
+wWhichCAVELightId:: ; 0xd50e
 	ds $1
 
 wd50f:: ; 0xd50f
@@ -505,10 +515,9 @@ wd513:: ; 0xd513
 wd514:: ; 0xd514
 	ds $1
 
-wd515:: ; 0xd515
+wWhichPikachu:: ; 0xd515
 	ds $1
-
-wd516:: ; 0xd516
+wWhichPikachuId:: ; 0xd516
 	ds $1
 
 wd517:: ; 0xd517
@@ -1810,7 +1819,7 @@ wd7f3:: ; 0xd7f3
 wd7f4:: ; 0xd7f4
 	ds $1
 
-wd7f5:: ; 0xd7f5
+wCurCollisionAttribute:: ; 0xd7f5
 	ds $1
 
 wd7f6:: ; 0xd7f6

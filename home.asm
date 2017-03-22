@@ -4963,7 +4963,7 @@ CheckGameObjectCollisions_: ; 0x272f
 	call CallInFollowingTable
 GameObjectCollisions_CallTable: ; 0x2735
 	; STAGE_RED_FIELD_TOP
-	padded_dab Func_143e1
+	padded_dab CheckRedStageTopGameObjectCollisions
 
 	; STAGE_RED_FIELD_BOTTOM
 	padded_dab CheckRedStageBottomGameObjectCollisions

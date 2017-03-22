@@ -322,10 +322,9 @@ wd4c9:: ; 0xd4c9
 wd4ca:: ; 0xd4ca
 	ds $1
 
-wd4cb:: ; 0xd4cb
+wWhichVoltorb:: ; 0xd4cb
 	ds $1
-
-wd4cc:: ; 0xd4cc
+wWhichVoltorbId:: ; 0xd4cc
 	ds $1
 
 wd4cd:: ; 0xd4cd
@@ -452,7 +451,8 @@ wd4f9:: ; 0xd4f9
 wd4fa:: ; 0xd4fa
 	ds $1
 
-wd4fb:: ; 0xd4fb
+wBellsproutCollision:: ; 0xd4fb
+; Second byte is set by HandleGameObjectCollision, but is unused
 	ds $2
 
 wBellsproutAnimationFrameCounter:: ; 0xd4fd
@@ -483,7 +483,8 @@ wd505:: ; 0xd505
 wd506:: ; 0xd506
 	ds $1
 
-wd507:: ; 0xd507
+wSpinnerCollision:: ; 0xd507
+; Second byte is set by HandleGameObjectCollision, but is unused
 	ds $2
 
 wd509:: ; 0xd509
@@ -544,10 +545,9 @@ wd51d:: ; 0xd51d
 wd51e:: ; 0xd51e
 	ds $1
 
-wd51f:: ; 0xd51f
+wWhichBoardTrigger:: ; 0xd51f
 	ds $1
-
-wd520:: ; 0xd520
+wWhichBoardTriggerId:: ; 0xd520
 	ds $1
 
 wd521:: ; 0xd521
@@ -812,10 +812,9 @@ wBallCaptureAnimationFrame:: ; 0xd5f5
 wBallCaptureAnimationFrameIndex:: ; 0xd5f6
 	ds $1
 
-wd5f7:: ; 0xd5f7
+wWhichPinballUpgradeTrigger:: ; 0xd5f7
 	ds $1
-
-wd5f8:: ; 0xd5f8
+wWhichPinballUpgradeTriggerId:: ; 0xd5f8
 	ds $1
 
 wd5f9:: ; 0xd5f9
@@ -830,7 +829,8 @@ wd5fc:: ; 0xd5fc
 wd5fd:: ; 0xd5fd
 	ds $1
 
-wd5fe:: ; 0xd5fe
+wDittoSlotCollision:: ; 0xd5fe
+; Second byte is set by HandleGameObjectCollision, but is unused
 	ds $2
 
 wd600:: ; 0xd600

@@ -14227,15 +14227,14 @@ Func_14377: ; 0x14377
 	callba Func_30256
 	ret
 
-Func_143e1: ; 0x143e1
-; not collisions.
-	call Func_14474 ; voltorbs
-	call Func_14498
-	call Func_144b6
-	call Func_144c0
-	call Func_144da
-	call Func_14439
-	call Func_144ac
+CheckRedStageTopGameObjectCollisions: ; 0x143e1
+	call CheckRedStageVoltorbCollision
+	call CheckRedStageSpinnerCollision
+	call CheckRedStageBoardTriggersCollision
+	call CheckRedStageTopStaryuCollision
+	call CheckRedStageBellsproutCollision
+	call CheckRedStageDittoSlotCollision
+	call CheckRedStagePinballUpgradeTriggersCollision
 	jp CheckRedStageEvolutionTrinketCollision
 
 CheckRedStageBottomGameObjectCollisions: ; 0x143f9
@@ -14272,9 +14271,9 @@ CheckRedStageEvolutionTrinketCollision: ; 0x1441e
 	ld l, a
 	jp PinballCollidesWithPoints
 
-Func_14439: ; 0x14439
-	ld de, Data_145b5
-	ld bc, wd5fe
+CheckRedStageDittoSlotCollision: ; 0x14439
+	ld de, RedStageDittoSlotCollisionData
+	ld bc, wDittoSlotCollision
 	scf
 	jp HandleGameObjectCollision
 
@@ -14307,10 +14306,10 @@ CheckRedStageDiglettCollision: ; 0x14467
 	and a
 	jp HandleGameObjectCollision
 
-Func_14474: ; 0x14474
-	ld de, Data_14515
-	ld hl, Data_144fd
-	ld bc, wd4cb
+CheckRedStageVoltorbCollision: ; 0x14474
+	ld de, RedStageVoltorbCollisionData
+	ld hl, RedStageVoltorbCollisionAttributes
+	ld bc, wWhichVoltorb
 	and a
 	jp HandleGameObjectCollision
 
@@ -14327,9 +14326,9 @@ CheckRedStageLaunchAlleyCollision: ; 0x1448e
 	scf
 	jp HandleGameObjectCollision
 
-Func_14498: ; 0x14498
-	ld de, Data_1453c
-	ld bc, wd507
+CheckRedStageSpinnerCollision: ; 0x14498
+	ld de, RedStageSpinnerCollisionData
+	ld bc, wSpinnerCollision
 	scf
 	jp HandleGameObjectCollision
 
@@ -14339,21 +14338,21 @@ CheckRedStageCAVELightsCollision: ; 0x144a2
 	scf
 	jp HandleGameObjectCollision
 
-Func_144ac: ; 0x144ac
-	ld de, Data_14551
-	ld bc, wd5f7
+CheckRedStagePinballUpgradeTriggersCollision: ; 0x144ac
+	ld de, RedStagePinballUpgradeTriggerCollisionData
+	ld bc, wWhichPinballUpgradeTrigger
 	scf
 	jp HandleGameObjectCollision
 
-Func_144b6: ; 0x144b6
-	ld de, Data_1455d
-	ld bc, wd51f
+CheckRedStageBoardTriggersCollision: ; 0x144b6
+	ld de, RedStageBoardTriggersCollisionData
+	ld bc, wWhichBoardTrigger
 	scf
 	jp HandleGameObjectCollision
 
-Func_144c0: ; 0x144c0
-	ld de, Data_1457d
-	ld hl, Data_14578
+CheckRedStageTopStaryuCollision: ; 0x144c0
+	ld de, RedStageTopStaryuCollisionData
+	ld hl, RedStageTopStaryuCollisionAttributes
 	ld bc, wStaryuCollision
 	and a
 	jp HandleGameObjectCollision
@@ -14361,15 +14360,15 @@ Func_144c0: ; 0x144c0
 CheckRedStageBottomStaryuCollision: ; 0x144cd
 ; Staryu collision can actually be hit via the bottom screen, despite the fact
 ; that the Staryu is located on the (bottom of the) top screen.
-	ld de, RedStageStaryuCollisionData
-	ld hl, RedStageStaryuCollisionAttributes
+	ld de, RedStageBottomStaryuCollisionData
+	ld hl, RedStageBottomStaryuCollisionAttributes
 	ld bc, wStaryuCollision
 	and a
 	jp HandleGameObjectCollision
 
-Func_144da: ; 0x144da
-	ld de, Data_1458e
-	ld bc, wd4fb
+CheckRedStageBellsproutCollision: ; 0x144da
+	ld de, RedStageBellsproutCollisionData
+	ld bc, wBellsproutCollision
 	scf
 	jp HandleGameObjectCollision
 
@@ -14390,11 +14389,17 @@ RedStageDiglettCollisionData:
 	db $02, $80, $40  ; id, x, y
 	db $FF ; terminator
 
-Data_144fd:
-	dr $144fd, $14515
+RedStageVoltorbCollisionAttributes:
+	db $00  ; flat list
+	db $E0, $E1, $E2, $E3, $E4, $E5, $E6, $E7, $E8, $E9, $EA, $EB, $EC, $ED, $EE, $EF, $F0, $F1, $F2, $F3, $F4, $F5
+	db $FF ; terminator
 
-Data_14515:
-	dr $14515, $14521
+RedStageVoltorbCollisionData:
+	db $0E, $0E  ; x, y bounding box
+	db $03, $42, $66  ; id, x, y
+	db $04, $5A, $5C  ; id, x, y
+	db $05, $55, $78  ; id, x, y
+	db $FF ; terminator
 
 RedStageBumpersCollisionAttributes:
 	db $00  ; flat list
@@ -14412,8 +14417,10 @@ RedStageLaunchAlleyCollisionData:
 	db $08, $A8, $98  ; id, x, y
 	db $FF ; terminator
 
-Data_1453c:
-	dr $1453c, $14542
+RedStageSpinnerCollisionData:
+	db $08, $04  ; x, y, bounding box
+	db $09, $90, $6C  ; id, x, y
+	db $FF ; terminator
 
 RedStageCAVELightsCollisionData:
 	db $05, $03  ; x, y bounding box
@@ -14423,30 +14430,49 @@ RedStageCAVELightsCollisionData:
 	db $0D, $92, $65  ; id, x, y
 	db $FF ; terminator
 
-Data_14551:
-	dr $14551, $1455d
+RedStagePinballUpgradeTriggerCollisionData:
+	db $06, $05  ; x, y bounding box
+	db $0E, $3A, $53  ; id, x, y
+	db $0F, $50, $48  ; id, x, y
+	db $10, $66, $49  ; id, x, y
+	db $FF ; terminator
 
-Data_1455d:
-	dr $1455d, $14578
+RedStageBoardTriggersCollisionData:
+	db $09, $09  ; x, y bounding box
+	db $11, $1C, $3C  ; id, x, y
+	db $12, $2A, $44  ; id, x, y
+	db $13, $25, $63  ; id, x, y
+	db $14, $12, $7A  ; id, x, y
+	db $15, $26, $84  ; id, x, y
+	db $16, $7C, $44  ; id, x, y
+	db $17, $8E, $7A  ; id, x, y
+	db $18, $7F, $39  ; id, x, y
+	db $FF ; terminator
 
-Data_14578:
-	dr $14578, $1457d
+RedStageTopStaryuCollisionAttributes:
+	db $00  ; flat list
+	db $10, $11, $12
+	db $FF ; terminator
 
-Data_1457d:
-	dr $1457d, $14583
+RedStageTopStaryuCollisionData:
+	db $08, $06  ; x, y bounding box
+	db $19, $40, $90  ; id, x, y
+	db $FF ; terminator
 
-RedStageStaryuCollisionAttributes:
+RedStageBottomStaryuCollisionAttributes:
 	db $00  ; flat list
 	db $56, $5B, $5C
 	db $FF ; terminator
 
-RedStageStaryuCollisionData:
+RedStageBottomStaryuCollisionData:
 	db $08, $06  ; x, y bounding box
 	db $1A, $40, $08  ; id, x, y
 	db $FF ; terminator
 
-Data_1458e:
-	dr $1458e, $14594
+RedStageBellsproutCollisionData:
+	db $06, $05  ; x, y bounding box
+	db $1B, $7B, $76  ; id, x, y
+	db $FF ; terminator
 
 RedStagePikachuCollisionData:
 	db $03, $05  ; x, y bounding box
@@ -14464,8 +14490,10 @@ RedStageWildPokemonCollisionData:
 	db $1E, $50, $40  ; id, x, y
 	db $FF ; terminator
 
-Data_145b5:
-	dr $145b5, $145bb
+RedStageDittoSlotCollisionData:
+	db $03, $03  ; x, y bounding box
+	db $1F, $12, $24  ; id, x, y
+	db $FF ; terminator
 
 RedStageSlotCollisionData:
 	db $04, $04  ; x, y bounding box
@@ -15057,15 +15085,15 @@ Data_14c8d:
 	dr $14c8d, $14d85
 
 Func_14d85: ; 0x14d85
-	ld a, [wd4cb]
+	ld a, [wWhichVoltorb]
 	and a
 	jr z, .asm_14db9
 	xor a
-	ld [wd4cb], a
+	ld [wWhichVoltorb], a
 	call Func_14dc9
 	ld a, $10
 	ld [wd4d6], a
-	ld a, [wd4cc]
+	ld a, [wWhichVoltorbId]
 	sub $3
 	ld [wd4d7], a
 	ld a, $4
@@ -15102,11 +15130,11 @@ Func_14dc9: ; 0x14dc9
 	ret
 
 Func_14dea: ; 0x14dea
-	ld a, [wd507]
+	ld a, [wSpinnerCollision]
 	and a
 	jr z, Func_14e10
 	xor a
-	ld [wd507], a
+	ld [wSpinnerCollision], a
 	ld a, [wBallYVelocity]
 	ld c, a
 	ld a, [wBallYVelocity + 1]
@@ -15432,11 +15460,11 @@ Data_15325:
 	dr $15325, $1535d
 
 Func_1535d: ; 0x1535d
-	ld a, [wd5f7]
+	ld a, [wWhichPinballUpgradeTrigger]
 	and a
 	jp z, .asm_1544c
 	xor a
-	ld [wd5f7], a
+	ld [wWhichPinballUpgradeTrigger], a
 	ld a, [wStageCollisionState]
 	bit 0, a
 	jp z, .asm_1544c
@@ -15450,7 +15478,7 @@ Func_1535d: ; 0x1535d
 	call Func_159c9
 	ld a, $b
 	callba Func_10000
-	ld a, [wd5f8]
+	ld a, [wWhichPinballUpgradeTriggerId]
 	sub $e
 	ld c, a
 	ld b, $0
@@ -15978,14 +16006,14 @@ Data_15818:
 	db $08, $04, $40, $80, $51, $37, $00
 
 Func_1581f: ; 0x1581f
-	ld a, [wd51f]
+	ld a, [wWhichBoardTrigger]
 	and a
 	ret z
 	xor a
-	ld [wd51f], a
+	ld [wWhichBoardTrigger], a
 	ld bc, FivePoints
 	callba AddBigBCD6FromQueueWithBallMultiplier
-	ld a, [wd520]
+	ld a, [wWhichBoardTriggerId]
 	sub $11
 	ld c, a
 	ld b, $0
@@ -16242,11 +16270,11 @@ Data_15d05:
 	dr $15d05, $15e93
 
 Func_15e93: ; 0x15e93
-	ld a, [wd4fb]
+	ld a, [wBellsproutCollision]
 	and a
 	jr z, .asm_15eda
 	xor a
-	ld [wd4fb], a
+	ld [wBellsproutCollision], a
 	ld bc, TenThousandPoints
 	callba AddBigBCD6FromQueueWithBallMultiplier
 	lb de, $00, $05
@@ -16438,11 +16466,11 @@ Data_16080:
 	dr $16080, $160f0
 
 Func_160f0: ; 0x160f0
-	ld a, [wd5fe]
+	ld a, [wDittoSlotCollision]
 	and a
 	jr z, .asm_16137
 	xor a
-	ld [wd5fe], a
+	ld [wDittoSlotCollision], a
 	ld bc, TenThousandPoints
 	callba AddBigBCD6FromQueueWithBallMultiplier
 	lb de, $00, $21
@@ -18419,7 +18447,7 @@ Func_18000: ; 0x18000
 	call ClearData
 	xor a
 	ld [rVBK], a
-	ld hl, wd4cb
+	ld hl, wWhichVoltorb
 	ld bc, $032e
 	call ClearData
 	xor a
@@ -22467,13 +22495,13 @@ Func_1c536: ; 0x1c536
 Func_1c55a: ; 0x1c55a
 	ld de, Data_1c644
 	ld hl, Data_1c62e
-	ld bc, wd4cb
+	ld bc, wWhichVoltorb
 	and a
 	jp HandleGameObjectCollision
 
 Func_1c567: ; 0x1c567
 	ld de, Data_1c650
-	ld bc, wd507
+	ld bc, wSpinnerCollision
 	scf
 	jp HandleGameObjectCollision
 
@@ -22486,7 +22514,7 @@ Func_1c571: ; 0x1c571
 
 Func_1c57e: ; 0x1c57e
 	ld de, Data_1c656
-	ld bc, wd51f
+	ld bc, wWhichBoardTrigger
 	scf
 	jp HandleGameObjectCollision
 
@@ -22524,7 +22552,7 @@ Func_1c5b3: ; 0x1c5b3
 
 Func_1c5c0: ; 0x1c5c0
 	ld de, Data_1c69e
-	ld bc, wd5f7
+	ld bc, wWhichPinballUpgradeTrigger
 	scf
 	jp HandleGameObjectCollision
 
@@ -22968,11 +22996,11 @@ Func_1c8b6: ; 0x1c8b6
 	ret
 
 Func_1c9c1: ; 0x1c9c1
-	ld a, [wd4cb]
+	ld a, [wWhichVoltorb]
 	and a
 	jr z, .asm_1ca19
 	xor a
-	ld [wd4cb], a
+	ld [wWhichVoltorb], a
 	call Func_1ca29
 	ld a, [wd641]
 	and a
@@ -22992,7 +23020,7 @@ Func_1c9c1: ; 0x1c9c1
 .asm_1c9f2
 	ld a, $10
 	ld [wd4d6], a
-	ld a, [wd4cc]
+	ld a, [wWhichVoltorbId]
 	sub $3
 	ld [wd4d7], a
 	ld a, $4
@@ -23041,11 +23069,11 @@ Func_1ca4a: ; 1ca4a
 	ret
 
 Func_1ca5f: ; 0x1ca5f
-	ld a, [wd507]
+	ld a, [wSpinnerCollision]
 	and a
 	jr z, Func_1ca85
 	xor a
-	ld [wd507], a
+	ld [wSpinnerCollision], a
 	ld a, [wBallYVelocity]
 	ld c, a
 	ld a, [wBallYVelocity + 1]
@@ -23272,11 +23300,11 @@ Data_1cf3a:
 	dr $1cf3a, $1cfaa
 
 Func_1cfaa: ; 0x1cfaa
-	ld a, [wd51f]
+	ld a, [wWhichBoardTrigger]
 	and a
 	ret z
 	xor a
-	ld [wd51f], a
+	ld [wWhichBoardTrigger], a
 	ld bc, FivePoints
 	callba AddBigBCD6FromQueueWithBallMultiplier
 	ld a, [wStageCollisionState]
@@ -23289,7 +23317,7 @@ Func_1cfaa: ; 0x1cfaa
 	ld [wd580], a
 	callba Func_1404a
 .asm_1cfe5
-	ld a, [wd520]
+	ld a, [wWhichBoardTriggerId]
 	sub $7
 	ld c, a
 	ld b, $0
@@ -24663,11 +24691,11 @@ Data_1e1d6:
 	dr $1e1d6, $1e356
 
 Func_1e356: ; 0x1e356
-	ld a, [wd5f7]
+	ld a, [wWhichPinballUpgradeTrigger]
 	and a
 	jp z, Func_1e471
 	xor a
-	ld [wd5f7], a
+	ld [wWhichPinballUpgradeTrigger], a
 	ld a, [wStageCollisionState]
 	cp $0
 	jr nz, .asm_1e386
@@ -24690,7 +24718,7 @@ Func_1e356: ; 0x1e356
 	ld [wSecondaryLeftAlleyTrigger], a
 	ld a, $b
 	callba Func_10000
-	ld a, [wd5f8]
+	ld a, [wWhichPinballUpgradeTriggerId]
 	sub $13
 	ld c, a
 	ld b, $0

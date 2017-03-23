@@ -18622,7 +18622,7 @@ Func_1818b: ; 0x1818b
 	call Func_18d91
 	ret
 
-Func_181b1: ; 0x181b1
+CheckGengarBonusStageGameObjectCollisions: ; 0x181b1
 	call Func_181be
 	call Func_18259
 	call Func_182e4
@@ -20273,7 +20273,7 @@ Func_19310: ; 0x19310
 	call Func_194ac
 	ret
 
-Func_19330: ; 0x19330
+CheckMewtwoBonusStageGameObjectCollisions: ; 0x19330
 	call Func_19414
 	call Func_19337
 	ret
@@ -21141,7 +21141,7 @@ Func_19a96: ; 0x19a96
 	jr nz, .asm_19a9c
 	ret
 
-Func_19ab3: ; 0x19ab3
+CheckDiglettBonusStageGameObjectCollisions: ; 0x19ab3
 	call Func_19aba
 	call Func_19b4b
 	ret
@@ -28856,7 +28856,7 @@ Func_24128: ; 0x24128
 	callba Func_1404a
 	ret
 
-Func_2414d: ; 0x2414d
+CheckMeowthBonusStageGameObjectCollisions: ; 0x2414d
 	call Func_24157
 	call Func_24214
 	call Func_242bb
@@ -31195,7 +31195,7 @@ Func_25b97: ; 0x25b97
 	callba Func_1404a
 	ret
 
-Func_25bbc: ; 0x25bbc
+CheckSeelBonusStageGameObjectCollisions: ; 0x25bbc
 	call Func_25bc0
 	ret
 

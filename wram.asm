@@ -1067,7 +1067,8 @@ wd652:: ; 0xd652
 wd653:: ; 0xd653
 	ds $1
 
-wd654:: ; 0xd654
+wWhichGravestone:: ; 0xd654
+; second byte is unused
 	ds $2
 
 wd656:: ; 0xd656
@@ -1082,47 +1083,44 @@ wd658:: ; 0xd658
 wd659:: ; 0xd659
 	ds $2
 
-wd65b:: ; 0xd65b
+wGastly1AnimationState:: ; 0xd65b
 	ds $2
 
 wd65d:: ; 0xd65d
-	ds $2
-
-wd65f:: ; 0xd65f
-	ds $2
-
-wd661:: ; 0xd661
 	ds $1
+
+wGastly1XPos:: ; 0xd65e
+	ds $2
+wGastly1YPos:: ; 0xd660
+	ds $2
 
 wd662:: ; 0xd662
 	ds $2
 
-wd664:: ; 0xd664
+wGastly2AnimationState:: ; 0xd664
 	ds $2
 
 wd666:: ; 0xd666
-	ds $2
-
-wd668:: ; 0xd668
-	ds $2
-
-wd66a:: ; 0xd66a
 	ds $1
+
+wGastly2XPos:: ; 0xd668
+	ds $2
+wGastly2YPos:: ; 0xd66a
+	ds $2
 
 wd66b:: ; 0xd66b
 	ds $2
 
-wd66d:: ; 0xd66d
+wGastly3AnimationState:: ; 0xd66d
 	ds $2
 
 wd66f:: ; 0xd66f
-	ds $2
-
-wd671:: ; 0xd671
-	ds $2
-
-wd673:: ; 0xd673
 	ds $1
+
+wGastly3XPos:: ; 0xd671
+	ds $2
+wGastly3YPos:: ; 0xd673
+	ds $2
 
 wd674:: ; 0xd674
 	ds $1
@@ -1148,32 +1146,34 @@ wd67d:: ; 0xd67d
 wd67e:: ; 0xd67e
 	ds $2
 
-wd680:: ; 0xd680
-	ds $2
+wHaunter1AnimationState:: ; 0xd680
+	ds $1
+
+	ds $1
 
 wd682:: ; 0xd682
-	ds $2
-
-wd684:: ; 0xd684
-	ds $2
-
-wd686:: ; 0xd686
 	ds $1
+
+wHaunter1XPos:: ; 0xd683
+	ds $2
+wHaunter1YPos:: ; 0xd685
+	ds $2
 
 wd687:: ; 0xd687
 	ds $2
 
-wd689:: ; 0xd689
-	ds $2
+wHaunter2AnimationState:: ; 0xd689
+	ds $1
+
+	ds $1
 
 wd68b:: ; 0xd68b
-	ds $2
-
-wd68d:: ; 0xd68d
-	ds $2
-
-wd68f:: ; 0xd68f
 	ds $1
+
+wHaunter2XPos:: ; 0xd68c
+	ds $2
+wHaunter2YPos:: ; 0xd68e
+	ds $2
 
 wd690:: ; 0xd690
 	ds $1
@@ -1203,16 +1203,12 @@ wd69b:: ; 0xd69b
 	ds $1
 
 wd69c:: ; 0xd69c
+	ds $1
+
+wGengarXPos:: ; 0xd69d
 	ds $2
-
-wd69e:: ; 0xd69e
-	ds $1
-
-wd69f:: ; 0xd69f
-	ds $1
-
-wd6a0:: ; 0xd6a0
-	ds $1
+wGengarYPos:: ; 0xd69f
+	ds 2
 
 wd6a1:: ; 0xd6a1
 	ds $1

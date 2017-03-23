@@ -18623,44 +18623,44 @@ Func_1818b: ; 0x1818b
 	ret
 
 CheckGengarBonusStageGameObjectCollisions: ; 0x181b1
-	call Func_181be
-	call Func_18259
-	call Func_182e4
-	call Func_18350
+	call CheckGengarBonusStageGastlyCollision
+	call CheckGengarBonusStageHaunterCollision
+	call CheckGengarBonusStageGengarCollision
+	call GengarBonusStageGravestonesCollision
 	ret
 
-Func_181be: ; 0x181be
+CheckGengarBonusStageGastlyCollision: ; 0x181be
 	ld a, [wd659]
 	and a
 	ret z
-	ld a, [wd65f]
+	ld a, [wGastly1XPos + 1]
 	ld b, a
-	ld a, [wd661]
+	ld a, [wGastly1YPos + 1]
 	add $10
 	ld c, a
-	ld a, [wd65b]
-	call Func_1820d
+	ld a, [wGastly1AnimationState]
+	call CheckSingleGastlyCollision
 	ld a, $1
-	jr c, .asm_181fe
-	ld a, [wd668]
+	jr c, .hitGastly
+	ld a, [wGastly2XPos + 1]
 	ld b, a
-	ld a, [wd66a]
+	ld a, [wGastly2YPos + 1]
 	add $10
 	ld c, a
-	ld a, [wd664]
-	call Func_1820d
+	ld a, [wGastly2AnimationState]
+	call CheckSingleGastlyCollision
 	ld a, $2
-	jr c, .asm_181fe
-	ld a, [wd671]
+	jr c, .hitGastly
+	ld a, [wGastly3XPos + 1]
 	ld b, a
-	ld a, [wd673]
+	ld a, [wGastly3YPos + 1]
 	add $10
 	ld c, a
-	ld a, [wd66d]
-	call Func_1820d
+	ld a, [wGastly3AnimationState]
+	call CheckSingleGastlyCollision
 	ld a, $3
 	ret nc
-.asm_181fe
+.hitGastly
 	ld [wTriggeredGameObjectIndex], a
 	ld [wd657], a
 	add $4
@@ -18668,18 +18668,18 @@ Func_181be: ; 0x181be
 	ld [wd658], a
 	ret
 
-Func_1820d: ; 0x1820d
+CheckSingleGastlyCollision: ; 0x1820d
 	cp $4
-	jr z, .asm_18257
+	jr z, .noCollision
 	ld a, [wBallXPos + 1]
 	sub b
 	cp $20
-	jr nc, .asm_18257
+	jr nc, .noCollision
 	ld b, a
 	ld a, [wBallYPos + 1]
 	sub c
 	cp $20
-	jr nc, .asm_18257
+	jr nc, .noCollision
 	ld c, a
 	ld e, c
 	ld d, $0
@@ -18696,12 +18696,12 @@ Func_1820d: ; 0x1820d
 	ld l, b
 	ld h, $0
 	add hl, de
-	ld de, Data_e9100
+	ld de, CircularCollisionAngles
 	add hl, de
-	ld a, BANK(Data_e9100)
+	ld a, BANK(CircularCollisionAngles)
 	call ReadByteFromBank
 	bit 7, a
-	jr nz, .asm_18257
+	jr nz, .noCollision
 	sla a
 	ld [wd7ea], a
 	ld a, $1
@@ -18709,35 +18709,35 @@ Func_1820d: ; 0x1820d
 	scf
 	ret
 
-.asm_18257
+.noCollision
 	and a
 	ret
 
-Func_18259: ; 0x18259
+CheckGengarBonusStageHaunterCollision: ; 0x18259
 	ld a, [wd67e]
 	and a
 	ret z
-	ld a, [wd684]
+	ld a, [wHaunter1XPos + 1]
 	add $fe
 	ld b, a
-	ld a, [wd686]
+	ld a, [wHaunter1YPos + 1]
 	add $c
 	ld c, a
-	ld a, [wd680]
-	call Func_18298
+	ld a, [wHaunter1AnimationState]
+	call CheckSingleHaunterCollision
 	ld a, $1
-	jr c, .asm_18289
-	ld a, [wd68d]
+	jr c, .hitHaunter
+	ld a, [wHaunter2XPos + 1]
 	add $fe
 	ld b, a
-	ld a, [wd68f]
+	ld a, [wHaunter2YPos + 1]
 	add $c
 	ld c, a
-	ld a, [wd689]
-	call Func_18298
+	ld a, [wHaunter2AnimationState]
+	call CheckSingleHaunterCollision
 	ld a, $2
 	ret nc
-.asm_18289
+.hitHaunter
 	ld [wTriggeredGameObjectIndex], a
 	ld [wd67c], a
 	add $7
@@ -18745,18 +18745,18 @@ Func_18259: ; 0x18259
 	ld [wd67d], a
 	ret
 
-Func_18298: ; 0x18298
+CheckSingleHaunterCollision: ; 0x18298
 	cp $5
-	jr z, .asm_182e2
+	jr z, .noCollision
 	ld a, [wBallXPos + 1]
 	sub b
 	cp $20
-	jr nc, .asm_182e2
+	jr nc, .noCollision
 	ld b, a
 	ld a, [wBallYPos + 1]
 	sub c
 	cp $28
-	jr nc, .asm_182e2
+	jr nc, .noCollision
 	ld c, a
 	ld e, c
 	ld d, $0
@@ -18773,12 +18773,12 @@ Func_18298: ; 0x18298
 	ld l, b
 	ld h, $0
 	add hl, de
-	ld de, Data_e8c00
+	ld de, HaunterCollisionAngles
 	add hl, de
-	ld a, BANK(Data_e8c00)
+	ld a, BANK(HaunterCollisionAngles)
 	call ReadByteFromBank
 	bit 7, a
-	jr nz, .asm_182e2
+	jr nz, .noCollision
 	sla a
 	ld [wd7ea], a
 	ld a, $1
@@ -18786,20 +18786,20 @@ Func_18298: ; 0x18298
 	scf
 	ret
 
-.asm_182e2
+.noCollision
 	and a
 	ret
 
-Func_182e4: ; 0x182e4
+CheckGengarBonusStageGengarCollision: ; 0x182e4
 	ld a, [wd698]
 	and a
 	ret z
-	ld a, [wd69e]
+	ld a, [wGengarXPos + 1]
 	ld b, a
-	ld a, [wd6a0]
+	ld a, [wGengarYPos + 1]
 	add $c
 	ld c, a
-	call Func_18308
+	call CheckGiantGengarCollision
 	ld a, $1
 	ret nc
 	ld [wTriggeredGameObjectIndex], a
@@ -18809,16 +18809,16 @@ Func_182e4: ; 0x182e4
 	ld [wd697], a
 	ret
 
-Func_18308: ; 0x18308
+CheckGiantGengarCollision: ; 0x18308
 	ld a, [wBallXPos + 1]
 	sub b
 	cp $30
-	jr nc, .asm_1834e
+	jr nc, .noCollision
 	ld b, a
 	ld a, [wBallYPos + 1]
 	sub c
 	cp $40
-	jr nc, .asm_1834e
+	jr nc, .noCollision
 	ld c, a
 	ld a, c
 	sla a
@@ -18836,12 +18836,12 @@ Func_18308: ; 0x18308
 	ld l, b
 	ld h, $0
 	add hl, de
-	ld de, Data_e8000
+	ld de, GengarCollisionAngles
 	add hl, de
-	ld a, BANK(Data_e8000)
+	ld a, BANK(GengarCollisionAngles)
 	call ReadByteFromBank
 	bit 7, a
-	jr nz, .asm_1834e
+	jr nz, .noCollision
 	sla a
 	ld [wd7ea], a
 	ld a, $1
@@ -18849,22 +18849,29 @@ Func_18308: ; 0x18308
 	scf
 	ret
 
-.asm_1834e
+.noCollision
 	and a
 	ret
 
-Func_18350: ; 0x18350
-	ld de, Data_18368
-	ld hl, Data_1835d
-	ld bc, wd654
+GengarBonusStageGravestonesCollision: ; 0x18350
+	ld de, GengarBonusStageGravestonesCollisionData
+	ld hl, GengarBonusStageGravestonesCollisionAttributes
+	ld bc, wWhichGravestone
 	and a
 	jp HandleGameObjectCollision
 
-Data_1835d:
-	dr $1835d, $18368
+GengarBonusStageGravestonesCollisionAttributes:
+	db $00  ; flat list
+	db $19, $1A, $1B, $1C, $27, $1D, $1E, $1F, $20
+	db $FF ; terminator
 
-Data_18368:
-	dr $18368, $18377
+GengarBonusStageGravestonesCollisionData:
+	db $11, $11
+	db $01, $24, $52
+	db $02, $44, $3A
+	db $03, $74, $5A
+	db $04, $7C, $32
+	db $FF ; terminator
 
 Func_18377: ; 0x18377
 	call Func_18464
@@ -19440,12 +19447,12 @@ Func_187b1: ; 0x187b1
 	ld [wd7bd], a
 	ld a, $80
 	ld [wFlipperCollision], a
-	ld a, [wd69f]
+	ld a, [wGengarYPos]
 	add $0
-	ld [wd69f], a
-	ld a, [wd6a0]
+	ld [wGengarYPos], a
+	ld a, [wGengarYPos + 1]
 	adc $ff
-	ld [wd6a0], a
+	ld [wGengarYPos + 1], a
 .asm_1885d
 	ld a, [wd69c]
 	cp $2
@@ -19487,28 +19494,28 @@ Func_18876: ; 0x18876
 	ld a, [wd69c]
 	and a
 	jr nz, .asm_188da
-	ld a, [wd6a0]
+	ld a, [wGengarYPos + 1]
 	add $80
 	cp $a0
 	jr nc, .asm_188da
 	ld a, [wd69a]
 	and a
 	jr z, .asm_188ca
-	ld a, [wd69f]
+	ld a, [wGengarYPos]
 	add $0
-	ld [wd69f], a
-	ld a, [wd6a0]
+	ld [wGengarYPos], a
+	ld a, [wGengarYPos + 1]
 	adc $3
-	ld [wd6a0], a
+	ld [wGengarYPos + 1], a
 	jr .asm_188da
 
 .asm_188ca
-	ld a, [wd69f]
+	ld a, [wGengarYPos]
 	add $0
-	ld [wd69f], a
-	ld a, [wd6a0]
+	ld [wGengarYPos], a
+	ld a, [wGengarYPos + 1]
 	adc $1
-	ld [wd6a0], a
+	ld [wGengarYPos + 1], a
 .asm_188da
 	ld a, [wd69a]
 	ld [wd6a3], a
@@ -19548,21 +19555,21 @@ Func_188e1: ; 0x188e1
 	ld a, [wd69a]
 	and a
 	jr z, .asm_18935
-	ld a, [wd69f]
+	ld a, [wGengarYPos]
 	add $0
-	ld [wd69f], a
-	ld a, [wd6a0]
+	ld [wGengarYPos], a
+	ld a, [wGengarYPos + 1]
 	adc $fd
-	ld [wd6a0], a
+	ld [wGengarYPos + 1], a
 	jr .asm_18945
 
 .asm_18935
-	ld a, [wd69f]
+	ld a, [wGengarYPos]
 	add $0
-	ld [wd69f], a
-	ld a, [wd6a0]
+	ld [wGengarYPos], a
+	ld a, [wGengarYPos + 1]
 	adc $ff
-	ld [wd6a0], a
+	ld [wGengarYPos + 1], a
 .asm_18945
 	ld a, [wd69a]
 	ld [wd6a3], a
@@ -19750,11 +19757,11 @@ Data_18b32:
 	dr $18b32, $18d34
 
 Func_18d34: ; 0x18d34
-	ld a, [wd654]
+	ld a, [wWhichGravestone]
 	and a
 	jr z, .asm_18d71
 	xor a
-	ld [wd654], a
+	ld [wWhichGravestone], a
 	ld a, [wd7be]
 	and a
 	jr nz, .asm_18d71
@@ -21142,11 +21149,11 @@ Func_19a96: ; 0x19a96
 	ret
 
 CheckDiglettBonusStageGameObjectCollisions: ; 0x19ab3
-	call Func_19aba
-	call Func_19b4b
+	call CheckDiglettBonusStageDiglettHeadsCollision
+	call CheckDiglettBonusStageDugtrioCollision
 	ret
 
-Func_19aba: ; 0x19aba
+CheckDiglettBonusStageDiglettHeadsCollision: ; 0x19aba
 	ld a, [wTriggeredGameObject]
 	inc a
 	jr nz, .asm_19b16
@@ -21155,10 +21162,10 @@ Func_19aba: ; 0x19aba
 	jr nz, .asm_19b16
 	ld a, [wd7e9]
 	and a
-	ret z
+	ret z ; is a collision happening?
 	ld a, [wCurCollisionAttribute]
 	sub $19
-	ret c
+	ret c ; is the pinball colliding with a Diglett head?
 	cp $33
 	ret nc
 	ld c, a
@@ -21206,7 +21213,7 @@ Func_19aba: ; 0x19aba
 Data_19b18:
 	dr $19b18, $19b4b
 
-Func_19b4b: ; 0x19b4b
+CheckDiglettBonusStageDugtrioCollision: ; 0x19b4b
 	ld a, [wTriggeredGameObject]
 	inc a
 	jr nz, .asm_19b86
@@ -31270,9 +31277,9 @@ Func_25c12: ; 0x25c12
 	ld l, b
 	ld h, $0
 	add hl, de
-	ld de, Data_e9100
+	ld de, CircularCollisionAngles
 	add hl, de
-	ld a, BANK(Data_e9100)
+	ld a, BANK(CircularCollisionAngles)
 	call ReadByteFromBank
 	bit 7, a
 	jr nz, .asm_25c58
@@ -44604,14 +44611,15 @@ Data_e4000:
 	dr $e4000, $e8000 ; 0xe4000
 
 SECTION "bank3a", ROMX, BANK[$3a]
-Data_e8000:
-	dr $e8000, $e8c00 ; 0xe8000
 
-Data_e8c00:
-	dr $e8c00, $e9100 ; 0xe8000
+GengarCollisionAngles:
+	INCBIN "data/collision/gengar_collision_angles.bin"
 
-Data_e9100:
-	dr $e9100, $e9500 ; 0xe8000
+HaunterCollisionAngles:
+	INCBIN "data/collision/haunter_collision_angles.bin"
+
+CircularCollisionAngles: ; 0xe9100
+	INCBIN "data/collision/circle_collision_angles.bin"
 
 Data_e9500:
 	dr $e9500, $e9c80 ; 0xe8000

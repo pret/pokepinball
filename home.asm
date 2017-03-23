@@ -4976,7 +4976,7 @@ GameObjectCollisions_CallTable: ; 0x2735
 	padded_dab CheckBlueStageTopGameObjectCollisions
 
 	; STAGE_BLUE_FIELD_BOTTOM
-	padded_dab Func_1c536
+	padded_dab CheckBlueStageBottomGameObjectCollisions
 
 	; STAGE_GENGAR_BONUS
 	padded_dab Func_181b1

@@ -22474,22 +22474,22 @@ CheckBlueStageTopGameObjectCollisions: ; 0x1c520
 	call CheckBlueStageEvolutionTrinketCollision
 	ret
 
-Func_1c536: ; 0x1c536
+CheckBlueStageBottomGameObjectCollisions: ; 0x1c536
 	ld a, [wBallYPos + 1]
 	cp $56
-	jr nc, .asm_1c54d
-	call Func_1c5de
-	call Func_1c5b3
-	call Func_1c5a6
-	call Func_1c5d4
+	jr nc, .lowerHalfOfScreen
+	call CheckBlueStageWildPokemonCollision
+	call CheckBlueStagePsyduckPoliwagCollision
+	call CheckBlueStageBonusMultiplierCollision
+	call CheckBlueStageSlotCollision
 	call CheckBlueStageEvolutionTrinketCollision
 	ret
 
-.asm_1c54d
-	call Func_1c571
-	call Func_1c59c
-	call Func_1c5ca
-	call Func_1c607
+.lowerHalfOfScreen
+	call CheckBlueStageBumpersCollision
+	call CheckBlueStagePikachuCollision
+	call CheckBlueStageCAVELightsCollision
+	call CheckBlueStageLaunchAlleyCollision
 	ret
 
 CheckBlueStageShellderCollision: ; 0x1c55a
@@ -22505,9 +22505,9 @@ CheckBlueStageSpinnerCollision: ; 0x1c567
 	scf
 	jp HandleGameObjectCollision
 
-Func_1c571: ; 0x1c571
-	ld de, Data_1c625
-	ld hl, Data_1c611
+CheckBlueStageBumpersCollision: ; 0x1c571
+	ld de, BlueStageBumpersCollisionData
+	ld hl, BlueStageBumpersCollisionAttributes
 	ld bc, wWhichBumper
 	and a
 	jp HandleGameObjectCollision
@@ -22530,23 +22530,23 @@ CheckBlueStageSlowpokeCollision: ; 0x1c592
 	scf
 	jp HandleGameObjectCollision
 
-Func_1c59c: ; 0x1c59c
-	ld de, Data_1c671
+CheckBlueStagePikachuCollision: ; 0x1c59c
+	ld de, BlueStagePikachuCollisionData
 	ld bc, wWhichPikachu
 	scf
 	jp HandleGameObjectCollision
 
-Func_1c5a6: ; 0x1c5a6
-	ld de, Data_1c686
-	ld hl, Data_1c67a
+CheckBlueStageBonusMultiplierCollision: ; 0x1c5a6
+	ld de, BlueStageBonusMultiplierCollisionData
+	ld hl, BlueStageBonusMultiplierCollisionAttributes
 	ld bc, wWhichBonusMultiplierRailing
 	and a
 	jp HandleGameObjectCollision
 
-Func_1c5b3: ; 0x1c5b3
-	ld de, Data_1c695
-	ld hl, Data_1c68f
-	ld bc, wWhichDiglett
+CheckBlueStagePsyduckPoliwagCollision: ; 0x1c5b3
+	ld de, BlueStagePsyduckPoliwagCollisionData
+	ld hl, BlueStagePsyduckPoliwagCollisionAttributes
+	ld bc, wWhichPsyduckPoliwag
 	and a
 	jp HandleGameObjectCollision
 
@@ -22556,21 +22556,21 @@ CheckBlueStagePinballUpgradeTriggersCollision: ; 0x1c5c0
 	scf
 	jp HandleGameObjectCollision
 
-Func_1c5ca: ; 0x1c5ca
-	ld de, Data_1c6aa
+CheckBlueStageCAVELightsCollision: ; 0x1c5ca
+	ld de, BlueStageCAVELightsCollisionData
 	ld bc, wWhichCAVELight
 	scf
 	jp HandleGameObjectCollision
 
-Func_1c5d4: ; 0x1c5d4
-	ld de, Data_1c6b9
+CheckBlueStageSlotCollision: ; 0x1c5d4
+	ld de, BlueStageSlotCollisionData
 	ld bc, wSlotCollision
 	scf
 	jp HandleGameObjectCollision
 
-Func_1c5de: ; 0x1c5de
-	ld de, Data_1c6d1
-	ld hl, Data_1c6bf
+CheckBlueStageWildPokemonCollision: ; 0x1c5de
+	ld de, BlueStageWildPokemonCollisionData
+	ld hl, BlueStageWildPokemonCollisionAttributes
 	ld bc, wWildMonCollision
 	and a
 	jp HandleGameObjectCollision
@@ -22591,17 +22591,22 @@ CheckBlueStageEvolutionTrinketCollision: ; 0x1c5eb
 	ld hl, BlueBottomEvolutionTrinketCoords
 	jp PinballCollidesWithPoints
 
-Func_1c607: ; 0x1c607
-	ld de, Data_1c70f
+CheckBlueStageLaunchAlleyCollision: ; 0x1c607
+	ld de, BlueStageLaunchAlleyCollisionData
 	ld bc, wPinballLaunchAlley
 	scf
 	jp HandleGameObjectCollision
 
-Data_1c611:
-	dr $1c611, $1c625
+BlueStageBumpersCollisionAttributes:
+	db $00  ; flat list
+	db $34, $3F, $39, $3C, $38, $37, $3F, $33, $32, $3E, $3D, $3B, $3A, $3E, $36, $35, $31, $30
+	db $FF ; terminator
 
-Data_1c625:
-	dr $1c625, $1c62e
+BlueStageBumpersCollisionData:
+	db $06, $0B  ; x, y bounding box
+	db $01, $30, $66  ; id, x, y
+	db $02, $6F, $66  ; id, x, y
+	db $FF ; terminator
 
 BlueStageShellderCollisionAttributes:
 	db $00  ; flat list
@@ -22638,20 +22643,33 @@ BlueStageSlowpokeCollisionData:
 	db $0C, $2C, $78  ; id, x, y
 	db $FF ; terminator
 
-Data_1c671:
-	dr $1c671, $1c67a
+BlueStagePikachuCollisionData:
+	db $03, $05  ; x, y bounding box
+	db $0D, $0E, $7C  ; id, x, y
+	db $0E, $92, $7C  ; id, x, y
+	db $FF ; terminator
 
-Data_1c67a:
-	dr $1c67a, $1c686
+BlueStageBonusMultiplierCollisionAttributes:
+	db $00  ; flat list
+	db $56, $59, $58, $57, $1C, $5A, $5B, $5C, $5D, $1D
+	db $FF ; terminator
 
-Data_1c686:
-	dr $1c686, $1c68f
+BlueStageBonusMultiplierCollisionData:
+	db $09, $08  ; x, y bounding box
+	db $0F, $2C, $20  ; id, x, y
+	db $10, $74, $20  ; id, x, y
+	db $FF ; terminator
 
-Data_1c68f:
-	dr $1c68f, $1c695
+BlueStagePsyduckPoliwagCollisionAttributes:
+	db $00  ; flat list
+	db $5E, $5F, $24, $25
+	db $FF ; terminator
 
-Data_1c695:
-	dr $1c695, $1c69e
+BlueStagePsyduckPoliwagCollisionData:
+	db $08, $0C  ; x, y bounding box
+	db $11, $22, $3E  ; id, x, y
+	db $12, $7D, $3D  ; id, x, y
+	db $FF ; terminator
 
 BlueStagePinballUpgradeTriggersCollisionData:
 	db $06, $05  ; x, y bounding box
@@ -22660,17 +22678,28 @@ BlueStagePinballUpgradeTriggersCollisionData:
 	db $15, $67, $35  ; id, x, y
 	db $FF ; terminator
 
-Data_1c6aa:
-	dr $1c6aa, $1c6b9
+BlueStageCAVELightsCollisionData:
+	db $05, $03  ; x, y bounding box
+	db $16, $0E, $65  ; id, x, y
+	db $17, $1E, $65  ; id, x, y
+	db $18, $82, $65  ; id, x, y
+	db $19, $92, $65  ; id, x, y
+	db $FF ; terminator
 
-Data_1c6b9:
-	dr $1c6b9, $1c6bf
+BlueStageSlotCollisionData:
+	db $04, $04  ; x, y bounding box
+	db $1A, $50, $16  ; id, x, y
+	db $FF ; terminator
 
-Data_1c6bf:
-	dr $1c6bf, $1c6d1
+BlueStageWildPokemonCollisionAttributes:
+	db $00  ; flat list
+	db $D0, $D1, $D2, $D3, $D4, $D5, $D6, $D7, $D8, $D9, $DA, $DB, $DC, $DD, $DE, $DF
+	db $FF ; terminator
 
-Data_1c6d1:
-	dr $1c6d1, $1c6d7
+BlueStageWildPokemonCollisionData:
+	db $1A, $1A  ; x, y bounding box
+	db $1B, $50, $40  ; id, x, y
+	db $FF ; terminator
 
 BlueTopEvolutionTrinketCoords: ; 0x1c6d7
 ; First byte is just non-zero to signify that the array hasn't ended.
@@ -22702,8 +22731,10 @@ BlueBottomEvolutionTrinketCoords: ; 0x1c6fc
 	db $01, $6B, $35
 	db $00
 
-Data_1c70f:
-	dr $1c70f, $1c715
+BlueStageLaunchAlleyCollisionData:
+	db $08, $08  ; x, y bounding box
+	db $1C, $A8, $98  ; id, x, y
+	db $FF ; terminator
 
 Func_1c715: ; 0x1c715
 	call Func_1c9c1
@@ -24196,13 +24227,13 @@ Data_1d97a:
 	dr $1d97a, $1dbd2
 
 Func_1dbd2: ; 0x1dbd2
-	ld a, [wWhichDiglett]
+	ld a, [wWhichPsyduckPoliwag]
 	and a
 	jp z, Func_1dc8e
 	cp $2
 	jr z, .asm_1dc33
 	xor a
-	ld [wWhichDiglett], a
+	ld [wWhichPsyduckPoliwag], a
 	ld hl, wLeftMapMoveCounter
 	ld a, [hl]
 	cp $3
@@ -24240,7 +24271,7 @@ Func_1dbd2: ; 0x1dbd2
 
 .asm_1dc33
 	xor a
-	ld [wWhichDiglett], a
+	ld [wWhichPsyduckPoliwag], a
 	ld hl, wRightMapMoveCounter
 	ld a, [hl]
 	cp $3

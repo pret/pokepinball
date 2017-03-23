@@ -413,8 +413,10 @@ wPreviousTriggeredGameObject:: ; 0xd4ec
 	ds $1
 
 wWhichDiglett:: ; 0xd4ed
+wWhichPsyduckPoliwag::
 	ds $1
 wWhichDiglettId:: ; 0xd4ee
+wWhichPsyduckPoliwagId::
 	ds $1
 
 wd4ef:: ; 0xd4ef

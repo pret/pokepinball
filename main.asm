@@ -642,8 +642,8 @@ CallTable_8477: ; 0x8477
 	padded_dab Func_14000
 	; STAGE_RED_FIELD_BOTTOM
 	padded_dab Func_1401c
-	padded_dab Func_1805f
-	padded_dab Func_18060
+	padded_dab DoNothing_1805f
+	padded_dab DoNothing_18060
 	; STAGE_BLUE_FIELD_TOP
 	padded_dab Func_1c165
 	; STAGE_BLUE_FIELD_BOTTOM
@@ -18479,20 +18479,20 @@ Func_1804a: ; 0x1804a
 	ld [wBallYPos + 1], a
 	ret
 
-Func_1805f: ; 0x1805f
+DoNothing_1805f: ; 0x1805f
 	ret
 
-Func_18060: ; 0x18060
+DoNothing_18060: ; 0x18060
 	ret
 
-Func_18061: ; 0x18061
+DoNothing_18061: ; 0x18061
 	ret
 
 CheckRedStageLaunchAlleyCollision_: ; 0x18062
 	callba CheckRedStageLaunchAlleyCollision
 	ret
 
-Func_1806d: ; 0x1806d
+DoNothing_1806d: ; 0x1806d
 	ret
 
 Func_1806e: ; 0x1806e

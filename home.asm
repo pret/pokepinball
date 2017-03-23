@@ -4968,7 +4968,7 @@ GameObjectCollisions_CallTable: ; 0x2735
 	; STAGE_RED_FIELD_BOTTOM
 	padded_dab CheckRedStageBottomGameObjectCollisions
 
-	padded_dab Func_18061
+	padded_dab DoNothing_18061
 
 	padded_dab CheckRedStageLaunchAlleyCollision_
 
@@ -5160,7 +5160,7 @@ CallTable_2822: ; 0x2822
 	; STAGE_RED_FIELD_BOTTOM
 	padded_dab Func_14652
 
-	padded_dab Func_1806d
+	padded_dab DoNothing_1806d
 
 	padded_dab Func_1806e
 

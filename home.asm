@@ -4973,7 +4973,7 @@ GameObjectCollisions_CallTable: ; 0x2735
 	padded_dab CheckRedStageLaunchAlleyCollision_
 
 	; STAGE_BLUE_FIELD_TOP
-	padded_dab Func_1c520
+	padded_dab CheckBlueStageTopGameObjectCollisions
 
 	; STAGE_BLUE_FIELD_BOTTOM
 	padded_dab Func_1c536

@@ -22464,14 +22464,14 @@ Func_1c4b6: ; 0x1c4b6
 	callba Func_30256
 	ret
 
-Func_1c520: ; 0x1c520
-	call Func_1c55a ; shellders
-	call Func_1c567 ; spinner
-	call Func_1c57e
-	call Func_1c592
-	call Func_1c588
-	call Func_1c5c0
-	call Func_1c5eb
+CheckBlueStageTopGameObjectCollisions: ; 0x1c520
+	call CheckBlueStageShellderCollision
+	call CheckBlueStageSpinnerCollision
+	call CheckBlueStageBoardTriggersCollision
+	call CheckBlueStageSlowpokeCollision
+	call CheckBlueStageCloysterCollision
+	call CheckBlueStagePinballUpgradeTriggersCollision
+	call CheckBlueStageEvolutionTrinketCollision
 	ret
 
 Func_1c536: ; 0x1c536
@@ -22482,7 +22482,7 @@ Func_1c536: ; 0x1c536
 	call Func_1c5b3
 	call Func_1c5a6
 	call Func_1c5d4
-	call Func_1c5eb
+	call CheckBlueStageEvolutionTrinketCollision
 	ret
 
 .asm_1c54d
@@ -22492,15 +22492,15 @@ Func_1c536: ; 0x1c536
 	call Func_1c607
 	ret
 
-Func_1c55a: ; 0x1c55a
-	ld de, Data_1c644
-	ld hl, Data_1c62e
-	ld bc, wWhichVoltorb
+CheckBlueStageShellderCollision: ; 0x1c55a
+	ld de, BlueStageShellderCollisionData
+	ld hl, BlueStageShellderCollisionAttributes
+	ld bc, wWhichShellder
 	and a
 	jp HandleGameObjectCollision
 
-Func_1c567: ; 0x1c567
-	ld de, Data_1c650
+CheckBlueStageSpinnerCollision: ; 0x1c567
+	ld de, BlueStageSpinnerCollisionData
 	ld bc, wSpinnerCollision
 	scf
 	jp HandleGameObjectCollision
@@ -22512,21 +22512,21 @@ Func_1c571: ; 0x1c571
 	and a
 	jp HandleGameObjectCollision
 
-Func_1c57e: ; 0x1c57e
-	ld de, Data_1c656
+CheckBlueStageBoardTriggersCollision: ; 0x1c57e
+	ld de, BlueStageBoardTriggersCollisionData
 	ld bc, wWhichBoardTrigger
 	scf
 	jp HandleGameObjectCollision
 
-Func_1c588: ; 0x1c588
-	ld de, Data_1c665
-	ld bc, wd635
+CheckBlueStageCloysterCollision: ; 0x1c588
+	ld de, BlueStageCloysterCollisionData
+	ld bc, wCloysterCollision
 	scf
 	jp HandleGameObjectCollision
 
-Func_1c592: ; 0x1c592
-	ld de, Data_1c66b
-	ld bc, wd630
+CheckBlueStageSlowpokeCollision: ; 0x1c592
+	ld de, BlueStageSlowpokeCollisionData
+	ld bc, wSlowpokeCollision
 	scf
 	jp HandleGameObjectCollision
 
@@ -22550,8 +22550,8 @@ Func_1c5b3: ; 0x1c5b3
 	and a
 	jp HandleGameObjectCollision
 
-Func_1c5c0: ; 0x1c5c0
-	ld de, Data_1c69e
+CheckBlueStagePinballUpgradeTriggersCollision: ; 0x1c5c0
+	ld de, BlueStagePinballUpgradeTriggersCollisionData
 	ld bc, wWhichPinballUpgradeTrigger
 	scf
 	jp HandleGameObjectCollision
@@ -22575,7 +22575,7 @@ Func_1c5de: ; 0x1c5de
 	and a
 	jp HandleGameObjectCollision
 
-Func_1c5eb: ; 0x1c5eb
+CheckBlueStageEvolutionTrinketCollision: ; 0x1c5eb
 	xor a
 	ld [wd578], a
 	ld a, [wd551]
@@ -22603,23 +22603,40 @@ Data_1c611:
 Data_1c625:
 	dr $1c625, $1c62e
 
-Data_1c62e:
-	dr $1c62e, $1c644
+BlueStageShellderCollisionAttributes:
+	db $00  ; flat list
+	db $5E, $5F, $60, $61, $62, $63, $64, $65, $98, $66, $67, $68, $69, $6A, $6B, $99, $6C, $6D, $6E, $6F
+	db $FF ; terminator
 
-Data_1c644:
-	dr $1c644, $1c650
+BlueStageShellderCollisionData:
+	db $0E, $0E  ; x, y bounding box
+	db $03, $3A, $56  ; id, x, y
+	db $04, $4F, $45  ; id, x, y
+	db $05, $64, $56  ; id, x, y
+	db $FF ; terminator
 
-Data_1c650:
-	dr $1c650, $1c656
+BlueStageSpinnerCollisionData:
+	db $08, $04  ; x, y bounding box
+	db $06, $92, $6A  ; id, x, y
+	db $FF ; terminator
 
-Data_1c656:
-	dr $1c656, $1c665
+BlueStageBoardTriggersCollisionData:
+	db $09, $09  ; x, y bounding box
+	db $07, $15, $43  ; id, x, y
+	db $08, $8B, $43  ; id, x, y
+	db $09, $10, $8C  ; id, x, y
+	db $0A, $8F, $8C  ; id, x, y
+	db $FF ; terminator
 
-Data_1c665:
-	dr $1c665, $1c66b
+BlueStageCloysterCollisionData:
+	db $06, $05  ; x, y bounding box
+	db $0B, $73, $78  ; id, x, y
+	db $FF ; terminator
 
-Data_1c66b:
-	dr $1c66b, $1c671
+BlueStageSlowpokeCollisionData:
+	db $06, $05  ; x, y bounding box
+	db $0C, $2C, $78  ; id, x, y
+	db $FF ; terminator
 
 Data_1c671:
 	dr $1c671, $1c67a
@@ -22636,8 +22653,12 @@ Data_1c68f:
 Data_1c695:
 	dr $1c695, $1c69e
 
-Data_1c69e:
-	dr $1c69e, $1c6aa
+BlueStagePinballUpgradeTriggersCollisionData:
+	db $06, $05  ; x, y bounding box
+	db $13, $37, $34  ; id, x, y
+	db $14, $4F, $2F  ; id, x, y
+	db $15, $67, $35  ; id, x, y
+	db $FF ; terminator
 
 Data_1c6aa:
 	dr $1c6aa, $1c6b9
@@ -22996,11 +23017,11 @@ Func_1c8b6: ; 0x1c8b6
 	ret
 
 Func_1c9c1: ; 0x1c9c1
-	ld a, [wWhichVoltorb]
+	ld a, [wWhichShellder]
 	and a
 	jr z, .asm_1ca19
 	xor a
-	ld [wWhichVoltorb], a
+	ld [wWhichShellder], a
 	call Func_1ca29
 	ld a, [wd641]
 	and a
@@ -23020,7 +23041,7 @@ Func_1c9c1: ; 0x1c9c1
 .asm_1c9f2
 	ld a, $10
 	ld [wd4d6], a
-	ld a, [wWhichVoltorbId]
+	ld a, [wWhichShellderId]
 	sub $3
 	ld [wd4d7], a
 	ld a, $4
@@ -23602,11 +23623,11 @@ Func_1d1fb: ; 0x1d1fb
 	ret
 
 Func_1d216: ; 0x1d216
-	ld a, [wd630]
+	ld a, [wSlowpokeCollision]
 	and a
 	jr z, .asm_1d253
 	xor a
-	ld [wd630], a
+	ld [wSlowpokeCollision], a
 	ld bc, TenThousandPoints
 	callba AddBigBCD6FromQueueWithBallMultiplier
 	lb de, $00, $05
@@ -23713,11 +23734,11 @@ Data_1d312:
 	dr $1d312, $1d32d
 
 HandleEnteringCloyster: ; 0x1d32d
-	ld a, [wd635]
+	ld a, [wCloysterCollision]
 	and a
 	jr z, .asm_1d36a
 	xor a
-	ld [wd635], a
+	ld [wCloysterCollision], a
 	ld bc, TenThousandPoints
 	callba AddBigBCD6FromQueueWithBallMultiplier
 	lb de, $00, $05

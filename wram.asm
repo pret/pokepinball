@@ -323,8 +323,10 @@ wd4ca:: ; 0xd4ca
 	ds $1
 
 wWhichVoltorb:: ; 0xd4cb
+wWhichShellder::
 	ds $1
 wWhichVoltorbId:: ; 0xd4cc
+wWhichShellderId::
 	ds $1
 
 wd4cd:: ; 0xd4cd
@@ -959,7 +961,8 @@ wd62e:: ; 0xd62e
 wNumMewtwoBonusCompletions:: ; 0xd62f
 	ds $1
 
-wd630:: ; 0xd630
+wSlowpokeCollision:: ; 0xd630
+; Second byte is set by HandleGameObjectCollision, but is unused
 	ds $2
 
 wd632:: ; 0xd632
@@ -971,7 +974,8 @@ wd633:: ; 0xd633
 wd634:: ; 0xd634
 	ds $1
 
-wd635:: ; 0xd635
+wCloysterCollision:: ; 0xd635
+; Second byte is set by HandleGameObjectCollision, but is unused
 	ds $2
 
 wd637:: ; 0xd637

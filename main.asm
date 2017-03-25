@@ -28864,36 +28864,36 @@ Func_24128: ; 0x24128
 	ret
 
 CheckMeowthBonusStageGameObjectCollisions: ; 0x2414d
-	call Func_24157
-	call Func_24214
-	call Func_242bb
+	call CheckMeowthBonusStageMeowthCollision
+	call CheckMeowthBonusStageJewelsCollision
+	call CheckMeowthBonusStageJewelsCollision2
 	ret
 
-Func_24157: ; 0x24157
+CheckMeowthBonusStageMeowthCollision: ; 0x24157
 	ld a, [wd6e7]
 	cp $0
 	ret nz
 	ld a, [wMeowthXPosition]
-	add $f7
+	add -9
 	ld b, a
 	ld a, [wMeowthYPosition]
 	add $6
 	ld c, a
-	call Func_24170
+	call CheckMeowthCollision
 	ld a, $3
 	ret nc
 	ret
 
-Func_24170: ; 0x24170
+CheckMeowthCollision: ; 0x24170
 	ld a, [wBallXPos + 1]
 	sub b
 	cp $30
-	jp nc, .asm_24212
+	jp nc, .noCollision
 	ld b, a
 	ld a, [wBallYPos + 1]
 	sub c
 	cp $28
-	jp nc, .asm_24212
+	jp nc, .noCollision
 	ld c, a
 	ld e, c
 	ld d, $0
@@ -28915,12 +28915,12 @@ Func_24170: ; 0x24170
 	ld l, b
 	ld h, $0
 	add hl, de
-	ld de, Data_e9500
+	ld de, MeowthCollisionAngles
 	add hl, de
-	ld a, BANK(Data_e9500)
+	ld a, BANK(MeowthCollisionAngles)
 	call ReadByteFromBank
 	bit 7, a
-	jr nz, .asm_24212
+	jr nz, .noCollision
 	sla a
 	ld [wd7ea], a
 	ld a, $1
@@ -28978,11 +28978,11 @@ Func_24170: ; 0x24170
 	scf
 	ret
 
-.asm_24212
+.noCollision
 	and a
 	ret
 
-Func_24214: ; 0x24214
+CheckMeowthBonusStageJewelsCollision: ; 0x24214
 	ld a, [wd717]
 	cp $2
 	jr nz, .asm_2422e
@@ -28992,7 +28992,7 @@ Func_24214: ; 0x24214
 	ld a, [wd727]
 	add $c
 	ld c, a
-	call Func_24272
+	call CheckJewelCollision
 	ld a, $0
 	jr c, .asm_24260
 .asm_2422e
@@ -29005,7 +29005,7 @@ Func_24214: ; 0x24214
 	ld a, [wd728]
 	add $c
 	ld c, a
-	call Func_24272
+	call CheckJewelCollision
 	ld a, $1
 	jr c, .asm_24260
 .asm_24248
@@ -29018,7 +29018,7 @@ Func_24214: ; 0x24214
 	ld a, [wd729]
 	add $c
 	ld c, a
-	call Func_24272
+	call CheckJewelCollision
 	ld a, $2
 	ret nc
 .asm_24260
@@ -29034,16 +29034,16 @@ Func_24214: ; 0x24214
 	ld [hl], a
 	ret
 
-Func_24272: ; 0x24272
+CheckJewelCollision: ; 0x24272
 	ld a, [wBallXPos + 1]
 	sub b
 	cp $18
-	jr nc, .asm_242b9
+	jr nc, .noCollision
 	ld b, a
 	ld a, [wBallYPos + 1]
 	sub c
 	cp $18
-	jr nc, .asm_242b9
+	jr nc, .noCollision
 	ld c, a
 	ld e, c
 	ld d, $0
@@ -29063,12 +29063,12 @@ Func_24272: ; 0x24272
 	ld l, b
 	ld h, $0
 	add hl, de
-	ld de, Data_e9c80
+	ld de, MeowthJewelCollisionAngles
 	add hl, de
-	ld a, BANK(Data_e9c80)
+	ld a, BANK(MeowthJewelCollisionAngles)
 	call ReadByteFromBank
 	bit 7, a
-	jr nz, .asm_242b9
+	jr nz, .noCollision
 	sla a
 	ld [wd7ea], a
 	ld a, $1
@@ -29076,11 +29076,11 @@ Func_24272: ; 0x24272
 	scf
 	ret
 
-.asm_242b9
+.noCollision
 	and a
 	ret
 
-Func_242bb: ; 0x242bb
+CheckMeowthBonusStageJewelsCollision2: ; 0x242bb
 	ld a, [wd721]
 	cp $2
 	jr nz, .asm_242d5
@@ -29090,7 +29090,7 @@ Func_242bb: ; 0x242bb
 	ld a, [wd731]
 	add $c
 	ld c, a
-	call Func_24272
+	call CheckJewelCollision
 	ld a, $0
 	jr c, .asm_24307
 .asm_242d5
@@ -29103,7 +29103,7 @@ Func_242bb: ; 0x242bb
 	ld a, [wd732]
 	add $c
 	ld c, a
-	call Func_24272
+	call CheckJewelCollision
 	ld a, $1
 	jr c, .asm_24307
 .asm_242ef
@@ -29116,7 +29116,7 @@ Func_242bb: ; 0x242bb
 	ld a, [wd733]
 	add $c
 	ld c, a
-	call Func_24272
+	call CheckJewelCollision
 	ld a, $2
 	ret nc
 .asm_24307
@@ -44621,11 +44621,11 @@ HaunterCollisionAngles:
 CircularCollisionAngles: ; 0xe9100
 	INCBIN "data/collision/circle_collision_angles.bin"
 
-Data_e9500:
-	dr $e9500, $e9c80 ; 0xe8000
+MeowthCollisionAngles:
+	INCBIN "data/collision/meowth_collision_angles.bin"
 
-Data_e9c80:
-	dr $e9c80, $ec000 ; 0xe8000
+MeowthJewelCollisionAngles:
+	INCBIN "data/collision/meowth_jewel_collision_angles.bin"
 
 SECTION "bank3b", ROMX, BANK[$3b]
 Data_ec000:

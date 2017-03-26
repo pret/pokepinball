@@ -4004,16 +4004,19 @@ Func_208c: ; 0x208c
 	scf
 	ret
 
-Func_20ab: ; 0x20ab
+MultiplyBbyCUnsigned: ; 0x20ab
+	; u16 bc = (u8)b * (u8)c
 	push af
 	xor a
-	ld [$ffb6], a
-	jr .asm_20c6
+	ld [hSignedMathSignBuffer], a
+	jr asm_20c6
 
+MultiplyBbyCSigned:
+	; s16 bc = (s8)b * (s8)c
 	push af
 	ld a, b
 	xor c
-	ld [$ffb6], a
+	ld [hSignedMathSignBuffer], a
 	bit 7, b
 	jr z, .asm_20be
 	ld a, b
@@ -4022,24 +4025,26 @@ Func_20ab: ; 0x20ab
 	ld b, a
 .asm_20be
 	bit 7, c
-	jr z, .asm_20c6
+	jr z, asm_20c6
 	ld a, c
 	cpl
 	inc a
 	ld c, a
-.asm_20c6
+asm_20c6
+	; b*c == (b**2 + c**2 - (b - c)**2) / 2
 	push de
 	push hl
 	ld a, b
 	cp c
-	jr nc, .asm_20ce
+	jr nc, .c_le_b
 	ld b, c
 	ld c, a
-.asm_20ce
-	ld h, $3e
+.c_le_b
+	; hl = b**2 + c**2
+	ld h, SquaresLow / $100
 	ld l, c
 	ld e, [hl]
-	inc h
+	inc h ; SquaresHigh / $100
 	ld d, [hl]
 	ld l, b
 	ld a, [hl]
@@ -4048,13 +4053,14 @@ Func_20ab: ; 0x20ab
 	ld h, a
 	add hl, de
 	push af
-	ld d, $3e
+	; hl -= (b - c) ** 2
+	ld d, SquaresLow / $100
 	ld a, b
 	sub c
 	ld e, a
 	ld a, [de]
 	ld c, a
-	inc d
+	inc d ; SquaresHigh / $100
 	ld a, [de]
 	ld b, a
 	ld a, l
@@ -4063,21 +4069,22 @@ Func_20ab: ; 0x20ab
 	ld a, h
 	sbc b
 	ld h, a
-	jr nc, .asm_20f1
+	jr nc, .no_carry
 	pop af
 	ccf
-	jr .asm_20f2
+	jr .check_sign
 
-.asm_20f1
+.no_carry
 	pop af
-.asm_20f2
+.check_sign
+	; hl /= 2
 	rr h
 	rr l
 	ld b, h
 	ld c, l
-	ld a, [$ffb6]
+	ld a, [hSignedMathSignBuffer]
 	rlca
-	jr nc, .asm_2107
+	jr nc, .done
 	ld a, c
 	cpl
 	add $1
@@ -4086,20 +4093,22 @@ Func_20ab: ; 0x20ab
 	cpl
 	adc $0
 	ld b, a
-.asm_2107
+.done
 	pop hl
 	pop de
 	pop af
 	ret
 
-Func_210b: ; 0x210b
+MultiplyBCByEAndRoundToMostSignificantShort: ; 0x210b
+; bc = round(bc * e / 256)
+; b^d = sign of output
 	push af
 	push hl
 	ld a, b
 	xor d
-	ld [$ffb7], a
+	ld [hSignedMathSignBuffer2], a
 	bit 7, b
-	jr z, .asm_211f
+	jr z, .positive1
 	ld a, c
 	cpl
 	add $1
@@ -4108,10 +4117,10 @@ Func_210b: ; 0x210b
 	cpl
 	adc $0
 	ld b, a
-.asm_211f
+.positive1
 	push bc
 	ld b, e
-	call Func_20ab
+	call MultiplyBbyCUnsigned
 	ld l, c
 	ld h, b
 	ld bc, $0080
@@ -4120,11 +4129,11 @@ Func_210b: ; 0x210b
 	ld h, $0
 	pop bc
 	ld c, e
-	call Func_20ab
+	call MultiplyBbyCUnsigned
 	add hl, bc
-	ld a, [$ffb7]
+	ld a, [hSignedMathSignBuffer2]
 	rlca
-	jr nc, .asm_2142
+	jr nc, .positive2
 	ld a, l
 	cpl
 	add $1
@@ -4133,33 +4142,35 @@ Func_210b: ; 0x210b
 	cpl
 	adc $0
 	ld h, a
-.asm_2142
+.positive2
 	ld c, l
 	ld b, h
 	pop hl
 	pop af
 	ret
 
-Func_2147: ; 0x2147
+Cosine: ; 0x2147
+	; cos(a)
 	add $40
 	; fall through
-Func_2149: ; 0x2149
+Sine: ; 0x2149
+	; sin(a)
 	push hl
-	ld [$ffb6], a
+	ld [hSignedMathSignBuffer], a
 	and $7f
 	cp $40
-	jr c, .asm_2155
+	jr c, .positive
 	cpl
-	add $81
-.asm_2155
-	ld hl, Data_26be
+	add $80+1
+.positive
+	ld hl, SineTable
 	ld e, a
 	ld d, $0
 	add hl, de
 	ld e, [hl]
 	pop hl
 	ld d, $0
-	ld a, [$ffb6]
+	ld a, [hSignedMathSignBuffer]
 	sla a
 	ret nc
 	ld d, $ff
@@ -4253,51 +4264,53 @@ AddVelocityToPosition: ; 0x21c3
 	ld [hl], a
 	ret
 
-Func_21e5: ; 0x21e5
+NegateAngleAndApplyCollisionForce: ; 0x21e5
 	cpl
 	inc a
 	; fall through
-Func_21e7: ; 0x21e7
+ApplyCollisionForce: ; 0x21e7
 	push hl
+	; bc_ret = bc * cos(a) + de * sin(x)
+	; de_ret = bc * cos(a) - de * sin(x)
 	push bc
 	push de
-	ld [$ff8c], a
-	call Func_2147
+	ld [hSineOrCosineArgumentBuffer], a
+	call Cosine
 	ld a, e
-	ld [$ff8d], a
+	ld [hCosineResultBuffer], a
 	ld a, d
-	ld [$ff8e], a
-	call Func_210b
+	ld [hCosineResultBuffer + 1], a
+	call MultiplyBCByEAndRoundToMostSignificantShort
 	ld l, c
 	ld h, b
 	pop bc
 	push bc
-	ld a, [$ff8c]
-	call Func_2149
+	ld a, [hSineOrCosineArgumentBuffer]
+	call Sine
 	ld a, e
-	ld [$ff8f], a
+	ld [hSineResultBuffer], a
 	ld a, d
-	ld [$ff90], a
-	call Func_210b
+	ld [hSineResultBuffer + 1], a
+	call MultiplyBCByEAndRoundToMostSignificantShort
 	add hl, bc
 	pop de
 	pop bc
 	push hl
 	push de
-	ld a, [$ff8f]
+	ld a, [hSineResultBuffer]
 	ld e, a
-	ld a, [$ff90]
+	ld a, [hSineResultBuffer + 1]
 	cpl
 	ld d, a
-	call Func_210b
+	call MultiplyBCByEAndRoundToMostSignificantShort
 	ld l, c
 	ld h, b
 	pop bc
-	ld a, [$ff8d]
+	ld a, [hCosineResultBuffer]
 	ld e, a
-	ld a, [$ff8e]
+	ld a, [hCosineResultBuffer + 1]
 	ld d, a
-	call Func_210b
+	call MultiplyBCByEAndRoundToMostSignificantShort
 	add hl, bc
 	ld d, h
 	ld e, l
@@ -4305,7 +4318,7 @@ Func_21e7: ; 0x21e7
 	pop hl
 	ret
 
-Func_222b: ; 0x222b
+ApplyTorque: ; 0x222b
 	push hl
 	ld hl, wd7f8
 	ld [hl], $ff
@@ -4410,7 +4423,7 @@ SetBallVelocity: ; 0x22a7
 	pop hl
 	ret
 
-Func_22b5: ; 0x22b5
+CheckObjectCollision: ; 0x22b5
 	ld a, [wBallXPos + 1]
 	sub $4
 	push af
@@ -4439,9 +4452,9 @@ Func_22b5: ; 0x22b5
 	ld b, $0
 	add hl, bc
 	ld a, l
-	ld [wd7f3], a
+	ld [wBallPositionPointerOffsetFromStageTopLeft], a
 	ld a, h
-	ld [wd7f4], a
+	ld [wBallPositionPointerOffsetFromStageTopLeft + 1], a
 	ld a, [wStageCollisionMapPointer]
 	ld c, a
 	ld a, [wStageCollisionMapPointer + 1]
@@ -4622,19 +4635,19 @@ Func_22b5: ; 0x22b5
 	ret z
 	ld a, [hLoadedROMBank]
 	push af
-	ld a, Bank(Data_8817)
+	ld a, Bank(CollisionForceAngles)
 	ld [hLoadedROMBank], a
 	ld [MBC5RomBank], a
 	push de
 	ld e, d
 	ld d, $0
-	ld hl, Data_8817
+	ld hl, CollisionForceAngles
 	add hl, de
 	ld a, [hl]
-	ld [wd7ea], a
+	ld [wCollisionForceAngle], a
 	sla e
 	rl d
-	ld hl, Data_8917
+	ld hl, CollisionYDeltas
 	add hl, de
 	ld a, [wBallYPos]
 	add [hl]
@@ -4643,7 +4656,7 @@ Func_22b5: ; 0x22b5
 	ld a, [wBallYPos + 1]
 	adc [hl]
 	ld [wBallYPos + 1], a
-	ld hl, Data_8b17
+	ld hl, CollisionXDeltas
 	add hl, de
 	ld a, [wBallXPos]
 	add [hl]
@@ -4672,7 +4685,7 @@ Func_22b5: ; 0x22b5
 	and $1e
 	ld c, a
 	ld b, $0
-	ld hl, Data_250e
+	ld hl, SubTileBallPosDeltas
 	add hl, bc
 	ld a, [wSubTileBallXPos]
 	add $4
@@ -4694,12 +4707,12 @@ Func_22b5: ; 0x22b5
 	add hl, bc
 	ld a, [hl]
 	ld [wCurCollisionAttribute], a
-	ld hl, Data_250a
+	ld hl, BallPositionPointerOffsetDeltas
 	add hl, bc
-	ld a, [wd7f3]
+	ld a, [wBallPositionPointerOffsetFromStageTopLeft]
 	add [hl]
 	ld [wd7f6], a
-	ld a, [wd7f4]
+	ld a, [wBallPositionPointerOffsetFromStageTopLeft + 1]
 	adc $0
 	ld [wd7f7], a
 	ret
@@ -4787,11 +4800,27 @@ Func_248a: ; 0x248a
 	scf
 	ret
 
-Data_250a:
-	dr $250a, $250e
+BallPositionPointerOffsetDeltas:
+	db $00, $20
+	db $01, $21
 
-Data_250e:
-	dr $250e, $252e
+SubTileBallPosDeltas:
+	db  4,  0
+	db  4,  1
+	db  3,  3
+	db  1,  4
+	db  0,  4
+	db -1,  4
+	db -3,  3
+	db -4,  1
+	db -4,  0
+	db -4, -1
+	db -3, -3
+	db -1, -4
+	db  0, -4
+	db  1, -4
+	db  3, -3
+	db  4, -1
 
 SubTileXPos_CollisionDataPointers: ; 0x252e
 	dw SubTileXPos_CollisionData0
@@ -4947,8 +4976,11 @@ SubTileXPos_CollisionData7: ; 0x268e
 	db $18, $10, $04
 	db $18, $08, $03
 
-Data_26be:
-	dr $26be, $2720
+SineTable:
+	dr $26be, $26ff
+
+Data_26ff:
+	dr $26ff, $2720
 
 CheckGameObjectCollisions: ; 0x2720
 	ld a, $ff
@@ -5595,7 +5627,7 @@ ApplyTiltForces: ; 0x36c1
 	ld l, a
 	bit 7, h
 	ret nz
-	ld a, [wd7ea]
+	ld a, [wCollisionForceAngle]
 	ld c, a
 	ld b, $0
 	sla c

@@ -674,10 +674,7 @@ Func_3475: ; 0x3475
 	call HandleTilts
 	ld a, [wCurrentStage]
 	bit 0, a
-	ld [hFarCallTempA], a
-	ld a, Bank(HandleFlippers)
-	ld hl, HandleFlippers
-	call nz, BankSwitch
+	callba nz, HandleFlippers
 	callba Func_84b7
 	call Func_33e3
 	call Func_926

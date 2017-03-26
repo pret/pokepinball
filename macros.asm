@@ -60,9 +60,15 @@ bigdw: MACRO ; big-endian word
 
 callba: MACRO
 	ld [hFarCallTempA], a
+	IF _NARG > 1
+	ld a, BANK(\2)
+	ld hl, \2
+	call \1, BankSwitch
+	ELSE
 	ld a, BANK(\1)
 	ld hl, \1
 	call BankSwitch
+	ENDC
 	ENDM
 
 bigBCD6: MACRO

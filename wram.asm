@@ -1744,17 +1744,11 @@ wFlipperXCollisionAttribute:: ; 0xd7b8
 wFlipperCollision:: ; 0xd7b9
 	ds $1
 
-wd7ba:: ; 0xd7ba
-	ds $1
+wFlipperXForce:: ; 0xd7ba
+	dw
 
-wd7bb:: ; 0xd7bb
-	ds $1
-
-wd7bc:: ; 0xd7bc
-	ds $1
-
-wd7bd:: ; 0xd7bd
-	ds $1
+wFlipperYForce:: ; 0xd7bc
+	dw
 
 wd7be:: ; 0xd7be
 	ds $1
@@ -1798,7 +1792,7 @@ wd7d9:: ; 0xd7d9
 wd7e9:: ; 0xd7e9
 	ds $1
 
-wd7ea:: ; 0xd7ea
+wCollisionForceAngle:: ; 0xd7ea
 	ds $1
 
 wd7eb:: ; 0xd7eb
@@ -1819,11 +1813,8 @@ wStageCollisionMasksBank:: ; 0xd7f1
 wd7f2:: ; 0xd7f2
 	ds $1
 
-wd7f3:: ; 0xd7f3
-	ds $1
-
-wd7f4:: ; 0xd7f4
-	ds $1
+wBallPositionPointerOffsetFromStageTopLeft:: ; 0xd7f3
+	dw
 
 wCurCollisionAttribute:: ; 0xd7f5
 	ds $1

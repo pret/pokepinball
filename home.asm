@@ -4157,12 +4157,13 @@ Sine: ; 0x2149
 	; sin(a)
 	push hl
 	ld [hSignedMathSignBuffer], a
-	and $7f
+	and $7f ; subtract 180 degrees
 	cp $40
-	jr c, .positive
+	jr c, .firstQuadrant
+	; convert angle so it's between 0 and 90 degrees
 	cpl
 	add $80+1
-.positive
+.firstQuadrant
 	ld hl, SineTable
 	ld e, a
 	ld d, $0
@@ -4976,11 +4977,7 @@ SubTileXPos_CollisionData7: ; 0x268e
 	db $18, $10, $04
 	db $18, $08, $03
 
-SineTable:
-	dr $26be, $26ff
-
-Data_26ff:
-	dr $26ff, $2720
+INCLUDE "data/sine_table.asm"
 
 CheckGameObjectCollisions: ; 0x2720
 	ld a, $ff

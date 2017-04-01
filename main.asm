@@ -15049,7 +15049,7 @@ Data_14c8d:
 ResolveVoltorbCollision: ; 0x14d85
 	ld a, [wWhichVoltorb]
 	and a
-	jr z, .noVolorbCollision
+	jr z, .noVoltorbCollision
 	xor a
 	ld [wWhichVoltorb], a
 	call Func_14dc9
@@ -15064,7 +15064,7 @@ ResolveVoltorbCollision: ; 0x14d85
 	callba AddBigBCD6FromQueueWithBallMultiplier
 	ret
 
-.noVolorbCollision
+.noVoltorbCollision
 	ld a, [wd4d6]
 	and a
 	ret z

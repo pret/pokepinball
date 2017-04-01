@@ -14515,17 +14515,16 @@ RedStageBottomEvolutionTrinketCoords: ; 0x145fb
 	db $00  ; terminator
 
 Func_1460e: ; 0x1460e
-; not collisions
-	call Func_14d85
-	call Func_14dea
-	call Func_1535d
-	call HandleBallTypeUpgradeCounterRedField
+	call ResolveVoltorbCollision
+	call ResolveRedStageSpinnerCollision
+	call ResolveRedStagePinballUpgradeTriggersCollision
+	call HandleRedStageBallTypeUpgradeCounter
 	call Func_15270
-	call Func_1581f
-	call Func_1660c
-	call Func_16781
-	call Func_15e93
-	call Func_160f0
+	call ResolveRedStageBoardTriggerCollision
+	call ResolveRedStagePikachuCollision
+	call ResolveStaryuCollision
+	call ResolveBellsproutCollision
+	call ResolveDittoSlotCollision
 	call Func_161e0
 	call Func_164e3
 	call Func_146a9
@@ -14539,17 +14538,17 @@ Func_1460e: ; 0x1460e
 Func_14652: ; 0x14652
 	call Func_14795
 	call Func_15f86
-	call Func_147aa
+	call ResolveDiglettCollision
 	call Func_14880
 	call Func_14e10
 	call Func_154a9
-	call HandleBallTypeUpgradeCounterRedField
+	call HandleRedStageBallTypeUpgradeCounter
 	call Func_151cb
 	call Func_1652d
-	call Func_1660c
+	call ResolveRedStagePikachuCollision
 	call Func_167ff
 	call Func_169a6
-	call Func_16d9d
+	call ResolveRedStageBonusMultiplierCollision
 	call Func_16279
 	call Func_161af
 	call Func_164e3
@@ -14714,7 +14713,7 @@ Func_14795: ; 0x14795
 	call PlaySoundEffect
 	ret
 
-Func_147aa: ; 0x147aa
+ResolveDiglettCollision: ; 0x147aa
 	ld a, [wWhichDiglett]
 	and a
 	jp z, .asm_14834
@@ -15047,10 +15046,10 @@ Data_14af5:
 Data_14c8d:
 	dr $14c8d, $14d85
 
-Func_14d85: ; 0x14d85
+ResolveVoltorbCollision: ; 0x14d85
 	ld a, [wWhichVoltorb]
 	and a
-	jr z, .asm_14db9
+	jr z, .noVolorbCollision
 	xor a
 	ld [wWhichVoltorb], a
 	call Func_14dc9
@@ -15065,7 +15064,7 @@ Func_14d85: ; 0x14d85
 	callba AddBigBCD6FromQueueWithBallMultiplier
 	ret
 
-.asm_14db9
+.noVolorbCollision
 	ld a, [wd4d6]
 	and a
 	ret z
@@ -15092,7 +15091,7 @@ Func_14dc9: ; 0x14dc9
 	call PlaySoundEffect
 	ret
 
-Func_14dea: ; 0x14dea
+ResolveRedStageSpinnerCollision: ; 0x14dea
 	ld a, [wSpinnerCollision]
 	and a
 	jr z, Func_14e10
@@ -15422,7 +15421,7 @@ Data_1531d:
 Data_15325:
 	dr $15325, $1535d
 
-Func_1535d: ; 0x1535d
+ResolveRedStagePinballUpgradeTriggersCollision: ; 0x1535d
 	ld a, [wWhichPinballUpgradeTrigger]
 	and a
 	jp z, .asm_1544c
@@ -15687,7 +15686,7 @@ Data_15543:
 Data_15549:
 	dr $15549, $15575
 
-HandleBallTypeUpgradeCounterRedField: ; 0x15575
+HandleRedStageBallTypeUpgradeCounter: ; 0x15575
 	ld a, [wd5f3]
 	and a
 	ret nz
@@ -15968,7 +15967,7 @@ Data_15811:
 Data_15818:
 	db $08, $04, $40, $80, $51, $37, $00
 
-Func_1581f: ; 0x1581f
+ResolveRedStageBoardTriggerCollision: ; 0x1581f
 	ld a, [wWhichBoardTrigger]
 	and a
 	ret z
@@ -16232,7 +16231,7 @@ Data_15a3f:
 Data_15d05:
 	dr $15d05, $15e93
 
-Func_15e93: ; 0x15e93
+ResolveBellsproutCollision: ; 0x15e93
 	ld a, [wBellsproutCollision]
 	and a
 	jr z, .asm_15eda
@@ -16284,9 +16283,9 @@ Func_15e93: ; 0x15e93
 	cp $2
 	jr c, .noCatchEmMode
 	ld a, $8
-	jr nz, .asm_15f11
+	jr nz, .startCatchEmMode
 	xor a
-.asm_15f11
+.startCatchEmMode
 	ld [wRareMonsFlag], a
 	callba StartCatchEmMode
 .noCatchEmMode
@@ -16425,7 +16424,7 @@ Data_16010:
 Data_16080:
 	dr $16080, $160f0
 
-Func_160f0: ; 0x160f0
+ResolveDittoSlotCollision: ; 0x160f0
 	ld a, [wDittoSlotCollision]
 	and a
 	jr z, .asm_16137
@@ -17011,7 +17010,7 @@ RedStageInitialMaps: ; 0x16605
 	db ROCK_MOUNTAIN
 	db LAVENDER_TOWN
 
-Func_1660c: ; 0x1660c
+ResolveRedStagePikachuCollision: ; 0x1660c
 	ld a, [wWhichPikachu]
 	and a
 	jr z, .asm_1667b
@@ -17194,7 +17193,7 @@ Func_16766: ; 0x16766
 	ld [hl], $1
 	ret
 
-Func_16781: ; 0x16781
+ResolveStaryuCollision: ; 0x16781
 	ld a, [wStaryuCollision]
 	and a
 	jr z, .asm_167bd
@@ -17396,7 +17395,7 @@ Data_169ed:
 Data_16bef:
 	dr $16bef, $16d9d
 
-Func_16d9d: ; 016d9d
+ResolveRedStageBonusMultiplierCollision: ; 016d9d
 	ld a, [wWhichBonusMultiplierRailing]
 	and a
 	jp z, Func_16e51
@@ -22686,18 +22685,18 @@ BlueStageLaunchAlleyCollisionData:
 	db $FF ; terminator
 
 Func_1c715: ; 0x1c715
-	call Func_1c9c1
-	call Func_1ca5f
-	call Func_1e356
-	call HandleBallTypeUpgradeCounterBlueField
+	call ResolveShellderCollision
+	call ResolveBlueStageSpinnerCollision
+	call ResolveBlueStagePinballUpgradeTriggersCollision
+	call HandleBlueStageBallTypeUpgradeCounter
 	call Func_1e66a
-	call Func_1cfaa
-	call Func_1d0a1
-	call Func_1d216
-	call HandleEnteringCloyster
+	call ResolveBlueStageBoardTriggerCollision
+	call ResolveBlueStagePikachuCollision
+	call ResolveSlowpokeCollision
+	call ResolveCloysterCollision
 	call Func_1ea3b
-	call Func_1dbd2
-	call Func_1ef09
+	call ResolvePsyduckPoliwagCollision
+	call ResolveBlueStageForceFieldCollision
 	call Func_1e9c0
 	call Func_1c8b6
 	call Func_1f18a
@@ -22712,15 +22711,15 @@ Func_1c715: ; 0x1c715
 Func_1c769: ; 0x1c769
 	call Func_1ca4a
 	call Func_1ce40
-	call Func_1dbd2
+	call ResolvePsyduckPoliwagCollision
 	call Func_1ca85
 	call Func_1e4b8
-	call HandleBallTypeUpgradeCounterBlueField
+	call HandleBlueStageBallTypeUpgradeCounter
 	call Func_1e5c5
 	call Func_1c7d7
-	call Func_1d0a1
+	call ResolveBlueStagePikachuCollision
 	call Func_1ead4
-	call Func_1d438
+	call ResolveBlueStageBonusMultiplierCollision
 	call Func_1e757
 	call Func_1e9c0
 	call Func_1ea0a
@@ -22993,10 +22992,10 @@ Func_1c8b6: ; 0x1c8b6
 .asm_1c9c0
 	ret
 
-Func_1c9c1: ; 0x1c9c1
+ResolveShellderCollision: ; 0x1c9c1
 	ld a, [wWhichShellder]
 	and a
-	jr z, .asm_1ca19
+	jr z, .noCollision
 	xor a
 	ld [wWhichShellder], a
 	call Func_1ca29
@@ -23027,7 +23026,7 @@ Func_1c9c1: ; 0x1c9c1
 	callba AddBigBCD6FromQueueWithBallMultiplier
 	ret
 
-.asm_1ca19
+.noCollision
 	ld a, [wd4d6]
 	and a
 	ret z
@@ -23066,7 +23065,7 @@ Func_1ca4a: ; 1ca4a
 	call PlaySoundEffect
 	ret
 
-Func_1ca5f: ; 0x1ca5f
+ResolveBlueStageSpinnerCollision: ; 0x1ca5f
 	ld a, [wSpinnerCollision]
 	and a
 	jr z, Func_1ca85
@@ -23297,7 +23296,7 @@ Data_1ceca:
 Data_1cf3a:
 	dr $1cf3a, $1cfaa
 
-Func_1cfaa: ; 0x1cfaa
+ResolveBlueStageBoardTriggerCollision: ; 0x1cfaa
 	ld a, [wWhichBoardTrigger]
 	and a
 	ret z
@@ -23413,7 +23412,7 @@ HandleRightAlleyTriggerBlueField: ; 0x1d091
 	ld [wRightAlleyTrigger], a
 	ret
 
-Func_1d0a1: ; 0x1d0a1
+ResolveBlueStagePikachuCollision: ; 0x1d0a1
 	ld a, [wWhichPikachu]
 	and a
 	jr z, .asm_1d110
@@ -23596,7 +23595,7 @@ Func_1d1fb: ; 0x1d1fb
 	ld [hl], $1
 	ret
 
-Func_1d216: ; 0x1d216
+ResolveSlowpokeCollision: ; 0x1d216
 	ld a, [wSlowpokeCollision]
 	and a
 	jr z, .asm_1d253
@@ -23704,7 +23703,7 @@ Func_1d216: ; 0x1d216
 Data_1d312:
 	dr $1d312, $1d32d
 
-HandleEnteringCloyster: ; 0x1d32d
+ResolveCloysterCollision: ; 0x1d32d
 	ld a, [wCloysterCollision]
 	and a
 	jr z, .asm_1d36a
@@ -23807,7 +23806,7 @@ HandleEnteringCloyster: ; 0x1d32d
 Data_1d41d:
 	dr $1d41d, $1d438
 
-Func_1d438: ; 0x1d438
+ResolveBlueStageBonusMultiplierCollision: ; 0x1d438
 	call Func_1d692
 	ld a, [wWhichBonusMultiplierRailing]
 	and a
@@ -24160,7 +24159,7 @@ Data_1d946:
 Data_1d97a:
 	dr $1d97a, $1dbd2
 
-Func_1dbd2: ; 0x1dbd2
+ResolvePsyduckPoliwagCollision: ; 0x1dbd2
 	ld a, [wWhichPsyduckPoliwag]
 	and a
 	jp z, Func_1dc8e
@@ -24670,7 +24669,7 @@ Data_1e0a4:
 Data_1e1d6:
 	dr $1e1d6, $1e356
 
-Func_1e356: ; 0x1e356
+ResolveBlueStagePinballUpgradeTriggersCollision: ; 0x1e356
 	ld a, [wWhichPinballUpgradeTrigger]
 	and a
 	jp z, Func_1e471
@@ -24930,7 +24929,7 @@ Data_1e556:
 Data_1e55c:
 	dr $1e55c, $1e58c
 
-HandleBallTypeUpgradeCounterBlueField: ; 0x1e58c
+HandleBlueStageBallTypeUpgradeCounter: ; 0x1e58c
 	ld a, [wd5f3]
 	and a
 	ret nz
@@ -25649,7 +25648,7 @@ Data_1eb61:
 Data_1ed51:
 	dr $1ed51, $1ef09
 
-Func_1ef09: ; 0x1ef09
+ResolveBlueStageForceFieldCollision: ; 0x1ef09
 	ld a, [wBlueStageForceFieldDirection]
 	cp $0  ; up direction
 	jp z, Func_1ef20

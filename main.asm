@@ -37,9 +37,9 @@ Func_800a: ; 0x800a
 	ld a, $45
 	ld [hLCDC], a
 	ld a, $e4
-	ld [wd80c], a
-	ld [wd80d], a
-	ld [wd80e], a
+	ld [wBGP], a
+	ld [wOBP0], a
+	ld [wOBP1], a
 	xor a
 	ld [hSCX], a
 	ld [hSCY], a
@@ -264,10 +264,10 @@ CheckForResetButtonCombo: ; 0x8167
 	ld a, $41
 	ld [hLCDC], a
 	ld a, $e4
-	ld [wd80c], a
+	ld [wBGP], a
 	xor a
-	ld [wd80d], a
-	ld [wd80e], a
+	ld [wOBP0], a
+	ld [wOBP1], a
 	ld [hSCX], a
 	ld [hSCY], a
 	ld a, [hGameBoyColorFlag]
@@ -372,10 +372,10 @@ FadeInCopyrightScreen: ; 0x8228
 	ld a, $41
 	ld [hLCDC], a
 	ld a, $e4
-	ld [wd80c], a
+	ld [wBGP], a
 	xor a
-	ld [wd80d], a
-	ld [wd80e], a
+	ld [wOBP0], a
+	ld [wOBP1], a
 	ld [hSCX], a
 	ld [hSCY], a
 	ld a, [hGameBoyColorFlag]
@@ -553,7 +553,7 @@ StartBallForStage: ; 0x83ba
 	and a
 	jr z, .asm_83c7
 	call Func_8444
-	call Func_8461
+	call RestartStageMusic
 	ret
 
 .asm_83c7
@@ -576,7 +576,7 @@ StartBallForStage: ; 0x83ba
 	ld [wd548], a
 	ld [wd549], a
 	ld a, $20
-	ld [wd7ab], a
+	ld [wSCX], a
 	ld a, [wCurrentStage]
 	call CallInFollowingTable
 CallTable_8404: ; 0x8404
@@ -625,10 +625,10 @@ Func_8444: ; 0x8444
 .asm_8460
 	ret
 
-Func_8461: ; 0x8461
-	ld a, [wd7c0]
+RestartStageMusic: ; 0x8461
+	ld a, [wStageSongBank]
 	call SetSongBank
-	ld a, [wd7bf]
+	ld a, [wStageSong]
 	ld e, a
 	ld d, $0
 	call PlaySong
@@ -2368,11 +2368,11 @@ FadeInTitlescreen: ; 0xc00e
 	ld a, $43
 	ld [hLCDC], a
 	ld a, $e4
-	ld [wd80c], a
+	ld [wBGP], a
 	ld a, $d2
-	ld [wd80d], a
+	ld [wOBP0], a
 	ld a, $e1
-	ld [wd80e], a
+	ld [wOBP1], a
 	xor a
 	ld [hSCX], a
 	ld [hSCY], a
@@ -2836,10 +2836,10 @@ Func_c35a: ; 0xc35a
 	ld a, $47
 	ld [hLCDC], a
 	ld a, $e4
-	ld [wd80c], a
-	ld [wd80d], a
+	ld [wBGP], a
+	ld [wOBP0], a
 	ld a, $d2
-	ld [wd80e], a
+	ld [wOBP1], a
 	xor a
 	ld [hSCX], a
 	ld [hSCY], a
@@ -4011,10 +4011,10 @@ Func_cb14: ; 0xcb14
 	ld a, $43
 	ld [hLCDC], a
 	ld a, $e0
-	ld [wd80c], a
+	ld [wBGP], a
 	ld a, $e1
-	ld [wd80d], a
-	ld [wd80e], a
+	ld [wOBP0], a
+	ld [wOBP1], a
 	xor a
 	ld [hSCX], a
 	ld [hNextFrameHBlankSCX], a
@@ -5672,10 +5672,10 @@ LoadFieldSelectScreen: ; 0xd6dd
 	ld a, $43
 	ld [hLCDC], a
 	ld a, $e4
-	ld [wd80c], a
+	ld [wBGP], a
 	ld a, $d2
-	ld [wd80d], a
-	ld [wd80e], a
+	ld [wOBP0], a
+	ld [wOBP1], a
 	xor a
 	ld [hSCX], a
 	ld [hSCY], a
@@ -5882,13 +5882,13 @@ HandlePinballGame: ; 0xd853
 	ld a, [wScreenState]
 	rst JumpTable  ; calls JumpToFuncInTable
 PinballGameScreenFunctions: ; 0xd857
-	dw Func_d861
-	dw Func_d87f
-	dw Func_d909
-	dw Func_da36
-	dw Func_dab2
+	dw GameScreenFunction_LoadGFX
+	dw GameScreenFunction_StartBall
+	dw GameScreenFunction_HandleBallPhysics
+	dw GameScreenFunction_HandleBallLoss
+	dw GameScreenFunction_EndBall
 
-Func_d861: ; 0xd861
+GameScreenFunction_LoadGFX: ; 0xd861
 	xor a
 	ld [wd908], a
 	callba InitializeStage
@@ -5900,16 +5900,16 @@ Func_d861: ; 0xd861
 	inc [hl]
 	ret
 
-Func_d87f: ; 0xd87f
+GameScreenFunction_StartBall: ; 0xd87f
 	ld a, $67
 	ld [hLCDC], a
 	ld a, $e4
-	ld [wd80c], a
+	ld [wBGP], a
 	ld a, $e1
-	ld [wd80d], a
+	ld [wOBP0], a
 	ld a, $e4
-	ld [wd80e], a
-	ld a, [wd7ab]
+	ld [wOBP1], a
+	ld a, [wSCX]
 	ld [hSCX], a
 	xor a
 	ld [hSCY], a
@@ -5946,7 +5946,7 @@ Func_d87f: ; 0xd87f
 	inc [hl]
 	ret
 
-Func_d909: ; 0xd909
+GameScreenFunction_HandleBallPhysics: ; 0xd909
 ; main loop for stage logic
 	xor a
 	ld [wFlipperCollision], a
@@ -6070,7 +6070,7 @@ SaveGame: ; 0xda05
 	ld [wScreenState], a
 	ret
 
-Func_da36: ; 0xda36
+GameScreenFunction_HandleBallLoss: ; 0xda36
 	xor a
 	ld [hJoypadState], a
 	ld [hNewlyPressedButtons], a
@@ -6118,7 +6118,7 @@ Func_da36: ; 0xda36
 	inc [hl]
 	ret
 
-Func_dab2: ; 0xdab2
+GameScreenFunction_EndBall: ; 0xdab2
 	xor a
 	ld [wd803], a
 	ld a, [wGameOver]
@@ -8311,7 +8311,7 @@ BallMovingDownStageTransitions: ; 0xed4e
 	db $FF                      ; STAGE_SEEL_BONUS
 
 Func_ed5e: ; 0xed5e
-	ld hl, wd7ab
+	ld hl, wSCX
 	ld a, [wd7ac]
 	and a
 	jr nz, .modify_scx_and_scy
@@ -18543,7 +18543,7 @@ StartBallGengarBonusStage: ; 0x18157
 	ld a, $56
 	ld [wBallYPos + 1], a
 	xor a
-	ld [wd7ab], a
+	ld [wSCX], a
 	ld [wStageCollisionState], a
 	ld [wd653], a
 	xor a
@@ -20208,7 +20208,7 @@ StartBallMewtwoBonusStage: ; 0x192e3
 	ld a, $80
 	ld [wBallXVelocity], a
 	xor a
-	ld [wd7ab], a
+	ld [wSCX], a
 	ld [wStageCollisionState], a
 	ld [wd6a9], a
 	ld a, [wd4c9]
@@ -21040,7 +21040,7 @@ StartBallDiglettBonusStage: ; 0x19a38
 	ld a, $40
 	ld [wBallXVelocity], a
 	xor a
-	ld [wd7ab], a
+	ld [wSCX], a
 	ld [wStageCollisionState], a
 	ld [wd73a], a
 	ld hl, wDiglettStates
@@ -21928,7 +21928,7 @@ StartBallAfterBonusStageBlueField: ; 0x1c129
 	ld [wBallXVelocity], a
 	ld [wBallXVelocity + 1], a
 	ld [wd496], a
-	ld [wd7ab], a
+	ld [wSCX], a
 	ld [wd7be], a
 	ld a, [wBallTypeBackup]
 	ld [wBallType], a
@@ -28669,7 +28669,7 @@ StartBallMeowthBonusStage: ; 0x24059
 	ld a, $40
 	ld [wBallXVelocity], a
 	xor a
-	ld [wd7ab], a
+	ld [wSCX], a
 	ld [wStageCollisionState], a
 	ld [wd6e6], a
 	ld hl, wd6f3
@@ -31028,7 +31028,7 @@ StartBallSeelBonusStage: ; 0x25af1
 	ld a, $80
 	ld [wBallXVelocity], a
 	xor a
-	ld [wd7ab], a
+	ld [wSCX], a
 	ld [wStageCollisionState], a
 	ld [wd766], a
 	ld a, $0
@@ -32172,11 +32172,11 @@ LoadPokedexScreen: ; 0x2800e
 	ld a, $23
 	ld [hLCDC], a
 	ld a, $e4
-	ld [wd80c], a
+	ld [wBGP], a
 	ld a, $93
-	ld [wd80d], a
+	ld [wOBP0], a
 	ld a, $e4
-	ld [wd80e], a
+	ld [wOBP1], a
 	xor a
 	ld [hSCX], a
 	ld a, $8
@@ -36489,7 +36489,7 @@ StartBallAfterBonusStageRedField: ; 0x30128
 	ld [wBallXVelocity], a
 	ld [wBallXVelocity + 1], a
 	ld [wd496], a
-	ld [wd7ab], a
+	ld [wSCX], a
 	ld [wd7be], a
 	ld a, [wBallTypeBackup]
 	ld [wBallType], a

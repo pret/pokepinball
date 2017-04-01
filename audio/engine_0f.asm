@@ -4,8 +4,8 @@ Func_3c000: ; 0x3c000
 	push bc
 	push af
 	call Func_3cb1b
-	ld hl, wdd01
-	ld de, wdeb0 - wdd01
+	ld hl, wChannel1
+	ld de, wdeb0 - wChannel1
 .clearLoop
 	xor a
 	ld [hli], a
@@ -21,7 +21,7 @@ Func_3c000: ; 0x3c000
 	ld [hli], a
 	ld hl, rNR10
 	ld e, $4
-.asm_3c022
+.loop
 	xor a
 	ld [hli], a
 	ld [hli], a
@@ -32,7 +32,7 @@ Func_3c000: ; 0x3c000
 	ld a, $80
 	ld [hli], a
 	dec e
-	jr nz, .asm_3c022
+	jr nz, .loop
 	ld a, $8
 	ld [wde9a], a
 	ld a, $77
@@ -256,7 +256,7 @@ Func_3c180: ; 0x3c180
 	xor a
 	ld [wde97], a
 	ld [wde99], a
-	ld bc, wdd01
+	ld bc, wChannel1
 .asm_3c18f
 	ld hl, $0002
 	add hl, bc
@@ -306,16 +306,16 @@ Func_3c180: ; 0x3c180
 	ld a, [wde97]
 	cp $4
 	jr nc, .asm_3c219
-	ld hl, wddcb
+	ld hl, wChannel5 + 2
 	bit 0, [hl]
 	jr nz, .asm_3c204
-	ld hl, wddfd
+	ld hl, wChannel6 + 2
 	bit 0, [hl]
 	jr nz, .asm_3c204
-	ld hl, wde2f
+	ld hl, wChannel7 + 2
 	bit 0, [hl]
 	jr nz, .asm_3c204
-	ld hl, wde61
+	ld hl, wChannel8 + 2
 	bit 0, [hl]
 	jr z, .asm_3c20a
 .asm_3c204
@@ -1140,10 +1140,10 @@ Func_3c704: ; 0x3c704
 	cp $4
 	ret nz
 	xor a
-	ld hl, wde21
+	ld hl, wChannel6 + $26
 	ld [hli], a
 	ld [hl], a
-	ld hl, wde85
+	ld hl, wChannel8 + $26
 	ld [hli], a
 	ld [hl], a
 	ld a, [wdeac]
@@ -1619,6 +1619,7 @@ Func_3c9da: ; 0x3c9da
 
 Func_3c9e9: ; 0x3c9e9
 	call Func_3ca10
+	; cast to s16
 	ld e, a
 	cp $80
 	jr nc, .asm_3c9f5
@@ -1754,24 +1755,24 @@ Func_3ca95: ; 0x3ca95
 	ld a, [wde97]
 	cp $4
 	jr nc, .asm_3cab7
-	ld bc, wdd01
+	ld bc, wChannel1
 	call Func_3cad1
-	ld bc, wdd33
+	ld bc, wChannel2
 	call Func_3cad1
-	ld bc, wdd65
+	ld bc, wChannel3
 	call Func_3cad1
-	ld bc, wdd97
+	ld bc, wChannel4
 	call Func_3cad1
 	jr .asm_3cacf
 
 .asm_3cab7
-	ld bc, wddc9
+	ld bc, wChannel5
 	call Func_3cad1
-	ld bc, wddfb
+	ld bc, wChannel6
 	call Func_3cad1
-	ld bc, wde2d
+	ld bc, wChannel7
 	call Func_3cad1
-	ld bc, wde5f
+	ld bc, wChannel8
 	call Func_3cad1
 .asm_3cacf
 	pop bc

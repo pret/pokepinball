@@ -92,7 +92,7 @@ Start: ; 0x150
 	ld [MBC5RomBankOn], a   ; Enable RAM Banking Mode
 	ld a, $0
 	ld [MBC5SRamBank], a   ; Load RAM Bank $0
-	ld sp, wdfff    ; Initialize stack pointer to the end of WRAM Bank $1
+	ld sp, wStack    ; Initialize stack pointer to the end of WRAM Bank $1
 	ld hl, hPushOAM
 	ld bc, $007e
 	call ClearData  ; Clear High RAM (HRAM)
@@ -194,7 +194,7 @@ SoftReset:
 	ld [MBC5RomBankOn], a
 	ld a, $0
 	ld [MBC5SRamBank], a
-	ld sp, wdfff
+	ld sp, wStack
 	call WriteDMACodeToHRAM
 	call ClearOAMBuffer
 	xor a
@@ -222,7 +222,7 @@ SoftReset:
 	ld a, $0
 	ld [wd849], a
 	ld [wd84a], a
-	ld a, $f
+	ld a, BANK(Func_3c000)
 	call SetSongBank
 	ld a, [hSGBFlag]
 	and a
@@ -538,9 +538,9 @@ PlaySong: ; 0x490
 	ld [hLoadedROMBank], a
 	ld [MBC5RomBank], a
 	ld a, e
-	ld [wd7bf], a
+	ld [wStageSong], a
 	ld a, [wCurrentSongBank]
-	ld [wd7c0], a
+	ld [wStageSongBank], a
 	call PlaySong_BankF  ; this function is replicated in multiple banks.
 	pop af
 	ld [hLoadedROMBank], a
@@ -577,10 +577,10 @@ Func_4d8: ; 0x4d8
 	push bc
 	push de
 	push hl
-	ld a, [wddcb]
-	ld hl, wddfd
+	ld a, [wChannel5 + 2]
+	ld hl, wChannel6 + 2
 	or [hl]
-	ld hl, wde2f
+	ld hl, wChannel7 + 2
 	or [hl]
 	and $1
 	call z, PlaySoundEffect
@@ -717,7 +717,7 @@ Func_597: ; 0x597
 	inc de
 	ld b, $8
 .asm_5a0
-	ld a, [wd80c]
+	ld a, [wBGP]
 	call Func_5c2
 	dec b
 	jr nz, .asm_5a0
@@ -727,9 +727,9 @@ Func_597: ; 0x597
 	inc de
 	ld b, $4
 .asm_5b2
-	ld a, [wd80d]
+	ld a, [wOBP0]
 	call Func_5c2
-	ld a, [wd80e]
+	ld a, [wOBP1]
 	call Func_5c2
 	dec b
 	jr nz, .asm_5b2
@@ -1803,7 +1803,7 @@ Func_bbe: ; 0xbbe
 	and a
 	jp nz, Func_c19
 	ld hl, hBGP
-	ld de, wd80c
+	ld de, wBGP
 	ld b, $3
 .asm_bcc
 	ld a, [de]
@@ -1820,7 +1820,7 @@ Func_bbe: ; 0xbbe
 	ld bc, $0002
 	call AdvanceFrames
 	ld hl, hBGP
-	ld de, wd80c
+	ld de, wBGP
 	ld b, $3
 .asm_be9
 	ld a, [de]
@@ -1834,7 +1834,7 @@ Func_bbe: ; 0xbbe
 	ld bc, $0002
 	call AdvanceFrames
 	ld hl, hBGP
-	ld de, wd80c
+	ld de, wBGP
 	ld b, $3
 .asm_c02
 	ld a, [de]

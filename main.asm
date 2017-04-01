@@ -37,9 +37,9 @@ Func_800a: ; 0x800a
 	ld a, $45
 	ld [hLCDC], a
 	ld a, $e4
-	ld [wd80c], a
-	ld [wd80d], a
-	ld [wd80e], a
+	ld [wBGP], a
+	ld [wOBP0], a
+	ld [wOBP1], a
 	xor a
 	ld [hSCX], a
 	ld [hSCY], a
@@ -264,10 +264,10 @@ CheckForResetButtonCombo: ; 0x8167
 	ld a, $41
 	ld [hLCDC], a
 	ld a, $e4
-	ld [wd80c], a
+	ld [wBGP], a
 	xor a
-	ld [wd80d], a
-	ld [wd80e], a
+	ld [wOBP0], a
+	ld [wOBP1], a
 	ld [hSCX], a
 	ld [hSCY], a
 	ld a, [hGameBoyColorFlag]
@@ -372,10 +372,10 @@ FadeInCopyrightScreen: ; 0x8228
 	ld a, $41
 	ld [hLCDC], a
 	ld a, $e4
-	ld [wd80c], a
+	ld [wBGP], a
 	xor a
-	ld [wd80d], a
-	ld [wd80e], a
+	ld [wOBP0], a
+	ld [wOBP1], a
 	ld [hSCX], a
 	ld [hSCY], a
 	ld a, [hGameBoyColorFlag]
@@ -553,7 +553,7 @@ StartBallForStage: ; 0x83ba
 	and a
 	jr z, .asm_83c7
 	call Func_8444
-	call Func_8461
+	call RestartStageMusic
 	ret
 
 .asm_83c7
@@ -576,7 +576,7 @@ StartBallForStage: ; 0x83ba
 	ld [wd548], a
 	ld [wd549], a
 	ld a, $20
-	ld [wd7ab], a
+	ld [wSCX], a
 	ld a, [wCurrentStage]
 	call CallInFollowingTable
 CallTable_8404: ; 0x8404
@@ -625,10 +625,10 @@ Func_8444: ; 0x8444
 .asm_8460
 	ret
 
-Func_8461: ; 0x8461
-	ld a, [wd7c0]
+RestartStageMusic: ; 0x8461
+	ld a, [wStageSongBank]
 	call SetSongBank
-	ld a, [wd7bf]
+	ld a, [wStageSong]
 	ld e, a
 	ld d, $0
 	call PlaySong
@@ -1203,7 +1203,7 @@ DrawInGameMenu: ; 0x87ed
 	call LoadVRAMData
 	ret
 
-Data_8817: ; 0x8817
+CollisionForceAngles: ; 0x8817
 ; This data has something to do with collisions.
 	db $C0
 	db $C5
@@ -1462,7 +1462,7 @@ Data_8817: ; 0x8817
 	db $2B
 	db $B6
 
-Data_8917: ; 0x8917
+CollisionYDeltas: ; 0x8917
 ; This has to do with y-collision data
 	dw $0000
 	dw $FFE0
@@ -1721,7 +1721,7 @@ Data_8917: ; 0x8917
 	dw $FBA3
 	dw $003E
 
-Data_8b17: ; 0x8b17
+CollisionXDeltas: ; 0x8b17
 ; This data has to do with x-collision data
 	dw $FF00
 	dw $FEFB
@@ -2368,11 +2368,11 @@ FadeInTitlescreen: ; 0xc00e
 	ld a, $43
 	ld [hLCDC], a
 	ld a, $e4
-	ld [wd80c], a
+	ld [wBGP], a
 	ld a, $d2
-	ld [wd80d], a
+	ld [wOBP0], a
 	ld a, $e1
-	ld [wd80e], a
+	ld [wOBP1], a
 	xor a
 	ld [hSCX], a
 	ld [hSCY], a
@@ -2836,10 +2836,10 @@ Func_c35a: ; 0xc35a
 	ld a, $47
 	ld [hLCDC], a
 	ld a, $e4
-	ld [wd80c], a
-	ld [wd80d], a
+	ld [wBGP], a
+	ld [wOBP0], a
 	ld a, $d2
-	ld [wd80e], a
+	ld [wOBP1], a
 	xor a
 	ld [hSCX], a
 	ld [hSCY], a
@@ -4011,10 +4011,10 @@ Func_cb14: ; 0xcb14
 	ld a, $43
 	ld [hLCDC], a
 	ld a, $e0
-	ld [wd80c], a
+	ld [wBGP], a
 	ld a, $e1
-	ld [wd80d], a
-	ld [wd80e], a
+	ld [wOBP0], a
+	ld [wOBP1], a
 	xor a
 	ld [hSCX], a
 	ld [hNextFrameHBlankSCX], a
@@ -5672,10 +5672,10 @@ LoadFieldSelectScreen: ; 0xd6dd
 	ld a, $43
 	ld [hLCDC], a
 	ld a, $e4
-	ld [wd80c], a
+	ld [wBGP], a
 	ld a, $d2
-	ld [wd80d], a
-	ld [wd80e], a
+	ld [wOBP0], a
+	ld [wOBP1], a
 	xor a
 	ld [hSCX], a
 	ld [hSCY], a
@@ -5882,13 +5882,13 @@ HandlePinballGame: ; 0xd853
 	ld a, [wScreenState]
 	rst JumpTable  ; calls JumpToFuncInTable
 PinballGameScreenFunctions: ; 0xd857
-	dw Func_d861
-	dw Func_d87f
-	dw Func_d909
-	dw Func_da36
-	dw Func_dab2
+	dw GameScreenFunction_LoadGFX
+	dw GameScreenFunction_StartBall
+	dw GameScreenFunction_HandleBallPhysics
+	dw GameScreenFunction_HandleBallLoss
+	dw GameScreenFunction_EndBall
 
-Func_d861: ; 0xd861
+GameScreenFunction_LoadGFX: ; 0xd861
 	xor a
 	ld [wd908], a
 	callba InitializeStage
@@ -5900,16 +5900,16 @@ Func_d861: ; 0xd861
 	inc [hl]
 	ret
 
-Func_d87f: ; 0xd87f
+GameScreenFunction_StartBall: ; 0xd87f
 	ld a, $67
 	ld [hLCDC], a
 	ld a, $e4
-	ld [wd80c], a
+	ld [wBGP], a
 	ld a, $e1
-	ld [wd80d], a
+	ld [wOBP0], a
 	ld a, $e4
-	ld [wd80e], a
-	ld a, [wd7ab]
+	ld [wOBP1], a
+	ld a, [wSCX]
 	ld [hSCX], a
 	xor a
 	ld [hSCY], a
@@ -5946,7 +5946,7 @@ Func_d87f: ; 0xd87f
 	inc [hl]
 	ret
 
-Func_d909: ; 0xd909
+GameScreenFunction_HandleBallPhysics: ; 0xd909
 ; main loop for stage logic
 	xor a
 	ld [wFlipperCollision], a
@@ -5958,18 +5958,15 @@ Func_d909: ; 0xd909
 	call HandleTilts
 	ld a, [wCurrentStage]
 	bit 0, a
-	ld [hFarCallTempA], a
-	ld a, Bank(HandleFlippers)
-	ld hl, HandleFlippers
-	call nz, BankSwitch  ; only perform flipper routines on the lower-half of stages
+	callba nz, HandleFlippers  ; only perform flipper routines on the lower-half of stages
 	ld a, [wFlipperCollision]
 	and a
-	ld a, [wd7ea]
+	ld a, [wCollisionForceAngle]
 	push af
-	call Func_22b5  ; collision stuff
+	call CheckObjectCollision  ; collision stuff
 	pop af
 	jr z, .noFlipperCollision
-	ld [wd7ea], a
+	ld [wCollisionForceAngle], a
 .noFlipperCollision
 	call CheckGameObjectCollisions
 	call Func_281c ; not collision-related
@@ -5983,16 +5980,17 @@ Func_d909: ; 0xd909
 .didntPressMenuKey
 	ld a, [wd7e9]  ; check for collision flag
 	and a
-	jr z, .asm_d9a2
+	jr z, .skip_collision
 	call ApplyTiltForces
-	call LoadBallVelocity
-	ld a, [wd7ea]
-	call Func_21e7
-	call Func_222b
+	call LoadBallVelocity ; bc = x velocity, de = y velocity
+	ld a, [wCollisionForceAngle]
+	call ApplyCollisionForce
+	call ApplyTorque
 	ld a, [wFlipperCollision]
 	and a
-	jr z, .asm_d993
-	ld hl, wd7bc
+	jr z, .not_flippers_2
+	; de -= *wFlipperYForce
+	ld hl, wFlipperYForce
 	ld a, [hli]
 	ld h, [hl]
 	ld l, a
@@ -6002,7 +6000,8 @@ Func_d909: ; 0xd909
 	ld a, d
 	sbc h
 	ld d, a
-	ld hl, wd7ba
+	; bc += *wFlipperXForce
+	ld hl, wFlipperXForce
 	ld a, [hli]
 	ld h, [hl]
 	ld l, a
@@ -6012,17 +6011,17 @@ Func_d909: ; 0xd909
 	ld a, b
 	adc h
 	ld b, a
-	jr .asm_d999
+	jr .next
 
-.asm_d993
+.not_flippers_2
 	ld a, [wd7f8]
 	and a
-	jr nz, .asm_d9a2
-.asm_d999
-	ld a, [wd7ea]
-	call Func_21e5
+	jr nz, .skip_collision
+.next
+	ld a, [wCollisionForceAngle]
+	call NegateAngleAndApplyCollisionForce
 	call SetBallVelocity
-.asm_d9a2
+.skip_collision
 	call MoveBallPosition
 	callba CheckStageTransition
 	callba Func_84b7
@@ -6039,10 +6038,7 @@ Func_d909: ; 0xd909
 .asm_d9e9
 	ld a, [wd57d]
 	and a
-	ld [hFarCallTempA], a
-	ld a, Bank(Func_86a4)
-	ld hl, Func_86a4
-	call nz, BankSwitch
+	callba nz, Func_86a4
 	ld a, [wd4ae]
 	and a
 	ret z
@@ -6074,7 +6070,7 @@ SaveGame: ; 0xda05
 	ld [wScreenState], a
 	ret
 
-Func_da36: ; 0xda36
+GameScreenFunction_HandleBallLoss: ; 0xda36
 	xor a
 	ld [hJoypadState], a
 	ld [hNewlyPressedButtons], a
@@ -6088,10 +6084,7 @@ Func_da36: ; 0xda36
 	call HandleTilts
 	ld a, [wCurrentStage]
 	bit 0, a
-	ld [hFarCallTempA], a
-	ld a, Bank(HandleFlippers)
-	ld hl, HandleFlippers
-	call nz, BankSwitch
+	callba nz, HandleFlippers
 	callba Func_84b7
 	call Func_33e3
 	callba Func_85c7
@@ -6125,7 +6118,7 @@ Func_da36: ; 0xda36
 	inc [hl]
 	ret
 
-Func_dab2: ; 0xdab2
+GameScreenFunction_EndBall: ; 0xdab2
 	xor a
 	ld [wd803], a
 	ld a, [wGameOver]
@@ -6948,8 +6941,8 @@ HandleFlippers: ; 0xe0fe
 	xor a
 	ld [wFlipperCollision], a
 	ld [hFlipperYCollisionAttribute], a
-	ld [wd7ba], a
-	ld [wd7bb], a
+	ld [wFlipperXForce], a
+	ld [wFlipperXForce + 1], a
 	call Func_e118
 	call CheckFlipperCollision
 	ld a, [wFlipperCollision]
@@ -7549,8 +7542,8 @@ HandleFlipperCollision: ; 0xe442
 	ld a, $1
 	ld [wd7e9], a
 	xor a
-	ld [wd7f3], a
-	ld [wd7f4], a
+	ld [wBallPositionPointerOffsetFromStageTopLeft], a
+	ld [wBallPositionPointerOffsetFromStageTopLeft + 1], a
 	ld [wCurCollisionAttribute], a
 	ld [wd7f6], a
 	ld [wd7f7], a
@@ -7574,9 +7567,9 @@ HandleFlipperCollision: ; 0xe442
 	rl d  ; multiplied de by 4
 	call Func_e379
 	ld a, b
-	ld [wd7bc], a
+	ld [wFlipperYForce], a
 	ld a, l
-	ld [wd7bd], a
+	ld [wFlipperYForce + 1], a
 	ld a, [wBallXPos + 1]
 	cp $50  ; which flipper did the ball hit?
 	ld a, [wFlipperXCollisionAttribute]
@@ -7584,15 +7577,15 @@ HandleFlipperCollision: ; 0xe442
 	cpl  ; invert the x collision attribute
 	inc a
 .asm_e48b
-	ld [wd7ea], a
+	ld [wCollisionForceAngle], a
 	ld a, $1
 	ld [wd7eb], a
-	ld a, [wd7bd]
+	ld a, [wFlipperYForce + 1]
 	bit 7, a
 	ret z
 	xor a
-	ld [wd7bc], a
-	ld [wd7bd], a
+	ld [wFlipperYForce], a
+	ld [wFlipperYForce + 1], a
 	ret
 
 Func_e4a1: ; 0xe4a1
@@ -8318,7 +8311,7 @@ BallMovingDownStageTransitions: ; 0xed4e
 	db $FF                      ; STAGE_SEEL_BONUS
 
 Func_ed5e: ; 0xed5e
-	ld hl, wd7ab
+	ld hl, wSCX
 	ld a, [wd7ac]
 	and a
 	jr nz, .modify_scx_and_scy
@@ -8847,10 +8840,7 @@ SlotBonusMultiplier: ; 0xf0c1
 	call .DivideBy25
 	ld a, c
 	cp b
-	ld [hFarCallTempA], a
-	ld a, Bank(Func_30164)
-	ld hl, Func_30164
-	call nz, BankSwitch
+	callba nz, Func_30164
 	callba Func_16f95
 	ld a, [wd60c]
 	callba Func_f154 ; no need for BankSwitch here...
@@ -10739,10 +10729,7 @@ CapturePokemon: ; 0x1052d
 	jr nc, .asm_105d1
 	ld c, $a
 	call Func_e55
-	ld [hFarCallTempA], a
-	ld a, Bank(Func_30164)
-	ld hl, Func_30164
-	call z, BankSwitch
+	callba z, Func_30164
 .asm_105d1
 	call SetPokemonOwnedFlag
 	ld a, [wd624]
@@ -11183,10 +11170,7 @@ Func_10871: ; 0x10871
 	callba Func_10184
 	ld a, [hGameBoyColorFlag]
 	and a
-	ld [hFarCallTempA], a
-	ld a, Bank(Func_102bc)
-	ld hl, Func_102bc
-	call nz, BankSwitch
+	callba nz, Func_102bc
 	ret
 
 Func_108f5: ; 0x108f5
@@ -11295,10 +11279,7 @@ Func_1098c: ; 0x1098c
 	call BankSwitch
 	ld a, [hGameBoyColorFlag]
 	and a
-	ld [hFarCallTempA], a
-	ld a, Bank(Func_102bc)
-	ld hl, Func_102bc
-	call nz, BankSwitch
+	callba nz, Func_102bc
 	ret
 
 Func_109fc: ; 0x109fc
@@ -12011,10 +11992,7 @@ Func_10ebb: ; 0x10ebb
 	callba Func_10184
 	ld a, [hGameBoyColorFlag]
 	and a
-	ld [hFarCallTempA], a
-	ld a, Bank(Func_102bc)
-	ld hl, Func_102bc
-	call nz, BankSwitch
+	callba nz, Func_102bc
 	ret
 
 IndicatorStatesPointerTable_10f3b: ; 0x10f3b
@@ -12150,10 +12128,7 @@ Func_11061: ; 0x11061
 	callba Func_10184
 	ld a, [hGameBoyColorFlag]
 	and a
-	ld [hFarCallTempA], a
-	ld a, Bank(Func_102bc)
-	ld hl, Func_102bc
-	call nz, BankSwitch
+	callba nz, Func_102bc
 	ret
 
 IndicatorStatesPointerTable_110ed: ; 0x110ed
@@ -13917,10 +13892,7 @@ Func_1414b: ; 0x1414b
 	callba Func_10362
 	ld a, [hGameBoyColorFlag]
 	and a
-	ld [hFarCallTempA], a
-	ld a, Bank(Func_10301)
-	ld hl, Func_10301
-	call nz, BankSwitch
+	callba nz, Func_10301
 	ld a, [wd5f3]
 	and a
 	ret z
@@ -14004,10 +13976,7 @@ Func_14210: ; 0x14210
 	callba Func_10184
 	ld a, [hGameBoyColorFlag]
 	and a
-	ld [hFarCallTempA], a
-	ld a, Bank(Func_102bc)
-	ld hl, Func_102bc
-	call nz, BankSwitch
+	callba nz, Func_102bc
 	ret
 
 Func_14234: ; 0x14234
@@ -14952,10 +14921,7 @@ Func_14920: ; 0x14920
 	jr nc, .asm_14937
 	ld c, $a
 	call Func_e55
-	ld [hFarCallTempA], a
-	ld a, Bank(Func_30164)
-	ld hl, Func_30164
-	call z, BankSwitch
+	callba z, Func_30164
 .asm_14937
 	ld a, $1
 	ld [wd55a], a
@@ -14968,10 +14934,7 @@ Func_14947: ; 0x14947
 	jr nc, .asm_1495e
 	ld c, $a
 	call Func_e55
-	ld [hFarCallTempA], a
-	ld a, Bank(Func_30164)
-	ld hl, Func_30164
-	call z, BankSwitch
+	callba z, Func_30164
 .asm_1495e
 	xor a
 	ld [wd55a], a
@@ -15120,9 +15083,9 @@ Func_14dc9: ; 0x14dc9
 	ld [wd804], a
 	ld hl, $0200
 	ld a, l
-	ld [wd7bc], a
+	ld [wFlipperYForce], a
 	ld a, h
-	ld [wd7bd], a
+	ld [wFlipperYForce + 1], a
 	ld a, $80
 	ld [wFlipperCollision], a
 	lb de, $00, $0e
@@ -16332,10 +16295,7 @@ Func_15e93: ; 0x15e93
 	ret nc
 	ld c, $19
 	call Func_e55
-	ld [hFarCallTempA], a
-	ld a, Bank(Func_30164)
-	ld hl, Func_30164
-	call z, BankSwitch
+	callba z, Func_30164
 	ret
 
 .asm_15f35
@@ -16438,9 +16398,9 @@ Func_15fda: ; 0x15fda
 	ld [wd804], a
 	ld hl, $0200
 	ld a, l
-	ld [wd7bc], a
+	ld [wFlipperYForce], a
 	ld a, h
-	ld [wd7bd], a
+	ld [wFlipperYForce + 1], a
 	ld a, $80
 	ld [wFlipperCollision], a
 	ld a, [wWhichBumperId]
@@ -16449,9 +16409,9 @@ Func_15fda: ; 0x15fda
 	ld b, $0
 	ld hl, Data_1600e
 	add hl, bc
-	ld a, [wd7ea]
+	ld a, [wCollisionForceAngle]
 	add [hl]
-	ld [wd7ea], a
+	ld [wCollisionForceAngle], a
 	lb de, $00, $0b
 	call PlaySoundEffect
 	ret
@@ -16933,10 +16893,7 @@ Func_164e3: ; 0x164e3
 .asm_16506
 	ld hl, wCurrentStage
 	bit 0, [hl]
-	ld [hFarCallTempA], a
-	ld a, Bank(Func_30256)
-	ld hl, Func_30256
-	call nz, BankSwitch
+	callba nz, Func_30256
 	ld a, [wd604]
 	and a
 	ret nz
@@ -17001,10 +16958,7 @@ Func_1652d: ; 0x1652d
 Func_1658f: ; 0x1658f
 	ld a, [hGameBoyColorFlag]
 	and a
-	ld [hFarCallTempA], a
-	ld a, Bank(LoadGreyBillboardPaletteData)
-	ld hl, LoadGreyBillboardPaletteData
-	call nz, BankSwitch
+	callba nz, LoadGreyBillboardPaletteData
 .showNextMap
 	ld a, [wInitialMapSelectionIndex]
 	inc a
@@ -17155,10 +17109,7 @@ Func_1669e: ; 0x1669e
 	jr nc, .asm_166f0
 	ld c, $a
 	call Func_e55
-	ld [hFarCallTempA], a
-	ld a, Bank(Func_30164)
-	ld hl, Func_30164
-	call z, BankSwitch
+	callba z, Func_30164
 .asm_166f0
 	lb de, $16, $10
 	call PlaySoundEffect
@@ -17495,10 +17446,7 @@ Func_16d9d: ; 016d9d
 	jr nc, .asm_16e24
 	ld c, $19
 	call Func_e55
-	ld [hFarCallTempA], a
-	ld a, Bank(Func_30164)
-	ld hl, Func_30164
-	call z, BankSwitch
+	callba z, Func_30164
 .asm_16e24
 	ld a, [wd60c]
 	ld [wd614], a
@@ -18595,7 +18543,7 @@ StartBallGengarBonusStage: ; 0x18157
 	ld a, $56
 	ld [wBallYPos + 1], a
 	xor a
-	ld [wd7ab], a
+	ld [wSCX], a
 	ld [wStageCollisionState], a
 	ld [wd653], a
 	xor a
@@ -18703,7 +18651,7 @@ CheckSingleGastlyCollision: ; 0x1820d
 	bit 7, a
 	jr nz, .noCollision
 	sla a
-	ld [wd7ea], a
+	ld [wCollisionForceAngle], a
 	ld a, $1
 	ld [wd7e9], a
 	scf
@@ -18780,7 +18728,7 @@ CheckSingleHaunterCollision: ; 0x18298
 	bit 7, a
 	jr nz, .noCollision
 	sla a
-	ld [wd7ea], a
+	ld [wCollisionForceAngle], a
 	ld a, $1
 	ld [wd7e9], a
 	scf
@@ -18843,7 +18791,7 @@ CheckGiantGengarCollision: ; 0x18308
 	bit 7, a
 	jr nz, .noCollision
 	sla a
-	ld [wd7ea], a
+	ld [wCollisionForceAngle], a
 	ld a, $1
 	ld [wd7e9], a
 	scf
@@ -18984,9 +18932,9 @@ Func_18464: ; 0x18464
 	ld [wd804], a
 	ld hl, $0100
 	ld a, l
-	ld [wd7bc], a
+	ld [wFlipperYForce], a
 	ld a, h
-	ld [wd7bd], a
+	ld [wFlipperYForce + 1], a
 	ld a, $80
 	ld [wFlipperCollision], a
 	lb de, $00, $2c
@@ -19203,9 +19151,9 @@ Func_1860b: ; 0x1860b
 	ld [wd804], a
 	ld hl, $0100
 	ld a, l
-	ld [wd7bc], a
+	ld [wFlipperYForce], a
 	ld a, h
-	ld [wd7bd], a
+	ld [wFlipperYForce + 1], a
 	ld a, $80
 	ld [wFlipperCollision], a
 	lb de, $00, $2d
@@ -19442,9 +19390,9 @@ Func_187b1: ; 0x187b1
 	ld [wd804], a
 	ld hl, $0200
 	ld a, l
-	ld [wd7bc], a
+	ld [wFlipperYForce], a
 	ld a, h
-	ld [wd7bd], a
+	ld [wFlipperYForce + 1], a
 	ld a, $80
 	ld [wFlipperCollision], a
 	ld a, [wGengarYPos]
@@ -19773,9 +19721,9 @@ Func_18d34: ; 0x18d34
 	ld [wd804], a
 	ld hl, $0100
 	ld a, l
-	ld [wd7bc], a
+	ld [wFlipperYForce], a
 	ld a, h
-	ld [wd7bd], a
+	ld [wFlipperYForce + 1], a
 	ld a, $80
 	ld [wFlipperCollision], a
 	ld de, $002f
@@ -20260,7 +20208,7 @@ StartBallMewtwoBonusStage: ; 0x192e3
 	ld a, $80
 	ld [wBallXVelocity], a
 	xor a
-	ld [wd7ab], a
+	ld [wSCX], a
 	ld [wStageCollisionState], a
 	ld [wd6a9], a
 	ld a, [wd4c9]
@@ -21092,7 +21040,7 @@ StartBallDiglettBonusStage: ; 0x19a38
 	ld a, $40
 	ld [wBallXVelocity], a
 	xor a
-	ld [wd7ab], a
+	ld [wSCX], a
 	ld [wStageCollisionState], a
 	ld [wd73a], a
 	ld hl, wDiglettStates
@@ -21313,9 +21261,9 @@ Func_19c52: ; 0x19c52
 	call PlaySoundEffect
 	ld hl, $0100
 	ld a, l
-	ld [wd7bc], a
+	ld [wFlipperYForce], a
 	ld a, h
-	ld [wd7bd], a
+	ld [wFlipperYForce + 1], a
 	ld a, $80
 	ld [wFlipperCollision], a
 	ld a, [wd73c]
@@ -21626,9 +21574,9 @@ Func_1aad4: ; 0x1aad4
 	ld [wd804], a
 	ld hl, $0200
 	ld a, l
-	ld [wd7bc], a
+	ld [wFlipperYForce], a
 	ld a, h
-	ld [wd7bd], a
+	ld [wFlipperYForce + 1], a
 	ld a, $80
 	ld [wFlipperCollision], a
 .asm_1ab2c
@@ -21980,7 +21928,7 @@ StartBallAfterBonusStageBlueField: ; 0x1c129
 	ld [wBallXVelocity], a
 	ld [wBallXVelocity + 1], a
 	ld [wd496], a
-	ld [wd7ab], a
+	ld [wSCX], a
 	ld [wd7be], a
 	ld a, [wBallTypeBackup]
 	ld [wBallType], a
@@ -22218,10 +22166,7 @@ Func_1c305: ; 0x1c305
 	callba Func_10362
 	ld a, [hGameBoyColorFlag]
 	and a
-	ld [hFarCallTempA], a
-	ld a, Bank(Func_10301)
-	ld hl, Func_10301
-	call nz, BankSwitch
+	callba nz, Func_10301
 	ld a, [wd5f3]
 	and a
 	ret z
@@ -22305,10 +22250,7 @@ Func_1c3ca: ; 0x1c3ca
 	callba Func_10184
 	ld a, [hGameBoyColorFlag]
 	and a
-	ld [hFarCallTempA], a
-	ld a, Bank(Func_102bc)
-	ld hl, Func_102bc
-	call nz, BankSwitch
+	callba nz, Func_102bc
 	ret
 
 Func_1c3ee: ; 0x1c3ee
@@ -22850,10 +22792,7 @@ Func_1c7d7: ; 0x1c7d7
 Func_1c839: ; 0x1c839
 	ld a, [hGameBoyColorFlag]
 	and a
-	ld [hFarCallTempA], a
-	ld a, Bank(LoadGreyBillboardPaletteData)
-	ld hl, LoadGreyBillboardPaletteData
-	call nz, BankSwitch
+	callba nz, LoadGreyBillboardPaletteData
 .showNextMap
 	ld a, [wInitialMapSelectionIndex]
 	inc a
@@ -23106,9 +23045,9 @@ Func_1ca29: ; 0x1ca29
 	ld [wd804], a
 	ld hl, $0200
 	ld a, l
-	ld [wd7bc], a
+	ld [wFlipperYForce], a
 	ld a, h
-	ld [wd7bd], a
+	ld [wFlipperYForce + 1], a
 	ld a, $80
 	ld [wFlipperCollision], a
 	lb de, $00, $0e
@@ -23331,9 +23270,9 @@ Func_1ce94: ; 0x1ce94
 	ld [wd804], a
 	ld hl, $0200
 	ld a, l
-	ld [wd7bc], a
+	ld [wFlipperYForce], a
 	ld a, h
-	ld [wd7bd], a
+	ld [wFlipperYForce + 1], a
 	ld a, $80
 	ld [wFlipperCollision], a
 	ld a, [wWhichBumperId]
@@ -23342,9 +23281,9 @@ Func_1ce94: ; 0x1ce94
 	ld b, $0
 	ld hl, Data_1cec8
 	add hl, bc
-	ld a, [wd7ea]
+	ld a, [wCollisionForceAngle]
 	add [hl]
-	ld [wd7ea], a
+	ld [wCollisionForceAngle], a
 	lb de, $00, $0b
 	call PlaySoundEffect
 	ret
@@ -23572,10 +23511,7 @@ Func_1d133: ; 0x1d133
 	jr nc, .asm_1d185
 	ld c, $a
 	call Func_e55
-	ld [hFarCallTempA], a
-	ld a, Bank(Func_30164)
-	ld hl, Func_30164
-	call z, BankSwitch
+	callba z, Func_30164
 .asm_1d185
 	lb de, $16, $10
 	call PlaySoundEffect
@@ -23721,10 +23657,7 @@ Func_1d216: ; 0x1d216
 	ret nc
 	ld c, $19
 	call Func_e55
-	ld [hFarCallTempA], a
-	ld a, Bank(Func_30164)
-	ld hl, Func_30164
-	call z, BankSwitch
+	callba z, Func_30164
 	ret
 
 .asm_1d2b6
@@ -23832,10 +23765,7 @@ HandleEnteringCloyster: ; 0x1d32d
 	ret nc
 	ld c, $19
 	call Func_e55
-	ld [hFarCallTempA], a
-	ld a, Bank(Func_30164)
-	ld hl, Func_30164
-	call z, BankSwitch
+	callba z, Func_30164
 	ret
 
 .asm_1d3cb
@@ -23952,10 +23882,7 @@ Func_1d438: ; 0x1d438
 	jr nc, .asm_1d4e9
 	ld c, $19
 	call Func_e55
-	ld [hFarCallTempA], a
-	ld a, Bank(Func_30164)
-	ld hl, Func_30164
-	call z, BankSwitch
+	callba z, Func_30164
 .asm_1d4e9
 	ld a, [wd60c]
 	ld [wd614], a
@@ -24505,10 +24432,7 @@ Func_1ddc7: ; 0x1ddc7
 	jr nc, .asm_1dde4
 	ld c, $a
 	call Func_e55
-	ld [hFarCallTempA], a
-	ld a, Bank(Func_30164)
-	ld hl, Func_30164
-	call z, BankSwitch
+	callba z, Func_30164
 .asm_1dde4
 	xor a
 	ld [wd55a], a
@@ -24524,10 +24448,7 @@ Func_1ddf4: ; 0x1ddf4
 	jr nc, .asm_1de11
 	ld c, $a
 	call Func_e55
-	ld [hFarCallTempA], a
-	ld a, Bank(Func_30164)
-	ld hl, Func_30164
-	call z, BankSwitch
+	callba z, Func_30164
 .asm_1de11
 	ld a, $1
 	ld [wd55a], a
@@ -25477,10 +25398,7 @@ Func_1e9c0: ; 0x1e9c0
 .asm_1e9e3
 	ld hl, wCurrentStage
 	bit 0, [hl]
-	ld [hFarCallTempA], a
-	ld a, Bank(Func_30256)
-	ld hl, Func_30256
-	call nz, BankSwitch
+	callba nz, Func_30256
 	ld a, [wd604]
 	and a
 	ret nz
@@ -26697,10 +26615,7 @@ Func_2006b: ; 0x2006b
 	callba Func_10362
 	ld a, [hGameBoyColorFlag]
 	and a
-	ld [hFarCallTempA], a
-	ld a, Bank(Func_10301)
-	ld hl, Func_10301
-	call nz, BankSwitch
+	callba nz, Func_10301
 .asm_20098
 	ld a, $1
 	ld [wd5c6], a
@@ -27000,10 +26915,7 @@ Func_2032c: ; 0x2032c
 	callba Func_10362
 	ld a, [hGameBoyColorFlag]
 	and a
-	ld [hFarCallTempA], a
-	ld a, Bank(Func_10301)
-	ld hl, Func_10301
-	call nz, BankSwitch
+	callba nz, Func_10301
 .asm_20333
 	ld a, $1
 	ld [wd5c6], a
@@ -27317,10 +27229,7 @@ Func_205e0: ; 0x205e0
 	ld [wIndicatorStates + 10], a
 	ld a, [wCurrentStage]
 	bit 0, a
-	ld [hFarCallTempA], a
-	ld a, Bank(Func_14135)
-	ld hl, Func_14135
-	call nz, BankSwitch
+	callba nz, Func_14135
 	ld bc, OneMillionPoints
 	callba AddBigBCD6FromQueue
 	call FillBottomMessageBufferWithBlackTile
@@ -27743,10 +27652,7 @@ Func_20977: ; 0x20977
 	ld [wIndicatorStates + 10], a
 	ld a, [wCurrentStage]
 	bit 0, a
-	ld [hFarCallTempA], a
-	ld a, Bank(Func_14135)
-	ld hl, Func_14135
-	call nz, BankSwitch
+	callba nz, Func_14135
 	ld a, [hGameBoyColorFlag]
 	and a
 	jr z, .asm_209bf
@@ -27794,10 +27700,7 @@ Func_209eb: ; 0x209eb
 	ld [wIndicatorStates + 10], a
 	ld a, [wCurrentStage]
 	bit 0, a
-	ld [hFarCallTempA], a
-	ld a, Bank(Func_14135)
-	ld hl, Func_14135
-	call nz, BankSwitch
+	callba nz, Func_14135
 	ld a, $58
 	ld [wd556], a
 	ld a, $2
@@ -27872,10 +27775,7 @@ asm_20a9f:
 	ld [wIndicatorStates + 10], a
 	ld a, [wCurrentStage]
 	bit 0, a
-	ld [hFarCallTempA], a
-	ld a, Bank(Func_14135)
-	ld hl, Func_14135
-	call nz, BankSwitch
+	callba nz, Func_14135
 	ld a, [hGameBoyColorFlag]
 	and a
 	jr z, .asm_20ada
@@ -28058,10 +27958,7 @@ Func_20c08: ; 0x20c08
 	ld [wIndicatorStates + 3], a
 	ld a, [wCurrentStage]
 	bit 0, a
-	ld [hFarCallTempA], a
-	ld a, Bank(Func_1c2cb)
-	ld hl, Func_1c2cb
-	call nz, BankSwitch
+	callba nz, Func_1c2cb
 	ld bc, OneMillionPoints
 	callba AddBigBCD6FromQueue
 	call FillBottomMessageBufferWithBlackTile
@@ -28464,10 +28361,7 @@ Func_20f75: ; 0x20f75
 	ld [wIndicatorStates + 3], a
 	ld a, [wCurrentStage]
 	bit 0, a
-	ld [hFarCallTempA], a
-	ld a, Bank(Func_1c2cb)
-	ld hl, Func_1c2cb
-	call nz, BankSwitch
+	callba nz, Func_1c2cb
 	ld a, [hGameBoyColorFlag]
 	and a
 	jr z, .asm_20fc3
@@ -28516,10 +28410,7 @@ Func_20fef: ; 0x20fef
 	ld [wIndicatorStates + 3], a
 	ld a, [wCurrentStage]
 	bit 0, a
-	ld [hFarCallTempA], a
-	ld a, Bank(Func_1c2cb)
-	ld hl, Func_1c2cb
-	call nz, BankSwitch
+	callba nz, Func_1c2cb
 	ld a, $58
 	ld [wd556], a
 	ld a, $2
@@ -28614,10 +28505,7 @@ asm_210c7:
 	ld [wIndicatorStates + 2], a
 	ld a, [wCurrentStage]
 	bit 0, a
-	ld [hFarCallTempA], a
-	ld a, Bank(Func_1c2cb)
-	ld hl, Func_1c2cb
-	call nz, BankSwitch
+	callba nz, Func_1c2cb
 	ld a, [hGameBoyColorFlag]
 	and a
 	jr z, .asm_21102
@@ -28781,7 +28669,7 @@ StartBallMeowthBonusStage: ; 0x24059
 	ld a, $40
 	ld [wBallXVelocity], a
 	xor a
-	ld [wd7ab], a
+	ld [wSCX], a
 	ld [wStageCollisionState], a
 	ld [wd6e6], a
 	ld hl, wd6f3
@@ -28922,7 +28810,7 @@ CheckMeowthCollision: ; 0x24170
 	bit 7, a
 	jr nz, .noCollision
 	sla a
-	ld [wd7ea], a
+	ld [wCollisionForceAngle], a
 	ld a, $1
 	ld [wd7e9], a
 	ld a, [wd6ec]
@@ -29070,7 +28958,7 @@ CheckJewelCollision: ; 0x24272
 	bit 7, a
 	jr nz, .noCollision
 	sla a
-	ld [wd7ea], a
+	ld [wCollisionForceAngle], a
 	ld a, $1
 	ld [wd7e9], a
 	scf
@@ -31140,7 +31028,7 @@ StartBallSeelBonusStage: ; 0x25af1
 	ld a, $80
 	ld [wBallXVelocity], a
 	xor a
-	ld [wd7ab], a
+	ld [wSCX], a
 	ld [wStageCollisionState], a
 	ld [wd766], a
 	ld a, $0
@@ -31284,7 +31172,7 @@ CheckSeelHeadCollision: ; 0x25c12
 	bit 7, a
 	jr nz, .noCollision
 	sla a
-	ld [wd7ea], a
+	ld [wCollisionForceAngle], a
 	ld a, $1
 	ld [wd7e9], a
 	scf
@@ -32284,11 +32172,11 @@ LoadPokedexScreen: ; 0x2800e
 	ld a, $23
 	ld [hLCDC], a
 	ld a, $e4
-	ld [wd80c], a
+	ld [wBGP], a
 	ld a, $93
-	ld [wd80d], a
+	ld [wOBP0], a
 	ld a, $e4
-	ld [wd80e], a
+	ld [wOBP1], a
 	xor a
 	ld [hSCX], a
 	ld a, $8
@@ -36601,7 +36489,7 @@ StartBallAfterBonusStageRedField: ; 0x30128
 	ld [wBallXVelocity], a
 	ld [wBallXVelocity + 1], a
 	ld [wd496], a
-	ld [wd7ab], a
+	ld [wSCX], a
 	ld [wd7be], a
 	ld a, [wBallTypeBackup]
 	ld [wBallType], a

@@ -1699,7 +1699,7 @@ wUpperTiltPushing:: ; 0xd7a9
 wd7aa:: ; 0xd7aa
 	ds $1
 
-wd7ab:: ; 0xd7ab
+wSCX:: ; 0xd7ab
 	ds $1
 
 wd7ac:: ; 0xd7ac
@@ -1744,25 +1744,19 @@ wFlipperXCollisionAttribute:: ; 0xd7b8
 wFlipperCollision:: ; 0xd7b9
 	ds $1
 
-wd7ba:: ; 0xd7ba
-	ds $1
+wFlipperXForce:: ; 0xd7ba
+	dw
 
-wd7bb:: ; 0xd7bb
-	ds $1
-
-wd7bc:: ; 0xd7bc
-	ds $1
-
-wd7bd:: ; 0xd7bd
-	ds $1
+wFlipperYForce:: ; 0xd7bc
+	dw
 
 wd7be:: ; 0xd7be
 	ds $1
 
-wd7bf:: ; 0xd7bf
+wStageSong:: ; 0xd7bf
 	ds $1
 
-wd7c0:: ; 0xd7c0
+wStageSongBank:: ; 0xd7c0
 	ds $1
 
 wd7c1:: ; 0xd7c1
@@ -1798,7 +1792,7 @@ wd7d9:: ; 0xd7d9
 wd7e9:: ; 0xd7e9
 	ds $1
 
-wd7ea:: ; 0xd7ea
+wCollisionForceAngle:: ; 0xd7ea
 	ds $1
 
 wd7eb:: ; 0xd7eb
@@ -1819,11 +1813,8 @@ wStageCollisionMasksBank:: ; 0xd7f1
 wd7f2:: ; 0xd7f2
 	ds $1
 
-wd7f3:: ; 0xd7f3
-	ds $1
-
-wd7f4:: ; 0xd7f4
-	ds $1
+wBallPositionPointerOffsetFromStageTopLeft:: ; 0xd7f3
+	dw
 
 wCurCollisionAttribute:: ; 0xd7f5
 	ds $1
@@ -1888,13 +1879,13 @@ wd809:: ; 0xd809
 wd80a:: ; 0xd80a
 	ds $2
 
-wd80c:: ; 0xd80c
+wBGP:: ; 0xd80c
 	ds $1
 
-wd80d:: ; 0xd80d
+wOBP0:: ; 0xd80d
 	ds $1
 
-wd80e:: ; 0xd80e
+wOBP1:: ; 0xd80e
 	ds $1
 
 wd80f:: ; 0xd80f
@@ -2443,50 +2434,33 @@ wdaa3:: ; 0xdaa3
 wdcad:: ; 0xdcad
 	ds $53
 
+SECTION "Audio RAM", WRAMX [$dd00], BANK [1]
 wdd00:: ; 0xdd00
 	ds $1
 
-wdd01:: ; 0xdd01
+wChannel1:: ; 0xdd01
 	ds $32
 
-wdd33:: ; 0xdd33
+wChannel2:: ; 0xdd33
 	ds $32
 
-wdd65:: ; 0xdd65
+wChannel3:: ; 0xdd65
 	ds $32
 
-wdd97:: ; 0xdd97
+wChannel4:: ; 0xdd97
 	ds $32
 
-wddc9:: ; 0xddc9
-	ds $2
+wChannel5:: ; 0xddc9
+	ds $32
 
-wddcb:: ; 0xddcb
-	ds $30
+wChannel6:: ; 0xddfb
+	ds $32
 
-wddfb:: ; 0xddfb
-	ds $2
+wChannel7:: ; 0xde2d
+	ds $32
 
-wddfd:: ; 0xddfd
-	ds $24
-
-wde21:: ; 0xde21
-	ds $c
-
-wde2d:: ; 0xde2d
-	ds $2
-
-wde2f:: ; 0xde2f
-	ds $30
-
-wde5f:: ; 0xde5f
-	ds $2
-
-wde61:: ; 0xde61
-	ds $24
-
-wde85:: ; 0xde85
-	ds $c
+wChannel8:: ; 0xde5f
+	ds $32
 
 wde91:: ; 0xde91
 	ds $1
@@ -2569,12 +2543,10 @@ wdead:: ; 0xdead
 wdeae:: ; 0xdeae
 	ds $2
 
+wMusicRAMEnd:: ; deb0
 wdeb0:: ; 0xdeb0
 	ds $50
 
-wStack:: ; 0xdf00
-	ds $ff
-
-wdfff:: ; 0xdfff
-	ds $1
-
+SECTION "Stack", WRAMX [$dfff], BANK [1]
+wStack:: ; 0xdfff
+	ds -$ff

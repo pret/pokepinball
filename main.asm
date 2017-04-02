@@ -17773,7 +17773,7 @@ Func_1757e: ; 0x1757e
 	call DrawTimer
 	call DrawMonCaptureAnimation
 	call DrawAnimatedMon_RedStage
-	call Func_17e08
+	call DrawPikachuSavers_RedStage
 	callba Func_e4a1
 	call Func_17e81
 	call Func_17f0f
@@ -18145,7 +18145,7 @@ Func_17de1: ; 0x17de1
 Data_17e02:
 	dr $17e02, $17e08
 
-Func_17e08: ; 0x17e08
+DrawPikachuSavers_RedStage: ; 0x17e08
 	ld a, [hSCX]
 	ld d, a
 	ld a, [hSCY]
@@ -18174,7 +18174,7 @@ Func_17e08: ; 0x17e08
 	sla a
 	ld c, a
 	ld b, $0
-	ld hl, Data_17e4b
+	ld hl, PikachuSaverOAMOffsets_RedStage
 	add hl, bc
 	ld a, [hli]
 	sub d
@@ -18187,8 +18187,48 @@ Func_17e08: ; 0x17e08
 	call LoadOAMData
 	ret
 
-Data_17e4b:
-	dr $17e4b, $17e81
+PikachuSaverOAMOffsets_RedStage:
+	dw $7E0F
+	dw $7E92
+
+Func_17e4f: ; 0x17e4f
+; unused
+	ld hl, $7e55
+	jp Func_17e5e
+
+UnusedData_7e55: ; 0x17e55
+	db $00, $2B, $69, $CB, $00, $67, $54, $CC
+	db $FF
+
+Func_17e5e: ; 0x17e5e
+; unused
+	ld a, [hGameBoyColorFlag]
+	ld e, a
+	ld a, [hSCX]
+	ld d, a
+.asm_17e64
+	ld a, [hli]
+	cp $ff
+	ret z
+	or e
+	jr nz, .asm_17e70
+	inc hl
+	inc hl
+	inc hl
+	jr .asm_17e64
+.asm_17e70
+	ld a, [hli]
+	sub d
+	ld b, a
+	ld a, [hSCY]
+	ld c, a
+	ld a, [hli]
+	sub c
+	ld c, a
+	ld a, [hli]
+	bit 0, e
+	call nz, LoadOAMData
+	jr .asm_17e64
 
 Func_17e81: ; 0x17e81
 	ld a, [wd548]
@@ -26241,7 +26281,7 @@ Func_1f35a: ; 0x1f35a
 	callba DrawTimer
 	callba DrawMonCaptureAnimation
 	call DrawAnimatedMon_BlueStage
-	call Func_1f448
+	call DrawPikachuSavers_BlueStage
 	callba Func_e4a1
 	callba Func_17e81
 	call Func_1f4a3
@@ -26362,7 +26402,7 @@ Func_1f428: ; 0x1f428
 Data_1f445:
 	dr $1f445, $1f448
 
-Func_1f448: ; 0x1f448
+DrawPikachuSavers_BlueStage: ; 0x1f448
 	ld a, [hSCX]
 	ld d, a
 	ld a, [hSCY]
@@ -26391,7 +26431,7 @@ Func_1f448: ; 0x1f448
 	sla a
 	ld c, a
 	ld b, $0
-	ld hl, Data_1f48b
+	ld hl, PikachuSaverOAMOffsets_BlueStage
 	add hl, bc
 	ld a, [hli]
 	sub d
@@ -26404,8 +26444,9 @@ Func_1f448: ; 0x1f448
 	call LoadOAMData
 	ret
 
-Data_1f48b:
-	dr $1f48b, $1f48f
+PikachuSaverOAMOffsets_BlueStage:
+	dw $7E0F
+	dw $7E92
 
 Func_1f48f: ; 0x1f48f
 	ld a, [wd551]

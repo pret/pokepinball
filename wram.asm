@@ -808,7 +808,8 @@ wd5e9:: ; 0xd5e9
 wd5ee:: ; 0xd5ee
 	ds $5
 
-wd5f3:: ; 0xd5f3
+wCapturingMon:: ; 0xd5f3
+; Set to 1 when the capturing animation starts.
 	ds $1
 
 wBallCaptureAnimationFrameCounter:: ; 0xd5f4

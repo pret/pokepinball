@@ -10595,7 +10595,7 @@ Func_10488: ; 0x10488
 	jr nz, .asm_1048e
 	ret
 
-Func_10496: ; 0x10496
+BallCaptureInit: ; 0x10496
 	xor a
 	ld [wd5c6], a
 	ld a, BANK(PikachuSaverGfx)
@@ -10613,7 +10613,7 @@ Func_10496: ; 0x10496
 	ld de, wBallCaptureAnimationFrameCounter
 	call CopyHLToDE
 	ld a, $1
-	ld [wd5f3], a
+	ld [wCapturingMon], a
 	xor a
 	ld [wBallXVelocity], a
 	ld [wBallXVelocity + 1], a
@@ -10716,7 +10716,7 @@ CapturePokemon: ; 0x1052d
 	xor a
 	ld [wBallXPos], a
 	ld [wBallYPos], a
-	ld [wd5f3], a
+	ld [wCapturingMon], a
 	ld a, $1
 	ld [wd548], a
 	ld [wd549], a
@@ -13882,7 +13882,7 @@ Func_1414b: ; 0x1414b
 	ld a, [wd5c6]
 	and a
 	jr nz, .asm_14165
-	ld a, [wd5f3]
+	ld a, [wCapturingMon]
 	and a
 	jr nz, .asm_14165
 	jp Func_14210
@@ -13893,7 +13893,7 @@ Func_1414b: ; 0x1414b
 	ld a, [hGameBoyColorFlag]
 	and a
 	callba nz, Func_10301
-	ld a, [wd5f3]
+	ld a, [wCapturingMon]
 	and a
 	ret z
 	ld a, BANK(PikachuSaverGfx)
@@ -15687,7 +15687,7 @@ Data_15549:
 	dr $15549, $15575
 
 HandleRedStageBallTypeUpgradeCounter: ; 0x15575
-	ld a, [wd5f3]
+	ld a, [wCapturingMon]
 	and a
 	ret nz
 	ld hl, wBallTypeCounter
@@ -17771,7 +17771,7 @@ Func_1755c: ; 0x1755c
 Func_1757e: ; 0x1757e
 	ld bc, $7f00
 	call DrawTimer
-	call Func_17c67
+	call DrawMonCaptureAnimation
 	call Func_17c96
 	call Func_17e08
 	callba Func_e4a1
@@ -17911,8 +17911,8 @@ Func_17665: ; 0x17665
 Data_17679:
 INCLUDE "data/unknown_17679.asm"
 
-Func_17c67: ; 0x17c67
-	ld a, [wd5f3]
+DrawMonCaptureAnimation: ; 0x17c67
+	ld a, [wCapturingMon]
 	and a
 	ret z
 	ld a, $50
@@ -17926,14 +17926,14 @@ Func_17c67: ; 0x17c67
 	ld a, [wBallCaptureAnimationFrame]
 	ld e, a
 	ld d, $0
-	ld hl, Data_17c89
+	ld hl, BallCaptureAnimationOAMIds
 	add hl, de
 	ld a, [hl]
 	call LoadOAMData
 	ret
 
-Data_17c89:
-	dr $17c89, $17c96
+BallCaptureAnimationOAMIds:
+	db $19, $1A, $1B, $1C, $1D, $1E, $1F, $20, $21, $22, $23, $24, $25
 
 Func_17c96: ; 0x17c96
 	ld a, [wd5bb]
@@ -22161,7 +22161,7 @@ Func_1c305: ; 0x1c305
 	ld a, [wd5c6]
 	and a
 	jr nz, .asm_1c31f
-	ld a, [wd5f3]
+	ld a, [wCapturingMon]
 	and a
 	jr nz, .asm_1c31f
 	jp Func_1c3ca
@@ -22172,7 +22172,7 @@ Func_1c305: ; 0x1c305
 	ld a, [hGameBoyColorFlag]
 	and a
 	callba nz, Func_10301
-	ld a, [wd5f3]
+	ld a, [wCapturingMon]
 	and a
 	ret z
 	ld a, BANK(PikachuSaverGfx)
@@ -24936,7 +24936,7 @@ Data_1e55c:
 	dr $1e55c, $1e58c
 
 HandleBlueStageBallTypeUpgradeCounter: ; 0x1e58c
-	ld a, [wd5f3]
+	ld a, [wCapturingMon]
 	and a
 	ret nz
 	; check if counter is at 0
@@ -26239,7 +26239,7 @@ Func_1f330: ; 0x1f330
 Func_1f35a: ; 0x1f35a
 	ld bc, $7f00
 	callba DrawTimer
-	callba Func_17c67
+	callba DrawMonCaptureAnimation
 	call Func_1f58b
 	call Func_1f448
 	callba Func_e4a1
@@ -26747,7 +26747,7 @@ Func_20193: ; 0x20193
 	ret
 
 .asm_2019e
-	callba Func_10496
+	callba BallCaptureInit
 	ld hl, wd54d
 	inc [hl]
 	callba Func_106b6
@@ -27047,7 +27047,7 @@ Func_20454: ; 0x20454
 	ret
 
 .asm_2045f
-	callba Func_10496
+	callba BallCaptureInit
 	ld hl, wd54d
 	inc [hl]
 	callba Func_106b6

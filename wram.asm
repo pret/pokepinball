@@ -722,7 +722,11 @@ wd580:: ; 0xd580
 wd581:: ; 0xd581
 	ds $1
 
-wd582:: ; 0xd582
+wTimerDigits:: ; 0xd582
+; first byte = minutes
+; second byte = tens place
+; third byte = ones place
+; fourth byte = unused, but still written to
 	ds $4
 
 wd586:: ; 0xd586

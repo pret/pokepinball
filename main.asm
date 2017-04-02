@@ -13758,28 +13758,28 @@ Func_1404a: ; 0x1404a
 	ld a, $f
 	ld [wd581], a
 	call Func_1762f
-	ld hl, wd582
+	ld hl, wTimerDigits
 	ld a, $ff
 	ld [hli], a
 	ld [hli], a
 	ld [hli], a
 	ld [hl], a
-	ld hl, wd582
+	ld hl, wTimerDigits
 	ld a, [wTimerMinutes]
 	and $f
-	call Func_1764f
+	call LoadTimerDigitTiles
 	ld a, [wTimerSeconds]
 	swap a
 	and $f
-	call Func_1764f
+	call LoadTimerDigitTiles
 	ld a, [wTimerSeconds]
 	and $f
-	call Func_1764f
+	call LoadTimerDigitTiles
 	ld a, e
 	srl a
 	srl a
-	ld d, $90
-	call Func_1764f
+	ld d, $90 ; colon
+	call LoadTimerDigitTiles
 	ret
 
 Func_14091: ; 0x14091
@@ -17756,7 +17756,7 @@ Data_17528:
 
 Func_1755c: ; 0x1755c
 	ld bc, $7f00
-	call Func_175a4
+	call DrawTimer
 	call Func_17cc4
 	call Func_17d34
 	call Func_17d59
@@ -17770,7 +17770,7 @@ Func_1755c: ; 0x1755c
 
 Func_1757e: ; 0x1757e
 	ld bc, $7f00
-	call Func_175a4
+	call DrawTimer
 	call Func_17c67
 	call Func_17c96
 	call Func_17e08
@@ -17781,74 +17781,74 @@ Func_1757e: ; 0x1757e
 	call Func_17fca
 	ret
 
-Func_175a4: ; 0x175a4
+DrawTimer: ; 0x175a4
 	ld a, [wd57d]
 	and a
 	ret z
 	ld a, [hGameBoyColorFlag]
 	and a
-	jr nz, DrawTimer
+	jr nz, DrawTimer_GameBoyColor
 	ld a, [wd580]
 	and a
 	ret z
 	ld a, [wd581]
 	and a
-	jr z, .asm_175be
+	jr z, .DrawTimer_GameBoy
 	dec a
 	ld [wd581], a
 	ret
 
-.asm_175be
+.DrawTimer_GameBoy
 	call Func_1762f
-	ld hl, wd582
+	ld hl, wTimerDigits
 	ld a, [wTimerMinutes]
 	and $f
-	call Func_1764f
+	call LoadTimerDigitTiles
 	ld a, [wTimerSeconds]
 	swap a
 	and $f
-	call Func_1764f
+	call LoadTimerDigitTiles
 	ld a, [wTimerSeconds]
 	and $f
-	call Func_1764f
+	call LoadTimerDigitTiles
 	ld d, $0
-	ld hl, Data_17615
+	ld hl, TimerOAMIds
 	add hl, de
 	ld a, [hli]
-	call Func_17627
+	call DrawTimerDigit
 	ld a, [hli]
-	call Func_17627
+	call DrawTimerDigit
 	ld a, [hli]
-	call Func_17627
+	call DrawTimerDigit
 	ld a, [hli]
-	call Func_17627
+	call DrawTimerDigit
 	ret
 
-DrawTimer: ; 0x175f5
+DrawTimer_GameBoyColor: ; 0x175f5
 ; Loads the OAM data for the timer in the top-right corner of the screen.
 	ld a, [wTimerMinutes]
 	and $f
-	call DrawTimerDigit
+	call DrawTimerDigit_GameBoyColor
 	ld a, $a  ; colon
-	call DrawTimerDigit
+	call DrawTimerDigit_GameBoyColor
 	ld a, [wTimerSeconds]
 	swap a
 	and $f
-	call DrawTimerDigit  ; tens digit of the minutes
+	call DrawTimerDigit_GameBoyColor  ; tens digit of the minutes
 	ld a, [wTimerSeconds]
 	and $f
-	call DrawTimerDigit  ; ones digit of the minutes
+	call DrawTimerDigit_GameBoyColor  ; ones digit of the minutes
 	ret
 
-Data_17615:
+TimerOAMIds:
 	db $d7, $da, $d8, $d9
 	db $dc, $df, $dd, $de
 	db $dc, $db, $dd, $de
 	db $f5, $f8, $f6, $f7
 
-DrawTimerDigit: ; 0x17625
+DrawTimerDigit_GameBoyColor: ; 0x17625
 	add $b1  ; the timer digits' OAM ids start at $b1
-Func_17627: ; 0x17627
+DrawTimerDigit: ; 0x17627
 	call LoadOAMData
 	ld a, b
 	add $8
@@ -17873,7 +17873,7 @@ Func_1762f: ; 0x1762f
 	lb de, $30, $08
 	ret
 
-Func_1764f: ; 0x1764f
+LoadTimerDigitTiles: ; 0x1764f
 	push bc
 	push de
 	cp [hl]
@@ -19804,7 +19804,7 @@ Data_18ed1:
 
 Func_18faf: ; 0x18faf
 	ld bc, $7f00
-	callba Func_175a4
+	callba DrawTimer
 	call Func_19020
 	call Func_190b9
 	call Func_19185
@@ -20917,7 +20917,7 @@ Data_19916:
 
 Func_1994e: ; 0x1994e
 	ld bc, $7f65
-	callba Func_175a4
+	callba DrawTimer
 	call Func_1999d
 	callba Func_e4a1
 	callba Func_17e81
@@ -26226,7 +26226,7 @@ Func_1f2ff: ; 0x1f2ff
 
 Func_1f330: ; 0x1f330
 	ld bc, $7f00
-	callba Func_175a4
+	callba DrawTimer
 	call Func_1f395
 	call Func_1f3e1
 	call Func_1f408
@@ -26238,7 +26238,7 @@ Func_1f330: ; 0x1f330
 
 Func_1f35a: ; 0x1f35a
 	ld bc, $7f00
-	callba Func_175a4
+	callba DrawTimer
 	callba Func_17c67
 	call Func_1f58b
 	call Func_1f448
@@ -30677,7 +30677,7 @@ Data_25421:
 
 Func_2583b: ; 0x2583b
 	ld bc, $7f65
-	callba Func_175a4
+	callba DrawTimer
 	callba Func_e4a1
 	call Func_259fe
 	call Func_25895
@@ -32050,7 +32050,7 @@ Data_26764:
 
 Func_26b7e: ; 0x26b7e
 	ld bc, $7f65
-	callba Func_175a4
+	callba DrawTimer
 	call Func_26bf7
 	callba Func_e4a1
 	callba Func_17e81

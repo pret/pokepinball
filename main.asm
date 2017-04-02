@@ -618,7 +618,7 @@ Func_8444: ; 0x8444
 	ld a, [wSpecialMode]
 	and a
 	jr nz, .asm_8460
-	ld a, [wd5bb]
+	ld a, [wWildMonIsHittable]
 	and a
 	jr z, .asm_8460
 	callba Func_10464
@@ -10089,7 +10089,7 @@ CheckForMew:
 Func_10157: ; 0x10157
 	xor a
 	ld [wInSpecialMode], a
-	ld [wd5bb], a
+	ld [wWildMonIsHittable], a
 	ld [wd5c6], a
 	ld [wd5b6], a
 	ld [wNumMonHits], a
@@ -10686,7 +10686,7 @@ CapturePokemon: ; 0x1052d
 	cp $1
 	jr nz, .asm_1055d
 	xor a
-	ld [wd5bb], a
+	ld [wWildMonIsHittable], a
 	ret
 
 .asm_1055d
@@ -10841,7 +10841,7 @@ Func_10648: ; 0x10648
 .asm_10677
 	ret
 
-Func_10678: ; 0x10678
+ShowAnimatedWildMon: ; 0x10678
 	ld a, [wCurrentCatchEmMon]
 	ld c, a
 	ld b, $0
@@ -10851,7 +10851,7 @@ Func_10678: ; 0x10678
 	ld [wd5bc], a
 	ld [wd5bd], a
 	ld a, $1
-	ld [wd5bb], a
+	ld [wWildMonIsHittable], a
 	xor a
 	ld [wBallHitWildMon], a
 	ld [wNumMonHits], a
@@ -11371,7 +11371,7 @@ Func_10ac8: ; 0x10ac8
 	call FillBottomMessageBufferWithBlackTile
 	xor a
 	ld [wInSpecialMode], a
-	ld [wd5bb], a
+	ld [wWildMonIsHittable], a
 	ld [wd5b6], a
 	ld [wNumMonHits], a
 	ld [wd551], a
@@ -17772,7 +17772,7 @@ Func_1757e: ; 0x1757e
 	ld bc, $7f00
 	call DrawTimer
 	call DrawMonCaptureAnimation
-	call Func_17c96
+	call DrawAnimatedMon_RedStage
 	call Func_17e08
 	callba Func_e4a1
 	call Func_17e81
@@ -17935,8 +17935,8 @@ DrawMonCaptureAnimation: ; 0x17c67
 BallCaptureAnimationOAMIds:
 	db $19, $1A, $1B, $1C, $1D, $1E, $1F, $20, $21, $22, $23, $24, $25
 
-Func_17c96: ; 0x17c96
-	ld a, [wd5bb]
+DrawAnimatedMon_RedStage: ; 0x17c96
+	ld a, [wWildMonIsHittable]
 	and a
 	ret z
 	ld a, $50
@@ -17950,14 +17950,14 @@ Func_17c96: ; 0x17c96
 	ld a, [wd5bd]
 	ld e, a
 	ld d, $0
-	ld hl, Data_17cb8
+	ld hl, AnimatedMonOAMIds_RedStage
 	add hl, de
 	ld a, [hl]
 	call LoadOAMData
 	ret
 
-Data_17cb8:
-	dr $17cb8, $17cc4
+AnimatedMonOAMIds_RedStage:
+	db $26, $27, $28, $29, $2A, $2B, $2C, $2D, $2E, $2F, $30, $31
 
 Func_17cc4: ; 0x17cc4
 	ld de, wd4cd
@@ -26240,7 +26240,7 @@ Func_1f35a: ; 0x1f35a
 	ld bc, $7f00
 	callba DrawTimer
 	callba DrawMonCaptureAnimation
-	call Func_1f58b
+	call DrawAnimatedMon_BlueStage
 	call Func_1f448
 	callba Func_e4a1
 	callba Func_17e81
@@ -26535,8 +26535,8 @@ Func_1f55e: ; 0x1f55e
 	call nz, LoadOAMData
 	ret
 
-Func_1f58b: ; 0x1f58b
-	ld a, [wd5bb]
+DrawAnimatedMon_BlueStage: ; 0x1f58b
+	ld a, [wWildMonIsHittable]
 	and a
 	ret z
 	ld a, $50
@@ -26550,14 +26550,14 @@ Func_1f58b: ; 0x1f58b
 	ld a, [wd5bd]
 	ld e, a
 	ld d, $0
-	ld hl, Data_1f5ad
+	ld hl, AnimatedMonOAMIds_BlueStage
 	add hl, de
 	ld a, [hl]
 	call LoadOAMData
 	ret
 
-Data_1f5ad:
-	dr $1f5ad, $1f5b9
+AnimatedMonOAMIds_BlueStage:
+	db $26, $27, $28, $29, $2A, $2B, $2C, $2D, $2E, $2F, $30, $31
 
 SECTION "bank8", ROMX, BANK[$8]
 
@@ -26637,7 +26637,7 @@ Func_200a3: ; 0x200a3
 	call Func_1130
 	jr nz, .asm_200d1
 .asm_200af
-	callba Func_10678
+	callba ShowAnimatedWildMon
 	callba Func_10732
 	callba Func_10464
 	ld hl, wd54d
@@ -26937,7 +26937,7 @@ Func_20364: ; 0x20364
 	call Func_1130
 	jr nz, .asm_20392
 .asm_20370
-	callba Func_10678
+	callba ShowAnimatedWildMon
 	callba Func_10732
 	callba Func_10464
 	ld hl, wd54d

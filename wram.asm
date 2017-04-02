@@ -735,7 +735,8 @@ wd586:: ; 0xd586
 wd5b6:: ; 0xd5b6
 	ds $5
 
-wd5bb:: ; 0xd5bb
+wWildMonIsHittable:: ; 0xd5bb
+; Set to 1 when the wild pokemon is animated and hittable with the pinball.
 	ds $1
 
 wd5bc:: ; 0xd5bc

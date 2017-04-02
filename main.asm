@@ -17763,7 +17763,7 @@ Func_1755c: ; 0x1755c
 	call Func_17d7a
 	call Func_17d92
 	call Func_17de1
-	call Func_17e81
+	call DrawPinball
 	call Func_17efb
 	call Func_17f64
 	ret
@@ -17775,7 +17775,7 @@ Func_1757e: ; 0x1757e
 	call DrawAnimatedMon_RedStage
 	call DrawPikachuSavers_RedStage
 	callba DrawFlippers
-	call Func_17e81
+	call DrawPinball
 	call Func_17f0f
 	call Func_17f75
 	call Func_17fca
@@ -18230,7 +18230,7 @@ Func_17e5e: ; 0x17e5e
 	call nz, LoadOAMData
 	jr .asm_17e64
 
-Func_17e81: ; 0x17e81
+DrawPinball: ; 0x17e81
 	ld a, [wd548]
 	and a
 	ret z
@@ -18487,12 +18487,12 @@ Func_1806e: ; 0x1806e
 	ret
 
 Func_18079: ; 0x18079
-	callba Func_17e81
+	callba DrawPinball
 	ret
 
 Func_18084: ; 0x18084
 	callba DrawFlippers
-	callba Func_17e81
+	callba DrawPinball
 	ret
 
 InitGengarBonusStage: ; 0x18099
@@ -19849,7 +19849,7 @@ Func_18faf: ; 0x18faf
 	call Func_190b9
 	call Func_19185
 	callba DrawFlippers
-	callba Func_17e81
+	callba DrawPinball
 	ret
 
 Func_18fda:
@@ -20960,7 +20960,7 @@ Func_1994e: ; 0x1994e
 	callba DrawTimer
 	call Func_1999d
 	callba DrawFlippers
-	callba Func_17e81
+	callba DrawPinball
 	call Func_19976
 	ret
 
@@ -21807,7 +21807,7 @@ Data_1ac93:
 
 Func_1ac98: ; 0x1ac98
 	callba DrawFlippers
-	callba Func_17e81
+	callba DrawPinball
 	call Func_1acb0
 	ret
 
@@ -26271,7 +26271,7 @@ Func_1f330: ; 0x1f330
 	call Func_1f3e1
 	call Func_1f408
 	call Func_1f428
-	callba Func_17e81
+	callba DrawPinball
 	call Func_1f48f
 	call Func_1f4f8
 	ret
@@ -26283,7 +26283,7 @@ Func_1f35a: ; 0x1f35a
 	call DrawAnimatedMon_BlueStage
 	call DrawPikachuSavers_BlueStage
 	callba DrawFlippers
-	callba Func_17e81
+	callba DrawPinball
 	call Func_1f4a3
 	call Func_1f509
 	call Func_1f55e
@@ -30724,7 +30724,7 @@ Func_2583b: ; 0x2583b
 	call Func_25895
 	call Func_2595e
 	call Func_2586c
-	callba Func_17e81
+	callba DrawPinball
 	call Func_25a39
 	ret
 
@@ -32094,7 +32094,7 @@ Func_26b7e: ; 0x26b7e
 	callba DrawTimer
 	call Func_26bf7
 	callba DrawFlippers
-	callba Func_17e81
+	callba DrawPinball
 	call Func_26ba9
 	call Func_26c3c
 	ret

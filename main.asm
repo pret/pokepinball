@@ -7588,7 +7588,7 @@ HandleFlipperCollision: ; 0xe442
 	ld [wFlipperYForce + 1], a
 	ret
 
-Func_e4a1: ; 0xe4a1
+DrawFlippers: ; 0xe4a1
 	ld a, [wCurrentStage]
 	and a
 	ret z
@@ -17774,7 +17774,7 @@ Func_1757e: ; 0x1757e
 	call DrawMonCaptureAnimation
 	call DrawAnimatedMon_RedStage
 	call DrawPikachuSavers_RedStage
-	callba Func_e4a1
+	callba DrawFlippers
 	call Func_17e81
 	call Func_17f0f
 	call Func_17f75
@@ -18491,7 +18491,7 @@ Func_18079: ; 0x18079
 	ret
 
 Func_18084: ; 0x18084
-	callba Func_e4a1
+	callba DrawFlippers
 	callba Func_17e81
 	ret
 
@@ -19848,7 +19848,7 @@ Func_18faf: ; 0x18faf
 	call Func_19020
 	call Func_190b9
 	call Func_19185
-	callba Func_e4a1
+	callba DrawFlippers
 	callba Func_17e81
 	ret
 
@@ -20959,7 +20959,7 @@ Func_1994e: ; 0x1994e
 	ld bc, $7f65
 	callba DrawTimer
 	call Func_1999d
-	callba Func_e4a1
+	callba DrawFlippers
 	callba Func_17e81
 	call Func_19976
 	ret
@@ -21806,7 +21806,7 @@ Data_1ac93:
 	dr $1ac93, $1ac98
 
 Func_1ac98: ; 0x1ac98
-	callba Func_e4a1
+	callba DrawFlippers
 	callba Func_17e81
 	call Func_1acb0
 	ret
@@ -26282,7 +26282,7 @@ Func_1f35a: ; 0x1f35a
 	callba DrawMonCaptureAnimation
 	call DrawAnimatedMon_BlueStage
 	call DrawPikachuSavers_BlueStage
-	callba Func_e4a1
+	callba DrawFlippers
 	callba Func_17e81
 	call Func_1f4a3
 	call Func_1f509
@@ -30719,7 +30719,7 @@ Data_25421:
 Func_2583b: ; 0x2583b
 	ld bc, $7f65
 	callba DrawTimer
-	callba Func_e4a1
+	callba DrawFlippers
 	call Func_259fe
 	call Func_25895
 	call Func_2595e
@@ -32093,7 +32093,7 @@ Func_26b7e: ; 0x26b7e
 	ld bc, $7f65
 	callba DrawTimer
 	call Func_26bf7
-	callba Func_e4a1
+	callba DrawFlippers
 	callba Func_17e81
 	call Func_26ba9
 	call Func_26c3c

@@ -19898,15 +19898,16 @@ Func_19033: ; 0x19033
 	ld a, [de]
 	ld e, a
 	ld d, $0
-	ld hl, Data_1906b
+	ld hl, OAMIds_1906b
 	add hl, de
 	ld a, [hl]
 	cp $ff
 	call nz, LoadOAMData2
 	ret
 
-Data_1906b:
-	dr $1906b, $19070
+OAMIds_1906b:
+	db $00, $01, $02, $03
+	db $FF
 
 Func_19070: ; 0x19070
 	ld a, [wd674]
@@ -19990,15 +19991,16 @@ Func_190c6: ; 0x190c6
 	ld a, [de]
 	ld e, a
 	ld d, $0
-	ld hl, Data_190fe
+	ld hl, OAMIds_190fe
 	add hl, de
 	ld a, [hl]
 	cp $ff
 	call nz, LoadOAMData2
 	ret
 
-Data_190fe:
-	dr $190fe, $19104
+OAMIds_190fe:
+	db $04, $05, $06, $07, $08
+	db $FF
 
 Func_19104: ; 0x19104
 	ld a, [wd690]
@@ -20086,15 +20088,16 @@ Func_1918c: ; 0x1918c
 	ld a, [de]
 	ld e, a
 	ld d, $0
-	ld hl, Data_191c4
+	ld hl, OAMIds_191c4
 	add hl, de
 	ld a, [hl]
 	cp $ff
 	call nz, LoadOAMData2
 	ret
 
-Data_191c4:
-	dr $191c4, $191cb
+OAMIds_191c4:
+	db $09, $0A, $0B, $0C, $0D, $0E
+	db $FF
 
 Func_191cb: ; 0x191cb
 	ld a, [wd6a1]
@@ -20933,15 +20936,16 @@ Func_19976: ; 0x19976
 	ld a, [wd6ad]
 	ld e, a
 	ld d, $0
-	ld hl, Data_19995
+	ld hl, OAMIds_19995
 	add hl, de
 	ld a, [hl]
 	cp $ff
 	call nz, LoadOAMData2
 	ret
 
-Data_19995:
-	dr $19995, $1999d
+OAMIds_19995:
+	db $0F, $10, $11, $12, $17, $18, $19
+	db $FF
 
 Func_1999d: ; 0x1999d
 	ld de, wd6b6
@@ -20982,15 +20986,16 @@ Func_199be: ; 0x199be
 	ld a, [de]
 	ld e, a
 	ld d, $0
-	ld hl, Data_199e6
+	ld hl, OAMIds_199e6
 	add hl, de
 	ld a, [hl]
 	cp $ff
 	call nz, LoadOAMData2
 	ret
 
-Data_199e6:
-	dr $199e6, $199f2
+OAMIds_199e6:
+	db $13, $14, $15, $16, $1A, $1B, $1C, $1D, $1E, $1F, $20
+	db $FF
 
 InitDiglettBonusStage: ; 0x199f2
 	ld a, [wd7c1]
@@ -21778,15 +21783,16 @@ Func_1acb0: ; 0x1acb0
 	ld a, [wDugtrioAnimationFrame]
 	ld e, a
 	ld d, $0
-	ld hl, Data_1accf
+	ld hl, OAMIds_1accf
 	add hl, de
 	ld a, [hl]
 	bit 7, a
 	call z, LoadOAMData2
 	ret
 
-Data_1accf:
-	dr $1accf, $1acde
+OAMIds_1accf:
+	db $46, $47, $48, $49, $4A, $4B, $4C, $4D, $4E, $4F, $50, $51, $52, $53
+	db $FF
 
 SECTION "bank7", ROMX, BANK[$7]
 
@@ -25782,7 +25788,7 @@ Func_1efdc: ; 0x1efdc
 	cp $0  ; up direction
 	jp z, Func_1eff3
 	cp $1  ; right direction
-	jp z, LoadOAMData2e
+	jp z, Func_1f0be
 	cp $2  ; down direction
 	jp z, Func_1f057
 	cp $3  ; left direction
@@ -25938,7 +25944,7 @@ Func_1f057: ; 0x1f057
 	ld [wd804], a
 	ret
 
-LoadOAMData2e: ; 0x1f0be
+Func_1f0be: ; 0x1f0be
 	ld bc, Data_ec000
 	add hl, bc
 	ld de, wBallYVelocity
@@ -30693,14 +30699,14 @@ Func_2586c: ; 0x2586c
 	ld a, [wMeowthAnimationFrame]
 	ld e, a
 	ld d, $0
-	ld hl, Data_2588b
+	ld hl, OAMIds_2588b
 	add hl, de
 	ld a, [hl]
 	call LoadOAMData2
 	ret
 
-Data_2588b:
-	dr $2588b, $25895
+OAMIds_2588b:
+	db $21, $22, $23, $24, $25, $26, $27, $28, $33, $34
 
 Func_25895: ; 0x25895
 	ld a, [wd714]
@@ -30733,7 +30739,7 @@ Func_25895: ; 0x25895
 	sla a
 	ld e, a
 	ld d, $0
-	ld hl, Data_25935
+	ld hl, OAMPointers_25935
 	add hl, de
 	ld a, [hli]
 	ld h, [hl]
@@ -30756,7 +30762,7 @@ Func_25895: ; 0x25895
 	sla a
 	ld e, a
 	ld d, $0
-	ld hl, Data_25935
+	ld hl, OAMPointers_25935
 	add hl, de
 	ld a, [hli]
 	ld h, [hl]
@@ -30779,7 +30785,7 @@ Func_25895: ; 0x25895
 	sla a
 	ld e, a
 	ld d, $0
-	ld hl, Data_25935
+	ld hl, OAMPointers_25935
 	add hl, de
 	ld a, [hli]
 	ld h, [hl]
@@ -30792,8 +30798,20 @@ Func_25895: ; 0x25895
 	call LoadOAMData2
 	ret
 
-Data_25935:
-	dr $25935, $2595e
+OAMPointers_25935:
+	dw OAMIds_2593d
+	dw OAMIds_2593d
+	dw OAMIds_25948
+	dw OAMIds_25953
+
+OAMIds_2593d:
+	db $29, $29, $29, $29, $2A, $2A, $2A, $2A, $2A, $2A, $2A
+
+OAMIds_25948:
+	db $2B, $2B, $2B, $2B, $2B, $2B, $2B, $2C, $2C, $2C, $2C
+
+OAMIds_25953:
+	db $2D, $32, $31, $30, $2F, $2E, $2F, $30, $31, $32, $32
 
 Func_2595e: ; 0x2595e
 	ld a, [wd71e]
@@ -30826,7 +30844,7 @@ Func_2595e: ; 0x2595e
 	sla a
 	ld e, a
 	ld d, $0
-	ld hl, Data_25935
+	ld hl, OAMPointers_25935
 	add hl, de
 	ld a, [hli]
 	ld h, [hl]
@@ -30849,7 +30867,7 @@ Func_2595e: ; 0x2595e
 	sla a
 	ld e, a
 	ld d, $0
-	ld hl, Data_25935
+	ld hl, OAMPointers_25935
 	add hl, de
 	ld a, [hli]
 	ld h, [hl]
@@ -30872,7 +30890,7 @@ Func_2595e: ; 0x2595e
 	sla a
 	ld e, a
 	ld d, $0
-	ld hl, Data_25935
+	ld hl, OAMPointers_25935
 	add hl, de
 	ld a, [hli]
 	ld h, [hl]
@@ -30909,15 +30927,16 @@ Func_259fe: ; 0x259fe
 	ld a, [de]
 	ld e, a
 	ld d, $0
-	ld hl, Data_25a29
+	ld hl, OAMIds_25a29
 	add hl, de
 	ld a, [hl]
 	cp $ff
 	call nz, LoadOAMData2
 	ret
 
-Data_25a29:
-	dr $25a29, $25a39
+OAMIds_25a29:
+	db $35, $36, $37, $38, $39, $3A, $3B, $3C, $3D, $3E, $3F, $40, $41, $42, $43
+	db $FF
 
 Func_25a39: ; 0x25a39
 	ld a, [wd64e]
@@ -30940,7 +30959,7 @@ Func_25a39: ; 0x25a39
 .asm_25a58
 	ld de, $0001
 .asm_25a5b
-	ld hl, Data_25a7a
+	ld hl, OAMIds_25a7a
 	add hl, de
 	ld a, [hl]
 	call LoadOAMData2
@@ -30959,8 +30978,8 @@ Func_25a39: ; 0x25a39
 	ld [wd64e], a
 	ret
 
-Data_25a7a:
-	dr $25a7a, $25a7c
+OAMIds_25a7a: ; 0x25a7a
+	db $44, $45
 
 InitSeelBonusStage: ; 0x25a7c
 	ld a, [wd7c1]
@@ -32068,15 +32087,17 @@ Func_26bbc: ; 0x26bbc
 	ld a, [de]
 	ld e, a
 	ld d, $0
-	ld hl, Data_26bdf
+	ld hl, OAMIds_26bdf
 	add hl, de
 	ld a, [hl]
 	cp $ff
 	call nz, LoadOAMData2
 	ret
 
-Data_26bdf:
-	dr $26bdf, $26bf7
+OAMIds_26bdf:
+	db $54, $55, $56, $57, $58, $59, $5A, $5B, $5C, $5D, $5E, $5F, $60, $61, $62, $63
+	db $64, $65, $66, $67, $68, $69, $6A
+	db $FF
 
 Func_26bf7: ; 0x26bf7: ; 0x26bf7
 	ld a, [wd795]
@@ -32102,15 +32123,17 @@ Func_26bf7: ; 0x26bf7: ; 0x26bf7
 	ld a, [de]
 	ld e, a
 	ld d, $0
-	ld hl, Data_26c23
+	ld hl, OAMIds_26c23
 	add hl, de
 	ld a, [hl]
 	cp $ff
 	call nz, LoadOAMData2
 	ret
 
-Data_26c23:
-	dr $26c23, $26c3c
+OAMIds_26c23:
+	db $6B, $6C, $6D, $6E, $6F, $70, $71, $72, $73, $74, $75, $76, $77, $78, $79, $7A
+	db $7B, $7C, $7D, $7E, $7F, $80, $81, $82
+	db $FF
 
 Func_26c3c: ; 0x26c3c
 	ld a, [wd64e]
@@ -32133,7 +32156,7 @@ Func_26c3c: ; 0x26c3c
 .asm_26c5b
 	ld de, $0001
 .asm_26c5e
-	ld hl, Data_26c7d
+	ld hl, OAMIds_26c7d
 	add hl, de
 	ld a, [hl]
 	call LoadOAMData2
@@ -32152,8 +32175,8 @@ Func_26c3c: ; 0x26c3c
 	ld [wd64e], a
 	ret
 
-Data_26c7d:
-	dr $26c7d, $26c7f
+OAMIds_26c7d:
+	db $83, $84
 
 SECTION "banka", ROMX, BANK[$a]
 

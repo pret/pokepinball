@@ -40179,7 +40179,8 @@ TitlescreenTilemap: ; 0xc5800
 	INCBIN "gfx/tilemaps/titlescreen.map"
 TitlescreenBGAttributes: ; 0xc5c00
 	INCBIN "gfx/bgattr/titlescreen.bgattr"
-	dr $c5e40, $c6000
+
+	ds $1c0 ; free space
 
 CopyrightScreenTilemap: ; 0xc6000
 	INCBIN "gfx/tilemaps/copyright_screen.map"
@@ -40203,11 +40204,13 @@ SECTION "bank32", ROMX, BANK[$32]
 
 StageGengarBonusCollisionAttributes: ; 0xc8000
 	INCBIN "data/collision/maps/gengar_bonus.collision"
-	dr $c8400, $c8800
+
+	ds $400 ; free space
 
 GengarBonusTilemap_GameBoy: ; 0xc8800
 	INCBIN "gfx/tilemaps/stage_gengar_bonus_gameboy.map"
-	dr $c8c00, $c9000
+
+	ds $400 ; free space
 
 GengarBonusBottomTilemap_GameBoyColor: ; 0xc9000
 	INCBIN "gfx/tilemaps/stage_gengar_bonus_gameboycolor.map"
@@ -40222,19 +40225,23 @@ MewtwoBonus2Gfx: ; 0xc9c00
 	INCBIN "gfx/stage/mewtwo_bonus/mewtwo_2.2bpp"
 MewtwoBonus4Gfx: ; 0xc9c60
 	INCBIN "gfx/stage/mewtwo_bonus/mewtwo_4.2bpp"
-	dr $c9f00, $ca000
+
+	ds $100 ; free space
 
 StageMewtwoBonusCollisionAttributesBallEntrance: ; 0xca000
 	INCBIN "data/collision/maps/mewtwo_bonus_ball_entrance.collision"
-	dr $ca400, $ca800
+
+	ds $400 ; free space
 
 StageMewtwoBonusCollisionAttributes: ; 0xca800
 	INCBIN "data/collision/maps/mewtwo_bonus.collision"
-	dr $cac00, $cb000
+
+	ds $400 ; free space
 
 MewtwoBonusTilemap_GameBoy: ; 0xcb000
 	INCBIN "gfx/tilemaps/stage_mewtwo_bonus_gameboy.map"
-	dr $cb400, $cb800
+
+	ds $400 ; free space
 
 MewtoBonusBottomTilemap_GameBoyColor: ; 0xcb800
 	INCBIN "gfx/tilemaps/stage_mewtwo_bonus_gameboycolor.map"
@@ -40251,19 +40258,23 @@ MeowthBonusMeowth2Gfx: ; 0xcc400
 	INCBIN "gfx/stage/meowth_bonus/meowth_2.2bpp"
 MeowthBonusMeowth4Gfx: ; 0xcc460
 	INCBIN "gfx/stage/meowth_bonus/meowth_4.2bpp"
-	dr $cc7c0, $cc800
+
+	ds $40 ; free space
 
 StageMeowthBonusCollisionAttributesBallEntrance: ; 0xcc800
 	INCBIN "data/collision/maps/meowth_bonus_ball_entrance.collision"
-	dr $ccc00, $cd000
+
+	ds $400 ; free space
 
 StageMeowthBonusCollisionAttributes: ; 0xcd000
 	INCBIN "data/collision/maps/meowth_bonus.collision"
-	dr $cd400, $cd800
+
+	ds $400 ; free space
 
 MeowthBonusTilemap_GameBoy: ; 0xcd800
 	INCBIN "gfx/tilemaps/stage_meowth_bonus_gameboy.map"
-	dr $cdc00, $ce000
+
+	ds $400 ; free space
 
 MeowthBonusTilemap_GameBoyColor: ; 0xce000
 	INCBIN "gfx/tilemaps/stage_meowth_bonus_gameboycolor.map"
@@ -40272,15 +40283,16 @@ MeowthBonusTilemap2_GameBoyColor: ; 0xce400
 
 StageDiglettBonusCollisionAttributesBallEntrance: ; 0xce800
 	INCBIN "data/collision/maps/diglett_bonus_ball_entrance.collision"
-	dr $cec00, $cf000
+
+	ds $400 ; free space
 
 StageDiglettBonusCollisionAttributes: ; 0xcf000
 	INCBIN "data/collision/maps/diglett_bonus.collision"
-	dr $cf400, $cf800
+
+	ds $400 ; free space
 
 DiglettBonusTilemap_GameBoy: ; 0xcf800
 	INCBIN "gfx/tilemaps/stage_diglett_bonus_gameboy.map"
-	dr $cfc00, $d0000
 
 SECTION "bank34", ROMX, BANK[$34]
 
@@ -40315,136 +40327,137 @@ MewtwoAnimatedCollisionMask: ; 0xd04680
 MewAnimatedCollisionMask: ; 0xd04700
 	INCBIN "data/collision/mon_masks/mew_collision.1bpp"
 
-	dr $d0780, $d0800
+	ds $80 ; free space
 
-LickitungAnimatedCollisionMask: ; 0xd04800
+LickitungAnimatedCollisionMask: ; 0xd0800
 	INCBIN "data/collision/mon_masks/lickitung_collision.1bpp"
-KoffingAnimatedCollisionMask: ; 0xd04880
+KoffingAnimatedCollisionMask: ; 0xd0880
 	INCBIN "data/collision/mon_masks/koffing_collision.1bpp"
-RhyhornAnimatedCollisionMask: ; 0xd04900
+RhyhornAnimatedCollisionMask: ; 0xd0900
 	INCBIN "data/collision/mon_masks/rhyhorn_collision.1bpp"
-ChanseyAnimatedCollisionMask: ; 0xd04980
+ChanseyAnimatedCollisionMask: ; 0xd0980
 	INCBIN "data/collision/mon_masks/chansey_collision.1bpp"
-TangelaAnimatedCollisionMask: ; 0xd04A00
+TangelaAnimatedCollisionMask: ; 0xd0A00
 	INCBIN "data/collision/mon_masks/tangela_collision.1bpp"
-KangaskhanAnimatedCollisionMask: ; 0xd04A80
+KangaskhanAnimatedCollisionMask: ; 0xd0A80
 	INCBIN "data/collision/mon_masks/kangaskhan_collision.1bpp"
-HorseaAnimatedCollisionMask: ; 0xd04B00
+HorseaAnimatedCollisionMask: ; 0xd0B00
 	INCBIN "data/collision/mon_masks/horsea_collision.1bpp"
-GoldeenAnimatedCollisionMask: ; 0xd04B80
+GoldeenAnimatedCollisionMask: ; 0xd0B80
 	INCBIN "data/collision/mon_masks/goldeen_collision.1bpp"
-StaryuAnimatedCollisionMask: ; 0xd04C00
+StaryuAnimatedCollisionMask: ; 0xd0C00
 	INCBIN "data/collision/mon_masks/staryu_collision.1bpp"
-MrMimeAnimatedCollisionMask: ; 0xd04C80
+MrMimeAnimatedCollisionMask: ; 0xd0C80
 	INCBIN "data/collision/mon_masks/mrmime_collision.1bpp"
-ScytherAnimatedCollisionMask: ; 0xd04D00
+ScytherAnimatedCollisionMask: ; 0xd0D00
 	INCBIN "data/collision/mon_masks/scyther_collision.1bpp"
-JynxAnimatedCollisionMask: ; 0xd04D80
+JynxAnimatedCollisionMask: ; 0xd0D80
 	INCBIN "data/collision/mon_masks/jynx_collision.1bpp"
-ElectabuzzAnimatedCollisionMask: ; 0xd04E00
+ElectabuzzAnimatedCollisionMask: ; 0xd0E00
 	INCBIN "data/collision/mon_masks/electabuzz_collision.1bpp"
-MagmarAnimatedCollisionMask: ; 0xd04E80
+MagmarAnimatedCollisionMask: ; 0xd0E80
 	INCBIN "data/collision/mon_masks/magmar_collision.1bpp"
-PinsirAnimatedCollisionMask: ; 0xd04F00
+PinsirAnimatedCollisionMask: ; 0xd0F00
 	INCBIN "data/collision/mon_masks/pinsir_collision.1bpp"
-TaurosAnimatedCollisionMask: ; 0xd04F80
+TaurosAnimatedCollisionMask: ; 0xd0F80
 	INCBIN "data/collision/mon_masks/tauros_collision.1bpp"
-SlowpokeAnimatedCollisionMask: ; 0xd05000
+SlowpokeAnimatedCollisionMask: ; 0xd1000
 	INCBIN "data/collision/mon_masks/slowpoke_collision.1bpp"
-MagnemiteAnimatedCollisionMask: ; 0xd05080
+MagnemiteAnimatedCollisionMask: ; 0xd1080
 	INCBIN "data/collision/mon_masks/magnemite_collision.1bpp"
-FarfetchdAnimatedCollisionMask: ; 0xd05100
+FarfetchdAnimatedCollisionMask: ; 0xd1100
 	INCBIN "data/collision/mon_masks/farfetchd_collision.1bpp"
-DoduoAnimatedCollisionMask: ; 0xd05180
+DoduoAnimatedCollisionMask: ; 0xd1180
 	INCBIN "data/collision/mon_masks/doduo_collision.1bpp"
-SeelAnimatedCollisionMask: ; 0xd05200
+SeelAnimatedCollisionMask: ; 0xd1200
 	INCBIN "data/collision/mon_masks/seel_collision.1bpp"
-GrimerAnimatedCollisionMask: ; 0xd05280
+GrimerAnimatedCollisionMask: ; 0xd1280
 	INCBIN "data/collision/mon_masks/grimer_collision.1bpp"
-ShellderAnimatedCollisionMask: ; 0xd05300
+ShellderAnimatedCollisionMask: ; 0xd1300
 	INCBIN "data/collision/mon_masks/shellder_collision.1bpp"
-GastlyAnimatedCollisionMask: ; 0xd05380
+GastlyAnimatedCollisionMask: ; 0xd1380
 	INCBIN "data/collision/mon_masks/gastly_collision.1bpp"
-OnixAnimatedCollisionMask: ; 0xd05400
+OnixAnimatedCollisionMask: ; 0xd1400
 	INCBIN "data/collision/mon_masks/onix_collision.1bpp"
-DrowzeeAnimatedCollisionMask: ; 0xd05480
+DrowzeeAnimatedCollisionMask: ; 0xd1480
 	INCBIN "data/collision/mon_masks/drowzee_collision.1bpp"
-KrabbyAnimatedCollisionMask: ; 0xd05500
+KrabbyAnimatedCollisionMask: ; 0xd1500
 	INCBIN "data/collision/mon_masks/krabby_collision.1bpp"
-VoltorbAnimatedCollisionMask: ; 0xd05580
+VoltorbAnimatedCollisionMask: ; 0xd1580
 	INCBIN "data/collision/mon_masks/voltorb_collision.1bpp"
-ExeggcuteAnimatedCollisionMask: ; 0xd05600
+ExeggcuteAnimatedCollisionMask: ; 0xd1600
 	INCBIN "data/collision/mon_masks/exeggcute_collision.1bpp"
-CuboneAnimatedCollisionMask: ; 0xd05680
+CuboneAnimatedCollisionMask: ; 0xd1680
 	INCBIN "data/collision/mon_masks/cubone_collision.1bpp"
-HitmonleeAnimatedCollisionMask: ; 0xd05700
+HitmonleeAnimatedCollisionMask: ; 0xd1700
 	INCBIN "data/collision/mon_masks/hitmonlee_collision.1bpp"
-HitmonchanAnimatedCollisionMask: ; 0xd05780
+HitmonchanAnimatedCollisionMask: ; 0xd1780
 	INCBIN "data/collision/mon_masks/hitmonchan_collision.1bpp"
-ZubatAnimatedCollisionMask: ; 0xd05800
+ZubatAnimatedCollisionMask: ; 0xd1800
 	INCBIN "data/collision/mon_masks/zubat_collision.1bpp"
-OddishAnimatedCollisionMask: ; 0xd05880
+OddishAnimatedCollisionMask: ; 0xd1880
 	INCBIN "data/collision/mon_masks/oddish_collision.1bpp"
-ParasAnimatedCollisionMask: ; 0xd05900
+ParasAnimatedCollisionMask: ; 0xd1900
 	INCBIN "data/collision/mon_masks/paras_collision.1bpp"
-VenonatAnimatedCollisionMask: ; 0xd05980
+VenonatAnimatedCollisionMask: ; 0xd1980
 	INCBIN "data/collision/mon_masks/venonat_collision.1bpp"
-DiglettAnimatedCollisionMask: ; 0xd05A00
+DiglettAnimatedCollisionMask: ; 0xd1A00
 	INCBIN "data/collision/mon_masks/diglett_collision.1bpp"
-MeowthAnimatedCollisionMask: ; 0xd05A80
+MeowthAnimatedCollisionMask: ; 0xd1A80
 	INCBIN "data/collision/mon_masks/meowth_collision.1bpp"
-PsyduckAnimatedCollisionMask: ; 0xd05B00
+PsyduckAnimatedCollisionMask: ; 0xd1B00
 	INCBIN "data/collision/mon_masks/psyduck_collision.1bpp"
-MankeyAnimatedCollisionMask: ; 0xd05B80
+MankeyAnimatedCollisionMask: ; 0xd1B80
 	INCBIN "data/collision/mon_masks/mankey_collision.1bpp"
-GrowlitheAnimatedCollisionMask: ; 0xd05C00
+GrowlitheAnimatedCollisionMask: ; 0xd1C00
 	INCBIN "data/collision/mon_masks/growlithe_collision.1bpp"
-PoliwagAnimatedCollisionMask: ; 0xd05C80
+PoliwagAnimatedCollisionMask: ; 0xd1C80
 	INCBIN "data/collision/mon_masks/poliwag_collision.1bpp"
-AbraAnimatedCollisionMask: ; 0xd05D00
+AbraAnimatedCollisionMask: ; 0xd1D00
 	INCBIN "data/collision/mon_masks/abra_collision.1bpp"
-MachopAnimatedCollisionMask: ; 0xd05D80
+MachopAnimatedCollisionMask: ; 0xd1D80
 	INCBIN "data/collision/mon_masks/machop_collision.1bpp"
-BellsproutAnimatedCollisionMask: ; 0xd05E00
+BellsproutAnimatedCollisionMask: ; 0xd1E00
 	INCBIN "data/collision/mon_masks/bellsprout_collision.1bpp"
-TentacoolAnimatedCollisionMask: ; 0xd05E80
+TentacoolAnimatedCollisionMask: ; 0xd1E80
 	INCBIN "data/collision/mon_masks/tentacool_collision.1bpp"
-GeodudeAnimatedCollisionMask: ; 0xd05F00
+GeodudeAnimatedCollisionMask: ; 0xd1F00
 	INCBIN "data/collision/mon_masks/geodude_collision.1bpp"
-PonytaAnimatedCollisionMask: ; 0xd05F80
+PonytaAnimatedCollisionMask: ; 0xd1F80
 	INCBIN "data/collision/mon_masks/ponyta_collision.1bpp"
-BulbasaurAnimatedCollisionMask: ; 0xd06000
+BulbasaurAnimatedCollisionMask: ; 0xd2000
 	INCBIN "data/collision/mon_masks/bulbasaur_collision.1bpp"
-CharmanderAnimatedCollisionMask: ; 0xd06080
+CharmanderAnimatedCollisionMask: ; 0xd2080
 	INCBIN "data/collision/mon_masks/charmander_collision.1bpp"
-SquirtleAnimatedCollisionMask: ; 0xd06100
+SquirtleAnimatedCollisionMask: ; 0xd2100
 	INCBIN "data/collision/mon_masks/squirtle_collision.1bpp"
-CaterpieAnimatedCollisionMask: ; 0xd06180
+CaterpieAnimatedCollisionMask: ; 0xd2180
 	INCBIN "data/collision/mon_masks/caterpie_collision.1bpp"
-WeedleAnimatedCollisionMask: ; 0xd06200
+WeedleAnimatedCollisionMask: ; 0xd2200
 	INCBIN "data/collision/mon_masks/weedle_collision.1bpp"
-PidgeyAnimatedCollisionMask: ; 0xd06280
+PidgeyAnimatedCollisionMask: ; 0xd2280
 	INCBIN "data/collision/mon_masks/pidgey_collision.1bpp"
-RattataAnimatedCollisionMask: ; 0xd06300
+RattataAnimatedCollisionMask: ; 0xd2300
 	INCBIN "data/collision/mon_masks/rattata_collision.1bpp"
-SpearowAnimatedCollisionMask: ; 0xd06380
+SpearowAnimatedCollisionMask: ; 0xd2380
 	INCBIN "data/collision/mon_masks/spearow_collision.1bpp"
-EkansAnimatedCollisionMask: ; 0xd06400
+EkansAnimatedCollisionMask: ; 0xd2400
 	INCBIN "data/collision/mon_masks/ekans_collision.1bpp"
-PikachuAnimatedCollisionMask: ; 0xd06480
+PikachuAnimatedCollisionMask: ; 0xd2480
 	INCBIN "data/collision/mon_masks/pikachu_collision.1bpp"
-SandshrewAnimatedCollisionMask: ; 0xd06500
+SandshrewAnimatedCollisionMask: ; 0xd2500
 	INCBIN "data/collision/mon_masks/sandshrew_collision.1bpp"
-NidoranfAnimatedCollisionMask: ; 0xd06580
+NidoranfAnimatedCollisionMask: ; 0xd2580
 	INCBIN "data/collision/mon_masks/nidoranf_collision.1bpp"
-NidoranmAnimatedCollisionMask: ; 0xd06600
+NidoranmAnimatedCollisionMask: ; 0xd2600
 	INCBIN "data/collision/mon_masks/nidoranm_collision.1bpp"
-ClefairyAnimatedCollisionMask: ; 0xd06680
+ClefairyAnimatedCollisionMask: ; 0xd2680
 	INCBIN "data/collision/mon_masks/clefairy_collision.1bpp"
-VulpixAnimatedCollisionMask: ; 0xd06700
+VulpixAnimatedCollisionMask: ; 0xd2700
 	INCBIN "data/collision/mon_masks/vulpix_collision.1bpp"
-JigglypuffAnimatedCollisionMask: ; 0xd06780
+JigglypuffAnimatedCollisionMask: ; 0xd2780
 	INCBIN "data/collision/mon_masks/jigglypuff_collision.1bpp"
+
 	dr $d2800, $d3000
 
 DiglettBonusTilemap_GameBoyColor: ; 0xd3000
@@ -40457,15 +40470,18 @@ SECTION "bank35", ROMX, BANK[$35]
 
 StageSeelBonusCollisionAttributesBallEntrance: ; 0xd4000
 	INCBIN "data/collision/maps/seel_bonus_ball_entrance.collision"
-	dr $d4400, $d4800
+
+	ds $400 ; free space
 
 StageSeelBonusCollisionAttributes: ; 0xd4800
 	INCBIN "data/collision/maps/seel_bonus.collision"
-	dr $d4c00, $d5000
+
+	ds $400 ; free space
 
 SeelBonusTilemap_GameBoy: ; 0xd5000
 	INCBIN "gfx/tilemaps/stage_seel_bonus_gameboy.map"
-	dr $d5400, $d5800
+
+	ds $400 ; free space
 
 SeelBonusTilemap_GameBoyColor: ; 0xd5800
 	INCBIN "gfx/tilemaps/stage_seel_bonus_gameboycolor.map"
@@ -40503,7 +40519,8 @@ GFX_d6440: INCBIN "gfx/unknown/d6440.2bpp"
 InGameMenuSymbolsGfx: ; 0xd6450
 	INCBIN "gfx/stage/menu_symbols.2bpp"
 GFX_d6480: INCBIN "gfx/unknown/d6480.2bpp"
-	dr $d6490, $d6600
+
+	ds $170 ; free space
 
 StageBlueFieldTopGfx3: ; 0xd6600
 	INCBIN "gfx/stage/blue_top/blue_top_3.2bpp"
@@ -40612,7 +40629,8 @@ VenonatBillboardBGPaletteMap: ; 0xd7368
 	db $6, $6, $6, $6, $6, $6
 	db $6, $6, $6, $6, $6, $6
 	db $6, $6, $6, $6, $6, $6
-	dr $d7380, $d7600
+
+	ds $280 ; free space
 
 VenomothBillboardBGPaletteMap: ; 0xd7600
 	db $6, $6, $6, $6, $6, $6
@@ -40709,7 +40727,8 @@ KadabraBillboardBGPaletteMap: ; 0xd7768
 	db $6, $7, $6, $6, $6, $6
 	db $6, $7, $6, $6, $6, $6
 	db $6, $6, $6, $6, $6, $6
-	dr $d7780, $d7a00
+
+	ds $280 ; free space
 
 AlakazamBillboardBGPaletteMap: ; 0xd7a00
 	db $6, $6, $6, $6, $6, $6

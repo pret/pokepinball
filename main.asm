@@ -15726,12 +15726,12 @@ Func_155a7: ; 0x155a7
 	ld c, a
 	sla c
 	ld b, $0
-	ld hl, Data_155d7
+	ld hl, PointerTable_155d7
 	add hl, bc
 	ld a, [hli]
 	ld h, [hl]
 	ld l, a
-	ld a, $5
+	ld a, Bank(PointerTable_155d7)
 	call Func_10aa
 	; fall through
 
@@ -15754,13 +15754,13 @@ Func_155bb: ; 0x155bb
 	call Func_10c5
 	ret
 
-Data_155d7:
-	dw Data_155e3
-	dw Data_155e3
-	dw Data_155fa
-	dw Data_15611
-	dw Data_15611
-	dw Data_15628
+PointerTable_155d7:
+	dw Data_155e3 ; POKE_BALL
+	dw Data_155e3 ; POKE_BALL
+	dw Data_155fa ; GREAT_BALL
+	dw Data_15611 ; ULTRA_BALL
+	dw Data_15611 ; ULTRA_BALL
+	dw Data_15628 ; MASTER_BALL
 
 Data_155e3:
 	db 11
@@ -16219,7 +16219,7 @@ Func_159f4: ; 0x159f4
 	ld l, a
 	or h
 	ret z
-	ld a, $5
+	ld a, Bank(Data_15a3f)
 	call Func_10aa
 	ld a, [wStageCollisionState]
 	ld [wd7f2], a
@@ -16386,7 +16386,7 @@ asm_15fc0
 	ld a, [hli]
 	ld h, [hl]
 	ld l, a
-	ld a, $5
+	ld a, Bank(Data_16010)
 	call Func_10aa
 	ret
 
@@ -16857,7 +16857,7 @@ Func_16425: ; 0x16425
 	ld l, a
 	or h
 	ret z
-	ld a, $5
+	ld a, Bank(Data_1644d)
 	call Func_10aa
 	ret
 
@@ -17300,7 +17300,7 @@ Func_16859: ; 0x16859
 	ld l, a
 	or h
 	ret z
-	ld a, $5
+	ld a, Bank(Data_16899)
 	call Func_10aa
 	ret
 
@@ -17322,7 +17322,7 @@ Func_16878: ; 0x16878
 	ld l, a
 	or h
 	ret z
-	ld a, $5
+	ld a, Bank(Data_1695a)
 	call Func_10aa
 	ret
 
@@ -17385,7 +17385,7 @@ Func_169cd: ; 0x169cd
 	ld a, [hli]
 	ld h, [hl]
 	ld l, a
-	ld a, $5
+	ld a, Bank(Data_169ed)
 	call Func_10aa
 	ret
 
@@ -17611,7 +17611,7 @@ Func_16f38: ; 0x16f38
 	ld a, [hli]
 	ld h, [hl]
 	ld l, a
-	ld a, $5
+	ld a, Bank(Data_16fc8)
 	call Func_10aa
 .asm_16f5c
 	pop af
@@ -17630,7 +17630,7 @@ Func_16f38: ; 0x16f38
 	ld a, [hli]
 	ld h, [hl]
 	ld l, a
-	ld a, $5
+	ld a, Bank(Data_171e4)
 	call Func_10aa
 	ret
 
@@ -17648,7 +17648,7 @@ Func_16f7b: ; 0x16f7b
 	ld a, [hli]
 	ld h, [hl]
 	ld l, a
-	ld a, $5
+	ld a, Bank(Data_17228)
 	call Func_10aa
 	ret
 
@@ -17904,7 +17904,7 @@ Func_17665: ; 0x17665
 	ld a, [hli]
 	ld h, [hl]
 	ld l, a
-	ld a, $5
+	ld a, Bank(Data_17679)
 	call Func_10aa
 	ret
 
@@ -19787,7 +19787,7 @@ Func_18d72: ; 0x18d72
 	ld l, a
 	or h
 	ret z
-	ld a, $6
+	ld a, Bank(Data_18ddb)
 	call Func_10aa
 	ret
 
@@ -20510,7 +20510,7 @@ Func_194ac: ; 0x194ac
 	ld a, [hli]
 	ld h, [hl]
 	ld l, a
-	ld a, $6
+	ld a, Bank(Data_194c9)
 	call Func_10aa
 	ret
 
@@ -21283,7 +21283,7 @@ Func_19bbd: ; 0x19bbd
 	ld a, [hli]
 	ld h, [hl]
 	ld l, a
-	ld a, $6
+	ld a, Bank(Data_19bda)
 	call Func_10aa
 	ret
 
@@ -23247,7 +23247,7 @@ Func_1cb43: ; 0x1cb43
 	ld a, [hli]
 	ld h, [hl]
 	ld l, a
-	ld a, $7
+	ld a, Bank(Data_1cb60)
 	call Func_10aa
 	ret
 
@@ -23304,7 +23304,7 @@ asm_1ce7a: ; 0x1ce7a
 	ld a, [hli]
 	ld h, [hl]
 	ld l, a
-	ld a, $7
+	ld a, Bank(Data_1ceca)
 	call Func_10aa
 	ret
 
@@ -24095,7 +24095,7 @@ Func_1d602: ; 0x1d602
 	ld a, [hli]
 	ld h, [hl]
 	ld l, a
-	ld a, $7
+	ld a, Bank(Data_1d6be)
 	call Func_10aa
 .asm_1d626
 	pop af
@@ -24114,7 +24114,7 @@ Func_1d602: ; 0x1d602
 	ld a, [hli]
 	ld h, [hl]
 	ld l, a
-	ld a, $7
+	ld a, Bank(Data_1d946)
 	call Func_10aa
 	ret
 
@@ -24132,7 +24132,7 @@ Func_1d645: ; 0x1d645
 	ld a, [hli]
 	ld h, [hl]
 	ld l, a
-	ld a, $7
+	ld a, Bank(Data_1d97a)
 	call Func_10aa
 	ret
 
@@ -24538,7 +24538,7 @@ Func_1de4b: ; 0x1de4b
 	ld l, a
 	or h
 	ret z
-	ld a, $7
+	ld a, Bank(Data_1df66)
 	call Func_10aa
 	ret
 
@@ -24563,7 +24563,7 @@ Func_1de6f: ; 0x1de6f
 	ld l, a
 	or h
 	ret z
-	ld a, $7
+	ld a, Bank(Data_1e0a4)
 	call Func_10aa
 	ret
 
@@ -25408,7 +25408,7 @@ Func_1e8f6: ; 0x1e8f6
 	ld l, a
 	or h
 	ret z
-	ld a, $7
+	ld a, Bank(Data_1e91e)
 	call Func_10aa
 	ret
 
@@ -25684,7 +25684,7 @@ Func_1eb41: ; 0x1eb41
 	ld a, [hli]
 	ld h, [hl]
 	ld l, a
-	ld a, $7
+	ld a, Bank(Data_1eb61)
 	call Func_10aa
 	ret
 
@@ -26154,7 +26154,7 @@ Func_1f18a: ; 0x1f18a
 	ld l, a
 	or h
 	ret z
-	ld a, $7
+	ld a, Bank(Data_1f1b5)
 	call Func_10aa
 	ld a, $0
 	ld [wd640], a
@@ -29341,7 +29341,7 @@ Func_24516: ; 0x24516
 	ld a, [hli]
 	ld h, [hl]
 	ld l, a
-	ld a, $9
+	ld a, Bank(Data_24533)
 	call Func_10aa
 	ret
 
@@ -30706,7 +30706,7 @@ Func_24fa3: ; 0x24fa3
 	ld a, [hli]
 	ld h, [hl]
 	ld l, a
-	ld a, $9
+	ld a, Bank(Data_25007)
 	call Func_10aa
 	ret
 
@@ -31329,7 +31329,7 @@ Func_25d0e: ; 0x25d0e
 	ld a, [hli]
 	ld h, [hl]
 	ld l, a
-	ld a, $9
+	ld a, Bank(Data_25d2b)
 	call Func_10aa
 	ret
 
@@ -32079,7 +32079,7 @@ Func_262f4: ; 0x262f4
 	ld a, [hli]
 	ld h, [hl]
 	ld l, a
-	ld a, $9
+	ld a, Bank(Data_2634a)
 	call Func_10aa
 	ret
 
@@ -36698,7 +36698,7 @@ Func_30256: ; 0x30256
 	ld a, [hli]
 	ld h, [hl]
 	ld l, a
-	ld a, $c
+	ld a, Bank(PointerTable_3027a)
 	call Func_10aa
 	pop bc
 	ld a, [hGameBoyColorFlag]
@@ -36709,7 +36709,7 @@ Func_30256: ; 0x30256
 	ld a, [hli]
 	ld h, [hl]
 	ld l, a
-	ld a, $c
+	ld a, Bank(PointerTable_30ceb)
 	call Func_10aa
 	ret
 

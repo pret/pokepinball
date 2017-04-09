@@ -34702,70 +34702,7 @@ MeowthBonusBaseGameBoyGfx: ; 0x5f600
 
 SECTION "bank18", ROMX, BANK[$18]
 
-VenomothPic: ; 0x60000
-	INCBIN "gfx/billboard/mon_pics/venomoth.2bpp"
-VenomothSilhouettePic: ; 0x60180
-	INCBIN "gfx/billboard/mon_silhouettes/venomoth.2bpp"
-DiglettPic: ; 0x60300
-	INCBIN "gfx/billboard/mon_pics/diglett.2bpp"
-DiglettSilhouettePic: ; 0x60480
-	INCBIN "gfx/billboard/mon_silhouettes/diglett.2bpp"
-DugtrioPic: ; 0x60600
-	INCBIN "gfx/billboard/mon_pics/dugtrio.2bpp"
-DugtrioSilhouettePic: ; 0x60780
-	INCBIN "gfx/billboard/mon_silhouettes/dugtrio.2bpp"
-MeowthPic: ; 0x60900
-	INCBIN "gfx/billboard/mon_pics/meowth.2bpp"
-MeowthSilhouettePic: ; 0x60a80
-	INCBIN "gfx/billboard/mon_silhouettes/meowth.2bpp"
-PersianPic: ; 0x60c00
-	INCBIN "gfx/billboard/mon_pics/persian.2bpp"
-PersianSilhouettePic: ; 0x60d80
-	INCBIN "gfx/billboard/mon_silhouettes/persian.2bpp"
-PsyduckPic: ; 0x60f00
-	INCBIN "gfx/billboard/mon_pics/psyduck.2bpp"
-PsyduckSilhouettePic: ; 0x61080
-	INCBIN "gfx/billboard/mon_silhouettes/psyduck.2bpp"
-GolduckPic: ; 0x61200
-	INCBIN "gfx/billboard/mon_pics/golduck.2bpp"
-GolduckSilhouettePic:  ; 0x61380
-	INCBIN "gfx/billboard/mon_silhouettes/golduck.2bpp"
-MankeyPic: ; 0x61500
-	INCBIN "gfx/billboard/mon_pics/mankey.2bpp"
-MankeySilhouettePic: ; 0x61680
-	INCBIN "gfx/billboard/mon_silhouettes/mankey.2bpp"
-PrimeapePic: ; 0x61800
-	INCBIN "gfx/billboard/mon_pics/primeape.2bpp"
-PrimeapeSilhouettePic: ; 0x61980
-	INCBIN "gfx/billboard/mon_silhouettes/primeape.2bpp"
-GrowlithePic: ; 0x61b00
-	INCBIN "gfx/billboard/mon_pics/growlithe.2bpp"
-GrowlitheSilhouettePic: ; 0x61c80
-	INCBIN "gfx/billboard/mon_silhouettes/growlithe.2bpp"
-ArcaninePic: ; 0x61e00
-	INCBIN "gfx/billboard/mon_pics/arcanine.2bpp"
-ArcanineSilhouettePic: ; 0x61f80
-	INCBIN "gfx/billboard/mon_silhouettes/arcanine.2bpp"
-PoliwagPic: ; 0x62100
-	INCBIN "gfx/billboard/mon_pics/poliwag.2bpp"
-PoliwagSilhouettePic: ; 0x62280
-	INCBIN "gfx/billboard/mon_silhouettes/poliwag.2bpp"
-PoliwhirlPic: ; 0x62400
-	INCBIN "gfx/billboard/mon_pics/poliwhirl.2bpp"
-PoliwhirlSilhouettePic: ; 0x62580
-	INCBIN "gfx/billboard/mon_silhouettes/poliwhirl.2bpp"
-PoliwrathPic: ; 0x62700
-	INCBIN "gfx/billboard/mon_pics/poliwrath.2bpp"
-PoliwrathSilhouettePic: ; 0x62880
-	INCBIN "gfx/billboard/mon_silhouettes/poliwrath.2bpp"
-AbraPic: ; 0x62a00
-	INCBIN "gfx/billboard/mon_pics/abra.2bpp"
-AbraSilhouettePic: ; 0x62b80
-	INCBIN "gfx/billboard/mon_silhouettes/abra.2bpp"
-KadabraPic: ; 0x62d00
-	INCBIN "gfx/billboard/mon_pics/kadabra.2bpp"
-KadabraSilhouettePic: ; 0x62e80
-	INCBIN "gfx/billboard/mon_silhouettes/kadabra.2bpp"
+INCLUDE "data/mon_billboard_pics_1.asm"
 
 StageRedFieldTopStatusBarSymbolsGfx_GameBoy: ; 0x63000
 	INCBIN "gfx/stage/red_top/status_bar_symbols_gameboy.2bpp"
@@ -34776,140 +34713,14 @@ StageRedFieldTopBaseGameBoyGfx: ; 0x632a0
 
 SECTION "bank19", ROMX, BANK[$19]
 
-NidorinoPic: ; 0x64000
-	INCBIN "gfx/billboard/mon_pics/nidorino.2bpp"
-NidorinoSilhouettePic: ; 0x64180
-	INCBIN "gfx/billboard/mon_silhouettes/nidorino.2bpp"
-NidokingPic: ; 0x64300
-	INCBIN "gfx/billboard/mon_pics/nidoking.2bpp"
-NidokingSilhouettePic: ; 0x64480
-	INCBIN "gfx/billboard/mon_silhouettes/nidoking.2bpp"
-ClefairyPic: ; 0x64600
-	INCBIN "gfx/billboard/mon_pics/clefairy.2bpp"
-ClefairySilhouettePic: ; 0x64780
-	INCBIN "gfx/billboard/mon_silhouettes/clefairy.2bpp"
-ClefablePic: ; 0x64900
-	INCBIN "gfx/billboard/mon_pics/clefable.2bpp"
-ClefableSilhouettePic: ; 0x64a80
-	INCBIN "gfx/billboard/mon_silhouettes/clefable.2bpp"
-VulpixPic: ; 0x64c00
-	INCBIN "gfx/billboard/mon_pics/vulpix.2bpp"
-VulpixSilhouettePic: ; 0x64d80
-	INCBIN "gfx/billboard/mon_silhouettes/vulpix.2bpp"
-NinetalesPic: ; 0x64f00
-	INCBIN "gfx/billboard/mon_pics/ninetales.2bpp"
-NinetalesSilhouettePic: ; 0x65080
-	INCBIN "gfx/billboard/mon_silhouettes/ninetales.2bpp"
-JigglypuffPic: ; 0x65200
-	INCBIN "gfx/billboard/mon_pics/jigglypuff.2bpp"
-JigglypuffSilhouettePic:  ; 0x65380
-	INCBIN "gfx/billboard/mon_silhouettes/jigglypuff.2bpp"
-WigglytuffPic: ; 0x65500
-	INCBIN "gfx/billboard/mon_pics/wigglytuff.2bpp"
-WigglytuffSilhouettePic: ; 0x65680
-	INCBIN "gfx/billboard/mon_silhouettes/wigglytuff.2bpp"
-ZubatPic: ; 0x65800
-	INCBIN "gfx/billboard/mon_pics/zubat.2bpp"
-ZubatSilhouettePic: ; 0x65980
-	INCBIN "gfx/billboard/mon_silhouettes/zubat.2bpp"
-GolbatPic: ; 0x65b00
-	INCBIN "gfx/billboard/mon_pics/golbat.2bpp"
-GolbatSilhouettePic: ; 0x65c80
-	INCBIN "gfx/billboard/mon_silhouettes/golbat.2bpp"
-OddishPic: ; 0x65e00
-	INCBIN "gfx/billboard/mon_pics/oddish.2bpp"
-OddishSilhouettePic: ; 0x65f80
-	INCBIN "gfx/billboard/mon_silhouettes/oddish.2bpp"
-GloomPic: ; 0x66100
-	INCBIN "gfx/billboard/mon_pics/gloom.2bpp"
-GloomSilhouettePic: ; 0x66280
-	INCBIN "gfx/billboard/mon_silhouettes/gloom.2bpp"
-VileplumePic: ; 0x66400
-	INCBIN "gfx/billboard/mon_pics/vileplume.2bpp"
-VileplumeSilhouettePic: ; 0x66580
-	INCBIN "gfx/billboard/mon_silhouettes/vileplume.2bpp"
-ParasPic: ; 0x66700
-	INCBIN "gfx/billboard/mon_pics/paras.2bpp"
-ParasSilhouettePic: ; 0x66880
-	INCBIN "gfx/billboard/mon_silhouettes/paras.2bpp"
-ParasectPic: ; 0x66a00
-	INCBIN "gfx/billboard/mon_pics/parasect.2bpp"
-ParasectSilhouettePic: ; 0x66b80
-	INCBIN "gfx/billboard/mon_silhouettes/parasect.2bpp"
-VenonatPic: ; 0x66d00
-	INCBIN "gfx/billboard/mon_pics/venonat.2bpp"
-VenonatSilhouettePic: ; 0x66e80
-	INCBIN "gfx/billboard/mon_silhouettes/venonat.2bpp"
+INCLUDE "data/mon_billboard_pics_2.asm"
 
 StageBlueFieldBottomBaseGameBoyGfx: ; 0x67000
 	INCBIN "gfx/stage/blue_bottom/blue_bottom_base_gameboy.2bpp"
 
 SECTION "bank1a", ROMX, BANK[$1a]
 
-ChanseyPic: ; 0x68000
-	INCBIN "gfx/billboard/mon_pics/chansey.2bpp"
-ChanseySilhouettePic: ; 0x68180
-	INCBIN "gfx/billboard/mon_silhouettes/chansey.2bpp"
-TangelaPic: ; 0x68300
-	INCBIN "gfx/billboard/mon_pics/tangela.2bpp"
-TangelaSilhouettePic: ; 0x68480
-	INCBIN "gfx/billboard/mon_silhouettes/tangela.2bpp"
-KangaskhanPic: ; 0x68600
-	INCBIN "gfx/billboard/mon_pics/kangaskhan.2bpp"
-KangaskhanSilhouettePic: ; 0x68780
-	INCBIN "gfx/billboard/mon_silhouettes/kangaskhan.2bpp"
-HorseaPic: ; 0x68900
-	INCBIN "gfx/billboard/mon_pics/horsea.2bpp"
-HorseaSilhouettePic: ; 0x68a80
-	INCBIN "gfx/billboard/mon_silhouettes/horsea.2bpp"
-SeadraPic: ; 0x68c00
-	INCBIN "gfx/billboard/mon_pics/seadra.2bpp"
-SeadraSilhouettePic: ; 0x68d80
-	INCBIN "gfx/billboard/mon_silhouettes/seadra.2bpp"
-GoldeenPic: ; 0x68f00
-	INCBIN "gfx/billboard/mon_pics/goldeen.2bpp"
-GoldeenSilhouettePic: ; 0x69080
-	INCBIN "gfx/billboard/mon_silhouettes/goldeen.2bpp"
-SeakingPic: ; 0x69200
-	INCBIN "gfx/billboard/mon_pics/seaking.2bpp"
-SeakingSilhouettePic:  ; 0x69380
-	INCBIN "gfx/billboard/mon_silhouettes/seaking.2bpp"
-StaryuPic: ; 0x69500
-	INCBIN "gfx/billboard/mon_pics/staryu.2bpp"
-StaryuSilhouettePic: ; 0x69680
-	INCBIN "gfx/billboard/mon_silhouettes/staryu.2bpp"
-StarmiePic: ; 0x69800
-	INCBIN "gfx/billboard/mon_pics/starmie.2bpp"
-StarmieSilhouettePic: ; 0x69980
-	INCBIN "gfx/billboard/mon_silhouettes/starmie.2bpp"
-Mr_MimePic: ; 0x69b00
-	INCBIN "gfx/billboard/mon_pics/mr_mime.2bpp"
-Mr_MimeSilhouettePic: ; 0x69c80
-	INCBIN "gfx/billboard/mon_silhouettes/mr_mime.2bpp"
-ScytherPic: ; 0x69e00
-	INCBIN "gfx/billboard/mon_pics/scyther.2bpp"
-ScytherSilhouettePic: ; 0x69f80
-	INCBIN "gfx/billboard/mon_silhouettes/scyther.2bpp"
-JynxPic: ; 0x6a100
-	INCBIN "gfx/billboard/mon_pics/jynx.2bpp"
-JynxSilhouettePic: ; 0x6a280
-	INCBIN "gfx/billboard/mon_silhouettes/jynx.2bpp"
-ElectabuzzPic: ; 0x6a400
-	INCBIN "gfx/billboard/mon_pics/electabuzz.2bpp"
-ElectabuzzSilhouettePic: ; 0x6a580
-	INCBIN "gfx/billboard/mon_silhouettes/electabuzz.2bpp"
-MagmarPic: ; 0x6a700
-	INCBIN "gfx/billboard/mon_pics/magmar.2bpp"
-MagmarSilhouettePic: ; 0x6a880
-	INCBIN "gfx/billboard/mon_silhouettes/magmar.2bpp"
-PinsirPic: ; 0x6aa00
-	INCBIN "gfx/billboard/mon_pics/pinsir.2bpp"
-PinsirSilhouettePic: ; 0x6ab80
-	INCBIN "gfx/billboard/mon_silhouettes/pinsir.2bpp"
-TaurosPic: ; 0x6ad00
-	INCBIN "gfx/billboard/mon_pics/tauros.2bpp"
-TaurosSilhouettePic: ; 0x6ae80
-	INCBIN "gfx/billboard/mon_silhouettes/tauros.2bpp"
+INCLUDE "data/mon_billboard_pics_3.asm"
 
 StageBlueFieldTopStatusBarSymbolsGfx_GameBoy: ; 0x6b000
 	INCBIN "gfx/stage/blue_top/status_bar_symbols_gameboy.2bpp"
@@ -34920,104 +34731,14 @@ StageBlueFieldTopBaseGameBoyGfx: ; 0x6b2a0
 
 SECTION "bank1b", ROMX, BANK[$1b]
 
-MagikarpPic: ; 0x6c000
-	INCBIN "gfx/billboard/mon_pics/magikarp.2bpp"
-MagikarpSilhouettePic: ; 0x6c180
-	INCBIN "gfx/billboard/mon_silhouettes/magikarp.2bpp"
-GyaradosPic: ; 0x6c300
-	INCBIN "gfx/billboard/mon_pics/gyarados.2bpp"
-GyaradosSilhouettePic: ; 0x6c480
-	INCBIN "gfx/billboard/mon_silhouettes/gyarados.2bpp"
-LaprasPic: ; 0x6c600
-	INCBIN "gfx/billboard/mon_pics/lapras.2bpp"
-LaprasSilhouettePic: ; 0x6c780
-	INCBIN "gfx/billboard/mon_silhouettes/lapras.2bpp"
-DittoPic: ; 0x6c900
-	INCBIN "gfx/billboard/mon_pics/ditto.2bpp"
-DittoSilhouettePic: ; 0x6ca80
-	INCBIN "gfx/billboard/mon_silhouettes/ditto.2bpp"
-EeveePic: ; 0x6cc00
-	INCBIN "gfx/billboard/mon_pics/eevee.2bpp"
-EeveeSilhouettePic: ; 0x6cd80
-	INCBIN "gfx/billboard/mon_silhouettes/eevee.2bpp"
-VaporeonPic: ; 0x6cf00
-	INCBIN "gfx/billboard/mon_pics/vaporeon.2bpp"
-VaporeonSilhouettePic: ; 0x6d080
-	INCBIN "gfx/billboard/mon_silhouettes/vaporeon.2bpp"
-JolteonPic: ; 0x6d200
-	INCBIN "gfx/billboard/mon_pics/jolteon.2bpp"
-JolteonSilhouettePic:  ; 0x6d380
-	INCBIN "gfx/billboard/mon_silhouettes/jolteon.2bpp"
-FlareonPic: ; 0x6d500
-	INCBIN "gfx/billboard/mon_pics/flareon.2bpp"
-FlareonSilhouettePic: ; 0x6d680
-	INCBIN "gfx/billboard/mon_silhouettes/flareon.2bpp"
-PorygonPic: ; 0x6d800
-	INCBIN "gfx/billboard/mon_pics/porygon.2bpp"
-PorygonSilhouettePic: ; 0x6d980
-	INCBIN "gfx/billboard/mon_silhouettes/porygon.2bpp"
-OmanytePic: ; 0x6db00
-	INCBIN "gfx/billboard/mon_pics/omanyte.2bpp"
-OmanyteSilhouettePic: ; 0x6dc80
-	INCBIN "gfx/billboard/mon_silhouettes/omanyte.2bpp"
-OmastarPic: ; 0x6de00
-	INCBIN "gfx/billboard/mon_pics/omastar.2bpp"
-OmastarSilhouettePic: ; 0x6df80
-	INCBIN "gfx/billboard/mon_silhouettes/omastar.2bpp"
-KabutoPic: ; 0x6e100
-	INCBIN "gfx/billboard/mon_pics/kabuto.2bpp"
-KabutoSilhouettePic: ; 0x6e280
-	INCBIN "gfx/billboard/mon_silhouettes/kabuto.2bpp"
-KabutopsPic: ; 0x6e400
-	INCBIN "gfx/billboard/mon_pics/kabutops.2bpp"
-KabutopsSilhouettePic: ; 0x6e580
-	INCBIN "gfx/billboard/mon_silhouettes/kabutops.2bpp"
-AerodactylPic: ; 0x6e700
-	INCBIN "gfx/billboard/mon_pics/aerodactyl.2bpp"
-AerodactylSilhouettePic: ; 0x6e880
-	INCBIN "gfx/billboard/mon_silhouettes/aerodactyl.2bpp"
-SnorlaxPic: ; 0x6ea00
-	INCBIN "gfx/billboard/mon_pics/snorlax.2bpp"
-SnorlaxSilhouettePic: ; 0x6eb80
-	INCBIN "gfx/billboard/mon_silhouettes/snorlax.2bpp"
-ArticunoPic: ; 0x6ed00
-	INCBIN "gfx/billboard/mon_pics/articuno.2bpp"
-ArticunoSilhouettePic: ; 0x6ee80
-	INCBIN "gfx/billboard/mon_silhouettes/articuno.2bpp"
+INCLUDE "data/mon_billboard_pics_4.asm"
 
 UnusedStageGfx: ; 0x6f000
 	INCBIN "gfx/stage/unused_stage.2bpp"
 
 SECTION "bank1c", ROMX, BANK[$1c]
 
-ZapdosPic: ; 0x70000
-	INCBIN "gfx/billboard/mon_pics/zapdos.2bpp"
-ZapdosSilhouettePic: ; 0x70180
-	INCBIN "gfx/billboard/mon_silhouettes/zapdos.2bpp"
-MoltresPic: ; 0x70300
-	INCBIN "gfx/billboard/mon_pics/moltres.2bpp"
-MoltresSilhouettePic: ; 0x70480
-	INCBIN "gfx/billboard/mon_silhouettes/moltres.2bpp"
-DratiniPic: ; 0x70600
-	INCBIN "gfx/billboard/mon_pics/dratini.2bpp"
-DratiniSilhouettePic: ; 0x70780
-	INCBIN "gfx/billboard/mon_silhouettes/dratini.2bpp"
-DragonairPic: ; 0x70900
-	INCBIN "gfx/billboard/mon_pics/dragonair.2bpp"
-DragonairSilhouettePic: ; 0x70a80
-	INCBIN "gfx/billboard/mon_silhouettes/dragonair.2bpp"
-DragonitePic: ; 0x70c00
-	INCBIN "gfx/billboard/mon_pics/dragonite.2bpp"
-DragoniteSilhouettePic: ; 0x70d80
-	INCBIN "gfx/billboard/mon_silhouettes/dragonite.2bpp"
-MewtwoPic: ; 0x70f00
-	INCBIN "gfx/billboard/mon_pics/mewtwo.2bpp"
-MewtwoSilhouettePic: ; 0x71080
-	INCBIN "gfx/billboard/mon_silhouettes/mewtwo.2bpp"
-MewPic: ; 0x71200
-	INCBIN "gfx/billboard/mon_pics/mew.2bpp"
-MewSilhouettePic:  ; 0x71380
-	INCBIN "gfx/billboard/mon_silhouettes/mew.2bpp"
+INCLUDE "data/mon_billboard_pics_5.asm"
 
 Data_71500:
 	dr $71500, $73000
@@ -35027,140 +34748,14 @@ GengarBonusBaseGameBoyGfx: ; 0x73000
 
 SECTION "bank1d", ROMX, BANK[$1d]
 
-PidgeottoPic: ; 0x74000
-	INCBIN "gfx/billboard/mon_pics/pidgeotto.2bpp"
-PidgeottoSilhouettePic: ; 0x74180
-	INCBIN "gfx/billboard/mon_silhouettes/pidgeotto.2bpp"
-PidgeotPic: ; 0x74300
-	INCBIN "gfx/billboard/mon_pics/pidgeot.2bpp"
-PidgeotSilhouettePic: ; 0x74480
-	INCBIN "gfx/billboard/mon_silhouettes/pidgeot.2bpp"
-RattataPic: ; 0x74600
-	INCBIN "gfx/billboard/mon_pics/rattata.2bpp"
-RattataSilhouettePic: ; 0x74780
-	INCBIN "gfx/billboard/mon_silhouettes/rattata.2bpp"
-RaticatePic: ; 0x74900
-	INCBIN "gfx/billboard/mon_pics/raticate.2bpp"
-RaticateSilhouettePic: ; 0x74a80
-	INCBIN "gfx/billboard/mon_silhouettes/raticate.2bpp"
-SpearowPic: ; 0x74c00
-	INCBIN "gfx/billboard/mon_pics/spearow.2bpp"
-SpearowSilhouettePic: ; 0x74d80
-	INCBIN "gfx/billboard/mon_silhouettes/spearow.2bpp"
-FearowPic: ; 0x74f00
-	INCBIN "gfx/billboard/mon_pics/fearow.2bpp"
-FearowSilhouettePic: ; 0x75080
-	INCBIN "gfx/billboard/mon_silhouettes/fearow.2bpp"
-EkansPic: ; 0x75200
-	INCBIN "gfx/billboard/mon_pics/ekans.2bpp"
-EkansSilhouettePic:  ; 0x75380
-	INCBIN "gfx/billboard/mon_silhouettes/ekans.2bpp"
-ArbokPic: ; 0x75500
-	INCBIN "gfx/billboard/mon_pics/arbok.2bpp"
-ArbokSilhouettePic: ; 0x75680
-	INCBIN "gfx/billboard/mon_silhouettes/arbok.2bpp"
-PikachuPic: ; 0x75800
-	INCBIN "gfx/billboard/mon_pics/pikachu.2bpp"
-PikachuSilhouettePic: ; 0x75980
-	INCBIN "gfx/billboard/mon_silhouettes/pikachu.2bpp"
-RaichuPic: ; 0x75b00
-	INCBIN "gfx/billboard/mon_pics/raichu.2bpp"
-RaichuSilhouettePic: ; 0x75c80
-	INCBIN "gfx/billboard/mon_silhouettes/raichu.2bpp"
-SandshrewPic: ; 0x75e00
-	INCBIN "gfx/billboard/mon_pics/sandshrew.2bpp"
-SandshrewSilhouettePic: ; 0x75f80
-	INCBIN "gfx/billboard/mon_silhouettes/sandshrew.2bpp"
-SandslashPic: ; 0x76100
-	INCBIN "gfx/billboard/mon_pics/sandslash.2bpp"
-SandslashSilhouettePic: ; 0x76280
-	INCBIN "gfx/billboard/mon_silhouettes/sandslash.2bpp"
-Nidoran_FPic: ; 0x76400
-	INCBIN "gfx/billboard/mon_pics/nidoran_f.2bpp"
-Nidoran_FSilhouettePic: ; 0x76580
-	INCBIN "gfx/billboard/mon_silhouettes/nidoran_f.2bpp"
-NidorinaPic: ; 0x76700
-	INCBIN "gfx/billboard/mon_pics/nidorina.2bpp"
-NidorinaSilhouettePic: ; 0x76880
-	INCBIN "gfx/billboard/mon_silhouettes/nidorina.2bpp"
-NidoqueenPic: ; 0x76a00
-	INCBIN "gfx/billboard/mon_pics/nidoqueen.2bpp"
-NidoqueenSilhouettePic: ; 0x76b80
-	INCBIN "gfx/billboard/mon_silhouettes/nidoqueen.2bpp"
-Nidoran_MPic: ; 0x76d00
-	INCBIN "gfx/billboard/mon_pics/nidoran_m.2bpp"
-Nidoran_MSilhouettePic: ; 0x76e80
-	INCBIN "gfx/billboard/mon_silhouettes/nidoran_m.2bpp"
+INCLUDE "data/mon_billboard_pics_6.asm"
 
 StageRedFieldBottomBaseGameBoyGfx: ; 0x77000
 	INCBIN  "gfx/stage/red_bottom/red_bottom_base_gameboy.2bpp"
 
 SECTION "bank1e", ROMX, BANK[$1e]
 
-BulbasaurPic: ; 0x78000
-	INCBIN "gfx/billboard/mon_pics/bulbasaur.2bpp"
-BulbasaurSilhouettePic: ; 0x78180
-	INCBIN "gfx/billboard/mon_silhouettes/bulbasaur.2bpp"
-IvysaurPic: ; 0x78300
-	INCBIN "gfx/billboard/mon_pics/ivysaur.2bpp"
-IvysaurSilhouettePic: ; 0x78480
-	INCBIN "gfx/billboard/mon_silhouettes/ivysaur.2bpp"
-VenusaurPic: ; 0x78600
-	INCBIN "gfx/billboard/mon_pics/venusaur.2bpp"
-VenusaurSilhouettePic: ; 0x78780
-	INCBIN "gfx/billboard/mon_silhouettes/venusaur.2bpp"
-CharmanderPic: ; 0x78900
-	INCBIN "gfx/billboard/mon_pics/charmander.2bpp"
-CharmanderSilhouettePic: ; 0x78a80
-	INCBIN "gfx/billboard/mon_silhouettes/charmander.2bpp"
-CharmeleonPic: ; 0x78c00
-	INCBIN "gfx/billboard/mon_pics/charmeleon.2bpp"
-CharmeleonSilhouettePic: ; 0x78d80
-	INCBIN "gfx/billboard/mon_silhouettes/charmeleon.2bpp"
-CharizardPic: ; 0x78f00
-	INCBIN "gfx/billboard/mon_pics/charizard.2bpp"
-CharizardSilhouettePic: ; 0x79080
-	INCBIN "gfx/billboard/mon_silhouettes/charizard.2bpp"
-SquirtlePic: ; 0x79200
-	INCBIN "gfx/billboard/mon_pics/squirtle.2bpp"
-SquirtleSilhouettePic:  ; 0x79380
-	INCBIN "gfx/billboard/mon_silhouettes/squirtle.2bpp"
-WartortlePic: ; 0x79500
-	INCBIN "gfx/billboard/mon_pics/wartortle.2bpp"
-WartortleSilhouettePic: ; 0x79680
-	INCBIN "gfx/billboard/mon_silhouettes/wartortle.2bpp"
-BlastoisePic: ; 0x79800
-	INCBIN "gfx/billboard/mon_pics/blastoise.2bpp"
-BlastoiseSilhouettePic: ; 0x79980
-	INCBIN "gfx/billboard/mon_silhouettes/blastoise.2bpp"
-CaterpiePic: ; 0x79b00
-	INCBIN "gfx/billboard/mon_pics/caterpie.2bpp"
-CaterpieSilhouettePic: ; 0x79c80
-	INCBIN "gfx/billboard/mon_silhouettes/caterpie.2bpp"
-MetapodPic: ; 0x79e00
-	INCBIN "gfx/billboard/mon_pics/metapod.2bpp"
-MetapodSilhouettePic: ; 0x79f80
-	INCBIN "gfx/billboard/mon_silhouettes/metapod.2bpp"
-ButterfreePic: ; 0x7a100
-	INCBIN "gfx/billboard/mon_pics/butterfree.2bpp"
-ButterfreeSilhouettePic: ; 0x7a280
-	INCBIN "gfx/billboard/mon_silhouettes/butterfree.2bpp"
-WeedlePic: ; 0x7a400
-	INCBIN "gfx/billboard/mon_pics/weedle.2bpp"
-WeedleSilhouettePic: ; 0x7a580
-	INCBIN "gfx/billboard/mon_silhouettes/weedle.2bpp"
-KakunaPic: ; 0x7a700
-	INCBIN "gfx/billboard/mon_pics/kakuna.2bpp"
-KakunaSilhouettePic: ; 0x7a880
-	INCBIN "gfx/billboard/mon_silhouettes/kakuna.2bpp"
-BeedrillPic: ; 0x7aa00
-	INCBIN "gfx/billboard/mon_pics/beedrill.2bpp"
-BeedrillSilhouettePic: ; 0x7ab80
-	INCBIN "gfx/billboard/mon_silhouettes/beedrill.2bpp"
-PidgeyPic: ; 0x7ad00
-	INCBIN "gfx/billboard/mon_pics/pidgey.2bpp"
-PidgeySilhouettePic: ; 0x7ae80
-	INCBIN "gfx/billboard/mon_silhouettes/pidgey.2bpp"
+INCLUDE "data/mon_billboard_pics_7.asm"
 
 BonusMultiplierX1OnPic: ; 0x7b000
 	INCBIN "gfx/billboard/slot/bonusmultiplierX1_on.2bpp"
@@ -35187,38 +34782,7 @@ INCLUDE "data/mon_billboard_palettes_2.asm"
 
 SECTION "bank1f", ROMX, BANK[$1f]
 
-SlowpokeAnimatedPic: ; 0x7c000
-	INCBIN "gfx/billboard/mon_animated/slowpoke.w32.interleave.2bpp"
-MagnemiteAnimatedPic: ; 0x7c300
-	INCBIN "gfx/billboard/mon_animated/magnemite.w32.interleave.2bpp"
-FarfetchdAnimatedPic: ; 0x7c600
-	INCBIN "gfx/billboard/mon_animated/farfetch_d.w32.interleave.2bpp"
-DoduoAnimatedPic: ; 0x7c900
-	INCBIN "gfx/billboard/mon_animated/doduo.w32.interleave.2bpp"
-SeelAnimatedPic: ; 0x7cc00
-	INCBIN "gfx/billboard/mon_animated/seel.w32.interleave.2bpp"
-GrimerAnimatedPic: ; 0x7cf00
-	INCBIN "gfx/billboard/mon_animated/grimer.w32.interleave.2bpp"
-ShellderAnimatedPic: ; 0x7d200
-	INCBIN "gfx/billboard/mon_animated/shellder.w32.interleave.2bpp"
-GastlyAnimatedPic: ; 0x7d500
-	INCBIN "gfx/billboard/mon_animated/gastly.w32.interleave.2bpp"
-OnixAnimatedPic: ; 0x7d800
-	INCBIN "gfx/billboard/mon_animated/onix.w32.interleave.2bpp"
-DrowzeeAnimatedPic: ; 0x7db00
-	INCBIN "gfx/billboard/mon_animated/drowzee.w32.interleave.2bpp"
-KrabbyAnimatedPic: ; 0x7de00
-	INCBIN "gfx/billboard/mon_animated/krabby.w32.interleave.2bpp"
-VoltorbAnimatedPic: ; 0x7e100
-	INCBIN "gfx/billboard/mon_animated/voltorb.w32.interleave.2bpp"
-ExeggcuteAnimatedPic: ; 0x7e400
-	INCBIN "gfx/billboard/mon_animated/exeggcute.w32.interleave.2bpp"
-CuboneAnimatedPic: ; 0x7e700
-	INCBIN "gfx/billboard/mon_animated/cubone.w32.interleave.2bpp"
-HitmonleeAnimatedPic: ; 0x7ea00
-	INCBIN "gfx/billboard/mon_animated/hitmonlee.w32.interleave.2bpp"
-HitmonchanAnimatedPic: ; 0x7ed00
-	INCBIN "gfx/billboard/mon_animated/hitmonchan.w32.interleave.2bpp"
+INCLUDE "data/mon_animated_pics_1.asm"
 
 MewtwoBonusBaseGameBoyGfx: ; 0x7f000
 	INCBIN "gfx/stage/mewtwo_bonus/mewtwo_bonus_base_gameboy.2bpp"
@@ -35228,38 +34792,7 @@ EraseAllDataGfx: ; 0x7fd00: ; 0x7fd00
 
 SECTION "bank20", ROMX, BANK[$20]
 
-LickitungAnimatedPic: ; 0x80000
-	INCBIN "gfx/billboard/mon_animated/lickitung.w32.interleave.2bpp"
-KoffingAnimatedPic: ; 0x80300
-	INCBIN "gfx/billboard/mon_animated/koffing.w32.interleave.2bpp"
-RhyhornAnimatedPic: ; 0x80600
-	INCBIN "gfx/billboard/mon_animated/rhyhorn.w32.interleave.2bpp"
-ChanseyAnimatedPic: ; 0x80900
-	INCBIN "gfx/billboard/mon_animated/chansey.w32.interleave.2bpp"
-TangelaAnimatedPic: ; 0x80c00
-	INCBIN "gfx/billboard/mon_animated/tangela.w32.interleave.2bpp"
-KangaskhanAnimatedPic: ; 0x80f00
-	INCBIN "gfx/billboard/mon_animated/kangaskhan.w32.interleave.2bpp"
-HorseaAnimatedPic: ; 0x81200
-	INCBIN "gfx/billboard/mon_animated/horsea.w32.interleave.2bpp"
-GoldeenAnimatedPic: ; 0x81500
-	INCBIN "gfx/billboard/mon_animated/goldeen.w32.interleave.2bpp"
-StaryuAnimatedPic: ; 0x81800
-	INCBIN "gfx/billboard/mon_animated/staryu.w32.interleave.2bpp"
-MrMimeAnimatedPic: ; 0x81b00
-	INCBIN "gfx/billboard/mon_animated/mr_mime.w32.interleave.2bpp"
-ScytherAnimatedPic: ; 0x81e00
-	INCBIN "gfx/billboard/mon_animated/scyther.w32.interleave.2bpp"
-JynxAnimatedPic: ; 0x82100
-	INCBIN "gfx/billboard/mon_animated/jynx.w32.interleave.2bpp"
-ElectabuzzAnimatedPic: ; 0x82400
-	INCBIN "gfx/billboard/mon_animated/electabuzz.w32.interleave.2bpp"
-MagmarAnimatedPic: ; 0x82700
-	INCBIN "gfx/billboard/mon_animated/magmar.w32.interleave.2bpp"
-PinsirAnimatedPic: ; 0x82a00
-	INCBIN "gfx/billboard/mon_animated/pinsir.w32.interleave.2bpp"
-TaurosAnimatedPic: ; 0x82d00
-	INCBIN "gfx/billboard/mon_animated/tauros.w32.interleave.2bpp"
+INCLUDE "data/mon_animated_pics_2.asm"
 
 MewtwoBonusBaseGameBoyColorGfx: ; 0x83000
 	INCBIN "gfx/stage/mewtwo_bonus/mewtwo_bonus_base_gameboycolor.2bpp"
@@ -35269,37 +34802,9 @@ StageDiglettBonusCollisionMasks: ; 0x83d00
 
 SECTION "bank21", ROMX, BANK[$21]
 
-MagikarpAnimatedPic: ; 0x84000
-	INCBIN "gfx/billboard/mon_animated/magikarp.w32.interleave.2bpp"
-LaprasAnimatedPic: ; 0x84300
-	INCBIN "gfx/billboard/mon_animated/lapras.w32.interleave.2bpp"
-DittoAnimatedPic: ; 0x84600
-	INCBIN "gfx/billboard/mon_animated/ditto.w32.interleave.2bpp"
-EeveeAnimatedPic: ; 0x84900
-	INCBIN "gfx/billboard/mon_animated/eevee.w32.interleave.2bpp"
-PorygonAnimatedPic: ; 0x84c00
-	INCBIN "gfx/billboard/mon_animated/porygon.w32.interleave.2bpp"
-OmanyteAnimatedPic: ; 0x84f00
-	INCBIN "gfx/billboard/mon_animated/omanyte.w32.interleave.2bpp"
-KabutoAnimatedPic: ; 0x85200
-	INCBIN "gfx/billboard/mon_animated/kabuto.w32.interleave.2bpp"
-AerodactylAnimatedPic: ; 0x85500
-	INCBIN "gfx/billboard/mon_animated/aerodactyl.w32.interleave.2bpp"
-SnorlaxAnimatedPic: ; 0x85800
-	INCBIN "gfx/billboard/mon_animated/snorlax.w32.interleave.2bpp"
-ArticunoAnimatedPic: ; 0x85b00
-	INCBIN "gfx/billboard/mon_animated/articuno.w32.interleave.2bpp"
-ZapdosAnimatedPic: ; 0x85e00
-	INCBIN "gfx/billboard/mon_animated/zapdos.w32.interleave.2bpp"
-MoltresAnimatedPic: ; 0x86100
-	INCBIN "gfx/billboard/mon_animated/moltres.w32.interleave.2bpp"
-DratiniAnimatedPic: ; 0x86400
-	INCBIN "gfx/billboard/mon_animated/dratini.w32.interleave.2bpp"
-MewtwoAnimatedPic: ; 0x86700
-	INCBIN "gfx/billboard/mon_animated/mewtwo.w32.interleave.2bpp"
-MewAnimatedPic: ; 0x86a00
-	INCBIN "gfx/billboard/mon_animated/mew.w32.interleave.2bpp"
-	dr $86d00, $87000
+INCLUDE "data/mon_animated_pics_3.asm"
+
+	ds $300 ; free space
 
 DiglettBonusBaseGameBoyColorGfx: ; 0x87000
 	INCBIN "gfx/stage/diglett_bonus/diglett_bonus_base_gameboycolor.2bpp"
@@ -35312,38 +34817,7 @@ GengarBonusHaunter2Gfx: ; 0x87ea0
 
 SECTION "bank22", ROMX, BANK[$22]
 
-ZubatAnimatedPic: ; 0x88000
-	INCBIN "gfx/billboard/mon_animated/zubat.w32.interleave.2bpp"
-OddishAnimatedPic: ; 0x88300
-	INCBIN "gfx/billboard/mon_animated/oddish.w32.interleave.2bpp"
-ParasAnimatedPic: ; 0x88600
-	INCBIN "gfx/billboard/mon_animated/paras.w32.interleave.2bpp"
-VenonatAnimatedPic: ; 0x88900
-	INCBIN "gfx/billboard/mon_animated/venonat.w32.interleave.2bpp"
-DiglettAnimatedPic: ; 0x88c00
-	INCBIN "gfx/billboard/mon_animated/diglett.w32.interleave.2bpp"
-MeowthAnimatedPic: ; 0x88f00
-	INCBIN "gfx/billboard/mon_animated/meowth.w32.interleave.2bpp"
-PsyduckAnimatedPic: ; 0x89200
-	INCBIN "gfx/billboard/mon_animated/psyduck.w32.interleave.2bpp"
-MankeyAnimatedPic: ; 0x89500
-	INCBIN "gfx/billboard/mon_animated/mankey.w32.interleave.2bpp"
-GrowlitheAnimatedPic: ; 0x89800
-	INCBIN "gfx/billboard/mon_animated/growlithe.w32.interleave.2bpp"
-PoliwagAnimatedPic: ; 0x89b00
-	INCBIN "gfx/billboard/mon_animated/poliwag.w32.interleave.2bpp"
-AbraAnimatedPic: ; 0x89e00
-	INCBIN "gfx/billboard/mon_animated/abra.w32.interleave.2bpp"
-MachopAnimatedPic: ; 0x8a100
-	INCBIN "gfx/billboard/mon_animated/machop.w32.interleave.2bpp"
-BellsproutAnimatedPic: ; 0x8a400
-	INCBIN "gfx/billboard/mon_animated/bellsprout.w32.interleave.2bpp"
-TentacoolAnimatedPic: ; 0x8a700
-	INCBIN "gfx/billboard/mon_animated/tentacool.w32.interleave.2bpp"
-GeodudeAnimatedPic: ; 0x8aa00
-	INCBIN "gfx/billboard/mon_animated/geodude.w32.interleave.2bpp"
-PonytaAnimatedPic: ; 0x8ad00
-	INCBIN "gfx/billboard/mon_animated/ponyta.w32.interleave.2bpp"
+INCLUDE "data/mon_animated_pics_4.asm"
 
 FieldSelectScreenGfx:
 FieldSelectBlinkingBorderGfx: ; 0x8b000
@@ -35359,38 +34833,7 @@ INCLUDE "data/mon_billboard_palettes_3.asm"
 
 SECTION "bank23", ROMX, BANK[$23]
 
-BulbasaurAnimatedPic: ; 0x8c000
-	INCBIN "gfx/billboard/mon_animated/bulbasaur.w32.interleave.2bpp"
-CharmanderAnimatedPic: ; 0x8c300
-	INCBIN "gfx/billboard/mon_animated/charmander.w32.interleave.2bpp"
-SquirtleAnimatedPic: ; 0x8c600
-	INCBIN "gfx/billboard/mon_animated/squirtle.w32.interleave.2bpp"
-CaterpieAnimatedPic: ; 0x8c900
-	INCBIN "gfx/billboard/mon_animated/caterpie.w32.interleave.2bpp"
-WeedleAnimatedPic: ; 0x8cc00
-	INCBIN "gfx/billboard/mon_animated/weedle.w32.interleave.2bpp"
-PidgeyAnimatedPic: ; 0x8cf00
-	INCBIN "gfx/billboard/mon_animated/pidgey.w32.interleave.2bpp"
-RattataAnimatedPic: ; 0x8d200
-	INCBIN "gfx/billboard/mon_animated/rattata.w32.interleave.2bpp"
-SpearowAnimatedPic: ; 0x8d500
-	INCBIN "gfx/billboard/mon_animated/spearow.w32.interleave.2bpp"
-EkansAnimatedPic: ; 0x8d800
-	INCBIN "gfx/billboard/mon_animated/ekans.w32.interleave.2bpp"
-PikachuAnimatedPic: ; 0x8db00
-	INCBIN "gfx/billboard/mon_animated/pikachu.w32.interleave.2bpp"
-SandshrewAnimatedPic: ; 0x8de00
-	INCBIN "gfx/billboard/mon_animated/sandshrew.w32.interleave.2bpp"
-NidoranFAnimatedPic: ; 0x8e100
-	INCBIN "gfx/billboard/mon_animated/nidoran_f.w32.interleave.2bpp"
-NidoranMAnimatedPic: ; 0x8e400
-	INCBIN "gfx/billboard/mon_animated/nidoran_m.w32.interleave.2bpp"
-ClefairyAnimatedPic: ; 0x8e700
-	INCBIN "gfx/billboard/mon_animated/clefairy.w32.interleave.2bpp"
-VulpixAnimatedPic: ; 0x8ea00
-	INCBIN "gfx/billboard/mon_animated/vulpix.w32.interleave.2bpp"
-JigglypuffAnimatedPic: ; 0x8ed00
-	INCBIN "gfx/billboard/mon_animated/jigglypuff.w32.interleave.2bpp"
+INCLUDE "data/mon_animated_pics_5.asm"
 
 DiglettBonusBaseGameBoyGfx: ; 0x8f000
 	INCBIN "gfx/stage/diglett_bonus/diglett_bonus_base_gameboy.2bpp"

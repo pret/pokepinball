@@ -35017,70 +35017,7 @@ SeafoamIslandsBillboardBGPalette2: ; 0x8fff8
 
 SECTION "bank24", ROMX, BANK[$24]
 
-HypnoPic: ; 0x90000
-	INCBIN "gfx/billboard/mon_pics/hypno.2bpp"
-HypnoSilhouettePic: ; 0x90180
-	INCBIN "gfx/billboard/mon_silhouettes/hypno.2bpp"
-KrabbyPic: ; 0x90300
-	INCBIN "gfx/billboard/mon_pics/krabby.2bpp"
-KrabbySilhouettePic: ; 0x90480
-	INCBIN "gfx/billboard/mon_silhouettes/krabby.2bpp"
-KinglerPic: ; 0x90600
-	INCBIN "gfx/billboard/mon_pics/kingler.2bpp"
-KinglerSilhouettePic: ; 0x90780
-	INCBIN "gfx/billboard/mon_silhouettes/kingler.2bpp"
-VoltorbPic: ; 0x90900
-	INCBIN "gfx/billboard/mon_pics/voltorb.2bpp"
-VoltorbSilhouettePic: ; 0x90a80
-	INCBIN "gfx/billboard/mon_silhouettes/voltorb.2bpp"
-ElectrodePic: ; 0x90c00
-	INCBIN "gfx/billboard/mon_pics/electrode.2bpp"
-ElectrodeSilhouettePic: ; 0x90d80
-	INCBIN "gfx/billboard/mon_silhouettes/electrode.2bpp"
-ExeggcutePic: ; 0x90f00
-	INCBIN "gfx/billboard/mon_pics/exeggcute.2bpp"
-ExeggcuteSilhouettePic: ; 0x91080
-	INCBIN "gfx/billboard/mon_silhouettes/exeggcute.2bpp"
-ExeggutorPic: ; 0x91200
-	INCBIN "gfx/billboard/mon_pics/exeggutor.2bpp"
-ExeggutorSilhouettePic:  ; 0x91380
-	INCBIN "gfx/billboard/mon_silhouettes/exeggutor.2bpp"
-CubonePic: ; 0x91500
-	INCBIN "gfx/billboard/mon_pics/cubone.2bpp"
-CuboneSilhouettePic: ; 0x91680
-	INCBIN "gfx/billboard/mon_silhouettes/cubone.2bpp"
-MarowakPic: ; 0x91800
-	INCBIN "gfx/billboard/mon_pics/marowak.2bpp"
-MarowakSilhouettePic: ; 0x91980
-	INCBIN "gfx/billboard/mon_silhouettes/marowak.2bpp"
-HitmonleePic: ; 0x91b00
-	INCBIN "gfx/billboard/mon_pics/hitmonlee.2bpp"
-HitmonleeSilhouettePic: ; 0x91c80
-	INCBIN "gfx/billboard/mon_silhouettes/hitmonlee.2bpp"
-HitmonchanPic: ; 0x91e00
-	INCBIN "gfx/billboard/mon_pics/hitmonchan.2bpp"
-HitmonchanSilhouettePic: ; 0x91f80
-	INCBIN "gfx/billboard/mon_silhouettes/hitmonchan.2bpp"
-LickitungPic: ; 0x92100
-	INCBIN "gfx/billboard/mon_pics/lickitung.2bpp"
-LickitungSilhouettePic: ; 0x92280
-	INCBIN "gfx/billboard/mon_silhouettes/lickitung.2bpp"
-KoffingPic: ; 0x92400
-	INCBIN "gfx/billboard/mon_pics/koffing.2bpp"
-KoffingSilhouettePic: ; 0x92580
-	INCBIN "gfx/billboard/mon_silhouettes/koffing.2bpp"
-WeezingPic: ; 0x92700
-	INCBIN "gfx/billboard/mon_pics/weezing.2bpp"
-WeezingSilhouettePic: ; 0x92880
-	INCBIN "gfx/billboard/mon_silhouettes/weezing.2bpp"
-RhyhornPic: ; 0x92a00
-	INCBIN "gfx/billboard/mon_pics/rhyhorn.2bpp"
-RhyhornSilhouettePic: ; 0x92b80
-	INCBIN "gfx/billboard/mon_silhouettes/rhyhorn.2bpp"
-RhydonPic: ; 0x92d00
-	INCBIN "gfx/billboard/mon_pics/rhydon.2bpp"
-RhydonSilhouettePic: ; 0x92e80
-	INCBIN "gfx/billboard/mon_silhouettes/rhydon.2bpp"
+INCLUDE "data/mon_gfx/mon_billboard_pics_8.asm"
 
 SeelBonusBaseGameBoyGfx: ; 0x93000
 	INCBIN "gfx/stage/seel_bonus/seel_bonus_base_gameboy.2bpp"
@@ -35100,70 +35037,7 @@ IndigoPlateauBillboardBGPaletteMap: ; 0x93c18
 
 SECTION "bank25", ROMX, BANK[$25]
 
-MagnemitePic: ; 0x94000
-	INCBIN "gfx/billboard/mon_pics/magnemite.2bpp"
-MagnemiteSilhouettePic: ; 0x94180
-	INCBIN "gfx/billboard/mon_silhouettes/magnemite.2bpp"
-MagnetonPic: ; 0x94300
-	INCBIN "gfx/billboard/mon_pics/magneton.2bpp"
-MagnetonSilhouettePic: ; 0x94480
-	INCBIN "gfx/billboard/mon_silhouettes/magneton.2bpp"
-Farfetch_dPic: ; 0x94600
-	INCBIN "gfx/billboard/mon_pics/farfetch_d.2bpp"
-Farfetch_dSilhouettePic: ; 0x94780
-	INCBIN "gfx/billboard/mon_silhouettes/farfetch_d.2bpp"
-DoduoPic: ; 0x94900
-	INCBIN "gfx/billboard/mon_pics/doduo.2bpp"
-DoduoSilhouettePic: ; 0x94a80
-	INCBIN "gfx/billboard/mon_silhouettes/doduo.2bpp"
-DodrioPic: ; 0x94c00
-	INCBIN "gfx/billboard/mon_pics/dodrio.2bpp"
-DodrioSilhouettePic: ; 0x94d80
-	INCBIN "gfx/billboard/mon_silhouettes/dodrio.2bpp"
-SeelPic: ; 0x94f00
-	INCBIN "gfx/billboard/mon_pics/seel.2bpp"
-SeelSilhouettePic: ; 0x95080
-	INCBIN "gfx/billboard/mon_silhouettes/seel.2bpp"
-DewgongPic: ; 0x95200
-	INCBIN "gfx/billboard/mon_pics/dewgong.2bpp"
-DewgongSilhouettePic:  ; 0x95380
-	INCBIN "gfx/billboard/mon_silhouettes/dewgong.2bpp"
-GrimerPic: ; 0x95500
-	INCBIN "gfx/billboard/mon_pics/grimer.2bpp"
-GrimerSilhouettePic: ; 0x95680
-	INCBIN "gfx/billboard/mon_silhouettes/grimer.2bpp"
-MukPic: ; 0x95800
-	INCBIN "gfx/billboard/mon_pics/muk.2bpp"
-MukSilhouettePic: ; 0x95980
-	INCBIN "gfx/billboard/mon_silhouettes/muk.2bpp"
-ShellderPic: ; 0x95b00
-	INCBIN "gfx/billboard/mon_pics/shellder.2bpp"
-ShellderSilhouettePic: ; 0x95c80
-	INCBIN "gfx/billboard/mon_silhouettes/shellder.2bpp"
-CloysterPic: ; 0x95e00
-	INCBIN "gfx/billboard/mon_pics/cloyster.2bpp"
-CloysterSilhouettePic: ; 0x95f80
-	INCBIN "gfx/billboard/mon_silhouettes/cloyster.2bpp"
-GastlyPic: ; 0x96100
-	INCBIN "gfx/billboard/mon_pics/gastly.2bpp"
-GastlySilhouettePic: ; 0x96280
-	INCBIN "gfx/billboard/mon_silhouettes/gastly.2bpp"
-HaunterPic: ; 0x96400
-	INCBIN "gfx/billboard/mon_pics/haunter.2bpp"
-HaunterSilhouettePic: ; 0x96580
-	INCBIN "gfx/billboard/mon_silhouettes/haunter.2bpp"
-GengarPic: ; 0x96700
-	INCBIN "gfx/billboard/mon_pics/gengar.2bpp"
-GengarSilhouettePic: ; 0x96880
-	INCBIN "gfx/billboard/mon_silhouettes/gengar.2bpp"
-OnixPic: ; 0x96a00
-	INCBIN "gfx/billboard/mon_pics/onix.2bpp"
-OnixSilhouettePic: ; 0x96b80
-	INCBIN "gfx/billboard/mon_silhouettes/onix.2bpp"
-DrowzeePic: ; 0x96d00
-	INCBIN "gfx/billboard/mon_pics/drowzee.2bpp"
-DrowzeeSilhouettePic: ; 0x96e80
-	INCBIN "gfx/billboard/mon_silhouettes/drowzee.2bpp"
+INCLUDE "data/mon_gfx/mon_billboard_pics_9.asm"
 
 SeelBonusBaseGameBoyColorGfx: ; 0x97000
 	INCBIN "gfx/stage/seel_bonus/seel_bonus_base_gameboycolor.2bpp"
@@ -35177,70 +35051,7 @@ StageRedFieldTopGfx2: ; 0x97e00
 
 SECTION "bank26", ROMX, BANK[$26]
 
-AlakazamPic: ; 0x98000
-	INCBIN "gfx/billboard/mon_pics/alakazam.2bpp"
-AlakazamSilhouettePic: ; 0x98180
-	INCBIN "gfx/billboard/mon_silhouettes/alakazam.2bpp"
-MachopPic: ; 0x98300
-	INCBIN "gfx/billboard/mon_pics/machop.2bpp"
-MachopSilhouettePic: ; 0x98480
-	INCBIN "gfx/billboard/mon_silhouettes/machop.2bpp"
-MachokePic: ; 0x98600
-	INCBIN "gfx/billboard/mon_pics/machoke.2bpp"
-MachokeSilhouettePic: ; 0x98780
-	INCBIN "gfx/billboard/mon_silhouettes/machoke.2bpp"
-MachampPic: ; 0x98900
-	INCBIN "gfx/billboard/mon_pics/machamp.2bpp"
-MachampSilhouettePic: ; 0x98a80
-	INCBIN "gfx/billboard/mon_silhouettes/machamp.2bpp"
-BellsproutPic: ; 0x98c00
-	INCBIN "gfx/billboard/mon_pics/bellsprout.2bpp"
-BellsproutSilhouettePic: ; 0x98d80
-	INCBIN "gfx/billboard/mon_silhouettes/bellsprout.2bpp"
-WeepinbellPic: ; 0x98f00
-	INCBIN "gfx/billboard/mon_pics/weepinbell.2bpp"
-WeepinbellSilhouettePic: ; 0x97080
-	INCBIN "gfx/billboard/mon_silhouettes/weepinbell.2bpp"
-VictreebellPic: ; 0x97200
-	INCBIN "gfx/billboard/mon_pics/victreebell.2bpp"
-VictreebellSilhouettePic:  ; 0x97380
-	INCBIN "gfx/billboard/mon_silhouettes/victreebell.2bpp"
-TentacoolPic: ; 0x97500
-	INCBIN "gfx/billboard/mon_pics/tentacool.2bpp"
-TentacoolSilhouettePic: ; 0x97680
-	INCBIN "gfx/billboard/mon_silhouettes/tentacool.2bpp"
-TentacruelPic: ; 0x97800
-	INCBIN "gfx/billboard/mon_pics/tentacruel.2bpp"
-TentacruelSilhouettePic: ; 0x97980
-	INCBIN "gfx/billboard/mon_silhouettes/tentacruel.2bpp"
-GeodudePic: ; 0x97b00
-	INCBIN "gfx/billboard/mon_pics/geodude.2bpp"
-GeodudeSilhouettePic: ; 0x97c80
-	INCBIN "gfx/billboard/mon_silhouettes/geodude.2bpp"
-GravelerPic: ; 0x97e00
-	INCBIN "gfx/billboard/mon_pics/graveler.2bpp"
-GravelerSilhouettePic: ; 0x97f80
-	INCBIN "gfx/billboard/mon_silhouettes/graveler.2bpp"
-GolemPic: ; 0x9a100
-	INCBIN "gfx/billboard/mon_pics/golem.2bpp"
-GolemSilhouettePic: ; 0x9a280
-	INCBIN "gfx/billboard/mon_silhouettes/golem.2bpp"
-PonytaPic: ; 0x9a400
-	INCBIN "gfx/billboard/mon_pics/ponyta.2bpp"
-PonytaSilhouettePic: ; 0x9a580
-	INCBIN "gfx/billboard/mon_silhouettes/ponyta.2bpp"
-RapidashPic: ; 0x9a700
-	INCBIN "gfx/billboard/mon_pics/rapidash.2bpp"
-RapidashSilhouettePic: ; 0x9a880
-	INCBIN "gfx/billboard/mon_silhouettes/rapidash.2bpp"
-SlowpokePic: ; 0x9aa00
-	INCBIN "gfx/billboard/mon_pics/slowpoke.2bpp"
-SlowpokeSilhouettePic: ; 0x9ab80
-	INCBIN "gfx/billboard/mon_silhouettes/slowpoke.2bpp"
-SlowbroPic: ; 0x9ad00
-	INCBIN "gfx/billboard/mon_pics/slowbro.2bpp"
-SlowbroSilhouettePic: ; 0x9ae80
-	INCBIN "gfx/billboard/mon_silhouettes/slowbro.2bpp"
+INCLUDE "data/mon_gfx/mon_billboard_pics_10.asm"
 
 SeelBonusSeel3Gfx: ; 0x9b000
 	INCBIN "gfx/stage/seel_bonus/seel_3.2bpp"
@@ -35599,102 +35410,7 @@ StageRedFieldTopCollisionAttributes4: ; 0xb7400
 	INCBIN "data/collision/maps/red_stage_top_4.collision"
 	dr $b7800, $b7c00
 
-PidgeottoBillboardBGPaletteMap: ; 0xb7c00
-	db $7, $7, $7, $7, $7, $7
-	db $7, $7, $7, $7, $7, $7
-	db $7, $7, $7, $7, $7, $7
-	db $7, $7, $7, $7, $7, $7
-
-PidgeotBillboardBGPaletteMap: ; 0xb7c18
-	db $7, $7, $7, $7, $7, $7
-	db $7, $7, $7, $7, $7, $7
-	db $7, $7, $7, $7, $7, $7
-	db $7, $7, $7, $7, $7, $7
-
-RattataBillboardBGPaletteMap: ; 0xb7c30
-	db $7, $7, $7, $7, $7, $7
-	db $7, $7, $7, $7, $7, $7
-	db $7, $7, $7, $7, $7, $7
-	db $7, $7, $7, $7, $7, $7
-
-RaticateBillboardBGPaletteMap: ; 0xb7c48
-	db $7, $7, $7, $7, $7, $7
-	db $7, $7, $7, $7, $7, $7
-	db $7, $7, $7, $7, $7, $7
-	db $7, $7, $7, $7, $7, $7
-
-SpearowBillboardBGPaletteMap: ; 0xb7c60
-	db $7, $7, $7, $7, $7, $7
-	db $7, $7, $7, $7, $7, $7
-	db $7, $7, $7, $7, $7, $7
-	db $7, $7, $7, $7, $7, $7
-
-FearowBillboardBGPaletteMap: ; 0xb7c78
-	db $7, $7, $7, $7, $7, $7
-	db $7, $7, $7, $7, $7, $7
-	db $7, $7, $7, $7, $7, $7
-	db $7, $7, $7, $7, $7, $7
-
-EkansBillboardBGPaletteMap: ; 0xb7c90
-	db $7, $7, $7, $7, $7, $7
-	db $7, $7, $7, $7, $7, $7
-	db $7, $7, $7, $7, $7, $7
-	db $7, $7, $7, $7, $7, $7
-
-ArbokBillboardBGPaletteMap: ; 0xb7ca8
-	db $7, $7, $7, $7, $7, $7
-	db $7, $7, $7, $7, $7, $7
-	db $7, $7, $7, $7, $7, $7
-	db $7, $7, $7, $7, $7, $7
-
-PikachuBillboardBGPaletteMap: ; 0xb7cc0
-	db $7, $7, $7, $7, $7, $7
-	db $7, $7, $7, $7, $7, $7
-	db $7, $7, $7, $7, $7, $7
-	db $7, $7, $7, $7, $7, $7
-
-RaichuBillboardBGPaletteMap: ; 0xb7cd8
-	db $7, $7, $7, $7, $7, $7
-	db $7, $7, $7, $7, $7, $7
-	db $7, $7, $7, $7, $7, $7
-	db $7, $7, $7, $7, $7, $7
-
-SandshrewBillboardBGPaletteMap: ; 0xb7cf0
-	db $7, $7, $7, $7, $7, $7
-	db $7, $7, $7, $7, $7, $7
-	db $7, $7, $7, $7, $7, $7
-	db $7, $7, $7, $7, $7, $7
-
-SandslashBillboardBGPaletteMap: ; 0xb7d08
-	db $7, $7, $7, $7, $7, $7
-	db $7, $7, $7, $7, $7, $7
-	db $7, $7, $7, $7, $7, $7
-	db $7, $7, $7, $7, $7, $7
-
-NidoranFBillboardBGPaletteMap: ; 0xb7d20
-	db $7, $7, $7, $7, $7, $7
-	db $7, $7, $7, $7, $7, $7
-	db $7, $7, $7, $7, $7, $7
-	db $7, $7, $7, $7, $7, $7
-
-NidorinaBillboardBGPaletteMap: ; 0xb7d38
-	db $7, $7, $7, $7, $7, $7
-	db $7, $7, $7, $7, $7, $7
-	db $7, $7, $7, $7, $7, $7
-	db $7, $7, $7, $7, $7, $7
-
-NidoqueenBillboardBGPaletteMap: ; 0xb7d50
-	db $7, $7, $7, $7, $7, $7
-	db $7, $7, $7, $7, $7, $7
-	db $7, $7, $7, $7, $7, $7
-	db $7, $7, $7, $7, $7, $7
-
-NidoranMBillboardBGPaletteMap: ; 0xb7d68
-	db $7, $7, $7, $7, $7, $7
-	db $7, $7, $7, $7, $7, $7
-	db $7, $7, $7, $7, $7, $7
-	db $7, $7, $7, $7, $7, $7
-	dr $b7d80, $b8000 ; 0xb7d80
+INCLUDE "data/mon_gfx/mon_billboard_palette_maps_5.asm"
 
 SECTION "bank2e", ROMX, BANK[$2e]
 

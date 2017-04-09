@@ -12412,7 +12412,7 @@ Data_1298b: ; 0x1298b
 	db $06  ; MEW
 
 INCLUDE "data/catchem_timer_values.asm"
-INCLUDE "data/mon_gfx_pointers.asm"
+INCLUDE "data/mon_gfx/mon_gfx_pointers.asm"
 INCLUDE "data/mon_animated_sprite_types.asm"
 INCLUDE "data/collision/mon_collision_mask_pointers.asm"
 
@@ -34620,7 +34620,7 @@ GoToSeelBonusOnPic: ; 0x5bc00
 GoToSeelBonusOffPic: ; 0x5bd80
 	INCBIN "gfx/billboard/bonus_stages/gotoseelbonus_off.2bpp"
 
-INCLUDE "data/mon_billboard_palettes_1.asm"
+INCLUDE "data/mon_gfx/mon_billboard_palettes_1.asm"
 
 SECTION "bank17", ROMX, BANK[$17]
 
@@ -34702,7 +34702,7 @@ MeowthBonusBaseGameBoyGfx: ; 0x5f600
 
 SECTION "bank18", ROMX, BANK[$18]
 
-INCLUDE "data/mon_billboard_pics_1.asm"
+INCLUDE "data/mon_gfx/mon_billboard_pics_1.asm"
 
 StageRedFieldTopStatusBarSymbolsGfx_GameBoy: ; 0x63000
 	INCBIN "gfx/stage/red_top/status_bar_symbols_gameboy.2bpp"
@@ -34713,14 +34713,14 @@ StageRedFieldTopBaseGameBoyGfx: ; 0x632a0
 
 SECTION "bank19", ROMX, BANK[$19]
 
-INCLUDE "data/mon_billboard_pics_2.asm"
+INCLUDE "data/mon_gfx/mon_billboard_pics_2.asm"
 
 StageBlueFieldBottomBaseGameBoyGfx: ; 0x67000
 	INCBIN "gfx/stage/blue_bottom/blue_bottom_base_gameboy.2bpp"
 
 SECTION "bank1a", ROMX, BANK[$1a]
 
-INCLUDE "data/mon_billboard_pics_3.asm"
+INCLUDE "data/mon_gfx/mon_billboard_pics_3.asm"
 
 StageBlueFieldTopStatusBarSymbolsGfx_GameBoy: ; 0x6b000
 	INCBIN "gfx/stage/blue_top/status_bar_symbols_gameboy.2bpp"
@@ -34731,14 +34731,14 @@ StageBlueFieldTopBaseGameBoyGfx: ; 0x6b2a0
 
 SECTION "bank1b", ROMX, BANK[$1b]
 
-INCLUDE "data/mon_billboard_pics_4.asm"
+INCLUDE "data/mon_gfx/mon_billboard_pics_4.asm"
 
 UnusedStageGfx: ; 0x6f000
 	INCBIN "gfx/stage/unused_stage.2bpp"
 
 SECTION "bank1c", ROMX, BANK[$1c]
 
-INCLUDE "data/mon_billboard_pics_5.asm"
+INCLUDE "data/mon_gfx/mon_billboard_pics_5.asm"
 
 Data_71500:
 	dr $71500, $73000
@@ -34748,14 +34748,14 @@ GengarBonusBaseGameBoyGfx: ; 0x73000
 
 SECTION "bank1d", ROMX, BANK[$1d]
 
-INCLUDE "data/mon_billboard_pics_6.asm"
+INCLUDE "data/mon_gfx/mon_billboard_pics_6.asm"
 
 StageRedFieldBottomBaseGameBoyGfx: ; 0x77000
 	INCBIN  "gfx/stage/red_bottom/red_bottom_base_gameboy.2bpp"
 
 SECTION "bank1e", ROMX, BANK[$1e]
 
-INCLUDE "data/mon_billboard_pics_7.asm"
+INCLUDE "data/mon_gfx/mon_billboard_pics_7.asm"
 
 BonusMultiplierX1OnPic: ; 0x7b000
 	INCBIN "gfx/billboard/slot/bonusmultiplierX1_on.2bpp"
@@ -34778,11 +34778,11 @@ BonusMultiplierX5OnPic: ; 0x7bc00
 BonusMultiplierX5OffPic: ; 0x7bd80
 	INCBIN "gfx/billboard/slot/bonusmultiplierX5_off.2bpp"
 
-INCLUDE "data/mon_billboard_palettes_2.asm"
+INCLUDE "data/mon_gfx/mon_billboard_palettes_2.asm"
 
 SECTION "bank1f", ROMX, BANK[$1f]
 
-INCLUDE "data/mon_animated_pics_1.asm"
+INCLUDE "data/mon_gfx/mon_animated_pics_1.asm"
 
 MewtwoBonusBaseGameBoyGfx: ; 0x7f000
 	INCBIN "gfx/stage/mewtwo_bonus/mewtwo_bonus_base_gameboy.2bpp"
@@ -34792,7 +34792,7 @@ EraseAllDataGfx: ; 0x7fd00: ; 0x7fd00
 
 SECTION "bank20", ROMX, BANK[$20]
 
-INCLUDE "data/mon_animated_pics_2.asm"
+INCLUDE "data/mon_gfx/mon_animated_pics_2.asm"
 
 MewtwoBonusBaseGameBoyColorGfx: ; 0x83000
 	INCBIN "gfx/stage/mewtwo_bonus/mewtwo_bonus_base_gameboycolor.2bpp"
@@ -34802,7 +34802,7 @@ StageDiglettBonusCollisionMasks: ; 0x83d00
 
 SECTION "bank21", ROMX, BANK[$21]
 
-INCLUDE "data/mon_animated_pics_3.asm"
+INCLUDE "data/mon_gfx/mon_animated_pics_3.asm"
 
 	ds $300 ; free space
 
@@ -34817,7 +34817,7 @@ GengarBonusHaunter2Gfx: ; 0x87ea0
 
 SECTION "bank22", ROMX, BANK[$22]
 
-INCLUDE "data/mon_animated_pics_4.asm"
+INCLUDE "data/mon_gfx/mon_animated_pics_4.asm"
 
 FieldSelectScreenGfx:
 FieldSelectBlinkingBorderGfx: ; 0x8b000
@@ -34829,11 +34829,11 @@ GengarBonusGastlyGfx: ; 0x8bd00
 	INCBIN "gfx/stage/gengar_bonus/gastly.w32.interleave.2bpp"
 	dr $8be80, $8bf00
 
-INCLUDE "data/mon_billboard_palettes_3.asm"
+INCLUDE "data/mon_gfx/mon_billboard_palettes_3.asm"
 
 SECTION "bank23", ROMX, BANK[$23]
 
-INCLUDE "data/mon_animated_pics_5.asm"
+INCLUDE "data/mon_gfx/mon_animated_pics_5.asm"
 
 DiglettBonusBaseGameBoyGfx: ; 0x8f000
 	INCBIN "gfx/stage/diglett_bonus/diglett_bonus_base_gameboy.2bpp"
@@ -35489,7 +35489,7 @@ SeafoamIslandsBillboardBGPaletteMap: ; 0xabc68
 	db $7, $7, $7, $7, $7, $7
 	dr $abc80, $abf00
 
-INCLUDE "data/mon_animated_palettes_1.asm"
+INCLUDE "data/mon_gfx/mon_animated_palettes_1.asm"
 
 SECTION "bank2b", ROMX, BANK[$2b]
 
@@ -36030,12 +36030,12 @@ StageRedJapaneseCharactersGfx: ; 0xd6c00
 StageRedJapaneseCharactersGfx2: ; 0xd7000
 	INCBIN "gfx/stage/red_bottom/japanese_characters_2.2bpp"
 
-INCLUDE "data/mon_billboard_palette_maps_1.asm"
+INCLUDE "data/mon_gfx/mon_billboard_palette_maps_1.asm"
 
 SECTION "bank36", ROMX, BANK[$36]
 	dr $d8000, $d8400
 
-INCLUDE "data/mon_billboard_palette_maps_2.asm"
+INCLUDE "data/mon_gfx/mon_billboard_palette_maps_2.asm"
 
 SaverTextOffGfx: ; 0xd8c00
 	INCBIN "gfx/stage/saver_off.2bpp"
@@ -36054,7 +36054,7 @@ Data_d8f60:
 StageRedFieldBottomCollisionMasks: ; 0xd9000
 	INCBIN "data/collision/masks/red_stage_bottom.masks"
 
-INCLUDE "data/mon_billboard_palette_maps_3.asm"
+INCLUDE "data/mon_gfx/mon_billboard_palette_maps_3.asm"
 
 UnusedTextGfx: ; 0xd9c00
 	INCBIN "gfx/unused_text.2bpp"
@@ -36062,7 +36062,7 @@ UnusedTextGfx: ; 0xd9c00
 CopyrightTextGfx: ; 0xda000
 	INCBIN "gfx/copyright_text.2bpp"
 
-INCLUDE "data/mon_billboard_palette_maps_4.asm"
+INCLUDE "data/mon_gfx/mon_billboard_palette_maps_4.asm"
 
 StageSharedBonusSlotGlowGfx: ; 0xdac00
 	INCBIN "gfx/stage/shared/bonus_slot_glow.2bpp"
@@ -36082,8 +36082,8 @@ TimerDigitsGfx: ; 0xdb200
 StageGengarBonusCollisionMasks: ; 0xdb600
 	INCBIN "data/collision/masks/gengar_bonus.masks"
 
-INCLUDE "data/mon_animated_palettes_2.asm"
-INCLUDE "data/mon_billboard_palettes_4.asm"
+INCLUDE "data/mon_gfx/mon_animated_palettes_2.asm"
+INCLUDE "data/mon_gfx/mon_billboard_palettes_4.asm"
 
 StageRedFieldTopGfx6: ; 0xdbb80
 	INCBIN "gfx/stage/red_top/red_top_6.2bpp"
@@ -36092,7 +36092,7 @@ StageRedFieldTopGfx6: ; 0xdbb80
 StageMewtwoBonusCollisionMasks: ; 0xdbc80
 	INCBIN "data/collision/masks/mewtwo_bonus.masks"
 
-INCLUDE "data/mon_animated_palettes_3.asm"
+INCLUDE "data/mon_gfx/mon_animated_palettes_3.asm"
 
 Data_dbe80:
 	dr $dbe80, $dc000
@@ -36103,12 +36103,12 @@ StageSharedArrowsGfx: ; 0xdc000
 	INCBIN "gfx/stage/shared/arrows.2bpp"
 	dr $dc080, $dc100
 
-INCLUDE "data/mon_billboard_palettes_5.asm"
+INCLUDE "data/mon_gfx/mon_billboard_palettes_5.asm"
 
 StageMeowthBonusCollisionMasks: ; 0xdc600
 	INCBIN "data/collision/masks/meowth_bonus.masks"
 
-INCLUDE "data/mon_billboard_palettes_6.asm"
+INCLUDE "data/mon_gfx/mon_billboard_palettes_6.asm"
 
 SeelBonusPalettes: ; 0xdc880
 SeelBonusBGPalette0: ; 0xdc880

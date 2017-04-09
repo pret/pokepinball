@@ -2692,7 +2692,7 @@ Func_113a: ; 0x113a
 	inc h
 	ld h, [hl]
 	ld l, a
-	call Func_117a
+	call JumpToHL
 	pop af
 	ld [hLoadedROMBank], a
 	ld [MBC5RomBank], a
@@ -2710,7 +2710,7 @@ Func_113a: ; 0x113a
 	ld [wd7fa], a
 	ret
 
-Func_117a: ; 0x117a
+JumpToHL: ; 0x117a
 	jp [hl]
 
 LoadTileLists: ; 0x117b

@@ -15515,7 +15515,7 @@ ResolveRedStagePinballUpgradeTriggersCollision: ; 0x1535d
 	ld de, FieldMultiplierSpecialBonusText
 	call LoadTextHeader
 .asm_15447
-	call Func_155a7
+	call TransitionPinballUpgrade
 	jr Func_15450
 
 .asm_1544c
@@ -15718,20 +15718,20 @@ HandleRedStageBallTypeUpgradeCounter: ; 0x15575
 	ld a, $e
 	ld [wBallTypeCounter + 1], a
 .pokeball
-	call Func_155a7
+	call TransitionPinballUpgrade
 	ret
 
-Func_155a7: ; 0x155a7
+TransitionPinballUpgrade: ; 0x155a7
 	ld a, [wBallType]
 	ld c, a
 	sla c
 	ld b, $0
-	ld hl, PointerTable_155d7
+	ld hl, PinballUpgradeTransitionPointers
 	add hl, bc
 	ld a, [hli]
 	ld h, [hl]
 	ld l, a
-	ld a, Bank(PointerTable_155d7)
+	ld a, Bank(PinballUpgradeTransitionPointers)
 	call Func_10aa
 	; fall through
 
@@ -15754,201 +15754,421 @@ Func_155bb: ; 0x155bb
 	call Func_10c5
 	ret
 
-PointerTable_155d7:
-	dw Data_155e3 ; POKE_BALL
-	dw Data_155e3 ; POKE_BALL
-	dw Data_155fa ; GREAT_BALL
-	dw Data_15611 ; ULTRA_BALL
-	dw Data_15611 ; ULTRA_BALL
-	dw Data_15628 ; MASTER_BALL
+PinballUpgradeTransitionPointers:
+	dw TransitionToPokeBallPointers  ; POKE_BALL
+	dw TransitionToPokeBallPointers  ; POKE_BALL
+	dw TransitionToGreatBallPointers ; GREAT_BALL
+	dw TransitionToUltraBallPointers ; ULTRA_BALL
+	dw TransitionToUltraBallPointers ; ULTRA_BALL
+	dw TransitionToMasterBallPointers ; MASTER_BALL
 
-Data_155e3:
+TransitionToPokeBallPointers:
 	db 11
-	dw Data_1563f
-	dw Data_15649
-	dw Data_15653
-	dw Data_1565d
-	dw Data_15667
-	dw Data_15671
-	dw Data_1567b
-	dw Data_15685
-	dw Data_1568f
-	dw Data_15699
-	dw Data_156a3
+	dw TransitionToPokeBall_TileData_1
+	dw TransitionToPokeBall_TileData_2
+	dw TransitionToPokeBall_TileData_3
+	dw TransitionToPokeBall_TileData_4
+	dw TransitionToPokeBall_TileData_5
+	dw TransitionToPokeBall_TileData_6
+	dw TransitionToPokeBall_TileData_7
+	dw TransitionToPokeBall_TileData_8
+	dw TransitionToPokeBall_TileData_9
+	dw TransitionToPokeBall_TileData_10
+	dw TransitionToPokeBall_TileData_11
 
-Data_155fa:
+TransitionToGreatBallPointers:
 	db 11
-	dw Data_156ad
-	dw Data_156b7
-	dw Data_156c1
-	dw Data_156cb
-	dw Data_156d5
-	dw Data_156df
-	dw Data_156e9
-	dw Data_156f3
-	dw Data_156fd
-	dw Data_15707
-	dw Data_15711
+	dw TransitionToGreatBall_TileData_1
+	dw TransitionToGreatBall_TileData_2
+	dw TransitionToGreatBall_TileData_3
+	dw TransitionToGreatBall_TileData_4
+	dw TransitionToGreatBall_TileData_5
+	dw TransitionToGreatBall_TileData_6
+	dw TransitionToGreatBall_TileData_7
+	dw TransitionToGreatBall_TileData_8
+	dw TransitionToGreatBall_TileData_9
+	dw TransitionToGreatBall_TileData_10
+	dw TransitionToGreatBall_TileData_11
 
-Data_15611:
+TransitionToUltraBallPointers:
 	db 11
-	dw Data_1571b
-	dw Data_15725
-	dw Data_1572f
-	dw Data_15739
-	dw Data_15743
-	dw Data_1574d
-	dw Data_15757
-	dw Data_15761
-	dw Data_1576b
-	dw Data_15775
-	dw Data_1577f
+	dw TransitionToUltraBall_TileData_1
+	dw TransitionToUltraBall_TileData_2
+	dw TransitionToUltraBall_TileData_3
+	dw TransitionToUltraBall_TileData_4
+	dw TransitionToUltraBall_TileData_5
+	dw TransitionToUltraBall_TileData_6
+	dw TransitionToUltraBall_TileData_7
+	dw TransitionToUltraBall_TileData_8
+	dw TransitionToUltraBall_TileData_9
+	dw TransitionToUltraBall_TileData_10
+	dw TransitionToUltraBall_TileData_11
 
-Data_15628:
+TransitionToMasterBallPointers:
 	db 11
-	dw Data_15789
-	dw Data_15793
-	dw Data_1579d
-	dw Data_157a7
-	dw Data_157b1
-	dw Data_157bb
-	dw Data_157c5
-	dw Data_157cf
-	dw Data_157d9
-	dw Data_157e3
-	dw Data_157ed
+	dw TransitionToMasterBall_TileData_1
+	dw TransitionToMasterBall_TileData_2
+	dw TransitionToMasterBall_TileData_3
+	dw TransitionToMasterBall_TileData_4
+	dw TransitionToMasterBall_TileData_5
+	dw TransitionToMasterBall_TileData_6
+	dw TransitionToMasterBall_TileData_7
+	dw TransitionToMasterBall_TileData_8
+	dw TransitionToMasterBall_TileData_9
+	dw TransitionToMasterBall_TileData_10
+	dw TransitionToMasterBall_TileData_11
 
-Data_1563f:
-	dr $1563f, $15649
+TransitionToPokeBall_TileData_1:
+	dw Func_11d2
+	db $30, $03
+	dw (vTilesOB tile $40)
+	dw PinballPokeballGfx + $0
+	db Bank(PinballPokeballGfx)
+	db $00
 
-Data_15649:
-	dr $15649, $15653
+TransitionToPokeBall_TileData_2:
+	dw Func_11d2
+	db $30, $03
+	dw (vTilesOB tile $43)
+	dw PinballPokeballGfx + $30
+	db Bank(PinballPokeballGfx)
+	db $00
 
-Data_15653:
-	dr $15653, $1565d
+TransitionToPokeBall_TileData_3:
+	dw Func_11d2
+	db $30, $03
+	dw (vTilesOB tile $46)
+	dw PinballPokeballGfx + $60
+	db Bank(PinballPokeballGfx)
+	db $00
 
-Data_1565d:
-	dr $1565d, $15667
+TransitionToPokeBall_TileData_4:
+	dw Func_11d2
+	db $30, $03
+	dw (vTilesOB tile $49)
+	dw PinballPokeballGfx + $90
+	db Bank(PinballPokeballGfx)
+	db $00
 
-Data_15667:
-	dr $15667, $15671
+TransitionToPokeBall_TileData_5:
+	dw Func_11d2
+	db $30, $03
+	dw (vTilesOB tile $4c)
+	dw PinballPokeballGfx + $c0
+	db Bank(PinballPokeballGfx)
+	db $00
 
-Data_15671:
-	dr $15671, $1567b
+TransitionToPokeBall_TileData_6:
+	dw Func_11d2
+	db $30, $03
+	dw (vTilesOB tile $4f)
+	dw PinballPokeballGfx + $f0
+	db Bank(PinballPokeballGfx)
+	db $00
 
-Data_1567b:
-	dr $1567b, $15685
+TransitionToPokeBall_TileData_7:
+	dw Func_11d2
+	db $30, $03
+	dw (vTilesOB tile $52)
+	dw PinballPokeballGfx + $120
+	db Bank(PinballPokeballGfx)
+	db $00
 
-Data_15685:
-	dr $15685, $1568f
+TransitionToPokeBall_TileData_8:
+	dw Func_11d2
+	db $30, $03
+	dw (vTilesOB tile $55)
+	dw PinballPokeballGfx + $150
+	db Bank(PinballPokeballGfx)
+	db $00
 
-Data_1568f:
-	dr $1568f, $15699
+TransitionToPokeBall_TileData_9:
+	dw Func_11d2
+	db $30, $03
+	dw (vTilesOB tile $58)
+	dw PinballPokeballGfx + $180
+	db Bank(PinballPokeballGfx)
+	db $00
 
-Data_15699:
-	dr $15699, $156a3
+TransitionToPokeBall_TileData_10:
+	dw Func_11d2
+	db $30, $03
+	dw (vTilesOB tile $5b)
+	dw PinballPokeballGfx + $1b0
+	db Bank(PinballPokeballGfx)
+	db $00
 
-Data_156a3:
-	dr $156a3, $156ad
+TransitionToPokeBall_TileData_11:
+	dw Func_11d2
+	db $20, $02
+	dw (vTilesOB tile $5e)
+	dw PinballPokeballGfx + $1e0
+	db Bank(PinballPokeballGfx)
+	db $00
 
-Data_156ad:
-	dr $156ad, $156b7
+TransitionToGreatBall_TileData_1:
+	dw Func_11d2
+	db $30, $03
+	dw (vTilesOB tile $40)
+	dw PinballGreatballGfx + $0
+	db Bank(PinballGreatballGfx)
+	db $00
 
-Data_156b7:
-	dr $156b7, $156c1
+TransitionToGreatBall_TileData_2:
+	dw Func_11d2
+	db $30, $03
+	dw (vTilesOB tile $43)
+	dw PinballGreatballGfx + $30
+	db Bank(PinballGreatballGfx)
+	db $00
 
-Data_156c1:
-	dr $156c1, $156cb
+TransitionToGreatBall_TileData_3:
+	dw Func_11d2
+	db $30, $03
+	dw (vTilesOB tile $46)
+	dw PinballGreatballGfx + $60
+	db Bank(PinballGreatballGfx)
+	db $00
 
-Data_156cb:
-	dr $156cb, $156d5
+TransitionToGreatBall_TileData_4:
+	dw Func_11d2
+	db $30, $03
+	dw (vTilesOB tile $49)
+	dw PinballGreatballGfx + $90
+	db Bank(PinballGreatballGfx)
+	db $00
 
-Data_156d5:
-	dr $156d5, $156df
+TransitionToGreatBall_TileData_5:
+	dw Func_11d2
+	db $30, $03
+	dw (vTilesOB tile $4c)
+	dw PinballGreatballGfx + $c0
+	db Bank(PinballGreatballGfx)
+	db $00
 
-Data_156df:
-	dr $156df, $156e9
+TransitionToGreatBall_TileData_6:
+	dw Func_11d2
+	db $30, $03
+	dw (vTilesOB tile $4f)
+	dw PinballGreatballGfx + $f0
+	db Bank(PinballGreatballGfx)
+	db $00
 
-Data_156e9:
-	dr $156e9, $156f3
+TransitionToGreatBall_TileData_7:
+	dw Func_11d2
+	db $30, $03
+	dw (vTilesOB tile $52)
+	dw PinballGreatballGfx + $120
+	db Bank(PinballGreatballGfx)
+	db $00
 
-Data_156f3:
-	dr $156f3, $156fd
+TransitionToGreatBall_TileData_8:
+	dw Func_11d2
+	db $30, $03
+	dw (vTilesOB tile $55)
+	dw PinballGreatballGfx + $150
+	db Bank(PinballGreatballGfx)
+	db $00
 
-Data_156fd:
-	dr $156fd, $15707
+TransitionToGreatBall_TileData_9:
+	dw Func_11d2
+	db $30, $03
+	dw (vTilesOB tile $58)
+	dw PinballGreatballGfx + $180
+	db Bank(PinballGreatballGfx)
+	db $00
 
-Data_15707:
-	dr $15707, $15711
+TransitionToGreatBall_TileData_10:
+	dw Func_11d2
+	db $30, $03
+	dw (vTilesOB tile $5b)
+	dw PinballGreatballGfx + $1b0
+	db Bank(PinballGreatballGfx)
+	db $00
 
-Data_15711:
-	dr $15711, $1571b
+TransitionToGreatBall_TileData_11:
+	dw Func_11d2
+	db $20, $02
+	dw (vTilesOB tile $5e)
+	dw PinballGreatballGfx + $1e0
+	db Bank(PinballGreatballGfx)
+	db $00
 
-Data_1571b:
-	dr $1571b, $15725
+TransitionToUltraBall_TileData_1:
+	dw Func_11d2
+	db $30, $03
+	dw (vTilesOB tile $40)
+	dw PinballUltraballGfx + $0
+	db Bank(PinballUltraballGfx)
+	db $00
 
-Data_15725:
-	dr $15725, $1572f
+TransitionToUltraBall_TileData_2:
+	dw Func_11d2
+	db $30, $03
+	dw (vTilesOB tile $43)
+	dw PinballUltraballGfx + $30
+	db Bank(PinballUltraballGfx)
+	db $00
 
-Data_1572f:
-	dr $1572f, $15739
+TransitionToUltraBall_TileData_3:
+	dw Func_11d2
+	db $30, $03
+	dw (vTilesOB tile $46)
+	dw PinballUltraballGfx + $60
+	db Bank(PinballUltraballGfx)
+	db $00
 
-Data_15739:
-	dr $15739, $15743
+TransitionToUltraBall_TileData_4:
+	dw Func_11d2
+	db $30, $03
+	dw (vTilesOB tile $49)
+	dw PinballUltraballGfx + $90
+	db Bank(PinballUltraballGfx)
+	db $00
 
-Data_15743:
-	dr $15743, $1574d
+TransitionToUltraBall_TileData_5:
+	dw Func_11d2
+	db $30, $03
+	dw (vTilesOB tile $4c)
+	dw PinballUltraballGfx + $c0
+	db Bank(PinballUltraballGfx)
+	db $00
 
-Data_1574d:
-	dr $1574d, $15757
+TransitionToUltraBall_TileData_6:
+	dw Func_11d2
+	db $30, $03
+	dw (vTilesOB tile $4f)
+	dw PinballUltraballGfx + $f0
+	db Bank(PinballUltraballGfx)
+	db $00
 
-Data_15757:
-	dr $15757, $15761
+TransitionToUltraBall_TileData_7:
+	dw Func_11d2
+	db $30, $03
+	dw (vTilesOB tile $52)
+	dw PinballUltraballGfx + $120
+	db Bank(PinballUltraballGfx)
+	db $00
 
-Data_15761:
-	dr $15761, $1576b
+TransitionToUltraBall_TileData_8:
+	dw Func_11d2
+	db $30, $03
+	dw (vTilesOB tile $55)
+	dw PinballUltraballGfx + $150
+	db Bank(PinballUltraballGfx)
+	db $00
 
-Data_1576b:
-	dr $1576b, $15775
+TransitionToUltraBall_TileData_9:
+	dw Func_11d2
+	db $30, $03
+	dw (vTilesOB tile $58)
+	dw PinballUltraballGfx + $180
+	db Bank(PinballUltraballGfx)
+	db $00
 
-Data_15775:
-	dr $15775, $1577f
+TransitionToUltraBall_TileData_10:
+	dw Func_11d2
+	db $30, $03
+	dw (vTilesOB tile $5b)
+	dw PinballUltraballGfx + $1b0
+	db Bank(PinballUltraballGfx)
+	db $00
 
-Data_1577f:
-	dr $1577f, $15789
+TransitionToUltraBall_TileData_11:
+	dw Func_11d2
+	db $20, $02
+	dw (vTilesOB tile $5e)
+	dw PinballUltraballGfx + $1e0
+	db Bank(PinballUltraballGfx)
+	db $00
 
-Data_15789:
-	dr $15789, $15793
+TransitionToMasterBall_TileData_1:
+	dw Func_11d2
+	db $30, $03
+	dw (vTilesOB tile $40)
+	dw PinballMasterballGfx + $0
+	db Bank(PinballMasterballGfx)
+	db $00
 
-Data_15793:
-	dr $15793, $1579d
+TransitionToMasterBall_TileData_2:
+	dw Func_11d2
+	db $30, $03
+	dw (vTilesOB tile $43)
+	dw PinballMasterballGfx + $30
+	db Bank(PinballMasterballGfx)
+	db $00
 
-Data_1579d:
-	dr $1579d, $157a7
+TransitionToMasterBall_TileData_3:
+	dw Func_11d2
+	db $30, $03
+	dw (vTilesOB tile $46)
+	dw PinballMasterballGfx + $60
+	db Bank(PinballMasterballGfx)
+	db $00
 
-Data_157a7:
-	dr $157a7, $157b1
+TransitionToMasterBall_TileData_4:
+	dw Func_11d2
+	db $30, $03
+	dw (vTilesOB tile $49)
+	dw PinballMasterballGfx + $90
+	db Bank(PinballMasterballGfx)
+	db $00
 
-Data_157b1:
-	dr $157b1, $157bb
+TransitionToMasterBall_TileData_5:
+	dw Func_11d2
+	db $30, $03
+	dw (vTilesOB tile $4c)
+	dw PinballMasterballGfx + $c0
+	db Bank(PinballMasterballGfx)
+	db $00
 
-Data_157bb:
-	dr $157bb, $157c5
+TransitionToMasterBall_TileData_6:
+	dw Func_11d2
+	db $30, $03
+	dw (vTilesOB tile $4f)
+	dw PinballMasterballGfx + $f0
+	db Bank(PinballMasterballGfx)
+	db $00
 
-Data_157c5:
-	dr $157c5, $157cf
+TransitionToMasterBall_TileData_7:
+	dw Func_11d2
+	db $30, $03
+	dw (vTilesOB tile $52)
+	dw PinballMasterballGfx + $120
+	db Bank(PinballMasterballGfx)
+	db $00
 
-Data_157cf:
-	dr $157cf, $157d9
+TransitionToMasterBall_TileData_8:
+	dw Func_11d2
+	db $30, $03
+	dw (vTilesOB tile $55)
+	dw PinballMasterballGfx + $150
+	db Bank(PinballMasterballGfx)
+	db $00
 
-Data_157d9:
-	dr $157d9, $157e3
+TransitionToMasterBall_TileData_9:
+	dw Func_11d2
+	db $30, $03
+	dw (vTilesOB tile $58)
+	dw PinballMasterballGfx + $180
+	db Bank(PinballMasterballGfx)
+	db $00
 
-Data_157e3:
-	dr $157e3, $157ed
+TransitionToMasterBall_TileData_10:
+	dw Func_11d2
+	db $30, $03
+	dw (vTilesOB tile $5b)
+	dw PinballMasterballGfx + $1b0
+	db Bank(PinballMasterballGfx)
+	db $00
 
-Data_157ed:
-	dr $157ed, $157f7
+TransitionToMasterBall_TileData_11:
+	dw Func_11d2
+	db $20, $02
+	dw (vTilesOB tile $5e)
+	dw PinballMasterballGfx + $1e0
+	db Bank(PinballMasterballGfx)
+	db $00
 
 Data_157f7:
 	dw Data_15803
@@ -24820,7 +25040,7 @@ ResolveBlueStagePinballUpgradeTriggersCollision: ; 0x1e356
 	ld de, FieldMultiplierSpecialBonusText
 	call LoadTextHeader
 .asm_1e465
-	callba Func_155a7
+	callba TransitionPinballUpgrade
 	jr asm_1e475
 
 Func_1e471: ; 0x1e471
@@ -25008,7 +25228,7 @@ HandleBlueStageBallTypeUpgradeCounter: ; 0x1e58c
 	ld a, $e
 	ld [wBallTypeCounter + 1], a
 .pokeball
-	callba Func_155a7
+	callba TransitionPinballUpgrade
 	ret
 
 Func_1e5c5: ; 0x1e5c5

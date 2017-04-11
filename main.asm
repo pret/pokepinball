@@ -8924,69 +8924,7 @@ LoadBillboardOffPicture: ; 0xf196
 	pop hl
 	ret
 
-BillboardPicturePointers: ; 0xf1b8
-BillboardPicturePointer: MACRO
-\1_Pointer: dab \1
-ENDM
-	BillboardPicturePointer BallSaver30SecondsOnPic
-	BillboardPicturePointer BallSaver60SecondsOnPic
-	BillboardPicturePointer BallSaver90SecondsOnPic
-	BillboardPicturePointer PikachuSaverOnPic
-	BillboardPicturePointer ExtraBallOnPic
-	BillboardPicturePointer SmallRewardOnPic
-	BillboardPicturePointer BigRewardOnPic
-	BillboardPicturePointer CatchEmModeOnPic
-	BillboardPicturePointer EvolutionModeOnPic
-	BillboardPicturePointer GreatBallOnPic
-	BillboardPicturePointer UltraBallOnPic
-	BillboardPicturePointer MasterBallOnPic
-	BillboardPicturePointer BonusMultiplierOnPic
-	BillboardPicturePointer GoToGengarBonusOnPic
-	BillboardPicturePointer GoToMewtwoBonusOnPic
-	BillboardPicturePointer GoToMeowthBonusOnPic
-	BillboardPicturePointer GoToDiglettBonusOnPic
-	BillboardPicturePointer GoToSeelBonusOnPic
-	BillboardPicturePointer SmallReward100PointsOnPic
-	BillboardPicturePointer SmallReward200PointsOnPic
-	BillboardPicturePointer SmallReward300PointsOnPic
-	BillboardPicturePointer SmallReward400PointsOnPic
-	BillboardPicturePointer SmallReward500PointsOnPic
-	BillboardPicturePointer SmallReward600PointsOnPic
-	BillboardPicturePointer SmallReward700PointsOnPic
-	BillboardPicturePointer SmallReward800PointsOnPic
-	BillboardPicturePointer SmallReward900PointsOnPic
-	BillboardPicturePointer BigReward1000000PointsOnPic
-	BillboardPicturePointer BigReward2000000PointsOnPic
-	BillboardPicturePointer BigReward3000000PointsOnPic
-	BillboardPicturePointer BigReward4000000PointsOnPic
-	BillboardPicturePointer BigReward5000000PointsOnPic
-	BillboardPicturePointer BigReward6000000PointsOnPic
-	BillboardPicturePointer BigReward7000000PointsOnPic
-	BillboardPicturePointer BigReward8000000PointsOnPic
-	BillboardPicturePointer BigReward9000000PointsOnPic
-	BillboardPicturePointer BonusMultiplierX1OnPic
-	BillboardPicturePointer BonusMultiplierX2OnPic
-	BillboardPicturePointer BonusMultiplierX3OnPic
-	BillboardPicturePointer BonusMultiplierX4OnPic
-	BillboardPicturePointer BonusMultiplierX5OnPic
-	BillboardPicturePointer PalletTownPic
-	BillboardPicturePointer ViridianCityPic
-	BillboardPicturePointer ViridianForestPic
-	BillboardPicturePointer PewterCityPic
-	BillboardPicturePointer MtMoonPic
-	BillboardPicturePointer CeruleanCityPic
-	BillboardPicturePointer VermilionCitySeasidePic
-	BillboardPicturePointer VermilionCityStreetsPic
-	BillboardPicturePointer RockMountainPic
-	BillboardPicturePointer LavenderTownPic
-	BillboardPicturePointer CeladonCityPic
-	BillboardPicturePointer CyclingRoadPic
-	BillboardPicturePointer FuchsiaCityPic
-	BillboardPicturePointer SafariZonePic
-	BillboardPicturePointer SaffronCityPic
-	BillboardPicturePointer SeafoamIslandsPic
-	BillboardPicturePointer CinnabarIslandPic
-	BillboardPicturePointer IndigoPlateauPic
+INCLUDE "data/billboard/billboard_pic_pointers.asm"
 
 LoadGreyBillboardPaletteData: ; 0xf269
 	ld a, [hGameBoyColorFlag]
@@ -34755,42 +34693,8 @@ StageBlueFieldBottomBaseGameBoyColorGfx: ; 0xa4000
 StageBlueFieldBottomGfx1: ; 0xa5000
 	INCBIN "gfx/stage/blue_bottom/blue_bottom_1.2bpp"
 
-PalletTownPic: ; 0xa6000
-	INCBIN "gfx/billboard/maps/pallettown.2bpp"
-ViridianCityPic: ; 0xa6180
-	INCBIN "gfx/billboard/maps/viridiancity.2bpp"
-ViridianForestPic: ; 0xa6300
-	INCBIN "gfx/billboard/maps/viridianforest.2bpp"
-PewterCityPic: ; 0xa6480
-	INCBIN "gfx/billboard/maps/pewtercity.2bpp"
-MtMoonPic: ; 0xa6600
-	INCBIN "gfx/billboard/maps/mtmoon.2bpp"
-CeruleanCityPic: ; 0xa6780
-	INCBIN "gfx/billboard/maps/ceruleancity.2bpp"
-VermilionCitySeasidePic: ; 0xa6900
-	INCBIN "gfx/billboard/maps/vermilioncityseaside.2bpp"
-VermilionCityStreetsPic: ; 0xa6a80
-	INCBIN "gfx/billboard/maps/vermilioncitystreets.2bpp"
-RockMountainPic: ; 0xa6c00
-	INCBIN "gfx/billboard/maps/rockmountain.2bpp"
-LavenderTownPic: ; 0xa6d80
-	INCBIN "gfx/billboard/maps/lavendertown.2bpp"
-CeladonCityPic: ; 0xa6f00
-	INCBIN "gfx/billboard/maps/celadoncity.2bpp"
-CyclingRoadPic: ; 0xa7080
-	INCBIN "gfx/billboard/maps/cyclingroad.2bpp"
-FuchsiaCityPic: ; 0xa7200
-	INCBIN "gfx/billboard/maps/fuchsiacity.2bpp"
-SafariZonePic: ; 0xa7380
-	INCBIN "gfx/billboard/maps/safarizone.2bpp"
-SaffronCityPic: ; 0xa7500
-	INCBIN "gfx/billboard/maps/saffroncity.2bpp"
-SeafoamIslandsPic: ; 0xa7680
-	INCBIN "gfx/billboard/maps/seafoamislands.2bpp"
-CinnabarIslandPic: ; 0xa7800
-	INCBIN "gfx/billboard/maps/cinnabarisland.2bpp"
-IndigoPlateauPic: ; 0xa7980
-	INCBIN "gfx/billboard/maps/indigoplateau.2bpp"
+INCLUDE "data/billboard/map_pics.asm"
+
 GFX_a7b00:
 	dr $a7b00, $a8000 ; 0xa7b00
 

@@ -34674,17 +34674,8 @@ INCLUDE "data/mon_gfx/mon_billboard_pics_8.asm"
 SeelBonusBaseGameBoyGfx: ; 0x93000
 	INCBIN "gfx/stage/seel_bonus/seel_bonus_base_gameboy.2bpp"
 
-CinnabarIslandBillboardBGPaletteMap: ; 0x93c00
-	db $6, $6, $6, $6, $6, $6
-	db $6, $6, $7, $7, $6, $6
-	db $6, $6, $7, $7, $7, $6
-	db $6, $6, $6, $6, $6, $6
+INCLUDE "data/billboard/map_palette_maps_2.asm"
 
-IndigoPlateauBillboardBGPaletteMap: ; 0x93c18
-	db $6, $6, $6, $6, $6, $6
-	db $6, $6, $6, $6, $6, $6
-	db $6, $6, $6, $6, $6, $6
-	db $7, $7, $7, $7, $7, $7
 	dr $93c39, $94000
 
 SECTION "bank25", ROMX, BANK[$25]
@@ -34855,101 +34846,8 @@ HighScoresBaseGameBoyGfx: ; 0xa9a00
 MeowthBonusBaseGameBoyColorGfx: ; 0xab200
 	INCBIN "gfx/stage/meowth_bonus/meowth_bonus_base_gameboycolor.2bpp"
 
-PaletteTownBillboardBGPaletteMap: ; 0xabb00
-	db $6, $7, $7, $7, $7, $7
-	db $6, $6, $6, $6, $6, $7
-	db $6, $6, $6, $6, $6, $6
-	db $6, $6, $7, $7, $7, $7
+INCLUDE "data/billboard/map_palette_maps.asm"
 
-ViridianCityBillboardBGPaletteMap: ; 0xabb18
-	db $6, $6, $6, $6, $7, $6
-	db $6, $6, $6, $6, $7, $6
-	db $7, $7, $7, $7, $7, $6
-	db $7, $7, $7, $7, $7, $6
-
-ViridianForestBillboardBGPaletteMap: ; 0xabb30
-	db $6, $7, $6, $6, $7, $6
-	db $7, $7, $7, $7, $7, $6
-	db $6, $7, $6, $6, $7, $6
-	db $6, $7, $7, $7, $7, $6
-
-PewterCityBillboardBGPaletteMap: ; 0xabb48
-	db $7, $7, $7, $7, $7, $7
-	db $6, $6, $6, $6, $6, $6
-	db $6, $6, $6, $6, $6, $6
-	db $6, $6, $6, $6, $6, $6
-
-MtMoonBillboardBGPaletteMap: ; 0xabb60
-	db $6, $6, $6, $6, $6, $6
-	db $6, $6, $6, $6, $6, $6
-	db $6, $6, $6, $6, $6, $6
-	db $6, $6, $6, $6, $6, $6
-
-CeruleanCityBillboardBGPaletteMap: ; 0xabb78
-	db $7, $7, $7, $7, $7, $7
-	db $7, $7, $7, $7, $7, $7
-	db $6, $6, $6, $6, $6, $6
-	db $6, $6, $6, $6, $6, $6
-
-VermilionSeasideBillboardBGPaletteMap: ; 0xabb90
-	db $6, $6, $6, $6, $6, $6
-	db $6, $6, $6, $6, $6, $6
-	db $6, $6, $6, $6, $6, $6
-	db $7, $7, $7, $6, $6, $6
-
-VermilionStreetsBillboardBGPaletteMap: ; 0xabba8
-	db $6, $6, $6, $6, $6, $7
-	db $6, $6, $7, $7, $7, $7
-	db $6, $7, $7, $7, $7, $7
-	db $7, $7, $7, $7, $7, $7
-
-RockMountainBillboardBGPaletteMap: ; 0xabbc0
-	db $7, $7, $7, $7, $7, $7
-	db $6, $6, $7, $7, $7, $6
-	db $6, $6, $6, $6, $6, $6
-	db $6, $6, $6, $6, $6, $6
-
-LavenderTownBillboardBGPaletteMap: ; 0xabbd8
-	db $6, $7, $7, $6, $6, $6
-	db $6, $7, $7, $6, $6, $6
-	db $6, $6, $6, $6, $6, $6
-	db $6, $6, $6, $6, $6, $6
-
-CeladonCityBillboardBGPaletteMap: ; 0xabbf0
-	db $6, $6, $6, $6, $6, $6
-	db $6, $6, $6, $6, $6, $6
-	db $6, $6, $7, $7, $7, $7
-	db $6, $6, $7, $7, $7, $7
-
-CyclingRoadBillboardBGPaletteMap: ; 0xabc08
-	db $7, $7, $7, $7, $6, $6
-	db $7, $6, $6, $6, $6, $7
-	db $6, $6, $6, $6, $6, $7
-	db $6, $6, $6, $6, $7, $7
-
-FuchsiaCityBillboardBGPaletteMap: ; 0xabc20
-	db $7, $6, $6, $6, $6, $6
-	db $7, $6, $6, $6, $6, $6
-	db $7, $7, $7, $6, $6, $7
-	db $7, $7, $7, $7, $7, $7
-
-SafariZoneBillboardBGPaletteMap: ; 0xabc38
-	db $6, $6, $6, $6, $6, $6
-	db $7, $7, $7, $7, $7, $7
-	db $7, $7, $7, $7, $7, $7
-	db $7, $7, $7, $7, $7, $7
-
-SaffronCityBillboardBGPaletteMap: ; 0xabc50
-	db $6, $6, $6, $6, $6, $6
-	db $6, $6, $6, $6, $6, $6
-	db $7, $7, $7, $6, $7, $7
-	db $7, $7, $7, $7, $7, $7
-
-SeafoamIslandsBillboardBGPaletteMap: ; 0xabc68
-	db $7, $7, $7, $7, $7, $7
-	db $7, $7, $6, $7, $7, $7
-	db $7, $7, $7, $6, $7, $7
-	db $7, $7, $7, $7, $7, $7
 	dr $abc80, $abf00
 
 INCLUDE "data/mon_gfx/mon_animated_palettes_1.asm"

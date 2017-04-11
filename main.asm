@@ -34535,167 +34535,12 @@ INCLUDE "audio/pikapcm.asm"
 
 SECTION "bank16", ROMX, BANK[$16]
 
-BallSaver30SecondsOnPic: ; 0x58000
-	INCBIN "gfx/billboard/slot/30secondballsaver_on.2bpp"
-BallSaver30SecondsOffPic: ; 0x58180
-	INCBIN "gfx/billboard/slot/30secondballsaver_off.2bpp"
-BallSaver60SecondsOnPic: ; 0x58300
-	INCBIN "gfx/billboard/slot/60secondballsaver_on.2bpp"
-BallSaver60SecondsOffPic: ; 0x580480
-	INCBIN "gfx/billboard/slot/60secondballsaver_off.2bpp"
-BallSaver90SecondsOnPic: ; 0x58600
-	INCBIN "gfx/billboard/slot/90secondballsaver_on.2bpp"
-BallSaver90SecondsOffPic: ; 0x58780
-	INCBIN "gfx/billboard/slot/90secondballsaver_off.2bpp"
-PikachuSaverOnPic: ; 0x58900
-	INCBIN "gfx/billboard/slot/pikachusaver_on.2bpp"
-PikachuSaverOffPic: ; 0x58a80
-	INCBIN "gfx/billboard/slot/pikachusaver_off.2bpp"
-ExtraBallOnPic: ; 0x58c00
-	INCBIN "gfx/billboard/slot/extraball_on.2bpp"
-ExtraBallOffPic: ; 0x58d80
-	INCBIN "gfx/billboard/slot/extraball_off.2bpp"
-SmallRewardOnPic: ; 0x58f00
-	INCBIN "gfx/billboard/slot/small_on.2bpp"
-SmallRewardOffPic: ; 0x59080
-	INCBIN "gfx/billboard/slot/small_off.2bpp"
-BigRewardOnPic: ; 0x59200
-	INCBIN "gfx/billboard/slot/big_on.2bpp"
-BigRewardOffPic: ; 0x59380
-	INCBIN "gfx/billboard/slot/big_off.2bpp"
-CatchEmModeOnPic: ; 0x59500
-	INCBIN "gfx/billboard/slot/catchem_on.2bpp"
-CatchEmModeOffPic: ; 0x59680
-	INCBIN "gfx/billboard/slot/catchem_off.2bpp"
-EvolutionModeOnPic: ; 0x59800
-	INCBIN "gfx/billboard/slot/evolution_on.2bpp"
-EvolutionModeOffPic: ; 0x59980
-	INCBIN "gfx/billboard/slot/evolution_off.2bpp"
-GreatBallOnPic: ; 0x59b00
-	INCBIN "gfx/billboard/slot/greatball_on.2bpp"
-GreatBallOffPic: ; 0x59c80
-	INCBIN "gfx/billboard/slot/greatball_off.2bpp"
-UltraBallOnPic: ; 0x59e00
-	INCBIN "gfx/billboard/slot/ultraball_on.2bpp"
-UltraBallOffPic: ; 0x59f80
-	INCBIN "gfx/billboard/slot/ultraball_off.2bpp"
-MasterBallOnPic: ; 0x5a100
-	INCBIN "gfx/billboard/slot/masterball_on.2bpp"
-MasterBallOffPic: ; 0x5a280
-	INCBIN "gfx/billboard/slot/masterball_off.2bpp"
-BonusMultiplierOnPic: ; 0x5a400
-	INCBIN "gfx/billboard/slot/bonusmultiplier_on.2bpp"
-BonusMultiplierOffPic: ; 0x5a580
-	INCBIN "gfx/billboard/slot/bonusmultiplier_off.2bpp"
-HurryUpOnPic: ; 0x5a700
-	INCBIN "gfx/billboard/hurryup_on.2bpp"
-HurryUpOffPic: ; 0x5a880
-	INCBIN "gfx/billboard/hurryup_off.2bpp"
-HurryUp2OnPic: ; 0x5aa00
-	INCBIN "gfx/billboard/hurryup2_on.2bpp"
-HurryUp2OffPic: ; 0x5ab80
-	INCBIN "gfx/billboard/hurryup2_off.2bpp"
-GoToNextOnPic: ; 0x5ad00
-	INCBIN "gfx/billboard/gotonext_on.2bpp"
-GoToNextOffPic: ; 0x5ae80
-	INCBIN "gfx/billboard/gotonext_off.2bpp"
-GoToGengarBonusOnPic: ; 0x5b000
-	INCBIN "gfx/billboard/bonus_stages/gotogengarbonus_on.2bpp"
-GoToGengarBonusOffPic: ; 0x5b180
-	INCBIN "gfx/billboard/bonus_stages/gotogengarbonus_off.2bpp"
-GoToMewtwoBonusOnPic: ; 0x5b300
-	INCBIN "gfx/billboard/bonus_stages/gotomewtwobonus_on.2bpp"
-GoToMewtwoBonusOffPic: ; 0x5b480
-	INCBIN "gfx/billboard/bonus_stages/gotomewtwobonus_off.2bpp"
-GoToMeowthBonusOnPic: ; 0x5b600
-	INCBIN "gfx/billboard/bonus_stages/gotomeowthbonus_on.2bpp"
-GoToMeowthBonusOffPic: ; 0x5b780
-	INCBIN "gfx/billboard/bonus_stages/gotomeowthbonus_off.2bpp"
-GoToDiglettBonusOnPic: ; 0x5b900
-	INCBIN "gfx/billboard/bonus_stages/gotodiglettbonus_on.2bpp"
-GoToDiglettBonusOffPic: ; 0x5ba80
-	INCBIN "gfx/billboard/bonus_stages/gotodiglettbonus_off.2bpp"
-GoToSeelBonusOnPic: ; 0x5bc00
-	INCBIN "gfx/billboard/bonus_stages/gotoseelbonus_on.2bpp"
-GoToSeelBonusOffPic: ; 0x5bd80
-	INCBIN "gfx/billboard/bonus_stages/gotoseelbonus_off.2bpp"
-
+INCLUDE "data/billboard/billboard_pics.asm"
 INCLUDE "data/mon_gfx/mon_billboard_palettes_1.asm"
 
 SECTION "bank17", ROMX, BANK[$17]
 
-SmallReward100PointsOnPic: ; 0x5c000
-	INCBIN "gfx/billboard/slot/100points_on.2bpp"
-SmallReward100PointsOffPic: ; 0x5c180
-	INCBIN "gfx/billboard/slot/100points_off.2bpp"
-SmallReward200PointsOnPic: ; 0x5c300
-	INCBIN "gfx/billboard/slot/200points_on.2bpp"
-SmallReward200PointsOffPic: ; 0x54800
-	INCBIN "gfx/billboard/slot/200points_off.2bpp"
-SmallReward300PointsOnPic: ; 0x5c600
-	INCBIN "gfx/billboard/slot/300points_on.2bpp"
-SmallReward300PointsOffPic: ; 0x5c780
-	INCBIN "gfx/billboard/slot/300points_off.2bpp"
-SmallReward400PointsOnPic: ; 0x5c900
-	INCBIN "gfx/billboard/slot/400points_on.2bpp"
-SmallReward400PointsOffPic: ; 0x5ca80
-	INCBIN "gfx/billboard/slot/400points_off.2bpp"
-SmallReward500PointsOnPic: ; 0x5cc00
-	INCBIN "gfx/billboard/slot/500points_on.2bpp"
-SmallReward500PointsOffPic: ; 0x5cd80
-	INCBIN "gfx/billboard/slot/500points_off.2bpp"
-SmallReward600PointsOnPic: ; 0x5cf00
-	INCBIN "gfx/billboard/slot/600points_on.2bpp"
-SmallReward600PointsOffPic: ; 0x5d080
-	INCBIN "gfx/billboard/slot/600points_off.2bpp"
-SmallReward700PointsOnPic: ; 0x5d200
-	INCBIN "gfx/billboard/slot/700points_on.2bpp"
-SmallReward700PointsOffPic: ; 0x5d380
-	INCBIN "gfx/billboard/slot/700points_off.2bpp"
-SmallReward800PointsOnPic: ; 0x5d500
-	INCBIN "gfx/billboard/slot/800points_on.2bpp"
-SmallReward800PointsOffPic: ; 0x5d680
-	INCBIN "gfx/billboard/slot/800points_off.2bpp"
-SmallReward900PointsOnPic: ; 0x5d800
-	INCBIN "gfx/billboard/slot/900points_on.2bpp"
-SmallReward900PointsOffPic: ; 0x5d980
-	INCBIN "gfx/billboard/slot/900points_off.2bpp"
-BigReward1000000PointsOnPic: ; 0x5db00
-	INCBIN "gfx/billboard/slot/1000000points_on.2bpp"
-BigReward1000000PointsOffPic: ; 0x5dc80
-	INCBIN "gfx/billboard/slot/1000000points_off.2bpp"
-BigReward2000000PointsOnPic: ; 0x5de00
-	INCBIN "gfx/billboard/slot/2000000points_on.2bpp"
-BigReward2000000PointsOffPic: ; 0x5df80
-	INCBIN "gfx/billboard/slot/2000000points_off.2bpp"
-BigReward3000000PointsOnPic: ; 0x5e100
-	INCBIN "gfx/billboard/slot/3000000points_on.2bpp"
-BigReward3000000PointsOffPic: ; 0x5e280
-	INCBIN "gfx/billboard/slot/3000000points_off.2bpp"
-BigReward4000000PointsOnPic: ; 0x5e400
-	INCBIN "gfx/billboard/slot/4000000points_on.2bpp"
-BigReward4000000PointsOffPic: ; 0x5e580
-	INCBIN "gfx/billboard/slot/4000000points_off.2bpp"
-BigReward5000000PointsOnPic: ; 0x5e700
-	INCBIN "gfx/billboard/slot/5000000points_on.2bpp"
-BigReward5000000PointsOffPic: ; 0x5e880
-	INCBIN "gfx/billboard/slot/5000000points_off.2bpp"
-BigReward6000000PointsOnPic: ; 0x5ea00
-	INCBIN "gfx/billboard/slot/6000000points_on.2bpp"
-BigReward6000000PointsOffPic: ; 0x5eb80
-	INCBIN "gfx/billboard/slot/6000000points_off.2bpp"
-BigReward7000000PointsOnPic: ; 0x5ed00
-	INCBIN "gfx/billboard/slot/7000000points_on.2bpp"
-BigReward7000000PointsOffPic: ; 0x5ee80
-	INCBIN "gfx/billboard/slot/7000000points_off.2bpp"
-BigReward8000000PointsOnPic: ; 0x5f000
-	INCBIN "gfx/billboard/slot/8000000points_on.2bpp"
-BigReward8000000PointsOffPic: ; 0x5f180
-	INCBIN "gfx/billboard/slot/8000000points_off.2bpp"
-BigReward9000000PointsOnPic: ; 0x5f300
-	INCBIN "gfx/billboard/slot/9000000points_on.2bpp"
-BigReward9000000PointsOffPic: ; 0x5f480
-	INCBIN "gfx/billboard/slot/9000000points_off.2bpp"
+INCLUDE "data/billboard/reward_pics.asm"
 
 MeowthBonusBaseGameBoyGfx: ; 0x5f600
 	INCBIN "gfx/stage/meowth_bonus/meowth_bonus_base_gameboy.2bpp"
@@ -34757,26 +34602,7 @@ SECTION "bank1e", ROMX, BANK[$1e]
 
 INCLUDE "data/mon_gfx/mon_billboard_pics_7.asm"
 
-BonusMultiplierX1OnPic: ; 0x7b000
-	INCBIN "gfx/billboard/slot/bonusmultiplierX1_on.2bpp"
-BonusMultiplierX1OffPic: ; 0x7b180
-	INCBIN "gfx/billboard/slot/bonusmultiplierX1_off.2bpp"
-BonusMultiplierX2OnPic: ; 0x7b300
-	INCBIN "gfx/billboard/slot/bonusmultiplierX2_on.2bpp"
-BonusMultiplierX2OffPic: ; 0x7b480
-	INCBIN "gfx/billboard/slot/bonusmultiplierX2_off.2bpp"
-BonusMultiplierX3OnPic: ; 0x7b600
-	INCBIN "gfx/billboard/slot/bonusmultiplierX3_on.2bpp"
-BonusMultiplierX3OffPic: ; 0x7b780
-	INCBIN "gfx/billboard/slot/bonusmultiplierX3_off.2bpp"
-BonusMultiplierX4OnPic: ; 0x7b900
-	INCBIN "gfx/billboard/slot/bonusmultiplierX4_on.2bpp"
-BonusMultiplierX4OffPic: ; 0x7ba80
-	INCBIN "gfx/billboard/slot/bonusmultiplierX4_off.2bpp"
-BonusMultiplierX5OnPic: ; 0x7bc00
-	INCBIN "gfx/billboard/slot/bonusmultiplierX5_on.2bpp"
-BonusMultiplierX5OffPic: ; 0x7bd80
-	INCBIN "gfx/billboard/slot/bonusmultiplierX5_off.2bpp"
+INCLUDE "data/billboard/bonus_multiplier_pics.asm"
 
 INCLUDE "data/mon_gfx/mon_billboard_palettes_2.asm"
 

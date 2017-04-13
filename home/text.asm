@@ -677,7 +677,7 @@ Func_3475: ; 0x3475
 	callba nz, HandleFlippers
 	callba Func_84b7
 	call Func_33e3
-	call Func_926
+	call CleanOAMBuffer
 	rst AdvanceFrame
 	ld a, [wd5ca]
 	and a

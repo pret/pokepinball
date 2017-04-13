@@ -1428,21 +1428,22 @@ ClearOAMBuffer: ; 0x916
 	ld [wOAMBufferSize], a
 	ret
 
-Func_926: ; 0x926
+CleanOAMBuffer: ; 0x926
+; Cleans up any trailing unused oam slots in the oam buffer.
 	ld a, [wOAMBufferSize]
 	cp wOAMBufferEnd % $100
-	jr nc, .asm_93a
+	jr nc, .done
 	ld l, a
 	ld h, wOAMBufferEnd / $100
 	cpl
 	add (wOAMBufferEnd + 1) % $100
 	ld b, a
 	ld a, $f0
-.asm_936
+.loop
 	ld [hli], a
 	dec b
-	jr nz, .asm_936
-.asm_93a
+	jr nz, .loop
+.done
 	xor a
 	ld [wOAMBufferSize], a
 	ret
@@ -3910,8 +3911,8 @@ Func_1ffc: ; 0x1ffc
 	ld [wCurrentScreen], a
 .master_loop
 	call Func_2034
-	call Func_2043
-	call Func_926
+	call DoScreenLogic
+	call CleanOAMBuffer
 	call Func_b2e
 	rst AdvanceFrame
 	jr .master_loop
@@ -3928,7 +3929,7 @@ Func_2034: ; 0x2034
 	ld [wd803], a
 	ret
 
-Func_2043: ; 0x2043
+DoScreenLogic: ; 0x2043
 	ld a, [wCurrentScreen]
 	call CallInFollowingTable
 CallTable_2049: ; 0x2049

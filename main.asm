@@ -2545,7 +2545,7 @@ Func_c10e: ; 0xc10e
 	ld a, $2
 	ld [wd911], a
 .asm_c18f
-	call Func_926
+	call CleanOAMBuffer
 	rst AdvanceFrame
 	call Func_c1b1
 	ld a, [wd910]
@@ -3131,7 +3131,7 @@ Func_c55a: ; 0xc55a
 	sla a
 	call Func_c621
 	call Func_c554
-	call Func_926
+	call CleanOAMBuffer
 	rst AdvanceFrame
 	pop hl
 	pop bc
@@ -3173,7 +3173,7 @@ Func_c55a: ; 0xc55a
 	inc a
 	call Func_c621
 	call Func_c554
-	call Func_926
+	call CleanOAMBuffer
 	rst AdvanceFrame
 	pop hl
 	pop de
@@ -4472,7 +4472,7 @@ SendHighScores: ; 0xced1
 	ld bc, $473b
 	ld a, $8f
 	call LoadOAMData
-	call Func_926
+	call CleanOAMBuffer
 	rst AdvanceFrame
 	ld a, $1
 	ld [wd8e9], a
@@ -4507,7 +4507,7 @@ SendHighScores: ; 0xced1
 	ld bc, $473b
 	ld a, $8f
 	call LoadOAMData
-	call Func_926
+	call CleanOAMBuffer
 	call Func_1ca1
 	ld a, [wSendHighScoresAnimationFrameIndex]
 	cp $6
@@ -7873,7 +7873,7 @@ FieldVerticalTransition: ; 0xe674
 	ld [wd548], a
 	ld [wd803], a
 	callba Func_84b7
-	call Func_926
+	call CleanOAMBuffer
 	pop af
 	ld [wd548], a
 	pop af
@@ -8372,7 +8372,7 @@ Func_ed8e: ; 0xed8e
 	call nz, BankSwitch
 	callba Func_84b7
 	call Func_33e3
-	call Func_926
+	call CleanOAMBuffer
 	rst AdvanceFrame
 	ld a, [wd7af]
 	and a
@@ -30728,7 +30728,7 @@ MainPokedexScreen: ; 0x280fe
 	jp z, .asm_28174
 	call Func_288c6
 	call Func_2885c
-	call Func_926
+	call CleanOAMBuffer
 	call Func_2887c
 	call Func_2885c
 	ld hl, wScreenState

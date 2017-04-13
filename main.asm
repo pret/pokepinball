@@ -16825,7 +16825,7 @@ PikachuSaverOAMOffsets_RedStage:
 
 Func_17e4f: ; 0x17e4f
 ; unused
-	ld hl, $7e55
+	ld hl, UnusedData_7e55
 	jp Func_17e5e
 
 UnusedData_7e55: ; 0x17e55

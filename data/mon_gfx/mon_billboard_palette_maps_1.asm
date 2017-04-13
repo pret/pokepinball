@@ -289,4 +289,5 @@ SlowbroBillboardBGPaletteMap: ; 0xd7b68
 	db $6, $6, $6, $6, $6, $6
 	db $6, $6, $6, $6, $6, $6
 	db $6, $6, $6, $6, $6, $6
-	dr $d7b80, $d8000
+
+	ds $280 ; free space

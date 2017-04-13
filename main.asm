@@ -5410,7 +5410,7 @@ Func_d4cf: ; 0xd4cf
 	ld a, $27
 	sub b
 	bit 0, b
-	call nz, Func_d626
+	call nz, TransitionHighScoresPalettes
 	ld hl, hWX
 	dec [hl]
 	dec [hl]
@@ -5452,7 +5452,7 @@ Func_d4cf: ; 0xd4cf
 	push bc
 	ld a, b
 	bit 0, b
-	call nz, Func_d626
+	call nz, TransitionHighScoresPalettes
 	ld hl, hWX
 	inc [hl]
 	inc [hl]
@@ -5557,7 +5557,9 @@ Func_d5d0: ; 0xd5d0
 	ld [hNextFrameHBlankSCY], a
 	ret
 
-Func_d626: ; 0xd626
+TransitionHighScoresPalettes: ; 0xd626
+; When switching between the Red and Blue field high scores, the palettes
+; of the rows smoothly transition between red and blue.
 	ld c, a
 	ld a, [hGameBoyColorFlag]
 	and a
@@ -5572,7 +5574,7 @@ Func_d626: ; 0xd626
 	sla c
 	add c
 	ld c, a
-	ld hl, PointerTable_d65a
+	ld hl, HighScoresPalettesTransition
 	add hl, bc
 	ld a, [hli]
 	ld c, a
@@ -5591,23 +5593,26 @@ Func_d626: ; 0xd626
 	call Func_7dc
 	ret
 
-PointerTable_d65a: ; 0xd65a
-	dwb $7D00, $23
-	dwb $7D40, $23
-	dwb $7D80, $23
-	dwb $7DC0, $23
-	dwb $7E00, $23
-	dwb $7E40, $23
-	dwb $7E80, $23
-	dwb $7EC0, $23
-	dwb $7E00, $35
-	dwb $7E40, $35
-	dwb $7E80, $35
-	dwb $7EC0, $35
-	dwb $7F00, $35
-	dwb $7F40, $35
-	dwb $7F80, $35
-	dwb $7FC0, $35
+HighScoresPalettesTransition: ; 0xd65a
+; When switching between the Red and Blue field high scores, the palette
+; of the rows fades between red and blue. This table defines the transition
+; of those palettes.
+	dwb HighScoresTransitionPalettes1,  Bank(HighScoresTransitionPalettes1)
+	dwb HighScoresTransitionPalettes2,  Bank(HighScoresTransitionPalettes2)
+	dwb HighScoresTransitionPalettes3,  Bank(HighScoresTransitionPalettes3)
+	dwb HighScoresTransitionPalettes4,  Bank(HighScoresTransitionPalettes4)
+	dwb HighScoresTransitionPalettes5,  Bank(HighScoresTransitionPalettes5)
+	dwb HighScoresTransitionPalettes6,  Bank(HighScoresTransitionPalettes6)
+	dwb HighScoresTransitionPalettes7,  Bank(HighScoresTransitionPalettes7)
+	dwb HighScoresTransitionPalettes8,  Bank(HighScoresTransitionPalettes8)
+	dwb HighScoresTransitionPalettes9,  Bank(HighScoresTransitionPalettes9)
+	dwb HighScoresTransitionPalettes10, Bank(HighScoresTransitionPalettes10)
+	dwb HighScoresTransitionPalettes11, Bank(HighScoresTransitionPalettes11)
+	dwb HighScoresTransitionPalettes12, Bank(HighScoresTransitionPalettes12)
+	dwb HighScoresTransitionPalettes13, Bank(HighScoresTransitionPalettes13)
+	dwb HighScoresTransitionPalettes14, Bank(HighScoresTransitionPalettes14)
+	dwb HighScoresTransitionPalettes15, Bank(HighScoresTransitionPalettes15)
+	dwb HighScoresTransitionPalettes16, Bank(HighScoresTransitionPalettes16)
 
 Func_d68a: ; 0xd68a
 	push bc
@@ -34601,8 +34606,8 @@ INCLUDE "data/mon_gfx/mon_animated_pics_5.asm"
 
 DiglettBonusBaseGameBoyGfx: ; 0x8f000
 	INCBIN "gfx/stage/diglett_bonus/diglett_bonus_base_gameboy.2bpp"
-	dr $8fd00, $8ff00
 
+INCLUDE "gfx/high_scores/high_scores_transition_palettes.asm"
 INCLUDE "data/billboard/map_palettes.asm"
 
 SECTION "bank24", ROMX, BANK[$24]
@@ -35201,6 +35206,8 @@ StageRedJapaneseCharactersGfx2: ; 0xd7000
 	INCBIN "gfx/stage/red_bottom/japanese_characters_2.2bpp"
 
 INCLUDE "data/mon_gfx/mon_billboard_palette_maps_1.asm"
+INCLUDE "gfx/high_scores/high_scores_transition_palettes_2.asm"
+
 
 SECTION "bank36", ROMX, BANK[$36]
 	dr $d8000, $d8400

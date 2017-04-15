@@ -745,7 +745,7 @@ Func_5c2: ; 0x5c2
 	sla a
 	ld c, a
 	ld b, $0
-	ld hl, Data_5e1
+	ld hl, GreyscalePalette
 	add hl, bc
 	ld a, [hli]
 	ld [de], a
@@ -760,8 +760,11 @@ Func_5c2: ; 0x5c2
 	pop bc
 	ret
 
-Data_5e1:
-	dr $5e1, $5e9
+GreyscalePalette:
+	RGB 31, 31, 31
+	RGB 21, 21, 21
+	RGB 11, 11, 11
+	RGB 0, 0, 0
 
 Func_5e9:
 	ld a, [rIE]

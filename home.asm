@@ -5268,8 +5268,10 @@ Data_2894:
 	RGB 27, 10, 10
 	RGB 20, 04, 04
 
-Data_2898:
-	dr $2898, $28a0
+CatchBarTiles:
+; The tile ids for the blue CATCH! bar under the wild pokemon
+	db $80, $AE, $AF, $B0, $B1, $B2, $B3, $80
+CatchBarTilesEnd:
 
 CopyHLToDE: ; 0x28a0
 ; Places [hl] into [de]

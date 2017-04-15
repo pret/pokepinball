@@ -9978,9 +9978,9 @@ StartCatchEmMode: ; 0x1003f
 	ld bc, $0020
 	call LoadOrCopyVRAMData
 	ld a, $0
-	ld hl, Data_2898
+	ld hl, CatchBarTiles
 	deCoord 6, 8, vBGMap
-	ld bc, $0008
+	ld bc, (CatchBarTilesEnd - CatchBarTiles)
 	call LoadOrCopyVRAMData
 .asm_1011d
 	call SetPokemonSeenFlag
@@ -11784,9 +11784,9 @@ Func_10d1d: ; 0x10d1d
 	ld bc, $0020
 	call LoadOrCopyVRAMData
 	ld a, $0
-	ld hl, Data_2898
+	ld hl, CatchBarTiles
 	deCoord 6, 8, vBGMap
-	ld bc, $0008
+	ld bc, (CatchBarTilesEnd - CatchBarTiles)
 	call LoadOrCopyVRAMData
 .asm_10e09
 	ret

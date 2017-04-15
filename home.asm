@@ -4753,13 +4753,13 @@ Func_248a: ; 0x248a
 	ld b, a
 	ld a, [wCurrentStage]
 	cp $6  ; gengar stage buggy?
-	jr nc, .asm_24e0
+	jr nc, .bonusStage
 	bit 4, b
-	ld hl, Data_3800
+	ld hl, BottomLeftCollisionMasks
 	ld a, [wd7af]
 	jr z, .asm_24c8
 	res 4, b
-	ld hl, Data_3980
+	ld hl, BottomRightCollisionMasks
 	ld a, [wd7b3]
 .asm_24c8
 	ld de, $0080
@@ -4779,13 +4779,13 @@ Func_248a: ; 0x248a
 	scf
 	ret
 
-.asm_24e0
+.bonusStage
 	bit 4, b
-	ld hl, Data_3b00
+	ld hl, BottomLeftBonusStageCollisionMasks
 	ld a, [wd7af]
 	jr z, .asm_24f2
 	res 4, b
-	ld hl, Data_3c80
+	ld hl, BottomRightBonusStageCollisionMasks
 	ld a, [wd7b3]
 .asm_24f2
 	ld de, $0080
@@ -5675,17 +5675,17 @@ Data_372d:
 
 SECTION "bank0.2", ROM0 [$3800]
 
-Data_3800:
-	dr $3800, $3980
+BottomLeftCollisionMasks:
+	INCBIN "data/collision/masks/bottom_left_masks.masks"
 
-Data_3980:
-	dr $3980, $3b00
+BottomRightCollisionMasks:
+	INCBIN "data/collision/masks/bottom_right_masks.masks"
 
-Data_3b00:
-	dr $3b00, $3c80
+BottomLeftBonusStageCollisionMasks:
+	INCBIN "data/collision/masks/bottom_left_bonus_stage_masks.masks"
 
-Data_3c80:
-	dr $3c80, $3e00
+BottomRightBonusStageCollisionMasks:
+	INCBIN "data/collision/masks/bottom_right_bonus_stage_masks.masks"
 
 SquaresLow:
 x = 0

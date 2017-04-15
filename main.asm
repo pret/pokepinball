@@ -34815,7 +34815,7 @@ OptionMenuPsyduckGfx: ; 0xb5c00
 OptionMenuBoldArrowGfx: ; 0xb5fc0
 	INCBIN "gfx/option_menu/bold_arrow.2bpp"
 OptionMenuUnknownGfx: ; 0xb5fd0
-		dr $b5fd0, $b6020
+	INCBIN "gfx/option_menu/solid_colors.2bpp"
 OptionMenuOptionTextGfx: ; 0xb6020
 	INCBIN "gfx/option_menu/option_text.2bpp"
 OptionMenuPikachuGfx: ; 0xb6080
@@ -34823,11 +34823,11 @@ OptionMenuPikachuGfx: ; 0xb6080
 OptionMenuPsyduckFeetGfx: ; 0xb6170
 	INCBIN "gfx/option_menu/psyduck_feet.2bpp"
 OptionMenuUnknown2Gfx: ; 0xb6200
-		dr $b6200, $b6250
+	INCBIN "gfx/option_menu/blank2.2bpp"
 OptionMenuRumbleTextGfx: ; 0xb6250
 	INCBIN "gfx/option_menu/rumble_text.2bpp"
 OptionMenuUnknown3Gfx: ; 0xb62b0
-		dr $b62b0, $b6320
+	INCBIN "gfx/option_menu/blank3.2bpp"
 OptionMenuKeyCoTextGfx: ; 0xb6320
 	INCBIN "gfx/option_menu/key_co_text.2bpp"
 OptionMenuSoundTestDigitsGfx: ; 0xb6370
@@ -34835,7 +34835,7 @@ OptionMenuSoundTestDigitsGfx: ; 0xb6370
 OptionMenuNfigTextGfx: ; 0xb6470
 	INCBIN "gfx/option_menu/nfig_text.2bpp"
 OptionMenuUnknown4Gfx: ; 0xb64a0
-		dr $b64a0, $b6500
+	INCBIN "gfx/option_menu/blank4.2bpp"
 
 KeyConfigResetTextGfx: ; 0xb6500
 	INCBIN "gfx/key_config/reset_text.2bpp"

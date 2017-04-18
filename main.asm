@@ -31817,7 +31817,7 @@ Func_28931: ; 0x28931
 	add hl, bc
 	add hl, bc
 	add hl, bc
-	ld bc, Data_29892
+	ld bc, MonDexNames
 	add hl, bc
 .asm_2895d
 	ld a, $ff
@@ -31878,7 +31878,7 @@ Func_28993: ; 0x28993
 	add hl, bc
 	add hl, bc
 	add hl, bc
-	ld bc, Data_29892
+	ld bc, MonDexNames
 	add hl, bc
 .asm_289b7
 	xor a
@@ -33096,8 +33096,7 @@ CharacterWidths: ; 0x29792
 	db $07
 	db $07
 
-Data_29892:
-	dr $29892, $29f0f
+INCLUDE "text/pokedex_mon_names.asm"
 
 MonDexTypeIDs: ; 0x29f0f
 	db $00

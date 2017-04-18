@@ -1298,7 +1298,8 @@ Func_858: ; 0x858
 	ld [rVBK], a
 	ret
 
-Func_86f: ; 0x86f
+LoadBillboardPaletteMap: ; 0x86f
+; Loads the background palette map for a 6x4-tile billboard picture.
 	ld [hROMBankBuffer], a
 	ld a, [hLoadedROMBank]
 	push af
@@ -1311,7 +1312,7 @@ Func_86f: ; 0x86f
 	ld a, $1
 	ld [rVBK], a
 	ld b, $4
-.asm_887
+.loop
 	push bc
 	ld a, [de]
 	ld [hli], a
@@ -1335,7 +1336,7 @@ Func_86f: ; 0x86f
 	add hl, bc
 	pop bc
 	dec b
-	jr nz, .asm_887
+	jr nz, .loop
 	xor a
 	ld [rVBK], a
 	pop af

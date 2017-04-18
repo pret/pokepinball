@@ -8944,7 +8944,7 @@ LoadGreyBillboardPaletteData: ; 0xf269
 	ld a, BANK(GreyBillboardPaletteMap)
 	ld de, GreyBillboardPaletteMap
 	hlCoord 7, 4, vBGMap
-	call Func_86f
+	call LoadBillboardPaletteMap
 	ret
 
 GreyBillboardPaletteMap:
@@ -26266,7 +26266,7 @@ Func_20b02: ; 0x20b02
 	ld a, Bank(MonBillboardPaletteMapPointers)
 	call ReadByteFromBank
 	hlCoord 7, 4, vBGMap
-	call Func_86f
+	call LoadBillboardPaletteMap
 	pop bc
 	ld hl, MonBillboardPalettePointers
 	add hl, bc
@@ -26996,7 +26996,7 @@ Func_2112a: ; 0x2112a
 	ld a, Bank(MonBillboardPaletteMapPointers)
 	call ReadByteFromBank
 	hlCoord 7, 4, vBGMap
-	call Func_86f
+	call LoadBillboardPaletteMap
 	pop bc
 	ld hl, MonBillboardPalettePointers
 	add hl, bc
@@ -32075,9 +32075,9 @@ Func_28add: ; 0x28add
 	add hl, bc
 	ld a, [hl]
 	and a
-	jp z, Func_28b76
+	jp z, LoadUncaughtPokemonBackgroundGfx
 	dec a
-	jp z, Func_28baf
+	jp z, LoadSeenPokemonGfx
 	ld a, [wd960]
 	and a
 	jr z, .asm_28afc
@@ -32131,7 +32131,7 @@ Func_28add: ; 0x28add
 	ld a, Bank(MonBillboardPaletteMapPointers)
 	call ReadByteFromBank
 	hlCoord 1, 3, vBGMap
-	call Func_86f
+	call LoadBillboardPaletteMap
 	pop bc
 	ld hl, MonBillboardPalettePointers
 	add hl, bc
@@ -32150,9 +32150,9 @@ Func_28add: ; 0x28add
 	call Func_8e1
 	ret
 
-Func_28b76: ; 0x28b76
-	ld a, BANK(Data_71500)
-	ld hl, Data_71500
+LoadUncaughtPokemonBackgroundGfx: ; 0x28b76
+	ld a, BANK(UncaughtPokemonBackgroundPic)
+	ld hl, UncaughtPokemonBackgroundPic
 	ld de, vTilesBG tile $00
 	ld bc, $0180
 	call LoadOrCopyVRAMData
@@ -32160,16 +32160,19 @@ Func_28b76: ; 0x28b76
 	ld a, [hGameBoyColorFlag]
 	and a
 	ret z
-	ld a, BANK(Data_28b97)
-	ld de, Data_28b97
+	ld a, BANK(UncaughtPokemonPaletteMap)
+	ld de, UncaughtPokemonPaletteMap
 	hlCoord 1, 3, vBGMap
-	call Func_86f
+	call LoadBillboardPaletteMap
 	ret
 
-Data_28b97:
-	dr $28b97, $28baf
+UncaughtPokemonPaletteMap:
+	db $05, $05, $05, $05, $05, $05
+	db $05, $05, $05, $05, $05, $05
+	db $05, $05, $05, $05, $05, $05
+	db $05, $05, $05, $05, $05, $05
 
-Func_28baf: ; 0x28baf
+LoadSeenPokemonGfx: ; 0x28baf
 	ld a, [wCurPokedexIndex]
 	ld c, a
 	ld b, $0
@@ -32201,10 +32204,10 @@ Func_28baf: ; 0x28baf
 	ld a, [hGameBoyColorFlag]
 	and a
 	ret z
-	ld a, BANK(Data_28b97)
-	ld de, Data_28b97
+	ld a, BANK(UncaughtPokemonPaletteMap)
+	ld de, UncaughtPokemonPaletteMap
 	hlCoord 1, 3, vBGMap
-	call Func_86f
+	call LoadBillboardPaletteMap
 	ret
 
 Func_28bf5: ; 0x28bf5
@@ -34528,8 +34531,11 @@ SECTION "bank1c", ROMX, BANK[$1c]
 
 INCLUDE "data/mon_gfx/mon_billboard_pics_5.asm"
 
-Data_71500:
-	dr $71500, $73000
+UncaughtPokemonBackgroundPic:
+	INCBIN "gfx/pokedex/uncaught_pokemon.2bpp"
+	INCBIN "gfx/pokedex/uncaught_pokemon.2bpp" ; This pic is unnecessarily duplicated.
+
+	ds $1800 ; free space
 
 GengarBonusBaseGameBoyGfx: ; 0x73000
 	INCBIN "gfx/stage/gengar_bonus/gengar_bonus_base_gameboy.2bpp"

@@ -31328,7 +31328,7 @@ Func_285db: ; 0x285db
 	ld a, [wCurPokedexIndex]
 	ld c, a
 	ld b, $0
-	ld hl, Data_2b136
+	ld hl, DexScrollBarOffsets
 	add hl, bc
 	ld a, [hl]
 	add $49
@@ -31340,7 +31340,7 @@ Func_285db: ; 0x285db
 	and $3
 	ld e, a
 	ld d, $0
-	ld hl, Data_28687
+	ld hl, DexScrollBarOAMIds
 	add hl, de
 	ld a, [hl]
 	call LoadOAMData
@@ -31405,8 +31405,8 @@ PointerTable_2867f: ; 0x2867f
 	dw Func_286dd
 	dw Func_28765
 
-Data_28687:
-	dr $28687, $2868b
+DexScrollBarOAMIds:
+	db $67, $68, $69, $68
 
 DrawCornerInfoPokedexScreen: ; 0x2868b
 ; If player is holding SELECT button, it draws the seen/own count in the top-right corner.
@@ -33104,8 +33104,7 @@ INCLUDE "text/pokedex_species.asm"
 Data_2a85d:
 	dr $2a85d, $2b136
 
-Data_2b136:
-	dr $2b136, $2b1cd
+INCLUDE "data/dex_scroll_offsets.asm"
 
 SECTION "bankb", ROMX, BANK[$b]
 

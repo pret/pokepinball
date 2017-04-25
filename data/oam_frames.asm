@@ -102,9 +102,9 @@ OAMDataPointers: ; 0x4000
 	dw OAMData_64
 	dw OAMData_65
 	dw OAMData_66
-	dw OAMData_67
-	dw OAMData_68
-	dw OAMData_69
+	dw DexScrollBarFrame1OAM
+	dw DexScrollBarFrame2OAM
+	dw DexScrollBarFrame3OAM
 	dw PokeDexTextOAM
 	dw OAMData_6b
 	dw Digit0OAM
@@ -981,15 +981,15 @@ OAMData_66: ; 0x48e0
 	db $10, $08, $75, $17
 	db $80 ; terminator
 
-OAMData_67: ; 0x48ed
+DexScrollBarFrame1OAM: ; 0x48ed
 	db $10, $08, $78, $00
 	db $80 ; terminator
 
-OAMData_68: ; 0x48f2
+DexScrollBarFrame2OAM: ; 0x48f2
 	db $10, $08, $79, $00
 	db $80 ; terminator
 
-OAMData_69: ; 0x48f7
+DexScrollBarFrame3OAM: ; 0x48f7
 	db $10, $08, $79, $11
 	db $80 ; terminator
 

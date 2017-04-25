@@ -1980,7 +1980,8 @@ CollisionXDeltas: ; 0x8b17
 	dw $07B4
 	dw $FF08
 
-Func_8d17: ; 0x8d17
+LoadDexVWFCharacter_: ; 0x8d17
+; Loads a single variable-width-font character used in various parts of the Pokedex screen.
 	ld a, [$ff92]
 	cp $80
 	jp c, Func_8e01
@@ -31900,7 +31901,7 @@ Func_289c8: ; 0x289c8
 	add hl, bc
 	bit 1, [hl]
 	ld hl, Data_28a12
-	jr z, .asm_289fe
+	jr z, .pokemonNotOwned
 	ld a, [wCurPokedexIndex]
 	ld c, a
 	ld b, $0
@@ -31923,7 +31924,7 @@ Func_289c8: ; 0x289c8
 	add hl, bc  ; value * 23
 	ld bc, MonSpeciesNames
 	add hl, bc
-.asm_289fe
+.pokemonNotOwned
 	ld a, $ff
 	ld [wd860], a
 	ld a, $4
@@ -32522,7 +32523,7 @@ Func_28d97: ; 0x28d97
 	add hl, bc
 	ld a, [hl]
 	ld [$ff93], a
-	call Func_206d
+	call LoadDexVWFCharacter
 .asm_28dc8
 	pop hl
 	jr nc, .asm_28daa
@@ -32590,7 +32591,7 @@ Func_28e09: ; 0x28e09
 	add hl, bc
 	ld a, [hl]
 	ld [$ff93], a
-	call Func_206d
+	call LoadDexVWFCharacter
 	pop hl
 	jr nc, .asm_28e1c
 	nop

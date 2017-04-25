@@ -3967,13 +3967,14 @@ CallTable_2049: ; 0x2049
 	padded_dab HandleFieldSelectScreen
 	; end of call table
 
-Func_206d: ; 0x206d
+LoadDexVWFCharacter: ; 0x206d
+; Loads a single variable-width-font character used in various parts of the Pokedex screen.
 	ld a, [hLoadedROMBank]
 	push af
-	ld a, Bank(Func_8d17)
+	ld a, Bank(LoadDexVWFCharacter_)
 	ld [hLoadedROMBank], a
 	ld [MBC5RomBank], a
-	call Func_8d17
+	call LoadDexVWFCharacter_
 	jr c, .asm_2084
 	pop af
 	ld [hLoadedROMBank], a

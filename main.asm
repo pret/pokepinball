@@ -31904,7 +31904,7 @@ Func_289c8: ; 0x289c8
 	ld a, [wCurPokedexIndex]
 	ld c, a
 	ld b, $0
-	ld hl, MonDexTypeIDs
+	ld hl, MonSpecies
 	add hl, bc
 	ld c, [hl]
 	ld h, b
@@ -31921,7 +31921,7 @@ Func_289c8: ; 0x289c8
 	sla l
 	rl h
 	add hl, bc  ; value * 23
-	ld bc, Data_29fa6
+	ld bc, MonSpeciesNames
 	add hl, bc
 .asm_289fe
 	ld a, $ff
@@ -33097,162 +33097,8 @@ CharacterWidths: ; 0x29792
 	db $07
 
 INCLUDE "text/pokedex_mon_names.asm"
-
-MonDexTypeIDs: ; 0x29f0f
-	db $00
-	db $00
-	db $00
-	db $01
-	db $02
-	db $02
-	db $03
-	db $04
-	db $05
-	db $06
-	db $07
-	db $08
-	db $09
-	db $07
-	db $0A
-	db $0B
-	db $0C
-	db $0C
-	db $60
-	db $60
-	db $0B
-	db $0E
-	db $0F
-	db $10
-	db $0D
-	db $0D
-	db $0D
-	db $0D
-	db $11
-	db $11
-	db $12
-	db $11
-	db $11
-	db $12
-	db $13
-	db $13
-	db $14
-	db $14
-	db $15
-	db $15
-	db $16
-	db $16
-	db $17
-	db $17
-	db $18
-	db $19
-	db $19
-	db $1A
-	db $1B
-	db $1C
-	db $1C
-	db $1D
-	db $1E
-	db $1F
-	db $1F
-	db $20
-	db $20
-	db $21
-	db $22
-	db $23
-	db $23
-	db $23
-	db $24
-	db $24
-	db $24
-	db $25
-	db $25
-	db $25
-	db $18
-	db $26
-	db $26
-	db $27
-	db $27
-	db $28
-	db $28
-	db $29
-	db $2A
-	db $2A
-	db $2B
-	db $2C
-	db $2D
-	db $2D
-	db $2E
-	db $2F
-	db $30
-	db $31
-	db $31
-	db $32
-	db $32
-	db $33
-	db $33
-	db $34
-	db $34
-	db $35
-	db $36
-	db $37
-	db $37
-	db $38
-	db $39
-	db $3A
-	db $3A
-	db $3B
-	db $3C
-	db $3D
-	db $3E
-	db $3F
-	db $40
-	db $41
-	db $42
-	db $42
-	db $43
-	db $12
-	db $3B
-	db $44
-	db $45
-	db $46
-	db $46
-	db $47
-	db $47
-	db $48
-	db $49
-	db $4A
-	db $4B
-	db $4C
-	db $4D
-	db $4E
-	db $4F
-	db $50
-	db $51
-	db $52
-	db $53
-	db $54
-	db $55
-	db $56
-	db $57
-	db $58
-	db $59
-	db $5A
-	db $5A
-	db $05
-	db $05
-	db $5B
-	db $5C
-	db $5D
-	db $4D
-	db $02
-	db $46
-	db $46
-	db $46
-	db $5E
-	db $5F
-
-Data_29fa6:
-	dr $29fa6, $2a85d
+INCLUDE "data/mon_species.asm"
+INCLUDE "text/pokedex_species.asm"
 
 Data_2a85d:
 	dr $2a85d, $2b136

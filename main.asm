@@ -22236,7 +22236,7 @@ ResolveSlowpokeCollision: ; 0x1d216
 	callba AddBigBCD6FromQueueWithBallMultiplier
 	lb de, $00, $05
 	call PlaySoundEffect
-	ld hl, Data_1d312
+	ld hl, SlowpokeCollisionAnimationData ; 0x1d312
 	ld de, wd632
 	call CopyHLToDE
 	xor a
@@ -22249,7 +22249,7 @@ ResolveSlowpokeCollision: ; 0x1d216
 	xor a
 	ld [wd549], a
 .asm_1d253
-	ld hl, Data_1d312
+	ld hl, SlowpokeCollisionAnimationData ; 0x1d312
 	ld de, wd632
 	call UpdateAnimation
 	push af
@@ -22331,8 +22331,22 @@ ResolveSlowpokeCollision: ; 0x1d216
 	ld [wd640], a
 	ret
 
-Data_1d312:
-	dr $1d312, $1d32d
+SlowpokeCollisionAnimationData: ; 0x1d312
+; Each entry is [OAM id][duration]
+	db $08, $01
+	db $06, $02
+	db $06, $02
+	db $08, $01
+	db $01, $00
+	db $29, $00
+	db $28, $01
+	db $2A, $00
+	db $27, $01
+	db $29, $00
+	db $28, $01
+	db $2B, $00
+	db $28, $01
+	db $00
 
 ResolveCloysterCollision: ; 0x1d32d
 	ld a, [wCloysterCollision]
@@ -22344,7 +22358,7 @@ ResolveCloysterCollision: ; 0x1d32d
 	callba AddBigBCD6FromQueueWithBallMultiplier
 	lb de, $00, $05
 	call PlaySoundEffect
-	ld hl, Data_1d41d
+	ld hl, CloysterCollisionAnimationData
 	ld de, wd637
 	call CopyHLToDE
 	xor a
@@ -22357,7 +22371,7 @@ ResolveCloysterCollision: ; 0x1d32d
 	xor a
 	ld [wd549], a
 .asm_1d36a
-	ld hl, Data_1d41d
+	ld hl, CloysterCollisionAnimationData
 	ld de, wd637
 	call UpdateAnimation
 	push af
@@ -22434,8 +22448,22 @@ ResolveCloysterCollision: ; 0x1d32d
 	ld [wd640], a
 	ret
 
-Data_1d41d:
-	dr $1d41d, $1d438
+CloysterCollisionAnimationData: ; 0x1d41d
+; Each entry is [OAM id][duration]
+	db $08, $01
+	db $06, $02
+	db $06, $02
+	db $08, $01
+	db $01, $00
+	db $29, $00
+	db $28, $01
+	db $2A, $00
+	db $27, $01
+	db $29, $00
+	db $28, $01
+	db $2B, $00
+	db $28, $01
+	db 00 ; terminator
 
 ResolveBlueStageBonusMultiplierCollision: ; 0x1d438
 	call Func_1d692

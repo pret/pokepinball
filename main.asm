@@ -8099,16 +8099,16 @@ StageBlueFieldBottomGfx_GameBoyColor: ; 0xe9bc
 	db $FF, $FF  ; terminators
 
 StageGengarBonusGfx_GameBoy: ; 0xea12
-	VIDEO_DATA_TILES   Alphabet1Gfx, vTilesOB, $1a0
-	VIDEO_DATA_TILES   PinballPokeballGfx, vTilesOB + $400, $320
-	VIDEO_DATA_TILES   GengarBonusBaseGameBoyGfx, vTilesSH, $1000
-	VIDEO_DATA_TILES   GengarBonusGastlyGfx, vTilesSH + $100, $180
-	VIDEO_DATA_TILES   GengarBonusHaunter1Gfx, vTilesSH + $280, $20
-	VIDEO_DATA_TILES   GengarBonusHaunter2Gfx, vTilesOB + $1a0, $100
-	VIDEO_DATA_TILES   GengarBonusGengar1Gfx, vTilesOB + $2a0, $160
-	VIDEO_DATA_TILES   GengarBonusGengar2Gfx, vTilesOB + $7a0, $60
-	VIDEO_DATA_TILES   GengarBonusGengar3Gfx, vTilesSH + $2a0, $2a0
-	VIDEO_DATA_TILEMAP GengarBonusTilemap_GameBoy, vBGMap, $400
+	VIDEO_DATA_TILES       Alphabet1Gfx, vTilesOB, $1a0
+	VIDEO_DATA_TILES       PinballPokeballGfx, vTilesOB + $400, $320
+	VIDEO_DATA_TILES       GengarBonusBaseGameBoyGfx, vTilesSH, $1000
+	VIDEO_DATA_TILES       GengarBonusGastlyGfx, vTilesSH + $100, $180
+	VIDEO_DATA_TILES_BANK  GengarBonusHaunterGfx + $180, Bank(GengarBonusHaunterGfx), vTilesSH + $280, $20
+	VIDEO_DATA_TILES_BANK  GengarBonusHaunterGfx + $1a0, Bank(GengarBonusHaunterGfx), vTilesOB + $1a0, $100
+	VIDEO_DATA_TILES       GengarBonusGengar1Gfx, vTilesOB + $2a0, $160
+	VIDEO_DATA_TILES       GengarBonusGengar2Gfx, vTilesOB + $7a0, $60
+	VIDEO_DATA_TILES       GengarBonusGengar3Gfx, vTilesSH + $2a0, $2a0
+	VIDEO_DATA_TILEMAP     GengarBonusTilemap_GameBoy, vBGMap, $400
 	db $FF, $FF  ; terminators
 
 StageGengarBonusGfx_GameBoyColor: ; 0xea5a
@@ -8116,8 +8116,8 @@ StageGengarBonusGfx_GameBoyColor: ; 0xea5a
 	VIDEO_DATA_TILES         StageSharedPikaBoltGfx, vTilesOB + $3c0, $440
 	VIDEO_DATA_TILES         GengarBonusBaseGameBoyColorGfx, vTilesSH, $1000
 	VIDEO_DATA_TILES         GengarBonusGastlyGfx, vTilesSH + $100, $180
-	VIDEO_DATA_TILES         GengarBonusHaunter1Gfx, vTilesSH + $280, $20
-	VIDEO_DATA_TILES         GengarBonusHaunter2Gfx, vTilesOB + $1a0, $100
+	VIDEO_DATA_TILES_BANK    GengarBonusHaunterGfx + $180, Bank(GengarBonusHaunterGfx), vTilesSH + $280, $20
+	VIDEO_DATA_TILES_BANK    GengarBonusHaunterGfx + $1a0, Bank(GengarBonusHaunterGfx), vTilesOB + $1a0, $100
 	VIDEO_DATA_TILES         GengarBonusGengar1Gfx, vTilesOB + $2a0, $160
 	VIDEO_DATA_TILES         GengarBonusGengar2Gfx, vTilesOB + $7a0, $60
 	VIDEO_DATA_TILES         GengarBonusGengar3Gfx, vTilesSH + $2a0, $2a0
@@ -18687,7 +18687,7 @@ Func_19104: ; 0x19104
 	sla a
 	ld c, a
 	ld b, $0
-	ld hl, Data_19145
+	ld hl, GengarBonusStageHaunterGfxTable
 	add hl, bc
 	ld a, [hli]
 	ld c, a
@@ -18700,7 +18700,7 @@ Func_19104: ; 0x19104
 	ld a, [hli]
 	ld h, [hl]
 	ld l, a
-	ld a, $21
+	ld a, Bank(GengarBonusHaunterGfx)
 	call LoadOrCopyVRAMData
 	ld a, $4
 	ld [wd674], a
@@ -18715,8 +18715,20 @@ Func_19104: ; 0x19104
 	scf
 	ret
 
-Data_19145:
-	dr $19145, $19185
+GengarBonusStageHaunterGfxTable: ; 0x19145
+; Graphics data for Haunter.
+; First word:  length in bytes
+; Second word: destination VRAM address
+; Third word:  graphics data
+; Fourth word: unused
+	dw $60, vTilesSH tile $10, GengarBonusHaunterGfx,        $0000
+	dw $60, vTilesSH tile $16, GengarBonusHaunterGfx + $60,  $0000
+	dw $60, vTilesSH tile $1c, GengarBonusHaunterGfx + $c0,  $0000
+	dw $60, vTilesSH tile $22, GengarBonusHaunterGfx + $120, $0000
+	dw $20, vTilesSH tile $28, GengarBonusHaunterGfx + $180, $0000
+	dw $40, vTilesOB tile $1a, GengarBonusHaunterGfx + $1a0, $0000
+	dw $60, vTilesOB tile $1e, GengarBonusHaunterGfx + $1e0, $0000
+	dw $60, vTilesOB tile $24, GengarBonusHaunterGfx + $240, $0000
 
 Func_19185: ; 0x19185
 	ld de, wd698
@@ -34432,12 +34444,9 @@ INCLUDE "data/mon_gfx/mon_animated_pics_3.asm"
 
 DiglettBonusBaseGameBoyColorGfx: ; 0x87000
 	INCBIN "gfx/stage/diglett_bonus/diglett_bonus_base_gameboycolor.2bpp"
-	dr $87e00, $87e80
 
-GengarBonusHaunter1Gfx: ; 0x87e80
-	INCBIN "gfx/stage/gengar_bonus/haunter_1.2bpp"
-GengarBonusHaunter2Gfx: ; 0x87ea0
-	INCBIN "gfx/stage/gengar_bonus/haunter_2.w32.interleave.2bpp"
+GengarBonusHaunterGfx: ; 0x87d00
+	INCBIN "gfx/stage/gengar_bonus/haunter.interleave.2bpp"
 
 SECTION "bank22", ROMX, BANK[$22]
 

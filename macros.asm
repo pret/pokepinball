@@ -123,6 +123,17 @@ VIDEO_DATA_TILES: MACRO
 	ENDM
 
 ;\1 = pointer to 2bpp tile data
+;\2 = bank of data
+;\3 = destination for tile data in VRAM
+;\4 = size of 2bpp tile data to copy
+VIDEO_DATA_TILES_BANK: MACRO
+	dw \1
+	db \2
+	dw \3
+	dw (\4 << 2)
+	ENDM
+
+;\1 = pointer to 2bpp tile data
 ;\2 = destination for tile data in VRAM
 ;\3 = size of 2bpp tile data to copy
 VIDEO_DATA_TILES_BANK2: MACRO

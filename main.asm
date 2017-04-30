@@ -34466,7 +34466,7 @@ FieldSelectGfx: ; 0x8b100
 	INCBIN "gfx/field_select/field_select_tiles.2bpp"
 
 GengarBonusGastlyGfx: ; 0x8bd00
-	INCBIN "gfx/stage/gengar_bonus/gastly.w32.interleave.2bpp"
+	INCBIN "gfx/stage/gengar_bonus/gastly.interleave.2bpp"
 	dr $8be80, $8bf00
 
 INCLUDE "data/mon_gfx/mon_billboard_palettes_3.asm"

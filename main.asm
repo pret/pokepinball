@@ -34342,7 +34342,9 @@ INCLUDE "data/mon_gfx/mon_billboard_pics_1.asm"
 
 StageRedFieldTopStatusBarSymbolsGfx_GameBoy: ; 0x63000
 	INCBIN "gfx/stage/red_top/status_bar_symbols_gameboy.2bpp"
-	dr $63100, $632a0
+	
+	INCBIN "gfx/unused_pocket_monster.2bpp"
+	ds $20 ; free space
 
 StageRedFieldTopBaseGameBoyGfx: ; 0x632a0
 	INCBIN "gfx/stage/red_top/red_top_base_gameboy.2bpp"
@@ -34360,7 +34362,9 @@ INCLUDE "data/mon_gfx/mon_billboard_pics_3.asm"
 
 StageBlueFieldTopStatusBarSymbolsGfx_GameBoy: ; 0x6b000
 	INCBIN "gfx/stage/blue_top/status_bar_symbols_gameboy.2bpp"
-	dr $6b100, $6b2a0
+	
+	INCBIN "gfx/unused_pocket_monster.2bpp"
+	ds $20 ; free space
 
 StageBlueFieldTopBaseGameBoyGfx: ; 0x6b2a0
 	INCBIN "gfx/stage/blue_top/blue_top_base_gameboy.2bpp"

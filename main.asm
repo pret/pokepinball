@@ -34753,12 +34753,6 @@ SeelBonusSeel4Gfx: ; 0x9b460
 
 GengarBonusGengarGfx: ; 0x9b900
 	INCBIN "gfx/stage/gengar_bonus/gengar.interleave.2bpp"
-;GengarBonusGengar1Gfx: ; 0x9bba0
-;	INCBIN "gfx/stage/gengar_bonus/gengar_1.2bpp"
-;GengarBonusGengar2Gfx: ; 0x9bd00
-;	INCBIN "gfx/stage/gengar_bonus/gengar_2.2bpp"
-;GengarBonusGengar3Gfx: ; 0x9bd60
-;	INCBIN "gfx/stage/gengar_bonus/gengar_3.2bpp"
 
 SECTION "bank27", ROMX, BANK[$27]
 

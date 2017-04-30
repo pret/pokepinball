@@ -8105,9 +8105,9 @@ StageGengarBonusGfx_GameBoy: ; 0xea12
 	VIDEO_DATA_TILES       GengarBonusGastlyGfx, vTilesSH + $100, $180
 	VIDEO_DATA_TILES_BANK  GengarBonusHaunterGfx + $180, Bank(GengarBonusHaunterGfx), vTilesSH + $280, $20
 	VIDEO_DATA_TILES_BANK  GengarBonusHaunterGfx + $1a0, Bank(GengarBonusHaunterGfx), vTilesOB + $1a0, $100
-	VIDEO_DATA_TILES       GengarBonusGengar1Gfx, vTilesOB + $2a0, $160
-	VIDEO_DATA_TILES       GengarBonusGengar2Gfx, vTilesOB + $7a0, $60
-	VIDEO_DATA_TILES       GengarBonusGengar3Gfx, vTilesSH + $2a0, $2a0
+	VIDEO_DATA_TILES_BANK  GengarBonusGengarGfx  + $2a0, Bank(GengarBonusGengarGfx),  vTilesOB + $2a0, $160
+	VIDEO_DATA_TILES_BANK  GengarBonusGengarGfx  + $400, Bank(GengarBonusGengarGfx),  vTilesOB + $7a0, $60
+	VIDEO_DATA_TILES_BANK  GengarBonusGengarGfx  + $460, Bank(GengarBonusGengarGfx),  vTilesSH + $2a0, $2a0
 	VIDEO_DATA_TILEMAP     GengarBonusTilemap_GameBoy, vBGMap, $400
 	db $FF, $FF  ; terminators
 
@@ -8118,9 +8118,9 @@ StageGengarBonusGfx_GameBoyColor: ; 0xea5a
 	VIDEO_DATA_TILES         GengarBonusGastlyGfx, vTilesSH + $100, $180
 	VIDEO_DATA_TILES_BANK    GengarBonusHaunterGfx + $180, Bank(GengarBonusHaunterGfx), vTilesSH + $280, $20
 	VIDEO_DATA_TILES_BANK    GengarBonusHaunterGfx + $1a0, Bank(GengarBonusHaunterGfx), vTilesOB + $1a0, $100
-	VIDEO_DATA_TILES         GengarBonusGengar1Gfx, vTilesOB + $2a0, $160
-	VIDEO_DATA_TILES         GengarBonusGengar2Gfx, vTilesOB + $7a0, $60
-	VIDEO_DATA_TILES         GengarBonusGengar3Gfx, vTilesSH + $2a0, $2a0
+	VIDEO_DATA_TILES_BANK    GengarBonusGengarGfx  + $2a0, Bank(GengarBonusGengarGfx),  vTilesOB + $2a0, $160
+	VIDEO_DATA_TILES_BANK    GengarBonusGengarGfx  + $400, Bank(GengarBonusGengarGfx),  vTilesOB + $7a0, $60
+	VIDEO_DATA_TILES_BANK    GengarBonusGengarGfx  + $460, Bank(GengarBonusGengarGfx),  vTilesSH + $2a0, $2a0
 	VIDEO_DATA_TILES_BANK2   GengarBonus1Gfx, vTilesSH, $1000
 	VIDEO_DATA_TILES_BANK2   TimerDigitsGfx, vTilesOB + $600, $160
 	VIDEO_DATA_TILEMAP       GengarBonusBottomTilemap_GameBoyColor, vBGMap, $400
@@ -18796,7 +18796,7 @@ Func_191cb: ; 0x191cb
 	sla a
 	ld c, a
 	ld b, $0
-	ld hl, Data_1920f
+	ld hl, GengarBonusStageGengarGfxTable
 	add hl, bc
 	ld a, [hli]
 	ld c, a
@@ -18825,8 +18825,15 @@ Func_191cb: ; 0x191cb
 	scf
 	ret
 
-Data_1920f:
-	dr $1920f, $1924f
+GengarBonusStageGengarGfxTable:
+	dw $60, vTilesSH tile $10, GengarBonusGengarGfx,        $0000
+	dw $60, vTilesSH tile $16, GengarBonusGengarGfx + $60,  $0000
+	dw $60, vTilesSH tile $1c, GengarBonusGengarGfx + $c0,  $0000
+	dw $60, vTilesSH tile $22, GengarBonusGengarGfx + $120, $0000
+	dw $20, vTilesSH tile $28, GengarBonusGengarGfx + $180, $0000
+	dw $40, vTilesOB tile $1a, GengarBonusGengarGfx + $1a0, $0000
+	dw $60, vTilesOB tile $1e, GengarBonusGengarGfx + $1e0, $0000
+	dw $60, vTilesOB tile $24, GengarBonusGengarGfx + $240, $0000
 
 InitMewtwoBonusStage: ; 0x1924f
 	ld a, [wd7c1]
@@ -34511,14 +34518,15 @@ SeelBonusSeel2Gfx: ; 0x9b400
 	INCBIN "gfx/stage/seel_bonus/seel_2.2bpp"
 SeelBonusSeel4Gfx: ; 0x9b460
 	INCBIN "gfx/stage/seel_bonus/seel_4.2bpp"
-	dr $9b900, $9bba0
 
-GengarBonusGengar1Gfx: ; 0x9bba0
-	INCBIN "gfx/stage/gengar_bonus/gengar_1.2bpp"
-GengarBonusGengar2Gfx: ; 0x9bd00
-	INCBIN "gfx/stage/gengar_bonus/gengar_2.2bpp"
-GengarBonusGengar3Gfx: ; 0x9bd60
-	INCBIN "gfx/stage/gengar_bonus/gengar_3.2bpp"
+GengarBonusGengarGfx: ; 0x9b900
+	INCBIN "gfx/stage/gengar_bonus/gengar.interleave.2bpp"
+;GengarBonusGengar1Gfx: ; 0x9bba0
+;	INCBIN "gfx/stage/gengar_bonus/gengar_1.2bpp"
+;GengarBonusGengar2Gfx: ; 0x9bd00
+;	INCBIN "gfx/stage/gengar_bonus/gengar_2.2bpp"
+;GengarBonusGengar3Gfx: ; 0x9bd60
+;	INCBIN "gfx/stage/gengar_bonus/gengar_3.2bpp"
 
 SECTION "bank27", ROMX, BANK[$27]
 

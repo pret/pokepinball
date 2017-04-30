@@ -19551,43 +19551,44 @@ Func_19701: ; 0x19701
 	call PlaySoundEffect
 .asm_19742
 	ld de, wd6bd
-	call Func_1978b
+	call SetOrbitingBallCoordinates
 	ld de, wd6c5
-	call Func_1978b
+	call SetOrbitingBallCoordinates
 	ld de, wd6cd
-	call Func_1978b
+	call SetOrbitingBallCoordinates
 	ld de, wd6d5
-	call Func_1978b
+	call SetOrbitingBallCoordinates
 	ld de, wd6dd
-	call Func_1978b
+	call SetOrbitingBallCoordinates
 	ld de, wd6e5
-	call Func_1978b
+	call SetOrbitingBallCoordinates
 	ld de, wd6b6
-	call Func_19833
+	call UpdateOrbitingBallAnimation
 	ld de, wd6be
-	call Func_19833
+	call UpdateOrbitingBallAnimation
 	ld de, wd6c6
-	call Func_19833
+	call UpdateOrbitingBallAnimation
 	ld de, wd6ce
-	call Func_19833
+	call UpdateOrbitingBallAnimation
 	ld de, wd6d6
-	call Func_19833
+	call UpdateOrbitingBallAnimation
 	ld de, wd6de
-	call Func_19833
+	call UpdateOrbitingBallAnimation
 	ret
 
-Func_1978b: ; 0x1978b
+SetOrbitingBallCoordinates: ; 0x1978b
+; Sets the x, y coordinates for one of the balls orbiting around Mewtwo
 	ld a, [de]
 	ld c, a
 	ld b, $0
 	sla c
 	inc a
-	cp $48
-	jr c, .asm_19797
+	cp $48 ; num entries in MewtwoOrbitingBallsCoords
+	jr c, .looadCoords
 	xor a
-.asm_19797
+.looadCoords
 	ld [de], a
-	ld hl, Data_197a3 + 1
+	ld hl, MewtwoOrbitingBallsCoords + 1
 	add hl, bc
 	dec de
 	ld a, [hld]
@@ -19597,10 +19598,83 @@ Func_1978b: ; 0x1978b
 	ld [de], a
 	ret
 
-Data_197a3:
-	dr $197a3, $19833
+MewtwoOrbitingBallsCoords:
+; x, y coordinates for balls that orbit around Mewtwo.
+	db $62, $08
+	db $62, $0A
+	db $62, $0D
+	db $61, $0F
+	db $60, $11
+	db $60, $13
+	db $5F, $15
+	db $5D, $17
+	db $5C, $19
+	db $5A, $1A
+	db $59, $1C
+	db $57, $1D
+	db $55, $1F
+	db $53, $20
+	db $51, $20
+	db $4F, $21
+	db $4D, $22
+	db $4A, $22
+	db $48, $22
+	db $46, $22
+	db $43, $22
+	db $41, $21
+	db $3F, $20
+	db $3D, $20
+	db $3B, $1F
+	db $39, $1D
+	db $37, $1C
+	db $36, $1A
+	db $34, $19
+	db $33, $17
+	db $31, $15
+	db $30, $13
+	db $30, $11
+	db $2F, $0F
+	db $2E, $0D
+	db $2E, $0A
+	db $2E, $08
+	db $2E, $06
+	db $2E, $03
+	db $2F, $01
+	db $30, $FF
+	db $30, $FD
+	db $31, $FB
+	db $33, $F9
+	db $34, $F7
+	db $36, $F6
+	db $37, $F4
+	db $39, $F3
+	db $3B, $F1
+	db $3D, $F0
+	db $3F, $F0
+	db $41, $EF
+	db $43, $EE
+	db $46, $EE
+	db $48, $EE
+	db $4A, $EE
+	db $4D, $EE
+	db $4F, $EF
+	db $51, $F0
+	db $53, $F0
+	db $55, $F1
+	db $57, $F3
+	db $59, $F4
+	db $5A, $F6
+	db $5C, $F7
+	db $5D, $F9
+	db $5F, $FB
+	db $60, $FD
+	db $60, $FF
+	db $61, $01
+	db $62, $03
+	db $62, $06
 
-Func_19833: ; 0x19833
+UpdateOrbitingBallAnimation: ; 0x19833
+; Updates the animation for one of the balls orbiting around Mewtwo.
 	ld a, [de]
 	and a
 	ret z

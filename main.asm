@@ -19167,10 +19167,116 @@ Func_194ac: ; 0x194ac
 	ret
 
 Data_194c9:
-	dr $194c9, $194fd
+	dw Data_194cd
+	dw Data_194d0
+
+Data_194cd: ; 0x194cd
+	db 1
+	dw Data_194d3
+
+Data_194d0: ; 0x194d0
+	db 1
+	dw Data_194e8
+
+Data_194d3: ; 0x194d3
+	dw LoadTileLists
+	db $05 ; total number of tiles to load
+
+	db $01 ; number of tiles
+	dw vBGMap + $113
+	db $45
+
+	db $01 ; number of tiles
+	dw vBGMap + $133
+	db $80
+
+	db $02 ; number of tiles
+	dw vBGMap + $152
+	db $80, $09
+
+	db $01 ; number of tiles
+	dw vBGMap + $172
+	db $12
+
+	db $00 ; terminator
+
+Data_194e8: ; 0x194e8
+	dw LoadTileLists
+	db $05 ; total number of tiles to load
+
+	db $01 ; number of tiles
+	dw vBGMap + $113
+	db $46
+
+	db $01 ; number of tiles
+	dw vBGMap + $133
+	db $47
+
+	db $02 ; number of tiles
+	dw vBGMap + $152
+	db $48, $49
+
+	db $01 ; number of tiles
+	dw vBGMap + $172
+	db $4A
+
+	db $00 ; terminator
 
 Data_194fd:
-	dr $194fd, $19531
+	dw Data_19501
+	dw Data_19504
+
+Data_19501: ; 0x19501
+	db 1
+	dw Data_19507
+
+Data_19504: ; 0x19504
+	db 1
+	dw Data_1951c
+
+Data_19507: ; 0x19507
+	dw LoadTileLists
+	db $05 ; total number of tiles to load
+
+	db $01 ; number of tiles
+	dw vBGMap + $113
+	db $45
+
+	db $01 ; number of tiles
+	dw vBGMap + $133
+	db $80
+
+	db $02 ; number of tiles
+	dw vBGMap + $152
+	db $80, $09
+
+	db $01 ; number of tiles
+	dw vBGMap + $172
+	db $12
+
+	db $00 ; terminator
+
+Data_1951c: ; 0x1951c
+	dw LoadTileLists
+	db $05 ; total number of tiles to load
+
+	db $01 ; number of tiles
+	dw vBGMap + $113
+	db $46
+
+	db $01 ; number of tiles
+	dw vBGMap + $133
+	db $47
+
+	db $02 ; number of tiles
+	dw vBGMap + $152
+	db $48, $49
+
+	db $01 ; number of tiles
+	dw vBGMap + $172
+	db $4A
+
+	db $00 ; terminator
 
 Func_19531: ; 0x19531
 	ld a, [wd6aa]
@@ -34467,7 +34573,8 @@ FieldSelectGfx: ; 0x8b100
 
 GengarBonusGastlyGfx: ; 0x8bd00
 	INCBIN "gfx/stage/gengar_bonus/gastly.interleave.2bpp"
-	dr $8be80, $8bf00
+
+	ds $80 ; free space
 
 INCLUDE "data/mon_gfx/mon_billboard_palettes_3.asm"
 

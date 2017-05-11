@@ -19302,7 +19302,7 @@ Func_19531: ; 0x19531
 	xor a
 .asm_19565
 	ld [wd6b0], a
-	call Func_1988e
+	call ResetOrbitingBalls
 	ld a, [wd6b1]
 	cp $8
 	jr z, .asm_19582
@@ -19686,7 +19686,7 @@ UpdateOrbitingBallAnimation: ; 0x19833
 	sla a
 	ld c, a
 	ld b, $0
-	ld hl, Data_19916
+	ld hl, OrbitingBallAnimations
 	add hl, bc
 	ld a, [hli]
 	ld h, [hl]
@@ -19738,7 +19738,7 @@ Func_19876: ; 0x19876
 	sla a
 	ld c, a
 	ld b, $0
-	ld hl, Data_19916
+	ld hl, OrbitingBallAnimations
 	add hl, bc
 	ld a, [hli]
 	ld h, [hl]
@@ -19753,14 +19753,14 @@ Func_19876: ; 0x19876
 	ld [de], a
 	ret
 
-Func_1988e: ; 0x1988e
+ResetOrbitingBalls: ; 0x1988e
 	ld a, [wd6b1]
 	sla a
 	sla a
 	sla a
 	ld c, a
 	ld b, $0
-	ld hl, Data_198ce
+	ld hl, OrbitingBallsStartCoordsIndices
 	add hl, bc
 	ld de, wd6bd
 	ld b, $6
@@ -19804,11 +19804,64 @@ Func_1988e: ; 0x1988e
 	jr nz, .asm_198a3
 	ret
 
-Data_198ce:
-	dr $198ce, $19916
+OrbitingBallsStartCoordsIndices:
+; When Mewtwo is hit, the orbs briefly disappear. When they reappear,
+; this table determines which entry in the MewtwoOrbitingBallsCoords table
+; each orb will start at.
+; Last two bytes in each row are unused
+	db $00, $0C, $18, $24, $30, $3C, $FF, $FF ; All 6 orbs are up
+	db $00, $0E, $1D, $2B, $3A, $FF, $FF, $FF ; 5 orbs are up
+	db $00, $12, $24, $36, $FF, $FF, $FF, $FF ; 4 orbs
+	db $00, $12, $24, $36, $FF, $FF, $FF, $FF ; 3 orbs
+	db $00, $18, $30, $FF, $FF, $FF, $FF, $FF ; 2 orbs
+	db $00, $24, $FF, $FF, $FF, $FF, $FF, $FF ; 1 orb
+	db $00, $FF, $FF, $FF, $FF, $FF, $FF, $FF ; 0 orbs
+	db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF ; unused
+	db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF ; unused
 
-Data_19916:
-	dr $19916, $1994e
+OrbitingBallAnimations:
+	dw OrbitingBallAnimation1
+	dw OrbitingBallAnimation2
+	dw OrbitingBallAnimation3
+	dw OrbitingBallAnimation4
+
+OrbitingBallAnimation1: ; 0x1991e
+; Each entry is [duration][OAM id]
+	db $0A, $00
+	db $08, $01
+	db $08, $02
+	db $0A, $03
+	db $08, $02
+	db $08, $01
+	db $00 ; terminator
+
+OrbitingBallAnimation2: ; 0x1992b
+; Each entry is [duration][OAM id]
+	db $05, $04
+	db $06, $05
+	db $06, $06
+	db $07, $07
+	db $07, $08
+	db $08, $09
+	db $08, $0A
+	db $00 ; terminator
+
+OrbitingBallAnimation3: ; 0x1993a
+; Each entry is [duration][OAM id]
+	db $05, $0A
+	db $05, $09
+	db $04, $08
+	db $04, $07
+	db $03, $06
+	db $03, $05
+	db $02, $04
+	db $80, $0B
+	db $00 ; terminator
+
+OrbitingBallAnimation4: ; 0x1994b
+; Each entry is [duration][OAM id]
+	db $0C, $0B
+	db $00 ; terminator
 
 Func_1994e: ; 0x1994e
 	ld bc, $7f65

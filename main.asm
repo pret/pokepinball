@@ -20111,7 +20111,23 @@ CheckDiglettBonusStageDiglettHeadsCollision: ; 0x19aba
 	ret
 
 Data_19b18:
-	dr $19b18, $19b4b
+	db $01, $01, $01
+	db $02, $02, $02
+	db $03, $03, $03
+	db $04, $04, $04
+	db $05, $05, $05
+	db $06, $06, $06
+	db $07, $07, $07
+	db $08, $08, $08
+	db $09, $09, $09
+	db $0A, $0A, $0A
+	db $0B, $0B, $0B
+	db $0C, $0C, $0C
+	db $0D, $0D, $0D
+	db $0E, $0E, $0E
+	db $0F, $0F, $0F
+	db $10, $10, $10
+	db $11, $11, $11
 
 CheckDiglettBonusStageDugtrioCollision: ; 0x19b4b
 	ld a, [wTriggeredGameObject]
@@ -20196,10 +20212,92 @@ Func_19bbd: ; 0x19bbd
 	ret
 
 Data_19bda:
-	dr $19bda, $19c16
+	dw Data_19bde
+	dw Data_19be1
+
+Data_19bde: ; 0x19bde
+	dbw $1, TileListData_19be4
+
+Data_19be1: ; 0x19be1
+	dbw $1, TileListData_19bfd
+
+TileListData_19be4: ; 0x19be4
+	dw LoadTileLists
+	db $09
+	db $02
+	dw vBGMap + $113
+	db $4E, $4F
+	db $02
+	dw vBGMap + $133
+	db $80, $4D
+	db $03
+	dw vBGMap + $152
+	db $80, $4B, $4C
+	db $02
+	dw vBGMap + $172
+	db $49, $4A
+	db $00 ; terminator
+
+TileListData_19bfd: ; 0x19bfd
+	dw LoadTileLists
+	db $09
+	db $02
+	dw vBGMap + $113
+	db $1D, $FB
+	db $02
+	dw vBGMap + $133
+	db $1B, $FA
+	db $03
+	dw vBGMap + $152
+	db $18, $19, $FB
+	db $02
+	dw vBGMap + $172
+	db $14, $15
+	db $00  ; terminator
 
 Data_19c16:
-	dr $19c16, $19c52
+	dw Data_19c1a
+	dw Data_19c1d
+
+Data_19c1a: ; 0x19c1a
+	dbw $1, Data_19c20
+
+Data_19c1d: ; 0x19c1d
+	dbw $1, Data_19c39
+
+Data_19c20: ; 0x19c20
+	dw LoadTileLists
+	db $09
+	db $02
+	dw vBGMap + $113
+	db $4E, $4F
+	db $02
+	dw vBGMap + $133
+	db $80, $4D
+	db $03
+	dw vBGMap + $152
+	db $80, $4B, $4C
+	db $02
+	dw vBGMap + $172
+	db $49, $4A
+	db $00  ; terminator
+
+Data_19c39: ; 0x19c39
+	dw LoadTileLists
+	db $09
+	db $02
+	dw vBGMap + $113
+	db $1D, $FB
+	db $02
+	dw vBGMap + $133
+	db $1B, $FA
+	db $03
+	dw vBGMap + $152
+	db $18, $19, $FB
+	db $02
+	dw vBGMap + $172
+	db $14, $15
+	db $00  ; terminator
 
 Func_19c52: ; 0x19c52
 	ld a, [wd73b]

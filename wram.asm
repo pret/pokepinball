@@ -47,40 +47,127 @@ wStageCollisionMap:: ; 0xc700
 	ds $68
 
 wc768:: ; 0xc768
-	ds $46
+	ds $39
+
+wc7a1:: ; 0xc7a1
+	ds $4
+
+wc7a5:: ; 0xc7a5
+	ds $8
+
+wc7ad:: ; 0xc7ad
+	ds $1
 
 wc7ae:: ; 0xc7ae
-	ds $19
+	ds $3
+
+wc7b1:: ; 0xc7b1
+	ds $12
+
+wc7c3:: ; 0xc7c3
+	ds $4
 
 wc7c7:: ; 0xc7c7
-	ds $1c
+	ds $4
+
+wc7cb:: ; 0xc7cb
+	ds $4
+
+wc7cf:: ; 0xc7cf
+	ds $12
+
+wc7e1:: ; 0xc7e1
+	ds $2
 
 wc7e3:: ; 0xc7e3
-	ds $d
+	ds $2
+
+wc7e5:: ; 0xc7e5
+	ds $4
+
+wc7e9:: ; 0xc7e9
+	ds $4
+
+wc7ed:: ; 0xc7ed
+	ds $3
 
 wc7f0:: ; 0xc7f0
-	ds $13
+	ds $1
+
+wc7f1:: ; 0xc7f1
+	ds $12
 
 wc803:: ; 0xc803
-	ds $d
+	ds $4
+
+wc807:: ; 0xc807
+	ds $4
+
+wc80b:: ; 0xc80b
+	ds $4
+
+wc80f:: ; 0xc80f
+	ds $1
 
 wc810:: ; 0xc810
-	ds $13
+	ds $11
+
+wc821:: ; 0xc821
+	ds $2
 
 wc823:: ; 0xc823
-	ds $2a
+	ds $2
+
+wc825:: ; 0xc825
+	ds $4
+
+wc829:: ; 0xc829
+	ds $4
+
+wc82d:: ; 0xc82d
+	ds $4
+
+wc831:: ; 0xc831
+	ds $12
+
+wc843:: ; 0xwc843
+	ds $4
+
+wc847:: ; 0xc847
+	ds $4
+
+wc84b:: ; 0xc84b
+	ds $2
 
 wc84d:: ; 0xc84d
-	ds $6
+	ds $2
+
+wc84f:: ; 0xc84f
+	ds $4
 
 wc853:: ; 0xc853
-	ds $1f
+	ds $12
+
+wc865:: ; 0xc865
+	ds $4
+
+wc869:: ; 0xc869
+	ds $4
+
+wc86d:: ; 0xc86d
+	ds $5
 
 wc872:: ; 0xc872
 	ds $1
 
 wc873:: ; 0xc873
-	ds $1f
+	ds $14
+
+wc887:: ; 0xc887
+	ds $4
+
+wc88b:: ; 0xc88b
+	ds $7
 
 wc892:: ; 0xc892
 	ds $1

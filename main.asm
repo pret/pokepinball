@@ -20587,7 +20587,102 @@ Func_19df0: ; 0x19df0
 	ret
 
 Data_19e13:
-	dr $19e13, $19ed1
+	dw wc7a1
+	db $19, $19, $1A, $1B
+
+	dw wc7e1
+	db $1C, $1C, $1D, $1E
+
+	dw wc821
+	db $1F, $1F, $20, $21
+
+	dw wc7c3
+	db $22, $22, $23, $24
+
+	dw wc803
+	db $25, $25, $26, $27
+
+	dw wc843
+	db $28, $28, $29, $2A
+
+	dw wc7a5
+	db $2B, $2B, $2C, $2D
+
+	dw wc7e5
+	db $2E, $2E, $2F, $30
+
+	dw wc825
+	db $31, $31, $32, $33
+
+	dw wc865
+	db $34, $34, $35, $36
+
+	dw wc7c7
+	db $37, $37, $38, $39
+
+	dw wc807
+	db $3A, $3A, $3B, $3C
+
+	dw wc847
+	db $3D, $3D, $3E, $3F
+
+	dw wc887
+	db $40, $40, $41, $42
+
+	dw wc7e9
+	db $43, $43, $44, $45
+
+	dw wc829
+	db $46, $46, $47, $48
+
+	dw wc869
+	db $49, $49, $4A, $4B
+
+	dw wc7cb
+	db $19, $19, $1A, $1B
+
+	dw wc80b
+	db $1C, $1C, $1D, $1E
+
+	dw wc84b
+	db $1F, $1F, $20, $21
+
+	dw wc88b
+	db $22, $22, $23, $24
+
+	dw wc7ad
+	db $25, $25, $26, $27
+
+	dw wc7ed
+	db $28, $28, $29, $2A
+
+	dw wc82d
+	db $2B, $2B, $2C, $2D
+
+	dw wc86d
+	db $2E, $2E, $2F, $30
+
+	dw wc7cf
+	db $31, $31, $32, $33
+
+	dw wc80f
+	db $34, $34, $35, $36
+
+	dw wc84f
+	db $37, $37, $38, $39
+
+	dw wc7b1
+	db $3A, $3A, $3B, $3C
+
+	dw wc7f1
+	db $3D, $3D, $3E, $3F
+
+	dw wc831
+	db $40, $40, $41, $42
+
+	; unused pointers?
+	dw DiglettInitializeOrder
+	dw DiglettUpdateOrder
 
 INCLUDE "data/diglett_stage/diglett_stage_animation_data.asm"
 

@@ -9992,8 +9992,8 @@ CallTable_10124: ; 0x10124
 	dw Func_10871
 	; STAGE_RED_FIELD_BOTTOM
 	dw Func_10871
-	dw Func_1098a
-	dw Func_1098a
+	dw DoNothing_1098a
+	dw DoNothing_1098a
 	; STAGE_BLUE_FIELD_TOP
 	dw Func_1098c
 	; STAGE_BLUE_FIELD_BOTTOM
@@ -10046,8 +10046,8 @@ CallTable_10178: ; 0x10178
 	dw Func_108f5
 	; STAGE_RED_FIELD_BOTTOM
 	dw Func_108f5
-	dw Func_1098b
-	dw Func_1098b
+	dw DoNothing_1098b
+	dw DoNothing_1098b
 	; STAGE_BLUE_FIELD_TOP
 	dw Func_109fc
 	; STAGE_BLUE_FIELD_BOTTOM
@@ -11138,40 +11138,62 @@ Func_108f5: ; 0x108f5
 	ld de, vTilesOB tile $38
 	ld bc, $0020
 	call LoadVRAMData
-	ld hl, Data_10958
-	ld a, BANK(Data_10958)
+	ld hl, BlankSaverSpaceTileDataRedField
+	ld a, BANK(BlankSaverSpaceTileDataRedField)
 	call Func_10aa
 	ld a, [wd624]
 	callba Func_174d4
-	ld hl, Data_1097d
-	ld a, BANK(Data_1097d)
+	ld hl, CaughtPokeballTileDataPointers
+	ld a, BANK(CaughtPokeballTileDataPointers)
 	call Func_10aa
 	ret
 
-Data_10958:
+BlankSaverSpaceTileDataRedField:
 	db 3
-	dw Data_1095f
-	dw Data_10969
-	dw Data_10973
+	dw BlankSaverSpaceTileDataRedField1
+	dw BlankSaverSpaceTileDataRedField2
+	dw BlankSaverSpaceTileDataRedField3
 
-Data_1095f:
-	dr $1095f, $10969
-Data_10969:
-	dr $10969, $10973
-Data_10973:
-	dr $10973, $1097d
+BlankSaverSpaceTileDataRedField1:
+	dw Func_11d2
+	db $20, $02
+	dw vTilesSH tile $2e
+	dw StageRedFieldBottomBaseGameBoyColorGfx + $2e0
+	db Bank(StageRedFieldBottomBaseGameBoyColorGfx)
+	db $00
 
-Data_1097d:
+BlankSaverSpaceTileDataRedField2:
+	dw Func_11d2
+	db $20, $02
+	dw vTilesSH tile $30
+	dw StageRedFieldBottomBaseGameBoyColorGfx + $300
+	db Bank(StageRedFieldBottomBaseGameBoyColorGfx)
+	db $00
+
+BlankSaverSpaceTileDataRedField3:
+	dw Func_11d2
+	db $20, $02
+	dw vTilesSH tile $32
+	dw StageRedFieldBottomBaseGameBoyColorGfx + $320
+	db Bank(StageRedFieldBottomBaseGameBoyColorGfx)
+	db $00
+
+CaughtPokeballTileDataPointers:
 	db 1
-	dw Data_10980
+	dw CaughtPokeballTileData
 
-Data_10980:
-	dr $10980, $1098a
+CaughtPokeballTileData:
+	dw Func_11d2
+	db $20, $02
+	dw vTilesSH tile $2e
+	dw CaughtPokeballGfx
+	db Bank(CaughtPokeballGfx)
+	db $00
 
-Func_1098a: ; 0x1098a
+DoNothing_1098a: ; 0x1098a
 	ret
 
-Func_1098b: ; 0x1098b
+DoNothing_1098b: ; 0x1098b
 	ret
 
 Func_1098c: ; 0x1098c
@@ -11246,8 +11268,8 @@ Func_109fc: ; 0x109fc
 	ld de, vTilesOB tile $38
 	ld bc, $0020
 	call LoadVRAMData
-	ld hl, Data_10a63
-	ld a, BANK(Data_10a63)
+	ld hl, BlankSaverSpaceTileDataBlueField
+	ld a, BANK(BlankSaverSpaceTileDataBlueField)
 	call Func_10aa
 	ld a, [wd624]
 	callba Func_174d4
@@ -11256,25 +11278,47 @@ Func_109fc: ; 0x109fc
 	call Func_10aa
 	ret
 
-Data_10a63:
+BlankSaverSpaceTileDataBlueField:
 	db 3
-	dw Data_10a6a
-	dw Data_10a74
-	dw Data_10a7e
+	dw BlankSaverSpaceTileDataBlueField1
+	dw BlankSaverSpaceTileDataBlueField2
+	dw BlankSaverSpaceTileDataBlueField3
 
-Data_10a6a:
-	dr $10a6a, $10a74
-Data_10a74:
-	dr $10a74, $10a7e
-Data_10a7e:
-	dr $10a7e, $10a88
+BlankSaverSpaceTileDataBlueField1:
+	dw Func_11d2
+	db $20, $02
+	dw vTilesSH tile $2e
+	dw StageBlueFieldBottomBaseGameBoyColorGfx + $2e0
+	db Bank(StageBlueFieldBottomBaseGameBoyColorGfx)
+	db $00
+
+BlankSaverSpaceTileDataBlueField2:
+	dw Func_11d2
+	db $20, $02
+	dw vTilesSH tile $30
+	dw StageBlueFieldBottomBaseGameBoyColorGfx + $300
+	db Bank(StageBlueFieldBottomBaseGameBoyColorGfx)
+	db $00
+
+BlankSaverSpaceTileDataBlueField3:
+	dw Func_11d2
+	db $20, $02
+	dw vTilesSH tile $32
+	dw StageBlueFieldBottomBaseGameBoyColorGfx + $320
+	db Bank(StageBlueFieldBottomBaseGameBoyColorGfx)
+	db $00
 
 Data_10a88:
 	db 1
 	dw Data_10a8b
 
 Data_10a8b:
-	dr $10a8b, $10a95
+	dw Func_11d2
+	db $20, $02
+	dw vTilesSH tile $2e
+	dw CaughtPokeballGfx
+	db Bank(CaughtPokeballGfx)
+	db $00
 
 Func_10a95: ; 0x19a95
 	ld a, [wCurrentStage]
@@ -11998,13 +12042,13 @@ Func_10fe3: ; 0x10fe3
 	ld bc, $0008
 	call Func_7dc
 .asm_11036
-	ld hl, Data_10958
-	ld a, BANK(Data_10958)
+	ld hl, BlankSaverSpaceTileDataRedField
+	ld a, BANK(BlankSaverSpaceTileDataRedField)
 	call Func_10aa
 	ld a, [wd624]
 	callba Func_174d4
-	ld hl, Data_1097d
-	ld a, BANK(Data_1097d)
+	ld hl, CaughtPokeballTileDataPointers
+	ld a, BANK(CaughtPokeballTileDataPointers)
 	call Func_10aa
 	ret
 
@@ -12135,8 +12179,8 @@ Func_11195: ; 0x11195
 	ld bc, $0008
 	call Func_7dc
 .asm_111f0
-	ld hl, Data_10a63
-	ld a, BANK(Data_10a63)
+	ld hl, BlankSaverSpaceTileDataBlueField
+	ld a, BANK(BlankSaverSpaceTileDataBlueField)
 	call Func_10aa
 	ld a, [wd624]
 	callba Func_174d4
@@ -12769,8 +12813,8 @@ Func_14282: ; 0x14282
 .asm_1429e
 	ld a, [wd624]
 	call Func_174d4
-	ld a, BANK(Data_d8f60)
-	ld hl, Data_d8f60
+	ld a, BANK(CaughtPokeballGfx)
+	ld hl, CaughtPokeballGfx
 	ld de, vTilesSH tile $2e
 	ld bc, $0020
 	call FarCopyData
@@ -21460,8 +21504,8 @@ Func_1c43c: ; 0x1c43c
 .asm_1c458
 	ld a, [wd624]
 	call Func_1f265
-	ld a, BANK(Data_d8f60)
-	ld hl, Data_d8f60
+	ld a, BANK(CaughtPokeballGfx)
+	ld hl, CaughtPokeballGfx
 	ld de, vTilesSH tile $2e
 	ld bc, $0020
 	call FarCopyData
@@ -35569,8 +35613,10 @@ CatchTextGfx:
 Data_d8e80:
 	dr $d8e80, $d8f60
 
-Data_d8f60:
-	dr $d8f60, $d9000
+CaughtPokeballGfx: ; 0xd8f60
+	INCBIN "gfx/stage/caught_pokeball.2bpp"
+
+	ds $80 ; free space
 
 StageRedFieldBottomCollisionMasks: ; 0xd9000
 	INCBIN "data/collision/masks/red_stage_bottom.masks"

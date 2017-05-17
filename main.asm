@@ -17558,7 +17558,7 @@ asm_15fc0
 	sla a
 	ld c, a
 	ld b, $0
-	ld hl, Data_16010
+	ld hl, TileDataPointers_16010
 	ld a, [hGameBoyColorFlag]
 	and a
 	jr z, .asm_15fd0
@@ -17568,7 +17568,7 @@ asm_15fc0
 	ld a, [hli]
 	ld h, [hl]
 	ld l, a
-	ld a, Bank(Data_16010)
+	ld a, Bank(TileDataPointers_16010)
 	call Func_10aa
 	ret
 
@@ -17588,7 +17588,7 @@ Func_15fda: ; 0x15fda
 	sub $6
 	ld c, a
 	ld b, $0
-	ld hl, Data_1600e
+	ld hl, CollisionAngleDeltas_1600e
 	add hl, bc
 	ld a, [wCollisionForceAngle]
 	add [hl]
@@ -17597,14 +17597,228 @@ Func_15fda: ; 0x15fda
 	call PlaySoundEffect
 	ret
 
-Data_1600e:
-	dr $1600e, $16010
+CollisionAngleDeltas_1600e:
+	db -8, 8
 
-Data_16010:
-	dr $16010, $16080
+TileDataPointers_16010:
+	dw TileData_16018
+	dw TileData_1601b
+	dw TileData_1601e
+	dw TileData_16021
+
+TileData_16018: ; 0x16018
+	db $01
+	dw TileData_16024
+
+TileData_1601b: ; 0x1601b
+	db $01
+	dw TileData_1603B
+
+TileData_1601e: ; 0x1601e
+	db $01
+	dw TileData_16052
+
+TileData_16021: ; 0x16021
+	db $01
+	dw TileData_16069
+
+TileData_16024: ; 0x16024
+	dw LoadTileLists
+	db $07 ; total number of tiles
+
+	db $01 ; number of tiles
+	dw vBGMap + $124
+	db $60
+
+	db $02 ; number of tiles
+	dw vBGMap + $144
+	db $61, $62
+
+	db $02 ; number of tiles
+	dw vBGMap + $164
+	db $63, $64
+
+	db $02 ; number of tiles
+	dw vBGMap + $185
+	db $65, $66
+
+	db $00 ; terminator
+
+TileData_1603B: ; 0x1603B
+	dw LoadTileLists
+	db $07 ; total number of tiles
+
+	db $01 ; number of tiles
+	dw vBGMap + $124
+	db $67
+
+	db $02 ; number of tiles
+	dw vBGMap + $144
+	db $68, $69
+
+	db $02 ; number of tiles
+	dw vBGMap + $164
+	db $6A, $6B
+
+	db $02 ; number of tiles
+	dw vBGMap + $185
+	db $6C, $6D
+
+	db $00 ; terminator
+
+TileData_16052: ; 0x16052
+	dw LoadTileLists
+	db $07 ; total number of tiles
+
+	db $01 ; number of tiles
+	dw vBGMap + $12F
+	db $6E
+
+	db $02 ; number of tiles
+	dw vBGMap + $14E
+	db $6F, $70
+
+	db $02 ; number of tiles
+	dw vBGMap + $16E
+	db $71, $72
+
+	db $02 ; number of tiles
+	dw vBGMap + $18D
+	db $73, $74
+
+	db $00 ; terminator
+
+TileData_16069: ; 0x16069
+	dw LoadTileLists
+	db $07 ; total number of tiles
+
+	db $01 ; number of tiles
+	dw vBGMap + $12F
+	db $75
+
+	db $02 ; number of tiles
+	dw vBGMap + $14E
+	db $76, $77
+
+	db $02 ; number of tiles
+	dw vBGMap + $16E
+	db $78, $79
+
+	db $02 ; number of tiles
+	dw vBGMap + $18D
+	db $7A, $7B
+
+	db $00 ; terminator
 
 Data_16080:
-	dr $16080, $160f0
+	dw Data_16088
+	dw Data_1608b
+	dw Data_1608e
+	dw Data_16091
+
+Data_16088: ; 0x16088
+	db $01
+	dw Data_16094
+
+Data_1608b: ; 0x1608b
+	db $01
+	dw Data_160ab
+
+Data_1608e: ; 0x1608e
+	db $01
+	dw Data_160c2
+
+Data_16091: ; 0x16091
+	db $01
+	dw Data_160d9
+
+Data_16094: ; 0x16094
+	dw LoadTileLists
+	db $07 ; total number of tiles
+
+	db $01 ; number of tiles
+	dw vBGMap + $124
+	db $2A
+
+	db $02 ; number of tiles
+	dw vBGMap + $144
+	db $2B, $2C
+
+	db $02 ; number of tiles
+	dw vBGMap + $164
+	db $2D, $2E
+
+	db $02 ; number of tiles
+	dw vBGMap + $185
+	db $2F, $30
+
+	db $00 ; terminator
+
+Data_160ab: ; 0x160ab
+	dw LoadTileLists
+	db $07 ; total number of tiles
+
+	db $01 ; number of tiles
+	dw vBGMap + $124
+	db $31
+
+	db $02 ; number of tiles
+	dw vBGMap + $144
+	db $32, $33
+
+	db $02 ; number of tiles
+	dw vBGMap + $164
+	db $34, $35
+
+	db $02 ; number of tiles
+	dw vBGMap + $185
+	db $36, $37
+
+	db $00 ; terminator
+
+Data_160c2: ; 0x160c2
+	dw LoadTileLists
+	db $07 ; total number of tiles
+
+	db $01 ; number of tiles
+	dw vBGMap + $12F
+	db $2A
+
+	db $02 ; number of tiles
+	dw vBGMap + $14E
+	db $2C, $2B
+
+	db $02 ; number of tiles
+	dw vBGMap + $16E
+	db $2E, $2D
+
+	db $02 ; number of tiles
+	dw vBGMap + $18D
+	db $30, $2F
+
+	db $00 ; terminator
+
+Data_160d9: ; 0x160d9
+	dw LoadTileLists
+	db $07 ; total number of tiles
+
+	db $01 ; number of tiles
+	dw vBGMap + $12F
+	db $31
+
+	db $02 ; number of tiles
+	dw vBGMap + $14E
+	db $33, $32
+
+	db $02 ; number of tiles
+	dw vBGMap + $16E
+	db $35, $34
+
+	db $02 ; number of tiles
+	dw vBGMap + $18D
+	db $37, $36
+
+	db $00 ; terminator
 
 ResolveDittoSlotCollision: ; 0x160f0
 	ld a, [wDittoSlotCollision]
@@ -17957,7 +18171,7 @@ Func_16352: ; 0x16352
 	ld a, [wd498]
 	ld c, a
 	ld b, $0
-	ld hl, Data_16420
+	ld hl, GoToBonusStageTextIds
 	add hl, bc
 	ld a, [hl]
 	ld [wd497], a
@@ -18014,8 +18228,12 @@ Func_163f2: ; 0x163f2
 	call PlaySoundEffect
 	ret
 
-Data_16420:
-	dr $16420, $16425
+GoToBonusStageTextIds:
+	db STAGE_GENGAR_BONUS
+	db STAGE_MEWTWO_BONUS
+	db STAGE_MEOWTH_BONUS
+	db STAGE_DIGLETT_BONUS
+	db STAGE_SEEL_BONUS
 
 Func_16425: ; 0x16425
 	ld a, [wCurrentStage]
@@ -18027,11 +18245,11 @@ Func_16425: ; 0x16425
 	sla a
 	ld c, a
 	ld b, $0
-	ld hl, Data_1644d
+	ld hl, TileDataPointers_1644d
 	ld a, [hGameBoyColorFlag]
 	and a
 	jr z, .asm_16441
-	ld hl, Data_164a1
+	ld hl, TileDataPointers_164a1
 .asm_16441
 	add hl, bc
 	ld a, [hli]
@@ -18039,15 +18257,152 @@ Func_16425: ; 0x16425
 	ld l, a
 	or h
 	ret z
-	ld a, Bank(Data_1644d)
+	ld a, Bank(TileDataPointers_1644d)
 	call Func_10aa
 	ret
 
-Data_1644d:
-	dr $1644d, $164a1
+TileDataPointers_1644d:
+	dw TileData_16455
+	dw TileData_16458
+	dw TileData_1645b
+	dw TileData_16460
 
-Data_164a1:
-	dr $164a1, $164e3
+TileData_16455: ; 0x16455
+	db $01
+	dw TileData_16465
+
+TileData_16458: ; 0x16458
+	db $01
+	dw TileData_1646f
+
+TileData_1645b: ; 0x1645b
+	db $02
+	dw TileData_16479
+	dw TileData_16483
+
+TileData_16460: ; 0x16460
+	db $02
+	dw TileData_1648D
+	dw TileData_16497
+
+TileData_16465: ; 0x16465
+	dw Func_11d2
+	db $20, $02
+	dw vTilesSH tile $46
+	dw StageRedFieldTopBaseGameBoyGfx + $1c0
+	db Bank(StageRedFieldTopBaseGameBoyGfx)
+	db $00
+
+TileData_1646f: ; 0x1646f
+	dw Func_11d2
+	db $20, $02
+	dw vTilesSH tile $46
+	dw StageRedFieldBottomIndicatorsGfx_Gameboy + $340
+	db Bank(StageRedFieldBottomIndicatorsGfx_Gameboy)
+	db $00
+
+TileData_16479: ; 0x16479
+	dw Func_11d2
+	db $20, $02
+	dw vTilesBG tile $48
+	dw StageRedFieldBottomBaseGameBoyGfx + $c80
+	db Bank(StageRedFieldBottomBaseGameBoyGfx)
+	db $00
+
+TileData_16483: ; 0x16483
+	dw Func_11d2
+	db $20, $02
+	dw vTilesBG tile $4A
+	dw StageRedFieldBottomBaseGameBoyGfx + $CA0
+	db Bank(StageRedFieldBottomBaseGameBoyGfx)
+	db $00
+
+TileData_1648D: ; 0x1648D
+	dw Func_11d2
+	db $20, $02
+	dw vTilesBG tile $48
+	dw StageRedFieldBottomIndicatorsGfx_Gameboy + $340
+	db Bank(StageRedFieldBottomIndicatorsGfx_Gameboy)
+	db $00
+
+TileData_16497: ; 0x16497
+	dw Func_11d2
+	db $20, $02
+	dw vTilesBG tile $4A
+	dw StageRedFieldBottomIndicatorsGfx_Gameboy + $360
+	db Bank(StageRedFieldBottomIndicatorsGfx_Gameboy)
+	db $00
+
+TileDataPointers_164a1:
+	dw TileData_164a9
+	dw TileData_164ac
+	dw TileData_164af
+	dw TileData_164b2
+
+TileData_164a9: ; 0x164a9
+	db $01
+	dw TileData_164b5
+
+TileData_164ac: ; 0x164ac
+	db $01
+	dw TileData_164be
+
+TileData_164af: ; 0x164af
+	db $01
+	dw TileData_164c7
+
+TileData_164b2: ; 0x164b2
+	db $01
+	dw TileData_164d5
+
+TileData_164b5: ; 0x164b5
+	dw LoadTileLists
+	db $02
+
+	db $02
+	dw vBGMap + $229
+	db $d4, $d5
+
+	db $00
+
+TileData_164be: ; 0x164be
+	dw LoadTileLists
+	db $02
+
+	db $02
+
+	dw vBGMap + $229
+	db $d6, $d7
+
+	db $00
+
+TileData_164c7: ; 0x164c7
+	dw LoadTileLists
+	db $04
+
+	db $02
+	dw vBGMap + $9
+	db $38, $39
+
+	db $02
+	dw vBGMap + $29
+	db $3a, $3b
+
+	db $00
+
+TileData_164d5: ; 0x164d5
+	dw LoadTileLists
+	db $04
+
+	db $02
+	dw vBGMap + $9
+	db $3c, $3d
+
+	db $02
+	dw vBGMap + $29
+	db $3e, $3f
+
+	db $00
 
 Func_164e3: ; 0x164e3
 	ld a, [wd607]
@@ -18470,11 +18825,11 @@ Func_16859: ; 0x16859
 	sla a
 	ld c, a
 	ld b, $0
-	ld hl, Data_16899
+	ld hl, TileDataPointers_16899
 	ld a, [hGameBoyColorFlag]
 	and a
 	jr z, .asm_1686c
-	ld hl, Data_16910
+	ld hl, TileDataPointers_16910
 .asm_1686c
 	add hl, bc
 	ld a, [hli]
@@ -18482,7 +18837,7 @@ Func_16859: ; 0x16859
 	ld l, a
 	or h
 	ret z
-	ld a, Bank(Data_16899)
+	ld a, Bank(TileDataPointers_16899)
 	call Func_10aa
 	ret
 
@@ -18492,11 +18847,11 @@ Func_16878: ; 0x16878
 	sla a
 	ld c, a
 	ld b, $0
-	ld hl, Data_1695a
+	ld hl, TileDataPointers_1695a
 	ld a, [hGameBoyColorFlag]
 	and a
 	jr z, .asm_1688d
-	ld hl, Data_16980
+	ld hl, TileDataPointers_16980
 .asm_1688d
 	add hl, bc
 	ld a, [hli]
@@ -18504,21 +18859,257 @@ Func_16878: ; 0x16878
 	ld l, a
 	or h
 	ret z
-	ld a, Bank(Data_1695a)
+	ld a, Bank(TileDataPointers_1695a)
 	call Func_10aa
 	ret
 
-Data_16899:
-	dr $16899, $16910
+TileDataPointers_16899:
+	dw TileData_168a1
+	dw TileData_168a8
+	dw TileData_168af
+	dw TileData_168af
 
-Data_16910:
-	dr $16910, $1695a
+TileData_168a1: ; 0x168a1
+	db $03
+	dw TileData_168b6
+	dw TileData_168c0
+	dw TileData_168ca
 
-Data_1695a:
-	dr $1695a, $16980
+TileData_168a8: ; 0x168a8
+	db $03
+	dw TileData_168d4
+	dw TileData_168de
+	dw TileData_168e8
 
-Data_16980:
-	dr $16980, $169a6
+TileData_168af: ; 0x168af
+	db $03
+	dw TileData_168f2
+	dw TileData_168fc
+	dw TileData_16906
+
+TileData_168b6: ; 0x168b6
+	dw Func_11d2
+	db $30, $03
+	dw vTilesSH tile $50
+	dw StageRedFieldTopBaseGameBoyGfx + $260
+	db Bank(StageRedFieldTopBaseGameBoyGfx)
+	db $00
+
+TileData_168c0: ; 0x168c0
+	dw Func_11d2
+	db $30, $03
+	dw vTilesSH tile $53
+	dw StageRedFieldTopBaseGameBoyGfx + $290
+	db Bank(StageRedFieldTopBaseGameBoyGfx)
+	db $00
+
+TileData_168ca: ; 0x168ca
+	dw Func_11d2
+	db $10, $01
+	dw vTilesSH tile $56
+	dw StageRedFieldTopBaseGameBoyGfx + $2c0
+	db Bank(StageRedFieldTopBaseGameBoyGfx)
+	db $00
+
+TileData_168d4: ; 0x168d4
+	dw Func_11d2
+	db $30, $03
+	dw vTilesSH tile $52
+	dw StageRedFieldTopBaseGameBoyGfx + $280
+	db Bank(StageRedFieldTopBaseGameBoyGfx)
+	db $00
+
+TileData_168de: ; 0x168de
+	dw Func_11d2
+	db $20, $02
+	dw vTilesSH tile $55
+	dw StageRedFieldTopBaseGameBoyGfx + $2b0
+	db Bank(StageRedFieldTopBaseGameBoyGfx)
+	db $00
+
+TileData_168e8: ; 0x168e8
+	dw Func_11d2
+	db $20, $02
+	dw vTilesSH tile $50
+	dw StageRedFieldBottomIndicatorsGfx_Gameboy + $EA0
+	db Bank(StageRedFieldBottomIndicatorsGfx_Gameboy)
+	db $00
+
+TileData_168f2: ; 0x168f2
+	dw Func_11d2
+	db $30, $03
+	dw vTilesSH tile $51
+	dw StageRedFieldBottomIndicatorsGfx_Gameboy + $10E0
+	db Bank(StageRedFieldBottomIndicatorsGfx_Gameboy)
+	db $00
+
+TileData_168fc: ; 0x168fc
+	dw Func_11d2
+	db $30, $03
+	dw vTilesSH tile $54
+	dw StageRedFieldBottomIndicatorsGfx_Gameboy + $1110
+	db Bank(StageRedFieldBottomIndicatorsGfx_Gameboy)
+	db $00
+
+TileData_16906: ; 0x16906
+	dw Func_11d2
+	db $10, $01
+	dw vTilesSH tile $50
+	dw StageRedFieldTopBaseGameBoyGfx + $260
+	db Bank(StageRedFieldTopBaseGameBoyGfx)
+	db $00
+
+TileDataPointers_16910:
+	dw TileData_16918
+	dw TileData_1691b
+	dw TileData_1691e
+	dw TileData_1691e
+
+TileData_16918: ;0x16918
+	db $01
+	dw TileData_16921
+
+TileData_1691b: ;0x1691b
+	db $01
+	dw TileData_16934
+
+TileData_1691e: ;0x1691e
+	db $01
+	dw TileData_16947
+
+TileData_16921: ; 0x16921
+	dw LoadTileLists
+	db $06
+
+	db $03
+	dw vBGMap + $1C6
+	db $C3, $C4, $C5
+
+	db $02
+	dw vBGMap + $1E7
+	db $C6, $C7
+
+	db $01
+	dw vBGMap + $207
+	db $C8
+
+	db $00
+
+TileData_16934: ; 0x16934
+	dw LoadTileLists
+	db $06
+
+	db $03
+	dw vBGMap + $1C6
+	db $CD, $CE, $C5
+
+	db $02
+	dw vBGMap + $1E7
+	db $C6, $C7
+
+	db $01
+	dw vBGMap + $207
+	db $C8
+
+	db $00
+
+TileData_16947: ; 0x16947
+	dw LoadTileLists
+	db $06
+
+	db $03
+	dw vBGMap + $1C6
+	db $C3, $C4, $C9
+
+	db $02
+	dw vBGMap + $1E7
+	db $CA, $CB
+
+	db $01
+	dw vBGMap + $207
+	db $CC
+
+	db $00
+
+TileDataPointers_1695a:
+	dw TileData_1695e
+	dw TileData_16961
+
+TileData_1695e: ; 0x1695e
+	db $01
+	dw TileData_16964
+
+TileData_16961: ; 0x16961
+	db $01
+	dw TileData_16972
+
+TileData_16964: ; 0x16964
+	dw LoadTileLists
+	db $04
+
+	db $02
+	dw vBGMap + $40
+	db $BE, $BF
+
+	db $02
+	dw vBGMap + $60
+	db $C0, $C1
+
+	db $00
+
+TileData_16972: ; 0x16972
+	dw LoadTileLists
+	db $04
+
+	db $02
+	dw vBGMap + $40
+	db $C2, $C3
+
+	db $02
+	dw vBGMap + $60
+	db $C4, $C5
+
+	db $00
+
+TileDataPointers_16980:
+	dw TileData_16984
+	dw TileData_16987
+
+TileData_16984: ; 0x16984
+	db $01
+	dw TileData_1698a
+
+TileData_16987: ; 0x16987
+	db $01
+	dw TileData_16998
+
+TileData_1698a: ; 0x1698a
+	dw LoadTileLists
+	db $04
+
+	db $02
+	dw vBGMap + $40
+	db $BC, $BD
+
+	db $02
+	dw vBGMap + $60
+	db $BE, $BF
+
+	db $00
+
+TileData_16998: ; 0x16998
+	dw LoadTileLists
+	db $04
+
+	db $02
+	dw vBGMap + $40
+	db $C0, $C1
+
+	db $02
+	dw vBGMap + $60
+	db $C2, $C3
+
+	db $00
 
 Func_169a6: ; 0x169a6
 	ld a, [hNumFramesDropped]
@@ -18550,11 +19141,11 @@ Func_169a6: ; 0x169a6
 Func_169cd: ; 0x169cd
 	push af
 	sla c
-	ld hl, Data_169ed
+	ld hl, TileDataPointers_169ed
 	ld a, [hGameBoyColorFlag]
 	and a
 	jr z, .asm_169db
-	ld hl, Data_16bef
+	ld hl, TileDataPointers_16bef
 .asm_169db
 	add hl, bc
 	ld a, [hli]
@@ -18567,15 +19158,873 @@ Func_169cd: ; 0x169cd
 	ld a, [hli]
 	ld h, [hl]
 	ld l, a
-	ld a, Bank(Data_169ed)
+	ld a, Bank(TileDataPointers_169ed)
 	call Func_10aa
 	ret
 
-Data_169ed:
-	dr $169ed, $16bef
+TileDataPointers_169ed:
+	dw TileDataPointers_169f7
+	dw TileDataPointers_16a01
+	dw TileDataPointers_16a0b
+	dw TileDataPointers_16a0f
+	dw TileDataPointers_16a13
 
-Data_16bef:
-	dr $16bef, $16d9d
+TileDataPointers_169f7: ; 0x169f7
+	dw TileData_16a17
+	dw TileData_16a1e
+	dw TileData_16a25
+	dw TileData_16a2c
+	dw TileData_16a33
+
+TileDataPointers_16a01: ; 0x16a01
+	dw TileData_16a3a
+	dw TileData_16a41
+	dw TileData_16a48
+	dw TileData_16a4f
+	dw TileData_16a56
+
+TileDataPointers_16a0b: ; 0x16a0b
+	dw TileData_16a5d
+	dw TileData_16a60
+
+TileDataPointers_16a0f: ; 0x16a0f
+	dw TileData_16a63
+	dw TileData_16a66
+
+TileDataPointers_16a13: ; 0x16a13
+	dw TileData_16a69
+	dw TileData_16a6e
+
+TileData_16a17: ; 0x16a17
+	db $03
+	dw TileData_16a73
+	dw TileData_16a7d
+	dw TileData_16a87
+
+TileData_16a1e: ; 0x16a1e
+	db $03
+	dw TileData_16a91
+	dw TileData_16a9b
+	dw TileData_16aa5
+
+TileData_16a25: ; 0x16a25
+	db $03
+	dw TileData_16aaf
+	dw TileData_16ab9
+	dw TileData_16ac3
+
+TileData_16a2c: ; 0x16a2c
+	db $03
+	dw TileData_16acd
+	dw TileData_16ad7
+	dw TileData_16ae1
+
+TileData_16a33: ; 0x16a33
+	db $03
+	dw TileData_16aeb
+	dw TileData_16af5
+	dw TileData_16aff
+
+TileData_16a3a: ; 0x16a3a
+	db $03
+	dw TileData_16b09
+	dw TileData_16b13
+	dw TileData_16b1d
+
+TileData_16a41: ; 0x16a41
+	db $03
+	dw TileData_16b27
+	dw TileData_16b31
+	dw TileData_16b3b
+
+TileData_16a48: ; 0x16a48
+	db $03
+	dw TileData_16b45
+	dw TileData_16b4f
+	dw TileData_16b59
+
+TileData_16a4f: ; 0x16a4f
+	db $03
+	dw TileData_16b63
+	dw TileData_16b6d
+	dw TileData_16b77
+
+TileData_16a56: ; 0x16a56
+	db $03
+	dw TileData_16b81
+	dw TileData_16b8b
+	dw TileData_16b95
+
+TileData_16a5d: ; 0x16a5d
+	db $01
+	dw TileData_16b9f
+
+TileData_16a60: ; 0x16a60
+	db $01
+	dw TileData_16ba9
+
+TileData_16a63: ; 0x16a63
+	db $01
+	dw TileData_16bb3
+
+TileData_16a66: ; 0x16a66
+	db $01
+	dw TileData_16bbd
+
+TileData_16a69: ; 0x16a69
+	db $02
+	dw TileData_16bc7
+	dw TileData_16bd1
+
+TileData_16a6e: ; 0x16a6e
+	db $02
+	dw TileData_16bdb
+	dw TileData_16be5
+
+TileData_16a73: ; 0x16a73
+	dw Func_11d2
+	db $30, $03
+	dw vTilesBG tile $3A
+	dw StageRedFieldBottomBaseGameBoyGfx + $ba0
+	db Bank(StageRedFieldBottomBaseGameBoyGfx)
+	db $00
+
+TileData_16a7d: ; 0x16a7d
+	dw Func_11d2
+	db $30, $03
+	dw vTilesBG tile $3D
+	dw StageRedFieldBottomBaseGameBoyGfx + $bd0
+	db Bank(StageRedFieldBottomBaseGameBoyGfx)
+	db $00
+
+TileData_16a87: ; 0x16a87
+	dw Func_11d2
+	db $10, $01
+	dw vTilesBG tile $40
+	dw StageRedFieldBottomBaseGameBoyGfx + $c00
+	db Bank(StageRedFieldBottomBaseGameBoyGfx)
+	db $00
+
+TileData_16a91: ; 0x16a91
+	dw Func_11d2
+	db $30, $03
+	dw vTilesBG tile $3A
+	dw StageRedFieldBottomIndicatorsGfx_Gameboy + $380
+	db Bank(StageRedFieldBottomIndicatorsGfx_Gameboy)
+	db $00
+
+TileData_16a9b: ; 0x16a9b
+	dw Func_11d2
+	db $30, $03
+	dw vTilesBG tile $3D
+	dw StageRedFieldBottomIndicatorsGfx_Gameboy + $3B0
+	db Bank(StageRedFieldBottomIndicatorsGfx_Gameboy)
+	db $00
+
+TileData_16aa5: ; 0x16aa5
+	dw Func_11d2
+	db $10, $01
+	dw vTilesBG tile $40
+	dw StageRedFieldBottomIndicatorsGfx_Gameboy + $3E0
+	db Bank(StageRedFieldBottomIndicatorsGfx_Gameboy)
+	db $00
+
+TileData_16aaf: ; 0x16aaf
+	dw Func_11d2
+	db $30, $03
+	dw vTilesBG tile $3A
+	dw StageRedFieldBottomIndicatorsGfx_Gameboy + $3F0
+	db Bank(StageRedFieldBottomIndicatorsGfx_Gameboy)
+	db $00
+
+TileData_16ab9: ; 0x16ab9
+	dw Func_11d2
+	db $30, $03
+	dw vTilesBG tile $3D
+	dw StageRedFieldBottomIndicatorsGfx_Gameboy + $420
+	db Bank(StageRedFieldBottomIndicatorsGfx_Gameboy)
+	db $00
+
+TileData_16ac3: ; 0x16ac3
+	dw Func_11d2
+	db $10, $01
+	dw vTilesBG tile $40
+	dw StageRedFieldBottomIndicatorsGfx_Gameboy + $450
+	db Bank(StageRedFieldBottomIndicatorsGfx_Gameboy)
+	db $00
+
+TileData_16acd: ; 0x16acd
+	dw Func_11d2
+	db $30, $03
+	dw vTilesBG tile $3A
+	dw StageRedFieldBottomIndicatorsGfx_Gameboy + $460
+	db Bank(StageRedFieldBottomIndicatorsGfx_Gameboy)
+	db $00
+
+TileData_16ad7: ; 0x16ad7
+	dw Func_11d2
+	db $30, $03
+	dw vTilesBG tile $3D
+	dw StageRedFieldBottomIndicatorsGfx_Gameboy + $490
+	db Bank(StageRedFieldBottomIndicatorsGfx_Gameboy)
+	db $00
+
+TileData_16ae1: ; 0x16ae1
+	dw Func_11d2
+	db $10, $01
+	dw vTilesBG tile $40
+	dw StageRedFieldBottomIndicatorsGfx_Gameboy + $4C0
+	db Bank(StageRedFieldBottomIndicatorsGfx_Gameboy)
+	db $00
+
+TileData_16aeb: ; 0x16aeb
+	dw Func_11d2
+	db $30, $03
+	dw vTilesBG tile $3A
+	dw StageRedFieldBottomIndicatorsGfx_Gameboy + $F30
+	db Bank(StageRedFieldBottomIndicatorsGfx_Gameboy)
+	db $00
+
+TileData_16af5: ; 0x16af5
+	dw Func_11d2
+	db $30, $03
+	dw vTilesBG tile $3D
+	dw StageRedFieldBottomIndicatorsGfx_Gameboy + $F60
+	db Bank(StageRedFieldBottomIndicatorsGfx_Gameboy)
+	db $00
+
+TileData_16aff: ; 0x16aff
+	dw Func_11d2
+	db $10, $01
+	dw vTilesBG tile $40
+	dw StageRedFieldBottomIndicatorsGfx_Gameboy + $F90
+	db Bank(StageRedFieldBottomIndicatorsGfx_Gameboy)
+	db $00
+
+TileData_16b09: ; 0x16b09
+	dw Func_11d2
+	db $30, $03
+	dw vTilesBG tile $41
+	dw StageRedFieldBottomBaseGameBoyGfx + $c10
+	db Bank(StageRedFieldBottomBaseGameBoyGfx)
+	db $00
+
+TileData_16b13: ; 0x16b13
+	dw Func_11d2
+	db $30, $03
+	dw vTilesBG tile $44
+	dw StageRedFieldBottomBaseGameBoyGfx + $c40
+	db Bank(StageRedFieldBottomBaseGameBoyGfx)
+	db $00
+
+TileData_16b1d: ; 0x16b1d
+	dw Func_11d2
+	db $10, $01
+	dw vTilesBG tile $47
+	dw StageRedFieldBottomBaseGameBoyGfx + $c70
+	db Bank(StageRedFieldBottomBaseGameBoyGfx)
+	db $00
+
+TileData_16b27: ; 0x16b27
+	dw Func_11d2
+	db $30, $03
+	dw vTilesBG tile $41
+	dw StageRedFieldBottomIndicatorsGfx_Gameboy + $4D0
+	db Bank(StageRedFieldBottomIndicatorsGfx_Gameboy)
+	db $00
+
+TileData_16b31: ; 0x16b31
+	dw Func_11d2
+	db $30, $03
+	dw vTilesBG tile $44
+	dw StageRedFieldBottomIndicatorsGfx_Gameboy + $500
+	db Bank(StageRedFieldBottomIndicatorsGfx_Gameboy)
+	db $00
+
+TileData_16b3b: ; 0x16b3b
+	dw Func_11d2
+	db $10, $01
+	dw vTilesBG tile $47
+	dw StageRedFieldBottomIndicatorsGfx_Gameboy + $530
+	db Bank(StageRedFieldBottomIndicatorsGfx_Gameboy)
+	db $00
+
+TileData_16b45: ; 0x16b45
+	dw Func_11d2
+	db $30, $03
+	dw vTilesBG tile $41
+	dw StageRedFieldBottomIndicatorsGfx_Gameboy + $540
+	db Bank(StageRedFieldBottomIndicatorsGfx_Gameboy)
+	db $00
+
+TileData_16b4f: ; 0x16b4f
+	dw Func_11d2
+	db $30, $03
+	dw vTilesBG tile $44
+	dw StageRedFieldBottomIndicatorsGfx_Gameboy + $570
+	db Bank(StageRedFieldBottomIndicatorsGfx_Gameboy)
+	db $00
+
+TileData_16b59: ; 0x16b59
+	dw Func_11d2
+	db $10, $01
+	dw vTilesBG tile $47
+	dw StageRedFieldBottomIndicatorsGfx_Gameboy + $5A0
+	db Bank(StageRedFieldBottomIndicatorsGfx_Gameboy)
+	db $00
+
+TileData_16b63: ; 0x16b63
+	dw Func_11d2
+	db $30, $03
+	dw vTilesBG tile $41
+	dw StageRedFieldBottomIndicatorsGfx_Gameboy + $5B0
+	db Bank(StageRedFieldBottomIndicatorsGfx_Gameboy)
+	db $00
+
+TileData_16b6d: ; 0x16b6d
+	dw Func_11d2
+	db $30, $03
+	dw vTilesBG tile $44
+	dw StageRedFieldBottomIndicatorsGfx_Gameboy + $5E0
+	db Bank(StageRedFieldBottomIndicatorsGfx_Gameboy)
+	db $00
+
+TileData_16b77: ; 0x16b77
+	dw Func_11d2
+	db $10, $01
+	dw vTilesBG tile $47
+	dw StageRedFieldBottomIndicatorsGfx_Gameboy + $610
+	db Bank(StageRedFieldBottomIndicatorsGfx_Gameboy)
+	db $00
+
+TileData_16b81: ; 0x16b81
+	dw Func_11d2
+	db $30, $03
+	dw vTilesBG tile $41
+	dw StageRedFieldBottomIndicatorsGfx_Gameboy + $1010
+	db Bank(StageRedFieldBottomIndicatorsGfx_Gameboy)
+	db $00
+
+TileData_16b8b: ; 0x16b8b
+	dw Func_11d2
+	db $30, $03
+	dw vTilesBG tile $44
+	dw StageRedFieldBottomIndicatorsGfx_Gameboy + $1040
+	db Bank(StageRedFieldBottomIndicatorsGfx_Gameboy)
+	db $00
+
+TileData_16b95: ; 0x16b95
+	dw Func_11d2
+	db $10, $01
+	dw vTilesBG tile $47
+	dw StageRedFieldBottomIndicatorsGfx_Gameboy + $1070
+	db Bank(StageRedFieldBottomIndicatorsGfx_Gameboy)
+	db $00
+
+TileData_16b9f: ; 0x16b9f
+	dw Func_11d2
+	db $30, $03
+	dw vTilesBG tile $20
+	dw StageRedFieldBottomBaseGameBoyGfx + $a00
+	db Bank(StageRedFieldBottomBaseGameBoyGfx)
+	db $00
+
+TileData_16ba9: ; 0x16ba9
+	dw Func_11d2
+	db $30, $03
+	dw vTilesBG tile $20
+	dw StageRedFieldBottomIndicatorsGfx_Gameboy + $1080
+	db Bank(StageRedFieldBottomIndicatorsGfx_Gameboy)
+	db $00
+
+TileData_16bb3: ; 0x16bb3
+	dw Func_11d2
+	db $30, $03
+	dw vTilesBG tile $23
+	dw StageRedFieldBottomBaseGameBoyGfx + $a30
+	db Bank(StageRedFieldBottomBaseGameBoyGfx)
+	db $00
+
+TileData_16bbd: ; 0x16bbd
+	dw Func_11d2
+	db $30, $03
+	dw vTilesBG tile $23
+	dw StageRedFieldBottomIndicatorsGfx_Gameboy + $10B0
+	db Bank(StageRedFieldBottomIndicatorsGfx_Gameboy)
+	db $00
+
+TileData_16bc7: ; 0x16bc7
+	dw Func_11d2
+	db $20, $02
+	dw vTilesBG tile $1C
+	dw StageRedFieldBottomBaseGameBoyGfx + $9c0
+	db Bank(StageRedFieldBottomBaseGameBoyGfx)
+	db $00
+
+TileData_16bd1: ; 0x16bd1
+	dw Func_11d2
+	db $20, $02
+	dw vTilesBG tile $1E
+	dw StageRedFieldBottomBaseGameBoyGfx + $9e0
+	db Bank(StageRedFieldBottomBaseGameBoyGfx)
+	db $00
+
+TileData_16bdb: ; 0x16bdb
+	dw Func_11d2
+	db $20, $02
+	dw vTilesBG tile $1C
+	dw StageRedFieldBottomIndicatorsGfx_Gameboy + $6E0
+	db Bank(StageRedFieldBottomIndicatorsGfx_Gameboy)
+	db $00
+
+TileData_16be5: ; 0x16be5
+	dw Func_11d2
+	db $20, $02
+	dw vTilesBG tile $1E
+	dw StageRedFieldBottomIndicatorsGfx_Gameboy + $700
+	db Bank(StageRedFieldBottomIndicatorsGfx_Gameboy)
+	db $00
+
+TileDataPointers_16bef:
+	dw TileDataPointers_16bf9
+	dw TileDataPointers_16c03
+	dw TileDataPointers_16c0d
+	dw TileDataPointers_16c11
+	dw TileDataPointers_16c15
+
+TileDataPointers_16bf9: ; 0x16bf9
+	dw TileData_16c19
+	dw TileData_16c1c
+	dw TileData_16c1f
+	dw TileData_16c22
+	dw TileData_16c25
+
+TileDataPointers_16c03: ; 0x16c03
+	dw TileData_16c28
+	dw TileData_16c2b
+	dw TileData_16c2e
+	dw TileData_16c31
+	dw TileData_16c34
+
+TileDataPointers_16c0d: ; 0x16c0d
+	dw TileData_16c37
+	dw TileData_16c3a
+
+TileDataPointers_16c11: ; 0x16c11
+	dw TileData_16c3d
+	dw TileData_16c40
+
+TileDataPointers_16c15: ; 0x16c15
+	dw TileData_16c43
+	dw TileData_16c46
+
+TileData_16c19: ; 0x16c19
+	db $01
+	dw TileData_16c49
+
+TileData_16c1c: ; 0x16c1c
+	db $01
+	dw TileData_16c63
+
+TileData_16c1f: ; 0x16c1f
+	db $01
+	dw TileData_16c7d
+
+TileData_16c22: ; 0x16c22
+	db $01
+	dw TileData_16c97
+
+TileData_16c25: ; 0x16c25
+	db $01
+	dw TileData_16cb1
+
+TileData_16c28: ; 0x16c28
+	db $01
+	dw TileData_16ccb
+
+TileData_16c2b: ; 0x16c2b
+	db $01
+	dw TileData_16ce5
+
+TileData_16c2e: ; 0x16c2e
+	db $01
+	dw TileData_16cff
+
+TileData_16c31: ; 0x16c31
+	db $01
+	dw TileData_16d19
+
+TileData_16c34: ; 0x16c34
+	db $01
+	dw TileData_16d33
+
+TileData_16c37: ; 0x16c37
+	db $01
+	dw TileData_16d4d
+
+TileData_16c3a: ; 0x16c3a
+	db $01
+	dw TileData_16d5a
+
+TileData_16c3d: ; 0x16c3d
+	db $01
+	dw TileData_16d67
+
+TileData_16c40: ; 0x16c40
+	db $01
+	dw TileData_16d74
+
+TileData_16c43: ; 0x16c43
+	db $01
+	dw TileData_16d81
+
+TileData_16c46: ; 0x16c46
+	db $01
+	dw TileData_16d8f
+
+TileData_16c49: ; 0x16c49
+	dw LoadTileLists
+	db $07
+	
+	db $01
+	dw vBGMap + $23
+	db $5E
+
+	db $02
+	dw vBGMap + $43
+	db $5F, $60
+
+	db $02
+	dw vBGMap + $64
+	db $61, $62
+
+	db $01
+	dw vBGMap + $85
+	db $63
+
+	db $01
+	dw vBGMap + $A5
+	db $64
+
+	db $00
+
+TileData_16c63: ; 0x16c63
+	dw LoadTileLists
+	db $07
+	
+	db $01
+	dw vBGMap + $23
+	db $65
+
+	db $02
+	dw vBGMap + $43
+	db $66, $67
+
+	db $02
+	dw vBGMap + $64
+	db $61, $62
+
+	db $01
+	dw vBGMap + $85
+	db $63
+
+	db $01
+	dw vBGMap + $A5
+	db $64
+
+	db $00
+
+TileData_16c7d: ; 0x16c7d
+	dw LoadTileLists
+	db $07
+	
+	db $01
+	dw vBGMap + $23
+	db $65
+
+	db $02
+	dw vBGMap + $43
+	db $66, $67
+
+	db $02
+	dw vBGMap + $64
+	db $68, $69
+
+	db $01
+	dw vBGMap + $85
+	db $63
+
+	db $01
+	dw vBGMap + $A5
+	db $64
+
+	db $00
+
+TileData_16c97: ; 0x16c97
+	dw LoadTileLists
+	db $07
+	
+	db $01
+	dw vBGMap + $23
+	db $65
+
+	db $02
+	dw vBGMap + $43
+	db $66, $67
+
+	db $02
+	dw vBGMap + $64
+	db $68, $69
+
+	db $01
+	dw vBGMap + $85
+	db $6A
+
+	db $01
+	dw vBGMap + $A5
+	db $6B
+
+	db $00
+
+TileData_16cb1: ; 0x16cb1
+	dw LoadTileLists
+	db $07
+	
+	db $01
+	dw vBGMap + $23
+	db $5E
+
+	db $02
+	dw vBGMap + $43
+	db $5F, $60
+
+	db $02
+	dw vBGMap + $64
+	db $68, $69
+
+	db $01
+	dw vBGMap + $85
+	db $6A
+
+	db $01
+	dw vBGMap + $A5
+	db $6B
+
+	db $00
+
+TileData_16ccb: ; 0x16ccb
+	dw LoadTileLists
+	db $07
+	
+	db $01
+	dw vBGMap + $30
+	db $6C
+
+	db $02
+	dw vBGMap + $4F
+	db $6D, $6E
+
+	db $02
+	dw vBGMap + $6E
+	db $6F, $70
+
+	db $01
+	dw vBGMap + $8E
+	db $71
+
+	db $01
+	dw vBGMap + $AE
+	db $72
+
+	db $00
+
+TileData_16ce5: ; 0x16ce5
+	dw LoadTileLists
+	db $07
+	
+	db $01
+	dw vBGMap + $30
+	db $73
+
+	db $02
+	dw vBGMap + $4F
+	db $74, $75
+
+	db $02
+	dw vBGMap + $6E
+	db $6F, $70
+
+	db $01
+	dw vBGMap + $8E
+	db $71
+
+	db $01
+	dw vBGMap + $AE
+	db $72
+
+	db $00
+
+TileData_16cff: ; 0x16cff
+	dw LoadTileLists
+	db $07
+	
+	db $01
+	dw vBGMap + $30
+	db $73
+
+	db $02
+	dw vBGMap + $4F
+	db $74, $75
+
+	db $02
+	dw vBGMap + $6E
+	db $76, $77
+
+	db $01
+	dw vBGMap + $8E
+	db $71
+
+	db $01
+	dw vBGMap + $AE
+	db $72
+
+	db $00
+
+TileData_16d19: ; 0x16d19
+	dw LoadTileLists
+	db $07
+	
+	db $01
+	dw vBGMap + $30
+	db $73
+
+	db $02
+	dw vBGMap + $4F
+	db $74, $75
+
+	db $02
+	dw vBGMap + $6E
+	db $76, $77
+
+	db $01
+	dw vBGMap + $8E
+	db $78
+
+	db $01
+	dw vBGMap + $AE
+	db $79
+
+	db $00
+
+TileData_16d33: ; 0x16d33
+	dw LoadTileLists
+	db $07
+	
+	db $01
+	dw vBGMap + $30
+	db $6C
+
+	db $02
+	dw vBGMap + $4F
+	db $6D, $6E
+
+	db $02
+	dw vBGMap + $6E
+	db $76, $77
+
+	db $01
+	dw vBGMap + $8E
+	db $78
+
+	db $01
+	dw vBGMap + $AE
+	db $79
+
+	db $00
+
+TileData_16d4d: ; 0x16d4d
+	dw LoadTileLists
+	db $03
+	
+	db $01
+	dw vBGMap + $6
+	db $48
+
+	db $02
+	dw vBGMap + $26
+	db $49, $4A
+
+	db $00
+
+TileData_16d5a: ; 0x16d5a
+	dw LoadTileLists
+	db $03
+	
+	db $01
+	dw vBGMap + $6
+	db $4B
+
+	db $02
+	dw vBGMap + $26
+	db $4C, $4D
+
+	db $00
+
+TileData_16d67: ; 0x16d67
+	dw LoadTileLists
+	db $03
+	
+	db $01
+	dw vBGMap + $D
+	db $4E
+
+	db $02
+	dw vBGMap + $2C
+	db $4F, $50
+
+	db $00
+
+TileData_16d74: ; 0x16d74
+	dw LoadTileLists
+	db $03
+	
+	db $01
+	dw vBGMap + $D
+	db $51
+
+	db $02
+	dw vBGMap + $2C
+	db $52, $53
+
+	db $00
+
+TileData_16d81: ; 0x16d81
+	dw LoadTileLists
+	db $04
+	
+	db $02
+	dw vBGMap + $49
+	db $40, $41
+
+	db $02
+	dw vBGMap + $69
+	db $42, $43
+
+	db $00
+
+TileData_16d8f: ; 0x16d8f
+	dw LoadTileLists
+	db $04
+	
+	db $02
+	dw vBGMap + $49
+	db $44, $45
+
+	db $02
+	dw vBGMap + $69
+	db $46, $47
+
+	db $00
 
 ResolveRedStageBonusMultiplierCollision: ; 016d9d
 	ld a, [wWhichBonusMultiplierRailing]
@@ -18788,12 +20237,12 @@ Func_16f38: ; 0x16f38
 	ld c, a
 	ld b, $0
 	sla c
-	ld hl, Data_16fc8
+	ld hl, TileDataPointers_16fc8
 	add hl, bc
 	ld a, [hli]
 	ld h, [hl]
 	ld l, a
-	ld a, Bank(Data_16fc8)
+	ld a, Bank(TileDataPointers_16fc8)
 	call Func_10aa
 .asm_16f5c
 	pop af
@@ -18825,12 +20274,12 @@ Func_16f7b: ; 0x16f7b
 	ld c, a
 	ld b, $0
 	sla c
-	ld hl, Data_17228
+	ld hl, TileDataPointers_17228
 	add hl, bc
 	ld a, [hli]
 	ld h, [hl]
 	ld l, a
-	ld a, Bank(Data_17228)
+	ld a, Bank(TileDataPointers_17228)
 	call Func_10aa
 	ret
 
@@ -18865,16 +20314,1296 @@ Func_16f95: ; 0x16f95
 	ret
 
 Data_16fc1:
-	dr $16fc1, $16fc8
+; BCD powers of 2
+	db $01
+	db $02
+	db $04
+	db $08
+	db $16
+	db $32
+	db $64
 
-Data_16fc8:
-	dr $16fc8, $171e4
+TileDataPointers_16fc8:
+	dw TileData_16ff0
+	dw TileData_16ff5
+	dw TileData_16ffa
+	dw TileData_16fff
+	dw TileData_17004
+	dw TileData_17009
+	dw TileData_1700e
+	dw TileData_17013
+	dw TileData_17018
+	dw TileData_1701d
+	dw TileData_17022
+	dw TileData_17027
+	dw TileData_1702c
+	dw TileData_17031
+	dw TileData_17036
+	dw TileData_1703b
+	dw TileData_17040
+	dw TileData_17045
+	dw TileData_1704a
+	dw TileData_1704f
+
+TileData_16ff0: ; 0x16ff0
+	db $02
+	dw TileData_17054
+	dw TileData_1705e
+
+TileData_16ff5: ; 0x16ff5
+	db $02
+	dw TileData_17068
+	dw TileData_17072
+
+TileData_16ffa: ; 0x16ffa
+	db $02
+	dw TileData_1707c
+	dw TileData_17086
+
+TileData_16fff: ; 0x16fff
+	db $02
+	dw TileData_17090
+	dw TileData_1709a
+
+TileData_17004: ; 0x17004
+	db $02
+	dw TileData_170a4
+	dw TileData_170ae
+
+TileData_17009: ; 0x17009
+	db $02
+	dw TileData_170b8
+	dw TileData_170c2
+
+TileData_1700e: ; 0x1700e
+	db $02
+	dw TileData_170cc
+	dw TileData_170d6
+
+TileData_17013: ; 0x17013
+	db $02
+	dw TileData_170e0
+	dw TileData_170ea
+
+TileData_17018: ; 0x17018
+	db $02
+	dw TileData_170f4
+	dw TileData_170fe
+
+TileData_1701d: ; 0x1701d
+	db $02
+	dw TileData_17108
+	dw TileData_17112
+
+TileData_17022: ; 0x17022
+	db $02
+	dw TileData_1711c
+	dw TileData_17126
+
+TileData_17027: ; 0x17027
+	db $02
+	dw TileData_17130
+	dw TileData_1713a
+
+TileData_1702c: ; 0x1702c
+	db $02
+	dw TileData_17144
+	dw TileData_1714e
+
+TileData_17031: ; 0x17031
+	db $02
+	dw TileData_17158
+	dw TileData_17162
+
+TileData_17036: ; 0x17036
+	db $02
+	dw TileData_1716c
+	dw TileData_17176
+
+TileData_1703b: ; 0x1703b
+	db $02
+	dw TileData_17180
+	dw TileData_1718a
+
+TileData_17040: ; 0x17040
+	db $02
+	dw TileData_17194
+	dw TileData_1719e
+
+TileData_17045: ; 0x17045
+	db $02
+	dw TileData_171a8
+	dw TileData_171b2
+
+TileData_1704a: ; 0x1704a
+	db $02
+	dw TileData_171bc
+	dw TileData_171c6
+
+TileData_1704f: ; 0x1704f
+	db $02
+	dw TileData_171d0
+	dw TileData_171da
+
+TileData_17054: ; 0x17054
+	dw Func_11d2
+	db $20, $02
+	dw vTilesSH tile $46
+	dw StageRedFieldBottomIndicatorsGfx_Gameboy + $1280
+	db Bank(StageRedFieldBottomIndicatorsGfx_Gameboy)
+	db $00
+
+TileData_1705e: ; 0x1705e
+	dw Func_11d2
+	db $20, $02
+	dw vTilesSH tile $48
+	dw StageRedFieldBottomIndicatorsGfx_Gameboy + $1140
+	db Bank(StageRedFieldBottomIndicatorsGfx_Gameboy)
+	db $00
+
+TileData_17068: ; 0x17068
+	dw Func_11d2
+	db $20, $02
+	dw vTilesSH tile $46
+	dw StageRedFieldBottomIndicatorsGfx_Gameboy + $12A0
+	db Bank(StageRedFieldBottomIndicatorsGfx_Gameboy)
+	db $00
+
+TileData_17072: ; 0x17072
+	dw Func_11d2
+	db $20, $02
+	dw vTilesSH tile $48
+	dw StageRedFieldBottomIndicatorsGfx_Gameboy + $1160
+	db Bank(StageRedFieldBottomIndicatorsGfx_Gameboy)
+	db $00
+
+TileData_1707c: ; 0x1707c
+	dw Func_11d2
+	db $20, $02
+	dw vTilesSH tile $46
+	dw StageRedFieldBottomIndicatorsGfx_Gameboy + $12C0
+	db Bank(StageRedFieldBottomIndicatorsGfx_Gameboy)
+	db $00
+
+TileData_17086: ; 0x17086
+	dw Func_11d2
+	db $20, $02
+	dw vTilesSH tile $48
+	dw StageRedFieldBottomIndicatorsGfx_Gameboy + $1180
+	db Bank(StageRedFieldBottomIndicatorsGfx_Gameboy)
+	db $00
+
+TileData_17090: ; 0x17090
+	dw Func_11d2
+	db $20, $02
+	dw vTilesSH tile $46
+	dw StageRedFieldBottomIndicatorsGfx_Gameboy + $12E0
+	db Bank(StageRedFieldBottomIndicatorsGfx_Gameboy)
+	db $00
+
+TileData_1709a: ; 0x1709a
+	dw Func_11d2
+	db $20, $02
+	dw vTilesSH tile $48
+	dw StageRedFieldBottomIndicatorsGfx_Gameboy + $11A0
+	db Bank(StageRedFieldBottomIndicatorsGfx_Gameboy)
+	db $00
+
+TileData_170a4: ; 0x170a4
+	dw Func_11d2
+	db $20, $02
+	dw vTilesSH tile $46
+	dw StageRedFieldBottomIndicatorsGfx_Gameboy + $1300
+	db Bank(StageRedFieldBottomIndicatorsGfx_Gameboy)
+	db $00
+
+TileData_170ae: ; 0x170ae
+	dw Func_11d2
+	db $20, $02
+	dw vTilesSH tile $48
+	dw StageRedFieldBottomIndicatorsGfx_Gameboy + $11C0
+	db Bank(StageRedFieldBottomIndicatorsGfx_Gameboy)
+	db $00
+
+TileData_170b8: ; 0x170b8
+	dw Func_11d2
+	db $20, $02
+	dw vTilesSH tile $46
+	dw StageRedFieldBottomIndicatorsGfx_Gameboy + $1320
+	db Bank(StageRedFieldBottomIndicatorsGfx_Gameboy)
+	db $00
+
+TileData_170c2: ; 0x170c2
+	dw Func_11d2
+	db $20, $02
+	dw vTilesSH tile $48
+	dw StageRedFieldBottomIndicatorsGfx_Gameboy + $11E0
+	db Bank(StageRedFieldBottomIndicatorsGfx_Gameboy)
+	db $00
+
+TileData_170cc: ; 0x170cc
+	dw Func_11d2
+	db $20, $02
+	dw vTilesSH tile $46
+	dw StageRedFieldBottomIndicatorsGfx_Gameboy + $1340
+	db Bank(StageRedFieldBottomIndicatorsGfx_Gameboy)
+	db $00
+
+TileData_170d6: ; 0x170d6
+	dw Func_11d2
+	db $20, $02
+	dw vTilesSH tile $48
+	dw StageRedFieldBottomIndicatorsGfx_Gameboy + $1200
+	db Bank(StageRedFieldBottomIndicatorsGfx_Gameboy)
+	db $00
+
+TileData_170e0: ; 0x170e0
+	dw Func_11d2
+	db $20, $02
+	dw vTilesSH tile $46
+	dw StageRedFieldBottomIndicatorsGfx_Gameboy + $1360
+	db Bank(StageRedFieldBottomIndicatorsGfx_Gameboy)
+	db $00
+
+TileData_170ea: ; 0x170ea
+	dw Func_11d2
+	db $20, $02
+	dw vTilesSH tile $48
+	dw StageRedFieldBottomIndicatorsGfx_Gameboy + $1220
+	db Bank(StageRedFieldBottomIndicatorsGfx_Gameboy)
+	db $00
+
+TileData_170f4: ; 0x170f4
+	dw Func_11d2
+	db $20, $02
+	dw vTilesSH tile $46
+	dw StageRedFieldBottomIndicatorsGfx_Gameboy + $1380
+	db Bank(StageRedFieldBottomIndicatorsGfx_Gameboy)
+	db $00
+
+TileData_170fe: ; 0x170fe
+	dw Func_11d2
+	db $20, $02
+	dw vTilesSH tile $48
+	dw StageRedFieldBottomIndicatorsGfx_Gameboy + $1240
+	db Bank(StageRedFieldBottomIndicatorsGfx_Gameboy)
+	db $00
+
+TileData_17108: ; 0x17108
+	dw Func_11d2
+	db $20, $02
+	dw vTilesSH tile $46
+	dw StageRedFieldBottomIndicatorsGfx_Gameboy + $13A0
+	db Bank(StageRedFieldBottomIndicatorsGfx_Gameboy)
+	db $00
+
+TileData_17112: ; 0x17112
+	dw Func_11d2
+	db $20, $02
+	dw vTilesSH tile $48
+	dw StageRedFieldBottomIndicatorsGfx_Gameboy + $1260
+	db Bank(StageRedFieldBottomIndicatorsGfx_Gameboy)
+	db $00
+
+TileData_1711c: ; 0x1711c
+	dw Func_11d2
+	db $20, $02
+	dw vTilesSH tile $4a
+	dw StageRedFieldBottomIndicatorsGfx_Gameboy + $1500
+	db Bank(StageRedFieldBottomIndicatorsGfx_Gameboy)
+	db $00
+
+TileData_17126: ; 0x17126
+	dw Func_11d2
+	db $20, $02
+	dw vTilesSH tile $4c
+	dw StageRedFieldBottomIndicatorsGfx_Gameboy + $13C0
+	db Bank(StageRedFieldBottomIndicatorsGfx_Gameboy)
+	db $00
+
+TileData_17130: ; 0x17130
+	dw Func_11d2
+	db $20, $02
+	dw vTilesSH tile $4a
+	dw StageRedFieldBottomIndicatorsGfx_Gameboy + $1520
+	db Bank(StageRedFieldBottomIndicatorsGfx_Gameboy)
+	db $00
+
+TileData_1713a: ; 0x1713a
+	dw Func_11d2
+	db $20, $02
+	dw vTilesSH tile $4c
+	dw StageRedFieldBottomIndicatorsGfx_Gameboy + $13E0
+	db Bank(StageRedFieldBottomIndicatorsGfx_Gameboy)
+	db $00
+
+TileData_17144: ; 0x17144
+	dw Func_11d2
+	db $20, $02
+	dw vTilesSH tile $4a
+	dw StageRedFieldBottomIndicatorsGfx_Gameboy + $1540
+	db Bank(StageRedFieldBottomIndicatorsGfx_Gameboy)
+	db $00
+
+TileData_1714e: ; 0x1714e
+	dw Func_11d2
+	db $20, $02
+	dw vTilesSH tile $4c
+	dw StageRedFieldBottomIndicatorsGfx_Gameboy + $1400
+	db Bank(StageRedFieldBottomIndicatorsGfx_Gameboy)
+	db $00
+
+TileData_17158: ; 0x17158
+	dw Func_11d2
+	db $20, $02
+	dw vTilesSH tile $4a
+	dw StageRedFieldBottomIndicatorsGfx_Gameboy + $1560
+	db Bank(StageRedFieldBottomIndicatorsGfx_Gameboy)
+	db $00
+
+TileData_17162: ; 0x17162
+	dw Func_11d2
+	db $20, $02
+	dw vTilesSH tile $4c
+	dw StageRedFieldBottomIndicatorsGfx_Gameboy + $1420
+	db Bank(StageRedFieldBottomIndicatorsGfx_Gameboy)
+	db $00
+
+TileData_1716c: ; 0x1716c
+	dw Func_11d2
+	db $20, $02
+	dw vTilesSH tile $4a
+	dw StageRedFieldBottomIndicatorsGfx_Gameboy + $1580
+	db Bank(StageRedFieldBottomIndicatorsGfx_Gameboy)
+	db $00
+
+TileData_17176: ; 0x17176
+	dw Func_11d2
+	db $20, $02
+	dw vTilesSH tile $4c
+	dw StageRedFieldBottomIndicatorsGfx_Gameboy + $1440
+	db Bank(StageRedFieldBottomIndicatorsGfx_Gameboy)
+	db $00
+
+TileData_17180: ; 0x17180
+	dw Func_11d2
+	db $20, $02
+	dw vTilesSH tile $4a
+	dw StageRedFieldBottomIndicatorsGfx_Gameboy + $15A0
+	db Bank(StageRedFieldBottomIndicatorsGfx_Gameboy)
+	db $00
+
+TileData_1718a: ; 0x1718a
+	dw Func_11d2
+	db $20, $02
+	dw vTilesSH tile $4c
+	dw StageRedFieldBottomIndicatorsGfx_Gameboy + $1460
+	db Bank(StageRedFieldBottomIndicatorsGfx_Gameboy)
+	db $00
+
+TileData_17194: ; 0x17194
+	dw Func_11d2
+	db $20, $02
+	dw vTilesSH tile $4a
+	dw StageRedFieldBottomIndicatorsGfx_Gameboy + $15C0
+	db Bank(StageRedFieldBottomIndicatorsGfx_Gameboy)
+	db $00
+
+TileData_1719e: ; 0x1719e
+	dw Func_11d2
+	db $20, $02
+	dw vTilesSH tile $4c
+	dw StageRedFieldBottomIndicatorsGfx_Gameboy + $1480
+	db Bank(StageRedFieldBottomIndicatorsGfx_Gameboy)
+	db $00
+
+TileData_171a8: ; 0x171a8
+	dw Func_11d2
+	db $20, $02
+	dw vTilesSH tile $4a
+	dw StageRedFieldBottomIndicatorsGfx_Gameboy + $15E0
+	db Bank(StageRedFieldBottomIndicatorsGfx_Gameboy)
+	db $00
+
+TileData_171b2: ; 0x171b2
+	dw Func_11d2
+	db $20, $02
+	dw vTilesSH tile $4c
+	dw StageRedFieldBottomIndicatorsGfx_Gameboy + $14A0
+	db Bank(StageRedFieldBottomIndicatorsGfx_Gameboy)
+	db $00
+
+TileData_171bc: ; 0x171bc
+	dw Func_11d2
+	db $20, $02
+	dw vTilesSH tile $4a
+	dw StageRedFieldBottomIndicatorsGfx_Gameboy + $1600
+	db Bank(StageRedFieldBottomIndicatorsGfx_Gameboy)
+	db $00
+
+TileData_171c6: ; 0x171c6
+	dw Func_11d2
+	db $20, $02
+	dw vTilesSH tile $4c
+	dw StageRedFieldBottomIndicatorsGfx_Gameboy + $14C0
+	db Bank(StageRedFieldBottomIndicatorsGfx_Gameboy)
+	db $00
+
+TileData_171d0: ; 0x171d0
+	dw Func_11d2
+	db $20, $02
+	dw vTilesSH tile $4a
+	dw StageRedFieldBottomIndicatorsGfx_Gameboy + $1620
+	db Bank(StageRedFieldBottomIndicatorsGfx_Gameboy)
+	db $00
+
+TileData_171da: ; 0x171da
+	dw Func_11d2
+	db $20, $02
+	dw vTilesSH tile $4c
+	dw StageRedFieldBottomIndicatorsGfx_Gameboy + $14E0
+	db Bank(StageRedFieldBottomIndicatorsGfx_Gameboy)
+	db $00
 
 Data_171e4:
-	dr $171e4, $17228
+	dw Data_171ec
+	dw Data_171ef
+	dw Data_171f2
+	dw Data_171f5
 
-Data_17228:
-	dr $17228, $174d0
+Data_171ec: ; 0x171ec
+	db $01
+	dw Data_171f8
+
+Data_171ef: ; 0x171ef
+	db $01
+	dw Data_17204
+
+Data_171f2: ; 0x171f2
+	db $01
+	dw Data_17210
+
+Data_171f5: ; 0x171f5
+	db $01
+	dw Data_1721c
+
+Data_171f8: ; 0x171f8
+	dw LoadTileLists
+	db $02
+
+	db $01
+	dw vBGMap + $4
+	db $C6
+
+	db $01
+	dw vBGMap + $24
+	db $C7
+
+	db $00
+
+Data_17204: ; 0x17204
+	dw LoadTileLists
+	db $02
+
+	db $01
+	dw vBGMap + $4
+	db $C8
+
+	db $01
+	dw vBGMap + $24
+	db $C9
+
+	db $00
+
+Data_17210: ; 0x17210
+	dw LoadTileLists
+	db $02
+
+	db $01
+	dw vBGMap + $F
+	db $CA
+
+	db $01
+	dw vBGMap + $2F
+	db $CB
+
+	db $00
+
+Data_1721c: ; 0x1721c
+	dw LoadTileLists
+	db $02
+
+	db $01
+	dw vBGMap + $F
+	db $CC
+
+	db $01
+	dw vBGMap + $2F
+	db $CD
+
+	db $00
+
+TileDataPointers_17228:
+	dw TileData_17278
+	dw TileData_1727b
+	dw TileData_1727e
+	dw TileData_17281
+	dw TileData_17284
+	dw TileData_17287
+	dw TileData_1728a
+	dw TileData_1728d
+	dw TileData_17290
+	dw TileData_17293
+	dw TileData_17296
+	dw TileData_17299
+	dw TileData_1729c
+	dw TileData_1729f
+	dw TileData_172a2
+	dw TileData_172a5
+	dw TileData_172a8
+	dw TileData_172ab
+	dw TileData_172ae
+	dw TileData_172b1
+	dw TileData_172b4
+	dw TileData_172b7
+	dw TileData_172ba
+	dw TileData_172bd
+	dw TileData_172c0
+	dw TileData_172c3
+	dw TileData_172c6
+	dw TileData_172c9
+	dw TileData_172cc
+	dw TileData_172cf
+	dw TileData_172d2
+	dw TileData_172d5
+	dw TileData_172d8
+	dw TileData_172db
+	dw TileData_172de
+	dw TileData_172e1
+	dw TileData_172e4
+	dw TileData_172e7
+	dw TileData_172ea
+	dw TileData_172ed
+
+TileData_17278: ; 0x17278
+	db $01
+	dw TileData_172f0
+
+TileData_1727b: ; 0x1727b
+	db $01
+	dw TileData_172fc
+
+TileData_1727e: ; 0x1727e
+	db $01
+	dw TileData_17308
+
+TileData_17281: ; 0x17281
+	db $01
+	dw TileData_17314
+
+TileData_17284: ; 0x17284
+	db $01
+	dw TileData_17320
+
+TileData_17287: ; 0x17287
+	db $01
+	dw TileData_1732c
+
+TileData_1728a: ; 0x1728a
+	db $01
+	dw TileData_17338
+
+TileData_1728d: ; 0x1728d
+	db $01
+	dw TileData_17344
+
+TileData_17290: ; 0x17290
+	db $01
+	dw TileData_17350
+
+TileData_17293: ; 0x17293
+	db $01
+	dw TileData_1735c
+
+TileData_17296: ; 0x17296
+	db $01
+	dw TileData_17368
+
+TileData_17299: ; 0x17299
+	db $01
+	dw TileData_17374
+
+TileData_1729c: ; 0x1729c
+	db $01
+	dw TileData_17380
+
+TileData_1729f: ; 0x1729f
+	db $01
+	dw TileData_1738c
+
+TileData_172a2: ; 0x172a2
+	db $01
+	dw TileData_17398
+
+TileData_172a5: ; 0x172a5
+	db $01
+	dw TileData_173a4
+
+TileData_172a8: ; 0x172a8
+	db $01
+	dw TileData_173b0
+
+TileData_172ab: ; 0x172ab
+	db $01
+	dw TileData_173bc
+
+TileData_172ae: ; 0x172ae
+	db $01
+	dw TileData_173c8
+
+TileData_172b1: ; 0x172b1
+	db $01
+	dw TileData_173d4
+
+TileData_172b4: ; 0x172b4
+	db $01
+	dw TileData_173e0
+
+TileData_172b7: ; 0x172b7
+	db $01
+	dw TileData_173ec
+
+TileData_172ba: ; 0x172ba
+	db $01
+	dw TileData_173f8
+
+TileData_172bd: ; 0x172bd
+	db $01
+	dw TileData_17404
+
+TileData_172c0: ; 0x172c0
+	db $01
+	dw TileData_17410
+
+TileData_172c3: ; 0x172c3
+	db $01
+	dw TileData_1741c
+
+TileData_172c6: ; 0x172c6
+	db $01
+	dw TileData_17428
+
+TileData_172c9: ; 0x172c9
+	db $01
+	dw TileData_17434
+
+TileData_172cc: ; 0x172cc
+	db $01
+	dw TileData_17440
+
+TileData_172cf: ; 0x172cf
+	db $01
+	dw TileData_1744c
+
+TileData_172d2: ; 0x172d2
+	db $01
+	dw TileData_17458
+
+TileData_172d5: ; 0x172d5
+	db $01
+	dw TileData_17464
+
+TileData_172d8: ; 0x172d8
+	db $01
+	dw TileData_17470
+
+TileData_172db: ; 0x172db
+	db $01
+	dw TileData_1747c
+
+TileData_172de: ; 0x172de
+	db $01
+	dw TileData_17488
+
+TileData_172e1: ; 0x172e1
+	db $01
+	dw TileData_17494
+
+TileData_172e4: ; 0x172e4
+	db $01
+	dw TileData_174a0
+
+TileData_172e7: ; 0x172e7
+	db $01
+	dw TileData_174ac
+
+TileData_172ea: ; 0x172ea
+	db $01
+	dw TileData_174b8
+
+TileData_172ed: ; 0x172ed
+	db $01
+	dw TileData_174c4
+
+TileData_172f0: ; 0x172f0
+	dw LoadTileLists
+	db $02
+
+	db $01
+	dw vBGMap + $4
+	db $40
+
+	db $01
+	dw vBGMap + $24
+	db $41
+
+	db $00
+
+TileData_172fc: ; 0x172fc
+	dw LoadTileLists
+	db $02
+
+	db $01
+	dw vBGMap + $4
+	db $42
+
+	db $01
+	dw vBGMap + $24
+	db $43
+
+	db $00
+
+TileData_17308: ; 0x17308
+	dw LoadTileLists
+	db $02
+
+	db $01
+	dw vBGMap + $4
+	db $44
+
+	db $01
+	dw vBGMap + $24
+	db $45
+
+	db $00
+
+TileData_17314: ; 0x17314
+	dw LoadTileLists
+	db $02
+
+	db $01
+	dw vBGMap + $4
+	db $46
+
+	db $01
+	dw vBGMap + $24
+	db $47
+
+	db $00
+
+TileData_17320: ; 0x17320
+	dw LoadTileLists
+	db $02
+
+	db $01
+	dw vBGMap + $4
+	db $48
+
+	db $01
+	dw vBGMap + $24
+	db $49
+
+	db $00
+
+TileData_1732c: ; 0x1732c
+	dw LoadTileLists
+	db $02
+
+	db $01
+	dw vBGMap + $4
+	db $4A
+
+	db $01
+	dw vBGMap + $24
+	db $4B
+
+	db $00
+
+TileData_17338: ; 0x17338
+	dw LoadTileLists
+	db $02
+
+	db $01
+	dw vBGMap + $4
+	db $4C
+
+	db $01
+	dw vBGMap + $24
+	db $4D
+
+	db $00
+
+TileData_17344: ; 0x17344
+	dw LoadTileLists
+	db $02
+
+	db $01
+	dw vBGMap + $4
+	db $4E
+
+	db $01
+	dw vBGMap + $24
+	db $4F
+
+	db $00
+
+TileData_17350: ; 0x17350
+	dw LoadTileLists
+	db $02
+
+	db $01
+	dw vBGMap + $4
+	db $50
+
+	db $01
+	dw vBGMap + $24
+	db $51
+
+	db $00
+
+TileData_1735c: ; 0x1735c
+	dw LoadTileLists
+	db $02
+
+	db $01
+	dw vBGMap + $4
+	db $52
+
+	db $01
+	dw vBGMap + $24
+	db $53
+
+	db $00
+
+TileData_17368: ; 0x17368
+	dw LoadTileLists
+	db $02
+
+	db $01
+	dw vBGMap + $4
+	db $2C
+
+	db $01
+	dw vBGMap + $24
+	db $2D
+
+	db $00
+
+TileData_17374: ; 0x17374
+	dw LoadTileLists
+	db $02
+
+	db $01
+	dw vBGMap + $4
+	db $2E
+
+	db $01
+	dw vBGMap + $24
+	db $2F
+
+	db $00
+
+TileData_17380: ; 0x17380
+	dw LoadTileLists
+	db $02
+
+	db $01
+	dw vBGMap + $4
+	db $30
+
+	db $01
+	dw vBGMap + $24
+	db $31
+
+	db $00
+
+TileData_1738c: ; 0x1738c
+	dw LoadTileLists
+	db $02
+
+	db $01
+	dw vBGMap + $4
+	db $32
+
+	db $01
+	dw vBGMap + $24
+	db $33
+
+	db $00
+
+TileData_17398: ; 0x17398
+	dw LoadTileLists
+	db $02
+
+	db $01
+	dw vBGMap + $4
+	db $34
+
+	db $01
+	dw vBGMap + $24
+	db $35
+
+	db $00
+
+TileData_173a4: ; 0x173a4
+	dw LoadTileLists
+	db $02
+
+	db $01
+	dw vBGMap + $4
+	db $36
+
+	db $01
+	dw vBGMap + $24
+	db $37
+
+	db $00
+
+TileData_173b0: ; 0x173b0
+	dw LoadTileLists
+	db $02
+
+	db $01
+	dw vBGMap + $4
+	db $38
+
+	db $01
+	dw vBGMap + $24
+	db $39
+
+	db $00
+
+TileData_173bc: ; 0x173bc
+	dw LoadTileLists
+	db $02
+
+	db $01
+	dw vBGMap + $4
+	db $3A
+
+	db $01
+	dw vBGMap + $24
+	db $3B
+
+	db $00
+
+TileData_173c8: ; 0x173c8
+	dw LoadTileLists
+	db $02
+
+	db $01
+	dw vBGMap + $4
+	db $3C
+
+	db $01
+	dw vBGMap + $24
+	db $3D
+
+	db $00
+
+TileData_173d4: ; 0x173d4
+	dw LoadTileLists
+	db $02
+
+	db $01
+	dw vBGMap + $4
+	db $3E
+
+	db $01
+	dw vBGMap + $24
+	db $3F
+
+	db $00
+
+TileData_173e0: ; 0x173e0
+	dw LoadTileLists
+	db $02
+
+	db $01
+	dw vBGMap + $F
+	db $68
+
+	db $01
+	dw vBGMap + $2F
+	db $69
+
+	db $00
+
+TileData_173ec: ; 0x173ec
+	dw LoadTileLists
+	db $02
+
+	db $01
+	dw vBGMap + $F
+	db $6A
+
+	db $01
+	dw vBGMap + $2F
+	db $6B
+
+	db $00
+
+TileData_173f8: ; 0x173f8
+	dw LoadTileLists
+	db $02
+
+	db $01
+	dw vBGMap + $F
+	db $6C
+
+	db $01
+	dw vBGMap + $2F
+	db $6D
+
+	db $00
+
+TileData_17404: ; 0x17404
+	dw LoadTileLists
+	db $02
+
+	db $01
+	dw vBGMap + $F
+	db $6E
+
+	db $01
+	dw vBGMap + $2F
+	db $6F
+
+	db $00
+
+TileData_17410: ; 0x17410
+	dw LoadTileLists
+	db $02
+
+	db $01
+	dw vBGMap + $F
+	db $70
+
+	db $01
+	dw vBGMap + $2F
+	db $71
+
+	db $00
+
+TileData_1741c: ; 0x1741c
+	dw LoadTileLists
+	db $02
+
+	db $01
+	dw vBGMap + $F
+	db $72
+
+	db $01
+	dw vBGMap + $2F
+	db $73
+
+	db $00
+
+TileData_17428: ; 0x17428
+	dw LoadTileLists
+	db $02
+
+	db $01
+	dw vBGMap + $F
+	db $74
+
+	db $01
+	dw vBGMap + $2F
+	db $75
+
+	db $00
+
+TileData_17434: ; 0x17434
+	dw LoadTileLists
+	db $02
+
+	db $01
+	dw vBGMap + $F
+	db $76
+
+	db $01
+	dw vBGMap + $2F
+	db $77
+
+	db $00
+
+TileData_17440: ; 0x17440
+	dw LoadTileLists
+	db $02
+
+	db $01
+	dw vBGMap + $F
+	db $78
+
+	db $01
+	dw vBGMap + $2F
+	db $79
+
+	db $00
+
+TileData_1744c: ; 0x1744c
+	dw LoadTileLists
+	db $02
+
+	db $01
+	dw vBGMap + $F
+	db $7A
+
+	db $01
+	dw vBGMap + $2F
+	db $7B
+
+	db $00
+
+TileData_17458: ; 0x17458
+	dw LoadTileLists
+	db $02
+
+	db $01
+	dw vBGMap + $F
+	db $54
+
+	db $01
+	dw vBGMap + $2F
+	db $55
+
+	db $00
+
+TileData_17464: ; 0x17464
+	dw LoadTileLists
+	db $02
+
+	db $01
+	dw vBGMap + $F
+	db $56
+
+	db $01
+	dw vBGMap + $2F
+	db $57
+
+	db $00
+
+TileData_17470: ; 0x17470
+	dw LoadTileLists
+	db $02
+
+	db $01
+	dw vBGMap + $F
+	db $58
+
+	db $01
+	dw vBGMap + $2F
+	db $59
+
+	db $00
+
+TileData_1747c: ; 0x1747c
+	dw LoadTileLists
+	db $02
+
+	db $01
+	dw vBGMap + $F
+	db $5A
+
+	db $01
+	dw vBGMap + $2F
+	db $5B
+
+	db $00
+
+TileData_17488: ; 0x17488
+	dw LoadTileLists
+	db $02
+
+	db $01
+	dw vBGMap + $F
+	db $5C
+
+	db $01
+	dw vBGMap + $2F
+	db $5D
+
+	db $00
+
+TileData_17494: ; 0x17494
+	dw LoadTileLists
+	db $02
+
+	db $01
+	dw vBGMap + $F
+	db $5E
+
+	db $01
+	dw vBGMap + $2F
+	db $5F
+
+	db $00
+
+TileData_174a0: ; 0x174a0
+	dw LoadTileLists
+	db $02
+
+	db $01
+	dw vBGMap + $F
+	db $60
+
+	db $01
+	dw vBGMap + $2F
+	db $61
+
+	db $00
+
+TileData_174ac: ; 0x174ac
+	dw LoadTileLists
+	db $02
+
+	db $01
+	dw vBGMap + $F
+	db $62
+
+	db $01
+	dw vBGMap + $2F
+	db $63
+
+	db $00
+
+TileData_174b8: ; 0x174b8
+	dw LoadTileLists
+	db $02
+
+	db $01
+	dw vBGMap + $F
+	db $64
+
+	db $01
+	dw vBGMap + $2F
+	db $65
+
+	db $00
+
+TileData_174c4: ; 0x174c4
+	dw LoadTileLists
+	db $02
+
+	db $01
+	dw vBGMap + $F
+	db $66
+
+	db $01
+	dw vBGMap + $2F
+	db $67
+
+	db $00
 
 Func_174d0: ; 0x174d0
 	call Func_174ea
@@ -18885,7 +21614,7 @@ Func_174d4: ; 0x174d4
 	sla a
 	ld c, a
 	ld b, $0
-	ld hl, Data_17528
+	ld hl, TileDataPointers_17528
 	add hl, bc
 	ld a, [hli]
 	ld c, a
@@ -18933,8 +21662,43 @@ Func_174ea: ; 0x174ea
 	scf
 	ret
 
-Data_17528:
-	dr $17528, $1755c
+TileDataPointers_17528:
+	dw TileData_17530
+	dw TileData_1753B
+	dw TileData_17546
+	dw TileData_17551
+
+TileData_17530: ; 0x17530
+	db $06 ; total number of tiles
+
+	db $06 ; number of tiles
+	dw $9907
+	db $B0, $B1, $B0, $B1, $B0, $B1
+	db $00
+
+TileData_1753B: ; 0x1753B
+	db $06 ; total number of tiles
+
+	db $06 ; number of tiles
+	dw $9907
+	db $AE, $AF, $B0, $B1, $B0, $B1
+	db $00
+
+TileData_17546: ; 0x17546
+	db $06 ; total number of tiles
+
+	db $06 ; number of tiles
+	dw $9907
+	db $AE, $AF, $AE, $AF, $B0, $B1
+	db $00
+
+TileData_17551: ; 0x17551
+	db $06 ; total number of tiles
+
+	db $06 ; number of tiles
+	dw $9907
+	db $AE, $AF, $AE, $AF, $AE, $AF
+	db $00
 
 Func_1755c: ; 0x1755c
 	ld bc, $7f00

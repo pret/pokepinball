@@ -22555,18 +22555,18 @@ InitGengarBonusStage: ; 0x18099
 	ld [wd4c8], a
 	ld [wBallType], a
 	ld [wd49a], a
-	ld hl, Data_18121
+	ld hl, GastlyInitialData
 	ld de, wd659
-	call Func_18112
-	call Func_18112
-	call Func_18112
-	ld hl, Data_1813c
+	call Copy9BytesToDE
+	call Copy9BytesToDE
+	call Copy9BytesToDE
+	ld hl, HaunterInitialData
 	ld de, wd67e
-	call Func_18112
-	call Func_18112
-	ld hl, Data_1814e
+	call Copy9BytesToDE
+	call Copy9BytesToDE
+	ld hl, GengarInitialData
 	ld de, wd698
-	call Func_18112
+	call Copy9BytesToDE
 	xor a
 	ld [wd67b], a
 	ld [wd695], a
@@ -22587,9 +22587,9 @@ InitGengarBonusStage: ; 0x18099
 	call PlaySong
 	ret
 
-Func_18112: ; 0x18112
+Copy9BytesToDE: ; 0x18112
 	ld b, $3
-.asm_18114
+.loop
 	ld a, [hli]
 	ld [de], a
 	inc de
@@ -22600,17 +22600,49 @@ Func_18112: ; 0x18112
 	ld [de], a
 	inc de
 	dec b
-	jr nz, .asm_18114
+	jr nz, .loop
 	ret
 
-Data_18121:
-	dr $18121, $1813c
+GastlyInitialData: ; 0x18121
+; Gastly 1
+	db $01, $01
+	db $00, $00 ; wGastly1AnimationState
+	db $00
+	db $00, $08 ; wGastly1XPos
+	db $00, $08 ; wGastly1YPos
+; Gastly 2
+	db $01, $01
+	db $00, $00 ; wGastly2AnimationState
+	db $00
+	db $00, $50 ; wGastly2XPos
+	db $00, $20 ; wGastly2YPos
+; Gastly 3
+	db $01, $01
+	db $00, $00 ; wGastly2AnimationState
+	db $00
+	db $00, $30 ; wGastly3XPos
+	db $00, $38 ; wGastly3YPos
 
-Data_1813c:
-	dr $1813c, $1814e
+HaunterInitialData: ; 0x1813c
+; Haunter 1
+	db $00, $01
+	db $00, $00 ; wHaunter1AnimationState
+	db $00
+	db $00, $50 ; wHaunter1XPos
+	db $00, $10 ; wHaunter1YPos
+; Haunter 2
+	db $00, $01
+	db $00, $00 ; wHaunter2AnimationState
+	db $00
+	db $00, $10 ; wHaunter2XPos
+	db $00, $34 ; wHaunter2YPos
 
-Data_1814e:
-	dr $1814e, $18157
+GengarInitialData: ; 0x1814e
+	db $00, $01 
+	db $00, $00 ; wGengarAnimationState
+	db $04 
+	db $00, $38 ; wGengarXPos
+	db $00, $F8 ; wGengarYPos
 
 StartBallGengarBonusStage: ; 0x18157
 	ld a, $0
@@ -23501,7 +23533,7 @@ Func_18876: ; 0x18876
 	jr z, .asm_1889b
 	cp $2
 	jr z, .asm_1889b
-	ld a, [wd69a]
+	ld a, [wGengarAnimationState]
 	cp $1
 	jr z, .asm_1888c
 	cp $2
@@ -23514,7 +23546,7 @@ Func_18876: ; 0x18876
 	ld a, $8
 	ld [wd804], a
 .asm_1889b
-	ld a, [wd69a]
+	ld a, [wGengarAnimationState]
 	ld hl, wd6a3
 	cp [hl]
 	ret z
@@ -23525,7 +23557,7 @@ Func_18876: ; 0x18876
 	add $80
 	cp $a0
 	jr nc, .asm_188da
-	ld a, [wd69a]
+	ld a, [wGengarAnimationState]
 	and a
 	jr z, .asm_188ca
 	ld a, [wGengarYPos]
@@ -23544,7 +23576,7 @@ Func_18876: ; 0x18876
 	adc $1
 	ld [wGengarYPos + 1], a
 .asm_188da
-	ld a, [wd69a]
+	ld a, [wGengarAnimationState]
 	ld [wd6a3], a
 	ret
 
@@ -23554,7 +23586,7 @@ Func_188e1: ; 0x188e1
 	jr z, .asm_18901
 	cp $2
 	jr z, .asm_18901
-	ld a, [wd69a]
+	ld a, [wGengarAnimationState]
 	cp $1
 	jr z, .asm_188f7
 	cp $2
@@ -23565,10 +23597,10 @@ Func_188e1: ; 0x188e1
 	ld a, $8
 	ld [wd804], a
 .asm_18901
-	ld a, [wd69a]
+	ld a, [wGengarAnimationState]
 	cp $6
 	ret z
-	ld a, [wd69a]
+	ld a, [wGengarAnimationState]
 	ld hl, wd6a3
 	cp [hl]
 	ret z
@@ -23579,7 +23611,7 @@ Func_188e1: ; 0x188e1
 	cp $9
 	jr c, .asm_18945
 .asm_1891d
-	ld a, [wd69a]
+	ld a, [wGengarAnimationState]
 	and a
 	jr z, .asm_18935
 	ld a, [wGengarYPos]
@@ -23598,7 +23630,7 @@ Func_188e1: ; 0x188e1
 	adc $ff
 	ld [wGengarYPos + 1], a
 .asm_18945
-	ld a, [wd69a]
+	ld a, [wGengarAnimationState]
 	ld [wd6a3], a
 	ret
 

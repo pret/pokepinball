@@ -1240,9 +1240,7 @@ wd67e:: ; 0xd67e
 	ds $2
 
 wHaunter1AnimationState:: ; 0xd680
-	ds $1
-
-	ds $1
+	ds $2
 
 wd682:: ; 0xd682
 	ds $1
@@ -1289,7 +1287,7 @@ wd697:: ; 0xd697
 wd698:: ; 0xd698
 	ds $2
 
-wd69a:: ; 0xd69a
+wGengarAnimationState:: ; 0xd69a
 	ds $1
 
 wd69b:: ; 0xd69b

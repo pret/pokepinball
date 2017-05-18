@@ -22975,25 +22975,131 @@ Func_183db: ; 0x183db
 	sla a
 	ld c, a
 	ld b, $0
-	ld hl, Data_183f8
+	ld hl, TileDataPointers_183f8
 	ld a, [hGameBoyColorFlag]
 	and a
 	jr z, .asm_183ee
-	ld hl, Data_1842e
+	ld hl, TileDataPointers_1842e
 .asm_183ee
 	add hl, bc
 	ld a, [hli]
 	ld h, [hl]
 	ld l, a
-	ld a, BANK(Data_183f8)
+	ld a, BANK(TileDataPointers_183f8)
 	call Func_10aa
 	ret
 
-Data_183f8:
-	dr $183f8, $1842e
+TileDataPointers_183f8:
+	dw TileData_183fc
+	dw TileData_183ff
 
-Data_1842e:
-	dr $1842e, $18464
+TileData_183fc: ; 0x183fc
+	db $01
+	dw TileData_18402
+
+TileData_183ff: ; 0x183ff
+	db $01
+	dw TileData_18418
+
+TileData_18402: ; 0x18402
+	dw LoadTileLists
+	db $06 ; total number of tiles
+
+	db $01 ; number of tiles
+	dw vBGMap + $113
+	db $D4
+
+	db $02 ; number of tiles
+	dw vBGMap + $132
+	db $D5, $D6
+
+	db $02 ; number of tiles
+	dw vBGMap + $152
+	db $D9, $D7
+
+	db $01 ; number of tiles
+	dw vBGMap + $172
+	db $D8
+
+	db $00 ; terminator
+
+TileData_18418: ; 0x18418
+	dw LoadTileLists
+	db $06 ; total number of tiles
+
+	db $01 ; number of tiles
+	dw vBGMap + $113
+	db $12
+
+	db $02 ; number of tiles
+	dw vBGMap + $132
+	db $0C, $0D
+
+	db $02 ; number of tiles
+	dw vBGMap + $152
+	db $07, $08
+
+	db $01 ; number of tiles
+	dw vBGMap + $172
+	db $03
+
+	db $00 ; terminator
+
+TileDataPointers_1842e:
+	dw TileData_18432
+	dw TileData_18435
+
+TileData_18432: ; 0x18432
+	db $01
+	dw TileData_18438
+
+TileData_18435: ; 0x18435
+	db $01
+	dw TileData_1844e
+
+TileData_18438: ; 0x18438
+	dw LoadTileLists
+	db $06 ; total number of tiles
+
+	db $01 ; number of tiles
+	dw $9913
+	db $D4
+
+	db $02 ; number of tiles
+	dw $9932
+	db $D5, $D6
+
+	db $02 ; number of tiles
+	dw $9952
+	db $D9, $D7
+
+	db $01 ; number of tiles
+	dw $9972
+	db $D8
+
+	db $00 ; terminator
+
+TileData_1844e: ; 0x1844e
+	dw LoadTileLists
+	db $06 ; total number of tiles
+
+	db $01 ; number of tiles
+	dw $9913
+	db $21
+
+	db $02 ; number of tiles
+	dw $9932
+	db $15, $16
+
+	db $02 ; number of tiles
+	dw $9952
+	db $0A, $0B
+
+	db $01 ; number of tiles
+	dw $9972
+	db $03
+
+	db $00 ; terminator
 
 Func_18464: ; 0x18464
 	ld a, [wd659]

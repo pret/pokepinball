@@ -21907,18 +21907,18 @@ AnimatedMonOAMIds_RedStage:
 
 Func_17cc4: ; 0x17cc4
 	ld de, wd4cd
-	ld hl, Data_17d15
+	ld hl, OAMData_17d15
 	call Func_17cdc
 	ld de, wd4d0
-	ld hl, Data_17d1b
+	ld hl, OAMData_17d1b
 	call Func_17cdc
 	ld de, wd4d3
-	ld hl, Data_17d21
+	ld hl, OAMData_17d21
 	; fall through
 
 Func_17cdc: ; 0x17cdc
 	push hl
-	ld hl, Data_17d27
+	ld hl, AnimationData_17d27
 	call UpdateAnimation
 	ld h, d
 	ld l, e
@@ -21959,17 +21959,30 @@ Func_17cdc: ; 0x17cdc
 	call LoadOAMData
 	ret
 
-Data_17d15:
-	dr $17d15, $17d1b
+OAMData_17d15:
+	db $3A, $4E ; x, y offsets
+	db $00 ; ???
+	db $BD, $BC, $CE ; oam ids
 
-Data_17d1b:
-	dr $17d1b, $17d21
+OAMData_17d1b:
+	db $53, $44 ; x, y offsets
+	db $01 ; ???
+	db $BD, $BC, $CD ; oam ids
 
-Data_17d21:
-	dr $17d21, $17d27
+OAMData_17d21:
+	db $4D, $60 ; x, y offsets
+	db $02 ; ???
+	db $BD, $BC, $CF ; oam ids
 
-Data_17d27:
-	dr $17d27, $17d34
+AnimationData_17d27:
+; Each entry is [duration][OAM id]
+	db $1E, $01
+	db $02, $02
+	db $03, $01
+	db $02, $02
+	db $03, $01
+	db $02, $02
+	db $00 ; terminator
 
 Func_17d34: ; 0x17d34
 	ld a, $0
@@ -21983,14 +21996,21 @@ Func_17d34: ; 0x17d34
 	ld a, [wStageCollisionState]
 	ld e, a
 	ld d, $0
-	ld hl, Data_17d51
+	ld hl, OAMIds_17d51
 	add hl, de
 	ld a, [hl]
 	call LoadOAMData
 	ret
 
-Data_17d51:
-	dr $17d51, $17d59
+OAMIds_17d51:
+	db $C9
+	db $C9
+	db $C9
+	db $C9
+	db $C8
+	db $C8
+	db $CA
+	db $CA
 
 Func_17d59: ; 0x17d59
 	ld a, $74
@@ -22004,14 +22024,17 @@ Func_17d59: ; 0x17d59
 	ld a, [wBellsproutAnimationFrame]
 	ld e, a
 	ld d, $0
-	ld hl, Data_17d76
+	ld hl, BellsproutAnimationOAMIds
 	add hl, de
 	ld a, [hl]
 	call LoadOAMData
 	ret
 
-Data_17d76:
-	dr $17d76, $17d7a
+BellsproutAnimationOAMIds: ; 0x17d76
+	db $BE
+	db $BF
+	db $C0
+	db $C1
 
 Func_17d7a: ; 0x17d7a
 	ld a, [hGameBoyColorFlag]
@@ -22033,7 +22056,7 @@ Func_17d92: ; 0x17d92
 	ld a, [hGameBoyColorFlag]
 	and a
 	ret z
-	ld hl, Data_17dd0
+	ld hl, AnimationData_17dd0
 	ld de, wd504
 	call UpdateAnimation
 	ld a, [wd504]
@@ -22056,17 +22079,27 @@ Func_17d92: ; 0x17d92
 	ld a, [wd505]
 	ld e, a
 	ld d, $0
-	ld hl, Data_17dce
+	ld hl, OAMIds_17dce
 	add hl, de
 	ld a, [hl]
 	call LoadOAMData
 	ret
 
-Data_17dce:
-	dr $17dce, $17dd0
+OAMIds_17dce: ; 0x17dce
+	db $CB
+	db $D0
 
-Data_17dd0:
-	dr $17dd0, $17de1
+AnimationData_17dd0:
+; Each entry is [duration][OAM id]
+	db $14, $00
+	db $13, $01
+	db $15, $00
+	db $12, $01
+	db $14, $00
+	db $13, $01
+	db $16, $00
+	db $13, $01
+	db $0 ; terminator
 
 Func_17de1: ; 0x17de1
 	ld a, $88
@@ -22082,14 +22115,19 @@ Func_17de1: ; 0x17de1
 	srl a
 	ld e, a
 	ld d, $0
-	ld hl, Data_17e02
+	ld hl, OAMIds_17e02
 	add hl, de
 	ld a, [hl]
 	call LoadOAMData
 	ret
 
-Data_17e02:
-	dr $17e02, $17e08
+OAMIds_17e02: ; 0x17e02
+	db $C2
+	db $C3
+	db $C4
+	db $C5
+	db $C6
+	db $C7
 
 DrawPikachuSavers_RedStage: ; 0x17e08
 	ld a, [hSCX]
@@ -22247,7 +22285,7 @@ Func_17efb: ; 0x17efb
 	bit 4, a
 	ret z
 	ld de, wIndicatorStates + 5
-	ld hl, Data_17f3a
+	ld hl, OAMData_17f3a
 	ld b, $6
 	jr asm_17f21
 
@@ -22259,7 +22297,7 @@ Func_17f0f: ; 0x17f0f
 	bit 4, a
 	ret z
 	ld de, wIndicatorStates + 11
-	ld hl, Data_17f4c
+	ld hl, OAMData_17f4c
 	ld b, $8
 asm_17f21: ; 0x17f21
 	push bc
@@ -22283,18 +22321,56 @@ asm_17f21: ; 0x17f21
 	jr nz, asm_17f21
 	ret
 
-Data_17f3a:
-	dr $17f3a, $17f4c
+OAMData_17f3a:
+	db $0D, $37 ; x, y offsets
+	db $D1 ; oam id
 
-Data_17f4c:
-	dr $17f4c, $17f64
+	db $46, $22 ; x, y offsets
+	db $D6 ; oam id
+
+	db $8A, $4A ; x, y offsets
+	db $D2 ; oam id
+
+	db $41, $81 ; x, y offsets
+	db $D3 ; oam id
+
+	db $3D, $65 ; x, y offsets
+	db $D5 ; oam id
+
+	db $73, $74 ; x, y offsets
+	db $D4 ; oam id
+
+OAMData_17f4c:
+	db $2D, $13 ; x, y offsets
+	db $32 ; oam id
+
+	db $6A, $13 ; x, y offsets
+	db $33 ; oam id
+
+	db $25, $2D ; x, y offsets
+	db $34 ; oam id
+
+	db $73, $2D ; x, y offsets
+	db $35 ; oam id
+
+	db $0F, $40 ; x, y offsets
+	db $36 ; oam id
+
+	db $1F, $40 ; x, y offsets
+	db $36 ; oam id
+
+	db $79, $40 ; x, y offsets
+	db $37 ; oam id
+
+	db $89, $40 ; x, y offsets
+	db $37 ; oam id
 
 Func_17f64: ; 0x17f64
 	ld a, [wd551]
 	and a
 	ret z
 	ld de, wd566
-	ld hl, Data_17fa6
+	ld hl, OAMOffsets_17fa6
 	ld b, $c
 	ld c, $39
 	jr asm_17f84
@@ -22304,7 +22380,7 @@ Func_17f75: ; 0x17f75
 	and a
 	ret z
 	ld de, wd572
-	ld hl, Data_17fbe
+	ld hl, OAMOffsets_17fbe
 	ld b, $6
 	ld c, $40
 asm_17f84: ; 0x17f84
@@ -22336,11 +22412,29 @@ asm_17f84: ; 0x17f84
 	jr nz, asm_17f84
 	ret
 
-Data_17fa6:
-	dr $17fa6, $17fbe
+OAMOffsets_17fa6:
+; x, y offsets
+	db $4C, $0C
+	db $32, $12
+	db $66, $12
+	db $19, $25
+	db $7F, $25
+	db $1E, $36
+	db $7F, $36
+	db $0E, $65
+	db $8B, $65
+	db $49, $7A
+	db $59, $7A
+	db $71, $7A
 
-Data_17fbe:
-	dr $17fbe, $17fca
+OAMOffsets_17fbe:
+; x, y offsets
+	db $3D, $13
+	db $5B, $13
+	db $31, $17
+	db $67, $17
+	db $2E, $2C
+	db $6A, $2C
 
 Func_17fca: ; 0x17fca
 	ld a, [wd604]

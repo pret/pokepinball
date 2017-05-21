@@ -23062,19 +23062,19 @@ TileData_18438: ; 0x18438
 	db $06 ; total number of tiles
 
 	db $01 ; number of tiles
-	dw $9913
+	dw vBGMap + $113
 	db $D4
 
 	db $02 ; number of tiles
-	dw $9932
+	dw vBGMap + $132
 	db $D5, $D6
 
 	db $02 ; number of tiles
-	dw $9952
+	dw vBGMap + $152
 	db $D9, $D7
 
 	db $01 ; number of tiles
-	dw $9972
+	dw vBGMap + $172
 	db $D8
 
 	db $00 ; terminator
@@ -23084,19 +23084,19 @@ TileData_1844e: ; 0x1844e
 	db $06 ; total number of tiles
 
 	db $01 ; number of tiles
-	dw $9913
+	dw vBGMap + $113
 	db $21
 
 	db $02 ; number of tiles
-	dw $9932
+	dw vBGMap + $132
 	db $15, $16
 
 	db $02 ; number of tiles
-	dw $9952
+	dw vBGMap + $152
 	db $0A, $0B
 
 	db $01 ; number of tiles
-	dw $9972
+	dw vBGMap + $172
 	db $03
 
 	db $00 ; terminator

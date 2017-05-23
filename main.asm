@@ -23133,7 +23133,7 @@ Func_18464: ; 0x18464
 	dec de
 	dec de
 	dec de
-	ld hl, Data_185e6
+	ld hl, AnimationData_185e6
 	call CopyHLToDE
 	pop de
 	ld a, $1
@@ -23235,7 +23235,7 @@ Func_18562: ; 0x18562
 	sla a
 	ld c, a
 	ld b, $0
-	ld hl, Data_185d9
+	ld hl, AnimationDataPointers_185d9
 	add hl, bc
 	ld a, [hli]
 	ld h, [hl]
@@ -23254,7 +23254,7 @@ Func_18562: ; 0x18562
 	ld a, [de]
 	cp $4
 	ret nz
-	ld hl, Data_185dd
+	ld hl, AnimationData_185dd
 	dec de
 	dec de
 	call CopyHLToDE
@@ -23300,7 +23300,7 @@ Func_18562: ; 0x18562
 	ld a, c
 	cp $a
 	ret nc
-	ld hl, Data_185dd
+	ld hl, AnimationData_185dd
 	push de
 	dec de
 	dec de
@@ -23311,14 +23311,39 @@ Func_18562: ; 0x18562
 	ld [de], a
 	ret
 
-Data_185d9:
-	dr $185d9, $185dd
+AnimationDataPointers_185d9:
+	dw AnimationData_185dd
+	dw AnimationData_185e6
 
-Data_185dd:
-	dr $185dd, $185e6
+AnimationData_185dd: ; 0x185dd
+; Each entry is [duration][OAM id]
+	db $0D, $01
+	db $0D, $00
+	db $0D, $02
+	db $0D, $00
+	db $00 ; terminator
 
-Data_185e6:
-	dr $185e6, $1860b
+AnimationData_185e6: ; 0x185e6
+; Each entry is [duration][OAM id]
+	db $05, $03
+	db $04, $03
+	db $04, $04
+	db $04, $03
+	db $04, $04
+	db $03, $03
+	db $03, $04
+	db $03, $03
+	db $03, $04
+	db $02, $03
+	db $02, $04
+	db $02, $03
+	db $02, $04
+	db $01, $03
+	db $01, $04
+	db $01, $03
+	db $01, $04
+	db $80, $04
+	db $00 ; terminator
 
 Func_1860b: ; 0x1860b
 	ld a, [wd67e]
@@ -23352,7 +23377,7 @@ Func_1860b: ; 0x1860b
 	dec de
 	dec de
 	dec de
-	ld hl, Data_1878a
+	ld hl, AnimationData_1878a
 	call CopyHLToDE
 	pop de
 	ld a, $1
@@ -23448,7 +23473,7 @@ Func_186f7: ; 0x186f7
 	sla a
 	ld c, a
 	ld b, $0
-	ld hl, Data_1877d
+	ld hl, AnimationDataPointers_1877d
 	add hl, bc
 	ld a, [hli]
 	ld h, [hl]
@@ -23467,7 +23492,7 @@ Func_186f7: ; 0x186f7
 	ld a, [de]
 	cp $4
 	ret nz
-	ld hl, Data_18781
+	ld hl, AnimationData_18781
 	dec de
 	dec de
 	call CopyHLToDE
@@ -23505,7 +23530,7 @@ Func_186f7: ; 0x186f7
 	ld a, c
 	cp $a
 	ret nc
-	ld hl, Data_18781
+	ld hl, AnimationData_18781
 	push de
 	dec de
 	dec de
@@ -23531,14 +23556,40 @@ Func_186f7: ; 0x186f7
 	call PlayCry
 	ret
 
-Data_1877d:
-	dr $1877d, $18781
+AnimationDataPointers_1877d:
+	dw AnimationData_18781
+	dw AnimationData_1878a
 
-Data_18781:
-	dr $18781, $1878a
+AnimationData_18781:
+; Each entry is [duration][OAM id]
+	db $0D, $00
+	db $0D, $01
+	db $0D, $02
+	db $0D, $03
+	db $00 ; terminator
 
-Data_1878a:
-	dr $1878a, $187b1
+AnimationData_1878a:
+; Each entry is [duration][OAM id]
+	db $05, $04
+	db $04, $04
+	db $04, $05
+	db $04, $04
+	db $04, $05
+	db $03, $04
+	db $03, $05
+	db $03, $04
+	db $03, $05
+	db $02, $04
+	db $02, $05
+	db $02, $04
+	db $02, $05
+	db $01, $04
+	db $01, $05
+	db $01, $04
+	db $01, $05
+	db $80, $05
+	db $10, $05
+	db $00 ; terminator
 
 Func_187b1: ; 0x187b1
 	ld a, [wd698]
@@ -23577,7 +23628,7 @@ Func_187b1: ; 0x187b1
 	ld [wd6a2], a
 	cp $5
 	jr nc, .asm_18804
-	ld hl, Data_18b2b
+	ld hl, AnimationData_18b2b
 	call CopyHLToDE
 	pop de
 	ld a, $2
@@ -23587,7 +23638,7 @@ Func_187b1: ; 0x187b1
 	jr .asm_18826
 
 .asm_18804
-	ld hl, Data_18b32
+	ld hl, AnimationData_18b32
 	call CopyHLToDE
 	pop de
 	ld a, $3
@@ -23800,7 +23851,7 @@ Func_189af: ; 0x189af
 	sla a
 	ld c, a
 	ld b, $0
-	ld hl, Data_18a57
+	ld hl, AnimationDataPointers_18a57
 	add hl, bc
 	ld a, [hli]
 	ld h, [hl]
@@ -23819,7 +23870,7 @@ Func_189af: ; 0x189af
 	ld a, [de]
 	cp $4
 	ret nz
-	ld hl, Data_18a61
+	ld hl, AnimationData_18a61
 	dec de
 	dec de
 	call CopyHLToDE
@@ -23831,7 +23882,7 @@ Func_189af: ; 0x189af
 	ld a, [de]
 	cp $60
 	ret nz
-	ld hl, Data_18a61
+	ld hl, AnimationData_18a61
 	push de
 	dec de
 	dec de
@@ -23848,7 +23899,7 @@ Func_189af: ; 0x189af
 	ld a, [de]
 	cp $3
 	ret nz
-	ld hl, Data_18a6a
+	ld hl, AnimationData_18a6a
 	push de
 	dec de
 	dec de
@@ -23893,7 +23944,7 @@ Func_189af: ; 0x189af
 	ld a, [de]
 	cp $2
 	ret nz
-	ld hl, Data_18a61
+	ld hl, AnimationData_18a61
 	push de
 	dec de
 	dec de
@@ -23906,20 +23957,391 @@ Func_189af: ; 0x189af
 	call PlaySong
 	ret
 
-Data_18a57:
-	dr $18a57, $18a61
+AnimationDataPointers_18a57:
+	dw AnimationData_18a61
+	dw AnimationData_18a6a
+	dw AnimationData_18b2b
+	dw AnimationData_18b32
+	dw AnimationData_18d2f
 
-Data_18a61:
-	dr $18a61, $18a6a
+AnimationData_18a61:
+; Each entry is [duration][OAM id]
+	db $40, $01
+	db $10, $00
+	db $40, $02
+	db $10, $00
+	db $00 ; terminator
 
-Data_18a6a:
-	dr $18a6a, $18b2b
+AnimationData_18a6a:
+; Each entry is [duration][OAM id]
+	db $02, $00
+	db $01, $06
+	db $02, $00
+	db $01, $06
+	db $02, $00
+	db $01, $06
+	db $02, $00
+	db $01, $06
+	db $02, $00
+	db $01, $06
+	db $01, $00
+	db $01, $03
+	db $01, $06
+	db $02, $03
+	db $01, $06
+	db $02, $03
+	db $01, $06
+	db $02, $04
+	db $01, $06
+	db $02, $04
+	db $01, $06
+	db $02, $04
+	db $01, $06
+	db $02, $04
+	db $01, $06
+	db $02, $03
+	db $01, $06
+	db $02, $03
+	db $01, $06
+	db $02, $03
+	db $01, $06
+	db $01, $03
+	db $01, $00
+	db $01, $06
+	db $02, $00
+	db $01, $06
+	db $02, $00
+	db $01, $06
+	db $02, $00
+	db $01, $06
+	db $02, $00
+	db $01, $06
+	db $02, $00
+	db $01, $06
+	db $02, $03
+	db $01, $06
+	db $02, $03
+	db $01, $06
+	db $01, $03
+	db $01, $04
+	db $01, $06
+	db $02, $04
+	db $01, $06
+	db $02, $04
+	db $01, $06
+	db $02, $04
+	db $01, $06
+	db $01, $04
+	db $01, $03
+	db $01, $06
+	db $02, $03
+	db $01, $06
+	db $02, $03
+	db $01, $06
+	db $02, $03
+	db $01, $06
+	db $02, $00
+	db $01, $06
+	db $02, $00
+	db $01, $06
+	db $02, $00
+	db $01, $06
+	db $02, $00
+	db $01, $06
+	db $02, $00
+	db $01, $06
+	db $02, $03
+	db $01, $06
+	db $02, $03
+	db $01, $06
+	db $02, $03
+	db $01, $06
+	db $02, $04
+	db $01, $06
+	db $02, $04
+	db $01, $06
+	db $02, $04
+	db $01, $06
+	db $02, $04
+	db $01, $06
+	db $02, $03
+	db $01, $06
+	db $02, $03
+	db $01, $06
+	db $02, $03
+	db $01, $06
+	db $00 ; terminator
 
-Data_18b2b:
-	dr $18b2b, $18b32
+AnimationData_18b2b:
+; Each entry is [duration][OAM id]
+	db $10, $05
+	db $20, $01
+	db $08, $00
+	db $00 ; terminator
 
-Data_18b32:
-	dr $18b32, $18d34
+AnimationData_18b32:
+; Each entry is [duration][OAM id]
+	db $10, $05
+	db $10, $00
+	db $08, $03
+	db $0C, $04
+	db $0A, $03
+	db $10, $00
+	db $08, $03
+	db $0C, $04
+	db $0A, $03
+	db $04, $01
+	db $04, $06
+	db $04, $01
+	db $04, $06
+	db $04, $01
+	db $04, $06
+	db $04, $01
+	db $04, $06
+	db $04, $01
+	db $04, $06
+	db $04, $01
+	db $04, $06
+	db $04, $01
+	db $04, $06
+	db $04, $01
+	db $04, $06
+	db $04, $00
+	db $04, $06
+	db $04, $00
+	db $04, $06
+	db $04, $02
+	db $04, $06
+	db $04, $02
+	db $04, $06
+	db $04, $02
+	db $04, $06
+	db $04, $02
+	db $04, $06
+	db $04, $02
+	db $04, $06
+	db $04, $02
+	db $04, $06
+	db $04, $02
+	db $04, $06
+	db $04, $02
+	db $04, $06
+	db $04, $00
+	db $04, $06
+	db $04, $00
+	db $04, $06
+	db $04, $01
+	db $04, $06
+	db $04, $01
+	db $04, $06
+	db $04, $01
+	db $04, $06
+	db $04, $01
+	db $04, $06
+	db $04, $01
+	db $04, $06
+	db $04, $01
+	db $04, $06
+	db $04, $01
+	db $04, $06
+	db $04, $01
+	db $04, $06
+	db $04, $00
+	db $04, $06
+	db $04, $00
+	db $04, $06
+	db $04, $02
+	db $04, $06
+	db $04, $02
+	db $04, $06
+	db $03, $02
+	db $03, $06
+	db $03, $02
+	db $03, $06
+	db $03, $02
+	db $03, $06
+	db $03, $02
+	db $03, $06
+	db $03, $02
+	db $03, $06
+	db $03, $02
+	db $03, $06
+	db $03, $02
+	db $03, $06
+	db $03, $02
+	db $03, $06
+	db $03, $00
+	db $03, $06
+	db $03, $00
+	db $03, $06
+	db $03, $00
+	db $03, $06
+	db $03, $01
+	db $03, $06
+	db $03, $01
+	db $03, $06
+	db $03, $01
+	db $03, $06
+	db $03, $01
+	db $03, $06
+	db $03, $01
+	db $03, $06
+	db $03, $01
+	db $03, $06
+	db $03, $01
+	db $03, $06
+	db $03, $01
+	db $03, $06
+	db $03, $01
+	db $03, $06
+	db $03, $01
+	db $03, $06
+	db $02, $01
+	db $01, $00
+	db $03, $06
+	db $03, $00
+	db $03, $06
+	db $03, $00
+	db $03, $06
+	db $03, $02
+	db $03, $06
+	db $03, $02
+	db $03, $06
+	db $03, $02
+	db $03, $06
+	db $03, $02
+	db $03, $06
+	db $03, $02
+	db $03, $06
+	db $03, $02
+	db $03, $06
+	db $03, $02
+	db $03, $06
+	db $03, $02
+	db $03, $06
+	db $02, $02
+	db $02, $06
+	db $02, $02
+	db $02, $06
+	db $02, $02
+	db $02, $06
+	db $02, $02
+	db $02, $06
+	db $02, $00
+	db $02, $06
+	db $02, $00
+	db $02, $06
+	db $02, $00
+	db $02, $06
+	db $02, $00
+	db $02, $06
+	db $02, $01
+	db $02, $06
+	db $02, $01
+	db $02, $06
+	db $02, $01
+	db $02, $06
+	db $02, $01
+	db $02, $06
+	db $02, $01
+	db $02, $06
+	db $02, $01
+	db $02, $06
+	db $02, $01
+	db $02, $06
+	db $02, $01
+	db $02, $06
+	db $02, $01
+	db $02, $06
+	db $02, $01
+	db $02, $06
+	db $02, $01
+	db $02, $06
+	db $02, $01
+	db $02, $06
+	db $02, $01
+	db $02, $06
+	db $02, $01
+	db $02, $06
+	db $02, $01
+	db $02, $06
+	db $02, $01
+	db $02, $06
+	db $02, $00
+	db $02, $06
+	db $02, $00
+	db $02, $06
+	db $02, $00
+	db $02, $06
+	db $02, $00
+	db $02, $06
+	db $02, $02
+	db $02, $06
+	db $02, $02
+	db $02, $06
+	db $02, $02
+	db $02, $06
+	db $02, $02
+	db $02, $06
+	db $01, $02
+	db $01, $06
+	db $01, $02
+	db $01, $06
+	db $01, $02
+	db $01, $06
+	db $01, $02
+	db $01, $06
+	db $01, $02
+	db $01, $06
+	db $01, $02
+	db $01, $06
+	db $01, $02
+	db $01, $06
+	db $01, $02
+	db $01, $06
+	db $01, $02
+	db $01, $06
+	db $01, $02
+	db $01, $06
+	db $01, $02
+	db $01, $06
+	db $01, $02
+	db $01, $06
+	db $01, $02
+	db $01, $06
+	db $01, $02
+	db $01, $06
+	db $01, $02
+	db $01, $06
+	db $01, $02
+	db $01, $06
+	db $01, $02
+	db $01, $06
+	db $01, $02
+	db $01, $06
+	db $01, $02
+	db $01, $06
+	db $01, $02
+	db $01, $06
+	db $01, $02
+	db $01, $06
+	db $01, $02
+	db $01, $06
+	db $01, $02
+	db $01, $06
+	db $01, $02
+	db $01, $06
+	db $01, $00
+	db $01, $06
+	db $01, $00
+	db $01, $06
+	db $00 ; terminator
+
+AnimationData_18d2f:
+; Each entry is [duration][OAM id]
+	db $40, $00
+	db $40, $00
+	db $00 ; terminator
 
 Func_18d34: ; 0x18d34
 	ld a, [wWhichGravestone]
@@ -23953,11 +24375,11 @@ Func_18d72: ; 0x18d72
 	sla a
 	ld c, a
 	ld b, $0
-	ld hl, Data_18ddb
+	ld hl, TileDataPointers_18ddb
 	ld a, [hGameBoyColorFlag]
 	and a
 	jr z, .asm_18d85
-	ld hl, Data_18ed1
+	ld hl, TileDataPointers_18ed1
 .asm_18d85
 	add hl, bc
 	ld a, [hli]
@@ -23965,7 +24387,7 @@ Func_18d72: ; 0x18d72
 	ld l, a
 	or h
 	ret z
-	ld a, Bank(Data_18ddb)
+	ld a, Bank(TileDataPointers_18ddb)
 	call Func_10aa
 	ret
 
@@ -24014,11 +24436,373 @@ Data_18dc9:
 Data_18dd2:
 	dr $18dd2, $18ddb
 
-Data_18ddb:
-	dr $18ddb, $18ed1
+TileDataPointers_18ddb:
+	dw TileData_18ddf
+	dw TileData_18df4
 
-Data_18ed1:
-	dr $18ed1, $18faf
+TileData_18ddf: ; 0x18ddf
+	db $0A
+	dw TileData_18e09
+	dw TileData_18e13
+	dw TileData_18e1d
+	dw TileData_18e27
+	dw TileData_18e31
+	dw TileData_18e3b
+	dw TileData_18e45
+	dw TileData_18e4f
+	dw TileData_18e59
+	dw TileData_18e63
+
+TileData_18df4: ; 0x18df4
+	db $0A
+	dw TileData_18e6d
+	dw TileData_18e77
+	dw TileData_18e81
+	dw TileData_18e8b
+	dw TileData_18e95
+	dw TileData_18e9f
+	dw TileData_18ea9
+	dw TileData_18eb3
+	dw TileData_18ebd
+	dw TileData_18ec7
+
+TileData_18e09: ; 0x18e09
+	dw Func_11d2
+	db $30, $03
+	dw $9640
+	dw GengarBonusBaseGameBoyGfx + $E40
+	db Bank(GengarBonusBaseGameBoyGfx)
+	db $00
+
+TileData_18e13: ; 0x18e13
+	dw Func_11d2
+	db $30, $03
+	dw vTilesBG tile $67
+	dw GengarBonusBaseGameBoyGfx + $E70
+	db Bank(GengarBonusBaseGameBoyGfx)
+	db $00
+
+TileData_18e1d: ; 0x18e1d
+	dw Func_11d2
+	db $30, $03
+	dw vTilesBG tile $6A
+	dw GengarBonusBaseGameBoyGfx + $EA0
+	db Bank(GengarBonusBaseGameBoyGfx)
+	db $00
+
+TileData_18e27: ; 0x18e27
+	dw Func_11d2
+	db $30, $03
+	dw vTilesBG tile $6D
+	dw GengarBonusBaseGameBoyGfx + $ED0
+	db Bank(GengarBonusBaseGameBoyGfx)
+	db $00
+
+TileData_18e31: ; 0x18e31
+	dw Func_11d2
+	db $30, $03
+	dw vTilesBG tile $70
+	dw GengarBonusBaseGameBoyGfx + $F00
+	db Bank(GengarBonusBaseGameBoyGfx)
+	db $00
+
+TileData_18e3b: ; 0x18e3b
+	dw Func_11d2
+	db $30, $03
+	dw vTilesBG tile $73
+	dw GengarBonusBaseGameBoyGfx + $F30
+	db Bank(GengarBonusBaseGameBoyGfx)
+	db $00
+
+TileData_18e45: ; 0x18e45
+	dw Func_11d2
+	db $30, $03
+	dw vTilesBG tile $76
+	dw GengarBonusBaseGameBoyGfx + $F60
+	db Bank(GengarBonusBaseGameBoyGfx)
+	db $00
+
+TileData_18e4f: ; 0x18e4f
+	dw Func_11d2
+	db $30, $03
+	dw vTilesBG tile $79
+	dw GengarBonusBaseGameBoyGfx + $F90
+	db Bank(GengarBonusBaseGameBoyGfx)
+	db $00
+
+TileData_18e59: ; 0x18e59
+	dw Func_11d2
+	db $30, $03
+	dw vTilesBG tile $7C
+	dw GengarBonusBaseGameBoyGfx + $FC0
+	db Bank(GengarBonusBaseGameBoyGfx)
+	db $00
+
+TileData_18e63: ; 0x18e63
+	dw Func_11d2
+	db $10, $01
+	dw vTilesBG tile $7F
+	dw GengarBonusBaseGameBoyGfx + $FF0
+	db Bank(GengarBonusBaseGameBoyGfx)
+	db $00
+
+TileData_18e6d: ; 0x18e6d
+	dw Func_11d2
+	db $30, $03
+	dw vTilesBG tile $64
+	dw GengarBonusGroundGfx
+	db Bank(GengarBonusGroundGfx)
+	db $00
+
+TileData_18e77: ; 0x18e77
+	dw Func_11d2
+	db $30, $03
+	dw vTilesBG tile $67
+	dw GengarBonusGroundGfx + $30
+	db Bank(GengarBonusGroundGfx)
+	db $00
+
+TileData_18e81: ; 0x18e81
+	dw Func_11d2
+	db $30, $03
+	dw vTilesBG tile $6A
+	dw GengarBonusGroundGfx + $60
+	db Bank(GengarBonusGroundGfx)
+	db $00
+
+TileData_18e8b: ; 0x18e8b
+	dw Func_11d2
+	db $30, $03
+	dw vTilesBG tile $6D
+	dw GengarBonusGroundGfx + $90
+	db Bank(GengarBonusGroundGfx)
+	db $00
+
+TileData_18e95: ; 0x18e95
+	dw Func_11d2
+	db $30, $03
+	dw vTilesBG tile $70
+	dw GengarBonusGroundGfx + $C0
+	db Bank(GengarBonusGroundGfx)
+	db $00
+
+TileData_18e9f: ; 0x18e9f
+	dw Func_11d2
+	db $30, $03
+	dw vTilesBG tile $73
+	dw GengarBonusGroundGfx + $F0
+	db Bank(GengarBonusGroundGfx)
+	db $00
+
+TileData_18ea9: ; 0x18ea9
+	dw Func_11d2
+	db $30, $03
+	dw vTilesBG tile $76
+	dw GengarBonusGroundGfx + $120
+	db Bank(GengarBonusGroundGfx)
+	db $00
+
+TileData_18eb3: ; 0x18eb3
+	dw Func_11d2
+	db $30, $03
+	dw vTilesBG tile $79
+	dw GengarBonusGroundGfx + $150
+	db Bank(GengarBonusGroundGfx)
+	db $00
+
+TileData_18ebd: ; 0x18ebd
+	dw Func_11d2
+	db $30, $03
+	dw vTilesBG tile $7C
+	dw GengarBonusGroundGfx + $180
+	db Bank(GengarBonusGroundGfx)
+	db $00
+
+TileData_18ec7: ; 0x18ec7
+	dw Func_11d2
+	db $10, $01
+	dw vTilesBG tile $7F
+	dw GengarBonusGroundGfx + $1B0
+	db Bank(GengarBonusGroundGfx)
+	db $00
+
+TileDataPointers_18ed1:
+	dw TileData_18ed5
+	dw TileData_18ede
+
+TileData_18ed5: ; 0x18ed5
+	db $04
+	dw TileData_18ee7
+	dw TileData_18f03
+	dw TileData_18f19
+	dw TileData_18f2f
+
+TileData_18ede: ; 0x18ede
+	db $04
+	dw TileData_18f4b
+	dw TileData_18f67
+	dw TileData_18f7d
+	dw TileData_18f93
+
+TileData_18ee7: ; 0x18ee7
+	dw LoadTileLists
+	db $0C ; total number of tiles
+
+	db $03 ; number of tiles
+	dw vBGMap + $67
+	db $26, $27, $28
+
+	db $03 ; number of tiles
+	dw vBGMap + $87
+	db $1C, $1D, $1E
+
+	db $03 ; number of tiles
+	dw vBGMap + $A7
+	db $3A, $13, $14
+
+	db $03 ; number of tiles
+	dw vBGMap + $C7
+	db $31, $32, $09
+
+	db $00 ; terminator
+
+TileData_18f03: ; 0x18f03
+	dw LoadTileLists
+	db $09 ; total number of tiles
+
+	db $03 ; number of tiles
+	dw vBGMap + $6E
+	db $47, $48, $49
+
+	db $03 ; number of tiles
+	dw vBGMap + $8E
+	db $3A, $13, $14
+
+	db $03 ; number of tiles
+	dw vBGMap + $AE
+	db $31, $32, $3B
+
+	db $00 ; terminator ; number of tiles
+
+TileData_18f19: ; 0x18f19
+	dw LoadTileLists
+	db $09 ; total number of tiles
+
+	db $03 ; number of tiles
+	dw vBGMap + $E3
+	db $23, $24, $25
+
+	db $03 ; number of tiles
+	dw vBGMap + $103
+	db $19, $1A, $1B
+
+	db $03 ; number of tiles
+	dw vBGMap + $123
+	db $0E, $0F, $10
+
+	db $00 ; terminator ; number of tiles
+
+TileData_18f2f: ; 0x18f2f
+	dw LoadTileLists
+	db $0C ; total number of tiles
+
+	db $03 ; number of tiles
+	dw vBGMap + $ED
+	db $26, $27, $28
+
+	db $03 ; number of tiles
+	dw vBGMap + $10D
+	db $1C, $1D, $1E
+
+	db $03 ; number of tiles
+	dw vBGMap + $12D
+	db $12, $13, $14
+
+	db $03 ; number of tiles
+	dw vBGMap + $14D
+	db $07, $08, $09
+
+	db $00 ; terminator
+
+TileData_18f4b: ; 0x18f4b
+	dw LoadTileLists
+	db $0C ; total number of tiles
+
+	db $03 ; number of tiles
+	dw vBGMap + $67
+	db $D9, $D9, $D9
+
+	db $03 ; number of tiles
+	dw vBGMap + $87
+	db $D9, $D9, $D9
+
+	db $03 ; number of tiles
+	dw vBGMap + $A7
+	db $74, $75, $76
+
+	db $03 ; number of tiles
+	dw vBGMap + $C7
+	db $77, $78, $79
+
+	db $00 ; terminator
+
+TileData_18f67: ; 0x18f67
+	dw LoadTileLists
+	db $09 ; total number of tiles
+
+	db $03 ; number of tiles
+	dw vBGMap + $6E
+	db $D9, $D9, $D9
+
+	db $03 ; number of tiles
+	dw vBGMap + $8E
+	db $74, $75, $76
+
+	db $03 ; number of tiles
+	dw vBGMap + $AE
+	db $77, $78, $7F
+
+	db $00 ; terminator ; number of tiles
+
+TileData_18f7d: ; 0x18f7d
+	dw LoadTileLists
+	db $09 ; total number of tiles
+
+	db $03 ; number of tiles
+	dw vBGMap + $E3
+	db $DB, $38, $39
+
+	db $03 ; number of tiles
+	dw vBGMap + $103
+	db $7A, $7B, $7C
+
+	db $03 ; number of tiles
+	dw vBGMap + $123
+	db $7D, $7E, $7F
+
+	db $00 ; terminator ; number of tiles
+
+TileData_18f93: ; 0x18f93
+	dw LoadTileLists
+	db $0C ; total number of tiles
+
+	db $03 ; number of tiles
+	dw vBGMap + $ED
+	db $D9, $D9, $D9
+
+	db $03 ; number of tiles
+	dw vBGMap + $10D
+	db $D9, $D9, $D9
+
+	db $03 ; number of tiles
+	dw vBGMap + $12D
+	db $74, $75, $76
+
+	db $03 ; number of tiles
+	dw vBGMap + $14D
+	db $77, $78, $79
+
+	db $00 ; terminator
 
 Func_18faf: ; 0x18faf
 	ld bc, $7f00
@@ -24138,7 +24922,7 @@ Func_19070: ; 0x19070
 	sla a
 	ld c, a
 	ld b, $0
-	ld hl, Data_190a9
+	ld hl, GastlyVideoData_190a9
 	add hl, bc
 	ld a, [hli]
 	ld e, a
@@ -24147,7 +24931,7 @@ Func_19070: ; 0x19070
 	ld a, [hli]
 	ld h, [hl]
 	ld l, a
-	ld a, $22
+	ld a, Bank(GengarBonusGastlyGfx)
 	ld bc, $0060
 	call LoadOrCopyVRAMData
 	ld a, $8
@@ -24161,8 +24945,11 @@ Func_19070: ; 0x19070
 	scf
 	ret
 
-Data_190a9:
-	dr $190a9, $190b9
+GastlyVideoData_190a9:
+	dw vTilesSH tile $10, GengarBonusGastlyGfx
+	dw vTilesSH tile $16, GengarBonusGastlyGfx + $60
+	dw vTilesSH tile $1c, GengarBonusGastlyGfx + $c0
+	dw vTilesSH tile $22, GengarBonusGastlyGfx + $120
 
 Func_190b9: ; 0x190b9
 	ld de, wd67e
@@ -41149,7 +41936,13 @@ StageRedFieldTopGfx5: ; 0xdae00
 
 TimerDigitsGfx: ; 0xdb200
 	INCBIN "gfx/stage/timer_digits.2bpp"
-	dr $db360, $db600
+
+	ds $a0 ; free space
+
+GengarBonusGroundGfx: ; 0xdb400
+	INCBIN "gfx/stage/gengar_bonus/gengar_ground.2bpp"
+
+	ds $40 ; free space
 
 StageGengarBonusCollisionMasks: ; 0xdb600
 	INCBIN "data/collision/masks/gengar_bonus.masks"

@@ -35726,11 +35726,11 @@ Func_1f18a: ; 0x1f18a
 	sla a
 	ld c, a
 	ld b, $0
-	ld hl, Data_1f1b5
+	ld hl, TileDataPointers_1f1b5
 	ld a, [hGameBoyColorFlag]
 	and a
 	jr z, .asm_1f1a4
-	ld hl, Data_1f201
+	ld hl, TileDataPointers_1f201
 .asm_1f1a4
 	add hl, bc
 	ld a, [hli]
@@ -35738,18 +35738,184 @@ Func_1f18a: ; 0x1f18a
 	ld l, a
 	or h
 	ret z
-	ld a, Bank(Data_1f1b5)
+	ld a, Bank(TileDataPointers_1f1b5)
 	call Func_10aa
 	ld a, $0
 	ld [wd640], a
 .asm_1f1b4
 	ret
 
-Data_1f1b5:
-	dr $1f1b5, $1f201
+TileDataPointers_1f1b5:
+	dw TileData_1f1bd
+	dw TileData_1f1c0
+	dw TileData_1f1c3
+	dw TileData_1f1c6
 
-Data_1f201:
-	dr $1f201, $1f261
+TileData_1f1bd: ; 0x1f1bd
+	db $01
+	dw TileData_1f1c9
+
+TileData_1f1c0: ; 0x1f1c0
+	db $01
+	dw TileData_1f1d7
+
+TileData_1f1c3: ; 0x1f1c3
+	db $01
+	dw TileData_1f1e5
+
+TileData_1f1c6: ; 0x1f1c6
+	db $01
+	dw TileData_1f1f3
+
+TileData_1f1c9: ; 0x1f1c9
+	dw LoadTileLists
+	db $04 ; total number of tiles
+
+	db $02 ; number of tiles
+	dw vBGMap + $189
+	db $70, $71
+
+	db $02 ; number of tiles
+	dw vBGMap + $1a9
+	db $72, $73
+
+	db $00 ; terminator
+
+TileData_1f1d7: ; 0x1f1d7
+	dw LoadTileLists
+	db $04 ; total number of tiles
+
+	db $02 ; number of tiles
+	dw vBGMap + $189
+	db $74, $75
+
+	db $02 ; number of tiles
+	dw vBGMap + $1a9
+	db $76, $77
+
+	db $00 ; terminator
+
+TileData_1f1e5: ; 0x1f1e5
+	dw LoadTileLists
+	db $04 ; total number of tiles
+
+	db $02 ; number of tiles
+	dw vBGMap + $189
+	db $78, $79
+
+	db $02 ; number of tiles
+	dw vBGMap + $1a9
+	db $7A, $7B
+
+	db $00 ; terminator
+
+TileData_1f1f3: ; 0x1f1f3
+	dw LoadTileLists
+	db $04 ; total number of tiles
+
+	db $02 ; number of tiles
+	dw vBGMap + $189
+	db $7C, $7D
+
+	db $02 ; number of tiles
+	dw vBGMap + $1a9
+	db $7E, $7F
+
+	db $00 ; terminator
+
+TileDataPointers_1f201:
+	dw TileData_1f209
+	dw TileData_1f20c
+	dw TileData_1f20f
+	dw TileData_1f212
+
+TileData_1f209: ; 0x1f209
+	db $01
+	dw TileData_1f215
+
+TileData_1f20c: ; 0x1f20c
+	db $01
+	dw TileData_1f228
+
+TileData_1f20f: ; 0x1f20f
+	db $01
+	dw TileData_1f23b
+
+TileData_1f212: ; 0x1f212
+	db $01
+	dw TileData_1f24e
+
+TileData_1f215: ; 0x1f215
+	dw LoadTileLists
+	db $06 ; total number of tiles
+
+	db $02 ; number of otiles
+	dw vBGMap + $189
+	db $6C, $6D
+
+	db $02 ; number of tiles
+	dw vBGMap + $1a9
+	db $6E, $6F
+
+	db $02
+	dw vBGMap + $1c9
+	db $70, $71
+
+	db $00 ; terminator
+
+TileData_1f228: ; 0x1f228
+	dw LoadTileLists
+	db $06 ; total number of tiles
+
+	db $02 ; number of otiles
+	dw vBGMap + $189
+	db $72, $80
+
+	db $02 ; number of tiles
+	dw vBGMap + $1a9
+	db $73, $74
+
+	db $02
+	dw vBGMap + $1c9
+	db $75, $80
+
+	db $00 ; terminator
+
+TileData_1f23b: ; 0x1f23b
+	dw LoadTileLists
+	db $06 ; total number of tiles
+
+	db $02 ; number of otiles
+	dw vBGMap + $189
+	db $76, $77
+
+	db $02 ; number of tiles
+	dw vBGMap + $1a9
+	db $78, $79
+
+	db $02
+	dw vBGMap + $1c9
+	db $7A, $7B
+
+	db $00 ; terminator
+
+TileData_1f24e: ; 0x1f24e
+	dw LoadTileLists
+	db $06 ; total number of tiles
+
+	db $02 ; number of otiles
+	dw vBGMap + $189
+	db $80, $7C
+
+	db $02 ; number of tiles
+	dw vBGMap + $1a9
+	db $7D, $7E
+
+	db $02
+	dw vBGMap + $1c9
+	db $80, $7F
+
+	db $00 ; terminator
 
 Func_1f261: ; 0x1f261
 	call Func_1f27b
@@ -35760,7 +35926,7 @@ Func_1f265: ; 0x1f265
 	sla a
 	ld c, a
 	ld b, $0
-	ld hl, Data_1f2b9
+	ld hl, TileDataPointers_1f2b9
 	add hl, bc
 	ld a, [hli]
 	ld c, a
@@ -35808,8 +35974,47 @@ Func_1f27b: ; 0x1f27b
 	scf
 	ret
 
-Data_1f2b9:
-	dr $1f2b9, $1f2ed
+TileDataPointers_1f2b9:
+	dw TileData_1f2c1
+	dw TileData_1f2cc
+	dw TileData_1f2d7
+	dw TileData_1f2e2
+
+TileData_1f2c1: ; 0x1f2c1
+	db $06 ; total number of tiles
+
+	db $06 ; number of tiles
+	dw vBGMap + $107
+	db $B0, $B1, $B0, $B1, $B0, $B1
+
+	db $00 ; terminator
+
+TileData_1f2cc: ; 0x1f2cc
+	db $06 ; total number of tiles
+
+	db $06 ; number of tiles
+	dw vBGMap + $107
+	db $AE, $AF, $B0, $B1, $B0, $B1
+
+	db $00 ; terminator
+
+TileData_1f2d7: ; 0x1f2d7
+	db $06 ; total number of tiles
+
+	db $06 ; number of tiles
+	dw vBGMap + $107
+	db $AE, $AF, $AE, $AF, $B0, $B1
+
+	db $00 ; terminator
+
+TileData_1f2e2: ; 0x1f2e2
+	db $06 ; total number of tiles
+
+	db $06 ; number of tiles
+	dw vBGMap + $107
+	db $AE, $AF, $AE, $AF, $AE, $AF
+
+	db $00 ; terminator
 
 Func_1f2ed: ; 0x1f2ed
 	xor a
@@ -35913,13 +36118,19 @@ Func_1f3ad: ; 0x1f3ad
 	ret
 
 Data_1f3cf:
-	dr $1f3cf, $1f3d5
+	db $48, $2D ; background scroll offsets (x, y)
+	db $01
+	db $E0, $E1, $E0 ; OAM ids
 
 Data_1f3d5:
-	dr $1f3d5, $1f3db
+	db $33, $3E ; background scroll offsets (x, y)
+	db $00
+	db $E0, $E1, $E0 ; OAM ids
 
 Data_1f3db:
-	dr $1f3db, $1f3e1
+	db $5D, $3E ; background scroll offsets (x, y)
+	db $02
+	db $E0, $E1, $E0 ; OAM ids
 
 Func_1f3e1: ; 0x1f3e1
 	ld a, $8a
@@ -35935,14 +36146,14 @@ Func_1f3e1: ; 0x1f3e1
 	srl a
 	ld e, a
 	ld d, $0
-	ld hl, Data_1f402
+	ld hl, OAMIds_1f402
 	add hl, de
 	ld a, [hl]
 	call LoadOAMData
 	ret
 
-Data_1f402:
-	dr $1f402, $1f408
+OAMIds_1f402:
+	db $E8, $E9, $EA, $EB, $EC, $ED
 
 Func_1f408: ; 0x1f408
 	ld a, $18
@@ -35956,14 +36167,14 @@ Func_1f408: ; 0x1f408
 	ld a, [wd633]
 	ld e, a
 	ld d, $0
-	ld hl, Data_1f425
+	ld hl, OAMIds_1f425
 	add hl, de
 	ld a, [hl]
 	call LoadOAMData
 	ret
 
-Data_1f425:
-	dr $1f425, $1f428
+OAMIds_1f425:
+	db $E2, $E3, $E4
 
 Func_1f428: ; 0x1f428
 	ld a, $70
@@ -35977,14 +36188,14 @@ Func_1f428: ; 0x1f428
 	ld a, [wd638]
 	ld e, a
 	ld d, $0
-	ld hl, Data_1f445
+	ld hl, OAMIds_1f445
 	add hl, de
 	ld a, [hl]
 	call LoadOAMData
 	ret
 
-Data_1f445:
-	dr $1f445, $1f448
+OAMIds_1f445:
+	db $E5, $E6, $E7
 
 DrawPikachuSavers_BlueStage: ; 0x1f448
 	ld a, [hSCX]
@@ -36040,7 +36251,7 @@ Func_1f48f: ; 0x1f48f
 	bit 4, a
 	ret z
 	ld de, wIndicatorStates + 5
-	ld hl, Data_1f4ce
+	ld hl, OAMDataTable_1f4ce
 	ld b, $6
 	jr asm_1f4b5
 
@@ -36052,7 +36263,7 @@ Func_1f4a3: ; 0x1f4a3
 	bit 4, a
 	ret z
 	ld de, wIndicatorStates + 11
-	ld hl, Data_1f4e0
+	ld hl, OAMDataTable_1f4e0
 	ld b, $8
 asm_1f4b5:
 	push bc
@@ -36076,18 +36287,60 @@ asm_1f4b5:
 	jr nz, asm_1f4b5
 	ret
 
-Data_1f4ce:
-	dr $1f4ce, $1f4e0
+OAMDataTable_1f4ce: ; 0x1f4ce
+ ; Each entry is:
+ ; [OAM x/y Offsets],[OAM Id]
+	db $0D, $37
+	db $EE
 
-Data_1f4e0:
-	dr $1f4e0, $1f4f8
+	db $35, $0D
+	db $F1
+
+	db $8E, $4E
+	db $F4
+
+	db $36, $64
+	db $EF
+
+	db $4C, $49
+	db $EE
+
+	db $61, $64
+	db $F0
+
+OAMDataTable_1f4e0: ; 0x1f4e0
+ ; Each entry is 3 bytes:
+ ; [OAM x/y Offsets],[OAM Id]
+	db $2D, $13
+	db $32
+
+	db $6A, $13
+	db $33
+
+	db $25, $2D
+	db $34
+
+	db $73, $2D
+	db $35
+
+	db $38, $14
+	db $36
+
+	db $66, $14
+	db $36
+
+	db $79, $40
+	db $37
+
+	db $89, $40
+	db $37
 
 Func_1f4f8: ; 0x1f4f8
 	ld a, [wd551]
 	and a
 	ret z
 	ld de, wd566
-	ld hl, Data_1f53a
+	ld hl, OAMOffsetsTable_1f53a
 	ld b, $c
 	ld c, $47
 	jr asm_1f518
@@ -36097,7 +36350,7 @@ Func_1f509: ; 0x1f509
 	and a
 	ret z
 	ld de, wd572
-	ld hl, Data_1f552
+	ld hl, OAMOffsetsTable_1f552
 	ld b, $6
 	ld c, $40
 asm_1f518: ; 0x1f518
@@ -36129,11 +36382,29 @@ asm_1f518: ; 0x1f518
 	jr nz, asm_1f518
 	ret
 
-Data_1f53a:
-	dr $1f53a, $1f552
+OAMOffsetsTable_1f53a: ; 0x1f53a
+; OAM data x, y offsets
+	db $4C, $08
+	db $2B, $12
+	db $6D, $12
+	db $15, $25
+	db $82, $25
+	db $0D, $3F
+	db $4C, $7F
+	db $8B, $3F
+	db $0A, $65
+	db $36, $7F
+	db $61, $7F
+	db $8D, $65
 
-Data_1f552:
-	dr $1f552, $1f55e
+OAMOffsetsTable_1f552: ; 0x1f552
+; OAM data x, y offsets
+	db $3B, $12
+	db $5D, $12
+	db $31, $16
+	db $67, $16
+	db $25, $2C
+	db $73, $2C
 
 Func_1f55e: ; 0x1f55e
 	ld a, [wd604]
@@ -38889,7 +39160,7 @@ Func_2442a: ; 0x2442a
 	ld [wd713], a
 	ld a, $1
 	ld [wd712], a
-	ld hl, Data_24704
+	ld hl, MeowthAnimationData5
 	ld de, wMeowthAnimationFrameCounter
 	call CopyHLToDE
 	ld a, $4
@@ -38915,25 +39186,131 @@ Func_24516: ; 0x24516
 	sla a
 	ld c, a
 	ld b, $0
-	ld hl, Data_24533
+	ld hl, TileDataPointers_24533
 	ld a, [hGameBoyColorFlag]
 	and a
 	jr z, .asm_24529
-	ld hl, Data_2456f
+	ld hl, TileDataPointers_2456f
 .asm_24529
 	add hl, bc
 	ld a, [hli]
 	ld h, [hl]
 	ld l, a
-	ld a, Bank(Data_24533)
+	ld a, Bank(TileDataPointers_24533)
 	call Func_10aa
 	ret
 
-Data_24533:
-	dr $24533, $2456f
+TileDataPointers_24533: ; 0x24533
+	dw TileData_24537
+	dw TileData_2453a
 
-Data_2456f:
-	dr $2456f, $245ab
+TileData_24537: ; 0x24537
+	db $01
+	dw TileData_2453D
+
+TileData_2453a: ; 0x2453a
+	db $01
+	dw TileData_24556
+
+TileData_2453D: ; 0x2453D
+	dw LoadTileLists
+	db $09 ; total number of tiles
+
+	db $02 ; number of tiles
+	dw vBGMap + $113
+	db $01, $02
+
+	db $02 ; number of tiles
+	dw vBGMap + $133
+	db $FF, $00
+
+	db $03 ; number of tiles
+	dw vBGMap + $152
+	db $80, $FD, $FE
+
+	db $02 ; number of tiles
+	dw vBGMap + $172
+	db $F6, $FA
+
+	db $00 ; terminator
+
+TileData_24556: ; 0x24556
+	dw LoadTileLists
+	db $09 ; total number of tiles
+
+	db $02 ; number of tiles
+	dw vBGMap + $113
+	db $E9, $E5
+
+	db $02 ; number of tiles
+	dw vBGMap + $133
+	db $E7, $E3
+
+	db $03 ; number of tiles
+	dw vBGMap + $152
+	db $12, $13, $E4
+
+	db $02 ; number of tiles
+	dw vBGMap + $172
+	db $10, $11
+
+	db $00 ; terminator
+
+TileDataPointers_2456f: ; 0x2456f
+	dw TileData_24573
+	dw TileData_24576
+
+TileData_24573: ; 0x
+	db $01
+	dw TileData_24579
+
+TileData_24576: ; 0x
+	db $01
+	dw TileData_24592
+
+TileData_24579: ; 0x24579
+	dw LoadTileLists
+	db $09 ; total number of tiles
+
+	db $02 ; number of tiles
+	dw vBGMap + $113
+	db $F6, $F5
+
+	db $02 ; number of tiles
+	dw vBGMap + $133
+	db $F4, $F3
+
+	db $03 ; number of tiles
+	dw vBGMap + $152
+	db $80, $F1, $F2
+
+	db $02 ; number of tiles
+	dw vBGMap + $172
+	db $EA, $EE
+
+	db $00 ; terminator
+
+TileData_24592: ; 0x24592
+	dw LoadTileLists
+	db $09 ; total number of tiles
+
+	db $02 ; number of tiles
+	dw vBGMap + $113
+	db $E5, $E3
+
+	db $02 ; number of tiles
+	dw vBGMap + $133
+	db $E4, $E2
+
+	db $03 ; number of tiles
+	dw vBGMap + $152
+	db $F0, $EF, $E3
+
+	db $02 ; number of tiles
+	dw vBGMap + $172
+	db $ED, $EC
+
+	db $00 ; terminator
 
 Func_245ab: ; 0x245ab
 	ld a, [wd6e7]
@@ -38975,7 +39352,7 @@ Func_245ab: ; 0x245ab
 	jr nc, .asm_24621
 	and a
 	jr nz, .asm_24611
-	ld hl, Data_246fe
+	ld hl, MeowthAnimationData3
 	ld de, wMeowthAnimationFrameCounter
 	call CopyHLToDE
 	ld a, $2
@@ -38983,7 +39360,7 @@ Func_245ab: ; 0x245ab
 	jr .asm_24651
 
 .asm_24611
-	ld hl, Data_24701
+	ld hl, MeowthAnimationData4
 	ld de, wMeowthAnimationFrameCounter
 	call CopyHLToDE
 	ld a, $3
@@ -39008,7 +39385,7 @@ Func_245ab: ; 0x245ab
 	ld a, [wd70c]
 	cp $3
 	jr nz, .asm_24651
-	ld hl, Data_24704
+	ld hl, MeowthAnimationData5
 	ld de, wMeowthAnimationFrameCounter
 	call CopyHLToDE
 	ld a, $4
@@ -39025,7 +39402,7 @@ Func_2465d: ; 0x2465d
 	sla a
 	ld c, a
 	ld b, $0
-	ld hl, Data_246e2
+	ld hl, MewothAnimationDataTable ; 0x246e2
 	add hl, bc
 	ld a, [hli]
 	ld h, [hl]
@@ -39039,7 +39416,7 @@ Func_2465d: ; 0x2465d
 	ld a, [wMeowthAnimationFrameIndex]
 	cp $4
 	ret nz
-	ld hl, Data_246ec
+	ld hl, MeowthAnimationData1
 	ld de, wMeowthAnimationFrameCounter
 	call CopyHLToDE
 	ret
@@ -39050,7 +39427,7 @@ Func_2465d: ; 0x2465d
 	ld a, [wMeowthAnimationFrameIndex]
 	cp $4
 	ret nz
-	ld hl, Data_246f5
+	ld hl, MeowthAnimationData2
 	ld de, wMeowthAnimationFrameCounter
 	call CopyHLToDE
 	ret
@@ -39061,7 +39438,7 @@ Func_2465d: ; 0x2465d
 	ld a, [wMeowthAnimationFrameIndex]
 	cp $1
 	ret nz
-	ld hl, Data_246ec
+	ld hl, MeowthAnimationData1
 	ld de, wMeowthAnimationFrameCounter
 	call CopyHLToDE
 	xor a
@@ -39074,7 +39451,7 @@ Func_2465d: ; 0x2465d
 	ld a, [wMeowthAnimationFrameIndex]
 	cp $1
 	ret nz
-	ld hl, Data_246f5
+	ld hl, MeowthAnimationData2
 	ld de, wMeowthAnimationFrameCounter
 	call CopyHLToDE
 	ld a, $1
@@ -39087,28 +39464,48 @@ Func_2465d: ; 0x2465d
 	ld a, [wMeowthAnimationFrameIndex]
 	cp $2
 	ret nz
-	ld hl, Data_24704
+	ld hl, MeowthAnimationData5
 	ld de, wMeowthAnimationFrameCounter
 	call CopyHLToDE
 	ret
 
-Data_246e2:
-	dr $246e2, $246ec
+MewothAnimationDataTable: ; 0x246e2
+	dw MeowthAnimationData1
+	dw MeowthAnimationData2
+	dw MeowthAnimationData3
+	dw MeowthAnimationData4
+	dw MeowthAnimationData5
 
-Data_246ec:
-	dr $246ec, $246f5
+MeowthAnimationData1: ; 0x246ec
+; Each entry is [OAM id][duration]
+	db $10, $00
+	db $0B, $01
+	db $10, $02
+	db $0C, $01
+	db $00 ; terminator
 
-Data_246f5:
-	dr $246f5, $246fe
+MeowthAnimationData2: ; 0x246f5
+; Each entry is [OAM id][duration]
+	db $10, $04
+	db $0B, $05
+	db $10, $06
+	db $0C, $05
+	db $00 ; terminator
 
-Data_246fe:
-	dr $246fe, $24701
+MeowthAnimationData3: ; 0x246fe
+; Each entry is [OAM id][duration]
+	db $16, $03
+	db $00 ; terminator
 
-Data_24701:
-	dr $24701, $24704
+MeowthAnimationData4: ; 0x24701
+; Each entry is [OAM id][duration]
+	db $16, $07
+	db $00 ; terminator
 
-Data_24704:
-	dr $24704, $24709
+MeowthAnimationData5: ; 0x24704
+	db $17, $08
+	db $17, $09
+	db $00 ; terminator
 
 Func_24709: ; 0x24709
 	ld a, [wMeowthXPosition]
@@ -39532,7 +39929,7 @@ Func_248ac: ; 0x248ac
 	ld a, [wMeowthXMovement]
 	cp $ff
 	jr z, .asm_24a21
-	ld hl, Data_246f5
+	ld hl, MeowthAnimationData2
 	ld de, wMeowthAnimationFrameCounter
 	call CopyHLToDE
 	ld a, $1
@@ -39540,7 +39937,7 @@ Func_248ac: ; 0x248ac
 	ret
 
 .asm_24a21
-	ld hl, Data_246ec
+	ld hl, MeowthAnimationData1
 	ld de, wMeowthAnimationFrameCounter
 	call CopyHLToDE
 	ld a, $0
@@ -39675,7 +40072,47 @@ Func_24a30: ; 0x24a30
 	ret
 
 Data_24af1:
-	dr $24af1, $24b41
+; These are offsets for something in the Meowth stage
+	db 2, -4
+	db 2, -4
+	db 2, -4
+	db 2,  0
+	db 2, -2
+	db 2,  0
+	db 2, -2
+	db 2,  0
+	db 2, -2
+	db 2,  0
+	db 2, -2
+	db 2,  0
+	db 2,  0
+	db 2,  0
+	db 2,  0
+	db 2,  2
+	db 2,  2
+	db 2,  2
+	db 2,  2
+	db 2,  2
+	db 2,  3
+	db 2,  4
+	db 2,  4
+	db 2,  4
+	db 2,  4
+	db 2,  4
+	db 1,  4
+	db 1,  4
+	db 1,  4
+	db 1,  4
+	db 1,  4
+	db 1,  4
+	db 1,  4
+	db 1,  4
+	db 1,  4
+	db 1,  4
+	db 0,  0
+	db 0,  0
+	db 0,  0
+	db 0,  0
 
 Func_24b41: ; 0x24b41
 	ld a, [wd6f4]
@@ -39809,7 +40246,22 @@ Func_24bf6: ; 0x24bf6
 	ret
 
 Data_24c0a:
-	dr $24c0a, $24c28
+; These are offsets for something in the Meowth stage
+	db 2, -2
+	db 2, -1
+	db 2, -1
+	db 2,  0
+	db 2,  0
+	db 2,  0
+	db 2,  1
+	db 2,  1
+	db 2,  2
+	db 2,  4
+	db 1,  4
+	db 0,  0
+	db 0,  0
+	db 0,  0
+	db 0,  0
 
 Func_24c28: ; 0x24c28
 	ld a, [wd6f3]
@@ -40103,7 +40555,7 @@ Func_24d07: ; 0x24d07
 	ld a, [wMeowthXMovement]
 	cp $ff
 	jr z, .asm_24e70
-	ld hl, Data_246f5
+	ld hl, MeowthAnimationData2
 	ld de, wMeowthAnimationFrameCounter
 	call CopyHLToDE
 	ld a, $1
@@ -40111,7 +40563,7 @@ Func_24d07: ; 0x24d07
 	ret
 
 .asm_24e70
-	ld hl, Data_246ec
+	ld hl, MeowthAnimationData1
 	ld de, wMeowthAnimationFrameCounter
 	call CopyHLToDE
 	ld a, $0
@@ -40181,7 +40633,7 @@ Func_24ee7: ; 0x24ee7
 	sla a
 	ld c, a
 	ld b, $0
-	ld hl, Data_24f30
+	ld hl, MeowthStageAnimationDataTable
 	add hl, bc
 	ld a, [hli]
 	ld h, [hl]
@@ -40197,7 +40649,7 @@ Func_24f00: ; 0x24f00
 	sla a
 	ld c, a
 	ld b, $0
-	ld hl, Data_24f30
+	ld hl, MeowthStageAnimationDataTable
 	add hl, bc
 	ld a, [hli]
 	ld h, [hl]
@@ -40224,8 +40676,82 @@ Func_24f00: ; 0x24f00
 	ld [wd710], a
 	ret
 
-Data_24f30:
-	dr $24f30, $24fa3
+MeowthStageAnimationDataTable: ; 0x24f30
+	dw MeowthStageAnimationData1
+	dw MeowthStageAnimationData2
+	dw MeowthStageAnimationData3
+	dw MeowthStageAnimationData4
+	dw MeowthStageAnimationData5
+
+MeowthStageAnimationData1: ; 0x24f3a
+; Each entry is [OAM id][duration]
+	db $02, $00
+	db $02, $01
+	db $02, $02
+	db $10, $00
+	db $04, $0F
+	db $04, $00
+	db $04, $0F
+	db $04, $00
+	db $04, $0F
+	db $04, $00
+	db $00 ; terminator
+
+MeowthStageAnimationData2: ; 0x24f4f
+; Each entry is [OAM id][duration]
+	db $02, $03
+	db $02, $04
+	db $02, $05
+	db $10, $03
+	db $04, $0F
+	db $04, $03
+	db $04, $0F
+	db $04, $03
+	db $04, $0F
+	db $04, $03
+	db $00 ; terminator
+
+MeowthStageAnimationData3: ; 0x24f64
+; Each entry is [OAM id][duration]
+	db $02, $06
+	db $02, $07
+	db $02, $08
+	db $10, $06
+	db $04, $0F
+	db $04, $06
+	db $04, $0F
+	db $04, $06
+	db $04, $0F
+	db $04, $06
+	db $00 ; terminator
+
+MeowthStageAnimationData4: ; 0x24f79
+; Each entry is [OAM id][duration]
+	db $02, $09
+	db $02, $0A
+	db $02, $0B
+	db $10, $09
+	db $04, $0F
+	db $04, $09
+	db $04, $0F
+	db $04, $09
+	db $04, $0F
+	db $04, $09
+	db $00 ; terminator
+
+MeowthStageAnimationData5: ; 0x24f8e
+; Each entry is [OAM id][duration]
+	db $02, $0C
+	db $02, $0D
+	db $02, $0E
+	db $10, $0C
+	db $04, $0F
+	db $04, $0C
+	db $04, $0F
+	db $04, $0C
+	db $04, $0F
+	db $04, $0C
+	db $00 ; terminator
 
 Func_24fa3: ; 0x24fa3
 	ld a, [wMeowthStageScore]
@@ -40280,25 +40806,1661 @@ Func_24fa3: ; 0x24fa3
 	sla a
 	ld c, a
 	ld b, $0
-	ld hl, Data_25007
+	ld hl, TileDataPointers_25007
 	ld a, [hGameBoyColorFlag]
 	and a
 	jr z, .asm_24ffd
-	ld hl, Data_25421
+	ld hl, TileDataPointers_25421
 .asm_24ffd
 	add hl, bc
 	ld a, [hli]
 	ld h, [hl]
 	ld l, a
-	ld a, Bank(Data_25007)
+	ld a, Bank(TileDataPointers_25007)
 	call Func_10aa
 	ret
 
-Data_25007:
-	dr $25007, $25421
+TileDataPointers_25007:
+	dw TileData_25031
+	dw TileData_25034
+	dw TileData_25037
+	dw TileData_2503a
+	dw TileData_2503d
+	dw TileData_25040
+	dw TileData_25043
+	dw TileData_25046
+	dw TileData_25049
+	dw TileData_2504c
+	dw TileData_2504f
+	dw TileData_25052
+	dw TileData_25055
+	dw TileData_25058
+	dw TileData_2505b
+	dw TileData_2505e
+	dw TileData_25061
+	dw TileData_25064
+	dw TileData_25067
+	dw TileData_2506a
+	dw TileData_2506d
 
-Data_25421:
-	dr $25421, $2583b
+TileData_25031: ; 0x25031
+	db $01
+	dw TileData_25070
+
+TileData_25034: ; 0x25034
+	db $01
+	dw TileData_2509d
+
+TileData_25037: ; 0x25037
+	db $01
+	dw TileData_250ca
+
+TileData_2503a: ; 0x2503a
+	db $01
+	dw TileData_250f7
+
+TileData_2503d: ; 0x2503d
+	db $01
+	dw TileData_25124
+
+TileData_25040: ; 0x25040
+	db $01
+	dw TileData_25151
+
+TileData_25043: ; 0x25043
+	db $01
+	dw TileData_2517e
+
+TileData_25046: ; 0x25046
+	db $01
+	dw TileData_251ab
+
+TileData_25049: ; 0x25049
+	db $01
+	dw TileData_251d8
+
+TileData_2504c: ; 0x2504c
+	db $01
+	dw TileData_25205
+
+TileData_2504f: ; 0x2504f
+	db $01
+	dw TileData_25232
+
+TileData_25052: ; 0x25052
+	db $01
+	dw TileData_2525f
+
+TileData_25055: ; 0x25055
+	db $01
+	dw TileData_2528c
+
+TileData_25058: ; 0x25058
+	db $01
+	dw TileData_252b9
+
+TileData_2505b: ; 0x2505b
+	db $01
+	dw TileData_252e6
+
+TileData_2505e: ; 0x2505e
+	db $01
+	dw TileData_25313
+
+TileData_25061: ; 0x25061
+	db $01
+	dw TileData_25340
+
+TileData_25064: ; 0x25064
+	db $01
+	dw TileData_2536d
+
+TileData_25067: ; 0x25067
+	db $01
+	dw TileData_2539a
+
+TileData_2506a: ; 0x2506a
+	db $01
+	dw TileData_253c7
+
+TileData_2506d: ; 0x2506d
+	db $01
+	dw TileData_253f4
+
+TileData_25070: ; 0x25070
+	dw LoadTileLists
+	db $14 ; total number of tiles
+
+	db $03 ; number of tiles
+	dw vBGMap
+	db $E4, $0C, $0D
+
+	db $03 ; number of tiles
+	dw vBGMap + $3
+	db $0E, $0D, $0E
+
+	db $03 ; number of tiles
+	dw vBGMap + $6
+	db $0D, $0E, $0D
+
+	db $03 ; number of tiles
+	dw vBGMap + $9
+	db $0E, $0D, $0E
+
+	db $03 ; number of tiles
+	dw vBGMap + $C
+	db $0D, $0E, $0D
+
+	db $03 ; number of tiles
+	dw vBGMap + $F
+	db $0E, $0D, $0E
+
+	db $02
+	dw vBGMap + $12
+	db $0F, $E4
+
+	db $00 ; terminator
+
+TileData_2509d: ; 0x2509d
+	dw LoadTileLists
+	db $14 ; total number of tiles
+
+	db $03 ; number of tiles
+	dw vBGMap
+	db $14, $0C, $0D
+
+	db $03 ; number of tiles
+	dw vBGMap + $3
+	db $0E, $0D, $0E
+
+	db $03 ; number of tiles
+	dw vBGMap + $6
+	db $0D, $0E, $0D
+
+	db $03 ; number of tiles
+	dw vBGMap + $9
+	db $0E, $0D, $0E
+
+	db $03 ; number of tiles
+	dw vBGMap + $C
+	db $0D, $0E, $0D
+
+	db $03 ; number of tiles
+	dw vBGMap + $F
+	db $0E, $0D, $0E
+
+	db $02
+	dw vBGMap + $12
+	db $0F, $E4
+
+	db $00 ; terminator
+
+TileData_250ca: ; 0x250ca
+	dw LoadTileLists
+	db $14 ; total number of tiles
+
+	db $03 ; number of tiles
+	dw vBGMap
+	db $14, $15, $0D
+
+	db $03 ; number of tiles
+	dw vBGMap + $3
+	db $0E, $0D, $0E
+
+	db $03 ; number of tiles
+	dw vBGMap + $6
+	db $0D, $0E, $0D
+
+	db $03 ; number of tiles
+	dw vBGMap + $9
+	db $0E, $0D, $0E
+
+	db $03 ; number of tiles
+	dw vBGMap + $C
+	db $0D, $0E, $0D
+
+	db $03 ; number of tiles
+	dw vBGMap + $F
+	db $0E, $0D, $0E
+
+	db $02
+	dw vBGMap + $12
+	db $0F, $E4
+
+	db $00 ; terminator
+
+TileData_250f7: ; 0x250f7
+	dw LoadTileLists
+	db $14 ; total number of tiles
+
+	db $03 ; number of tiles
+	dw vBGMap
+	db $14, $15, $16
+
+	db $03 ; number of tiles
+	dw vBGMap + $3
+	db $0E, $0D, $0E
+
+	db $03 ; number of tiles
+	dw vBGMap + $6
+	db $0D, $0E, $0D
+
+	db $03 ; number of tiles
+	dw vBGMap + $9
+	db $0E, $0D, $0E
+
+	db $03 ; number of tiles
+	dw vBGMap + $C
+	db $0D, $0E, $0D
+
+	db $03 ; number of tiles
+	dw vBGMap + $F
+	db $0E, $0D, $0E
+
+	db $02
+	dw vBGMap + $12
+	db $0F, $E4
+
+	db $00 ; terminator
+
+TileData_25124: ; 0x25124
+	dw LoadTileLists
+	db $14 ; total number of tiles
+
+	db $03 ; number of tiles
+	dw vBGMap
+	db $14, $15, $16
+
+	db $03 ; number of tiles
+	dw vBGMap + $3
+	db $16, $0D, $0E
+
+	db $03 ; number of tiles
+	dw vBGMap + $6
+	db $0D, $0E, $0D
+
+	db $03 ; number of tiles
+	dw vBGMap + $9
+	db $0E, $0D, $0E
+
+	db $03 ; number of tiles
+	dw vBGMap + $C
+	db $0D, $0E, $0D
+
+	db $03 ; number of tiles
+	dw vBGMap + $F
+	db $0E, $0D, $0E
+
+	db $02
+	dw vBGMap + $12
+	db $0F, $E4
+
+	db $00 ; terminator
+
+TileData_25151: ; 0x25151
+	dw LoadTileLists
+	db $14 ; total number of tiles
+
+	db $03 ; number of tiles
+	dw vBGMap
+	db $14, $15, $16
+
+	db $03 ; number of tiles
+	dw vBGMap + $3
+	db $16, $16, $0E
+
+	db $03 ; number of tiles
+	dw vBGMap + $6
+	db $0D, $0E, $0D
+
+	db $03 ; number of tiles
+	dw vBGMap + $9
+	db $0E, $0D, $0E
+
+	db $03 ; number of tiles
+	dw vBGMap + $C
+	db $0D, $0E, $0D
+
+	db $03 ; number of tiles
+	dw vBGMap + $F
+	db $0E, $0D, $0E
+
+	db $02
+	dw vBGMap + $12
+	db $0F, $E4
+
+	db $00 ; terminator
+
+TileData_2517e: ; 0x2517e
+	dw LoadTileLists
+	db $14 ; total number of tiles
+
+	db $03 ; number of tiles
+	dw vBGMap
+	db $14, $15, $16
+
+	db $03 ; number of tiles
+	dw vBGMap + $3
+	db $16, $16, $16
+
+	db $03 ; number of tiles
+	dw vBGMap + $6
+	db $0D, $0E, $0D
+
+	db $03 ; number of tiles
+	dw vBGMap + $9
+	db $0E, $0D, $0E
+
+	db $03 ; number of tiles
+	dw vBGMap + $C
+	db $0D, $0E, $0D
+
+	db $03 ; number of tiles
+	dw vBGMap + $F
+	db $0E, $0D, $0E
+
+	db $02
+	dw vBGMap + $12
+	db $0F, $E4
+
+	db $00 ; terminator
+
+TileData_251ab: ; 0x251ab
+	dw LoadTileLists
+	db $14 ; total number of tiles
+
+	db $03 ; number of tiles
+	dw vBGMap
+	db $14, $15, $16
+
+	db $03 ; number of tiles
+	dw vBGMap + $3
+	db $16, $16, $16
+
+	db $03 ; number of tiles
+	dw vBGMap + $6
+	db $16, $0E, $0D
+
+	db $03 ; number of tiles
+	dw vBGMap + $9
+	db $0E, $0D, $0E
+
+	db $03 ; number of tiles
+	dw vBGMap + $C
+	db $0D, $0E, $0D
+
+	db $03 ; number of tiles
+	dw vBGMap + $F
+	db $0E, $0D, $0E
+
+	db $02
+	dw vBGMap + $12
+	db $0F, $E4
+
+	db $00 ; terminator
+
+TileData_251d8: ; 0x251d8
+	dw LoadTileLists
+	db $14 ; total number of tiles
+
+	db $03 ; number of tiles
+	dw vBGMap
+	db $14, $15, $16
+
+	db $03 ; number of tiles
+	dw vBGMap + $3
+	db $16, $16, $16
+
+	db $03 ; number of tiles
+	dw vBGMap + $6
+	db $16, $16, $0D
+
+	db $03 ; number of tiles
+	dw vBGMap + $9
+	db $0E, $0D, $0E
+
+	db $03 ; number of tiles
+	dw vBGMap + $C
+	db $0D, $0E, $0D
+
+	db $03 ; number of tiles
+	dw vBGMap + $F
+	db $0E, $0D, $0E
+
+	db $02
+	dw vBGMap + $12
+	db $0F, $E4
+
+	db $00 ; terminator
+
+TileData_25205: ; 0x25205
+	dw LoadTileLists
+	db $14 ; total number of tiles
+
+	db $03 ; number of tiles
+	dw vBGMap
+	db $14, $15, $16
+
+	db $03 ; number of tiles
+	dw vBGMap + $3
+	db $16, $16, $16
+
+	db $03 ; number of tiles
+	dw vBGMap + $6
+	db $16, $16, $16
+
+	db $03 ; number of tiles
+	dw vBGMap + $9
+	db $0E, $0D, $0E
+
+	db $03 ; number of tiles
+	dw vBGMap + $C
+	db $0D, $0E, $0D
+
+	db $03 ; number of tiles
+	dw vBGMap + $F
+	db $0E, $0D, $0E
+
+	db $02
+	dw vBGMap + $12
+	db $0F, $E4
+
+	db $00 ; terminator
+
+TileData_25232: ; 0x25232
+	dw LoadTileLists
+	db $14 ; total number of tiles
+
+	db $03 ; number of tiles
+	dw vBGMap
+	db $14, $15, $16
+
+	db $03 ; number of tiles
+	dw vBGMap + $3
+	db $16, $16, $16
+
+	db $03 ; number of tiles
+	dw vBGMap + $6
+	db $16, $16, $16
+
+	db $03 ; number of tiles
+	dw vBGMap + $9
+	db $16, $0D, $0E
+
+	db $03 ; number of tiles
+	dw vBGMap + $C
+	db $0D, $0E, $0D
+
+	db $03 ; number of tiles
+	dw vBGMap + $F
+	db $0E, $0D, $0E
+
+	db $02
+	dw vBGMap + $12
+	db $0F, $E4
+
+	db $00 ; terminator
+
+TileData_2525f: ; 0x2525f
+	dw LoadTileLists
+	db $14 ; total number of tiles
+
+	db $03 ; number of tiles
+	dw vBGMap
+	db $14, $15, $16
+
+	db $03 ; number of tiles
+	dw vBGMap + $3
+	db $16, $16, $16
+
+	db $03 ; number of tiles
+	dw vBGMap + $6
+	db $16, $16, $16
+
+	db $03 ; number of tiles
+	dw vBGMap + $9
+	db $16, $16, $0E
+
+	db $03 ; number of tiles
+	dw vBGMap + $C
+	db $0D, $0E, $0D
+
+	db $03 ; number of tiles
+	dw vBGMap + $F
+	db $0E, $0D, $0E
+
+	db $02
+	dw vBGMap + $12
+	db $0F, $E4
+
+	db $00 ; terminator
+
+TileData_2528c: ; 0x2528c
+	dw LoadTileLists
+	db $14 ; total number of tiles
+
+	db $03 ; number of tiles
+	dw vBGMap
+	db $14, $15, $16
+
+	db $03 ; number of tiles
+	dw vBGMap + $3
+	db $16, $16, $16
+
+	db $03 ; number of tiles
+	dw vBGMap + $6
+	db $16, $16, $16
+
+	db $03 ; number of tiles
+	dw vBGMap + $9
+	db $16, $16, $16
+
+	db $03 ; number of tiles
+	dw vBGMap + $C
+	db $0D, $0E, $0D
+
+	db $03 ; number of tiles
+	dw vBGMap + $F
+	db $0E, $0D, $0E
+
+	db $02
+	dw vBGMap + $12
+	db $0F, $E4
+
+	db $00 ; terminator
+
+TileData_252b9: ; 0x252b9
+	dw LoadTileLists
+	db $14 ; total number of tiles
+
+	db $03 ; number of tiles
+	dw vBGMap
+	db $14, $15, $16
+
+	db $03 ; number of tiles
+	dw vBGMap + $3
+	db $16, $16, $16
+
+	db $03 ; number of tiles
+	dw vBGMap + $6
+	db $16, $16, $16
+
+	db $03 ; number of tiles
+	dw vBGMap + $9
+	db $16, $16, $16
+
+	db $03 ; number of tiles
+	dw vBGMap + $C
+	db $16, $0E, $0D
+
+	db $03 ; number of tiles
+	dw vBGMap + $F
+	db $0E, $0D, $0E
+
+	db $02
+	dw vBGMap + $12
+	db $0F, $E4
+
+	db $00 ; terminator
+
+TileData_252e6: ; 0x252e6
+	dw LoadTileLists
+	db $14 ; total number of tiles
+
+	db $03 ; number of tiles
+	dw vBGMap
+	db $14, $15, $16
+
+	db $03 ; number of tiles
+	dw vBGMap + $3
+	db $16, $16, $16
+
+	db $03 ; number of tiles
+	dw vBGMap + $6
+	db $16, $16, $16
+
+	db $03 ; number of tiles
+	dw vBGMap + $9
+	db $16, $16, $16
+
+	db $03 ; number of tiles
+	dw vBGMap + $C
+	db $16, $16, $0D
+
+	db $03 ; number of tiles
+	dw vBGMap + $F
+	db $0E, $0D, $0E
+
+	db $02
+	dw vBGMap + $12
+	db $0F, $E4
+
+	db $00 ; terminator
+
+TileData_25313: ; 0x25313
+	dw LoadTileLists
+	db $14 ; total number of tiles
+
+	db $03 ; number of tiles
+	dw vBGMap
+	db $14, $15, $16
+
+	db $03 ; number of tiles
+	dw vBGMap + $3
+	db $16, $16, $16
+
+	db $03 ; number of tiles
+	dw vBGMap + $6
+	db $16, $16, $16
+
+	db $03 ; number of tiles
+	dw vBGMap + $9
+	db $16, $16, $16
+
+	db $03 ; number of tiles
+	dw vBGMap + $C
+	db $16, $16, $16
+
+	db $03 ; number of tiles
+	dw vBGMap + $F
+	db $0E, $0D, $0E
+
+	db $02
+	dw vBGMap + $12
+	db $0F, $E4
+
+	db $00 ; terminator
+
+TileData_25340: ; 0x25340
+	dw LoadTileLists
+	db $14 ; total number of tiles
+
+	db $03 ; number of tiles
+	dw vBGMap
+	db $14, $15, $16
+
+	db $03 ; number of tiles
+	dw vBGMap + $3
+	db $16, $16, $16
+
+	db $03 ; number of tiles
+	dw vBGMap + $6
+	db $16, $16, $16
+
+	db $03 ; number of tiles
+	dw vBGMap + $9
+	db $16, $16, $16
+
+	db $03 ; number of tiles
+	dw vBGMap + $C
+	db $16, $16, $16
+
+	db $03 ; number of tiles
+	dw vBGMap + $F
+	db $16, $0D, $0E
+
+	db $02
+	dw vBGMap + $12
+	db $0F, $E4
+
+	db $00 ; terminator
+
+TileData_2536d: ; 0x2536d
+	dw LoadTileLists
+	db $14 ; total number of tiles
+
+	db $03 ; number of tiles
+	dw vBGMap
+	db $14, $15, $16
+
+	db $03 ; number of tiles
+	dw vBGMap + $3
+	db $16, $16, $16
+
+	db $03 ; number of tiles
+	dw vBGMap + $6
+	db $16, $16, $16
+
+	db $03 ; number of tiles
+	dw vBGMap + $9
+	db $16, $16, $16
+
+	db $03 ; number of tiles
+	dw vBGMap + $C
+	db $16, $16, $16
+
+	db $03 ; number of tiles
+	dw vBGMap + $F
+	db $16, $16, $0E
+
+	db $02
+	dw vBGMap + $12
+	db $0F, $E4
+
+	db $00 ; terminator
+
+TileData_2539a: ; 0x2539a
+	dw LoadTileLists
+	db $14 ; total number of tiles
+
+	db $03 ; number of tiles
+	dw vBGMap
+	db $14, $15, $16
+
+	db $03 ; number of tiles
+	dw vBGMap + $3
+	db $16, $16, $16
+
+	db $03 ; number of tiles
+	dw vBGMap + $6
+	db $16, $16, $16
+
+	db $03 ; number of tiles
+	dw vBGMap + $9
+	db $16, $16, $16
+
+	db $03 ; number of tiles
+	dw vBGMap + $C
+	db $16, $16, $16
+
+	db $03 ; number of tiles
+	dw vBGMap + $F
+	db $16, $16, $16
+
+	db $02
+	dw vBGMap + $12
+	db $0F, $E4
+
+	db $00 ; terminator
+
+TileData_253c7: ; 0x253c7
+	dw LoadTileLists
+	db $14 ; total number of tiles
+
+	db $03 ; number of tiles
+	dw vBGMap
+	db $14, $15, $16
+
+	db $03 ; number of tiles
+	dw vBGMap + $3
+	db $16, $16, $16
+
+	db $03 ; number of tiles
+	dw vBGMap + $6
+	db $16, $16, $16
+
+	db $03 ; number of tiles
+	dw vBGMap + $9
+	db $16, $16, $16
+
+	db $03 ; number of tiles
+	dw vBGMap + $C
+	db $16, $16, $16
+
+	db $03 ; number of tiles
+	dw vBGMap + $F
+	db $16, $16, $16
+
+	db $02
+	dw vBGMap + $12
+	db $17, $E4
+
+	db $00 ; terminator
+
+TileData_253f4: ; 0x253f4
+	dw LoadTileLists
+	db $14 ; total number of tiles
+
+	db $03 ; number of tiles
+	dw vBGMap
+	db $14, $15, $16
+
+	db $03 ; number of tiles
+	dw vBGMap + $3
+	db $16, $16, $16
+
+	db $03 ; number of tiles
+	dw vBGMap + $6
+	db $16, $16, $16
+
+	db $03 ; number of tiles
+	dw vBGMap + $9
+	db $16, $16, $16
+
+	db $03 ; number of tiles
+	dw vBGMap + $C
+	db $16, $16, $16
+
+	db $03 ; number of tiles
+	dw vBGMap + $F
+	db $16, $16, $16
+
+	db $02
+	dw vBGMap + $12
+	db $17, $18
+
+	db $00 ; terminator
+
+TileDataPointers_25421: ; 0x25421
+	dw TileData_2544b
+	dw TileData_2544e
+	dw TileData_25451
+	dw TileData_25454
+	dw TileData_25457
+	dw TileData_2545a
+	dw TileData_2545d
+	dw TileData_25460
+	dw TileData_25463
+	dw TileData_25466
+	dw TileData_25469
+	dw TileData_2546c
+	dw TileData_2546f
+	dw TileData_25472
+	dw TileData_25475
+	dw TileData_25478
+	dw TileData_2547b
+	dw TileData_2547e
+	dw TileData_25481
+	dw TileData_25484
+	dw TileData_25487
+
+TileData_2544b: ; 0x2544b
+	db $01
+	dw TileData_2548a
+
+TileData_2544e: ; 0x2544e
+	db $01
+	dw TileData_254b7
+
+TileData_25451: ; 0x25451
+	db $01
+	dw TileData_254e4
+
+TileData_25454: ; 0x25454
+	db $01
+	dw TileData_25511
+
+TileData_25457: ; 0x25457
+	db $01
+	dw TileData_2553e
+
+TileData_2545a: ; 0x2545a
+	db $01
+	dw TileData_2556b
+
+TileData_2545d: ; 0x2545d
+	db $01
+	dw TileData_25598
+
+TileData_25460: ; 0x25460
+	db $01
+	dw TileData_255c5
+
+TileData_25463: ; 0x25463
+	db $01
+	dw TileData_255f2
+
+TileData_25466: ; 0x25466
+	db $01
+	dw TileData_2561f
+
+TileData_25469: ; 0x25469
+	db $01
+	dw TileData_2564c
+
+TileData_2546c: ; 0x2546c
+	db $01
+	dw TileData_25679
+
+TileData_2546f: ; 0x2546f
+	db $01
+	dw TileData_256a6
+
+TileData_25472: ; 0x25472
+	db $01
+	dw TileData_256d3
+
+TileData_25475: ; 0x25475
+	db $01
+	dw TileData_25700
+
+TileData_25478: ; 0x25478
+	db $01
+	dw TileData_2572d
+
+TileData_2547b: ; 0x2547b
+	db $01
+	dw TileData_2575a
+
+TileData_2547e: ; 0x2547e
+	db $01
+	dw TileData_25787
+
+TileData_25481: ; 0x25481
+	db $01
+	dw TileData_257b4
+
+TileData_25484: ; 0x25484
+	db $01
+	dw TileData_257e1
+
+TileData_25487: ; 0x25487
+	db $01
+	dw TileData_2580e
+
+TileData_2548a: ; 0x2548a
+	dw LoadTileLists
+	db $14 ; total number of tiles
+
+	db $03 ; number of tiles
+	dw vBGMap
+	db $E3, $FD, $FE
+
+	db $03 ; number of tiles
+	dw vBGMap + $3
+	db $FE, $FE, $FE
+
+	db $03 ; number of tiles
+	dw vBGMap + $6
+	db $FE, $FE, $FE
+
+	db $03 ; number of tiles
+	dw vBGMap + $9
+	db $FE, $FE, $FE
+
+	db $03 ; number of tiles
+	dw vBGMap + $C
+	db $FE, $FE, $FE
+
+	db $03 ; number of tiles
+	dw vBGMap + $F
+	db $FE, $FE, $FE
+
+	db $02 ; number of tiles
+	dw vBGMap + $12
+	db $FD, $E3
+
+	db $00 ; terminator
+
+TileData_254b7: ; 0x254b7
+	dw LoadTileLists
+	db $14 ; total number of tiles
+
+	db $03 ; number of tiles
+	dw vBGMap
+	db $FF, $FD, $FE
+
+	db $03 ; number of tiles
+	dw vBGMap + $3
+	db $FE, $FE, $FE
+
+	db $03 ; number of tiles
+	dw vBGMap + $6
+	db $FE, $FE, $FE
+
+	db $03 ; number of tiles
+	dw vBGMap + $9
+	db $FE, $FE, $FE
+
+	db $03 ; number of tiles
+	dw vBGMap + $C
+	db $FE, $FE, $FE
+
+	db $03 ; number of tiles
+	dw vBGMap + $F
+	db $FE, $FE, $FE
+
+	db $02 ; number of tiles
+	dw vBGMap + $12
+	db $FD, $E3
+
+	db $00 ; terminator
+
+TileData_254e4: ; 0x254e4
+	dw LoadTileLists
+	db $14 ; total number of tiles
+
+	db $03 ; number of tiles
+	dw vBGMap
+	db $FF, $00, $FE
+
+	db $03 ; number of tiles
+	dw vBGMap + $3
+	db $FE, $FE, $FE
+
+	db $03 ; number of tiles
+	dw vBGMap + $6
+	db $FE, $FE, $FE
+
+	db $03 ; number of tiles
+	dw vBGMap + $9
+	db $FE, $FE, $FE
+
+	db $03 ; number of tiles
+	dw vBGMap + $C
+	db $FE, $FE, $FE
+
+	db $03 ; number of tiles
+	dw vBGMap + $F
+	db $FE, $FE, $FE
+
+	db $02 ; number of tiles
+	dw vBGMap + $12
+	db $FD, $E3
+
+	db $00 ; terminator
+
+TileData_25511: ; 0x25511
+	dw LoadTileLists
+	db $14 ; total number of tiles
+
+	db $03 ; number of tiles
+	dw vBGMap
+	db $FF, $00, $00
+
+	db $03 ; number of tiles
+	dw vBGMap + $3
+	db $FE, $FE, $FE
+
+	db $03 ; number of tiles
+	dw vBGMap + $6
+	db $FE, $FE, $FE
+
+	db $03 ; number of tiles
+	dw vBGMap + $9
+	db $FE, $FE, $FE
+
+	db $03 ; number of tiles
+	dw vBGMap + $C
+	db $FE, $FE, $FE
+
+	db $03 ; number of tiles
+	dw vBGMap + $F
+	db $FE, $FE, $FE
+
+	db $02 ; number of tiles
+	dw vBGMap + $12
+	db $FD, $E3
+
+	db $00 ; terminator
+
+TileData_2553e: ; 0x2553e
+	dw LoadTileLists
+	db $14 ; total number of tiles
+
+	db $03 ; number of tiles
+	dw vBGMap
+	db $FF, $00, $00
+
+	db $03 ; number of tiles
+	dw vBGMap + $3
+	db $00, $FE, $FE
+
+	db $03 ; number of tiles
+	dw vBGMap + $6
+	db $FE, $FE, $FE
+
+	db $03 ; number of tiles
+	dw vBGMap + $9
+	db $FE, $FE, $FE
+
+	db $03 ; number of tiles
+	dw vBGMap + $C
+	db $FE, $FE, $FE
+
+	db $03 ; number of tiles
+	dw vBGMap + $F
+	db $FE, $FE, $FE
+
+	db $02 ; number of tiles
+	dw vBGMap + $12
+	db $FD, $E3
+
+	db $00 ; terminator
+
+TileData_2556b: ; 0x2556b
+	dw LoadTileLists
+	db $14 ; total number of tiles
+
+	db $03 ; number of tiles
+	dw vBGMap
+	db $FF, $00, $00
+
+	db $03 ; number of tiles
+	dw vBGMap + $3
+	db $00, $00, $FE
+
+	db $03 ; number of tiles
+	dw vBGMap + $6
+	db $FE, $FE, $FE
+
+	db $03 ; number of tiles
+	dw vBGMap + $9
+	db $FE, $FE, $FE
+
+	db $03 ; number of tiles
+	dw vBGMap + $C
+	db $FE, $FE, $FE
+
+	db $03 ; number of tiles
+	dw vBGMap + $F
+	db $FE, $FE, $FE
+
+	db $02 ; number of tiles
+	dw vBGMap + $12
+	db $FD, $E3
+
+	db $00 ; terminator
+
+TileData_25598: ; 0x25598
+	dw LoadTileLists
+	db $14 ; total number of tiles
+
+	db $03 ; number of tiles
+	dw vBGMap
+	db $FF, $00, $00
+
+	db $03 ; number of tiles
+	dw vBGMap + $3
+	db $00, $00, $00
+
+	db $03 ; number of tiles
+	dw vBGMap + $6
+	db $FE, $FE, $FE
+
+	db $03 ; number of tiles
+	dw vBGMap + $9
+	db $FE, $FE, $FE
+
+	db $03 ; number of tiles
+	dw vBGMap + $C
+	db $FE, $FE, $FE
+
+	db $03 ; number of tiles
+	dw vBGMap + $F
+	db $FE, $FE, $FE
+
+	db $02 ; number of tiles
+	dw vBGMap + $12
+	db $FD, $E3
+
+	db $00 ; terminator
+
+TileData_255c5: ; 0x255c5
+	dw LoadTileLists
+	db $14 ; total number of tiles
+
+	db $03 ; number of tiles
+	dw vBGMap
+	db $FF, $00, $00
+
+	db $03 ; number of tiles
+	dw vBGMap + $3
+	db $00, $00, $00
+
+	db $03 ; number of tiles
+	dw vBGMap + $6
+	db $00, $FE, $FE
+
+	db $03 ; number of tiles
+	dw vBGMap + $9
+	db $FE, $FE, $FE
+
+	db $03 ; number of tiles
+	dw vBGMap + $C
+	db $FE, $FE, $FE
+
+	db $03 ; number of tiles
+	dw vBGMap + $F
+	db $FE, $FE, $FE
+
+	db $02 ; number of tiles
+	dw vBGMap + $12
+	db $FD, $E3
+
+	db $00 ; terminator
+
+TileData_255f2: ; 0x255f2
+	dw LoadTileLists
+	db $14 ; total number of tiles
+
+	db $03 ; number of tiles
+	dw vBGMap
+	db $FF, $00, $00
+
+	db $03 ; number of tiles
+	dw vBGMap + $3
+	db $00, $00, $00
+
+	db $03 ; number of tiles
+	dw vBGMap + $6
+	db $00, $00, $FE
+
+	db $03 ; number of tiles
+	dw vBGMap + $9
+	db $FE, $FE, $FE
+
+	db $03 ; number of tiles
+	dw vBGMap + $C
+	db $FE, $FE, $FE
+
+	db $03 ; number of tiles
+	dw vBGMap + $F
+	db $FE, $FE, $FE
+
+	db $02 ; number of tiles
+	dw vBGMap + $12
+	db $FD, $E3
+
+	db $00 ; terminator
+
+TileData_2561f: ; 0x2561f
+	dw LoadTileLists
+	db $14 ; total number of tiles
+
+	db $03 ; number of tiles
+	dw vBGMap
+	db $FF, $00, $00
+
+	db $03 ; number of tiles
+	dw vBGMap + $3
+	db $00, $00, $00
+
+	db $03 ; number of tiles
+	dw vBGMap + $6
+	db $00, $00, $00
+
+	db $03 ; number of tiles
+	dw vBGMap + $9
+	db $FE, $FE, $FE
+
+	db $03 ; number of tiles
+	dw vBGMap + $C
+	db $FE, $FE, $FE
+
+	db $03 ; number of tiles
+	dw vBGMap + $F
+	db $FE, $FE, $FE
+
+	db $02 ; number of tiles
+	dw vBGMap + $12
+	db $FD, $E3
+
+	db $00 ; terminator
+
+TileData_2564c: ; 0x2564c
+	dw LoadTileLists
+	db $14 ; total number of tiles
+
+	db $03 ; number of tiles
+	dw vBGMap
+	db $FF, $00, $00
+
+	db $03 ; number of tiles
+	dw vBGMap + $3
+	db $00, $00, $00
+
+	db $03 ; number of tiles
+	dw vBGMap + $6
+	db $00, $00, $00
+
+	db $03 ; number of tiles
+	dw vBGMap + $9
+	db $00, $FE, $FE
+
+	db $03 ; number of tiles
+	dw vBGMap + $C
+	db $FE, $FE, $FE
+
+	db $03 ; number of tiles
+	dw vBGMap + $F
+	db $FE, $FE, $FE
+
+	db $02 ; number of tiles
+	dw vBGMap + $12
+	db $FD, $E3
+
+	db $00 ; terminator
+
+TileData_25679: ; 0x25679
+	dw LoadTileLists
+	db $14 ; total number of tiles
+
+	db $03 ; number of tiles
+	dw vBGMap
+	db $FF, $00, $00
+
+	db $03 ; number of tiles
+	dw vBGMap + $3
+	db $00, $00, $00
+
+	db $03 ; number of tiles
+	dw vBGMap + $6
+	db $00, $00, $00
+
+	db $03 ; number of tiles
+	dw vBGMap + $9
+	db $00, $00, $FE
+
+	db $03 ; number of tiles
+	dw vBGMap + $C
+	db $FE, $FE, $FE
+
+	db $03 ; number of tiles
+	dw vBGMap + $F
+	db $FE, $FE, $FE
+
+	db $02 ; number of tiles
+	dw vBGMap + $12
+	db $FD, $E3
+
+	db $00 ; terminator
+
+TileData_256a6: ; 0x256a6
+	dw LoadTileLists
+	db $14 ; total number of tiles
+
+	db $03 ; number of tiles
+	dw vBGMap
+	db $FF, $00, $00
+
+	db $03 ; number of tiles
+	dw vBGMap + $3
+	db $00, $00, $00
+
+	db $03 ; number of tiles
+	dw vBGMap + $6
+	db $00, $00, $00
+
+	db $03 ; number of tiles
+	dw vBGMap + $9
+	db $00, $00, $00
+
+	db $03 ; number of tiles
+	dw vBGMap + $C
+	db $FE, $FE, $FE
+
+	db $03 ; number of tiles
+	dw vBGMap + $F
+	db $FE, $FE, $FE
+
+	db $02 ; number of tiles
+	dw vBGMap + $12
+	db $FD, $E3
+
+	db $00 ; terminator
+
+TileData_256d3: ; 0x256d3
+	dw LoadTileLists
+	db $14 ; total number of tiles
+
+	db $03 ; number of tiles
+	dw vBGMap
+	db $FF, $00, $00
+
+	db $03 ; number of tiles
+	dw vBGMap + $3
+	db $00, $00, $00
+
+	db $03 ; number of tiles
+	dw vBGMap + $6
+	db $00, $00, $00
+
+	db $03 ; number of tiles
+	dw vBGMap + $9
+	db $00, $00, $00
+
+	db $03 ; number of tiles
+	dw vBGMap + $C
+	db $00, $FE, $FE
+
+	db $03 ; number of tiles
+	dw vBGMap + $F
+	db $FE, $FE, $FE
+
+	db $02 ; number of tiles
+	dw vBGMap + $12
+	db $FD, $E3
+
+	db $00 ; terminator
+
+TileData_25700: ; 0x25700
+	dw LoadTileLists
+	db $14 ; total number of tiles
+
+	db $03 ; number of tiles
+	dw vBGMap
+	db $FF, $00, $00
+
+	db $03 ; number of tiles
+	dw vBGMap + $3
+	db $00, $00, $00
+
+	db $03 ; number of tiles
+	dw vBGMap + $6
+	db $00, $00, $00
+
+	db $03 ; number of tiles
+	dw vBGMap + $9
+	db $00, $00, $00
+
+	db $03 ; number of tiles
+	dw vBGMap + $C
+	db $00, $00, $FE
+
+	db $03 ; number of tiles
+	dw vBGMap + $F
+	db $FE, $FE, $FE
+
+	db $02 ; number of tiles
+	dw vBGMap + $12
+	db $FD, $E3
+
+	db $00 ; terminator
+
+TileData_2572d: ; 0x2572d
+	dw LoadTileLists
+	db $14 ; total number of tiles
+
+	db $03 ; number of tiles
+	dw vBGMap
+	db $FF, $00, $00
+
+	db $03 ; number of tiles
+	dw vBGMap + $3
+	db $00, $00, $00
+
+	db $03 ; number of tiles
+	dw vBGMap + $6
+	db $00, $00, $00
+
+	db $03 ; number of tiles
+	dw vBGMap + $9
+	db $00, $00, $00
+
+	db $03 ; number of tiles
+	dw vBGMap + $C
+	db $00, $00, $00
+
+	db $03 ; number of tiles
+	dw vBGMap + $F
+	db $FE, $FE, $FE
+
+	db $02 ; number of tiles
+	dw vBGMap + $12
+	db $FD, $E3
+
+	db $00 ; terminator
+
+TileData_2575a: ; 0x2575a
+	dw LoadTileLists
+	db $14 ; total number of tiles
+
+	db $03 ; number of tiles
+	dw vBGMap
+	db $FF, $00, $00
+
+	db $03 ; number of tiles
+	dw vBGMap + $3
+	db $00, $00, $00
+
+	db $03 ; number of tiles
+	dw vBGMap + $6
+	db $00, $00, $00
+
+	db $03 ; number of tiles
+	dw vBGMap + $9
+	db $00, $00, $00
+
+	db $03 ; number of tiles
+	dw vBGMap + $C
+	db $00, $00, $00
+
+	db $03 ; number of tiles
+	dw vBGMap + $F
+	db $00, $FE, $FE
+
+	db $02 ; number of tiles
+	dw vBGMap + $12
+	db $FD, $E3
+
+	db $00 ; terminator
+
+TileData_25787: ; 0x25787
+	dw LoadTileLists
+	db $14 ; total number of tiles
+
+	db $03 ; number of tiles
+	dw vBGMap
+	db $FF, $00, $00
+
+	db $03 ; number of tiles
+	dw vBGMap + $3
+	db $00, $00, $00
+
+	db $03 ; number of tiles
+	dw vBGMap + $6
+	db $00, $00, $00
+
+	db $03 ; number of tiles
+	dw vBGMap + $9
+	db $00, $00, $00
+
+	db $03 ; number of tiles
+	dw vBGMap + $C
+	db $00, $00, $00
+
+	db $03 ; number of tiles
+	dw vBGMap + $F
+	db $00, $00, $FE
+
+	db $02 ; number of tiles
+	dw vBGMap + $12
+	db $FD, $E3
+
+	db $00 ; terminator
+
+TileData_257b4: ; 0x257b4
+	dw LoadTileLists
+	db $14 ; total number of tiles
+
+	db $03 ; number of tiles
+	dw vBGMap
+	db $FF, $00, $00
+
+	db $03 ; number of tiles
+	dw vBGMap + $3
+	db $00, $00, $00
+
+	db $03 ; number of tiles
+	dw vBGMap + $6
+	db $00, $00, $00
+
+	db $03 ; number of tiles
+	dw vBGMap + $9
+	db $00, $00, $00
+
+	db $03 ; number of tiles
+	dw vBGMap + $C
+	db $00, $00, $00
+
+	db $03 ; number of tiles
+	dw vBGMap + $F
+	db $00, $00, $00
+
+	db $02 ; number of tiles
+	dw vBGMap + $12
+	db $FD, $E3
+
+	db $00 ; terminator
+
+TileData_257e1: ; 0x257e1
+	dw LoadTileLists
+	db $14 ; total number of tiles
+
+	db $03 ; number of tiles
+	dw vBGMap
+	db $FF, $00, $00
+
+	db $03 ; number of tiles
+	dw vBGMap + $3
+	db $00, $00, $00
+
+	db $03 ; number of tiles
+	dw vBGMap + $6
+	db $00, $00, $00
+
+	db $03 ; number of tiles
+	dw vBGMap + $9
+	db $00, $00, $00
+
+	db $03 ; number of tiles
+	dw vBGMap + $C
+	db $00, $00, $00
+
+	db $03 ; number of tiles
+	dw vBGMap + $F
+	db $00, $00, $00
+
+	db $02 ; number of tiles
+	dw vBGMap + $12
+	db $02, $E3
+
+	db $00 ; terminator
+
+TileData_2580e: ; 0x2580e
+	dw LoadTileLists
+	db $14 ; total number of tiles
+
+	db $03 ; number of tiles
+	dw vBGMap
+	db $FF, $00, $00
+
+	db $03 ; number of tiles
+	dw vBGMap + $3
+	db $00, $00, $00
+
+	db $03 ; number of tiles
+	dw vBGMap + $6
+	db $00, $00, $00
+
+	db $03 ; number of tiles
+	dw vBGMap + $9
+	db $00, $00, $00
+
+	db $03 ; number of tiles
+	dw vBGMap + $C
+	db $00, $00, $00
+
+	db $03 ; number of tiles
+	dw vBGMap + $F
+	db $00, $00, $00
+
+	db $02 ; number of tiles
+	dw vBGMap + $12
+	db $02, $03
+
+	db $00 ; terminator
 
 Func_2583b: ; 0x2583b
 	ld bc, $7f65
@@ -40621,13 +42783,13 @@ InitSeelBonusStage: ; 0x25a7c
 	ld [wd4c8], a
 	ld [wBallType], a
 	ld [wd49a], a
-	ld hl, Data_25ae5
+	ld hl, InitialSeelCoords
 	ld de, wd76d
-	call Func_25ad8
+	call InitSeelPosition
 	ld de, wd777
-	call Func_25ad8
+	call InitSeelPosition
 	ld de, wd781
-	call Func_25ad8
+	call InitSeelPosition
 	xor a
 	ld [wd793], a
 	ld [wd791], a
@@ -40641,7 +42803,7 @@ InitSeelBonusStage: ; 0x25a7c
 	call PlaySong
 	ret
 
-Func_25ad8: ; 0x25ad8
+InitSeelPosition: ; 0x25ad8
 	ld a, [hli]
 	ld [de], a
 	inc de
@@ -40656,8 +42818,16 @@ Func_25ad8: ; 0x25ad8
 	inc de
 	ret
 
-Data_25ae5:
-	dr $25ae5, $25af1
+InitialSeelCoords:
+; Seel 1
+	db $00, $60 ; x coordinate
+	db $00, $00 ; y coordinate
+; Seel 2
+	db $00, $20 ; x coordinate
+	db $00, $1A ; y coordinate
+; Seel 3
+	db $00, $40 ; x coordinate
+	db $00, $34 ; y coordinate
 
 StartBallSeelBonusStage: ; 0x25af1
 	ld a, $0
@@ -40903,25 +43073,131 @@ Func_25d0e: ; 0x25d0e
 	sla a
 	ld c, a
 	ld b, $0
-	ld hl, Data_25d2b
+	ld hl, TileDataPointers_25d2b
 	ld a, [hGameBoyColorFlag]
 	and a
 	jr z, .asm_25d21
-	ld hl, Data_25d67
+	ld hl, TileDataPointers_25d67
 .asm_25d21
 	add hl, bc
 	ld a, [hli]
 	ld h, [hl]
 	ld l, a
-	ld a, Bank(Data_25d2b)
+	ld a, Bank(TileDataPointers_25d2b)
 	call Func_10aa
 	ret
 
-Data_25d2b:
-	dr $25d2b, $25d67
+TileDataPointers_25d2b:
+	dw TileData_25d2f
+	dw TileData_25d32
 
-Data_25d67:
-	dr $25d67, $25da3
+TileData_25d2f: ; 0x25d2f
+	db $01
+	dw TileData_25d35
+
+TileData_25d32: ; 0x25d32
+	db $01
+	dw TileData_25d4e
+
+TileData_25d35: ; 0x25d35
+	dw LoadTileLists
+	db $09 ; total number of tiles
+
+	db $02 ; number of tiles
+	dw vBGMap + $113
+	db $1F, $20
+
+	db $02 ; number of tiles
+	dw vBGMap + $133
+	db $1D, $1E
+
+	db $03 ; number of tiles
+	dw vBGMap + $152
+	db $80, $1B, $1C
+
+	db $02 ; number of tiles
+	dw vBGMap + $172
+	db $17, $18
+
+	db $00 ; terminator
+
+TileData_25d4e: ; 0x25d4e
+	dw LoadTileLists
+	db $09 ; total number of tiles
+
+	db $02 ; number of tiles
+	dw vBGMap + $113
+	db $24, $F9
+
+	db $02 ; number of tiles
+	dw vBGMap + $133
+	db $22, $04
+
+	db $03 ; number of tiles
+	dw vBGMap + $152
+	db $36, $37, $FE
+
+	db $02 ; number of tiles
+	dw vBGMap + $172
+	db $35, $F9
+
+	db $00 ; terminator
+
+TileDataPointers_25d67:
+	dw TileData_25d6b
+	dw TileData_25d6e
+
+TileData_25d6b: ; 0x25d6b
+	db $01
+	dw TileData_25d71
+
+TileData_25d6e: ; 0x25d6e
+	db $01
+	dw TileData_25d8a
+
+TileData_25d71: ; 0x25d71
+	dw LoadTileLists
+	db $09 ; total number of tiles
+
+	db $02 ; number of tiles
+	dw vBGMap + $113
+	db $11, $10
+
+	db $02 ; number of tiles
+	dw vBGMap + $133
+	db $0E, $0D
+
+	db $03 ; number of tiles
+	dw vBGMap + $152
+	db $80, $0B, $0A
+
+	db $02
+	dw vBGMap + $172
+	db $07, $06
+
+	db $00 ; terminator
+
+TileData_25d8a: ; 0x25d8a
+	dw LoadTileLists
+	db $09 ; total number of tiles
+
+	db $02 ; number of tiles
+	dw vBGMap + $113
+	db $0F, $F4
+
+	db $02 ; number of tiles
+	dw vBGMap + $133
+	db $0C, $FB
+
+	db $03 ; number of tiles
+	dw vBGMap + $152
+	db $09, $08, $F8
+
+	db $02
+	dw vBGMap + $172
+	db $04, $F4
+
+	db $00 ; terminator
 
 Func_25da3: ; 0x25da3
 	ld a, [wd767]
@@ -40947,7 +43223,7 @@ Func_25da3: ; 0x25da3
 	dec de
 	dec de
 	push bc
-	ld hl, Data_261d8
+	ld hl, SeelAnimationData10
 	call CopyHLToDE
 	pop bc
 	ld hl, wd76e
@@ -41088,7 +43364,7 @@ Func_25ec5: ; 0x25ec5
 	and $f
 	ld c, a
 	ld b, $0
-	ld hl, Data_25f27
+	ld hl, SeelSwimmingYOffsets
 	add hl, bc
 	pop bc
 	pop af
@@ -41119,7 +43395,7 @@ Func_25ec5: ; 0x25ec5
 	dec hl
 	ld d, h
 	ld e, l
-	ld hl, Data_261c2
+	ld hl, SeelAnimationData8
 	call CopyHLToDE
 	ret
 
@@ -41149,19 +43425,20 @@ Func_25ec5: ; 0x25ec5
 	dec hl
 	ld d, h
 	ld e, l
-	ld hl, Data_261cd
+	ld hl, SeelAnimationData9
 	call CopyHLToDE
 	ret
 
-Data_25f27:
-	dr $25f27, $25f47
+SeelSwimmingYOffsets:
+	db $31, $32, $33, $34, $35, $36, $37, $36, $35, $34, $33, $32, $33, $34, $35, $36
+	db $37, $38, $39, $3A, $3B, $3A, $39, $38, $37, $36, $35, $34, $33, $32, $31, $30
 
 Func_25f47: ; 0x25f47
 	ld a, [de]
 	sla a
 	ld c, a
 	ld b, $0
-	ld hl, Data_2614f
+	ld hl, SeelAnimationsTable
 	add hl, bc
 	ld a, [hli]
 	ld h, [hl]
@@ -41532,7 +43809,7 @@ Func_26137: ; 0x26137
 	sla a
 	ld c, a
 	ld b, $0
-	ld hl, Data_2614f
+	ld hl, SeelAnimationsTable
 	add hl, bc
 	ld a, [hli]
 	ld h, [hl]
@@ -41547,17 +43824,122 @@ Func_26137: ; 0x26137
 	ld [de], a
 	ret
 
-Data_2614f:
-	dr $2614f, $261c2
+SeelAnimationsTable: ; 0x2614f
+	dw SeelAnimationData1
+	dw SeelAnimationData2
+	dw SeelAnimationData3
+	dw SeelAnimationData4
+	dw SeelAnimationData5
+	dw SeelAnimationData6
+	dw SeelAnimationData7
+	dw SeelAnimationData8
+	dw SeelAnimationData9
+	dw SeelAnimationData10
+	dw SeelAnimationData11
+	dw SeelAnimationData12
 
-Data_261c2:
-	dr $261c2, $261cd
+SeelAnimationData1:
+	db $1C, $00
+	db $1C, $01
+	db $00 ; terminator
 
-Data_261cd:
-	dr $261cd, $261d8
+SeelAnimationData2:
+	db $0C, $03
+	db $08, $04
+	db $0C, $05
+	db $08, $04
+	db $00 ; terminator
 
-Data_261d8:
-	dr $261d8, $261f9
+SeelAnimationData3:
+	db $04, $06
+	db $04, $07
+	db $05, $08
+	db $05, $09
+	db $06, $0A
+	db $04, $0B
+	db $08, $0C
+	db $00 ; terminator
+
+SeelAnimationData4:
+	db $08, $0C
+	db $04, $0B
+	db $06, $0D
+	db $10, $17
+	db $06, $0A
+	db $05, $09
+	db $05, $08
+	db $04, $0E
+	db $04, $0F
+	db $00 ; terminator
+
+SeelAnimationData5:
+	db $0C, $10
+	db $08, $11
+	db $0C, $12
+	db $08, $11
+	db $00 ; terminator
+
+SeelAnimationData6:
+	db $04, $13
+	db $04, $14
+	db $05, $08
+	db $05, $09
+	db $06, $0A
+	db $04, $0B
+	db $08, $0C
+	db $00 ; terminator
+
+SeelAnimationData7:
+	db $08, $0C
+	db $04, $0B
+	db $06, $0D
+	db $10, $17
+	db $06, $0A
+	db $05, $09
+	db $05, $08
+	db $04, $15
+	db $04, $16
+	db $00 ; terminator
+
+SeelAnimationData8:
+	db $04, $06
+	db $04, $07
+	db $06, $0A
+	db $04, $15
+	db $04, $16
+	db $00 ; terminator
+
+SeelAnimationData9:
+	db $04, $13
+	db $04, $14
+	db $06, $0A
+	db $04, $0E
+	db $04, $0F
+	db $00 ; terminator
+
+SeelAnimationData10:
+	db $10, $02
+	db $00 ; terminator
+
+SeelAnimationData11:
+	db $06, $0D
+	db $10, $17
+	db $06, $0A
+	db $05, $09
+	db $05, $08
+	db $04, $0E
+	db $04, $0F
+	db $00 ; terminator
+
+SeelAnimationData12:
+	db $06, $0D
+	db $10, $17
+	db $06, $0A
+	db $05, $09
+	db $05, $08
+	db $04, $15
+	db $04, $16
+	db $00 ; terminator
 
 Func_261f9: ; 0x261f9
 	ld a, $ff
@@ -41566,7 +43948,7 @@ Func_261f9: ; 0x261f9
 	sla a
 	ld c, a
 	ld b, $0
-	ld hl, Data_2623a
+	ld hl, SeelStageAnimations
 	add hl, bc
 	ld a, [hli]
 	ld h, [hl]
@@ -41582,7 +43964,7 @@ Func_26212: ; 0x26212
 	sla a
 	ld c, a
 	ld b, $0
-	ld hl, Data_2623a
+	ld hl, SeelStageAnimations
 	add hl, bc
 	ld a, [hli]
 	ld h, [hl]
@@ -41606,8 +43988,120 @@ Func_26212: ; 0x26212
 	ld [wd795], a
 	ret
 
-Data_2623a:
-	dr $2623a, $262f4
+SeelStageAnimations:
+	dw SeelStageAnimationData1
+	dw SeelStageAnimationData1
+	dw SeelStageAnimationData2
+	dw SeelStageAnimationData3
+	dw SeelStageAnimationData4
+	dw SeelStageAnimationData5
+	dw SeelStageAnimationData6
+	dw SeelStageAnimationData7
+	dw SeelStageAnimationData8
+
+SeelStageAnimationData1:
+	db $02, $00
+	db $02, $01
+	db $02, $02
+	db $10, $00
+	db $04, $18
+	db $04, $00
+	db $04, $18
+	db $04, $00
+	db $04, $18
+	db $04, $00
+	db $00 ; terminator
+
+SeelStageAnimationData2:
+	db $02, $03
+	db $02, $04
+	db $02, $05
+	db $10, $03
+	db $04, $18
+	db $04, $03
+	db $04, $18
+	db $04, $03
+	db $04, $18
+	db $04, $03
+	db $00 ; terminator
+
+SeelStageAnimationData3:
+	db $02, $06
+	db $02, $07
+	db $02, $08
+	db $10, $06
+	db $04, $18
+	db $04, $06
+	db $04, $18
+	db $04, $06
+	db $04, $18
+	db $04, $06
+	db $00 ; terminator
+
+SeelStageAnimationData4:
+	db $02, $09
+	db $02, $0A
+	db $02, $0B
+	db $10, $09
+	db $04, $18
+	db $04, $09
+	db $04, $18
+	db $04, $09
+	db $04, $18
+	db $04, $09
+	db $00 ; terminator
+
+SeelStageAnimationData5:
+	db $02, $0C
+	db $02, $0D
+	db $02, $0E
+	db $10, $0C
+	db $04, $18
+	db $04, $0C
+	db $04, $18
+	db $04, $0C
+	db $04, $18
+	db $04, $0C
+	db $00 ; terminator
+
+SeelStageAnimationData6:
+	db $02, $0F
+	db $02, $10
+	db $02, $11
+	db $10, $0F
+	db $04, $18
+	db $04, $0F
+	db $04, $18
+	db $04, $0F
+	db $04, $18
+	db $04, $0F
+	db $00 ; terminator
+
+SeelStageAnimationData7:
+	db $02, $12
+	db $02, $13
+	db $02, $14
+	db $10, $12
+	db $04, $18
+	db $04, $12
+	db $04, $18
+	db $04, $12
+	db $04, $18
+	db $04, $12
+	db $00 ; terminator
+
+SeelStageAnimationData8:
+	db $02, $15
+	db $02, $16
+	db $02, $17
+	db $10, $15
+	db $04, $18
+	db $04, $15
+	db $04, $18
+	db $04, $15
+	db $04, $18
+	db $04, $15
+	db $00 ; terminator
 
 Func_262f4: ; 0x262f4
 	ld a, [wd793]
@@ -41653,25 +44147,1661 @@ Func_262f4: ; 0x262f4
 	sla a
 	ld c, a
 	ld b, $0
-	ld hl, Data_2634a
+	ld hl, TileDataPointers_2634a
 	ld a, [hGameBoyColorFlag]
 	and a
 	jr z, .asm_26340
-	ld hl, Data_26764
+	ld hl, TileDataPointers_26764
 .asm_26340
 	add hl, bc
 	ld a, [hli]
 	ld h, [hl]
 	ld l, a
-	ld a, Bank(Data_2634a)
+	ld a, Bank(TileDataPointers_2634a)
 	call Func_10aa
 	ret
 
-Data_2634a:
-	dr $2634a, $26764
+TileDataPointers_2634a:
+	dw TileData_26374
+	dw TileData_26377
+	dw TileData_2637a
+	dw TileData_2637d
+	dw TileData_26380
+	dw TileData_26383
+	dw TileData_26386
+	dw TileData_26389
+	dw TileData_2638c
+	dw TileData_2638f
+	dw TileData_26392
+	dw TileData_26395
+	dw TileData_26398
+	dw TileData_2639b
+	dw TileData_2639e
+	dw TileData_263a1
+	dw TileData_263a4
+	dw TileData_263a7
+	dw TileData_263aa
+	dw TileData_263ad
+	dw TileData_263b0
 
-Data_26764:
-	dr $26764, $26b7e
+TileData_26374: ; 0x26374
+	db $01
+	dw TileData_263b3
+
+TileData_26377: ; 0x26377
+	db $01
+	dw TileData_263e0
+
+TileData_2637a: ; 0x2637a
+	db $01
+	dw TileData_2640d
+
+TileData_2637d: ; 0x2637d
+	db $01
+	dw TileData_2643a
+
+TileData_26380: ; 0x26380
+	db $01
+	dw TileData_26467
+
+TileData_26383: ; 0x26383
+	db $01
+	dw TileData_26494
+
+TileData_26386: ; 0x26386
+	db $01
+	dw TileData_264c1
+
+TileData_26389: ; 0x26389
+	db $01
+	dw TileData_264ee
+
+TileData_2638c: ; 0x2638c
+	db $01
+	dw TileData_2651b
+
+TileData_2638f: ; 0x2638f
+	db $01
+	dw TileData_26548
+
+TileData_26392: ; 0x26392
+	db $01
+	dw TileData_26575
+
+TileData_26395: ; 0x26395
+	db $01
+	dw TileData_265a2
+
+TileData_26398: ; 0x26398
+	db $01
+	dw TileData_265cf
+
+TileData_2639b: ; 0x2639b
+	db $01
+	dw TileData_265fc
+
+TileData_2639e: ; 0x2639e
+	db $01
+	dw TileData_26629
+
+TileData_263a1: ; 0x263a1
+	db $01
+	dw TileData_26656
+
+TileData_263a4: ; 0x263a4
+	db $01
+	dw TileData_26683
+
+TileData_263a7: ; 0x263a7
+	db $01
+	dw TileData_266b0
+
+TileData_263aa: ; 0x263aa
+	db $01
+	dw TileData_266dd
+
+TileData_263ad: ; 0x263ad
+	db $01
+	dw TileData_2670a
+
+TileData_263b0: ; 0x263b0
+	db $01
+	dw TileData_26737
+
+TileData_263b3: ; 0x263b3
+	dw LoadTileLists
+	db $14 ; total number of tiles
+
+	db $03 ; number of tiles
+	dw vBGMap
+	db $01, $30, $31
+
+	db $03 ; number of tiles
+	dw vBGMap + $3
+	db $32, $32, $32
+
+	db $03 ; number of tiles
+	dw vBGMap + $6
+	db $32, $32, $32
+
+	db $03 ; number of tiles
+	dw vBGMap + $9
+	db $32, $32, $32
+
+	db $03 ; number of tiles
+	dw vBGMap + $C
+	db $32, $32, $32
+
+	db $03 ; number of tiles
+	dw vBGMap + $F
+	db $32, $32, $33
+
+	db $02 ; number of tiles
+	dw vBGMap + $12
+	db $34, $04
+
+	db $00 ; terminator
+
+TileData_263e0: ; 0x263e0
+	dw LoadTileLists
+	db $14 ; total number of tiles
+
+	db $03 ; number of tiles
+	dw vBGMap
+	db $38, $30, $31
+
+	db $03 ; number of tiles
+	dw vBGMap + $3
+	db $32, $32, $32
+
+	db $03 ; number of tiles
+	dw vBGMap + $6
+	db $32, $32, $32
+
+	db $03 ; number of tiles
+	dw vBGMap + $9
+	db $32, $32, $32
+
+	db $03 ; number of tiles
+	dw vBGMap + $C
+	db $32, $32, $32
+
+	db $03 ; number of tiles
+	dw vBGMap + $F
+	db $32, $32, $33
+
+	db $02 ; number of tiles
+	dw vBGMap + $12
+	db $34, $04
+
+	db $00 ; terminator
+
+TileData_2640d: ; 0x2640d
+	dw LoadTileLists
+	db $14 ; total number of tiles
+
+	db $03 ; number of tiles
+	dw vBGMap
+	db $38, $39, $31
+
+	db $03 ; number of tiles
+	dw vBGMap + $3
+	db $32, $32, $32
+
+	db $03 ; number of tiles
+	dw vBGMap + $6
+	db $32, $32, $32
+
+	db $03 ; number of tiles
+	dw vBGMap + $9
+	db $32, $32, $32
+
+	db $03 ; number of tiles
+	dw vBGMap + $C
+	db $32, $32, $32
+
+	db $03 ; number of tiles
+	dw vBGMap + $F
+	db $32, $32, $33
+
+	db $02 ; number of tiles
+	dw vBGMap + $12
+	db $34, $04
+
+	db $00 ; terminator
+
+TileData_2643a: ; 0x2643a
+	dw LoadTileLists
+	db $14 ; total number of tiles
+
+	db $03 ; number of tiles
+	dw vBGMap
+	db $38, $39, $3A
+
+	db $03 ; number of tiles
+	dw vBGMap + $3
+	db $32, $32, $32
+
+	db $03 ; number of tiles
+	dw vBGMap + $6
+	db $32, $32, $32
+
+	db $03 ; number of tiles
+	dw vBGMap + $9
+	db $32, $32, $32
+
+	db $03 ; number of tiles
+	dw vBGMap + $C
+	db $32, $32, $32
+
+	db $03 ; number of tiles
+	dw vBGMap + $F
+	db $32, $32, $33
+
+	db $02 ; number of tiles
+	dw vBGMap + $12
+	db $34, $04
+
+	db $00 ; terminator
+
+TileData_26467: ; 0x26467
+	dw LoadTileLists
+	db $14 ; total number of tiles
+
+	db $03 ; number of tiles
+	dw vBGMap
+	db $38, $39, $3A
+
+	db $03 ; number of tiles
+	dw vBGMap + $3
+	db $3A, $32, $32
+
+	db $03 ; number of tiles
+	dw vBGMap + $6
+	db $32, $32, $32
+
+	db $03 ; number of tiles
+	dw vBGMap + $9
+	db $32, $32, $32
+
+	db $03 ; number of tiles
+	dw vBGMap + $C
+	db $32, $32, $32
+
+	db $03 ; number of tiles
+	dw vBGMap + $F
+	db $32, $32, $33
+
+	db $02 ; number of tiles
+	dw vBGMap + $12
+	db $34, $04
+
+	db $00 ; terminator
+
+TileData_26494: ; 0x26494
+	dw LoadTileLists
+	db $14 ; total number of tiles
+
+	db $03 ; number of tiles
+	dw vBGMap
+	db $38, $39, $3A
+
+	db $03 ; number of tiles
+	dw vBGMap + $3
+	db $3A, $3A, $32
+
+	db $03 ; number of tiles
+	dw vBGMap + $6
+	db $32, $32, $32
+
+	db $03 ; number of tiles
+	dw vBGMap + $9
+	db $32, $32, $32
+
+	db $03 ; number of tiles
+	dw vBGMap + $C
+	db $32, $32, $32
+
+	db $03 ; number of tiles
+	dw vBGMap + $F
+	db $32, $32, $33
+
+	db $02 ; number of tiles
+	dw vBGMap + $12
+	db $34, $04
+
+	db $00 ; terminator
+
+TileData_264c1: ; 0x264c1
+	dw LoadTileLists
+	db $14 ; total number of tiles
+
+	db $03 ; number of tiles
+	dw vBGMap
+	db $38, $39, $3A
+
+	db $03 ; number of tiles
+	dw vBGMap + $3
+	db $3A, $3A, $3A
+
+	db $03 ; number of tiles
+	dw vBGMap + $6
+	db $32, $32, $32
+
+	db $03 ; number of tiles
+	dw vBGMap + $9
+	db $32, $32, $32
+
+	db $03 ; number of tiles
+	dw vBGMap + $C
+	db $32, $32, $32
+
+	db $03 ; number of tiles
+	dw vBGMap + $F
+	db $32, $32, $33
+
+	db $02 ; number of tiles
+	dw vBGMap + $12
+	db $34, $04
+
+	db $00 ; terminator
+
+TileData_264ee: ; 0x264ee
+	dw LoadTileLists
+	db $14 ; total number of tiles
+
+	db $03 ; number of tiles
+	dw vBGMap
+	db $38, $39, $3A
+
+	db $03 ; number of tiles
+	dw vBGMap + $3
+	db $3A, $3A, $3A
+
+	db $03 ; number of tiles
+	dw vBGMap + $6
+	db $3A, $32, $32
+
+	db $03 ; number of tiles
+	dw vBGMap + $9
+	db $32, $32, $32
+
+	db $03 ; number of tiles
+	dw vBGMap + $C
+	db $32, $32, $32
+
+	db $03 ; number of tiles
+	dw vBGMap + $F
+	db $32, $32, $33
+
+	db $02 ; number of tiles
+	dw vBGMap + $12
+	db $34, $04
+
+	db $00 ; terminator
+
+TileData_2651b: ; 0x2651b
+	dw LoadTileLists
+	db $14 ; total number of tiles
+
+	db $03 ; number of tiles
+	dw vBGMap
+	db $38, $39, $3A
+
+	db $03 ; number of tiles
+	dw vBGMap + $3
+	db $3A, $3A, $3A
+
+	db $03 ; number of tiles
+	dw vBGMap + $6
+	db $3A, $3A, $32
+
+	db $03 ; number of tiles
+	dw vBGMap + $9
+	db $32, $32, $32
+
+	db $03 ; number of tiles
+	dw vBGMap + $C
+	db $32, $32, $32
+
+	db $03 ; number of tiles
+	dw vBGMap + $F
+	db $32, $32, $33
+
+	db $02 ; number of tiles
+	dw vBGMap + $12
+	db $34, $04
+
+	db $00 ; terminator
+
+TileData_26548: ; 0x26548
+	dw LoadTileLists
+	db $14 ; total number of tiles
+
+	db $03 ; number of tiles
+	dw vBGMap
+	db $38, $39, $3A
+
+	db $03 ; number of tiles
+	dw vBGMap + $3
+	db $3A, $3A, $3A
+
+	db $03 ; number of tiles
+	dw vBGMap + $6
+	db $3A, $3A, $3A
+
+	db $03 ; number of tiles
+	dw vBGMap + $9
+	db $32, $32, $32
+
+	db $03 ; number of tiles
+	dw vBGMap + $C
+	db $32, $32, $32
+
+	db $03 ; number of tiles
+	dw vBGMap + $F
+	db $32, $32, $33
+
+	db $02 ; number of tiles
+	dw vBGMap + $12
+	db $34, $04
+
+	db $00 ; terminator
+
+TileData_26575: ; 0x26575
+	dw LoadTileLists
+	db $14 ; total number of tiles
+
+	db $03 ; number of tiles
+	dw vBGMap
+	db $38, $39, $3A
+
+	db $03 ; number of tiles
+	dw vBGMap + $3
+	db $3A, $3A, $3A
+
+	db $03 ; number of tiles
+	dw vBGMap + $6
+	db $3A, $3A, $3A
+
+	db $03 ; number of tiles
+	dw vBGMap + $9
+	db $3A, $32, $32
+
+	db $03 ; number of tiles
+	dw vBGMap + $C
+	db $32, $32, $32
+
+	db $03 ; number of tiles
+	dw vBGMap + $F
+	db $32, $32, $33
+
+	db $02 ; number of tiles
+	dw vBGMap + $12
+	db $34, $04
+
+	db $00 ; terminator
+
+TileData_265a2: ; 0x265a2
+	dw LoadTileLists
+	db $14 ; total number of tiles
+
+	db $03 ; number of tiles
+	dw vBGMap
+	db $38, $39, $3A
+
+	db $03 ; number of tiles
+	dw vBGMap + $3
+	db $3A, $3A, $3A
+
+	db $03 ; number of tiles
+	dw vBGMap + $6
+	db $3A, $3A, $3A
+
+	db $03 ; number of tiles
+	dw vBGMap + $9
+	db $3A, $3A, $32
+
+	db $03 ; number of tiles
+	dw vBGMap + $C
+	db $32, $32, $32
+
+	db $03 ; number of tiles
+	dw vBGMap + $F
+	db $32, $32, $33
+
+	db $02 ; number of tiles
+	dw vBGMap + $12
+	db $34, $04
+
+	db $00 ; terminator
+
+TileData_265cf: ; 0x265cf
+	dw LoadTileLists
+	db $14 ; total number of tiles
+
+	db $03 ; number of tiles
+	dw vBGMap
+	db $38, $39, $3A
+
+	db $03 ; number of tiles
+	dw vBGMap + $3
+	db $3A, $3A, $3A
+
+	db $03 ; number of tiles
+	dw vBGMap + $6
+	db $3A, $3A, $3A
+
+	db $03 ; number of tiles
+	dw vBGMap + $9
+	db $3A, $3A, $3A
+
+	db $03 ; number of tiles
+	dw vBGMap + $C
+	db $32, $32, $32
+
+	db $03 ; number of tiles
+	dw vBGMap + $F
+	db $32, $32, $33
+
+	db $02 ; number of tiles
+	dw vBGMap + $12
+	db $34, $04
+
+	db $00 ; terminator
+
+TileData_265fc: ; 0x265fc
+	dw LoadTileLists
+	db $14 ; total number of tiles
+
+	db $03 ; number of tiles
+	dw vBGMap
+	db $38, $39, $3A
+
+	db $03 ; number of tiles
+	dw vBGMap + $3
+	db $3A, $3A, $3A
+
+	db $03 ; number of tiles
+	dw vBGMap + $6
+	db $3A, $3A, $3A
+
+	db $03 ; number of tiles
+	dw vBGMap + $9
+	db $3A, $3A, $3A
+
+	db $03 ; number of tiles
+	dw vBGMap + $C
+	db $3A, $32, $32
+
+	db $03 ; number of tiles
+	dw vBGMap + $F
+	db $32, $32, $33
+
+	db $02 ; number of tiles
+	dw vBGMap + $12
+	db $34, $04
+
+	db $00 ; terminator
+
+TileData_26629: ; 0x26629
+	dw LoadTileLists
+	db $14 ; total number of tiles
+
+	db $03 ; number of tiles
+	dw vBGMap
+	db $38, $39, $3A
+
+	db $03 ; number of tiles
+	dw vBGMap + $3
+	db $3A, $3A, $3A
+
+	db $03 ; number of tiles
+	dw vBGMap + $6
+	db $3A, $3A, $3A
+
+	db $03 ; number of tiles
+	dw vBGMap + $9
+	db $3A, $3A, $3A
+
+	db $03 ; number of tiles
+	dw vBGMap + $C
+	db $3A, $3A, $32
+
+	db $03 ; number of tiles
+	dw vBGMap + $F
+	db $32, $32, $33
+
+	db $02 ; number of tiles
+	dw vBGMap + $12
+	db $34, $04
+
+	db $00 ; terminator
+
+TileData_26656: ; 0x26656
+	dw LoadTileLists
+	db $14 ; total number of tiles
+
+	db $03 ; number of tiles
+	dw vBGMap
+	db $38, $39, $3A
+
+	db $03 ; number of tiles
+	dw vBGMap + $3
+	db $3A, $3A, $3A
+
+	db $03 ; number of tiles
+	dw vBGMap + $6
+	db $3A, $3A, $3A
+
+	db $03 ; number of tiles
+	dw vBGMap + $9
+	db $3A, $3A, $3A
+
+	db $03 ; number of tiles
+	dw vBGMap + $C
+	db $3A, $3A, $3A
+
+	db $03 ; number of tiles
+	dw vBGMap + $F
+	db $32, $32, $33
+
+	db $02 ; number of tiles
+	dw vBGMap + $12
+	db $34, $04
+
+	db $00 ; terminator
+
+TileData_26683: ; 0x26683
+	dw LoadTileLists
+	db $14 ; total number of tiles
+
+	db $03 ; number of tiles
+	dw vBGMap
+	db $38, $39, $3A
+
+	db $03 ; number of tiles
+	dw vBGMap + $3
+	db $3A, $3A, $3A
+
+	db $03 ; number of tiles
+	dw vBGMap + $6
+	db $3A, $3A, $3A
+
+	db $03 ; number of tiles
+	dw vBGMap + $9
+	db $3A, $3A, $3A
+
+	db $03 ; number of tiles
+	dw vBGMap + $C
+	db $3A, $3A, $3A
+
+	db $03 ; number of tiles
+	dw vBGMap + $F
+	db $3A, $32, $33
+
+	db $02 ; number of tiles
+	dw vBGMap + $12
+	db $34, $04
+
+	db $00 ; terminator
+
+TileData_266b0: ; 0x266b0
+	dw LoadTileLists
+	db $14 ; total number of tiles
+
+	db $03 ; number of tiles
+	dw vBGMap
+	db $38, $39, $3A
+
+	db $03 ; number of tiles
+	dw vBGMap + $3
+	db $3A, $3A, $3A
+
+	db $03 ; number of tiles
+	dw vBGMap + $6
+	db $3A, $3A, $3A
+
+	db $03 ; number of tiles
+	dw vBGMap + $9
+	db $3A, $3A, $3A
+
+	db $03 ; number of tiles
+	dw vBGMap + $C
+	db $3A, $3A, $3A
+
+	db $03 ; number of tiles
+	dw vBGMap + $F
+	db $3A, $3A, $33
+
+	db $02 ; number of tiles
+	dw vBGMap + $12
+	db $34, $04
+
+	db $00 ; terminator
+
+TileData_266dd: ; 0x266dd
+	dw LoadTileLists
+	db $14 ; total number of tiles
+
+	db $03 ; number of tiles
+	dw vBGMap
+	db $38, $39, $3A
+
+	db $03 ; number of tiles
+	dw vBGMap + $3
+	db $3A, $3A, $3A
+
+	db $03 ; number of tiles
+	dw vBGMap + $6
+	db $3A, $3A, $3A
+
+	db $03 ; number of tiles
+	dw vBGMap + $9
+	db $3A, $3A, $3A
+
+	db $03 ; number of tiles
+	dw vBGMap + $C
+	db $3A, $3A, $3A
+
+	db $03 ; number of tiles
+	dw vBGMap + $F
+	db $3A, $3A, $3A
+
+	db $02 ; number of tiles
+	dw vBGMap + $12
+	db $34, $04
+
+	db $00 ; terminator
+
+TileData_2670a: ; 0x2670a
+	dw LoadTileLists
+	db $14 ; total number of tiles
+
+	db $03 ; number of tiles
+	dw vBGMap
+	db $38, $39, $3A
+
+	db $03 ; number of tiles
+	dw vBGMap + $3
+	db $3A, $3A, $3A
+
+	db $03 ; number of tiles
+	dw vBGMap + $6
+	db $3A, $3A, $3A
+
+	db $03 ; number of tiles
+	dw vBGMap + $9
+	db $3A, $3A, $3A
+
+	db $03 ; number of tiles
+	dw vBGMap + $C
+	db $3A, $3A, $3A
+
+	db $03 ; number of tiles
+	dw vBGMap + $F
+	db $3A, $3A, $3A
+
+	db $02 ; number of tiles
+	dw vBGMap + $12
+	db $3B, $04
+
+	db $00 ; terminator
+
+TileData_26737: ; 0x26737
+	dw LoadTileLists
+	db $14 ; total number of tiles
+
+	db $03 ; number of tiles
+	dw vBGMap
+	db $38, $39, $3A
+
+	db $03 ; number of tiles
+	dw vBGMap + $3
+	db $3A, $3A, $3A
+
+	db $03 ; number of tiles
+	dw vBGMap + $6
+	db $3A, $3A, $3A
+
+	db $03 ; number of tiles
+	dw vBGMap + $9
+	db $3A, $3A, $3A
+
+	db $03 ; number of tiles
+	dw vBGMap + $C
+	db $3A, $3A, $3A
+
+	db $03 ; number of tiles
+	dw vBGMap + $F
+	db $3A, $3A, $3A
+
+	db $02 ; number of tiles
+	dw vBGMap + $12
+	db $3B, $38
+
+	db $00 ; terminator
+
+TileDataPointers_26764:
+	dw TileData_2678e
+	dw TileData_26791
+	dw TileData_26794
+	dw TileData_26797
+	dw TileData_2679a
+	dw TileData_2679d
+	dw TileData_267a0
+	dw TileData_267a3
+	dw TileData_267a6
+	dw TileData_267a9
+	dw TileData_267ac
+	dw TileData_267af
+	dw TileData_267b2
+	dw TileData_267b5
+	dw TileData_267b8
+	dw TileData_267bb
+	dw TileData_267be
+	dw TileData_267c1
+	dw TileData_267c4
+	dw TileData_267c7
+	dw TileData_267ca
+
+TileData_2678e: ; 0x2678e
+	db $01
+	dw TileData_267cd
+
+TileData_26791: ; 0x26791
+	db $01
+	dw TileData_267fa
+
+TileData_26794: ; 0x26794
+	db $01
+	dw TileData_26827
+
+TileData_26797: ; 0x26797
+	db $01
+	dw TileData_26854
+
+TileData_2679a: ; 0x2679a
+	db $01
+	dw TileData_26881
+
+TileData_2679d: ; 0x2679d
+	db $01
+	dw TileData_268ae
+
+TileData_267a0: ; 0x267a0
+	db $01
+	dw TileData_268db
+
+TileData_267a3: ; 0x267a3
+	db $01
+	dw TileData_26908
+
+TileData_267a6: ; 0x267a6
+	db $01
+	dw TileData_26935
+
+TileData_267a9: ; 0x267a9
+	db $01
+	dw TileData_26962
+
+TileData_267ac: ; 0x267ac
+	db $01
+	dw TileData_2698f
+
+TileData_267af: ; 0x267af
+	db $01
+	dw TileData_269bc
+
+TileData_267b2: ; 0x267b2
+	db $01
+	dw TileData_269e9
+
+TileData_267b5: ; 0x267b5
+	db $01
+	dw TileData_26a16
+
+TileData_267b8: ; 0x267b8
+	db $01
+	dw TileData_26a43
+
+TileData_267bb: ; 0x267bb
+	db $01
+	dw TileData_26a70
+
+TileData_267be: ; 0x267be
+	db $01
+	dw TileData_26a9d
+
+TileData_267c1: ; 0x267c1
+	db $01
+	dw TileData_26aca
+
+TileData_267c4: ; 0x267c4
+	db $01
+	dw TileData_26af7
+
+TileData_267c7: ; 0x267c7
+	db $01
+	dw TileData_26b24
+
+TileData_267ca: ; 0x267ca
+	db $01
+	dw TileData_26b51
+
+TileData_267cd: ; 0x267cd
+	dw LoadTileLists
+	db $14 ; total number of tiles
+
+	db $03 ; number of tiles
+	dw vBGMap
+	db $FB, $18, $19
+
+	db $03 ; number of tiles
+	dw vBGMap + $3
+	db $1A, $1A, $1A
+
+	db $03 ; number of tiles
+	dw vBGMap + $6
+	db $1A, $1A, $1A
+
+	db $03 ; number of tiles
+	dw vBGMap + $9
+	db $1A, $1A, $1A
+
+	db $03 ; number of tiles
+	dw vBGMap + $C
+	db $1A, $1A, $1A
+
+	db $03 ; number of tiles
+	dw vBGMap + $F
+	db $1A, $1A, $19
+
+	db $02 ; number of tiles
+	dw vBGMap + $12
+	db $18, $FB
+
+	db $00 ; terminator
+
+TileData_267fa: ; 0x267fa
+	dw LoadTileLists
+	db $14 ; total number of tiles
+
+	db $03 ; number of tiles
+	dw vBGMap
+	db $1B, $18, $19
+
+	db $03 ; number of tiles
+	dw vBGMap + $3
+	db $1A, $1A, $1A
+
+	db $03 ; number of tiles
+	dw vBGMap + $6
+	db $1A, $1A, $1A
+
+	db $03 ; number of tiles
+	dw vBGMap + $9
+	db $1A, $1A, $1A
+
+	db $03 ; number of tiles
+	dw vBGMap + $C
+	db $1A, $1A, $1A
+
+	db $03 ; number of tiles
+	dw vBGMap + $F
+	db $1A, $1A, $19
+
+	db $02 ; number of tiles
+	dw vBGMap + $12
+	db $18, $FB
+
+	db $00 ; terminator
+
+TileData_26827: ; 0x26827
+	dw LoadTileLists
+	db $14 ; total number of tiles
+
+	db $03 ; number of tiles
+	dw vBGMap
+	db $1B, $1C, $19
+
+	db $03 ; number of tiles
+	dw vBGMap + $3
+	db $1A, $1A, $1A
+
+	db $03 ; number of tiles
+	dw vBGMap + $6
+	db $1A, $1A, $1A
+
+	db $03 ; number of tiles
+	dw vBGMap + $9
+	db $1A, $1A, $1A
+
+	db $03 ; number of tiles
+	dw vBGMap + $C
+	db $1A, $1A, $1A
+
+	db $03 ; number of tiles
+	dw vBGMap + $F
+	db $1A, $1A, $19
+
+	db $02 ; number of tiles
+	dw vBGMap + $12
+	db $18, $FB
+
+	db $00 ; terminator
+
+TileData_26854: ; 0x26854
+	dw LoadTileLists
+	db $14 ; total number of tiles
+
+	db $03 ; number of tiles
+	dw vBGMap
+	db $1B, $1C, $1D
+
+	db $03 ; number of tiles
+	dw vBGMap + $3
+	db $1A, $1A, $1A
+
+	db $03 ; number of tiles
+	dw vBGMap + $6
+	db $1A, $1A, $1A
+
+	db $03 ; number of tiles
+	dw vBGMap + $9
+	db $1A, $1A, $1A
+
+	db $03 ; number of tiles
+	dw vBGMap + $C
+	db $1A, $1A, $1A
+
+	db $03 ; number of tiles
+	dw vBGMap + $F
+	db $1A, $1A, $19
+
+	db $02 ; number of tiles
+	dw vBGMap + $12
+	db $18, $FB
+
+	db $00 ; terminator
+
+TileData_26881: ; 0x26881
+	dw LoadTileLists
+	db $14 ; total number of tiles
+
+	db $03 ; number of tiles
+	dw vBGMap
+	db $1B, $1C, $1D
+
+	db $03 ; number of tiles
+	dw vBGMap + $3
+	db $1D, $1A, $1A
+
+	db $03 ; number of tiles
+	dw vBGMap + $6
+	db $1A, $1A, $1A
+
+	db $03 ; number of tiles
+	dw vBGMap + $9
+	db $1A, $1A, $1A
+
+	db $03 ; number of tiles
+	dw vBGMap + $C
+	db $1A, $1A, $1A
+
+	db $03 ; number of tiles
+	dw vBGMap + $F
+	db $1A, $1A, $19
+
+	db $02 ; number of tiles
+	dw vBGMap + $12
+	db $18, $FB
+
+	db $00 ; terminator
+
+TileData_268ae: ; 0x268ae
+	dw LoadTileLists
+	db $14 ; total number of tiles
+
+	db $03 ; number of tiles
+	dw vBGMap
+	db $1B, $1C, $1D
+
+	db $03 ; number of tiles
+	dw vBGMap + $3
+	db $1D, $1D, $1A
+
+	db $03 ; number of tiles
+	dw vBGMap + $6
+	db $1A, $1A, $1A
+
+	db $03 ; number of tiles
+	dw vBGMap + $9
+	db $1A, $1A, $1A
+
+	db $03 ; number of tiles
+	dw vBGMap + $C
+	db $1A, $1A, $1A
+
+	db $03 ; number of tiles
+	dw vBGMap + $F
+	db $1A, $1A, $19
+
+	db $02 ; number of tiles
+	dw vBGMap + $12
+	db $18, $FB
+
+	db $00 ; terminator
+
+TileData_268db: ; 0x268db
+	dw LoadTileLists
+	db $14 ; total number of tiles
+
+	db $03 ; number of tiles
+	dw vBGMap
+	db $1B, $1C, $1D
+
+	db $03 ; number of tiles
+	dw vBGMap + $3
+	db $1D, $1D, $1D
+
+	db $03 ; number of tiles
+	dw vBGMap + $6
+	db $1A, $1A, $1A
+
+	db $03 ; number of tiles
+	dw vBGMap + $9
+	db $1A, $1A, $1A
+
+	db $03 ; number of tiles
+	dw vBGMap + $C
+	db $1A, $1A, $1A
+
+	db $03 ; number of tiles
+	dw vBGMap + $F
+	db $1A, $1A, $19
+
+	db $02 ; number of tiles
+	dw vBGMap + $12
+	db $18, $FB
+
+	db $00 ; terminator
+
+TileData_26908: ; 0x26908
+	dw LoadTileLists
+	db $14 ; total number of tiles
+
+	db $03 ; number of tiles
+	dw vBGMap
+	db $1B, $1C, $1D
+
+	db $03 ; number of tiles
+	dw vBGMap + $3
+	db $1D, $1D, $1D
+
+	db $03 ; number of tiles
+	dw vBGMap + $6
+	db $1D, $1A, $1A
+
+	db $03 ; number of tiles
+	dw vBGMap + $9
+	db $1A, $1A, $1A
+
+	db $03 ; number of tiles
+	dw vBGMap + $C
+	db $1A, $1A, $1A
+
+	db $03 ; number of tiles
+	dw vBGMap + $F
+	db $1A, $1A, $19
+
+	db $02 ; number of tiles
+	dw vBGMap + $12
+	db $18, $FB
+
+	db $00 ; terminator
+
+TileData_26935: ; 0x26935
+	dw LoadTileLists
+	db $14 ; total number of tiles
+
+	db $03 ; number of tiles
+	dw vBGMap
+	db $1B, $1C, $1D
+
+	db $03 ; number of tiles
+	dw vBGMap + $3
+	db $1D, $1D, $1D
+
+	db $03 ; number of tiles
+	dw vBGMap + $6
+	db $1D, $1D, $1A
+
+	db $03 ; number of tiles
+	dw vBGMap + $9
+	db $1A, $1A, $1A
+
+	db $03 ; number of tiles
+	dw vBGMap + $C
+	db $1A, $1A, $1A
+
+	db $03 ; number of tiles
+	dw vBGMap + $F
+	db $1A, $1A, $19
+
+	db $02 ; number of tiles
+	dw vBGMap + $12
+	db $18, $FB
+
+	db $00 ; terminator
+
+TileData_26962: ; 0x26962
+	dw LoadTileLists
+	db $14 ; total number of tiles
+
+	db $03 ; number of tiles
+	dw vBGMap
+	db $1B, $1C, $1D
+
+	db $03 ; number of tiles
+	dw vBGMap + $3
+	db $1D, $1D, $1D
+
+	db $03 ; number of tiles
+	dw vBGMap + $6
+	db $1D, $1D, $1D
+
+	db $03 ; number of tiles
+	dw vBGMap + $9
+	db $1A, $1A, $1A
+
+	db $03 ; number of tiles
+	dw vBGMap + $C
+	db $1A, $1A, $1A
+
+	db $03 ; number of tiles
+	dw vBGMap + $F
+	db $1A, $1A, $19
+
+	db $02 ; number of tiles
+	dw vBGMap + $12
+	db $18, $FB
+
+	db $00 ; terminator
+
+TileData_2698f: ; 0x2698f
+	dw LoadTileLists
+	db $14 ; total number of tiles
+
+	db $03 ; number of tiles
+	dw vBGMap
+	db $1B, $1C, $1D
+
+	db $03 ; number of tiles
+	dw vBGMap + $3
+	db $1D, $1D, $1D
+
+	db $03 ; number of tiles
+	dw vBGMap + $6
+	db $1D, $1D, $1D
+
+	db $03 ; number of tiles
+	dw vBGMap + $9
+	db $1D, $1A, $1A
+
+	db $03 ; number of tiles
+	dw vBGMap + $C
+	db $1A, $1A, $1A
+
+	db $03 ; number of tiles
+	dw vBGMap + $F
+	db $1A, $1A, $19
+
+	db $02 ; number of tiles
+	dw vBGMap + $12
+	db $18, $FB
+
+	db $00 ; terminator
+
+TileData_269bc: ; 0x269bc
+	dw LoadTileLists
+	db $14 ; total number of tiles
+
+	db $03 ; number of tiles
+	dw vBGMap
+	db $1B, $1C, $1D
+
+	db $03 ; number of tiles
+	dw vBGMap + $3
+	db $1D, $1D, $1D
+
+	db $03 ; number of tiles
+	dw vBGMap + $6
+	db $1D, $1D, $1D
+
+	db $03 ; number of tiles
+	dw vBGMap + $9
+	db $1D, $1D, $1A
+
+	db $03 ; number of tiles
+	dw vBGMap + $C
+	db $1A, $1A, $1A
+
+	db $03 ; number of tiles
+	dw vBGMap + $F
+	db $1A, $1A, $19
+
+	db $02 ; number of tiles
+	dw vBGMap + $12
+	db $18, $FB
+
+	db $00 ; terminator
+
+TileData_269e9: ; 0x269e9
+	dw LoadTileLists
+	db $14 ; total number of tiles
+
+	db $03 ; number of tiles
+	dw vBGMap
+	db $1B, $1C, $1D
+
+	db $03 ; number of tiles
+	dw vBGMap + $3
+	db $1D, $1D, $1D
+
+	db $03 ; number of tiles
+	dw vBGMap + $6
+	db $1D, $1D, $1D
+
+	db $03 ; number of tiles
+	dw vBGMap + $9
+	db $1D, $1D, $1D
+
+	db $03 ; number of tiles
+	dw vBGMap + $C
+	db $1A, $1A, $1A
+
+	db $03 ; number of tiles
+	dw vBGMap + $F
+	db $1A, $1A, $19
+
+	db $02 ; number of tiles
+	dw vBGMap + $12
+	db $18, $FB
+
+	db $00 ; terminator
+
+TileData_26a16: ; 0x26a16
+	dw LoadTileLists
+	db $14 ; total number of tiles
+
+	db $03 ; number of tiles
+	dw vBGMap
+	db $1B, $1C, $1D
+
+	db $03 ; number of tiles
+	dw vBGMap + $3
+	db $1D, $1D, $1D
+
+	db $03 ; number of tiles
+	dw vBGMap + $6
+	db $1D, $1D, $1D
+
+	db $03 ; number of tiles
+	dw vBGMap + $9
+	db $1D, $1D, $1D
+
+	db $03 ; number of tiles
+	dw vBGMap + $C
+	db $1D, $1A, $1A
+
+	db $03 ; number of tiles
+	dw vBGMap + $F
+	db $1A, $1A, $19
+
+	db $02 ; number of tiles
+	dw vBGMap + $12
+	db $18, $FB
+
+	db $00 ; terminator
+
+TileData_26a43: ; 0x26a43
+	dw LoadTileLists
+	db $14 ; total number of tiles
+
+	db $03 ; number of tiles
+	dw vBGMap
+	db $1B, $1C, $1D
+
+	db $03 ; number of tiles
+	dw vBGMap + $3
+	db $1D, $1D, $1D
+
+	db $03 ; number of tiles
+	dw vBGMap + $6
+	db $1D, $1D, $1D
+
+	db $03 ; number of tiles
+	dw vBGMap + $9
+	db $1D, $1D, $1D
+
+	db $03 ; number of tiles
+	dw vBGMap + $C
+	db $1D, $1D, $1A
+
+	db $03 ; number of tiles
+	dw vBGMap + $F
+	db $1A, $1A, $19
+
+	db $02 ; number of tiles
+	dw vBGMap + $12
+	db $18, $FB
+
+	db $00 ; terminator
+
+TileData_26a70: ; 0x26a70
+	dw LoadTileLists
+	db $14 ; total number of tiles
+
+	db $03 ; number of tiles
+	dw vBGMap
+	db $1B, $1C, $1D
+
+	db $03 ; number of tiles
+	dw vBGMap + $3
+	db $1D, $1D, $1D
+
+	db $03 ; number of tiles
+	dw vBGMap + $6
+	db $1D, $1D, $1D
+
+	db $03 ; number of tiles
+	dw vBGMap + $9
+	db $1D, $1D, $1D
+
+	db $03 ; number of tiles
+	dw vBGMap + $C
+	db $1D, $1D, $1D
+
+	db $03 ; number of tiles
+	dw vBGMap + $F
+	db $1A, $1A, $19
+
+	db $02 ; number of tiles
+	dw vBGMap + $12
+	db $18, $FB
+
+	db $00 ; terminator
+
+TileData_26a9d: ; 0x26a9d
+	dw LoadTileLists
+	db $14 ; total number of tiles
+
+	db $03 ; number of tiles
+	dw vBGMap
+	db $1B, $1C, $1D
+
+	db $03 ; number of tiles
+	dw vBGMap + $3
+	db $1D, $1D, $1D
+
+	db $03 ; number of tiles
+	dw vBGMap + $6
+	db $1D, $1D, $1D
+
+	db $03 ; number of tiles
+	dw vBGMap + $9
+	db $1D, $1D, $1D
+
+	db $03 ; number of tiles
+	dw vBGMap + $C
+	db $1D, $1D, $1D
+
+	db $03 ; number of tiles
+	dw vBGMap + $F
+	db $1D, $1A, $19
+
+	db $02 ; number of tiles
+	dw vBGMap + $12
+	db $18, $FB
+
+	db $00 ; terminator
+
+TileData_26aca: ; 0x26aca
+	dw LoadTileLists
+	db $14 ; total number of tiles
+
+	db $03 ; number of tiles
+	dw vBGMap
+	db $1B, $1C, $1D
+
+	db $03 ; number of tiles
+	dw vBGMap + $3
+	db $1D, $1D, $1D
+
+	db $03 ; number of tiles
+	dw vBGMap + $6
+	db $1D, $1D, $1D
+
+	db $03 ; number of tiles
+	dw vBGMap + $9
+	db $1D, $1D, $1D
+
+	db $03 ; number of tiles
+	dw vBGMap + $C
+	db $1D, $1D, $1D
+
+	db $03 ; number of tiles
+	dw vBGMap + $F
+	db $1D, $1D, $19
+
+	db $02 ; number of tiles
+	dw vBGMap + $12
+	db $18, $FB
+
+	db $00 ; terminator
+
+TileData_26af7: ; 0x26af7
+	dw LoadTileLists
+	db $14 ; total number of tiles
+
+	db $03 ; number of tiles
+	dw vBGMap
+	db $1B, $1C, $1D
+
+	db $03 ; number of tiles
+	dw vBGMap + $3
+	db $1D, $1D, $1D
+
+	db $03 ; number of tiles
+	dw vBGMap + $6
+	db $1D, $1D, $1D
+
+	db $03 ; number of tiles
+	dw vBGMap + $9
+	db $1D, $1D, $1D
+
+	db $03 ; number of tiles
+	dw vBGMap + $C
+	db $1D, $1D, $1D
+
+	db $03 ; number of tiles
+	dw vBGMap + $F
+	db $1D, $1D, $1D
+
+	db $02 ; number of tiles
+	dw vBGMap + $12
+	db $18, $FB
+
+	db $00 ; terminator
+
+TileData_26b24: ; 0x26b24
+	dw LoadTileLists
+	db $14 ; total number of tiles
+
+	db $03 ; number of tiles
+	dw vBGMap
+	db $1B, $1C, $1D
+
+	db $03 ; number of tiles
+	dw vBGMap + $3
+	db $1D, $1D, $1D
+
+	db $03 ; number of tiles
+	dw vBGMap + $6
+	db $1D, $1D, $1D
+
+	db $03 ; number of tiles
+	dw vBGMap + $9
+	db $1D, $1D, $1D
+
+	db $03 ; number of tiles
+	dw vBGMap + $C
+	db $1D, $1D, $1D
+
+	db $03 ; number of tiles
+	dw vBGMap + $F
+	db $1D, $1D, $1D
+
+	db $02 ; number of tiles
+	dw vBGMap + $12
+	db $1E, $FB
+
+	db $00 ; terminator
+
+TileData_26b51: ; 0x26b51
+	dw LoadTileLists
+	db $14 ; total number of tiles
+
+	db $03 ; number of tiles
+	dw vBGMap
+	db $1B, $1C, $1D
+
+	db $03 ; number of tiles
+	dw vBGMap + $3
+	db $1D, $1D, $1D
+
+	db $03 ; number of tiles
+	dw vBGMap + $6
+	db $1D, $1D, $1D
+
+	db $03 ; number of tiles
+	dw vBGMap + $9
+	db $1D, $1D, $1D
+
+	db $03 ; number of tiles
+	dw vBGMap + $C
+	db $1D, $1D, $1D
+
+	db $03 ; number of tiles
+	dw vBGMap + $F
+	db $1D, $1D, $1D
+
+	db $02 ; number of tiles
+	dw vBGMap + $12
+	db $1E, $1B
+
+	db $00 ; terminator
 
 Func_26b7e: ; 0x26b7e
 	ld bc, $7f65
@@ -42132,7 +46262,7 @@ Func_281cb:
 	pop bc
 	dec b
 	jr nz, .asm_2821b
-	ld hl, Data_28289
+	ld hl, VRAMAddresses_28289
 	ld de, wda8a
 	ld b, $18
 .asm_2826d
@@ -42157,11 +46287,58 @@ Func_281cb:
 	jr nz, .asm_2826d
 	ret
 
-Data_28289:
-	dr $28289, $282b9
+VRAMAddresses_28289:
+	dw vBGWin + $26
+	dw vBGWin + $2B
+	dw vBGWin + $30
+	dw vBGWin + $46
+	dw vBGWin + $4B
+	dw vBGWin + $50
+	dw vBGWin + $66
+	dw vBGWin + $6B
+	dw vBGWin + $70
+	dw vBGWin + $86
+	dw vBGWin + $8B
+	dw vBGWin + $90
+	dw vBGWin + $C6
+	dw vBGWin + $CB
+	dw vBGWin + $D0
+	dw vBGWin + $E6
+	dw vBGWin + $EB
+	dw vBGWin + $F0
+	dw vBGWin + $106
+	dw vBGWin + $10B
+	dw vBGWin + $110
+	dw vBGWin + $126
+	dw vBGWin + $12B
+	dw vBGWin + $130
 
-Data_282b9:
-	dr $282b9, $282e9
+OAMOffsetsTable_282b9:
+; y, x coordinates
+	db $40, $18
+	db $40, $40
+	db $40, $68
+	db $48, $18
+	db $48, $40
+	db $48, $68
+	db $50, $18
+	db $50, $40
+	db $50, $68
+	db $58, $18
+	db $58, $40
+	db $58, $68
+	db $68, $18
+	db $68, $40
+	db $68, $68
+	db $70, $18
+	db $70, $40
+	db $70, $68
+	db $78, $18
+	db $78, $40
+	db $78, $68
+	db $80, $18
+	db $80, $40
+	db $80, $68
 
 Func_282e9: ; 0x282e9
 	ld a, [wd960]
@@ -42195,7 +46372,7 @@ Func_282e9: ; 0x282e9
 	sla a
 	ld c, a
 	ld b, $0
-	ld hl, Data_282b9
+	ld hl, OAMOffsetsTable_282b9
 	add hl, bc
 	ld a, [hli]
 	ld c, a
@@ -42259,7 +46436,7 @@ Func_28368: ; 0x28368
 	push af
 	sla e
 	rl d
-	ld hl, Data_28289
+	ld hl, VRAMAddresses_28289
 	add hl, de
 	ld a, [hli]
 	ld h, [hl]
@@ -42310,7 +46487,7 @@ Func_28368: ; 0x28368
 	ld a, [wd960]
 	and a
 	jr nz, .asm_283ff
-	ld hl, Data_2845c
+	ld hl, BGPaletteIndices_2845c
 	add hl, de
 	ld a, [hl]
 	ld hl, rBGPI
@@ -42323,7 +46500,7 @@ Func_28368: ; 0x28368
 	ret
 
 .asm_283ff
-	ld hl, Data_2845c
+	ld hl, BGPaletteIndices_2845c
 	add hl, de
 	ld a, [hl]
 	ld hl, rBGPI
@@ -42333,7 +46510,7 @@ Func_28368: ; 0x28368
 	call PutTileInVRAM
 	ld a, b
 	call PutTileInVRAM
-	ld hl, Data_2848c
+	ld hl, SpritePaletteIndices_2848c
 	add hl, de
 	ld a, [hl]
 	ld hl, rOBPI
@@ -42346,13 +46523,83 @@ Func_28368: ; 0x28368
 	ret
 
 Data_2842c:
-	dr $2842c, $2845c
+	dw wda8c
+	dw wda8c
+	dw wda8c
+	dw wda8f
+	dw wda8f
+	dw wda8f
+	dw wda92
+	dw wda92
+	dw wda92
+	dw wda95
+	dw wda95
+	dw wda95
+	dw wda98
+	dw wda98
+	dw wda98
+	dw wda9b
+	dw wda9b
+	dw wda9b
+	dw wda9e
+	dw wda9e
+	dw wda9e
+	dw wdaa1
+	dw wdaa1
+	dw wdaa1
 
-Data_2845c:
-	dr $2845c, $2848c
+BGPaletteIndices_2845c:
+; second byte is unused
+	db $30 | $80, $00
+	db $30 | $80, $00
+	db $30 | $80, $00
+	db $32 | $80, $00
+	db $32 | $80, $00
+	db $32 | $80, $00
+	db $34 | $80, $00
+	db $34 | $80, $00
+	db $34 | $80, $00
+	db $36 | $80, $00
+	db $36 | $80, $00
+	db $36 | $80, $00
+	db $38 | $80, $00
+	db $38 | $80, $00
+	db $38 | $80, $00
+	db $3A | $80, $00
+	db $3A | $80, $00
+	db $3A | $80, $00
+	db $3C | $80, $00
+	db $3C | $80, $00
+	db $3C | $80, $00
+	db $3E | $80, $00
+	db $3E | $80, $00
+	db $3E | $80, $00
 
-Data_2848c:
-	dr $2848c, $284bc
+SpritePaletteIndices_2848c:
+	db $D8, $00
+	db $D8, $00
+	db $D8, $00
+	db $DA, $00
+	db $DA, $00
+	db $DA, $00
+	db $DC, $00
+	db $DC, $00
+	db $DC, $00
+	db $DE, $00
+	db $DE, $00
+	db $DE, $00
+	db $E8, $00
+	db $E8, $00
+	db $E8, $00
+	db $EA, $00
+	db $EA, $00
+	db $EA, $00
+	db $EC, $00
+	db $EC, $00
+	db $EC, $00
+	db $EE, $00
+	db $EE, $00
+	db $EE, $00
 
 Func_284bc: ; 0x284bc
 	ld a, [hPressedButtons]
@@ -42731,7 +46978,7 @@ Func_28721: ; 0x28721
 	and $1e
 	ld c, a
 	ld b, $0
-	ld hl, Data_287c7
+	ld hl, BGMapLocations_287c7
 	add hl, bc
 	ld a, [hli]
 	ld h, [hl]
@@ -42753,7 +47000,7 @@ Func_28721: ; 0x28721
 	and $1e
 	ld c, a
 	ld b, $0
-	ld hl, Data_287c7
+	ld hl, BGMapLocations_287c7
 	add hl, bc
 	ld a, [hli]
 	ld h, [hl]
@@ -42781,7 +47028,7 @@ Func_28765: ; 0x28765
 	and $e
 	ld c, a
 	ld b, $0
-	ld hl, Data_287b7
+	ld hl, TileLocations_287b7
 	add hl, bc
 	ld a, [hli]
 	ld e, a
@@ -42807,7 +47054,7 @@ Func_28765: ; 0x28765
 	and $e
 	ld c, a
 	ld b, $0
-	ld hl, Data_287b7
+	ld hl, TileLocations_287b7
 	add hl, bc
 	ld a, [hli]
 	ld e, a
@@ -42826,11 +47073,33 @@ Func_28765: ; 0x28765
 	call Func_28993
 	ret
 
-Data_287b7:
-	dr $287b7, $287c7
+TileLocations_287b7:
+	dw vTilesOB tile $0
+	dw vTilesOB tile $A
+	dw vTilesOB tile $14
+	dw vTilesOB tile $1E
+	dw vTilesOB tile $28
+	dw vTilesOB tile $32
+	dw vTilesOB tile $3C
+	dw vTilesOB tile $46
 
-Data_287c7:
-	dr $287c7, $287e7
+BGMapLocations_287c7:
+	dw vBGWin + $7
+	dw vBGWin + $47
+	dw vBGWin + $87
+	dw vBGWin + $C7
+	dw vBGWin + $107
+	dw vBGWin + $147
+	dw vBGWin + $187
+	dw vBGWin + $1C7
+	dw vBGWin + $207
+	dw vBGWin + $247
+	dw vBGWin + $287
+	dw vBGWin + $2C7
+	dw vBGWin + $307
+	dw vBGWin + $347
+	dw vBGWin + $387
+	dw vBGWin + $3C7
 
 Func_287e7: ; 0x287e7
 	ld a, [wd960]
@@ -43023,7 +47292,7 @@ Func_28931: ; 0x28931
 	add hl, bc
 	ld a, [hl]
 	and a
-	ld hl, Data_28970
+	ld hl, BlankDexName
 	jr z, .asm_2895d
 	ld a, [wCurPokedexIndex]
 	ld c, a
@@ -43051,8 +47320,8 @@ Func_28931: ; 0x28931
 	call Func_28e09
 	ret
 
-Data_28970:
-	dr $28970, $28972
+BlankDexName:
+	db " @"
 
 Func_28972: ; 0x28972
 	ld a, [wPokedexOffset]
@@ -43065,7 +47334,7 @@ Func_28972: ; 0x28972
 	and $e
 	ld e, a
 	ld d, $0
-	ld hl, Data_287b7
+	ld hl, TileLocations_287b7
 	add hl, de
 	ld a, [hli]
 	ld e, a
@@ -43087,7 +47356,7 @@ Func_28993: ; 0x28993
 	add hl, bc
 	ld a, [hl]
 	and a
-	ld hl, Data_289c6
+	ld hl, BlankDexName2
 	jr z, .asm_289b7
 	ld h, b
 	ld l, c
@@ -43111,8 +47380,8 @@ Func_28993: ; 0x28993
 	pop hl
 	ret
 
-Data_289c6:
-	dr $289c6, $289c8
+BlankDexName2:
+	db " @"
 
 Func_289c8: ; 0x289c8
 	ld a, [wCurPokedexIndex]
@@ -43121,7 +47390,7 @@ Func_289c8: ; 0x289c8
 	ld hl, wPokedexFlags
 	add hl, bc
 	bit 1, [hl]
-	ld hl, Data_28a12
+	ld hl, BlankSpeciesName
 	jr z, .pokemonNotOwned
 	ld a, [wCurPokedexIndex]
 	ld c, a
@@ -43155,8 +47424,9 @@ Func_289c8: ; 0x289c8
 	call Func_28e09
 	ret
 
-Data_28a12:
-	dr $28a12, $28a15
+BlankSpeciesName:
+	dw $4081 ; variable-width font character
+	db $00
 
 Func_28a15: ; 0x28a15
 	ld a, [wCurPokedexIndex]
@@ -43194,7 +47464,7 @@ Func_28a15: ; 0x28a15
 	add hl, bc
 	bit 1, [hl]
 	jr nz, .asm_28a54
-	ld de, Data_28a7f
+	ld de, BlankPokemonTileData_28a7f
 .asm_28a54
 	push de
 	hlCoord 8, 6, vBGMap
@@ -43227,8 +47497,14 @@ Func_28a15: ; 0x28a15
 	call PutTileInVRAM
 	ret
 
-Data_28a7f:
-	dr $28a7f, $28a8a
+BlankPokemonTileData_28a7f:
+	db $FF, $FF, $72, $FF
+	db $00 ; terminator
+
+	db $FF, $FF, $FF, $FF
+	db $00 ; terminator
+
+	db $83 ; tile id
 
 Func_28a8a: ; 0x28a8a
 	ld a, [wPokedexOffset]
@@ -43241,7 +47517,7 @@ Func_28a8a: ; 0x28a8a
 	and $1e
 	ld e, a
 	ld d, $0
-	ld hl, Data_287c7
+	ld hl, BGMapLocations_287c7
 	add hl, de
 	ld a, [hli]
 	ld h, [hl]

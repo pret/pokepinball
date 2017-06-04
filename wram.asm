@@ -2514,7 +2514,31 @@ wSendHighScoresAnimationFrameIndex:: ; 0xda89
 	ds $1
 
 wda8a:: ; 0xda8a
-	ds $18
+	ds $2
+
+wda8c:: ; 0xda8c
+	ds $3
+
+wda8f:: ; 0xda8f
+	ds $3
+
+wda92:: ; 0xda92
+	ds $3
+
+wda95:: ; 0xda95
+	ds $3
+
+wda98:: ; 0xda98
+	ds $3
+
+wda9b:: ; 0xda9b
+	ds $3
+
+wda9e:: ; 0xda9e
+	ds $3
+
+wdaa1:: ; 0xdaa1
+	ds $1
 
 wdaa2:: ; 0xdaa2
 	ds $1

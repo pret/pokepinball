@@ -52170,22 +52170,22 @@ Func_31281: ; 0x31282
 .asm_3129e
 	ld [wd4e2], a
 	cp $3
-	jr c, .asm_312b2
+	jr c, .chooseFirstMapMoveIndex
 	cp $5
-	jr c, .asm_312e7
+	jr c, .chooseSecondMapMoveIndex
 	ld a, INDIGO_PLATEAU
 	ld [wCurrentMap], a
 	ld [wd4e8], a
 	ret
 
-.asm_312b2
+.chooseFirstMapMoveIndex
 	call GenRandom
 	and $7
 	cp $7
-	jr nc, .asm_312b2
+	jr nc, .chooseFirstMapMoveIndex
 	ld c, a
 	ld b, $0
-	ld hl, Data_31319
+	ld hl, FirstMapMoveSet_RedField
 	add hl, bc
 	ld c, [hl]
 	ld hl, wd4e3
@@ -52196,7 +52196,7 @@ Func_31281: ; 0x31282
 .asm_312cd
 	ld a, [hli]
 	cp c
-	jr z, .asm_312b2
+	jr z, .chooseFirstMapMoveIndex
 	dec b
 	jr nz, .asm_312cd
 .asm_312d4
@@ -52211,12 +52211,12 @@ Func_31281: ; 0x31282
 	ld [hl], a
 	ret
 
-.asm_312e7
+.chooseSecondMapMoveIndex
 	call GenRandom
 	and $3
 	ld c, a
 	ld b, $0
-	ld hl, Data_31320
+	ld hl, SecondMapMoveSet_RedField
 	add hl, bc
 	ld c, [hl]
 	ld hl, wd4e6
@@ -52227,7 +52227,7 @@ Func_31281: ; 0x31282
 .asm_312ff
 	ld a, [hli]
 	cp c
-	jr z, .asm_312e7
+	jr z, .chooseSecondMapMoveIndex
 	dec b
 	jr nz, .asm_312ff
 .asm_31306
@@ -52242,11 +52242,20 @@ Func_31281: ; 0x31282
 	ld [hl], a
 	ret
 
-Data_31319:
-	dr $31319, $31320
+FirstMapMoveSet_RedField:
+	db PALLET_TOWN
+	db VIRIDIAN_FOREST
+	db PEWTER_CITY
+	db CERULEAN_CITY
+	db VERMILION_SEASIDE
+	db ROCK_MOUNTAIN
+	db LAVENDER_TOWN
 
-Data_31320:
-	dr $31320, $31324
+SecondMapMoveSet_RedField:
+	db CYCLING_ROAD
+	db SAFARI_ZONE
+	db SEAFOAM_ISLANDS
+	db CINNABAR_ISLAND
 
 Func_31324: ; 0x31324
 	ret
@@ -52352,7 +52361,7 @@ Func_3140b: ; 0x3140b
 	jr nc, .asm_3143c
 	ld c, a
 	ld b, $0
-	ld hl, Data_314a3
+	ld hl, FirstMapMoveSet_BlueField
 	add hl, bc
 	ld c, [hl]
 	ld hl, wd4e3
@@ -52383,7 +52392,7 @@ Func_3140b: ; 0x3140b
 	and $3
 	ld c, a
 	ld b, $0
-	ld hl, Data_314aa
+	ld hl, SecondMapMoveSet_BlueField
 	add hl, bc
 	ld c, [hl]
 	ld hl, wd4e6
@@ -52409,11 +52418,20 @@ Func_3140b: ; 0x3140b
 	ld [hl], a
 	ret
 
-Data_314a3:
-	dr $314a3, $314aa
+FirstMapMoveSet_BlueField:
+	db VIRIDIAN_CITY
+	db VIRIDIAN_FOREST
+	db MT_MOON
+	db CERULEAN_CITY
+	db VERMILION_STREETS
+	db ROCK_MOUNTAIN
+	db CELADON_CITY
 
-Data_314aa:
-	dr $314aa, $314ae
+SecondMapMoveSet_BlueField:
+	db FUCHSIA_CITY
+	db SAFARI_ZONE
+	db SAFFRON_CITY
+	db CINNABAR_ISLAND
 
 Func_314ae: ; 0x314ae
 	ld a, [wd57d]
@@ -52743,7 +52761,13 @@ Data_38020:
 
 Data_38030:
 	db $a9, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00
-	dr $38040, $3809a ; 38040
+
+	db $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00
+	db $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00
+	db $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00
+	db $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00
+	db $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00
+	db $00, $00, $00, $00, $00, $00, $00, $00, $00, $00
 
 Data_3809a:
 	db $00, $00, $00
@@ -52753,19 +52777,118 @@ Data_3809a:
 
 Data_380a6:
 	db $59, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00
-	dr $380b6, $38156 ; 380b6
+	
+	RGB 31, 31, 31
+    RGB 31, 31, 31
+    RGB 31, 31, 31
+    RGB 31, 31, 31
+
+    RGB 31, 31, 31
+    RGB 31, 31, 31
+    RGB 31, 31, 31
+    RGB 31, 31, 31
+
+    RGB 31, 31, 31
+    RGB 31, 31, 31
+    RGB 31, 31, 31
+    RGB 31, 31, 31
+
+    RGB 31, 31, 31
+    RGB 31, 31, 31
+    RGB 31, 31, 31
+    RGB 31, 31, 31
+
+    RGB 30, 31, 29
+    RGB 28, 28, 25
+    RGB 27, 26, 24
+    RGB 24, 24, 24
+
+    RGB 23, 23, 23
+    RGB 23, 23, 23
+    RGB 23, 23, 23
+    RGB 23, 23, 23
+
+    RGB 23, 23, 23
+    RGB 23, 23, 23
+    RGB 23, 23, 23
+    RGB 23, 23, 23
+
+    RGB 23, 23, 23
+    RGB 23, 23, 23
+    RGB 23, 23, 23
+    RGB 23, 23, 23
+
+    RGB 30, 31, 27
+    RGB 25, 26, 20
+    RGB 23, 21, 18
+    RGB 17, 17, 17
+
+    RGB 15, 15, 15
+    RGB 15, 15, 15
+    RGB 15, 15, 15
+    RGB 15, 15, 15
+
+    RGB 15, 15, 15
+    RGB 15, 15, 15
+    RGB 15, 15, 15
+    RGB 15, 15, 15
+
+    RGB 15, 15, 15
+    RGB 15, 15, 15
+    RGB 15, 15, 15
+    RGB 15, 15, 15
+
+    RGB 29, 31, 25
+    RGB 22, 24, 15
+    RGB 19, 16, 12
+    RGB 10, 10, 10
+
+    RGB 7, 7, 7
+    RGB 7, 7, 7
+    RGB 7, 7, 7
+    RGB 7, 7, 7
+
+    RGB 7, 7, 7
+    RGB 7, 7, 7
+    RGB 7, 7, 7
+    RGB 7, 7, 7
+
+    RGB 7, 7, 7
+    RGB 7, 7, 7
+    RGB 7, 7, 7
+    RGB 7, 7, 7
+
+    RGB 29, 31, 23
+    RGB 20, 22, 10
+    RGB 15, 12, 6
+    RGB 3, 3, 4
+
+    RGB 0, 0, 0
+    RGB 0, 0, 0
+    RGB 0, 0, 0
+    RGB 0, 0, 0
+
+    RGB 0, 0, 0
+    RGB 0, 0, 0
+    RGB 0, 0, 0
+    RGB 0, 0, 0
+
+    RGB 0, 0, 0
+    RGB 0, 0, 0
+    RGB 0, 0, 0
+    RGB 0, 0, 0
 
 Data_38156:
 	db $99, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00
-	dr $38166, $39166
+	INCBIN "gfx/sgb_border.interleave.2bpp"
 
 Data_39166:
 	db $99, $01, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00
-	dr $39176, $3a176 ; 39176
+	INCBIN "gfx/sgb_border_blank.2bpp"
 
 Data_3a176:
 	db $a1, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00
-	dr $3a186, $3a9e6 ; 3a186
+	INCBIN "gfx/tilemaps/sgb_border.map"
 
 Data_3a9e6:
 	db $79, $5d, $08, $00, $0b, $8c, $d0, $f4, $60, $00, $00, $00, $00, $00, $00, $00

@@ -562,7 +562,21 @@ PaletteData_dcc60:  ; 0xdcc60
 	RGB 20, 20, 26
 	RGB 31, 11, 10
 	RGB 0, 0, 0
-	dr $dcc68, $dcc80
+PaletteData_dcc68:  ; 0xdcc68
+	RGB 31, 31, 31
+    RGB 0, 11, 31
+    RGB 29, 0, 0
+    RGB 0, 0, 0
+PaletteData_dcc70:  ; 0xdcc70
+	RGB 31, 31, 31
+    RGB 31, 16, 0
+    RGB 29, 0, 0
+    RGB 0, 0, 0
+PaletteData_dcc78:  ; 0xdcc78
+	RGB 31, 31, 31
+    RGB 20, 20, 20
+    RGB 8, 8, 8
+    RGB 0, 0, 0
 
 MeowthBonusPalettes: ; 0xdcc80
 MeowthBonusBGPalette0: ; 0xdcc80

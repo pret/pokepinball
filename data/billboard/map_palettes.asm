@@ -1,3 +1,4 @@
+PalletTownBillboardBGPalettes:
 PalletTownBillboardBGPalette1: ; 0x8ff00
 	RGB 31, 31, 31
 	RGB 22, 18, 17
@@ -9,6 +10,7 @@ PalletTownBillboardBGPalette2: ; 0x8ff08
 	RGB 0, 4, 25
 	RGB 0, 0, 0
 
+ViridianCityBillboardBGPalettes:
 ViridianCityBillboardBGPalette1: ; 0x8ff10
 	RGB 31, 31, 31
 	RGB 0, 14, 31
@@ -20,6 +22,7 @@ ViridianCityBillboardBGPalette2: ; 0x8ff18
 	RGB 0, 22, 0
 	RGB 0, 0, 0
 
+ViridianForestBillboardBGPalettes:
 ViridianForestBillboardBGPalette1: ; 0x8ff20
 	RGB 31, 31, 31
 	RGB 31, 20, 3
@@ -31,6 +34,7 @@ ViridianForestBillboardBGPalette2: ; 0x8ff28
 	RGB 24, 6, 0
 	RGB 0, 0, 0
 
+PewterCityBillboardBGPalettes:
 PewterCityBillboardBGPalette1: ; 0x8ff30
 	RGB 31, 31, 31
 	RGB 27, 20, 10
@@ -42,6 +46,7 @@ PewterCityBillboardBGPalette2: ; 0x8ff38
 	RGB 26, 3, 1
 	RGB 0, 0, 0
 
+MtMoonBillboardBGPalettes:
 MtMoonBillboardBGPalette1: ; 0x8ff40
 	RGB 31, 28, 2
 	RGB 19, 20, 27
@@ -53,6 +58,7 @@ MtMoonBillboardBGPalette2: ; 0x8ff48
 	RGB 2, 7, 20
 	RGB 0, 0, 0
 
+CeruleanCityBillboardBGPalettes:
 CeruleanCityBillboardBGPalette1: ; 0x8ff50
 	RGB 31, 22, 5
 	RGB 16, 22, 4
@@ -64,6 +70,7 @@ CeruleanCityBillboardBGPalette2: ; 0x8ff58
 	RGB 3, 11, 31
 	RGB 0, 0, 0
 
+VermilionSeasideBillboardBGPalettes:
 VermilionSeasideBillboardBGPalette1: ; 0x8ff60
 	RGB 31, 31, 31
 	RGB 8, 20, 31
@@ -75,6 +82,7 @@ VermilionSeasideBillboardBGPalette2: ; 0x8ff68
 	RGB 21, 8, 0
 	RGB 0, 0, 0
 
+VermilionStreetsBillboardBGPalettes:
 VermilionStreetsBillboardBGPalette1: ; 0x8ff70
 	RGB 31, 31, 31
 	RGB 20, 22, 25
@@ -86,6 +94,7 @@ VermilionStreetsBillboardBGPalette2: ; 0x8ff78
 	RGB 7, 8, 13
 	RGB 0, 0, 0
 
+RockMountainBillboardBGPalettes:
 RockMountainBillboardBGPalette1: ; 0x8ff80
 	RGB 31, 31, 31
 	RGB 27, 13, 4
@@ -97,6 +106,7 @@ RockMountainBillboardBGPalette2: ; 0x8ff88
 	RGB 2, 16, 1
 	RGB 0, 0, 0
 
+LavenderTownBillboardBGPalettes:
 LavenderTownBillboardBGPalette1: ; 0x8ff90
 	RGB 31, 31, 10
 	RGB 11, 18, 31
@@ -108,6 +118,7 @@ LavenderTownBillboardBGPalette2: ; 0x8ff98
 	RGB 2, 6, 19
 	RGB 0, 0, 0
 
+CeladonCityBillboardBGPalettes:
 CeladonCityBillboardBGPalette1: ; 0x8ffa0
 	RGB 31, 31, 31
 	RGB 11, 19, 31
@@ -119,6 +130,7 @@ CeladonCityBillboardBGPalette2: ; 0x8ffa8
 	RGB 16, 2, 2
 	RGB 0, 0, 0
 
+CyclingRoadBillboardBGPalettes:
 CyclingRoadBillboardBGPalette1: ; 0x8ffb0
 	RGB 31, 24, 15
 	RGB 11, 21, 5
@@ -130,6 +142,7 @@ CyclingRoadBillboardBGPalette2: ; 0x8ffb8
 	RGB 0, 15, 0
 	RGB 0, 0, 0
 
+FuchsiaCityBillboardBGPalettes:
 FuchsiaCityBillboardBGPalette1: ; 0x8ffc0
 	RGB 31, 31, 31
 	RGB 10, 25, 31
@@ -141,6 +154,7 @@ FuchsiaCityBillboardBGPalette2: ; 0x8ffc8
 	RGB 28, 6, 3
 	RGB 0, 0, 0
 
+SafariZoneBillboardBGPalettes:
 SafariZoneBillboardBGPalette1: ; 0x8ffd0
 	RGB 31, 31, 31
 	RGB 13, 27, 31
@@ -152,6 +166,7 @@ SafariZoneBillboardBGPalette2: ; 0x8ffd8
 	RGB 0, 14, 0
 	RGB 0, 0, 0
 
+SaffronCityBillboardBGPalettes:
 SaffronCityBillboardBGPalette1: ; 0x8ffe0
 	RGB 31, 31, 31
 	RGB 8, 19, 31
@@ -163,6 +178,7 @@ SaffronCityBillboardBGPalette2: ; 0x8ffe8
 	RGB 24, 7, 5
 	RGB 0, 0, 0
 
+SeafoamIslandsBillboardBGPalettes:
 SeafoamIslandsBillboardBGPalette1: ; 0x8fff0
 	RGB 24, 27, 30
 	RGB 31, 24, 1

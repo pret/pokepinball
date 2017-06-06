@@ -2936,10 +2936,17 @@ Func_122e:
 	ld [MBC5RomBank], a
 	jr .asm_1238
 
-Func_1266:
+LoadPalettes:
+; Loads either BG or OAM palette data
+; de = pointer to palette data
+;      first byte is number of colors to load
+;      second byte determines BG or OAM palette data
+;      third and fourth byte are a pointer to actual color data
+;      fifth byte is Bank of actual color data
+;      $00 marks the end of the list
 	ld h, d
 	ld l, e
-.asm_1268
+.loop
 	ld a, [hli]
 	and a
 	ret z
@@ -2968,18 +2975,18 @@ Func_1266:
 	ld l, c
 	ld a, [$ff94]
 	ld b, a
-.asm_1291
+.loadColor
 	ld a, [hli]
 	ld [de], a
 	ld a, [hli]
 	ld [de], a
 	dec b
-	jr nz, .asm_1291
+	jr nz, .loadColor
 	pop hl
 	pop af
 	ld [hLoadedROMBank], a
 	ld [MBC5RomBank], a
-	jr .asm_1268
+	jr .loop
 
 INCLUDE "home/sgb.asm"
 INCLUDE "home/serial.asm"

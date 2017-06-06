@@ -53119,7 +53119,9 @@ SECTION "bank27", ROMX, BANK[$27]
 
 StageRedFieldTopStatusBarSymbolsGfx_GameBoyColor: ; 0x9c000
 	INCBIN "gfx/stage/red_top/status_bar_symbols_gameboycolor.2bpp"
-	dr $9c100, $9c2a0
+
+	INCBIN "gfx/unused_pocket_monster_2.2bpp"
+	ds $20 ; free space
 
 StageRedFieldTopBaseGameBoyColorGfx: ; 0x9c2a0
 	INCBIN "gfx/stage/red_top/red_top_base_gameboycolor.2bpp"

@@ -21845,17 +21845,16 @@ Func_17665: ; 0x17665
 	ld b, $0
 	sla c
 	rl b
-	ld hl, Data_17679
+	ld hl, TimerDigitsTileData
 	add hl, bc
 	ld a, [hli]
 	ld h, [hl]
 	ld l, a
-	ld a, Bank(Data_17679)
+	ld a, Bank(TimerDigitsTileData)
 	call Func_10aa
 	ret
 
-Data_17679:
-INCLUDE "data/unknown_17679.asm"
+INCLUDE "data/timer_digits_tiledata.asm"
 
 DrawMonCaptureAnimation: ; 0x17c67
 	ld a, [wCapturingMon]
@@ -53724,7 +53723,11 @@ StageSharedBonusSlotGlow2Gfx: ; 0xdade0
 
 StageRedFieldTopGfx5: ; 0xdae00
 	INCBIN "gfx/stage/red_top/red_top_5.2bpp"
-	dr $db000, $db200
+
+TimerDigitsGfx2: ; 0xdb000
+	INCBIN "gfx/stage/timer_digits.2bpp"
+
+	ds $a0 ; free space
 
 TimerDigitsGfx: ; 0xdb200
 	INCBIN "gfx/stage/timer_digits.2bpp"

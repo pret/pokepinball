@@ -4784,8 +4784,8 @@ Func_d0e3: ; 0xd0e3
 	ret
 
 Func_d0f5: ; 0xd0f5
-	ld a, BANK(GFX_a7b00)
-	ld hl, GFX_a7b00
+	ld a, BANK(HighScoresHexadecimalCharsGfx)
+	ld hl, HighScoresHexadecimalCharsGfx
 	call Func_1a21
 	ld a, [wd86d]
 	and a
@@ -10547,8 +10547,8 @@ BallCaptureInit: ; 0x10496
 	ld de, vTilesOB tile $7e
 	ld bc, $0020
 	call LoadVRAMData
-	ld a, BANK(GFX_a8800)
-	ld hl, GFX_a8800
+	ld a, BANK(BallCaptureSmokeGfx)
+	ld hl, BallCaptureSmokeGfx
 	ld de, vTilesSH tile $10
 	ld bc, $0180
 	call LoadVRAMData
@@ -11963,16 +11963,16 @@ Func_10ebb: ; 0x10ebb
 	ld a, [wCurrentStage]
 	bit 0, a
 	jr nz, .asm_10f0b
-	ld a, BANK(Data_dbe80)
-	ld hl, Data_dbe80
+	ld a, BANK(EvolutionTrinketsGfx)
+	ld hl, EvolutionTrinketsGfx
 	ld de, vTilesSH tile $10
 	ld bc, $00e0
 	call LoadOrCopyVRAMData
 	ret
 
 .asm_10f0b
-	ld a, BANK(Data_dbe80)
-	ld hl, Data_dbe80
+	ld a, BANK(EvolutionTrinketsGfx)
+	ld hl, EvolutionTrinketsGfx
 	ld de, vTilesOB tile $20
 	ld bc, $00e0
 	call LoadOrCopyVRAMData
@@ -12099,16 +12099,16 @@ Func_11061: ; 0x11061
 	ld a, [wCurrentStage]
 	bit 0, a
 	jr nz, .asm_110bd
-	ld a, BANK(Data_dbe80)
-	ld hl, Data_dbe80
+	ld a, BANK(EvolutionTrinketsGfx)
+	ld hl, EvolutionTrinketsGfx
 	ld de, vTilesOB tile $60
 	ld bc, $00e0
 	call LoadOrCopyVRAMData
 	ret
 
 .asm_110bd
-	ld a, BANK(Data_dbe80)
-	ld hl, Data_dbe80
+	ld a, BANK(EvolutionTrinketsGfx)
+	ld hl, EvolutionTrinketsGfx
 	ld de, vTilesOB tile $20
 	ld bc, $00e0
 	call LoadOrCopyVRAMData
@@ -12674,8 +12674,8 @@ Func_1414b: ; 0x1414b
 	ld de, vTilesOB tile $7e
 	ld bc, $0020
 	call FarCopyData
-	ld a, BANK(GFX_a8800)
-	ld hl, GFX_a8800
+	ld a, BANK(BallCaptureSmokeGfx)
+	ld hl, BallCaptureSmokeGfx
 	ld de, vTilesSH tile $10
 	ld bc, $0180
 	call FarCopyData
@@ -12765,16 +12765,16 @@ Func_14234: ; 0x14234
 	ld a, [wCurrentStage]
 	bit 0, a
 	jr nz, .asm_1425c
-	ld a, BANK(Data_dbe80)
-	ld hl, Data_dbe80
+	ld a, BANK(EvolutionTrinketsGfx)
+	ld hl, EvolutionTrinketsGfx
 	ld de, vTilesSH tile $10
 	ld bc, $00e0
 	call FarCopyData
 	jr .asm_1426a
 
 .asm_1425c
-	ld a, BANK(Data_dbe80)
-	ld hl, Data_dbe80
+	ld a, BANK(EvolutionTrinketsGfx)
+	ld hl, EvolutionTrinketsGfx
 	ld de, vTilesOB tile $20
 	ld bc, $00e0
 	call FarCopyData
@@ -27707,7 +27707,7 @@ Func_1c305: ; 0x1c305
 	ld bc, $0020
 	call FarCopyData
 	ld a, BANK(StageSharedPikaBoltGfx)
-	ld hl, GFX_a8800
+	ld hl, BallCaptureSmokeGfx
 	ld de, vTilesSH tile $10
 	ld bc, $0180
 	call FarCopyData
@@ -27797,16 +27797,16 @@ Func_1c3ee: ; 0x1c3ee
 	ld a, [wCurrentStage]
 	bit 0, a
 	jr nz, .asm_1c416
-	ld a, BANK(Data_dbe80)
-	ld hl, Data_dbe80
+	ld a, BANK(EvolutionTrinketsGfx)
+	ld hl, EvolutionTrinketsGfx
 	ld de, vTilesOB tile $60
 	ld bc, $00e0
 	call FarCopyData
 	jr .asm_1c424
 
 .asm_1c416
-	ld a, BANK(Data_dbe80)
-	ld hl, Data_dbe80
+	ld a, BANK(EvolutionTrinketsGfx)
+	ld hl, EvolutionTrinketsGfx
 	ld de, vTilesOB tile $20
 	ld bc, $00e0
 	call FarCopyData
@@ -46011,7 +46011,7 @@ PointerTable_280a2: ; 0x280a2
 	dw Data_280c4
 
 Data_280a6: ; 0x280a6
-	dab Data_ad800
+	dab PokedexInitialGfx
 	dw vTilesOB
 	dw $6000
 	dab Data_c5000
@@ -46026,7 +46026,7 @@ Data_280a6: ; 0x280a6
 	dw $FFFF ; terminators
 
 Data_280c4: ; 0x280c4
-	dab Data_ad800
+	dab PokedexInitialGfx
 	dw vTilesOB
 	dw $6000
 	dab Data_c5000
@@ -53137,7 +53137,9 @@ SECTION "bank28", ROMX, BANK[$28]
 
 StageBlueFieldTopStatusBarSymbolsGfx_GameBoyColor: ; 0xa0000
 	INCBIN "gfx/stage/blue_top/status_bar_symbols_gameboycolor.2bpp"
-	dr $a0100, $a02a0
+
+	INCBIN "gfx/unused_pocket_monster_2.2bpp"
+	ds $20 ; free space
 
 StageBlueFieldTopBaseGameBoyColorGfx: ; 0xa02a0
 	INCBIN "gfx/stage/blue_top/blue_top_base_gameboycolor.2bpp"
@@ -53160,11 +53162,12 @@ StageBlueFieldBottomGfx1: ; 0xa5000
 
 INCLUDE "data/billboard/map_pics.asm"
 
-GFX_a7b00:
-	dr $a7b00, $a8000 ; 0xa7b00
+HighScoresHexadecimalCharsGfx:
+	INCBIN "gfx/high_scores/hexadecimal_characters.2bpp"
 
 SECTION "bank2a", ROMX, BANK[$2a]
-	dr $a8000, $a82c0
+
+	ds $2c0 ; free space
 
 PinballGreatballShakeGfx: ; 0xa82c0
 	INCBIN "gfx/stage/ball_greatball_shake.w16.interleave.2bpp"
@@ -53187,9 +53190,10 @@ FlipperGfx: ; 0xa8600
 PikachuSaverGfx: ; 0xa8720
 	INCBIN "gfx/stage/pikachu_saver.2bpp"
 
-GFX_a8800:
-	INCBIN "gfx/unknown/a8800.interleave.w32.2bpp"
-	dr $a8980, $a8a00
+BallCaptureSmokeGfx:
+	INCBIN "gfx/stage/ball_capture_smoke.interleave.2bpp"
+	
+	ds $80 ; free space
 
 PinballGreatballGfx: ; 0xa8a00
 	INCBIN "gfx/stage/ball_greatball.w32.interleave.2bpp"
@@ -53217,7 +53221,7 @@ MeowthBonusBaseGameBoyColorGfx: ; 0xab200
 
 INCLUDE "data/billboard/map_palette_maps.asm"
 
-	dr $abc80, $abf00
+	ds $280 ; free space
 
 INCLUDE "data/mon_gfx/mon_animated_palettes_1.asm"
 
@@ -53226,12 +53230,13 @@ SECTION "bank2b", ROMX, BANK[$2b]
 TitlescreenFadeInGfx: ; 0xac000
 	INCBIN "gfx/titlescreen/titlescreen_fade_in.2bpp"
 
-Data_ad800:
-	dr $ad800, $af000
+PokedexInitialGfx:
+	INCBIN "gfx/pokedex/pokedex_initial.2bpp"
 
 StageBlueFieldBottomCollisionMasks: ; 0xaf000
 	INCBIN "data/collision/masks/blue_stage_bottom.masks"
-	dr $af800, $af900
+	
+	ds $100 ; free space
 
 DiglettBonusDugtrio3Gfx: ; 0xaf900
 	INCBIN "gfx/stage/diglett_bonus/dugtrio_3.2bpp"
@@ -53395,7 +53400,8 @@ StageRedFieldBottomTilemap2_GameBoyColor: ; 0xbec00
 
 StageBlueFieldTopTilemap_GameBoy: ; 0xbf000
 	INCBIN "gfx/tilemaps/stage_blue_field_top_gameboy.map"
-	dr $bf400, $bf800
+	
+	ds $400 ; free space
 
 EraseAllDataTilemap: ; 0xbf800
 	INCBIN "gfx/tilemaps/erase_all_data.map"
@@ -53406,7 +53412,8 @@ SECTION "bank30", ROMX, BANK[$30]
 
 StageBlueFieldBottomTilemap_GameBoy: ; 0xc0000
 	INCBIN "gfx/tilemaps/stage_blue_field_bottom_gameboy.map"
-	dr $c0400, $c0800
+	
+	ds $400 ; free space
 
 StageBlueFieldTopCollisionMasks: ; 0xc0800
 	INCBIN "data/collision/masks/blue_stage_top.masks"
@@ -53629,7 +53636,8 @@ GFX_d61b0: INCBIN "gfx/unknown/d61b0.2bpp"
 GFX_d61c0: INCBIN "gfx/stage/e_acute_mono.2bpp"
 GFX_d61d0: INCBIN "gfx/unknown/d61d0.2bpp"
 GFX_d61e0: INCBIN "gfx/unknown/d61e0.2bpp"
-	dr $d61f0, $d6200
+	
+	ds $10 ; free space
 
 Alphabet2Gfx: ; 0xd6200
 	INCBIN "gfx/stage/alphabet_2.2bpp"
@@ -53716,7 +53724,8 @@ INCLUDE "data/mon_gfx/mon_billboard_palette_maps_4.asm"
 
 StageSharedBonusSlotGlowGfx: ; 0xdac00
 	INCBIN "gfx/stage/shared/bonus_slot_glow.2bpp"
-	dr $dad60, $dade0
+	
+	ds $80 ; free space
 
 StageSharedBonusSlotGlow2Gfx: ; 0xdade0
 	INCBIN "gfx/stage/shared/bonus_slot_glow_2.2bpp"
@@ -53747,21 +53756,25 @@ INCLUDE "data/mon_gfx/mon_billboard_palettes_4.asm"
 
 StageRedFieldTopGfx6: ; 0xdbb80
 	INCBIN "gfx/stage/red_top/red_top_6.2bpp"
-	dr $dbbc0, $dbc80
+	
+	ds $c0 ; free space
 
 StageMewtwoBonusCollisionMasks: ; 0xdbc80
 	INCBIN "data/collision/masks/mewtwo_bonus.masks"
 
 INCLUDE "data/mon_gfx/mon_animated_palettes_3.asm"
 
-Data_dbe80:
-	dr $dbe80, $dc000
+EvolutionTrinketsGfx:
+	INCBIN "gfx/stage/shared/evolution_trinkets.2bpp"
+	
+	dr $dbf60, $dc000
 
 SECTION "bank37", ROMX, BANK[$37]
 
 StageSharedArrowsGfx: ; 0xdc000
 	INCBIN "gfx/stage/shared/arrows.2bpp"
-	dr $dc080, $dc100
+	
+	ds $80 ; free space
 
 INCLUDE "data/mon_gfx/mon_billboard_palettes_5.asm"
 
@@ -53818,8 +53831,9 @@ SECTION "bank38", ROMX, BANK[$38]
 	; unused bank
 
 SECTION "bank39", ROMX, BANK[$39]
+
 Data_e4000:
-	dr $e4000, $e8000 ; 0xe4000
+	dr $e4000, $e5000 ; 0xe4000
 
 SECTION "bank3a", ROMX, BANK[$3a]
 

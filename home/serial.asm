@@ -38,7 +38,7 @@ Func_1502: ; 1502 (0:1502)
 	ld c, [hl]
 	inc [hl]
 	ld b, $0
-	ld hl, Data_18ff
+	ld hl, SerialTranfserData_18ff
 	add hl, bc
 	ld a, [hl]
 	ld [rSB], a
@@ -632,28 +632,60 @@ Func_18d4: ; 0x18d4
 	call Func_16bf
 	ret
 
-Data_18ff:
-	dr $18ff, $1901
+SerialTranfserData_18ff: ; 0x18ff
+	db $88
+	db $33
 
-Data_1901:
-	dr $1901, $1909
+SerialTransferData_1901: ; 0x1901
+	db $01
+	db $00
+	db $00
+	db $00
+	db $01
+	db $00
+	db $00
+	db $00
 
-Data_1909:
-	dr $1909, $190d
+SerialTransferData_1909: ; 0x1909
+	db $02
+	db $00
+	db $04
+	db $00
 
-Data_190d:
-	dr $190d, $1915
+SerialTransferData_190d: ; 0x190d
+	db $04
+	db $00
+	db $00
+	db $00
+	db $04
+	db $00
+	db $00
+	db $00
 
-Data_1915:
-	dr $1915, $191d
+SerialTransferData_1915: ; 0x1915
+	db $08
+	db $00
+	db $00
+	db $00
+	db $08
+	db $00
+	db $00
+	db $00
 
-Data_191d:
-	dr $191d, $1925
+SerialTransferData_191d: ; 0x191d
+	db $0F
+	db $00
+	db $00
+	db $00
+	db $0F
+	db $00
+	db $00
+	db $00
 
 Func_1925: ; 0x1925
 	ld a, $1
 	ld d, $0
-	ld hl, Data_1901
+	ld hl, SerialTransferData_1901
 	ld bc, $0008
 	jp Func_18d4
 
@@ -663,7 +695,7 @@ Func_1932: ; 0x19332
 	ld hl, wd8cd
 	ld bc, $000c
 	call Func_18d4
-	ld hl, Data_1909
+	ld hl, SerialTransferData_1909
 	ld de, wd8cd
 	ld bc, $0004
 	call LocalCopyData
@@ -712,7 +744,7 @@ Func_1989: ; 0x1989
 	ld hl, wd8cd
 	ld bc, $0004
 	call Func_18d4
-	ld a, [Data_190d]
+	ld a, [SerialTransferData_190d]
 	ld [wd8cd], a
 	ld a, [wd8ac]
 	ld [wd8ce], a
@@ -726,25 +758,25 @@ Func_1989: ; 0x1989
 Func_19bd: ; 19bd (0:19bd)
 	ld a, $4
 	ld d, $0
-	ld hl, Data_1915
+	ld hl, SerialTransferData_1915
 	ld bc, $8
 	jp Func_18d4
 
 Func_19ca: ; 0x19ca
 	ld a, $5
 	ld d, $0
-	ld hl, Data_191d
+	ld hl, SerialTransferData_191d
 	ld bc, $0008
 	jp Func_18d4
 
 Func_19d7: ; 0x19d7
 	ld a, $6
 	ld d, $1
-	ld hl, Data_190d
+	ld hl, SerialTransferData_190d
 	ld bc, $0008
 	jp Func_18d4
 
-; XXX
+; unused
 	ret
 
 Func_19e5: ; 0x19e5
@@ -772,7 +804,7 @@ Func_19e5: ; 0x19e5
 	ld a, $1
 	ld [wd8b9], a
 	ld [wd8db], a
-	ld a, [Data_18ff]
+	ld a, [SerialTranfserData_18ff]
 	ld [rSB], a
 	ld a, $1
 	ld [rSC], a

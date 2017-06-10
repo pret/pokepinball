@@ -93,4 +93,3 @@ NidoranMBillboardBGPaletteMap: ; 0xb7d68
 	db $7, $7, $7, $7, $7, $7
 	db $7, $7, $7, $7, $7, $7
 	db $7, $7, $7, $7, $7, $7
-	dr $b7d80, $b8000 ; 0xb7d80

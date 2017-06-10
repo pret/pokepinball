@@ -3227,7 +3227,7 @@ Func_1bb2: ; 0x1bb2
 	ret
 
 Data_1bcf:
-	dr $1bcf, $1bd3
+	db $02, $01, $04, $03
 
 Func_1bd3: ; 0x1bd3
 	lb de, $00, $01

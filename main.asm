@@ -46047,7 +46047,7 @@ Data_280c4: ; 0x280c4
 	dab Data_c4c00
 	dw $9e00
 	dw $802
-	dab Data_dce80
+	dab PokedexPalettes
 	dw $0000
 	dw $101
 	dw $FFFF ; terminators

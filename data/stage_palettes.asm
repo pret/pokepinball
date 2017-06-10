@@ -80,7 +80,87 @@ SeelBonusOBJPalette7: ; 0xdc8f8
 	RGB 20, 20, 20
 	RGB 8, 8, 8
 	RGB 0, 0, 0
-	dr $dc900, $dc980
+	
+UnusedPalettes_dc900: ; 0xdc900
+	RGB 31, 27, 29
+	RGB 31, 31, 31
+	RGB 15, 15, 15
+	RGB 0, 0, 0
+
+	RGB 26, 31, 26
+	RGB 4, 23, 13
+	RGB 0, 13, 4
+	RGB 0, 0, 0
+
+	RGB 25, 29, 31
+	RGB 31, 0, 0
+	RGB 16, 0, 0
+	RGB 0, 0, 0
+
+	RGB 31, 29, 25
+	RGB 31, 29, 0
+	RGB 15, 8, 0
+	RGB 0, 0, 0
+
+	RGB 31, 27, 29
+	RGB 20, 20, 20
+	RGB 8, 8, 8
+	RGB 0, 0, 0
+
+	RGB 31, 27, 29
+	RGB 20, 20, 20
+	RGB 8, 8, 8
+	RGB 0, 0, 0
+
+	RGB 31, 31, 31
+	RGB 20, 20, 20
+	RGB 8, 8, 8
+	RGB 0, 0, 0
+
+	RGB 31, 31, 31
+	RGB 20, 20, 20
+	RGB 8, 8, 8
+	RGB 0, 0, 0
+
+	RGB 20, 20, 20
+	RGB 31, 31, 31
+	RGB 8, 8, 8
+	RGB 0, 0, 0
+
+	RGB 31, 31, 31
+	RGB 16, 12, 31
+	RGB 8, 4, 16
+	RGB 4, 0, 8
+
+	RGB 20, 20, 20
+	RGB 31, 31, 31
+	RGB 8, 8, 8
+	RGB 0, 0, 0
+
+	RGB 31, 31, 31
+	RGB 31, 21, 25
+	RGB 23, 7, 11
+	RGB 13, 0, 2
+
+	RGB 20, 20, 20
+	RGB 31, 31, 31
+	RGB 8, 8, 8
+	RGB 0, 0, 0
+
+	RGB 31, 31, 31
+	RGB 31, 10, 9
+	RGB 13, 2, 4
+	RGB 4, 0, 2
+
+	RGB 20, 20, 20
+	RGB 31, 31, 31
+	RGB 8, 8, 8
+	RGB 0, 0, 0
+
+	RGB 31, 31, 31
+	RGB 19, 26, 2
+	RGB 3, 13, 0
+	RGB 2, 4, 0
 
 StageRedFieldTopPalettes: ; 0xdc980
 StageRedFieldTopBGPalette0: ; 0xdc980
@@ -910,8 +990,88 @@ OptionMenuOBJPalette7: ; 0xdce78
 	RGB 31, 31, 31
 	RGB 31, 31, 31
 
-Data_dce80:
-	dr $dce80, $dcf00
+PokedexPalettes: ; 0xdce80
+PokedexBGPalette0:
+	RGB 31, 31, 31
+	RGB 7, 27, 27
+	RGB 0, 22, 0
+	RGB 0, 0, 0
+PokedexBGPalette1:
+	RGB 31, 31, 31
+	RGB 7, 27, 27
+	RGB 0, 22, 0
+	RGB 0, 0, 0
+PokedexBGPalette2:
+	RGB 31, 31, 31
+	RGB 31, 19, 19
+	RGB 31, 0, 0
+	RGB 0, 0, 0
+PokedexBGPalette3:
+	RGB 31, 31, 31
+	RGB 31, 29, 0
+	RGB 31, 0, 0
+	RGB 0, 0, 0
+PokedexBGPalette4:
+	RGB 31, 31, 31
+	RGB 23, 23, 31
+	RGB 31, 0, 0
+	RGB 0, 0, 0
+PokedexBGPalette5:
+	RGB 31, 31, 31
+	RGB 21, 21, 21
+	RGB 11, 11, 11
+	RGB 0, 0, 0
+PokedexBGPalette6:
+	RGB 31, 31, 31
+	RGB 31, 31, 31
+	RGB 31, 31, 31
+	RGB 31, 31, 31
+PokedexBGPalette7:
+	RGB 31, 31, 31
+	RGB 31, 31, 31
+	RGB 31, 31, 31
+	RGB 31, 31, 31
+
+PokedexOBJPalette0:
+	RGB 31, 31, 31
+	RGB 31, 31, 31
+	RGB 31, 19, 19
+	RGB 31, 0, 0
+PokedexOBJPalette1:
+	RGB 31, 31, 31
+	RGB 31, 29, 0
+	RGB 31, 0, 0
+	RGB 0, 0, 0
+PokedexOBJPalette2:
+	RGB 31, 31, 31
+	RGB 31, 31, 31
+	RGB 31, 29, 0
+	RGB 31, 0, 0
+PokedexOBJPalette3:
+	RGB 31, 31, 31
+	RGB 31, 31, 31
+	RGB 31, 31, 31
+	RGB 31, 31, 31
+PokedexOBJPalette4:
+	RGB 31, 31, 31
+	RGB 31, 31, 31
+	RGB 31, 31, 31
+	RGB 31, 31, 31
+PokedexOBJPalette5:
+	RGB 31, 31, 31
+	RGB 31, 31, 31
+	RGB 31, 31, 31
+	RGB 31, 31, 31
+PokedexOBJPalette6:
+	RGB 31, 31, 31
+	RGB 31, 31, 31
+	RGB 31, 31, 31
+	RGB 31, 31, 31
+PokedexOBJPalette7:
+	RGB 31, 31, 31
+	RGB 31, 19, 19
+	RGB 31, 0, 0
+	RGB 0, 0, 0
 
 MewtwoBonusPalettes: ; 0xdcf00
 MewtwoBonusBGPalette0: ; 0xdcf00

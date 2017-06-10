@@ -23191,7 +23191,7 @@ Func_1850c: ; 0x1850c
 	ld [hl], a
 	ld c, a
 	ld b, $0
-	ld hl, Data_18542
+	ld hl, GastlyData_18542
 	add hl, bc
 	pop bc
 	pop af
@@ -23226,8 +23226,12 @@ Func_1850c: ; 0x1850c
 	ld [hl], a
 	ret
 
-Data_18542:
-	dr $18542, $18562
+GastlyData_18542: ; 0x18542
+; Might be floating y offsets, not sure at the moment.
+	db $31, $32, $33, $34, $35, $36, $37, $36
+	db $35, $34, $33, $32, $33, $34, $35, $36
+	db $37, $38, $39, $3A, $3B, $3A, $39, $38
+	db $37, $36, $35, $34, $33, $32, $31, $30
 
 Func_18562: ; 0x18562
 	ld a, [de]
@@ -23429,7 +23433,7 @@ Func_186a1: ; 0x186a1
 	ld [hl], a
 	ld c, a
 	ld b, $0
-	ld hl, Data_186d7
+	ld hl, HaunterData_186d7
 	add hl, bc
 	pop bc
 	pop af
@@ -23464,8 +23468,12 @@ Func_186a1: ; 0x186a1
 	ld [hl], a
 	ret
 
-Data_186d7:
-	dr $186d7, $186f7
+HaunterData_186d7:
+; Might be floating y offsets, not sure at the moment.
+	db $31, $32, $33, $34, $35, $36, $37, $36
+	db $35, $34, $33, $32, $33, $34, $35, $36
+	db $37, $38, $39, $3A, $3B, $3A, $39, $38
+	db $37, $36, $35, $34, $33, $32, $31, $30
 
 Func_186f7: ; 0x186f7
 	ld a, [de]
@@ -24430,10 +24438,14 @@ Func_18db2: ; 0x18db2
 	ret
 
 Data_18dc9:
-	dr $18dc9, $18dd2
+	db $19, $1A, $1B
+	db $1C, $27, $1D
+	db $1E, $1F, $20
 
 Data_18dd2:
-	dr $18dd2, $18ddb
+	db $00, $00, $00
+	db $00, $00, $00
+	db $00, $00, $00
 
 TileDataPointers_18ddb:
 	dw TileData_18ddf
@@ -47442,7 +47454,7 @@ Func_28a15: ; 0x28a15
 	sla l
 	rl h
 	add hl, bc
-	ld bc, Data_2a85d
+	ld bc, PokedexMonAttributesTexts
 	add hl, bc
 	ld d, h
 	ld e, l
@@ -47544,7 +47556,7 @@ Func_28aaa: ; 0x28aaa
 	sla l
 	rl h
 	add hl, bc
-	ld bc, Data_2a85d
+	ld bc, PokedexMonAttributesTexts
 	add hl, bc
 	ld d, h
 	ld e, l
@@ -48596,10 +48608,7 @@ CharacterWidths: ; 0x29792
 INCLUDE "text/pokedex_mon_names.asm"
 INCLUDE "data/mon_species.asm"
 INCLUDE "text/pokedex_species.asm"
-
-Data_2a85d:
-	dr $2a85d, $2b136
-
+INCLUDE "text/pokedex_mon_attributes.asm"
 INCLUDE "data/dex_scroll_offsets.asm"
 
 SECTION "bankb", ROMX, BANK[$b]

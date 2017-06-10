@@ -51,7 +51,7 @@ Func_3c042: ; 0x3c042
 	ld [wdeae], a
 	ld c, a
 	ld b, $0
-	ld hl, WRAMPointerTable_3cc92
+	ld hl, ChannelPointers
 	add hl, bc
 	add hl, bc
 	ld c, [hl]
@@ -95,7 +95,10 @@ Func_3c042: ; 0x3c042
 	ld [hl], a
 	ret
 
-	dr $3c08b, $3c090
+Unused_3c08b: ; 3c08b
+; ???
+	ld hl, $c405
+	ld a, $09
 
 PlaySong_BankF: ; 0x3c090
 	push de
@@ -127,7 +130,11 @@ PlaySong_BankF: ; 0x3c090
 	call Func_3cb15
 	ret
 
-	dr $3c0bb, $3c0c0
+Unused_3c0bb: ; 3c0bb
+; ???
+	ld bc, $cd55
+	ld [hl], c
+	ld d, h
 
 PlaySoundEffect_BankF: ; 0x3c0c0
 	call Func_3cb1b
@@ -135,7 +142,7 @@ PlaySoundEffect_BankF: ; 0x3c0c0
 	ld [hl], e
 	inc hl
 	ld [hl], d
-	ld hl, PointerTable_3e3ce
+	ld hl, SoundEffects
 	add hl, de
 	add hl, de
 	ld e, [hl]
@@ -159,7 +166,9 @@ PlaySoundEffect_BankF: ; 0x3c0c0
 	call Func_3cb15
 	ret
 
-	dr $3c0ec, $3c0f0
+Unused_3c0ec: ; 0x3c0ec
+; ???
+	db $C3, $57, $41, $CD
 
 PlayCry_BankF: ; 0x3c0f0
 ; Plays a Pokemon cry.
@@ -247,7 +256,9 @@ PlayCry_BankF: ; 0x3c0f0
 	call Func_3cb15
 	ret
 
-	dr $3c17c, $3c180
+Unused_3c17c; ; 0x3c17c
+; ???
+	db $CD, $2E, $45, $CA
 
 Func_3c180: ; 0x3c180
 	ld a, [wdd00]
@@ -1838,7 +1849,31 @@ Func_3cb1b: ; 0x3cb1b
 	ret
 
 Data_3cb20:
-	dr $3cb20, $3cb52
+	dw $0000
+	dw $f82c
+	dw $f89d
+	dw $f907
+	dw $f96b
+	dw $f9ca
+	dw $fa23
+	dw $fa77
+	dw $fac7
+	dw $fb12
+	dw $fb58
+	dw $fb9b
+	dw $fbda
+	dw $fc16
+	dw $fc4e
+	dw $fc83
+	dw $fcb5
+	dw $fce5
+	dw $fd11
+	dw $fd3b
+	dw $fd63
+	dw $fd89
+	dw $fdac
+	dw $fdcd
+	dw $fded
 
 WavePatterns_BankF:
 WavePattern0_BankF: ; 0x3cb52
@@ -1853,18 +1888,183 @@ WavePattern4_BankF: ; 0x3cb92
 	db $00, $11, $22, $33, $44, $33, $22, $11, $FF, $EE, $CC, $AA, $88, $AA, $CC, $EE
 
 Data_3cba2:
-	dr $3cba2, $3cc8e
+; related to percussion instruments
+	dw Data_3cbae
+	dw Data_3cbce
+	dw Data_3cbee
+	dw Data_3cbee
+	dw Data_3cbee
+	dw Data_3cbee
+
+Data_3cbae: ; 0x3cbae
+	dw Data_3cc12
+	dw Data_3cc13
+	dw Data_3cc17
+	dw Data_3cc1b
+	dw Data_3cc1f
+	dw Data_3cc26
+	dw Data_3cc0e
+	dw Data_3cc31
+	dw Data_3cc35
+	dw Data_3cc3c
+	dw Data_3cc43
+	dw Data_3cc47
+	dw Data_3cc64
+	dw Data_3cc12
+	dw Data_3cc12
+	dw Data_3cc12
+
+Data_3cbce: ; 0x3cbce
+	dw Data_3cc12
+	dw Data_3cc0e
+	dw Data_3cc17
+	dw Data_3cc1b
+	dw Data_3cc1f
+	dw Data_3cc60
+	dw Data_3cc2d
+	dw Data_3cc68
+	dw Data_3cc52
+	dw Data_3cc59
+	dw Data_3cc87
+	dw Data_3cc47
+	dw Data_3cc4b
+	dw Data_3cc12
+	dw Data_3cc12
+	dw Data_3cc12
+
+Data_3cbee: ; 0x3cbee
+	dw Data_3cc12
+	dw Data_3cc43
+	dw Data_3cc47
+	dw Data_3cc1b
+	dw Data_3cc1f
+	dw Data_3cc6f
+	dw Data_3cc73
+	dw Data_3cc77
+	dw Data_3cc35
+	dw Data_3cc3c
+	dw Data_3cc7b
+	dw Data_3cc7f
+	dw Data_3cc83
+	dw Data_3cc12
+	dw Data_3cc12
+	dw Data_3cc12
+
+Data_3cc0e: ; 0x3cc0e
+	db $20, $11, $11
+	db $FF ; terminator
+
+Data_3cc12: ; 0x3cc12
+	db $FF ; terminator
+
+Data_3cc13: ; 0x3cc13
+	db $20, $91, $33
+	db $FF ; terminator
+
+Data_3cc17: ; 0x3cc17
+	db $20, $51, $32
+	db $FF ; terminator
+
+Data_3cc1b: ; 0x3cc1b
+	db $20, $81, $31
+	db $FF ; terminator
+
+Data_3cc1f: ; 0x3cc1f
+	db $21, $71, $70, $20, $11, $11
+	db $FF ; terminator
+
+Data_3cc26: ; 0x3cc26
+	db $30, $82, $4C, $22, $61, $20
+	db $FF ; terminator
+
+Data_3cc2d: ; 0x3cc2d
+	db $30, $91, $18
+	db $FF ; terminator
+
+Data_3cc31: ; 0x3cc31
+	db $27, $92, $10
+	db $FF ; terminator
+
+Data_3cc35: ; 0x3cc35
+	db $33, $91, $00, $33, $11, $00
+	db $FF ; terminator
+
+Data_3cc3c: ; 0x3cc3c
+	db $33, $91, $11, $33, $11, $00
+	db $FF ; terminator
+
+Data_3cc43: ; 0x3cc43
+	db $01, $18, $01
+	db $FF ; terminator
+
+Data_3cc47: ; 0x3cc47
+	db $01, $28, $01
+	db $FF ; terminator
+
+Data_3cc4b: ; 0x3cc4b
+	db $33, $88, $15, $20, $65, $12
+	db $FF ; terminator
+
+Data_3cc52: ; 0x3cc52
+	db $33, $51, $21, $33, $11, $11
+	db $FF ; terminator
+
+Data_3cc59: ; 0x3cc59
+	db $33, $51, $50, $33, $11, $11
+	db $FF ; terminator
+
+Data_3cc60: ; 0x3cc60
+	db $20, $A1, $31
+	db $FF ; terminator
+
+Data_3cc64: ; 0x3cc64
+	db $20, $84, $12
+	db $FF ; terminator
+
+Data_3cc68: ; 0x3cc68
+	db $33, $81, $00, $33, $11, $00
+	db $FF ; terminator
+
+Data_3cc6f: ; 0x3cc6f
+	db $01, $38, $01
+	db $FF ; terminator
+
+Data_3cc73: ; 0x3cc73
+	db $01, $48, $01
+	db $FF ; terminator
+
+Data_3cc77: ; 0x3cc77
+	db $01, $58, $01
+	db $FF ; terminator
+
+Data_3cc7b: ; 0x3cc7b
+	db $01, $68, $01
+	db $FF ; terminator
+
+Data_3cc7f: ; 0x3cc7f
+	db $01, $78, $01
+	db $FF ; terminator
+
+Data_3cc83: ; 0x3cc83
+	db $01, $88, $01
+	db $FF ; terminator
+
+Data_3cc87: ; 0x3cc87
+	db $33, $81, $21, $33, $11, $11
+	db $FF ; terminator
 
 Data_3cc8e: ; 0x3cc8e
 	db $11, $22, $44, $88
 
-WRAMPointerTable_3cc92: ; 0x3cc92
-	dw $DD01
-	dw $DD33
-	dw $DD65
-	dw $DD97
-
-	dr $3cc9a, $3cca2
+ChannelPointers: ; 0x3cc92
+	dw wChannel1
+	dw wChannel2
+	dw wChannel3
+	dw wChannel4
+	dw wChannel5
+	dw wChannel6
+	dw wChannel7
+	dw wChannel8
 
 SongHeaderPointers0F: ; 0x3cca2
 	dw Music_Nothing0F
@@ -1875,7 +2075,6 @@ SongHeaderPointers0F: ; 0x3cca2
 	dw Music_GastlyInTheGraveyard
 	dw Music_HaunterInTheGraveyard
 	dw Music_GengarInTheGraveyard
-; 0x3ccb2
 
 INCLUDE "audio/music/nothing0f.asm"
 INCLUDE "audio/music/bluefield.asm"
@@ -1886,318 +2085,318 @@ INCLUDE "audio/music/gastlyinthegraveyard.asm"
 INCLUDE "audio/music/haunterinthegraveyard.asm"
 INCLUDE "audio/music/gengarinthegraveyard.asm"
 
-PointerTable_3e3ce: ; 0x3e3ce
-	dw Data_3e46a
-	dw Data_3e480
-	dw Data_3e49a
-	dw Data_3e4ba
-	dw Data_3e4d0
-	dw Data_3e4e0
-	dw Data_3e4f0
-	dw Data_3e500
-	dw Data_3e51a
-	dw Data_3e52e
-	dw Data_3e544
-	dw Data_3e554
-	dw Data_3e57c
-	dw Data_3e589
-	dw Data_3e59f
-	dw Data_3e5b5
-	dw Data_3e5c5
-	dw Data_3e5e2
-	dw Data_3e5f4
-	dw Data_3e606
-	dw Data_3e618
-	dw Data_3e62a
-	dw Data_3e63c
-	dw Data_3e64e
-	dw Data_3e660
-	dw Data_3e672
-	dw Data_3e684
-	dw Data_3e696
-	dw Data_3e6a8
-	dw Data_3e6ba
-	dw Data_3e6cc
-	dw Data_3e6de
-	dw Data_3e6f0
-	dw Data_3e702
-	dw Data_3e71a
-	dw Data_3e75d
-	dw Data_3e810
-	dw Data_3e8ae
-	dw Data_3e96d
-	dw Data_3ea25
-	dw Data_3ea68
-	dw Data_3ea82
-	dw Data_3eb17
-	dw Data_3ebf9
-	dw Data_3ec17
-	dw Data_3ec31
-	dw Data_3ec4b
-	dw Data_3ec7d
-	dw Data_3ec8f
-	dw Data_3eca7
-	dw Data_3ecb7
-	dw Data_3ecd1
-	dw Data_3ece9
-	dw Data_3ecff
-	dw Data_3ed15
-	dw Data_3ed31
-	dw Data_3ed4d
-	dw Data_3ed65
-	dw Data_3ed78
-	dw Data_3ed98
-	dw Data_3edb0
-	dw Data_3edc0
-	dw Data_3edd0
-	dw Data_3ede3
-	dw Data_3edf3
-	dw Data_3ee1c
-	dw Data_3ee32
-	dw Data_3ee48
-	dw Data_3ee5e
-	dw Data_3ee78
-	dw Data_3ee92
-	dw Data_3eeaa
-	dw Data_3eec4
-	dw Data_3eed4
-	dw Data_3eeea
-	dw Data_3ef00
-	dw Data_3ef16
-	dw Data_3ef27
+SoundEffects: ; 0x3e3ce
+	dw SoundEffect0
+	dw SoundEffect1
+	dw SoundEffect2
+	dw SoundEffect3
+	dw SoundEffect4
+	dw SoundEffect5
+	dw SoundEffect6
+	dw SoundEffect7
+	dw SoundEffect8
+	dw SoundEffect9
+	dw SoundEffect10
+	dw SoundEffect11
+	dw SoundEffect12
+	dw SoundEffect13
+	dw SoundEffect14
+	dw SoundEffect15
+	dw SoundEffect16
+	dw SoundEffect17
+	dw SoundEffect18
+	dw SoundEffect19
+	dw SoundEffect20
+	dw SoundEffect21
+	dw SoundEffect22
+	dw SoundEffect23
+	dw SoundEffect24
+	dw SoundEffect25
+	dw SoundEffect26
+	dw SoundEffect27
+	dw SoundEffect28
+	dw SoundEffect29
+	dw SoundEffect30
+	dw SoundEffect31
+	dw SoundEffect32
+	dw SoundEffect33
+	dw SoundEffect34
+	dw SoundEffect35
+	dw SoundEffect36
+	dw SoundEffect37
+	dw SoundEffect38
+	dw SoundEffect39
+	dw SoundEffect40
+	dw SoundEffect41
+	dw SoundEffect42
+	dw SoundEffect43
+	dw SoundEffect44
+	dw SoundEffect45
+	dw SoundEffect46
+	dw SoundEffect47
+	dw SoundEffect48
+	dw SoundEffect49
+	dw SoundEffect50
+	dw SoundEffect51
+	dw SoundEffect52
+	dw SoundEffect53
+	dw SoundEffect54
+	dw SoundEffect55
+	dw SoundEffect56
+	dw SoundEffect57
+	dw SoundEffect58
+	dw SoundEffect59
+	dw SoundEffect60
+	dw SoundEffect61
+	dw SoundEffect62
+	dw SoundEffect63
+	dw SoundEffect64
+	dw SoundEffect65
+	dw SoundEffect66
+	dw SoundEffect67
+	dw SoundEffect68
+	dw SoundEffect69
+	dw SoundEffect70
+	dw SoundEffect71
+	dw SoundEffect72
+	dw SoundEffect73
+	dw SoundEffect74
+	dw SoundEffect75
+	dw SoundEffect76
+	dw SoundEffect77
 
-Data_3e46a:
+SoundEffect0: ; 0x3e46a
 	dr $3e46a, $3e480
 
-Data_3e480:
+SoundEffect1: ; 0x3e480
 	dr $3e480, $3e49a
 
-Data_3e49a:
+SoundEffect2: ; 0x3e49a
 	dr $3e49a, $3e4ba
 
-Data_3e4ba:
+SoundEffect3: ; 0x3e4ba
 	dr $3e4ba, $3e4d0
 
-Data_3e4d0:
+SoundEffect4: ; 0x3e4d0
 	dr $3e4d0, $3e4e0
 
-Data_3e4e0:
+SoundEffect5: ; 0x3e4e0
 	dr $3e4e0, $3e4f0
 
-Data_3e4f0:
+SoundEffect6: ; 0x3e4f0
 	dr $3e4f0, $3e500
 
-Data_3e500:
+SoundEffect7: ; 0x3e500
 	dr $3e500, $3e51a
 
-Data_3e51a:
+SoundEffect8: ; 0x3e51a
 	dr $3e51a, $3e52e
 
-Data_3e52e:
+SoundEffect9: ; 0x3e52e
 	dr $3e52e, $3e544
 
-Data_3e544:
+SoundEffect10: ; 0x3e544
 	dr $3e544, $3e554
 
-Data_3e554:
+SoundEffect11: ; 0x3e554
 	dr $3e554, $3e57c
 
-Data_3e57c:
+SoundEffect12: ; 0x3e57c
 	dr $3e57c, $3e589
 
-Data_3e589:
+SoundEffect13: ; 0x3e589
 	dr $3e589, $3e59f
 
-Data_3e59f:
+SoundEffect14: ; 0x3e59f
 	dr $3e59f, $3e5b5
 
-Data_3e5b5:
+SoundEffect15: ; 0x3e5b5
 	dr $3e5b5, $3e5c5
 
-Data_3e5c5:
+SoundEffect16: ; 0x3e5c5
 	dr $3e5c5, $3e5e2
 
-Data_3e5e2:
+SoundEffect17: ; 0x3e5e2
 	dr $3e5e2, $3e5f4
 
-Data_3e5f4:
+SoundEffect18: ; 0x3e5f4
 	dr $3e5f4, $3e606
 
-Data_3e606:
+SoundEffect19: ; 0x3e606
 	dr $3e606, $3e618
 
-Data_3e618:
+SoundEffect20: ; 0x3e618
 	dr $3e618, $3e62a
 
-Data_3e62a:
+SoundEffect21: ; 0x3e62a
 	dr $3e62a, $3e63c
 
-Data_3e63c:
+SoundEffect22: ; 0x3e63c
 	dr $3e63c, $3e64e
 
-Data_3e64e:
+SoundEffect23: ; 0x3e64e
 	dr $3e64e, $3e660
 
-Data_3e660:
+SoundEffect24: ; 0x3e660
 	dr $3e660, $3e672
 
-Data_3e672:
+SoundEffect25: ; 0x3e672
 	dr $3e672, $3e684
 
-Data_3e684:
+SoundEffect26: ; 0x3e684
 	dr $3e684, $3e696
 
-Data_3e696:
+SoundEffect27: ; 0x3e696
 	dr $3e696, $3e6a8
 
-Data_3e6a8:
+SoundEffect28: ; 0x3e6a8
 	dr $3e6a8, $3e6ba
 
-Data_3e6ba:
+SoundEffect29: ; 0x3e6ba
 	dr $3e6ba, $3e6cc
 
-Data_3e6cc:
+SoundEffect30: ; 0x3e6cc
 	dr $3e6cc, $3e6de
 
-Data_3e6de:
+SoundEffect31: ; 0x3e6de
 	dr $3e6de, $3e6f0
 
-Data_3e6f0:
+SoundEffect32: ; 0x3e6f0
 	dr $3e6f0, $3e702
 
-Data_3e702:
+SoundEffect33: ; 0x3e702
 	dr $3e702, $3e71a
 
-Data_3e71a:
+SoundEffect34: ; 0x3e71a
 	dr $3e71a, $3e75d
 
-Data_3e75d:
+SoundEffect35: ; 0x3e75d
 	dr $3e75d, $3e810
 
-Data_3e810:
+SoundEffect36: ; 0x3e810
 	dr $3e810, $3e8ae
 
-Data_3e8ae:
+SoundEffect37: ; 0x3e8ae
 	dr $3e8ae, $3e96d
 
-Data_3e96d:
+SoundEffect38: ; 0x3e96d
 	dr $3e96d, $3ea25
 
-Data_3ea25:
+SoundEffect39: ; 0x3ea25
 	dr $3ea25, $3ea68
 
-Data_3ea68:
+SoundEffect40: ; 0x3ea68
 	dr $3ea68, $3ea82
 
-Data_3ea82:
+SoundEffect41: ; 0x3ea82
 	dr $3ea82, $3eb17
 
-Data_3eb17:
+SoundEffect42: ; 0x3eb17
 	dr $3eb17, $3ebf9
 
-Data_3ebf9:
+SoundEffect43: ; 0x3ebf9
 	dr $3ebf9, $3ec17
 
-Data_3ec17:
+SoundEffect44: ; 0x3ec17
 	dr $3ec17, $3ec31
 
-Data_3ec31:
+SoundEffect45: ; 0x3ec31
 	dr $3ec31, $3ec4b
 
-Data_3ec4b:
+SoundEffect46: ; 0x3ec4b
 	dr $3ec4b, $3ec7d
 
-Data_3ec7d:
+SoundEffect47: ; 0x3ec7d
 	dr $3ec7d, $3ec8f
 
-Data_3ec8f:
+SoundEffect48: ; 0x3ec8f
 	dr $3ec8f, $3eca7
 
-Data_3eca7:
+SoundEffect49: ; 0x3eca7
 	dr $3eca7, $3ecb7
 
-Data_3ecb7:
+SoundEffect50: ; 0x3ecb7
 	dr $3ecb7, $3ecd1
 
-Data_3ecd1:
+SoundEffect51: ; 0x3ecd1
 	dr $3ecd1, $3ece9
 
-Data_3ece9:
+SoundEffect52: ; 0x3ece9
 	dr $3ece9, $3ecff
 
-Data_3ecff:
+SoundEffect53: ; 0x3ecff
 	dr $3ecff, $3ed15
 
-Data_3ed15:
+SoundEffect54: ; 0x3ed15
 	dr $3ed15, $3ed31
 
-Data_3ed31:
+SoundEffect55: ; 0x3ed31
 	dr $3ed31, $3ed4d
 
-Data_3ed4d:
+SoundEffect56: ; 0x3ed4d
 	dr $3ed4d, $3ed65
 
-Data_3ed65:
+SoundEffect57: ; 0x3ed65
 	dr $3ed65, $3ed78
 
-Data_3ed78:
+SoundEffect58: ; 0x3ed78
 	dr $3ed78, $3ed98
 
-Data_3ed98:
+SoundEffect59: ; 0x3ed98
 	dr $3ed98, $3edb0
 
-Data_3edb0:
+SoundEffect60: ; 0x3edb0
 	dr $3edb0, $3edc0
 
-Data_3edc0:
+SoundEffect61: ; 0x3edc0
 	dr $3edc0, $3edd0
 
-Data_3edd0:
+SoundEffect62: ; 0x3edd0
 	dr $3edd0, $3ede3
 
-Data_3ede3:
+SoundEffect63: ; 0x3ede3
 	dr $3ede3, $3edf3
 
-Data_3edf3:
+SoundEffect64: ; 0x3edf3
 	dr $3edf3, $3ee1c
 
-Data_3ee1c:
+SoundEffect65: ; 0x3ee1c
 	dr $3ee1c, $3ee32
 
-Data_3ee32:
+SoundEffect66: ; 0x3ee32
 	dr $3ee32, $3ee48
 
-Data_3ee48:
+SoundEffect67: ; 0x3ee48
 	dr $3ee48, $3ee5e
 
-Data_3ee5e:
+SoundEffect68: ; 0x3ee5e
 	dr $3ee5e, $3ee78
 
-Data_3ee78:
+SoundEffect69: ; 0x3ee78
 	dr $3ee78, $3ee92
 
-Data_3ee92:
+SoundEffect70: ; 0x3ee92
 	dr $3ee92, $3eeaa
 
-Data_3eeaa:
+SoundEffect71: ; 0x3eeaa
 	dr $3eeaa, $3eec4
 
-Data_3eec4:
+SoundEffect72: ; 0x3eec4
 	dr $3eec4, $3eed4
 
-Data_3eed4:
+SoundEffect73: ; 0x3eed4
 	dr $3eed4, $3eeea
 
-Data_3eeea:
+SoundEffect74: ; 0x3eeea
 	dr $3eeea, $3ef00
 
-Data_3ef00:
+SoundEffect75: ; 0x3ef00
 	dr $3ef00, $3ef16
 
-Data_3ef16:
+SoundEffect76: ; 0x3ef16
 	dr $3ef16, $3ef27
 
-Data_3ef27:
+SoundEffect77: ; 0x3ef27
 	dr $3ef27, $3ef63
 
 CryBasePointers: ; 0x3ef63

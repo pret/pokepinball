@@ -53263,7 +53263,7 @@ StageRedFieldBottomIndicatorsGfx_Gameboy: ; 0xb0000
 
 StageRedFieldTopCollisionAttributes6: ; 0xb3000
 	INCBIN "data/collision/maps/red_stage_top_6.collision"
-	dr $b3400, $b3800
+	INCBIN "data/collision/unused_trailing_data.bin"
 
 FieldSelectTilemap: ; 0xb3800
 	INCBIN "gfx/tilemaps/field_select.map"
@@ -53339,11 +53339,11 @@ OptionMenuBGMSETextGfx: ; 0xb6b10
 
 StageRedFieldTopCollisionAttributes5: ; 0xb6c00
 	INCBIN "data/collision/maps/red_stage_top_5.collision"
-	dr $b7000, $b7400
+	INCBIN "data/collision/unused_trailing_data.bin"
 
 StageRedFieldTopCollisionAttributes4: ; 0xb7400
 	INCBIN "data/collision/maps/red_stage_top_4.collision"
-	dr $b7800, $b7c00
+	INCBIN "data/collision/unused_trailing_data.bin"
 
 INCLUDE "data/mon_gfx/mon_billboard_palette_maps_5.asm"
 
@@ -53351,27 +53351,29 @@ SECTION "bank2e", ROMX, BANK[$2e]
 
 StageRedFieldTopCollisionAttributes3: ; 0xb8000
 	INCBIN "data/collision/maps/red_stage_top_3.collision"
-	dr $b8400, $b8800
+	INCBIN "data/collision/unused_trailing_data.bin"
 
 StageRedFieldTopCollisionAttributes2: ; 0xb8800
 	INCBIN "data/collision/maps/red_stage_top_2.collision"
-	dr $b8c00, $b9000
+	INCBIN "data/collision/unused_trailing_data.bin"
 
 StageRedFieldTopCollisionAttributes1: ; 0xb9000
 	INCBIN "data/collision/maps/red_stage_top_1.collision"
-	dr $b9400, $b9800
+	INCBIN "data/collision/unused_trailing_data.bin"
 
 StageRedFieldTopCollisionAttributes0: ; 0xb9800
 	INCBIN "data/collision/maps/red_stage_top_0.collision"
-	dr $b9c00, $ba000
+	INCBIN "data/collision/unused_trailing_data.bin"
 
 StageRedFieldTopTilemap_GameBoy: ; 0xba000
 	INCBIN "gfx/tilemaps/stage_red_field_top_gameboy.map"
-	dr $ba400, $ba800
+
+	ds $400 ; free space
 
 StageRedFieldBottomTilemap_GameBoy: ; 0xba800
 	INCBIN "gfx/tilemaps/stage_red_field_bottom_gameboy.map"
-	dr $bac00, $bb000
+
+	ds $400 ; free space
 
 StageRedFieldTopCollisionMasks0: ; 0xbb000
 	INCBIN "data/collision/masks/red_stage_top_0.masks"
@@ -53389,11 +53391,12 @@ StageRedFieldTopCollisionMasks3: ; 0xbc800
 
 StageRedFieldTopCollisionAttributes7: ; 0xbd000
 	INCBIN "data/collision/maps/red_stage_top_7.collision"
-	dr $bd400, $bd800
+	INCBIN "data/collision/unused_trailing_data.bin"
 
 StageRedFieldBottomCollisionAttributes: ; 0xbd800
 	INCBIN "data/collision/maps/red_stage_bottom.collision"
-	dr $bdc00, $be000
+
+	ds $400 ; free space
 
 StageRedFieldTopTilemap_GameBoyColor: ; 0xbe000
 	INCBIN "gfx/tilemaps/stage_red_field_top_gameboycolor.map"
@@ -53429,7 +53432,7 @@ StageBlueFieldTopCollisionMasks: ; 0xc0800
 
 StageBlueFieldTopCollisionAttributesBallEntrance: ; 0xc1000
 	INCBIN "data/collision/maps/blue_stage_top_ball_entrance.collision"
-	dr $c1400, $c1800
+	INCBIN "data/collision/unused_trailing_data.bin"
 
 HighScoresTilemap2: ; 0xc1800
 	INCBIN "gfx/tilemaps/high_scores_screen_2.map"
@@ -53442,29 +53445,31 @@ HighScoresTilemap4: ; 0xc2400
 
 StageBlueFieldTopCollisionAttributes: ; 0xc2800
 	INCBIN "data/collision/maps/blue_stage_top.collision"
-	dr $c2c00, $c3000
+	INCBIN "data/collision/unused_trailing_data.bin"
 
 OptionMenuTilemap2: ; 0xc3000
 	INCBIN "gfx/tilemaps/option_menu_2.map"
-	dr $c3240, $c3400
+	
+	ds $1c0 ; free space
 
 OptionMenuTilemap4: ; 0xc3400
 	INCBIN "gfx/tilemaps/option_menu_4.map"
-	dr $c3640, $c3800
+	INCBIN "gfx/tilemaps/unused_tilemap_c3640.map"
 
 OptionMenuTilemap: ; 0xc3800
 	INCBIN "gfx/tilemaps/option_menu.map"
-	dr $c3a40, $c3c00
+
+	ds $1c0 ; free space
 
 OptionMenuTilemap3: ; 0xc3c00
 	INCBIN "gfx/tilemaps/option_menu_3.map"
-	dr $c3e40, $c4000
+	INCBIN "gfx/tilemaps/unused_tilemap_c3640.map"
 
 SECTION "bank31", ROMX, BANK[$31]
 
 StageBlueFieldBottomCollisionAttributes: ; 0xc4000
 	INCBIN "data/collision/maps/blue_stage_bottom.collision"
-	dr $c4400, $c4800
+	INCBIN "data/collision/unused_trailing_data.bin"
 
 Data_c4800:
 	dr $c4800, $c4c00
@@ -53607,13 +53612,14 @@ SECTION "bank34", ROMX, BANK[$34]
 
 INCLUDE "data/collision/mon_collision_masks.asm"
 
-	dr $d2800, $d3000
+	INCBIN "gfx/tilemaps/unused_tilemap_d2800.map"
 
 DiglettBonusTilemap_GameBoyColor: ; 0xd3000
 	INCBIN "gfx/tilemaps/stage_diglett_bonus_gameboycolor.map"
 DiglettBonusTilemap2_GameBoyColor: ; 0xd3400
 	INCBIN "gfx/tilemaps/stage_diglett_bonus_gameboycolor_2.map"
-	dr $d3800, $d4000
+
+	INCBIN "data/unused_data_d3800.bin"
 
 SECTION "bank35", ROMX, BANK[$35]
 

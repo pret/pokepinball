@@ -577,10 +577,10 @@ Func_4d8: ; 0x4d8
 	push bc
 	push de
 	push hl
-	ld a, [wChannel5 + 2]
-	ld hl, wChannel6 + 2
+	ld a, [wChannel4 + 2]
+	ld hl, wChannel5 + 2
 	or [hl]
-	ld hl, wChannel7 + 2
+	ld hl, wChannel6 + 2
 	or [hl]
 	and $1
 	call z, PlaySoundEffect

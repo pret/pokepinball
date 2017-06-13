@@ -2553,28 +2553,28 @@ SECTION "Audio RAM", WRAMX [$dd00], BANK [1]
 wdd00:: ; 0xdd00
 	ds $1
 
-wChannel1:: ; 0xdd01
+wChannel0:: ; 0xdd01
 	ds $32
 
-wChannel2:: ; 0xdd33
+wChannel1:: ; 0xdd33
 	ds $32
 
-wChannel3:: ; 0xdd65
+wChannel2:: ; 0xdd65
 	ds $32
 
-wChannel4:: ; 0xdd97
+wChannel3:: ; 0xdd97
 	ds $32
 
-wChannel5:: ; 0xddc9
+wChannel4:: ; 0xddc9
 	ds $32
 
-wChannel6:: ; 0xddfb
+wChannel5:: ; 0xddfb
 	ds $32
 
-wChannel7:: ; 0xde2d
+wChannel6:: ; 0xde2d
 	ds $32
 
-wChannel8:: ; 0xde5f
+wChannel7:: ; 0xde5f
 	ds $32
 
 wde91:: ; 0xde91

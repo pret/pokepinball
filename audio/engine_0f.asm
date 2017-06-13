@@ -4,8 +4,8 @@ Func_3c000: ; 0x3c000
 	push bc
 	push af
 	call Func_3cb1b
-	ld hl, wChannel1
-	ld de, wdeb0 - wChannel1
+	ld hl, wChannel0
+	ld de, wdeb0 - wChannel0
 .clearLoop
 	xor a
 	ld [hli], a
@@ -267,7 +267,7 @@ Func_3c180: ; 0x3c180
 	xor a
 	ld [wde97], a
 	ld [wde99], a
-	ld bc, wChannel1
+	ld bc, wChannel0
 .asm_3c18f
 	ld hl, $0002
 	add hl, bc
@@ -317,6 +317,9 @@ Func_3c180: ; 0x3c180
 	ld a, [wde97]
 	cp $4
 	jr nc, .asm_3c219
+	ld hl, wChannel4 + 2
+	bit 0, [hl]
+	jr nz, .asm_3c204
 	ld hl, wChannel5 + 2
 	bit 0, [hl]
 	jr nz, .asm_3c204
@@ -324,9 +327,6 @@ Func_3c180: ; 0x3c180
 	bit 0, [hl]
 	jr nz, .asm_3c204
 	ld hl, wChannel7 + 2
-	bit 0, [hl]
-	jr nz, .asm_3c204
-	ld hl, wChannel8 + 2
 	bit 0, [hl]
 	jr z, .asm_3c20a
 .asm_3c204
@@ -1151,10 +1151,10 @@ Func_3c704: ; 0x3c704
 	cp $4
 	ret nz
 	xor a
-	ld hl, wChannel6 + $26
+	ld hl, wChannel5 + $26
 	ld [hli], a
 	ld [hl], a
-	ld hl, wChannel8 + $26
+	ld hl, wChannel7 + $26
 	ld [hli], a
 	ld [hl], a
 	ld a, [wdeac]
@@ -1766,24 +1766,24 @@ Func_3ca95: ; 0x3ca95
 	ld a, [wde97]
 	cp $4
 	jr nc, .asm_3cab7
+	ld bc, wChannel0
+	call Func_3cad1
 	ld bc, wChannel1
 	call Func_3cad1
 	ld bc, wChannel2
 	call Func_3cad1
 	ld bc, wChannel3
 	call Func_3cad1
-	ld bc, wChannel4
-	call Func_3cad1
 	jr .asm_3cacf
 
 .asm_3cab7
+	ld bc, wChannel4
+	call Func_3cad1
 	ld bc, wChannel5
 	call Func_3cad1
 	ld bc, wChannel6
 	call Func_3cad1
 	ld bc, wChannel7
-	call Func_3cad1
-	ld bc, wChannel8
 	call Func_3cad1
 .asm_3cacf
 	pop bc
@@ -2057,6 +2057,7 @@ Data_3cc8e: ; 0x3cc8e
 	db $11, $22, $44, $88
 
 ChannelPointers: ; 0x3cc92
+	dw wChannel0
 	dw wChannel1
 	dw wChannel2
 	dw wChannel3
@@ -2064,7 +2065,6 @@ ChannelPointers: ; 0x3cc92
 	dw wChannel5
 	dw wChannel6
 	dw wChannel7
-	dw wChannel8
 
 SongHeaderPointers0F: ; 0x3cca2
 	dw Music_Nothing0F
@@ -2166,238 +2166,1990 @@ SoundEffects: ; 0x3e3ce
 	dw SoundEffect77
 
 SoundEffect0: ; 0x3e46a
-	dr $3e46a, $3e480
+	db $04 ; wChannel4
+	dw SoundEffect0_Channel4
+
+SoundEffect0_Channel4: ; 0x3e46a
+	dutycycle $02
+	soundinput $94
+	soundeffect_note $05, $F6, $0B, $1E
+	soundinput $95
+	soundeffect_note $08, $8B, $0B, $3E
+	soundeffect_note $01, $00, $00, $00
+	db $FF
 
 SoundEffect1: ; 0x3e480
-	dr $3e480, $3e49a
+	db $04 ; wChannel4
+	dw SoundEffect1_Channel4
+
+SoundEffect1_Channel4: ; 0x3e483
+	dutycycle $02
+	soundinput $14
+	soundeffect_note $04, $F2, $00, $06
+	soundeffect_note $04, $F2, $00, $06
+	soundinput $17
+	soundeffect_note $0F, $F2, $00, $06
+	soundeffect_note $01, $00, $00, $00
+	db $FF
 
 SoundEffect2: ; 0x3e49a
-	dr $3e49a, $3e4ba
+	db $04 ; wChannel4
+	dw SoundEffect2_Channel4
+
+SoundEffect2_Channel4: ; 0x3e49d
+	dutycycle $01
+	soundinput $17
+	soundeffect_note $0F, $D7, $00, $06
+	soundeffect_note $0F, $B7, $80, $05
+	soundeffect_note $0F, $87, $00, $05
+	soundeffect_note $0F, $47, $80, $04
+	soundeffect_note $0F, $17, $00, $04
+	soundeffect_note $01, $00, $00, $00
+	db $FF
 
 SoundEffect3: ; 0x3e4ba
-	dr $3e4ba, $3e4d0
+	db $04 ; wChannel4
+	dw SoundEffect3_Channel4
+
+SoundEffect3_Channel4: ; 0x3e4bd
+	dutycycle $02
+	soundeffect_note $02, $F1, $80, $06
+	soundeffect_note $02, $F1, $80, $07
+	soundeffect_note $02, $31, $80, $07
+	soundeffect_note $01, $00, $00, $00
+	db $FF
 
 SoundEffect4: ; 0x3e4d0
-	dr $3e4d0, $3e4e0
+	db $04 ; wChannel4
+	dw SoundEffect4_Channel4
+
+SoundEffect4_Channel4: ; 0x3e4d0
+	dutycycle $00
+	soundinput $35
+	soundeffect_note $0c, $C3, $6B, $3B
+	soundeffect_note $01, $00, $00, $00
+	db $FF
 
 SoundEffect5: ; 0x3e4e0
-	dr $3e4e0, $3e4f0
+	db $04 ; wChannel4
+	dw SoundEffect5_Channel4
+
+SoundEffect5_Channel4: ; 0x3e4e3
+	dutycycle $02
+	soundinput $95
+	soundeffect_note $0F, $F2, $00, $04
+	soundeffect_note $01, $00, $00, $00
+	db $FF
 
 SoundEffect6: ; 0x3e4f0
-	dr $3e4f0, $3e500
+	db $04 ; wChannel4
+	dw SoundEffect6_Channel4
+
+SoundEffect6_Channel4: ; 0x3e4f3
+	dutycycle $00
+	soundinput $17
+	soundeffect_note $0F, $D2, $00, $07
+	soundeffect_note $01, $00, $00, $00
+	db $FF
 
 SoundEffect7: ; 0x3e500
-	dr $3e500, $3e51a
+	db $04 ; wChannel4
+	dw SoundEffect7_Channel4
+
+SoundEffect7_Channel4: ; 0x3e503
+	dutycycle $02
+	soundinput $9A
+	soundeffect_note $04, $F3, $0B, $3E
+	soundinput $9D
+	soundeffect_note $03, $C2, $2C, $3F
+	soundeffect_note $06, $E1, $A2, $1D
+	soundeffect_note $01, $00, $00, $00
+	db $FF
 
 SoundEffect8: ; 0x3e51a
-	dr $3e51a, $3e52e
+	db $04 ; wChannel4
+	dw SoundEffect8_Channel4
+
+SoundEffect8_Channel4: ; 0x3e51d
+	dutycycle $02
+	soundinput $88
+	soundeffect_note $01, $D2, $62, $07
+	soundeffect_note $08, $52, $62, $07
+	soundeffect_note $01, $00, $00, $00
+	db $FF
 
 SoundEffect9: ; 0x3e52e
-	dr $3e52e, $3e544
+	db $04 ; wChannel4
+	dw SoundEffect9_Channel4
+
+SoundEffect9_Channel4: ; 0x3e531
+	dutycycle $02
+	soundeffect_note $02, $F1, $80, $07
+	soundeffect_note $04, $F1, $61, $07
+	soundeffect_note $02, $41, $61, $07
+	soundeffect_note $01, $00, $00, $00
+	db $FF
 
 SoundEffect10: ; 0x3e544
-	dr $3e544, $3e554
+	db $04 ; wChannel4
+	dw SoundEffect10_Channel4
+
+SoundEffect10_Channel4: ; 0x3e547
+	dutycycle $02
+	soundinput $2F
+	soundeffect_note $0F, $E2, $80, $07
+	soundeffect_note $01, $00, $00, $00
+	db $FF
 
 SoundEffect11: ; 0x3e554
-	dr $3e554, $3e57c
+	db $4 | (($2 - 1) << 6) ; wChannel4
+	dw SoundEffect11_Channel4
+	db $07 ; wChannel7
+	dw SoundEffect11_Channel7
+
+SoundEffect11_Channel4: ; 0x3e55a
+	dutycycle $02
+	soundinput $16
+	soundeffect_note $01, $F1, $27, $06
+	soundeffect_note $00, $71, $27, $06
+	soundeffect_note $0F, $F2, $00, $04
+	soundeffect_note $01, $00, $00, $00
+	db $FF
+
+SoundEffect11_Channel7: ; 0x3e56f
+	soundeffect_percussion $01, $7B, $37
+	soundeffect_percussion $00, $00, $00
+	soundeffect_percussion $0F, $82, $10
+	soundeffect_percussion $01, $00, $00
+	db $FF
 
 SoundEffect12: ; 0x3e57c
-	dr $3e57c, $3e589
+	db $07 ; wChannel7
+	dw SoundEffect12_Channel7
+
+SoundEffect12_Channel7: ; 0x3e57f
+	soundeffect_percussion $01, $F8, $12
+	soundeffect_percussion $05, $A1, $20
+	soundeffect_percussion $01, $00, $00
+	db $FF
 
 SoundEffect13: ; 0x3e589
-	dr $3e589, $3e59f
+	db $04 ; wChannel4
+	dw SoundEffect13_Channel4
+
+SoundEffect13_Channel4: ; 0x3e58c
+	dutycycle $02
+	soundeffect_note $01, $F2, $A0, $06
+	soundeffect_note $01, $F2, $E0, $06
+	soundeffect_note $08, $F1, $00, $07
+	soundeffect_note $01, $00, $00, $00
+	db $FF
 
 SoundEffect14: ; 0x3e59f
-	dr $3e59f, $3e5b5
+	db $04 ; wChannel4
+	dw SoundEffect14_Channel4
+
+SoundEffect14_Channel4: ; 0x3e5a2
+	dutycycle $02
+	soundeffect_note $04, $E1, $C1, $06
+	soundeffect_note $02, $E1, $41, $07
+	soundeffect_note $0F, $F1, $81, $07
+	soundeffect_note $01, $00, $00, $00
+	db $FF
 
 SoundEffect15: ; 0x3e5b5
-	dr $3e5b5, $3e5c5
+	db $04 ; wChannel4
+	dw SoundEffect15_Channel4
+
+SoundEffect15_Channel4: ; 0x3e5B8
+	dutycycle $01
+	soundinput $AF
+	soundeffect_note $0F, $F2, $80, $07
+	soundeffect_note $01, $00, $00, $00
+	db $FF
 
 SoundEffect16: ; 0x3e5c5
-	dr $3e5c5, $3e5e2
+	db $04 ; wChannel4
+	dw SoundEffect16_Channel4
+
+SoundEffect16_Channel4: ; 0x3e5C8
+	togglesfx
+	forceoctave $04
+SoundEffect16_Channel4_Loop: ; 0x3e5cb
+	notetype $01, $F8
+	soundinput $24
+	dutycycle $00
+	octave 2
+	note C_, 2
+	octave 4
+	note E_, 1
+	intensity $E8
+	octave 4
+	note G_, 1
+	loopchannel $15, SoundEffect16_Channel4_Loop
+	octave 5
+	note G_, 2
+	note C_, 1
+	db $FF
 
 SoundEffect17: ; 0x3e5e2
-	dr $3e5e2, $3e5f4
+	db $04 ; wChannel4
+	dw SoundEffect17_Channel4
+
+SoundEffect17_Channel4: ; 0x3e5E5
+	dutycycle $00
+	soundeffect_note $00, $B1, $80, $07
+	soundeffect_note $08, $81, $B0, $07
+	soundeffect_note $01, $00, $00, $00
+	db $FF
 
 SoundEffect18: ; 0x3e5f4
-	dr $3e5f4, $3e606
+	db $04 ; wChannel4
+	dw SoundEffect18_Channel4
+
+SoundEffect18_Channel4: ; 0x3e5f7
+	dutycycle $01
+	soundeffect_note $03, $F1, $27, $06
+	soundeffect_note $02, $41, $27, $06
+	soundeffect_note $01, $00, $00, $00
+	db $FF
 
 SoundEffect19: ; 0x3e606
-	dr $3e606, $3e618
+	db $04 ; wChannel4
+	dw SoundEffect19_Channel19
+
+SoundEffect19_Channel19: ; 0x3e609
+	dutycycle $01
+	soundeffect_note $03, $F1, $72, $06
+	soundeffect_note $02, $41, $72, $06
+	soundeffect_note $01, $00, $00, $00
+	db $FF
 
 SoundEffect20: ; 0x3e618
-	dr $3e618, $3e62a
+	db $04 ; wChannel4
+	dw SoundEffect20_Channel4
+
+SoundEffect20_Channel4: ; 0x3e61b
+	dutycycle $01
+	soundeffect_note $03, $F1, $9D, $06
+	soundeffect_note $02, $41, $9D, $06
+	soundeffect_note $01, $00, $00, $00
+	db $FF
 
 SoundEffect21: ; 0x3e62a
-	dr $3e62a, $3e63c
+	db $04 ; wChannel4
+	dw SoundEffect21_Channel4
+	
+SoundEffect21_Channel4: ; 0x3e62d
+	dutycycle $01
+	soundeffect_note $03, $F1, $C4, $06
+	soundeffect_note $02, $41, $C4, $06
+	soundeffect_note $01, $00, $00, $00
+	db $FF
 
 SoundEffect22: ; 0x3e63c
-	dr $3e63c, $3e64e
+	db $04 ; wChannel4
+	dw SoundEffect22_Channel4
+
+SoundEffect22_Channel4: ; 0x3e63F
+	dutycycle $01
+	soundeffect_note $03, $F1, $D6, $06
+	soundeffect_note $02, $41, $D6, $06
+	soundeffect_note $01, $00, $00, $00
+	db $FF
 
 SoundEffect23: ; 0x3e64e
-	dr $3e64e, $3e660
+	db $04 ; wChannel4
+	dw SoundEffect23_Channel4
+
+SoundEffect23_Channel4: ; 0x3e651
+	dutycycle $01
+	soundeffect_note $03, $F1, $F6, $06
+	soundeffect_note $02, $41, $F6, $06
+	soundeffect_note $01, $00, $00, $00
+	db $FF
 
 SoundEffect24: ; 0x3e660
-	dr $3e660, $3e672
+	db $04 ; wChannel4
+	dw SoundEffect24_Channel4
+
+SoundEffect24_Channel4: ; 0x3e663
+	dutycycle $01
+	soundeffect_note $03, $F1, $13, $07
+	soundeffect_note $02, $41, $13, $07
+	soundeffect_note $01, $00, $00, $00
+	db $FF
 
 SoundEffect25: ; 0x3e672
-	dr $3e672, $3e684
+	db $04 ; wChannel4
+	dw SoundEffect25_Channel4
+
+SoundEffect25_Channel4: ; 0x3e675
+	dutycycle $01
+	soundeffect_note $03, $F1, $2D, $07
+	soundeffect_note $02, $41, $2D, $07
+	soundeffect_note $01, $00, $00, $00
+	db $FF
 
 SoundEffect26: ; 0x3e684
-	dr $3e684, $3e696
+	db $04 ; wChannel4
+	dw SoundEffect26_Channel4
+
+SoundEffect26_Channel4: ; 0x3e687
+	dutycycle $01
+	soundeffect_note $03, $F1, $39, $07
+	soundeffect_note $02, $41, $39, $07
+	soundeffect_note $01, $00, $00, $00
+	db $FF
 
 SoundEffect27: ; 0x3e696
-	dr $3e696, $3e6a8
+	db $04 ; wChannel4
+	dw SoundEffect27_Channel4
+
+SoundEffect27_Channel4: ; 0x3e699
+	dutycycle $01
+	soundeffect_note $03, $F1, $4E, $07
+	soundeffect_note $02, $41, $4E, $07
+	soundeffect_note $01, $00, $00, $00
+	db $FF
 
 SoundEffect28: ; 0x3e6a8
-	dr $3e6a8, $3e6ba
+	db $04 ; wChannel4
+	dw SoundEffect28_Channel4
+
+SoundEffect28_Channel4: ; 0x3e6AB
+	dutycycle $01
+	soundeffect_note $03, $F1, $62, $07
+	soundeffect_note $02, $41, $62, $07
+	soundeffect_note $01, $00, $00, $00
+	db $FF
 
 SoundEffect29: ; 0x3e6ba
-	dr $3e6ba, $3e6cc
+	db $04 ; wChannel4
+	dw SoundEffect29_Channel4
+
+SoundEffect29_Channel4: ; 0x3e6BD
+	dutycycle $01
+	soundeffect_note $03, $F1, $6B, $07
+	soundeffect_note $02, $41, $6B, $07
+	soundeffect_note $01, $00, $00, $00
+	db $FF
 
 SoundEffect30: ; 0x3e6cc
-	dr $3e6cc, $3e6de
+	db $04 ; wChannel4
+	dw SoundEffect30_Channel4
+
+SoundEffect30_Channel4: ; 0x3e6CF
+	dutycycle $01
+	soundeffect_note $03, $F1, $7B, $07
+	soundeffect_note $02, $41, $7B, $07
+	soundeffect_note $01, $00, $00, $00
+	db $FF
 
 SoundEffect31: ; 0x3e6de
-	dr $3e6de, $3e6f0
+	db $04 ; wChannel4
+	dw SoundEffect31_Channel4
+
+SoundEffect31_Channel4: ; 0x3e6E1
+	dutycycle $01
+	soundeffect_note $03, $F1, $89, $07
+	soundeffect_note $02, $41, $89, $07
+	soundeffect_note $01, $00, $00, $00
+	db $FF
 
 SoundEffect32: ; 0x3e6f0
-	dr $3e6f0, $3e702
+	db $04 ; wChannel4
+	dw SoundEffect32_Channel4
+
+SoundEffect32_Channel4: ; 0x3e6F3
+	dutycycle $01
+	soundeffect_note $03, $F1, $96, $07
+	soundeffect_note $02, $41, $96, $07
+	soundeffect_note $01, $00, $00, $00
+	db $FF
 
 SoundEffect33: ; 0x3e702
-	dr $3e702, $3e71a
+	db $04 ; wChannel4
+	dw SoundEffect33_Channel4
+
+SoundEffect33_Channel4: ; 0x3e705
+	dutycycle $01
+	soundinput $94
+	soundeffect_note $02, $F8, $27, $06
+	dutycycle $02
+	soundinput $95
+	soundeffect_note $04, $F4, $6A, $05
+	soundeffect_note $01, $00, $00, $00
+	db $FF
 
 SoundEffect34: ; 0x3e71a
-	dr $3e71a, $3e75d
+	db $04 | (($2 - 1) << 6) ; wChannel4
+	dw SoundEffect34_Channel4
+	db $05
+	dw SoundEffect34_Channel5
+
+SoundEffect34_Channel4: ; 0x3e720
+	togglesfx
+	tempo $88
+	volume $77
+	notetype $0C, $E1
+	dutycycle $02
+	octave 3
+	note B_, 1
+	note E_, 1
+	octave 4
+	note E_, 1
+	note G#, 1
+	intensity $52
+	note G#, 1
+	intensity $E1
+	note A_, 1
+	intensity $52
+	note A_, 1
+	intensity $E1
+	note G#, 1
+	intensity $52
+	note G#, 1
+	db $FF
+
+SoundEffect34_Channel5: ; 0x3e741
+	togglesfx
+	notetype $06, $B1
+	dutycycle $02
+	octave 4
+	note E_, 2
+	note G#, 2
+	note B_, 2
+	octave 5
+	note E_, 2
+	intensity $52
+	note E_, 2
+	intensity $B1
+	note F#, 2
+	intensity $52
+	note F#, 2
+	intensity $B1
+	note E_, 2
+	intensity $52
+	note E_, 2
+	db $FF
 
 SoundEffect35: ; 0x3e75d
-	dr $3e75d, $3e810
+	db $04 | (($3 - 1) << 6) ; wChannel4
+	dw $6766
+	db $05 ; wChannel5
+	dw $678F
+	db $06 ; wChannel6
+	dw $67CB
+
+SoundEffect35_Channel4: ; 0x3e766
+	togglesfx
+	tempo $73
+	volume $77
+	tone $01
+	dutycycle $02
+	notetype $06, $56
+	octave 5
+	note C_, 8
+	octave 4
+	note B_, 8
+	intensity $66
+	note A#, 8
+	note A_, 8
+	intensity $76
+	note G_, 10
+	note __, 1
+	intensity $68
+	note G#, 1
+	intensity $88
+	note A_, 2
+	note G_, 2
+	vibrato $12, $34
+	notetype $0C, $97
+	note F#, 12
+	db $FF
+
+SoundEffect35_Channel5: ; 0x3e78f
+	togglesfx
+	vibrato $12, $34
+	dutycycle $03
+	notetype $0C, $B4
+	octave 3
+	note E_, 1
+	intensity $28
+	note E_, 1
+	callchannel SoundEffect35_Channel5_ch1
+	intensity $B4
+	note A#, 1
+	intensity $28
+	note A#, 1
+	callchannel SoundEffect35_Channel5_ch1
+	intensity $B8
+	note B_, 5
+	intensity $28
+	note B_, 1
+	intensity $B8
+	note C_, 1
+	octave 3
+	note B_, 1
+	intensity $B7
+	note A_, 12
+	db $FF
+
+SoundEffect35_Channel5_ch1: ; 0x3e7b8
+	intensity $B4
+	note G_, 1
+	intensity $28
+	note G_, 1
+	intensity $B4
+	note A_, 1
+	intensity $28
+	note A_, 1
+	intensity $B4
+	note G_, 1
+	intensity $28
+	note G_, 1
+	db $FF
+
+SoundEffect35_Channel6: ; 0x3e7cb
+	togglesfx
+	notetype $06, $22
+	octave 2
+	note C_, 2
+	intensity $32
+	octave 3
+	note C_, 1
+	note __, 1
+	octave 2
+	note G_, 1
+	note __, 1
+	octave 3
+	note C_, 1
+	note __, 1
+	note C_, 2
+	note __, 2
+	intensity $22
+	octave 1
+	note E_, 2
+	note G_, 2
+	octave 2
+	note C#, 2
+	intensity $32
+	octave 3
+	note C#, 1
+	note __, 1
+	octave 2
+	note G_, 1
+	note __, 1
+	octave 3
+	note C#, 1
+	note __, 1
+	note C#, 2
+	note __, 2
+	intensity $22
+	octave 1
+	note A_, 2
+	note G_, 2
+	octave 2
+	note D_, 2
+	intensity $32
+	octave 3
+	note D_, 1
+	note __, 1
+	octave 2
+	note A_, 1
+	note __, 1
+	octave 3
+	note D_, 1
+	note __, 1
+	note D_, 2
+	note __, 2
+	intensity $22
+	octave 2
+	note D_, 2
+	note E_, 2
+	notetype $0C, $22
+	note F#, 12
+	db $FF
 
 SoundEffect36: ; 0x3e810
-	dr $3e810, $3e8ae
+	db $04 | (($3 - 1) << 6) ; wChannel4
+	dw SoundEffect36_Channel4
+	db $05 ; wChannel5
+	dw SoundEffect36_Channel5
+	db $06 ; wChannel6
+	dw SoundEffect36_Channel6
+
+SoundEffect36_Channel4: ; 0x3e819
+	togglesfx
+	tempo $70
+	volume $77
+	dutycycle $02
+	notetype $08, $81
+	note __, 3
+SoundEffect36_Channel4_loop: ; 0x3e825
+	octave 4
+	note F_, 2
+	note D_, 2
+	intensity $88
+	octave 2
+	note A#, 1
+	note __, 1
+	loopchannel $02, SoundEffect36_Channel4_loop
+	intensity $81
+	octave 4
+	note E_, 2
+	note C_, 2
+	intensity $88
+	octave 3
+	note C_, 1
+	note __, 1
+	intensity $81
+	octave 4
+	note C_, 2
+	octave 3
+	note G_, 2
+	intensity $88
+	note C_, 1
+	note __, 1
+	dutycycle $00
+	intensity $A8
+	octave 2
+	note A_, 2
+	note __, 4
+	octave 3
+	note C_, 2
+	note __, 2
+	octave 2
+	note A_, 2
+	note __, 2
+	db $FF
+
+SoundEffect36_Channel5: ; 0x3e853
+	togglesfx
+	dutycycle $03
+	notetype $08, $A8
+	octave 4
+	note C_, 1
+	note E_, 1
+	note F#, 1
+	note G_, 4
+	note A_, 1
+	intensity $28
+	note A_, 1
+	intensity $A8
+	note G_, 4
+	note F_, 1
+	intensity $28
+	note F_, 1
+	intensity $A8
+	note G_, 4
+	note F_, 1
+	intensity $28
+	note F_, 1
+	intensity $A8
+	note E_, 2
+	intensity $88
+	note D#, 1
+	intensity $78
+	note D_, 1
+	intensity $A8
+	note C_, 2
+	octave 3
+	note F_, 2
+	intensity $28
+	note F_, 2
+	note __, 1
+	intensity $88
+	note G#, 1
+	intensity $A8
+	note A_, 2
+	intensity $28
+	note A_, 2
+	intensity $A8
+	note F_, 2
+	intensity $28
+	note F_, 2
+	db $FF
+
+SoundEffect36_Channel6: ; 0x3e892
+	togglesfx
+	notetype $08, $22
+	note __, 3
+	octave 1
+	note A#, 4
+	octave 2
+	note F_, 1
+	note __, 1
+	octave 1
+	note A#, 4
+	octave 2
+	note F_, 1
+	note __, 1
+	note C_, 4
+	note G_, 1
+	note __, 1
+	note C_, 4
+	note G_, 1
+	note __, 1
+	note C_, 2
+	note __, 4
+	note F_, 2
+	note __, 2
+	note C_, 2
+	note __, 2
+	db $FF
 
 SoundEffect37: ; 0x3e8ae
-	dr $3e8ae, $3e96d
+	db $04 | (($3 - 1) << 6) ; wChannel4
+	dw SoundEffect37_Channel4
+	db $05 ; wChannel5
+	dw SoundEffect37_Channel5
+	db $06 ; wChannel6
+	dw SoundEffect37_Channel6
+
+SoundEffect37_Channel4: ; 0x3e8b7
+	togglesfx
+	tempo $6E
+	volume $77
+	dutycycle $02
+	notetype $06, $91
+	note __, 4
+	octave 3
+	note G_, 2
+	intensity $71
+	note A#, 2
+	octave 4
+	note D_, 2
+	note F_, 2
+	intensity $91
+	octave 3
+	note G_, 2
+	intensity $71
+	note A#, 2
+	octave 4
+	note D_, 2
+	octave 3
+	note A#, 2
+	intensity $91
+	note E_, 2
+	intensity $71
+	note G_, 2
+	note A_, 2
+	octave 4
+	note C_, 2
+	intensity $91
+	octave 3
+	note E_, 2
+	intensity $71
+	note G_, 2
+	note A_, 2
+	note G_, 2
+	intensity $91
+	note F_, 2
+	intensity $71
+	note A#, 2
+	octave 4
+	note D_, 2
+	octave 3
+	note F_, 2
+	intensity $91
+	note A#, 2
+	intensity $71
+	octave 4
+	note D_, 2
+	intensity $91
+	octave 3
+	note A#, 2
+	intensity $71
+	octave 4
+	note D_, 2
+	intensity $A3
+	note E_, 4
+	note __, 4
+	dutycycle $03
+	octave 3
+	note E_, 2
+	note __, 2
+	note C_, 1
+	note __, 1
+	note C_, 1
+	note __, 1
+	note C_, 4
+	db $FF
+
+SoundEffect37_Channel5: ; 0x3e910
+	togglesfx
+	dutycycle $03
+	notetype $06, $B3
+	octave 4
+	note F_, 3
+	note A_, 1
+	note A#, 4
+	note A_, 4
+	note G_, 4
+	note F_, 4
+	note E_, 4
+	note F_, 4
+	note G_, 4
+	note F_, 3
+	note F#, 1
+	note G_, 4
+	note F_, 4
+	note E_, 4
+	note F_, 4
+	note G_, 4
+	intensity $28
+	note G_, 2
+	note __, 2
+	intensity $b3
+	octave 3
+	note G_, 2
+	intensity $28
+	note G_, 2
+	intensity $b3
+	note E_, 1
+	intensity $28
+	note E_, 1
+	intensity $b3
+	note E_, 1
+	intensity $28
+	note E_, 1
+	intensity $b3
+	note F_, 4
+	db $FF
+
+SoundEffect37_Channel6: ; 0x3e942
+	togglesfx
+	notetype $06, $22
+	note __, 4
+	octave 1
+	note A#, 2
+	note __, 2
+	note A#, 2
+	note __, 2
+	octave 2
+	note D_, 5
+	note __, 1
+	octave 1
+	note A#, 2
+	note A_, 2
+	note __, 2
+	note A_, 2
+	note __, 2
+	octave 2
+	note C_, 5
+	note __, 1
+	octave 1
+	note A_, 2
+	note A#, 2
+	note __, 2
+	note F_, 2
+	note __, 2
+	note F_, 5
+	note __, 1
+	note A#, 2
+	octave 2
+	note C_, 4
+	note __, 4
+	note C_, 2
+	note __, 2
+	octave 1
+	note G_, 1
+	note __, 1
+	note G_, 1
+	note __, 1
+	note A_, 4
+	db $FF
 
 SoundEffect38: ; 0x3e96d
-	dr $3e96d, $3ea25
+	db $04 | (($3 - 1) << 6) ; wChannel4
+	dw SoundEffect38_Channel4
+	db $05 ; wChannel5
+	dw SoundEffect38_Channel5
+	db $06 ; wChannel6
+	dw SoundEffect38_Channel6
+
+SoundEffect38_Channel4: ; 0x3e976
+	togglesfx
+	tempo $70
+	volume $77
+	dutycycle $03
+	vibrato $09, $34
+	forceoctave $07
+	notetype $08, $A3
+	octave 3
+	note C_, 4
+	intensity $78
+	octave 2
+	note C_, 2
+	intensity $A3
+	note A#, 4
+	intensity $78
+	note C_, 2
+	intensity $A3
+	note A_, 4
+	intensity $78
+	note C_, 2
+	intensity $38
+	octave 3
+	note C_, 1
+	intensity $48
+	note D_, 1
+	intensity $58
+	note E_, 1
+	intensity $68
+	note F_, 1
+	intensity $78
+	note G_, 1
+	intensity $88
+	note A_, 1
+	intensity $91
+	note D_, 1
+	note __, 1
+	note D_, 1
+	note __, 1
+	note D_, 1
+	note __, 1
+	note C#, 1
+	note __, 1
+	note C_, 1
+	note __, 1
+	octave 2
+	note A#, 1
+	note __, 1
+	intensity $85
+	octave 3
+	note C_, 12
+	note __, 1
+	db $FF
+
+SoundEffect38_Channel5: ; 0x3e9c0
+	togglesfx
+	dutycycle $03
+	vibrato $09, $34
+	forceoctave $07
+	notetype $08, $B8
+	octave 3
+	note A_, 4
+	intensity $28
+	note A_, 2
+	intensity $B8
+	note F_, 4
+	intensity $28
+	note F_, 2
+	intensity $B8
+	note C_, 4
+	intensity $28
+	note C_, 2
+	note __, 6
+	intensity $98
+	note A#, 1
+	intensity $28
+	note A#, 1
+	intensity $B8
+	note A#, 1
+	intensity $28
+	note A#, 1
+	intensity $B8
+	note A#, 1
+	intensity $28
+	note A#, 1
+	intensity $B8
+	note G_, 1
+	intensity $28
+	note G_, 1
+	intensity $B8
+	note G_, 1
+	intensity $28
+	note G_, 1
+	intensity $B8
+	note A#, 1
+	intensity $28
+	note A#, 1
+	intensity $B5
+	note A_, 12
+	note __, 1
+	db $FF
+
+SoundEffect38_Channel6: ; 0x3ea06
+	togglesfx
+	forceoctave $07
+	notetype $08, $22
+	octave 1
+	note F_, 2
+	note __, 2
+	note A_, 2
+	note F_, 2
+	note __, 2
+	note A#, 2
+	note F_, 2
+	note __, 2
+	note A_, 2
+	note F_, 2
+	note __, 2
+	note A_, 2
+	note A#, 2
+	note __, 2
+	octave 2
+	note D_, 1
+	note __, 1
+	note C#, 2
+	note __, 2
+	note F_, 1
+	note __, 1
+	note F_, 12
+	note __, 1
+	db $FF
 
 SoundEffect39: ; 0x3ea25
-	dr $3ea25, $3ea68
+	db $04 | (($2 - 1) << 6) ; wChannel4
+	dw SoundEffect39_Channel4
+	db $05 ; wChannel5
+	dw SoundEffect39_Channel5
+
+SoundEffect39_Channel4: ; 0x3ea2b
+	togglesfx
+	tempo $80
+	volume $77
+	dutycycle $02
+	notetype $0C, $C1
+	forceoctave $05
+	octave 4
+	note G_, 1
+	note D_, 1
+	note A_, 1
+	intensity $72
+	octave 5
+	note D_, 1
+	intensity $52
+	octave 4
+	note A_, 1
+	intensity $32
+	octave 5
+	note D_, 1
+	intensity $22
+	octave 4
+	note A_, 1
+	intensity $12
+	octave 5
+	note D_, 1
+	db $FF
+
+SoundEffect39_Channel5: ; 0x3ea51
+	togglesfx
+	notetype $06, $A1
+	dutycycle $02
+	forceoctave $05
+	octave 4
+	note D_, 2
+	octave 3
+	note A_, 2
+	octave 4
+	note D_, 2
+	note __, 2
+	intensity $52
+	note D_, 2
+	note __, 2
+	intensity $22
+	note D_, 2
+	db $FF
 
 SoundEffect40: ; 0x3ea68
-	dr $3ea68, $3ea82
+	db $04 ; wChannel4
+	dw SoundEffect40_Channel4
+
+SoundEffect40_Channel4: ; 0x3ea6b
+	togglesfx
+	dutycycle $02
+	notetype $01, $F1
+	octave 4
+	note C_, 2
+	note E_, 2
+	note G_, 2
+	octave 5
+	note C_, 9
+	intensity $A1
+	note C_, 9
+	intensity $71
+	note C_, 9
+	intensity $41
+	note C_, 9
+	note __, 2
+	db $FF
 
 SoundEffect41: ; 0x3ea82
-	dr $3ea82, $3eb17
+	db $04 | (($3 - 1) << 6) ; wChannel4
+	dw SoundEffect41_Channel4
+	db $05 ; wChannel5
+	dw SoundEffect41_Channel5
+	db $06 ; wChannel6
+	dw SoundEffect41_Channel6
+
+SoundEffect41_Channel4: ; 0x3ea8b
+	togglesfx
+	tempo $78
+	volume $77
+	tone $01
+	vibrato $09, $34
+	dutycycle $02
+	notetype $06, $93
+	octave 3
+	note A#, 2
+	note __, 2
+	note A#, 1
+	note __, 1
+	note A#, 1
+	note __, 1
+	note G_, 2
+	note __, 2
+	note G_, 1
+	note __, 1
+	note G_, 1
+	note __, 1
+	note A#, 2
+	note __, 2
+	note A#, 1
+	note __, 1
+	note A#, 1
+	note __, 1
+	note F#, 2
+	note __, 2
+	note F#, 1
+	note __, 1
+	note F#, 1
+	note __, 1
+	intensity $85
+	note F_, 16
+	note __, 1
+	db $FF
+
+SoundEffect41_Channel5: ; 0x3eaba
+	togglesfx
+	vibrato $09, $34
+	dutycycle $02
+	callchannel SoundEffect41_Channel5_ch0
+	forceoctave $18
+	callchannel SoundEffect41_Channel5_ch0
+	forceoctave $03
+	callchannel SoundEffect41_Channel5_ch0
+	forceoctave $01
+	callchannel SoundEffect41_Channel5_ch0
+	forceoctave $00
+	intensity $B5
+	note D_, 16
+	note __, 1
+	db $FF
+SoundEffect41_Channel5_ch0: ; 0x3ead9
+	notetype $06, $B3
+	octave 4
+	note D_, 2
+	intensity $28
+	note D_, 2
+	intensity $B3
+	note D_, 1
+	intensity $28
+	note D_, 1
+	intensity $B3
+	note D_, 1
+	intensity $28
+	note D_, 1
+	db $FF
+
+SoundEffect41_Channel6: ; 0x3eaee
+	togglesfx
+	notetype $06, $22
+	octave 2
+	note F_, 2
+	note __, 2
+	octave 3
+	note F_, 1
+	note __, 1
+	octave 2
+	note F_, 1
+	note __, 1
+	note D#, 2
+	note __, 2
+	octave 3
+	note D#, 1
+	note __, 1
+	octave 2
+	note D#, 1
+	note __, 1
+	note D_, 2
+	note __, 2
+	octave 3
+	note D_, 1
+	note __, 1
+	octave 2
+	note D_, 1
+	note __, 1
+	octave 1
+	note A#, 2
+	note __, 2
+	octave 2
+	note A#, 1
+	note __, 1
+	octave 1
+	note A#, 1
+	note __, 1
+	note A#, 16
+	note __, 1
+	db $FF
 
 SoundEffect42: ; 0x3eb17
-	dr $3eb17, $3ebf9
+	db $04 | (($4 - 1) << 6) ; wChannel4
+	dw SoundEffect42_Channel4
+	db $05 ; wChannel5
+	dw SoundEffect42_Channel5
+	db $06 ; wChannel6
+	dw SoundEffect42_Channel6
+	db $07 ; wChannel7
+	dw SoundEffect42_Channel7
+
+SoundEffect42_Channel4: ; 0x3eb23
+	togglesfx
+	forceoctave $18
+	tempo $70
+	volume $77
+	vibrato $14, $24
+	notetype $06, $84
+	note __, 12
+	dutycycle $03
+	octave 4
+	note E_, 4
+	octave 3
+	note A_, 4
+	octave 4
+	note C#, 4
+	note E_, 4
+	dutycycle $02
+	intensity $88
+	octave 2
+	note A_, 2
+	note __, 2
+	octave 3
+	note A_, 1
+	note __, 1
+	note A_, 1
+	note __, 1
+	note A_, 4
+	note __, 4
+	dutycycle $03
+	intensity $84
+	octave 4
+	note F#, 4
+	note C#, 1
+	note D_, 3
+	octave 3
+	note A_, 4
+	octave 4
+	note F#, 4
+	dutycycle $02
+	intensity $88
+	octave 2
+	note A_, 2
+	note __, 2
+	octave 3
+	note A_, 1
+	note __, 1
+	note A_, 1
+	note __, 1
+	note A_, 4
+	dutycycle $03
+	note __, 1
+	intensity $67
+	octave 4
+	note D_, 1
+	intensity $77
+	note F_, 1
+	intensity $87
+	note G#, 1
+	notetype $0C, $97
+	note A_, 12
+	note __, 1
+	db $FF
+
+SoundEffect42_Channel5: ; 0x3eb75
+	togglesfx
+	forceoctave $18
+	vibrato $14, $24
+	notetype $06, $B4
+	dutycycle $03
+	octave 4
+	note G#, 4
+	note A_, 4
+	note B_, 4
+	octave 5
+	note C#, 4
+	note C_, 4
+	octave 4
+	note B_, 4
+	octave 5
+	note C#, 4
+	intensity $28
+	note C#, 2
+	note __, 2
+	intensity $B4
+	note C_, 4
+	intensity $28
+	note C_, 2
+	note __, 2
+	intensity $B4
+	octave 4
+	note B_, 4
+	note A_, 4
+	octave 5
+	note D#, 1
+	note E_, 3
+	note D_, 4
+	note E_, 4
+	intensity $28
+	note E_, 2
+	note __, 2
+	intensity $B4
+	octave 4
+	note B_, 4
+	intensity $28
+	note B_, 2
+	note __, 2
+	intensity $B4
+	octave 5
+	note D_, 4
+	notetype $0C, $B7
+	note C#, 12
+	note __, 1
+	db $FF
+
+SoundEffect42_Channel6: ; 0x3ebb6
+	togglesfx
+	forceoctave $18
+	notetype $06, $22
+	octave 2
+	note E_, 2
+	note __, 2
+	note E_, 6
+	note __, 2
+	note E_, 2
+	note __, 2
+	note E_, 2
+	note __, 2
+	note A_, 4
+	note E_, 1
+	note __, 1
+	note E_, 1
+	note __, 1
+	note C#, 2
+	note __, 2
+	octave 3
+	note F_, 1
+	note __, 1
+	note F_, 1
+	note __, 1
+	note F_, 4
+	octave 2
+	note C#, 4
+	note F#, 2
+	note __, 2
+	note F#, 2
+	note __, 2
+	note A_, 4
+	note D_, 1
+	note __, 1
+	note D_, 1
+	note __, 1
+	note D_, 2
+	note __, 2
+	octave 3
+	note F_, 1
+	note __, 1
+	note F_, 1
+	note __, 1
+	note F_, 4
+	octave 1
+	note A_, 4
+	notetype $0C, $22
+	octave 2
+	note E_, 12
+	note __, 1
+	db $FF
+
+SoundEffect42_Channel7: ; 0x3ebee
+	note F#, 1
+	note C_, 2
+	note __, 1
+	loopchannel 5, SoundEffect42_Channel7
+	note D_, 1
+	note C_, 2
+	note __, 1
+	db $FF
 
 SoundEffect43: ; 0x3ebf9
-	dr $3ebf9, $3ec17
+	db $04 ; wChannel 4
+	dw SoundEffect43_Channel4
+
+SoundEffect43_Channel4: ; 0x3ebfc
+	dutycycle $01
+	soundinput $94
+	soundeffect_note $02, $F1, $17, $05
+	soundinput $AA
+	soundeffect_note $03, $F8, $6C, $1F
+	soundeffect_note $03, $F8, $6C, $1F
+	soundeffect_note $08, $F1, $6C, $1F
+	soundeffect_note $01, $00, $00, $00
+	db $FF
 
 SoundEffect44: ; 0x3ec17
-	dr $3ec17, $3ec31
+	db $04 ; wChannel4
+	dw SoundEffect44_Channel4
+
+SoundEffect44_Channel4: ; 0x3ec1a
+	dutycycle $00
+	soundinput $6D
+	soundeffect_note $09, $FB, $96, $07
+	soundinput $65
+	soundeffect_note $04, $FE, $C4, $06
+	soundeffect_note $04, $94, $C4, $06
+	soundeffect_note $01, $00, $00, $00
+	db $FF
 
 SoundEffect45: ; 0x3ec31
-	dr $3ec31, $3ec4b
+	db $04 ; wChannel4
+	dw SoundEffect45_Channel4
+
+SoundEffect45_Channel4: ; 0x3ec34
+	dutycycle $03
+	soundinput $6D
+	soundeffect_note $09, $FB, $13, $07
+	soundinput $65
+	soundeffect_note $04, $FE, $27, $06
+	soundeffect_note $04, $94, $27, $06
+	soundeffect_note $01, $00, $00, $00
+	db $FF
 
 SoundEffect46: ; 0x3ec4b
-	dr $3ec4b, $3ec7d
+	db $04 ; wChannel4
+	dw SoundEffect46_Channel4
+
+SoundEffect46_Channel4: ; 0x3ec4e
+	dutycycle $03
+	soundinput $43
+	soundeffect_note $08, $F8, $64, $3B
+	soundinput $9F
+	soundeffect_note $06, $F8, $64, $3B
+	soundinput $95
+	soundeffect_note $08, $F8, $64, $3B
+	soundinput $5D
+	soundeffect_note $06, $F3, $27, $06
+	soundeffect_note $04, $E3, $72, $06
+	soundeffect_note $04, $D3, $27, $06
+	soundeffect_note $08, $C3, $72, $06
+	soundeffect_note $10, $A3, $27, $06
+	soundeffect_note $01, $00, $00, $00
+	db $FF
 
 SoundEffect47: ; 0x3ec7d
-	dr $3ec7d, $3ec8f
+	db $04 ; wChannel4
+	dw SoundEffect47_Channel4
+
+SoundEffect47_Channel4: ; 0x3ec80
+	dutycycle $02
+	soundeffect_note $01, $E2, $13, $07
+	soundeffect_note $08, $62, $13, $07
+	soundeffect_note $01, $00, $00, $00
+	db $FF
 
 SoundEffect48: ; 0x3ec8f
-	dr $3ec8f, $3eca7
+	db $04 ; wChannel4
+	dw SoundEffect48_Channel4
+
+SoundEffect48_Channel4: ; 0x3ec92
+	dutycycle $00
+	soundinput $5E
+	soundeffect_note $02, $F8, $D6, $06
+	soundeffect_note $02, $A1, $D6, $06
+	soundeffect_note $08, $F1, $13, $07
+	soundeffect_note $01, $00, $00, $00
+	db $FF
 
 SoundEffect49: ; 0x3eca7
-	dr $3eca7, $3ecb7
+	db $07 ; wChannel7
+	dw SoundEffect49_Channel7
+
+SoundEffect49_Channel7: ; 0x3ecaa
+	soundeffect_percussion $03, $8D, $21
+	soundeffect_percussion $02, $CC, $22
+	soundeffect_percussion $08, $82, $21
+	soundeffect_percussion $01, $00, $00
+	db $FF
 
 SoundEffect50: ; 0x3ecb7
-	dr $3ecb7, $3ecd1
+	db $04 ; wChannel4
+	dw SoundEffect50_Channel4
+
+SoundEffect50_Channel4: ; 0x3ecba
+	dutycycle $00
+	soundeffect_note $01, $91, $96, $07
+SoundEffect50_Channel4_loop: ; 0x3ecc0
+	soundeffect_note $03, $F1, $C6, $07
+	loopchannel $02, SoundEffect50_Channel4_loop
+	soundeffect_note $0A, $C1, $C6, $07
+	soundeffect_note $01, $00, $00, $00
+	db $FF
 
 SoundEffect51: ; 0x3ecd1
-	dr $3ecd1, $3ece9
+	db $04 ; wChannel4
+	dw SoundEffect51_Channel4
+
+SoundEffect51_Channel4: ; 0x3ecd4
+	dutycycle $00
+	soundinput $77
+	soundeffect_note $01, $C8, $D6, $06
+	soundeffect_note $03, $F8, $62, $07
+	soundeffect_note $02, $B3, $6B, $07
+	soundeffect_note $01, $00, $00, $00
+	db $FF
 
 SoundEffect52: ; 0x3ece9
-	dr $3ece9, $3ecff
+	db $04 ; wChannel4
+	dw SoundEffect52_Channel4
+
+SoundEffect52_Channel4: ; 0x3ecec
+	dutycycle $00
+	soundeffect_note $01, $91, $B6, $07
+	soundeffect_note $02, $F1, $CD, $07
+	soundeffect_note $02, $41, $CD, $07
+	soundeffect_note $01, $00, $00, $00
+	db $FF
 
 SoundEffect53: ; 0x3ecff
-	dr $3ecff, $3ed15
+	db $04 ; wChannel4
+	dw SoundEffect53_Channel4
+
+SoundEffect53_Channel4: ; 0x3ed02
+	dutycycle $00
+	soundinput $9F
+	soundeffect_note $02, $F8, $27, $06
+	soundinput $8F
+	soundeffect_note $02, $E1, $D6, $06
+	soundeffect_note $01, $00, $00, $00
+	db $FF
 
 SoundEffect54: ; 0x3ed15
-	dr $3ed15, $3ed31
+	db $04 ; wChannel4
+	dw SoundEffect54_Channel4
+
+SoundEffect54_Channel4: ; 0x3ed18
+	dutycycle $00
+	soundinput $9E
+	soundeffect_note $02, $F8, $27, $05
+	soundinput $8F
+	soundeffect_note $02, $F1, $D6, $05
+	soundinput $BC
+	soundeffect_note $07, $F4, $D6, $04
+	soundeffect_note $01, $00, $00, $00
+	db $FF
 
 SoundEffect55: ; 0x3ed31
-	dr $3ed31, $3ed4d
+	db $04 ; wChannel4
+	dw SoundEffect55_Channel4
+
+SoundEffect55_Channel4: ; 0x3ed34
+	dutycycle $03
+	soundinput $43
+	soundeffect_note $08, $F8, $64, $3B
+	soundinput $9F
+	soundeffect_note $06, $F8, $64, $3B
+	soundinput $95
+	soundeffect_note $08, $F8, $64, $3B
+	soundeffect_note $01, $00, $00, $00
+	db $FF
 
 SoundEffect56: ; 0x3ed4d
-	dr $3ed4d, $3ed65
+	db $04 ; wChannel4
+	dw SoundEffect56_Channel4
+
+SoundEffect56_Channel4: ; 0x3ed50
+	dutycycle $02
+	soundinput $97
+	soundeffect_note $04, $F3, $B6, $06
+	soundeffect_note $04, $A3, $7D, $06
+	soundeffect_note $04, $63, $07, $06
+	soundeffect_note $01, $00, $00, $00
+	db $FF
 
 SoundEffect57: ; 0x3ed65
-	dr $3ed65, $3ed78
+	db $07 ; wChannel7
+	dw SoundEffect57_Channel7
+
+SoundEffect57_Channel7: ; 0x3ed68
+	soundeffect_percussion $06, $F1, $47
+	soundeffect_percussion $04, $B8, $35
+	soundeffect_percussion $06, $B1, $59
+	soundeffect_percussion $04, $51, $59
+	soundeffect_percussion $01, $00, $00
+	db $FF
 
 SoundEffect58: ; 0x3ed78
-	dr $3ed78, $3ed98
+	db $04 ; wChannel4
+	dw SoundEffect58_Channel4
+
+SoundEffect58_Channel4: ; 0x3ed7b
+	dutycycle $02
+	soundinput $A7
+	soundeffect_note $05, $D4, $2D, $07
+	soundeffect_note $05, $A4, $4E, $07
+	soundeffect_note $02, $94, $7B, $07
+	soundeffect_note $05, $74, $4E, $07
+	soundeffect_note $02, $54, $7B, $07
+	soundeffect_note $01, $00, $00, $00
+	db $FF
 
 SoundEffect59: ; 0x3ed98
-	dr $3ed98, $3edb0
+	db $04 ; wChannel4
+	dw SoundEffect59_Channel4
+
+SoundEffect59_Channel4: ; 0x3ed9b
+	dutycycle $02
+	soundinput $A7
+	soundeffect_note $04, $91, $27, $07
+	dutycycle $01
+	soundinput $AF
+	soundeffect_note $03, $C1, $96, $07
+	soundeffect_note $01, $00, $00, $00
+	db $FF
 
 SoundEffect60: ; 0x3edb0
-	dr $3edb0, $3edc0
+	db $04 ; wChannel4
+	dw SoundEffect60_Channel4
+
+SoundEffect60_Channel4: ; ; 0x3edb3
+	togglesfx
+	dutycycle $02
+	notetype $01, $F1
+	octave 5
+	note C#, 3
+	intensity $31
+	note C#, 3
+	note __, 2
+	db $FF
 
 SoundEffect61: ; 0x3edc0
-	dr $3edc0, $3edd0
+	db $04 ; wChannel4
+	dw SoundEffect61_Channel4
+
+SoundEffect61_Channel4: ; 0x3edc3
+	togglesfx
+	dutycycle $02
+	notetype $01, $F1
+	octave 5
+	note F#, 3
+	intensity $31
+	note F#, 3
+	note __, 2
+	db $FF
 
 SoundEffect62: ; 0x3edd0
-	dr $3edd0, $3ede3
+	db $04 ; wChannel4
+	dw SoundEffect62_Channel4
+
+SoundEffect62_Channel4: ; 0x3edd0
+	togglesfx
+	dutycycle $02
+	notetype $01, $A1
+	octave 4
+	note D_, 3
+	note A_, 3
+	octave 5
+	note C#, 9
+	intensity $28
+	note C#, 3
+	note __, 2
+	db $FF
 
 SoundEffect63: ; 0x3ede3
-	dr $3ede3, $3edf3
+	db $07 ; wChannel7
+	dw SoundEffect63_Channel7
+
+SoundEffect63_Channel7: ; 0x3ede6
+	soundeffect_percussion $01, $B1, $44
+	soundeffect_percussion $00, $00, $00
+	soundeffect_percussion $01, $51, $44
+	soundeffect_percussion $01, $00, $00
+	db $FF
 
 SoundEffect64: ; 0x3edf3
-	dr $3edf3, $3ee1c
+	db $07 ; wChannel7
+	dw SoundEffect64_Channel7
+
+SoundEffect64_Channel7: ; 0x3edf6
+	soundeffect_percussion $06, $F1, $47
+	soundeffect_percussion $04, $C8, $35
+	soundeffect_percussion $04, $B1, $59
+SoundEffect64_Channel7_loop: ; 0x3edff
+	soundeffect_percussion $04, $98, $33
+	soundeffect_percussion $06, $64, $69
+	loopchannel $03, SoundEffect64_Channel7_loop
+	soundeffect_percussion $06, $6C, $11
+	soundeffect_percussion $06, $6C, $22
+	soundeffect_percussion $06, $6C, $33
+	soundeffect_percussion $06, $6C, $44
+	soundeffect_percussion $16, $83, $55
+	soundeffect_percussion $01, $00, $00
+	db $FF
 
 SoundEffect65: ; 0x3ee1c
-	dr $3ee1c, $3ee32
+	db $04 ; wChannel4
+	dw SoundEffect65_Channel4
+
+SoundEffect65_Channel4: ; 0x3ee1f
+	dutycycle $02
+	soundinput $3A
+	soundeffect_note $04, $F2, $00, $02
+	soundinput $22
+	soundeffect_note $08, $E2, $00, $02
+	soundeffect_note $01, $00, $00, $00
+	db $FF
 
 SoundEffect66: ; 0x3ee32
-	dr $3ee32, $3ee48
+	db $04 ; wChannel4
+	dw SoundEffect66_Channel4
+
+SoundEffect66_Channel4: ; 0x3ee35
+	togglesfx
+	dutycycle $02
+	notetype $02, $D1
+	octave 4
+	note A_, 3
+	note G#, 3
+	note G_, 3
+	octave 3
+	note B_, 3
+	note A_, 3
+	note G#, 3
+	intensity $D2
+	note G_, 16
+	note __, 2
+	db $FF
 
 SoundEffect67: ; 0x3ee48
-	dr $3ee48, $3ee5e
+	db $04 ; wChannel4
+	dw SoundEffect67_Channel4
+
+SoundEffect67_Channel4: ; 0x3ee4b
+	togglesfx
+	dutycycle $02
+	notetype $02, $D1
+	octave 4
+	note G_, 3
+	note B_, 3
+	octave 5
+	note C_, 3
+	note D_, 3
+	note F_, 3
+	note E_, 3
+	intensity $D2
+	note F_, 16
+	note __, 2
+	db $FF
 
 SoundEffect68: ; 0x3ee5e
-	dr $3ee5e, $3ee78
+	db $04 ; wChannel4
+	dw SoundEffect68_Channel4
+
+SoundEffect68_Channel4: ; 0x3ee61
+	togglesfx
+	dutycycle $02
+	notetype $01, $F1
+	octave 4
+	note G_, 2
+	octave 5
+	note C_, 2
+	note E_, 2
+	note G_, 9
+	intensity $A1
+	note G_, 9
+	intensity $71
+	note G_, 9
+	intensity $41
+	note G_, 9
+	note __, 2
+	db $FF
 
 SoundEffect69: ; 0x3ee78
-	dr $3ee78, $3ee92
+	db $04 ; wChannel4
+	dw SoundEffect69_Channel4
+
+SoundEffect69_Channel4: ; 0x3ee7b
+	togglesfx
+	dutycycle $02
+	notetype $01, $F1
+	octave 4
+	note C_, 2
+	note E_, 2
+	note G_, 2
+	octave 6
+	note C_, 9
+	intensity $A1
+	note C_, 9
+	intensity $71
+	note C_, 9
+	intensity $41
+	note C_, 9
+	note __, 2
+	db $FF
 
 SoundEffect70: ; 0x3ee92
-	dr $3ee92, $3eeaa
+	db $04 ; wChannel4
+	dw SoundEffect70_Channel4
+
+SoundEffect70_Channel4: ; 0x3ee95
+	togglesfx
+	dutycycle $02
+	notetype $01, $F1
+	octave 4
+	note G_, 3
+	octave 5
+	note D_, 3
+	octave 4
+	note B_, 3
+	octave 5
+	note F_, 3
+	octave 6
+	note C_, 9
+	intensity $28
+	note C_, 3
+	note __, 2
+	db $FF
 
 SoundEffect71: ; 0x3eeaa
-	dr $3eeaa, $3eec4
+	db $04 ; wChannel4
+	dw SoundEffect71_Channel4
+
+SoundEffect71_Channel4: ; 0x3eead
+	dutycycle $00
+	soundeffect_note $02, $F8, $64, $3B
+	soundeffect_note $02, $28, $64, $3B
+	soundeffect_note $14, $F8, $64, $3B
+	soundeffect_note $02, $28, $64, $3B
+	soundeffect_note $01, $00, $00, $00
+	db $FF
 
 SoundEffect72: ; 0x3eec4
-	dr $3eec4, $3eed4
+	db $07 ; wChannel7
+	dw SoundEffect72_Channel7
+
+SoundEffect72_Channel7: ; 0x3eec7
+	soundeffect_percussion $00, $E8, $34
+	soundeffect_percussion $00, $00, $00
+	soundeffect_percussion $01, $E1, $01
+	soundeffect_percussion $01, $00, $00
+	db $FF
 
 SoundEffect73: ; 0x3eed4
-	dr $3eed4, $3eeea
+	db $04
+	dw SoundEffect73_Channel4
+
+SoundEffect73_Channel4: ; 0x3eed7
+	dutycycle $02
+SoundEffect73_Channel4_loop: ; 0x3eed9
+	soundeffect_note $02, $F1, $B6, $07
+	soundeffect_note $02, $31, $B6, $07
+	loopchannel $04, SoundEffect73_Channel4_loop
+	soundeffect_note $01, $00, $00, $00
+	db $FF
 
 SoundEffect74: ; 0x3eeea
-	dr $3eeea, $3ef00
+	db $04 ; wChannel4
+	dw SoundEffect74_Channel4
+
+SoundEffect74_Channel4: ; 0x3eeed
+	dutycycle $02
+SoundEffect74_Channel4_loop: ; 0x3eeef
+	soundeffect_note $02, $F1, $B6, $07
+	soundeffect_note $02, $31, $B6, $07
+	loopchannel $06, SoundEffect74_Channel4_loop
+	soundeffect_note $01, $00, $00, $00
+	db $FF
 
 SoundEffect75: ; 0x3ef00
-	dr $3ef00, $3ef16
+	db $04 ; wChannel4
+	dw SoundEffect75_Channel4
+
+SoundEffect75_Channel4: ; 0x3ef03
+	dutycycle $02
+SoundEffect75_Channel4_loop: ; 0x3ef05
+	soundeffect_note $02, $F1, $B6, $07
+	soundeffect_note $02, $31, $B6, $07
+	loopchannel $08, SoundEffect75_Channel4_loop
+	soundeffect_note $01, $00, $00, $00
+	db $FF
 
 SoundEffect76: ; 0x3ef16
-	dr $3ef16, $3ef27
+	db $04 ; wChannel4
+	dw SoundEffect76_Channel4
+
+SoundEffect76_Channel4: ; 0x3ef19
+	togglesfx
+	dutycycle $02
+	notetype $01, $F1
+	octave 4
+	note G_, 3
+	note B_, 3
+	octave 5
+	note D_, 3
+	note F#, 14
+	note __, 2
+	db $FF
 
 SoundEffect77: ; 0x3ef27
-	dr $3ef27, $3ef63
+	db $4 | (($2 - 1) << 6) ; wChannel4 ; wChannel4
+	dw SoundEffect77_Channel4
+	db $05 ; wChannel5
+	dw SoundEffect77_Channel5
+
+SoundEffect77_Channel4: ; 0x3ef2d
+	togglesfx
+	dutycycle $02
+	tempo $90
+	volume $77
+	notetype $08, $D1
+	octave 4
+	note G#, 1
+	note F_, 1
+	note G#, 1
+	octave 5
+	note C#, 1
+	intensity $50
+	note C#, 1
+	intensity $D1
+	octave 4
+	note G#, 1
+	octave 5
+	note C#, 3
+	intensity $52
+	note C#, 3
+	db $FF 
+
+SoundEffect77_Channel5: ; 0x3ef4b
+	togglesfx
+	dutycycle $02
+	notetype $08, $E1
+	octave 5
+	note C#, 1
+	octave 4
+	note G#, 1
+	octave 5
+	note C#, 1
+	note F_, 1
+	intensity $50
+	note F_, 1
+	intensity $E1
+	note C#, 1
+	note G#, 3
+	intensity $52
+	note G#, 3
+	db $FF
 
 CryBasePointers: ; 0x3ef63
 	dw Cry_00_Header_BankF

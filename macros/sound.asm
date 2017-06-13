@@ -237,3 +237,20 @@ callchannel: macro
 endchannel: macro
 	db $ff
 	endm
+
+;format: pitch length (in 16ths)
+;        volume
+;        pitch (% of the octave. e.g. $80 would be halfway between octaves)
+;        octave
+soundeffect_note: MACRO
+	db \1
+	db \2
+	db \3
+	db \4
+ENDM
+
+soundeffect_percussion: MACRO
+	db \1
+	db \2
+	db \3
+ENDM

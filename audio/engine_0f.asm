@@ -51,7 +51,7 @@ Func_3c042: ; 0x3c042
 	ld [wdeae], a
 	ld c, a
 	ld b, $0
-	ld hl, ChannelPointers
+	ld hl, ChannelPointers_BankF
 	add hl, bc
 	add hl, bc
 	ld c, [hl]
@@ -109,7 +109,7 @@ PlaySong_BankF: ; 0x3c090
 	ld [hl], e
 	inc hl
 	ld [hl], d
-	ld hl, SongHeaderPointers0F
+	ld hl, SongHeaderPointers_BankF
 	add hl, de
 	add hl, de
 	ld e, [hl]
@@ -142,7 +142,7 @@ PlaySoundEffect_BankF: ; 0x3c0c0
 	ld [hl], e
 	inc hl
 	ld [hl], d
-	ld hl, SoundEffects
+	ld hl, SoundEffects_BankF
 	add hl, de
 	add hl, de
 	ld e, [hl]
@@ -179,7 +179,7 @@ PlayCry_BankF: ; 0x3c0f0
 	ret z
 	dec e
 	ld d, $0
-	ld hl, CryData
+	ld hl, CryData_BankF
 	add hl, de
 	add hl, de
 	add hl, de
@@ -202,7 +202,7 @@ PlayCry_BankF: ; 0x3c0f0
 	ld [hl], e
 	inc hl
 	ld [hl], d
-	ld hl, CryBasePointers
+	ld hl, CryBasePointers_BankF
 	add hl, de
 	add hl, de
 	ld e, [hl]
@@ -540,7 +540,7 @@ Func_3c349: ; 0x3c349
 	ret z
 	xor a
 	ld [rNR30], a
-	call LoadWavePattern
+	call LoadWavePattern_BankF
 	ld a, $80
 	ld [rNR30], a
 	ld a, [wde93]
@@ -565,7 +565,7 @@ Func_3c349: ; 0x3c349
 	ld [rNR31], a
 	xor a
 	ld [rNR30], a
-	call LoadWavePattern
+	call LoadWavePattern_BankF
 	ld a, $80
 	ld [rNR30], a
 	ld a, [wde93]
@@ -575,7 +575,7 @@ Func_3c349: ; 0x3c349
 	ld [rNR34], a
 	ret
 
-LoadWavePattern: ; 0x3c3a6
+LoadWavePattern_BankF: ; 0x3c3a6
 	push hl
 	ld a, [wde92]
 	and $f
@@ -2056,7 +2056,7 @@ Data_3cc87: ; 0x3cc87
 Data_3cc8e: ; 0x3cc8e
 	db $11, $22, $44, $88
 
-ChannelPointers: ; 0x3cc92
+ChannelPointers_BankF: ; 0x3cc92
 	dw wChannel0
 	dw wChannel1
 	dw wChannel2
@@ -2066,7 +2066,7 @@ ChannelPointers: ; 0x3cc92
 	dw wChannel6
 	dw wChannel7
 
-SongHeaderPointers0F: ; 0x3cca2
+SongHeaderPointers_BankF: ; 0x3cca2
 	dw Music_Nothing0F
 	dw Music_BlueField
 	dw Music_CatchEmRed
@@ -2085,91 +2085,91 @@ INCLUDE "audio/music/gastlyinthegraveyard.asm"
 INCLUDE "audio/music/haunterinthegraveyard.asm"
 INCLUDE "audio/music/gengarinthegraveyard.asm"
 
-SoundEffects: ; 0x3e3ce
-	dw SoundEffect0
-	dw SoundEffect1
-	dw SoundEffect2
-	dw SoundEffect3
-	dw SoundEffect4
-	dw SoundEffect5
-	dw SoundEffect6
-	dw SoundEffect7
-	dw SoundEffect8
-	dw SoundEffect9
-	dw SoundEffect10
-	dw SoundEffect11
-	dw SoundEffect12
-	dw SoundEffect13
-	dw SoundEffect14
-	dw SoundEffect15
-	dw SoundEffect16
-	dw SoundEffect17
-	dw SoundEffect18
-	dw SoundEffect19
-	dw SoundEffect20
-	dw SoundEffect21
-	dw SoundEffect22
-	dw SoundEffect23
-	dw SoundEffect24
-	dw SoundEffect25
-	dw SoundEffect26
-	dw SoundEffect27
-	dw SoundEffect28
-	dw SoundEffect29
-	dw SoundEffect30
-	dw SoundEffect31
-	dw SoundEffect32
-	dw SoundEffect33
-	dw SoundEffect34
-	dw SoundEffect35
-	dw SoundEffect36
-	dw SoundEffect37
-	dw SoundEffect38
-	dw SoundEffect39
-	dw SoundEffect40
-	dw SoundEffect41
-	dw SoundEffect42
-	dw SoundEffect43
-	dw SoundEffect44
-	dw SoundEffect45
-	dw SoundEffect46
-	dw SoundEffect47
-	dw SoundEffect48
-	dw SoundEffect49
-	dw SoundEffect50
-	dw SoundEffect51
-	dw SoundEffect52
-	dw SoundEffect53
-	dw SoundEffect54
-	dw SoundEffect55
-	dw SoundEffect56
-	dw SoundEffect57
-	dw SoundEffect58
-	dw SoundEffect59
-	dw SoundEffect60
-	dw SoundEffect61
-	dw SoundEffect62
-	dw SoundEffect63
-	dw SoundEffect64
-	dw SoundEffect65
-	dw SoundEffect66
-	dw SoundEffect67
-	dw SoundEffect68
-	dw SoundEffect69
-	dw SoundEffect70
-	dw SoundEffect71
-	dw SoundEffect72
-	dw SoundEffect73
-	dw SoundEffect74
-	dw SoundEffect75
-	dw SoundEffect76
-	dw SoundEffect77
+SoundEffects_BankF: ; 0x3e3ce
+	dw SoundEffect0_BankF
+	dw SoundEffect1_BankF
+	dw SoundEffect2_BankF
+	dw SoundEffect3_BankF
+	dw SoundEffect4_BankF
+	dw SoundEffect5_BankF
+	dw SoundEffect6_BankF
+	dw SoundEffect7_BankF
+	dw SoundEffect8_BankF
+	dw SoundEffect9_BankF
+	dw SoundEffect10_BankF
+	dw SoundEffect11_BankF
+	dw SoundEffect12_BankF
+	dw SoundEffect13_BankF
+	dw SoundEffect14_BankF
+	dw SoundEffect15_BankF
+	dw SoundEffect16_BankF
+	dw SoundEffect17_BankF
+	dw SoundEffect18_BankF
+	dw SoundEffect19_BankF
+	dw SoundEffect20_BankF
+	dw SoundEffect21_BankF
+	dw SoundEffect22_BankF
+	dw SoundEffect23_BankF
+	dw SoundEffect24_BankF
+	dw SoundEffect25_BankF
+	dw SoundEffect26_BankF
+	dw SoundEffect27_BankF
+	dw SoundEffect28_BankF
+	dw SoundEffect29_BankF
+	dw SoundEffect30_BankF
+	dw SoundEffect31_BankF
+	dw SoundEffect32_BankF
+	dw SoundEffect33_BankF
+	dw SoundEffect34_BankF
+	dw SoundEffect35_BankF
+	dw SoundEffect36_BankF
+	dw SoundEffect37_BankF
+	dw SoundEffect38_BankF
+	dw SoundEffect39_BankF
+	dw SoundEffect40_BankF
+	dw SoundEffect41_BankF
+	dw SoundEffect42_BankF
+	dw SoundEffect43_BankF
+	dw SoundEffect44_BankF
+	dw SoundEffect45_BankF
+	dw SoundEffect46_BankF
+	dw SoundEffect47_BankF
+	dw SoundEffect48_BankF
+	dw SoundEffect49_BankF
+	dw SoundEffect50_BankF
+	dw SoundEffect51_BankF
+	dw SoundEffect52_BankF
+	dw SoundEffect53_BankF
+	dw SoundEffect54_BankF
+	dw SoundEffect55_BankF
+	dw SoundEffect56_BankF
+	dw SoundEffect57_BankF
+	dw SoundEffect58_BankF
+	dw SoundEffect59_BankF
+	dw SoundEffect60_BankF
+	dw SoundEffect61_BankF
+	dw SoundEffect62_BankF
+	dw SoundEffect63_BankF
+	dw SoundEffect64_BankF
+	dw SoundEffect65_BankF
+	dw SoundEffect66_BankF
+	dw SoundEffect67_BankF
+	dw SoundEffect68_BankF
+	dw SoundEffect69_BankF
+	dw SoundEffect70_BankF
+	dw SoundEffect71_BankF
+	dw SoundEffect72_BankF
+	dw SoundEffect73_BankF
+	dw SoundEffect74_BankF
+	dw SoundEffect75_BankF
+	dw SoundEffect76_BankF
+	dw SoundEffect77_BankF
 
-SoundEffect0: ; 0x3e46a
+SoundEffect0_BankF: ; 0x3e46a
 	db $04 ; wChannel4
-	dw SoundEffect0_Channel4
+	dw SoundEffect0_Channel4_BankF
 
-SoundEffect0_Channel4: ; 0x3e46a
+SoundEffect0_Channel4_BankF: ; 0x3e46a
 	dutycycle $02
 	soundinput $94
 	soundeffect_note $05, $F6, $0B, $1E
@@ -2178,11 +2178,11 @@ SoundEffect0_Channel4: ; 0x3e46a
 	soundeffect_note $01, $00, $00, $00
 	db $FF
 
-SoundEffect1: ; 0x3e480
+SoundEffect1_BankF: ; 0x3e480
 	db $04 ; wChannel4
-	dw SoundEffect1_Channel4
+	dw SoundEffect1_Channel4_BankF
 
-SoundEffect1_Channel4: ; 0x3e483
+SoundEffect1_Channel4_BankF: ; 0x3e483
 	dutycycle $02
 	soundinput $14
 	soundeffect_note $04, $F2, $00, $06
@@ -2192,11 +2192,11 @@ SoundEffect1_Channel4: ; 0x3e483
 	soundeffect_note $01, $00, $00, $00
 	db $FF
 
-SoundEffect2: ; 0x3e49a
+SoundEffect2_BankF: ; 0x3e49a
 	db $04 ; wChannel4
-	dw SoundEffect2_Channel4
+	dw SoundEffect2_Channel4_BankF
 
-SoundEffect2_Channel4: ; 0x3e49d
+SoundEffect2_Channel4_BankF: ; 0x3e49d
 	dutycycle $01
 	soundinput $17
 	soundeffect_note $0F, $D7, $00, $06
@@ -2207,11 +2207,11 @@ SoundEffect2_Channel4: ; 0x3e49d
 	soundeffect_note $01, $00, $00, $00
 	db $FF
 
-SoundEffect3: ; 0x3e4ba
+SoundEffect3_BankF: ; 0x3e4ba
 	db $04 ; wChannel4
-	dw SoundEffect3_Channel4
+	dw SoundEffect3_Channel4_BankF
 
-SoundEffect3_Channel4: ; 0x3e4bd
+SoundEffect3_Channel4_BankF: ; 0x3e4bd
 	dutycycle $02
 	soundeffect_note $02, $F1, $80, $06
 	soundeffect_note $02, $F1, $80, $07
@@ -2219,44 +2219,44 @@ SoundEffect3_Channel4: ; 0x3e4bd
 	soundeffect_note $01, $00, $00, $00
 	db $FF
 
-SoundEffect4: ; 0x3e4d0
+SoundEffect4_BankF: ; 0x3e4d0
 	db $04 ; wChannel4
-	dw SoundEffect4_Channel4
+	dw SoundEffect4_Channel4_BankF
 
-SoundEffect4_Channel4: ; 0x3e4d0
+SoundEffect4_Channel4_BankF: ; 0x3e4d0
 	dutycycle $00
 	soundinput $35
 	soundeffect_note $0c, $C3, $6B, $3B
 	soundeffect_note $01, $00, $00, $00
 	db $FF
 
-SoundEffect5: ; 0x3e4e0
+SoundEffect5_BankF: ; 0x3e4e0
 	db $04 ; wChannel4
-	dw SoundEffect5_Channel4
+	dw SoundEffect5_Channel4_BankF
 
-SoundEffect5_Channel4: ; 0x3e4e3
+SoundEffect5_Channel4_BankF: ; 0x3e4e3
 	dutycycle $02
 	soundinput $95
 	soundeffect_note $0F, $F2, $00, $04
 	soundeffect_note $01, $00, $00, $00
 	db $FF
 
-SoundEffect6: ; 0x3e4f0
+SoundEffect6_BankF: ; 0x3e4f0
 	db $04 ; wChannel4
-	dw SoundEffect6_Channel4
+	dw SoundEffect6_Channel4_BankF
 
-SoundEffect6_Channel4: ; 0x3e4f3
+SoundEffect6_Channel4_BankF: ; 0x3e4f3
 	dutycycle $00
 	soundinput $17
 	soundeffect_note $0F, $D2, $00, $07
 	soundeffect_note $01, $00, $00, $00
 	db $FF
 
-SoundEffect7: ; 0x3e500
+SoundEffect7_BankF: ; 0x3e500
 	db $04 ; wChannel4
-	dw SoundEffect7_Channel4
+	dw SoundEffect7_Channel4_BankF
 
-SoundEffect7_Channel4: ; 0x3e503
+SoundEffect7_Channel4_BankF: ; 0x3e503
 	dutycycle $02
 	soundinput $9A
 	soundeffect_note $04, $F3, $0B, $3E
@@ -2266,11 +2266,11 @@ SoundEffect7_Channel4: ; 0x3e503
 	soundeffect_note $01, $00, $00, $00
 	db $FF
 
-SoundEffect8: ; 0x3e51a
+SoundEffect8_BankF: ; 0x3e51a
 	db $04 ; wChannel4
-	dw SoundEffect8_Channel4
+	dw SoundEffect8_Channel4_BankF
 
-SoundEffect8_Channel4: ; 0x3e51d
+SoundEffect8_Channel4_BankF: ; 0x3e51d
 	dutycycle $02
 	soundinput $88
 	soundeffect_note $01, $D2, $62, $07
@@ -2278,11 +2278,11 @@ SoundEffect8_Channel4: ; 0x3e51d
 	soundeffect_note $01, $00, $00, $00
 	db $FF
 
-SoundEffect9: ; 0x3e52e
+SoundEffect9_BankF: ; 0x3e52e
 	db $04 ; wChannel4
-	dw SoundEffect9_Channel4
+	dw SoundEffect9_Channel4_BankF
 
-SoundEffect9_Channel4: ; 0x3e531
+SoundEffect9_Channel4_BankF: ; 0x3e531
 	dutycycle $02
 	soundeffect_note $02, $F1, $80, $07
 	soundeffect_note $04, $F1, $61, $07
@@ -2290,24 +2290,24 @@ SoundEffect9_Channel4: ; 0x3e531
 	soundeffect_note $01, $00, $00, $00
 	db $FF
 
-SoundEffect10: ; 0x3e544
+SoundEffect10_BankF: ; 0x3e544
 	db $04 ; wChannel4
-	dw SoundEffect10_Channel4
+	dw SoundEffect10_Channel4_BankF
 
-SoundEffect10_Channel4: ; 0x3e547
+SoundEffect10_Channel4_BankF: ; 0x3e547
 	dutycycle $02
 	soundinput $2F
 	soundeffect_note $0F, $E2, $80, $07
 	soundeffect_note $01, $00, $00, $00
 	db $FF
 
-SoundEffect11: ; 0x3e554
+SoundEffect11_BankF: ; 0x3e554
 	db $4 | (($2 - 1) << 6) ; wChannel4
-	dw SoundEffect11_Channel4
+	dw SoundEffect11_Channel4_BankF
 	db $07 ; wChannel7
-	dw SoundEffect11_Channel7
+	dw SoundEffect11_Channel7_BankF
 
-SoundEffect11_Channel4: ; 0x3e55a
+SoundEffect11_Channel4_BankF: ; 0x3e55a
 	dutycycle $02
 	soundinput $16
 	soundeffect_note $01, $F1, $27, $06
@@ -2316,28 +2316,28 @@ SoundEffect11_Channel4: ; 0x3e55a
 	soundeffect_note $01, $00, $00, $00
 	db $FF
 
-SoundEffect11_Channel7: ; 0x3e56f
+SoundEffect11_Channel7_BankF: ; 0x3e56f
 	soundeffect_percussion $01, $7B, $37
 	soundeffect_percussion $00, $00, $00
 	soundeffect_percussion $0F, $82, $10
 	soundeffect_percussion $01, $00, $00
 	db $FF
 
-SoundEffect12: ; 0x3e57c
+SoundEffect12_BankF: ; 0x3e57c
 	db $07 ; wChannel7
-	dw SoundEffect12_Channel7
+	dw SoundEffect12_Channel7_BankF
 
-SoundEffect12_Channel7: ; 0x3e57f
+SoundEffect12_Channel7_BankF: ; 0x3e57f
 	soundeffect_percussion $01, $F8, $12
 	soundeffect_percussion $05, $A1, $20
 	soundeffect_percussion $01, $00, $00
 	db $FF
 
-SoundEffect13: ; 0x3e589
+SoundEffect13_BankF: ; 0x3e589
 	db $04 ; wChannel4
-	dw SoundEffect13_Channel4
+	dw SoundEffect13_Channel4_BankF
 
-SoundEffect13_Channel4: ; 0x3e58c
+SoundEffect13_Channel4_BankF: ; 0x3e58c
 	dutycycle $02
 	soundeffect_note $01, $F2, $A0, $06
 	soundeffect_note $01, $F2, $E0, $06
@@ -2345,11 +2345,11 @@ SoundEffect13_Channel4: ; 0x3e58c
 	soundeffect_note $01, $00, $00, $00
 	db $FF
 
-SoundEffect14: ; 0x3e59f
+SoundEffect14_BankF: ; 0x3e59f
 	db $04 ; wChannel4
-	dw SoundEffect14_Channel4
+	dw SoundEffect14_Channel4_BankF
 
-SoundEffect14_Channel4: ; 0x3e5a2
+SoundEffect14_Channel4_BankF: ; 0x3e5a2
 	dutycycle $02
 	soundeffect_note $04, $E1, $C1, $06
 	soundeffect_note $02, $E1, $41, $07
@@ -2357,25 +2357,25 @@ SoundEffect14_Channel4: ; 0x3e5a2
 	soundeffect_note $01, $00, $00, $00
 	db $FF
 
-SoundEffect15: ; 0x3e5b5
+SoundEffect15_BankF: ; 0x3e5b5
 	db $04 ; wChannel4
-	dw SoundEffect15_Channel4
+	dw SoundEffect15_Channel4_BankF
 
-SoundEffect15_Channel4: ; 0x3e5B8
+SoundEffect15_Channel4_BankF: ; 0x3e5B8
 	dutycycle $01
 	soundinput $AF
 	soundeffect_note $0F, $F2, $80, $07
 	soundeffect_note $01, $00, $00, $00
 	db $FF
 
-SoundEffect16: ; 0x3e5c5
+SoundEffect16_BankF: ; 0x3e5c5
 	db $04 ; wChannel4
-	dw SoundEffect16_Channel4
+	dw SoundEffect16_Channel4_BankF
 
-SoundEffect16_Channel4: ; 0x3e5C8
+SoundEffect16_Channel4_BankF: ; 0x3e5C8
 	togglesfx
 	forceoctave $04
-SoundEffect16_Channel4_Loop: ; 0x3e5cb
+SoundEffect16_Channel4_Loop_BankF: ; 0x3e5cb
 	notetype $01, $F8
 	soundinput $24
 	dutycycle $00
@@ -2386,193 +2386,193 @@ SoundEffect16_Channel4_Loop: ; 0x3e5cb
 	intensity $E8
 	octave 4
 	note G_, 1
-	loopchannel $15, SoundEffect16_Channel4_Loop
+	loopchannel $15, SoundEffect16_Channel4_Loop_BankF
 	octave 5
 	note G_, 2
 	note C_, 1
 	db $FF
 
-SoundEffect17: ; 0x3e5e2
+SoundEffect17_BankF: ; 0x3e5e2
 	db $04 ; wChannel4
-	dw SoundEffect17_Channel4
+	dw SoundEffect17_Channel4_BankF
 
-SoundEffect17_Channel4: ; 0x3e5E5
+SoundEffect17_Channel4_BankF: ; 0x3e5E5
 	dutycycle $00
 	soundeffect_note $00, $B1, $80, $07
 	soundeffect_note $08, $81, $B0, $07
 	soundeffect_note $01, $00, $00, $00
 	db $FF
 
-SoundEffect18: ; 0x3e5f4
+SoundEffect18_BankF: ; 0x3e5f4
 	db $04 ; wChannel4
-	dw SoundEffect18_Channel4
+	dw SoundEffect18_Channel4_BankF
 
-SoundEffect18_Channel4: ; 0x3e5f7
+SoundEffect18_Channel4_BankF: ; 0x3e5f7
 	dutycycle $01
 	soundeffect_note $03, $F1, $27, $06
 	soundeffect_note $02, $41, $27, $06
 	soundeffect_note $01, $00, $00, $00
 	db $FF
 
-SoundEffect19: ; 0x3e606
+SoundEffect19_BankF: ; 0x3e606
 	db $04 ; wChannel4
-	dw SoundEffect19_Channel19
+	dw SoundEffect19_Channel19_BankF
 
-SoundEffect19_Channel19: ; 0x3e609
+SoundEffect19_Channel19_BankF: ; 0x3e609
 	dutycycle $01
 	soundeffect_note $03, $F1, $72, $06
 	soundeffect_note $02, $41, $72, $06
 	soundeffect_note $01, $00, $00, $00
 	db $FF
 
-SoundEffect20: ; 0x3e618
+SoundEffect20_BankF: ; 0x3e618
 	db $04 ; wChannel4
-	dw SoundEffect20_Channel4
+	dw SoundEffect20_Channel4_BankF
 
-SoundEffect20_Channel4: ; 0x3e61b
+SoundEffect20_Channel4_BankF: ; 0x3e61b
 	dutycycle $01
 	soundeffect_note $03, $F1, $9D, $06
 	soundeffect_note $02, $41, $9D, $06
 	soundeffect_note $01, $00, $00, $00
 	db $FF
 
-SoundEffect21: ; 0x3e62a
+SoundEffect21_BankF: ; 0x3e62a
 	db $04 ; wChannel4
-	dw SoundEffect21_Channel4
+	dw SoundEffect21_Channel4_BankF
 	
-SoundEffect21_Channel4: ; 0x3e62d
+SoundEffect21_Channel4_BankF: ; 0x3e62d
 	dutycycle $01
 	soundeffect_note $03, $F1, $C4, $06
 	soundeffect_note $02, $41, $C4, $06
 	soundeffect_note $01, $00, $00, $00
 	db $FF
 
-SoundEffect22: ; 0x3e63c
+SoundEffect22_BankF: ; 0x3e63c
 	db $04 ; wChannel4
-	dw SoundEffect22_Channel4
+	dw SoundEffect22_Channel4_BankF
 
-SoundEffect22_Channel4: ; 0x3e63F
+SoundEffect22_Channel4_BankF: ; 0x3e63F
 	dutycycle $01
 	soundeffect_note $03, $F1, $D6, $06
 	soundeffect_note $02, $41, $D6, $06
 	soundeffect_note $01, $00, $00, $00
 	db $FF
 
-SoundEffect23: ; 0x3e64e
+SoundEffect23_BankF: ; 0x3e64e
 	db $04 ; wChannel4
-	dw SoundEffect23_Channel4
+	dw SoundEffect23_Channel4_BankF
 
-SoundEffect23_Channel4: ; 0x3e651
+SoundEffect23_Channel4_BankF: ; 0x3e651
 	dutycycle $01
 	soundeffect_note $03, $F1, $F6, $06
 	soundeffect_note $02, $41, $F6, $06
 	soundeffect_note $01, $00, $00, $00
 	db $FF
 
-SoundEffect24: ; 0x3e660
+SoundEffect24_BankF: ; 0x3e660
 	db $04 ; wChannel4
-	dw SoundEffect24_Channel4
+	dw SoundEffect24_Channel4_BankF
 
-SoundEffect24_Channel4: ; 0x3e663
+SoundEffect24_Channel4_BankF: ; 0x3e663
 	dutycycle $01
 	soundeffect_note $03, $F1, $13, $07
 	soundeffect_note $02, $41, $13, $07
 	soundeffect_note $01, $00, $00, $00
 	db $FF
 
-SoundEffect25: ; 0x3e672
+SoundEffect25_BankF: ; 0x3e672
 	db $04 ; wChannel4
-	dw SoundEffect25_Channel4
+	dw SoundEffect25_Channel4_BankF
 
-SoundEffect25_Channel4: ; 0x3e675
+SoundEffect25_Channel4_BankF: ; 0x3e675
 	dutycycle $01
 	soundeffect_note $03, $F1, $2D, $07
 	soundeffect_note $02, $41, $2D, $07
 	soundeffect_note $01, $00, $00, $00
 	db $FF
 
-SoundEffect26: ; 0x3e684
+SoundEffect26_BankF: ; 0x3e684
 	db $04 ; wChannel4
-	dw SoundEffect26_Channel4
+	dw SoundEffect26_Channel4_BankF
 
-SoundEffect26_Channel4: ; 0x3e687
+SoundEffect26_Channel4_BankF: ; 0x3e687
 	dutycycle $01
 	soundeffect_note $03, $F1, $39, $07
 	soundeffect_note $02, $41, $39, $07
 	soundeffect_note $01, $00, $00, $00
 	db $FF
 
-SoundEffect27: ; 0x3e696
+SoundEffect27_BankF: ; 0x3e696
 	db $04 ; wChannel4
-	dw SoundEffect27_Channel4
+	dw SoundEffect27_Channel4_BankF
 
-SoundEffect27_Channel4: ; 0x3e699
+SoundEffect27_Channel4_BankF: ; 0x3e699
 	dutycycle $01
 	soundeffect_note $03, $F1, $4E, $07
 	soundeffect_note $02, $41, $4E, $07
 	soundeffect_note $01, $00, $00, $00
 	db $FF
 
-SoundEffect28: ; 0x3e6a8
+SoundEffect28_BankF: ; 0x3e6a8
 	db $04 ; wChannel4
-	dw SoundEffect28_Channel4
+	dw SoundEffect28_Channel4_BankF
 
-SoundEffect28_Channel4: ; 0x3e6AB
+SoundEffect28_Channel4_BankF: ; 0x3e6AB
 	dutycycle $01
 	soundeffect_note $03, $F1, $62, $07
 	soundeffect_note $02, $41, $62, $07
 	soundeffect_note $01, $00, $00, $00
 	db $FF
 
-SoundEffect29: ; 0x3e6ba
+SoundEffect29_BankF: ; 0x3e6ba
 	db $04 ; wChannel4
-	dw SoundEffect29_Channel4
+	dw SoundEffect29_Channel4_BankF
 
-SoundEffect29_Channel4: ; 0x3e6BD
+SoundEffect29_Channel4_BankF: ; 0x3e6BD
 	dutycycle $01
 	soundeffect_note $03, $F1, $6B, $07
 	soundeffect_note $02, $41, $6B, $07
 	soundeffect_note $01, $00, $00, $00
 	db $FF
 
-SoundEffect30: ; 0x3e6cc
+SoundEffect30_BankF: ; 0x3e6cc
 	db $04 ; wChannel4
-	dw SoundEffect30_Channel4
+	dw SoundEffect30_Channel4_BankF
 
-SoundEffect30_Channel4: ; 0x3e6CF
+SoundEffect30_Channel4_BankF: ; 0x3e6CF
 	dutycycle $01
 	soundeffect_note $03, $F1, $7B, $07
 	soundeffect_note $02, $41, $7B, $07
 	soundeffect_note $01, $00, $00, $00
 	db $FF
 
-SoundEffect31: ; 0x3e6de
+SoundEffect31_BankF: ; 0x3e6de
 	db $04 ; wChannel4
-	dw SoundEffect31_Channel4
+	dw SoundEffect31_Channel4_BankF
 
-SoundEffect31_Channel4: ; 0x3e6E1
+SoundEffect31_Channel4_BankF: ; 0x3e6E1
 	dutycycle $01
 	soundeffect_note $03, $F1, $89, $07
 	soundeffect_note $02, $41, $89, $07
 	soundeffect_note $01, $00, $00, $00
 	db $FF
 
-SoundEffect32: ; 0x3e6f0
+SoundEffect32_BankF: ; 0x3e6f0
 	db $04 ; wChannel4
-	dw SoundEffect32_Channel4
+	dw SoundEffect32_Channel4_BankF
 
-SoundEffect32_Channel4: ; 0x3e6F3
+SoundEffect32_Channel4_BankF: ; 0x3e6F3
 	dutycycle $01
 	soundeffect_note $03, $F1, $96, $07
 	soundeffect_note $02, $41, $96, $07
 	soundeffect_note $01, $00, $00, $00
 	db $FF
 
-SoundEffect33: ; 0x3e702
+SoundEffect33_BankF: ; 0x3e702
 	db $04 ; wChannel4
-	dw SoundEffect33_Channel4
+	dw SoundEffect33_Channel4_BankF
 
-SoundEffect33_Channel4: ; 0x3e705
+SoundEffect33_Channel4_BankF: ; 0x3e705
 	dutycycle $01
 	soundinput $94
 	soundeffect_note $02, $F8, $27, $06
@@ -2582,13 +2582,13 @@ SoundEffect33_Channel4: ; 0x3e705
 	soundeffect_note $01, $00, $00, $00
 	db $FF
 
-SoundEffect34: ; 0x3e71a
+SoundEffect34_BankF: ; 0x3e71a
 	db $04 | (($2 - 1) << 6) ; wChannel4
-	dw SoundEffect34_Channel4
+	dw SoundEffect34_Channel4_BankF
 	db $05
-	dw SoundEffect34_Channel5
+	dw SoundEffect34_Channel5_BankF
 
-SoundEffect34_Channel4: ; 0x3e720
+SoundEffect34_Channel4_BankF: ; 0x3e720
 	togglesfx
 	tempo $88
 	volume $77
@@ -2612,7 +2612,7 @@ SoundEffect34_Channel4: ; 0x3e720
 	note G#, 1
 	db $FF
 
-SoundEffect34_Channel5: ; 0x3e741
+SoundEffect34_Channel5_BankF: ; 0x3e741
 	togglesfx
 	notetype $06, $B1
 	dutycycle $02
@@ -2634,15 +2634,15 @@ SoundEffect34_Channel5: ; 0x3e741
 	note E_, 2
 	db $FF
 
-SoundEffect35: ; 0x3e75d
+SoundEffect35_BankF: ; 0x3e75d
 	db $04 | (($3 - 1) << 6) ; wChannel4
-	dw $6766
+	dw SoundEffect35_Channel4_BankF
 	db $05 ; wChannel5
-	dw $678F
+	dw SoundEffect35_Channel5_BankF
 	db $06 ; wChannel6
-	dw $67CB
+	dw SoundEffect35_Channel6_BankF
 
-SoundEffect35_Channel4: ; 0x3e766
+SoundEffect35_Channel4_BankF: ; 0x3e766
 	togglesfx
 	tempo $73
 	volume $77
@@ -2669,7 +2669,7 @@ SoundEffect35_Channel4: ; 0x3e766
 	note F#, 12
 	db $FF
 
-SoundEffect35_Channel5: ; 0x3e78f
+SoundEffect35_Channel5_BankF: ; 0x3e78f
 	togglesfx
 	vibrato $12, $34
 	dutycycle $03
@@ -2678,12 +2678,12 @@ SoundEffect35_Channel5: ; 0x3e78f
 	note E_, 1
 	intensity $28
 	note E_, 1
-	callchannel SoundEffect35_Channel5_ch1
+	callchannel SoundEffect35_Channel5_ch1_BankF
 	intensity $B4
 	note A#, 1
 	intensity $28
 	note A#, 1
-	callchannel SoundEffect35_Channel5_ch1
+	callchannel SoundEffect35_Channel5_ch1_BankF
 	intensity $B8
 	note B_, 5
 	intensity $28
@@ -2696,7 +2696,7 @@ SoundEffect35_Channel5: ; 0x3e78f
 	note A_, 12
 	db $FF
 
-SoundEffect35_Channel5_ch1: ; 0x3e7b8
+SoundEffect35_Channel5_ch1_BankF: ; 0x3e7b8
 	intensity $B4
 	note G_, 1
 	intensity $28
@@ -2711,7 +2711,7 @@ SoundEffect35_Channel5_ch1: ; 0x3e7b8
 	note G_, 1
 	db $FF
 
-SoundEffect35_Channel6: ; 0x3e7cb
+SoundEffect35_Channel6_BankF: ; 0x3e7cb
 	togglesfx
 	notetype $06, $22
 	octave 2
@@ -2772,22 +2772,22 @@ SoundEffect35_Channel6: ; 0x3e7cb
 	note F#, 12
 	db $FF
 
-SoundEffect36: ; 0x3e810
+SoundEffect36_BankF: ; 0x3e810
 	db $04 | (($3 - 1) << 6) ; wChannel4
-	dw SoundEffect36_Channel4
+	dw SoundEffect36_Channel4_BankF
 	db $05 ; wChannel5
-	dw SoundEffect36_Channel5
+	dw SoundEffect36_Channel5_BankF
 	db $06 ; wChannel6
-	dw SoundEffect36_Channel6
+	dw SoundEffect36_Channel6_BankF
 
-SoundEffect36_Channel4: ; 0x3e819
+SoundEffect36_Channel4_BankF: ; 0x3e819
 	togglesfx
 	tempo $70
 	volume $77
 	dutycycle $02
 	notetype $08, $81
 	note __, 3
-SoundEffect36_Channel4_loop: ; 0x3e825
+SoundEffect36_Channel4_loop_BankF: ; 0x3e825
 	octave 4
 	note F_, 2
 	note D_, 2
@@ -2795,7 +2795,7 @@ SoundEffect36_Channel4_loop: ; 0x3e825
 	octave 2
 	note A#, 1
 	note __, 1
-	loopchannel $02, SoundEffect36_Channel4_loop
+	loopchannel $02, SoundEffect36_Channel4_loop_BankF
 	intensity $81
 	octave 4
 	note E_, 2
@@ -2825,7 +2825,7 @@ SoundEffect36_Channel4_loop: ; 0x3e825
 	note __, 2
 	db $FF
 
-SoundEffect36_Channel5: ; 0x3e853
+SoundEffect36_Channel5_BankF: ; 0x3e853
 	togglesfx
 	dutycycle $03
 	notetype $08, $A8
@@ -2872,7 +2872,7 @@ SoundEffect36_Channel5: ; 0x3e853
 	note F_, 2
 	db $FF
 
-SoundEffect36_Channel6: ; 0x3e892
+SoundEffect36_Channel6_BankF: ; 0x3e892
 	togglesfx
 	notetype $08, $22
 	note __, 3
@@ -2900,15 +2900,15 @@ SoundEffect36_Channel6: ; 0x3e892
 	note __, 2
 	db $FF
 
-SoundEffect37: ; 0x3e8ae
+SoundEffect37_BankF: ; 0x3e8ae
 	db $04 | (($3 - 1) << 6) ; wChannel4
-	dw SoundEffect37_Channel4
+	dw SoundEffect37_Channel4_BankF
 	db $05 ; wChannel5
-	dw SoundEffect37_Channel5
+	dw SoundEffect37_Channel5_BankF
 	db $06 ; wChannel6
-	dw SoundEffect37_Channel6
+	dw SoundEffect37_Channel6_BankF
 
-SoundEffect37_Channel4: ; 0x3e8b7
+SoundEffect37_Channel4_BankF: ; 0x3e8b7
 	togglesfx
 	tempo $6E
 	volume $77
@@ -2978,7 +2978,7 @@ SoundEffect37_Channel4: ; 0x3e8b7
 	note C_, 4
 	db $FF
 
-SoundEffect37_Channel5: ; 0x3e910
+SoundEffect37_Channel5_BankF: ; 0x3e910
 	togglesfx
 	dutycycle $03
 	notetype $06, $B3
@@ -3019,7 +3019,7 @@ SoundEffect37_Channel5: ; 0x3e910
 	note F_, 4
 	db $FF
 
-SoundEffect37_Channel6: ; 0x3e942
+SoundEffect37_Channel6_BankF: ; 0x3e942
 	togglesfx
 	notetype $06, $22
 	note __, 4
@@ -3062,15 +3062,15 @@ SoundEffect37_Channel6: ; 0x3e942
 	note A_, 4
 	db $FF
 
-SoundEffect38: ; 0x3e96d
+SoundEffect38_BankF: ; 0x3e96d
 	db $04 | (($3 - 1) << 6) ; wChannel4
-	dw SoundEffect38_Channel4
+	dw SoundEffect38_Channel4_BankF
 	db $05 ; wChannel5
-	dw SoundEffect38_Channel5
+	dw SoundEffect38_Channel5_BankF
 	db $06 ; wChannel6
-	dw SoundEffect38_Channel6
+	dw SoundEffect38_Channel6_BankF
 
-SoundEffect38_Channel4: ; 0x3e976
+SoundEffect38_Channel4_BankF: ; 0x3e976
 	togglesfx
 	tempo $70
 	volume $77
@@ -3124,7 +3124,7 @@ SoundEffect38_Channel4: ; 0x3e976
 	note __, 1
 	db $FF
 
-SoundEffect38_Channel5: ; 0x3e9c0
+SoundEffect38_Channel5_BankF: ; 0x3e9c0
 	togglesfx
 	dutycycle $03
 	vibrato $09, $34
@@ -3172,7 +3172,7 @@ SoundEffect38_Channel5: ; 0x3e9c0
 	note __, 1
 	db $FF
 
-SoundEffect38_Channel6: ; 0x3ea06
+SoundEffect38_Channel6_BankF: ; 0x3ea06
 	togglesfx
 	forceoctave $07
 	notetype $08, $22
@@ -3202,13 +3202,13 @@ SoundEffect38_Channel6: ; 0x3ea06
 	note __, 1
 	db $FF
 
-SoundEffect39: ; 0x3ea25
+SoundEffect39_BankF: ; 0x3ea25
 	db $04 | (($2 - 1) << 6) ; wChannel4
-	dw SoundEffect39_Channel4
+	dw SoundEffect39_Channel4_BankF
 	db $05 ; wChannel5
-	dw SoundEffect39_Channel5
+	dw SoundEffect39_Channel5_BankF
 
-SoundEffect39_Channel4: ; 0x3ea2b
+SoundEffect39_Channel4_BankF: ; 0x3ea2b
 	togglesfx
 	tempo $80
 	volume $77
@@ -3236,7 +3236,7 @@ SoundEffect39_Channel4: ; 0x3ea2b
 	note D_, 1
 	db $FF
 
-SoundEffect39_Channel5: ; 0x3ea51
+SoundEffect39_Channel5_BankF: ; 0x3ea51
 	togglesfx
 	notetype $06, $A1
 	dutycycle $02
@@ -3255,11 +3255,11 @@ SoundEffect39_Channel5: ; 0x3ea51
 	note D_, 2
 	db $FF
 
-SoundEffect40: ; 0x3ea68
+SoundEffect40_BankF: ; 0x3ea68
 	db $04 ; wChannel4
-	dw SoundEffect40_Channel4
+	dw SoundEffect40_Channel4_BankF
 
-SoundEffect40_Channel4: ; 0x3ea6b
+SoundEffect40_Channel4_BankF: ; 0x3ea6b
 	togglesfx
 	dutycycle $02
 	notetype $01, $F1
@@ -3278,15 +3278,15 @@ SoundEffect40_Channel4: ; 0x3ea6b
 	note __, 2
 	db $FF
 
-SoundEffect41: ; 0x3ea82
+SoundEffect41_BankF: ; 0x3ea82
 	db $04 | (($3 - 1) << 6) ; wChannel4
-	dw SoundEffect41_Channel4
+	dw SoundEffect41_Channel4_BankF
 	db $05 ; wChannel5
-	dw SoundEffect41_Channel5
+	dw SoundEffect41_Channel5_BankF
 	db $06 ; wChannel6
-	dw SoundEffect41_Channel6
+	dw SoundEffect41_Channel6_BankF
 
-SoundEffect41_Channel4: ; 0x3ea8b
+SoundEffect41_Channel4_BankF: ; 0x3ea8b
 	togglesfx
 	tempo $78
 	volume $77
@@ -3324,23 +3324,23 @@ SoundEffect41_Channel4: ; 0x3ea8b
 	note __, 1
 	db $FF
 
-SoundEffect41_Channel5: ; 0x3eaba
+SoundEffect41_Channel5_BankF: ; 0x3eaba
 	togglesfx
 	vibrato $09, $34
 	dutycycle $02
-	callchannel SoundEffect41_Channel5_ch0
+	callchannel SoundEffect41_Channel5_ch0_BankF
 	forceoctave $18
-	callchannel SoundEffect41_Channel5_ch0
+	callchannel SoundEffect41_Channel5_ch0_BankF
 	forceoctave $03
-	callchannel SoundEffect41_Channel5_ch0
+	callchannel SoundEffect41_Channel5_ch0_BankF
 	forceoctave $01
-	callchannel SoundEffect41_Channel5_ch0
+	callchannel SoundEffect41_Channel5_ch0_BankF
 	forceoctave $00
 	intensity $B5
 	note D_, 16
 	note __, 1
 	db $FF
-SoundEffect41_Channel5_ch0: ; 0x3ead9
+SoundEffect41_Channel5_ch0_BankF: ; 0x3ead9
 	notetype $06, $B3
 	octave 4
 	note D_, 2
@@ -3356,7 +3356,7 @@ SoundEffect41_Channel5_ch0: ; 0x3ead9
 	note D_, 1
 	db $FF
 
-SoundEffect41_Channel6: ; 0x3eaee
+SoundEffect41_Channel6_BankF: ; 0x3eaee
 	togglesfx
 	notetype $06, $22
 	octave 2
@@ -3397,17 +3397,17 @@ SoundEffect41_Channel6: ; 0x3eaee
 	note __, 1
 	db $FF
 
-SoundEffect42: ; 0x3eb17
+SoundEffect42_BankF: ; 0x3eb17
 	db $04 | (($4 - 1) << 6) ; wChannel4
-	dw SoundEffect42_Channel4
+	dw SoundEffect42_Channel4_BankF
 	db $05 ; wChannel5
-	dw SoundEffect42_Channel5
+	dw SoundEffect42_Channel5_BankF
 	db $06 ; wChannel6
-	dw SoundEffect42_Channel6
+	dw SoundEffect42_Channel6_BankF
 	db $07 ; wChannel7
-	dw SoundEffect42_Channel7
+	dw SoundEffect42_Channel7_BankF
 
-SoundEffect42_Channel4: ; 0x3eb23
+SoundEffect42_Channel4_BankF: ; 0x3eb23
 	togglesfx
 	forceoctave $18
 	tempo $70
@@ -3470,7 +3470,7 @@ SoundEffect42_Channel4: ; 0x3eb23
 	note __, 1
 	db $FF
 
-SoundEffect42_Channel5: ; 0x3eb75
+SoundEffect42_Channel5_BankF: ; 0x3eb75
 	togglesfx
 	forceoctave $18
 	vibrato $14, $24
@@ -3521,7 +3521,7 @@ SoundEffect42_Channel5: ; 0x3eb75
 	note __, 1
 	db $FF
 
-SoundEffect42_Channel6: ; 0x3ebb6
+SoundEffect42_Channel6_BankF: ; 0x3ebb6
 	togglesfx
 	forceoctave $18
 	notetype $06, $22
@@ -3574,21 +3574,21 @@ SoundEffect42_Channel6: ; 0x3ebb6
 	note __, 1
 	db $FF
 
-SoundEffect42_Channel7: ; 0x3ebee
+SoundEffect42_Channel7_BankF: ; 0x3ebee
 	note F#, 1
 	note C_, 2
 	note __, 1
-	loopchannel 5, SoundEffect42_Channel7
+	loopchannel 5, SoundEffect42_Channel7_BankF
 	note D_, 1
 	note C_, 2
 	note __, 1
 	db $FF
 
-SoundEffect43: ; 0x3ebf9
+SoundEffect43_BankF: ; 0x3ebf9
 	db $04 ; wChannel 4
-	dw SoundEffect43_Channel4
+	dw SoundEffect43_Channel4_BankF
 
-SoundEffect43_Channel4: ; 0x3ebfc
+SoundEffect43_Channel4_BankF: ; 0x3ebfc
 	dutycycle $01
 	soundinput $94
 	soundeffect_note $02, $F1, $17, $05
@@ -3599,11 +3599,11 @@ SoundEffect43_Channel4: ; 0x3ebfc
 	soundeffect_note $01, $00, $00, $00
 	db $FF
 
-SoundEffect44: ; 0x3ec17
+SoundEffect44_BankF: ; 0x3ec17
 	db $04 ; wChannel4
-	dw SoundEffect44_Channel4
+	dw SoundEffect44_Channel4_BankF
 
-SoundEffect44_Channel4: ; 0x3ec1a
+SoundEffect44_Channel4_BankF: ; 0x3ec1a
 	dutycycle $00
 	soundinput $6D
 	soundeffect_note $09, $FB, $96, $07
@@ -3613,11 +3613,11 @@ SoundEffect44_Channel4: ; 0x3ec1a
 	soundeffect_note $01, $00, $00, $00
 	db $FF
 
-SoundEffect45: ; 0x3ec31
+SoundEffect45_BankF: ; 0x3ec31
 	db $04 ; wChannel4
-	dw SoundEffect45_Channel4
+	dw SoundEffect45_Channel4_BankF
 
-SoundEffect45_Channel4: ; 0x3ec34
+SoundEffect45_Channel4_BankF: ; 0x3ec34
 	dutycycle $03
 	soundinput $6D
 	soundeffect_note $09, $FB, $13, $07
@@ -3627,11 +3627,11 @@ SoundEffect45_Channel4: ; 0x3ec34
 	soundeffect_note $01, $00, $00, $00
 	db $FF
 
-SoundEffect46: ; 0x3ec4b
+SoundEffect46_BankF: ; 0x3ec4b
 	db $04 ; wChannel4
-	dw SoundEffect46_Channel4
+	dw SoundEffect46_Channel4_BankF
 
-SoundEffect46_Channel4: ; 0x3ec4e
+SoundEffect46_Channel4_BankF: ; 0x3ec4e
 	dutycycle $03
 	soundinput $43
 	soundeffect_note $08, $F8, $64, $3B
@@ -3648,22 +3648,22 @@ SoundEffect46_Channel4: ; 0x3ec4e
 	soundeffect_note $01, $00, $00, $00
 	db $FF
 
-SoundEffect47: ; 0x3ec7d
+SoundEffect47_BankF: ; 0x3ec7d
 	db $04 ; wChannel4
-	dw SoundEffect47_Channel4
+	dw SoundEffect47_Channel4_BankF
 
-SoundEffect47_Channel4: ; 0x3ec80
+SoundEffect47_Channel4_BankF: ; 0x3ec80
 	dutycycle $02
 	soundeffect_note $01, $E2, $13, $07
 	soundeffect_note $08, $62, $13, $07
 	soundeffect_note $01, $00, $00, $00
 	db $FF
 
-SoundEffect48: ; 0x3ec8f
+SoundEffect48_BankF: ; 0x3ec8f
 	db $04 ; wChannel4
-	dw SoundEffect48_Channel4
+	dw SoundEffect48_Channel4_BankF
 
-SoundEffect48_Channel4: ; 0x3ec92
+SoundEffect48_Channel4_BankF: ; 0x3ec92
 	dutycycle $00
 	soundinput $5E
 	soundeffect_note $02, $F8, $D6, $06
@@ -3672,36 +3672,36 @@ SoundEffect48_Channel4: ; 0x3ec92
 	soundeffect_note $01, $00, $00, $00
 	db $FF
 
-SoundEffect49: ; 0x3eca7
+SoundEffect49_BankF: ; 0x3eca7
 	db $07 ; wChannel7
-	dw SoundEffect49_Channel7
+	dw SoundEffect49_Channel7_BankF
 
-SoundEffect49_Channel7: ; 0x3ecaa
+SoundEffect49_Channel7_BankF: ; 0x3ecaa
 	soundeffect_percussion $03, $8D, $21
 	soundeffect_percussion $02, $CC, $22
 	soundeffect_percussion $08, $82, $21
 	soundeffect_percussion $01, $00, $00
 	db $FF
 
-SoundEffect50: ; 0x3ecb7
+SoundEffect50_BankF: ; 0x3ecb7
 	db $04 ; wChannel4
-	dw SoundEffect50_Channel4
+	dw SoundEffect50_Channel4_BankF
 
-SoundEffect50_Channel4: ; 0x3ecba
+SoundEffect50_Channel4_BankF: ; 0x3ecba
 	dutycycle $00
 	soundeffect_note $01, $91, $96, $07
-SoundEffect50_Channel4_loop: ; 0x3ecc0
-	soundeffect_note $03, $F1, $C6, $07
-	loopchannel $02, SoundEffect50_Channel4_loop
+SoundEffect50_Channel4_loop_BankF: ; 0x3ecc0
+_BankF	soundeffect_note $03, $F1, $C6, $07
+	loopchannel $02, SoundEffect50_Channel4_loop_BankF
 	soundeffect_note $0A, $C1, $C6, $07
 	soundeffect_note $01, $00, $00, $00
 	db $FF
 
-SoundEffect51: ; 0x3ecd1
+SoundEffect51_BankF: ; 0x3ecd1
 	db $04 ; wChannel4
-	dw SoundEffect51_Channel4
+	dw SoundEffect51_Channel4_BankF
 
-SoundEffect51_Channel4: ; 0x3ecd4
+SoundEffect51_Channel4_BankF: ; 0x3ecd4
 	dutycycle $00
 	soundinput $77
 	soundeffect_note $01, $C8, $D6, $06
@@ -3710,11 +3710,11 @@ SoundEffect51_Channel4: ; 0x3ecd4
 	soundeffect_note $01, $00, $00, $00
 	db $FF
 
-SoundEffect52: ; 0x3ece9
+SoundEffect52_BankF: ; 0x3ece9
 	db $04 ; wChannel4
-	dw SoundEffect52_Channel4
+	dw SoundEffect52_Channel4_BankF
 
-SoundEffect52_Channel4: ; 0x3ecec
+SoundEffect52_Channel4_BankF: ; 0x3ecec
 	dutycycle $00
 	soundeffect_note $01, $91, $B6, $07
 	soundeffect_note $02, $F1, $CD, $07
@@ -3722,11 +3722,11 @@ SoundEffect52_Channel4: ; 0x3ecec
 	soundeffect_note $01, $00, $00, $00
 	db $FF
 
-SoundEffect53: ; 0x3ecff
+SoundEffect53_BankF: ; 0x3ecff
 	db $04 ; wChannel4
-	dw SoundEffect53_Channel4
+	dw SoundEffect53_Channel4_BankF
 
-SoundEffect53_Channel4: ; 0x3ed02
+SoundEffect53_Channel4_BankF: ; 0x3ed02
 	dutycycle $00
 	soundinput $9F
 	soundeffect_note $02, $F8, $27, $06
@@ -3735,11 +3735,11 @@ SoundEffect53_Channel4: ; 0x3ed02
 	soundeffect_note $01, $00, $00, $00
 	db $FF
 
-SoundEffect54: ; 0x3ed15
+SoundEffect54_BankF: ; 0x3ed15
 	db $04 ; wChannel4
-	dw SoundEffect54_Channel4
+	dw SoundEffect54_Channel4_BankF
 
-SoundEffect54_Channel4: ; 0x3ed18
+SoundEffect54_Channel4_BankF: ; 0x3ed18
 	dutycycle $00
 	soundinput $9E
 	soundeffect_note $02, $F8, $27, $05
@@ -3750,11 +3750,11 @@ SoundEffect54_Channel4: ; 0x3ed18
 	soundeffect_note $01, $00, $00, $00
 	db $FF
 
-SoundEffect55: ; 0x3ed31
+SoundEffect55_BankF: ; 0x3ed31
 	db $04 ; wChannel4
-	dw SoundEffect55_Channel4
+	dw SoundEffect55_Channel4_BankF
 
-SoundEffect55_Channel4: ; 0x3ed34
+SoundEffect55_Channel4_BankF: ; 0x3ed34
 	dutycycle $03
 	soundinput $43
 	soundeffect_note $08, $F8, $64, $3B
@@ -3765,11 +3765,11 @@ SoundEffect55_Channel4: ; 0x3ed34
 	soundeffect_note $01, $00, $00, $00
 	db $FF
 
-SoundEffect56: ; 0x3ed4d
+SoundEffect56_BankF: ; 0x3ed4d
 	db $04 ; wChannel4
-	dw SoundEffect56_Channel4
+	dw SoundEffect56_Channel4_BankF
 
-SoundEffect56_Channel4: ; 0x3ed50
+SoundEffect56_Channel4_BankF: ; 0x3ed50
 	dutycycle $02
 	soundinput $97
 	soundeffect_note $04, $F3, $B6, $06
@@ -3778,11 +3778,11 @@ SoundEffect56_Channel4: ; 0x3ed50
 	soundeffect_note $01, $00, $00, $00
 	db $FF
 
-SoundEffect57: ; 0x3ed65
+SoundEffect57_BankF: ; 0x3ed65
 	db $07 ; wChannel7
-	dw SoundEffect57_Channel7
+	dw SoundEffect57_Channel7_BankF
 
-SoundEffect57_Channel7: ; 0x3ed68
+SoundEffect57_Channel7_BankF: ; 0x3ed68
 	soundeffect_percussion $06, $F1, $47
 	soundeffect_percussion $04, $B8, $35
 	soundeffect_percussion $06, $B1, $59
@@ -3790,11 +3790,11 @@ SoundEffect57_Channel7: ; 0x3ed68
 	soundeffect_percussion $01, $00, $00
 	db $FF
 
-SoundEffect58: ; 0x3ed78
+SoundEffect58_BankF: ; 0x3ed78
 	db $04 ; wChannel4
-	dw SoundEffect58_Channel4
+	dw SoundEffect58_Channel4_BankF
 
-SoundEffect58_Channel4: ; 0x3ed7b
+SoundEffect58_Channel4_BankF: ; 0x3ed7b
 	dutycycle $02
 	soundinput $A7
 	soundeffect_note $05, $D4, $2D, $07
@@ -3805,11 +3805,11 @@ SoundEffect58_Channel4: ; 0x3ed7b
 	soundeffect_note $01, $00, $00, $00
 	db $FF
 
-SoundEffect59: ; 0x3ed98
+SoundEffect59_BankF: ; 0x3ed98
 	db $04 ; wChannel4
-	dw SoundEffect59_Channel4
+	dw SoundEffect59_Channel4_BankF
 
-SoundEffect59_Channel4: ; 0x3ed9b
+SoundEffect59_Channel4_BankF: ; 0x3ed9b
 	dutycycle $02
 	soundinput $A7
 	soundeffect_note $04, $91, $27, $07
@@ -3819,11 +3819,11 @@ SoundEffect59_Channel4: ; 0x3ed9b
 	soundeffect_note $01, $00, $00, $00
 	db $FF
 
-SoundEffect60: ; 0x3edb0
+SoundEffect60_BankF: ; 0x3edb0
 	db $04 ; wChannel4
-	dw SoundEffect60_Channel4
+	dw SoundEffect60_Channel4_BankF
 
-SoundEffect60_Channel4: ; ; 0x3edb3
+SoundEffect60_Channel4_BankF: ; ; 0x3edb3
 	togglesfx
 	dutycycle $02
 	notetype $01, $F1
@@ -3834,11 +3834,11 @@ SoundEffect60_Channel4: ; ; 0x3edb3
 	note __, 2
 	db $FF
 
-SoundEffect61: ; 0x3edc0
+SoundEffect61_BankF: ; 0x3edc0
 	db $04 ; wChannel4
-	dw SoundEffect61_Channel4
+	dw SoundEffect61_Channel4_BankF
 
-SoundEffect61_Channel4: ; 0x3edc3
+SoundEffect61_Channel4_BankF: ; 0x3edc3
 	togglesfx
 	dutycycle $02
 	notetype $01, $F1
@@ -3849,11 +3849,11 @@ SoundEffect61_Channel4: ; 0x3edc3
 	note __, 2
 	db $FF
 
-SoundEffect62: ; 0x3edd0
+SoundEffect62_BankF: ; 0x3edd0
 	db $04 ; wChannel4
-	dw SoundEffect62_Channel4
+	dw SoundEffect62_Channel4_BankF
 
-SoundEffect62_Channel4: ; 0x3edd0
+SoundEffect62_Channel4_BankF: ; 0x3edd0
 	togglesfx
 	dutycycle $02
 	notetype $01, $A1
@@ -3867,29 +3867,29 @@ SoundEffect62_Channel4: ; 0x3edd0
 	note __, 2
 	db $FF
 
-SoundEffect63: ; 0x3ede3
+SoundEffect63_BankF: ; 0x3ede3
 	db $07 ; wChannel7
-	dw SoundEffect63_Channel7
+	dw SoundEffect63_Channel7_BankF
 
-SoundEffect63_Channel7: ; 0x3ede6
+SoundEffect63_Channel7_BankF: ; 0x3ede6
 	soundeffect_percussion $01, $B1, $44
 	soundeffect_percussion $00, $00, $00
 	soundeffect_percussion $01, $51, $44
 	soundeffect_percussion $01, $00, $00
 	db $FF
 
-SoundEffect64: ; 0x3edf3
+SoundEffect64_BankF: ; 0x3edf3
 	db $07 ; wChannel7
-	dw SoundEffect64_Channel7
+	dw SoundEffect64_Channel7_BankF
 
-SoundEffect64_Channel7: ; 0x3edf6
+SoundEffect64_Channel7_BankF: ; 0x3edf6
 	soundeffect_percussion $06, $F1, $47
 	soundeffect_percussion $04, $C8, $35
 	soundeffect_percussion $04, $B1, $59
-SoundEffect64_Channel7_loop: ; 0x3edff
+SoundEffect64_Channel7_loop_BankF: ; 0x3edff
 	soundeffect_percussion $04, $98, $33
 	soundeffect_percussion $06, $64, $69
-	loopchannel $03, SoundEffect64_Channel7_loop
+	loopchannel $03, SoundEffect64_Channel7_loop_BankF
 	soundeffect_percussion $06, $6C, $11
 	soundeffect_percussion $06, $6C, $22
 	soundeffect_percussion $06, $6C, $33
@@ -3898,11 +3898,11 @@ SoundEffect64_Channel7_loop: ; 0x3edff
 	soundeffect_percussion $01, $00, $00
 	db $FF
 
-SoundEffect65: ; 0x3ee1c
+SoundEffect65_BankF: ; 0x3ee1c
 	db $04 ; wChannel4
-	dw SoundEffect65_Channel4
+	dw SoundEffect65_Channel4_BankF
 
-SoundEffect65_Channel4: ; 0x3ee1f
+SoundEffect65_Channel4_BankF: ; 0x3ee1f
 	dutycycle $02
 	soundinput $3A
 	soundeffect_note $04, $F2, $00, $02
@@ -3911,11 +3911,11 @@ SoundEffect65_Channel4: ; 0x3ee1f
 	soundeffect_note $01, $00, $00, $00
 	db $FF
 
-SoundEffect66: ; 0x3ee32
+SoundEffect66_BankF: ; 0x3ee32
 	db $04 ; wChannel4
-	dw SoundEffect66_Channel4
+	dw SoundEffect66_Channel4_BankF
 
-SoundEffect66_Channel4: ; 0x3ee35
+SoundEffect66_Channel4_BankF: ; 0x3ee35
 	togglesfx
 	dutycycle $02
 	notetype $02, $D1
@@ -3932,11 +3932,11 @@ SoundEffect66_Channel4: ; 0x3ee35
 	note __, 2
 	db $FF
 
-SoundEffect67: ; 0x3ee48
+SoundEffect67_BankF: ; 0x3ee48
 	db $04 ; wChannel4
-	dw SoundEffect67_Channel4
+	dw SoundEffect67_Channel4_BankF
 
-SoundEffect67_Channel4: ; 0x3ee4b
+SoundEffect67_Channel4_BankF: ; 0x3ee4b
 	togglesfx
 	dutycycle $02
 	notetype $02, $D1
@@ -3953,11 +3953,11 @@ SoundEffect67_Channel4: ; 0x3ee4b
 	note __, 2
 	db $FF
 
-SoundEffect68: ; 0x3ee5e
+SoundEffect68_BankF: ; 0x3ee5e
 	db $04 ; wChannel4
-	dw SoundEffect68_Channel4
+	dw SoundEffect68_Channel4_BankF
 
-SoundEffect68_Channel4: ; 0x3ee61
+SoundEffect68_Channel4_BankF: ; 0x3ee61
 	togglesfx
 	dutycycle $02
 	notetype $01, $F1
@@ -3976,11 +3976,11 @@ SoundEffect68_Channel4: ; 0x3ee61
 	note __, 2
 	db $FF
 
-SoundEffect69: ; 0x3ee78
+SoundEffect69_BankF: ; 0x3ee78
 	db $04 ; wChannel4
-	dw SoundEffect69_Channel4
+	dw SoundEffect69_Channel4_BankF
 
-SoundEffect69_Channel4: ; 0x3ee7b
+SoundEffect69_Channel4_BankF: ; 0x3ee7b
 	togglesfx
 	dutycycle $02
 	notetype $01, $F1
@@ -3999,11 +3999,11 @@ SoundEffect69_Channel4: ; 0x3ee7b
 	note __, 2
 	db $FF
 
-SoundEffect70: ; 0x3ee92
+SoundEffect70_BankF: ; 0x3ee92
 	db $04 ; wChannel4
-	dw SoundEffect70_Channel4
+	dw SoundEffect70_Channel4_BankF
 
-SoundEffect70_Channel4: ; 0x3ee95
+SoundEffect70_Channel4_BankF: ; 0x3ee95
 	togglesfx
 	dutycycle $02
 	notetype $01, $F1
@@ -4022,11 +4022,11 @@ SoundEffect70_Channel4: ; 0x3ee95
 	note __, 2
 	db $FF
 
-SoundEffect71: ; 0x3eeaa
+SoundEffect71_BankF: ; 0x3eeaa
 	db $04 ; wChannel4
-	dw SoundEffect71_Channel4
+	dw SoundEffect71_Channel4_BankF
 
-SoundEffect71_Channel4: ; 0x3eead
+SoundEffect71_Channel4_BankF: ; 0x3eead
 	dutycycle $00
 	soundeffect_note $02, $F8, $64, $3B
 	soundeffect_note $02, $28, $64, $3B
@@ -4035,61 +4035,61 @@ SoundEffect71_Channel4: ; 0x3eead
 	soundeffect_note $01, $00, $00, $00
 	db $FF
 
-SoundEffect72: ; 0x3eec4
+SoundEffect72_BankF: ; 0x3eec4
 	db $07 ; wChannel7
-	dw SoundEffect72_Channel7
+	dw SoundEffect72_Channel7_BankF
 
-SoundEffect72_Channel7: ; 0x3eec7
+SoundEffect72_Channel7_BankF: ; 0x3eec7
 	soundeffect_percussion $00, $E8, $34
 	soundeffect_percussion $00, $00, $00
 	soundeffect_percussion $01, $E1, $01
 	soundeffect_percussion $01, $00, $00
 	db $FF
 
-SoundEffect73: ; 0x3eed4
+SoundEffect73_BankF: ; 0x3eed4
 	db $04
-	dw SoundEffect73_Channel4
+	dw SoundEffect73_Channel4_BankF
 
-SoundEffect73_Channel4: ; 0x3eed7
+SoundEffect73_Channel4_BankF: ; 0x3eed7
 	dutycycle $02
-SoundEffect73_Channel4_loop: ; 0x3eed9
+SoundEffect73_Channel4_loop_BankF: ; 0x3eed9
 	soundeffect_note $02, $F1, $B6, $07
 	soundeffect_note $02, $31, $B6, $07
-	loopchannel $04, SoundEffect73_Channel4_loop
+	loopchannel $04, SoundEffect73_Channel4_loop_BankF
 	soundeffect_note $01, $00, $00, $00
 	db $FF
 
-SoundEffect74: ; 0x3eeea
+SoundEffect74_BankF: ; 0x3eeea
 	db $04 ; wChannel4
-	dw SoundEffect74_Channel4
+	dw SoundEffect74_Channel4_BankF
 
-SoundEffect74_Channel4: ; 0x3eeed
+SoundEffect74_Channel4_BankF: ; 0x3eeed
 	dutycycle $02
-SoundEffect74_Channel4_loop: ; 0x3eeef
+SoundEffect74_Channel4_loop_BankF: ; 0x3eeef
 	soundeffect_note $02, $F1, $B6, $07
 	soundeffect_note $02, $31, $B6, $07
-	loopchannel $06, SoundEffect74_Channel4_loop
+	loopchannel $06, SoundEffect74_Channel4_loop_BankF
 	soundeffect_note $01, $00, $00, $00
 	db $FF
 
-SoundEffect75: ; 0x3ef00
+SoundEffect75_BankF: ; 0x3ef00
 	db $04 ; wChannel4
-	dw SoundEffect75_Channel4
+	dw SoundEffect75_Channel4_BankF
 
-SoundEffect75_Channel4: ; 0x3ef03
+SoundEffect75_Channel4_BankF: ; 0x3ef03
 	dutycycle $02
-SoundEffect75_Channel4_loop: ; 0x3ef05
+SoundEffect75_Channel4_loop_BankF: ; 0x3ef05
 	soundeffect_note $02, $F1, $B6, $07
 	soundeffect_note $02, $31, $B6, $07
-	loopchannel $08, SoundEffect75_Channel4_loop
+	loopchannel $08, SoundEffect75_Channel4_loop_BankF
 	soundeffect_note $01, $00, $00, $00
 	db $FF
 
-SoundEffect76: ; 0x3ef16
+SoundEffect76_BankF: ; 0x3ef16
 	db $04 ; wChannel4
-	dw SoundEffect76_Channel4
+	dw SoundEffect76_Channel4_BankF
 
-SoundEffect76_Channel4: ; 0x3ef19
+SoundEffect76_Channel4_BankF: ; 0x3ef19
 	togglesfx
 	dutycycle $02
 	notetype $01, $F1
@@ -4102,13 +4102,13 @@ SoundEffect76_Channel4: ; 0x3ef19
 	note __, 2
 	db $FF
 
-SoundEffect77: ; 0x3ef27
+SoundEffect77_BankF: ; 0x3ef27
 	db $4 | (($2 - 1) << 6) ; wChannel4
-	dw SoundEffect77_Channel4
+	dw SoundEffect77_Channel4_BankF
 	db $05 ; wChannel5
-	dw SoundEffect77_Channel5
+	dw SoundEffect77_Channel5_BankF
 
-SoundEffect77_Channel4: ; 0x3ef2d
+SoundEffect77_Channel4_BankF: ; 0x3ef2d
 	togglesfx
 	dutycycle $02
 	tempo $90
@@ -4131,7 +4131,7 @@ SoundEffect77_Channel4: ; 0x3ef2d
 	note C#, 3
 	db $FF 
 
-SoundEffect77_Channel5: ; 0x3ef4b
+SoundEffect77_Channel5_BankF: ; 0x3ef4b
 	togglesfx
 	dutycycle $02
 	notetype $08, $E1
@@ -4151,7 +4151,7 @@ SoundEffect77_Channel5: ; 0x3ef4b
 	note G#, 3
 	db $FF
 
-CryBasePointers: ; 0x3ef63
+CryBasePointers_BankF: ; 0x3ef63
 	dw Cry_00_Header_BankF
 	dw Cry_01_Header_BankF
 	dw Cry_02_Header_BankF
@@ -4191,7 +4191,7 @@ CryBasePointers: ; 0x3ef63
 	dw Cry_24_Header_BankF
 	dw Cry_25_Header_BankF
 
-CryData: ; 0x3efaf
+CryData_BankF: ; 0x3efaf
 ; Each entry is in the following format:
 ; [base cry id], [pitch], [length
 	dw $000F, $0080, $0081  ; BULBASAUR

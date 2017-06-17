@@ -4103,7 +4103,7 @@ SoundEffect76_Channel4: ; 0x3ef19
 	db $FF
 
 SoundEffect77: ; 0x3ef27
-	db $4 | (($2 - 1) << 6) ; wChannel4 ; wChannel4
+	db $4 | (($2 - 1) << 6) ; wChannel4
 	dw SoundEffect77_Channel4
 	db $05 ; wChannel5
 	dw SoundEffect77_Channel5
@@ -4348,572 +4348,1256 @@ CryData: ; 0x3efaf
 
 Cry_00_Header_BankF: ; 0x3f339
 	channelcount 3
-	channel 4, Data_3f733
-	channel 5, Data_3f742
-	channel 7, Data_3f751
+	channel 4, Cry_00_Ch4_BankF
+	channel 5, Cry_00_Ch5_BankF
+	channel 7, Cry_00_Ch7_BankF
 
 Cry_01_Header_BankF: ; 0x3f342
 	channelcount 3
-	channel 4, Data_3f943
-	channel 5, Data_3f956
-	channel 7, Data_3f969
+	channel 4,  Cry_01_Ch4_BankF
+	channel 5,  Cry_01_Ch5_BankF
+	channel 7,  Cry_01_Ch7_BankF
 
 Cry_02_Header_BankF: ; 0x3f34b
 	channelcount 3
-	channel 4, Data_3f8b8
-	channel 5, Data_3f8c7
-	channel 7, Data_3f8d5
+	channel 4, Cry_02_Ch4_BankF
+	channel 5, Cry_02_Ch5_BankF
+	channel 7, Cry_02_Ch7_BankF
 
 Cry_03_Header_BankF: ; 0x3f354
 	channelcount 3
-	channel 4, Data_3f652
-	channel 5, Data_3f671
-	channel 7, Data_3f690
+	channel 4, Cry_03_Ch4_BankF
+	channel 5, Cry_03_Ch5_BankF
+	channel 7, Cry_03_Ch7_BankF
 
 Cry_04_Header_BankF: ; 0x3f35d
 	channelcount 3
-	channel 4, Data_3fa01
-	channel 5, Data_3fa20
-	channel 7, Data_3fa3f
+	channel 4, Cry_04_Ch4_BankF
+	channel 5, Cry_04_Ch5_BankF
+	channel 7, Cry_04_Ch7_BankF
 
 Cry_05_Header_BankF: ; 0x3f366
 	channelcount 3
-	channel 4, Data_3f7e1
-	channel 5, Data_3f7f4
-	channel 7, Data_3f806
+	channel 4, Cry_05_Ch4_BankF
+	channel 5, Cry_05_Ch5_BankF
+	channel 7, Cry_05_Ch7_BankF
 
 Cry_06_Header_BankF: ; 0x3f36f
 	channelcount 3
-	channel 4, Data_3f78b
-	channel 5, Data_3f7a5
-	channel 7, Data_3f7a6
+	channel 4, Cry_06_Ch4_BankF
+	channel 5, Cry_06_Ch5_BankF
+	channel 7, Cry_06_Ch7_BankF
 
 Cry_07_Header_BankF: ; 0x3f378
 	channelcount 3
-	channel 4, Data_3f7b9
-	channel 5, Data_3f7c8
-	channel 7, Data_3f7d7
+	channel 4, Cry_07_Ch4_BankF
+	channel 5, Cry_07_Ch5_BankF
+	channel 7, Cry_07_Ch7_BankF
 
 Cry_08_Header_BankF: ; 0x3f381
 	channelcount 3
-	channel 4, Data_3f9d1
-	channel 5, Data_3f9e4
-	channel 7, Data_3f9f7
+	channel 4, Cry_08_Ch4_BankF
+	channel 5, Cry_08_Ch5_BankF
+	channel 7, Cry_08_Ch7_BankF
 
 Cry_09_Header_BankF: ; 0x3f38a
 	channelcount 3
-	channel 4, Data_3f4db
-	channel 5, Data_3f4f8
-	channel 7, Data_3f519
+	channel 4, Cry_09_Ch4_BankF
+	channel 5, Cry_09_Ch5_BankF
+	channel 7, Cry_09_Ch7_BankF
 
 Cry_0A_Header_BankF: ; 0x3f393
 	channelcount 3
-	channel 4, Data_3f976
-	channel 5, Data_3f995
-	channel 7, Data_3f9b8
+	channel 4, Cry_0A_Ch4_BankF
+	channel 5, Cry_0A_Ch5_BankF
+	channel 7, Cry_0A_Ch7_BankF
 
 Cry_0B_Header_BankF: ; 0x3f39c
 	channelcount 3
-	channel 4, Data_3f807
-	channel 5, Data_3f832
-	channel 7, Data_3f851
+	channel 4, Cry_0B_Ch4_BankF
+	channel 5, Cry_0B_Ch5_BankF
+	channel 7, Cry_0B_Ch7_BankF
 
 Cry_0C_Header_BankF: ; 0x3f3a5
 	channelcount 3
-	channel 4, Data_3f86a
-	channel 5, Data_3f891
-	channel 7, Data_3f8b7
+	channel 4, Cry_0C_Ch4_BankF
+	channel 5, Cry_0C_Ch5_BankF
+	channel 7, Cry_0C_Ch7_BankF
 
 Cry_0D_Header_BankF: ; 0x3f3ae
 	channelcount 3
-	channel 4, Data_3f8d6
-	channel 5, Data_3f8f5
-	channel 7, Data_3f924
+	channel 4, Cry_0D_Ch4_BankF
+	channel 5, Cry_0D_Ch5_BankF
+	channel 7, Cry_0D_Ch7_BankF
 
 Cry_0E_Header_BankF: ; 0x3f
 	channelcount 3
-	channel 4, Data_3f75b
-	channel 5, Data_3f76e
-	channel 7, Data_3f781
+	channel 4, Cry_0E_Ch4_BankF
+	channel 5, Cry_0E_Ch5_BankF
+	channel 7, Cry_0E_Ch7_BankF
 
 Cry_0F_Header_BankF: ; 0x3f
 	channelcount 3
-	channel 4, Data_3f69d
-	channel 5, Data_3f6b8
-	channel 7, Data_3f6d3
+	channel 4, Cry_0F_Ch4_BankF
+	channel 5, Cry_0F_Ch5_BankF
+	channel 7, Cry_0F_Ch7_BankF
 
 Cry_10_Header_BankF: ; 0x3f3b7
 	channelcount 3
-	channel 4, Data_3f6e3
-	channel 5, Data_3f706
-	channel 7, Data_3f729
+	channel 4, Cry_10_Ch4_BankF
+	channel 5, Cry_10_Ch5_BankF
+	channel 7, Cry_10_Ch7_BankF
 
 Cry_11_Header_BankF: ; 0x3f3c0
 	channelcount 3
-	channel 4, Data_3f5bf
-	channel 5, Data_3f5de
-	channel 7, Data_3f601
+	channel 4, Cry_11_Ch4_BankF
+	channel 5, Cry_11_Ch5_BankF
+	channel 7, Cry_11_Ch7_BankF
 
 Cry_12_Header_BankF: ; 0x3f3c9
 	channelcount 3
-	channel 4, Data_3fad7
-	channel 5, Data_3faea
-	channel 7, Data_3fafd
+	channel 4, Cry_12_Ch4_BankF
+	channel 5, Cry_12_Ch5_BankF
+	channel 7, Cry_12_Ch7_BankF
 
 Cry_13_Header_BankF: ; 0x3f3d2
 	channelcount 3
-	channel 4, Data_3fb0a
-	channel 5, Data_3fb25
-	channel 7, Data_3fb40
+	channel 4, Cry_13_Ch4_BankF
+	channel 5, Cry_13_Ch5_BankF
+	channel 7, Cry_13_Ch7_BankF
 
 Cry_14_Header_BankF: ; 0x3f3db
 	channelcount 3
-	channel 4, Data_3fb53
-	channel 5, Data_3fb62
-	channel 7, Data_3fb71
+	channel 4, Cry_14_Ch4_BankF
+	channel 5, Cry_14_Ch5_BankF
+	channel 7, Cry_14_Ch7_BankF
 
 Cry_15_Header_BankF: ; 0x3f3e4
 	channelcount 3
-	channel 4, Data_3fbe1
-	channel 5, Data_3fbfc
-	channel 7, Data_3fc17
+	channel 4, Cry_15_Ch4_BankF
+	channel 5, Cry_15_Ch5_BankF
+	channel 7, Cry_15_Ch7_BankF
 
 Cry_16_Header_BankF: ; 0x3f3ed
 	channelcount 3
-	channel 4, Data_3fa74
-	channel 5, Data_3fa83
-	channel 7, Data_3fa92
+	channel 4, Cry_16_Ch4_BankF
+	channel 5, Cry_16_Ch5_BankF
+	channel 7, Cry_16_Ch7_BankF
 
 Cry_17_Header_BankF: ; 0x3f3f6
 	channelcount 3
-	channel 4, Data_3fc2a
-	channel 5, Data_3fc3d
-	channel 7, Data_3fc50
+	channel 4, Cry_17_Ch4_BankF
+	channel 5, Cry_17_Ch5_BankF
+	channel 7, Cry_17_Ch7_BankF
 
 Cry_18_Header_BankF: ; 0x3f3ff
 	channelcount 3
-	channel 4, Data_3fd3a
-	channel 5, Data_3fd5d
-	channel 7, Data_3fd80
+	channel 4, Cry_18_Ch4_BankF
+	channel 5, Cry_18_Ch5_BankF
+	channel 7, Cry_18_Ch7_BankF
 
 Cry_19_Header_BankF: ; 0x3f408
 	channelcount 3
-	channel 4, Data_3fa52
-	channel 5, Data_3fa61
-	channel 7, Data_3fa73
+	channel 4, Cry_19_Ch4_BankF
+	channel 5, Cry_19_Ch5_BankF
+	channel 7, Cry_19_Ch7_BankF
 
 Cry_1A_Header_BankF: ; 0x3f411
 	channelcount 3
-	channel 4, Data_3fcab
-	channel 5, Data_3fcc6
-	channel 7, Data_3fce1
+	channel 4, Cry_1A_Ch4_BankF
+	channel 5, Cry_1A_Ch5_BankF
+	channel 7, Cry_1A_Ch7_BankF
 
 Cry_1B_Header_BankF: ; 0x3f41a
 	channelcount 3
-	channel 4, Data_3fa9c
-	channel 5, Data_3fab3
-	channel 7, Data_3faca
+	channel 4, Cry_1B_Ch4_BankF
+	channel 5, Cry_1B_Ch5_BankF
+	channel 7, Cry_1B_Ch7_BankF
 
 Cry_1C_Header_BankF: ; 0x3f423
 	channelcount 3
-	channel 4, Data_3fc5d
-	channel 5, Data_3fc80
-	channel 7, Data_3fc9b
+	channel 4, Cry_1C_Ch4_BankF
+	channel 5, Cry_1C_Ch5_BankF
+	channel 7, Cry_1C_Ch7_BankF
 
 Cry_1D_Header_BankF: ; 0x3f42c
 	channelcount 3
-	channel 4, Data_3fcf4
-	channel 5, Data_3fd0f
-	channel 7, Data_3fd2a
+	channel 4, Cry_1D_Ch4_BankF
+	channel 5, Cry_1D_Ch5_BankF
+	channel 7, Cry_1D_Ch7_BankF
 
 Cry_1E_Header_BankF: ; 0x3f435
 	channelcount 3
-	channel 4, Data_3fb7b
-	channel 5, Data_3fb9e
-	channel 7, Data_3fbc5
+	channel 4, Cry_1E_Ch4_BankF
+	channel 5, Cry_1E_Ch5_BankF
+	channel 7, Cry_1E_Ch7_BankF
 
 Cry_1F_Header_BankF: ; 0x3f43e
 	channelcount 3
-	channel 4, Data_3fd93
-	channel 5, Data_3fda6
-	channel 7, Data_3fdb9
+	channel 4, Cry_1F_Ch4_BankF
+	channel 5, Cry_1F_Ch5_BankF
+	channel 7, Cry_1F_Ch7_BankF
 
 Cry_20_Header_BankF: ; 0x3f447
 	channelcount 3
-	channel 4, Data_3fdc6
-	channel 5, Data_3fdd9
-	channel 7, Data_3fdec
+	channel 4, Cry_20_Ch4_BankF
+	channel 5, Cry_20_Ch5_BankF
+	channel 7, Cry_20_Ch7_BankF
 
 Cry_21_Header_BankF: ; 0x3f450
 	channelcount 3
-	channel 4, Data_3fdf9
-	channel 5, Data_3fe1c
-	channel 7, Data_3fe3e
+	channel 4, Cry_21_Ch4_BankF
+	channel 5, Cry_21_Ch5_BankF
+	channel 7, Cry_21_Ch7_BankF
 
 Cry_22_Header_BankF: ; 0x3f459
 	channelcount 3
-	channel 4, Data_3fe3f
-	channel 5, Data_3fe52
-	channel 7, Data_3fe65
+	channel 4, Cry_22_Ch4_BankF
+	channel 5, Cry_22_Ch5_BankF
+	channel 7, Cry_22_Ch7_BankF
 
 Cry_23_Header_BankF: ; 0x3f462
 	channelcount 3
-	channel 4, Data_3f532
-	channel 5, Data_3f549
-	channel 7, Data_3f55c
+	channel 4, Cry_23_Ch4_BankF
+	channel 5, Cry_23_Ch5_BankF
+	channel 7, Cry_23_Ch7_BankF
 
 Cry_24_Header_BankF: ; 0x3f46b
 	channelcount 3
-	channel 4, Data_3f569
-	channel 5, Data_3f58c
-	channel 7, Data_3f5af
+	channel 4, Cry_24_Ch4_BankF
+	channel 5, Cry_24_Ch5_BankF
+	channel 7, Cry_24_Ch7_BankF
 
 Cry_25_Header_BankF: ; 0x3f474
 	channelcount 3
-	channel 4, Data_3f617
-	channel 5, Data_3f62e
-	channel 7, Data_3f645
-
-	dr $3f48f, $3f4db
-
-Data_3f4db:
-	dr $3f4db, $3f4f8
-
-Data_3f4f8:
-	dr $3f4f8, $3f519
-
-Data_3f519:
-	dr $3f519, $3f532
-
-Data_3f532:
-	dr $3f532, $3f549
-
-Data_3f549:
-	dr $3f549, $3f55c
-
-Data_3f55c:
-	dr $3f55c, $3f569
-
-Data_3f569:
-	dr $3f569, $3f58c
-
-Data_3f58c:
-	dr $3f58c, $3f5af
-
-Data_3f5af:
-	dr $3f5af, $3f5bf
-
-Data_3f5bf:
-	dr $3f5bf, $3f5de
-
-Data_3f5de:
-	dr $3f5de, $3f601
-
-Data_3f601:
-	dr $3f601, $3f617
-
-Data_3f617:
-	dr $3f617, $3f62e
-
-Data_3f62e:
-	dr $3f62e, $3f645
-
-Data_3f645:
-	dr $3f645, $3f652
-
-Data_3f652:
-	dr $3f652, $3f671
-
-Data_3f671:
-	dr $3f671, $3f690
-
-Data_3f690:
-	dr $3f690, $3f69d
-
-Data_3f69d:
-	dr $3f69d, $3f6b8
-
-Data_3f6b8:
-	dr $3f6b8, $3f6d3
-
-Data_3f6d3:
-	dr $3f6d3, $3f6e3
-
-Data_3f6e3:
-	dr $3f6e3, $3f706
-
-Data_3f706:
-	dr $3f706, $3f729
-
-Data_3f729:
-	dr $3f729, $3f733
-
-Data_3f733:
-	dr $3f733, $3f742
-
-Data_3f742:
-	dr $3f742, $3f751
-
-Data_3f751:
-	dr $3f751, $3f75b
-
-Data_3f75b:
-	dr $3f75b, $3f76e
-
-Data_3f76e:
-	dr $3f76e, $3f781
-
-Data_3f781:
-	dr $3f781, $3f78b
-
-Data_3f78b:
-	dr $3f78b, $3f7a5
-
-Data_3f7a5:
-	dr $3f7a5, $3f7a6
-
-Data_3f7a6:
-	dr $3f7a6, $3f7b9
-
-Data_3f7b9:
-	dr $3f7b9, $3f7c8
-
-Data_3f7c8:
-	dr $3f7c8, $3f7d7
-
-Data_3f7d7:
-	dr $3f7d7, $3f7e1
-
-Data_3f7e1:
-	dr $3f7e1, $3f7f4
-
-Data_3f7f4:
-	dr $3f7f4, $3f806
-
-Data_3f806:
-	dr $3f806, $3f807
-
-Data_3f807:
-	dr $3f807, $3f832
-
-Data_3f832:
-	dr $3f832, $3f851
-
-Data_3f851:
-	dr $3f851, $3f86a
-
-Data_3f86a:
-	dr $3f86a, $3f891
-
-Data_3f891:
-	dr $3f891, $3f8b7
-
-Data_3f8b7:
-	dr $3f8b7, $3f8b8
-
-Data_3f8b8:
-	dr $3f8b8, $3f8c7
-
-Data_3f8c7:
-	dr $3f8c7, $3f8d5
-
-Data_3f8d5:
-	dr $3f8d5, $3f8d6
-
-Data_3f8d6:
-	dr $3f8d6, $3f8f5
-
-Data_3f8f5:
-	dr $3f8f5, $3f924
-
-Data_3f924:
-	dr $3f924, $3f943
-
-Data_3f943:
-	dr $3f943, $3f956
-
-Data_3f956:
-	dr $3f956, $3f969
-
-Data_3f969:
-	dr $3f969, $3f976
-
-Data_3f976:
-	dr $3f976, $3f995
-
-Data_3f995:
-	dr $3f995, $3f9b8
-
-Data_3f9b8:
-	dr $3f9b8, $3f9d1
-
-Data_3f9d1:
-	dr $3f9d1, $3f9e4
-
-Data_3f9e4:
-	dr $3f9e4, $3f9f7
-
-Data_3f9f7:
-	dr $3f9f7, $3fa01
-
-Data_3fa01:
-	dr $3fa01, $3fa20
-
-Data_3fa20:
-	dr $3fa20, $3fa3f
-
-Data_3fa3f:
-	dr $3fa3f, $3fa52
-
-Data_3fa52:
-	dr $3fa52, $3fa61
-
-Data_3fa61:
-	dr $3fa61, $3fa73
-
-Data_3fa73:
-	dr $3fa73, $3fa74
-
-Data_3fa74:
-	dr $3fa74, $3fa83
-
-Data_3fa83:
-	dr $3fa83, $3fa92
-
-Data_3fa92:
-	dr $3fa92, $3fa9c
-
-Data_3fa9c:
-	dr $3fa9c, $3fab3
-
-Data_3fab3:
-	dr $3fab3, $3faca
-
-Data_3faca:
-	dr $3faca, $3fad7
-
-Data_3fad7:
-	dr $3fad7, $3faea
-
-Data_3faea:
-	dr $3faea, $3fafd
-
-Data_3fafd:
-	dr $3fafd, $3fb0a
-
-Data_3fb0a:
-	dr $3fb0a, $3fb25
-
-Data_3fb25:
-	dr $3fb25, $3fb40
-
-Data_3fb40:
-	dr $3fb40, $3fb53
-
-Data_3fb53:
-	dr $3fb53, $3fb62
-
-Data_3fb62:
-	dr $3fb62, $3fb71
-
-Data_3fb71:
-	dr $3fb71, $3fb7b
-
-Data_3fb7b:
-	dr $3fb7b, $3fb9e
-
-Data_3fb9e:
-	dr $3fb9e, $3fbc5
-
-Data_3fbc5:
-	dr $3fbc5, $3fbe1
-
-Data_3fbe1:
-	dr $3fbe1, $3fbfc
-
-Data_3fbfc:
-	dr $3fbfc, $3fc17
-
-Data_3fc17:
-	dr $3fc17, $3fc2a
-
-Data_3fc2a:
-	dr $3fc2a, $3fc3d
-
-Data_3fc3d:
-	dr $3fc3d, $3fc50
-
-Data_3fc50:
-	dr $3fc50, $3fc5d
-
-Data_3fc5d:
-	dr $3fc5d, $3fc80
-
-Data_3fc80:
-	dr $3fc80, $3fc9b
-
-Data_3fc9b:
-	dr $3fc9b, $3fcab
-
-Data_3fcab:
-	dr $3fcab, $3fcc6
-
-Data_3fcc6:
-	dr $3fcc6, $3fce1
-
-Data_3fce1:
-	dr $3fce1, $3fcf4
-
-Data_3fcf4:
-	dr $3fcf4, $3fd0f
-
-Data_3fd0f:
-	dr $3fd0f, $3fd2a
-
-Data_3fd2a:
-	dr $3fd2a, $3fd3a
-
-Data_3fd3a:
-	dr $3fd3a, $3fd5d
-
-Data_3fd5d:
-	dr $3fd5d, $3fd80
-
-Data_3fd80:
-	dr $3fd80, $3fd93
-
-Data_3fd93:
-	dr $3fd93, $3fda6
-
-Data_3fda6:
-	dr $3fda6, $3fdb9
-
-Data_3fdb9:
-	dr $3fdb9, $3fdc6
-
-Data_3fdc6:
-	dr $3fdc6, $3fdd9
-
-Data_3fdd9:
-	dr $3fdd9, $3fdec
-
-Data_3fdec:
-	dr $3fdec, $3fdf9
-
-Data_3fdf9:
-	dr $3fdf9, $3fe1c
-
-Data_3fe1c:
-	dr $3fe1c, $3fe3e
-
-Data_3fe3e:
-	dr $3fe3e, $3fe3f
-
-Data_3fe3f:
-	dr $3fe3f, $3fe52
-
-Data_3fe52:
-	dr $3fe52, $3fe65
-
-Data_3fe65:
-	dr $3fe65, $3fe72
+	channel 4, Cry_25_Ch4_BankF
+	channel 5, Cry_25_Ch5_BankF
+	channel 7, Cry_25_Ch7_BankF
+
+UnusedCry_Ch4_BankF:
+	unknownmusic0xde $F0
+	soundeffect_note $0F, $E0, $80, $07
+	soundeffect_note $0F, $F0, $84, $07
+	soundeffect_note $0F, $C3, $E0, $05
+	soundeffect_note $0F, $C4, $00, $06
+	soundeffect_note $0A, $6C, $80, $07
+	soundeffect_note $08, $71, $84, $07
+	endchannel
+
+UnusedCry_Ch5_BankF:
+	unknownmusic0xde $05
+	soundeffect_note $0F, $A0, $41, $07
+	soundeffect_note $0F, $B0, $43, $07
+	soundeffect_note $0F, $93, $B1, $05
+	soundeffect_note $0F, $94, $C1, $05
+	soundeffect_note $0A, $4C, $41, $07
+	soundeffect_note $08, $31, $46, $07
+	endchannel
+
+UnusedCry_Ch7_BankF:
+	soundeffect_percussion $02, $F2, $4C
+	soundeffect_percussion $06, $E0, $3A
+	soundeffect_percussion $0F, $D0, $3A
+	soundeffect_percussion $08, $D0, $2C
+	soundeffect_percussion $06, $E6, $4C
+	soundeffect_percussion $0C, $7D, $4C
+	soundeffect_percussion $0F, $D3, $4C
+	endchannel
+
+Cry_09_Ch4_BankF:
+	unknownmusic0xde $F0
+	soundeffect_note $0F, $F7, $A0, $07
+	soundeffect_note $06, $E6, $A3, $07
+	soundeffect_note $0A, $F4, $A0, $07
+	unknownmusic0xde $A5
+	soundeffect_note $0A, $F6, $D8, $07
+	soundeffect_note $04, $E3, $D7, $07
+	soundeffect_note $0F, $F2, $D8, $07
+	endchannel
+
+Cry_09_Ch5_BankF:
+	unknownmusic0xde $05
+	soundeffect_note $02, $08, $00, $00
+	soundeffect_note $0F, $A7, $A1, $06
+	soundeffect_note $06, $86, $A2, $06
+	soundeffect_note $0A, $74, $A1, $06
+	unknownmusic0xde $5F
+	soundeffect_note $0A, $76, $D6, $06
+	soundeffect_note $04, $83, $D9, $06
+	soundeffect_note $0F, $A2, $D7, $06
+	endchannel
+
+Cry_09_Ch7_BankF:
+	soundeffect_percussion $02, $F2, $3C
+	soundeffect_percussion $08, $E4, $3E
+	soundeffect_percussion $0F, $D7, $3C
+	soundeffect_percussion $06, $C5, $3B
+	soundeffect_percussion $06, $E4, $3D
+	soundeffect_percussion $08, $B6, $3C
+	soundeffect_percussion $06, $D4, $3D
+	soundeffect_percussion $08, $C1, $3B
+	endchannel
+
+Cry_23_Ch4_BankF:
+	unknownmusic0xde $F0
+	soundeffect_note $0F, $F7, $C0, $07
+	soundeffect_note $06, $E4, $C1, $07
+	soundeffect_note $0A, $F6, $C0, $07
+	soundeffect_note $04, $D3, $C2, $07
+	soundeffect_note $08, $C1, $C0, $07
+	endchannel
+
+Cry_23_Ch5_BankF:
+	unknownmusic0xde $5F
+	soundeffect_note $0F, $97, $81, $07
+	soundeffect_note $06, $84, $80, $07
+	soundeffect_note $0A, $96, $81, $07
+	soundeffect_note $0F, $83, $81, $07
+	endchannel
+
+Cry_23_Ch7_BankF:
+	soundeffect_percussion $03, $F2, $3C
+	soundeffect_percussion $0D, $E6, $2C
+	soundeffect_percussion $0F, $D7, $3C
+	soundeffect_percussion $08, $C1, $2C
+	endchannel
+
+Cry_24_Ch4_BankF:
+	unknownmusic0xde $F0
+	soundeffect_note $0F, $F7, $80, $06
+	soundeffect_note $0A, $E6, $84, $06
+	soundeffect_note $0F, $D7, $90, $06
+	soundeffect_note $08, $D5, $90, $06
+	soundeffect_note $06, $C4, $88, $06
+	soundeffect_note $05, $D3, $70, $06
+	soundeffect_note $04, $D3, $60, $06
+	soundeffect_note $08, $C1, $40, $06
+	endchannel
+
+Cry_24_Ch5_BankF:
+	unknownmusic0xde $05
+	soundeffect_note $0F, $B7, $41, $06
+	soundeffect_note $0A, $96, $42, $06
+	soundeffect_note $0F, $A7, $51, $06
+	soundeffect_note $08, $A5, $51, $06
+	soundeffect_note $06, $94, $47, $06
+	soundeffect_note $05, $A3, $31, $06
+	soundeffect_note $04, $93, $22, $06
+	soundeffect_note $08, $71, $01, $06
+	endchannel
+
+Cry_24_Ch7_BankF:
+	soundeffect_percussion $0F, $E4, $3C
+	soundeffect_percussion $0A, $C7, $4C
+	soundeffect_percussion $0A, $C7, $3C
+	soundeffect_percussion $0C, $B7, $4C
+	soundeffect_percussion $0F, $A2, $5C
+	endchannel
+
+Cry_11_Ch4_BankF:
+	unknownmusic0xde $F0
+	soundeffect_note $06, $F7, $A0, $07
+	soundeffect_note $08, $E6, $A4, $07
+	soundeffect_note $04, $D6, $A0, $07
+	soundeffect_note $0F, $D3, $20, $07
+	soundeffect_note $08, $C3, $23, $07
+	soundeffect_note $02, $C2, $28, $07
+	soundeffect_note $08, $B1, $30, $07
+	endchannel
+
+Cry_11_Ch5_BankF:
+	unknownmusic0xde $0A
+	soundeffect_note $04, $08, $00, $00
+	soundeffect_note $06, $A7, $41, $07
+	soundeffect_note $08, $86, $43, $07
+	soundeffect_note $04, $76, $41, $07
+	soundeffect_note $0D, $83, $C2, $06
+	soundeffect_note $07, $73, $C1, $06
+	soundeffect_note $03, $82, $CC, $06
+	soundeffect_note $08, $71, $D8, $06
+	endchannel
+
+Cry_11_Ch7_BankF:
+	soundeffect_percussion $02, $F2, $4C
+	soundeffect_percussion $06, $E6, $3A
+	soundeffect_percussion $04, $D7, $3A
+	soundeffect_percussion $06, $D6, $2C
+	soundeffect_percussion $08, $E5, $3C
+	soundeffect_percussion $0C, $D2, $3D
+	soundeffect_percussion $08, $D1, $2C
+	endchannel
+
+Cry_25_Ch4_BankF:
+	unknownmusic0xde $A5
+	soundeffect_note $06, $F4, $40, $07
+	soundeffect_note $0F, $E3, $30, $07
+	soundeffect_note $04, $F4, $40, $07
+	soundeffect_note $05, $B3, $48, $07
+	soundeffect_note $08, $D1, $50, $07
+	endchannel
+
+Cry_25_Ch5_BankF:
+	unknownmusic0xde $77
+	soundeffect_note $06, $C3, $12, $07
+	soundeffect_note $0F, $B3, $04, $07
+	soundeffect_note $03, $C3, $12, $07
+	soundeffect_note $04, $C3, $21, $07
+	soundeffect_note $08, $B1, $32, $07
+	endchannel
+
+Cry_25_Ch7_BankF:
+	soundeffect_percussion $08, $D6, $2C
+	soundeffect_percussion $0C, $C6, $3C
+	soundeffect_percussion $0A, $B6, $2C
+	soundeffect_percussion $08, $91, $1C
+	endchannel
+
+Cry_03_Ch4_BankF:
+	unknownmusic0xde $F0
+	soundeffect_note $04, $F7, $08, $06
+	soundeffect_note $06, $E6, $00, $06
+	soundeffect_note $06, $D7, $F0, $05
+	soundeffect_note $06, $C4, $E0, $05
+	soundeffect_note $05, $D3, $C0, $05
+	soundeffect_note $04, $D3, $A0, $05
+	soundeffect_note $08, $E1, $80, $05
+	endchannel
+
+Cry_03_Ch5_BankF:
+	unknownmusic0xde $0A
+	soundeffect_note $04, $C7, $04, $05
+	soundeffect_note $06, $A6, $02, $05
+	soundeffect_note $06, $97, $F1, $04
+	soundeffect_note $04, $B4, $E1, $04
+	soundeffect_note $05, $A3, $C2, $04
+	soundeffect_note $04, $B3, $A3, $04
+	soundeffect_note $08, $C1, $82, $04
+	endchannel
+
+Cry_03_Ch7_BankF:
+	soundeffect_percussion $0C, $E4, $4C
+	soundeffect_percussion $0A, $C7, $5C
+	soundeffect_percussion $0C, $B6, $4C
+	soundeffect_percussion $0F, $A2, $5C
+	endchannel
+
+Cry_0F_Ch4_BankF:
+	unknownmusic0xde $F1
+	soundeffect_note $04, $F7, $C0, $07
+	soundeffect_note $0C, $E6, $C2, $07
+	soundeffect_note $06, $B5, $80, $06
+	soundeffect_note $04, $C4, $70, $06
+	soundeffect_note $04, $B5, $60, $06
+	soundeffect_note $08, $C1, $40, $06
+	endchannel
+
+Cry_0F_Ch5_BankF:
+	unknownmusic0xde $CC
+	soundeffect_note $03, $C7, $81, $07
+	soundeffect_note $0C, $B6, $80, $07
+	soundeffect_note $06, $A5, $41, $06
+	soundeffect_note $04, $C4, $32, $06
+	soundeffect_note $06, $B5, $21, $06
+	soundeffect_note $08, $A1, $02, $06
+	endchannel
+
+Cry_0F_Ch7_BankF:
+	soundeffect_percussion $03, $E4, $3C
+	soundeffect_percussion $0C, $D6, $2C
+	soundeffect_percussion $04, $E4, $3C
+	soundeffect_percussion $08, $B7, $5C
+	soundeffect_percussion $0F, $C2, $5D
+	endchannel
+
+Cry_10_Ch4_BankF:
+	unknownmusic0xde $C9
+	soundeffect_note $08, $F7, $80, $06
+	soundeffect_note $02, $F7, $60, $06
+	soundeffect_note $01, $E7, $40, $06
+	soundeffect_note $01, $E7, $20, $06
+	soundeffect_note $0F, $D1, $00, $06
+	soundeffect_note $04, $C7, $40, $07
+	soundeffect_note $04, $A7, $30, $07
+	soundeffect_note $0F, $91, $20, $07
+	endchannel
+
+Cry_10_Ch5_BankF:
+	unknownmusic0xde $79
+	soundeffect_note $0A, $E7, $82, $06
+	soundeffect_note $02, $E7, $62, $06
+	soundeffect_note $01, $D7, $42, $06
+	soundeffect_note $01, $D7, $22, $06
+	soundeffect_note $0F, $C1, $02, $06
+	soundeffect_note $04, $B7, $42, $07
+	soundeffect_note $02, $97, $32, $07
+	soundeffect_note $0F, $81, $22, $07
+	endchannel
+
+Cry_10_Ch7_BankF:
+	soundeffect_percussion $04, $74, $21
+	soundeffect_percussion $04, $74, $10
+	soundeffect_percussion $04, $71, $20
+	endchannel
+
+Cry_00_Ch4_BankF:
+	unknownmusic0xde 245
+	soundeffect_note 4, 243, 24, 7
+	soundeffect_note 15, 229, 152, 7
+	soundeffect_note 8, 145, 88, 7
+	endchannel
+
+Cry_00_Ch5_BankF:
+	unknownmusic0xde 160
+	soundeffect_note 5, 179, 8, 7
+	soundeffect_note 15, 197, 136, 7
+	soundeffect_note 8, 113, 72, 7
+	endchannel
+
+Cry_00_Ch7_BankF:
+	soundeffect_percussion 3, 161, 28
+	soundeffect_percussion 14, 148, 44
+	soundeffect_percussion 8, 129, 28
+	endchannel
+
+Cry_0E_Ch4_BankF:
+	unknownmusic0xde $A5
+	soundeffect_note $04, $E1, $00, $07
+	soundeffect_note $04, $F2, $80, $07
+	soundeffect_note $02, $92, $40, $07
+	soundeffect_note $08, $E1, $00, $06
+	endchannel
+
+Cry_0E_Ch5_BankF:
+	unknownmusic0xde $0A
+	soundeffect_note $04, $B1, $E1, $06
+	soundeffect_note $03, $C2, $E1, $06
+	soundeffect_note $03, $62, $81, $06
+	soundeffect_note $08, $B1, $E1, $05
+	endchannel
+
+Cry_0E_Ch7_BankF:
+	soundeffect_percussion $02, $61, $32
+	soundeffect_percussion $02, $61, $21
+	soundeffect_percussion $08, $61, $11
+	endchannel
+
+
+Cry_06_Ch4_BankF:
+	unknownmusic0xde $FA
+	soundeffect_note $06, $83, $47, $02
+	soundeffect_note $0F, $62, $26, $02
+	soundeffect_note $04, $52, $45, $02
+	soundeffect_note $09, $63, $06, $02
+	soundeffect_note $0F, $82, $25, $02
+	soundeffect_note $0F, $42, $07, $02
+Cry_06_Ch5_BankF:
+	endchannel
+
+Cry_06_Ch7_BankF:
+	soundeffect_percussion $08, $D4, $8C
+	soundeffect_percussion $04, $E2, $9C
+	soundeffect_percussion $0F, $C6, $8C
+	soundeffect_percussion $08, $E4, $AC
+	soundeffect_percussion $0F, $D7, $9C
+	soundeffect_percussion $0F, $F2, $AC
+	endchannel
+
+Cry_07_Ch4_BankF:
+	unknownmusic0xde $F0
+	soundeffect_note $04, $F3, $E0, $06
+	soundeffect_note $0F, $E4, $40, $06
+	soundeffect_note $08, $C1, $20, $06
+	endchannel
+
+Cry_07_Ch5_BankF:
+	unknownmusic0xde $0A
+	soundeffect_note $03, $C3, $83, $06
+	soundeffect_note $0E, $B4, $02, $06
+	soundeffect_note $08, $A1, $01, $06
+	endchannel
+
+Cry_07_Ch7_BankF:
+	soundeffect_percussion $04, $D3, $5C
+	soundeffect_percussion $0F, $E6, $4C
+	soundeffect_percussion $08, $B1, $5C
+	endchannel
+
+Cry_05_Ch4_BankF:
+	unknownmusic0xde $0A
+	soundeffect_note $06, $E2, $00, $05
+	soundeffect_note $06, $E3, $80, $05
+	soundeffect_note $06, $D3, $70, $05
+	soundeffect_note $08, $A1, $60, $05
+	endchannel
+
+Cry_05_Ch5_BankF:
+	unknownmusic0xde $F5
+	soundeffect_note $06, $E2, $82, $04
+	soundeffect_note $06, $D3, $01, $05
+	soundeffect_note $06, $B2, $E2, $04
+	soundeffect_note $08, $81, $C1, $04
+Cry_05_Ch7_BankF:
+	endchannel
+
+Cry_0B_Ch4_BankF:
+	unknownmusic0xde $CC
+	soundeffect_note $04, $F1, $00, $07
+	soundeffect_note $04, $E1, $80, $07
+	soundeffect_note $04, $D1, $40, $07
+	soundeffect_note $04, $E1, $40, $07
+	soundeffect_note $04, $F1, $80, $07
+	soundeffect_note $04, $D1, $00, $07
+	soundeffect_note $04, $F1, $01, $07
+	soundeffect_note $04, $D1, $82, $07
+	soundeffect_note $04, $C1, $42, $07
+	soundeffect_note $08, $B1, $41, $07
+	endchannel
+
+Cry_0B_Ch5_BankF:
+	unknownmusic0xde $44
+	soundeffect_note $0C, $08, $00, $00
+	soundeffect_note $04, $F1, $01, $07
+	soundeffect_note $04, $E1, $82, $07
+	soundeffect_note $04, $D1, $41, $07
+	soundeffect_note $04, $E1, $41, $07
+	soundeffect_note $04, $F1, $82, $07
+	soundeffect_note $08, $D1, $01, $07
+	endchannel
+
+Cry_0B_Ch7_BankF:
+	soundeffect_percussion $0F, $08, $00
+	soundeffect_percussion $04, $08, $00
+	soundeffect_percussion $04, $D1, $4C
+	soundeffect_percussion $04, $B1, $2C
+	soundeffect_percussion $04, $D1, $3C
+	soundeffect_percussion $04, $B1, $3C
+	soundeffect_percussion $04, $C1, $2C
+	soundeffect_percussion $08, $A1, $4C
+	endchannel
+
+Cry_0C_Ch4_BankF:
+	unknownmusic0xde $CC
+	soundeffect_note $08, $F5, $00, $06
+	soundeffect_note $02, $D2, $38, $06
+	soundeffect_note $02, $C2, $30, $06
+	soundeffect_note $02, $C2, $28, $06
+	soundeffect_note $02, $B2, $20, $06
+	soundeffect_note $02, $B2, $10, $06
+	soundeffect_note $02, $A2, $18, $06
+	soundeffect_note $02, $B2, $10, $06
+	soundeffect_note $08, $C1, $20, $06
+	endchannel
+
+Cry_0C_Ch5_BankF:
+	unknownmusic0xde $44
+	soundeffect_note $0C, $C3, $C0, $05
+	soundeffect_note $03, $B1, $F9, $05
+	soundeffect_note $02, $A1, $F1, $05
+	soundeffect_note $02, $A1, $E9, $05
+	soundeffect_note $02, $91, $E1, $05
+	soundeffect_note $02, $91, $D9, $05
+	soundeffect_note $02, $81, $D1, $05
+	soundeffect_note $02, $91, $D9, $05
+	soundeffect_note $08, $91, $E1, $05
+Cry_0C_Ch7_BankF:
+	endchannel
+
+Cry_02_Ch4_BankF:
+	unknownmusic0xde $00
+	soundeffect_note $08, $F5, $80, $04
+	soundeffect_note $02, $E1, $E0, $05
+	soundeffect_note $08, $D1, $DC, $05
+	endchannel
+
+Cry_02_Ch5_BankF:
+	unknownmusic0xde $A5
+	soundeffect_note $07, $95, $41, $04
+	soundeffect_note $02, $81, $21, $05
+	soundeffect_note $08, $61, $1A, $05
+Cry_02_Ch7_BankF:
+	endchannel
+
+Cry_0D_Ch4_BankF:
+	unknownmusic0xde $88
+	soundeffect_note $05, $F2, $50, $06
+	soundeffect_note $09, $D1, $60, $06
+	soundeffect_note $05, $E2, $12, $06
+	soundeffect_note $09, $C1, $22, $06
+	soundeffect_note $05, $F2, $10, $06
+	soundeffect_note $06, $D1, $20, $06
+	soundeffect_note $FD, $02, $D6, $78
+	endchannel
+
+Cry_0D_Ch5_BankF:
+	unknownmusic0xde $40
+	soundeffect_note $04, $08, $00, $00
+	soundeffect_note $05, $F2, $51, $06
+	soundeffect_note $09, $D1, $61, $06
+	soundeffect_note $05, $E2, $14, $06
+	soundeffect_note $08, $C1, $24, $06
+	soundeffect_note $05, $F2, $11, $06
+	soundeffect_note $0C, $D1, $21, $06
+	soundeffect_note $05, $E2, $14, $06
+	soundeffect_note $08, $C1, $24, $06
+	soundeffect_note $05, $F2, $11, $06
+	soundeffect_note $04, $D1, $21, $06
+	endchannel
+
+Cry_0D_Ch7_BankF:
+	soundeffect_percussion $06, $D2, $1C
+	soundeffect_percussion $09, $B1, $2C
+	soundeffect_percussion $08, $C2, $2C
+	soundeffect_percussion $09, $B1, $3C
+	soundeffect_percussion $06, $C2, $2C
+	soundeffect_percussion $09, $A2, $3C
+	soundeffect_percussion $07, $C2, $2C
+	soundeffect_percussion $05, $A1, $3C
+	soundeffect_percussion $09, $C2, $2C
+	soundeffect_percussion $04, $A1, $3C
+	endchannel
+
+Cry_01_Ch4_BankF:
+	unknownmusic0xde $A0
+	soundeffect_note $04, $F3, $00, $06
+	soundeffect_note $08, $D5, $60, $07
+	soundeffect_note $03, $E2, $20, $07
+	soundeffect_note $08, $D1, $10, $07
+	endchannel
+
+Cry_01_Ch5_BankF:
+	unknownmusic0xde $5A
+	soundeffect_note $05, $B3, $F1, $06
+	soundeffect_note $07, $C5, $52, $07
+	soundeffect_note $03, $A2, $11, $07
+	soundeffect_note $08, $B1, $01, $06
+	endchannel
+
+Cry_01_Ch7_BankF:
+	soundeffect_percussion $03, $A2, $3C
+	soundeffect_percussion $0C, $94, $2C
+	soundeffect_percussion $03, $82, $1C
+	soundeffect_percussion $08, $71, $2C
+	endchannel
+
+Cry_0A_Ch4_BankF:
+	unknownmusic0xde $F0
+	soundeffect_note $08, $F7, $E0, $06
+	soundeffect_note $06, $E6, $E5, $06
+	soundeffect_note $03, $F4, $E0, $06
+	soundeffect_note $03, $F6, $D0, $06
+	soundeffect_note $03, $E3, $C0, $06
+	soundeffect_note $04, $F2, $B0, $06
+	soundeffect_note $0F, $A2, $C8, $06
+	endchannel
+
+Cry_0A_Ch5_BankF:
+	unknownmusic0xde $05
+	soundeffect_note $03, $08, $00, $00
+	soundeffect_note $08, $A7, $A1, $06
+	soundeffect_note $06, $86, $A3, $06
+	soundeffect_note $03, $74, $A1, $06
+	soundeffect_note $03, $76, $91, $06
+	soundeffect_note $03, $83, $82, $06
+	soundeffect_note $04, $A2, $71, $06
+	soundeffect_note $0F, $72, $89, $06
+	endchannel
+
+Cry_0A_Ch7_BankF:
+	soundeffect_percussion $02, $F2, $3C
+	soundeffect_percussion $08, $E4, $3E
+	soundeffect_percussion $08, $D7, $3C
+	soundeffect_percussion $05, $C5, $3B
+	soundeffect_percussion $03, $D4, $2C
+	soundeffect_percussion $02, $B6, $3C
+	soundeffect_percussion $03, $A4, $2C
+	soundeffect_percussion $08, $91, $3C
+	endchannel
+
+Cry_08_Ch4_BankF:
+	unknownmusic0xde $F0
+	soundeffect_note $0F, $F6, $65, $05
+	soundeffect_note $0A, $E4, $7C, $05
+	soundeffect_note $03, $C2, $5C, $05
+	soundeffect_note $0F, $B2, $3C, $05
+	endchannel
+
+Cry_08_Ch5_BankF:
+	unknownmusic0xde $5A
+	soundeffect_note $0E, $D6, $03, $05
+	soundeffect_note $09, $B4, $1B, $05
+	soundeffect_note $04, $92, $FA, $04
+	soundeffect_note $0F, $A2, $DB, $04
+	endchannel
+
+Cry_08_Ch7_BankF:
+	soundeffect_percussion $0C, $E6, $4C
+	soundeffect_percussion $0B, $D7, $5C
+	soundeffect_percussion $0F, $C2, $4C
+	endchannel
+
+Cry_04_Ch4_BankF:
+	unknownmusic0xde $F0
+	soundeffect_note $04, $F7, $A0, $06
+	soundeffect_note $08, $E6, $A4, $06
+	soundeffect_note $04, $D6, $A0, $06
+	soundeffect_note $0C, $D3, $20, $06
+	soundeffect_note $08, $C3, $24, $06
+	soundeffect_note $04, $C2, $20, $06
+	soundeffect_note $08, $B1, $10, $06
+	endchannel
+
+Cry_04_Ch5_BankF:
+	unknownmusic0xde $5A
+	soundeffect_note $04, $E7, $01, $06
+	soundeffect_note $08, $D6, $03, $06
+	soundeffect_note $04, $C6, $01, $06
+	soundeffect_note $0C, $C3, $81, $05
+	soundeffect_note $08, $B3, $83, $05
+	soundeffect_note $04, $B2, $82, $05
+	soundeffect_note $08, $A1, $71, $05
+	endchannel
+
+Cry_04_Ch7_BankF:
+	soundeffect_percussion $07, $D6, $5C
+	soundeffect_percussion $08, $E6, $4C
+	soundeffect_percussion $04, $D4, $5C
+	soundeffect_percussion $04, $D4, $4C
+	soundeffect_percussion $07, $C3, $4C
+	soundeffect_percussion $08, $A1, $5C
+	endchannel
+
+Cry_19_Ch4_BankF:
+	unknownmusic0xde $1B
+	soundeffect_note $07, $D2, $40, $07
+	soundeffect_note $0F, $E5, $60, $07
+	soundeffect_note $18, $C1, $30, $07
+	endchannel
+
+Cry_19_Ch5_BankF:
+	unknownmusic0xde $81
+	soundeffect_note $02, $C2, $01, $07
+	soundeffect_note $04, $C2, $08, $07
+	soundeffect_note $0F, $D7, $41, $07
+	soundeffect_note $18, $A2, $01, $07
+Cry_19_Ch7_BankF:
+	endchannel
+
+Cry_16_Ch4_BankF:
+	unknownmusic0xde $F0
+	soundeffect_note $0F, $D7, $80, $07
+	soundeffect_note $04, $E6, $A0, $07
+	soundeffect_note $0F, $D2, $40, $07
+	endchannel
+
+Cry_16_Ch5_BankF:
+	unknownmusic0xde $5A
+	soundeffect_note $0F, $C7, $53, $07
+	soundeffect_note $05, $B6, $72, $07
+	soundeffect_note $0F, $C2, $11, $07
+	endchannel
+
+Cry_16_Ch7_BankF:
+	soundeffect_percussion $0D, $F6, $4C
+	soundeffect_percussion $04, $E6, $3C
+	soundeffect_percussion $0F, $F2, $4C
+	endchannel
+
+Cry_1B_Ch4_BankF:
+	unknownmusic0xde $F0
+	soundeffect_note $06, $F7, $C0, $06
+	soundeffect_note $0F, $E7, $00, $07
+	soundeffect_note $04, $F4, $F0, $06
+	soundeffect_note $04, $E4, $E0, $06
+	soundeffect_note $08, $D1, $D0, $06
+	endchannel
+
+Cry_1B_Ch5_BankF:
+	unknownmusic0xde $0A
+	soundeffect_note $07, $E6, $81, $06
+	soundeffect_note $0E, $D5, $C1, $06
+	soundeffect_note $04, $C4, $B1, $06
+	soundeffect_note $04, $D4, $A1, $06
+	soundeffect_note $08, $C1, $91, $06
+	endchannel
+
+Cry_1B_Ch7_BankF:
+	soundeffect_percussion $0A, $A6, $3C
+	soundeffect_percussion $0E, $94, $2C
+	soundeffect_percussion $05, $A3, $3C
+	soundeffect_percussion $08, $91, $2C
+	endchannel
+
+Cry_12_Ch4_BankF:
+	unknownmusic0xde $A5
+	soundeffect_note $0C, $F2, $40, $04
+	soundeffect_note $0F, $E3, $A0, $04
+	soundeffect_note $04, $D2, $90, $04
+	soundeffect_note $08, $D1, $80, $04
+	endchannel
+
+Cry_12_Ch5_BankF:
+	unknownmusic0xde $EE
+	soundeffect_note $0B, $D2, $38, $04
+	soundeffect_note $0E, $C6, $98, $04
+	soundeffect_note $03, $B2, $88, $04
+	soundeffect_note $08, $B1, $78, $04
+	endchannel
+
+Cry_12_Ch7_BankF:
+	soundeffect_percussion $0A, $E6, $6C
+	soundeffect_percussion $0F, $D2, $5C
+	soundeffect_percussion $03, $C2, $6C
+	soundeffect_percussion $08, $D1, $5C
+	endchannel
+
+Cry_13_Ch4_BankF:
+	unknownmusic0xde $33
+	soundeffect_note $0F, $F6, $C0, $05
+	soundeffect_note $08, $E3, $BC, $05
+	soundeffect_note $06, $D2, $D0, $05
+	soundeffect_note $06, $B2, $E0, $05
+	soundeffect_note $06, $C2, $F0, $05
+	soundeffect_note $08, $B1, $00, $06
+	endchannel
+
+Cry_13_Ch5_BankF:
+	unknownmusic0xde $99
+	soundeffect_note $0E, $C6, $B1, $04
+	soundeffect_note $07, $C3, $AD, $04
+	soundeffect_note $05, $B2, $C1, $04
+	soundeffect_note $08, $92, $D1, $04
+	soundeffect_note $06, $A2, $E1, $04
+	soundeffect_note $08, $91, $F1, $04
+	endchannel
+
+Cry_13_Ch7_BankF:
+	soundeffect_percussion $0A, $E6, $5C
+	soundeffect_percussion $0A, $D6, $6C
+	soundeffect_percussion $04, $C2, $4C
+	soundeffect_percussion $06, $D3, $5C
+	soundeffect_percussion $08, $B3, $4C
+	soundeffect_percussion $08, $A1, $5C
+	endchannel
+
+Cry_14_Ch4_BankF:
+	unknownmusic0xde $F0
+	soundeffect_note $08, $E4, $90, $07
+	soundeffect_note $0F, $F5, $C0, $07
+	soundeffect_note $08, $D1, $D8, $07
+	endchannel
+
+Cry_14_Ch5_BankF:
+	unknownmusic0xde $A5
+	soundeffect_note $0A, $C4, $71, $07
+	soundeffect_note $0F, $B6, $A2, $07
+	soundeffect_note $08, $A1, $B7, $07
+	endchannel
+
+Cry_14_Ch7_BankF:
+	soundeffect_percussion $08, $E4, $4C
+	soundeffect_percussion $0E, $C4, $3C
+	soundeffect_percussion $08, $D1, $2C
+	endchannel
+
+Cry_1E_Ch4_BankF:
+	unknownmusic0xde $F0
+	soundeffect_note $06, $F2, $00, $06
+	soundeffect_note $06, $E2, $40, $06
+	soundeffect_note $06, $D2, $80, $06
+	soundeffect_note $06, $E2, $C0, $06
+	soundeffect_note $06, $D2, $00, $07
+	soundeffect_note $06, $C2, $40, $07
+	soundeffect_note $06, $B2, $80, $07
+	soundeffect_note $08, $A1, $C0, $07
+	endchannel
+
+Cry_1E_Ch5_BankF:
+	unknownmusic0xde $11
+	soundeffect_note $03, $08, $01, $00
+	soundeffect_note $06, $C2, $C1, $05
+	soundeffect_note $06, $B2, $02, $06
+	soundeffect_note $06, $A2, $41, $06
+	soundeffect_note $06, $B2, $82, $06
+	soundeffect_note $06, $A2, $C2, $06
+	soundeffect_note $06, $92, $01, $07
+	soundeffect_note $06, $A2, $42, $07
+	soundeffect_note $08, $81, $81, $07
+	endchannel
+
+Cry_1E_Ch7_BankF:
+	soundeffect_percussion $06, $08, $01
+	soundeffect_percussion $05, $E2, $5C
+	soundeffect_percussion $05, $C2, $4C
+	soundeffect_percussion $05, $D2, $3C
+	soundeffect_percussion $05, $B2, $2C
+	soundeffect_percussion $05, $C2, $1C
+	soundeffect_percussion $05, $A2, $1B
+	soundeffect_percussion $05, $92, $1A
+	soundeffect_percussion $08, $81, $18
+	endchannel
+
+Cry_15_Ch4_BankF:
+	unknownmusic0xde $F0
+	soundeffect_note $04, $F3, $80, $07
+	soundeffect_note $0F, $E7, $00, $07
+	soundeffect_note $08, $D3, $10, $07
+	soundeffect_note $04, $C2, $00, $07
+	soundeffect_note $04, $D2, $F0, $06
+	soundeffect_note $08, $C1, $E0, $06
+	endchannel
+
+Cry_15_Ch5_BankF:
+	unknownmusic0xde $5A
+	soundeffect_note $06, $C3, $01, $07
+	soundeffect_note $0E, $B7, $81, $06
+	soundeffect_note $07, $B3, $92, $06
+	soundeffect_note $03, $A2, $81, $06
+	soundeffect_note $04, $B2, $72, $06
+	soundeffect_note $08, $A1, $61, $06
+	endchannel
+
+Cry_15_Ch7_BankF:
+	soundeffect_percussion $06, $E3, $5C
+	soundeffect_percussion $0E, $D6, $4C
+	soundeffect_percussion $06, $C6, $3C
+	soundeffect_percussion $03, $B3, $4C
+	soundeffect_percussion $03, $A2, $5C
+	soundeffect_percussion $08, $B1, $6C
+	endchannel
+
+Cry_17_Ch4_BankF:
+	unknownmusic0xde $0F
+	soundeffect_note $0F, $F7, $00, $05
+	soundeffect_note $0F, $E7, $08, $05
+	soundeffect_note $08, $B4, $80, $04
+	soundeffect_note $0F, $A2, $60, $04
+	endchannel
+
+Cry_17_Ch5_BankF:
+	unknownmusic0xde $44
+	soundeffect_note $0E, $D7, $81, $04
+	soundeffect_note $0E, $C7, $89, $04
+	soundeffect_note $0A, $B4, $01, $04
+	soundeffect_note $0F, $C2, $E1, $03
+	endchannel
+
+Cry_17_Ch7_BankF:
+	soundeffect_percussion $0E, $F7, $7C
+	soundeffect_percussion $0C, $F6, $6C
+	soundeffect_percussion $09, $E4, $7C
+	soundeffect_percussion $0F, $E2, $6C
+	endchannel
+
+Cry_1C_Ch4_BankF:
+	unknownmusic0xde $F5
+	soundeffect_note $07, $D6, $E1, $07
+	soundeffect_note $06, $C6, $E2, $07
+	soundeffect_note $09, $D6, $E1, $07
+	soundeffect_note $07, $C6, $E0, $07
+	soundeffect_note $05, $B6, $E2, $07
+	soundeffect_note $07, $C6, $E1, $07
+	soundeffect_note $06, $B6, $E0, $07
+	soundeffect_note $08, $A1, $DF, $07
+	endchannel
+
+Cry_1C_Ch5_BankF:
+	unknownmusic0xde $44
+	soundeffect_note $06, $C3, $C9, $07
+	soundeffect_note $06, $B3, $C7, $07
+	soundeffect_note $0A, $C4, $C3, $07
+	soundeffect_note $08, $B4, $C7, $07
+	soundeffect_note $06, $C3, $C9, $07
+	soundeffect_note $0F, $A2, $C5, $07
+	endchannel
+
+Cry_1C_Ch7_BankF:
+	soundeffect_percussion $0D, $19, $7C
+	soundeffect_percussion $0D, $F7, $8C
+	soundeffect_percussion $0C, $D6, $7C
+	soundeffect_percussion $08, $C4, $6C
+	soundeffect_percussion $0F, $B3, $5C
+	endchannel
+
+Cry_1A_Ch4_BankF:
+	unknownmusic0xde $F0
+	soundeffect_note $06, $F7, $40, $07
+	soundeffect_note $0C, $E6, $44, $07
+	soundeffect_note $06, $D5, $50, $07
+	soundeffect_note $04, $C3, $60, $07
+	soundeffect_note $03, $C3, $80, $07
+	soundeffect_note $08, $D1, $A0, $07
+	endchannel
+
+Cry_1A_Ch5_BankF:
+	unknownmusic0xde $0A
+	soundeffect_note $06, $C7, $01, $07
+	soundeffect_note $0B, $B6, $02, $07
+	soundeffect_note $06, $A5, $11, $07
+	soundeffect_note $04, $93, $21, $07
+	soundeffect_note $03, $A3, $41, $07
+	soundeffect_note $08, $91, $62, $07
+	endchannel
+
+Cry_1A_Ch7_BankF:
+	soundeffect_percussion $03, $E2, $3C
+	soundeffect_percussion $08, $D6, $4C
+	soundeffect_percussion $05, $D4, $3C
+	soundeffect_percussion $0C, $C7, $4C
+	soundeffect_percussion $02, $E2, $3C
+	soundeffect_percussion $08, $D1, $2C
+	endchannel
+
+Cry_1D_Ch4_BankF:
+	unknownmusic0xde $F4
+	soundeffect_note $0F, $F0, $05, $07
+	soundeffect_note $0A, $E0, $00, $07
+	soundeffect_note $06, $B4, $10, $07
+	soundeffect_note $04, $D3, $00, $07
+	soundeffect_note $06, $B2, $20, $06
+	soundeffect_note $08, $A1, $24, $06
+	endchannel
+
+Cry_1D_Ch5_BankF:
+	unknownmusic0xde $22
+	soundeffect_note $0F, $B0, $C3, $06
+	soundeffect_note $0A, $A0, $C1, $06
+	soundeffect_note $06, $84, $D2, $06
+	soundeffect_note $04, $93, $C1, $06
+	soundeffect_note $06, $82, $E1, $05
+	soundeffect_note $08, $61, $E8, $05
+	endchannel
+
+Cry_1D_Ch7_BankF:
+	soundeffect_percussion $06, $E6, $4C
+	soundeffect_percussion $0F, $D6, $3C
+	soundeffect_percussion $0A, $C5, $4A
+	soundeffect_percussion $01, $B2, $5B
+	soundeffect_percussion $0F, $C2, $4C
+	endchannel
+
+Cry_18_Ch4_BankF:
+	unknownmusic0xde $50
+	soundeffect_note $0A, $F5, $80, $06
+	soundeffect_note $03, $E2, $A0, $06
+	soundeffect_note $03, $F2, $C0, $06
+	soundeffect_note $03, $E2, $E0, $06
+	soundeffect_note $03, $D2, $00, $07
+	soundeffect_note $03, $C2, $E0, $06
+	soundeffect_note $03, $D2, $C0, $06
+	soundeffect_note $08, $C1, $A0, $06
+	endchannel
+
+Cry_18_Ch5_BankF:
+	unknownmusic0xde $0F
+	soundeffect_note $09, $D5, $31, $06
+	soundeffect_note $03, $D2, $52, $06
+	soundeffect_note $03, $E2, $71, $06
+	soundeffect_note $03, $B2, $91, $06
+	soundeffect_note $03, $C2, $B2, $06
+	soundeffect_note $03, $B2, $91, $06
+	soundeffect_note $03, $C2, $71, $06
+	soundeffect_note $08, $B1, $51, $06
+	endchannel
+
+Cry_18_Ch7_BankF:
+	soundeffect_percussion $06, $E3, $4C
+	soundeffect_percussion $04, $C3, $3C
+	soundeffect_percussion $05, $D4, $3C
+	soundeffect_percussion $04, $C4, $2C
+	soundeffect_percussion $06, $B4, $3C
+	soundeffect_percussion $08, $C1, $2C
+	endchannel
+
+Cry_1F_Ch4_BankF:
+	unknownmusic0xde $A5
+	soundeffect_note $03, $F4, $41, $06
+	soundeffect_note $0D, $D6, $21, $07
+	soundeffect_note $08, $F4, $19, $07
+	soundeffect_note $08, $C1, $1A, $07
+	endchannel
+
+Cry_1F_Ch5_BankF:
+	unknownmusic0xde $CC
+	soundeffect_note $04, $F4, $80, $05
+	soundeffect_note $0E, $E6, $E0, $06
+	soundeffect_note $08, $D5, $D8, $06
+	soundeffect_note $08, $D1, $DC, $06
+	endchannel
+
+Cry_1F_Ch7_BankF:
+	soundeffect_percussion $05, $C4, $46
+	soundeffect_percussion $0D, $A5, $44
+	soundeffect_percussion $08, $C4, $45
+	soundeffect_percussion $08, $B1, $44
+	endchannel
+
+Cry_20_Ch4_BankF:
+	unknownmusic0xde $F0
+	soundeffect_note $0D, $F1, $11, $05
+	soundeffect_note $0D, $E1, $15, $05
+	soundeffect_note $0D, $E1, $11, $05
+	soundeffect_note $08, $D1, $11, $05
+	endchannel
+
+Cry_20_Ch5_BankF:
+	unknownmusic0xde $15
+	soundeffect_note $0C, $E1, $0C, $05
+	soundeffect_note $0C, $D1, $10, $05
+	soundeffect_note $0E, $C1, $0C, $05
+	soundeffect_note $08, $C1, $0A, $05
+	endchannel
+
+Cry_20_Ch7_BankF:
+	soundeffect_percussion $0E, $F2, $65
+	soundeffect_percussion $0D, $E2, $55
+	soundeffect_percussion $0E, $D2, $56
+	soundeffect_percussion $08, $D1, $66
+	endchannel
+
+Cry_21_Ch4_BankF:
+	unknownmusic0xde $1B
+	soundeffect_note $03, $F3, $64, $05
+	soundeffect_note $02, $E2, $44, $05
+	soundeffect_note $05, $D1, $22, $05
+	soundeffect_note $02, $B2, $84, $04
+	soundeffect_note $08, $D1, $A2, $04
+	soundeffect_note $03, $F3, $24, $05
+	soundeffect_note $04, $E4, $E4, $04
+	soundeffect_note $08, $D1, $02, $05
+	endchannel
+
+Cry_21_Ch5_BankF:
+	unknownmusic0xde $CC
+	soundeffect_note $03, $D3, $60, $05
+	soundeffect_note $02, $C2, $40, $05
+	soundeffect_note $05, $C1, $20, $05
+	soundeffect_note $02, $92, $80, $04
+	soundeffect_note $08, $C1, $A0, $04
+	soundeffect_note $03, $D3, $20, $05
+	soundeffect_note $03, $C4, $E0, $04
+	soundeffect_note $08, $C1, $00, $05
+Cry_21_Ch7_BankF:
+	endchannel
+
+Cry_22_Ch4_BankF:
+	unknownmusic0xde $11
+	soundeffect_note $02, $3D, $81, $03
+	soundeffect_note $07, $F5, $01, $06
+	soundeffect_note $01, $C2, $81, $04
+	soundeffect_note $08, $91, $81, $03
+	endchannel
+
+Cry_22_Ch5_BankF:
+	unknownmusic0xde $EE
+	soundeffect_note $02, $3E, $B0, $05
+	soundeffect_note $07, $D5, $5D, $07
+	soundeffect_note $01, $B2, $B0, $06
+	soundeffect_note $08, $61, $B0, $05
+	endchannel
+
+Cry_22_Ch7_BankF:
+	soundeffect_percussion $02, $92, $49
+	soundeffect_percussion $07, $B5, $29
+	soundeffect_percussion $01, $A2, $39
+	soundeffect_percussion $08, $91, $49
+	endchannel

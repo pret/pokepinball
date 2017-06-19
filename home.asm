@@ -3947,7 +3947,8 @@ CallTable_2049: ; 0x2049
 ; First two bytes is function pointer.
 ; Third byte is bank of function.
 ; Fourth byte seems to be unused.
-	padded_dab Func_8000
+	; SCREEN_SELECT_GAMEBOY_TARGET
+	padded_dab HandleSelectGameboyTargetMenu
 
 	; SCREEN_ERASE_ALL_DATA
 	padded_dab HandleEraseAllDataMenu

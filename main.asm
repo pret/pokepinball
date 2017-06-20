@@ -42049,13 +42049,13 @@ Data_280a6: ; 0x280a6
 	dab PokedexInitialGfx
 	dw vTilesOB
 	dw $6000
-	dab Data_c5000
+	dab PokedexTilemap2
 	dw $9800
 	dw $1000
-	dab Data_c4800
+	dab PokedexTilemap
 	dw vBGWin
 	dw $800
-	dab Data_c4800
+	dab PokedexTilemap
 	dw $9e00
 	dw $800
 	dw $FFFF ; terminators
@@ -42064,22 +42064,22 @@ Data_280c4: ; 0x280c4
 	dab PokedexInitialGfx
 	dw vTilesOB
 	dw $6000
-	dab Data_c5000
+	dab PokedexTilemap2
 	dw $9800
 	dw $1000
-	dab Data_c5400
+	dab PokedexBGAttributes2
 	dw $9800
 	dw $1002
-	dab Data_c4800
+	dab PokedexTilemap
 	dw vBGWin
 	dw $800
-	dab Data_c4800
+	dab PokedexTilemap
 	dw $9e00
 	dw $800
-	dab Data_c4c00
+	dab PokedexBGAttributes
 	dw vBGWin
 	dw $802
-	dab Data_c4c00
+	dab PokedexBGAttributes
 	dw $9e00
 	dw $802
 	dab PokedexPalettes
@@ -42418,15 +42418,15 @@ Func_282e9: ; 0x282e9
 	ld a, [hNewlyPressedButtons]
 	and $6
 	jr z, .asm_28367
-	ld a, BANK(Data_c4800)
-	ld hl, Data_c4800
+	ld a, BANK(PokedexTilemap)
+	ld hl, PokedexTilemap
 	ld de, vBGWin
 	ld bc, $0200
 	call LoadVRAMData
 	ld a, $1
 	ld [rVBK], a
-	ld a, BANK(Data_c4c00)
-	ld hl, Data_c4c00
+	ld a, BANK(PokedexBGAttributes)
+	ld hl, PokedexBGAttributes
 	ld de, vBGWin
 	ld bc, $0200
 	call LoadVRAMData
@@ -43216,8 +43216,8 @@ Func_2885c: ; 0x2885c
 	ret
 
 Func_2887c: ; 0x2887c
-	ld a, BANK(Data_c5120)
-	ld hl, Data_c5120
+	ld a, BANK(PokedexTilemap2)
+	ld hl, PokedexTilemap2 + $120
 	deCoord 0, 8, vBGMap
 	ld bc, $0100
 	call LoadVRAMData
@@ -43255,8 +43255,8 @@ Func_288a2: ; 0x288a2
 	ld a, $3b
 	ld [hLYC], a
 	ld [hNextLYCSub], a
-	ld a, BANK(Data_c5100)
-	ld hl, Data_c5100
+	ld a, BANK(PokedexTilemap2)
+	ld hl, PokedexTilemap2 + $100
 	deCoord 0, 8, vBGMap
 	ld bc, $0020
 	call LoadVRAMData
@@ -49494,23 +49494,15 @@ StageBlueFieldBottomCollisionAttributes: ; 0xc4000
 	INCBIN "data/collision/maps/blue_stage_bottom.collision"
 	INCBIN "data/collision/unused_trailing_data.bin"
 
-Data_c4800:
-	dr $c4800, $c4c00
+PokedexTilemap:
+	INCBIN "gfx/tilemaps/pokedex.map"
+PokedexBGAttributes:
+	INCBIN "gfx/bgattr/pokedex.bgattr"
 
-Data_c4c00:
-	dr $c4c00, $c5000
-
-Data_c5000:
-	dr $c5000, $c5100
-
-Data_c5100:
-	dr $c5100, $c5120
-
-Data_c5120:
-	dr $c5120, $c5400
-
-Data_c5400:
-	dr $c5400, $c5800
+PokedexTilemap2:
+	INCBIN "gfx/tilemaps/pokedex_2.map"
+PokedexBGAttributes2:
+	INCBIN "gfx/bgattr/pokedex_2.bgattr"
 
 TitlescreenTilemap: ; 0xc5800
 	INCBIN "gfx/tilemaps/titlescreen.map"

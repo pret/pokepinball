@@ -8873,7 +8873,7 @@ Func_142d7: ; 0x142d7
 	ld b, $0
 	swap c
 	sla c
-	ld hl, Data_d8e80
+	ld hl, EvolutionProgressIconsGfx
 	add hl, bc
 	swap e
 	sla e
@@ -8884,7 +8884,7 @@ Func_142d7: ; 0x142d7
 	ld e, l
 	pop hl
 	ld bc, $0020
-	ld a, BANK(Data_d8e80)
+	ld a, BANK(EvolutionProgressIconsGfx)
 	call FarCopyData
 	pop de
 	pop bc
@@ -23917,7 +23917,7 @@ Func_1c491: ; 0x1c491
 	ld b, $0
 	swap c
 	sla c
-	ld hl, Data_d8e80
+	ld hl, EvolutionProgressIconsGfx
 	add hl, bc
 	swap e
 	sla e
@@ -23928,7 +23928,7 @@ Func_1c491: ; 0x1c491
 	ld e, l
 	pop hl
 	ld bc, $0020
-	ld a, BANK(Data_d8e80)
+	ld a, BANK(EvolutionProgressIconsGfx)
 	call FarCopyData
 	pop de
 	pop bc
@@ -33194,7 +33194,7 @@ Func_20651: ; 0x20651
 	ld b, $0
 	swap c
 	sla c
-	ld hl, Data_d8e80
+	ld hl, EvolutionProgressIconsGfx
 	add hl, bc
 	ld a, [wd554]
 	ld c, a
@@ -33208,7 +33208,7 @@ Func_20651: ; 0x20651
 	ld e, l
 	pop hl
 	ld bc, $0020
-	ld a, BANK(Data_d8e80)
+	ld a, BANK(EvolutionProgressIconsGfx)
 	call LoadVRAMData
 .asm_20681
 	ld a, [wd554]
@@ -33923,7 +33923,7 @@ Func_20c76: ; 0x20c76
 	ld b, $0
 	swap c
 	sla c
-	ld hl, Data_d8e80
+	ld hl, EvolutionProgressIconsGfx
 	add hl, bc
 	ld a, [wd554]
 	ld c, a
@@ -33937,7 +33937,7 @@ Func_20c76: ; 0x20c76
 	ld e, l
 	pop hl
 	ld bc, $0020
-	ld a, BANK(Data_d8e80)
+	ld a, BANK(EvolutionProgressIconsGfx)
 	call LoadVRAMData
 .asm_20ca6
 	ld a, [wd554]
@@ -49721,10 +49721,12 @@ AgainTextOffGfx: ; 0xd8c40
 
 CatchTextGfx:
 	INCBIN "gfx/stage/catch.w48.2bpp"
-	dr $d8ce0, $d8e80
 
-Data_d8e80:
-	dr $d8e80, $d8f60
+UnusedEvolutionTextGfx: ; 0xd8ce0
+	INCBIN "gfx/stage/unused_evolution_text.2bpp"
+
+EvolutionProgressIconsGfx:
+	INCBIN "gfx/stage/evolution_progress_icons.2bpp"
 
 CaughtPokeballGfx: ; 0xd8f60
 	INCBIN "gfx/stage/caught_pokeball.2bpp"

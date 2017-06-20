@@ -13984,10 +13984,10 @@ Func_161e0: ; 0x161e0
 	sla c
 	add hl, bc
 asm_1620f: ; 0x1620f
-	ld bc, Data_f0000
+	ld bc, BallPhysicsData_f0000
 	add hl, bc
 	ld de, wBallXVelocity
-	ld a, BANK(Data_f0000)
+	ld a, BANK(BallPhysicsData_f0000)
 	call ReadByteFromBank
 	ld c, a
 	ld a, [de]
@@ -13995,7 +13995,7 @@ asm_1620f: ; 0x1620f
 	ld [de], a
 	inc de
 	inc hl
-	ld a, BANK(Data_f0000)
+	ld a, BANK(BallPhysicsData_f0000)
 	call ReadByteFromBank
 	ld b, a
 	ld a, [de]
@@ -14004,7 +14004,7 @@ asm_1620f: ; 0x1620f
 	inc de
 	inc hl
 	push bc
-	ld a, BANK(Data_f0000)
+	ld a, BANK(BallPhysicsData_f0000)
 	call ReadByteFromBank
 	ld c, a
 	ld a, [de]
@@ -14012,7 +14012,7 @@ asm_1620f: ; 0x1620f
 	ld [de], a
 	inc de
 	inc hl
-	ld a, BANK(Data_f0000)
+	ld a, BANK(BallPhysicsData_f0000)
 	call ReadByteFromBank
 	ld b, a
 	ld a, [de]
@@ -21375,10 +21375,10 @@ Func_1936f: ; 0x1936f
 	rl h
 	sla l
 	rl h
-	ld de, Data_e4000
+	ld de, BallPhysicsData_e4000
 	add hl, de
 	ld de, wBallXVelocity
-	ld a, BANK(Data_e4000)
+	ld a, BANK(BallPhysicsData_e4000)
 	call ReadByteFromBank
 	ld c, a
 	ld a, [de]
@@ -21386,7 +21386,7 @@ Func_1936f: ; 0x1936f
 	ld [de], a
 	inc de
 	inc hl
-	ld a, BANK(Data_e4000)
+	ld a, BANK(BallPhysicsData_e4000)
 	call ReadByteFromBank
 	ld b, a
 	ld a, [de]
@@ -21395,7 +21395,7 @@ Func_1936f: ; 0x1936f
 	inc de
 	inc hl
 	push bc
-	ld a, BANK(Data_e4000)
+	ld a, BANK(BallPhysicsData_e4000)
 	call ReadByteFromBank
 	ld c, a
 	ld a, [de]
@@ -21403,7 +21403,7 @@ Func_1936f: ; 0x1936f
 	ld [de], a
 	inc de
 	inc hl
-	ld a, BANK(Data_e4000)
+	ld a, BANK(BallPhysicsData_e4000)
 	call ReadByteFromBank
 	ld b, a
 	ld a, [de]
@@ -30191,10 +30191,10 @@ Func_1ea3b: ; 0x1ea3b
 	; fall through
 
 asm_1ea6a: ; 0x1ea6a
-	ld bc, Data_f0000
+	ld bc, BallPhysicsData_f0000
 	add hl, bc
 	ld de, wBallXVelocity
-	ld a, BANK(Data_f0000)
+	ld a, BANK(BallPhysicsData_f0000)
 	call ReadByteFromBank
 	ld c, a
 	ld a, [de]
@@ -30202,7 +30202,7 @@ asm_1ea6a: ; 0x1ea6a
 	ld [de], a
 	inc de
 	inc hl
-	ld a, BANK(Data_f0000)
+	ld a, BANK(BallPhysicsData_f0000)
 	call ReadByteFromBank
 	ld b, a
 	ld a, [de]
@@ -30211,7 +30211,7 @@ asm_1ea6a: ; 0x1ea6a
 	inc de
 	inc hl
 	push bc
-	ld a, BANK(Data_f0000)
+	ld a, BANK(BallPhysicsData_f0000)
 	call ReadByteFromBank
 	ld c, a
 	ld a, [de]
@@ -30219,7 +30219,7 @@ asm_1ea6a: ; 0x1ea6a
 	ld [de], a
 	inc de
 	inc hl
-	ld a, BANK(Data_f0000)
+	ld a, BANK(BallPhysicsData_f0000)
 	call ReadByteFromBank
 	ld b, a
 	ld a, [de]
@@ -31455,10 +31455,10 @@ Func_1efdc: ; 0x1efdc
 	; default to upward forcefield
 
 Func_1eff3:  ; 0x1eff3
-	ld bc, Data_ec000
+	ld bc, BallPhysicsData_ec000
 	add hl, bc
 	ld de, wBallXVelocity
-	ld a, BANK(Data_ec000)
+	ld a, BANK(BallPhysicsData_ec000)
 	call ReadByteFromBank
 	ld c, a
 	ld a, [de]
@@ -31466,7 +31466,7 @@ Func_1eff3:  ; 0x1eff3
 	ld [de], a
 	inc de
 	inc hl
-	ld a, BANK(Data_ec000)
+	ld a, BANK(BallPhysicsData_ec000)
 	call ReadByteFromBank
 	ld b, a
 	ld a, [de]
@@ -31475,7 +31475,7 @@ Func_1eff3:  ; 0x1eff3
 	inc de
 	inc hl
 	push bc
-	ld a, BANK(Data_ec000)
+	ld a, BANK(BallPhysicsData_ec000)
 	call ReadByteFromBank
 	ld c, a
 	ld a, [de]
@@ -31483,7 +31483,7 @@ Func_1eff3:  ; 0x1eff3
 	ld [de], a
 	inc de
 	inc hl
-	ld a, BANK(Data_ec000)
+	ld a, BANK(BallPhysicsData_ec000)
 	call ReadByteFromBank
 	ld b, a
 	ld a, [de]
@@ -31528,12 +31528,12 @@ Func_1eff3:  ; 0x1eff3
 	ret
 
 Func_1f057: ; 0x1f057
-	ld bc, Data_ec000
+	ld bc, BallPhysicsData_ec000
 	add hl, bc
 	ld de, wBallXVelocity
 	bit 2, l
 	ret nz
-	ld a, BANK(Data_ec000)
+	ld a, BANK(BallPhysicsData_ec000)
 	call ReadByteFromBank
 	ld c, a
 	ld a, [de]
@@ -31541,7 +31541,7 @@ Func_1f057: ; 0x1f057
 	ld [de], a
 	inc de
 	inc hl
-	ld a, BANK(Data_ec000)
+	ld a, BANK(BallPhysicsData_ec000)
 	call ReadByteFromBank
 	ld b, a
 	ld a, [de]
@@ -31550,7 +31550,7 @@ Func_1f057: ; 0x1f057
 	inc de
 	inc hl
 	push bc
-	ld a, BANK(Data_ec000)
+	ld a, BANK(BallPhysicsData_ec000)
 	call ReadByteFromBank
 	ld c, a
 	ld a, [de]
@@ -31558,7 +31558,7 @@ Func_1f057: ; 0x1f057
 	ld [de], a
 	inc de
 	inc hl
-	ld a, BANK(Data_ec000)
+	ld a, BANK(BallPhysicsData_ec000)
 	call ReadByteFromBank
 	ld b, a
 	ld a, [de]
@@ -31603,10 +31603,10 @@ Func_1f057: ; 0x1f057
 	ret
 
 Func_1f0be: ; 0x1f0be
-	ld bc, Data_ec000
+	ld bc, BallPhysicsData_ec000
 	add hl, bc
 	ld de, wBallYVelocity
-	ld a, BANK(Data_ec000)
+	ld a, BANK(BallPhysicsData_ec000)
 	call ReadByteFromBank
 	ld c, a
 	ld a, [de]
@@ -31614,7 +31614,7 @@ Func_1f0be: ; 0x1f0be
 	ld [de], a
 	inc de
 	inc hl
-	ld a, BANK(Data_ec000)
+	ld a, BANK(BallPhysicsData_ec000)
 	call ReadByteFromBank
 	ld b, a
 	ld a, [de]
@@ -31625,7 +31625,7 @@ Func_1f0be: ; 0x1f0be
 	dec de
 	dec de
 	dec de
-	ld a, BANK(Data_ec000)
+	ld a, BANK(BallPhysicsData_ec000)
 	call ReadByteFromBank
 	ld c, a
 	ld a, [de]
@@ -31633,7 +31633,7 @@ Func_1f0be: ; 0x1f0be
 	ld [de], a
 	inc de
 	inc hl
-	ld a, BANK(Data_ec000)
+	ld a, BANK(BallPhysicsData_ec000)
 	call ReadByteFromBank
 	ld b, a
 	ld a, [de]
@@ -31678,10 +31678,10 @@ Func_1f0be: ; 0x1f0be
 	ret
 
 Func_1f124: ; 0x1f124
-	ld bc, Data_ec000
+	ld bc, BallPhysicsData_ec000
 	add hl, bc
 	ld de, wBallYVelocity
-	ld a, BANK(Data_ec000)
+	ld a, BANK(BallPhysicsData_ec000)
 	call ReadByteFromBank
 	ld c, a
 	ld a, [de]
@@ -31689,7 +31689,7 @@ Func_1f124: ; 0x1f124
 	ld [de], a
 	inc de
 	inc hl
-	ld a, BANK(Data_ec000)
+	ld a, BANK(BallPhysicsData_ec000)
 	call ReadByteFromBank
 	ld b, a
 	ld a, [de]
@@ -31700,7 +31700,7 @@ Func_1f124: ; 0x1f124
 	dec de
 	dec de
 	dec de
-	ld a, BANK(Data_ec000)
+	ld a, BANK(BallPhysicsData_ec000)
 	call ReadByteFromBank
 	ld c, a
 	ld a, [de]
@@ -31708,7 +31708,7 @@ Func_1f124: ; 0x1f124
 	ld [de], a
 	inc de
 	inc hl
-	ld a, BANK(Data_ec000)
+	ld a, BANK(BallPhysicsData_ec000)
 	call ReadByteFromBank
 	ld b, a
 	ld a, [de]
@@ -49858,8 +49858,8 @@ SECTION "bank38", ROMX, BANK[$38]
 
 SECTION "bank39", ROMX, BANK[$39]
 
-Data_e4000:
-	dr $e4000, $e5000 ; 0xe4000
+BallPhysicsData_e4000:
+	INCBIN "data/collision/ball_physics_e4000.bin"
 
 SECTION "bank3a", ROMX, BANK[$3a]
 
@@ -49879,12 +49879,12 @@ MeowthJewelCollisionAngles:
 	INCBIN "data/collision/meowth_jewel_collision_angles.bin"
 
 SECTION "bank3b", ROMX, BANK[$3b]
-Data_ec000:
-	dr $ec000, $f0000 ; 0xec000
+BallPhysicsData_ec000:
+	INCBIN "data/collision/ball_physics_ec000.bin"
 
 SECTION "bank3c", ROMX, BANK[$3c]
-Data_f0000:
-	dr $f0000, $f2400 ; 0xf0000
+BallPhysicsData_f0000:
+	INCBIN "data/collision/ball_physics_f0000.bin"
 
 TiltRightOnlyForce: ; 0xf2400
 	INCBIN "data/tilt/right_only"

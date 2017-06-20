@@ -49790,8 +49790,10 @@ INCLUDE "data/mon_gfx/mon_animated_palettes_3.asm"
 
 EvolutionTrinketsGfx:
 	INCBIN "gfx/stage/shared/evolution_trinkets.2bpp"
-	
-	dr $dbf60, $dc000
+
+Unknown_dbf60: ; 0xdbf60
+; this seems to be unused garbage
+	INCBIN "data/unknown/unused_dbf60.bin"
 
 SECTION "bank37", ROMX, BANK[$37]
 

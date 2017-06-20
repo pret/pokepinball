@@ -216,28 +216,42 @@ Func_31e1: ; 0x31e1
 	ret
 
 Data_320e:
-macro_320e: MACRO
-	dw vTilesSH tile \1
-	dba \2
-	ENDM
-	macro_320e 3, GFX_d6440
-	macro_320e 4, GFX_d6430
-	macro_320e 5, GFX_d61d0
-	macro_320e 3, GFX_d61c0
-	macro_320e 7, GFX_d6480
-	macro_320e 5, GFX_d61a0
-	macro_320e 5, GFX_d6410
-	macro_320e 6, GFX_d61b0
-	macro_320e 3, GFX_d61e0
-	macro_320e 3, GFX_d6440
-	macro_320e 4, GFX_d6430
-	macro_320e 5, GFX_d63d0
-	macro_320e 3, GFX_d63c0
-	macro_320e 7, GFX_d6480
-	macro_320e 5, GFX_d63a0
-	macro_320e 5, GFX_d6410
-	macro_320e 6, GFX_d63b0
-	macro_320e 3, GFX_d63e0
+	dw vTilesSH tile 3
+	dbw Bank(InGameMenuSymbolsGfx), InGameMenuSymbolsGfx + $40
+	dw vTilesSH tile 4
+	dbw Bank(InGameMenuSymbolsGfx), InGameMenuSymbolsGfx + $30
+	dw vTilesSH tile 5
+	dbw Bank(GFX_d61d0), GFX_d61d0
+	dw vTilesSH tile 3
+	dbw Bank(GFX_d61c0), GFX_d61c0
+	dw vTilesSH tile 7
+	dbw Bank(InGameMenuSymbolsGfx), InGameMenuSymbolsGfx + $80
+	dw vTilesSH tile 5
+	dbw Bank(GFX_d61a0), GFX_d61a0
+	dw vTilesSH tile 5
+	dbw Bank(InGameMenuSymbolsGfx), InGameMenuSymbolsGfx + $10
+	dw vTilesSH tile 6
+	dbw Bank(GFX_d61b0), GFX_d61b0
+	dw vTilesSH tile 3
+	dbw Bank(GFX_d61e0), GFX_d61e0
+	dw vTilesSH tile 3
+	dbw Bank(InGameMenuSymbolsGfx), InGameMenuSymbolsGfx + $40
+	dw vTilesSH tile 4
+	dbw Bank(InGameMenuSymbolsGfx), InGameMenuSymbolsGfx + $30
+	dw vTilesSH tile 5
+	dbw Bank(GFX_d63d0), GFX_d63d0
+	dw vTilesSH tile 3
+	dbw Bank(GFX_d63c0), GFX_d63c0
+	dw vTilesSH tile 7
+	dbw Bank(InGameMenuSymbolsGfx), InGameMenuSymbolsGfx + $80
+	dw vTilesSH tile 5
+	dbw Bank(GFX_d63a0), GFX_d63a0
+	dw vTilesSH tile 5
+	dbw Bank(InGameMenuSymbolsGfx), InGameMenuSymbolsGfx + $10
+	dw vTilesSH tile 6
+	dbw Bank(GFX_d63b0), GFX_d63b0
+	dw vTilesSH tile 3
+	dbw Bank(GFX_d63e0), GFX_d63e0
 
 Func_3268: ; 0x3268
 	ld a, [hli]

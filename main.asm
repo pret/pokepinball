@@ -610,7 +610,7 @@ HandleInGameMenu: ; 0x86d7
 	ld hl, CancelText
 	call Func_8797
 	ld a, Bank(InGameMenuSymbolsGfx)
-	ld hl, InGameMenuSymbolsGfx
+	ld hl, InGameMenuSymbolsGfx + $50
 	ld de, vTilesSH + $60
 	ld bc, $0010
 	call LoadVRAMData
@@ -7476,7 +7476,7 @@ Func_10b59: ; 0x10b59
 	ld hl, wPartyMons
 	call Func_10b8e
 	ld a, BANK(InGameMenuSymbolsGfx)
-	ld hl, InGameMenuSymbolsGfx
+	ld hl, InGameMenuSymbolsGfx + $50
 	ld de, vTilesSH tile $08
 	ld bc, $0030
 	call LoadVRAMData
@@ -49678,18 +49678,10 @@ GFX_d63c0: INCBIN "gfx/stage/e_acute_color.2bpp"
 GFX_d63d0: INCBIN "gfx/unknown/d63d0.2bpp"
 GFX_d63e0: INCBIN "gfx/unknown/d63e0.2bpp"
 
-	dr $d63f0, $d6410
+	ds $10 ; free space
 
-GFX_d6410: INCBIN "gfx/unknown/d6410.2bpp"
-
-	dr $d6420, $d6430
-
-GFX_d6430: INCBIN "gfx/unknown/d6430.2bpp"
-GFX_d6440: INCBIN "gfx/unknown/d6440.2bpp"
-
-InGameMenuSymbolsGfx: ; 0xd6450
+InGameMenuSymbolsGfx: ; 0xd6400
 	INCBIN "gfx/stage/menu_symbols.2bpp"
-GFX_d6480: INCBIN "gfx/unknown/d6480.2bpp"
 
 	ds $170 ; free space
 

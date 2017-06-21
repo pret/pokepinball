@@ -44316,7 +44316,7 @@ Func_295e1: ; 0x295e1
 
 .asm_295f9
 	push hl
-	call Func_29605
+	call GetCharacterWidthIndex
 	ld c, a
 	ld b, $0
 	add hl, bc
@@ -44325,11 +44325,11 @@ Func_295e1: ; 0x295e1
 	scf
 	ret
 
-Func_29605: ; 0x29605
+GetCharacterWidthIndex: ; 0x29605
 	ld a, b
 	cp $81
 	jr nz, .asm_29611
-	ld hl, Data_2962f
+	ld hl, CharacterWidthIndices1
 	ld a, c
 	sub $40
 	ret
@@ -44337,7 +44337,7 @@ Func_29605: ; 0x29605
 .asm_29611
 	cp $83
 	jr nz, .asm_2961c
-	ld hl, Data_2973b
+	ld hl, CharacterWidthIndices3
 	ld a, c
 	sub $40
 	ret
@@ -44346,288 +44346,18 @@ Func_29605: ; 0x29605
 	ld a, c
 	cp $9f
 	jr nc, .asm_29628
-	ld hl, Data_2969c
+	ld hl, CharacterWidthIndices2
 	ld a, c
 	sub $4f
 	ret
 
 .asm_29628
-	ld hl, Data_296e8
+	ld hl, CharacterWidthIndices4
 	ld a, c
 	sub $9f
 	ret
 
-Data_2962f:
-	dr $2962f, $2969c
-
-Data_2969c:
-	dr $2969c, $296e8
-
-Data_296e8:
-	dr $296e8, $2973b
-
-Data_2973b:
-	dr $2973b, $29792
-
-CharacterWidths: ; 0x29792
-; The Pokedex shows variable-width font. This list specifies the width of every letter (tile?)
-	db $05
-	db $07
-	db $07
-	db $07
-	db $07
-	db $07
-	db $07
-	db $05
-	db $07
-	db $07
-	db $07
-	db $07
-	db $07
-	db $07
-	db $06
-	db $07
-	db $07
-	db $07
-	db $07
-	db $07
-	db $07
-	db $07
-	db $07
-	db $07
-	db $07
-	db $07
-	db $07
-	db $07
-	db $07
-	db $07
-	db $07
-	db $07
-	db $07
-	db $08  ; "A"
-	db $07  ; "B"
-	db $07  ; "C"
-	db $07  ; "D"
-	db $07  ; "E"
-	db $07  ; "F"
-	db $07  ; "G"
-	db $07  ; "H"
-	db $05  ; "I"
-	db $08  ; "J"
-	db $07  ; "K"
-	db $07  ; "L"
-	db $08  ; "M"
-	db $07  ; "N"
-	db $07  ; "O"
-	db $07  ; "P"
-	db $08  ; "Q"
-	db $07  ; "R"
-	db $07  ; "S"
-	db $08  ; "T"
-	db $07  ; "U"
-	db $08  ; "V"
-	db $08  ; "W"
-	db $08  ; "X"
-	db $08  ; "Y"
-	db $08  ; "Z"
-	db $07
-	db $08
-	db $07
-	db $07
-	db $07
-	db $07
-	db $07
-	db $07
-	db $07
-	db $07
-	db $07
-	db $07
-	db $07
-	db $07
-	db $07
-	db $07
-	db $07
-	db $07
-	db $07
-	db $07
-	db $07
-	db $07
-	db $07
-	db $07
-	db $07
-	db $07
-	db $07
-	db $07
-	db $07
-	db $07
-	db $07
-	db $07
-	db $07
-	db $07
-	db $07
-	db $07
-	db $07
-	db $07
-	db $07
-	db $07
-	db $07
-	db $07
-	db $07
-	db $07
-	db $07
-	db $07
-	db $07
-	db $07
-	db $07
-	db $07
-	db $07
-	db $07
-	db $07
-	db $07
-	db $07
-	db $07
-	db $07
-	db $07
-	db $07
-	db $07
-	db $07
-	db $07
-	db $07
-	db $07
-	db $07
-	db $07
-	db $07
-	db $07
-	db $07
-	db $07
-	db $07
-	db $07
-	db $07
-	db $07
-	db $07
-	db $07
-	db $07
-	db $07
-	db $07
-	db $07
-	db $07
-	db $07
-	db $07
-	db $07
-	db $07
-	db $07
-	db $07
-	db $07
-	db $07
-	db $07
-	db $07
-	db $07
-	db $07
-	db $07
-	db $07
-	db $07
-	db $07
-	db $07
-	db $07
-	db $07
-	db $07
-	db $07
-	db $07
-	db $07
-	db $07
-	db $07
-	db $07
-	db $07
-	db $07
-	db $07
-	db $07
-	db $07
-	db $07
-	db $07
-	db $07
-	db $07
-	db $07
-	db $07
-	db $07
-	db $07
-	db $08
-	db $07
-	db $07
-	db $07
-	db $07
-	db $07
-	db $07
-	db $07
-	db $05
-	db $08
-	db $07
-	db $07
-	db $08
-	db $07
-	db $07
-	db $07
-	db $08
-	db $07
-	db $07
-	db $08
-	db $07
-	db $08
-	db $08
-	db $08
-	db $08
-	db $08
-	db $07  ; "a"
-	db $07  ; "b"
-	db $07  ; "c"
-	db $07  ; "d"
-	db $07  ; "e"
-	db $07  ; "f"
-	db $07  ; "g"
-	db $07  ; "h"
-	db $03  ; "i"
-	db $07  ; "j"
-	db $07  ; "k"
-	db $03  ; "l"
-	db $08  ; "m"
-	db $07  ; "n"
-	db $07  ; "o"
-	db $07  ; "p"
-	db $07  ; "q"
-	db $07  ; "r"
-	db $07  ; "s"
-	db $07  ; "t"
-	db $07  ; "u"
-	db $07  ; "v"
-	db $08  ; "w"
-	db $07  ; "x"
-	db $07  ; "y"
-	db $07  ; "z"
-	db $07
-	db $07
-	db $07
-	db $07
-	db $07
-	db $07
-	db $07
-	db $07
-	db $03
-	db $07
-	db $05
-	db $05
-	db $05
-	db $05
-	db $05
-	db $07
-	db $07
-	db $07
-	db $07
-	db $05
-	db $07
-	db $07
-	db $07
-	db $07
-	db $07
-
+INCLUDE "data/vwf_character_widths.asm"
 INCLUDE "text/pokedex_mon_names.asm"
 INCLUDE "data/mon_species.asm"
 INCLUDE "text/pokedex_species.asm"

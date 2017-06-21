@@ -48688,6 +48688,9 @@ SECTION "bank12", ROMX, BANK[$12]
 
 INCLUDE "audio/engine_12.asm"
 
+; This is a blob of unused junk data
+INCBIN "data/unknown/unused_4b6a8.bin"
+
 SECTION "bank13", ROMX, BANK[$13]
 
 INCLUDE "audio/engine_13.asm"

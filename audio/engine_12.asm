@@ -5590,5 +5590,3 @@ Cry_22_Ch7_Bank12:
 	soundeffect_percussion $01, $A2, $39
 	soundeffect_percussion $08, $91, $49
 	endchannel
-
-	dr $4b6a8, $4c000

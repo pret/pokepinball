@@ -689,7 +689,7 @@ Func_3475: ; 0x3475
 	ld a, [wCurrentStage]
 	bit 0, a
 	callba nz, HandleFlippers
-	callba Func_84b7
+	callba DrawSpritesForStage
 	call Func_33e3
 	call CleanOAMBuffer
 	rst AdvanceFrame

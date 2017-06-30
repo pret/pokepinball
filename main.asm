@@ -5,6 +5,7 @@ INCLUDE "constants.asm"
 INCLUDE "home.asm"
 
 SECTION "bank1", ROMX, BANK[$1]
+
 INCLUDE "data/oam_frames.asm"
 
 SECTION "bank2", ROMX, BANK[$2]
@@ -12,10 +13,10 @@ SECTION "bank2", ROMX, BANK[$2]
 INCLUDE "engine/select_gameboy_target_menu.asm"
 INCLUDE "engine/erase_all_data_menu.asm"
 INCLUDE "engine/copyright_screen.asm"
-INCLUDE "engine/main/stage_init/init_stages.asm"
-INCLUDE "engine/main/ball_init/ball_init.asm"
-INCLUDE "engine/main/load_stage_data/load_stage_data.asm"
-INCLUDE "engine/main/draw_sprites/draw_sprites.asm"
+INCLUDE "engine/pinball_game/stage_init/init_stages.asm"
+INCLUDE "engine/pinball_game/ball_init/ball_init.asm"
+INCLUDE "engine/pinball_game/load_stage_data/load_stage_data.asm"
+INCLUDE "engine/pinball_game/draw_sprites/draw_sprites.asm"
 
 Func_84fd:
 ; unused?
@@ -1673,16 +1674,7 @@ INCLUDE "engine/titlescreen.asm"
 INCLUDE "engine/options_screen.asm"
 INCLUDE "engine/high_scores_screen.asm"
 INCLUDE "engine/field_select_screen.asm"
-
-HandlePinballGame: ; 0xd853
-	ld a, [wScreenState]
-	rst JumpTable  ; calls JumpToFuncInTable
-PinballGameScreenFunctions: ; 0xd857
-	dw GameScreenFunction_LoadGFX
-	dw GameScreenFunction_StartBall
-	dw GameScreenFunction_HandleBallPhysics
-	dw GameScreenFunction_HandleBallLoss
-	dw GameScreenFunction_EndBall
+INCLUDE "engine/pinball_game.asm"
 
 GameScreenFunction_LoadGFX: ; 0xd861
 	xor a
@@ -8279,7 +8271,7 @@ Data_13685: ; 0x13685
 
 SECTION "bank5", ROMX, BANK[$5]
 
-INCLUDE "engine/main/load_stage_data/load_red_field.asm"
+INCLUDE "engine/pinball_game/load_stage_data/load_red_field.asm"
 INCLUDE "engine/collision/red_stage_game_object_collision.asm"
 
 Func_1460e: ; 0x1460e
@@ -17011,13 +17003,13 @@ TileData_17551: ; 0x17551
 	db $AE, $AF, $AE, $AF, $AE, $AF
 	db $00
 
-INCLUDE "engine/main/draw_sprites/draw_red_field_sprites.asm"
+INCLUDE "engine/pinball_game/draw_sprites/draw_red_field_sprites.asm"
 
 SECTION "bank6", ROMX, BANK[$6]
 
-INCLUDE "engine/main/stage_init/init_unused_stage.asm"
-INCLUDE "engine/main/ball_init/ball_init_unused_stage.asm"
-INCLUDE "engine/main/load_stage_data/load_unused_stage.asm"
+INCLUDE "engine/pinball_game/stage_init/init_unused_stage.asm"
+INCLUDE "engine/pinball_game/ball_init/ball_init_unused_stage.asm"
+INCLUDE "engine/pinball_game/load_stage_data/load_unused_stage.asm"
 
 DoNothing_18061: ; 0x18061
 	ret
@@ -17033,10 +17025,10 @@ Func_1806e: ; 0x1806e
 	callba Func_1652d
 	ret
 
-INCLUDE "engine/main/draw_sprites/draw_unused_stage_sprites.asm"
-INCLUDE "engine/main/stage_init/init_gengar_bonus.asm"
-INCLUDE "engine/main/ball_init/ball_init_gengar_bonus.asm"
-INCLUDE "engine/main/load_stage_data/load_gengar_bonus.asm"
+INCLUDE "engine/pinball_game/draw_sprites/draw_unused_stage_sprites.asm"
+INCLUDE "engine/pinball_game/stage_init/init_gengar_bonus.asm"
+INCLUDE "engine/pinball_game/ball_init/ball_init_gengar_bonus.asm"
+INCLUDE "engine/pinball_game/load_stage_data/load_gengar_bonus.asm"
 
 CheckGengarBonusStageGameObjectCollisions: ; 0x181b1
 	call CheckGengarBonusStageGastlyCollision
@@ -19173,10 +19165,10 @@ TileData_18f93: ; 0x18f93
 
 	db $00 ; terminator
 
-INCLUDE "engine/main/draw_sprites/draw_gengar_bonus_sprites.asm"
-INCLUDE "engine/main/stage_init/init_mewtwo_bonus.asm"
-INCLUDE "engine/main/ball_init/ball_init_mewtwo_bonus.asm"
-INCLUDE "engine/main/load_stage_data/load_mewtwo_bonus.asm"
+INCLUDE "engine/pinball_game/draw_sprites/draw_gengar_bonus_sprites.asm"
+INCLUDE "engine/pinball_game/stage_init/init_mewtwo_bonus.asm"
+INCLUDE "engine/pinball_game/ball_init/ball_init_mewtwo_bonus.asm"
+INCLUDE "engine/pinball_game/load_stage_data/load_mewtwo_bonus.asm"
 
 CheckMewtwoBonusStageGameObjectCollisions: ; 0x19330
 	call Func_19414
@@ -20119,10 +20111,10 @@ OrbitingBallAnimation4: ; 0x1994b
 	db $0C, $0B
 	db $00 ; terminator
 
-INCLUDE "engine/main/draw_sprites/draw_mewtwo_bonus_sprites.asm"
-INCLUDE "engine/main/stage_init/init_diglett_bonus.asm"
-INCLUDE "engine/main/ball_init/ball_init_diglett_bonus.asm"
-INCLUDE "engine/main/load_stage_data/load_diglett_bonus.asm"
+INCLUDE "engine/pinball_game/draw_sprites/draw_mewtwo_bonus_sprites.asm"
+INCLUDE "engine/pinball_game/stage_init/init_diglett_bonus.asm"
+INCLUDE "engine/pinball_game/ball_init/ball_init_diglett_bonus.asm"
+INCLUDE "engine/pinball_game/load_stage_data/load_diglett_bonus.asm"
 
 CheckDiglettBonusStageGameObjectCollisions: ; 0x19ab3
 	call CheckDiglettBonusStageDiglettHeadsCollision
@@ -21025,13 +21017,13 @@ AnimationData_1ac93: ; 0x1ac93
 	db $40, $0D
 	db $00 ; terminator
 
-INCLUDE "engine/main/draw_sprites/draw_diglett_bonus_sprites.asm"
+INCLUDE "engine/pinball_game/draw_sprites/draw_diglett_bonus_sprites.asm"
 
 SECTION "bank7", ROMX, BANK[$7]
 
-INCLUDE "engine/main/stage_init/init_blue_field.asm"
-INCLUDE "engine/main/ball_init/ball_init_blue_field.asm"
-INCLUDE "engine/main/load_stage_data/load_blue_field.asm"
+INCLUDE "engine/pinball_game/stage_init/init_blue_field.asm"
+INCLUDE "engine/pinball_game/ball_init/ball_init_blue_field.asm"
+INCLUDE "engine/pinball_game/load_stage_data/load_blue_field.asm"
 INCLUDE "engine/collision/blue_stage_game_object_collision.asm"
 
 Func_1c715: ; 0x1c715
@@ -29140,7 +29132,7 @@ Func_1f2ff: ; 0x1f2ff
 	ld [wIndicatorStates + 1], a
 	ret
 
-INCLUDE "engine/main/draw_sprites/draw_blue_field_sprites.asm"
+INCLUDE "engine/pinball_game/draw_sprites/draw_blue_field_sprites.asm"
 
 SECTION "bank8", ROMX, BANK[$8]
 
@@ -31210,9 +31202,9 @@ Func_2112a: ; 0x2112a
 
 SECTION "bank9", ROMX, BANK[$9]
 
-INCLUDE "engine/main/stage_init/init_meowth_bonus.asm"
-INCLUDE "engine/main/ball_init/ball_init_meowth_bonus.asm"
-INCLUDE "engine/main/load_stage_data/load_meowth_bonus.asm"
+INCLUDE "engine/pinball_game/stage_init/init_meowth_bonus.asm"
+INCLUDE "engine/pinball_game/ball_init/ball_init_meowth_bonus.asm"
+INCLUDE "engine/pinball_game/load_stage_data/load_meowth_bonus.asm"
 
 CheckMeowthBonusStageGameObjectCollisions: ; 0x2414d
 	call CheckMeowthBonusStageMeowthCollision
@@ -35024,10 +35016,10 @@ TileData_2580e: ; 0x2580e
 
 	db $00 ; terminator
 
-INCLUDE "engine/main/draw_sprites/draw_meowth_bonus_sprites.asm"
-INCLUDE "engine/main/stage_init/init_seel_bonus.asm"
-INCLUDE "engine/main/ball_init/ball_init_seel_bonus.asm"
-INCLUDE "engine/main/load_stage_data/load_seel_bonus.asm"
+INCLUDE "engine/pinball_game/draw_sprites/draw_meowth_bonus_sprites.asm"
+INCLUDE "engine/pinball_game/stage_init/init_seel_bonus.asm"
+INCLUDE "engine/pinball_game/ball_init/ball_init_seel_bonus.asm"
+INCLUDE "engine/pinball_game/load_stage_data/load_seel_bonus.asm"
 
 CheckSeelBonusStageGameObjectCollisions: ; 0x25bbc
 	call CheckSeelBonusStageSeelHeadCollisions
@@ -37929,7 +37921,7 @@ TileData_26b51: ; 0x26b51
 
 	db $00 ; terminator
 
-INCLUDE "engine/main/draw_sprites/draw_seel_bonus_sprites.asm"
+INCLUDE "engine/pinball_game/draw_sprites/draw_seel_bonus_sprites.asm"
 
 SECTION "banka", ROMX, BANK[$a]
 
@@ -40338,8 +40330,8 @@ INCLUDE "text/pokedex_descriptions.asm"
 
 SECTION "bankc", ROMX, BANK[$c]
 
-INCLUDE "engine/main/stage_init/init_red_field.asm"
-INCLUDE "engine/main/ball_init/ball_init_red_field.asm"
+INCLUDE "engine/pinball_game/stage_init/init_red_field.asm"
+INCLUDE "engine/pinball_game/ball_init/ball_init_red_field.asm"
 
 Func_30164: ; 0x30164
 	ld a, [wd49b]

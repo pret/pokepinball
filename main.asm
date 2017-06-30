@@ -13,92 +13,7 @@ INCLUDE "engine/select_gameboy_target_menu.asm"
 INCLUDE "engine/erase_all_data_menu.asm"
 INCLUDE "engine/copyright_screen.asm"
 INCLUDE "engine/main/stage_init/init_stages.asm"
-
-StartBallForStage: ; 0x83ba
-	ld a, [wd7c1]
-	and a
-	jr z, .asm_83c7
-	call Func_8444
-	call RestartStageMusic
-	ret
-
-.asm_83c7
-	xor a
-	ld [wBallXVelocity], a
-	ld [wBallXVelocity + 1], a
-	ld [wBallYVelocity], a
-	ld [wBallYVelocity + 1], a
-	ld [wd7ae], a
-	ld [wd7af], a
-	ld [wd7b2], a
-	ld [wd7b3], a
-	ld [wd7b0], a
-	ld [wd7b1], a
-	ld [wd7b4], a
-	ld [wd7b5], a
-	ld [wBallSpin], a
-	ld [wBallRotation], a
-	inc a
-	ld [wd548], a
-	ld [wd549], a
-	ld a, $20
-	ld [wSCX], a
-	ld a, [wCurrentStage]
-	call CallInFollowingTable
-CallTable_8404: ; 0x8404
-	; STAGE_RED_FIELD_TOP
-	padded_dab StartBallRedField
-	; STAGE_RED_FIELD_BOTTOM
-	padded_dab StartBallRedField
-	padded_dab Func_1804a
-	padded_dab Func_1804a
-	; STAGE_BLUE_FIELD_TOP
-	padded_dab StartBallBlueField
-	; STAGE_BLUE_FIELD_BOTTOM
-	padded_dab StartBallBlueField
-	; STAGE_GENGAR_BONUS
-	padded_dab StartBallGengarBonusStage
-	; STAGE_GENGAR_BONUS
-	padded_dab StartBallGengarBonusStage
-	; STAGE_MEWTWO_BONUS
-	padded_dab StartBallMewtwoBonusStage
-	; STAGE_MEWTWO_BONUS
-	padded_dab StartBallMewtwoBonusStage
-	; STAGE_MEOWTH_BONUS
-	padded_dab StartBallMeowthBonusStage
-	; STAGE_MEOWTH_BONUS
-	padded_dab StartBallMeowthBonusStage
-	; STAGE_DIGLETT_BONUS
-	padded_dab StartBallDiglettBonusStage
-	; STAGE_DIGLETT_BONUS
-	padded_dab StartBallDiglettBonusStage
-	; STAGE_SEEL_BONUS
-	padded_dab StartBallSeelBonusStage
-	; STAGE_SEEL_BONUS
-	padded_dab StartBallSeelBonusStage
-
-Func_8444: ; 0x8444
-	ld a, [wInSpecialMode]
-	and a
-	jr z, .asm_8460
-	ld a, [wSpecialMode]
-	and a
-	jr nz, .asm_8460
-	ld a, [wWildMonIsHittable]
-	and a
-	jr z, .asm_8460
-	callba Func_10464
-.asm_8460
-	ret
-
-RestartStageMusic: ; 0x8461
-	ld a, [wStageSongBank]
-	call SetSongBank
-	ld a, [wStageSong]
-	ld e, a
-	ld d, $0
-	call PlaySong
-	ret
+INCLUDE "engine/main/ball_init/ball_init.asm"
 
 Func_8471: ; 0x8471
 	ld a, [wCurrentStage]
@@ -1874,7 +1789,7 @@ GameScreenFunction_StartBall: ; 0xd87f
 	set 1, [hl]
 	ld a, $1
 	ld [hHBlankRoutine], a
-	callba StartBallForStage
+	callba InitBallForStage
 	callba LoadStageCollisionAttributes
 	callba Func_e6c2
 	callba Func_ed5e
@@ -6443,7 +6358,7 @@ Data_1043e:
 	db $a2, $a3, $a4, $a5, $a6, $a7
 	db $00
 
-Func_10464: ; 0x10464
+LoadWildMonCollisionMask: ; 0x10464
 	ld a, [wCurrentCatchEmMon]
 	ld c, a
 	ld b, $0
@@ -18405,17 +18320,7 @@ Func_17fca: ; 0x17fca
 SECTION "bank6", ROMX, BANK[$6]
 
 INCLUDE "engine/main/stage_init/init_unused_stage.asm"
-
-Func_1804a: ; 0x1804a
-	ld a, $0
-	ld [wBallXPos], a
-	ld a, $b0
-	ld [wBallXPos + 1], a
-	ld a, $0
-	ld [wBallYPos], a
-	ld a, $98
-	ld [wBallYPos + 1], a
-	ret
+INCLUDE "engine/main/ball_init/ball_init_unused_stage.asm"
 
 DoNothing_1805f: ; 0x1805f
 	ret
@@ -18447,31 +18352,7 @@ Func_18084: ; 0x18084
 	ret
 
 INCLUDE "engine/main/stage_init/init_gengar_bonus.asm"
-
-StartBallGengarBonusStage: ; 0x18157
-	ld a, $0
-	ld [wBallXPos], a
-	ld a, $a6
-	ld [wBallXPos + 1], a
-	ld a, $0
-	ld [wBallYPos], a
-	ld a, $56
-	ld [wBallYPos + 1], a
-	xor a
-	ld [wSCX], a
-	ld [wStageCollisionState], a
-	ld [wd653], a
-	xor a
-	ld [wd674], a
-	ld a, $8
-	ld [wd690], a
-	ld [wd6a1], a
-	ld a, [wd4c9]
-	and a
-	ret z
-	xor a
-	ld [wd4c9], a
-	ret
+INCLUDE "engine/main/ball_init/ball_init_gengar_bonus.asm"
 
 Func_1818b: ; 0x1818b
 	callba Func_142fc
@@ -20984,28 +20865,7 @@ GengarBonusStageGengarGfxTable:
 	dw $60, vTilesOB tile $24, GengarBonusGengarGfx + $240, $0000
 
 INCLUDE "engine/main/stage_init/init_mewtwo_bonus.asm"
-
-StartBallMewtwoBonusStage: ; 0x192e3
-	ld a, $0
-	ld [wBallXPos], a
-	ld a, $a6
-	ld [wBallXPos + 1], a
-	ld a, $0
-	ld [wBallYPos], a
-	ld a, $56
-	ld [wBallYPos + 1], a
-	ld a, $80
-	ld [wBallXVelocity], a
-	xor a
-	ld [wSCX], a
-	ld [wStageCollisionState], a
-	ld [wd6a9], a
-	ld a, [wd4c9]
-	and a
-	ret z
-	xor a
-	ld [wd4c9], a
-	ret
+INCLUDE "engine/main/ball_init/ball_init_mewtwo_bonus.asm"
 
 Func_19310: ; 0x19310
 	callba Func_142fc
@@ -22041,39 +21901,7 @@ OAMIds_199e6:
 	db $FF
 
 INCLUDE "engine/main/stage_init/init_diglett_bonus.asm"
-
-StartBallDiglettBonusStage: ; 0x19a38
-	ld a, $0
-	ld [wBallXPos], a
-	ld a, $a6
-	ld [wBallXPos + 1], a
-	ld a, $0
-	ld [wBallYPos], a
-	ld a, $56
-	ld [wBallYPos + 1], a
-	ld a, $40
-	ld [wBallXVelocity], a
-	xor a
-	ld [wSCX], a
-	ld [wStageCollisionState], a
-	ld [wd73a], a
-	ld hl, wDiglettStates
-	ld b, NUM_DIGLETTS
-.asm_19a60
-	ld a, [hl]
-	and a
-	jr z, .asm_19a67
-	ld a, $1  ; hiding diglett state
-	ld [hl], a
-.asm_19a67
-	inc hl
-	dec b
-	jr nz, .asm_19a60
-	xor a
-	ld [wCurrentDiglett], a
-	ld [wDiglettsInitializedFlag], a
-	ld [wd765], a
-	ret
+INCLUDE "engine/main/ball_init/ball_init_diglett_bonus.asm"
 
 Func_19a76: ; 0x19a76
 	callba Func_142fc
@@ -23043,97 +22871,7 @@ OAMIds_1accf:
 SECTION "bank7", ROMX, BANK[$7]
 
 INCLUDE "engine/main/stage_init/init_blue_field.asm"
-
-StartBallBlueField: ; 0x1c08d
-	ld a, [wd496]
-	and a
-	jp nz, StartBallAfterBonusStageBlueField
-	ld a, $0
-	ld [wBallXPos], a
-	ld a, $a7
-	ld [wBallXPos + 1], a
-	ld a, $0
-	ld [wBallYPos], a
-	ld a, $98
-	ld [wBallYPos + 1], a
-	xor a
-	ld [wd549], a
-	ld [wd580], a
-	call Func_1c7c7
-	ld a, [wd4c9]
-	and a
-	ret z
-	xor a
-	ld [wd4c9], a
-	xor a
-	ld [wd50b], a
-	ld [wd50c], a
-	ld [wd51d], a
-	ld [wd51e], a
-	ld [wd517], a
-	ld hl, wd50f
-	ld [hli], a
-	ld [hli], a
-	ld [hli], a
-	ld [hli], a
-	ld [wLeftMapMoveCounter], a
-	ld [wRightMapMoveCounter], a
-	ld hl, wd5f9
-	ld [hli], a
-	ld [hli], a
-	ld [hli], a
-	ld [wBallType], a
-	ld [wd611], a
-	ld [wd612], a
-	ld [wd628], a
-	ld [wd629], a
-	ld [wd62a], a
-	ld [wd62b], a
-	ld [wd62c], a
-	ld [wd63a], a
-	ld [wd63b], a
-	ld [wd63d], a
-	ld [wd63c], a
-	ld [wd62d], a
-	ld [wd62e], a
-	ld [wd613], a
-	inc a
-	ld [wd482], a
-	ld [wd4ef], a
-	ld [wd4f1], a
-	ld a, $3
-	ld [wd610], a
-	call Func_1d65f
-	ld a, $10
-	call SetSongBank
-	ld de, $0001
-	call PlaySong
-	ret
-
-StartBallAfterBonusStageBlueField: ; 0x1c129
-	ld a, $0
-	ld [wBallXPos], a
-	ld a, $50
-	ld [wBallXPos + 1], a
-	ld a, $0
-	ld [wBallYPos], a
-	ld a, $16
-	ld [wBallYPos + 1], a
-	xor a
-	ld [wBallYVelocity], a
-	ld [wBallYVelocity + 1], a
-	ld [wBallXVelocity], a
-	ld [wBallXVelocity + 1], a
-	ld [wd496], a
-	ld [wSCX], a
-	ld [wd7be], a
-	ld a, [wBallTypeBackup]
-	ld [wBallType], a
-	ld a, $10
-	call SetSongBank
-	ld de, $0001
-	call PlaySong
-	ret
+INCLUDE "engine/main/ball_init/ball_init_blue_field.asm"
 
 Func_1c165: ; 0x1c165
 	call asm_1e475
@@ -32200,7 +31938,7 @@ Func_200a3: ; 0x200a3
 .asm_200af
 	callba ShowAnimatedWildMon
 	callba Func_10732
-	callba Func_10464
+	callba LoadWildMonCollisionMask
 	ld hl, wd54d
 	inc [hl]
 .asm_200d1
@@ -32500,7 +32238,7 @@ Func_20364: ; 0x20364
 .asm_20370
 	callba ShowAnimatedWildMon
 	callba Func_10732
-	callba Func_10464
+	callba LoadWildMonCollisionMask
 	ld hl, wd54d
 	inc [hl]
 .asm_20392
@@ -34189,92 +33927,7 @@ Func_2112a: ; 0x2112a
 SECTION "bank9", ROMX, BANK[$9]
 
 INCLUDE "engine/main/stage_init/init_meowth_bonus.asm"
-
-StartBallMeowthBonusStage: ; 0x24059
-	ld a, $0
-	ld [wBallXPos], a
-	ld a, $a6
-	ld [wBallXPos + 1], a
-	ld a, $0
-	ld [wBallYPos], a
-	ld a, $56
-	ld [wBallYPos + 1], a
-	ld a, $40
-	ld [wBallXVelocity], a
-	xor a
-	ld [wSCX], a
-	ld [wStageCollisionState], a
-	ld [wd6e6], a
-	ld hl, wd6f3
-	ld b, $16
-.asm_24081
-	ld a, [hl]
-	and a
-	jr z, .asm_24088
-	ld a, $1
-	ld [hl], a
-.asm_24088
-	inc hl
-	dec b
-	jr nz, .asm_24081
-	ld a, $1
-	ld [wd7ac], a
-	ld a, $40
-	ld [wMeowthXPosition], a
-	ld a, $20
-	ld [wMeowthYPosition], a
-	ld a, $10
-	ld [wMeowthAnimationFrameCounter], a
-	ld a, $ff  ; walk left
-	ld [wMeowthXMovement], a
-	xor a
-	ld [wMeowthAnimationFrame], a
-	ld [wd6ec], a
-	ld [wMeowthAnimationFrameIndex], a
-	ld [wd70b], a
-	ld [wd70c], a
-	ld a, $c8
-	ld [wd71a], a
-	ld [wd727], a
-	ld [wd71b], a
-	ld [wd728], a
-	ld [wd71c], a
-	ld [wd729], a
-	ld [wd724], a
-	ld [wd731], a
-	ld [wd725], a
-	ld [wd732], a
-	ld [wd726], a
-	ld [wd733], a
-	xor a
-	ld [wd717], a
-	ld [wd718], a
-	ld [wd719], a
-	ld [wd721], a
-	ld [wd722], a
-	ld [wd723], a
-	ld [wd714], a
-	ld [wd715], a
-	ld [wd716], a
-	ld [wd71e], a
-	ld [wd71f], a
-	ld [wd720], a
-	ld [wd64e], a
-	ld [wd64f], a
-	ld [wd650], a
-	ld [wd651], a
-	ld [wd795], a
-	ld [wd796], a
-	ld [wd797], a
-	ld [wd798], a
-	ld [wd799], a
-	ld [wd79a], a
-	ld a, [wd4c9]
-	and a
-	ret z
-	xor a
-	ld [wd4c9], a
-	ret
+INCLUDE "engine/main/ball_init/ball_init_meowth_bonus.asm"
 
 Func_24128: ; 0x24128
 	callba Func_142fc
@@ -38401,72 +38054,7 @@ OAMIds_25a7a: ; 0x25a7a
 	db $44, $45
 
 INCLUDE "engine/main/stage_init/init_seel_bonus.asm"
-
-StartBallSeelBonusStage: ; 0x25af1
-	ld a, $0
-	ld [wBallXPos], a
-	ld a, $a6
-	ld [wBallXPos + 1], a
-	ld a, $0
-	ld [wBallYPos], a
-	ld a, $56
-	ld [wBallYPos + 1], a
-	ld a, $80
-	ld [wBallXVelocity], a
-	xor a
-	ld [wSCX], a
-	ld [wStageCollisionState], a
-	ld [wd766], a
-	ld a, $0
-	ld [wd772], a
-	ld a, $1
-	ld [wd77c], a
-	ld a, $0
-	ld [wd786], a
-	ld a, $4
-	ld [wd775], a
-	ld [wd77f], a
-	ld [wd76b], a
-	ld a, $1
-	ld [wd76c], a
-	ld a, $4
-	ld [wd776], a
-	ld a, $1
-	ld [wd780], a
-	ld a, $5
-	ld [wd771], a
-	ld [wd77b], a
-	ld [wd785], a
-	ld a, $ff
-	ld [wd79a], a
-	xor a
-	ld [wd792], a
-	ld [wd791], a
-	ld [wd64e], a
-	ld [wd64f], a
-	ld [wd650], a
-	ld [wd651], a
-	ld [wd795], a
-	ld [wd796], a
-	ld [wd797], a
-	ld [wd798], a
-	ld [wd799], a
-	ld [wd79a], a
-	ld de, wd76b
-	ld a, [wd76c]
-	call Func_26137
-	ld de, wd775
-	ld a, [wd776]
-	call Func_26137
-	ld de, wd77f
-	ld a, [wd780]
-	call Func_26137
-	ld a, [wd4c9]
-	and a
-	ret z
-	xor a
-	ld [wd4c9], a
-	ret
+INCLUDE "engine/main/ball_init/ball_init_seel_bonus.asm"
 
 Func_25b97: ; 0x25b97
 	callba Func_142fc
@@ -43914,102 +43502,7 @@ INCLUDE "text/pokedex_descriptions.asm"
 SECTION "bankc", ROMX, BANK[$c]
 
 INCLUDE "engine/main/stage_init/init_red_field.asm"
-
-StartBallRedField: ; 0x3007d
-	ld a, [wd496]
-	and a
-	jp nz, StartBallAfterBonusStageRedField
-	ld a, $0
-	ld [wBallXPos], a
-	ld a, $a7
-	ld [wBallXPos + 1], a
-	ld a, $0
-	ld [wBallYPos], a
-	ld a, $98
-	ld [wBallYPos + 1], a
-	xor a
-	ld [wd549], a
-	ld [wd580], a
-	ld a, [wd7ad]
-	bit 7, a
-	jr z, .asm_300ae
-	ld a, [wStageCollisionState]
-	res 0, a
-	ld [wd7ad], a
-.asm_300ae
-	ld a, [wStageCollisionState]
-	and $1
-	ld [wStageCollisionState], a
-	ld a, [wd4c9]
-	and a
-	ret z
-	xor a
-	ld [wd4c9], a
-	xor a
-	ld [wd50b], a
-	ld [wd50c], a
-	ld [wd51d], a
-	ld [wd517], a
-	ld [wd51e], a
-	ld hl, wd50f
-	ld [hli], a
-	ld [hli], a
-	ld [hli], a
-	ld [hli], a
-	ld [wLeftMapMoveCounter], a
-	ld [wRightMapMoveCounter], a
-	ld hl, wd5f9
-	ld [hli], a
-	ld [hli], a
-	ld [hli], a
-	ld [wBallType], a
-	ld [wd611], a
-	ld [wd612], a
-	ld [wd628], a
-	ld [wd629], a
-	ld [wd62a], a
-	ld [wd62b], a
-	ld [wd62c], a
-	ld [wd62d], a
-	ld [wd62e], a
-	ld [wd613], a
-	inc a
-	ld [wd482], a
-	ld [wd4ef], a
-	ld [wd4f1], a
-	ld a, $3
-	ld [wd610], a
-	callba Func_16f95
-	ld a, $f
-	call SetSongBank
-	ld de, $0001
-	call PlaySong
-	ret
-
-StartBallAfterBonusStageRedField: ; 0x30128
-	ld a, $0
-	ld [wBallXPos], a
-	ld a, $50
-	ld [wBallXPos + 1], a
-	ld a, $0
-	ld [wBallYPos], a
-	ld a, $16
-	ld [wBallYPos + 1], a
-	xor a
-	ld [wBallYVelocity], a
-	ld [wBallYVelocity + 1], a
-	ld [wBallXVelocity], a
-	ld [wBallXVelocity + 1], a
-	ld [wd496], a
-	ld [wSCX], a
-	ld [wd7be], a
-	ld a, [wBallTypeBackup]
-	ld [wBallType], a
-	ld a, $f
-	call SetSongBank
-	ld de, $0001
-	call PlaySong
-	ret
+INCLUDE "engine/main/ball_init/ball_init_red_field.asm"
 
 Func_30164: ; 0x30164
 	ld a, [wd49b]

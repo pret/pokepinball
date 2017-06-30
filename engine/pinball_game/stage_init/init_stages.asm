@@ -1,4 +1,4 @@
-InitializeStage: ; 0x8311
+InitializeCurrentStage: ; 0x8311
 	ld hl, wc000
 	ld bc, $0a00
 	call ClearData

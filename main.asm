@@ -12,88 +12,7 @@ SECTION "bank2", ROMX, BANK[$2]
 INCLUDE "engine/select_gameboy_target_menu.asm"
 INCLUDE "engine/erase_all_data_menu.asm"
 INCLUDE "engine/copyright_screen.asm"
-
-InitializeStage: ; 0x8311
-	ld hl, wc000
-	ld bc, $0a00
-	call ClearData
-	ld a, $1
-	ld [rVBK], a
-	ld a, [wd805]
-	and a
-	jr nz, .asm_8331
-	ld hl, vBGWin
-	ld bc, $0400
-	ld a, $0
-	call Func_63e
-	jr .asm_833c
-
-.asm_8331
-	ld hl, vBGWin
-	ld bc, $0400
-	ld a, $8
-	call Func_63e
-.asm_833c
-	xor a
-	ld [rVBK], a
-	call Func_8388
-	ld a, [wCurrentStage]
-	call CallInFollowingTable
-CallTable_8348: ; 0x8348
-	; STAGE_RED_FIELD_TOP
-	padded_dab InitRedField
-	; STAGE_RED_FIELD_BOTTOM
-	padded_dab InitRedField
-	padded_dab Func_18000
-	padded_dab Func_18000
-	; STAGE_BLUE_FIELD_TOP
-	padded_dab InitBlueField
-	; STAGE_BLUE_FIELD_BOTTOM
-	padded_dab InitBlueField
-	; STAGE_GENGAR_BONUS
-	padded_dab InitGengarBonusStage
-	; STAGE_GENGAR_BONUS
-	padded_dab InitGengarBonusStage
-	; STAGE_MEWTWO_BONUS
-	padded_dab InitMewtwoBonusStage
-	; STAGE_MEWTWO_BONUS
-	padded_dab InitMewtwoBonusStage
-	; STAGE_MEOWTH_BONUS
-	padded_dab InitMeowthBonusStage
-	; STAGE_MEOWTH_BONUS
-	padded_dab InitMeowthBonusStage
-	; STAGE_DIGLETT_BONUS
-	padded_dab InitDiglettBonusStage
-	; STAGE_DIGLETT_BONUS
-	padded_dab InitDiglettBonusStage
-	; STAGE_SEEL_BONUS
-	padded_dab InitSeelBonusStage
-	; STAGE_SEEL_BONUS
-	padded_dab InitSeelBonusStage
-
-Func_8388: ; 0x8388
-	ld a, [wd7c1]
-	and a
-	jr z, .asm_8398
-	ld hl, wSubTileBallXPos
-	ld bc, $0037
-	call ClearData
-	ret
-
-.asm_8398
-	ld a, [wCurrentStage]
-	cp $6
-	ret nc
-	ld hl, wPartyMons
-	ld bc, $0170
-	call ClearData
-	ld hl, wd473
-	ld bc, $0039
-	call ClearData
-	ld hl, wd4ad
-	ld bc, $034d
-	call ClearData
-	ret
+INCLUDE "engine/main/stage_init/init_stages.asm"
 
 StartBallForStage: ; 0x83ba
 	ld a, [wd7c1]
@@ -18485,37 +18404,7 @@ Func_17fca: ; 0x17fca
 
 SECTION "bank6", ROMX, BANK[$6]
 
-Func_18000: ; 0x18000
-	ld hl, wc000
-	ld bc, $0a00
-	call ClearData
-	ld a, $1
-	ld [rVBK], a
-	hlCoord 0, 0, vBGWin
-	ld bc, $0400
-	call ClearData
-	xor a
-	ld [rVBK], a
-	ld hl, wWhichVoltorb
-	ld bc, $032e
-	call ClearData
-	xor a
-	ld hl, wScore + $5
-	ld [hld], a
-	ld [hld], a
-	ld [hld], a
-	ld [hld], a
-	ld [hld], a
-	ld [hl], a
-	ld [wNumPartyMons], a
-	ld [wd49b], a
-	ld [wd4c9], a
-	ld a, $1
-	ld [wd49d], a
-	ld a, $3
-	ld [wd49e], a
-	callba Start20SecondSaverTimer
-	ret
+INCLUDE "engine/main/stage_init/init_unused_stage.asm"
 
 Func_1804a: ; 0x1804a
 	ld a, $0
@@ -18557,114 +18446,7 @@ Func_18084: ; 0x18084
 	callba DrawPinball
 	ret
 
-InitGengarBonusStage: ; 0x18099
-	ld a, [wd7c1]
-	and a
-	jr z, .asm_180ac
-	xor a
-	ld [wd674], a
-	ld a, $8
-	ld [wd690], a
-	ld [wd6a1], a
-	ret
-
-.asm_180ac
-	ld a, $1
-	ld [wd7ac], a
-	ld a, [wBallType]
-	ld [wBallTypeBackup], a
-	xor a
-	ld [wd4c8], a
-	ld [wBallType], a
-	ld [wd49a], a
-	ld hl, GastlyInitialData
-	ld de, wd659
-	call Copy9BytesToDE
-	call Copy9BytesToDE
-	call Copy9BytesToDE
-	ld hl, HaunterInitialData
-	ld de, wd67e
-	call Copy9BytesToDE
-	call Copy9BytesToDE
-	ld hl, GengarInitialData
-	ld de, wd698
-	call Copy9BytesToDE
-	xor a
-	ld [wd67b], a
-	ld [wd695], a
-	ld hl, wd6a2
-	ld [hli], a
-	ld [hli], a
-	ld [hli], a
-	ld [hli], a
-	ld [hli], a
-	ld [hli], a
-	ld [hli], a
-	ld [wd656], a
-	ld bc, $0130  ; 1 minute 30 seconds
-	callba StartTimer
-	ld a, $f
-	call SetSongBank
-	ld de, $0005
-	call PlaySong
-	ret
-
-Copy9BytesToDE: ; 0x18112
-	ld b, $3
-.loop
-	ld a, [hli]
-	ld [de], a
-	inc de
-	ld a, [hli]
-	ld [de], a
-	inc de
-	ld a, [hli]
-	ld [de], a
-	inc de
-	dec b
-	jr nz, .loop
-	ret
-
-GastlyInitialData: ; 0x18121
-; Gastly 1
-	db $01, $01
-	db $00, $00 ; wGastly1AnimationState
-	db $00
-	db $00, $08 ; wGastly1XPos
-	db $00, $08 ; wGastly1YPos
-; Gastly 2
-	db $01, $01
-	db $00, $00 ; wGastly2AnimationState
-	db $00
-	db $00, $50 ; wGastly2XPos
-	db $00, $20 ; wGastly2YPos
-; Gastly 3
-	db $01, $01
-	db $00, $00 ; wGastly2AnimationState
-	db $00
-	db $00, $30 ; wGastly3XPos
-	db $00, $38 ; wGastly3YPos
-
-HaunterInitialData: ; 0x1813c
-; Haunter 1
-	db $00, $01
-	db $00, $00 ; wHaunter1AnimationState
-	db $00
-	db $00, $50 ; wHaunter1XPos
-	db $00, $10 ; wHaunter1YPos
-; Haunter 2
-	db $00, $01
-	db $00, $00 ; wHaunter2AnimationState
-	db $00
-	db $00, $10 ; wHaunter2XPos
-	db $00, $34 ; wHaunter2YPos
-
-GengarInitialData: ; 0x1814e
-	db $00, $01 
-	db $00, $00 ; wGengarAnimationState
-	db $04 
-	db $00, $38 ; wGengarXPos
-	db $00, $F8 ; wGengarYPos
+INCLUDE "engine/main/stage_init/init_gengar_bonus.asm"
 
 StartBallGengarBonusStage: ; 0x18157
 	ld a, $0
@@ -21201,71 +20983,7 @@ GengarBonusStageGengarGfxTable:
 	dw $60, vTilesOB tile $1e, GengarBonusGengarGfx + $1e0, $0000
 	dw $60, vTilesOB tile $24, GengarBonusGengarGfx + $240, $0000
 
-InitMewtwoBonusStage: ; 0x1924f
-	ld a, [wd7c1]
-	and a
-	ret nz
-	xor a
-	ld [wStageCollisionState], a
-	ld a, $1
-	ld [wd7ac], a
-	ld a, [wBallType]
-	ld [wBallTypeBackup], a
-	xor a
-	ld [wd4c8], a
-	ld [wBallType], a
-	ld [wd49a], a
-	ld hl, Data_192ab
-	ld de, wd6b6
-	ld b, $c
-.loop
-	ld a, [hli]
-	ld [de], a
-	inc de
-	ld a, [hli]
-	ld [de], a
-	inc de
-	ld a, [hli]
-	ld [de], a
-	inc de
-	ld a, [hli]
-	ld [de], a
-	inc de
-	dec b
-	jr nz, .loop
-	ld hl, Data_192db
-	ld de, wd6ac
-	ld b, $8
-.loop2
-	ld a, [hli]
-	ld [de], a
-	inc de
-	dec b
-	jr nz, .loop2
-	ld bc, $0200  ; 2 minutes 0 seconds
-	callba StartTimer
-	ld a, $12
-	call SetSongBank
-	ld de, $0001
-	call PlaySong
-	ret
-
-Data_192ab:
-	db $01, $01, $00, $00
-	db $00, $62, $08, $00
-	db $01, $01, $00, $00
-	db $00, $55, $1F, $0C
-	db $01, $01, $00, $00
-	db $00, $3B, $1F, $18
-	db $01, $01, $00, $00
-	db $00, $2E, $08, $24
-	db $01, $01, $00, $00
-	db $00, $3B, $F1, $30
-	db $01, $01, $00, $00
-	db $00, $55, $F1, $3C
-
-Data_192db:
-	db $01, $00, $00, $00, $00, $00, $00, $00
+INCLUDE "engine/main/stage_init/init_mewtwo_bonus.asm"
 
 StartBallMewtwoBonusStage: ; 0x192e3
 	ld a, $0
@@ -22322,40 +22040,7 @@ OAMIds_199e6:
 	db $13, $14, $15, $16, $1A, $1B, $1C, $1D, $1E, $1F, $20
 	db $FF
 
-InitDiglettBonusStage: ; 0x199f2
-	ld a, [wd7c1]
-	and a
-	ret nz
-	xor a
-	ld [wStageCollisionState], a
-	ld a, $1
-	ld [wd7ac], a
-	ld a, [wBallType]
-	ld [wBallTypeBackup], a
-	xor a
-	ld [wd4c8], a
-	ld [wBallType], a
-	ld [wd49a], a
-	; initialize all digletts to hiding
-	ld a, $1  ; hiding diglett state
-	ld hl, wDiglettStates
-	ld b, NUM_DIGLETTS
-.initDiglettsLoop
-	ld [hli], a
-	dec b
-	jr nz, .initDiglettsLoop
-	ld a, $1
-	ld [wDugtrioAnimationFrameCounter], a
-	ld a, $c
-	ld [wDugtrioAnimationFrame], a
-	xor a
-	ld [wDugtrioAnimationFrameIndex], a
-	ld [wDugrioState], a
-	ld a, $11
-	call SetSongBank
-	ld de, $0001
-	call PlaySong
-	ret
+INCLUDE "engine/main/stage_init/init_diglett_bonus.asm"
 
 StartBallDiglettBonusStage: ; 0x19a38
 	ld a, $0
@@ -23357,61 +23042,7 @@ OAMIds_1accf:
 
 SECTION "bank7", ROMX, BANK[$7]
 
-InitBlueField: ; 0x1c000
-	ld a, [wd7c1]
-	and a
-	ret nz
-	xor a
-	ld hl, wScore + $5
-	ld [hld], a
-	ld [hld], a
-	ld [hld], a
-	ld [hld], a
-	ld [hld], a
-	ld [hl], a
-	ld [wNumPartyMons], a
-	ld [wd49b], a
-	ld [wd4c9], a
-	ld [wBallType], a
-	ld [wd4c8], a
-	ld hl, wd624
-	ld [hli], a
-	ld [hli], a
-	ld [hli], a
-	ld [wd7ac], a
-	ld [wd7be], a
-	ld [wCurrentMap], a  ; PALLET_TOWN
-	ld a, $1
-	ld [wd49d], a
-	ld [wd482], a
-	ld a, $2
-	ld [wRightAlleyCount], a
-	ld a, $3
-	ld [wd49e], a
-	ld [wd610], a
-	ld a, $2
-	ld [wd498], a
-	ld [wd499], a
-	ld a, $80
-	ld [wIndicatorStates], a
-	ld [wIndicatorStates + 3], a
-	ld a, $82
-	ld [wIndicatorStates + 1], a
-	xor a
-	ld [wd648], a
-	ld [wd649], a
-	ld [wd64a], a
-	ld [wd643], a
-	ld [wd644], a
-	ld [wd645], a
-	ld [wd646], a
-	callba Start20SecondSaverTimer
-	callba Func_1d65f
-	ld a, $10
-	call SetSongBank
-	ld de, $0001
-	call PlaySong
-	ret
+INCLUDE "engine/main/stage_init/init_blue_field.asm"
 
 StartBallBlueField: ; 0x1c08d
 	ld a, [wd496]
@@ -34557,40 +34188,7 @@ Func_2112a: ; 0x2112a
 
 SECTION "bank9", ROMX, BANK[$9]
 
-InitMeowthBonusStage: ; 0x24000
-	ld a, [wd7c1]
-	and a
-	ret nz
-	xor a
-	ld [wd4c8], a
-	ld [wStageCollisionState], a
-	ld a, [wBallType]
-	ld [wBallTypeBackup], a
-	xor a
-	ld [wd4c8], a
-	ld [wBallType], a
-	ld [wd49a], a
-	ld a, $1
-	ld [wd7ac], a
-	ld a, $40
-	ld [wMeowthXPosition], a
-	ld a, $20
-	ld [wMeowthYPosition], a
-	ld a, $10
-	ld [wMeowthAnimationFrameCounter], a
-	xor a
-	ld [wMeowthStageScore], a
-	ld [wd70b], a
-	ld [wMeowthStageBonusCounter], a
-	ld [wd713], a
-	ld [wd739], a
-	ld bc, $0100  ; 1 minute 0 seconds
-	callba StartTimer
-	ld a, $12
-	call SetSongBank
-	ld de, $0004
-	call PlaySong
-	ret
+INCLUDE "engine/main/stage_init/init_meowth_bonus.asm"
 
 StartBallMeowthBonusStage: ; 0x24059
 	ld a, $0
@@ -38802,66 +38400,7 @@ Func_25a39: ; 0x25a39
 OAMIds_25a7a: ; 0x25a7a
 	db $44, $45
 
-InitSeelBonusStage: ; 0x25a7c
-	ld a, [wd7c1]
-	and a
-	ret nz
-	xor a
-	ld [wd4c8], a
-	ld [wStageCollisionState], a
-	ld a, $1
-	ld [wd7ac], a
-	ld a, [wBallType]
-	ld [wBallTypeBackup], a
-	xor a
-	ld [wd4c8], a
-	ld [wBallType], a
-	ld [wd49a], a
-	ld hl, InitialSeelCoords
-	ld de, wd76d
-	call InitSeelPosition
-	ld de, wd777
-	call InitSeelPosition
-	ld de, wd781
-	call InitSeelPosition
-	xor a
-	ld [wd793], a
-	ld [wd791], a
-	ld [wd792], a
-	ld [wd739], a
-	ld bc, $0130  ; 1 minute 30 seconds
-	callba StartTimer
-	ld a, $11
-	call SetSongBank
-	ld de, $0003
-	call PlaySong
-	ret
-
-InitSeelPosition: ; 0x25ad8
-	ld a, [hli]
-	ld [de], a
-	inc de
-	ld a, [hli]
-	ld [de], a
-	inc de
-	ld a, [hli]
-	ld [de], a
-	inc de
-	ld a, [hli]
-	ld [de], a
-	inc de
-	ret
-
-InitialSeelCoords:
-; Seel 1
-	db $00, $60 ; x coordinate
-	db $00, $00 ; y coordinate
-; Seel 2
-	db $00, $20 ; x coordinate
-	db $00, $1A ; y coordinate
-; Seel 3
-	db $00, $40 ; x coordinate
-	db $00, $34 ; y coordinate
+INCLUDE "engine/main/stage_init/init_seel_bonus.asm"
 
 StartBallSeelBonusStage: ; 0x25af1
 	ld a, $0
@@ -44374,55 +43913,7 @@ INCLUDE "text/pokedex_descriptions.asm"
 
 SECTION "bankc", ROMX, BANK[$c]
 
-InitRedField: ; 0x30000
-	ld a, [wd7c1]
-	and a
-	ret nz
-	xor a
-	ld hl, wScore + $5
-	ld [hld], a
-	ld [hld], a
-	ld [hld], a
-	ld [hld], a
-	ld [hld], a
-	ld [hl], a
-	ld [wNumPartyMons], a
-	ld [wd49b], a
-	ld [wd4c9], a
-	ld [wBallType], a
-	ld [wd4c8], a
-	ld hl, wd624
-	ld [hli], a
-	ld [hli], a
-	ld [hli], a
-	ld [wd7ac], a
-	ld [wd7be], a
-	ld [wCurrentMap], a  ; PALLET_TOWN
-	ld a, $1
-	ld [wd49d], a
-	ld [wd482], a
-	ld a, $2
-	ld [wRightAlleyCount], a
-	ld a, $3
-	ld [wd49e], a
-	ld [wd610], a
-	ld [wd498], a
-	ld [wd499], a
-	ld a, $4
-	ld [wStageCollisionState], a
-	ld [wd7ad], a
-	ld a, $80
-	ld [wIndicatorStates], a
-	ld [wIndicatorStates + 3], a
-	ld a, $82
-	ld [wIndicatorStates + 1], a
-	callba Start20SecondSaverTimer
-	callba Func_16f95
-	ld a, $f
-	call SetSongBank
-	ld de, $0001
-	call PlaySong
-	ret
+INCLUDE "engine/main/stage_init/init_red_field.asm"
 
 StartBallRedField: ; 0x3007d
 	ld a, [wd496]

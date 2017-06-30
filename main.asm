@@ -1675,72 +1675,8 @@ INCLUDE "engine/options_screen.asm"
 INCLUDE "engine/high_scores_screen.asm"
 INCLUDE "engine/field_select_screen.asm"
 INCLUDE "engine/pinball_game.asm"
-
-Start20SecondSaverTimer: ; 0xdbba
-	ld a, $1
-	ld [wBallSaverIconOn], a
-	ld a, $ff
-	ld [wd4a2], a
-	ld a, 59
-	ld [wBallSaverTimerFrames], a
-	ld a, 20
-	ld [wBallSaverTimerSeconds], a
-	ld a, $2
-	ld [wNumTimesBallSavedTextWillDisplay], a
-	ret
-
-InitBallSaverForCatchEmMode: ; 0xdbd4
-	ld a, [wBallSaverTimerFrames]
-	ld [wBallSaverTimerFramesBackup], a
-	ld a, [wBallSaverTimerSeconds]
-	ld [wBallSaverTimerSecondsBackup], a
-	ld a, [wNumTimesBallSavedTextWillDisplay]
-	ld [wd4a8], a
-	ld a, $0
-	ld [wBallSaverIconOn], a
-	ld a, $ff
-	ld [wd4a2], a
-	ld a, 59
-	ld [wBallSaverTimerFrames], a
-	ld a, 60
-	ld [wBallSaverTimerSeconds], a
-	ld a, $ff
-	ld [wNumTimesBallSavedTextWillDisplay], a
-	ret
-
-RestoreBallSaverAfterCatchEmMode: ; 0xdc00
-	ld a, [wBallSaverTimerFramesBackup]
-	ld [wBallSaverTimerFrames], a
-	ld a, [wBallSaverTimerSecondsBackup]
-	ld [wBallSaverTimerSeconds], a
-	ld a, [wd4a8]
-	ld [wNumTimesBallSavedTextWillDisplay], a
-	ld a, [wBallSaverTimerSeconds]
-	and a
-	jr z, .asm_dc1a
-	ld a, $1
-.asm_dc1a
-	ld [wBallSaverIconOn], a
-	ld a, [wBallSaverTimerSeconds]
-	ld c, $0
-	cp $2
-	jr c, .asm_dc34
-	ld c, $4
-	cp $6
-	jr c, .asm_dc34
-	ld c, $10
-	cp $b
-	jr c, .asm_dc34
-	ld c, $ff
-.asm_dc34
-	ld a, c
-	ld [wd4a2], a
-	ld a, [wCurrentStage]
-	bit 0, a
-	ret z
-	callba Func_14707
-	ret
-
+INCLUDE "engine/pinball_game/ball_saver/ball_saver_20.asm"
+INCLUDE "engine/pinball_game/ball_saver/ball_saver_catchem_mode.asm"
 INCLUDE "engine/pinball_game/ball_loss/ball_loss.asm"
 
 Func_dc6d: ; 0xdc6d
@@ -2145,44 +2081,9 @@ BallTypeMultipliers: ; 0xef2f
 	db $02
 	db $02  ; MASTER_BALL
 
-Start30SecondSaverTimer: ; 0xef35
-	ld a, $0
-	ld [wBallSaverIconOn], a
-	ld a, $ff
-	ld [wd4a2], a
-	ld a, 59
-	ld [wBallSaverTimerFrames], a
-	ld a, 30
-	ld [wBallSaverTimerSeconds], a
-	ld a, $2
-	ld [wNumTimesBallSavedTextWillDisplay], a
-	ret
-
-Start60SecondSaverTimer: ; 0xef4f
-	ld a, $0
-	ld [wBallSaverIconOn], a
-	ld a, $ff
-	ld [wd4a2], a
-	ld a, 59
-	ld [wBallSaverTimerFrames], a
-	ld a, 60
-	ld [wBallSaverTimerSeconds], a
-	ld a, $2
-	ld [wNumTimesBallSavedTextWillDisplay], a
-	ret
-
-Start90SecondSaverTimer: ; 0xef69
-	ld a, $0
-	ld [wBallSaverIconOn], a
-	ld a, $ff
-	ld [wd4a2], a
-	ld a, 59
-	ld [wBallSaverTimerFrames], a
-	ld a, 90
-	ld [wBallSaverTimerSeconds], a
-	ld a, $2
-	ld [wNumTimesBallSavedTextWillDisplay], a
-	ret
+INCLUDE "engine/pinball_game/ball_saver/ball_saver_30.asm"
+INCLUDE "engine/pinball_game/ball_saver/ball_saver_60.asm"
+INCLUDE "engine/pinball_game/ball_saver/ball_saver_90.asm"
 
 Func_ef83: ; 0xef83
 	ld a, $1

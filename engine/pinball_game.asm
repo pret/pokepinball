@@ -197,7 +197,7 @@ GameScreenFunction_HandleBallLoss: ; 0xda36
 	ld a, [wd49c]
 	cp $2
 	jr z, .asm_daa9
-	call Func_f533
+	call EndOfBallBonus
 	ld a, [wd49c]
 	and a
 	jr z, .asm_daa9

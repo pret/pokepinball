@@ -223,7 +223,7 @@ Data_320e:
 	dw vTilesSH tile 5
 	dbw Bank(GFX_d61d0), GFX_d61d0
 	dw vTilesSH tile 3
-	dbw Bank(GFX_d61c0), GFX_d61c0
+	dbw Bank(E_Acute_CharacterGfx), E_Acute_CharacterGfx
 	dw vTilesSH tile 7
 	dbw Bank(InGameMenuSymbolsGfx), InGameMenuSymbolsGfx + $80
 	dw vTilesSH tile 5
@@ -241,7 +241,7 @@ Data_320e:
 	dw vTilesSH tile 5
 	dbw Bank(GFX_d63d0), GFX_d63d0
 	dw vTilesSH tile 3
-	dbw Bank(GFX_d63c0), GFX_d63c0
+	dbw Bank(E_Acute_CharacterGfx_GameboyColor), E_Acute_CharacterGfx_GameboyColor
 	dw vTilesSH tile 7
 	dbw Bank(InGameMenuSymbolsGfx), InGameMenuSymbolsGfx + $80
 	dw vTilesSH tile 5

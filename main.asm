@@ -38735,27 +38735,7 @@ StageMeowthBonusCollisionMasks: ; 0xdc600
 INCLUDE "data/mon_gfx/mon_billboard_palettes_6.asm"
 INCLUDE "data/stage_palettes.asm"
 INCLUDE "data/billboard/map_palettes_2.asm"
-
-PokeBallObjPalette: ; 0xdd168
-	RGB 21, 21, 21
-	RGB 31, 31, 31
-	RGB 31,  5,  4
-	RGB  0,  0,  0
-GreatBallObjPalette: ; 0xdd170
-	RGB 21, 21, 21
-	RGB 31, 31, 31
-	RGB  2,  8, 31
-	RGB  0,  0,  0
-UltraBallObjPalette: ; 0xdd178
-	RGB 21, 21, 21
-	RGB 31, 31, 31
-	RGB 27, 21,  0
-	RGB  0,  0,  0
-MasterBallObjPalette: ; 0xdd180
-	RGB 21, 21, 21
-	RGB 31, 31, 31
-	RGB 21,  3, 21
-	RGB  0,  0,  0
+INCLUDE "data/ball_palettes.asm"
 
 PaletteData_dd188: ; 0xdd188
 	RGB 31, 31, 31

@@ -368,7 +368,7 @@ CheckForMew:
 	cp $8
 	jr nz, .asm_10155
 	ld a, [wNumMewtwoBonusCompletions]
-	cp $2
+	cp NUM_MEWTWO_COMPLETIONS_FOR_MEW
 	jr nz, .asm_10155
 	pop af
 	xor a

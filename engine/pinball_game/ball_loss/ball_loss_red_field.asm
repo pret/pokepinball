@@ -71,7 +71,7 @@ Func_ddfd: ; 0xddfd
 	ld a, [wSpecialMode]
 	and a
 	jr nz, .asm_de14
-	callba Func_10157
+	callba ConcludeCatchEmMode
 	jr .asm_de40
 
 .asm_de14

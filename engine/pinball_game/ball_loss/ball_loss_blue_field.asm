@@ -71,7 +71,7 @@ Func_ded6: ; 0xded6
 	ld a, [wSpecialMode]
 	and a
 	jr nz, .asm_deec
-	callba Func_10157
+	callba ConcludeCatchEmMode
 	ret
 
 .asm_deec

@@ -35,8 +35,8 @@ HandleBallLossSeelBonus: ; 0xe08b
 	lb de, $00, $02
 	call PlaySoundEffect
 	xor a
-	ld [wd57d], a
-	ld [wd57d], a
+	ld [wTimerActive], a
+	ld [wTimerActive], a ; duplicate instruction
 	ld [wd495], a
 	ld a, $1
 	ld [wd496], a

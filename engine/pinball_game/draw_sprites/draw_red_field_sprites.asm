@@ -26,7 +26,7 @@ DrawSpritesRedFieldBottom: ; 0x1757e
 	ret
 
 DrawTimer: ; 0x175a4
-	ld a, [wd57d]
+	ld a, [wTimerActive]
 	and a
 	ret z
 	ld a, [hGameBoyColorFlag]

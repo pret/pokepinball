@@ -380,15 +380,15 @@ CheckForMew:
 	pop af
 	ret
 
-Func_10157: ; 0x10157
+ConcludeCatchEmMode: ; 0x10157
 	xor a
 	ld [wInSpecialMode], a
 	ld [wWildMonIsHittable], a
 	ld [wd5c6], a
 	ld [wd5b6], a
 	ld [wNumMonHits], a
-	call Func_10488
-	callba Func_86d2
+	call ClearWildMonCollisionMask
+	callba StopTimer
 	ld a, [wCurrentStage]
 	rst JumpTable  ; calls JumpToFuncInTable
 CallTable_10178: ; 0x10178
@@ -876,7 +876,7 @@ LoadWildMonCollisionMask: ; 0x10464
 	call FarCopyData
 	ret
 
-Func_10488: ; 0x10488
+ClearWildMonCollisionMask: ; 0x10488
 	xor a
 	ld hl, wMonAnimatedCollisionMask
 	ld b, $20
@@ -1015,7 +1015,7 @@ CapturePokemon: ; 0x1052d
 	ld [wd548], a
 	ld [wd549], a
 	callba RestoreBallSaverAfterCatchEmMode
-	call Func_10157
+	call ConcludeCatchEmMode
 	ld de, $0001
 	call PlaySong
 	ld hl, wd628
@@ -1714,8 +1714,8 @@ Func_10ac8: ; 0x10ac8
 	ld [wNumMonHits], a
 	ld [wd551], a
 	ld [wd554], a
-	call Func_10488
-	callba Func_86d2
+	call ClearWildMonCollisionMask
+	callba StopTimer
 	ld a, [wCurrentStage]
 	rst JumpTable  ; calls JumpToFuncInTable
 CallTable_10af3: ; 0x10af3
@@ -11863,7 +11863,7 @@ Func_18377: ; 0x18377
 	ld a, $1
 	ld [wd7be], a
 	call Func_2862
-	callba Func_86d2
+	callba StopTimer
 	ld a, [wd6a2]
 	cp $5
 	ret nc
@@ -12570,7 +12570,7 @@ Func_187b1: ; 0x187b1
 	ld a, $1
 	ld [wd7be], a
 	call Func_2862
-	callba Func_86d2
+	callba StopTimer
 	ld de, $0000
 	call PlaySong
 .asm_18826
@@ -13940,7 +13940,7 @@ Func_19451: ; 0x19451
 	ld a, $1
 	ld [wd7be], a
 	call Func_2862
-	callba Func_86d2
+	callba StopTimer
 	ld a, [wd6b1]
 	cp $8
 	ret nc
@@ -14135,7 +14135,7 @@ Func_19531: ; 0x19531
 	ld a, $1
 	ld [wd7be], a
 	call Func_2862
-	callba Func_86d2
+	callba StopTimer
 	ld de, $0000
 	call PlaySong
 .asm_195a2
@@ -23908,7 +23908,7 @@ Func_201ce: ; 0x201ce
 	ret nz
 	call FillBottomMessageBufferWithBlackTile
 	callba RestoreBallSaverAfterCatchEmMode
-	callba Func_10157
+	callba ConcludeCatchEmMode
 	ld de, $0001
 	call PlaySong
 	scf
@@ -23929,7 +23929,7 @@ Func_201f2: ; 0x201f2
 	jr nz, .asm_2021b
 	callba SetPokemonOwnedFlag
 .asm_2021b
-	callba Func_86d2
+	callba StopTimer
 	callba Func_106a6
 	ret
 
@@ -24208,7 +24208,7 @@ Func_2048f: ; 0x2048f
 	ret nz
 	call FillBottomMessageBufferWithBlackTile
 	callba RestoreBallSaverAfterCatchEmMode
-	callba Func_10157
+	callba ConcludeCatchEmMode
 	ld de, $0001
 	call PlaySong
 	scf
@@ -24229,7 +24229,7 @@ Func_204b3: ; 0x204b3
 	jr nz, .notMew
 	callba SetPokemonOwnedFlag
 .notMew
-	callba Func_86d2
+	callba StopTimer
 	callba Func_106a6
 	ret
 
@@ -24564,7 +24564,7 @@ Func_2077b: ; 0x2077b
 	callba Func_14135
 	callba Func_16425
 .asm_207f5
-	callba Func_86d2
+	callba StopTimer
 	call FillBottomMessageBufferWithBlackTile
 	call Func_30db
 	ld hl, wd5cc
@@ -25293,7 +25293,7 @@ Func_20da0: ; 0x20da0
 	callba Func_1c2cb
 	callba Func_1e8f6
 .asm_20e1a
-	callba Func_86d2
+	callba StopTimer
 	call FillBottomMessageBufferWithBlackTile
 	call Func_30db
 	ld hl, wd5cc
@@ -26276,7 +26276,7 @@ Func_2442a: ; 0x2442a
 	ld a, $1
 	ld [wd7be], a
 	call Func_2862
-	callba Func_86d2
+	callba StopTimer
 	ld a, $1
 	ld [wd713], a
 	ld a, $1
@@ -29729,7 +29729,7 @@ Func_25c5a: ; 0x25c5a
 	ld a, $1
 	ld [wd7be], a
 	call Func_2862
-	callba Func_86d2
+	callba StopTimer
 	ld a, $3
 	ld [wd791], a
 	ld a, [wd794]
@@ -33820,7 +33820,7 @@ Func_3022b: ; 0x3022b
 	xor a
 	ld [wInSpecialMode], a
 	ld [wSpecialMode], a
-	callba Func_86d2
+	callba StopTimer
 	ld a, [wCurrentStage]
 	rst JumpTable  ; calls JumpToFuncInTable
 CallTable_30247: ; 0x30247
@@ -37387,7 +37387,7 @@ SecondMapMoveSet_BlueField:
 	db CINNABAR_ISLAND
 
 Func_314ae: ; 0x314ae
-	ld a, [wd57d]
+	ld a, [wTimerActive]
 	and a
 	ld a, [wd54c]
 	jr z, .asm_314d0
@@ -37469,7 +37469,7 @@ Func_3151f: ; 0x3151f
 	callba Func_16425
 	callba Func_30253
 .asm_31577
-	callba Func_86d2
+	callba StopTimer
 	call FillBottomMessageBufferWithBlackTile
 	call Func_30db
 	ld hl, wd5cc
@@ -37537,7 +37537,7 @@ Func_315d5: ; 0x315d5
 	ret
 
 Func_3161b: ; 0x3161b
-	ld a, [wd57d]
+	ld a, [wTimerActive]
 	and a
 	ld a, [wd54c]
 	jr z, .asm_3163d
@@ -37623,7 +37623,7 @@ Func_3168c: ; 0x3168c
 	callba Func_1e8f6
 	callba Func_30253
 .asm_316ee
-	callba Func_86d2
+	callba StopTimer
 	call FillBottomMessageBufferWithBlackTile
 	call Func_30db
 	ld hl, wd5cc

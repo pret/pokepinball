@@ -800,7 +800,8 @@ wTimerMinutes:: ; 0xd57b
 wTimerFrames:: ; 0xd57c
 	ds $1
 
-wd57d:: ; 0xd57d
+wTimerActive:: ; 0xd57d
+; Set to 1 when the Timer is displayed and counting down.
 	ds $1
 
 wd57e:: ; 0xd57e

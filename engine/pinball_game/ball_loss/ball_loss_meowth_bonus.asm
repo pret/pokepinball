@@ -36,7 +36,7 @@ HandleBallLossMeowthBonus: ; 0xdfe2
 .asm_e025
 	xor a
 	ld [wd57e], a
-	ld [wd57d], a
+	ld [wTimerActive], a
 	xor a
 	ld [wd495], a
 	ld a, $1

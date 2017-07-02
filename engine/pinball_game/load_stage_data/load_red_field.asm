@@ -29,7 +29,7 @@ _LoadStageDataRedFieldBottom: ; 0x1401c
 	ret
 
 Func_1404a: ; 0x1404a
-	ld a, [wd57d]
+	ld a, [wTimerActive]
 	and a
 	ret z
 	ld a, [hGameBoyColorFlag]

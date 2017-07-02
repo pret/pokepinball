@@ -156,7 +156,7 @@ GameScreenFunction_HandleBallPhysics: ; 0xd909
 	call Func_dc7c
 	call Func_dcb4
 .asm_d9e9
-	ld a, [wd57d]
+	ld a, [wTimerActive]
 	and a
 	callba nz, Func_86a4
 	ld a, [wd4ae]

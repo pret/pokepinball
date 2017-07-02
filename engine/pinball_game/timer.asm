@@ -12,7 +12,7 @@ StartTimer: ; 0x867d
 	ld [wd57e], a
 	ld [wd57f], a
 	ld a, $1
-	ld [wd57d], a
+	ld [wTimerActive], a
 	ld a, $1
 	ld [wd580], a
 	callba Func_1404a
@@ -52,7 +52,7 @@ Func_86a4: ; 0x86a4
 	ld [hl], a
 	ret
 
-Func_86d2: ; 0x86d2
+StopTimer: ; 0x86d2
 	xor a
-	ld [wd57d], a
+	ld [wTimerActive], a
 	ret

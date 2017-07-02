@@ -31,7 +31,7 @@ InitBallRedField: ; 0x3007d
 	xor a
 	ld [wd50b], a
 	ld [wd50c], a
-	ld [wd51d], a
+	ld [wPikachuSaverSlotRewardActive], a
 	ld [wPikachuSaverCharge], a
 	ld [wd51e], a
 	ld hl, wd50f

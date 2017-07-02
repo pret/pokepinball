@@ -22,7 +22,7 @@ InitBallBlueField: ; 0x1c08d
 	xor a
 	ld [wd50b], a
 	ld [wd50c], a
-	ld [wd51d], a
+	ld [wPikachuSaverSlotRewardActive], a
 	ld [wd51e], a
 	ld [wPikachuSaverCharge], a
 	ld hl, wd50f

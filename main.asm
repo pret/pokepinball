@@ -431,7 +431,7 @@ INCLUDE "engine/pinball_game/ball_saver/ball_saver_90.asm"
 
 SlotRewardPikachuSaver: ; 0xef83
 	ld a, $1
-	ld [wd51d], a
+	ld [wPikachuSaverSlotRewardActive], a
 	ld a, MAX_PIKACHU_SAVER_CHARGE
 	ld [wPikachuSaverCharge], a
 	xor a
@@ -9876,7 +9876,7 @@ ResolveRedStagePikachuCollision: ; 0x1660c
 	ld a, [wd51c]
 	and a
 	jr nz, .asm_1667b
-	ld a, [wd51d]
+	ld a, [wPikachuSaverSlotRewardActive]
 	and a
 	jr nz, .asm_16634
 	ld a, [wWhichPikachuId]
@@ -9891,7 +9891,7 @@ ResolveRedStagePikachuCollision: ; 0x1660c
 	ld hl, PikachuSaverAnimationDataBlueStage
 	ld de, wPikachuSaverAnimationFrameCounter
 	call CopyHLToDE
-	ld a, [wd51d]
+	ld a, [wPikachuSaverSlotRewardActive]
 	and a
 	jr nz, .asm_16647
 	xor a
@@ -18648,7 +18648,7 @@ ResolveBlueStagePikachuCollision: ; 0x1d0a1
 	ld a, [wd51c]
 	and a
 	jr nz, .asm_1d110
-	ld a, [wd51d]
+	ld a, [wPikachuSaverSlotRewardActive]
 	and a
 	jr nz, .asm_1d0c9
 	ld a, [wWhichPikachuId]
@@ -18663,7 +18663,7 @@ ResolveBlueStagePikachuCollision: ; 0x1d0a1
 	ld hl, PikachuSaverAnimationDataRedStage
 	ld de, wPikachuSaverAnimationFrameCounter
 	call CopyHLToDE
-	ld a, [wd51d]
+	ld a, [wPikachuSaverSlotRewardActive]
 	and a
 	jr nz, .asm_1d0dc
 	xor a

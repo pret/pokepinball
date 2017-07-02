@@ -632,7 +632,8 @@ wPikachuSaverAnimationFrameIndex:: ; 0xd51b
 wd51c:: ; 0xd51c
 	ds $1
 
-wd51d:: ; 0xd51d
+wPikachuSaverSlotRewardActive:: ; 0xd51d
+; Set to 1 if the Pikachu Saver slot reward is active. 0 otherwise.
 	ds $1
 
 wd51e:: ; 0xd51e

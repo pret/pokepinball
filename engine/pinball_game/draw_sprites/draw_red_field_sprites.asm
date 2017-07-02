@@ -431,7 +431,7 @@ DrawPikachuSavers_RedStage: ; 0x17e08
 	ld d, a
 	ld a, [hSCY]
 	ld e, a
-	ld a, [wd51d]
+	ld a, [wPikachuSaverSlotRewardActive]
 	and a
 	ld a, [wd518]
 	jr z, .asm_17e33

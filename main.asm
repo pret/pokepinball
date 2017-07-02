@@ -4174,42 +4174,7 @@ SECTION "bankc", ROMX, BANK[$c]
 INCLUDE "engine/pinball_game/stage_init/init_red_field.asm"
 INCLUDE "engine/pinball_game/ball_init/ball_init_red_field.asm"
 INCLUDE "engine/pinball_game/bonus_multiplier.asm"
-
-Func_30188: ; 0x30188
-	ld a, [wd5ca]
-	and a
-	ret nz
-	ld a, [wd4ca]
-	and a
-	ret z
-	cp $1
-	jr nz, .asm_301a7
-	call FillBottomMessageBufferWithBlackTile
-	call Func_30db
-	ld hl, wd5cc
-	ld de, ExtraBallText
-	call LoadTextHeader
-	jr .asm_301c9
-
-.asm_301a7
-	ld bc, $1000
-	ld de, $0000
-	push bc
-	push de
-	call FillBottomMessageBufferWithBlackTile
-	call Func_30db
-	ld hl, wd5d4
-	ld de, DigitsText1to9
-	call Func_32cc
-	pop de
-	pop bc
-	ld hl, wd5cc
-	ld de, ExtraBallSpecialBonusText
-	call LoadTextHeader
-.asm_301c9
-	xor a
-	ld [wd4ca], a
-	ret
+INCLUDE "engine/pinball_game/extra_ball.asm"
 
 Func_301ce: ; 0x301ce
 	ld a, [wCurrentStage]

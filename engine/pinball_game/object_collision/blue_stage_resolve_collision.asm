@@ -17,7 +17,7 @@ ResolveBlueFieldTopGameObjectCollisions: ; 0x1c715
 	callba Func_146a9
 	call Func_1f27b
 	call Func_1df15
-	callba Func_30188
+	callba HandleExtraBall
 	ld a, $0
 	callba Func_10000
 	ret
@@ -42,7 +42,7 @@ ResolveBlueFieldBottomGameObjectCollisions: ; 0x1c769
 	callba Func_146a2
 	call Func_1f261
 	call Func_1de93
-	callba Func_30188
+	callba HandleExtraBall
 	ld a, $0
 	callba Func_10000
 	ret

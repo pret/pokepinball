@@ -32,7 +32,7 @@ InitBallRedField: ; 0x3007d
 	ld [wd50b], a
 	ld [wd50c], a
 	ld [wd51d], a
-	ld [wd517], a
+	ld [wPikachuSaverCharge], a
 	ld [wd51e], a
 	ld hl, wd50f
 	ld [hli], a

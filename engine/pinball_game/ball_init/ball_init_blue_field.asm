@@ -24,7 +24,7 @@ InitBallBlueField: ; 0x1c08d
 	ld [wd50c], a
 	ld [wd51d], a
 	ld [wd51e], a
-	ld [wd517], a
+	ld [wPikachuSaverCharge], a
 	ld hl, wd50f
 	ld [hli], a
 	ld [hli], a

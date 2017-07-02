@@ -159,8 +159,8 @@ Data_dcad:
 	db $01, $02, $04, $08, $16, $32, $64
 
 Func_dcb4: ; 0xdcb4
-	ld a, [wd517]
-	cp $f
+	ld a, [wPikachuSaverCharge]
+	cp MAX_PIKACHU_SAVER_CHARGE
 	ld a, $81
 	jr nz, .asm_dcbf
 	ld a, $84
@@ -343,11 +343,11 @@ Func_ed8e: ; 0xed8e
 	ld [wd619], a
 	ld a, [wd61d]
 	rst JumpTable  ; calls JumpToFuncInTable
-CallTable_eeca: ; 0xeeca
+SlotRewards_CallTable: ; 0xeeca
 	dw Start30SecondSaverTimer
 	dw Start60SecondSaverTimer
 	dw Start90SecondSaverTimer
-	dw Func_ef83
+	dw SlotRewardPikachuSaver
 	dw Func_efa7
 	dw Func_efb2
 	dw Func_eff3
@@ -429,11 +429,11 @@ INCLUDE "engine/pinball_game/ball_saver/ball_saver_30.asm"
 INCLUDE "engine/pinball_game/ball_saver/ball_saver_60.asm"
 INCLUDE "engine/pinball_game/ball_saver/ball_saver_90.asm"
 
-Func_ef83: ; 0xef83
+SlotRewardPikachuSaver: ; 0xef83
 	ld a, $1
 	ld [wd51d], a
-	ld a, $f
-	ld [wd517], a
+	ld a, MAX_PIKACHU_SAVER_CHARGE
+	ld [wPikachuSaverCharge], a
 	xor a
 	ld [wd85d], a
 	call Func_310a
@@ -5728,18 +5728,18 @@ Func_14e10: ; 0x14e10
 	callba AddBigBCD6FromQueueWithBallMultiplier
 	ld hl, wd62d
 	call Func_e4a
-	ld a, [wd517]
-	cp $f
+	ld a, [wPikachuSaverCharge]
+	cp MAX_PIKACHU_SAVER_CHARGE
 	jr nz, .asm_14e8a
 	call Func_14ea7
 	ret
 
 .asm_14e8a
 	inc a
-	ld [wd517], a
+	ld [wPikachuSaverCharge], a
 	call Func_14ea7
-	ld a, [wd517]
-	cp $f
+	ld a, [wPikachuSaverCharge]
+	cp MAX_PIKACHU_SAVER_CHARGE
 	jr nz, .asm_14e9d
 	ld a, $64
 	ld [wd51e], a
@@ -5754,7 +5754,7 @@ Func_14ea7: ; 0x14ea7
 	ld a, [wd51e]
 	and a
 	ret nz
-	ld a, [wd517]
+	ld a, [wPikachuSaverCharge]
 	ld c, a
 	ld b, $0
 	ld hl, SoundEffects_14ebe
@@ -5769,7 +5769,7 @@ SoundEffects_14ebe:
 	db $12, $13, $14, $15, $16, $17, $18, $19, $1A, $1B, $1C, $1D, $1E, $1F, $20, $11
 
 Func_14ece: ; 0x14ece
-	ld a, [wd517]
+	ld a, [wPikachuSaverCharge]
 	ld c, a
 	sla c
 	ld b, $0
@@ -9884,8 +9884,8 @@ ResolveRedStagePikachuCollision: ; 0x1660c
 	ld hl, wd518
 	cp [hl]
 	jr nz, .asm_1667b
-	ld a, [wd517]
-	cp $f
+	ld a, [wPikachuSaverCharge]
+	cp MAX_PIKACHU_SAVER_CHARGE
 	jr nz, .asm_16667
 .asm_16634
 	ld hl, PikachuSaverAnimationDataBlueStage
@@ -9895,7 +9895,7 @@ ResolveRedStagePikachuCollision: ; 0x1660c
 	and a
 	jr nz, .asm_16647
 	xor a
-	ld [wd517], a
+	ld [wPikachuSaverCharge], a
 .asm_16647
 	ld a, $1
 	ld [wd51c], a
@@ -9923,8 +9923,8 @@ ResolveRedStagePikachuCollision: ; 0x1660c
 	and a
 	call z, Func_16766
 	call Func_1669e
-	ld a, [wd517]
-	cp $f
+	ld a, [wPikachuSaverCharge]
+	cp MAX_PIKACHU_SAVER_CHARGE
 	ret nz
 	ld a, [wd51e]
 	and a
@@ -17505,18 +17505,18 @@ Func_1ca85: ; 0x1ca85
 	callba AddBigBCD6FromQueueWithBallMultiplier
 	ld hl, wd62d
 	call Func_e4a
-	ld a, [wd517]
-	cp $f
+	ld a, [wPikachuSaverCharge]
+	cp MAX_PIKACHU_SAVER_CHARGE
 	jr nz, .asm_1caff
 	call Func_1cb1c
 	ret
 
 .asm_1caff
 	inc a
-	ld [wd517], a
+	ld [wPikachuSaverCharge], a
 	call Func_1cb1c
-	ld a, [wd517]
-	cp $f
+	ld a, [wPikachuSaverCharge]
+	cp MAX_PIKACHU_SAVER_CHARGE
 	jr nz, .asm_1cb12
 	ld a, $64
 	ld [wd51e], a
@@ -17531,7 +17531,7 @@ Func_1cb1c: ; 0x1cb1c
 	ld a, [wd51e]
 	and a
 	ret nz
-	ld a, [wd517]
+	ld a, [wPikachuSaverCharge]
 	ld c, a
 	ld b, $0
 	ld hl, SoundEffectIds_1cb33
@@ -17546,7 +17546,7 @@ SoundEffectIds_1cb33:
 	db $12, $13, $14, $15, $16, $17, $18, $19, $1A, $1B, $1C, $1D, $1E, $1F, $20, $11
 
 Func_1cb43: ; 0x1cb43
-	ld a, [wd517]
+	ld a, [wPikachuSaverCharge]
 	ld c, a
 	sla c
 	ld b, $0
@@ -18656,8 +18656,8 @@ ResolveBlueStagePikachuCollision: ; 0x1d0a1
 	ld hl, wd518
 	cp [hl]
 	jr nz, .asm_1d110
-	ld a, [wd517]
-	cp $f
+	ld a, [wPikachuSaverCharge]
+	cp MAX_PIKACHU_SAVER_CHARGE
 	jr nz, .asm_1d0fc
 .asm_1d0c9
 	ld hl, PikachuSaverAnimationDataRedStage
@@ -18667,7 +18667,7 @@ ResolveBlueStagePikachuCollision: ; 0x1d0a1
 	and a
 	jr nz, .asm_1d0dc
 	xor a
-	ld [wd517], a
+	ld [wPikachuSaverCharge], a
 .asm_1d0dc
 	ld a, $1
 	ld [wd51c], a
@@ -18695,8 +18695,8 @@ ResolveBlueStagePikachuCollision: ; 0x1d0a1
 	and a
 	call z, Func_1d1fb
 	call Func_1d133
-	ld a, [wd517]
-	cp $f
+	ld a, [wPikachuSaverCharge]
+	cp MAX_PIKACHU_SAVER_CHARGE
 	ret nz
 	ld a, [wd51e]
 	and a

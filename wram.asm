@@ -1020,10 +1020,13 @@ wd620:: ; 0xd620
 wd621:: ; 0xd621
 	ds $1
 
-wd622:: ; 0xd622
+wCatchEmOrEvolutionSlotRewardActive:: ; 0xd622
+; Set to 1 if the "Start Catch 'Em Mode" Slot Reward is received.
+; Set to 2 if the "Start Evolution Mode" Slot Reward is received.
 	ds $1
 
-wd623:: ; 0xd623
+wBonusStageSlotRewardActive:: ; 0xd623
+; Set to 1 when the "Go To Bonus" Slot Reward is received.
 	ds $1
 
 wd624:: ; 0xd624

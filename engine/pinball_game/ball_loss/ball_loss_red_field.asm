@@ -75,7 +75,7 @@ Func_ddfd: ; 0xddfd
 	jr .asm_de40
 
 .asm_de14
-	cp $1
+	cp SPECIAL_MODE_CATCHEM
 	jr nz, .asm_de2d
 	xor a
 	ld [wd604], a

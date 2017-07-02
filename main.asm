@@ -192,14 +192,14 @@ Func_10000: ; 0x10000
 	ld a, c
 	ld [wd54c], a
 	ld a, [wSpecialMode]
-	cp $1
+	cp SPECIAL_MODE_CATCHEM
 	jp z, Func_10a95
-	cp $2
-	jr nz, .asm_10021
+	cp SPECIAL_MODE_EVOLUTION
+	jr nz, .next
 	callba Func_301ce
 	ret
 
-.asm_10021
+.next
 	ld a, [wCurrentStage]
 	call CallInFollowingTable
 CallTable_10027: ; 0x10027
@@ -2036,7 +2036,7 @@ Func_10cb7: ; 0x10cb7
 	call LoadVRAMData
 .asm_10cfc
 	call FillBottomMessageBufferWithBlackTile
-	ld a, $1
+	ld a, SPECIAL_MODE_CATCHEM
 	ld [wd4aa], a
 	ld [wInSpecialMode], a
 	ld [wSpecialMode], a
@@ -33786,7 +33786,7 @@ StartMapMoveMode: ; 0x301ec
 	ret nz
 	ld a, $1
 	ld [wInSpecialMode], a
-	ld a, $2
+	ld a, SPECIAL_MODE_MAP_MOVE
 	ld [wSpecialMode], a
 	xor a
 	ld [wd54d], a

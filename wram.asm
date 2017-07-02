@@ -696,6 +696,7 @@ wCurrentMap:: ; 0xd54a
 	ds $1
 
 wInSpecialMode:: ; 0xd54b
+; Set to 1 if currently in special game mode. See wSpecialMode.
 	ds $1
 
 wd54c:: ; 0xd54c
@@ -711,6 +712,8 @@ wd54f:: ; 0xd54f
 	ds $1
 
 wSpecialMode:: ; 0xd550
+; Represents the current pinball mode. Example special modes would be, Catch'Em, Evolution, Map Move
+; See SPECIAL_MODE constants.
 	ds $1
 
 wd551:: ; 0xd551

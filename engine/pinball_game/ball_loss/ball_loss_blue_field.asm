@@ -75,7 +75,7 @@ Func_ded6: ; 0xded6
 	ret
 
 .asm_deec
-	cp $1
+	cp SPECIAL_MODE_CATCHEM
 	jr nz, .asm_df05
 	ld a, $0
 	ld [wd604], a

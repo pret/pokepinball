@@ -102,7 +102,7 @@ DrawTimerDigit: ; 0x17627
 Func_1762f: ; 0x1762f
 	lb de, $60, $0c
 	ld a, [wCurrentStage]
-	cp $6
+	cp STAGE_BLUE_FIELD_BOTTOM + 1
 	ret nc
 	lb de, $00, $00
 	bit 0, a

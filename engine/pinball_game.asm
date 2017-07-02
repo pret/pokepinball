@@ -89,7 +89,7 @@ GameScreenFunction_HandleBallPhysics: ; 0xd909
 	ld [wCollisionForceAngle], a
 .noFlipperCollision
 	call CheckGameObjectCollisions
-	call Func_281c ; not collision-related
+	call ResolveGameObjectCollisions
 	ld hl, wKeyConfigMenu
 	call IsKeyPressed
 	jr z, .didntPressMenuKey

@@ -4994,57 +4994,6 @@ SubTileXPos_CollisionData7: ; 0x268e
 INCLUDE "data/sine_table.asm"
 INCLUDE "engine/pinball_game/object_collision/object_collision.asm"
 
-Func_281c: ; 0x281c
-	ld a, [wCurrentStage]
-	call CallInFollowingTable
-CallTable_2822: ; 0x2822
-; not collisions
-	; STAGE_RED_FIELD_TOP
-	padded_dab Func_1460e
-
-	; STAGE_RED_FIELD_BOTTOM
-	padded_dab Func_14652
-
-	padded_dab DoNothing_1806d
-
-	padded_dab Func_1806e
-
-	; STAGE_BLUE_FIELD_TOP
-	padded_dab Func_1c715
-
-	; STAGE_BLUE_FIELD_BOTTOM
-	padded_dab Func_1c769
-
-	; STAGE_GENGAR_BONUS
-	padded_dab Func_18377
-
-	; STAGE_GENGAR_BONUS
-	padded_dab Func_18377
-
-	; STAGE_MEWTWO_BONUS
-	padded_dab Func_19451
-
-	; STAGE_MEWTWO_BONUS
-	padded_dab Func_19451
-
-	; STAGE_MEOWTH_BONUS
-	padded_dab Func_2442a
-
-	; STAGE_MEOWTH_BONUS
-	padded_dab Func_2442a
-
-	; STAGE_DIGLETT_BONUS
-	padded_dab Func_19b88
-
-	; STAGE_DIGLETT_BONUS
-	padded_dab Func_19b88
-
-	; STAGE_SEEL_BONUS
-	padded_dab Func_25c5a
-
-	; STAGE_SEEL_BONUS
-	padded_dab Func_25c5a
-
 Func_2862: ; 0x2862
 	ld a, [wd7be]
 	and a

@@ -196,3 +196,54 @@ PinballCollidesWithPoints: ; 0x27fd
 	ld a, d
 	ld [wd578], a
 	ret
+
+ResolveGameObjectCollisions: ; 0x281c
+	ld a, [wCurrentStage]
+	call CallInFollowingTable
+CallTable_2822: ; 0x2822
+; not collisions
+	; STAGE_RED_FIELD_TOP
+	padded_dab ResolveRedFieldTopGameObjectCollisions
+
+	; STAGE_RED_FIELD_BOTTOM
+	padded_dab ResolveRedFieldBottomGameObjectCollisions
+
+	padded_dab DoNothing_1806d
+
+	padded_dab Func_1806e
+
+	; STAGE_BLUE_FIELD_TOP
+	padded_dab ResolveBlueFieldTopGameObjectCollisions
+
+	; STAGE_BLUE_FIELD_BOTTOM
+	padded_dab ResolveBlueFieldBottomGameObjectCollisions
+
+	; STAGE_GENGAR_BONUS
+	padded_dab ResolveGengarBonusGameObjectCollisions
+
+	; STAGE_GENGAR_BONUS
+	padded_dab ResolveGengarBonusGameObjectCollisions
+
+	; STAGE_MEWTWO_BONUS
+	padded_dab ResolveMewtwoBonusGameObjectCollisions
+
+	; STAGE_MEWTWO_BONUS
+	padded_dab ResolveMewtwoBonusGameObjectCollisions
+
+	; STAGE_MEOWTH_BONUS
+	padded_dab ResolveMeowthBonusGameObjectCollisions
+
+	; STAGE_MEOWTH_BONUS
+	padded_dab ResolveMeowthBonusGameObjectCollisions
+
+	; STAGE_DIGLETT_BONUS
+	padded_dab ResolveDiglettBonusGameObjectCollisions
+
+	; STAGE_DIGLETT_BONUS
+	padded_dab ResolveDiglettBonusGameObjectCollisions
+
+	; STAGE_SEEL_BONUS
+	padded_dab ResolveSeelBonusGameObjectCollisions
+
+	; STAGE_SEEL_BONUS
+	padded_dab ResolveSeelBonusGameObjectCollisions

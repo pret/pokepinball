@@ -5458,7 +5458,7 @@ Func_164e3: ; 0x164e3
 .asm_16506
 	ld hl, wCurrentStage
 	bit 0, [hl]
-	callba nz, Func_30256
+	callba nz, LoadBillboardTileData
 	ld a, [wd604]
 	and a
 	ret nz
@@ -5558,7 +5558,7 @@ Func_1658f: ; 0x1658f
 
 .ballStartKeyPressed
 	pop bc
-	callba Func_30253
+	callba LoadMapBillboardTileData
 	ld bc, StartFromMapText
 	callba Func_3118f
 	ld a, [wCurrentMap]

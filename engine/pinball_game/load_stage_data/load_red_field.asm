@@ -443,7 +443,7 @@ Func_14377: ; 0x14377
 	jr z, .asm_14393
 	ld a, [wd498]
 	add $15
-	callba Func_30256
+	callba LoadBillboardTileData
 	ret
 
 .asm_14393
@@ -451,11 +451,11 @@ Func_14377: ; 0x14377
 	and a
 	jr z, .asm_143a6
 	ld a, $1a
-	callba Func_30256
+	callba LoadBillboardTileData
 	ret
 
 .asm_143a6
-	callba Func_30253
+	callba LoadMapBillboardTileData
 	ret
 
 .asm_143b1
@@ -465,7 +465,7 @@ Func_14377: ; 0x14377
 	ld a, [wd54d]
 	cp $3
 	jr nz, .asm_143c9
-	callba Func_30253
+	callba LoadMapBillboardTileData
 	ret
 
 .asm_143c9
@@ -476,5 +476,5 @@ Func_14377: ; 0x14377
 	ld a, [wd55a]
 	add $12
 .asm_143d6
-	callba Func_30256
+	callba LoadBillboardTileData
 	ret

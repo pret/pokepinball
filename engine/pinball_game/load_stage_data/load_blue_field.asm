@@ -437,7 +437,7 @@ Func_1c4b6: ; 0x1c4b6
 	jr z, .asm_1c4d2
 	ld a, [wd498]
 	add $15
-	callba Func_30256
+	callba LoadBillboardTileData
 	ret
 
 .asm_1c4d2
@@ -445,21 +445,21 @@ Func_1c4b6: ; 0x1c4b6
 	and a
 	jr z, .asm_1c4e5
 	ld a, $1a
-	callba Func_30256
+	callba LoadBillboardTileData
 	ret
 
 .asm_1c4e5
-	callba Func_30253
+	callba LoadMapBillboardTileData
 	ret
 
 .asm_1c4f0
 	ld a, [wSpecialMode]
-	cp SPECIAL_MODE_EVOLUTION
+	cp SPECIAL_MODE_MAP_MOVE
 	ret nz
 	ld a, [wd54d]
 	cp $3
 	jr nz, .asm_1c508
-	callba Func_30253
+	callba LoadMapBillboardTileData
 	ret
 
 .asm_1c508
@@ -470,5 +470,5 @@ Func_1c4b6: ; 0x1c4b6
 	ld a, [wd55a]
 	add $12
 .asm_1c515
-	callba Func_30256
+	callba LoadBillboardTileData
 	ret

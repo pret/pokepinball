@@ -1261,7 +1261,7 @@ Func_108f5: ; 0x108f5
 	ret z
 	callba Func_14135
 	call Func_10432
-	callba Func_30253
+	callba LoadMapBillboardTileData
 	ld a, Bank(StageSharedBonusSlotGlowGfx)
 	ld hl, StageSharedBonusSlotGlowGfx
 	ld de, vTilesOB tile $1a
@@ -1391,7 +1391,7 @@ Func_109fc: ; 0x109fc
 	ret z
 	callba Func_1c2cb
 	call Func_10432
-	callba Func_30253
+	callba LoadMapBillboardTileData
 	ld a, BANK(StageSharedBonusSlotGlowGfx)
 	ld hl, StageSharedBonusSlotGlowGfx
 	ld de, vTilesOB tile $1a

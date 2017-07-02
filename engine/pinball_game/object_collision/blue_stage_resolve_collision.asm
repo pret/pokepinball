@@ -140,7 +140,7 @@ Func_1c839: ; 0x1c839
 
 .ballStartKeyPressed
 	pop bc
-	callba Func_30253
+	callba LoadMapBillboardTileData
 	ld bc, StartFromMapText
 	callba Func_3118f
 	ld a, [wCurrentMap]
@@ -6134,7 +6134,7 @@ Func_1e9c0: ; 0x1e9c0
 .asm_1e9e3
 	ld hl, wCurrentStage
 	bit 0, [hl]
-	callba nz, Func_30256
+	callba nz, LoadBillboardTileData
 	ld a, [wd604]
 	and a
 	ret nz

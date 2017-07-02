@@ -35,11 +35,11 @@ HandleBallLossBlueField: ; 0xde4f
 	ld [wd4de], a
 	ld [wd4df], a
 	call Func_ded6
-	ld a, [wd49b]
+	ld a, [wCurBonusMultiplier]
 	and a
 	jr z, .asm_deb6
 	dec a
-	ld [wd49b], a
+	ld [wCurBonusMultiplier], a
 	ld a, $1
 	ld [wd49c], a
 	ld de, EndOfBallBonusText

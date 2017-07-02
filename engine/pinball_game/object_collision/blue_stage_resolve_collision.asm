@@ -1692,7 +1692,7 @@ Func_1d133: ; 0x1d133
 	jr nc, .asm_1d185
 	ld c, $a
 	call Func_e55
-	callba z, Func_30164
+	callba z, IncrementBonusMultiplier
 .asm_1d185
 	lb de, $16, $10
 	call PlaySoundEffect
@@ -1838,7 +1838,7 @@ ResolveSlowpokeCollision: ; 0x1d216
 	ret nc
 	ld c, $19
 	call Func_e55
-	callba z, Func_30164
+	callba z, IncrementBonusMultiplier
 	ret
 
 .asm_1d2b6
@@ -1960,7 +1960,7 @@ ResolveCloysterCollision: ; 0x1d32d
 	ret nc
 	ld c, $19
 	call Func_e55
-	callba z, Func_30164
+	callba z, IncrementBonusMultiplier
 	ret
 
 .asm_1d3cb
@@ -2091,7 +2091,7 @@ ResolveBlueStageBonusMultiplierCollision: ; 0x1d438
 	jr nc, .asm_1d4e9
 	ld c, $19
 	call Func_e55
-	callba z, Func_30164
+	callba z, IncrementBonusMultiplier
 .asm_1d4e9
 	ld a, [wd60c]
 	ld [wd614], a
@@ -3903,7 +3903,7 @@ Func_1ddc7: ; 0x1ddc7
 	jr nc, .asm_1dde4
 	ld c, $a
 	call Func_e55
-	callba z, Func_30164
+	callba z, IncrementBonusMultiplier
 .asm_1dde4
 	xor a
 	ld [wd55a], a
@@ -3919,7 +3919,7 @@ Func_1ddf4: ; 0x1ddf4
 	jr nc, .asm_1de11
 	ld c, $a
 	call Func_e55
-	callba z, Func_30164
+	callba z, IncrementBonusMultiplier
 .asm_1de11
 	ld a, $1
 	ld [wd55a], a

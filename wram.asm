@@ -298,7 +298,8 @@ wd499:: ; 0xd499
 wd49a:: ; 0xd49a
 	ds $1
 
-wd49b:: ; 0xd49b
+wCurBonusMultiplier:: ; 0xd49b
+; Current value of the bonus multiplier. See MAX_BONUS_MULTIPLIER.
 	ds $1
 
 wd49c:: ; 0xd49c

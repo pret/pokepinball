@@ -263,7 +263,7 @@ SlotRewardPikachuSaver: ; 0xef83
 	ret
 
 SlotRewardBonusMultiplier: ; 0xefa7
-	callba Func_30164
+	callba IncrementBonusMultiplier
 	ret
 
 SlotRewardSmallPoints: ; 0xefb2
@@ -464,7 +464,7 @@ SlotBonusMultiplier: ; 0xf0c1
 	call .DivideBy25
 	ld a, c
 	cp b
-	callba nz, Func_30164
+	callba nz, IncrementBonusMultiplier
 	callba Func_16f95
 	ld a, [wd60c]
 	callba Func_f154 ; no need for BankSwitch here...

@@ -11,7 +11,7 @@ InitBlueField: ; 0x1c000
 	ld [hld], a
 	ld [hl], a
 	ld [wNumPartyMons], a
-	ld [wd49b], a
+	ld [wCurBonusMultiplier], a
 	ld [wd4c9], a
 	ld [wBallType], a
 	ld [wd4c8], a

@@ -807,7 +807,7 @@ CapturePokemon: ; 0x1052d
 	jr nc, .asm_105d1
 	ld c, $a
 	call Func_e55
-	callba z, Func_30164
+	callba z, IncrementBonusMultiplier
 .asm_105d1
 	call SetPokemonOwnedFlag
 	ld a, [wd624]

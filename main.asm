@@ -4173,23 +4173,7 @@ SECTION "bankc", ROMX, BANK[$c]
 
 INCLUDE "engine/pinball_game/stage_init/init_red_field.asm"
 INCLUDE "engine/pinball_game/ball_init/ball_init_red_field.asm"
-
-Func_30164: ; 0x30164
-	ld a, [wd49b]
-	inc a
-	cp $b
-	jr z, .asm_30175
-	ld [wd49b], a
-	ld a, $1
-	ld [wd4ca], a
-	ret
-
-.asm_30175
-	ld bc, TenMillionPoints
-	callba AddBigBCD6FromQueue
-	ld a, $2
-	ld [wd4ca], a
-	ret
+INCLUDE "engine/pinball_game/bonus_multiplier.asm"
 
 Func_30188: ; 0x30188
 	ld a, [wd5ca]

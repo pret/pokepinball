@@ -359,10 +359,10 @@ CheckForMew:
 	cp $f  ; random number equals $f
 	jr nz, .asm_10155
 	ld a, c
-	cp $60  ; check if low-byte of map mons offset is Indigo Plateau
+	cp (BlueStageIndigoPlateauWildMons - BlueStageWildMons) & $ff  ; check if low-byte of map mons offset is Indigo Plateau
 	jr nz, .asm_10155
 	ld a, b
-	cp $1  ; check if high-byte of map mons offset is Indigo Plateau
+	cp (BlueStageIndigoPlateauWildMons - BlueStageWildMons) >> 8  ; check if high-byte of map mons offset is Indigo Plateau
 	jr nz, .asm_10155
 	ld a, [wRareMonsFlag]
 	cp $8

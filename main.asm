@@ -1444,13 +1444,13 @@ Func_18d91: ; 0x18d91
 	jr z, .asm_18d9d
 	ld hl, Data_18dd2
 .asm_18d9d
-	ld de, wc7c7
+	ld de, wStageCollisionMap + $c7
 	call Func_18db2
-	ld de, wc7ae
+	ld de, wStageCollisionMap + $ae
 	call Func_18db2
-	ld de, wc823
+	ld de, wStageCollisionMap + $123
 	call Func_18db2
-	ld de, wc84d
+	ld de, wStageCollisionMap + $14d
 	; fall through
 
 Func_18db2: ; 0x18db2
@@ -4298,13 +4298,13 @@ Func_311b4: ; 0x311b4
 	ld a, $5
 	callba Func_149d9
 	ld a, $6a
-	ld [wc7f0], a
+	ld [wStageCollisionMap + $f0], a
 	ld a, $6b
-	ld [wc810], a
+	ld [wStageCollisionMap + $110], a
 	ld a, $66
-	ld [wc7e3], a
+	ld [wStageCollisionMap + $e3], a
 	ld a, $67
-	ld [wc803], a
+	ld [wStageCollisionMap + $103], a
 	callba Func_107b0
 	ld a, $4
 	ld [wd7ad], a
@@ -4472,13 +4472,13 @@ Func_31326: ; 0x31326
 	bit 0, a
 	jr z, .asm_3139d
 	ld a, $54
-	ld [wc7e3], a
+	ld [wStageCollisionMap + $e3], a
 	ld a, $55
-	ld [wc803], a
+	ld [wStageCollisionMap + $103], a
 	ld a, $52
-	ld [wc7f0], a
+	ld [wStageCollisionMap + $f0], a
 	ld a, $53
-	ld [wc810], a
+	ld [wStageCollisionMap + $110], a
 .asm_3139d
 	ld a, $1
 	ld [wd644], a

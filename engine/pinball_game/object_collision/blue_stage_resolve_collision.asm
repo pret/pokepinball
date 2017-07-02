@@ -3654,9 +3654,9 @@ ResolvePsyduckPoliwagCollision: ; 0x1dbd2
 	bit 0, a
 	jr z, .asm_1dc06
 	ld a, $54
-	ld [wc7e3], a
+	ld [wStageCollisionMap + $e3], a
 	ld a, $55
-	ld [wc803], a
+	ld [wStageCollisionMap + $103], a
 .asm_1dc06
 	ld a, $1
 	call Func_1de4b
@@ -3692,9 +3692,9 @@ ResolvePsyduckPoliwagCollision: ; 0x1dbd2
 	bit 0, a
 	jr z, .asm_1dc5c
 	ld a, $52
-	ld [wc7f0], a
+	ld [wStageCollisionMap + $f0], a
 	ld a, $53
-	ld [wc810], a
+	ld [wStageCollisionMap + $110], a
 .asm_1dc5c
 	ld a, $3
 	call Func_1de4b
@@ -3787,9 +3787,9 @@ Func_1dc95: ; 0x1dc95
 	bit 0, a
 	jr z, .asm_1dd0c
 	ld a, $5e
-	ld [wc7e3], a
+	ld [wStageCollisionMap + $e3], a
 	ld a, $5f
-	ld [wc803], a
+	ld [wStageCollisionMap + $103], a
 .asm_1dd0c
 	ld a, $0
 	ld [wd646], a
@@ -3875,9 +3875,9 @@ Func_1dd2e: ; 0x1dd2e
 	bit 0, a
 	jr z, .asm_1dda9
 	ld a, $24
-	ld [wc7f0], a
+	ld [wStageCollisionMap + $f0], a
 	ld a, $25
-	ld [wc810], a
+	ld [wStageCollisionMap + $110], a
 	ld a, $0
 	ld [wd645], a
 .asm_1dda9

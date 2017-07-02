@@ -15,13 +15,13 @@ Func_19b92: ; 0x19b92
 	ld [wStageCollisionState], a
 	ld [wd73a], a
 	xor a
-	ld [wc853], a
-	ld [wc873], a
-	ld [wc893], a
+	ld [wStageCollisionMap + $153], a
+	ld [wStageCollisionMap + $173], a
+	ld [wStageCollisionMap + $193], a
 	ld a, $5
-	ld [wc872], a
+	ld [wStageCollisionMap + $172], a
 	ld a, $7
-	ld [wc892], a
+	ld [wStageCollisionMap + $192], a
 	call Func_19bbd
 	ret
 
@@ -420,97 +420,97 @@ Func_19df0: ; 0x19df0
 	ret
 
 Data_19e13:
-	dw wc7a1
+	dw wStageCollisionMap + $a1
 	db $19, $19, $1A, $1B
 
-	dw wc7e1
+	dw wStageCollisionMap + $e1
 	db $1C, $1C, $1D, $1E
 
-	dw wc821
+	dw wStageCollisionMap + $121
 	db $1F, $1F, $20, $21
 
-	dw wc7c3
+	dw wStageCollisionMap + $c3
 	db $22, $22, $23, $24
 
-	dw wc803
+	dw wStageCollisionMap + $103
 	db $25, $25, $26, $27
 
-	dw wc843
+	dw wStageCollisionMap + $143
 	db $28, $28, $29, $2A
 
-	dw wc7a5
+	dw wStageCollisionMap + $a5
 	db $2B, $2B, $2C, $2D
 
-	dw wc7e5
+	dw wStageCollisionMap + $e5
 	db $2E, $2E, $2F, $30
 
-	dw wc825
+	dw wStageCollisionMap + $125
 	db $31, $31, $32, $33
 
-	dw wc865
+	dw wStageCollisionMap + $165
 	db $34, $34, $35, $36
 
-	dw wc7c7
+	dw wStageCollisionMap + $c7
 	db $37, $37, $38, $39
 
-	dw wc807
+	dw wStageCollisionMap + $107
 	db $3A, $3A, $3B, $3C
 
-	dw wc847
+	dw wStageCollisionMap + $147
 	db $3D, $3D, $3E, $3F
 
-	dw wc887
+	dw wStageCollisionMap + $187
 	db $40, $40, $41, $42
 
-	dw wc7e9
+	dw wStageCollisionMap + $e9
 	db $43, $43, $44, $45
 
-	dw wc829
+	dw wStageCollisionMap + $129
 	db $46, $46, $47, $48
 
-	dw wc869
+	dw wStageCollisionMap + $169
 	db $49, $49, $4A, $4B
 
-	dw wc7cb
+	dw wStageCollisionMap + $cb
 	db $19, $19, $1A, $1B
 
-	dw wc80b
+	dw wStageCollisionMap + $10b
 	db $1C, $1C, $1D, $1E
 
-	dw wc84b
+	dw wStageCollisionMap + $14b
 	db $1F, $1F, $20, $21
 
-	dw wc88b
+	dw wStageCollisionMap + $18b
 	db $22, $22, $23, $24
 
-	dw wc7ad
+	dw wStageCollisionMap + $ad
 	db $25, $25, $26, $27
 
-	dw wc7ed
+	dw wStageCollisionMap + $ed
 	db $28, $28, $29, $2A
 
-	dw wc82d
+	dw wStageCollisionMap + $12d
 	db $2B, $2B, $2C, $2D
 
-	dw wc86d
+	dw wStageCollisionMap + $16d
 	db $2E, $2E, $2F, $30
 
-	dw wc7cf
+	dw wStageCollisionMap + $cf
 	db $31, $31, $32, $33
 
-	dw wc80f
+	dw wStageCollisionMap + $10f
 	db $34, $34, $35, $36
 
-	dw wc84f
+	dw wStageCollisionMap + $14f
 	db $37, $37, $38, $39
 
-	dw wc7b1
+	dw wStageCollisionMap + $b1
 	db $3A, $3A, $3B, $3C
 
-	dw wc7f1
+	dw wStageCollisionMap + $f1
 	db $3D, $3D, $3E, $3F
 
-	dw wc831
+	dw wStageCollisionMap + $131
 	db $40, $40, $41, $42
 
 	; unused pointers?
@@ -691,7 +691,7 @@ Func_1ab30: ; 0x1ab30
 Func_1ac2c: ; 0x1ac2c
 	ld hl, Data_1ac4a
 asm_1ac2f:
-	ld de, wc768
+	ld de, wStageCollisionMap + $68
 	ld b, $3
 .asm_1ac34
 	ld a, [hli]

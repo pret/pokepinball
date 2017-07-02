@@ -115,9 +115,9 @@ Func_140f9: ; 0x140f9
 	jr z, .asm_1410c
 	xor a
 	ld a, $66
-	ld [wc7e3], a
+	ld [wStageCollisionMap + $e3], a
 	ld a, $67
-	ld [wc803], a
+	ld [wStageCollisionMap + $103], a
 	ld a, $2
 .asm_1410c
 	call Func_149d9
@@ -127,9 +127,9 @@ Func_140f9: ; 0x140f9
 	and a
 	jr z, .asm_14127
 	ld a, $6a
-	ld [wc7f0], a
+	ld [wStageCollisionMap + $f0], a
 	ld a, $6b
-	ld [wc810], a
+	ld [wStageCollisionMap+ $110], a
 	ld a, $2
 .asm_14127
 	add $3

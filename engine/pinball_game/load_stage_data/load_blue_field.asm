@@ -77,9 +77,9 @@ Func_1c235: ; 0x1c235
 	and a
 	jr z, .asm_1c249
 	ld a, $54
-	ld [wc7e3], a
+	ld [wStageCollisionMap + $e3], a
 	ld a, $55
-	ld [wc803], a
+	ld [wStageCollisionMap + $103], a
 	ld a, $1
 	jr .asm_1c24a
 
@@ -111,9 +111,9 @@ Func_1c235: ; 0x1c235
 	and a
 	jr z, .asm_1c295
 	ld a, $52
-	ld [wc7f0], a
+	ld [wStageCollisionMap + $f0], a
 	ld a, $53
-	ld [wc810], a
+	ld [wStageCollisionMap + $110], a
 	ld a, [wd644]
 	and a
 	jr z, .asm_1c28a

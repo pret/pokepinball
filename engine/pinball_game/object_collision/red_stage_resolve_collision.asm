@@ -248,9 +248,9 @@ ResolveDiglettCollision: ; 0x147aa
 	and a
 	jr z, .asm_14807
 	ld a, $6a
-	ld [wc7f0], a
+	ld [wStageCollisionMap + $f0], a
 	ld a, $6b
-	ld [wc810], a
+	ld [wStageCollisionMap + $110], a
 	ld a, $5
 	call Func_149d9
 	ld a, [wRightMapMoveCounter]
@@ -265,9 +265,9 @@ ResolveDiglettCollision: ; 0x147aa
 
 .asm_14807
 	ld a, $66
-	ld [wc7e3], a
+	ld [wStageCollisionMap + $e3], a
 	ld a, $67
-	ld [wc803], a
+	ld [wStageCollisionMap + $103], a
 	ld a, $2
 	call Func_149d9
 	ld a, [wLeftMapMoveCounter]
@@ -295,9 +295,9 @@ ResolveDiglettCollision: ; 0x147aa
 	call Func_149f5
 .asm_1484d
 	ld a, $64
-	ld [wc7e3], a
+	ld [wStageCollisionMap + $e3], a
 	ld a, $65
-	ld [wc803], a
+	ld [wStageCollisionMap + $103], a
 .asm_14857
 	ld a, [wd4f1]
 	and a
@@ -313,9 +313,9 @@ ResolveDiglettCollision: ; 0x147aa
 	call Func_149f5
 .asm_14872
 	ld a, $68
-	ld [wc7f0], a
+	ld [wStageCollisionMap + $f0], a
 	ld a, $69
-	ld [wc810], a
+	ld [wStageCollisionMap + $110], a
 .asm_1487c
 	call Func_14990
 	ret

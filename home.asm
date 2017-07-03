@@ -2296,26 +2296,30 @@ PowersOfTwo: ; 0xe3a
 	dw $0064
 	dw $0128
 
-Func_e4a: ; 0xe4a
+Increment_Max100: ; 0xe4a
+; Increments the value at [hl], but caps it at 100.
+; Sets carry flag if the increment happens.
 	ld a, [hl]
 	cp $64
-	jr z, .asm_e53
+	jr z, .maxValue
 	inc a
 	ld [hl], a
 	scf
 	ret
 
-.asm_e53
+.maxValue
 	and a
 	ret
 
-Func_e55: ; 0xe55
+Modulo_C: ; 0xe55
+; Calculates A modulo C
+; Sets zero flag if result is zero
 	cp c
-	jr c, .asm_e5b
+	jr c, .done
 	sub c
-	jr Func_e55
+	jr Modulo_C
 
-.asm_e5b
+.done
 	and a
 	ret
 

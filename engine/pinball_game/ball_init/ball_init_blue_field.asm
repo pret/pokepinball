@@ -39,16 +39,16 @@ InitBallBlueField: ; 0x1c08d
 	ld [wBallType], a
 	ld [wd611], a
 	ld [wd612], a
-	ld [wd628], a
-	ld [wd629], a
-	ld [wd62a], a
-	ld [wd62b], a
-	ld [wd62c], a
-	ld [wd63a], a
-	ld [wd63b], a
-	ld [wd63d], a
-	ld [wd63c], a
-	ld [wd62d], a
+	ld [wNumPokemonCaughtInBallBonus], a
+	ld [wNumPokemonEvolvedInBallBonus], a
+	ld [wNumBellsproutEntries], a
+	ld [wNumDugtrioTriples], a
+	ld [wNumCAVECompletions], a
+	ld [wNumSlowpokeEntries], a
+	ld [wNumCloysterEntries], a
+	ld [wNumPoliwagTriples], a
+	ld [wNumPsyduckTriples], a
+	ld [wNumSpinnerTurns], a
 	ld [wd62e], a
 	ld [wd613], a
 	inc a

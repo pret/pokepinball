@@ -8,7 +8,7 @@ EndOfBallBonus: ; 0xf533
 	ld [hLYC], a
 	ld a, $fd
 	ld [hLCDCMask], a
-	call Func_f5a0
+	call ShowBallBonusSummary
 	ld a, $90
 	ld [hWY], a
 	ld a, $83
@@ -58,7 +58,7 @@ Func_f57f: ; 0xf57f
 	call LoadVRAMData
 	ret
 
-Func_f5a0: ; 0xf5a0
+ShowBallBonusSummary: ; 0xf5a0
 	ld de, wBottomMessageText + $40
 	ld hl, BonusPointsText
 	call PrintTextNoHeader
@@ -71,9 +71,9 @@ Func_f5a0: ; 0xf5a0
 	call ClearBCD6Buffer
 	ld a, $1
 	ld [wd4ab], a
-	call ValidateSignature6
-	call Func_f64e
-	call Func_f60a
+	call HandleNumPokemonCaughtBallBonus
+	call HandleNumPokemonEvolvedBallBonus
+	call HandleBallBonusForCurrentField
 	call Func_f676
 	ld a, $1
 	ld [wd4ab], a
@@ -94,27 +94,27 @@ Func_f5a0: ; 0xf5a0
 	ld bc, $0040
 	ld de, $0000
 	call Func_f80d
-.asm_f602
+.waitForAPress
 	rst AdvanceFrame
 	ld a, [hNewlyPressedButtons]
 	bit BIT_A_BUTTON, a
-	jr z, .asm_f602
+	jr z, .waitForAPress
 	ret
 
-Func_f60a: ; 0xf60a
+HandleBallBonusForCurrentField: ; 0xf60a
 	ld a, [wCurrentStage]
 	rst JumpTable  ; calls JumpToFuncInTable
 CallTable_f60d: ; 0xf60d
 	; STAGE_RED_FIELD_TOP
-	dw Func_f945
+	dw HandleBallBonusRedField
 	; STAGE_RED_FIELD_BOTTOM
-	dw Func_f945
+	dw HandleBallBonusRedField
 	dw DoNothing_f9f2
 	dw DoNothing_f9f2
 	; STAGE_BLUE_FIELD_TOP
-	dw Func_f9f3
+	dw HandleBallBonusBlueField
 	; STAGE_BLUE_FIELD_BOTTOM
-	dw Func_f9f3
+	dw HandleBallBonusBlueField
 	; STAGE_GENGAR_BONUS
 	dw DoNothing_faf6
 	; STAGE_GENGAR_BONUS
@@ -128,34 +128,34 @@ CallTable_f60d: ; 0xf60d
 	; STAGE_MEOWTH_BONUS
 	dw DoNothing_faf8
 
-ValidateSignature6: ; 0xf626
+HandleNumPokemonCaughtBallBonus: ; 0xf626
 	ld de, wBottomMessageText + $01
 	ld hl, NumPokemonCaughtText
 	call PrintTextNoHeader
 	ld hl, wBottomMessageText + $01
-	ld a, [wd628]
+	ld a, [wNumPokemonCaughtInBallBonus]
 	call Func_f78e
 	ld bc, $0040
 	ld de, $0000
 	call Func_f80d
-	ld hl, wd628
-	ld de, PointsData_f921
+	ld hl, wNumPokemonCaughtInBallBonus
+	ld de, PointsPerPokemonCaught
 	call Func_f853
 	call Func_f824
 	ret
 
-Func_f64e: ; 0xf64e
+HandleNumPokemonEvolvedBallBonus: ; 0xf64e
 	ld de, wBottomMessageText
 	ld hl, NumPokemonEvolvedText
 	call PrintTextNoHeader
 	ld hl, wBottomMessageText
-	ld a, [wd629]
+	ld a, [wNumPokemonEvolvedInBallBonus]
 	call Func_f78e
 	ld bc, $0040
 	ld de, $0000
 	call Func_f80d
-	ld hl, wd629
-	ld de, PointsData_f927
+	ld hl, wNumPokemonEvolvedInBallBonus
+	ld de, PointsPerPokemonEvolved
 	call Func_f853
 	call Func_f824
 	ret
@@ -568,86 +568,95 @@ x = x + 1
 endr
 	ret
 
-PointsData_f921: ; 0xf921
+PointsPerPokemonCaught: ; 0xf921
 	bigBCD6 50000
-PointsData_f927: ; 0xf927
+
+PointsPerPokemonEvolved: ; 0xf927
 	bigBCD6 75000
-PointsData_f92d: ; 0xf92d
+
+PointsPerBellsproutEntry: ; 0xf92d
+PointsPerCloysterEntry:
+PointsPerSlowpokeEntry:
 	bigBCD6 7500
-PointsData_f933: ; 0xf933
+
+PointsPerPoliwagTriple: ; 0xf933
+PointsPerPsyduckTriple:
+PointsPerDugtrioTriple:
 	bigBCD6 5000
-PointsData_f939: ; 0xf939
+
+PointsPerCAVECompletion: ; 0xf939
 	bigBCD6 2500
-PointsData_f93f: ; 0xf93f
+
+PointsPerSpinnerTurn: ; 0xf93f
 	bigBCD6 1000
 
-Func_f945: ; 0xf945
-	call Func_f952
-	call Func_f97a
-	call Func_f9a2
-	call Func_f9ca
+HandleBallBonusRedField: ; 0xf945
+	call HandleBellsproutEntriesBallBonus
+	call HandleDugtrioTriplesBallBonus
+	call HandleCAVECompletionsBallBonus_RedField
+	call HandleSpinnerTurnsBallBonus_RedField
 	ret
 
-Func_f952: ; 0xf952
+HandleBellsproutEntriesBallBonus: ; 0xf952
 	ld de, wBottomMessageText + $03
 	ld hl, BellsproutCounterText
 	call PrintTextNoHeader
 	ld hl, wBottomMessageText + $03
-	ld a, [wd62a]
+	ld a, [wNumBellsproutEntries]
 	call Func_f78e
 	ld bc, $0040
 	ld de, $0000
 	call Func_f80d
-	ld hl, wd62a
-	ld de, PointsData_f92d
+	ld hl, wNumBellsproutEntries
+	ld de, PointsPerBellsproutEntry
 	call Func_f853
 	call Func_f824
 	ret
 
-Func_f97a: ; 0xf97a
+HandleDugtrioTriplesBallBonus: ; 0xf97a
 	ld de, wBottomMessageText + $04
 	ld hl, DugtrioCounterText
 	call PrintTextNoHeader
 	ld hl, wBottomMessageText + $04
-	ld a, [wd62b]
+	ld a, [wNumDugtrioTriples]
 	call Func_f78e
 	ld bc, $0040
 	ld de, $0000
 	call Func_f80d
-	ld hl, wd62b
-	ld de, PointsData_f933
+	ld hl, wNumDugtrioTriples
+	ld de, PointsPerDugtrioTriple
 	call Func_f853
 	call Func_f824
 	ret
 
-Func_f9a2: ; 0xf9a2
+HandleCAVECompletionsBallBonus_RedField: ; 0xf9a2
 	ld de, wBottomMessageText + $03
 	ld hl, CaveShotCounterText
 	call PrintTextNoHeader
 	ld hl, wBottomMessageText + $03
-	ld a, [wd62c]
+	ld a, [wNumCAVECompletions]
 	call Func_f78e
 	ld bc, $0040
 	ld de, $0000
 	call Func_f80d
-	ld hl, wd62c
-	ld de, PointsData_f939
+	ld hl, wNumCAVECompletions
+	ld de, PointsPerCAVECompletion
 	call Func_f853
 	call Func_f824
 	ret
 
-Func_f9ca: ; 0xf9ca
+HandleSpinnerTurnsBallBonus_RedField: ; 0xf9ca
 	ld de, wBottomMessageText + $01
 	ld hl, SpinnerTurnsCounterText
 	call PrintTextNoHeader
 	ld hl, wBottomMessageText + $01
-	ld a, [wd62d]
+	ld a, [wNumSpinnerTurns]
 	call Func_f78e
 	ld bc, $0040
 	ld de, $0000
 	call Func_f80d
-	ld hl, wd62d
-	ld de, PointsData_f93f
+	ld hl, wNumSpinnerTurns
+	ld de, PointsPerSpinnerTurn
 	call Func_f853
 	call Func_f824
 	ret
@@ -655,107 +664,107 @@ Func_f9ca: ; 0xf9ca
 DoNothing_f9f2: ; 0xf9f2
 	ret
 
-Func_f9f3: ; 0xf9f3
-	call Func_fa06
-	call Func_fa2e
-	call Func_fa56
-	call Func_fa7e
-	call Func_faa6
-	call Func_face
+HandleBallBonusBlueField: ; 0xf9f3
+	call HandleCloysterEntriesBallBonus
+	call HandleSlowpokeEntriesBallBonus
+	call HandlePoliwagTriplesBallBonus
+	call HandlePsyduckTriplesBallBonus
+	call HandleCAVECompletionsBallBonus_BlueField
+	call HandleSpinnerTurnsBallBonus_BlueField
 	ret
 
-Func_fa06: ; 0xfa06
+HandleCloysterEntriesBallBonus: ; 0xfa06
 	ld de, wBottomMessageText + $04
 	ld hl, CloysterCounterText
 	call PrintTextNoHeader
 	ld hl, wBottomMessageText + $04
-	ld a, [wd63b]
+	ld a, [wNumCloysterEntries]
 	call Func_f78e
 	ld bc, $0040
 	ld de, $0000
 	call Func_f80d
-	ld hl, wd63b
-	ld de, PointsData_f92d
+	ld hl, wNumCloysterEntries
+	ld de, PointsPerCloysterEntry
 	call Func_f853
 	call Func_f824
 	ret
 
-Func_fa2e: ; 0xfa2e
+HandleSlowpokeEntriesBallBonus: ; 0xfa2e
 	ld de, wBottomMessageText + $04
 	ld hl, SlowpokeCounterText
 	call PrintTextNoHeader
 	ld hl, wBottomMessageText + $04
-	ld a, [wd63a]
+	ld a, [wNumSlowpokeEntries]
 	call Func_f78e
 	ld bc, $0040
 	ld de, $0000
 	call Func_f80d
-	ld hl, wd63a
-	ld de, PointsData_f92d
+	ld hl, wNumSlowpokeEntries
+	ld de, PointsPerSlowpokeEntry
 	call Func_f853
 	call Func_f824
 	ret
 
-Func_fa56: ; 0xfa56
+HandlePoliwagTriplesBallBonus: ; 0xfa56
 	ld de, wBottomMessageText + $04
 	ld hl, PoliwagCounterText
 	call PrintTextNoHeader
 	ld hl, wBottomMessageText + $04
-	ld a, [wd63d]
+	ld a, [wNumPoliwagTriples]
 	call Func_f78e
 	ld bc, $0040
 	ld de, $0000
 	call Func_f80d
-	ld hl, wd63d
-	ld de, PointsData_f933
+	ld hl, wNumPoliwagTriples
+	ld de, PointsPerPoliwagTriple
 	call Func_f853
 	call Func_f824
 	ret
 
-Func_fa7e: ; 0xfa7e
+HandlePsyduckTriplesBallBonus: ; 0xfa7e
 	ld de, wBottomMessageText + $04
 	ld hl, PsyduckCounterText
 	call PrintTextNoHeader
 	ld hl, wBottomMessageText + $04
-	ld a, [wd63c]
+	ld a, [wNumPsyduckTriples]
 	call Func_f78e
 	ld bc, $0040
 	ld de, $0000
 	call Func_f80d
-	ld hl, wd63c
-	ld de, PointsData_f933
+	ld hl, wNumPsyduckTriples
+	ld de, PointsPerPsyduckTriple
 	call Func_f853
 	call Func_f824
 	ret
 
-Func_faa6: ; 0xfaa6
+HandleCAVECompletionsBallBonus_BlueField: ; 0xfaa6
 	ld de, wBottomMessageText + $03
 	ld hl, CaveShotCounterText
 	call PrintTextNoHeader
 	ld hl, wBottomMessageText + $03
-	ld a, [wd62c]
+	ld a, [wNumCAVECompletions]
 	call Func_f78e
 	ld bc, $0040
 	ld de, $0000
 	call Func_f80d
-	ld hl, wd62c
-	ld de, PointsData_f939
+	ld hl, wNumCAVECompletions
+	ld de, PointsPerCAVECompletion
 	call Func_f853
 	call Func_f824
 	ret
 
-Func_face: ; 0xface  :)
+HandleSpinnerTurnsBallBonus_BlueField: ; 0xface  :)
 	ld de, wBottomMessageText + $01
 	ld hl, SpinnerTurnsCounterText
 	call PrintTextNoHeader
 	ld hl, wBottomMessageText + $01
-	ld a, [wd62d]
+	ld a, [wNumSpinnerTurns]
 	call Func_f78e
 	ld bc, $0040
 	ld de, $0000
 	call Func_f80d
-	ld hl, wd62d
-	ld de, PointsData_f93f
+	ld hl, wNumSpinnerTurns
+	ld de, PointsPerSpinnerTurn
 	call Func_f853
 	call Func_f824
 	ret

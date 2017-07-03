@@ -802,13 +802,13 @@ CapturePokemon: ; 0x1052d
 	call ConcludeCatchEmMode
 	ld de, $0001
 	call PlaySong
-	ld hl, wd628
-	call Func_e4a
-	jr nc, .asm_105d1
+	ld hl, wNumPokemonCaughtInBallBonus
+	call Increment_Max100
+	jr nc, .notMaxed
 	ld c, $a
-	call Func_e55
-	callba z, IncrementBonusMultiplier
-.asm_105d1
+	call Modulo_C
+	callba z, IncrementBonusMultiplier ; increments bonus multiplier every 10 pokemon caught
+.notMaxed
 	call SetPokemonOwnedFlag
 	ld a, [wd624]
 	cp $3

@@ -908,22 +908,28 @@ wd625:: ; 0xd625
 wd626:: ; 0xd626
 	ds $2
 
-wd628:: ; 0xd628
+wNumPokemonCaughtInBallBonus:: ; 0xd628
+; Counts the number of pokemon caught in a single ball bonus.
 	ds $1
 
-wd629:: ; 0xd629
+wNumPokemonEvolvedInBallBonus:: ; 0xd629
+; Counts the number of pokemon evolved in a single ball bonus.
 	ds $1
 
-wd62a:: ; 0xd62a
+wNumBellsproutEntries:: ; 0xd62a
+; Counts the number of times Bellsprout was entered without triggering Catch'Em mode.
 	ds $1
 
-wd62b:: ; 0xd62b
+wNumDugtrioTriples:: ; 0xd62b
+; Counts the number of times either of the two Dugtrio was hit 3 times on the red field.
 	ds $1
 
-wd62c:: ; 0xd62c
+wNumCAVECompletions:: ; 0xd62c
+; Counts the number of times all CAVE lights were lit.
 	ds $1
 
-wd62d:: ; 0xd62d
+wNumSpinnerTurns:: ; 0xd62d
+; Counts the number of spinner turns in a single ball bonus.
 	ds $1
 
 wd62e:: ; 0xd62e
@@ -958,16 +964,20 @@ wd638:: ; 0xd638
 wd639:: ; 0xd639
 	ds $1
 
-wd63a:: ; 0xd63a
+wNumSlowpokeEntries:: ; 0xd63a
+; Counts the number of times Slowpoke was entered without triggering Evolution mode.
 	ds $1
 
-wd63b:: ; 0xd63b
+wNumCloysterEntries:: ; 0xd63b
+; Counts the number of times Cloyster was entered without triggering Catch'Em mode.
 	ds $1
 
-wd63c:: ; 0xd63c
+wNumPsyduckTriples:: ; 0xd63c
+; Counts the number of times Psyduck was hit 3 times.
 	ds $1
 
-wd63d:: ; 0xd63d
+wNumPoliwagTriples:: ; 0xd63d
+; Counts the number of times Poliwag was hit 3 times.
 	ds $1
 
 wBlueStageForceFieldDirection:: ; 0xd63e

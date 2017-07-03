@@ -2702,8 +2702,8 @@ Func_2070b: ; 0x2070b
 	callba Func_10ac8
 	ld de, $0001
 	call PlaySong
-	ld hl, wd629
-	call Func_e4a
+	ld hl, wNumPokemonEvolvedInBallBonus
+	call Increment_Max100
 	callba SetPokemonOwnedFlag
 	ld a, [wd624]
 	cp $3
@@ -3431,8 +3431,8 @@ Func_20d30: ; 0x20d30
 	callba Func_10ac8
 	ld de, $0001
 	call PlaySong
-	ld hl, wd629
-	call Func_e4a
+	ld hl, wNumPokemonEvolvedInBallBonus
+	call Increment_Max100
 	callba SetPokemonOwnedFlag
 	ld a, [wd624]
 	cp $3

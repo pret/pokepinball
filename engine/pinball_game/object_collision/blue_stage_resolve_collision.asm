@@ -458,8 +458,8 @@ Func_1ca85: ; 0x1ca85
 	ret z
 	ld bc, TenPoints
 	callba AddBigBCD6FromQueueWithBallMultiplier
-	ld hl, wd62d
-	call Func_e4a
+	ld hl, wNumSpinnerTurns
+	call Increment_Max100
 	ld a, [wPikachuSaverCharge]
 	cp MAX_PIKACHU_SAVER_CHARGE
 	jr nz, .asm_1caff
@@ -1688,10 +1688,10 @@ Func_1d133: ; 0x1d133
 	ld a, $60
 	ld [wd804], a
 	ld hl, wd62e
-	call Func_e4a
+	call Increment_Max100
 	jr nc, .asm_1d185
 	ld c, $a
-	call Func_e55
+	call Modulo_C
 	callba z, IncrementBonusMultiplier
 .asm_1d185
 	lb de, $16, $10
@@ -1831,13 +1831,13 @@ ResolveSlowpokeCollision: ; 0x1d216
 	ld a, $1
 	ld [wd642], a
 .asm_1d299
-	ld hl, wd63a
-	call Func_e4a
-	ld hl, wd62a
-	call Func_e4a
+	ld hl, wNumSlowpokeEntries
+	call Increment_Max100
+	ld hl, wNumBellsproutEntries ; This is an oversight. No need to tally bellsprout.
+	call Increment_Max100
 	ret nc
 	ld c, $19
-	call Func_e55
+	call Modulo_C
 	callba z, IncrementBonusMultiplier
 	ret
 
@@ -1953,13 +1953,13 @@ ResolveCloysterCollision: ; 0x1d32d
 	ld [wRareMonsFlag], a
 	callba StartCatchEmMode
 .noCatchEmMode
-	ld hl, wd63b
-	call Func_e4a
-	ld hl, wd62a
-	call Func_e4a
+	ld hl, wNumCloysterEntries
+	call Increment_Max100
+	ld hl, wNumBellsproutEntries
+	call Increment_Max100
 	ret nc
 	ld c, $19
-	call Func_e55
+	call Modulo_C
 	callba z, IncrementBonusMultiplier
 	ret
 
@@ -2090,7 +2090,7 @@ ResolveBlueStageBonusMultiplierCollision: ; 0x1d438
 	ld [wd482], a
 	jr nc, .asm_1d4e9
 	ld c, $19
-	call Func_e55
+	call Modulo_C
 	callba z, IncrementBonusMultiplier
 .asm_1d4e9
 	ld a, [wd60c]
@@ -3896,13 +3896,13 @@ Func_1dd2e: ; 0x1dd2e
 	ret
 
 Func_1ddc7: ; 0x1ddc7
-	ld hl, wd63d
-	call Func_e4a
-	ld hl, wd62b
-	call Func_e4a
+	ld hl, wNumPoliwagTriples
+	call Increment_Max100
+	ld hl, wNumDugtrioTriples
+	call Increment_Max100
 	jr nc, .asm_1dde4
 	ld c, $a
-	call Func_e55
+	call Modulo_C
 	callba z, IncrementBonusMultiplier
 .asm_1dde4
 	xor a
@@ -3912,13 +3912,13 @@ Func_1ddc7: ; 0x1ddc7
 	ret
 
 Func_1ddf4: ; 0x1ddf4
-	ld hl, wd63c
-	call Func_e4a
-	ld hl, wd62b
-	call Func_e4a
+	ld hl, wNumPsyduckTriples
+	call Increment_Max100
+	ld hl, wNumDugtrioTriples
+	call Increment_Max100
 	jr nc, .asm_1de11
 	ld c, $a
-	call Func_e55
+	call Modulo_C
 	callba z, IncrementBonusMultiplier
 .asm_1de11
 	ld a, $1
@@ -5424,8 +5424,8 @@ Func_1e5c5: ; 0x1e5c5
 	callba AddBigBCD6FromQueueWithBallMultiplier
 	lb de, $00, $09
 	call PlaySoundEffect
-	ld hl, wd62c
-	call Func_e4a
+	ld hl, wNumCAVECompletions
+	call Increment_Max100
 	jr Func_1e627
 
 .asm_1e623

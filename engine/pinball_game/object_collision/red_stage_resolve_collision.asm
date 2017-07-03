@@ -421,11 +421,11 @@ Func_148cf: ; 0x148cf
 	ret
 
 Func_14920: ; 0x14920
-	ld hl, wd62b
-	call Func_e4a
+	ld hl, wNumDugtrioTriples
+	call Increment_Max100
 	jr nc, .asm_14937
 	ld c, $a
-	call Func_e55
+	call Modulo_C
 	callba z, IncrementBonusMultiplier
 .asm_14937
 	ld a, $1
@@ -434,11 +434,11 @@ Func_14920: ; 0x14920
 	ret
 
 Func_14947: ; 0x14947
-	ld hl, wd62b
-	call Func_e4a
+	ld hl, wNumDugtrioTriples
+	call Increment_Max100
 	jr nc, .asm_1495e
 	ld c, $a
-	call Func_e55
+	call Modulo_C
 	callba z, IncrementBonusMultiplier
 .asm_1495e
 	xor a
@@ -1435,8 +1435,8 @@ Func_14e10: ; 0x14e10
 	ret z
 	ld bc, TenPoints
 	callba AddBigBCD6FromQueueWithBallMultiplier
-	ld hl, wd62d
-	call Func_e4a
+	ld hl, wNumSpinnerTurns
+	call Increment_Max100
 	ld a, [wPikachuSaverCharge]
 	cp MAX_PIKACHU_SAVER_CHARGE
 	jr nz, .asm_14e8a
@@ -2193,8 +2193,8 @@ Func_151cb: ; 0x151cb
 	callba AddBigBCD6FromQueueWithBallMultiplier
 	lb de, $00, $09
 	call PlaySoundEffect
-	ld hl, wd62c
-	call Func_e4a
+	ld hl, wNumCAVECompletions
+	call Increment_Max100
 	jr Func_asm_1522d
 
 .asm_15229
@@ -4500,11 +4500,11 @@ ResolveBellsproutCollision: ; 0x15e93
 	ld [wRareMonsFlag], a
 	callba StartCatchEmMode
 .noCatchEmMode
-	ld hl, wd62a
-	call Func_e4a
+	ld hl, wNumBellsproutEntries
+	call Increment_Max100
 	ret nc
 	ld c, $19
-	call Func_e55
+	call Modulo_C
 	callba z, IncrementBonusMultiplier
 	ret
 
@@ -5670,10 +5670,10 @@ Func_1669e: ; 0x1669e
 	ld a, $60
 	ld [wd804], a
 	ld hl, wd62e
-	call Func_e4a
+	call Increment_Max100
 	jr nc, .asm_166f0
 	ld c, $a
-	call Func_e55
+	call Modulo_C
 	callba z, IncrementBonusMultiplier
 .asm_166f0
 	lb de, $16, $10
@@ -7104,7 +7104,7 @@ ResolveRedStageBonusMultiplierCollision: ; 016d9d
 	ld [wd482], a
 	jr nc, .asm_16e24
 	ld c, $19
-	call Func_e55
+	call Modulo_C
 	callba z, IncrementBonusMultiplier
 .asm_16e24
 	ld a, [wd60c]

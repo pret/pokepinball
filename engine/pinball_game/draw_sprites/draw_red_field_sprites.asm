@@ -446,7 +446,7 @@ DrawPikachuSavers_RedStage: ; 0x17e08
 	jr .asm_17e33
 
 .asm_17e29
-	ld a, [wd4b4]
+	ld a, [wBallXPos + 1]
 	cp $50
 	ld a, $1
 	jr nc, .asm_17e33

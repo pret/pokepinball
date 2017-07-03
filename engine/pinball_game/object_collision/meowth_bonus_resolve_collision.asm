@@ -88,7 +88,7 @@ Func_244f5: ; 0x244f5
 	ld a, [wd6e6]
 	and a
 	ret nz
-	ld a, [wd4b4]
+	ld a, [wBallXPos + 1]
 	cp $8a
 	ret nc
 	ld a, $1
@@ -578,7 +578,7 @@ Func_247d9: ; 0x247d9
 	ld a, [wMeowthXPosition]
 	add $14
 	ld b, a
-	ld a, [wd4b4]
+	ld a, [wBallXPos + 1]
 	cp b
 	jr nc, .asm_2481d
 	ld a, $0
@@ -612,7 +612,7 @@ Func_247d9: ; 0x247d9
 	ld a, [wMeowthXPosition]
 	add $14
 	ld b, a
-	ld a, [wd4b4]
+	ld a, [wBallXPos + 1]
 	cp b
 	jr nc, .asm_24862
 	ld a, $0
@@ -646,7 +646,7 @@ Func_247d9: ; 0x247d9
 	ld a, [wMeowthXPosition]
 	add $14
 	ld b, a
-	ld a, [wd4b4]
+	ld a, [wBallXPos + 1]
 	cp b
 	jr nc, .asm_248a6
 	ld a, $0
@@ -1206,7 +1206,7 @@ Func_24c28: ; 0x24c28
 	ld a, [wMeowthXPosition]
 	add $14
 	ld b, a
-	ld a, [wd4b4]
+	ld a, [wBallXPos + 1]
 	cp b
 	jr nc, .asm_24c70
 	ld a, $0
@@ -1242,7 +1242,7 @@ Func_24c28: ; 0x24c28
 	ld a, [wd6f7]
 	add $14
 	ld b, a
-	ld a, [wd4b4]
+	ld a, [wBallXPos + 1]
 	cp b
 	jr nc, .asm_24cb9
 	ld a, $0
@@ -1278,7 +1278,7 @@ Func_24c28: ; 0x24c28
 	ld a, [wMeowthXPosition]
 	add $14
 	ld b, a
-	ld a, [wd4b4]
+	ld a, [wBallXPos + 1]
 	cp b
 	jr nc, .asm_24d01
 	ld a, $0

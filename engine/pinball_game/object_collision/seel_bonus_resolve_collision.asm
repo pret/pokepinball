@@ -61,7 +61,7 @@ Func_25ced: ; 0x25ced
 	ld a, [wd766]
 	and a
 	ret nz
-	ld a, [wd4b4]
+	ld a, [wBallXPos + 1]
 	cp $8a
 	ret nc
 	ld a, $1

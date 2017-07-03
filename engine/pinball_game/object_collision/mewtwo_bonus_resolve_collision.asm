@@ -23,7 +23,7 @@ Func_1948b: ; 0x1948b
 	ld a, [wd6a9]
 	and a
 	ret nz
-	ld a, [wd4b4]
+	ld a, [wBallXPos + 1]
 	cp $8a
 	ret nc
 	ld a, $1

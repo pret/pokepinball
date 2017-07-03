@@ -53,9 +53,9 @@ Func_1c203: ; 0x1c203
 	ld a, $ff
 	ld [wd4d7], a
 	ld [wd4db], a
-	ld a, [wd4b4]
+	ld a, [wBallXPos + 1]
 	ld [wd4c5], a
-	ld a, [wd4b6]
+	ld a, [wBallYPos + 1]
 	ld [wd4c6], a
 	ld a, [wBallRotation]
 	ld [wd4c7], a

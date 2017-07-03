@@ -162,7 +162,7 @@ DrawPikachuSavers_BlueStage: ; 0x1f448
 	jr .asm_1f473
 
 .asm_1f469
-	ld a, [wd4b4]
+	ld a, [wBallXPos + 1]
 	cp $50
 	ld a, $1
 	jr nc, .asm_1f473

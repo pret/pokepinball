@@ -8,7 +8,7 @@ Func_19b92: ; 0x19b92
 	ld a, [wd73a]
 	and a
 	ret nz
-	ld a, [wd4b4]
+	ld a, [wBallXPos + 1]
 	cp $8a
 	ret nc
 	ld a, $1

@@ -25,7 +25,7 @@ Func_183b7: ; 0x183b7
 	ld a, [wd653]
 	and a
 	ret nz
-	ld a, [wd4b4]
+	ld a, [wBallXPos + 1]
 	cp $8a
 	ret nc
 	ld a, $1
@@ -881,9 +881,9 @@ Func_1894c: ; 0x1894c
 	ld hl, wd549
 	and [hl]
 	jr z, .asm_18973
-	ld a, [wd4b6]
+	ld a, [wBallYPos + 1]
 	inc a
-	ld [wd4b6], a
+	ld [wBallYPos + 1], a
 .asm_18973
 	ld a, [wd7a0]
 	dec a

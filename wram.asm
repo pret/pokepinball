@@ -242,20 +242,12 @@ wd4b0:: ; 0xd4b0
 	ds $3
 
 wBallXPos:: ; 0xd4b3
-	ds $1
-
-wd4b4:: ; 0xd4b4
-	ds $1
-
+	ds $2
 wBallYPos:: ; 0xd4b5
-	ds $1
-
-wd4b6:: ; 0xd4b6
-	ds $1
+	ds $2
 
 wPreviousBallXPos:: ; 0xd4b7
 	ds $2
-
 wPreviousBallYPos:: ; 0xd4b9
 	ds $2
 
@@ -263,7 +255,9 @@ wBallXVelocity:: ; 0xd4bb
 	ds $2
 
 wBallYVelocity:: ; 0xd4bd
-	ds $6
+	ds $2
+
+	ds $4
 
 wBallSpin:: ; 0xd4c3
 	ds $1

@@ -786,9 +786,9 @@ CapturePokemon: ; 0x1052d
 	and a
 	call z, Func_10848
 	ld a, $50
-	ld [wd4b4], a
+	ld [wBallXPos + 1], a
 	ld a, $40
-	ld [wd4b6], a
+	ld [wBallYPos + 1], a
 	ld a, $80
 	ld [wBallXVelocity], a
 	xor a

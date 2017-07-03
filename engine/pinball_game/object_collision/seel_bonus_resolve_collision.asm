@@ -12,7 +12,7 @@ ResolveSeelBonusGameObjectCollisions: ; 0x25c5a
 	ld de, $0000
 	call PlaySong
 	ld a, $1
-	ld [wd49a], a
+	ld [wCompletedBonusStage], a
 	call FillBottomMessageBufferWithBlackTile
 	call Func_30db
 	ld hl, wd5dc

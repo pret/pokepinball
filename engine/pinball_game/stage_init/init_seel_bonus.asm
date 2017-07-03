@@ -12,7 +12,7 @@ InitSeelBonusStage: ; 0x25a7c
 	xor a
 	ld [wd4c8], a
 	ld [wBallType], a
-	ld [wd49a], a
+	ld [wCompletedBonusStage], a
 	ld hl, InitialSeelCoords
 	ld de, wd76d
 	call InitSeelPosition

@@ -11,7 +11,7 @@ InitMewtwoBonusStage: ; 0x1924f
 	xor a
 	ld [wd4c8], a
 	ld [wBallType], a
-	ld [wd49a], a
+	ld [wCompletedBonusStage], a
 	ld hl, Data_192ab
 	ld de, wd6b6
 	ld b, $c

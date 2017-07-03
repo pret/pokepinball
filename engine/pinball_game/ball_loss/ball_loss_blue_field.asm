@@ -50,14 +50,14 @@ HandleBallLossBlueField: ; 0xde4f
 	ld a, [wd49d]
 	ld hl, wd49e
 	cp [hl]
-	jr z, .asm_deca
+	jr z, .gameOver
 	inc a
 	ld [wd49d], a
 	ld de, EndOfBallBonusText
 	call Func_dc6d
 	ret
 
-.asm_deca
+.gameOver
 	ld de, EndOfBallBonusText
 	call Func_dc6d
 	ld a, $1

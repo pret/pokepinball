@@ -348,7 +348,7 @@ Func_19638: ; 0x19638
 	ld [wNumMewtwoBonusCompletions], a
 .asm_1965e
 	ld a, $1
-	ld [wd49a], a
+	ld [wCompletedBonusStage], a
 	call FillBottomMessageBufferWithBlackTile
 	call Func_30db
 	ld hl, wd5dc

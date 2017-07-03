@@ -4,7 +4,7 @@ HandleBallLossSeelBonus: ; 0xe08b
 	ld a, [wd7be]
 	and a
 	jr z, .asm_e09b
-	ld a, [wd49a]
+	ld a, [wCompletedBonusStage]
 	and a
 	jr z, .asm_e0b8
 .asm_e09b
@@ -45,7 +45,7 @@ HandleBallLossSeelBonus: ; 0xe08b
 	xor a
 	ld [wd7ac], a
 	ld [wd794], a
-	ld a, [wd49a]
+	ld a, [wCompletedBonusStage]
 	and a
 	ret nz
 	call FillBottomMessageBufferWithBlackTile

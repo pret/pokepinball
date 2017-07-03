@@ -11,7 +11,7 @@ InitDiglettBonusStage: ; 0x199f2
 	xor a
 	ld [wd4c8], a
 	ld [wBallType], a
-	ld [wd49a], a
+	ld [wCompletedBonusStage], a
 	; initialize all digletts to hiding
 	ld a, $1  ; hiding diglett state
 	ld hl, wDiglettStates

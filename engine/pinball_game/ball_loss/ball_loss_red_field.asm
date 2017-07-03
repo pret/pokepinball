@@ -50,14 +50,14 @@ HandleBallLossRedField: ; 0xdd76
 	ld a, [wd49d]
 	ld hl, wd49e
 	cp [hl]
-	jr z, .asm_ddf1
+	jr z, .gameOver
 	inc a
 	ld [wd49d], a
 	ld de, EndOfBallBonusText
 	call Func_dc6d
 	ret
 
-.asm_ddf1
+.gameOver
 	ld de, EndOfBallBonusText
 	call Func_dc6d
 	ld a, $1

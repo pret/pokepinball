@@ -142,22 +142,13 @@ wd482:: ; 0xd482
 	ds $1
 
 wd483:: ; 0xd483
-	ds $5
-
-wd488:: ; 0xd488
-	ds $1
+	ds $6
 
 wd489:: ; 0xd489
-	ds $5
-
-wd48e:: ; 0xd48e
-	ds $1
+	ds $6
 
 wd48f:: ; 0xd48f
-	ds $5
-
-wd494:: ; 0xd494
-	ds $1
+	ds $6
 
 wd495:: ; 0xd495
 	ds $1
@@ -174,7 +165,8 @@ wd498:: ; 0xd498
 wd499:: ; 0xd499
 	ds $1
 
-wd49a:: ; 0xd49a
+wCompletedBonusStage:: ; 0xd49a
+; Set to 1 when a bonus stage is successfully cleared.
 	ds $1
 
 wCurBonusMultiplier:: ; 0xd49b

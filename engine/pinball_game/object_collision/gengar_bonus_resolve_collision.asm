@@ -1002,7 +1002,7 @@ Func_189af: ; 0x189af
 	ld a, $1
 	ld [wd498], a
 	ld a, $1
-	ld [wd49a], a
+	ld [wCompletedBonusStage], a
 	call FillBottomMessageBufferWithBlackTile
 	call Func_30db
 	ld hl, wd5dc

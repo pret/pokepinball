@@ -674,7 +674,7 @@ Func_1ab30: ; 0x1ab30
 	ld [wDugrioState], a
 	ld [wd498], a
 	ld a, $1
-	ld [wd49a], a
+	ld [wCompletedBonusStage], a
 	call FillBottomMessageBufferWithBlackTile
 	call Func_30db
 	ld hl, wd5dc

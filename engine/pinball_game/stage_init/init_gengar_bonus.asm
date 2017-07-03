@@ -16,7 +16,7 @@ InitGengarBonusStage: ; 0x18099
 	xor a
 	ld [wd4c8], a
 	ld [wBallType], a
-	ld [wd49a], a
+	ld [wCompletedBonusStage], a
 	ld hl, GastlyInitialData
 	ld de, wd659
 	call Copy9BytesToDE

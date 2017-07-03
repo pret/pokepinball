@@ -66,9 +66,9 @@ Func_f5a0: ; 0xf5a0
 	ld hl, SubtotalPointsText
 	call PrintTextNoHeader
 	ld hl, wd489
-	call Func_f8b5
+	call ClearBCD6Buffer
 	ld hl, wd48f
-	call Func_f8b5
+	call ClearBCD6Buffer
 	ld a, $1
 	ld [wd4ab], a
 	call ValidateSignature6
@@ -199,7 +199,7 @@ Func_f676: ; 0xf676
 .asm_f6c7
 	push de
 	push hl
-	ld hl, wd494
+	ld hl, wd48f + $5
 	ld de, wBottomMessageText + $86
 	call Func_f8bd
 	ld bc, $0040
@@ -441,12 +441,12 @@ Func_f83a: ; 0xf83a
 Func_f853: ; 0xf853
 	push hl
 	ld hl, wd483
-	call Func_f8b5
+	call ClearBCD6Buffer
 	pop hl
 .asm_f85b
 	push de
 	push hl
-	ld hl, wd488
+	ld hl, wd483 + $5
 	ld de, wBottomMessageText + $46
 	call Func_f8bd
 	ld bc, $0040
@@ -482,7 +482,7 @@ Func_f853: ; 0xf853
 	ld hl, wd489
 	ld de, wd483
 	call AddBigBCD6
-	ld hl, wd48e
+	ld hl, wd489 + $5
 	ld de, wBottomMessageText + $86
 	call Func_f8bd
 	ld bc, $0040
@@ -490,13 +490,13 @@ Func_f853: ; 0xf853
 	call Func_f80d
 	ret
 
-Func_f8b5: ; 0xf8b5
+ClearBCD6Buffer: ; 0xf8b5
 	xor a
 	ld b, $6
-.asm_f8b8
+.loop
 	ld [hli], a
 	dec b
-	jr nz, .asm_f8b8
+	jr nz, .loop
 	ret
 
 Func_f8bd: ; 0xf8bd

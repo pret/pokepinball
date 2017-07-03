@@ -10,7 +10,7 @@ InitMeowthBonusStage: ; 0x24000
 	xor a
 	ld [wd4c8], a
 	ld [wBallType], a
-	ld [wd49a], a
+	ld [wCompletedBonusStage], a
 	ld a, $1
 	ld [wd7ac], a
 	ld a, $40

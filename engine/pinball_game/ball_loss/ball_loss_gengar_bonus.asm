@@ -39,7 +39,7 @@ HandleBallLossGengarBonus: ; 0xdf1a
 	ld [wd4c8], a
 	xor a
 	ld [wd7ac], a
-	ld a, [wd49a]
+	ld a, [wCompletedBonusStage]
 	and a
 	ret nz
 	call FillBottomMessageBufferWithBlackTile

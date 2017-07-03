@@ -4,7 +4,7 @@ HandleBallLossMeowthBonus: ; 0xdfe2
 	ld a, [wd7be]
 	and a
 	jr z, .asm_dff2
-	ld a, [wd49a]
+	ld a, [wCompletedBonusStage]
 	and a
 	jr z, .asm_e00f
 .asm_dff2
@@ -46,7 +46,7 @@ HandleBallLossMeowthBonus: ; 0xdfe2
 	xor a
 	ld [wd7ac], a
 	ld [wd712], a
-	ld a, [wd49a]
+	ld a, [wCompletedBonusStage]
 	and a
 	ret nz
 	call FillBottomMessageBufferWithBlackTile

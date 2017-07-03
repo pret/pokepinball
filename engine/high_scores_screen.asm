@@ -169,7 +169,7 @@ Func_cb14: ; 0xcb14
 	call Func_d68a
 	ld bc, $03c9
 	call Func_d68a
-	call Func_bbe
+	call FadeIn
 	ld hl, wScreenState
 	inc [hl]
 	ret
@@ -184,7 +184,7 @@ Func_cb14: ; 0xcb14
 	call Func_d68a
 	ld bc, $03c9
 	call Func_d68a
-	call Func_bbe
+	call FadeIn
 	ld hl, wScreenState
 	inc [hl]
 	ld hl, wScreenState
@@ -943,7 +943,7 @@ Func_d159: ; 0xd159
 	ret
 
 ExitHighScoresScreen: ; 0xd171
-	call Func_cb5
+	call FadeOut
 	call Func_576
 	ld hl, hSTAT
 	res 6, [hl]

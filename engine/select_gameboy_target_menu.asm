@@ -41,7 +41,7 @@ InitSelectGameboyTargetMenu: ; 0x800a
 	call ClearOAMBuffer
 	call Func_b66
 	call Func_588
-	call Func_bbe
+	call FadeIn
 	ld hl, wScreenState
 	inc [hl]
 	ret
@@ -229,7 +229,7 @@ CGBSelected_TileData: ; 0x8144
 	db $00  ; terminator
 
 EndSelectGameboyTargetMenu: ; 0x414e
-	call Func_cb5
+	call FadeOut
 	call Func_576
 	ld hl, wCurrentScreen
 	inc [hl] ; set to SCREEN_ERASE_ALL_DATA

@@ -378,7 +378,8 @@ Func_3c3:
 	ld a, [rLCDC]
 	bit 7, a
 	jr z, .asm_03cf
-	call Func_cb5
+	call FadeOut
+	; Fades palettes in from white screen.
 	call Func_576
 .asm_03cf
 	ld hl, hSTAT
@@ -1803,14 +1804,16 @@ Func_b66: ; 0xb66
 	jr nz, .asm_ba8
 	ret
 
-Func_bbe: ; 0xbbe
+FadeIn: ; 0xbbe
+; Fades palettes in from white screen.
 	ld a, [hGameBoyColorFlag]
 	and a
-	jp nz, Func_c19
+	jp nz, FadeIn_GameboyColor
+	; Regular Gameboy
 	ld hl, hBGP
 	ld de, wBGP
 	ld b, $3
-.asm_bcc
+.loop
 	ld a, [de]
 	and $55
 	ld c, a
@@ -1821,13 +1824,13 @@ Func_bbe: ; 0xbbe
 	ld [hli], a
 	inc de
 	dec b
-	jr nz, .asm_bcc
+	jr nz, .loop
 	ld bc, $0002
 	call AdvanceFrames
 	ld hl, hBGP
 	ld de, wBGP
 	ld b, $3
-.asm_be9
+.loop2
 	ld a, [de]
 	and $aa
 	srl a
@@ -1835,13 +1838,13 @@ Func_bbe: ; 0xbbe
 	ld [hli], a
 	inc de
 	dec b
-	jr nz, .asm_be9
+	jr nz, .loop2
 	ld bc, $0002
 	call AdvanceFrames
 	ld hl, hBGP
 	ld de, wBGP
 	ld b, $3
-.asm_c02
+.loop3
 	ld a, [de]
 	and $55
 	ld c, a
@@ -1853,50 +1856,54 @@ Func_bbe: ; 0xbbe
 	ld [hli], a
 	inc de
 	dec b
-	jr nz, .asm_c02
+	jr nz, .loop3
 	ld bc, $0002
 	call AdvanceFrames
 	ret
 
-Func_c19: ; 0xc19
-	ld b, $10
-.asm_c1b
+FadeIn_GameboyColor: ; 0xc19
+; Fades in to the target palette data in wPaletteData from wFadeBGPaletteData and wFadeOBJPaletteData
+; Fade is completed after 16 frames of incrementally updating the palettes.
+	ld b, 16 ; fade takes 16 frames to complete
+.loop
 	push bc
 	ld de, wPaletteData
-	ld hl, wd280
-	call Func_c2d
-	call Func_d61
+	ld hl, wFadeBGPaletteData
+	call FadeInStep
+	call SetFadedPalettes
 	pop bc
 	dec b
-	jr nz, .asm_c1b
+	jr nz, .loop
 	ret
 
-Func_c2d: ; 0xc2d
+FadeInStep: ; 0xc2d
+; de = base palette data
+; hl = faded palette data
 	ld a, b
 	cp $1
-	jr z, .asm_c49
-	ld c, $40
-.asm_c34
+	jr z, .lastStep
+	ld c, $40 ; total number of colors in BG and OBJ palettes
+.loop
 	push bc
 	ld a, [hli]
 	sub $42
 	ld c, a
 	ld a, [hld]
 	sbc $8
-	ld b, a
-	call Func_c60
+	ld b, a  ; subtracted 2 from each RGB value of the color
+	call GetNextFadedPalette
 	ld a, c
 	ld [hli], a
 	ld a, b
 	ld [hli], a
 	pop bc
 	dec c
-	jr nz, .asm_c34
+	jr nz, .loop
 	ret
 
-.asm_c49
-	ld c, $40
-.asm_c4b
+.lastStep
+	ld c, $40 ; total number of colors in BG and OBJ palettes
+.loop2
 	push bc
 	ld a, [hli]
 	sub $21
@@ -1904,32 +1911,36 @@ Func_c2d: ; 0xc2d
 	ld a, [hld]
 	sbc $4
 	ld b, a
-	call Func_c60
+	call GetNextFadedPalette
 	ld a, c
 	ld [hli], a
 	ld a, b
 	ld [hli], a
 	pop bc
 	dec c
-	jr nz, .asm_c4b
+	jr nz, .loop2
 	ret
 
-Func_c60: ; 0xc60
+GetNextFadedPalette: ; 0xc60
+; de = source palette data
+; bc = target palette RGB - 2
+; Places the resulting palette RGB into bc
 	push hl
 	ld a, [de]
-	and $1f
+	and %00011111  ; Target RGB Blue value
 	ld l, a
 	ld a, c
-	and $1f
+	and %00011111  ; Current faded RBG Blue value - 2
 	cp l
-	jr nc, .asm_c70
+	jr nc, .brighter
+	; set the current faded Blue value to the target blue value.
 	ld a, c
-	and $e0
+	and %11100000
 	or l
 	ld c, a
-.asm_c70
+.brighter
 	ld a, [de]
-	and $e0
+	and %11100000
 	ld l, a
 	inc de
 	ld a, [de]
@@ -1938,7 +1949,7 @@ Func_c60: ; 0xc60
 	srl a
 	rr l
 	ld a, c
-	and $e0
+	and %11100000
 	ld h, a
 	ld a, b
 	srl a
@@ -1978,17 +1989,19 @@ Func_c60: ; 0xc60
 	pop hl
 	ret
 
-Func_cb5: ; 0xcb5
+FadeOut: ; 0xcb5
+; Fades palettes out to a white screen.
 	ld a, [hGameBoyColorFlag]
 	and a
-	jp nz, Func_cee
+	jp nz, FadeOut_GameboyColor
+	; Regular Gameboy
 	ld hl, hBGP
 	ld b, $3
-.asm_cc0
+.loop
 	push bc
 	push hl
 	ld b, $3
-.asm_cc4
+.loop2
 	ld a, [hl]
 	and $55
 	ld c, a
@@ -2001,13 +2014,13 @@ Func_cb5: ; 0xcb5
 	add [hl]
 	ld [hli], a
 	dec b
-	jr nz, .asm_cc4
+	jr nz, .loop2
 	ld bc, $0002
 	call AdvanceFrames
 	pop hl
 	pop bc
 	dec b
-	jr nz, .asm_cc0
+	jr nz, .loop
 	xor a
 	ld hl, hBGP
 	ld [hli], a
@@ -2017,25 +2030,28 @@ Func_cb5: ; 0xcb5
 	call AdvanceFrames
 	ret
 
-Func_cee: ; 0xcee
-	ld hl, wd280
+FadeOut_GameboyColor: ; 0xcee
+; Fades out to white RGB colors from the currently-loaded palettes.
+; Fade is completed after 16 frames of incrementally updating the palettes.
+	ld hl, wFadeBGPaletteData
 	ld de, rBGPI
-	call Func_d9d
-	ld hl, wd2c0
+	call LoadCurrentPalettesIntoFadePalettes
+	ld hl, wFadeOBJPaletteData
 	ld de, rOBPI
-	call Func_d9d
-	ld b, $10
-.asm_d02
+	call LoadCurrentPalettesIntoFadePalettes
+	ld b, 16 ; fade takes 16 frames to complete
+.loop
 	push bc
-	ld hl, wd280
-	call Func_d11
-	call Func_d61
+	ld hl, wFadeBGPaletteData
+	call FadeOutStep
+	call SetFadedPalettes
 	pop bc
 	dec b
-	jr nz, .asm_d02
+	jr nz, .loop
 	ret
 
-Func_d11: ; 0xd11
+FadeOutStep: ; 0xd11
+; hl = faded palette data
 	ld b, $40
 .asm_d13
 	ld a, [hl]
@@ -2092,21 +2108,22 @@ Func_d11: ; 0xd11
 	jr nz, .asm_d13
 	ret
 
-Func_d61: ; 0d61
+SetFadedPalettes: ; 0d61
+; Sets the current palette data to the faded palettes.
 	ld a, [rIE]
 	res 0, a
 	ld [rIE], a
-	ld hl, wd280
+	ld hl, wFadeBGPaletteData
 	ld de, rBGPI
 	ld a, $80
 	ld [de], a
 	inc de
-.asm_d71
+.waitForVBlank
 	ld a, [rLY]
 	cp $90
-	jr c, .asm_d71
+	jr c, .waitForVBlank
 	ld b, $10
-.asm_d79
+.loadBGColorsLoop
 	ld a, [hli]
 	ld [de], a
 	ld a, [hli]
@@ -2116,13 +2133,13 @@ Func_d61: ; 0d61
 	ld a, [hli]
 	ld [de], a
 	dec b
-	jr nz, .asm_d79
+	jr nz, .loadBGColorsLoop
 	inc de
 	ld a, $80
 	ld [de], a
 	inc de
 	ld b, $10
-.asm_d8b
+.loadOBJColorsLoop
 	ld a, [hli]
 	ld [de], a
 	ld a, [hli]
@@ -2132,13 +2149,15 @@ Func_d61: ; 0d61
 	ld a, [hli]
 	ld [de], a
 	dec b
-	jr nz, .asm_d8b
+	jr nz, .loadOBJColorsLoop
 	ld a, [rIE]
 	set 0, a
 	ld [rIE], a
 	ret
 
-Func_d9d: ; 0xd9d
+LoadCurrentPalettesIntoFadePalettes: ; 0xd9d
+; hl = destination for palette data
+; de = source of palettes (rBGPI or rOBPI)
 	ld b, $0
 	ld c, e
 	inc c

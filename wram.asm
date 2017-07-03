@@ -47,10 +47,7 @@ wStageCollisionMap:: ; 0xc700
 	ds $300
 
 wca00::
-	ds $63
-
-wca63:: ; 0xca63
-	ds $9d
+	ds $100
 
 wcb00:: ; 0xcb00
 	ds $500
@@ -59,17 +56,17 @@ SECTION "WRAM Bank 1", WRAMX, BANK[1]
 
 wOAMBuffer:: ; 0xd000
 	ds $a0
-
 wOAMBufferEnd:: ; 0xd0a0
-	ds $160
 
+SECTION "WRAM Bank 1.1", WRAMX [$d200], BANK [1]
 wPaletteData:: ; 0xd200
 	ds $80
 
-wd280:: ; 0xd280
+; This buffer holds the intermediate palette data when fading to a new palette.
+; The target palette is held in wPaletteData.
+wFadeBGPaletteData:: ; 0xd280
 	ds $40
-
-wd2c0:: ; 0xd2c0
+wFadeOBJPaletteData:: ; 0xd2c0
 	ds $40
 
 wPartyMons:: ; 0xd300

@@ -61,7 +61,7 @@ GameScreenFunction_StartBall: ; 0xd87f
 	ld [wd7c1], a
 	call Func_b66
 	call Func_588
-	call Func_bbe
+	call FadeIn
 	ld hl, wScreenState
 	inc [hl]
 	ret
@@ -230,7 +230,7 @@ GameScreenFunction_EndBall: ; 0xdab2
 	ld a, [wd496]
 	and a
 	jr nz, .asm_db28
-	call Func_cb5
+	call FadeOut
 	ld a, [wd849]
 	and a
 	call z, Func_e5d
@@ -248,7 +248,7 @@ GameScreenFunction_EndBall: ; 0xdab2
 	call PlaySong
 	ld bc, $0004
 	call AdvanceFrames
-	call Func_cb5
+	call FadeOut
 	ld a, [wd849]
 	and a
 	call nz, Func_e5d
@@ -275,7 +275,7 @@ GameScreenFunction_EndBall: ; 0xdab2
 	call PlaySong
 	ld bc, $0004
 	call AdvanceFrames
-	call Func_cb5
+	call FadeOut
 	ld a, [wd849]
 	and a
 	call nz, Func_e5d
@@ -299,7 +299,7 @@ TransitionToHighScoresScreen: ; 0xdb5d
 	call PlaySong
 	ld bc, $0004
 	call AdvanceFrames
-	call Func_cb5
+	call FadeOut
 	call Func_576
 	ld hl, hSTAT
 	res 6, [hl]

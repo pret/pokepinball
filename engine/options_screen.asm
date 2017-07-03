@@ -43,7 +43,7 @@ Func_c35a: ; 0xc35a
 	ld a, [wSoundTextCurrentSoundEffect]
 	hlCoord 7, 13, vBGMap
 	call RedrawSoundTestID
-	call Func_bbe
+	call FadeIn
 	ld hl, wScreenState
 	inc [hl]
 	ret
@@ -145,7 +145,7 @@ Func_c447: ; 0xc447
 	ret
 
 Func_c483: ; 0xc483
-	call Func_cb5
+	call FadeOut
 	call Func_576
 	ld a, SCREEN_TITLESCREEN
 	ld [wCurrentScreen], a

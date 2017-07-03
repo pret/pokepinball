@@ -25,7 +25,7 @@ FadeInCopyrightScreen: ; 0x8228
 	call SGBNormal
 	ld bc, $0050
 	call AdvanceFrames
-	call Func_bbe
+	call FadeIn
 	ld hl, wScreenState
 	inc [hl]
 	ret
@@ -67,7 +67,7 @@ DisplayCopyrightScreen: ; 0x8290
 	ret
 
 FadeOutCopyrightScreenAndLoadData: ; 0x82a8
-	call Func_cb5
+	call FadeOut
 	call Func_576
 	ld hl, sHighScores
 	ld de, wRedHighScore1Points

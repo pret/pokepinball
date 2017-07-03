@@ -31,7 +31,7 @@ CheckForResetButtonCombo: ; 0x8167
 	call Func_b66
 	call Func_588
 	call SGBNormal
-	call Func_bbe
+	call FadeIn
 	ld hl, wScreenState
 	inc [hl]
 	ret
@@ -106,7 +106,7 @@ HandleEraseAllDataInput: ; 0x81d4
 	ret
 
 ExitEraseAllDataMenu: ; 0x820f
-	call Func_cb5
+	call FadeOut
 	call Func_576
 	ld hl, wCurrentScreen
 	inc [hl]

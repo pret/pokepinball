@@ -35,7 +35,7 @@ FadeInTitlescreen: ; 0xc00e
 	ld de, $0004
 	call PlaySong
 	call Func_588
-	call Func_bbe  ; this does the fading
+	call FadeIn
 	ld hl, wScreenState
 	inc [hl]
 	ret
@@ -147,7 +147,7 @@ Func_c10e: ; 0xc10e
 	ld a, [wTitleScreenGameStartCursorSelection]
 	and a
 	jr z, .asm_c177
-	call Func_cb5
+	call FadeOut
 	call Func_576
 	ld a, [wd7c2]
 	and a
@@ -223,7 +223,7 @@ Func_c1b1: ; 0xc1b1
 	ret
 
 Func_c1cb: ; 0c1cb
-	call Func_cb5
+	call FadeOut
 	call Func_576
 	ld a, [wTitleScreenCursorSelection]
 	ld c, a
@@ -242,7 +242,7 @@ Data_c1e4: ; 0xc1e4
 	db SCREEN_OPTIONS
 
 GoToHighScoresFromTitlescreen: ; 0xc1e7
-	call Func_cb5
+	call FadeOut
 	call Func_576
 	ld a, SCREEN_HIGH_SCORES
 	ld [wCurrentScreen], a

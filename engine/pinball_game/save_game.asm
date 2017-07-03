@@ -3,7 +3,7 @@ SaveGame: ; 0xda05
 	call PlaySong
 	ld bc, $0004
 	call AdvanceFrames
-	call Func_cb5
+	call FadeOut
 	ld a, [wd849]
 	and a
 	call nz, Func_e5d

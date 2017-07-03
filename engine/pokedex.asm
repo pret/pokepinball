@@ -65,7 +65,7 @@ LoadPokedexScreen: ; 0x2800e
 	ld de, $0004
 	call PlaySong
 	call Func_588
-	call Func_bbe
+	call FadeIn
 	ld hl, wScreenState
 	inc [hl]
 	ret
@@ -710,7 +710,7 @@ Func_284bc: ; 0x284bc
 	ret
 
 ExitPokedexScreen: ; 0x284f9
-	call Func_cb5
+	call FadeOut
 	call Func_576
 	ld hl, hSTAT
 	res 6, [hl]

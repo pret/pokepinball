@@ -29,7 +29,7 @@ LoadFieldSelectScreen: ; 0xd6dd
 	ld de, $0003
 	call PlaySong
 	call Func_588
-	call Func_bbe
+	call FadeIn
 	ld hl, wScreenState
 	inc [hl]
 	ret
@@ -81,7 +81,7 @@ ExitFieldSelectScreen: ; 0xd774
 .didntPressA
 	ld a, [hJoypadState]
 	push af
-	call Func_cb5
+	call FadeOut
 	call Func_576
 	ld a, [wd8f6]
 	bit BIT_A_BUTTON, a

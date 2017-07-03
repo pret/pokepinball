@@ -428,9 +428,9 @@ Func_10ba2: ; 0x10ba2
 
 Func_10bea: ; 0x10bea
 	xor a
-	ld [wd461], a
-	ld [wd462], a
-	ld [wd463], a
+	ld [wCurSelectedPartyMon], a
+	ld [wCurSelectedPartyMonScrollOffset], a
+	ld [wPartySelectionCursorCounter], a
 .asm_10bf4
 	call Func_10c0c
 	call Func_b2e
@@ -448,13 +448,13 @@ Func_10c0c: ; 0x10c0c
 	ld b, a
 	ld a, [wNumPartyMons]
 	ld c, a
-	ld a, [wd461]
+	ld a, [wCurSelectedPartyMon]
 	bit 6, b
 	jr z, .asm_10c28
 	and a
 	ret z
 	dec a
-	ld [wd461], a
+	ld [wCurSelectedPartyMon], a
 	lb de, $00, $03
 	call PlaySoundEffect
 	ret
@@ -465,14 +465,14 @@ Func_10c0c: ; 0x10c0c
 	inc a
 	cp c
 	ret z
-	ld [wd461], a
+	ld [wCurSelectedPartyMon], a
 	lb de, $00, $03
 	call PlaySoundEffect
 	ret
 
 Func_10c38: ; 0x10c38
-	ld a, [wd461]
-	ld hl, wd462
+	ld a, [wCurSelectedPartyMon]
+	ld hl, wCurSelectedPartyMonScrollOffset
 	sub [hl]
 	jr nc, .asm_10c45
 	dec [hl]
@@ -495,12 +495,12 @@ Func_10c38: ; 0x10c38
 	call Func_10b8e
 	ld a, [hJoypadState]
 	and a
-	ld a, [wd463]
+	ld a, [wPartySelectionCursorCounter]
 	jr z, .asm_10c62
 	xor a
 .asm_10c62
 	inc a
-	ld [wd463], a
+	ld [wPartySelectionCursorCounter], a
 	bit 3, a
 	pop bc
 	jr nz, .asm_10c78
@@ -512,13 +512,13 @@ Func_10c38: ; 0x10c38
 	ld a, $88
 	ld [hl], a
 .asm_10c78
-	ld a, [wd462]
+	ld a, [wCurSelectedPartyMonScrollOffset]
 	and a
 	jr z, .asm_10c83
 	ld a, $8a
 	ld [wBottomMessageText + $11], a
 .asm_10c83
-	ld a, [wd462]
+	ld a, [wCurSelectedPartyMonScrollOffset]
 	add $7
 	jr z, .asm_10c96
 	ld c, a
@@ -536,7 +536,7 @@ Func_10c38: ; 0x10c38
 	ret
 
 Func_10ca5: ; 0x10ca5
-	ld a, [wd461]
+	ld a, [wCurSelectedPartyMon]
 	ld c, a
 	ld b, $0
 	ld hl, wPartyMons
@@ -588,7 +588,7 @@ Func_10cb7: ; 0x10cb7
 	ld [wSpecialMode], a
 	xor a
 	ld [wd54d], a
-	ld a, [wd461]
+	ld a, [wCurSelectedPartyMon]
 	ld c, a
 	ld b, $0
 	ld hl, wPartyMons

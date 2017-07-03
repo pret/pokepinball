@@ -3933,10 +3933,10 @@ Func_1ffc: ; 0x1ffc
 	callba Func_3c000
 	ld a, $1
 	ld [wd85d], a
-	ld a, $37
-	ld [wd470], a
-	ld [wd471], a
-	ld [wd472], a
+	ld a, $37 ; space character for player high scores name
+	ld [wPlayerName], a
+	ld [wPlayerName + 1], a
+	ld [wPlayerName + 2], a
 	ld a, SCREEN_ERASE_ALL_DATA
 	ld [wCurrentScreen], a
 .master_loop
@@ -5105,7 +5105,7 @@ INCLUDE "text.asm"
 INCLUDE "home/text.asm"
 
 Func_3500:
-	ld hl, wd464
+	ld hl, wScoreToAdd
 	ld a, e
 	ld [hli], a
 	ld a, d
@@ -5117,12 +5117,12 @@ Func_3500:
 	xor a
 	ld [hli], a
 	ld [hl], a
-	ld bc, wd464
+	ld bc, wScoreToAdd
 	callba AddBigBCD6FromQueueWithBallMultiplier
 	ret
 
 AddBCDEToCurBufferValue: ; 0x351c
-	ld hl, wd464
+	ld hl, wScoreToAdd
 	ld a, e
 	ld [hli], a
 	ld a, d
@@ -5134,7 +5134,7 @@ AddBCDEToCurBufferValue: ; 0x351c
 	xor a
 	ld [hli], a
 	ld [hl], a
-	ld bc, wd464
+	ld bc, wScoreToAdd
 	callba AddBigBCD6FromQueue
 	ret
 

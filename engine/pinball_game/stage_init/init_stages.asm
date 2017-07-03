@@ -72,7 +72,7 @@ ResetDataForStageInitialization: ; 0x8388
 	ld hl, wPartyMons
 	ld bc, $0170
 	call ClearData
-	ld hl, wd473
+	ld hl, wHighScoreId
 	ld bc, $0039
 	call ClearData
 	ld hl, wd4ad

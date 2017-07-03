@@ -10,7 +10,7 @@ HighScoresScreenFunctions: ; 0xca83
 	dw ExitHighScoresScreen
 
 Func_ca8f: ; 0xca8f
-	ld hl, wd473
+	ld hl, wHighScoreId
 	call GenRandom
 	ld [hli], a
 	call GenRandom
@@ -58,13 +58,13 @@ Func_ca8f: ; 0xca8f
 	xor a
 	ld [wda80], a
 	inc b
-	ld hl, wRedHighScore4Unknown0x09 + 3
-	ld de, wRedHighScore5Unknown0x09 + 3
+	ld hl, wRedHighScore4Id + 3
+	ld de, wRedHighScore5Id + 3
 	ld a, [wHighScoresStage]
 	and a
 	jr z, .asm_caeb
-	ld hl, wBlueHighScore4Unknown0x09 + 3
-	ld de, wBlueHighScore5Unknown0x09 + 3
+	ld hl, wBlueHighScore4Id + 3
+	ld de, wBlueHighScore5Id + 3
 .asm_caeb
 	ld a, $5
 .asm_caed
@@ -72,7 +72,7 @@ Func_ca8f: ; 0xca8f
 	jr c, .asm_cb02
 	push af
 	jr nz, .asm_caf6
-	ld hl, wd473 + $3
+	ld hl, wHighScoreId + $3
 .asm_caf6
 	ld c, $d
 .asm_caf8
@@ -134,10 +134,10 @@ Func_cb14: ; 0xcb14
 	ld [wda82], a
 	call Func_d211
 	hlCoord 0, 14, vBGMap
-	ld de, wRedHighScore5Unknown0x09 + $3
+	ld de, wRedHighScore5Id + $3
 	call Func_d2cb
 	hlCoord 0, 14, vBGWin
-	ld de, wBlueHighScore5Unknown0x09 + $3
+	ld de, wBlueHighScore5Id + $3
 	call Func_d2cb
 	ld a, [wHighScoresStage]
 	and a
@@ -350,10 +350,10 @@ Func_ccb6: ; 0xccb6
 	ld bc, $01c0
 	call LoadVRAMData
 	hlCoord 0, 14, vBGMap
-	ld de, wRedHighScore5Unknown0x09 + $3
+	ld de, wRedHighScore5Id + $3
 	call Func_d361
 	hlCoord 0, 14, vBGWin
-	ld de, wBlueHighScore5Unknown0x09 + $3
+	ld de, wBlueHighScore5Id + $3
 	call Func_d361
 	ld hl, wRedHighScore1Points
 	ld de, $a000
@@ -485,7 +485,7 @@ Func_cdce: ; 0xcdce
 	push hl
 	ld d, h
 	ld e, l
-	ld hl, wRedHighScore5Unknown0x09 + $3
+	ld hl, wRedHighScore5Id + $3
 	call Func_cfcb
 	pop hl
 	pop bc
@@ -504,7 +504,7 @@ Func_cdce: ; 0xcdce
 	push hl
 	ld d, h
 	ld e, l
-	ld hl, wBlueHighScore5Unknown0x09 + $3
+	ld hl, wBlueHighScore5Id + $3
 	call Func_cfcb
 	pop hl
 	pop bc
@@ -517,10 +517,10 @@ Func_cdce: ; 0xcdce
 	ld [$abf6], a
 	pop af
 	hlCoord 0, 14, vBGMap
-	ld de, wRedHighScore5Unknown0x09 + $3
+	ld de, wRedHighScore5Id + $3
 	call Func_d361
 	hlCoord 0, 14, vBGWin
-	ld de, wBlueHighScore5Unknown0x09 + $3
+	ld de, wBlueHighScore5Id + $3
 	call Func_d361
 	ld hl, wRedHighScore1Points
 	ld de, $a000
@@ -829,7 +829,7 @@ Func_d042: ; 0xd042
 	ld a, [wda86]
 	bit 2, a
 	jr z, .asm_d0a2
-	ld de, wRedHighScore1Unknown0x09
+	ld de, wRedHighScore1Id
 	call Func_d107
 	call Func_d0f5
 	ret c
@@ -855,7 +855,7 @@ Func_d042: ; 0xd042
 	ld a, [wda86]
 	bit 2, a
 	ret z
-	ld de, wBlueHighScore1Unknown0x09
+	ld de, wBlueHighScore1Id
 	call Func_d107
 	call Func_d0f5
 	ret

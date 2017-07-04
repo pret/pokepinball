@@ -8066,3 +8066,40 @@ TileData_1f2e2: ; 0x1f2e2
 	db $AE, $AF, $AE, $AF, $AE, $AF
 
 	db $00 ; terminator
+
+Func_1f2ed: ; 0x1f2ed
+	xor a
+	ld [wd604], a
+	ld [wIndicatorStates + 4], a
+	ld [hFarCallTempA], a
+	ld a, Bank(Func_1e8f6)  ; this is in the same bank...
+	ld hl, Func_1e8f6
+	call BankSwitch
+	ret
+
+Func_1f2ff: ; 0x1f2ff
+	ld a, [wLeftAlleyCount]
+	cp $3
+	jr c, .asm_1f30b
+	ld a, $80
+	ld [wIndicatorStates + 2], a
+.asm_1f30b
+	ld a, [wLeftAlleyCount]
+	cp $3
+	jr z, .asm_1f314
+	set 7, a
+.asm_1f314
+	ld [wIndicatorStates], a
+	ld a, [wRightAlleyCount]
+	cp $2
+	jr c, .asm_1f323
+	ld a, $80
+	ld [wIndicatorStates + 3], a
+.asm_1f323
+	ld a, [wRightAlleyCount]
+	cp $3
+	jr z, .asm_1f32c
+	set 7, a
+.asm_1f32c
+	ld [wIndicatorStates + 1], a
+	ret

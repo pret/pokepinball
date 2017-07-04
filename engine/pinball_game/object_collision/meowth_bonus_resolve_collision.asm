@@ -1,3 +1,163 @@
+Func_24319: ; 0x2438f
+	ld a, [wd6f4]
+	cp $0
+	jr z, .asm_24333
+	ld a, [wd71a]
+	sub $4
+	ld b, a
+	ld a, [wd727]
+	add $4
+	ld c, a
+	call Func_24405
+	ld a, $0
+	jr c, .asm_24373
+.asm_24333
+	ld a, [wd6f4]
+	cp $1
+	jr z, .asm_2434d
+	ld a, [wd71b]
+	sub $4
+	ld b, a
+	ld a, [wd728]
+	add $4
+	ld c, a
+	call Func_24405
+	ld a, $1
+	jr c, .asm_24373
+.asm_2434d
+	ld a, [wd6f4]
+	cp $2
+	ret z
+	ld a, [wd71c]
+	sub $4
+	ld b, a
+	ld a, [wd729]
+	add $4
+	ld c, a
+	call Func_24405
+	ld a, $2
+	jr c, .asm_24373
+	ld a, [wd6f4]
+	ld b, $0
+	ld c, a
+	ld hl, wd6f8
+	add hl, bc
+	ld [hl], $0
+	ret
+
+.asm_24373
+	ld a, [wd6f4]
+	ld b, $0
+	ld c, a
+	ld hl, wd6f8
+	add hl, bc
+	inc [hl]
+	ld d, $4
+	ld a, [wd6f4]
+	add d
+	ld d, a
+	ld a, [hl]
+	cp d
+	ret nc
+	ld hl, wd6f5
+	add hl, bc
+	ld [hl], $0
+	ret
+
+Func_2438f: ; 0x2438f
+	ld a, [wd6f4]
+	cp $a
+	jr z, .asm_243a9
+	ld a, [wd724]
+	sub $4
+	ld b, a
+	ld a, [wd731]
+	add $4
+	ld c, a
+	call Func_24405
+	ld a, $a
+	jr c, .asm_243e9
+.asm_243a9
+	ld a, [wd6f4]
+	cp $b
+	jr z, .asm_243c3
+	ld a, [wd725]
+	sub $4
+	ld b, a
+	ld a, [wd732]
+	add $4
+	ld c, a
+	call Func_24405
+	ld a, $b
+	jr c, .asm_243e9
+.asm_243c3
+	ld a, [wd6f4]
+	cp $c
+	ret z
+	ld a, [wd726]
+	sub $4
+	ld b, a
+	ld a, [wd733]
+	add $4
+	ld c, a
+	call Func_24405
+	ld a, $c
+	jr c, .asm_243e9
+	ld a, [wd6f4]
+	ld b, $0
+	ld c, a
+	ld hl, wd6f8
+	add hl, bc
+	ld [hl], $0
+	ret
+
+.asm_243e9
+	ld a, [wd6f4]
+	ld b, $0
+	ld c, a
+	ld hl, wd6f8
+	add hl, bc
+	inc [hl]
+	ld d, $4
+	ld a, [wd6f4]
+	add d
+	ld d, a
+	ld a, [hl]
+	cp d
+	ret nc
+	ld hl, wd6f5
+	add hl, bc
+	ld [hl], $0
+	ret
+
+Func_24405: ; 0x24405
+	ld hl, wd71a
+	ld a, [wd6f4]
+	ld e, a
+	ld d, $0
+	add hl, de
+	ld a, [hl]
+	add $8
+	sub b
+	cp $18
+	jr nc, .asm_24428
+	ld b, a
+	ld hl, wd727
+	add hl, de
+	ld a, [hl]
+	add $8
+	sub c
+	cp $18
+	jr nc, .asm_24428
+	ld c, a
+	ld d, b
+	scf
+	ret
+
+.asm_24428
+	and a
+	ret
+
 ResolveMeowthBonusGameObjectCollisions: ; 0x2442a
 	ld a, [wd710]
 	jr nz, .asm_2443f

@@ -54,7 +54,7 @@ InitBallRedField: ; 0x3007d
 	ld [wNumDugtrioTriples], a
 	ld [wNumCAVECompletions], a
 	ld [wNumSpinnerTurns], a
-	ld [wd62e], a
+	ld [wNumPikachuSaves], a
 	ld [wd613], a
 	inc a
 	ld [wd482], a

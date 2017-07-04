@@ -1,3 +1,9 @@
+; OAM Animations use this 3-byte struct.
+animation: MACRO
+\1FrameCounter:: ds 1
+\1Frame:: ds 1
+\1Index:: ds 1
+endm
 
 SECTION "WRAM Bank 0", WRAM0
 
@@ -412,14 +418,8 @@ wBellsproutCollision:: ; 0xd4fb
 ; Second byte is set by HandleGameObjectCollision, but is unused
 	ds $2
 
-wBellsproutAnimationFrameCounter:: ; 0xd4fd
-	ds $1
-
-wBellsproutAnimationFrame:: ; 0xd4fe
-	ds $1
-
-wBellsproutAnimationFrameIndex:: ; 0xd4ff
-	ds $1
+wBellsproutAnimation:: ; 0xd4fd
+	animation wBellsproutAnimation
 
 wStaryuCollision:: ; 0xd500
 ; Second byte is set by HandleGameObjectCollision, but is unused
@@ -486,14 +486,8 @@ wPikachuSaverCharge:: ; 0xd517
 wd518:: ; 0xd518
 	ds $1
 
-wPikachuSaverAnimationFrameCounter:: ; 0xd519
-	ds $1
-
-wPikachuSaverAnimationFrame:: ; 0xd51a
-	ds $1
-
-wPikachuSaverAnimationFrameIndex:: ; 0xd51b
-	ds $1
+wPikachuSaverAnimation:: ; 0xd519
+	animation wPikachuSaverAnimation
 
 wd51c:: ; 0xd51c
 	ds $1
@@ -773,14 +767,8 @@ wCapturingMon:: ; 0xd5f3
 ; Set to 1 when the capturing animation starts.
 	ds $1
 
-wBallCaptureAnimationFrameCounter:: ; 0xd5f4
-	ds $1
-
-wBallCaptureAnimationFrame:: ; 0xd5f5
-	ds $1
-
-wBallCaptureAnimationFrameIndex:: ; 0xd5f6
-	ds $1
+wBallCaptureAnimation:: ; 0xd5f4
+	animation wBallCaptureAnimation
 
 wWhichPinballUpgradeTrigger:: ; 0xd5f7
 	ds $1
@@ -884,7 +872,8 @@ wd61e:: ; 0xd61e
 wCurSlotBonus:: ; 0xd61f
 	ds $1
 
-wd620:: ; 0xd620
+wSlotAnyPokemonCaught:: ; 0xd620
+; Used by the slot logic to store whether or not any pokemon are caught.
 	ds $1
 
 wd621:: ; 0xd621
@@ -899,14 +888,24 @@ wBonusStageSlotRewardActive:: ; 0xd623
 ; Set to 1 when the "Go To Bonus" Slot Reward is received.
 	ds $1
 
-wd624:: ; 0xd624
+wPreviousNumPokeballs:: ; 0xd624
+; See wNumPokeballs. This holds the previous number of them to handle the blinking
+; animation, so that it only blinks the newly-acquired pokeballs.
 	ds $1
 
-wd625:: ; 0xd625
+wNumPokeballs:: ; 0xd625
+; The number of Pokeballs that appear directly underneath the billboard area.
+; When you get 3 of these, the bonus stage opens up. This number is increased
+; when doing things like catching of evolving a pokemon.
 	ds $1
 
-wd626:: ; 0xd626
-	ds $2
+wPokeballBlinkingCounter:: ; 0xd626
+; Counts the number of frames left in the blinking pokeballs animation.
+; These Pokeballs are located underneath the billboard area, and blink after
+; doing things such as catching or evolving a pokemon.
+	ds $1
+
+	ds $1 ; unused byte
 
 wNumPokemonCaughtInBallBonus:: ; 0xd628
 ; Counts the number of pokemon caught in a single ball bonus.
@@ -932,7 +931,9 @@ wNumSpinnerTurns:: ; 0xd62d
 ; Counts the number of spinner turns in a single ball bonus.
 	ds $1
 
-wd62e:: ; 0xd62e
+wNumPikachuSaves:: ; 0xd62e
+; Counts the number of times the ball was saved by a charged Pikachu.
+; This is unused, but was probably intended to be used in the Ball Bonus.
 	ds $1
 
 wNumMewtwoBonusCompletions:: ; 0xd62f
@@ -942,27 +943,15 @@ wSlowpokeCollision:: ; 0xd630
 ; Second byte is set by HandleGameObjectCollision, but is unused
 	ds $2
 
-wd632:: ; 0xd632
-	ds $1
-
-wd633:: ; 0xd633
-	ds $1
-
-wd634:: ; 0xd634
-	ds $1
+wSlowpokeAnimation:: ; 0xd632
+	animation wSlowpokeAnimation
 
 wCloysterCollision:: ; 0xd635
 ; Second byte is set by HandleGameObjectCollision, but is unused
 	ds $2
 
-wd637:: ; 0xd637
-	ds $1
-
-wd638:: ; 0xd638
-	ds $1
-
-wd639:: ; 0xd639
-	ds $1
+wCloysterAnimation:: ; 0xd637
+	animation wCloysterAnimation
 
 wNumSlowpokeEntries:: ; 0xd63a
 ; Counts the number of times Slowpoke was entered without triggering Evolution mode.
@@ -983,13 +972,15 @@ wNumPoliwagTriples:: ; 0xd63d
 wBlueStageForceFieldDirection:: ; 0xd63e
 	ds $1
 
-wd63f:: ; 0xd63f
+wIndicatorState2Backup:: ; 0xd63f
 	ds $1
 
-wd640:: ; 0xd640
+wBlueStageForceFieldGfxNeedsLoading:: ; 0xd640
+; A flag to signal that the force field arrow graphics need to be updated because
+; it recently changed direction.
 	ds $1
 
-wd641:: ; 0xd641
+wBlueStageForceFieldFlippedDown:: ; 0xd641
 	ds $1
 
 wd642:: ; 0xd642
@@ -1295,14 +1286,8 @@ wd6e6:: ; 0xd6e6
 wd6e7:: ; 0xd6e7
 	ds $2
 
-wMeowthAnimationFrameCounter:: ; 0xd6e9
-	ds $1
-
-wMeowthAnimationFrame:: ; 0xd6ea
-	ds $1
-
-wMeowthAnimationFrameIndex:: ; 0xd6eb
-	ds $1
+wMeowthAnimation:: ; 0xd6e9
+	animation wMeowthAnimation
 
 wd6ec:: ; 0xd6ec
 	ds $1
@@ -1517,14 +1502,8 @@ wDiglettInitDelayCounter:: ; 0xd75e
 wd75f:: ; 0xd75f
 	ds $2
 
-wDugtrioAnimationFrameCounter:: ; 0xd761
-	ds $1
-
-wDugtrioAnimationFrame:: ; 0xd762
-	ds $1
-
-wDugtrioAnimationFrameIndex:: ; 0xd763
-	ds $1
+wDugtrioAnimation:: ; 0xd761
+	animation wDugtrioAnimation
 
 wDugrioState:: ; 0xd764
 	ds $1
@@ -2181,7 +2160,9 @@ wCurrentScreen:: ; 0xd8f1
 	ds $1
 
 wScreenState:: ; 0xd8f2
-	ds $4
+	ds $1
+
+	ds $3
 
 wd8f6:: ; 0xd8f6
 	ds $12
@@ -2390,14 +2371,8 @@ wda85:: ; 0xda85
 wda86:: ; 0xda86
 	ds $1
 
-wSendHighScoresAnimationFrameCounter:: ; 0xda87
-	ds $1
-
-wSendHighScoresAnimationFrame:: ; 0xda88
-	ds $1
-
-wSendHighScoresAnimationFrameIndex:: ; 0xda89
-	ds $1
+wSendHighScoresAnimation:: ; 0xda87
+	animation wSendHighScoresAnimation
 
 wda8a:: ; 0xda8a
 	ds $2
@@ -2429,11 +2404,11 @@ wdaa1:: ; 0xdaa1
 wdaa2:: ; 0xdaa2
 	ds $1
 
-wdaa3:: ; 0xdaa3
-	ds $20a
+wBootCheck:: ; 0xdaa3
+; Used to do a single check during first VBLANK.
+	ds $1
 
-wdcad:: ; 0xdcad
-	ds $53
+; $25c bytes of free space
 
 SECTION "Audio RAM", WRAMX [$dd00], BANK [1]
 wdd00:: ; 0xdd00

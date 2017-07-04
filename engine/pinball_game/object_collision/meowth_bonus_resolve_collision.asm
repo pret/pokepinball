@@ -78,8 +78,8 @@ ResolveMeowthBonusGameObjectCollisions: ; 0x2442a
 	ld a, $1
 	ld [wd712], a
 	ld hl, MeowthAnimationData5
-	ld de, wMeowthAnimationFrameCounter
-	call CopyHLToDE
+	ld de, wMeowthAnimation
+	call InitAnimation
 	ld a, $4
 	ld [wd6ec], a
 	ret
@@ -270,16 +270,16 @@ Func_245ab: ; 0x245ab
 	and a
 	jr nz, .asm_24611
 	ld hl, MeowthAnimationData3
-	ld de, wMeowthAnimationFrameCounter
-	call CopyHLToDE
+	ld de, wMeowthAnimation
+	call InitAnimation
 	ld a, $2
 	ld [wd6ec], a
 	jr .asm_24651
 
 .asm_24611
 	ld hl, MeowthAnimationData4
-	ld de, wMeowthAnimationFrameCounter
-	call CopyHLToDE
+	ld de, wMeowthAnimation
+	call InitAnimation
 	ld a, $3
 	ld [wd6ec], a
 	jr .asm_24651
@@ -303,8 +303,8 @@ Func_245ab: ; 0x245ab
 	cp $3
 	jr nz, .asm_24651
 	ld hl, MeowthAnimationData5
-	ld de, wMeowthAnimationFrameCounter
-	call CopyHLToDE
+	ld de, wMeowthAnimation
+	call InitAnimation
 	ld a, $4
 	ld [wd6ec], a
 .asm_24651
@@ -324,40 +324,40 @@ Func_2465d: ; 0x2465d
 	ld a, [hli]
 	ld h, [hl]
 	ld l, a
-	ld de, wMeowthAnimationFrameCounter
+	ld de, wMeowthAnimation
 	call UpdateAnimation
 	ret nc
 	ld a, [wd6ec]
 	and a
 	jr nz, .asm_24689
-	ld a, [wMeowthAnimationFrameIndex]
+	ld a, [wMeowthAnimationIndex]
 	cp $4
 	ret nz
 	ld hl, MeowthAnimationData1
-	ld de, wMeowthAnimationFrameCounter
-	call CopyHLToDE
+	ld de, wMeowthAnimation
+	call InitAnimation
 	ret
 
 .asm_24689
 	cp $1
 	jr nz, .asm_2469d
-	ld a, [wMeowthAnimationFrameIndex]
+	ld a, [wMeowthAnimationIndex]
 	cp $4
 	ret nz
 	ld hl, MeowthAnimationData2
-	ld de, wMeowthAnimationFrameCounter
-	call CopyHLToDE
+	ld de, wMeowthAnimation
+	call InitAnimation
 	ret
 
 .asm_2469d
 	cp $2
 	jr nz, .asm_246b5
-	ld a, [wMeowthAnimationFrameIndex]
+	ld a, [wMeowthAnimationIndex]
 	cp $1
 	ret nz
 	ld hl, MeowthAnimationData1
-	ld de, wMeowthAnimationFrameCounter
-	call CopyHLToDE
+	ld de, wMeowthAnimation
+	call InitAnimation
 	xor a
 	ld [wd6ec], a
 	ret
@@ -365,12 +365,12 @@ Func_2465d: ; 0x2465d
 .asm_246b5
 	cp $3
 	jr nz, .asm_246ce
-	ld a, [wMeowthAnimationFrameIndex]
+	ld a, [wMeowthAnimationIndex]
 	cp $1
 	ret nz
 	ld hl, MeowthAnimationData2
-	ld de, wMeowthAnimationFrameCounter
-	call CopyHLToDE
+	ld de, wMeowthAnimation
+	call InitAnimation
 	ld a, $1
 	ld [wd6ec], a
 	ret
@@ -378,12 +378,12 @@ Func_2465d: ; 0x2465d
 .asm_246ce
 	cp $4
 	jr nz, .asm_24689
-	ld a, [wMeowthAnimationFrameIndex]
+	ld a, [wMeowthAnimationIndex]
 	cp $2
 	ret nz
 	ld hl, MeowthAnimationData5
-	ld de, wMeowthAnimationFrameCounter
-	call CopyHLToDE
+	ld de, wMeowthAnimation
+	call InitAnimation
 	ret
 
 MewothAnimationDataTable: ; 0x246e2
@@ -847,16 +847,16 @@ Func_248ac: ; 0x248ac
 	cp $ff
 	jr z, .asm_24a21
 	ld hl, MeowthAnimationData2
-	ld de, wMeowthAnimationFrameCounter
-	call CopyHLToDE
+	ld de, wMeowthAnimation
+	call InitAnimation
 	ld a, $1
 	ld [wd6ec], a
 	ret
 
 .asm_24a21
 	ld hl, MeowthAnimationData1
-	ld de, wMeowthAnimationFrameCounter
-	call CopyHLToDE
+	ld de, wMeowthAnimation
+	call InitAnimation
 	ld a, $0
 	ld [wd6ec], a
 	ret
@@ -1473,16 +1473,16 @@ Func_24d07: ; 0x24d07
 	cp $ff
 	jr z, .asm_24e70
 	ld hl, MeowthAnimationData2
-	ld de, wMeowthAnimationFrameCounter
-	call CopyHLToDE
+	ld de, wMeowthAnimation
+	call InitAnimation
 	ld a, $1
 	ld [wd6ec], a
 	ret
 
 .asm_24e70
 	ld hl, MeowthAnimationData1
-	ld de, wMeowthAnimationFrameCounter
-	call CopyHLToDE
+	ld de, wMeowthAnimation
+	call InitAnimation
 	ld a, $0
 	ld [wd6ec], a
 	ret
@@ -1558,7 +1558,7 @@ Func_24ee7: ; 0x24ee7
 	dec de
 	dec de
 	dec de
-	call CopyHLToDE
+	call InitAnimation
 	ret
 
 Func_24f00: ; 0x24f00

@@ -234,7 +234,7 @@ Func_1c8b6: ; 0x1c8b6
 	ld a, $1  ; right direction
 	ld [wBlueStageForceFieldDirection], a
 	ld [wd64b], a
-	ld [wd640], a
+	ld [wBlueStageForceFieldGfxNeedsLoading], a
 	jr .asm_1c99e
 
 .asm_1c947
@@ -262,17 +262,17 @@ Func_1c8b6: ; 0x1c8b6
 	ld [wBlueStageForceFieldDirection], a
 	ld [wd64b], a
 	ld a, $1
-	ld [wd640], a
+	ld [wBlueStageForceFieldGfxNeedsLoading], a
 	jr .asm_1c99e
 
 .asm_1c97f
-	ld a, [wd641]
+	ld a, [wBlueStageForceFieldFlippedDown]
 	and a
 	jr nz, .asm_1c993
 	xor a
 	ld [wBlueStageForceFieldDirection], a
 	ld a, $1
-	ld [wd640], a
+	ld [wBlueStageForceFieldGfxNeedsLoading], a
 	ld [wd64a], a
 	jr .asm_1c99e
 
@@ -280,7 +280,7 @@ Func_1c8b6: ; 0x1c8b6
 	ld a, $2  ; down direction
 	ld [wBlueStageForceFieldDirection], a
 	ld a, $1
-	ld [wd640], a
+	ld [wBlueStageForceFieldGfxNeedsLoading], a
 	ret
 
 .asm_1c99e
@@ -313,18 +313,18 @@ ResolveShellderCollision: ; 0x1c9c1
 	xor a
 	ld [wWhichShellder], a
 	call Func_1ca29
-	ld a, [wd641]
+	ld a, [wBlueStageForceFieldFlippedDown]
 	and a
 	jr nz, .asm_1c9f2
 	ld a, $1
-	ld [wd641], a
+	ld [wBlueStageForceFieldFlippedDown], a
 	ld a, [wBlueStageForceFieldDirection]
 	cp $0  ; up direction
 	jr nz, .asm_1c9f2
 	ld a, $2  ; down direction
 	ld [wBlueStageForceFieldDirection], a
 	ld a, $1
-	ld [wd640], a
+	ld [wBlueStageForceFieldGfxNeedsLoading], a
 	ld a, $3
 	ld [wd64c], a
 	ld [wd64d], a
@@ -1616,8 +1616,8 @@ ResolveBlueStagePikachuCollision: ; 0x1d0a1
 	jr nz, .asm_1d0fc
 .asm_1d0c9
 	ld hl, PikachuSaverAnimationDataRedStage
-	ld de, wPikachuSaverAnimationFrameCounter
-	call CopyHLToDE
+	ld de, wPikachuSaverAnimation
+	call InitAnimation
 	ld a, [wPikachuSaverSlotRewardActive]
 	and a
 	jr nz, .asm_1d0dc
@@ -1639,8 +1639,8 @@ ResolveBlueStagePikachuCollision: ; 0x1d0a1
 
 .asm_1d0fc
 	ld hl, PikachuSaverAnimation2DataRedStage
-	ld de, wPikachuSaverAnimationFrameCounter
-	call CopyHLToDE
+	ld de, wPikachuSaverAnimation
+	call InitAnimation
 	ld a, $2
 	ld [wd51c], a
 	lb de, $00, $3b
@@ -1669,10 +1669,10 @@ Func_1d133: ; 0x1d133
 	cp $1
 	jr nz, .asm_1d1ae
 	ld hl, PikachuSaverAnimationDataRedStage
-	ld de, wPikachuSaverAnimationFrameCounter
+	ld de, wPikachuSaverAnimation
 	call UpdateAnimation
 	ret nc
-	ld a, [wPikachuSaverAnimationFrameIndex]
+	ld a, [wPikachuSaverAnimationIndex]
 	cp $1
 	jr nz, .asm_1d18c
 	xor a
@@ -1687,7 +1687,7 @@ Func_1d133: ; 0x1d133
 	ld [wd803], a
 	ld a, $60
 	ld [wd804], a
-	ld hl, wd62e
+	ld hl, wNumPikachuSaves
 	call Increment_Max100
 	jr nc, .asm_1d185
 	ld c, $a
@@ -1699,7 +1699,7 @@ Func_1d133: ; 0x1d133
 	ret
 
 .asm_1d18c
-	ld a, [wPikachuSaverAnimationFrameIndex]
+	ld a, [wPikachuSaverAnimationIndex]
 	cp $11
 	ret nz
 	ld a, $fc
@@ -1716,10 +1716,10 @@ Func_1d133: ; 0x1d133
 	cp $2
 	jr nz, .asm_1d1c7
 	ld hl, PikachuSaverAnimation2DataRedStage
-	ld de, wPikachuSaverAnimationFrameCounter
+	ld de, wPikachuSaverAnimation
 	call UpdateAnimation
 	ret nc
-	ld a, [wPikachuSaverAnimationFrameIndex]
+	ld a, [wPikachuSaverAnimationIndex]
 	cp $1
 	ret nz
 	xor a
@@ -1788,8 +1788,8 @@ ResolveSlowpokeCollision: ; 0x1d216
 	lb de, $00, $05
 	call PlaySoundEffect
 	ld hl, SlowpokeCollisionAnimationData ; 0x1d312
-	ld de, wd632
-	call CopyHLToDE
+	ld de, wSlowpokeAnimation
+	call InitAnimation
 	xor a
 	ld [wBallXVelocity], a
 	ld [wBallXVelocity + 1], a
@@ -1801,22 +1801,22 @@ ResolveSlowpokeCollision: ; 0x1d216
 	ld [wd549], a
 .asm_1d253
 	ld hl, SlowpokeCollisionAnimationData ; 0x1d312
-	ld de, wd632
+	ld de, wSlowpokeAnimation
 	call UpdateAnimation
 	push af
-	ld a, [wd632]
+	ld a, [wSlowpokeAnimation]
 	and a
 	jr nz, .asm_1d271
 	ld a, $19
-	ld [wd632], a
+	ld [wSlowpokeAnimationFrameCounter], a
 	xor a
-	ld [wd633], a
+	ld [wSlowpokeAnimationFrame], a
 	ld a, $6
-	ld [wd634], a
+	ld [wSlowpokeAnimationIndex], a
 .asm_1d271
 	pop af
 	ret nc
-	ld a, [wd634]
+	ld a, [wSlowpokeAnimationIndex]
 	cp $1
 	jr nz, .asm_1d2b6
 	xor a
@@ -1842,7 +1842,7 @@ ResolveSlowpokeCollision: ; 0x1d216
 	ret
 
 .asm_1d2b6
-	ld a, [wd634]
+	ld a, [wSlowpokeAnimationIndex]
 	cp $4
 	jr nz, .asm_1d2c3
 	ld a, $1
@@ -1850,7 +1850,7 @@ ResolveSlowpokeCollision: ; 0x1d216
 	ret
 
 .asm_1d2c3
-	ld a, [wd634]
+	ld a, [wSlowpokeAnimationIndex]
 	cp $5
 	ret nz
 	ld a, $1
@@ -1875,11 +1875,11 @@ ResolveSlowpokeCollision: ; 0x1d216
 	ld [wd64c], a
 	ld [wd64d], a
 	ld a, $1
-	ld [wd641], a
+	ld [wBlueStageForceFieldFlippedDown], a
 	ld a, $2  ; down direction
 	ld [wBlueStageForceFieldDirection], a
 	ld a, $1
-	ld [wd640], a
+	ld [wBlueStageForceFieldGfxNeedsLoading], a
 	ret
 
 SlowpokeCollisionAnimationData: ; 0x1d312
@@ -1910,8 +1910,8 @@ ResolveCloysterCollision: ; 0x1d32d
 	lb de, $00, $05
 	call PlaySoundEffect
 	ld hl, CloysterCollisionAnimationData
-	ld de, wd637
-	call CopyHLToDE
+	ld de, wCloysterAnimation
+	call InitAnimation
 	xor a
 	ld [wBallXVelocity], a
 	ld [wBallXVelocity + 1], a
@@ -1923,22 +1923,22 @@ ResolveCloysterCollision: ; 0x1d32d
 	ld [wd549], a
 .asm_1d36a
 	ld hl, CloysterCollisionAnimationData
-	ld de, wd637
+	ld de, wCloysterAnimation
 	call UpdateAnimation
 	push af
-	ld a, [wd637]
+	ld a, [wCloysterAnimationFrameCounter]
 	and a
 	jr nz, .asm_1d388
 	ld a, $19
-	ld [wd637], a
+	ld [wCloysterAnimationFrameCounter], a
 	xor a
-	ld [wd638], a
+	ld [wCloysterAnimationFrame], a
 	ld a, $6
-	ld [wd639], a
+	ld [wCloysterAnimationIndex], a
 .asm_1d388
 	pop af
 	ret nc
-	ld a, [wd639]
+	ld a, [wCloysterAnimationIndex]
 	cp $1
 	jr nz, .asm_1d3cb
 	xor a
@@ -1964,7 +1964,7 @@ ResolveCloysterCollision: ; 0x1d32d
 	ret
 
 .asm_1d3cb
-	ld a, [wd639]
+	ld a, [wCloysterAnimationIndex]
 	cp $4
 	jr nz, .asm_1d3d8
 	ld a, $1
@@ -1972,7 +1972,7 @@ ResolveCloysterCollision: ; 0x1d32d
 	ret
 
 .asm_1d3d8
-	ld a, [wd639]
+	ld a, [wCloysterAnimationIndex]
 	cp $5
 	ret nz
 	ld a, $1
@@ -1992,11 +1992,11 @@ ResolveCloysterCollision: ; 0x1d32d
 	ld [wd64c], a
 	ld [wd64d], a
 	ld a, $1
-	ld [wd641], a
+	ld [wBlueStageForceFieldFlippedDown], a
 	ld a, $2  ; down direction
 	ld [wBlueStageForceFieldDirection], a
 	ld a, $1
-	ld [wd640], a
+	ld [wBlueStageForceFieldGfxNeedsLoading], a
 	ret
 
 CloysterCollisionAnimationData: ; 0x1d41d
@@ -5841,7 +5841,7 @@ Func_1e830: ; 0x1e830
 	ret
 
 .asm_1e84b
-	ld a, [wd624]
+	ld a, [wPreviousNumPokeballs]
 	cp $3
 	jr nz, .asm_1e891
 	ld a, [wd607]
@@ -5852,9 +5852,9 @@ Func_1e830: ; 0x1e830
 	and a
 	jr nz, .asm_1e867
 	xor a
-	ld [wd625], a
+	ld [wNumPokeballs], a
 	ld a, $40
-	ld [wd626], a
+	ld [wPokeballBlinkingCounter], a
 .asm_1e867
 	xor a
 	ld [wBonusStageSlotRewardActive], a
@@ -7770,7 +7770,7 @@ Func_1f124: ; 0x1f124
 	ret
 
 Func_1f18a: ; 0x1f18a
-	ld a, [wd640]
+	ld a, [wBlueStageForceFieldGfxNeedsLoading]
 	cp $0
 	jr z, .asm_1f1b4
 	ld a, [wBlueStageForceFieldDirection]
@@ -7792,7 +7792,7 @@ Func_1f18a: ; 0x1f18a
 	ld a, Bank(TileDataPointers_1f1b5)
 	call Func_10aa
 	ld a, $0
-	ld [wd640], a
+	ld [wBlueStageForceFieldGfxNeedsLoading], a
 .asm_1f1b4
 	ret
 
@@ -7989,16 +7989,16 @@ Func_1f265: ; 0x1f265
 	ret
 
 Func_1f27b: ; 0x1f27b
-	ld a, [wd624]
-	ld hl, wd625
+	ld a, [wPreviousNumPokeballs]
+	ld hl, wNumPokeballs
 	cp [hl]
 	ret z
-	ld a, [wd626]
+	ld a, [wPokeballBlinkingCounter]
 	dec a
-	ld [wd626], a
+	ld [wPokeballBlinkingCounter], a
 	jr nz, .asm_1f2a5
-	ld a, [wd625]
-	ld [wd624], a
+	ld a, [wNumPokeballs]
+	ld [wPreviousNumPokeballs], a
 	cp $3
 	jr c, .asm_1f2a0
 	ld a, $1
@@ -8006,22 +8006,22 @@ Func_1f27b: ; 0x1f27b
 	ld a, $3
 	ld [wd607], a
 .asm_1f2a0
-	ld a, [wd624]
+	ld a, [wPreviousNumPokeballs]
 	scf
 	ret
 
 .asm_1f2a5
 	and $7
 	ret nz
-	ld a, [wd626]
+	ld a, [wPokeballBlinkingCounter]
 	bit 3, a
 	jr nz, .asm_1f2b4
-	ld a, [wd624]
+	ld a, [wPreviousNumPokeballs]
 	scf
 	ret
 
 .asm_1f2b4
-	ld a, [wd625]
+	ld a, [wNumPokeballs]
 	scf
 	ret
 

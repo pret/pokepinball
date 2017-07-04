@@ -200,7 +200,7 @@ Func_18464: ; 0x18464
 	dec de
 	dec de
 	ld hl, AnimationData_185e6
-	call CopyHLToDE
+	call InitAnimation
 	pop de
 	ld a, $1
 	ld [de], a
@@ -327,7 +327,7 @@ Func_18562: ; 0x18562
 	ld hl, AnimationData_185dd
 	dec de
 	dec de
-	call CopyHLToDE
+	call InitAnimation
 	ret
 
 .asm_1858a
@@ -374,7 +374,7 @@ Func_18562: ; 0x18562
 	push de
 	dec de
 	dec de
-	call CopyHLToDE
+	call InitAnimation
 	pop de
 	inc de
 	xor a
@@ -448,7 +448,7 @@ Func_1860b: ; 0x1860b
 	dec de
 	dec de
 	ld hl, AnimationData_1878a
-	call CopyHLToDE
+	call InitAnimation
 	pop de
 	ld a, $1
 	ld [de], a
@@ -569,7 +569,7 @@ Func_186f7: ; 0x186f7
 	ld hl, AnimationData_18781
 	dec de
 	dec de
-	call CopyHLToDE
+	call InitAnimation
 	ret
 
 .asm_1871f
@@ -608,7 +608,7 @@ Func_186f7: ; 0x186f7
 	push de
 	dec de
 	dec de
-	call CopyHLToDE
+	call InitAnimation
 	pop de
 	inc de
 	xor a
@@ -703,7 +703,7 @@ Func_187b1: ; 0x187b1
 	cp $5
 	jr nc, .asm_18804
 	ld hl, AnimationData_18b2b
-	call CopyHLToDE
+	call InitAnimation
 	pop de
 	ld a, $2
 	ld [de], a
@@ -713,7 +713,7 @@ Func_187b1: ; 0x187b1
 
 .asm_18804
 	ld hl, AnimationData_18b32
-	call CopyHLToDE
+	call InitAnimation
 	pop de
 	ld a, $3
 	ld [de], a
@@ -947,7 +947,7 @@ Func_189af: ; 0x189af
 	ld hl, AnimationData_18a61
 	dec de
 	dec de
-	call CopyHLToDE
+	call InitAnimation
 	ret
 
 .asm_189d7
@@ -960,7 +960,7 @@ Func_189af: ; 0x189af
 	push de
 	dec de
 	dec de
-	call CopyHLToDE
+	call InitAnimation
 	pop de
 	inc de
 	xor a
@@ -977,7 +977,7 @@ Func_189af: ; 0x189af
 	push de
 	dec de
 	dec de
-	call CopyHLToDE
+	call InitAnimation
 	pop de
 	inc de
 	ld a, $1
@@ -1022,7 +1022,7 @@ Func_189af: ; 0x189af
 	push de
 	dec de
 	dec de
-	call CopyHLToDE
+	call InitAnimation
 	pop de
 	inc de
 	xor a

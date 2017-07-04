@@ -941,7 +941,7 @@ Func_10fe3: ; 0x10fe3
 	ld hl, BlankSaverSpaceTileDataRedField
 	ld a, BANK(BlankSaverSpaceTileDataRedField)
 	call Func_10aa
-	ld a, [wd624]
+	ld a, [wPreviousNumPokeballs]
 	callba Func_174d4
 	ld hl, CaughtPokeballTileDataPointers
 	ld a, BANK(CaughtPokeballTileDataPointers)
@@ -1078,7 +1078,7 @@ Func_11195: ; 0x11195
 	ld hl, BlankSaverSpaceTileDataBlueField
 	ld a, BANK(BlankSaverSpaceTileDataBlueField)
 	call Func_10aa
-	ld a, [wd624]
+	ld a, [wPreviousNumPokeballs]
 	callba Func_174d4
 	ld hl, Data_10a88
 	ld a, BANK(Data_10a88)
@@ -2705,7 +2705,7 @@ Func_2070b: ; 0x2070b
 	ld hl, wNumPokemonEvolvedInBallBonus
 	call Increment_Max100
 	callba SetPokemonOwnedFlag
-	ld a, [wd624]
+	ld a, [wPreviousNumPokeballs]
 	cp $3
 	ret z
 	add $2
@@ -2713,9 +2713,9 @@ Func_2070b: ; 0x2070b
 	jr c, .asm_2074d
 	ld a, $3
 .asm_2074d
-	ld [wd625], a
+	ld [wNumPokeballs], a
 	ld a, $80
-	ld [wd626], a
+	ld [wPokeballBlinkingCounter], a
 	scf
 	ret
 
@@ -3434,7 +3434,7 @@ Func_20d30: ; 0x20d30
 	ld hl, wNumPokemonEvolvedInBallBonus
 	call Increment_Max100
 	callba SetPokemonOwnedFlag
-	ld a, [wd624]
+	ld a, [wPreviousNumPokeballs]
 	cp $3
 	ret z
 	add $2
@@ -3442,9 +3442,9 @@ Func_20d30: ; 0x20d30
 	jr c, .asm_20d72
 	ld a, $3
 .asm_20d72
-	ld [wd625], a
+	ld [wNumPokeballs], a
 	ld a, $80
-	ld [wd626], a
+	ld [wPokeballBlinkingCounter], a
 	scf
 	ret
 
@@ -3715,7 +3715,7 @@ Func_20f75: ; 0x20f75
 	ld a, [wIndicatorStates + 3]
 	ld [wd559], a
 	ld a, [wIndicatorStates + 2]
-	ld [wd63f], a
+	ld [wIndicatorState2Backup], a
 	xor a
 	ld [wIndicatorStates], a
 	ld [wIndicatorStates + 2], a
@@ -3765,7 +3765,7 @@ Func_20fef: ; 0x20fef
 	ld a, [wIndicatorStates + 3]
 	ld [wd559], a
 	ld a, [wIndicatorStates + 2]
-	ld [wd63f], a
+	ld [wIndicatorState2Backup], a
 	xor a
 	ld [wIndicatorStates + 2], a
 	ld [wIndicatorStates + 3], a
@@ -3862,7 +3862,7 @@ asm_210c7:
 	ld [wIndicatorStates], a
 	ld a, [wd559]
 	ld [wIndicatorStates + 3], a
-	ld a, [wd63f]
+	ld a, [wIndicatorState2Backup]
 	ld [wIndicatorStates + 2], a
 	ld a, [wCurrentStage]
 	bit 0, a

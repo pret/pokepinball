@@ -227,7 +227,7 @@ Func_25da3: ; 0x25da3
 	dec de
 	push bc
 	ld hl, SeelAnimationData10
-	call CopyHLToDE
+	call InitAnimation
 	pop bc
 	ld hl, wd76e
 	add hl, bc
@@ -399,7 +399,7 @@ Func_25ec5: ; 0x25ec5
 	ld d, h
 	ld e, l
 	ld hl, SeelAnimationData8
-	call CopyHLToDE
+	call InitAnimation
 	ret
 
 .asm_25f05
@@ -429,7 +429,7 @@ Func_25ec5: ; 0x25ec5
 	ld d, h
 	ld e, l
 	ld hl, SeelAnimationData9
-	call CopyHLToDE
+	call InitAnimation
 	ret
 
 SeelSwimmingYOffsets:
@@ -820,7 +820,7 @@ Func_26137: ; 0x26137
 	push de
 	dec de
 	dec de
-	call CopyHLToDE
+	call InitAnimation
 	pop de
 	inc de
 	pop af
@@ -959,7 +959,7 @@ Func_261f9: ; 0x261f9
 	dec de
 	dec de
 	dec de
-	call CopyHLToDE
+	call InitAnimation
 	ret
 
 Func_26212: ; 0x26212

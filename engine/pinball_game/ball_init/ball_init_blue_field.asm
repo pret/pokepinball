@@ -49,7 +49,7 @@ InitBallBlueField: ; 0x1c08d
 	ld [wNumPoliwagTriples], a
 	ld [wNumPsyduckTriples], a
 	ld [wNumSpinnerTurns], a
-	ld [wd62e], a
+	ld [wNumPikachuSaves], a
 	ld [wd613], a
 	inc a
 	ld [wd482], a

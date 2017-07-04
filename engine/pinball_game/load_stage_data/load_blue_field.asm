@@ -5,7 +5,7 @@ _LoadStageDataBlueFieldTop: ; 0x1c165
 	call Func_1e8f6
 	callba Func_142fc
 	ld a, $1
-	ld [wd640], a
+	ld [wBlueStageForceFieldGfxNeedsLoading], a
 	call Func_1f18a
 	callba Func_1404a
 	call Func_1c203
@@ -30,13 +30,13 @@ _LoadStageDataBlueFieldBottom: ; 0x1c191
 	ret
 
 Func_1c1db: ; 0x1c1db
-	ld a, [wd641]
+	ld a, [wBlueStageForceFieldFlippedDown]
 	cp $0
 	ret z
 	ld a, $1
-	ld [wd640], a
+	ld [wBlueStageForceFieldGfxNeedsLoading], a
 	ld a, $0
-	ld [wd641], a
+	ld [wBlueStageForceFieldFlippedDown], a
 	ld a, [wBlueStageForceFieldDirection]
 	cp $2  ; down direction
 	ret nz
@@ -372,7 +372,7 @@ Func_1c43c: ; 0x1c43c
 	ret
 
 .asm_1c458
-	ld a, [wd624]
+	ld a, [wPreviousNumPokeballs]
 	call Func_1f265
 	ld a, BANK(CaughtPokeballGfx)
 	ld hl, CaughtPokeballGfx

@@ -148,7 +148,7 @@ Start: ; 0x150
 	ld [wd810], a
 	call Func_97a
 	xor a
-	ld [wdaa3], a
+	ld [wBootCheck], a
 	ld a, BANK(Func_1ffc)
 	ld hl, Func_1ffc
 	call BankSwitchSimple
@@ -239,7 +239,7 @@ SoftReset:
 	ld a, [hGameBoyColorFlag]
 	ld [$fffd], a
 	xor a
-	ld [wdaa3], a
+	ld [wBootCheck], a
 	ld a, $0
 	ld hl, Func_1ffc
 	call BankSwitchSimple
@@ -298,22 +298,22 @@ VBlank: ; 0x2f2
 	ld a, [hNextFrameHBlankSCY]
 	ld [hHBlankSCY], a
 	call ReadJoypad
-	ld a, [wdaa3]
+	ld a, [wBootCheck]
 	and a
-	jr nz, .asm_359
+	jr nz, .skipBootCheck
 	ld a, [hJoypadState]
 	cp $f
-	jr nz, .asm_359
+	jr nz, .skipBootCheck
 	ld a, [hNewlyPressedButtons]
 	and $f
-	jr z, .asm_359
+	jr z, .skipBootCheck
 	ld hl, [sp+$8]
-	ld [hl], $c3
+	ld [hl], Func_3c3 & $ff
 	inc hl
-	ld [hl], $3
+	ld [hl], Func_3c3 >> 8
 	ld a, $1
-	ld [wdaa3], a
-.asm_359
+	ld [wBootCheck], a
+.skipBootCheck
 	ld hl, hNumFramesSinceLastVBlank
 	ld a, [hl]
 	inc [hl]
@@ -5057,9 +5057,10 @@ CatchBarTiles:
 	db $80, $AE, $AF, $B0, $B1, $B2, $B3, $80
 CatchBarTilesEnd:
 
-CopyHLToDE: ; 0x28a0
-; Places [hl] into [de]
-; Also places $0 into [de + 2]
+InitAnimation: ; 0x28a0
+; Initializes an OAM animation.
+; hl = pointer to first frame of animation
+; de = pointer to destination animation struct
 	ld a, [hli]
 	ld [de], a
 	inc de

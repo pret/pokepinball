@@ -25,7 +25,7 @@ InitDiglettBonusStage: ; 0x199f2
 	ld a, $c
 	ld [wDugtrioAnimationFrame], a
 	xor a
-	ld [wDugtrioAnimationFrameIndex], a
+	ld [wDugtrioAnimationIndex], a
 	ld [wDugrioState], a
 	ld a, $11
 	call SetSongBank

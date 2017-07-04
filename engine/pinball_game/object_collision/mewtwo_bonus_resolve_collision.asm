@@ -372,7 +372,7 @@ Func_19679: ; 0x19679
 	push de
 	dec de
 	dec de
-	call CopyHLToDE
+	call InitAnimation
 	pop de
 	inc de
 	pop af
@@ -632,7 +632,7 @@ Func_19876: ; 0x19876
 	push de
 	dec de
 	dec de
-	call CopyHLToDE
+	call InitAnimation
 	pop de
 	inc de
 	pop af

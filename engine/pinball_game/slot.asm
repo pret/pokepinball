@@ -4,7 +4,7 @@ Func_ed8e: ; 0xed8e
 	ld [wd804], a
 	ld [wCatchEmOrEvolutionSlotRewardActive], a
 	ld a, [wNumPartyMons]
-	ld [wd620], a
+	ld [wSlotAnyPokemonCaught], a
 	ld a, [wBallType]
 	ld c, a
 	ld b, $0
@@ -195,7 +195,7 @@ Func_eeee: ; 0xeeee
 Func_eef9: ; 0xeef9
 	cp $8
 	jr nz, .asm_ef09
-	ld a, [wd620]
+	ld a, [wSlotAnyPokemonCaught]
 	and a
 	jr nz, .asm_ef06
 	ld a, $7

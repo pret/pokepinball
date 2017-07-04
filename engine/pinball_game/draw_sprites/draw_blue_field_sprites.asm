@@ -109,7 +109,7 @@ Func_1f408: ; 0x1f408
 	ld hl, hSCY
 	sub [hl]
 	ld c, a
-	ld a, [wd633]
+	ld a, [wSlowpokeAnimationFrame]
 	ld e, a
 	ld d, $0
 	ld hl, OAMIds_1f425
@@ -130,7 +130,7 @@ Func_1f428: ; 0x1f428
 	ld hl, hSCY
 	sub [hl]
 	ld c, a
-	ld a, [wd638]
+	ld a, [wCloysterAnimationFrame]
 	ld e, a
 	ld d, $0
 	ld hl, OAMIds_1f445

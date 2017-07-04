@@ -4453,8 +4453,8 @@ ResolveBellsproutCollision: ; 0x15e93
 	lb de, $00, $05
 	call PlaySoundEffect
 	ld hl, BellsproutAnimationData
-	ld de, wBellsproutAnimationFrameCounter
-	call CopyHLToDE
+	ld de, wBellsproutAnimation
+	call InitAnimation
 	xor a
 	ld [wBallXVelocity], a
 	ld [wBallXVelocity + 1], a
@@ -4470,7 +4470,7 @@ ResolveBellsproutCollision: ; 0x15e93
 	ld [wd549], a
 .asm_15eda
 	ld hl, BellsproutAnimationData
-	ld de, wBellsproutAnimationFrameCounter
+	ld de, wBellsproutAnimation
 	call UpdateAnimation
 	push af
 	ld a, [wBellsproutAnimationFrameCounter]
@@ -4481,11 +4481,11 @@ ResolveBellsproutCollision: ; 0x15e93
 	xor a
 	ld [wBellsproutAnimationFrame], a
 	ld a, $6
-	ld [wBellsproutAnimationFrameIndex], a
+	ld [wBellsproutAnimationIndex], a
 .asm_15ef8
 	pop af
 	ret nc
-	ld a, [wBellsproutAnimationFrameIndex]
+	ld a, [wBellsproutAnimationIndex]
 	cp $1
 	jr nz, .asm_15f35
 	xor a
@@ -4509,7 +4509,7 @@ ResolveBellsproutCollision: ; 0x15e93
 	ret
 
 .asm_15f35
-	ld a, [wBellsproutAnimationFrameIndex]
+	ld a, [wBellsproutAnimationIndex]
 	cp $4
 	jr nz, .asm_15f42
 	ld a, $1
@@ -4517,7 +4517,7 @@ ResolveBellsproutCollision: ; 0x15e93
 	ret
 
 .asm_15f42
-	ld a, [wBellsproutAnimationFrameIndex]
+	ld a, [wBellsproutAnimationIndex]
 	cp $5
 	ret nz
 	ld a, $1
@@ -5177,7 +5177,7 @@ Func_16352: ; 0x16352
 	ret
 
 .asm_1636d
-	ld a, [wd624]
+	ld a, [wPreviousNumPokeballs]
 	cp $3
 	jr nz, .asm_163b3
 	ld a, [wd607]
@@ -5188,9 +5188,9 @@ Func_16352: ; 0x16352
 	and a
 	jr nz, .asm_16389
 	xor a
-	ld [wd625], a
+	ld [wNumPokeballs], a
 	ld a, $40
-	ld [wd626], a
+	ld [wPokeballBlinkingCounter], a
 .asm_16389
 	xor a
 	ld [wBonusStageSlotRewardActive], a
@@ -5598,8 +5598,8 @@ ResolveRedStagePikachuCollision: ; 0x1660c
 	jr nz, .asm_16667
 .asm_16634
 	ld hl, PikachuSaverAnimationDataBlueStage
-	ld de, wPikachuSaverAnimationFrameCounter
-	call CopyHLToDE
+	ld de, wPikachuSaverAnimation
+	call InitAnimation
 	ld a, [wPikachuSaverSlotRewardActive]
 	and a
 	jr nz, .asm_16647
@@ -5621,8 +5621,8 @@ ResolveRedStagePikachuCollision: ; 0x1660c
 
 .asm_16667
 	ld hl, PikachuSaverAnimation2DataBlueStage
-	ld de, wPikachuSaverAnimationFrameCounter
-	call CopyHLToDE
+	ld de, wPikachuSaverAnimation
+	call InitAnimation
 	ld a, $2
 	ld [wd51c], a
 	lb de, $00, $3b
@@ -5651,10 +5651,10 @@ Func_1669e: ; 0x1669e
 	cp $1
 	jr nz, .asm_16719
 	ld hl, PikachuSaverAnimationDataBlueStage
-	ld de, wPikachuSaverAnimationFrameCounter
+	ld de, wPikachuSaverAnimation
 	call UpdateAnimation
 	ret nc
-	ld a, [wPikachuSaverAnimationFrameIndex]
+	ld a, [wPikachuSaverAnimationIndex]
 	cp $1
 	jr nz, .asm_166f7
 	xor a
@@ -5669,7 +5669,7 @@ Func_1669e: ; 0x1669e
 	ld [wd803], a
 	ld a, $60
 	ld [wd804], a
-	ld hl, wd62e
+	ld hl, wNumPikachuSaves
 	call Increment_Max100
 	jr nc, .asm_166f0
 	ld c, $a
@@ -5681,7 +5681,7 @@ Func_1669e: ; 0x1669e
 	ret
 
 .asm_166f7
-	ld a, [wPikachuSaverAnimationFrameIndex]
+	ld a, [wPikachuSaverAnimationIndex]
 	cp $11
 	ret nz
 	ld a, $fc
@@ -5698,10 +5698,10 @@ Func_1669e: ; 0x1669e
 	cp $2
 	jr nz, .asm_16732
 	ld hl, PikachuSaverAnimation2DataBlueStage
-	ld de, wPikachuSaverAnimationFrameCounter
+	ld de, wPikachuSaverAnimation
 	call UpdateAnimation
 	ret nc
-	ld a, [wPikachuSaverAnimationFrameIndex]
+	ld a, [wPikachuSaverAnimationIndex]
 	cp $1
 	ret nz
 	xor a
@@ -8655,16 +8655,16 @@ Func_174d4: ; 0x174d4
 	ret
 
 Func_174ea: ; 0x174ea
-	ld a, [wd624]
-	ld hl, wd625
+	ld a, [wPreviousNumPokeballs]
+	ld hl, wNumPokeballs
 	cp [hl]
 	ret z
-	ld a, [wd626]
+	ld a, [wPokeballBlinkingCounter]
 	dec a
-	ld [wd626], a
+	ld [wPokeballBlinkingCounter], a
 	jr nz, .asm_17514
-	ld a, [wd625]
-	ld [wd624], a
+	ld a, [wNumPokeballs]
+	ld [wPreviousNumPokeballs], a
 	cp $3
 	jr c, .asm_1750f
 	ld a, $1
@@ -8672,22 +8672,22 @@ Func_174ea: ; 0x174ea
 	ld a, $3
 	ld [wd607], a
 .asm_1750f
-	ld a, [wd624]
+	ld a, [wPreviousNumPokeballs]
 	scf
 	ret
 
 .asm_17514
 	and $7
 	ret nz
-	ld a, [wd626]
+	ld a, [wPokeballBlinkingCounter]
 	bit 3, a
 	jr nz, .asm_17523
-	ld a, [wd624]
+	ld a, [wPreviousNumPokeballs]
 	scf
 	ret
 
 .asm_17523
-	ld a, [wd625]
+	ld a, [wNumPokeballs]
 	scf
 	ret
 

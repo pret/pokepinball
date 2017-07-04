@@ -688,8 +688,8 @@ BallCaptureInit: ; 0x10496
 	call LoadVRAMData
 	call LoadShakeBallGfx
 	ld hl, BallCaptureAnimationData
-	ld de, wBallCaptureAnimationFrameCounter
-	call CopyHLToDE
+	ld de, wBallCaptureAnimation
+	call InitAnimation
 	ld a, $1
 	ld [wCapturingMon], a
 	xor a
@@ -755,9 +755,9 @@ CapturePokemon: ; 0x1052d
 	call PlaySoundEffect
 .asm_10541
 	ld hl, BallCaptureAnimationData
-	ld de, wBallCaptureAnimationFrameCounter
+	ld de, wBallCaptureAnimation
 	call UpdateAnimation
-	ld a, [wBallCaptureAnimationFrameIndex]
+	ld a, [wBallCaptureAnimationIndex]
 	cp $1
 	jr nz, .asm_1055d
 	ld a, [wBallCaptureAnimationFrameCounter]
@@ -768,7 +768,7 @@ CapturePokemon: ; 0x1052d
 	ret
 
 .asm_1055d
-	ld a, [wBallCaptureAnimationFrameIndex]
+	ld a, [wBallCaptureAnimationIndex]
 	cp $15
 	ret nz
 	ld a, [wBallCaptureAnimationFrameCounter]
@@ -810,13 +810,13 @@ CapturePokemon: ; 0x1052d
 	callba z, IncrementBonusMultiplier ; increments bonus multiplier every 10 pokemon caught
 .notMaxed
 	call SetPokemonOwnedFlag
-	ld a, [wd624]
+	ld a, [wPreviousNumPokeballs]
 	cp $3
 	ret z
 	inc a
-	ld [wd625], a
+	ld [wNumPokeballs], a
 	ld a, $80
-	ld [wd626], a
+	ld [wPokeballBlinkingCounter], a
 	ret
 
 BallCaptureAnimationData: ; 0x105e4
@@ -1275,7 +1275,7 @@ Func_108f5: ; 0x108f5
 	ld hl, BlankSaverSpaceTileDataRedField
 	ld a, BANK(BlankSaverSpaceTileDataRedField)
 	call Func_10aa
-	ld a, [wd624]
+	ld a, [wPreviousNumPokeballs]
 	callba Func_174d4
 	ld hl, CaughtPokeballTileDataPointers
 	ld a, BANK(CaughtPokeballTileDataPointers)
@@ -1405,7 +1405,7 @@ Func_109fc: ; 0x109fc
 	ld hl, BlankSaverSpaceTileDataBlueField
 	ld a, BANK(BlankSaverSpaceTileDataBlueField)
 	call Func_10aa
-	ld a, [wd624]
+	ld a, [wPreviousNumPokeballs]
 	callba Func_174d4
 	ld hl, Data_10a88
 	ld a, BANK(Data_10a88)

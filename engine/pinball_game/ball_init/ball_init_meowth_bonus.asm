@@ -38,7 +38,7 @@ InitBallMeowthBonusStage: ; 0x24059
 	xor a
 	ld [wMeowthAnimationFrame], a
 	ld [wd6ec], a
-	ld [wMeowthAnimationFrameIndex], a
+	ld [wMeowthAnimationIndex], a
 	ld [wd70b], a
 	ld [wd70c], a
 	ld a, $c8

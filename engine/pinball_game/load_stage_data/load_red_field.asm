@@ -321,7 +321,7 @@ Func_14282: ; 0x14282
 	ret
 
 .asm_1429e
-	ld a, [wd624]
+	ld a, [wPreviousNumPokeballs]
 	call Func_174d4
 	ld a, BANK(CaughtPokeballGfx)
 	ld hl, CaughtPokeballGfx

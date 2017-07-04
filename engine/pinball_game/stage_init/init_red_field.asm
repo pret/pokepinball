@@ -15,10 +15,10 @@ InitRedField: ; 0x30000
 	ld [wd4c9], a
 	ld [wBallType], a
 	ld [wd4c8], a
-	ld hl, wd624
+	ld hl, wPreviousNumPokeballs
 	ld [hli], a
-	ld [hli], a
-	ld [hli], a
+	ld [hli], a ; wNumPokeballs
+	ld [hli], a ; wPokeballBlinkingCounter
 	ld [wd7ac], a
 	ld [wd7be], a
 	ld [wCurrentMap], a  ; PALLET_TOWN

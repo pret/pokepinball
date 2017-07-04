@@ -180,8 +180,8 @@ Func_19c52: ; 0x19c52
 	cp NUM_DIGLETTS
 	jr nz, .asm_19cc8
 	ld hl, AnimationData_1ac75
-	ld de, wDugtrioAnimationFrameCounter
-	call CopyHLToDE
+	ld de, wDugtrioAnimation
+	call InitAnimation
 	ld a, $1
 	ld [wDugrioState], a
 	call Func_1ac2c
@@ -540,8 +540,8 @@ Func_1aad4: ; 0x1aad4
 	ld a, [hli]
 	ld h, [hl]
 	ld l, a
-	ld de, wDugtrioAnimationFrameCounter
-	call CopyHLToDE
+	ld de, wDugtrioAnimation
+	call InitAnimation
 	ld bc, FiveMillionPoints
 	callba AddBigBCD6FromQueue
 	lb de, $00, $36
@@ -571,7 +571,7 @@ Func_1ab30: ; 0x1ab30
 	ld a, [hli]
 	ld h, [hl]
 	ld l, a
-	ld de, wDugtrioAnimationFrameCounter
+	ld de, wDugtrioAnimation
 	call UpdateAnimation
 	ret nc
 	ld a, [wDugrioState]
@@ -579,12 +579,12 @@ Func_1ab30: ; 0x1ab30
 	ret z
 	cp $1
 	jr nz, .asm_1ab64
-	ld a, [wDugtrioAnimationFrameIndex]
+	ld a, [wDugtrioAnimationIndex]
 	cp $3
 	ret nz
 	ld hl, AnimationData_1ac75
-	ld de, wDugtrioAnimationFrameCounter
-	call CopyHLToDE
+	ld de, wDugtrioAnimation
+	call InitAnimation
 	ld a, $1
 	ld [wDugrioState], a
 	ret
@@ -592,12 +592,12 @@ Func_1ab30: ; 0x1ab30
 .asm_1ab64
 	cp $2
 	jr nz, .asm_1ab7d
-	ld a, [wDugtrioAnimationFrameIndex]
+	ld a, [wDugtrioAnimationIndex]
 	cp $1
 	ret nz
 	ld hl, AnimationData_1ac7f
-	ld de, wDugtrioAnimationFrameCounter
-	call CopyHLToDE
+	ld de, wDugtrioAnimation
+	call InitAnimation
 	ld a, $3
 	ld [wDugrioState], a
 	ret
@@ -605,12 +605,12 @@ Func_1ab30: ; 0x1ab30
 .asm_1ab7d
 	cp $3
 	jr nz, .asm_1ab96
-	ld a, [wDugtrioAnimationFrameIndex]
+	ld a, [wDugtrioAnimationIndex]
 	cp $3
 	ret nz
 	ld hl, AnimationData_1ac7f
-	ld de, wDugtrioAnimationFrameCounter
-	call CopyHLToDE
+	ld de, wDugtrioAnimation
+	call InitAnimation
 	ld a, $3
 	ld [wDugrioState], a
 	ret
@@ -618,12 +618,12 @@ Func_1ab30: ; 0x1ab30
 .asm_1ab96
 	cp $4
 	jr nz, .asm_1abaf
-	ld a, [wDugtrioAnimationFrameIndex]
+	ld a, [wDugtrioAnimationIndex]
 	cp $1
 	ret nz
 	ld hl, AnimationData_1ac89
-	ld de, wDugtrioAnimationFrameCounter
-	call CopyHLToDE
+	ld de, wDugtrioAnimation
+	call InitAnimation
 	ld a, $5
 	ld [wDugrioState], a
 	ret
@@ -631,12 +631,12 @@ Func_1ab30: ; 0x1ab30
 .asm_1abaf
 	cp $5
 	jr nz, .asm_1abc8
-	ld a, [wDugtrioAnimationFrameIndex]
+	ld a, [wDugtrioAnimationIndex]
 	cp $3
 	ret nz
 	ld hl, AnimationData_1ac89
-	ld de, wDugtrioAnimationFrameCounter
-	call CopyHLToDE
+	ld de, wDugtrioAnimation
+	call InitAnimation
 	ld a, $5
 	ld [wDugrioState], a
 	ret
@@ -644,12 +644,12 @@ Func_1ab30: ; 0x1ab30
 .asm_1abc8
 	cp $6
 	jr nz, .asm_1abe1
-	ld a, [wDugtrioAnimationFrameIndex]
+	ld a, [wDugtrioAnimationIndex]
 	cp $1
 	ret nz
 	ld hl, AnimationData_1ac93
-	ld de, wDugtrioAnimationFrameCounter
-	call CopyHLToDE
+	ld de, wDugtrioAnimation
+	call InitAnimation
 	ld a, $7
 	ld [wDugrioState], a
 	ret
@@ -657,7 +657,7 @@ Func_1ab30: ; 0x1ab30
 .asm_1abe1
 	cp $7
 	ret nz
-	ld a, [wDugtrioAnimationFrameIndex]
+	ld a, [wDugtrioAnimationIndex]
 	cp $1
 	jr nz, .asm_1abf2
 	ld de, $0000
@@ -668,8 +668,8 @@ Func_1ab30: ; 0x1ab30
 	cp $2
 	ret nz
 	ld hl, AnimationData_1ac72
-	ld de, wDugtrioAnimationFrameCounter
-	call CopyHLToDE
+	ld de, wDugtrioAnimation
+	call InitAnimation
 	xor a
 	ld [wDugrioState], a
 	ld [wd498], a

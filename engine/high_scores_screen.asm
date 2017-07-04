@@ -554,7 +554,7 @@ SendHighScores: ; 0xced1
 ; Sends high scores, and plays the animation for sending the high scores.
 	ld hl, SendHighScoresAnimationData
 	ld de, wSendHighScoresAnimationFrameCounter
-	call CopyHLToDE
+	call InitAnimation
 	ld bc, $4800
 	ld a, [wSendHighScoresAnimationFrame]
 	call LoadOAMData
@@ -587,7 +587,7 @@ SendHighScores: ; 0xced1
 
 .asm_cf0e
 	ld hl, SendHighScoresAnimationData
-	ld de, wSendHighScoresAnimationFrameCounter
+	ld de, wSendHighScoresAnimation
 	call UpdateAnimation
 	jr nc, .continueAttempts
 	ld bc, $4800
@@ -598,12 +598,12 @@ SendHighScores: ; 0xced1
 	call LoadOAMData
 	call CleanOAMBuffer
 	call Func_1ca1
-	ld a, [wSendHighScoresAnimationFrameIndex]
+	ld a, [wSendHighScoresAnimationIndex]
 	cp $6
 	jr nz, .continueAttempts
 	ld hl, SendHighScoresAnimationData
 	ld de, wSendHighScoresAnimationFrameCounter
-	call CopyHLToDE
+	call InitAnimation
 .continueAttempts
 	pop bc
 	ld a, [wd8ea]

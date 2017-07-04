@@ -203,16 +203,12 @@ Func_10000: ; 0x10000
 	ld a, [wCurrentStage]
 	call CallInFollowingTable
 CallTable_10027: ; 0x10027
-	; STAGE_RED_FIELD_TOP
-	padded_dab Func_20000
-	; STAGE_RED_FIELD_BOTTOM
-	padded_dab Func_20000
+	padded_dab Func_20000 ; STAGE_RED_FIELD_TOP
+	padded_dab Func_20000 ; STAGE_RED_FIELD_BOTTOM
 	padded_dab Func_20000
 	padded_dab Func_20000
-	; STAGE_BLUE_FIELD_TOP
-	padded_dab Func_202bc
-	; STAGE_BLUE_FIELD_BOTTOM
-	padded_dab Func_202bc
+	padded_dab Func_202bc ; STAGE_BLUE_FIELD_TOP
+	padded_dab Func_202bc ; STAGE_BLUE_FIELD_BOTTOM
 
 INCLUDE "engine/pinball_game/catchem_mode.asm"
 
@@ -220,16 +216,12 @@ Func_10a95: ; 0x19a95
 	ld a, [wCurrentStage]
 	call CallInFollowingTable
 PointerTable_10a9b: ; 0x10a9b
-	; STAGE_RED_FIELD_TOP
-	padded_dab Func_20581
-	; STAGE_RED_FIELD_BOTTOM
-	padded_dab Func_20581
+	padded_dab Func_20581 ; STAGE_RED_FIELD_TOP
+	padded_dab Func_20581 ; STAGE_RED_FIELD_BOTTOM
 	padded_dab Func_20581
 	padded_dab Func_20581
-	; STAGE_BLUE_FIELD_TOP
-	padded_dab Func_20bae
-	; STAGE_BLUE_FIELD_BOTTOM
-	padded_dab Func_20bae
+	padded_dab Func_20bae ; STAGE_BLUE_FIELD_TOP
+	padded_dab Func_20bae ; STAGE_BLUE_FIELD_BOTTOM
 
 Func_10ab3: ; 0x10ab3
 	ld a, [wInSpecialMode]
@@ -238,16 +230,12 @@ Func_10ab3: ; 0x10ab3
 	ld a, [wCurrentStage]
 	rst JumpTable  ; calls JumpToFuncInTable
 CallTable_10abc: ; 0x10abc
-	; STAGE_RED_FIELD_TOP
-	dw Func_10ebb
-	; STAGE_RED_FIELD_BOTTOM
-	dw Func_10ebb
+	dw Func_10ebb ; STAGE_RED_FIELD_TOP
+	dw Func_10ebb ; STAGE_RED_FIELD_BOTTOM
 	dw Func_11054
 	dw Func_11054
-	; STAGE_BLUE_FIELD_TOP
-	dw Func_11061
-	; STAGE_BLUE_FIELD_BOTTOM
-	dw Func_11061
+	dw Func_11061 ; STAGE_BLUE_FIELD_TOP
+	dw Func_11061 ; STAGE_BLUE_FIELD_BOTTOM
 
 Func_10ac8: ; 0x10ac8
 	xor a
@@ -265,16 +253,12 @@ Func_10ac8: ; 0x10ac8
 	ld a, [wCurrentStage]
 	rst JumpTable  ; calls JumpToFuncInTable
 CallTable_10af3: ; 0x10af3
-	; STAGE_RED_FIELD_TOP
-	dw Func_10fe3
-	; STAGE_RED_FIELD_BOTTOM
-	dw Func_10fe3
+	dw Func_10fe3 ; STAGE_RED_FIELD_TOP
+	dw Func_10fe3 ; STAGE_RED_FIELD_BOTTOM
 	dw Func_11060
 	dw Func_11060
-	; STAGE_BLUE_FIELD_TOP
-	dw Func_11195
-	; STAGE_BLUE_FIELD_TOP
-	dw Func_11195
+	dw Func_11195 ; STAGE_BLUE_FIELD_TOP
+	dw Func_11195 ; STAGE_BLUE_FIELD_TOP
 
 Func_10aff: ; 0x10aff
 	ld a, [wCurrentStage]
@@ -1468,16 +1452,12 @@ Func_301ce: ; 0x301ce
 	ld a, [wCurrentStage]
 	call CallInFollowingTable
 PointerTable_301d4: ; 0x301d4
-	; STAGE_RED_FIELD_TOP
-	padded_dab Func_314ae
-	; STAGE_RED_FIELD_BOTTOM
-	padded_dab Func_314ae
+	padded_dab Func_314ae ; STAGE_RED_FIELD_TOP
+	padded_dab Func_314ae ; STAGE_RED_FIELD_BOTTOM
 	padded_dab Func_314ae
 	padded_dab Func_314ae
-	; STAGE_BLUE_FIELD_TOP
-	padded_dab Func_3161b
-	; STAGE_BLUE_FIELD_BOTTOM
-	padded_dab Func_3161b
+	padded_dab Func_3161b ; STAGE_BLUE_FIELD_TOP
+	padded_dab Func_3161b ; STAGE_BLUE_FIELD_BOTTOM
 
 StartMapMoveMode: ; 0x301ec
 	ld a, [wInSpecialMode]
@@ -1501,16 +1481,12 @@ StartMapMoveMode: ; 0x301ec
 	ld a, [wCurrentStage]
 	rst JumpTable  ; calls JumpToFuncInTable
 CallTable_3021f: ; 0x3021f
-	; STAGE_RED_FIELD_TOP
-	dw Func_311b4
-	; STAGE_RED_FIELD_BOTTOM
-	dw Func_311b4
+	dw Func_311b4 ; STAGE_RED_FIELD_TOP
+	dw Func_311b4 ; STAGE_RED_FIELD_BOTTOM
 	dw DoNothing_31324
 	dw DoNothing_31324
-	; STAGE_BLUE_FIELD_TOP
-	dw Func_31326
-	; STAGE_BLUE_FIELD_BOTTOM
-	dw Func_31326
+	dw Func_31326 ; STAGE_BLUE_FIELD_TOP
+	dw Func_31326 ; STAGE_BLUE_FIELD_BOTTOM
 
 Func_3022b: ; 0x3022b
 	xor a
@@ -1523,16 +1499,12 @@ Func_3022b: ; 0x3022b
 	ld a, [wCurrentStage]
 	rst JumpTable  ; calls JumpToFuncInTable
 CallTable_30247: ; 0x30247
-	; STAGE_RED_FIELD_TOP
-	dw Func_31234
-	; STAGE_RED_FIELD_BOTTOM
-	dw Func_31234
+	dw Func_31234 ; STAGE_RED_FIELD_TOP
+	dw Func_31234 ; STAGE_RED_FIELD_BOTTOM
 	dw DoNothing_31325
 	dw DoNothing_31325
-	; STAGE_BLUE_FIELD_TOP
-	dw Func_313c3
-	; STAGE_BLUE_FIELD_TOP
-	dw Func_313c3
+	dw Func_313c3 ; STAGE_BLUE_FIELD_TOP
+	dw Func_313c3 ; STAGE_BLUE_FIELD_TOP
 
 INCLUDE "engine/pinball_game/billboard_tiledata.asm"
 

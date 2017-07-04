@@ -105,28 +105,18 @@ HandleBallBonusForCurrentField: ; 0xf60a
 	ld a, [wCurrentStage]
 	rst JumpTable  ; calls JumpToFuncInTable
 CallTable_f60d: ; 0xf60d
-	; STAGE_RED_FIELD_TOP
-	dw HandleBallBonusRedField
-	; STAGE_RED_FIELD_BOTTOM
-	dw HandleBallBonusRedField
+	dw HandleBallBonusRedField  ; STAGE_RED_FIELD_TOP
+	dw HandleBallBonusRedField  ; STAGE_RED_FIELD_BOTTOM
 	dw DoNothing_f9f2
 	dw DoNothing_f9f2
-	; STAGE_BLUE_FIELD_TOP
-	dw HandleBallBonusBlueField
-	; STAGE_BLUE_FIELD_BOTTOM
-	dw HandleBallBonusBlueField
-	; STAGE_GENGAR_BONUS
-	dw DoNothing_faf6
-	; STAGE_GENGAR_BONUS
-	dw DoNothing_faf6
-	; STAGE_MEWTWO_BONUS
-	dw DoNothing_faf7
-	; STAGE_MEWTWO_BONUS
-	dw DoNothing_faf7
-	; STAGE_MEOWTH_BONUS
-	dw DoNothing_faf8
-	; STAGE_MEOWTH_BONUS
-	dw DoNothing_faf8
+	dw HandleBallBonusBlueField ; STAGE_BLUE_FIELD_TOP
+	dw HandleBallBonusBlueField ; STAGE_BLUE_FIELD_BOTTOM
+	dw DoNothing_faf6           ; STAGE_GENGAR_BONUS
+	dw DoNothing_faf6           ; STAGE_GENGAR_BONUS
+	dw DoNothing_faf7           ; STAGE_MEWTWO_BONUS
+	dw DoNothing_faf7           ; STAGE_MEWTWO_BONUS
+	dw DoNothing_faf8           ; STAGE_MEOWTH_BONUS
+	dw DoNothing_faf8           ; STAGE_MEOWTH_BONUS
 
 HandleNumPokemonCaughtBallBonus: ; 0xf626
 	ld de, wBottomMessageText + $01

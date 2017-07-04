@@ -122,16 +122,12 @@ StartCatchEmMode: ; 0x1003f
 	ld a, [wCurrentStage]
 	rst JumpTable  ; calls JumpToFuncInTable
 CallTable_10124: ; 0x10124
-	; STAGE_RED_FIELD_TOP
-	dw Func_10871
-	; STAGE_RED_FIELD_BOTTOM
-	dw Func_10871
+	dw Func_10871      ; STAGE_RED_FIELD_TOP
+	dw Func_10871      ; STAGE_RED_FIELD_BOTTOM
 	dw DoNothing_1098a
 	dw DoNothing_1098a
-	; STAGE_BLUE_FIELD_TOP
-	dw Func_1098c
-	; STAGE_BLUE_FIELD_BOTTOM
-	dw Func_1098c
+	dw Func_1098c      ; STAGE_BLUE_FIELD_TOP
+	dw Func_1098c      ; STAGE_BLUE_FIELD_BOTTOM
 
 CheckForMew:
 ; Sets the encountered mon to Mew if the following conditions are met:
@@ -176,16 +172,12 @@ ConcludeCatchEmMode: ; 0x10157
 	ld a, [wCurrentStage]
 	rst JumpTable  ; calls JumpToFuncInTable
 CallTable_10178: ; 0x10178
-	; STAGE_RED_FIELD_TOP
-	dw Func_108f5
-	; STAGE_RED_FIELD_BOTTOM
-	dw Func_108f5
+	dw Func_108f5      ; STAGE_RED_FIELD_TOP
+	dw Func_108f5      ; STAGE_RED_FIELD_BOTTOM
 	dw DoNothing_1098b
 	dw DoNothing_1098b
-	; STAGE_BLUE_FIELD_TOP
-	dw Func_109fc
-	; STAGE_BLUE_FIELD_BOTTOM
-	dw Func_109fc
+	dw Func_109fc      ; STAGE_BLUE_FIELD_TOP
+	dw Func_109fc      ; STAGE_BLUE_FIELD_BOTTOM
 
 Func_10184: ; 0x10184
 	ld a, [wCurrentStage]

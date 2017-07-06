@@ -928,7 +928,7 @@ Func_285db: ; 0x285db
 	ld a, [hli]
 	ld h, [hl]
 	ld l, a
-	jp [hl]
+	jp hl
 
 PointerTable_2867f: ; 0x2867f
 	dw Func_286dd

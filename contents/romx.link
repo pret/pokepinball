@@ -1,0 +1,337 @@
+ROMX $01
+	org $4000
+	"bank1"
+
+ROMX $02
+	org $4000
+	"bank2"
+	org $5800
+	"bank2.2"
+
+ROMX $03
+	org $4000
+	"bank3"
+
+ROMX $04
+	org $4000
+	"bank4"
+
+ROMX $05
+	org $4000
+	"bank5"
+
+ROMX $06
+	org $4000
+	"bank6"
+
+ROMX $07
+	org $4000
+	"bank7"
+
+ROMX $08
+	org $4000
+	"bank8"
+
+ROMX $09
+	org $4000
+	"bank9"
+
+ROMX $0A
+	org $4000
+	"banka"
+
+ROMX $0B
+	org $4000
+	"bankb"
+
+ROMX $0C
+	org $4000
+	"bankc"
+
+ROMX $0D
+	org $4000
+	"bankd"
+	org $7f00
+	"bankd.2"
+
+ROMX $0E
+	org $4000
+	"banke"
+
+ROMX $0F
+	org $4000
+	"bankf"
+
+ROMX $10
+	org $4000
+	"bank10"
+
+ROMX $11
+	org $4000
+	"bank11"
+
+ROMX $12
+	org $4000
+	"bank12"
+
+ROMX $13
+	org $4000
+	"bank13"
+
+ROMX $14
+	org $4000
+	"bank14"
+
+; ROMX $15 is empty
+
+ROMX $16
+	org $4000
+	"bank16"
+
+ROMX $17
+	org $4000
+	"bank17"
+
+ROMX $18
+	org $4000
+	"bank18"
+	org $72a0
+	"bank18.2"
+
+ROMX $19
+	org $4000
+	"bank19"
+
+ROMX $1A
+	org $4000
+	"bank1a"
+
+ROMX $1B
+	org $4000
+	"bank1b"
+
+ROMX $1C
+	org $4000
+	"bank1c"
+	org $7000
+	"bank1c.2"
+
+ROMX $1D
+	org $4000
+	"bank1d"
+
+ROMX $1E
+	org $4000
+	"bank1e"
+
+ROMX $1F
+	org $4000
+	"bank1f"
+
+ROMX $20
+	org $4000
+	"bank20"
+
+ROMX $21
+	org $4000
+	"bank21"
+	org $7000
+	"bank21.2"
+
+ROMX $22
+	org $4000
+	"bank22"
+	org $7f00
+	"bank22.2"
+
+ROMX $23
+	org $4000
+	"bank23"
+
+ROMX $24
+	org $4000
+	"bank24"
+
+ROMX $25
+	org $4000
+	"bank25"
+
+ROMX $26
+	org $4000
+	"bank26"
+
+ROMX $27
+	org $4000
+	"bank27"
+	org $42a0
+	"bank27.2"
+
+ROMX $28
+	org $4000
+	"bank28"
+	org $42a0
+	"bank28.2"
+
+ROMX $29
+	org $4000
+	"bank29"
+
+ROMX $2A
+	org $42c0
+	"bank2a"
+	org $4a00
+	"bank2a.2"
+	org $7f00
+	"bank2a.3"
+
+ROMX $2B
+	org $4000
+	"bank2b"
+	org $7900
+	"bank2b.2"
+
+ROMX $2C
+	org $4000
+	"bank2c"
+
+ROMX $2D
+	org $4000
+	"bank2d"
+
+ROMX $2E
+	org $4000
+	"bank2e"
+	org $6800
+	"bank2e.2"
+	org $7000
+	"bank2e.3"
+
+ROMX $2F
+	org $4000
+	"bank2f"
+	align 11
+	"bank2f.2"
+	align 11
+	"bank2f.3"
+
+ROMX $30
+	org $4000
+	"bank30"
+	align 11
+	"bank30.2"
+	align 10
+	"bank30.3"
+	align 10
+	"bank30.4"
+
+ROMX $31
+	org $4000
+	"bank31"
+	align 10
+	"bank31.2"
+
+ROMX $32
+	org $4000
+	"bank32"
+	align 11
+	"bank32.2"
+	align 11
+	"bank32.3"
+	align 11
+	"bank32.4"
+	align 11
+	"bank32.5"
+	align 11
+	"bank32.6"
+	align 11
+	"bank32.7"
+
+ROMX $33
+	org $4000
+	"bank33"
+	align 11
+	"bank33.2"
+	align 11
+	"bank33.3"
+	align 11
+	"bank33.4"
+	align 11
+	"bank33.5"
+	align 11
+	"bank33.6"
+	align 11
+	"bank33.7"
+
+ROMX $34
+	org $4000
+	"bank34"
+
+ROMX $35
+	org $4000
+	"bank35"
+	align 11
+	"bank35.2"
+	align 11
+	"bank35.3"
+	align 11
+	"bank35.4"
+	align 9
+	"bank35.5"
+	align 9
+	"bank35.6"
+	align 9
+	"bank35.7"
+
+ROMX $36
+	org $4000
+	"bank36"
+	align 10
+	"bank36.2"
+	align 11
+	"bank36.3"
+	org $6de0
+	"bank36.4"
+	align 9
+	"bank36.5"
+	align 9
+	"bank36.6"
+	align 9
+	"bank36.7"
+	org $7c80
+	"bank36.8"
+
+ROMX $37
+	org $4000
+	"bank37"
+	align 8
+	"bank37.2"
+
+; ROMX $38 is empty
+
+ROMX $39
+	org $4000
+	"bank39"
+
+ROMX $3A
+	org $4000
+	"bank3a"
+
+ROMX $3B
+	org $4000
+	"bank3b"
+
+ROMX $3C
+	org $4000
+	"bank3c"
+
+ROMX $3D
+	org $4000
+	"bank3d"
+
+ROMX $3E
+	org $4000
+	"bank3e"
+
+ROMX $3F
+	org $4000
+	"bank3f"

@@ -1,0 +1,13 @@
+WRAM0
+	org $c000
+	"WRAM Bank 0"
+
+WRAMX 1
+	org $d000
+	"WRAM Bank 1"
+	org $d200
+	"WRAM Bank 1.1"
+	org $dd00
+	"Audio RAM"
+	org $df00
+	"Stack"

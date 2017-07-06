@@ -1,0 +1,7 @@
+INCLUDE "contents/rom0.link"
+INCLUDE "contents/romx.link"
+INCLUDE "contents/wram.link"
+
+SRAM 0
+	org $a000
+	"SRAM 0"

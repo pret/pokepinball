@@ -1,4 +1,4 @@
-SECTION "SRAM 0", SRAM, BANK [$0]
+SECTION "SRAM 0", SRAM
 
 saved_data: MACRO
 \1:: ds \2

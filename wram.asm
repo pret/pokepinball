@@ -58,13 +58,13 @@ wca00::
 wcb00:: ; 0xcb00
 	ds $500
 
-SECTION "WRAM Bank 1", WRAMX, BANK[1]
+SECTION "WRAM Bank 1", WRAMX
 
 wOAMBuffer:: ; 0xd000
 	ds $a0
 wOAMBufferEnd:: ; 0xd0a0
 
-SECTION "WRAM Bank 1.1", WRAMX [$d200], BANK [1]
+SECTION "WRAM Bank 1.1", WRAMX
 wPaletteData:: ; 0xd200
 	ds $80
 
@@ -2410,7 +2410,7 @@ wBootCheck:: ; 0xdaa3
 
 ; $25c bytes of free space
 
-SECTION "Audio RAM", WRAMX [$dd00], BANK [1]
+SECTION "Audio RAM", WRAMX
 wdd00:: ; 0xdd00
 	ds $1
 
@@ -2523,6 +2523,8 @@ wMusicRAMEnd:: ; deb0
 wdeb0:: ; 0xdeb0
 	ds $50
 
-SECTION "Stack", WRAMX [$dfff], BANK [1]
+SECTION "Stack", WRAMX
+	ds $ff ;stack area
+
 wStack:: ; 0xdfff
-	ds -$ff
+	ds 1

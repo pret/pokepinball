@@ -1,0 +1,27 @@
+ROM0
+	org $0000
+	"rst 00"
+	org $0010
+	"rst 10"
+	org $0018
+	"rst 18"
+	org $0020
+	"rst 20"
+	org $0040
+	"VBlankInt"
+	org $0048
+	"HBlankInt"
+	org $0050
+	"TimerInt"
+	org $0058
+	"SerialInt"
+	org $0060
+	"JoypadInt"
+	org $0100
+	"Entry"
+	org $0104
+	"Header"
+	org $0150
+	"Main"
+	org $3800 ;at the end of the bank
+	"bank0.2"

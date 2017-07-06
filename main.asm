@@ -4,11 +4,11 @@ INCLUDE "constants.asm"
 
 INCLUDE "home.asm"
 
-SECTION "bank1", ROMX, BANK[$1]
+SECTION "bank1", ROMX
 
 INCLUDE "data/oam_frames.asm"
 
-SECTION "bank2", ROMX, BANK[$2]
+SECTION "bank2", ROMX
 
 INCLUDE "engine/select_gameboy_target_menu.asm"
 INCLUDE "engine/erase_all_data_menu.asm"
@@ -79,7 +79,7 @@ Func_8ee0: ; 0x8ee0
 
 Data_8f06:
 
-SECTION "bank2.2", ROMX [$5800], BANK[$2]
+SECTION "bank2.2", ROMX
 Data_9800:
 
 macro_9800: MACRO
@@ -103,7 +103,7 @@ endr
 PokedexCharactersGfx: ; 0xa000
 	INCBIN "gfx/pokedex/characters.interleave.2bpp"
 
-SECTION "bank3", ROMX, BANK[$3]
+SECTION "bank3", ROMX
 
 INCLUDE "engine/titlescreen.asm"
 INCLUDE "engine/options_screen.asm"
@@ -182,7 +182,7 @@ INCLUDE "engine/pinball_game/vertical_screen_transition.asm"
 INCLUDE "engine/pinball_game/slot.asm"
 INCLUDE "engine/pinball_game/end_of_ball_bonus.asm"
 
-SECTION "bank4", ROMX, BANK[$4]
+SECTION "bank4", ROMX
 
 Func_10000: ; 0x10000
 	ld c, a
@@ -1366,14 +1366,14 @@ Data_13685: ; 0x13685
 	db $14, $14, $0E ; EVOLINE_MEWTWO
 	db $14, $14, $0E ; EVOLINE_MEW
 
-SECTION "bank5", ROMX, BANK[$5]
+SECTION "bank5", ROMX
 
 INCLUDE "engine/pinball_game/load_stage_data/load_red_field.asm"
 INCLUDE "engine/pinball_game/object_collision/red_stage_object_collision.asm"
 INCLUDE "engine/pinball_game/object_collision/red_stage_resolve_collision.asm"
 INCLUDE "engine/pinball_game/draw_sprites/draw_red_field_sprites.asm"
 
-SECTION "bank6", ROMX, BANK[$6]
+SECTION "bank6", ROMX
 
 INCLUDE "engine/pinball_game/stage_init/init_unused_stage.asm"
 INCLUDE "engine/pinball_game/ball_init/ball_init_unused_stage.asm"
@@ -1398,7 +1398,7 @@ INCLUDE "engine/pinball_game/object_collision/diglett_bonus_object_collision.asm
 INCLUDE "engine/pinball_game/object_collision/diglett_bonus_resolve_collision.asm"
 INCLUDE "engine/pinball_game/draw_sprites/draw_diglett_bonus_sprites.asm"
 
-SECTION "bank7", ROMX, BANK[$7]
+SECTION "bank7", ROMX
 
 INCLUDE "engine/pinball_game/stage_init/init_blue_field.asm"
 INCLUDE "engine/pinball_game/ball_init/ball_init_blue_field.asm"
@@ -1407,14 +1407,14 @@ INCLUDE "engine/pinball_game/object_collision/blue_stage_object_collision.asm"
 INCLUDE "engine/pinball_game/object_collision/blue_stage_resolve_collision.asm"
 INCLUDE "engine/pinball_game/draw_sprites/draw_blue_field_sprites.asm"
 
-SECTION "bank8", ROMX, BANK[$8]
+SECTION "bank8", ROMX
 
 INCLUDE "engine/pinball_game/catchem_mode/catchem_mode_red_field.asm"
 INCLUDE "engine/pinball_game/catchem_mode/catchem_mode_blue_field.asm"
 INCLUDE "engine/pinball_game/evolution_mode/evolution_mode_red_field.asm"
 INCLUDE "engine/pinball_game/evolution_mode/evolution_mode_blue_field.asm"
 
-SECTION "bank9", ROMX, BANK[$9]
+SECTION "bank9", ROMX
 
 INCLUDE "engine/pinball_game/stage_init/init_meowth_bonus.asm"
 INCLUDE "engine/pinball_game/ball_init/ball_init_meowth_bonus.asm"
@@ -1429,11 +1429,11 @@ INCLUDE "engine/pinball_game/object_collision/seel_bonus_object_collision.asm"
 INCLUDE "engine/pinball_game/object_collision/seel_bonus_resolve_collision.asm"
 INCLUDE "engine/pinball_game/draw_sprites/draw_seel_bonus_sprites.asm"
 
-SECTION "banka", ROMX, BANK[$a]
+SECTION "banka", ROMX
 
 INCLUDE "engine/pokedex.asm"
 
-SECTION "bankb", ROMX, BANK[$b]
+SECTION "bankb", ROMX
 
 Unknown_2c000: ; 0x2c000
 	dex_text " "
@@ -1441,7 +1441,7 @@ Unknown_2c000: ; 0x2c000
 
 INCLUDE "text/pokedex_descriptions.asm"
 
-SECTION "bankc", ROMX, BANK[$c]
+SECTION "bankc", ROMX
 
 INCLUDE "engine/pinball_game/stage_init/init_red_field.asm"
 INCLUDE "engine/pinball_game/ball_init/ball_init_red_field.asm"
@@ -2172,19 +2172,19 @@ Func_3174c: ; 0x3174c
 	scf
 	ret
 
-SECTION "bankd", ROMX, BANK[$d]
+SECTION "bankd", ROMX
 
 SlotOnPic: ; 0x34000
 	INCBIN "gfx/billboard/slot/slot_on.2bpp"
 SlotOffPic: ; 0x34180
 	INCBIN "gfx/billboard/slot/slot_off.2bpp"
 
-SECTION "bankd.2", ROMX [$7f00], BANK[$d]
+SECTION "bankd.2", ROMX
 
 StageSeelBonusCollisionMasks: ; 0x37f00
 	INCBIN "data/collision/masks/seel_bonus.masks"
 
-SECTION "banke", ROMX, BANK[$e]
+SECTION "banke", ROMX
 Data_38000:
 	db $89, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00
 
@@ -2346,48 +2346,46 @@ Data_3aa66:
 Data_3aa76:
 	db $b9, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00
 
-SECTION "bankf", ROMX, BANK[$f]
+SECTION "bankf", ROMX
 
 INCLUDE "audio/engine_0f.asm"
 
-SECTION "bank10", ROMX, BANK[$10]
+SECTION "bank10", ROMX
 
 INCLUDE "audio/engine_10.asm"
 
-SECTION "bank11", ROMX, BANK[$11]
+SECTION "bank11", ROMX
 
 INCLUDE "audio/engine_11.asm"
 
-SECTION "bank12", ROMX, BANK[$12]
+SECTION "bank12", ROMX
 
 INCLUDE "audio/engine_12.asm"
 
 ; This is a blob of unused junk data
 INCBIN "data/unknown/unused_4b6a8.bin"
 
-SECTION "bank13", ROMX, BANK[$13]
+SECTION "bank13", ROMX
 
 INCLUDE "audio/engine_13.asm"
 
-SECTION "bank14", ROMX, BANK[$14]
+SECTION "bank14", ROMX
 
 INCLUDE "audio/pikapcm.asm"
 
-; bank $15 is blank
-
-SECTION "bank16", ROMX, BANK[$16]
+SECTION "bank16", ROMX
 
 INCLUDE "data/billboard/billboard_pics.asm"
 INCLUDE "data/mon_gfx/mon_billboard_palettes_1.asm"
 
-SECTION "bank17", ROMX, BANK[$17]
+SECTION "bank17", ROMX
 
 INCLUDE "data/billboard/reward_pics.asm"
 
 MeowthBonusBaseGameBoyGfx: ; 0x5f600
 	INCBIN "gfx/stage/meowth_bonus/meowth_bonus_base_gameboy.2bpp"
 
-SECTION "bank18", ROMX, BANK[$18]
+SECTION "bank18", ROMX
 
 INCLUDE "data/mon_gfx/mon_billboard_pics_1.asm"
 
@@ -2395,19 +2393,20 @@ StageRedFieldTopStatusBarSymbolsGfx_GameBoy: ; 0x63000
 	INCBIN "gfx/stage/red_top/status_bar_symbols_gameboy.2bpp"
 	
 	INCBIN "gfx/unused_pocket_monster.2bpp"
-	ds $20 ; free space
+
+SECTION "bank18.2", ROMX
 
 StageRedFieldTopBaseGameBoyGfx: ; 0x632a0
 	INCBIN "gfx/stage/red_top/red_top_base_gameboy.2bpp"
 
-SECTION "bank19", ROMX, BANK[$19]
+SECTION "bank19", ROMX
 
 INCLUDE "data/mon_gfx/mon_billboard_pics_2.asm"
 
 StageBlueFieldBottomBaseGameBoyGfx: ; 0x67000
 	INCBIN "gfx/stage/blue_bottom/blue_bottom_base_gameboy.2bpp"
 
-SECTION "bank1a", ROMX, BANK[$1a]
+SECTION "bank1a", ROMX
 
 INCLUDE "data/mon_gfx/mon_billboard_pics_3.asm"
 
@@ -2420,14 +2419,14 @@ StageBlueFieldTopStatusBarSymbolsGfx_GameBoy: ; 0x6b000
 StageBlueFieldTopBaseGameBoyGfx: ; 0x6b2a0
 	INCBIN "gfx/stage/blue_top/blue_top_base_gameboy.2bpp"
 
-SECTION "bank1b", ROMX, BANK[$1b]
+SECTION "bank1b", ROMX
 
 INCLUDE "data/mon_gfx/mon_billboard_pics_4.asm"
 
 UnusedStageGfx: ; 0x6f000
 	INCBIN "gfx/stage/unused_stage.2bpp"
 
-SECTION "bank1c", ROMX, BANK[$1c]
+SECTION "bank1c", ROMX
 
 INCLUDE "data/mon_gfx/mon_billboard_pics_5.asm"
 
@@ -2435,19 +2434,19 @@ UncaughtPokemonBackgroundPic:
 	INCBIN "gfx/pokedex/uncaught_pokemon.2bpp"
 	INCBIN "gfx/pokedex/uncaught_pokemon.2bpp" ; This pic is unnecessarily duplicated.
 
-	ds $1800 ; free space
+SECTION "bank1c.2", ROMX
 
 GengarBonusBaseGameBoyGfx: ; 0x73000
 	INCBIN "gfx/stage/gengar_bonus/gengar_bonus_base_gameboy.2bpp"
 
-SECTION "bank1d", ROMX, BANK[$1d]
+SECTION "bank1d", ROMX
 
 INCLUDE "data/mon_gfx/mon_billboard_pics_6.asm"
 
 StageRedFieldBottomBaseGameBoyGfx: ; 0x77000
 	INCBIN  "gfx/stage/red_bottom/red_bottom_base_gameboy.2bpp"
 
-SECTION "bank1e", ROMX, BANK[$1e]
+SECTION "bank1e", ROMX
 
 INCLUDE "data/mon_gfx/mon_billboard_pics_7.asm"
 
@@ -2455,7 +2454,7 @@ INCLUDE "data/billboard/bonus_multiplier_pics.asm"
 
 INCLUDE "data/mon_gfx/mon_billboard_palettes_2.asm"
 
-SECTION "bank1f", ROMX, BANK[$1f]
+SECTION "bank1f", ROMX
 
 INCLUDE "data/mon_gfx/mon_animated_pics_1.asm"
 
@@ -2465,7 +2464,7 @@ MewtwoBonusBaseGameBoyGfx: ; 0x7f000
 EraseAllDataGfx: ; 0x7fd00: ; 0x7fd00
 	INCBIN "gfx/erase_all_data.2bpp"
 
-SECTION "bank20", ROMX, BANK[$20]
+SECTION "bank20", ROMX
 
 INCLUDE "data/mon_gfx/mon_animated_pics_2.asm"
 
@@ -2475,11 +2474,11 @@ MewtwoBonusBaseGameBoyColorGfx: ; 0x83000
 StageDiglettBonusCollisionMasks: ; 0x83d00
 	INCBIN "data/collision/masks/diglett_bonus.masks"
 
-SECTION "bank21", ROMX, BANK[$21]
+SECTION "bank21", ROMX
 
 INCLUDE "data/mon_gfx/mon_animated_pics_3.asm"
 
-	ds $300 ; free space
+SECTION "bank21.2", ROMX
 
 DiglettBonusBaseGameBoyColorGfx: ; 0x87000
 	INCBIN "gfx/stage/diglett_bonus/diglett_bonus_base_gameboycolor.2bpp"
@@ -2487,7 +2486,7 @@ DiglettBonusBaseGameBoyColorGfx: ; 0x87000
 GengarBonusHaunterGfx: ; 0x87d00
 	INCBIN "gfx/stage/gengar_bonus/haunter.interleave.2bpp"
 
-SECTION "bank22", ROMX, BANK[$22]
+SECTION "bank22", ROMX
 
 INCLUDE "data/mon_gfx/mon_animated_pics_4.asm"
 
@@ -2500,11 +2499,11 @@ FieldSelectGfx: ; 0x8b100
 GengarBonusGastlyGfx: ; 0x8bd00
 	INCBIN "gfx/stage/gengar_bonus/gastly.interleave.2bpp"
 
-	ds $80 ; free space
+SECTION "bank22.2", ROMX
 
 INCLUDE "data/mon_gfx/mon_billboard_palettes_3.asm"
 
-SECTION "bank23", ROMX, BANK[$23]
+SECTION "bank23", ROMX
 
 INCLUDE "data/mon_gfx/mon_animated_pics_5.asm"
 
@@ -2514,7 +2513,7 @@ DiglettBonusBaseGameBoyGfx: ; 0x8f000
 INCLUDE "gfx/high_scores/high_scores_transition_palettes.asm"
 INCLUDE "data/billboard/map_palettes.asm"
 
-SECTION "bank24", ROMX, BANK[$24]
+SECTION "bank24", ROMX
 
 INCLUDE "data/mon_gfx/mon_billboard_pics_8.asm"
 
@@ -2523,7 +2522,7 @@ SeelBonusBaseGameBoyGfx: ; 0x93000
 
 INCLUDE "data/billboard/map_palette_maps_2.asm"
 
-SECTION "bank25", ROMX, BANK[$25]
+SECTION "bank25", ROMX
 
 INCLUDE "data/mon_gfx/mon_billboard_pics_9.asm"
 
@@ -2537,7 +2536,7 @@ StageRedFieldTopGfx1: ; 0x97ba0
 StageRedFieldTopGfx2: ; 0x97e00
 	INCBIN "gfx/stage/red_top/red_top_2.2bpp"
 
-SECTION "bank26", ROMX, BANK[$26]
+SECTION "bank26", ROMX
 
 INCLUDE "data/mon_gfx/mon_billboard_pics_10.asm"
 
@@ -2553,13 +2552,14 @@ SeelBonusSeel4Gfx: ; 0x9b460
 GengarBonusGengarGfx: ; 0x9b900
 	INCBIN "gfx/stage/gengar_bonus/gengar.interleave.2bpp"
 
-SECTION "bank27", ROMX, BANK[$27]
+SECTION "bank27", ROMX
 
 StageRedFieldTopStatusBarSymbolsGfx_GameBoyColor: ; 0x9c000
 	INCBIN "gfx/stage/red_top/status_bar_symbols_gameboycolor.2bpp"
 
 	INCBIN "gfx/unused_pocket_monster_2.2bpp"
-	ds $20 ; free space
+
+SECTION "bank27.2", ROMX
 
 StageRedFieldTopBaseGameBoyColorGfx: ; 0x9c2a0
 	INCBIN "gfx/stage/red_top/red_top_base_gameboycolor.2bpp"
@@ -2572,13 +2572,14 @@ GengarBonusBaseGameBoyColorGfx: ; 0x9e000
 GengarBonus1Gfx: ; 0x9f000
 	INCBIN "gfx/stage/gengar_bonus/gengar_bonus_1.2bpp"
 
-SECTION "bank28", ROMX, BANK[$28]
+SECTION "bank28", ROMX
 
 StageBlueFieldTopStatusBarSymbolsGfx_GameBoyColor: ; 0xa0000
 	INCBIN "gfx/stage/blue_top/status_bar_symbols_gameboycolor.2bpp"
 
 	INCBIN "gfx/unused_pocket_monster_2.2bpp"
-	ds $20 ; free space
+
+SECTION "bank28.2", ROMX
 
 StageBlueFieldTopBaseGameBoyColorGfx: ; 0xa02a0
 	INCBIN "gfx/stage/blue_top/blue_top_base_gameboycolor.2bpp"
@@ -2592,7 +2593,7 @@ StageRedFieldBottomBaseGameBoyColorGfx: ; 0xa2000
 StageRedFieldBottomGfx5: ; 0xa3000
 	INCBIN "gfx/stage/red_bottom/red_bottom_5.2bpp"
 
-SECTION "bank29", ROMX, BANK[$29]
+SECTION "bank29", ROMX
 
 StageBlueFieldBottomBaseGameBoyColorGfx: ; 0xa4000
 	INCBIN "gfx/stage/blue_bottom/blue_bottom_base_gameboycolor.2bpp"
@@ -2604,9 +2605,7 @@ INCLUDE "data/billboard/map_pics.asm"
 HighScoresHexadecimalCharsGfx:
 	INCBIN "gfx/high_scores/hexadecimal_characters.2bpp"
 
-SECTION "bank2a", ROMX, BANK[$2a]
-
-	ds $2c0 ; free space
+SECTION "bank2a", ROMX
 
 PinballGreatballShakeGfx: ; 0xa82c0
 	INCBIN "gfx/stage/ball_greatball_shake.w16.interleave.2bpp"
@@ -2632,7 +2631,7 @@ PikachuSaverGfx: ; 0xa8720
 BallCaptureSmokeGfx:
 	INCBIN "gfx/stage/ball_capture_smoke.interleave.2bpp"
 	
-	ds $80 ; free space
+SECTION "bank2a.2", ROMX
 
 PinballGreatballGfx: ; 0xa8a00
 	INCBIN "gfx/stage/ball_greatball.w32.interleave.2bpp"
@@ -2660,11 +2659,11 @@ MeowthBonusBaseGameBoyColorGfx: ; 0xab200
 
 INCLUDE "data/billboard/map_palette_maps.asm"
 
-	ds $280 ; free space
+SECTION "bank2a.3", ROMX
 
 INCLUDE "data/mon_gfx/mon_animated_palettes_1.asm"
 
-SECTION "bank2b", ROMX, BANK[$2b]
+SECTION "bank2b", ROMX
 
 TitlescreenFadeInGfx: ; 0xac000
 	INCBIN "gfx/titlescreen/titlescreen_fade_in.2bpp"
@@ -2675,7 +2674,7 @@ PokedexInitialGfx:
 StageBlueFieldBottomCollisionMasks: ; 0xaf000
 	INCBIN "data/collision/masks/blue_stage_bottom.masks"
 	
-	ds $100 ; free space
+SECTION "bank2b.2", ROMX
 
 DiglettBonusDugtrio3Gfx: ; 0xaf900
 	INCBIN "gfx/stage/diglett_bonus/dugtrio_3.2bpp"
@@ -2686,7 +2685,7 @@ DiglettBonusDugtrio2Gfx: ; 0xafd00
 DiglettBonusDugtrio4Gfx: ; 0xafd60
 	INCBIN "gfx/stage/diglett_bonus/dugtrio_4.2bpp"
 
-SECTION "bank2c", ROMX, BANK[$2c]
+SECTION "bank2c", ROMX
 
 StageRedFieldBottomIndicatorsGfx_Gameboy: ; 0xb0000
 	INCBIN "gfx/stage/red_bottom/red_bottom_indicators_gameboy.2bpp"
@@ -2700,7 +2699,7 @@ FieldSelectTilemap: ; 0xb3800
 FieldSelectBGAttributes: ; 0xb3c00
 	INCBIN "gfx/bgattr/field_select.bgattr"
 
-SECTION "bank2d", ROMX, BANK[$2d]
+SECTION "bank2d", ROMX
 
 TitlescreenGfx: ; 0xb4000
 	INCBIN "gfx/titlescreen/titlescreen.2bpp"
@@ -2777,7 +2776,7 @@ StageRedFieldTopCollisionAttributes4: ; 0xb7400
 
 INCLUDE "data/mon_gfx/mon_billboard_palette_maps_5.asm"
 
-SECTION "bank2e", ROMX, BANK[$2e]
+SECTION "bank2e", ROMX
 
 StageRedFieldTopCollisionAttributes3: ; 0xb8000
 	INCBIN "data/collision/maps/red_stage_top_3.collision"
@@ -2798,12 +2797,12 @@ StageRedFieldTopCollisionAttributes0: ; 0xb9800
 StageRedFieldTopTilemap_GameBoy: ; 0xba000
 	INCBIN "gfx/tilemaps/stage_red_field_top_gameboy.map"
 
-	ds $400 ; free space
+SECTION "bank2e.2", ROMX
 
 StageRedFieldBottomTilemap_GameBoy: ; 0xba800
 	INCBIN "gfx/tilemaps/stage_red_field_bottom_gameboy.map"
 
-	ds $400 ; free space
+SECTION "bank2e.3", ROMX
 
 StageRedFieldTopCollisionMasks0: ; 0xbb000
 	INCBIN "data/collision/masks/red_stage_top_0.masks"
@@ -2811,7 +2810,7 @@ StageRedFieldTopCollisionMasks0: ; 0xbb000
 StageRedFieldTopCollisionMasks1: ; 0xbb800
 	INCBIN "data/collision/masks/red_stage_top_1.masks"
 
-SECTION "bank2f", ROMX, BANK[$2f]
+SECTION "bank2f", ROMX
 
 StageRedFieldTopCollisionMasks2: ; 0xbc000
 	INCBIN "data/collision/masks/red_stage_top_2.masks"
@@ -2826,7 +2825,7 @@ StageRedFieldTopCollisionAttributes7: ; 0xbd000
 StageRedFieldBottomCollisionAttributes: ; 0xbd800
 	INCBIN "data/collision/maps/red_stage_bottom.collision"
 
-	ds $400 ; free space
+SECTION "bank2f.2", ROMX
 
 StageRedFieldTopTilemap_GameBoyColor: ; 0xbe000
 	INCBIN "gfx/tilemaps/stage_red_field_top_gameboycolor.map"
@@ -2843,19 +2842,19 @@ StageRedFieldBottomTilemap2_GameBoyColor: ; 0xbec00
 StageBlueFieldTopTilemap_GameBoy: ; 0xbf000
 	INCBIN "gfx/tilemaps/stage_blue_field_top_gameboy.map"
 	
-	ds $400 ; free space
+SECTION "bank2f.3", ROMX
 
 EraseAllDataTilemap: ; 0xbf800
 	INCBIN "gfx/tilemaps/erase_all_data.map"
 EraseAllDataBGAttributes: ; 0xbfc00
 	INCBIN "gfx/bgattr/erase_all_data.bgattr"
 
-SECTION "bank30", ROMX, BANK[$30]
+SECTION "bank30", ROMX
 
 StageBlueFieldBottomTilemap_GameBoy: ; 0xc0000
 	INCBIN "gfx/tilemaps/stage_blue_field_bottom_gameboy.map"
 	
-	ds $400 ; free space
+SECTION "bank30.2", ROMX
 
 StageBlueFieldTopCollisionMasks: ; 0xc0800
 	INCBIN "data/collision/masks/blue_stage_top.masks"
@@ -2880,7 +2879,7 @@ StageBlueFieldTopCollisionAttributes: ; 0xc2800
 OptionMenuTilemap2: ; 0xc3000
 	INCBIN "gfx/tilemaps/option_menu_2.map"
 	
-	ds $1c0 ; free space
+SECTION "bank30.3", ROMX
 
 OptionMenuTilemap4: ; 0xc3400
 	INCBIN "gfx/tilemaps/option_menu_4.map"
@@ -2889,13 +2888,13 @@ OptionMenuTilemap4: ; 0xc3400
 OptionMenuTilemap: ; 0xc3800
 	INCBIN "gfx/tilemaps/option_menu.map"
 
-	ds $1c0 ; free space
+SECTION "bank30.4", ROMX
 
 OptionMenuTilemap3: ; 0xc3c00
 	INCBIN "gfx/tilemaps/option_menu_3.map"
 	INCBIN "gfx/tilemaps/unused_tilemap_c3640.map"
 
-SECTION "bank31", ROMX, BANK[$31]
+SECTION "bank31", ROMX
 
 StageBlueFieldBottomCollisionAttributes: ; 0xc4000
 	INCBIN "data/collision/maps/blue_stage_bottom.collision"
@@ -2916,7 +2915,7 @@ TitlescreenTilemap: ; 0xc5800
 TitlescreenBGAttributes: ; 0xc5c00
 	INCBIN "gfx/bgattr/titlescreen.bgattr"
 
-	ds $1c0 ; free space
+SECTION "bank31.2", ROMX
 
 CopyrightScreenTilemap: ; 0xc6000
 	INCBIN "gfx/tilemaps/copyright_screen.map"
@@ -2936,17 +2935,17 @@ StageBlueFieldBottomTilemap2_GameBoyColor: ; 0xc7400
 StageGengarBonusCollisionAttributesBallEntrance: ; 0xc7800
 	INCBIN "data/collision/maps/gengar_bonus_ball_entrance.collision"
 
-SECTION "bank32", ROMX, BANK[$32]
+SECTION "bank32", ROMX
 
 StageGengarBonusCollisionAttributes: ; 0xc8000
 	INCBIN "data/collision/maps/gengar_bonus.collision"
 
-	ds $400 ; free space
+SECTION "bank32.2", ROMX
 
 GengarBonusTilemap_GameBoy: ; 0xc8800
 	INCBIN "gfx/tilemaps/stage_gengar_bonus_gameboy.map"
 
-	ds $400 ; free space
+SECTION "bank32.3", ROMX
 
 GengarBonusBottomTilemap_GameBoyColor: ; 0xc9000
 	INCBIN "gfx/tilemaps/stage_gengar_bonus_gameboycolor.map"
@@ -2962,29 +2961,29 @@ MewtwoBonus2Gfx: ; 0xc9c00
 MewtwoBonus4Gfx: ; 0xc9c60
 	INCBIN "gfx/stage/mewtwo_bonus/mewtwo_4.2bpp"
 
-	ds $100 ; free space
+SECTION "bank32.4", ROMX
 
 StageMewtwoBonusCollisionAttributesBallEntrance: ; 0xca000
 	INCBIN "data/collision/maps/mewtwo_bonus_ball_entrance.collision"
 
-	ds $400 ; free space
+SECTION "bank32.5", ROMX
 
 StageMewtwoBonusCollisionAttributes: ; 0xca800
 	INCBIN "data/collision/maps/mewtwo_bonus.collision"
 
-	ds $400 ; free space
+SECTION "bank32.6", ROMX
 
 MewtwoBonusTilemap_GameBoy: ; 0xcb000
 	INCBIN "gfx/tilemaps/stage_mewtwo_bonus_gameboy.map"
 
-	ds $400 ; free space
+SECTION "bank32.7", ROMX
 
 MewtoBonusBottomTilemap_GameBoyColor: ; 0xcb800
 	INCBIN "gfx/tilemaps/stage_mewtwo_bonus_gameboycolor.map"
 MewtoBonusBottomTilemap2_GameBoyColor: ; 0xcbc00
 	INCBIN "gfx/tilemaps/stage_mewtwo_bonus_gameboycolor_2.map"
 
-SECTION "bank33", ROMX, BANK[$33]
+SECTION "bank33", ROMX
 
 MeowthBonusMeowth3Gfx: ; 0xcc000
 	INCBIN "gfx/stage/meowth_bonus/meowth_3.2bpp"
@@ -2995,22 +2994,22 @@ MeowthBonusMeowth2Gfx: ; 0xcc400
 MeowthBonusMeowth4Gfx: ; 0xcc460
 	INCBIN "gfx/stage/meowth_bonus/meowth_4.2bpp"
 
-	ds $40 ; free space
+SECTION "bank33.2", ROMX
 
 StageMeowthBonusCollisionAttributesBallEntrance: ; 0xcc800
 	INCBIN "data/collision/maps/meowth_bonus_ball_entrance.collision"
 
-	ds $400 ; free space
+SECTION "bank33.3", ROMX
 
 StageMeowthBonusCollisionAttributes: ; 0xcd000
 	INCBIN "data/collision/maps/meowth_bonus.collision"
 
-	ds $400 ; free space
+SECTION "bank33.4", ROMX
 
 MeowthBonusTilemap_GameBoy: ; 0xcd800
 	INCBIN "gfx/tilemaps/stage_meowth_bonus_gameboy.map"
 
-	ds $400 ; free space
+SECTION "bank33.5", ROMX
 
 MeowthBonusTilemap_GameBoyColor: ; 0xce000
 	INCBIN "gfx/tilemaps/stage_meowth_bonus_gameboycolor.map"
@@ -3020,45 +3019,45 @@ MeowthBonusTilemap2_GameBoyColor: ; 0xce400
 StageDiglettBonusCollisionAttributesBallEntrance: ; 0xce800
 	INCBIN "data/collision/maps/diglett_bonus_ball_entrance.collision"
 
-	ds $400 ; free space
+SECTION "bank33.6", ROMX
 
 StageDiglettBonusCollisionAttributes: ; 0xcf000
 	INCBIN "data/collision/maps/diglett_bonus.collision"
 
-	ds $400 ; free space
+SECTION "bank33.7", ROMX
 
 DiglettBonusTilemap_GameBoy: ; 0xcf800
 	INCBIN "gfx/tilemaps/stage_diglett_bonus_gameboy.map"
 
-SECTION "bank34", ROMX, BANK[$34]
+SECTION "bank34", ROMX
 
 INCLUDE "data/collision/mon_collision_masks.asm"
 
-	INCBIN "gfx/tilemaps/unused_tilemap_d2800.map"
+INCBIN "gfx/tilemaps/unused_tilemap_d2800.map"
 
 DiglettBonusTilemap_GameBoyColor: ; 0xd3000
 	INCBIN "gfx/tilemaps/stage_diglett_bonus_gameboycolor.map"
 DiglettBonusTilemap2_GameBoyColor: ; 0xd3400
 	INCBIN "gfx/tilemaps/stage_diglett_bonus_gameboycolor_2.map"
 
-	INCBIN "data/unused_data_d3800.bin"
+INCBIN "data/unused_data_d3800.bin"
 
-SECTION "bank35", ROMX, BANK[$35]
+SECTION "bank35", ROMX
 
 StageSeelBonusCollisionAttributesBallEntrance: ; 0xd4000
 	INCBIN "data/collision/maps/seel_bonus_ball_entrance.collision"
 
-	ds $400 ; free space
+SECTION "bank35.2", ROMX
 
 StageSeelBonusCollisionAttributes: ; 0xd4800
 	INCBIN "data/collision/maps/seel_bonus.collision"
 
-	ds $400 ; free space
+SECTION "bank35.3", ROMX
 
 SeelBonusTilemap_GameBoy: ; 0xd5000
 	INCBIN "gfx/tilemaps/stage_seel_bonus_gameboy.map"
 
-	ds $400 ; free space
+SECTION "bank35.4", ROMX
 
 SeelBonusTilemap_GameBoyColor: ; 0xd5800
 	INCBIN "gfx/tilemaps/stage_seel_bonus_gameboycolor.map"
@@ -3074,7 +3073,7 @@ E_Acute_CharacterGfx: INCBIN "gfx/stage/e_acute_mono.2bpp"
 GFX_d61d0: INCBIN "gfx/unknown/d61d0.2bpp"
 GFX_d61e0: INCBIN "gfx/unknown/d61e0.2bpp"
 	
-	ds $10 ; free space
+SECTION "bank35.5", ROMX
 
 Alphabet2Gfx: ; 0xd6200
 	INCBIN "gfx/stage/alphabet_2.2bpp"
@@ -3085,12 +3084,12 @@ E_Acute_CharacterGfx_GameboyColor: INCBIN "gfx/stage/e_acute_color.2bpp"
 GFX_d63d0: INCBIN "gfx/unknown/d63d0.2bpp"
 GFX_d63e0: INCBIN "gfx/unknown/d63e0.2bpp"
 
-	ds $10 ; free space
+SECTION "bank35.6", ROMX
 
 InGameMenuSymbolsGfx: ; 0xd6400
 	INCBIN "gfx/stage/menu_symbols.2bpp"
 
-	ds $170 ; free space
+SECTION "bank35.7", ROMX
 
 StageBlueFieldTopGfx3: ; 0xd6600
 	INCBIN "gfx/stage/blue_top/blue_top_3.2bpp"
@@ -3107,8 +3106,7 @@ StageRedJapaneseCharactersGfx2: ; 0xd7000
 INCLUDE "data/mon_gfx/mon_billboard_palette_maps_1.asm"
 INCLUDE "gfx/high_scores/high_scores_transition_palettes_2.asm"
 
-
-SECTION "bank36", ROMX, BANK[$36]
+SECTION "bank36", ROMX
 
 PaletteMap_d8000: ; 0xd8000
 	db $6, $6, $6, $6, $6, $6
@@ -3116,7 +3114,7 @@ PaletteMap_d8000: ; 0xd8000
 	db $6, $6, $6, $6, $6, $6
 	db $6, $6, $6, $6, $6, $6
 
-	ds $3e8 ; free space
+SECTION "bank36.2", ROMX
 
 INCLUDE "data/mon_gfx/mon_billboard_palette_maps_2.asm"
 
@@ -3138,7 +3136,7 @@ EvolutionProgressIconsGfx:
 CaughtPokeballGfx: ; 0xd8f60
 	INCBIN "gfx/stage/caught_pokeball.2bpp"
 
-	ds $80 ; free space
+SECTION "bank36.3", ROMX
 
 StageRedFieldBottomCollisionMasks: ; 0xd9000
 	INCBIN "data/collision/masks/red_stage_bottom.masks"
@@ -3156,7 +3154,7 @@ INCLUDE "data/mon_gfx/mon_billboard_palette_maps_4.asm"
 StageSharedBonusSlotGlowGfx: ; 0xdac00
 	INCBIN "gfx/stage/shared/bonus_slot_glow.2bpp"
 	
-	ds $80 ; free space
+SECTION "bank36.4", ROMX
 
 StageSharedBonusSlotGlow2Gfx: ; 0xdade0
 	INCBIN "gfx/stage/shared/bonus_slot_glow_2.2bpp"
@@ -3167,17 +3165,17 @@ StageRedFieldTopGfx5: ; 0xdae00
 TimerDigitsGfx2: ; 0xdb000
 	INCBIN "gfx/stage/timer_digits.2bpp"
 
-	ds $a0 ; free space
+SECTION "bank36.5", ROMX
 
 TimerDigitsGfx: ; 0xdb200
 	INCBIN "gfx/stage/timer_digits.2bpp"
 
-	ds $a0 ; free space
+SECTION "bank36.6", ROMX
 
 GengarBonusGroundGfx: ; 0xdb400
 	INCBIN "gfx/stage/gengar_bonus/gengar_ground.2bpp"
 
-	ds $40 ; free space
+SECTION "bank36.7", ROMX
 
 StageGengarBonusCollisionMasks: ; 0xdb600
 	INCBIN "data/collision/masks/gengar_bonus.masks"
@@ -3188,7 +3186,7 @@ INCLUDE "data/mon_gfx/mon_billboard_palettes_4.asm"
 StageRedFieldTopGfx6: ; 0xdbb80
 	INCBIN "gfx/stage/red_top/red_top_6.2bpp"
 	
-	ds $c0 ; free space
+SECTION "bank36.8", ROMX
 
 StageMewtwoBonusCollisionMasks: ; 0xdbc80
 	INCBIN "data/collision/masks/mewtwo_bonus.masks"
@@ -3202,12 +3200,12 @@ Unknown_dbf60: ; 0xdbf60
 ; this seems to be unused garbage
 	INCBIN "data/unknown/unused_dbf60.bin"
 
-SECTION "bank37", ROMX, BANK[$37]
+SECTION "bank37", ROMX
 
 StageSharedArrowsGfx: ; 0xdc000
 	INCBIN "gfx/stage/shared/arrows.2bpp"
 	
-	ds $80 ; free space
+SECTION "bank37.2", ROMX
 
 INCLUDE "data/mon_gfx/mon_billboard_palettes_5.asm"
 
@@ -3240,15 +3238,12 @@ PaletteData_dd1a0: ; 0xdd1a0
     RGB 31, 3, 0
     RGB 0, 0, 0
 
-SECTION "bank38", ROMX, BANK[$38]
-	; unused bank
-
-SECTION "bank39", ROMX, BANK[$39]
+SECTION "bank39", ROMX
 
 BallPhysicsData_e4000:
 	INCBIN "data/collision/ball_physics_e4000.bin"
 
-SECTION "bank3a", ROMX, BANK[$3a]
+SECTION "bank3a", ROMX
 
 GengarCollisionAngles:
 	INCBIN "data/collision/gengar_collision_angles.bin"
@@ -3265,11 +3260,11 @@ MeowthCollisionAngles:
 MeowthJewelCollisionAngles:
 	INCBIN "data/collision/meowth_jewel_collision_angles.bin"
 
-SECTION "bank3b", ROMX, BANK[$3b]
+SECTION "bank3b", ROMX
 BallPhysicsData_ec000:
 	INCBIN "data/collision/ball_physics_ec000.bin"
 
-SECTION "bank3c", ROMX, BANK[$3c]
+SECTION "bank3c", ROMX
 BallPhysicsData_f0000:
 	INCBIN "data/collision/ball_physics_f0000.bin"
 
@@ -3284,12 +3279,12 @@ TiltUpLeftForce:
 TiltLeftOnlyForce:
 	INCBIN "data/tilt/left_only"
 
-SECTION "bank3d", ROMX, BANK[$3d]
+SECTION "bank3d", ROMX
 
 FlipperHorizontalCollisionAttributes: ; 0xf4000
 	INCBIN "data/collision/flippers/horizontal_attributes_0"
 
-SECTION "bank3e", ROMX, BANK[$3e]
+SECTION "bank3e", ROMX
 
 FlipperHorizontalCollisionAttributes2: ; 0xf8000
 	INCBIN "data/collision/flippers/horizontal_attributes_1"
@@ -3297,7 +3292,7 @@ FlipperHorizontalCollisionAttributes2: ; 0xf8000
 FlipperVerticalCollisionAttributes: ; 0xfa000
 	INCBIN "data/collision/flippers/vertical_attributes_0"
 
-SECTION "bank3f", ROMX, BANK[$3f]
+SECTION "bank3f", ROMX
 
 FlipperVerticalCollisionAttributes2: ; 0xfc000
 	INCBIN "data/collision/flippers/vertical_attributes_1"

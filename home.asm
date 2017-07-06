@@ -307,7 +307,7 @@ VBlank: ; 0x2f2
 	ld a, [hNewlyPressedButtons]
 	and $f
 	jr z, .skipBootCheck
-	ld hl, [sp+$8]
+	ld hl, sp + 8
 	ld [hl], Func_3c3 & $ff
 	inc hl
 	ld [hl], Func_3c3 >> 8
@@ -410,7 +410,7 @@ LCD: ; 0x3ec
 	ld a, [hli]
 	ld h, [hl]
 	ld l, a
-	jp [hl]
+	jp hl
 
 Func_3ff: ; 0x3ff
 	ld a, $1
@@ -518,7 +518,7 @@ JumpToFuncInTable: ; 0x477
 	ld l, e
 	ld h, d
 	pop de
-	jp [hl]
+	jp hl
 
 Func_486: ; 0x486
 	rlca
@@ -656,7 +656,7 @@ BankSwitchSimple: ; 0x549
 ; Switches to Bank in register a and jumps to hl.
 	ld [hLoadedROMBank], a
 	ld [MBC5RomBank], a  ; Load Bank
-	jp [hl]
+	jp hl
 
 BankSwitch: ; 0x54f
 	ld e, a
@@ -686,7 +686,7 @@ BankSwitch: ; 0x54f
 	ld a, [hFarCallTempE]
 	ld e, a
 	ld a, [hFarCallTempA]
-	jp [hl]
+	jp hl
 
 Func_576: ; 0x576
 	ld a, [rLCDC]
@@ -2739,7 +2739,7 @@ Func_113a: ; 0x113a
 	ret
 
 JumpToHL: ; 0x117a
-	jp [hl]
+	jp hl
 
 LoadTileLists: ; 0x117b
 ; Loads a series of defined tile ids into VRAM

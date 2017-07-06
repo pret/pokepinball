@@ -13,6 +13,7 @@
 
 # rgbds extras
 *.sym
+*.map
 
 # swap files for vim
 .*.swp

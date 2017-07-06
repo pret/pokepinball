@@ -376,7 +376,7 @@ Func_4824d:
 	ld a, [hli]
 	ld h, [hl]
 	ld l, a
-	jp [hl]
+	jp hl
 
 PointerTable_4825e:
 	dw Func_4826e
@@ -1226,7 +1226,7 @@ Func_48786:
 	ld a, [hli]
 	ld h, [hl]
 	ld l, a
-	jp [hl]
+	jp hl
 
 PointerTable_48797:
 	dw Func_489b6

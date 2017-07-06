@@ -381,7 +381,7 @@ Func_3c24d: ; 0x3c24d
 	ld a, [hli]
 	ld h, [hl]
 	ld l, a
-	jp [hl]
+	jp hl
 
 PointerTable_3c25e: ; 0x3c25e
 	dw Func_3c26e
@@ -1231,7 +1231,7 @@ Func_3c786: ; 0x3c786
 	ld a, [hli]
 	ld h, [hl]
 	ld l, a
-	jp [hl]
+	jp hl
 
 PointerTable_3c797: ; 0x3c797
 	dw Func_3c9b6

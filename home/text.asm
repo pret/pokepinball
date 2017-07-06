@@ -380,7 +380,7 @@ Func_32cc: ; 0x32cc
 	pop af
 	ld e, a
 	ld d, wBottomMessageText / $100
-	ld hl, [sp+$5]
+	ld hl, sp + 5
 	lb bc, 8, 1
 .asm_32ec
 	ld a, [hl]
@@ -519,7 +519,7 @@ Func_3372: ; 0x3372
 	pop af
 	ld e, a
 	ld d, wBottomMessageText / $100
-	ld hl, [sp+$5]
+	ld hl, sp + 5
 	lb bc, 8, 1
 .asm_338a
 	ld a, [hl]

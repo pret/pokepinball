@@ -40,7 +40,7 @@ wc4c0:: ; 0xc4c0
 wc4cc:: ; 0xc4cc
 	ds $34
 
-wBottomMessageText:: ; 0xc500
+wBottomMessageText:: ; 0xc500 WARNING: text loading code may break if this is moved
 	ds $100
 
 wBottomMessageBuffer:: ; 0xc600
@@ -212,7 +212,7 @@ wBallSaverTimerFramesBackup:: ; 0xd4a6
 wBallSaverTimerSecondsBackup:: ; 0xd4a7
 	ds $1
 
-wd4a8:: ; 0xd4a8
+wNumTimesBallSavedTextWillDisplayBackup:: ; 0xd4a8
 	ds $1
 
 wd4a9:: ; 0xd4a9

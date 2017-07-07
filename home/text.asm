@@ -48,20 +48,20 @@ Func_310a: ; 0x310a
 	jr nz, .asm_311d
 	ret
 
-Func_3125: ; 0x3125
+Func_3125: ; 0x3125 enables special loads
 	ld b, $1
 	jr asm_312b
 
-Func_3129: ; 0x3129
+Func_3129: ; 0x3129 disables special loads
 	ld b, $0
-asm_312b: ; 0x312b
+asm_312b: ; 0x312b loads e chars of text text into de
 	ld a, [wd805]
 	and a
-	jp nz, Func_3268
+	jp nz, Func_3268 ;if ??? = 0, then continue, else jump
 .next_char
 	ld a, [hli]
 	and a
-	ret z
+	ret z ;if a = 0, jump
 	ld c, $81
 	cp " "
 	jr z, .space
@@ -98,65 +98,65 @@ asm_312b: ; 0x312b
 	jr .next_char
 
 .space
-	ld a, c
+	ld a, c ;$81 = space
 	jr .load_char
 
 .comma
-	inc c
+	inc c ;$82 = , , goes back a space?
 	dec e
 	jr .check_special_load
 
 .male
 	xor a
-	call Func_31e1
+	call LoadSpecialTextChar
 	ld a, $83
 	jr .load_char
 
 .female
 	ld a, $1
-	call Func_31e1
+	call LoadSpecialTextChar
 	ld a, $84
 	jr .load_char
 
 .apostrophe
 	ld a, $2
-	call Func_31e1
+	call LoadSpecialTextChar
 	ld a, $85
 	jr .load_char
 
 .e_acute
 	ld a, $3
-	call Func_31e1
+	call LoadSpecialTextChar
 	ld a, $83
 	jr .load_char
 
 .asterisk
 	ld a, $4
-	call Func_31e1
+	call LoadSpecialTextChar
 	ld a, $87
 	jr .load_char
 
 .exclamation
 	ld a, $5
-	call Func_31e1
+	call LoadSpecialTextChar
 	ld a, $85
 	jr .load_char
 
 .little_x
 	ld a, $6
-	call Func_31e1
+	call LoadSpecialTextChar
 	ld a, $85
 	jr .load_char
 
 .period
 	ld a, $7
-	call Func_31e1
+	call LoadSpecialTextChar
 	ld a, $86
 	jr .load_char
 
 .colon
 	ld a, $8
-	call Func_31e1
+	call LoadSpecialTextChar
 	ld a, $83
 	jr .load_char
 
@@ -167,19 +167,19 @@ asm_312b: ; 0x312b
 .alphabet
 	add $bf
 .load_char
-	ld [de], a
+	ld [de], a ;load char into de
 .check_special_load
 	bit 0, b
-	jr nz, .no_special_load
-	set 7, e
+	jr nz, .no_special_load ;only load special if b is 1
+	set 7, e ;tempererally set 7 of e, adding  to pointer de or taking it away
 	ld a, c
 	ld [de], a
 	res 7, e
 .no_special_load
-	inc e
+	inc e ;move to next slot
 	jp .next_char
 
-Func_31e1: ; 0x31e1
+LoadSpecialTextChar: ; 0x31e1 copy special font data into VRAM based on the contents of a
 	push bc
 	push de
 	push hl
@@ -196,7 +196,7 @@ Func_31e1: ; 0x31e1
 	add c
 	ld c, a
 	ld b, $0
-	ld hl, Data_320e
+	ld hl, SpecialTextCharPointers ;special text pointers
 	add hl, bc
 	ld a, [hli]
 	ld e, a
@@ -207,51 +207,67 @@ Func_31e1: ; 0x31e1
 	ld a, [hli]
 	ld h, [hl]
 	ld l, a
-	ld a, b
+	ld a, b ;bytes taken are, in order, in e,d,a,l,h
 	ld bc, $0010
-	call LoadVRAMData
+	call LoadVRAMData ;copy 16 byte image into VRAM
 	pop hl
 	pop de
 	pop bc
 	ret
 
-Data_320e:
-	dw vTilesSH tile 3
-	dbw Bank(InGameMenuSymbolsGfx), InGameMenuSymbolsGfx + $40
-	dw vTilesSH tile 4
+SpecialTextCharPointers:
+	dw vTilesSH tile 3 ;start of special font data for LoadSpecialTextChar if DMG
+	dbw Bank(InGameMenuSymbolsGfx), InGameMenuSymbolsGfx + $40 ;bank of data, then pointer to source. each block is 5 bytes - male
+	dw vTilesSH tile 4 ; female
 	dbw Bank(InGameMenuSymbolsGfx), InGameMenuSymbolsGfx + $30
-	dw vTilesSH tile 5
-	dbw Bank(GFX_d61d0), GFX_d61d0
-	dw vTilesSH tile 3
+
+	dw vTilesSH tile 5 ;apostrophe
+	dbw Bank(Apostrophe_CharacterGfx), Apostrophe_CharacterGfx
+
+	dw vTilesSH tile 3 ;acute e
 	dbw Bank(E_Acute_CharacterGfx), E_Acute_CharacterGfx
-	dw vTilesSH tile 7
+
+	dw vTilesSH tile 7 ;asterisk
 	dbw Bank(InGameMenuSymbolsGfx), InGameMenuSymbolsGfx + $80
-	dw vTilesSH tile 5
-	dbw Bank(GFX_d61a0), GFX_d61a0
-	dw vTilesSH tile 5
+
+	dw vTilesSH tile 5 ;exclaiamation point
+	dbw Bank(Exclamation_Point_CharacterGfx), Exclamation_Point_CharacterGfx
+
+	dw vTilesSH tile 5 ;little x
 	dbw Bank(InGameMenuSymbolsGfx), InGameMenuSymbolsGfx + $10
-	dw vTilesSH tile 6
-	dbw Bank(GFX_d61b0), GFX_d61b0
-	dw vTilesSH tile 3
-	dbw Bank(GFX_d61e0), GFX_d61e0
-	dw vTilesSH tile 3
-	dbw Bank(InGameMenuSymbolsGfx), InGameMenuSymbolsGfx + $40
-	dw vTilesSH tile 4
+
+	dw vTilesSH tile 6 ;period
+	dbw Bank(Period_CharacterGfx), Period_CharacterGfx
+
+	dw vTilesSH tile 3 ;colon
+	dbw Bank(Colon_CharacterGfx), Colon_CharacterGfx
+
+	dw vTilesSH tile 3 ;start of special font data for LoadSpecialTextChar if DMG
+	dbw Bank(InGameMenuSymbolsGfx), InGameMenuSymbolsGfx + $40 ;male
+
+	dw vTilesSH tile 4 ;female
 	dbw Bank(InGameMenuSymbolsGfx), InGameMenuSymbolsGfx + $30
-	dw vTilesSH tile 5
-	dbw Bank(GFX_d63d0), GFX_d63d0
-	dw vTilesSH tile 3
+
+	dw vTilesSH tile 5 ;apostrophe
+	dbw Bank(Apostrophe_CharacterGfx_GameboyColor), Apostrophe_CharacterGfx_GameboyColor
+
+	dw vTilesSH tile 3 ;acute e
 	dbw Bank(E_Acute_CharacterGfx_GameboyColor), E_Acute_CharacterGfx_GameboyColor
-	dw vTilesSH tile 7
+
+	dw vTilesSH tile 7 ;asterisk
 	dbw Bank(InGameMenuSymbolsGfx), InGameMenuSymbolsGfx + $80
-	dw vTilesSH tile 5
-	dbw Bank(GFX_d63a0), GFX_d63a0
-	dw vTilesSH tile 5
+
+	dw vTilesSH tile 5 ;exclaimation point
+	dbw Bank(Exclamation_Point_CharacterGfx_GameboyColor), Exclamation_Point_CharacterGfx_GameboyColor
+
+	dw vTilesSH tile 5 ;little x
 	dbw Bank(InGameMenuSymbolsGfx), InGameMenuSymbolsGfx + $10
-	dw vTilesSH tile 6
-	dbw Bank(GFX_d63b0), GFX_d63b0
-	dw vTilesSH tile 3
-	dbw Bank(GFX_d63e0), GFX_d63e0
+
+	dw vTilesSH tile 6 ;period
+	dbw Bank(Period_CharacterGfx_GameboyColor), Period_CharacterGfx_GameboyColor
+
+	dw vTilesSH tile 3 ;colon
+	dbw Bank(Colon_CharacterGfx_GameboyColor), Colon_CharacterGfx_GameboyColor
 
 Func_3268: ; 0x3268
 	ld a, [hli]

@@ -319,12 +319,12 @@ Func_10b3f: ; 0x10b3f
 
 Func_10b59: ; 0x10b59
 	xor a
-	ld [wd4aa], a
+	ld [wd4aa], a ;load 0 into ???
 	ld hl, wBottomMessageText
 	ld a, $81
 	ld b, $30
 .asm_10b64
-	ld [hli], a
+	ld [hli], a ;load spaces into bottom text? repeat 192 times
 	ld [hli], a
 	ld [hli], a
 	ld [hli], a
@@ -344,7 +344,7 @@ Func_10b59: ; 0x10b59
 	call LoadVRAMData
 	ret
 
-Func_10b8e: ; 0x10b8e
+Func_10b8e: ; 0x10b8e hl = start of party mons
 	ld a, [wNumPartyMons]
 	ld c, $0
 	ld b, a
@@ -360,17 +360,17 @@ Func_10b8e: ; 0x10b8e
 .asm_10ba1
 	ret
 
-Func_10ba2: ; 0x10ba2
+Func_10ba2: ; 0x10ba2 a = current party mon, b is number to go before end of list, c is number passed so far
 	push bc
 	push hl
-	swap c
+	swap c ;c* 32, does wird things if c starts >15
 	sla c
 	ld b, $0
 	ld hl, wBottomMessageText
-	add hl, bc
+	add hl, bc ;goes down text as many times as new c
 	ld d, h
 	ld e, l
-	ld c, a
+	ld c, a ;c now equals paerty mon, HL stored in de
 	ld b, $0
 	sla c
 	rl b
@@ -379,8 +379,8 @@ Func_10ba2: ; 0x10ba2
 	sla c
 	rl b
 	sla c
-	rl b
-	ld hl, PokemonNames
+	rl b ;multiplies party mon by 16, then jumps to correct name in the table
+	ld hl, PokemonNames ;names are 16 chars long
 	add hl, bc
 	ld a, $81
 	ld [de], a
@@ -393,8 +393,8 @@ Func_10ba2: ; 0x10ba2
 	inc de
 	ld a, $81
 	ld [de], a
-	inc de
-	call Func_3125
+	inc de ;load 4 spaces into de
+	call Func_3125 ;load 1 into b and...
 .asm_10bda
 	ld a, e
 	and $1f
@@ -519,7 +519,7 @@ Func_10c38: ; 0x10c38
 	call LoadVRAMData
 	ret
 
-Func_10ca5: ; 0x10ca5
+PlaceEvolutionInParty: ; 0x10ca5
 	ld a, [wCurSelectedPartyMon]
 	ld c, a
 	ld b, $0
@@ -2218,7 +2218,7 @@ Data_3809a:
 
 Data_380a6:
 	db $59, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00
-	
+
 	RGB 31, 31, 31
     RGB 31, 31, 31
     RGB 31, 31, 31
@@ -2397,7 +2397,7 @@ INCLUDE "data/mon_gfx/mon_billboard_pics_1.asm"
 
 StageRedFieldTopStatusBarSymbolsGfx_GameBoy: ; 0x63000
 	INCBIN "gfx/stage/red_top/status_bar_symbols_gameboy.2bpp"
-	
+
 	INCBIN "gfx/unused_pocket_monster.2bpp"
 
 SECTION "bank18.2", ROMX
@@ -2418,7 +2418,7 @@ INCLUDE "data/mon_gfx/mon_billboard_pics_3.asm"
 
 StageBlueFieldTopStatusBarSymbolsGfx_GameBoy: ; 0x6b000
 	INCBIN "gfx/stage/blue_top/status_bar_symbols_gameboy.2bpp"
-	
+
 	INCBIN "gfx/unused_pocket_monster.2bpp"
 	ds $20 ; free space
 
@@ -2636,7 +2636,7 @@ PikachuSaverGfx: ; 0xa8720
 
 BallCaptureSmokeGfx:
 	INCBIN "gfx/stage/ball_capture_smoke.interleave.2bpp"
-	
+
 SECTION "bank2a.2", ROMX
 
 PinballGreatballGfx: ; 0xa8a00
@@ -2679,7 +2679,7 @@ PokedexInitialGfx:
 
 StageBlueFieldBottomCollisionMasks: ; 0xaf000
 	INCBIN "data/collision/masks/blue_stage_bottom.masks"
-	
+
 SECTION "bank2b.2", ROMX
 
 DiglettBonusDugtrio3Gfx: ; 0xaf900
@@ -2847,7 +2847,7 @@ StageRedFieldBottomTilemap2_GameBoyColor: ; 0xbec00
 
 StageBlueFieldTopTilemap_GameBoy: ; 0xbf000
 	INCBIN "gfx/tilemaps/stage_blue_field_top_gameboy.map"
-	
+
 SECTION "bank2f.3", ROMX
 
 EraseAllDataTilemap: ; 0xbf800
@@ -2859,7 +2859,7 @@ SECTION "bank30", ROMX
 
 StageBlueFieldBottomTilemap_GameBoy: ; 0xc0000
 	INCBIN "gfx/tilemaps/stage_blue_field_bottom_gameboy.map"
-	
+
 SECTION "bank30.2", ROMX
 
 StageBlueFieldTopCollisionMasks: ; 0xc0800
@@ -2884,7 +2884,7 @@ StageBlueFieldTopCollisionAttributes: ; 0xc2800
 
 OptionMenuTilemap2: ; 0xc3000
 	INCBIN "gfx/tilemaps/option_menu_2.map"
-	
+
 SECTION "bank30.3", ROMX
 
 OptionMenuTilemap4: ; 0xc3400
@@ -3073,22 +3073,22 @@ SeelBonusTilemap2_GameBoyColor: ; 0xd5c00
 Alphabet1Gfx: ; 0xd6000
 	INCBIN "gfx/stage/alphabet_1.2bpp"
 
-GFX_d61a0: INCBIN "gfx/unknown/d61a0.2bpp"
-GFX_d61b0: INCBIN "gfx/unknown/d61b0.2bpp"
+Exclamation_Point_CharacterGfx: INCBIN "gfx/stage/exclamation_point_mono.2bpp" ;DMG excalamation point
+Period_CharacterGfx: INCBIN "gfx/stage/period_mono.2bpp" ;DMG period
 E_Acute_CharacterGfx: INCBIN "gfx/stage/e_acute_mono.2bpp"
-GFX_d61d0: INCBIN "gfx/unknown/d61d0.2bpp"
-GFX_d61e0: INCBIN "gfx/unknown/d61e0.2bpp"
-	
+Apostrophe_CharacterGfx: INCBIN "gfx/stage/apostrophe_mono.2bpp" ;DMG apostrophe
+Colon_CharacterGfx: INCBIN "gfx/stage/colon_mono.2bpp" ;DMG colon
+
 SECTION "bank35.5", ROMX
 
 Alphabet2Gfx: ; 0xd6200
 	INCBIN "gfx/stage/alphabet_2.2bpp"
 
-GFX_d63a0: INCBIN "gfx/unknown/d63a0.2bpp"
-GFX_d63b0: INCBIN "gfx/unknown/d63b0.2bpp"
+Exclamation_Point_CharacterGfx_GameboyColor: INCBIN "gfx/stage/exclamation_point_color.2bpp";gbc excalamation point
+Period_CharacterGfx_GameboyColor: INCBIN "gfx/stage/period_color.2bpp" ;gbc period
 E_Acute_CharacterGfx_GameboyColor: INCBIN "gfx/stage/e_acute_color.2bpp"
-GFX_d63d0: INCBIN "gfx/unknown/d63d0.2bpp"
-GFX_d63e0: INCBIN "gfx/unknown/d63e0.2bpp"
+Apostrophe_CharacterGfx_GameboyColor: INCBIN "gfx/stage/apostrophe_color.2bpp" ;GBC apostrophe
+Colon_CharacterGfx_GameboyColor: INCBIN "gfx/stage/colon_color.2bpp" ;gbc colon
 
 SECTION "bank35.6", ROMX
 
@@ -3159,7 +3159,7 @@ INCLUDE "data/mon_gfx/mon_billboard_palette_maps_4.asm"
 
 StageSharedBonusSlotGlowGfx: ; 0xdac00
 	INCBIN "gfx/stage/shared/bonus_slot_glow.2bpp"
-	
+
 SECTION "bank36.4", ROMX
 
 StageSharedBonusSlotGlow2Gfx: ; 0xdade0
@@ -3191,7 +3191,7 @@ INCLUDE "data/mon_gfx/mon_billboard_palettes_4.asm"
 
 StageRedFieldTopGfx6: ; 0xdbb80
 	INCBIN "gfx/stage/red_top/red_top_6.2bpp"
-	
+
 SECTION "bank36.8", ROMX
 
 StageMewtwoBonusCollisionMasks: ; 0xdbc80
@@ -3210,7 +3210,7 @@ SECTION "bank37", ROMX
 
 StageSharedArrowsGfx: ; 0xdc000
 	INCBIN "gfx/stage/shared/arrows.2bpp"
-	
+
 SECTION "bank37.2", ROMX
 
 INCLUDE "data/mon_gfx/mon_billboard_palettes_5.asm"

@@ -177,7 +177,7 @@ Func_20651: ; 0x20651
 
 Func_2070b: ; 0x2070b
 	callba RestoreBallSaverAfterCatchEmMode
-	callba Func_10ca5
+	callba PlaceEvolutionInParty
 	callba Func_10ac8
 	ld de, $0001
 	call PlaySong

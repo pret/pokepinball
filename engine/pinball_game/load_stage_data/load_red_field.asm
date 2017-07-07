@@ -3,7 +3,7 @@ _LoadStageDataRedFieldTop: ; 0x14000
 	call Func_159f4
 	call Func_15450
 	call Func_16859
-	call Func_14ece
+	call UpdateSpinnerChargeGraphics_RedField
 	call Func_14234
 	call Func_16425
 	call Func_142fc
@@ -67,7 +67,7 @@ Func_1404a: ; 0x1404a
 
 Func_14091: ; 0x14091
 	ld a, $ff
-	ld [wd4d7], a
+	ld [wWhichAnimatedVoltorb], a
 	ld [wd4db], a
 	ld a, [wBallXPos + 1]
 	ld [wd4c5], a

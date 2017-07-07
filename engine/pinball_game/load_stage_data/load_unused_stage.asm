@@ -17,5 +17,5 @@ DoNothing_1806d: ; 0x1806d
 	ret
 
 Func_1806e: ; 0x1806e
-	callba Func_1652d
+	callba ResolveRedStagePinballLaunchCollision
 	ret

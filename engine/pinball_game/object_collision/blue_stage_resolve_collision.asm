@@ -12,7 +12,7 @@ ResolveBlueFieldTopGameObjectCollisions: ; 0x1c715
 	call ResolvePsyduckPoliwagCollision
 	call ResolveBlueStageForceFieldCollision
 	call Func_1e9c0
-	call Func_1c8b6
+	call UpdateForceFieldDirection
 	call Func_1f18a
 	callba Func_146a9
 	call Func_1f27b
@@ -23,21 +23,21 @@ ResolveBlueFieldTopGameObjectCollisions: ; 0x1c715
 	ret
 
 ResolveBlueFieldBottomGameObjectCollisions: ; 0x1c769
-	call Func_1ca4a
-	call Func_1ce40
+	call ResolveWildMonCollision_BlueField
+	call ResolveBlueStageBumperCollision
 	call ResolvePsyduckPoliwagCollision
-	call Func_1ca85
+	call UpdateBlueStageSpinner
 	call Func_1e4b8
 	call HandleBlueStageBallTypeUpgradeCounter
 	call Func_1e5c5
-	call Func_1c7d7
+	call ResolveBlueStagePinballLaunchCollision
 	call ResolveBlueStagePikachuCollision
 	call Func_1ead4
 	call ResolveBlueStageBonusMultiplierCollision
 	call Func_1e757
 	call Func_1e9c0
 	call Func_1ea0a
-	call Func_1c8b6
+	call UpdateForceFieldDirection
 	callba Func_14733
 	callba Func_146a2
 	call Func_1f261
@@ -47,21 +47,21 @@ ResolveBlueFieldBottomGameObjectCollisions: ; 0x1c769
 	callba Func_10000
 	ret
 
-Func_1c7c7: ; 0x1c7c7
+InitBlueFieldCollisionAttributes: ; 0x1c7c7
 	ld a, $0
 	ld [wStageCollisionState], a
 	callba LoadStageCollisionAttributes
 	ret
 
-Func_1c7d7: ; 0x1c7d7
-	ld a, [wPinballLaunchAlley]
+ResolveBlueStagePinballLaunchCollision: ; 0x1c7d7
+	ld a, [wPinballLaunchCollision]
 	and a
 	ret z
 	xor a
-	ld [wPinballLaunchAlley], a
-	ld a, [wd4de]
+	ld [wPinballLaunchCollision], a ; set to 0, so we only check for a launch once per frame
+	ld a, [wPinballLaunched]
 	and a
-	jr z, .asm_1c810
+	jr z, .dontLaunch
 	xor a
 	ld [wRightAlleyTrigger], a
 	ld [wLeftAlleyTrigger], a
@@ -76,33 +76,35 @@ Func_1c7d7: ; 0x1c7d7
 	ld a, $fa
 	ld [wBallYVelocity + 1], a
 	ld a, $1
-	ld [wd549], a
+	ld [wDisableBallGravityAndTilt], a
 	lb de, $00, $0a
 	call PlaySoundEffect
-.asm_1c810
+.dontLaunch
 	ld a, $ff
 	ld [wPreviousTriggeredGameObject], a
-	ld a, [wd4de]
+	ld a, [wPinballLaunched]
 	and a
 	ret nz
-	ld a, [wd4e0]
+	ld a, [wChoseInitialMap]
 	and a
-	jr nz, .asm_1c82c
-	call Func_1c839
+	jr nz, .checkPressedKeysToLaunchBall
+	call ChooseInitialMap_BlueField
 	ld a, $1
-	ld [wd4e0], a
-	ld [wd4de], a
+	ld [wChoseInitialMap], a
+	ld [wPinballLaunched], a
 	ret
 
-.asm_1c82c
+.checkPressedKeysToLaunchBall
 	ld hl, wKeyConfigBallStart
 	call IsKeyPressed
 	ret z
 	ld a, $1
-	ld [wd4de], a
+	ld [wPinballLaunched], a
 	ret
 
-Func_1c839: ; 0x1c839
+ChooseInitialMap_BlueField: ; 0x1c839
+; While waiting to launch the pinball, this quickly rotates the billboard with the initial
+; maps the player can start on.
 	ld a, [hGameBoyColorFlag]
 	and a
 	callba nz, LoadGreyBillboardPaletteData
@@ -129,7 +131,7 @@ Func_1c839: ; 0x1c839
 	ld b, $20  ; number of frames to delay before the next map is shown
 .waitOnCurrentMap
 	push bc
-	callba Func_eeee
+	callba Delay1Frame
 	ld hl, wKeyConfigBallStart
 	call IsKeyPressed
 	jr nz, .ballStartKeyPressed
@@ -142,11 +144,11 @@ Func_1c839: ; 0x1c839
 	pop bc
 	callba LoadMapBillboardTileData
 	ld bc, StartFromMapText
-	callba Func_3118f
+	callba LoadScrollingMapNameText
 	ld a, [wCurrentMap]
-	ld [wd4e3], a
+	ld [wVisitedMaps], a
 	xor a
-	ld [wd4e2], a
+	ld [wNumMapMoves], a
 	ret
 
 BlueStageInitialMaps: ; 0x1c8af
@@ -158,22 +160,24 @@ BlueStageInitialMaps: ; 0x1c8af
 	db ROCK_MOUNTAIN
 	db CELADON_CITY
 
-Func_1c8b6: ; 0x1c8b6
-	ld a, [wd64c]
+UpdateForceFieldDirection: ; 0x1c8b6
+; Every 5 seconds, decide which way the force field (in between slowpoke and cloyster) should point.
+	ld a, [wBlueFieldForceFieldFrameCounter]
 	inc a
-	cp $3c
-	jr z, .asm_1c8c2
-	ld [wd64c], a
+	cp 60
+	jr z, .oneSecond
+	ld [wBlueFieldForceFieldFrameCounter], a
 	ret
 
-.asm_1c8c2
+.oneSecond
 	xor a
-	ld [wd64c], a
-	ld hl, wd64d
+	ld [wBlueFieldForceFieldFrameCounter], a
+	ld hl, wBlueFieldForceFieldSecondsCounter
 	inc [hl]
 	ld a, [hl]
-	cp $5
+	cp 5
 	ret nz
+	; This code is reached exactly once every 5 seconds
 	ld a, [wd644]
 	and a
 	jr nz, .asm_1c8e1
@@ -201,7 +205,7 @@ Func_1c8b6: ; 0x1c8b6
 	ld [wd64b], a
 .asm_1c8fc
 	xor a
-	ld [wd64d], a
+	ld [wBlueFieldForceFieldSecondsCounter], a
 	xor a
 	ld [wd64a], a
 	ld [wd649], a
@@ -312,28 +316,28 @@ ResolveShellderCollision: ; 0x1c9c1
 	jr z, .noCollision
 	xor a
 	ld [wWhichShellder], a
-	call Func_1ca29
+	call ApplyShellderCollision
 	ld a, [wBlueStageForceFieldFlippedDown]
 	and a
-	jr nz, .asm_1c9f2
+	jr nz, .forceFieldPointingCorrectDirection
 	ld a, $1
 	ld [wBlueStageForceFieldFlippedDown], a
 	ld a, [wBlueStageForceFieldDirection]
 	cp $0  ; up direction
-	jr nz, .asm_1c9f2
+	jr nz, .forceFieldPointingCorrectDirection
 	ld a, $2  ; down direction
 	ld [wBlueStageForceFieldDirection], a
 	ld a, $1
 	ld [wBlueStageForceFieldGfxNeedsLoading], a
 	ld a, $3
-	ld [wd64c], a
-	ld [wd64d], a
-.asm_1c9f2
+	ld [wBlueFieldForceFieldFrameCounter], a
+	ld [wBlueFieldForceFieldSecondsCounter], a
+.forceFieldPointingCorrectDirection
 	ld a, $10
-	ld [wd4d6], a
+	ld [wShellderHitAnimationDuration], a
 	ld a, [wWhichShellderId]
 	sub $3
-	ld [wd4d7], a
+	ld [wWhichAnimatedShellder], a
 	ld a, $4
 	callba Func_10000
 	ld bc, FiveHundredPoints
@@ -341,17 +345,17 @@ ResolveShellderCollision: ; 0x1c9c1
 	ret
 
 .noCollision
-	ld a, [wd4d6]
+	ld a, [wShellderHitAnimationDuration]
 	and a
 	ret z
 	dec a
-	ld [wd4d6], a
+	ld [wShellderHitAnimationDuration], a
 	ret nz
 	ld a, $ff
-	ld [wd4d7], a
+	ld [wWhichAnimatedShellder], a
 	ret
 
-Func_1ca29: ; 0x1ca29
+ApplyShellderCollision: ; 0x1ca29
 	ld a, $ff
 	ld [wd803], a
 	ld a, $3
@@ -367,7 +371,7 @@ Func_1ca29: ; 0x1ca29
 	call PlaySoundEffect
 	ret
 
-Func_1ca4a: ; 1ca4a
+ResolveWildMonCollision_BlueField: ; 0x1ca4a
 	ld a, [wWildMonCollision]
 	and a
 	ret z
@@ -382,7 +386,7 @@ Func_1ca4a: ; 1ca4a
 ResolveBlueStageSpinnerCollision: ; 0x1ca5f
 	ld a, [wSpinnerCollision]
 	and a
-	jr z, Func_1ca85
+	jr z, UpdateBlueStageSpinner
 	xor a
 	ld [wSpinnerCollision], a
 	ld a, [wBallYVelocity]
@@ -397,7 +401,7 @@ ResolveBlueStageSpinnerCollision: ; 0x1ca5f
 	callba Func_10000
 	; fall through
 
-Func_1ca85: ; 0x1ca85
+UpdateBlueStageSpinner: ; 0x1ca85
 	ld hl, wd50b
 	ld a, [hli]
 	or [hl]
@@ -463,13 +467,13 @@ Func_1ca85: ; 0x1ca85
 	ld a, [wPikachuSaverCharge]
 	cp MAX_PIKACHU_SAVER_CHARGE
 	jr nz, .asm_1caff
-	call Func_1cb1c
+	call PlaySpinnerChargingSoundEffect_BlueField
 	ret
 
 .asm_1caff
 	inc a
 	ld [wPikachuSaverCharge], a
-	call Func_1cb1c
+	call PlaySpinnerChargingSoundEffect_BlueField
 	ld a, [wPikachuSaverCharge]
 	cp MAX_PIKACHU_SAVER_CHARGE
 	jr nz, .asm_1cb12
@@ -479,17 +483,17 @@ Func_1ca85: ; 0x1ca85
 	ld a, [wCurrentStage]
 	bit 0, a
 	ret nz
-	call Func_1cb43
+	call UpdateSpinnerChargeGraphics_BlueField
 	ret
 
-Func_1cb1c: ; 0x1cb1c
+PlaySpinnerChargingSoundEffect_BlueField: ; 0x1cb1c
 	ld a, [wd51e]
 	and a
 	ret nz
 	ld a, [wPikachuSaverCharge]
 	ld c, a
 	ld b, $0
-	ld hl, SoundEffectIds_1cb33
+	ld hl, SpinnerChargingSoundEffectIds_BlueField
 	add hl, bc
 	ld a, [hl]
 	ld e, a
@@ -497,10 +501,11 @@ Func_1cb1c: ; 0x1cb1c
 	call PlaySoundEffect
 	ret
 
-SoundEffectIds_1cb33:
+SpinnerChargingSoundEffectIds_BlueField:
 	db $12, $13, $14, $15, $16, $17, $18, $19, $1A, $1B, $1C, $1D, $1E, $1F, $20, $11
 
-Func_1cb43: ; 0x1cb43
+UpdateSpinnerChargeGraphics_BlueField: ; 0x1cb43
+; Loads the correct graphics that show the lightning bolt icon for the spinner's current charge.
 	ld a, [wPikachuSaverCharge]
 	ld c, a
 	sla c
@@ -1179,22 +1184,22 @@ TileData_1ce32: ; 0x1ce32
 
 	db $00 ; terminator
 
-Func_1ce40: ; 1ce40
+ResolveBlueStageBumperCollision: ; 1ce40
 	ld a, [wWhichBumper]
 	and a
 	jr z, .asm_1ce53
-	call Func_1ce72
+	call LoadBumperCollisionGraphics_BlueField
 	call Func_1ce60
 	xor a
 	ld [wWhichBumper], a
-	call Func_1ce94
+	call ApplyBumperCollision_BlueField
 .asm_1ce53
 	ld a, [wd4da]
 	and a
 	ret z
 	dec a
 	ld [wd4da], a
-	call z, Func_1ce72
+	call z, LoadBumperCollisionGraphics_BlueField
 	ret
 
 Func_1ce60: ; 0x1ce60
@@ -1207,7 +1212,7 @@ Func_1ce60: ; 0x1ce60
 	inc a
 	jr asm_1ce7a
 
-Func_1ce72: ; 1ce72
+LoadBumperCollisionGraphics_BlueField: ; 1ce72
 	ld a, [wd4db]
 	cp $ff
 	ret z
@@ -1230,7 +1235,7 @@ asm_1ce7a: ; 0x1ce7a
 	call Func_10aa
 	ret
 
-Func_1ce94: ; 0x1ce94
+ApplyBumperCollision_BlueField: ; 0x1ce94
 	ld a, $ff
 	ld [wd803], a
 	ld a, $3
@@ -1246,7 +1251,7 @@ Func_1ce94: ; 0x1ce94
 	sub $1
 	ld c, a
 	ld b, $0
-	ld hl, Data_1cec8
+	ld hl, BumperCollisionAngleDeltas_BlueField
 	add hl, bc
 	ld a, [wCollisionForceAngle]
 	add [hl]
@@ -1255,7 +1260,7 @@ Func_1ce94: ; 0x1ce94
 	call PlaySoundEffect
 	ret
 
-Data_1cec8:
+BumperCollisionAngleDeltas_BlueField:
 	db -8, 8
 
 TileDataPointers_1ceca:
@@ -1500,26 +1505,27 @@ ResolveBlueStageBoardTriggerCollision: ; 0x1cfaa
 	sub $7
 	ld c, a
 	ld b, $0
-	ld hl, wd521
+	ld hl, wCollidedAlleyTriggers
 	add hl, bc
 	ld [hl], $1
-	ld a, [wd521]
+	ld a, [wCollidedAlleyTriggers + 0]
 	and a
-	call nz, Func_1d010
-	ld a, [wd522]
+	call nz, HandleSecondaryLeftAlleyTrigger_BlueField
+	ld a, [wCollidedAlleyTriggers + 1]
 	and a
-	call nz, Func_1d047
-	ld a, [wd523]
+	call nz, HandleSecondaryRightAlleyTrigger_BlueField
+	ld a, [wCollidedAlleyTriggers + 2]
 	and a
-	call nz, HandleLeftAlleyTriggerBlueField
-	ld a, [wd524]
+	call nz, HandleLeftAlleyTrigger_BlueField
+	ld a, [wCollidedAlleyTriggers + 3]
 	and a
-	call nz, HandleRightAlleyTriggerBlueField
+	call nz, HandleRightAlleyTrigger_BlueField
 	ret
 
-Func_1d010: ; 0x1d010
+HandleSecondaryLeftAlleyTrigger_BlueField: ; 0x1d010
+; Ball passed over the secondary left alley trigger point in the Blue Field.
 	xor a
-	ld [wd521], a
+	ld [wCollidedAlleyTriggers + 0], a
 	ld a, [wLeftAlleyTrigger]
 	and a
 	ret z
@@ -1545,9 +1551,10 @@ Func_1d010: ; 0x1d010
 	ld [wIndicatorStates + 2], a
 	ret
 
-Func_1d047: ; 0x1d047
+HandleSecondaryRightAlleyTrigger_BlueField: ; 0x1d047
+; Ball passed over the secondary right alley trigger point in the Blue Field.
 	xor a
-	ld [wd522], a
+	ld [wCollidedAlleyTriggers + 1], a
 	ld a, [wRightAlleyTrigger]
 	and a
 	ret z
@@ -1573,10 +1580,10 @@ Func_1d047: ; 0x1d047
 	ld [wIndicatorStates + 3], a
 	ret
 
-HandleLeftAlleyTriggerBlueField: ; 0x1d080
+HandleLeftAlleyTrigger_BlueField: ; 0x1d080
 ; Ball passed over the left alley trigger point in the Blue Field.
 	xor a
-	ld [wd523], a
+	ld [wCollidedAlleyTriggers + 2], a
 	ld [wRightAlleyTrigger], a
 	ld [wSecondaryLeftAlleyTrigger], a
 	ld a, $1
@@ -1584,10 +1591,10 @@ HandleLeftAlleyTriggerBlueField: ; 0x1d080
 	ret c
 	ret
 
-HandleRightAlleyTriggerBlueField: ; 0x1d091
+HandleRightAlleyTrigger_BlueField: ; 0x1d091
 ; Ball passed over the right alley trigger point in the Blue Field.
 	xor a
-	ld [wd524], a
+	ld [wCollidedAlleyTriggers + 3], a
 	ld [wLeftAlleyTrigger], a
 	ld [wSecondaryLeftAlleyTrigger], a
 	ld a, $1
@@ -1633,7 +1640,7 @@ ResolveBlueStagePikachuCollision: ; 0x1d0a1
 	ld [wBallYVelocity + 1], a
 	ld [wBallSpin], a
 	ld [wBallRotation], a
-	ld [wd549], a
+	ld [wDisableBallGravityAndTilt], a
 	call FillBottomMessageBufferWithBlackTile
 	jr .asm_1d110
 
@@ -1705,7 +1712,7 @@ Func_1d133: ; 0x1d133
 	ld a, $fc
 	ld [wBallYVelocity + 1], a
 	ld a, $1
-	ld [wd549], a
+	ld [wDisableBallGravityAndTilt], a
 	ld bc, FiveThousandPoints
 	callba AddBigBCD6FromQueueWithBallMultiplier
 	xor a
@@ -1798,7 +1805,7 @@ ResolveSlowpokeCollision: ; 0x1d216
 	ld [wBallXPos], a
 	ld [wBallYPos], a
 	xor a
-	ld [wd549], a
+	ld [wDisableBallGravityAndTilt], a
 .asm_1d253
 	ld hl, SlowpokeCollisionAnimationData ; 0x1d312
 	ld de, wSlowpokeAnimation
@@ -1854,7 +1861,7 @@ ResolveSlowpokeCollision: ; 0x1d216
 	cp $5
 	ret nz
 	ld a, $1
-	ld [wd549], a
+	ld [wDisableBallGravityAndTilt], a
 	ld a, $b0
 	ld [wBallXVelocity], a
 	ld a, $0
@@ -1872,8 +1879,8 @@ ResolveSlowpokeCollision: ; 0x1d216
 .asm_1d2f8
 	xor a
 	ld [wd642], a
-	ld [wd64c], a
-	ld [wd64d], a
+	ld [wBlueFieldForceFieldFrameCounter], a
+	ld [wBlueFieldForceFieldSecondsCounter], a
 	ld a, $1
 	ld [wBlueStageForceFieldFlippedDown], a
 	ld a, $2  ; down direction
@@ -1920,7 +1927,7 @@ ResolveCloysterCollision: ; 0x1d32d
 	ld [wBallXPos], a
 	ld [wBallYPos], a
 	xor a
-	ld [wd549], a
+	ld [wDisableBallGravityAndTilt], a
 .asm_1d36a
 	ld hl, CloysterCollisionAnimationData
 	ld de, wCloysterAnimation
@@ -1976,7 +1983,7 @@ ResolveCloysterCollision: ; 0x1d32d
 	cp $5
 	ret nz
 	ld a, $1
-	ld [wd549], a
+	ld [wDisableBallGravityAndTilt], a
 	ld a, $4f
 	ld [wBallXVelocity], a
 	ld a, $ff
@@ -1989,8 +1996,8 @@ ResolveCloysterCollision: ; 0x1d32d
 	ld a, $e
 	callba Func_10000
 	xor a
-	ld [wd64c], a
-	ld [wd64d], a
+	ld [wBlueFieldForceFieldFrameCounter], a
+	ld [wBlueFieldForceFieldSecondsCounter], a
 	ld a, $1
 	ld [wBlueStageForceFieldFlippedDown], a
 	ld a, $2  ; down direction
@@ -5746,7 +5753,7 @@ Func_1e757: ; 0x1e757
 	ld [hli], a
 	ld [hli], a
 	ld [hli], a
-	ld [wd549], a
+	ld [wDisableBallGravityAndTilt], a
 	ld [wBallXPos], a
 	ld [wBallYPos], a
 	ld a, $50
@@ -5837,7 +5844,7 @@ Func_1e830: ; 0x1e830
 	jr nc, .asm_1e84b
 	ld a, $1
 	ld [wd548], a
-	ld [wd549], a
+	ld [wDisableBallGravityAndTilt], a
 	ret
 
 .asm_1e84b
@@ -5885,7 +5892,7 @@ Func_1e830: ; 0x1e830
 	jr nc, .asm_1e858
 	ld a, $1
 	ld [wd548], a
-	ld [wd549], a
+	ld [wDisableBallGravityAndTilt], a
 	ld a, [wCatchEmOrEvolutionSlotRewardActive]
 	cp EVOLUTION_MODE_SLOT_REWARD
 	ret nz

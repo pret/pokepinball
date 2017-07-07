@@ -180,7 +180,7 @@ GameScreenFunction_HandleBallLoss: ; 0xda36
 	xor a
 	ld [wd7e9], a
 	ld [wd548], a
-	ld [wd549], a
+	ld [wDisableBallGravityAndTilt], a
 	call HandleTilts
 	ld a, [wCurrentStage]
 	bit 0, a

@@ -1508,7 +1508,9 @@ CallTable_30247: ; 0x30247
 
 INCLUDE "engine/pinball_game/billboard_tiledata.asm"
 
-Func_3118f: ; 0x3118f
+LoadScrollingMapNameText: ; 0x3118f
+; Loads the scrolling message that displays the current map's name.
+; Input: bc = pointer to prefix scrolling text
 	push bc
 	call FillBottomMessageBufferWithBlackTile
 	call Func_30db
@@ -1589,64 +1591,66 @@ Func_31234: ; 0x31234
 	callba LoadMapBillboardTileData
 	ret
 
-Func_31281: ; 0x31282
-	ld a, [wd4e2]
+ChooseNextMap_RedField: ; 0x31282
+; Picks the next map to perform a map move.
+; Also records which maps have been visited.
+	ld a, [wNumMapMoves]
 	inc a
 	cp $6
-	jr c, .asm_3129e
+	jr c, .dontReset
 	ld a, $ff
-	ld [wd4e3], a
-	ld [wd4e4], a
-	ld [wd4e5], a
-	ld [wd4e6], a
-	ld [wd4e7], a
-	ld [wd4e8], a
+	ld [wVisitedMaps], a
+	ld [wVisitedMaps + 1], a
+	ld [wVisitedMaps + 2], a
+	ld [wVisitedMaps + 3], a
+	ld [wVisitedMaps + 4], a
+	ld [wVisitedMaps + 5], a
 	xor a
-.asm_3129e
-	ld [wd4e2], a
+.dontReset
+	ld [wNumMapMoves], a
 	cp $3
-	jr c, .chooseFirstMapMoveIndex
+	jr c, .chooseMapFromArea1
 	cp $5
-	jr c, .chooseSecondMapMoveIndex
+	jr c, .chooseMapFromArea2
 	ld a, INDIGO_PLATEAU
 	ld [wCurrentMap], a
-	ld [wd4e8], a
+	ld [wVisitedMaps + 5], a
 	ret
 
-.chooseFirstMapMoveIndex
+.chooseMapFromArea1
 	call GenRandom
 	and $7
 	cp $7
-	jr nc, .chooseFirstMapMoveIndex
+	jr nc, .chooseMapFromArea1
 	ld c, a
 	ld b, $0
 	ld hl, FirstMapMoveSet_RedField
 	add hl, bc
 	ld c, [hl]
-	ld hl, wd4e3
-	ld a, [wd4e2]
+	ld hl, wVisitedMaps
+	ld a, [wNumMapMoves]
 	and a
 	jr z, .asm_312d4
 	ld b, a
 .asm_312cd
 	ld a, [hli]
 	cp c
-	jr z, .chooseFirstMapMoveIndex
+	jr z, .chooseMapFromArea1
 	dec b
 	jr nz, .asm_312cd
 .asm_312d4
 	ld a, c
 	ld [wCurrentMap], a
-	ld a, [wd4e2]
+	ld a, [wNumMapMoves]
 	ld c, a
 	ld b, $0
-	ld hl, wd4e3
+	ld hl, wVisitedMaps
 	add hl, bc
 	ld a, [wCurrentMap]
 	ld [hl], a
 	ret
 
-.chooseSecondMapMoveIndex
+.chooseMapFromArea2
 	call GenRandom
 	and $3
 	ld c, a
@@ -1654,24 +1658,24 @@ Func_31281: ; 0x31282
 	ld hl, SecondMapMoveSet_RedField
 	add hl, bc
 	ld c, [hl]
-	ld hl, wd4e6
-	ld a, [wd4e2]
+	ld hl, wVisitedMaps + 3
+	ld a, [wNumMapMoves]
 	sub $3
 	jr z, .asm_31306
 	ld b, a
 .asm_312ff
 	ld a, [hli]
 	cp c
-	jr z, .chooseSecondMapMoveIndex
+	jr z, .chooseMapFromArea2
 	dec b
 	jr nz, .asm_312ff
 .asm_31306
 	ld a, c
 	ld [wCurrentMap], a
-	ld a, [wd4e2]
+	ld a, [wNumMapMoves]
 	ld c, a
 	ld b, $0
-	ld hl, wd4e3
+	ld hl, wVisitedMaps
 	add hl, bc
 	ld a, [wCurrentMap]
 	ld [hl], a
@@ -1765,64 +1769,66 @@ Func_313c3: ; 0x313c3
 	callba LoadMapBillboardTileData
 	ret
 
-Func_3140b: ; 0x3140b
-	ld a, [wd4e2]
+ChooseNextMap_BlueField: ; 0x3140b
+; Picks the next map to perform a map move.
+; Also records which maps have been visited.
+	ld a, [wNumMapMoves]
 	inc a
 	cp $6
-	jr c, .asm_31428
+	jr c, .dontReset
 	ld a, $ff
-	ld [wd4e3], a
-	ld [wd4e4], a
-	ld [wd4e5], a
-	ld [wd4e6], a
-	ld [wd4e7], a
-	ld [wd4e8], a
+	ld [wVisitedMaps], a
+	ld [wVisitedMaps + 1], a
+	ld [wVisitedMaps + 2], a
+	ld [wVisitedMaps + 3], a
+	ld [wVisitedMaps + 4], a
+	ld [wVisitedMaps + 5], a
 	xor a
-.asm_31428
-	ld [wd4e2], a
+.dontReset
+	ld [wNumMapMoves], a
 	cp $3
-	jr c, .asm_3143c
+	jr c, .chooseMapFromArea1
 	cp $5
-	jr c, .asm_31471
+	jr c, .chooseMapFromArea2
 	ld a, INDIGO_PLATEAU
 	ld [wCurrentMap], a
-	ld [wd4e8], a
+	ld [wVisitedMaps + 5], a
 	ret
 
-.asm_3143c
+.chooseMapFromArea1
 	call GenRandom
 	and $7
 	cp $7
-	jr nc, .asm_3143c
+	jr nc, .chooseMapFromArea1
 	ld c, a
 	ld b, $0
 	ld hl, FirstMapMoveSet_BlueField
 	add hl, bc
 	ld c, [hl]
-	ld hl, wd4e3
-	ld a, [wd4e2]
+	ld hl, wVisitedMaps
+	ld a, [wNumMapMoves]
 	and a
 	jr z, .asm_3145e
 	ld b, a
 .asm_31457
 	ld a, [hli]
 	cp c
-	jr z, .asm_3143c
+	jr z, .chooseMapFromArea1
 	dec b
 	jr nz, .asm_31457
 .asm_3145e
 	ld a, c
 	ld [wCurrentMap], a
-	ld a, [wd4e2]
+	ld a, [wNumMapMoves]
 	ld c, a
 	ld b, $0
-	ld hl, wd4e3
+	ld hl, wVisitedMaps
 	add hl, bc
 	ld a, [wCurrentMap]
 	ld [hl], a
 	ret
 
-.asm_31471
+.chooseMapFromArea2
 	call GenRandom
 	and $3
 	ld c, a
@@ -1830,24 +1836,24 @@ Func_3140b: ; 0x3140b
 	ld hl, SecondMapMoveSet_BlueField
 	add hl, bc
 	ld c, [hl]
-	ld hl, wd4e6
-	ld a, [wd4e2]
+	ld hl, wVisitedMaps + 3
+	ld a, [wNumMapMoves]
 	sub $3
 	jr z, .asm_31490
 	ld b, a
 .asm_31489
 	ld a, [hli]
 	cp c
-	jr z, .asm_31471
+	jr z, .chooseMapFromArea2
 	dec b
 	jr nz, .asm_31489
 .asm_31490
 	ld a, c
 	ld [wCurrentMap], a
-	ld a, [wd4e2]
+	ld a, [wNumMapMoves]
 	ld c, a
 	ld b, $0
-	ld hl, wd4e3
+	ld hl, wVisitedMaps
 	add hl, bc
 	ld a, [wCurrentMap]
 	ld [hl], a
@@ -2001,12 +2007,12 @@ Func_315d5: ; 0x315d5
 	ld de, $0000
 	call PlaySong
 	rst AdvanceFrame
-	callba Func_31281
+	callba ChooseNextMap_RedField
 	callba LoadMapBillboardTileData
 	lb de, $25, $25
 	call PlaySoundEffect
 	ld bc, ArrivedAtMapText
-	callba Func_3118f
+	callba LoadScrollingMapNameText
 .asm_31603
 	callba Func_33e3
 	rst AdvanceFrame
@@ -2155,12 +2161,12 @@ Func_3174c: ; 0x3174c
 	ld de, $0000
 	call PlaySong
 	rst AdvanceFrame
-	callba Func_3140b
+	callba ChooseNextMap_BlueField
 	callba LoadMapBillboardTileData
 	lb de, $25, $25
 	call PlaySoundEffect
 	ld bc, ArrivedAtMapText
-	callba Func_3118f
+	callba LoadScrollingMapNameText
 .asm_3177a
 	callba Func_33e3
 	rst AdvanceFrame

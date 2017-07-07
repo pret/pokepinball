@@ -4218,7 +4218,7 @@ Sine: ; 0x2149
 
 ApplyGravityToBall: ; 0x2168
 ; Adds a constant to the pinball's y velocity.
-	ld a, [wd549]
+	ld a, [wDisableBallGravityAndTilt]
 	and a
 	ret z
 	ld de, $000b  ; gravity added to y velocity every frame
@@ -5243,7 +5243,7 @@ HandleLeftTilt: ; 0x358c
 	call PlaySoundEffect
 .skipSoundEffect
 	ld a, [wd548]
-	ld hl, wd549
+	ld hl, wDisableBallGravityAndTilt
 	and [hl]
 	jr z, .skipBallMovement
 	ld a, [wBallXPos + 1]
@@ -5299,7 +5299,7 @@ HandleRightTilt: ; 0x35f3
 	call PlaySoundEffect
 .skipSoundEffect
 	ld a, [wd548]
-	ld hl, wd549
+	ld hl, wDisableBallGravityAndTilt
 	and [hl]
 	jr z, .skipBallMovement
 	ld a, [wBallXPos + 1]
@@ -5355,7 +5355,7 @@ HandleUpperTilt: ; 0x365a
 	call PlaySoundEffect
 .skipSoundEffect
 	ld a, [wd548]
-	ld hl, wd549
+	ld hl, wDisableBallGravityAndTilt
 	and [hl]
 	jr z, .skipBallMovement
 	ld a, [wBallYPos + 1]
@@ -5395,7 +5395,7 @@ HandleUpperTilt: ; 0x365a
 
 ApplyTiltForces: ; 0x36c1
 	ld a, [wd548]
-	ld hl, wd549
+	ld hl, wDisableBallGravityAndTilt
 	and [hl]
 	ret z
 	ld c, $0

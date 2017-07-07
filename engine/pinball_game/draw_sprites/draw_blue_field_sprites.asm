@@ -1,7 +1,7 @@
 DrawSpritesBlueFieldTop: ; 0x1f330
 	ld bc, $7f00
 	callba DrawTimer
-	call Func_1f395
+	call DrawShellderSprites
 	call Func_1f3e1
 	call Func_1f408
 	call Func_1f428
@@ -23,18 +23,18 @@ DrawSpritesBlueFieldBottom: ; 0x1f35a
 	call Func_1f55e
 	ret
 
-Func_1f395: ; 0x1f395
-	ld de, wd4cd
+DrawShellderSprites: ; 0x1f395
+	ld de, wShellder1Animation_Unused
 	ld hl, Data_1f3cf
-	call Func_1f3ad
-	ld de, wd4d0
+	call DrawShellderSprite
+	ld de, wShellder2Animation_Unused
 	ld hl, Data_1f3d5
-	call Func_1f3ad
-	ld de, wd4d3
+	call DrawShellderSprite
+	ld de, wShellder3Animation_Unused
 	ld hl, Data_1f3db
 	; fall through
 
-Func_1f3ad: ; 0x1f3ad
+DrawShellderSprite: ; 0x1f3ad
 	ld a, [hSCX]
 	ld b, a
 	ld a, [hli]
@@ -45,7 +45,7 @@ Func_1f3ad: ; 0x1f3ad
 	ld a, [hli]
 	sub c
 	ld c, a
-	ld a, [wd4d7]
+	ld a, [wWhichAnimatedShellder]
 	sub [hl]
 	inc hl
 	jr z, .asm_1f3c4

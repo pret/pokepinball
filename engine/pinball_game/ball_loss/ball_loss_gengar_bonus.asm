@@ -15,7 +15,7 @@ HandleBallLossGengarBonus: ; 0xdf1a
 	and a
 	ret nz
 	ld [wd548], a
-	ld [wd549], a
+	ld [wDisableBallGravityAndTilt], a
 	ld [wBallSpin], a
 	ld [wBallRotation], a
 	ld hl, wBallXVelocity

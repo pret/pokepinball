@@ -127,7 +127,7 @@ CheckBlueStageEvolutionTrinketCollision: ; 0x1c5eb
 
 CheckBlueStageLaunchAlleyCollision: ; 0x1c607
 	ld de, BlueStageLaunchAlleyCollisionData
-	ld bc, wPinballLaunchAlley
+	ld bc, wPinballLaunchCollision
 	scf
 	jp HandleGameObjectCollision
 

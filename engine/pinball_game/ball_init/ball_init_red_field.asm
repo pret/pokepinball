@@ -11,7 +11,7 @@ InitBallRedField: ; 0x3007d
 	ld a, $98
 	ld [wBallYPos + 1], a
 	xor a
-	ld [wd549], a
+	ld [wDisableBallGravityAndTilt], a
 	ld [wd580], a
 	ld a, [wd7ad]
 	bit 7, a

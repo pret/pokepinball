@@ -24,7 +24,7 @@ InitBallForStage: ; 0x83ba
 	ld [wBallRotation], a
 	inc a
 	ld [wd548], a
-	ld [wd549], a
+	ld [wDisableBallGravityAndTilt], a
 	ld a, $20
 	ld [wSCX], a
 	ld a, [wCurrentStage]

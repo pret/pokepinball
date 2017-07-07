@@ -1,6 +1,6 @@
 _LoadStageDataBlueFieldTop: ; 0x1c165
 	call asm_1e475
-	call Func_1cb43
+	call UpdateSpinnerChargeGraphics_BlueField
 	call Func_1c3ee
 	call Func_1e8f6
 	callba Func_142fc
@@ -51,7 +51,7 @@ Func_1c1db: ; 0x1c1db
 
 Func_1c203: ; 0x1c203
 	ld a, $ff
-	ld [wd4d7], a
+	ld [wWhichAnimatedShellder], a
 	ld [wd4db], a
 	ld a, [wBallXPos + 1]
 	ld [wd4c5], a

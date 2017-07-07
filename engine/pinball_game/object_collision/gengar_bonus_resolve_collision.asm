@@ -878,7 +878,7 @@ Func_1894c: ; 0x1894c
 	inc a
 	ld [wd6a5], a
 	ld a, [wd548]
-	ld hl, wd549
+	ld hl, wDisableBallGravityAndTilt
 	and [hl]
 	jr z, .asm_18973
 	ld a, [wBallYPos + 1]

@@ -288,19 +288,27 @@ wWhichVoltorbId:: ; 0xd4cc
 wWhichShellderId::
 	ds $1
 
-wd4cd:: ; 0xd4cd
-	ds $3
+wVoltorb1Animation:: ; 0xd4cd
+wShellder1Animation_Unused::
+	animation wVoltorb1Animation
 
-wd4d0:: ; 0xd4d0
-	ds $3
+wVoltorb2Animation:: ; 0xd4d0
+wShellder2Animation_Unused::
+	animation wVoltorb2Animation
 
-wd4d3:: ; 0xd4d3
-	ds $3
+wVoltorb3Animation:: ; 0xd4d3
+wShellder3Animation_Unused::
+	animation wVoltorb3Animation
 
-wd4d6:: ; 0xd4d6
+wVoltorbHitAnimationDuration:: ; 0xd4d6
+wShellderHitAnimationDuration::
+; Number of frames remaining in the light-up animation when a Shellder/Voltorb is hit.
+; This single byte actually controls all three of them, since only one can be animated at a time.
 	ds $1
 
-wd4d7:: ; 0xd4d7
+wWhichAnimatedVoltorb:: ; 0xd4d7
+wWhichAnimatedShellder::
+; Hold the index (0,1,2) of the Shellder/Voltorb that is currently being animated after it was hit.
 	ds $1
 
 wWhichBumper:: ; 0xd4d8
@@ -317,44 +325,37 @@ wd4da:: ; 0xd4da
 wd4db:: ; 0xd4db
 	ds $1
 
-wPinballLaunchAlley:: ; 0xd4dc
+wPinballLaunchCollision:: ; 0xd4dc
 ; 0 = pinball isn't resting at the start, waiting to be launched by the player
 ; 1 = pinball can be launched to start the round
 ; second byte is unused, but it's written by HandleGameObjectCollision
 	ds $2
 
-wd4de:: ; 0xd4de
+wPinballLaunched:: ; 0xd4de
+; 0 = pinball hasn't been launched, yet
+; 1 = pinball was launched
 	ds $1
 
 wd4df:: ; 0xd4df
 	ds $1
 
-wd4e0:: ; 0xd4e0
+wChoseInitialMap:: ; 0xd4e0
+; Set to 1 after the player chooses the initial map during first pinball launch.
 	ds $1
 
 wInitialMapSelectionIndex:: ; 0xd4e1
 	ds $1
 
-wd4e2:: ; 0xd4e2
+wNumMapMoves:: ; 0xd4e2
+; Number of times the player has successfully completed a map move.
+; Resets to 0 after completing 6.
 	ds $1
 
-wd4e3:: ; 0xd4e3
-	ds $1
-
-wd4e4:: ; 0xd4e4
-	ds $1
-
-wd4e5:: ; 0xd4e5
-	ds $1
-
-wd4e6:: ; 0xd4e6
-	ds $1
-
-wd4e7:: ; 0xd4e7
-	ds $1
-
-wd4e8:: ; 0xd4e8
-	ds $2
+wVisitedMaps:: ; 0xd4e3
+; List of the visited maps in order.
+; It is reset after moving past Indigo Plateau.
+; The last byte is unused, since there are only 6 map moves.
+	ds $7
 
 wTriggeredGameObject:: ; 0xd4ea
 ; Game objects, such as the two bumpers, Pikachu savers, CAVE, etc. have unique ids.
@@ -367,8 +368,8 @@ wTriggeredGameObjectIndex:: ; 0xd4eb
 	ds $1
 
 wPreviousTriggeredGameObject:: ; 0xd4ec
-; Store the previous triggered game object's id, so that the pinball cant trigger
-; and object two frames in a row. It has to "un-collide" before it can collide again.
+; Store the previous triggered game object's id, so that the pinball can't trigger
+; an object two frames in a row. It has to "un-collide" before it can collide again.
 	ds $1
 
 wWhichDiglett:: ; 0xd4ed
@@ -504,29 +505,11 @@ wWhichBoardTrigger:: ; 0xd51f
 wWhichBoardTriggerId:: ; 0xd520
 	ds $1
 
-wd521:: ; 0xd521
-	ds $1
+wCollidedAlleyTriggers:: ; 0xd521
+; These bytes are pretty unnecessary, but the original code decided it would use a roundabout way to decide which function to call based on wWhichBoardTriggerId was collided with.
+	ds $8
 
-wd522:: ; 0xd522
-	ds $1
-
-wd523:: ; 0xd523
-	ds $1
-
-wd524:: ; 0xd524
-	ds $1
-
-wd525:: ; 0xd525
-	ds $1
-
-wd526:: ; 0xd526
-	ds $1
-
-wd527:: ; 0xd527
-	ds $1
-
-wd528:: ; 0xd528
-	ds $7
+	ds $6 ; free space
 
 wIndicatorStates:: ; 0xd52f
 	ds $13
@@ -549,7 +532,9 @@ wSecondaryLeftAlleyTrigger:: ; 0xd546
 wd548:: ; 0xd548
 	ds $1
 
-wd549:: ; 0xd549
+wDisableBallGravityAndTilt:: ; 0xd549
+; Set to 1 to disable any affect gravity or tilt has on the pinball.
+; Used for things likes the initial pinball launch or to hold the ball stationary.
 	ds $1
 
 wCurrentMap:: ; 0xd54a
@@ -1013,10 +998,13 @@ wd64a:: ; 0xd64a
 wd64b:: ; 0xd64b
 	ds $1
 
-wd64c:: ; 0xd64c
+wBlueFieldForceFieldFrameCounter:: ; 0xd64c
+; Continuosly counts up to 60--wraps around to 0.
 	ds $1
 
-wd64d:: ; 0xd64d
+wBlueFieldForceFieldSecondsCounter:: ; 0xd64d
+; Increments once every second, based on wBlueFieldForceFieldFrameCounter.
+; When it hits 5 seconds, it wraps back to 0.
 	ds $1
 
 wd64e:: ; 0xd64e

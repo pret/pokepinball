@@ -22,15 +22,15 @@ ResolveRedFieldTopGameObjectCollisions: ; 0x1460e
 	ret
 
 ResolveRedFieldBottomGameObjectCollisions: ; 0x14652
-	call Func_14795
-	call Func_15f86
+	call ResolveWildMonCollision_RedField
+	call ResolveRedStageBumperCollision
 	call ResolveDiglettCollision
 	call Func_14880
-	call Func_14e10
+	call UpdateRedStageSpinner
 	call Func_154a9
 	call HandleRedStageBallTypeUpgradeCounter
 	call Func_151cb
-	call Func_1652d
+	call ResolveRedStagePinballLaunchCollision
 	call ResolveRedStagePikachuCollision
 	call Func_167ff
 	call Func_169a6
@@ -207,7 +207,7 @@ AgainTextOnTileDataRedField2:
 	db Bank(StageRedFieldBottomBaseGameBoyGfx)
 	db $00
 
-Func_14795: ; 0x14795
+ResolveWildMonCollision_RedField: ; 0x14795
 	ld a, [wWildMonCollision]
 	and a
 	ret z
@@ -1320,10 +1320,10 @@ ResolveVoltorbCollision: ; 0x14d85
 	ld [wWhichVoltorb], a
 	call Func_14dc9
 	ld a, $10
-	ld [wd4d6], a
+	ld [wVoltorbHitAnimationDuration], a
 	ld a, [wWhichVoltorbId]
 	sub $3
-	ld [wd4d7], a
+	ld [wWhichAnimatedVoltorb], a
 	ld a, $4
 	callba Func_10000
 	ld bc, FiveHundredPoints
@@ -1331,14 +1331,14 @@ ResolveVoltorbCollision: ; 0x14d85
 	ret
 
 .noVoltorbCollision
-	ld a, [wd4d6]
+	ld a, [wVoltorbHitAnimationDuration]
 	and a
 	ret z
 	dec a
-	ld [wd4d6], a
+	ld [wVoltorbHitAnimationDuration], a
 	ret nz
 	ld a, $ff
-	ld [wd4d7], a
+	ld [wWhichAnimatedVoltorb], a
 	ret
 
 Func_14dc9: ; 0x14dc9
@@ -1360,7 +1360,7 @@ Func_14dc9: ; 0x14dc9
 ResolveRedStageSpinnerCollision: ; 0x14dea
 	ld a, [wSpinnerCollision]
 	and a
-	jr z, Func_14e10
+	jr z, UpdateRedStageSpinner
 	xor a
 	ld [wSpinnerCollision], a
 	ld a, [wBallYVelocity]
@@ -1374,7 +1374,8 @@ ResolveRedStageSpinnerCollision: ; 0x14dea
 	ld a, $c
 	callba Func_10000
 	; fall through
-Func_14e10: ; 0x14e10
+
+UpdateRedStageSpinner: ; 0x14e10
 	ld hl, wd50b
 	ld a, [hli]
 	or [hl]
@@ -1440,13 +1441,13 @@ Func_14e10: ; 0x14e10
 	ld a, [wPikachuSaverCharge]
 	cp MAX_PIKACHU_SAVER_CHARGE
 	jr nz, .asm_14e8a
-	call Func_14ea7
+	call PlaySpinnerChargingSoundEffect_RedField
 	ret
 
 .asm_14e8a
 	inc a
 	ld [wPikachuSaverCharge], a
-	call Func_14ea7
+	call PlaySpinnerChargingSoundEffect_RedField
 	ld a, [wPikachuSaverCharge]
 	cp MAX_PIKACHU_SAVER_CHARGE
 	jr nz, .asm_14e9d
@@ -1456,17 +1457,17 @@ Func_14e10: ; 0x14e10
 	ld a, [wCurrentStage]
 	bit 0, a
 	ret nz
-	call Func_14ece
+	call UpdateSpinnerChargeGraphics_RedField
 	ret
 
-Func_14ea7: ; 0x14ea7
+PlaySpinnerChargingSoundEffect_RedField: ; 0x14ea7
 	ld a, [wd51e]
 	and a
 	ret nz
 	ld a, [wPikachuSaverCharge]
 	ld c, a
 	ld b, $0
-	ld hl, SoundEffects_14ebe
+	ld hl, SpinnerChargingSoundEffectIds_RedField
 	add hl, bc
 	ld a, [hl]
 	ld e, a
@@ -1474,10 +1475,11 @@ Func_14ea7: ; 0x14ea7
 	call PlaySoundEffect
 	ret
 
-SoundEffects_14ebe:
+SpinnerChargingSoundEffectIds_RedField:
 	db $12, $13, $14, $15, $16, $17, $18, $19, $1A, $1B, $1C, $1D, $1E, $1F, $20, $11
 
-Func_14ece: ; 0x14ece
+UpdateSpinnerChargeGraphics_RedField: ; 0x14ece
+; Loads the correct graphics that show the lightning bolt icon for the spinner's current charge.
 	ld a, [wPikachuSaverCharge]
 	ld c, a
 	sla c
@@ -3391,38 +3393,41 @@ ResolveRedStageBoardTriggerCollision: ; 0x1581f
 	sub $11
 	ld c, a
 	ld b, $0
-	ld hl, wd521
+	ld hl, wCollidedAlleyTriggers
 	add hl, bc
 	ld [hl], $1
-	ld a, [wd521]
+	ld a, [wCollidedAlleyTriggers + 0]
 	and a
-	call nz, Func_1587c
-	ld a, [wd522]
+	call nz, HandleSecondaryLeftAlleyTrigger_RedField
+	ld a, [wCollidedAlleyTriggers + 1]
 	and a
-	call nz, Func_158c0
-	ld a, [wd523]
+	call nz, HandleThirdLeftAlleyTrigger_RedField
+	ld a, [wCollidedAlleyTriggers + 2]
 	and a
-	call nz, Func_15904
-	ld a, [wd524]
+	call nz, HandleSecondaryStaryuAlleyTrigger_RedField
+	ld a, [wCollidedAlleyTriggers + 3]
 	and a
-	call nz, HandleLeftAlleyTriggerRedField
-	ld a, [wd525]
+	call nz, HandleLeftAlleyTrigger_RedField
+	ld a, [wCollidedAlleyTriggers + 4]
 	and a
-	call nz, Func_15931
-	ld a, [wd526]
+	call nz, HandleStaryuAlleyTrigger_RedField
+	; Ball passed over the second Staryu alley trigger point in the Red Field.
+	ld a, [wCollidedAlleyTriggers + 5]
 	and a
-	call nz, Func_15944
-	ld a, [wd527]
+	call nz, HandleSecondaryRightAlleyTrigger_RedField
+	ld a, [wCollidedAlleyTriggers + 6]
 	and a
-	call nz, HandleRightAlleyTriggerRedField
-	ld a, [wd528]
+	call nz, HandleRightAlleyTrigger_RedField
+	ld a, [wCollidedAlleyTriggers + 7]
 	and a
 	call nz, Func_15990
 	ret
 
-Func_1587c: ; 0x1587c
+HandleSecondaryLeftAlleyTrigger_RedField: ; 0x1587c
+; Ball passed over the secondary left alley trigger point in the Red Field.
+; This is the trigger that is covered up by Ditto when evolution mode isn't available.
 	xor a
-	ld [wd521], a
+	ld [wCollidedAlleyTriggers + 0], a
 	ld a, [wLeftAlleyTrigger]
 	and a
 	ret z
@@ -3448,9 +3453,11 @@ Func_1587c: ; 0x1587c
 	call Func_159f4
 	ret
 
-Func_158c0: ; 0x158c0
+HandleThirdLeftAlleyTrigger_RedField: ; 0x158c0
+; Ball passed over the third left alley trigger point in the Red Field.
+; This is the trigger that is NOT covered up by Ditto when evolution mode isn't available. It's located just to to the left of the top of the Voltorg area.
 	xor a
-	ld [wd522], a
+	ld [wCollidedAlleyTriggers + 1], a
 	ld a, [wLeftAlleyTrigger]
 	and a
 	ret z
@@ -3476,9 +3483,10 @@ Func_158c0: ; 0x158c0
 	call Func_159f4
 	ret
 
-Func_15904: ; 0x15904
+HandleSecondaryStaryuAlleyTrigger_RedField: ; 0x15904
+; Ball passed over the second Staryu alley trigger point in the Red Field.
 	xor a
-	ld [wd523], a
+	ld [wCollidedAlleyTriggers + 2], a
 	ld a, [wSecondaryLeftAlleyTrigger]
 	and a
 	ret z
@@ -3488,10 +3496,10 @@ Func_15904: ; 0x15904
 	callba Func_10000
 	ret
 
-HandleLeftAlleyTriggerRedField: ; 0x1591e
+HandleLeftAlleyTrigger_RedField: ; 0x1591e
 ; Ball passed over the left alley trigger point in the Red Field.
 	xor a
-	ld [wd524], a
+	ld [wCollidedAlleyTriggers + 3], a
 	ld [wRightAlleyTrigger], a
 	ld [wSecondaryLeftAlleyTrigger], a
 	ld a, $1
@@ -3499,9 +3507,10 @@ HandleLeftAlleyTriggerRedField: ; 0x1591e
 	call Func_159c9
 	ret
 
-Func_15931: ; 0x15931
+HandleStaryuAlleyTrigger_RedField: ; 0x15931
+; Ball passed over the first Staryu alley trigger point in the Red Field.
 	xor a
-	ld [wd525], a
+	ld [wCollidedAlleyTriggers + 4], a
 	ld [wRightAlleyTrigger], a
 	ld [wLeftAlleyTrigger], a
 	ld a, $1
@@ -3509,9 +3518,10 @@ Func_15931: ; 0x15931
 	call Func_159c9
 	ret
 
-Func_15944: ; 0x15944
+HandleSecondaryRightAlleyTrigger_RedField: ; 0x15944
+; Ball passed over the secondary right alley trigger point in the Red Field.
 	xor a
-	ld [wd526], a
+	ld [wCollidedAlleyTriggers + 5], a
 	ld a, [wRightAlleyTrigger]
 	and a
 	ret z
@@ -3537,10 +3547,10 @@ Func_15944: ; 0x15944
 	ld [wIndicatorStates + 3], a
 	ret
 
-HandleRightAlleyTriggerRedField: ; 0x1597d
+HandleRightAlleyTrigger_RedField: ; 0x1597d
 ; Ball passed over the right alley trigger point in the Red Field.
 	xor a
-	ld [wd527], a
+	ld [wCollidedAlleyTriggers + 6], a
 	ld [wLeftAlleyTrigger], a
 	ld [wSecondaryLeftAlleyTrigger], a
 	ld a, $1
@@ -3550,7 +3560,7 @@ HandleRightAlleyTriggerRedField: ; 0x1597d
 
 Func_15990: ; 0x15990
 	xor a
-	ld [wd528], a
+	ld [wCollidedAlleyTriggers + 7], a
 	ld a, [wRightAlleyTrigger]
 	and a
 	ret z
@@ -4467,7 +4477,7 @@ ResolveBellsproutCollision: ; 0x15e93
 	ld a, $78
 	ld [wBallYPos + 1], a
 	xor a
-	ld [wd549], a
+	ld [wDisableBallGravityAndTilt], a
 .asm_15eda
 	ld hl, BellsproutAnimationData
 	ld de, wBellsproutAnimation
@@ -4521,7 +4531,7 @@ ResolveBellsproutCollision: ; 0x15e93
 	cp $5
 	ret nz
 	ld a, $1
-	ld [wd549], a
+	ld [wDisableBallGravityAndTilt], a
 	xor a
 	ld [wBallXVelocity + 1], a
 	ld a, $2
@@ -4550,22 +4560,22 @@ BellsproutAnimationData: ; 0x15f69
 	db $28, $01
 	db $00  ; terminator
 
-Func_15f86: ; 0x15f86
+ResolveRedStageBumperCollision: ; 0x15f86
 	ld a, [wWhichBumper]
 	and a
 	jr z, .asm_15f99
-	call Func_5fb8
+	call LoadBumperCollisionGraphics_RedField
 	call Func_15fa6
 	xor a
 	ld [wWhichBumper], a
-	call Func_15fda
+	call ApplyBumperCollision_RedField
 .asm_15f99
 	ld a, [wd4da]
 	and a
 	ret z
 	dec a
 	ld [wd4da], a
-	call z, Func_5fb8
+	call z, LoadBumperCollisionGraphics_RedField
 	ret
 
 Func_15fa6: ; 0x15fa6
@@ -4578,7 +4588,7 @@ Func_15fa6: ; 0x15fa6
 	inc a
 	jr asm_15fc0
 
-Func_5fb8: ; 0x5fb8
+LoadBumperCollisionGraphics_RedField: ; 0x5fb8
 	ld a, [wd4db]
 	cp $ff
 	ret z
@@ -4601,7 +4611,7 @@ asm_15fc0
 	call Func_10aa
 	ret
 
-Func_15fda: ; 0x15fda
+ApplyBumperCollision_RedField: ; 0x15fda
 	ld a, $ff
 	ld [wd803], a
 	ld a, $3
@@ -4617,7 +4627,7 @@ Func_15fda: ; 0x15fda
 	sub $6
 	ld c, a
 	ld b, $0
-	ld hl, CollisionAngleDeltas_1600e
+	ld hl, BumperCollisionAngleDeltas_RedField
 	add hl, bc
 	ld a, [wCollisionForceAngle]
 	add [hl]
@@ -4626,7 +4636,7 @@ Func_15fda: ; 0x15fda
 	call PlaySoundEffect
 	ret
 
-CollisionAngleDeltas_1600e:
+BumperCollisionAngleDeltas_RedField:
 	db -8, 8
 
 TileDataPointers_16010:
@@ -4865,7 +4875,7 @@ ResolveDittoSlotCollision: ; 0x160f0
 	ld [hli], a
 	ld [hli], a
 	ld [hli], a
-	ld [wd549], a
+	ld [wDisableBallGravityAndTilt], a
 	ld [wBallXPos], a
 	ld [wBallYPos], a
 	ld a, $11
@@ -4910,7 +4920,7 @@ ResolveDittoSlotCollision: ; 0x160f0
 	callba Func_10ab3
 	ld a, $1
 	ld [wd548], a
-	ld [wd549], a
+	ld [wDisableBallGravityAndTilt], a
 	ld a, $5
 	ld [wd803], a
 	ld a, $8
@@ -5082,7 +5092,7 @@ Func_16279: ; 0x16279
 	ld [hli], a
 	ld [hli], a
 	ld [hli], a
-	ld [wd549], a
+	ld [wDisableBallGravityAndTilt], a
 	ld [wBallXPos], a
 	ld [wBallYPos], a
 	ld a, $50
@@ -5173,7 +5183,7 @@ Func_16352: ; 0x16352
 	jr nc, .asm_1636d
 	ld a, $1
 	ld [wd548], a
-	ld [wd549], a
+	ld [wDisableBallGravityAndTilt], a
 	ret
 
 .asm_1636d
@@ -5221,7 +5231,7 @@ Func_16352: ; 0x16352
 	jr nc, .asm_1637a
 	ld a, $1
 	ld [wd548], a
-	ld [wd549], a
+	ld [wDisableBallGravityAndTilt], a
 	ld a, [wCatchEmOrEvolutionSlotRewardActive]
 	cp EVOLUTION_MODE_SLOT_REWARD
 	ret nz
@@ -5471,15 +5481,15 @@ Func_164e3: ; 0x164e3
 	call nz, Func_16425
 	ret
 
-Func_1652d: ; 0x1652d
-	ld a, [wPinballLaunchAlley]
+ResolveRedStagePinballLaunchCollision: ; 0x1652d
+	ld a, [wPinballLaunchCollision]
 	and a
 	ret z
 	xor a
-	ld [wPinballLaunchAlley], a
-	ld a, [wd4de]
+	ld [wPinballLaunchCollision], a ; set to 0, so we only check for a launch once per frame
+	ld a, [wPinballLaunched]
 	and a
-	jr z, .asm_16566
+	jr z, .notLaunchedYet
 	xor a
 	ld [wRightAlleyTrigger], a
 	ld [wLeftAlleyTrigger], a
@@ -5494,33 +5504,35 @@ Func_1652d: ; 0x1652d
 	ld a, $fa
 	ld [wBallYVelocity + 1], a
 	ld a, $1
-	ld [wd549], a
+	ld [wDisableBallGravityAndTilt], a
 	lb de, $00, $0a
 	call PlaySoundEffect
-.asm_16566
+.notLaunchedYet
 	ld a, $ff
 	ld [wPreviousTriggeredGameObject], a
-	ld a, [wd4de]
+	ld a, [wPinballLaunched]
 	and a
 	ret nz
-	ld a, [wd4e0]
+	ld a, [wChoseInitialMap]
 	and a
-	jr nz, .asm_16582
-	call Func_1658f
+	jr nz, .checkPressedKeysToLaunchBall
+	call ChooseInitialMap_RedField
 	ld a, $1
-	ld [wd4e0], a
-	ld [wd4de], a
+	ld [wChoseInitialMap], a
+	ld [wPinballLaunched], a
 	ret
 
-.asm_16582
+.checkPressedKeysToLaunchBall
 	ld hl, wKeyConfigBallStart
 	call IsKeyPressed
 	ret z
 	ld a, $1
-	ld [wd4de], a
+	ld [wPinballLaunched], a
 	ret
 
-Func_1658f: ; 0x1658f
+ChooseInitialMap_RedField: ; 0x1658f
+; While waiting to launch the pinball, this quickly rotates the billboard with the initial
+; maps the player can start on.
 	ld a, [hGameBoyColorFlag]
 	and a
 	callba nz, LoadGreyBillboardPaletteData
@@ -5547,7 +5559,7 @@ Func_1658f: ; 0x1658f
 	ld b, $20  ; number of frames to delay before the next map is shown
 .waitOnCurrentMap
 	push bc
-	callba Func_eeee
+	callba Delay1Frame
 	ld hl, wKeyConfigBallStart
 	call IsKeyPressed
 	jr nz, .ballStartKeyPressed
@@ -5560,11 +5572,11 @@ Func_1658f: ; 0x1658f
 	pop bc
 	callba LoadMapBillboardTileData
 	ld bc, StartFromMapText
-	callba Func_3118f
+	callba LoadScrollingMapNameText
 	ld a, [wCurrentMap]
-	ld [wd4e3], a
+	ld [wVisitedMaps], a
 	xor a
-	ld [wd4e2], a
+	ld [wNumMapMoves], a
 	ret
 
 RedStageInitialMaps: ; 0x16605
@@ -5615,7 +5627,7 @@ ResolveRedStagePikachuCollision: ; 0x1660c
 	ld [wBallYVelocity + 1], a
 	ld [wBallSpin], a
 	ld [wBallRotation], a
-	ld [wd549], a
+	ld [wDisableBallGravityAndTilt], a
 	call FillBottomMessageBufferWithBlackTile
 	jr .asm_1667b
 
@@ -5687,7 +5699,7 @@ Func_1669e: ; 0x1669e
 	ld a, $fc
 	ld [wBallYVelocity + 1], a
 	ld a, $1
-	ld [wd549], a
+	ld [wDisableBallGravityAndTilt], a
 	ld bc, FiveThousandPoints
 	callba AddBigBCD6FromQueueWithBallMultiplier
 	xor a

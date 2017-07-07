@@ -1,7 +1,7 @@
 DrawSpritesRedFieldTop: ; 0x1755c
 	ld bc, $7f00
 	call DrawTimer
-	call Func_17cc4
+	call DrawVoltorbSprites
 	call Func_17d34
 	call Func_17d59
 	call Func_17d7a
@@ -202,18 +202,18 @@ DrawAnimatedMon_RedStage: ; 0x17c96
 AnimatedMonOAMIds_RedStage:
 	db $26, $27, $28, $29, $2A, $2B, $2C, $2D, $2E, $2F, $30, $31
 
-Func_17cc4: ; 0x17cc4
-	ld de, wd4cd
+DrawVoltorbSprites: ; 0x17cc4
+	ld de, wVoltorb1Animation
 	ld hl, OAMData_17d15
-	call Func_17cdc
-	ld de, wd4d0
+	call DrawVoltorbSprite
+	ld de, wVoltorb2Animation
 	ld hl, OAMData_17d1b
-	call Func_17cdc
-	ld de, wd4d3
+	call DrawVoltorbSprite
+	ld de, wVoltorb3Animation
 	ld hl, OAMData_17d21
 	; fall through
 
-Func_17cdc: ; 0x17cdc
+DrawVoltorbSprite: ; 0x17cdc
 	push hl
 	ld hl, AnimationData_17d27
 	call UpdateAnimation
@@ -243,7 +243,7 @@ Func_17cdc: ; 0x17cdc
 	ld a, [hli]
 	sub c
 	ld c, a
-	ld a, [wd4d7]
+	ld a, [wWhichAnimatedVoltorb]
 	sub [hl]
 	inc hl
 	jr z, .asm_17d0c

@@ -93,7 +93,7 @@ CheckRedStageBumpersCollision: ; 0x14481
 
 CheckRedStageLaunchAlleyCollision: ; 0x1448e
 	ld de, RedStageLaunchAlleyCollisionData
-	ld bc, wPinballLaunchAlley
+	ld bc, wPinballLaunchCollision
 	scf
 	jp HandleGameObjectCollision
 

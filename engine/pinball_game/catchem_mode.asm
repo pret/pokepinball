@@ -691,7 +691,7 @@ BallCaptureInit: ; 0x10496
 	ld [wBallYVelocity + 1], a
 	xor a
 	ld [wd548], a
-	ld [wd549], a
+	ld [wDisableBallGravityAndTilt], a
 	lb de, $00, $0b
 	call PlaySoundEffect
 	ret
@@ -789,7 +789,7 @@ CapturePokemon: ; 0x1052d
 	ld [wCapturingMon], a
 	ld a, $1
 	ld [wd548], a
-	ld [wd549], a
+	ld [wDisableBallGravityAndTilt], a
 	callba RestoreBallSaverAfterCatchEmMode
 	call ConcludeCatchEmMode
 	ld de, $0001

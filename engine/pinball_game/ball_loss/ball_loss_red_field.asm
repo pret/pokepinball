@@ -32,7 +32,7 @@ HandleBallLossRedField: ; 0xdd76
 	ld a, $1
 	ld [wd4c9], a
 	xor a
-	ld [wd4de], a
+	ld [wPinballLaunched], a
 	ld [wd4df], a
 	call Func_ddfd
 	ld a, [wCurBonusMultiplier]

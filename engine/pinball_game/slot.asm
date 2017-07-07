@@ -72,7 +72,7 @@ Func_ed8e: ; 0xed8e
 	ld b, a
 .asm_ee2a
 	push bc
-	call Func_eeee
+	call Delay1Frame
 	ld a, [wd61e]
 	and a
 	jr nz, .asm_ee47
@@ -181,14 +181,15 @@ SlotRewards_CallTable: ; 0xeeca
 	dw SlotRewardGoToBonusStage
 	dw SlotRewardGoToBonusStage
 
-Func_eeee: ; 0xeeee
+Delay1Frame: ; 0xeeee
+; Simply does nothing for approximately 1 frame of real time
 	push bc
 	ld bc, $0200
-.asm_eef2
+.loop
 	dec bc
 	ld a, b
 	or c
-	jr nz, .asm_eef2
+	jr nz, .loop
 	pop bc
 	ret
 

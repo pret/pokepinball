@@ -11,7 +11,7 @@ InitBallBlueField: ; 0x1c08d
 	ld a, $98
 	ld [wBallYPos + 1], a
 	xor a
-	ld [wDisableBallGravityAndTilt], a
+	ld [wEnableBallGravityAndTilt], a
 	ld [wd580], a
 	call InitBlueFieldCollisionAttributes
 	ld a, [wd4c9]

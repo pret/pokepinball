@@ -15,7 +15,7 @@ HandleBallLossMewtwoBonus: ; 0xdf7e
 	and a
 	ret nz
 	ld [wd548], a
-	ld [wDisableBallGravityAndTilt], a
+	ld [wEnableBallGravityAndTilt], a
 	ld [wBallSpin], a
 	ld [wBallRotation], a
 	ld hl, wBallXVelocity

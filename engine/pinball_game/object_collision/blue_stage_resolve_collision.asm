@@ -76,7 +76,7 @@ ResolveBlueStagePinballLaunchCollision: ; 0x1c7d7
 	ld a, $fa
 	ld [wBallYVelocity + 1], a
 	ld a, $1
-	ld [wDisableBallGravityAndTilt], a
+	ld [wEnableBallGravityAndTilt], a
 	lb de, $00, $0a
 	call PlaySoundEffect
 .dontLaunch
@@ -1640,7 +1640,7 @@ ResolveBlueStagePikachuCollision: ; 0x1d0a1
 	ld [wBallYVelocity + 1], a
 	ld [wBallSpin], a
 	ld [wBallRotation], a
-	ld [wDisableBallGravityAndTilt], a
+	ld [wEnableBallGravityAndTilt], a
 	call FillBottomMessageBufferWithBlackTile
 	jr .asm_1d110
 
@@ -1712,7 +1712,7 @@ Func_1d133: ; 0x1d133
 	ld a, $fc
 	ld [wBallYVelocity + 1], a
 	ld a, $1
-	ld [wDisableBallGravityAndTilt], a
+	ld [wEnableBallGravityAndTilt], a
 	ld bc, FiveThousandPoints
 	callba AddBigBCD6FromQueueWithBallMultiplier
 	xor a
@@ -1805,7 +1805,7 @@ ResolveSlowpokeCollision: ; 0x1d216
 	ld [wBallXPos], a
 	ld [wBallYPos], a
 	xor a
-	ld [wDisableBallGravityAndTilt], a
+	ld [wEnableBallGravityAndTilt], a
 .asm_1d253
 	ld hl, SlowpokeCollisionAnimationData ; 0x1d312
 	ld de, wSlowpokeAnimation
@@ -1861,7 +1861,7 @@ ResolveSlowpokeCollision: ; 0x1d216
 	cp $5
 	ret nz
 	ld a, $1
-	ld [wDisableBallGravityAndTilt], a
+	ld [wEnableBallGravityAndTilt], a
 	ld a, $b0
 	ld [wBallXVelocity], a
 	ld a, $0
@@ -1927,7 +1927,7 @@ ResolveCloysterCollision: ; 0x1d32d
 	ld [wBallXPos], a
 	ld [wBallYPos], a
 	xor a
-	ld [wDisableBallGravityAndTilt], a
+	ld [wEnableBallGravityAndTilt], a
 .asm_1d36a
 	ld hl, CloysterCollisionAnimationData
 	ld de, wCloysterAnimation
@@ -1983,7 +1983,7 @@ ResolveCloysterCollision: ; 0x1d32d
 	cp $5
 	ret nz
 	ld a, $1
-	ld [wDisableBallGravityAndTilt], a
+	ld [wEnableBallGravityAndTilt], a
 	ld a, $4f
 	ld [wBallXVelocity], a
 	ld a, $ff
@@ -5753,7 +5753,7 @@ Func_1e757: ; 0x1e757
 	ld [hli], a
 	ld [hli], a
 	ld [hli], a
-	ld [wDisableBallGravityAndTilt], a
+	ld [wEnableBallGravityAndTilt], a
 	ld [wBallXPos], a
 	ld [wBallYPos], a
 	ld a, $50
@@ -5844,7 +5844,7 @@ Func_1e830: ; 0x1e830
 	jr nc, .asm_1e84b
 	ld a, $1
 	ld [wd548], a
-	ld [wDisableBallGravityAndTilt], a
+	ld [wEnableBallGravityAndTilt], a
 	ret
 
 .asm_1e84b
@@ -5892,7 +5892,7 @@ Func_1e830: ; 0x1e830
 	jr nc, .asm_1e858
 	ld a, $1
 	ld [wd548], a
-	ld [wDisableBallGravityAndTilt], a
+	ld [wEnableBallGravityAndTilt], a
 	ld a, [wCatchEmOrEvolutionSlotRewardActive]
 	cp EVOLUTION_MODE_SLOT_REWARD
 	ret nz

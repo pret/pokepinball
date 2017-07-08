@@ -4477,7 +4477,7 @@ ResolveBellsproutCollision: ; 0x15e93
 	ld a, $78
 	ld [wBallYPos + 1], a
 	xor a
-	ld [wDisableBallGravityAndTilt], a
+	ld [wEnableBallGravityAndTilt], a
 .asm_15eda
 	ld hl, BellsproutAnimationData
 	ld de, wBellsproutAnimation
@@ -4531,7 +4531,7 @@ ResolveBellsproutCollision: ; 0x15e93
 	cp $5
 	ret nz
 	ld a, $1
-	ld [wDisableBallGravityAndTilt], a
+	ld [wEnableBallGravityAndTilt], a
 	xor a
 	ld [wBallXVelocity + 1], a
 	ld a, $2
@@ -4875,7 +4875,7 @@ ResolveDittoSlotCollision: ; 0x160f0
 	ld [hli], a
 	ld [hli], a
 	ld [hli], a
-	ld [wDisableBallGravityAndTilt], a
+	ld [wEnableBallGravityAndTilt], a
 	ld [wBallXPos], a
 	ld [wBallYPos], a
 	ld a, $11
@@ -4920,7 +4920,7 @@ ResolveDittoSlotCollision: ; 0x160f0
 	callba Func_10ab3
 	ld a, $1
 	ld [wd548], a
-	ld [wDisableBallGravityAndTilt], a
+	ld [wEnableBallGravityAndTilt], a
 	ld a, $5
 	ld [wd803], a
 	ld a, $8
@@ -5092,7 +5092,7 @@ Func_16279: ; 0x16279
 	ld [hli], a
 	ld [hli], a
 	ld [hli], a
-	ld [wDisableBallGravityAndTilt], a
+	ld [wEnableBallGravityAndTilt], a
 	ld [wBallXPos], a
 	ld [wBallYPos], a
 	ld a, $50
@@ -5183,7 +5183,7 @@ Func_16352: ; 0x16352
 	jr nc, .asm_1636d
 	ld a, $1
 	ld [wd548], a
-	ld [wDisableBallGravityAndTilt], a
+	ld [wEnableBallGravityAndTilt], a
 	ret
 
 .asm_1636d
@@ -5231,7 +5231,7 @@ Func_16352: ; 0x16352
 	jr nc, .asm_1637a
 	ld a, $1
 	ld [wd548], a
-	ld [wDisableBallGravityAndTilt], a
+	ld [wEnableBallGravityAndTilt], a
 	ld a, [wCatchEmOrEvolutionSlotRewardActive]
 	cp EVOLUTION_MODE_SLOT_REWARD
 	ret nz
@@ -5504,7 +5504,7 @@ ResolveRedStagePinballLaunchCollision: ; 0x1652d
 	ld a, $fa
 	ld [wBallYVelocity + 1], a
 	ld a, $1
-	ld [wDisableBallGravityAndTilt], a
+	ld [wEnableBallGravityAndTilt], a
 	lb de, $00, $0a
 	call PlaySoundEffect
 .notLaunchedYet
@@ -5627,7 +5627,7 @@ ResolveRedStagePikachuCollision: ; 0x1660c
 	ld [wBallYVelocity + 1], a
 	ld [wBallSpin], a
 	ld [wBallRotation], a
-	ld [wDisableBallGravityAndTilt], a
+	ld [wEnableBallGravityAndTilt], a
 	call FillBottomMessageBufferWithBlackTile
 	jr .asm_1667b
 
@@ -5699,7 +5699,7 @@ Func_1669e: ; 0x1669e
 	ld a, $fc
 	ld [wBallYVelocity + 1], a
 	ld a, $1
-	ld [wDisableBallGravityAndTilt], a
+	ld [wEnableBallGravityAndTilt], a
 	ld bc, FiveThousandPoints
 	callba AddBigBCD6FromQueueWithBallMultiplier
 	xor a

@@ -532,9 +532,9 @@ wSecondaryLeftAlleyTrigger:: ; 0xd546
 wd548:: ; 0xd548
 	ds $1
 
-wDisableBallGravityAndTilt:: ; 0xd549
-; Set to 1 to disable any affect gravity or tilt has on the pinball.
-; Used for things likes the initial pinball launch or to hold the ball stationary.
+wEnableBallGravityAndTilt:: ; 0xd549
+; Set to 1 to enable the effect of gravity and tilt on the pinball.
+; 0 disables these forces. Used for things likes the initial pinball launch or to hold the ball stationary.
 	ds $1
 
 wCurrentMap:: ; 0xd54a

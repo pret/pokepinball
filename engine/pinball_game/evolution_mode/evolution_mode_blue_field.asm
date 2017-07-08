@@ -175,7 +175,7 @@ Func_20c76: ; 0x20c76
 Func_20d30: ; 0x20d30
 	callba RestoreBallSaverAfterCatchEmMode
 	callba PlaceEvolutionInParty
-	callba Func_10ac8
+	callba ConcludeEvolutionMode
 	ld de, $0001
 	call PlaySong
 	ld hl, wNumPokemonEvolvedInBallBonus
@@ -201,7 +201,7 @@ Func_20d7c: ; 0x20d7c
 	ret nz
 	call FillBottomMessageBufferWithBlackTile
 	callba RestoreBallSaverAfterCatchEmMode
-	callba Func_10ac8
+	callba ConcludeEvolutionMode
 	ld de, $0001
 	call PlaySong
 	scf

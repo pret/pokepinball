@@ -81,7 +81,7 @@ Func_ddfd: ; 0xddfd
 	ld [wd604], a
 	ld a, $1e
 	ld [wd607], a
-	callba Func_10ac8
+	callba ConcludeEvolutionMode
 	jr .asm_de40
 
 .asm_de2d

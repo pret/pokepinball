@@ -645,7 +645,7 @@ Func_cf58: ; 0xcf58
 	ret
 
 Func_cf7d: ; 0xcf7d
-	ld a, [wd809]
+	ld a, [wNewlyPressedButtonsPersistent]
 	ld b, a
 	ld a, [wda85]
 	bit 6, b

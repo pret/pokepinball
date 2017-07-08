@@ -13,7 +13,7 @@ SaveGame: ; 0xda05
 	ld hl, rIE
 	res 1, [hl]
 	xor a
-	ld [wd4aa], a
+	ld [wDrawBottomMessageBox], a
 	ld a, SCREEN_TITLESCREEN
 	ld [wCurrentScreen], a
 	xor a

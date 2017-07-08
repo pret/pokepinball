@@ -14,7 +14,7 @@ HandleBallLossGengarBonus: ; 0xdf1a
 	ld a, [wd6a7]
 	and a
 	ret nz
-	ld [wd548], a
+	ld [wPinballIsVisible], a
 	ld [wEnableBallGravityAndTilt], a
 	ld [wBallSpin], a
 	ld [wBallRotation], a

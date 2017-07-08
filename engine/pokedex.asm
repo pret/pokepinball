@@ -831,11 +831,11 @@ Func_28513: ; 0x28513
 
 Func_285ca: ; 0x285ca
 	xor a
-	ld [wd80a], a
+	ld [wPressedButtonsPersistent], a
 	call Func_28972
 	call Func_28a8a
 	call Func_28ad1
-	ld a, [wd80a]
+	ld a, [wPressedButtonsPersistent]
 	ret
 
 Func_285db: ; 0x285db

@@ -15,7 +15,7 @@ GameScreenFunction_LoadGFX: ; 0xd861
 	call FillBottomMessageBufferWithBlackTile
 	ld a, $1
 	ld [wd85d], a
-	ld [wd4aa], a
+	ld [wDrawBottomMessageBox], a
 	ld hl, wScreenState
 	inc [hl]
 	ret
@@ -56,7 +56,7 @@ GameScreenFunction_StartBall: ; 0xd87f
 	and a
 	call nz, Func_e5d
 	ld a, $1
-	ld [wd4aa], a
+	ld [wDrawBottomMessageBox], a
 	xor a
 	ld [wd7c1], a
 	call Func_b66
@@ -179,7 +179,7 @@ GameScreenFunction_HandleBallLoss: ; 0xda36
 	ld [wd7eb], a
 	xor a
 	ld [wd7e9], a
-	ld [wd548], a
+	ld [wPinballIsVisible], a
 	ld [wEnableBallGravityAndTilt], a
 	call HandleTilts
 	ld a, [wCurrentStage]
@@ -203,7 +203,7 @@ GameScreenFunction_HandleBallLoss: ; 0xda36
 	jr z, .asm_daa9
 	ld a, $2
 	ld [wd49c], a
-	ld [wd4aa], a
+	ld [wDrawBottomMessageBox], a
 	call FillBottomMessageBufferWithBlackTile
 	call Func_30db
 	ld hl, wd5dc
@@ -306,7 +306,7 @@ TransitionToHighScoresScreen: ; 0xdb5d
 	ld hl, rIE
 	res 1, [hl]
 	xor a
-	ld [wd4aa], a
+	ld [wDrawBottomMessageBox], a
 	ld a, [wCurrentStage]
 	ld c, a
 	ld b, $0

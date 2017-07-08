@@ -4499,7 +4499,7 @@ ResolveBellsproutCollision: ; 0x15e93
 	cp $1
 	jr nz, .asm_15f35
 	xor a
-	ld [wd548], a
+	ld [wPinballIsVisible], a
 	ld a, [wRightAlleyCount]
 	cp $2
 	jr c, .noCatchEmMode
@@ -4523,7 +4523,7 @@ ResolveBellsproutCollision: ; 0x15e93
 	cp $4
 	jr nz, .asm_15f42
 	ld a, $1
-	ld [wd548], a
+	ld [wPinballIsVisible], a
 	ret
 
 .asm_15f42
@@ -4909,7 +4909,7 @@ ResolveDittoSlotCollision: ; 0x160f0
 	cp $9
 	jr nz, .asm_1616d
 	xor a
-	ld [wd548], a
+	ld [wPinballIsVisible], a
 	ld [wBallSpin], a
 	ld [wBallRotation], a
 	ret
@@ -4917,9 +4917,9 @@ ResolveDittoSlotCollision: ; 0x160f0
 .asm_1616d
 	cp $6
 	jr nz, .asm_1618e
-	callba Func_10ab3
+	callba StartEvolutionMode
 	ld a, $1
-	ld [wd548], a
+	ld [wPinballIsVisible], a
 	ld [wEnableBallGravityAndTilt], a
 	ld a, $5
 	ld [wd803], a
@@ -5127,7 +5127,7 @@ Func_16279: ; 0x16279
 	cp $c
 	jr nz, .asm_162f2
 	xor a
-	ld [wd548], a
+	ld [wPinballIsVisible], a
 	ld [wBallSpin], a
 	ld [wBallRotation], a
 	ret
@@ -5182,7 +5182,7 @@ Func_16352: ; 0x16352
 	callba Func_10000
 	jr nc, .asm_1636d
 	ld a, $1
-	ld [wd548], a
+	ld [wPinballIsVisible], a
 	ld [wEnableBallGravityAndTilt], a
 	ret
 
@@ -5230,12 +5230,12 @@ Func_16352: ; 0x16352
 	cp $d
 	jr nc, .asm_1637a
 	ld a, $1
-	ld [wd548], a
+	ld [wPinballIsVisible], a
 	ld [wEnableBallGravityAndTilt], a
 	ld a, [wCatchEmOrEvolutionSlotRewardActive]
 	cp EVOLUTION_MODE_SLOT_REWARD
 	ret nz
-	callba Func_10ab3
+	callba StartEvolutionMode
 	ld a, [wd7ad]
 	ld c, a
 	ld a, [wStageCollisionState]

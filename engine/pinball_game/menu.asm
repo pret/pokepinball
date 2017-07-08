@@ -6,7 +6,7 @@ HandleInGameMenu: ; 0x86d7
 	ld [wd917], a
 	call FillBottomMessageBufferWithBlackTile
 	xor a
-	ld [wd4aa], a
+	ld [wDrawBottomMessageBox], a
 	ld hl, wBottomMessageText
 	ld a, $81
 	ld b, $30
@@ -83,7 +83,7 @@ HandleInGameMenu: ; 0x86d7
 	pop af
 	ld [wd917], a
 	ld a, $1
-	ld [wd4aa], a
+	ld [wDrawBottomMessageBox], a
 	ld a, [wInGameMenuIndex]
 	and a
 	ret

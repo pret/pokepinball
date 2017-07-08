@@ -1,14 +1,14 @@
 FieldVerticalTransition: ; 0xe674
 	push af
-	ld a, [wd548]
+	ld a, [wPinballIsVisible]
 	push af
 	xor a
-	ld [wd548], a
+	ld [wPinballIsVisible], a
 	ld [wd803], a
 	callba DrawSpritesForStage
 	call CleanOAMBuffer
 	pop af
-	ld [wd548], a
+	ld [wPinballIsVisible], a
 	pop af
 	ld [wCurrentStage], a
 	xor a

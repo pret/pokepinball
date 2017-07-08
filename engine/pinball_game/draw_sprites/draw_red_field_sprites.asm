@@ -512,7 +512,7 @@ Func_17e5e: ; 0x17e5e
 	jr .asm_17e64
 
 DrawPinball: ; 0x17e81
-	ld a, [wd548]
+	ld a, [wPinballIsVisible]
 	and a
 	ret z
 	ld hl, wBallSpin

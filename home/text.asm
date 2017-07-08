@@ -48,7 +48,7 @@ Func_310a: ; 0x310a
 	jr nz, .asm_311d
 	ret
 
-Func_3125: ; 0x3125 enables special loads
+LoadMonNameIntoBottomMessageBufferList: ; 0x3125 enables special loads
 	ld b, $1
 	jr asm_312b
 

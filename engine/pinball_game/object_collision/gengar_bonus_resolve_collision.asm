@@ -877,7 +877,7 @@ Func_1894c: ; 0x1894c
 	jr z, .asm_18980
 	inc a
 	ld [wd6a5], a
-	ld a, [wd548]
+	ld a, [wPinballIsVisible]
 	ld hl, wEnableBallGravityAndTilt
 	and [hl]
 	jr z, .asm_18973

@@ -23,7 +23,7 @@ InitBallForStage: ; 0x83ba
 	ld [wBallSpin], a
 	ld [wBallRotation], a
 	inc a
-	ld [wd548], a
+	ld [wPinballIsVisible], a
 	ld [wEnableBallGravityAndTilt], a
 	ld a, $20
 	ld [wSCX], a

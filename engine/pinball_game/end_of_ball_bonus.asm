@@ -40,7 +40,7 @@ LoadEAcuteCharacterGfx: ; 0xf55c
 
 Func_f57f: ; 0xf57f
 	xor a
-	ld [wd4aa], a
+	ld [wDrawBottomMessageBox], a
 	ld hl, wBottomMessageText
 	ld a, $81
 	ld b, $40

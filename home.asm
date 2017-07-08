@@ -367,9 +367,9 @@ VBlank: ; 0x2f2
 .asm_3b5
 	res 3, [hl]
 .asm_3b7
-	ld a, [wd4aa]
+	ld a, [wDrawBottomMessageBox]
 	and a
-	call nz, Func_e69
+	call nz, DrawBottomMessageBox
 	pop hl
 	pop de
 	pop bc
@@ -1673,7 +1673,7 @@ ReadJoypad: ; 0xab8
 .asm_b1a
 	ld a, [hJoypadState]
 	ld [hPreviousJoypadState], a
-	ld hl, wd808
+	ld hl, wJoypadStatesPersistent
 	ld a, [hJoypadState]
 	or [hl]
 	ld [hli], a
@@ -1685,8 +1685,8 @@ ReadJoypad: ; 0xab8
 	ld [hli], a
 	ret
 
-Func_b2e: ; 0xb2e
-	ld hl, wd808
+ClearPersistentJoypadStates: ; 0xb2e
+	ld hl, wJoypadStatesPersistent
 	xor a
 	ld [hli], a
 	ld [hli], a
@@ -2334,10 +2334,13 @@ Func_e5d: ; 0xe5d
 	jr nz, .asm_e62
 	ret
 
-Func_e69: ; 0xe69
+DrawBottomMessageBox: ; 0xe69
+; Draws the current scrolling bottom message box to VRAM during V-Blank.
+; Note, this only applies to the 1-tile high message bar. When it displays, things like Ball Bonus summary, and 
+; the Save/Cancel menu, this is not used to draw the message buffer.
 	ld a, [rLY]
 	cp $90
-	jr nc, Func_e69
+	jr nc, DrawBottomMessageBox ; ensure we're in V-Blank
 .asm_e6f
 	ld a, [rSTAT]
 	and $3
@@ -2347,60 +2350,60 @@ Func_e69: ; 0xe69
 	dec a
 	jr nz, .asm_e77
 	ld hl, wBottomMessageBuffer + $40
-	call Func_eef
+	call Load4BottomMessageBytes
 	push hl
 	ld hl, $9c00
-	call Func_ef8
+	call Write4BottomMessageBytes
 	pop hl
-	call Func_eef
+	call Load4BottomMessageBytes
 	push hl
 	ld hl, $9c04
-	call Func_ef8
+	call Write4BottomMessageBytes
 	pop hl
-	call Func_eef
+	call Load4BottomMessageBytes
 	push hl
 	ld hl, $9c08
-	call Func_ef8
+	call Write4BottomMessageBytes
 	pop hl
-	call Func_eef
+	call Load4BottomMessageBytes
 	push hl
 	ld hl, $9c0c
-	call Func_ef8
+	call Write4BottomMessageBytes
 	pop hl
-	call Func_eef
+	call Load4BottomMessageBytes
 	push hl
 	ld hl, $9c10
-	call Func_ef8
+	call Write4BottomMessageBytes
 	pop hl
 	ld hl, wBottomMessageBuffer + $c0
-	call Func_eef
+	call Load4BottomMessageBytes
 	push hl
 	ld hl, $9c20
-	call Func_ef8
+	call Write4BottomMessageBytes
 	pop hl
-	call Func_eef
+	call Load4BottomMessageBytes
 	push hl
 	ld hl, $9c24
-	call Func_ef8
+	call Write4BottomMessageBytes
 	pop hl
-	call Func_eef
+	call Load4BottomMessageBytes
 	push hl
 	ld hl, $9c28
-	call Func_ef8
+	call Write4BottomMessageBytes
 	pop hl
-	call Func_eef
+	call Load4BottomMessageBytes
 	push hl
 	ld hl, $9c2c
-	call Func_ef8
+	call Write4BottomMessageBytes
 	pop hl
-	call Func_eef
+	call Load4BottomMessageBytes
 	push hl
 	ld hl, $9c30
-	call Func_ef8
+	call Write4BottomMessageBytes
 	pop hl
 	ret
 
-Func_eef: ; 0xeef
+Load4BottomMessageBytes: ; 0xeef
 	ld a, [hli]
 	ld b, a
 	ld a, [hli]
@@ -2411,10 +2414,10 @@ Func_eef: ; 0xeef
 	ld e, a
 	ret
 
-Func_ef8: ; 0xef8
+Write4BottomMessageBytes: ; 0xef8
 	ld a, [rSTAT]
 	and $3
-	jr nz, Func_ef8
+	jr nz, Write4BottomMessageBytes
 	ld a, b
 	ld [hli], a
 	ld a, c
@@ -3949,7 +3952,7 @@ Func_1ffc: ; 0x1ffc
 	call Func_2034
 	call DoScreenLogic
 	call CleanOAMBuffer
-	call Func_b2e
+	call ClearPersistentJoypadStates
 	rst AdvanceFrame
 	jr .master_loop
 
@@ -5242,7 +5245,7 @@ HandleLeftTilt: ; 0x358c
 	lb de, $00, $3f
 	call PlaySoundEffect
 .skipSoundEffect
-	ld a, [wd548]
+	ld a, [wPinballIsVisible]
 	ld hl, wEnableBallGravityAndTilt
 	and [hl]
 	jr z, .skipBallMovement
@@ -5298,7 +5301,7 @@ HandleRightTilt: ; 0x35f3
 	lb de, $00, $3f
 	call PlaySoundEffect
 .skipSoundEffect
-	ld a, [wd548]
+	ld a, [wPinballIsVisible]
 	ld hl, wEnableBallGravityAndTilt
 	and [hl]
 	jr z, .skipBallMovement
@@ -5354,7 +5357,7 @@ HandleUpperTilt: ; 0x365a
 	lb de, $00, $3f
 	call PlaySoundEffect
 .skipSoundEffect
-	ld a, [wd548]
+	ld a, [wPinballIsVisible]
 	ld hl, wEnableBallGravityAndTilt
 	and [hl]
 	jr z, .skipBallMovement
@@ -5394,7 +5397,7 @@ HandleUpperTilt: ; 0x365a
 	ret
 
 ApplyTiltForces: ; 0x36c1
-	ld a, [wd548]
+	ld a, [wPinballIsVisible]
 	ld hl, wEnableBallGravityAndTilt
 	and [hl]
 	ret z

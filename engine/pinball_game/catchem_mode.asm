@@ -690,7 +690,7 @@ BallCaptureInit: ; 0x10496
 	ld [wBallYVelocity], a
 	ld [wBallYVelocity + 1], a
 	xor a
-	ld [wd548], a
+	ld [wPinballIsVisible], a
 	ld [wEnableBallGravityAndTilt], a
 	lb de, $00, $0b
 	call PlaySoundEffect
@@ -788,7 +788,7 @@ CapturePokemon: ; 0x1052d
 	ld [wBallYPos], a
 	ld [wCapturingMon], a
 	ld a, $1
-	ld [wd548], a
+	ld [wPinballIsVisible], a
 	ld [wEnableBallGravityAndTilt], a
 	callba RestoreBallSaverAfterCatchEmMode
 	call ConcludeCatchEmMode
@@ -1078,14 +1078,14 @@ SetPokemonOwnedFlag: ; 0x1077c
 	call SaveData
 	ret
 
-Func_107a5: ; 0x107a5
+ResetIndicatorStates: ; 0x107a5
 	xor a
 	ld hl, wIndicatorStates
 	ld b, $13
-.asm_107ab
+.loop
 	ld [hli], a
 	dec b
-	jr nz, .asm_107ab
+	jr nz, .loop
 	ret
 
 Func_107b0: ; 0x107b0
@@ -1244,7 +1244,7 @@ Func_10871: ; 0x10871
 	ret
 
 Func_108f5: ; 0x108f5
-	call Func_107a5
+	call ResetIndicatorStates
 	call Func_107c2
 	call Func_107c8
 	call Func_107e9
@@ -1375,7 +1375,7 @@ Func_1098c: ; 0x1098c
 	ret
 
 Func_109fc: ; 0x109fc
-	call Func_107a5
+	call ResetIndicatorStates
 	call Func_107c2
 	callba Func_1f2ff
 	ld a, [wCurrentStage]

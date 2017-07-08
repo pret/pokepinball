@@ -223,21 +223,21 @@ PointerTable_10a9b: ; 0x10a9b
 	padded_dab Func_20bae ; STAGE_BLUE_FIELD_TOP
 	padded_dab Func_20bae ; STAGE_BLUE_FIELD_BOTTOM
 
-Func_10ab3: ; 0x10ab3
+StartEvolutionMode: ; 0x10ab3
 	ld a, [wInSpecialMode]
 	and a
 	ret nz
 	ld a, [wCurrentStage]
 	rst JumpTable  ; calls JumpToFuncInTable
-CallTable_10abc: ; 0x10abc
-	dw Func_10ebb ; STAGE_RED_FIELD_TOP
-	dw Func_10ebb ; STAGE_RED_FIELD_BOTTOM
-	dw Func_11054
-	dw Func_11054
-	dw Func_11061 ; STAGE_BLUE_FIELD_TOP
-	dw Func_11061 ; STAGE_BLUE_FIELD_BOTTOM
+StartEvolutionMode_CallTable: ; 0x10abc
+	dw StartEvolutionMode_RedField ; STAGE_RED_FIELD_TOP
+	dw StartEvolutionMode_RedField ; STAGE_RED_FIELD_BOTTOM
+	dw StartEvolutionMode_UnusedField
+	dw StartEvolutionMode_UnusedField
+	dw StartEvolutionMode_BlueField ; STAGE_BLUE_FIELD_TOP
+	dw StartEvolutionMode_BlueField ; STAGE_BLUE_FIELD_BOTTOM
 
-Func_10ac8: ; 0x10ac8
+ConcludeEvolutionMode: ; 0x10ac8
 	xor a
 	ld [wd5ca], a
 	call FillBottomMessageBufferWithBlackTile
@@ -252,13 +252,13 @@ Func_10ac8: ; 0x10ac8
 	callba StopTimer
 	ld a, [wCurrentStage]
 	rst JumpTable  ; calls JumpToFuncInTable
-CallTable_10af3: ; 0x10af3
-	dw Func_10fe3 ; STAGE_RED_FIELD_TOP
-	dw Func_10fe3 ; STAGE_RED_FIELD_BOTTOM
-	dw Func_11060
-	dw Func_11060
-	dw Func_11195 ; STAGE_BLUE_FIELD_TOP
-	dw Func_11195 ; STAGE_BLUE_FIELD_TOP
+ConcludeEvolutionMode_CallTable: ; 0x10af3
+	dw ConcludeEvolutionMode_RedField ; STAGE_RED_FIELD_TOP
+	dw ConcludeEvolutionMode_RedField ; STAGE_RED_FIELD_BOTTOM
+	dw DoNothing_11060
+	dw DoNothing_11060
+	dw ConcludeEvolutionMode_BlueField ; STAGE_BLUE_FIELD_TOP
+	dw ConcludeEvolutionMode_BlueField ; STAGE_BLUE_FIELD_TOP
 
 Func_10aff: ; 0x10aff
 	ld a, [wCurrentStage]
@@ -317,21 +317,22 @@ Func_10b3f: ; 0x10b3f
 	call LoadTextHeader
 	ret
 
-Func_10b59: ; 0x10b59
+InitEvolutionSelectionMenu: ; 0x10b59
+; Initializes the list menu, which the player uses to select which pokemon to evolve.
 	xor a
-	ld [wd4aa], a ;load 0 into ???
+	ld [wDrawBottomMessageBox], a
 	ld hl, wBottomMessageText
 	ld a, $81
 	ld b, $30
-.asm_10b64
-	ld [hli], a ;load spaces into bottom text? repeat 192 times
+.clearLoop
+	ld [hli], a ; load spaces into bottom text. repeat 192 times
 	ld [hli], a
 	ld [hli], a
 	ld [hli], a
 	dec b
-	jr nz, .asm_10b64
+	jr nz, .clearLoop
 	ld hl, wPartyMons
-	call Func_10b8e
+	call LoadMonNamesIntoEvolutionSelectionList
 	ld a, BANK(InGameMenuSymbolsGfx)
 	ld hl, InGameMenuSymbolsGfx + $50
 	ld de, vTilesSH tile $08
@@ -344,23 +345,28 @@ Func_10b59: ; 0x10b59
 	call LoadVRAMData
 	ret
 
-Func_10b8e: ; 0x10b8e hl = start of party mons
+LoadMonNamesIntoEvolutionSelectionList: ; 0x10b8e
+; Loads 6 pokemon names into the list that allows the player to select which pokemon to evolve.
+; Input: hl = pointer to a list of pokemon ids. (an offset of wPartyMons)
 	ld a, [wNumPartyMons]
 	ld c, $0
 	ld b, a
-.asm_10b94
+.loop
 	ld a, [hli]
-	call Func_10ba2
+	call LoadMonNameIntoEvolutionSelectionList
 	inc c
 	ld a, c
 	cp $6
-	jr z, .asm_10ba1
+	jr z, .done
 	dec b
-	jr nz, .asm_10b94
-.asm_10ba1
+	jr nz, .loop
+.done
 	ret
 
-Func_10ba2: ; 0x10ba2 a = current party mon, b is number to go before end of list, c is number passed so far
+LoadMonNameIntoEvolutionSelectionList: ; 0x10ba2
+; Loads a single pokemon name into the list of pokemon to evolve.
+; Input: c = index of the list
+;        a = pokemon id
 	push bc
 	push hl
 	swap c ;c* 32, does wird things if c starts >15
@@ -392,69 +398,72 @@ Func_10ba2: ; 0x10ba2 a = current party mon, b is number to go before end of lis
 	ld [de], a
 	inc de
 	ld a, $81
-	ld [de], a
-	inc de ;load 4 spaces into de
-	call Func_3125 ;load 1 into b and...
-.asm_10bda
+	ld [de], a ; loaded 4 spaces into de
+	inc de
+	call LoadMonNameIntoBottomMessageBufferList
+.loadBlankCharacterLoop
 	ld a, e
 	and $1f
 	cp $14
-	jr nc, .asm_10be7
+	jr nc, .done
 	ld a, $81
 	ld [de], a
 	inc de
-	jr .asm_10bda
+	jr .loadBlankCharacterLoop
 
-.asm_10be7
+.done
 	pop hl
 	pop bc
 	ret
 
-Func_10bea: ; 0x10bea
+SelectPokemonToEvolveMenu: ; 0x10bea
+; Drivers the menu that allows the player to select a pokemon to evolve.
 	xor a
 	ld [wCurSelectedPartyMon], a
 	ld [wCurSelectedPartyMonScrollOffset], a
 	ld [wPartySelectionCursorCounter], a
-.asm_10bf4
-	call Func_10c0c
-	call Func_b2e
-	call Func_10c38
+.loop
+	call MoveEvolutionSelectionCursor
+	call ClearPersistentJoypadStates
+	call UpdateEvolutionSelectionList
 	rst AdvanceFrame
-	ld a, [wd809]
-	bit 0, a
-	jr z, .asm_10bf4
+	ld a, [wNewlyPressedButtonsPersistent]
+	bit BIT_A_BUTTON, a
+	jr z, .loop
 	lb de, $00, $01
 	call PlaySoundEffect
 	ret
 
-Func_10c0c: ; 0x10c0c
-	ld a, [wd80a]
+MoveEvolutionSelectionCursor: ; 0x10c0c
+	ld a, [wPressedButtonsPersistent]
 	ld b, a
 	ld a, [wNumPartyMons]
 	ld c, a
 	ld a, [wCurSelectedPartyMon]
-	bit 6, b
-	jr z, .asm_10c28
+	bit BIT_D_UP, b
+	jr z, .didntPressUp
 	and a
 	ret z
+	; move the cursor up
 	dec a
 	ld [wCurSelectedPartyMon], a
 	lb de, $00, $03
 	call PlaySoundEffect
 	ret
 
-.asm_10c28
-	bit 7, b
+.didntPressUp
+	bit BIT_D_DOWN, b
 	ret z
 	inc a
 	cp c
 	ret z
+	; move the cursor down
 	ld [wCurSelectedPartyMon], a
 	lb de, $00, $03
 	call PlaySoundEffect
 	ret
 
-Func_10c38: ; 0x10c38
+UpdateEvolutionSelectionList: ; 0x10c38
 	ld a, [wCurSelectedPartyMon]
 	ld hl, wCurSelectedPartyMonScrollOffset
 	sub [hl]
@@ -476,7 +485,7 @@ Func_10c38: ; 0x10c38
 	ld b, $0
 	ld hl, wPartyMons
 	add hl, bc
-	call Func_10b8e
+	call LoadMonNamesIntoEvolutionSelectionList
 	ld a, [hJoypadState]
 	and a
 	ld a, [wPartySelectionCursorCounter]
@@ -531,16 +540,16 @@ PlaceEvolutionInParty: ; 0x10ca5
 	ld [hl], a
 	ret
 
-Func_10cb7: ; 0x10cb7
+SelectPokemonToEvolve: ; 0x10cb7
 	call FillBottomMessageBufferWithBlackTile
-	call Func_10b59
+	call InitEvolutionSelectionMenu
 	ld a, $60
 	ld [hWY], a
 	dec a
 	ld [hLYC], a
 	ld a, $fd
 	ld [hLCDCMask], a
-	call Func_10bea
+	call SelectPokemonToEvolveMenu
 	ld a, $86
 	ld [hWY], a
 	ld a, $83
@@ -550,7 +559,7 @@ Func_10cb7: ; 0x10cb7
 	ld [hLCDCMask], a
 	ld a, [hGameBoyColorFlag]
 	and a
-	jr nz, .asm_10cee
+	jr nz, .gameboyColor
 	ld a, BANK(StageRedFieldTopStatusBarSymbolsGfx_GameBoy)
 	ld hl, StageRedFieldTopStatusBarSymbolsGfx_GameBoy + $80
 	ld de, vTilesSH tile $08
@@ -558,7 +567,7 @@ Func_10cb7: ; 0x10cb7
 	call LoadVRAMData
 	jr .asm_10cfc
 
-.asm_10cee
+.gameboyColor
 	ld a, BANK(StageRedFieldTopStatusBarSymbolsGfx_GameBoyColor)
 	ld hl, StageRedFieldTopStatusBarSymbolsGfx_GameBoyColor + $80
 	ld de, vTilesSH tile $08
@@ -567,7 +576,7 @@ Func_10cb7: ; 0x10cb7
 .asm_10cfc
 	call FillBottomMessageBufferWithBlackTile
 	ld a, SPECIAL_MODE_CATCHEM
-	ld [wd4aa], a
+	ld [wDrawBottomMessageBox], a
 	ld [wInSpecialMode], a
 	ld [wSpecialMode], a
 	xor a
@@ -581,7 +590,7 @@ Func_10cb7: ; 0x10cb7
 	ld [wCurrentCatchEmMon], a
 	ret
 
-Func_10d1d: ; 0x10d1d
+InitEvolutionModeForMon: ; 0x10d1d
 	ld hl, wd586
 	ld b, $18
 .asm_10d22
@@ -809,12 +818,12 @@ Func_10e8b: ; 0x10e8b
 	call LoadTextHeader
 	ret
 
-Func_10ebb: ; 0x10ebb
+StartEvolutionMode_RedField: ; 0x10ebb
 	ld a, [wNumPartyMons]
 	and a
 	ret z
-	call Func_10cb7
-	call Func_10d1d
+	call SelectPokemonToEvolve
+	call InitEvolutionModeForMon
 	ld a, [wd555]
 	sub $2
 	ld c, a
@@ -826,12 +835,12 @@ Func_10ebb: ; 0x10ebb
 	ld l, a
 	ld de, wIndicatorStates
 	ld b, $13
-.asm_10eda
+.loop
 	ld a, [hli]
 	ld [de], a
 	inc de
 	dec b
-	jr nz, .asm_10eda
+	jr nz, .loop
 	xor a
 	ld [wLeftAlleyCount], a
 	call Func_107b0
@@ -897,8 +906,8 @@ IndicatorStates_10fbd:  ; 0x10fbd
 IndicatorStates_10fd0:  ; 0x10fd0
 	db $00, $00, $80, $80, $00, $00, $01, $01, $01, $01, $01, $01, $01, $01, $01, $00, $00, $00, $00
 
-Func_10fe3: ; 0x10fe3
-	call Func_107a5
+ConcludeEvolutionMode_RedField: ; 0x10fe3
+	call ResetIndicatorStates
 	call Func_107c2
 	call Func_107c8
 	call Func_107e9
@@ -932,23 +941,23 @@ Func_10fe3: ; 0x10fe3
 	call Func_10aa
 	ret
 
-Func_11054: ; 0x11054
+StartEvolutionMode_UnusedField: ; 0x11054
 	ld a, [wNumPartyMons]
 	and a
 	ret z
-	call Func_10cb7
-	call Func_10d1d
+	call SelectPokemonToEvolve
+	call InitEvolutionModeForMon
 	ret
 
-Func_11060: ; 0x11060
+DoNothing_11060: ; 0x11060
 	ret
 
-Func_11061: ; 0x11061
+StartEvolutionMode_BlueField: ; 0x11061
 	ld a, [wNumPartyMons]
 	and a
 	ret z
-	call Func_10cb7
-	call Func_10d1d
+	call SelectPokemonToEvolve
+	call InitEvolutionModeForMon
 	ld a, $1
 	ld [wd643], a
 	ld a, [wd555]
@@ -1033,10 +1042,10 @@ IndicatorStates_1116f: ; 0x1116f
 IndicatorStates_11182: ; 0x11182
 	db $80, $00, $80, $80, $00, $00, $01, $01, $01, $01, $01, $01, $01, $01, $01, $00, $00, $00, $00
 
-Func_11195: ; 0x11195
+ConcludeEvolutionMode_BlueField: ; 0x11195
 	xor a
 	ld [wd643], a
-	call Func_107a5
+	call ResetIndicatorStates
 	call Func_107c2
 	callba Func_1f2ff
 	ld a, [wCurrentStage]
@@ -1127,6 +1136,7 @@ INCLUDE "data/mon_names.asm"
 INCLUDE "data/mon_initial_indicator_states.asm"
 
 Data_1298b: ; 0x1298b
+; This has to do with which indicators will need to be hit to evolve the pokemon.
 	db $01  ; BULBASAUR
 	db $02  ; IVYSAUR
 	db $03  ; VENUSAUR
@@ -1579,7 +1589,7 @@ Func_311b4: ; 0x311b4
 	ret
 
 Func_31234: ; 0x31234
-	callba Func_107a5
+	callba ResetIndicatorStates
 	callba Func_107c2
 	callba Func_107c8
 	callba Func_107e9
@@ -1756,7 +1766,7 @@ Func_31326: ; 0x31326
 	ret
 
 Func_313c3: ; 0x313c3
-	callba Func_107a5
+	callba ResetIndicatorStates
 	callba Func_107c2
 	callba Func_1f2ff
 	ld a, $0

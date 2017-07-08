@@ -81,7 +81,7 @@ Func_ded6: ; 0xded6
 	ld [wd604], a
 	ld a, $1e
 	ld [wd607], a
-	callba Func_10ac8
+	callba ConcludeEvolutionMode
 	ret
 
 .asm_df05

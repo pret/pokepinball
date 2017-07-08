@@ -14,7 +14,7 @@ HandleBallLossMewtwoBonus: ; 0xdf7e
 	ld a, [wd6b2]
 	and a
 	ret nz
-	ld [wd548], a
+	ld [wPinballIsVisible], a
 	ld [wEnableBallGravityAndTilt], a
 	ld [wBallSpin], a
 	ld [wBallRotation], a

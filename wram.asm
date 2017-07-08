@@ -41,6 +41,7 @@ wc4cc:: ; 0xc4cc
 	ds $34
 
 wBottomMessageText:: ; 0xc500 WARNING: text loading code may break if this is moved
+; This must be aligned with $100, since there is some logic that depends on the lower byte of the address. (See LoadMonNameIntoEvolutionSelectionList)
 	ds $100
 
 wBottomMessageBuffer:: ; 0xc600
@@ -218,7 +219,9 @@ wNumTimesBallSavedTextWillDisplayBackup:: ; 0xd4a8
 wd4a9:: ; 0xd4a9
 	ds $1
 
-wd4aa:: ; 0xd4aa
+wDrawBottomMessageBox:: ; 0xd4aa
+; Set to non-zero value if enable drawing the 1-tile high bottom message bar during V-Blank in normal pinball gameplay.
+; Set to 0 to disable.
 	ds $1
 
 wd4ab:: ; 0xd4ab
@@ -529,7 +532,10 @@ wRightAlleyCount:: ; 0xd545
 wSecondaryLeftAlleyTrigger:: ; 0xd546
 	ds $2
 
-wd548:: ; 0xd548
+wPinballIsVisible:: ; 0xd548
+; Set to 1 if the pinball is visible in play.
+; Set to 0 when the pinball disappears in things like the Slot, Slowpoke, Cloyster, Bellsprout, etc.
+; When it's set to 0, it disables tilt effects on the pinball.
 	ds $1
 
 wEnableBallGravityAndTilt:: ; 0xd549
@@ -1814,14 +1820,17 @@ wd806:: ; 0xd806
 wd807:: ; 0xd807
 	ds $1
 
-wd808:: ; 0xd808
+; These three bytes track different joypad states cummulatively, until they are manually cleared.
+; They inherit from their similarly-named counterparts found in hram.asm.  (See ReadJoyPad)
+wJoypadStatesPersistent:: ; 0xd808
+wJoypadStatePersistent::
+	ds $1
+wNewlyPressedButtonsPersistent:: ; 0xd809
+	ds $1
+wPressedButtonsPersistent:: ; 0xd80a
 	ds $1
 
-wd809:: ; 0xd809
-	ds $1
-
-wd80a:: ; 0xd80a
-	ds $2
+	ds $1 ; unused byte
 
 wBGP:: ; 0xd80c
 	ds $1

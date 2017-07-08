@@ -9,7 +9,7 @@
 ROM := pokepinball.gbc
 OBJS := main.o wram.o sram.o
 
-MD5 := md5sum -c --quiet
+MD5 := md5sum -c
 
 all: $(ROM) compare
 

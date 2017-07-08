@@ -1,7 +1,6 @@
 .PHONY: all tools compare clean tidy
 
 .SUFFIXES:
-.SUFFIXES: .asm .o .gbc .1bpp .2bpp .png .pcm .wav
 .SECONDEXPANSION:
 .PRECIOUS:
 .SECONDARY:

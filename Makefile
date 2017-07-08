@@ -12,7 +12,7 @@ MD5 := md5sum -c
 
 all: $(ROM) compare
 
-ifeq (,$(filter $(MAKECMDGOALS),tools))
+ifeq (,$(filter tools clean tidy,$(MAKECMDGOALS)))
 Makefile: tools
 endif
 
@@ -29,10 +29,11 @@ compare: $(ROM)
 	@$(MD5) rom.md5
 
 tools:
-	@$(MAKE) -C tools
+	$(MAKE) -C tools
 
 tidy:
 	rm -f $(ROM) $(OBJS) $(ROM:.gbc=.sym) $(ROM:.gbc=.map)
+	$(MAKE) -C tools clean
 
 clean: tidy
 	find . \( -iname '*.1bpp' -o -iname '*.2bpp' -o -iname '*.pcm' \) -exec rm {} +

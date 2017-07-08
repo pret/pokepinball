@@ -2250,7 +2250,7 @@ Func_1523c: ; 0x1523c
 	ld b, [hl]
 	ld a, $5
 	ld de, LoadTileLists
-	call Func_10c5
+	call QueueGraphicsDataToLoad_
 	pop bc
 	ret
 
@@ -2649,7 +2649,7 @@ Func_15465: ; 0x15465
 	ld b, [hl]
 	ld a, $5
 	ld de, LoadTileLists
-	call Func_10c5
+	call QueueGraphicsDataToLoad_
 	pop bc
 	ret
 
@@ -2945,7 +2945,7 @@ Func_155bb: ; 0x155bb
 	ld b, [hl]
 	ld a, BANK(Data_157f7)
 	ld de, LoadPalettes
-	call Func_10c5
+	call QueueGraphicsDataToLoad_
 	ret
 
 PinballUpgradeTransitionPointers:
@@ -8663,7 +8663,7 @@ Func_174d4: ; 0x174d4
 	ld b, a
 	ld a, $5
 	ld de, LoadTileLists
-	call Func_10c5
+	call QueueGraphicsDataToLoad_
 	ret
 
 Func_174ea: ; 0x174ea

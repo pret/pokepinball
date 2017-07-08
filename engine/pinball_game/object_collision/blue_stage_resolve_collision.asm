@@ -5175,7 +5175,7 @@ Func_1e484: ; 0x1e484
 	ld b, [hl]
 	ld a, $7
 	ld de, LoadTileLists
-	call Func_10c5
+	call QueueGraphicsDataToLoad_
 	pop bc
 	ret
 
@@ -5486,7 +5486,7 @@ Func_1e636: ; 0x1e636
 	ld b, [hl]
 	ld a, $7
 	ld de, LoadTileLists
-	call Func_10c5
+	call QueueGraphicsDataToLoad_
 	pop bc
 	ret
 
@@ -5824,7 +5824,7 @@ Func_1e757: ; 0x1e757
 .asm_1e80e
 	and a
 	ret nz
-	call Func_1e8f6
+	call QueueGraphicsDataToLoad
 	ld a, [wCatchEmOrEvolutionSlotRewardActive]
 	cp CATCHEM_MODE_SLOT_REWARD
 	ret nz
@@ -5929,7 +5929,7 @@ GoToBonusStageTextIds_BlueField:
 	db STAGE_DIGLETT_BONUS
 	db STAGE_SEEL_BONUS
 
-Func_1e8f6: ; 0x1e8f6
+QueueGraphicsDataToLoad: ; 0x1e8f6
 	ld a, [wCurrentStage]
 	and $1
 	sla a
@@ -5942,15 +5942,15 @@ Func_1e8f6: ; 0x1e8f6
 	ld hl, TileDataPointers_1e91e
 	ld a, [hGameBoyColorFlag]
 	and a
-	jr z, .asm_1e912
+	jr z, .NotGameBoyColor ;If on DMG, use TileDataPointers_1e91e; If on GBC use TileDataPointers_1e970
 	ld hl, TileDataPointers_1e970
-.asm_1e912
-	add hl, bc
+.NotGameBoyColor
+	add hl, bc ;Grab the TileDataPointer for the current stage * 2 + wd604
 	ld a, [hli]
 	ld h, [hl]
 	ld l, a
 	or h
-	ret z
+	ret z ;If the TileDataPointer is null, ret
 	ld a, Bank(TileDataPointers_1e91e)
 	call Func_10aa
 	ret
@@ -6151,7 +6151,7 @@ Func_1e9c0: ; 0x1e9c0
 	ld [wIndicatorStates + 4], a
 	ld a, [wCurrentStage]
 	bit 0, a
-	call nz, Func_1e8f6
+	call nz, QueueGraphicsDataToLoad
 	ret
 
 Func_1ea0a: ; 0x1ea0a
@@ -7992,7 +7992,7 @@ Func_1f265: ; 0x1f265
 	ld b, a
 	ld a, $7
 	ld de, LoadTileLists
-	call Func_10c5
+	call QueueGraphicsDataToLoad_
 	ret
 
 Func_1f27b: ; 0x1f27b
@@ -8079,8 +8079,8 @@ Func_1f2ed: ; 0x1f2ed
 	ld [wd604], a
 	ld [wIndicatorStates + 4], a
 	ld [hFarCallTempA], a
-	ld a, Bank(Func_1e8f6)  ; this is in the same bank...
-	ld hl, Func_1e8f6
+	ld a, Bank(QueueGraphicsDataToLoad)  ; this is in the same bank...
+	ld hl, QueueGraphicsDataToLoad
 	call BankSwitch
 	ret
 

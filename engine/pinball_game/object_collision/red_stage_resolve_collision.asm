@@ -54,10 +54,10 @@ Func_146a2: ; 0x146a2
 Func_146a9: ; 0x146a9
 	ld a, [wBallSaverTimerFrames]
 	ld hl, wBallSaverTimerSeconds
-	or [hl]
+	or [hl] ;if both the number of frames and number of seconds left is 0, skip
 	ret z
 	ld a, [wBallXPos + 1]
-	cp $9a
+	cp 154 ;if high? Byte of ball X pos is >= 154, jump ahead
 	jr nc, .asm_146e8
 	ld a, [wBallSaverTimerFrames]
 	dec a
@@ -2429,7 +2429,7 @@ TileDataPointers_15325:
 
 TileData_1532d: ; 0x1532d
 	db $01 ; total number of tiles
-	
+
 	db $01 ; number of tiles
 	dw vBGMap + $121
 	db $27
@@ -2438,7 +2438,7 @@ TileData_1532d: ; 0x1532d
 
 TileData_15333: ; 0x15333
 	db $01 ; total number of tiles
-	
+
 	db $01 ; number of tiles
 	dw vBGMap + $123
 	db $29
@@ -2447,7 +2447,7 @@ TileData_15333: ; 0x15333
 
 TileData_15339: ; 0x15339
 	db $01 ; total number of tiles
-	
+
 	db $01 ; number of tiles
 	dw vBGMap + $130
 	db $7E
@@ -2456,7 +2456,7 @@ TileData_15339: ; 0x15339
 
 TileData_1533f: ; 0x1533f
 	db $01 ; total number of tiles
-	
+
 	db $01 ; number of tiles
 	dw vBGMap + $132
 	db $7F
@@ -2465,7 +2465,7 @@ TileData_1533f: ; 0x1533f
 
 TileData_15345: ; 0x15345
 	db $01 ; total number of tiles
-	
+
 	db $01 ; number of tiles
 	dw vBGMap + $121
 	db $26
@@ -2474,7 +2474,7 @@ TileData_15345: ; 0x15345
 
 TileData_1534b: ; 0x1534b
 	db $01 ; total number of tiles
-	
+
 	db $01 ; number of tiles
 	dw vBGMap + $123
 	db $28
@@ -2483,7 +2483,7 @@ TileData_1534b: ; 0x1534b
 
 TileData_15351: ; 0x15351
 	db $01 ; total number of tiles
-	
+
 	db $01 ; number of tiles
 	dw vBGMap + $130
 	db $7C
@@ -2492,7 +2492,7 @@ TileData_15351: ; 0x15351
 
 TileData_15357: ; 0x15357
 	db $01 ; total number of tiles
-	
+
 	db $01 ; number of tiles
 	dw vBGMap + $132
 	db $7D
@@ -4392,7 +4392,7 @@ TileData_15e21: ; 0x15e21
 TileData_15e50: ; 0x15e50
 	dw LoadTileLists
 	db $09 ; total number of tiles
-	
+
 	db $03 ; number of tiles
 	dw vBGMap + $100
 	db $45, $46, $22
@@ -4414,7 +4414,7 @@ TileData_15e50: ; 0x15e50
 TileData_15e69: ; 0x15e69
 	dw LoadTileLists
 	db $09 ; total number of tiles
-	
+
 	db $03 ; number of tiles
 	dw vBGMap + $100
 	db $43, $44, $22
@@ -6726,7 +6726,7 @@ TileData_16c46: ; 0x16c46
 TileData_16c49: ; 0x16c49
 	dw LoadTileLists
 	db $07
-	
+
 	db $01
 	dw vBGMap + $23
 	db $5E
@@ -6752,7 +6752,7 @@ TileData_16c49: ; 0x16c49
 TileData_16c63: ; 0x16c63
 	dw LoadTileLists
 	db $07
-	
+
 	db $01
 	dw vBGMap + $23
 	db $65
@@ -6778,7 +6778,7 @@ TileData_16c63: ; 0x16c63
 TileData_16c7d: ; 0x16c7d
 	dw LoadTileLists
 	db $07
-	
+
 	db $01
 	dw vBGMap + $23
 	db $65
@@ -6804,7 +6804,7 @@ TileData_16c7d: ; 0x16c7d
 TileData_16c97: ; 0x16c97
 	dw LoadTileLists
 	db $07
-	
+
 	db $01
 	dw vBGMap + $23
 	db $65
@@ -6830,7 +6830,7 @@ TileData_16c97: ; 0x16c97
 TileData_16cb1: ; 0x16cb1
 	dw LoadTileLists
 	db $07
-	
+
 	db $01
 	dw vBGMap + $23
 	db $5E
@@ -6856,7 +6856,7 @@ TileData_16cb1: ; 0x16cb1
 TileData_16ccb: ; 0x16ccb
 	dw LoadTileLists
 	db $07
-	
+
 	db $01
 	dw vBGMap + $30
 	db $6C
@@ -6882,7 +6882,7 @@ TileData_16ccb: ; 0x16ccb
 TileData_16ce5: ; 0x16ce5
 	dw LoadTileLists
 	db $07
-	
+
 	db $01
 	dw vBGMap + $30
 	db $73
@@ -6908,7 +6908,7 @@ TileData_16ce5: ; 0x16ce5
 TileData_16cff: ; 0x16cff
 	dw LoadTileLists
 	db $07
-	
+
 	db $01
 	dw vBGMap + $30
 	db $73
@@ -6934,7 +6934,7 @@ TileData_16cff: ; 0x16cff
 TileData_16d19: ; 0x16d19
 	dw LoadTileLists
 	db $07
-	
+
 	db $01
 	dw vBGMap + $30
 	db $73
@@ -6960,7 +6960,7 @@ TileData_16d19: ; 0x16d19
 TileData_16d33: ; 0x16d33
 	dw LoadTileLists
 	db $07
-	
+
 	db $01
 	dw vBGMap + $30
 	db $6C
@@ -6986,7 +6986,7 @@ TileData_16d33: ; 0x16d33
 TileData_16d4d: ; 0x16d4d
 	dw LoadTileLists
 	db $03
-	
+
 	db $01
 	dw vBGMap + $6
 	db $48
@@ -7000,7 +7000,7 @@ TileData_16d4d: ; 0x16d4d
 TileData_16d5a: ; 0x16d5a
 	dw LoadTileLists
 	db $03
-	
+
 	db $01
 	dw vBGMap + $6
 	db $4B
@@ -7014,7 +7014,7 @@ TileData_16d5a: ; 0x16d5a
 TileData_16d67: ; 0x16d67
 	dw LoadTileLists
 	db $03
-	
+
 	db $01
 	dw vBGMap + $D
 	db $4E
@@ -7028,7 +7028,7 @@ TileData_16d67: ; 0x16d67
 TileData_16d74: ; 0x16d74
 	dw LoadTileLists
 	db $03
-	
+
 	db $01
 	dw vBGMap + $D
 	db $51
@@ -7042,7 +7042,7 @@ TileData_16d74: ; 0x16d74
 TileData_16d81: ; 0x16d81
 	dw LoadTileLists
 	db $04
-	
+
 	db $02
 	dw vBGMap + $49
 	db $40, $41
@@ -7056,7 +7056,7 @@ TileData_16d81: ; 0x16d81
 TileData_16d8f: ; 0x16d8f
 	dw LoadTileLists
 	db $04
-	
+
 	db $02
 	dw vBGMap + $49
 	db $44, $45

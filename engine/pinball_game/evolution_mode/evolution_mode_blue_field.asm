@@ -174,7 +174,7 @@ Func_20c76: ; 0x20c76
 
 Func_20d30: ; 0x20d30
 	callba RestoreBallSaverAfterCatchEmMode
-	callba Func_10ca5
+	callba PlaceEvolutionInParty
 	callba Func_10ac8
 	ld de, $0001
 	call PlaySong
@@ -186,9 +186,9 @@ Func_20d30: ; 0x20d30
 	ret z
 	add $2
 	cp $3
-	jr c, .asm_20d72
+	jr c, .DontClampBalls
 	ld a, $3
-.asm_20d72
+.DontClampBalls
 	ld [wNumPokeballs], a
 	ld a, $80
 	ld [wPokeballBlinkingCounter], a

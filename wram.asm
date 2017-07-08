@@ -397,28 +397,30 @@ wRightMapMoveCounter:: ; 0xd4f2
 	ds $1
 
 wLeftMapMoveDiglettAnimationCounter:: ; 0xd4f3
+wLeftMapMovePoliwagAnimationCounter::
 	ds $1
 
 wLeftMapMoveDiglettFrame:: ; 0xd4f4
+wLeftMapMovePoliwagFrame::
 	ds $1
 
 wRightMapMoveDiglettAnimationCounter:: ; 0xd4f5
+wRightMapMovePsyduckAnimationCounter::
 	ds $1
 
 wRightMapMoveDiglettFrame:: ; 0xd4f6
+wRightMapMovePsyduckFrame::
 	ds $1
 
-wd4f7:: ; 0xd4f7
-	ds $1
+wLeftMapMoveCounterFramesUntilDecrease:: ; 0xd4f7
+; Holds the number of frames remaining until the wLeftMapMoveCounter
+; counter will decrease by 1.
+	ds $2
 
-wd4f8:: ; 0xd4f8
-	ds $1
-
-wd4f9:: ; 0xd4f9
-	ds $1
-
-wd4fa:: ; 0xd4fa
-	ds $1
+wRightMapMoveCounterFramesUntilDecrease:: ; 0xd4f9
+; Holds the number of frames remaining until the wRightMapMoveCounter
+; counter will decrease by 1.
+	ds $2
 
 wBellsproutCollision:: ; 0xd4fb
 ; Second byte is set by HandleGameObjectCollision, but is unused

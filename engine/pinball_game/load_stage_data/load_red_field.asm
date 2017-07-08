@@ -120,9 +120,9 @@ Func_140f9: ; 0x140f9
 	ld [wStageCollisionMap + $103], a
 	ld a, $2
 .asm_1410c
-	call Func_149d9
+	call LoadDiglettGraphics
 	ld a, [wLeftMapMoveCounter]
-	call Func_149f5
+	call LoadDiglettNumberGraphics
 	ld a, [wd4f1]
 	and a
 	jr z, .asm_14127
@@ -133,10 +133,10 @@ Func_140f9: ; 0x140f9
 	ld a, $2
 .asm_14127
 	add $3
-	call Func_149d9
+	call LoadDiglettGraphics
 	ld a, [wRightMapMoveCounter]
 	add $4
-	call Func_149f5
+	call LoadDiglettNumberGraphics
 	ret
 
 Func_14135: ; 0x14135

@@ -2,7 +2,7 @@ _LoadStageDataBlueFieldTop: ; 0x1c165
 	call asm_1e475
 	call UpdateSpinnerChargeGraphics_BlueField
 	call Func_1c3ee
-	call Func_1e8f6
+	call QueueGraphicsDataToLoad
 	callba Func_142fc
 	ld a, $1
 	ld [wBlueStageForceFieldGfxNeedsLoading], a
@@ -23,7 +23,7 @@ _LoadStageDataBlueFieldBottom: ; 0x1c191
 	callba Func_14707
 	call Func_1c235
 	call Func_1c21e
-	call Func_1e8f6
+	call QueueGraphicsDataToLoad
 	callba Func_142fc
 	callba Func_1404a
 	call Func_1c203

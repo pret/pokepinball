@@ -291,7 +291,7 @@ Func_101d9: ; 0x101d9
 	push de
 	xor a
 	ld de, Func_11d2
-	call Func_10c5
+	call QueueGraphicsDataToLoad_
 	pop de
 	pop hl
 	pop bc
@@ -342,7 +342,7 @@ Func_10230: ; 0x10230
 	push de
 	xor a
 	ld de, LoadTileListsBank1
-	call Func_10c5
+	call QueueGraphicsDataToLoad_
 	pop de
 	pop hl
 	pop bc
@@ -420,7 +420,7 @@ Func_102bc: ; 0x102bc
 	xor a
 	ld bc, wc1b8
 	ld de, LoadPalettes
-	call Func_10c5
+	call QueueGraphicsDataToLoad_
 	ret
 
 Func_10301: ; 0x10301
@@ -487,7 +487,7 @@ Func_10301: ; 0x10301
 	xor a
 	ld bc, wc1b8
 	ld de, LoadPalettes
-	call Func_10c5
+	call QueueGraphicsDataToLoad_
 	ret
 
 Func_10362: ; 0x10362
@@ -560,7 +560,7 @@ Func_1038e: ; 0x1038e
 	push de
 	xor a
 	ld de, Func_11d2
-	call Func_10c5
+	call QueueGraphicsDataToLoad_
 	pop de
 	pop bc
 	ret
@@ -585,7 +585,7 @@ Func_10414: ; 0x10414
 	ld a, BANK(Data_10420)
 	ld bc, Data_10420
 	ld de, Func_11b5
-	call Func_10c5
+	call QueueGraphicsDataToLoad_
 	ret
 
 Data_10420:
@@ -608,7 +608,7 @@ Func_10432: ; 0x10432
 	ld a, BANK(Data_1043e)
 	ld bc, Data_1043e
 	ld de, LoadTileLists
-	call Func_10c5
+	call QueueGraphicsDataToLoad_
 	ret
 
 Data_1043e:
@@ -852,7 +852,7 @@ Func_10611: ; 0x10611
 	ld b, a
 	ld a, BANK(Data_1062a)
 	ld de, Func_11d2
-	call Func_10c5
+	call QueueGraphicsDataToLoad_
 	ret
 
 Data_1062a:
@@ -1328,10 +1328,10 @@ Func_1098c: ; 0x1098c
 	ld b, $0
 	ld hl, EvolutionLineIds
 	add hl, bc
-	ld a, [hl]
+	ld a, [hl] ;Load the EvolutionLineId of the CurrentCatchEmMon
 	ld c, a
 	ld b, $0
-	ld l, c
+	ld l, c ;bc is set to the EvolutionLineId * 19
 	ld h, b
 	sla l
 	rl h
@@ -1350,7 +1350,7 @@ Func_1098c: ; 0x1098c
 	add hl, bc
 	ld de, wIndicatorStates
 	ld b, $13  ; number of indicators
-.loop
+.loop ;Copy the 19 indicator states for the species from the table of initial values
 	ld a, [hli]
 	ld [de], a
 	inc de

@@ -1052,7 +1052,7 @@ ConcludeEvolutionMode_BlueField: ; 0x11195
 	bit 0, a
 	jp z, Func_1120e
 	callba Func_1c2cb
-	callba Func_1e8f6
+	callba QueueGraphicsDataToLoad
 	callba LoadMapBillboardTileData
 	ld a, Bank(StageSharedBonusSlotGlowGfx)
 	ld hl, StageSharedBonusSlotGlowGfx + $60
@@ -1775,7 +1775,7 @@ Func_313c3: ; 0x313c3
 	bit 0, a
 	ret z
 	callba Func_1c2cb
-	callba Func_1e8f6
+	callba QueueGraphicsDataToLoad
 	callba LoadMapBillboardTileData
 	ret
 
@@ -2118,7 +2118,7 @@ Func_3168c: ; 0x3168c
 	bit 0, a
 	jr z, .asm_316ee
 	callba Func_1c2cb
-	callba Func_1e8f6
+	callba QueueGraphicsDataToLoad
 	callba LoadMapBillboardTileData
 .asm_316ee
 	callba StopTimer

@@ -73,7 +73,7 @@ LoadGameboyTargetMenuGfx: ; 0x8049
 	ld a, Bank(SelectGameboyTarget_TileData)
 	ld bc, SelectGameboyTarget_TileData
 	ld de, LoadTileLists
-	call Func_10c5
+	call QueueGraphicsDataToLoad_
 	ret
 
 SelectGameboyTargetGfxPointers: ; 0x8089
@@ -202,14 +202,14 @@ SelectCGBOrDMG: ; 0x8104
 	ld a, Bank(DMGSelected_TileData)
 	ld bc, DMGSelected_TileData
 	ld de, LoadTileLists
-	call Func_10c5
+	call QueueGraphicsDataToLoad_
 	ret
 
 .cgb
 	ld a, Bank(CGBSelected_TileData)
 	ld bc, CGBSelected_TileData
 	ld de, LoadTileLists
-	call Func_10c5
+	call QueueGraphicsDataToLoad_
 	ret
 
 DMGSelected_TileData: ; 0x813a

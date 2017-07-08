@@ -169,7 +169,7 @@ Func_20c76: ; 0x20c76
 	ld bc, $0008
 	call Func_7dc
 .asm_20d25
-	callba Func_1e8f6
+	callba QueueGraphicsDataToLoad
 	ret
 
 Func_20d30: ; 0x20d30
@@ -252,7 +252,7 @@ Func_20da0: ; 0x20da0
 	bit 0, a
 	jr z, .asm_20e1a
 	callba Func_1c2cb
-	callba Func_1e8f6
+	callba QueueGraphicsDataToLoad
 .asm_20e1a
 	callba StopTimer
 	call FillBottomMessageBufferWithBlackTile

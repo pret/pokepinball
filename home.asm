@@ -2611,14 +2611,14 @@ Func_10aa: ; 0x10aa
 	inc bc
 	pop af
 	push hl
-	call Func_10c5
+	call QueueGraphicsDataToLoad_
 	pop hl
 	pop bc
 	dec b
 	jr nz, .loop
 	ret
 
-Func_10c5: ; 0x10c5
+QueueGraphicsDataToLoad_: ; 0x10c5
 	push af
 	ld a, [rLCDC]
 	bit 7, a

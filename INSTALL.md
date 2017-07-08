@@ -2,12 +2,12 @@
 
 Dependencies:
 
-	sudo apt-get install make gcc bison git python python-setuptools
+	sudo apt-get install make gcc bison git
 	sudo easy_install pip
 
 The assembler used is [**rgbds**](https://github.com/bentley/rgbds).
 
-	git clone git://github.com/bentley/rgbds.git
+	git clone https://github.com/rednex/rgbds
 	cd rgbds
 	sudo mkdir -p /usr/local/man/man{1,7}
 	sudo make install
@@ -16,16 +16,14 @@ The assembler used is [**rgbds**](https://github.com/bentley/rgbds).
 
 Set up the repository.
 
-	git clone git://github.com/huderlem/pokepinball.git
+	git clone https://github.com/huderlem/pokepinball
 	cd pokepinball
-	git submodule init
-	git submodule update
 
 To build `pokepinball.gbc`:
 
 	make
 
-This will take a few second the first time you build because it needs to process all of the graphics.
+This will take a few seconds the first time you build because it needs to process all of the graphics.
 
 To remove all generated files by the build process:
 
@@ -47,22 +45,21 @@ Then follow the Linux instructions.
 
 # Windows
 
-It's recommended that you use a virtual machine running Linux or OS X.
-
-If you insist on Windows, use [**Cygwin**](http://cygwin.com/install.html) (32-bit).
+To build on Windows, install [**Cygwin**](http://cygwin.com/install.html) with the default settings.
 
 Dependencies are downloaded in the installer rather than the command line.
 Select the following packages:
 * make
 * git
-* python
-* python-setuptools
+* gcc-core
 
 The latest pokepinball-compatible version of **rgbds** is  [**0.3.0**](https://github.com/rednex/rgbds/releases/download/v0.3.0/rgbds-0.3.0-win32.zip). To install, put each of the files in the download in `C:\cygwin\usr\local\bin`.
 
 Then set up the repository. In the **Cygwin terminal**:
 
-	https://github.com/pret/pokepinball.git
+	git clone https://github.com/pret/pokepinball.git
 	cd pokepinball
 
-To build, follow the Linux instructions.
+To build `pokepinball.gbc`:
+
+	make

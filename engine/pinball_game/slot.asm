@@ -264,7 +264,7 @@ SlotRewardPikachuSaver: ; 0xef83
 	ret
 
 SlotRewardBonusMultiplier: ; 0xefa7
-	callba IncrementBonusMultiplier
+	callba IncrementBonusMultiplierFromFieldEvent
 	ret
 
 SlotRewardSmallPoints: ; 0xefb2
@@ -450,12 +450,12 @@ SlotBonusMultiplier: ; 0xf0c1
 	xor a
 	ld [wd611], a
 	ld [wd612], a
-	ld a, [wd482]
+	ld a, [wCurBonusMultiplier]
 	call .DivideBy25
 	ld b, c
 	ld a, [wCurSlotBonus]
 	inc a
-	ld hl, wd482
+	ld hl, wCurBonusMultiplier
 	add [hl]
 	cp 100
 	jr c, .asm_f113
@@ -465,11 +465,11 @@ SlotBonusMultiplier: ; 0xf0c1
 	call .DivideBy25
 	ld a, c
 	cp b
-	callba nz, IncrementBonusMultiplier
-	callba Func_16f95
-	ld a, [wd60c]
+	callba nz, IncrementBonusMultiplierFromFieldEvent
+	callba GetBCDForNextBonusMultiplier_RedField
+	ld a, [wBonusMultiplierTensDigit]
 	callba Func_f154 ; no need for BankSwitch here...
-	ld a, [wd60d]
+	ld a, [wBonusMultiplierOnesDigit]
 	add $14
 	callba Func_f154 ; no need for BankSwitch here...
 	ret
@@ -487,12 +487,12 @@ Func_f154: ; 0xf154
 	ld a, [wCurrentStage]
 	call CallInFollowingTable
 CallTable_f15a: ; 0xf15a
-	padded_dab Func_16f28
-	padded_dab Func_16f28
-	padded_dab Func_16f28
-	padded_dab Func_16f28
-	padded_dab Func_1d5f2
-	padded_dab Func_1d5f2
+	padded_dab LoadBonusMultiplierRailingGraphics_RedField
+	padded_dab LoadBonusMultiplierRailingGraphics_RedField
+	padded_dab LoadBonusMultiplierRailingGraphics_RedField
+	padded_dab LoadBonusMultiplierRailingGraphics_RedField
+	padded_dab LoadBonusMultiplierRailingGraphics_BlueField
+	padded_dab LoadBonusMultiplierRailingGraphics_BlueField
 
 SlotRewardGoToBonusStage: ; 0xf172
 	ld a, $1

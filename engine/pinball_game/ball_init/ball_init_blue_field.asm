@@ -52,12 +52,12 @@ InitBallBlueField: ; 0x1c08d
 	ld [wNumPikachuSaves], a
 	ld [wd613], a
 	inc a
-	ld [wd482], a
+	ld [wCurBonusMultiplier], a
 	ld [wd4ef], a
 	ld [wd4f1], a
 	ld a, $3
 	ld [wd610], a
-	call Func_1d65f
+	call GetBCDForNextBonusMultiplier_BlueField
 	ld a, $10
 	call SetSongBank
 	ld de, $0001

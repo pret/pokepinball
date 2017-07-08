@@ -57,12 +57,12 @@ InitBallRedField: ; 0x3007d
 	ld [wNumPikachuSaves], a
 	ld [wd613], a
 	inc a
-	ld [wd482], a
+	ld [wCurBonusMultiplier], a
 	ld [wd4ef], a
 	ld [wd4f1], a
 	ld a, $3
 	ld [wd610], a
-	callba Func_16f95
+	callba GetBCDForNextBonusMultiplier_RedField
 	ld a, $f
 	call SetSongBank
 	ld de, $0001

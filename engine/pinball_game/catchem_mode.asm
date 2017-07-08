@@ -799,7 +799,7 @@ CapturePokemon: ; 0x1052d
 	jr nc, .notMaxed
 	ld c, $a
 	call Modulo_C
-	callba z, IncrementBonusMultiplier ; increments bonus multiplier every 10 pokemon caught
+	callba z, IncrementBonusMultiplierFromFieldEvent ; increments bonus multiplier every 10 pokemon caught
 .notMaxed
 	call SetPokemonOwnedFlag
 	ld a, [wPreviousNumPokeballs]

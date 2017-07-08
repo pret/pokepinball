@@ -11,7 +11,7 @@ InitRedField: ; 0x30000
 	ld [hld], a
 	ld [hl], a
 	ld [wNumPartyMons], a
-	ld [wCurBonusMultiplier], a
+	ld [wCurBonusMultiplierFromFieldEvents], a
 	ld [wd4c9], a
 	ld [wBallType], a
 	ld [wd4c8], a
@@ -24,7 +24,7 @@ InitRedField: ; 0x30000
 	ld [wCurrentMap], a  ; PALLET_TOWN
 	ld a, $1
 	ld [wd49d], a
-	ld [wd482], a
+	ld [wCurBonusMultiplier], a
 	ld a, $2
 	ld [wRightAlleyCount], a
 	ld a, $3
@@ -41,7 +41,7 @@ InitRedField: ; 0x30000
 	ld a, $82
 	ld [wIndicatorStates + 1], a
 	callba Start20SecondSaverTimer
-	callba Func_16f95
+	callba GetBCDForNextBonusMultiplier_RedField
 	ld a, $f
 	call SetSongBank
 	ld de, $0001

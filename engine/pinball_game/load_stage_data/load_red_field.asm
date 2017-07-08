@@ -102,11 +102,11 @@ Func_140e2: ; 0x140e2
 	ld a, $ff
 	ld [wd60e], a
 	ld [wd60f], a
-	ld a, [wd60c]
-	call Func_16f28
-	ld a, [wd60d]
+	ld a, [wBonusMultiplierTensDigit]
+	call LoadBonusMultiplierRailingGraphics_RedField
+	ld a, [wBonusMultiplierOnesDigit]
 	add $14
-	call Func_16f28
+	call LoadBonusMultiplierRailingGraphics_RedField
 	ret
 
 Func_140f9: ; 0x140f9

@@ -11,7 +11,7 @@ InitBlueField: ; 0x1c000
 	ld [hld], a
 	ld [hl], a
 	ld [wNumPartyMons], a
-	ld [wCurBonusMultiplier], a
+	ld [wCurBonusMultiplierFromFieldEvents], a
 	ld [wd4c9], a
 	ld [wBallType], a
 	ld [wd4c8], a
@@ -24,7 +24,7 @@ InitBlueField: ; 0x1c000
 	ld [wCurrentMap], a  ; PALLET_TOWN
 	ld a, $1
 	ld [wd49d], a
-	ld [wd482], a
+	ld [wCurBonusMultiplier], a
 	ld a, $2
 	ld [wRightAlleyCount], a
 	ld a, $3
@@ -47,7 +47,7 @@ InitBlueField: ; 0x1c000
 	ld [wd645], a
 	ld [wd646], a
 	callba Start20SecondSaverTimer
-	callba Func_1d65f
+	callba GetBCDForNextBonusMultiplier_BlueField
 	ld a, $10
 	call SetSongBank
 	ld de, $0001

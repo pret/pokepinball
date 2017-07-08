@@ -145,7 +145,9 @@ wBallTypeCounter:: ; 0xd47f
 wBallTypeBackup:: ; 0xd481
 	ds $1
 
-wd482:: ; 0xd482
+wCurBonusMultiplier:: ; 0xd482
+; Current value of the bonus multplier. Incremented from achieving various events during the game, or hitting the two bonus multiplier
+; railings. (left one first, then right one). See MAX_BONUS_MULTIPLIER
 	ds $1
 
 wd483:: ; 0xd483
@@ -176,8 +178,8 @@ wCompletedBonusStage:: ; 0xd49a
 ; Set to 1 when a bonus stage is successfully cleared.
 	ds $1
 
-wCurBonusMultiplier:: ; 0xd49b
-; Current value of the bonus multiplier. See MAX_BONUS_MULTIPLIER.
+wCurBonusMultiplierFromFieldEvents:: ; 0xd49b
+; Current value of the bonus multiplier received from field events, like catching a pokemon or hitting psyduck 3 times. See MAX_BONUS_MULTIPLIER_FIELD_EVENTS.
 	ds $1
 
 wd49c:: ; 0xd49c
@@ -812,10 +814,12 @@ wWhichBonusMultiplierRailing:: ; 0xd60a
 wWhichBonusMultiplierRailingId:: ; 0xd60b
 	ds $1
 
-wd60c:: ; 0xd60c
+wBonusMultiplierTensDigit:: ; 0xd60c
+; Holds the tens digit for the current bonus multiplier value. This number is displayed on the left-side bonus multiplier railing.
 	ds $1
 
-wd60d:: ; 0xd60d
+wBonusMultiplierOnesDigit:: ; 0xd60d
+; Holds the ones digit for the current bonus multiplier value. This number is displayed on the right-side bonus multiplier railing.
 	ds $1
 
 wd60e:: ; 0xd60e

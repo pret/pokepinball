@@ -65,11 +65,11 @@ Func_1c21e: ; 0x1c21e
 	ld a, $ff
 	ld [wd60e], a
 	ld [wd60f], a
-	ld a, [wd60c]
-	call Func_1d5f2
-	ld a, [wd60d]
+	ld a, [wBonusMultiplierTensDigit]
+	call LoadBonusMultiplierRailingGraphics_BlueField
+	ld a, [wBonusMultiplierOnesDigit]
 	add $14
-	call Func_1d5f2
+	call LoadBonusMultiplierRailingGraphics_BlueField
 	ret
 
 Func_1c235: ; 0x1c235

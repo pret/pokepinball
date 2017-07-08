@@ -181,7 +181,7 @@ Func_f676: ; 0xf676
 	ld hl, TotalPointsText
 	call PrintTextNoHeader
 	ld hl, wBottomMessageText + $50
-	ld a, [wd482]
+	ld a, [wCurBonusMultiplier]
 	call Func_f78e
 	ld bc, $0040
 	ld de, $0040
@@ -209,11 +209,11 @@ Func_f676: ; 0xf676
 .asm_f6f2
 	pop hl
 	pop de
-	ld a, [wd482]
+	ld a, [wCurBonusMultiplier]
 	and a
 	jr z, .asm_f709
 	dec a
-	ld [wd482], a
+	ld [wCurBonusMultiplier], a
 	ld hl, wd48f
 	ld de, wd489
 	call AddBigBCD6

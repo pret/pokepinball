@@ -9,8 +9,6 @@
 ROM := pokepinball.gbc
 OBJS := main.o wram.o sram.o
 
-PYTHON := python
-PRET := pokemon-reverse-engineering-tools/pokemontools
 MD5 := md5sum -c --quiet
 
 all: $(ROM) compare
@@ -51,4 +49,4 @@ clean: tidy
 	rgbgfx -d1 -o $@ $<
 
 %.pcm: %.wav
-	$(PYTHON) $(PRET)/pcm.py pcm $<
+	tools/pcm -o $@ $<

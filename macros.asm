@@ -2,6 +2,7 @@ INCLUDE "macros/sound.asm"
 
 AdvanceFrame EQUS "$10"
 JumpTable EQUS "$18"
+ReadHalfword EQUS "$20"
 
 dex_text   EQUS "db "     ; Start beginning of pokedex description
 dex_line   EQUS "db $0d," ; Start new line in pokedex description

@@ -1860,19 +1860,7 @@ wd811:: ; 0xd811
 	ds $1
 
 wd812:: ; 0xd812
-	ds $18
-
-wd82a:: ; 0xd82a
-	ds $7
-
-wd831:: ; 0xd831
-	ds $c
-
-wd83d:: ; 0xd83d
-	ds $9
-
-wd846:: ; 0xd846
-	ds $2
+	ds $36
 
 wd848:: ; 0xd848
 	ds $1
@@ -2142,6 +2130,7 @@ wd8e9:: ; 0xd8e9
 	ds $1
 
 wd8ea:: ; 0xd8ea
+; IR status flags?
 	ds $1
 
 wd8eb:: ; 0xd8eb

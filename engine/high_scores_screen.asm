@@ -164,7 +164,7 @@ Func_cb14: ; 0xcb14
 	ld de, $0002
 	call PlaySong
 .asm_cba6
-	call Func_588
+	call EnableLCD
 	ld bc, $0009
 	call Func_d68a
 	ld bc, $03c9
@@ -179,7 +179,7 @@ Func_cb14: ; 0xcb14
 	call SetSongBank
 	ld de, $0004
 	call PlaySong
-	call Func_588
+	call EnableLCD
 	ld bc, $0009
 	call Func_d68a
 	ld bc, $03c9
@@ -944,7 +944,7 @@ Func_d159: ; 0xd159
 
 ExitHighScoresScreen: ; 0xd171
 	call FadeOut
-	call Func_576
+	call DisableLCD
 	ld hl, hSTAT
 	res 6, [hl]
 	ld hl, rIE

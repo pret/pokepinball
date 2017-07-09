@@ -299,7 +299,7 @@ Func_14234: ; 0x14234
 	ld hl, PaletteData_dd188
 	ld de, $0070
 	ld bc, $0010
-	call Func_6fd
+	call FarCopyCGBPals
 	ret
 
 Func_14282: ; 0x14282
@@ -403,7 +403,7 @@ Func_142fc: ; 0x142fc
 	ld hl, PokeBallObjPalette
 	ld de, $0040
 	ld bc, $0008
-	call Func_6fd
+	call FarCopyCGBPals
 	ret
 
 .notPokeball
@@ -413,7 +413,7 @@ Func_142fc: ; 0x142fc
 	ld hl, GreatBallObjPalette
 	ld de, $0040
 	ld bc, $0008
-	call Func_6fd
+	call FarCopyCGBPals
 	ret
 
 .notGreatball
@@ -423,7 +423,7 @@ Func_142fc: ; 0x142fc
 	ld hl, UltraBallObjPalette
 	ld de, $0040
 	ld bc, $0008
-	call Func_6fd
+	call FarCopyCGBPals
 	ret
 
 .notUltraball
@@ -431,7 +431,7 @@ Func_142fc: ; 0x142fc
 	ld hl, MasterBallObjPalette
 	ld de, $0040
 	ld bc, $0008
-	call Func_6fd
+	call FarCopyCGBPals
 	ret
 
 Func_14377: ; 0x14377

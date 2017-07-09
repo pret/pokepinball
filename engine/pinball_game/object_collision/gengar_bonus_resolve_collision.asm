@@ -1440,7 +1440,7 @@ Func_18d34: ; 0x18d34
 	ld a, $80
 	ld [wFlipperCollision], a
 	ld de, $002f
-	call Func_4d8
+	call PlaySFXIfNoneActive
 .asm_18d71
 	ret
 

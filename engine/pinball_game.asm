@@ -60,7 +60,7 @@ GameScreenFunction_StartBall: ; 0xd87f
 	xor a
 	ld [wd7c1], a
 	call Func_b66
-	call Func_588
+	call EnableLCD
 	call FadeIn
 	ld hl, wScreenState
 	inc [hl]
@@ -234,7 +234,7 @@ GameScreenFunction_EndBall: ; 0xdab2
 	ld a, [wd849]
 	and a
 	call z, Func_e5d
-	call Func_576
+	call DisableLCD
 	ld hl, hSTAT
 	res 6, [hl]
 	ld hl, rIE
@@ -252,7 +252,7 @@ GameScreenFunction_EndBall: ; 0xdab2
 	ld a, [wd849]
 	and a
 	call nz, Func_e5d
-	call Func_576
+	call DisableLCD
 	ld hl, hSTAT
 	res 6, [hl]
 	ld hl, rIE
@@ -279,7 +279,7 @@ GameScreenFunction_EndBall: ; 0xdab2
 	ld a, [wd849]
 	and a
 	call nz, Func_e5d
-	call Func_576
+	call DisableLCD
 	ld hl, hSTAT
 	res 6, [hl]
 	ld hl, rIE
@@ -300,7 +300,7 @@ TransitionToHighScoresScreen: ; 0xdb5d
 	ld bc, $0004
 	call AdvanceFrames
 	call FadeOut
-	call Func_576
+	call DisableLCD
 	ld hl, hSTAT
 	res 6, [hl]
 	ld hl, rIE

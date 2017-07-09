@@ -36,7 +36,7 @@ Func_c35a: ; 0xc35a
 	call SetSongBank
 	ld de, $0002
 	call PlaySong
-	call Func_588
+	call EnableLCD
 	ld a, [wSoundTestCurrentBackgroundMusic]
 	hlCoord 7, 11, vBGMap
 	call RedrawSoundTestID
@@ -146,7 +146,7 @@ Func_c447: ; 0xc447
 
 Func_c483: ; 0xc483
 	call FadeOut
-	call Func_576
+	call DisableLCD
 	ld a, SCREEN_TITLESCREEN
 	ld [wCurrentScreen], a
 	xor a

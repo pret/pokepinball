@@ -350,7 +350,7 @@ Func_1c3ee: ; 0x1c3ee
 	ld hl, PaletteData_dd188
 	ld de, $0070
 	ld bc, $0010
-	call Func_6fd
+	call FarCopyCGBPals
 	ret
 
 Func_1c43c: ; 0x1c43c

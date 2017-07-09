@@ -10,14 +10,14 @@ InitializeCurrentStage: ; 0x8311
 	ld hl, vBGWin
 	ld bc, $0400
 	ld a, $0
-	call Func_63e
+	call __memset_8
 	jr .asm_833c
 
 .asm_8331
 	ld hl, vBGWin
 	ld bc, $0400
 	ld a, $8
-	call Func_63e
+	call __memset_8
 .asm_833c
 	xor a
 	ld [rVBK], a

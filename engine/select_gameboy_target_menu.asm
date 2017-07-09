@@ -40,7 +40,7 @@ InitSelectGameboyTargetMenu: ; 0x800a
 	call LoadGameboyTargetMenuGfx
 	call ClearOAMBuffer
 	call Func_b66
-	call Func_588
+	call EnableLCD
 	call FadeIn
 	ld hl, wScreenState
 	inc [hl]
@@ -230,7 +230,7 @@ CGBSelected_TileData: ; 0x8144
 
 EndSelectGameboyTargetMenu: ; 0x414e
 	call FadeOut
-	call Func_576
+	call DisableLCD
 	ld hl, wCurrentScreen
 	inc [hl] ; set to SCREEN_ERASE_ALL_DATA
 	xor a

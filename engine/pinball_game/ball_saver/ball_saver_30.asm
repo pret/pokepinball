@@ -2,7 +2,7 @@ Start30SecondSaverTimer: ; 0xef35
 	ld a, $0
 	ld [wBallSaverIconOn], a
 	ld a, $ff
-	ld [wd4a2], a
+	ld [wBallSaverFlashRate], a
 	ld a, 59
 	ld [wBallSaverTimerFrames], a
 	ld a, 30

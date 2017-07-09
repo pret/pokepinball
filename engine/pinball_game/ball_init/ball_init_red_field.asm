@@ -34,14 +34,14 @@ InitBallRedField: ; 0x3007d
 	ld [wPikachuSaverSlotRewardActive], a
 	ld [wPikachuSaverCharge], a
 	ld [wd51e], a
-	ld hl, wd50f
+	ld hl, wCAVELightStates
 	ld [hli], a
 	ld [hli], a
 	ld [hli], a
 	ld [hli], a
 	ld [wLeftMapMoveCounter], a
 	ld [wRightMapMoveCounter], a
-	ld hl, wd5f9
+	ld hl, wBallUpgradeTriggerStates
 	ld [hli], a
 	ld [hli], a
 	ld [hli], a

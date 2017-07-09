@@ -1,5 +1,5 @@
 _LoadStageDataBlueFieldTop: ; 0x1c165
-	call asm_1e475
+	call LoadPinballUpgradeTriggersGraphics_BlueField
 	call UpdateSpinnerChargeGraphics_BlueField
 	call Func_1c3ee
 	call Func_1e8f6
@@ -15,12 +15,12 @@ _LoadStageDataBlueFieldBottom: ; 0x1c191
 	call Func_1c1db
 	call Func_1c4b6
 	call Func_1c2cb
-	call Func_1e627
+	call LoadCAVELightsGraphics_BlueField
 	call Func_1c43c
 	call Func_1c305
 	call Func_1c3ee
 	callba Func_14746
-	callba Func_14707
+	callba DrawBallSaverIcon
 	call Func_1c235
 	call Func_1c21e
 	call Func_1e8f6

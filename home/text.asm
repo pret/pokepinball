@@ -8,7 +8,7 @@ Func_30db: ; 0x30db
 	ld [wd5cb], a
 	ret
 
-FillBottomMessageBufferWithBlackTile: ; 0x30e8
+FillBottomMessageBufferWithBlackTile: ; 0x30e8 wipes the message buffer and disables all text
 	ld a, $81
 	ld hl, wBottomMessageBuffer
 	ld b, $40
@@ -584,27 +584,27 @@ Func_33a7: ; 0x33a7
 	inc de
 	ret
 
-HandleStationaryText: ; 0x33c3 Handles stationary text HandleStationaryText
+HandleStationaryText: ; 0x33c3 Handles stationary text
 	ld a, [hli] ;+1
 	and a
-	ret z ;ret if var 1 is 0
-	ld a, [hli] ;+2 load var2 into e
+	ret z ;ret if not enabled
+	ld a, [hli] ;load buffer offset into e
 	ld e, a
 	ld d, wBottomMessageBuffer / $100
 	push hl
-	ld l, [hl] ;Place text from var 2 in buffer into var3 in text
+	ld l, [hl] ;Place text from buffer into text
 	ld h, wBottomMessageText / $100
 	call PlaceTextLow
 	pop hl
-	inc hl ;+3 dec Var4, ret if var not 0
+	inc hl ;decrement timer
 	ld a, [hl]
 	dec a
-	ld [hli], a ;+4
+	ld [hli], a
 	ret nz
-	ld a, [hl] ;dec Var5
+	ld a, [hl]
 	dec a
-	ld [hld], a ;+3
-	bit 7, a ;if Var5 <= 128, ret, else toggle off
+	ld [hld], a
+	bit 7, a ;if Var5 <= 128, which is to say has not underflowed, ret, else disable text
 	ret z
 	dec hl
 	dec hl
@@ -615,7 +615,7 @@ HandleStationaryText: ; 0x33c3 Handles stationary text HandleStationaryText
 Func_33e3: ; 0x33e3
 	ld a, [wd5ca]
 	and a
-	jr nz, .asm_33ed ;if ??? = nz, load into ???, else jump
+	jr nz, .asm_33ed ;if ??? = z, load 0 into ???, else jump
 	ld [wd5cb], a
 	ret
 
@@ -650,36 +650,36 @@ Func_33e3: ; 0x33e3
 .Scrolling3Off
 	ld a, [wStationaryText1]
 	and a
-	jr z, .asm_342b
+	jr z, .Stationary1Off
 	push bc
 	ld hl, wStationaryText1
 	call HandleStationaryText
 	pop bc
 	inc c
-.asm_342b
+.Stationary1Off
 	ld a, [wStationaryText2]
 	and a
-	jr z, .asm_343a
+	jr z, .Stationary2Off
 	push bc
 	ld hl, wStationaryText2
 	call HandleStationaryText
 	pop bc
 	inc c
-.asm_343a
+.Stationary2Off
 	ld a, [wStationaryText3]
 	and a
-	jr z, .asm_3449
+	jr z, .Stationary3Off
 	push bc
 	ld hl, wStationaryText3
 	call HandleStationaryText
 	pop bc
 	inc c
-.asm_3449
+.Stationary3Off
 	ld a, c
 	and a
-	ret nz
-	ld [wd5ca], a
-	call FillBottomMessageBufferWithBlackTile
+	ret nz ;if text has displayed, we are done, else
+	ld [wd5ca], a ;place 0 in ???
+	call FillBottomMessageBufferWithBlackTile ;fill with default data?
 	ld a, [hGameBoyColorFlag]
 	and a
 	jr nz, .gameboyColor

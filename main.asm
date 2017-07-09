@@ -186,13 +186,13 @@ SECTION "bank4", ROMX
 
 Func_10000: ; 0x10000
 	ld c, a
-	ld a, [wInSpecialMode]
+	ld a, [wInSpecialMode] ;special mode in c
 	and a
-	ret z
+	ret z ;if mot in special mode, ret
 	ld a, c
 	ld [wd54c], a
 	ld a, [wSpecialMode]
-	cp SPECIAL_MODE_CATCHEM
+	cp SPECIAL_MODE_CATCHEM ;branch based on mode
 	jp z, Func_10a95
 	cp SPECIAL_MODE_EVOLUTION
 	jr nz, .next
@@ -1500,11 +1500,11 @@ CallTable_3021f: ; 0x3021f
 
 Func_3022b: ; 0x3022b
 	xor a
-	ld [wd5ca], a
-	call FillBottomMessageBufferWithBlackTile
+	ld [wd5ca], a ;turn text off
+	call FillBottomMessageBufferWithBlackTile ;clear text
 	xor a
 	ld [wInSpecialMode], a
-	ld [wSpecialMode], a
+	ld [wSpecialMode], a ;no longer in special modes
 	callba StopTimer
 	ld a, [wCurrentStage]
 	rst JumpTable  ; calls JumpToFuncInTable
@@ -2081,7 +2081,7 @@ Func_31660: ; 0x31660
 	ret
 
 Func_31672: ; 0x31672
-	ld a, [wd5ca]
+	ld a, [wd5ca] ;if text is off
 	and a
 	ret nz
 	call FillBottomMessageBufferWithBlackTile

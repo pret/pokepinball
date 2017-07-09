@@ -930,17 +930,17 @@ ShowAnimatedWildMon: ; 0x10678
 Func_10696: ; 0x10696
 	call FillBottomMessageBufferWithBlackTile
 	call Func_30db
-	ld hl, wScrollingTextStruct1
+	ld hl, wScrollingText1
 	ld de, LetsGetPokemonText
-	call LoadTextHeader
+	call LoadScrollingText
 	ret
 
 Func_106a6: ; 0x106a6
 	call FillBottomMessageBufferWithBlackTile
 	call Func_30db
-	ld hl, wScrollingTextStruct1
+	ld hl, wScrollingText1
 	ld de, PokemonRanAwayText
-	call LoadTextHeader
+	call LoadScrollingText
 	ret
 
 Func_106b6: ; 0x106b6
@@ -979,12 +979,12 @@ Func_106b6: ; 0x106b6
 	push de
 	call FillBottomMessageBufferWithBlackTile
 	call Func_30db
-	ld hl, wScrollingTextStruct1
+	ld hl, wScrollingText1
 	pop de
-	call LoadTextHeader
-	ld hl, wScrollingTextStruct2
+	call LoadScrollingText
+	ld hl, wScrollingText2
 	pop de
-	call LoadTextHeader
+	call LoadScrollingText
 	pop hl
 	ld de, wBottomMessageText + $20
 	ld b, $0  ; count the number of letters in mon's name in register b
@@ -1003,16 +1003,16 @@ Func_106b6: ; 0x106b6
 	inc de
 	xor a
 	ld [de], a
-	ld a, [wd5db]
+	ld a, [wScrollingText2ScrollStepsRemaining]
 	add b
-	ld [wd5db], a
+	ld [wScrollingText2ScrollStepsRemaining], a
 	ld a, $14
 	sub b
 	srl a
 	ld b, a
-	ld a, [wd5d8]
+	ld a, [wScrollingText2StopOffset]
 	add b
-	ld [wd5d8], a
+	ld [wScrollingText2StopOffset], a
 	ret
 
 Func_10732: ; 0x10732
@@ -1178,12 +1178,12 @@ Func_10848: ; 0x10848
 	callba AddBigBCD6FromQueue
 	call FillBottomMessageBufferWithBlackTile
 	call Func_30db
-	ld hl, wScrollingTextStruct2
+	ld hl, wScrollingText2
 	ld de, OneBillionText
-	call LoadTextHeader
-	ld hl, wScrollingTextStruct1
+	call LoadScrollingText
+	ld hl, wScrollingText1
 	ld de, PokemonCaughtSpecialBonusText
-	call LoadTextHeader
+	call LoadScrollingText
 	call Func_3475
 	ret
 

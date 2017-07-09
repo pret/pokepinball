@@ -5111,7 +5111,6 @@ UpdateAnimation: ; 0x28a9
 	pop de
 	ret
 
-INCLUDE "text.asm"
 INCLUDE "home/text.asm"
 
 Func_3500:

@@ -1,4 +1,4 @@
-; 6-byte header for scrolling text. See LoadTextHeader for documentation.
+; 6-byte header for scrolling text in the bottom message box. See LoadScrollingText, and wScrollingText1 for documentation.
 
 BallSavedText:
 	db $05, $54, $45, $14, $00, $33

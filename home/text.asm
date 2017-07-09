@@ -1,3 +1,5 @@
+INCLUDE "text/scrolling_text.asm"
+
 Func_30db: ; 0x30db
 	ld a, $86
 	ld [hWY], a ;force text bar up
@@ -18,9 +20,9 @@ FillBottomMessageBufferWithBlackTile: ; 0x30e8
 	dec b
 	jr nz, .loop
 	xor a
-	ld [wScrollingTextStruct1], a
-	ld [wScrollingTextStruct2], a
-	ld [wScrollingTextStruct3], a
+	ld [wScrollingText1Enabled], a
+	ld [wScrollingText2Enabled], a
+	ld [wScrollingText3Enabled], a
 	ld [wd5e4], a
 	ld [wd5e9], a
 	ld [wd5ee], a
@@ -324,18 +326,18 @@ UnusedPlaceString: ; 0x3268 seems to place text based on different, confusing lo
 	inc e
 	jr UnusedPlaceString
 
-LoadTextHeader: ; 0x32aa
+LoadScrollingText: ; 0x32aa
 ; Loads scrolling text into the specified buffer.
 ; Scrolling text appears in a black bar at the bottom of the screen during pinball gameplay.
-; Input: de = pointer to scrolling text
-;        hl = pointer to text header buffer
-; Text Header Format:
+; Input: de = pointer to scrolling text data
+;        hl = pointer to scrolling text header (See wScrollingText1)
+; Scrolling text Header Format:
 ;	Byte 1: Step delay (in frames)
 ;	Byte 2: Starting wBottomMessageBuffer offset (wBottomMessageBuffer + $40 = left-most tile)
 ;	Byte 3: Stopping wBottomMessageBuffer offset (stops scrolling in the middle of the screen)
 ;	Byte 4: Number of steps to pause
 ;	Byte 5: Text offset in wBottomMessageText
-;	Byte 6: Total number of steps in the entire scolling animation
+;	Byte 6: Total number of steps in the entire scrolling animation
 ;	Remaining Bytes: Raw text to load
 	ld a, $1
 	ld [hli], a
@@ -619,29 +621,29 @@ Func_33e3: ; 0x33e3
 
 .asm_33ed
 	ld c, $0
-	ld a, [wScrollingTextStruct1]
+	ld a, [wScrollingText1Enabled]
 	and a
 	jr z, .asm_33fe ;if ?? is 0
 	push bc ;store b and 0
-	ld hl, wScrollingTextStruct1
+	ld hl, wScrollingText1
 	call HandleScrolling
 	pop bc
 	inc c
 .asm_33fe
-	ld a, [wScrollingTextStruct2]
+	ld a, [wScrollingText2Enabled]
 	and a
 	jr z, .asm_340d
 	push bc
-	ld hl, wScrollingTextStruct2
+	ld hl, wScrollingText2
 	call HandleScrolling
 	pop bc
 	inc c
 .asm_340d
-	ld a, [wScrollingTextStruct3]
+	ld a, [wScrollingText3Enabled]
 	and a
 	jr z, .asm_341c
 	push bc
-	ld hl, wScrollingTextStruct3
+	ld hl, wScrollingText3
 	call HandleScrolling
 	pop bc
 	inc c

@@ -51,7 +51,7 @@ HandleBallLossMeowthBonus: ; 0xdfe2
 	ret nz
 	call FillBottomMessageBufferWithBlackTile
 	call Func_30db
-	ld hl, wScrollingTextStruct3
+	ld hl, wScrollingText3
 	ld de, EndMeowthStageText
-	call LoadTextHeader
+	call LoadScrollingText
 	ret

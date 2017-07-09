@@ -15,9 +15,9 @@ ResolveSeelBonusGameObjectCollisions: ; 0x25c5a
 	ld [wCompletedBonusStage], a
 	call FillBottomMessageBufferWithBlackTile
 	call Func_30db
-	ld hl, wScrollingTextStruct3
+	ld hl, wScrollingText3
 	ld de, SeelStageClearedText
-	call LoadTextHeader
+	call LoadScrollingText
 	ld a, $2
 	ld [wd794], a
 	lb de, $4b, $2a

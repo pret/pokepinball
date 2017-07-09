@@ -118,9 +118,9 @@ Func_dc6d: ; 0xdc6d
 	push de
 	call FillBottomMessageBufferWithBlackTile
 	call Func_30db
-	ld hl, wScrollingTextStruct3
+	ld hl, wScrollingText3
 	pop de
-	call LoadTextHeader
+	call LoadScrollingText
 	ret
 
 Func_dc7c: ; 0xdc7c
@@ -307,14 +307,14 @@ VideoData_10b2a: ; 0x10b2a
 Func_10b3f: ; 0x10b3f
 	call FillBottomMessageBufferWithBlackTile
 	call Func_30db
-	ld hl, wScrollingTextStruct1
+	ld hl, wScrollingText1
 	ld a, [wCurrentEvolutionType]
 	cp EVO_EXPERIENCE
 	ld de, StartTrainingText
 	jr z, .asm_10b55
 	ld de, FindItemsText
 .asm_10b55
-	call LoadTextHeader
+	call LoadScrollingText
 	ret
 
 InitEvolutionSelectionMenu: ; 0x10b59
@@ -763,12 +763,12 @@ Func_10e0a: ; 0x10e0a
 	push de
 	call FillBottomMessageBufferWithBlackTile
 	call Func_30db
-	ld hl, wScrollingTextStruct1
+	ld hl, wScrollingText1
 	pop de
-	call LoadTextHeader
-	ld hl, wScrollingTextStruct2
+	call LoadScrollingText
+	ld hl, wScrollingText2
 	pop de
-	call LoadTextHeader
+	call LoadScrollingText
 	pop hl
 	ld de, wBottomMessageText + $20
 	ld b, $0
@@ -787,16 +787,16 @@ Func_10e0a: ; 0x10e0a
 	inc de
 	xor a
 	ld [de], a
-	ld a, [wd5db]
+	ld a, [wScrollingText2ScrollStepsRemaining]
 	add b
-	ld [wd5db], a
+	ld [wScrollingText2ScrollStepsRemaining], a
 	ld a, $14
 	sub b
 	srl a
 	ld b, a
-	ld a, [wd5d8]
+	ld a, [wScrollingText2StopOffset]
 	add b
-	ld [wd5d8], a
+	ld [wScrollingText2StopOffset], a
 	ret
 
 Func_10e8b: ; 0x10e8b
@@ -808,14 +808,14 @@ Func_10e8b: ; 0x10e8b
 	push de
 	call FillBottomMessageBufferWithBlackTile
 	call Func_30db
-	ld hl, wScrollingTextStruct2
+	ld hl, wScrollingText2
 	ld de, Data_2b6b
 	call Func_32cc
 	pop de
 	pop bc
-	ld hl, wScrollingTextStruct1
+	ld hl, wScrollingText1
 	ld de, EvolutionSpecialBonusText
-	call LoadTextHeader
+	call LoadScrollingText
 	ret
 
 StartEvolutionMode_RedField: ; 0x10ebb
@@ -1534,11 +1534,11 @@ LoadScrollingMapNameText: ; 0x3118f
 	ld e, a
 	ld a, [hli]
 	ld d, a
-	ld hl, wScrollingTextStruct2
-	call LoadTextHeader
+	ld hl, wScrollingText2
+	call LoadScrollingText
 	pop de
-	ld hl, wScrollingTextStruct1
-	call LoadTextHeader
+	ld hl, wScrollingText1
+	call LoadScrollingText
 	ret
 
 Func_311b4: ; 0x311b4
@@ -1970,9 +1970,9 @@ Func_3151f: ; 0x3151f
 	callba StopTimer
 	call FillBottomMessageBufferWithBlackTile
 	call Func_30db
-	ld hl, wScrollingTextStruct1
+	ld hl, wScrollingText1
 	ld de, MapMoveFailedText
-	call LoadTextHeader
+	call LoadScrollingText
 	ret
 
 Func_31591: ; 0x31591
@@ -2124,9 +2124,9 @@ Func_3168c: ; 0x3168c
 	callba StopTimer
 	call FillBottomMessageBufferWithBlackTile
 	call Func_30db
-	ld hl, wScrollingTextStruct1
+	ld hl, wScrollingText1
 	ld de, MapMoveFailedText
-	call LoadTextHeader
+	call LoadScrollingText
 	ret
 
 Func_31708: ; 0x31708

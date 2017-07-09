@@ -734,29 +734,23 @@ wd5ca:: ; 0xd5ca set to 1 by a commonly called text function that is called at t
 wd5cb:: ; 0xd5cb set to 0 if the above is 0 during Func_33e3
 	ds $1
 
-wScrollingTextStruct1:: ; 0xd5cc Start of a scrolling message struct that contains 8 1-byte vars.
-; Byte 1: Toggles if enabled. 0 is off, non-0 is on
-; Byte 2: is how many frames until the next scroll
-; Byte 3: holds how long, in frames, it should take for the scroll to move 1 tile
-; Byte 4: is the current position to place the start of the text
-; Byte 5: is where in the scroll the message should stop for an extended period
-; Byte 6: is how many frames the extended stop from Byte 5 has left
-; Byte 7: is a pointer to the source text's position in the buffer
-; Byte 8: is decremented each scroll and scroll denied by the stop
-; Scrolling text relies on byte allignment for the text buffer and display area
-	ds $8
+scrolling_text: MACRO
+\1Enabled:: ds 1              ; Toggles if enabled. 0 is off, non-0 is on
+\1ScrollDelayCounter:: ds 1   ; Number of frames remaining until the next scroll step
+\1ScrollDelay:: ds 1          ; Number of frames between each scroll step
+\1MessageBoxOffset:: ds 1     ; Offset in wBottomMessageBuffer to place first character of text
+\1StopOffset:: ds 1           ; Offset in wBottomMessageBuffer where the scrolling text will briefly stop
+\1StopDuration:: ds 1         ; Number of frames the message will remained stopped, before resuming scroll
+\1SourceTextOffset:: ds 1     ; Offset in wBottomMessageText for the text to be displayed
+\1ScrollStepsRemaining:: ds 1 ; Number of scroll steps remaining. Isn't decremented during the stop.
+ENDM
 
-wScrollingTextStruct2:: ; 0xd5d4 Start of a scrolling struct2
-	ds $4
-
-wd5d8:: ; 0xd5d8
-	ds $3
-
-wd5db:: ; 0xd5db
-	ds $1
-
-wScrollingTextStruct3:: ; 0xd5dc Start of a scrolling struct3
-	ds $8
+wScrollingText1:: ; 0xd5cc
+	scrolling_text wScrollingText1
+wScrollingText2:: ; 0xd5d4
+	scrolling_text wScrollingText2
+wScrollingText3:: ; 0xd5dc
+	scrolling_text wScrollingText3
 
 wd5e4:: ; 0xd5e4
 	ds $5

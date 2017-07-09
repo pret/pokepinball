@@ -72,8 +72,8 @@ Func_20c08: ; 0x20c08
 	call FillBottomMessageBufferWithBlackTile
 	call Func_30db
 	ld de, YeahYouGotItText
-	ld hl, wScrollingTextStruct1
-	call LoadTextHeader
+	ld hl, wScrollingText1
+	call LoadScrollingText
 	ld a, [hGameBoyColorFlag]
 	and a
 	jr z, .asm_20c74
@@ -257,9 +257,9 @@ Func_20da0: ; 0x20da0
 	callba StopTimer
 	call FillBottomMessageBufferWithBlackTile
 	call Func_30db
-	ld hl, wScrollingTextStruct1
+	ld hl, wScrollingText1
 	ld de, EvolutionFailedText
-	call LoadTextHeader
+	call LoadScrollingText
 	ret
 
 Func_20e34: ; 0x20e34
@@ -494,8 +494,8 @@ Func_20f75: ; 0x20f75
 	ld e, a
 	ld a, [hl]
 	ld d, a
-	ld hl, wScrollingTextStruct1
-	call LoadTextHeader
+	ld hl, wScrollingText1
+	call LoadScrollingText
 	scf
 	ret
 
@@ -527,14 +527,14 @@ Func_20fef: ; 0x20fef
 	callba AddBigBCD6FromQueue
 	call FillBottomMessageBufferWithBlackTile
 	call Func_30db
-	ld hl, wScrollingTextStruct1
+	ld hl, wScrollingText1
 	ld a, [wCurrentEvolutionType]
 	cp EVO_EXPERIENCE
 	ld de, PokemonIsTiredText
 	jr z, .asm_21057
 	ld de, ItemNotFoundText
 .asm_21057
-	call LoadTextHeader
+	call LoadScrollingText
 	scf
 	ret
 
@@ -631,8 +631,8 @@ asm_210c7:
 	jr z, .asm_21115
 	ld de, TryNextPlaceText
 .asm_21115
-	ld hl, wScrollingTextStruct1
-	call LoadTextHeader
+	ld hl, wScrollingText1
+	call LoadScrollingText
 	scf
 	ret
 

@@ -1141,8 +1141,8 @@ ResolveRedStagePinballUpgradeTriggersCollision: ; 0x1535d
 	call FillBottomMessageBufferWithBlackTile
 	call Func_30db
 	ld de, FieldMultiplierText
-	ld hl, wScrollingTextStruct1
-	call LoadTextHeader
+	ld hl, wScrollingText1
+	call LoadScrollingText
 	ld a, [wBallType]
 	ld c, a
 	ld b, $0
@@ -1165,14 +1165,14 @@ ResolveRedStagePinballUpgradeTriggersCollision: ; 0x1535d
 	push de
 	call FillBottomMessageBufferWithBlackTile
 	call Func_30db
-	ld hl, wScrollingTextStruct2
+	ld hl, wScrollingText2
 	ld de, DigitsText1to8
 	call Func_32cc
 	pop de
 	pop bc
-	ld hl, wScrollingTextStruct1
+	ld hl, wScrollingText1
 	ld de, FieldMultiplierSpecialBonusText
-	call LoadTextHeader
+	call LoadScrollingText
 .asm_15447
 	call TransitionPinballUpgrade
 	jr Func_15450
@@ -3612,7 +3612,7 @@ Func_16352: ; 0x16352
 Func_163f2: ; 0x163f2
 	call FillBottomMessageBufferWithBlackTile
 	call Func_30db
-	ld hl, wScrollingTextStruct3
+	ld hl, wScrollingText3
 	ld a, [wd497]
 	ld de, GoToDiglettStageText
 	cp STAGE_DIGLETT_BONUS
@@ -3622,7 +3622,7 @@ Func_163f2: ; 0x163f2
 	jr z, .asm_1640f
 	ld de, GoToMewtwoStageText
 .asm_1640f
-	call LoadTextHeader
+	call LoadScrollingText
 	ld de, $0000
 	call PlaySong
 	rst AdvanceFrame
@@ -5596,9 +5596,9 @@ ShowBonusMultiplierMessage_RedField: ; 0x16ef5
 	ld [wd613], a
 	call FillBottomMessageBufferWithBlackTile
 	call Func_30db
-	ld hl, wScrollingTextStruct1
+	ld hl, wScrollingText1
 	ld de, BonusMultiplierText
-	call LoadTextHeader
+	call LoadScrollingText
 	ld hl, wBottomMessageText + $12
 	ld a, [wd614]
 	and $7f

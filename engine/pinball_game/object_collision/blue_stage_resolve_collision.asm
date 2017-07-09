@@ -1340,9 +1340,9 @@ ShowBonusMultiplierMessage_BlueField: ; 0x1d5bf
 	ld [wd613], a
 	call FillBottomMessageBufferWithBlackTile
 	call Func_30db
-	ld hl, wScrollingTextStruct1
+	ld hl, wScrollingText1
 	ld de, BonusMultiplierText
-	call LoadTextHeader
+	call LoadScrollingText
 	ld hl, wBottomMessageText + $12
 	ld a, [wd614]
 	and $7f
@@ -2081,9 +2081,9 @@ ResolveBlueStagePinballUpgradeTriggersCollision: ; 0x1e356
 	call PlaySoundEffect
 	call FillBottomMessageBufferWithBlackTile
 	call Func_30db
-	ld hl, wScrollingTextStruct1
+	ld hl, wScrollingText1
 	ld de, FieldMultiplierText
-	call LoadTextHeader
+	call LoadScrollingText
 	ld a, [wBallType]
 	ld c, a
 	ld b, $0
@@ -2106,14 +2106,14 @@ ResolveBlueStagePinballUpgradeTriggersCollision: ; 0x1e356
 	push de
 	call FillBottomMessageBufferWithBlackTile
 	call Func_30db
-	ld hl, wScrollingTextStruct2
+	ld hl, wScrollingText2
 	ld de, DigitsText1to8
 	call Func_32cc
 	pop de
 	pop bc
-	ld hl, wScrollingTextStruct1
+	ld hl, wScrollingText1
 	ld de, FieldMultiplierSpecialBonusText
-	call LoadTextHeader
+	call LoadScrollingText
 .asm_1e465
 	callba TransitionPinballUpgrade
 	jr asm_1e475
@@ -2896,7 +2896,7 @@ Func_1e830: ; 0x1e830
 Func_1e8c3: ; 0x1e8c3
 	call FillBottomMessageBufferWithBlackTile
 	call Func_30db
-	ld hl, wScrollingTextStruct3
+	ld hl, wScrollingText3
 	ld a, [wd497]
 	ld de, GoToMeowthStageText
 	cp STAGE_MEOWTH_BONUS
@@ -2906,7 +2906,7 @@ Func_1e8c3: ; 0x1e8c3
 	jr z, .loadText
 	ld de, GoToMewtwoStageText
 .loadText
-	call LoadTextHeader
+	call LoadScrollingText
 	ld de, $0000
 	call PlaySong
 	rst AdvanceFrame

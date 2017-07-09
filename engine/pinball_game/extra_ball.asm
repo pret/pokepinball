@@ -10,9 +10,9 @@ HandleExtraBall: ; 0x30188
 	jr nz, .asm_301a7
 	call FillBottomMessageBufferWithBlackTile
 	call Func_30db
-	ld hl, wScrollingTextStruct1
+	ld hl, wScrollingText1
 	ld de, ExtraBallText
-	call LoadTextHeader
+	call LoadScrollingText
 	jr .asm_301c9
 
 .asm_301a7
@@ -22,14 +22,14 @@ HandleExtraBall: ; 0x30188
 	push de
 	call FillBottomMessageBufferWithBlackTile
 	call Func_30db
-	ld hl, wScrollingTextStruct2
+	ld hl, wScrollingText2
 	ld de, DigitsText1to9
 	call Func_32cc
 	pop de
 	pop bc
-	ld hl, wScrollingTextStruct1
+	ld hl, wScrollingText1
 	ld de, ExtraBallSpecialBonusText
-	call LoadTextHeader
+	call LoadScrollingText
 .asm_301c9
 	xor a
 	ld [wd4ca], a

@@ -18,7 +18,7 @@ HandleBallLossDiglettBonus: ; 0xe056
 	ret nz
 	call FillBottomMessageBufferWithBlackTile
 	call Func_30db
-	ld hl, wScrollingTextStruct3
+	ld hl, wScrollingText3
 	ld de, EndDiglettStageText
-	call LoadTextHeader
+	call LoadScrollingText
 	ret

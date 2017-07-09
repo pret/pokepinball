@@ -75,7 +75,7 @@ Func_205e0: ; 0x205e0
 	call FillBottomMessageBufferWithBlackTile
 	call Func_30db
 	ld de, YeahYouGotItText
-	ld hl, wd5cc
+	ld hl, wScrollingTextStruct1
 	call LoadTextHeader
 	ld a, [hGameBoyColorFlag]
 	and a
@@ -260,7 +260,7 @@ Func_2077b: ; 0x2077b
 	callba StopTimer
 	call FillBottomMessageBufferWithBlackTile
 	call Func_30db
-	ld hl, wd5cc
+	ld hl, wScrollingTextStruct1
 	ld de, EvolutionFailedText
 	call LoadTextHeader
 	ret
@@ -517,7 +517,7 @@ Func_20977: ; 0x20977
 	ld e, a
 	ld a, [hl]
 	ld d, a
-	ld hl, wd5cc
+	ld hl, wScrollingTextStruct1
 	call LoadTextHeader
 	scf
 	ret
@@ -549,7 +549,7 @@ Func_209eb: ; 0x209eb
 	callba AddBigBCD6FromQueue
 	call FillBottomMessageBufferWithBlackTile
 	call Func_30db
-	ld hl, wd5cc
+	ld hl, wScrollingTextStruct1
 	ld a, [wCurrentEvolutionType]
 	cp EVO_EXPERIENCE
 	ld de, PokemonIsTiredText
@@ -633,7 +633,7 @@ asm_20a9f:
 	jr z, .asm_20aed
 	ld de, TryNextPlaceText
 .asm_20aed
-	ld hl, wd5cc
+	ld hl, wScrollingTextStruct1
 	call LoadTextHeader
 	scf
 	ret

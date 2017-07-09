@@ -118,7 +118,7 @@ Func_dc6d: ; 0xdc6d
 	push de
 	call FillBottomMessageBufferWithBlackTile
 	call Func_30db
-	ld hl, wd5dc
+	ld hl, wScrollingTextStruct3
 	pop de
 	call LoadTextHeader
 	ret
@@ -307,7 +307,7 @@ VideoData_10b2a: ; 0x10b2a
 Func_10b3f: ; 0x10b3f
 	call FillBottomMessageBufferWithBlackTile
 	call Func_30db
-	ld hl, wd5cc
+	ld hl, wScrollingTextStruct1
 	ld a, [wCurrentEvolutionType]
 	cp EVO_EXPERIENCE
 	ld de, StartTrainingText
@@ -394,7 +394,7 @@ Func_10ba2: ; 0x10ba2 a = current party mon, b is number to go before end of lis
 	ld a, $81
 	ld [de], a
 	inc de ;load 4 spaces into de
-	call Func_3125 ;load 1 into b and...
+	call PlaceTextHigh ;load 1 into b and...
 .asm_10bda
 	ld a, e
 	and $1f
@@ -754,10 +754,10 @@ Func_10e0a: ; 0x10e0a
 	push de
 	call FillBottomMessageBufferWithBlackTile
 	call Func_30db
-	ld hl, wd5cc
+	ld hl, wScrollingTextStruct1
 	pop de
 	call LoadTextHeader
-	ld hl, wd5d4
+	ld hl, wScrollingTextStruct2
 	pop de
 	call LoadTextHeader
 	pop hl
@@ -799,12 +799,12 @@ Func_10e8b: ; 0x10e8b
 	push de
 	call FillBottomMessageBufferWithBlackTile
 	call Func_30db
-	ld hl, wd5d4
+	ld hl, wScrollingTextStruct2
 	ld de, Data_2b6b
 	call Func_32cc
 	pop de
 	pop bc
-	ld hl, wd5cc
+	ld hl, wScrollingTextStruct1
 	ld de, EvolutionSpecialBonusText
 	call LoadTextHeader
 	ret
@@ -1524,10 +1524,10 @@ LoadScrollingMapNameText: ; 0x3118f
 	ld e, a
 	ld a, [hli]
 	ld d, a
-	ld hl, wd5d4
+	ld hl, wScrollingTextStruct2
 	call LoadTextHeader
 	pop de
-	ld hl, wd5cc
+	ld hl, wScrollingTextStruct1
 	call LoadTextHeader
 	ret
 
@@ -1960,7 +1960,7 @@ Func_3151f: ; 0x3151f
 	callba StopTimer
 	call FillBottomMessageBufferWithBlackTile
 	call Func_30db
-	ld hl, wd5cc
+	ld hl, wScrollingTextStruct1
 	ld de, MapMoveFailedText
 	call LoadTextHeader
 	ret
@@ -2114,7 +2114,7 @@ Func_3168c: ; 0x3168c
 	callba StopTimer
 	call FillBottomMessageBufferWithBlackTile
 	call Func_30db
-	ld hl, wd5cc
+	ld hl, wScrollingTextStruct1
 	ld de, MapMoveFailedText
 	call LoadTextHeader
 	ret

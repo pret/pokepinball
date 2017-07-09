@@ -202,7 +202,7 @@ ResolveMeowthBonusGameObjectCollisions: ; 0x2442a
 	ld [wCompletedBonusStage], a
 	call FillBottomMessageBufferWithBlackTile
 	call Func_30db
-	ld hl, wd5dc
+	ld hl, wScrollingTextStruct3
 	ld de, MeowthStageClearedText
 	call LoadTextHeader
 	lb de, $4b, $2a

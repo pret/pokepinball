@@ -50,7 +50,7 @@ HandleBallLossSeelBonus: ; 0xe08b
 	ret nz
 	call FillBottomMessageBufferWithBlackTile
 	call Func_30db
-	ld hl, wd5dc
+	ld hl, wScrollingTextStruct3
 	ld de, EndSeelStageText
 	call LoadTextHeader
 	ret

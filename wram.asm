@@ -671,7 +671,7 @@ wTimerDigits:: ; 0xd582
 wd586:: ; 0xd586
 	ds $30
 
-wd5b6:: ; 0xd5b6
+wd5b6:: ; 0xd5b6 a 24 wide block starts here and is filled before catch mode
 	ds $5
 
 wWildMonIsHittable:: ; 0xd5bb
@@ -718,16 +718,25 @@ wWildMonCollision:: ; 0xd5c7
 
 	ds $1
 
-wd5ca:: ; 0xd5ca
+wd5ca:: ; 0xd5ca set to 1 by a commonly called text function that is called at the start of catch and raises the score bar
 	ds $1
 
-wd5cb:: ; 0xd5cb
+wd5cb:: ; 0xd5cb set to 0 if the above is 0 during Func_33e3
 	ds $1
 
-wd5cc:: ; 0xd5cc
+wScrollingTextStruct1:: ; 0xd5cc Start of a scrolling struct that contains 8 1 byte vars. wScrollingTextStruct1
+;Byte 1: Toggles if enabled. z is off, nz is on
+;Byte 2: is how many frames until the next scroll
+;Byte 3: holds how long, in frames, it should take for the scroll to move 1 tile
+;Byte 4: is the current position to place the start of the text
+;Byte 5: is where in the scroll the message should stop for an extended period
+;Byte 6: is how many frames the extended stop from Byte 5 has left
+;Byte 7: is a pointer to the source text's position in the buffer
+;Byte 8: is decremented each scroll and scroll denied by the stop
+;scrolling text relies on byte allignment for the text buffer and display area
 	ds $8
 
-wd5d4:: ; 0xd5d4
+wScrollingTextStruct2:: ; 0xd5d4 Start of a scrolling struct2
 	ds $4
 
 wd5d8:: ; 0xd5d8
@@ -736,7 +745,7 @@ wd5d8:: ; 0xd5d8
 wd5db:: ; 0xd5db
 	ds $1
 
-wd5dc:: ; 0xd5dc
+wScrollingTextStruct3:: ; 0xd5dc Start of a scrolling struct3
 	ds $8
 
 wd5e4:: ; 0xd5e4
@@ -1805,7 +1814,7 @@ wd803:: ; 0xd803
 wd804:: ; 0xd804
 	ds $1
 
-wd805:: ; 0xd805
+wd805:: ; 0xd805 enables unused and odd PlaceString
 	ds $1
 
 wd806:: ; 0xd806

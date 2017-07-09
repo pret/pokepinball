@@ -677,7 +677,7 @@ Func_1ab30: ; 0x1ab30
 	ld [wCompletedBonusStage], a
 	call FillBottomMessageBufferWithBlackTile
 	call Func_30db
-	ld hl, wd5dc
+	ld hl, wScrollingTextStruct3
 	ld de, DiglettStageClearedText
 	call LoadTextHeader
 	lb de, $4b, $2a

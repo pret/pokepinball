@@ -351,7 +351,7 @@ Func_19638: ; 0x19638
 	ld [wCompletedBonusStage], a
 	call FillBottomMessageBufferWithBlackTile
 	call Func_30db
-	ld hl, wd5dc
+	ld hl, wScrollingTextStruct3
 .asm_1966b
 	ld de, MewtwoStageClearedText
 	call LoadTextHeader

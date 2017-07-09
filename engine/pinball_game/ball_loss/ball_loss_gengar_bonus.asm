@@ -44,7 +44,7 @@ HandleBallLossGengarBonus: ; 0xdf1a
 	ret nz
 	call FillBottomMessageBufferWithBlackTile
 	call Func_30db
-	ld hl, wd5dc
+	ld hl, wScrollingTextStruct3
 	ld de, EndGengarStageText
 	call LoadTextHeader
 	ret

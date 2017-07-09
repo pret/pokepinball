@@ -756,8 +756,8 @@ stationary_text: MACRO
 \1Enabled::ds 1              ; Toggles if enabled. 0 is off, non-0 is on
 \1MessageBoxOffset:: ds 1     ; Offset in wBottomMessageBuffer to place first character of text
 \1SourceTextOffset:: ds 1     ; Offset in wBottomMessageText for the text to be displayed
-\1DurationLowByte:: ;how many frames to stay on screen.
-\1Duration:: ds 1
+\1Duration::
+\1DurationLowByte:: ds 1 ;how many frames to stay on screen.
 \1DurationHighByte:: ds 1 ;thiswill trigger as 0 if >= 128
 ENDM
 

@@ -44,7 +44,7 @@ HandleBallLossMewtwoBonus: ; 0xdf7e
 	ret nz
 	call FillBottomMessageBufferWithBlackTile
 	call Func_30db
-	ld hl, wd5dc
+	ld hl, wScrollingTextStruct3
 	ld de, EndMewtwoStageText
 	call LoadTextHeader
 	ret

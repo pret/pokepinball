@@ -1,8 +1,8 @@
 Func_30db: ; 0x30db
 	ld a, $86
-	ld [hWY], a
+	ld [hWY], a ;force text bar up
 	ld a, $1
-	ld [wd5ca], a
+	ld [wd5ca], a ;place 1 in ???
 	ld [wd5cb], a
 	ret
 
@@ -18,9 +18,9 @@ FillBottomMessageBufferWithBlackTile: ; 0x30e8
 	dec b
 	jr nz, .loop
 	xor a
-	ld [wd5cc], a
-	ld [wd5d4], a
-	ld [wd5dc], a
+	ld [wScrollingTextStruct1], a
+	ld [wScrollingTextStruct2], a
+	ld [wScrollingTextStruct3], a
 	ld [wd5e4], a
 	ld [wd5e9], a
 	ld [wd5ee], a
@@ -48,16 +48,16 @@ Func_310a: ; 0x310a
 	jr nz, .asm_311d
 	ret
 
-LoadMonNameIntoBottomMessageBufferList: ; 0x3125 enables special loads
+LoadMonNameIntoBottomMessageBufferList: ; 0x3125 increases address to load into by 64
 	ld b, $1
-	jr asm_312b
+	jr JumpToPlaceText
 
-Func_3129: ; 0x3129 disables special loads
+PlaceTextLow: ; 0x3129 disables special loads PlaceTextLow
 	ld b, $0
-asm_312b: ; 0x312b loads e chars of text text into de
+JumpToPlaceText: ; 0x312b loads e chars of text text into de
 	ld a, [wd805]
 	and a
-	jp nz, Func_3268 ;if ??? = 0, then continue, else jump
+	jp nz, UnusedPlaceString ;unused alternate place string
 .next_char
 	ld a, [hli]
 	and a
@@ -86,10 +86,10 @@ asm_312b: ; 0x312b loads e chars of text text into de
 	cp ":"
 	jr z, .colon
 	cp "0"
-	jr c, .check_atoz
+	jr c, .check_AtoZ
 	cp "9" + 1
 	jr c, .digit
-.check_atoz
+.check_AtoZ
 	cp "A"
 	jr c, .invalid
 	cp "Z" + 1
@@ -104,7 +104,7 @@ asm_312b: ; 0x312b loads e chars of text text into de
 .comma
 	inc c ;$82 = , , goes back a space?
 	dec e
-	jr .check_special_load
+	jr .CheckLoadHieght
 
 .male
 	xor a
@@ -168,14 +168,14 @@ asm_312b: ; 0x312b loads e chars of text text into de
 	add $bf
 .load_char
 	ld [de], a ;load char into de
-.check_special_load
+.CheckLoadHieght
 	bit 0, b
-	jr nz, .no_special_load ;only load special if b is 1
-	set 7, e ;tempererally set 7 of e, adding  to pointer de or taking it away
+	jr nz, .LowLoad ;only load special if b is 1
+	set 7, e ;temporerally set 7 of e, adding  to pointer de or taking it away
 	ld a, c
 	ld [de], a
 	res 7, e
-.no_special_load
+.LowLoad
 	inc e ;move to next slot
 	jp .next_char
 
@@ -269,20 +269,20 @@ SpecialTextCharPointers:
 	dw vTilesSH tile 3 ;colon
 	dbw Bank(Colon_CharacterGfx_GameboyColor), Colon_CharacterGfx_GameboyColor
 
-Func_3268: ; 0x3268
+UnusedPlaceString: ; 0x3268 seems to place text based on different, confusing logic, but the enabling flag is never set above 0
 	ld a, [hli]
 	and a
 	ret z
-	ld c, $81
-	cp $20
-	jr z, .asm_3297
-	cp $2c
-	jr z, .asm_329a
-	cp $30
-	jr c, .asm_327d
-	cp $3a
-	jr c, .asm_329e
-.asm_327d
+	ld c, $81 ;special space?
+	cp " "
+	jr z, .Space ;space
+	cp ","
+	jr z, .Comma ;comma
+	cp "0"
+	jr c, .Punctuation ;less than 0 is punctuation
+	cp "9" + 1
+	jr c, .Digits ;less than colon is numbers, more than is a mix of punctuation and AtoZ
+.Punctuation
 	cp $a0
 	jr c, .asm_3285
 	cp $e0
@@ -293,7 +293,7 @@ Func_3268: ; 0x3268
 	cp $f4
 	jr c, .asm_3293
 .asm_328d
-	jr Func_3268
+	jr UnusedPlaceString
 
 .asm_328f
 	sub $80
@@ -303,16 +303,16 @@ Func_3268: ; 0x3268
 	sub $50
 	jr .asm_32a0
 
-.asm_3297
+.Space
 	ld a, c
 	jr .asm_32a0
 
-.asm_329a
+.Comma
 	inc c
 	dec e
 	jr .asm_32a1
 
-.asm_329e
+.Digits
 	add $56
 .asm_32a0
 	ld [de], a
@@ -322,7 +322,7 @@ Func_3268: ; 0x3268
 	ld [de], a
 	res 7, e
 	inc e
-	jr Func_3268
+	jr UnusedPlaceString
 
 LoadTextHeader: ; 0x32aa
 ; Loads scrolling text into the specified buffer.
@@ -443,51 +443,51 @@ Func_3309: ; 0x3309
 	inc de
 	ret
 
-Func_3325: ; 0x3325
-	ld a, [hli]
+HandleScrolling: ; 0x3325 activates while text is scrolling
+	ld a, [hli] ;if scrolling set to off, ret.
 	and a
 	ret z
 	ld a, [hl]
-	dec a
+	dec a ;decrement time until next scroll, if it is zero then process a scroll
 	ld [hli], a
 	ret nz
-	ld a, [hld]
+	ld a, [hld] ;reset the scroll timer
 	ld [hl], a
 	inc hl
 	inc hl
 	push hl
-	ld a, [hli]
+	ld a, [hli] ;retrieve current text start position from the struct, place in e for the PlaceText function
 	ld e, a
-	cp [hl]
+	cp [hl] ; check if in the stop position
 	inc hl
-	jr nz, .asm_333c
-	ld a, [hl]
+	jr nz, .NotInStopPosition
+	ld a, [hl] ;lower stop position timer
 	dec a
 	ld [hl], a
-	jr nz, .asm_333d
-.asm_333c
-	dec e
-.asm_333d
+	jr nz, .SkipScroll ;if stop timer not zero, prevent the scroll by setting e to the current position
+.NotInStopPosition
+	dec e ;decrement the text start position, causing the text to move 1 tile to the left
+.SkipScroll
 	push de
-	ld d, wBottomMessageBuffer / $100
+	ld d, wBottomMessageBuffer / $100 ;$c6
 	inc hl
 	push hl
-	ld l, [hl]
+	ld l, [hl] ;Retrieve text source pointer from Byte 7
 	ld h, wBottomMessageText / $100
-	call Func_3129
+	call PlaceTextLow ;load text into destination e in text RAM
 	pop hl
 	inc hl
 	ld a, [hl]
 	dec a
-	ld [hl], a
+	ld [hl], a ;dec Byte 8
 	pop de
-	pop hl
-	ld [hl], e
-	ret nz
+	pop hl ;+3
+	ld [hl], e ;restore position into var 4
+	ret nz ;if position = 0, switch scrolling off
 	dec hl
 	dec hl
 	dec hl
-	ld [hl], $0
+	ld [hl], $0 ;+0
 	ret
 
 Func_3357: ; 0x3357
@@ -592,7 +592,7 @@ Func_33c3: ; 0x33c3
 	push hl
 	ld l, [hl]
 	ld h, wBottomMessageText / $100
-	call Func_3129
+	call PlaceTextLow
 	pop hl
 	inc hl
 	ld a, [hl]
@@ -613,36 +613,36 @@ Func_33c3: ; 0x33c3
 Func_33e3: ; 0x33e3
 	ld a, [wd5ca]
 	and a
-	jr nz, .asm_33ed
+	jr nz, .asm_33ed ;if ??? = nz, load into ???, else jump
 	ld [wd5cb], a
 	ret
 
 .asm_33ed
 	ld c, $0
-	ld a, [wd5cc]
+	ld a, [wScrollingTextStruct1]
 	and a
-	jr z, .asm_33fe
-	push bc
-	ld hl, wd5cc
-	call Func_3325
+	jr z, .asm_33fe ;if ?? is 0
+	push bc ;store b and 0
+	ld hl, wScrollingTextStruct1
+	call HandleScrolling
 	pop bc
 	inc c
 .asm_33fe
-	ld a, [wd5d4]
+	ld a, [wScrollingTextStruct2]
 	and a
 	jr z, .asm_340d
 	push bc
-	ld hl, wd5d4
-	call Func_3325
+	ld hl, wScrollingTextStruct2
+	call HandleScrolling
 	pop bc
 	inc c
 .asm_340d
-	ld a, [wd5dc]
+	ld a, [wScrollingTextStruct3]
 	and a
 	jr z, .asm_341c
 	push bc
-	ld hl, wd5dc
-	call Func_3325
+	ld hl, wScrollingTextStruct3
+	call HandleScrolling
 	pop bc
 	inc c
 .asm_341c
@@ -744,4 +744,3 @@ TenMillionPoints: ; 34f4
 	bigBCD6 000010000000
 OneHundredMillionPoints: ; 34fa
 	bigBCD6 000100000000
-

@@ -285,8 +285,8 @@ VBlank: ; 0x2f2
 	ld a, [hli]
 	ld [$ff00+c], a
 	inc c
-	ld a, [hli]
-	ld [$ff00+c], a
+	ld a, [hli] ;hWY
+	ld [$ff00+c], a ;into FF4A
 	inc c
 	ld a, [hli]
 	ld [$ff00+c], a
@@ -468,13 +468,13 @@ Serial: ; 0x445
 	push bc
 	push de
 	push hl
-	ld hl, Data_45d 
+	ld hl, Data_45d
 	push hl
 	ld a, [$ffb1]
 	sla a
 	ld c, a
 	ld b, $0
-	ld hl, Data_462 
+	ld hl, Data_462
 	add hl, bc
 	ld c, [hl]
 	inc hl
@@ -612,7 +612,7 @@ Func_504: ; 0x504
 	ld a, [wCurrentSongBank]
 	ld [hLoadedROMBank], a
 	ld [MBC5RomBank], a
-	call Func_3c180 
+	call Func_3c180
 	pop af
 	ld [hLoadedROMBank], a
 	ld [MBC5RomBank], a

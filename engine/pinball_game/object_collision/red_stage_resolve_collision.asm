@@ -1141,7 +1141,7 @@ ResolveRedStagePinballUpgradeTriggersCollision: ; 0x1535d
 	call FillBottomMessageBufferWithBlackTile
 	call Func_30db
 	ld de, FieldMultiplierText
-	ld hl, wd5cc
+	ld hl, wScrollingTextStruct1
 	call LoadTextHeader
 	ld a, [wBallType]
 	ld c, a
@@ -1165,12 +1165,12 @@ ResolveRedStagePinballUpgradeTriggersCollision: ; 0x1535d
 	push de
 	call FillBottomMessageBufferWithBlackTile
 	call Func_30db
-	ld hl, wd5d4
+	ld hl, wScrollingTextStruct2
 	ld de, DigitsText1to8
 	call Func_32cc
 	pop de
 	pop bc
-	ld hl, wd5cc
+	ld hl, wScrollingTextStruct1
 	ld de, FieldMultiplierSpecialBonusText
 	call LoadTextHeader
 .asm_15447
@@ -3612,7 +3612,7 @@ Func_16352: ; 0x16352
 Func_163f2: ; 0x163f2
 	call FillBottomMessageBufferWithBlackTile
 	call Func_30db
-	ld hl, wd5dc
+	ld hl, wScrollingTextStruct3
 	ld a, [wd497]
 	ld de, GoToDiglettStageText
 	cp STAGE_DIGLETT_BONUS
@@ -5596,7 +5596,7 @@ ShowBonusMultiplierMessage_RedField: ; 0x16ef5
 	ld [wd613], a
 	call FillBottomMessageBufferWithBlackTile
 	call Func_30db
-	ld hl, wd5cc
+	ld hl, wScrollingTextStruct1
 	ld de, BonusMultiplierText
 	call LoadTextHeader
 	ld hl, wBottomMessageText + $12

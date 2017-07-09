@@ -369,7 +369,7 @@ SlotRewardUpgradeBall: ; 0xf040
 	call FillBottomMessageBufferWithBlackTile
 	call Func_30db
 	ld de, FieldMultiplierText
-	ld hl, wd5cc
+	ld hl, wScrollingTextStruct1
 	call LoadTextHeader
 	; upgrade ball type
 	ld a, [wBallType]
@@ -394,12 +394,12 @@ SlotRewardUpgradeBall: ; 0xf040
 	push de
 	call FillBottomMessageBufferWithBlackTile
 	call Func_30db
-	ld hl, wd5d4
+	ld hl, wScrollingTextStruct2
 	ld de, DigitsText1to8
 	call Func_32cc
 	pop de
 	pop bc
-	ld hl, wd5cc
+	ld hl, wScrollingTextStruct1
 	ld de, FieldMultiplierSpecialBonusText
 	call LoadTextHeader
 .asm_f0b0

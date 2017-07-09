@@ -6,35 +6,35 @@ StartCatchEmMode: ; 0x1003f
 	ld [wInSpecialMode], a  ; set special mode flag
 	xor a
 	ld [wSpecialMode], a
-	ld [wd54d], a
+	ld [wd54d], a ;set ??? to 0
 	ld a, [wCurrentStage]
 	sla a
-	ld c, a
+	ld c, a ;store twice current stage to use a pointer offset
 	ld b, $0
 	push bc
 	ld hl, WildMonOffsetsPointers
 	add hl, bc
-	ld a, [hli]
+	ld a, [hli] ;hl = pointer to wild mon pointer table
 	ld h, [hl]
 	ld l, a
 	ld a, [wCurrentMap]
 	sla a
 	ld c, a
-	add hl, bc
+	add hl, bc ;go to correct location in table
 	ld a, [hli]
 	ld c, a
 	ld a, [hl]
-	ld b, a
-	pop de
+	ld b, a ;bc = offset needed to reach correct wild table
+	pop de ;pop current stage offset
 	ld hl, WildMonPointers
 	add hl, de
-	ld a, [hli]
+	ld a, [hli] ;fetch start od correct wilds table, place in hl
 	ld h, [hl]
 	ld l, a
 	add hl, bc
 	call GenRandom
 	and $f
-	call CheckForMew
+	call CheckForMew ;a = $10 if mew, else is less
 	ld c, a
 	ld b, $0
 	add hl, bc
@@ -42,20 +42,20 @@ StartCatchEmMode: ; 0x1003f
 	sla a
 	ld c, a
 	add hl, bc
-	ld a, [hl]  ; a contains mon id
+	ld a, [hl]  ; a contains mon id. overshoots by 1 if mew, causing mew to be loaded
 	dec a
-	ld [wCurrentCatchEmMon], a
-	ld a, [wCurrentCatchEmMon]
+	ld [wCurrentCatchEmMon], a ;stores 1 less than ID
+	ld a, [wCurrentCatchEmMon] ;wow gamefreak
 	ld c, a
 	ld b, $0
-	ld hl, EvolutionLineIds
+	ld hl, EvolutionLineIds ;fetch the mon's evolution line
 	add hl, bc
 	ld c, [hl]
 	ld h, b
 	ld l, c
 	add hl, bc
-	add hl, bc  ; multiply the evolution line id by 3
-	ld bc, Data_13685
+	add hl, bc  ; multiply the evolution line id by 3, add it to pointer to ???
+	ld bc, Data_13685 ;mystery data
 	add hl, bc
 	ld a, [hli]
 	ld [wd5c1], a
@@ -63,25 +63,25 @@ StartCatchEmMode: ; 0x1003f
 	ld a, [hli]
 	ld [wd5c2], a
 	ld a, [hli]
-	ld [wd5c3], a
+	ld [wd5c3], a ;load the 3 bytes into ????
 	ld hl, wd586
 	ld a, [wd5b6]
 	ld c, a
 	and a
 	ld b, $18
-	jr z, .asm_100c7
+	jr z, .asm_100c7 ;if ?? = 0, jump with b = 24 (2 seperate loops?
 .asm_100ba
 	ld a, $1
-	ld [hli], a
+	ld [hli], a ;load 1 then 0 into data from wd5b6 C times, where C is the contents of wd5b6
 	xor a
 	ld [hli], a
 	dec b
 	dec c
 	jr nz, .asm_100ba
-	ld a, b
+	ld a, b ;load 24 - times looped into a, if 0: skip
 	and a
 	jr z, .asm_100ce
-.asm_100c7
+.asm_100c7 ;loop 0 then 1 into the rest of the data from wd5b6
 	xor a
 	ld [hli], a
 	inc a
@@ -94,12 +94,12 @@ StartCatchEmMode: ; 0x1003f
 	ld b, $0
 	sla c
 	rl b
-	ld hl, CatchEmTimerData
+	ld hl, CatchEmTimerData ;contains how long each mon stays on screen, all are 2 minutes by default
 	add hl, bc
 	ld a, [hli]
 	ld c, a
 	ld a, [hl]
-	ld b, a
+	ld b, a ;bc = timer legnth. b = secons c = minutes
 	callba StartTimer
 	callba InitBallSaverForCatchEmMode
 	call Func_10696
@@ -136,27 +136,27 @@ CheckForMew:
 ;   3. The right alley has been hit three times
 ;   4. The Mewtwo Bonus Stage completion counter equals 2.
 	push af
-	cp $f  ; random number equals $f
-	jr nz, .asm_10155
+	cp $f  ; random number equals $f (1 in 16)
+	jr nz, .NotMew
 	ld a, c
 	cp (BlueStageIndigoPlateauWildMons - BlueStageWildMons) & $ff  ; check if low-byte of map mons offset is Indigo Plateau
-	jr nz, .asm_10155
+	jr nz, .NotMew
 	ld a, b
 	cp (BlueStageIndigoPlateauWildMons - BlueStageWildMons) >> 8  ; check if high-byte of map mons offset is Indigo Plateau
-	jr nz, .asm_10155
+	jr nz, .NotMew
 	ld a, [wRareMonsFlag]
 	cp $8
-	jr nz, .asm_10155
+	jr nz, .NotMew
 	ld a, [wNumMewtwoBonusCompletions]
 	cp NUM_MEWTWO_COMPLETIONS_FOR_MEW
-	jr nz, .asm_10155
+	jr nz, .NotMew
 	pop af
 	xor a
 	ld [wNumMewtwoBonusCompletions], a
 	ld a, $10
 	ret
 
-.asm_10155
+.NotMew
 	pop af
 	ret
 
@@ -930,7 +930,7 @@ ShowAnimatedWildMon: ; 0x10678
 Func_10696: ; 0x10696
 	call FillBottomMessageBufferWithBlackTile
 	call Func_30db
-	ld hl, wd5cc
+	ld hl, wScrollingTextStruct1
 	ld de, LetsGetPokemonText
 	call LoadTextHeader
 	ret
@@ -938,7 +938,7 @@ Func_10696: ; 0x10696
 Func_106a6: ; 0x106a6
 	call FillBottomMessageBufferWithBlackTile
 	call Func_30db
-	ld hl, wd5cc
+	ld hl, wScrollingTextStruct1
 	ld de, PokemonRanAwayText
 	call LoadTextHeader
 	ret
@@ -979,10 +979,10 @@ Func_106b6: ; 0x106b6
 	push de
 	call FillBottomMessageBufferWithBlackTile
 	call Func_30db
-	ld hl, wd5cc
+	ld hl, wScrollingTextStruct1
 	pop de
 	call LoadTextHeader
-	ld hl, wd5d4
+	ld hl, wScrollingTextStruct2
 	pop de
 	call LoadTextHeader
 	pop hl
@@ -1178,10 +1178,10 @@ Func_10848: ; 0x10848
 	callba AddBigBCD6FromQueue
 	call FillBottomMessageBufferWithBlackTile
 	call Func_30db
-	ld hl, wd5d4
+	ld hl, wScrollingTextStruct2
 	ld de, OneBillionText
 	call LoadTextHeader
-	ld hl, wd5cc
+	ld hl, wScrollingTextStruct1
 	ld de, PokemonCaughtSpecialBonusText
 	call LoadTextHeader
 	call Func_3475

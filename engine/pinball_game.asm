@@ -150,7 +150,7 @@ GameScreenFunction_HandleBallPhysics: ; 0xd909
 	and a
 	jr nz, .asm_d9e9
 	callba Func_85c7
-	callba Func_8650
+	callba HideScoreIfBallLow
 	callba Func_8645
 	call Func_dba9
 	call Func_dc7c
@@ -206,7 +206,7 @@ GameScreenFunction_HandleBallLoss: ; 0xda36
 	ld [wDrawBottomMessageBox], a
 	call FillBottomMessageBufferWithBlackTile
 	call Func_30db
-	ld hl, wd5dc
+	ld hl, wScrollingTextStruct3
 	ld de, ShootAgainText
 	call LoadTextHeader
 	ret

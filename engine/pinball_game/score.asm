@@ -214,10 +214,10 @@ Func_8645: ; 0x8645
 	call Func_8524
 	ret
 
-Func_8650: ; 0x8650
+HideScoreIfBallLow: ; 0x8650
 	ld a, [wCurrentStage]
 	bit 0, a
-	jr nz, .bottomStage
+	jr nz, .bottomStage ;if on upper stage, score is up
 	ld a, $86
 	ld [hWY], a
 	ret
@@ -225,22 +225,22 @@ Func_8650: ; 0x8650
 .bottomStage
 	ld a, [wBallYPos + 1]
 	cp $84
-	jr nc, .asm_8670
+	jr nc, .BallLow ;if ballY pos less than or equal to 132, raise score, else lower score
 	ld a, [hWY]
 	sub $3
 	cp $86
-	jr nc, .asm_866d
+	jr nc, .DontClampHigh ;if result is less than 132, clamp to 132, else just load it in
 	ld a, $86
-.asm_866d
+.DontClampHigh
 	ld [hWY], a
 	ret
 
-.asm_8670
+.BallLow
 	ld a, [hWY]
 	add $3
 	cp $90
-	jr c, .asm_867a
+	jr c, .DontClampLow ;if result is more than 144, clamp to 144, else just load it in
 	ld a, $90
-.asm_867a
+.DontClampLow
 	ld [hWY], a
 	ret

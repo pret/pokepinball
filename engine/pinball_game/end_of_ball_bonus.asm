@@ -61,10 +61,10 @@ Func_f57f: ; 0xf57f
 ShowBallBonusSummary: ; 0xf5a0
 	ld de, wBottomMessageText + $40
 	ld hl, BonusPointsText
-	call PrintTextNoHeader
+	call PlaceTextAlphanumericOnly
 	ld de, wBottomMessageText + $80
 	ld hl, SubtotalPointsText
-	call PrintTextNoHeader
+	call PlaceTextAlphanumericOnly
 	ld hl, wd489
 	call ClearBCD6Buffer
 	ld hl, wd48f
@@ -90,7 +90,7 @@ ShowBallBonusSummary: ; 0xf5a0
 	call Func_f81b
 	ld de, wBottomMessageText + $20
 	ld hl, GameOverText
-	call PrintTextNoHeader
+	call PlaceTextAlphanumericOnly
 	ld bc, $0040
 	ld de, $0000
 	call Func_f80d
@@ -121,7 +121,7 @@ CallTable_f60d: ; 0xf60d
 HandleNumPokemonCaughtBallBonus: ; 0xf626
 	ld de, wBottomMessageText + $01
 	ld hl, NumPokemonCaughtText
-	call PrintTextNoHeader
+	call PlaceTextAlphanumericOnly
 	ld hl, wBottomMessageText + $01
 	ld a, [wNumPokemonCaughtInBallBonus]
 	call Func_f78e
@@ -137,7 +137,7 @@ HandleNumPokemonCaughtBallBonus: ; 0xf626
 HandleNumPokemonEvolvedBallBonus: ; 0xf64e
 	ld de, wBottomMessageText
 	ld hl, NumPokemonEvolvedText
-	call PrintTextNoHeader
+	call PlaceTextAlphanumericOnly
 	ld hl, wBottomMessageText
 	ld a, [wNumPokemonEvolvedInBallBonus]
 	call Func_f78e
@@ -176,10 +176,10 @@ Func_f676: ; 0xf676
 	jr nz, .asm_f678
 	ld de, wBottomMessageText + $40
 	ld hl, MultiplierPointsText
-	call PrintTextNoHeader
+	call PlaceTextAlphanumericOnly
 	ld de, wBottomMessageText + $80
 	ld hl, TotalPointsText
-	call PrintTextNoHeader
+	call PlaceTextAlphanumericOnly
 	ld hl, wBottomMessageText + $50
 	ld a, [wCurBonusMultiplier]
 	call Func_f78e
@@ -249,7 +249,7 @@ Func_f70d: ; 0xf70d
 	jr nz, .asm_f70f
 	ld de, wBottomMessageText + $60
 	ld hl, ScoreText
-	call PrintTextNoHeader
+	call PlaceTextAlphanumericOnly
 	ld hl, wScore + $5
 	ld de, wBottomMessageText + $66
 	call Func_f8bd
@@ -308,43 +308,43 @@ Func_f78e: ; 0xf78e
 	ld c, $0
 	ret
 
-PrintTextNoHeader: ; 0xf7b1
-	ld a, [wd805]
+PlaceTextAlphanumericOnly: ; 0xf7b1 seems to filter out punctuation and other misc characters
+	ld a, [wd805] ;id unusedTextFlag is set, take olther path
 	and a
-	jr nz, .asm_f7e0
+	jr nz, .UnusedBranch
 .loop
 	ld a, [hli]
 	and a
-	ret z
+	ret z ;if end of text, ret
 	cp "0"
-	jr c, .asm_f7c6
+	jr c, .NotADigit ;if a digit, add $56 and skip letter check
 	cp "9" + 1
-	jr nc, .asm_f7c6
+	jr nc, .NotADigit
 	add $56
-	jr .asm_f7dc
+	jr .IsValidChar
 
-.asm_f7c6
+.NotADigit
 	cp "A"
-	jr c, .asm_f7d2
+	jr c, .NotALetter ;if a letter, add $56 and skip letter check
 	cp "Z" + 1
-	jr nc, .asm_f7d2
+	jr nc, .NotALetter
 	add $bf
-	jr .asm_f7dc
+	jr .IsValidChar
 
-.asm_f7d2
-	cp "e"
-	jr nz, .asm_f7da
+.NotALetter
+	cp "e" ;check if acute e
+	jr nz, .NotAcuteE
 	ld a, $83
-	jr .asm_f7dc
+	jr .IsValidChar
 
-.asm_f7da
-	ld a, $81
-.asm_f7dc
-	ld [de], a
+.NotAcuteE
+	ld a, $81 ;if none of the above groups, replace with a space
+.IsValidChar
+	ld [de], a ;load result into de
 	inc de
 	jr .loop
 
-.asm_f7e0
+.UnusedBranch
 	ld a, [hli]
 	and a
 	ret z
@@ -376,7 +376,7 @@ PrintTextNoHeader: ; 0xf7b1
 .asm_f809
 	ld [de], a
 	inc de
-	jr .asm_f7e0
+	jr .UnusedBranch
 
 Func_f80d: ; 0xf80d
 	hlCoord 0, 0, vBGWin
@@ -590,7 +590,7 @@ HandleBallBonusRedField: ; 0xf945
 HandleBellsproutEntriesBallBonus: ; 0xf952
 	ld de, wBottomMessageText + $03
 	ld hl, BellsproutCounterText
-	call PrintTextNoHeader
+	call PlaceTextAlphanumericOnly
 	ld hl, wBottomMessageText + $03
 	ld a, [wNumBellsproutEntries]
 	call Func_f78e
@@ -606,7 +606,7 @@ HandleBellsproutEntriesBallBonus: ; 0xf952
 HandleDugtrioTriplesBallBonus: ; 0xf97a
 	ld de, wBottomMessageText + $04
 	ld hl, DugtrioCounterText
-	call PrintTextNoHeader
+	call PlaceTextAlphanumericOnly
 	ld hl, wBottomMessageText + $04
 	ld a, [wNumDugtrioTriples]
 	call Func_f78e
@@ -622,7 +622,7 @@ HandleDugtrioTriplesBallBonus: ; 0xf97a
 HandleCAVECompletionsBallBonus_RedField: ; 0xf9a2
 	ld de, wBottomMessageText + $03
 	ld hl, CaveShotCounterText
-	call PrintTextNoHeader
+	call PlaceTextAlphanumericOnly
 	ld hl, wBottomMessageText + $03
 	ld a, [wNumCAVECompletions]
 	call Func_f78e
@@ -638,7 +638,7 @@ HandleCAVECompletionsBallBonus_RedField: ; 0xf9a2
 HandleSpinnerTurnsBallBonus_RedField: ; 0xf9ca
 	ld de, wBottomMessageText + $01
 	ld hl, SpinnerTurnsCounterText
-	call PrintTextNoHeader
+	call PlaceTextAlphanumericOnly
 	ld hl, wBottomMessageText + $01
 	ld a, [wNumSpinnerTurns]
 	call Func_f78e
@@ -666,7 +666,7 @@ HandleBallBonusBlueField: ; 0xf9f3
 HandleCloysterEntriesBallBonus: ; 0xfa06
 	ld de, wBottomMessageText + $04
 	ld hl, CloysterCounterText
-	call PrintTextNoHeader
+	call PlaceTextAlphanumericOnly
 	ld hl, wBottomMessageText + $04
 	ld a, [wNumCloysterEntries]
 	call Func_f78e
@@ -682,7 +682,7 @@ HandleCloysterEntriesBallBonus: ; 0xfa06
 HandleSlowpokeEntriesBallBonus: ; 0xfa2e
 	ld de, wBottomMessageText + $04
 	ld hl, SlowpokeCounterText
-	call PrintTextNoHeader
+	call PlaceTextAlphanumericOnly
 	ld hl, wBottomMessageText + $04
 	ld a, [wNumSlowpokeEntries]
 	call Func_f78e
@@ -698,7 +698,7 @@ HandleSlowpokeEntriesBallBonus: ; 0xfa2e
 HandlePoliwagTriplesBallBonus: ; 0xfa56
 	ld de, wBottomMessageText + $04
 	ld hl, PoliwagCounterText
-	call PrintTextNoHeader
+	call PlaceTextAlphanumericOnly
 	ld hl, wBottomMessageText + $04
 	ld a, [wNumPoliwagTriples]
 	call Func_f78e
@@ -714,7 +714,7 @@ HandlePoliwagTriplesBallBonus: ; 0xfa56
 HandlePsyduckTriplesBallBonus: ; 0xfa7e
 	ld de, wBottomMessageText + $04
 	ld hl, PsyduckCounterText
-	call PrintTextNoHeader
+	call PlaceTextAlphanumericOnly
 	ld hl, wBottomMessageText + $04
 	ld a, [wNumPsyduckTriples]
 	call Func_f78e
@@ -730,7 +730,7 @@ HandlePsyduckTriplesBallBonus: ; 0xfa7e
 HandleCAVECompletionsBallBonus_BlueField: ; 0xfaa6
 	ld de, wBottomMessageText + $03
 	ld hl, CaveShotCounterText
-	call PrintTextNoHeader
+	call PlaceTextAlphanumericOnly
 	ld hl, wBottomMessageText + $03
 	ld a, [wNumCAVECompletions]
 	call Func_f78e
@@ -746,7 +746,7 @@ HandleCAVECompletionsBallBonus_BlueField: ; 0xfaa6
 HandleSpinnerTurnsBallBonus_BlueField: ; 0xface  :)
 	ld de, wBottomMessageText + $01
 	ld hl, SpinnerTurnsCounterText
-	call PrintTextNoHeader
+	call PlaceTextAlphanumericOnly
 	ld hl, wBottomMessageText + $01
 	ld a, [wNumSpinnerTurns]
 	call Func_f78e

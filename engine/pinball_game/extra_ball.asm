@@ -1,9 +1,9 @@
-HandleExtraBall: ; 0x30188
-; Grants the player an extra Ball, if they qualify for it.
+ShowExtraBallMessage: ; 0x30188
+; Displays the extra ball scrolling message, if an extra ball has been granted.
 	ld a, [wd5ca]
 	and a
 	ret nz
-	ld a, [wd4ca]
+	ld a, [wShowExtraBallText]
 	and a
 	ret z
 	cp $1
@@ -32,5 +32,5 @@ HandleExtraBall: ; 0x30188
 	call LoadScrollingText
 .asm_301c9
 	xor a
-	ld [wd4ca], a
+	ld [wShowExtraBallText], a
 	ret

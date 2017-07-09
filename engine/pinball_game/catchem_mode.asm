@@ -1100,7 +1100,7 @@ Func_107c2: ; 0x107c2
 	ld [wFramesUntilSlotCaveOpens], a
 	ret
 
-Func_107c8: ; 0x107c8
+SetLeftAndRightAlleyArrowIndicatorStates_RedField: ; 0x107c8
 	ld a, [wRightAlleyCount]
 	cp $3
 	jr z, .asm_107d1
@@ -1232,7 +1232,7 @@ Func_10871: ; 0x10871
 	bit 0, a
 	jr nz, .asm_108d3
 	callba LoadStageCollisionAttributes
-	callba Func_159f4
+	callba LoadFieldStructureGraphics_RedField
 	ret
 
 .asm_108d3
@@ -1246,7 +1246,7 @@ Func_10871: ; 0x10871
 Func_108f5: ; 0x108f5
 	call ResetIndicatorStates
 	call Func_107c2
-	call Func_107c8
+	call SetLeftAndRightAlleyArrowIndicatorStates_RedField
 	call Func_107e9
 	ld a, [wCurrentStage]
 	bit 0, a
@@ -1268,7 +1268,7 @@ Func_108f5: ; 0x108f5
 	ld a, BANK(BlankSaverSpaceTileDataRedField)
 	call Func_10aa
 	ld a, [wPreviousNumPokeballs]
-	callba Func_174d4
+	callba LoadPokeballsGraphics_RedField
 	ld hl, CaughtPokeballTileDataPointers
 	ld a, BANK(CaughtPokeballTileDataPointers)
 	call Func_10aa
@@ -1358,7 +1358,7 @@ Func_1098c: ; 0x1098c
 	jr nz, .loop
 	xor a
 	ld [wRightAlleyCount], a
-	callba Func_1f2ed
+	callba CloseSlotCave
 	ld de, $0002
 	call PlaySong
 	ld a, [wCurrentStage]
@@ -1377,7 +1377,7 @@ Func_1098c: ; 0x1098c
 Func_109fc: ; 0x109fc
 	call ResetIndicatorStates
 	call Func_107c2
-	callba Func_1f2ff
+	callba SetLeftAndRightAlleyArrowIndicatorStates_BlueField
 	ld a, [wCurrentStage]
 	bit 0, a
 	ret z
@@ -1398,7 +1398,7 @@ Func_109fc: ; 0x109fc
 	ld a, BANK(BlankSaverSpaceTileDataBlueField)
 	call Func_10aa
 	ld a, [wPreviousNumPokeballs]
-	callba Func_174d4
+	callba LoadPokeballsGraphics_RedField
 	ld hl, Data_10a88
 	ld a, BANK(Data_10a88)
 	call Func_10aa

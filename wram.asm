@@ -219,7 +219,8 @@ wBallSaverTimerSecondsBackup:: ; 0xd4a7
 wNumTimesBallSavedTextWillDisplayBackup:: ; 0xd4a8
 	ds $1
 
-wd4a9:: ; 0xd4a9
+wExtraBall:: ; 0xd4a9
+; Set to 1 if the player has an extra ball.
 	ds $1
 
 wDrawBottomMessageBox:: ; 0xd4aa
@@ -284,7 +285,10 @@ wd4c8:: ; 0xd4c8
 wd4c9:: ; 0xd4c9
 	ds $1
 
-wd4ca:: ; 0xd4ca
+wShowExtraBallText:: ; 0xd4ca
+; Setting this byte to 1 or 2 will cause the "Extra Ball" message to scroll across the bottom of the screen.
+; 1 = "EXTRA BALL"
+; 2 = "EXTRA BALL SPECIAL BONUS"
 	ds $1
 
 wWhichVoltorb:: ; 0xd4cb
@@ -325,7 +329,9 @@ wWhichBumper:: ; 0xd4d8
 wWhichBumperId:: ; 0xd4d9
 	ds $1
 
-wd4da:: ; 0xd4da
+wBumperLightUpDuration:: ; 0xd4da
+; Number of frames left in the Bumper light-up animation when the pinball bounces off of it.
+; This is shared by both bumpers, so only one can be lit up at a time.
 	ds $1
 
 wd4db:: ; 0xd4db
@@ -494,7 +500,9 @@ wPikachuSaverCharge:: ; 0xd517
 ; in the right alley. The charge's value ranges from 0 - 15.
 	ds $1
 
-wd518:: ; 0xd518
+wWhichPikachuSaverSide:: ; 0xd518
+; 0 = Pikachu is on the left side
+; 1 = Pikachu is on the right side
 	ds $1
 
 wPikachuSaverAnimation:: ; 0xd519
@@ -601,7 +609,9 @@ wd558:: ; 0xd558
 wd559:: ; 0xd559
 	ds $1
 
-wd55a:: ; 0xd55a
+wMapMoveDirection:: ; 0xd55a
+; 0 = need to hit the ball left to open map move slot cave
+; 1 = need to hit the ball right to open map move slot cave
 	ds $1
 
 wRareMonsFlag:: ; 0xd55b
@@ -1026,7 +1036,7 @@ wd645:: ; 0xd645
 wd646:: ; 0xd646
 	ds $1
 
-wd647:: ; 0xd647
+wBonusMultiplierRailingEndLightDuration:: ; 0xd647
 	ds $1
 
 wd648:: ; 0xd648

@@ -37,16 +37,16 @@ HandleBallLossBlueField: ; 0xde4f
 	call Func_ded6
 	ld a, [wCurBonusMultiplierFromFieldEvents]
 	and a
-	jr z, .asm_deb6
+	jr z, .noExtraBall
 	dec a
 	ld [wCurBonusMultiplierFromFieldEvents], a
 	ld a, $1
-	ld [wd49c], a
+	ld [wd49c], a ; Extra Ball
 	ld de, EndOfBallBonusText
 	call Func_dc6d
 	ret
 
-.asm_deb6
+.noExtraBall
 	ld a, [wd49d]
 	ld hl, wd49e
 	cp [hl]

@@ -3,7 +3,7 @@ _LoadStageDataGengarBonus: ; 0x1818b
 	call Func_2862
 	call Func_18d72
 	ld a, [wd7c1]
-	callba Func_1404a
+	callba LoadTimerGraphics
 	and a
 	ret z
 	call Func_183db

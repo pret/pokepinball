@@ -1,13 +1,13 @@
 _LoadStageDataRedFieldTop: ; 0x14000
 	call Func_14091
-	call Func_159f4
+	call LoadFieldStructureGraphics_RedField
 	call LoadPinballUpgradeTriggersGraphics_RedField
-	call Func_16859
+	call LoadStaryuGraphics_Top
 	call UpdateSpinnerChargeGraphics_RedField
 	call Func_14234
 	call LoadSlotCaveCoverGraphics_RedField
 	call Func_142fc
-	call Func_1404a
+	call LoadTimerGraphics
 	ret
 
 _LoadStageDataRedFieldBottom: ; 0x1401c
@@ -18,17 +18,17 @@ _LoadStageDataRedFieldBottom: ; 0x1401c
 	call Func_14282
 	call Func_1414b
 	call Func_14234
-	call Func_14746
+	call LoadAgainTextGraphics
 	call DrawBallSaverIcon
 	call Func_140f9
-	call Func_16878
+	call LoadStaryuGraphics_Bottom
 	call Func_140e2
 	call LoadSlotCaveCoverGraphics_RedField
 	call Func_142fc
-	call Func_1404a
+	call LoadTimerGraphics
 	ret
 
-Func_1404a: ; 0x1404a
+LoadTimerGraphics: ; 0x1404a
 	ld a, [wTimerActive]
 	and a
 	ret z
@@ -95,7 +95,7 @@ Func_14091: ; 0x14091
 	bit 0, a
 	ret nz
 	callba LoadStageCollisionAttributes
-	call Func_159f4
+	call LoadFieldStructureGraphics_RedField
 	ret
 
 Func_140e2: ; 0x140e2
@@ -147,7 +147,7 @@ Func_14135: ; 0x14135
 	add hl, bc
 	ld a, [hl]
 	res 7, a
-	call Func_169cd
+	call LoadArrowIndicatorGraphics_RedField
 	pop bc
 	inc c
 	ld a, c
@@ -322,7 +322,7 @@ Func_14282: ; 0x14282
 
 .asm_1429e
 	ld a, [wPreviousNumPokeballs]
-	call Func_174d4
+	call LoadPokeballsGraphics_RedField
 	ld a, BANK(CaughtPokeballGfx)
 	ld hl, CaughtPokeballGfx
 	ld de, vTilesSH tile $2e
@@ -473,7 +473,7 @@ Func_14377: ; 0x14377
 	and a
 	ld a, $14
 	jr nz, .asm_143d6
-	ld a, [wd55a]
+	ld a, [wMapMoveDirection]
 	add $12
 .asm_143d6
 	callba LoadBillboardTileData

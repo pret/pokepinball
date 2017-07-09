@@ -149,7 +149,7 @@ DrawPikachuSavers_BlueStage: ; 0x1f448
 	ld e, a
 	ld a, [wPikachuSaverSlotRewardActive]
 	and a
-	ld a, [wd518]
+	ld a, [wWhichPikachuSaverSide]
 	jr z, .asm_1f473
 	ld a, [wd51c]
 	and a

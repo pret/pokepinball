@@ -6,8 +6,8 @@ _LoadStageDataBlueFieldTop: ; 0x1c165
 	callba Func_142fc
 	ld a, $1
 	ld [wBlueStageForceFieldGfxNeedsLoading], a
-	call Func_1f18a
-	callba Func_1404a
+	call UpdateForceFieldGraphics
+	callba LoadTimerGraphics
 	call Func_1c203
 	ret
 
@@ -19,13 +19,13 @@ _LoadStageDataBlueFieldBottom: ; 0x1c191
 	call Func_1c43c
 	call Func_1c305
 	call Func_1c3ee
-	callba Func_14746
+	callba LoadAgainTextGraphics
 	callba DrawBallSaverIcon
 	call Func_1c235
 	call Func_1c21e
 	call LoadSlotCaveCoverGraphics_BlueField
 	callba Func_142fc
-	callba Func_1404a
+	callba LoadTimerGraphics
 	call Func_1c203
 	ret
 
@@ -117,7 +117,7 @@ Func_1c235: ; 0x1c235
 	ld a, [wd644]
 	and a
 	jr z, .asm_1c28a
-	ld a, [wd55a]
+	ld a, [wMapMoveDirection]
 	and a
 	jr nz, .asm_1c2bd
 	jr .asm_1c291
@@ -177,7 +177,7 @@ Func_1c2cb: ; 0x1c2cb
 	add hl, bc
 	ld a, [hl]
 	res 7, a
-	call Func_1eb41
+	call LoadArrowIndicatorGraphics_BlueStage
 	pop bc
 	inc c
 	ld a, c
@@ -198,7 +198,7 @@ Func_1c2cb: ; 0x1c2cb
 	ld d, a
 	pop af
 	add d
-	call Func_1eb41
+	call LoadArrowIndicatorGraphics_BlueStage
 	pop bc
 	inc c
 	ld a, c
@@ -373,7 +373,7 @@ Func_1c43c: ; 0x1c43c
 
 .asm_1c458
 	ld a, [wPreviousNumPokeballs]
-	call Func_1f265
+	call LoadPokeballsGraphics_BlueField
 	ld a, BANK(CaughtPokeballGfx)
 	ld hl, CaughtPokeballGfx
 	ld de, vTilesSH tile $2e
@@ -467,7 +467,7 @@ Func_1c4b6: ; 0x1c4b6
 	and a
 	ld a, $14
 	jr nz, .asm_1c515
-	ld a, [wd55a]
+	ld a, [wMapMoveDirection]
 	add $12
 .asm_1c515
 	callba LoadBillboardTileData

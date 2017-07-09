@@ -3,5 +3,5 @@ _LoadStageDataMeowthBonus: ; 0x24128
 	call Func_2862
 	callba Func_24fa3
 	call Func_24516
-	callba Func_1404a
+	callba LoadTimerGraphics
 	ret

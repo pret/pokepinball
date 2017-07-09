@@ -909,7 +909,7 @@ IndicatorStates_10fd0:  ; 0x10fd0
 ConcludeEvolutionMode_RedField: ; 0x10fe3
 	call ResetIndicatorStates
 	call Func_107c2
-	call Func_107c8
+	call SetLeftAndRightAlleyArrowIndicatorStates_RedField
 	call Func_107e9
 	ld a, [wCurrentStage]
 	bit 0, a
@@ -935,7 +935,7 @@ ConcludeEvolutionMode_RedField: ; 0x10fe3
 	ld a, BANK(BlankSaverSpaceTileDataRedField)
 	call Func_10aa
 	ld a, [wPreviousNumPokeballs]
-	callba Func_174d4
+	callba LoadPokeballsGraphics_RedField
 	ld hl, CaughtPokeballTileDataPointers
 	ld a, BANK(CaughtPokeballTileDataPointers)
 	call Func_10aa
@@ -979,7 +979,7 @@ StartEvolutionMode_BlueField: ; 0x11061
 	jr nz, .asm_11085
 	xor a
 	ld [wLeftAlleyCount], a
-	callba Func_1f2ed
+	callba CloseSlotCave
 	ld a, $2
 	ld [wd7ad], a
 	ld de, $0002
@@ -1047,7 +1047,7 @@ ConcludeEvolutionMode_BlueField: ; 0x11195
 	ld [wd643], a
 	call ResetIndicatorStates
 	call Func_107c2
-	callba Func_1f2ff
+	callba SetLeftAndRightAlleyArrowIndicatorStates_BlueField
 	ld a, [wCurrentStage]
 	bit 0, a
 	jp z, Func_1120e
@@ -1072,7 +1072,7 @@ ConcludeEvolutionMode_BlueField: ; 0x11195
 	ld a, BANK(BlankSaverSpaceTileDataBlueField)
 	call Func_10aa
 	ld a, [wPreviousNumPokeballs]
-	callba Func_174d4
+	callba LoadPokeballsGraphics_RedField
 	ld hl, Data_10a88
 	ld a, BANK(Data_10a88)
 	call Func_10aa
@@ -1484,7 +1484,7 @@ StartMapMoveMode: ; 0x301ec
 	ld a, [wCurrentStage]
 	bit 0, a
 	jr z, .asm_3021b
-	ld a, [wd55a]
+	ld a, [wMapMoveDirection]
 	add $12
 	call LoadBillboardTileData
 .asm_3021b
@@ -1542,7 +1542,7 @@ LoadScrollingMapNameText: ; 0x3118f
 	ret
 
 Func_311b4: ; 0x311b4
-	ld a, [wd55a]
+	ld a, [wMapMoveDirection]
 	and a
 	jr nz, .asm_311ce
 	ld a, $80
@@ -1591,7 +1591,7 @@ Func_311b4: ; 0x311b4
 Func_31234: ; 0x31234
 	callba ResetIndicatorStates
 	callba Func_107c2
-	callba Func_107c8
+	callba SetLeftAndRightAlleyArrowIndicatorStates_RedField
 	callba Func_107e9
 	ld a, [wCurrentStage]
 	bit 0, a
@@ -1713,7 +1713,7 @@ DoNothing_31325: ; 0x31325
 	ret
 
 Func_31326: ; 0x31326
-	ld a, [wd55a]
+	ld a, [wMapMoveDirection]
 	and a
 	jr nz, .asm_3134c
 	ld a, $80
@@ -1756,7 +1756,7 @@ Func_31326: ; 0x31326
 .asm_3139d
 	ld a, $1
 	ld [wd644], a
-	callba Func_1f2ed
+	callba CloseSlotCave
 	ld de, $0003
 	call PlaySong
 	ld a, [wCurrentStage]
@@ -1768,7 +1768,7 @@ Func_31326: ; 0x31326
 Func_313c3: ; 0x313c3
 	callba ResetIndicatorStates
 	callba Func_107c2
-	callba Func_1f2ff
+	callba SetLeftAndRightAlleyArrowIndicatorStates_BlueField
 	ld a, $0
 	ld [wd644], a
 	ld a, [wCurrentStage]
@@ -1976,7 +1976,7 @@ Func_3151f: ; 0x3151f
 	ret
 
 Func_31591: ; 0x31591
-	ld a, [wd55a]
+	ld a, [wMapMoveDirection]
 	and a
 	jr nz, .asm_315b1
 	ld a, [wIndicatorStates]
@@ -1995,7 +1995,7 @@ Func_31591: ; 0x31591
 	ret
 
 Func_315b3: ; 0x315b3
-	ld a, [wd55a]
+	ld a, [wMapMoveDirection]
 	and a
 	jr z, .asm_315d3
 	ld a, [wIndicatorStates + 1]
@@ -2130,7 +2130,7 @@ Func_3168c: ; 0x3168c
 	ret
 
 Func_31708: ; 0x31708
-	ld a, [wd55a]
+	ld a, [wMapMoveDirection]
 	and a
 	jr nz, .asm_31728
 	ld a, [wIndicatorStates]
@@ -2149,7 +2149,7 @@ Func_31708: ; 0x31708
 	ret
 
 Func_3172a: ; 0x3172a
-	ld a, [wd55a]
+	ld a, [wMapMoveDirection]
 	and a
 	jr z, .asm_3174a
 	ld a, [wIndicatorStates + 1]

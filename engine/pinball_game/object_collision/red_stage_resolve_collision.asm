@@ -85,15 +85,15 @@ UpdateBallSaverState: ; 0x146a9
 	ld c, $ff
 .asm_146e4
 	ld a, c
-	ld [BallSaverFlashRate], a
+	ld [wBallSaverFlashRate], a
 .SkipSecondsOrFramesUpdate
-	ld a, [BallSaverFlashRate]
+	ld a, [wBallSaverFlashRate]
 	ld c, $0
 	and a
 	jr z, .asm_146fe
 	ld c, $1
 	cp $ff
-	jr z, .asm_146fe 
+	jr z, .asm_146fe
 	ld hl, hNumFramesDropped
 	and [hl]
 	jr z, .asm_146fe ; hNumFramesDropped used as timer for flashing
@@ -135,13 +135,13 @@ Func_14733: ; 0x14733
 	ld a, [wCurBonusMultiplier]
 	and a
 	jr z, .asm_1473d
-	ld c, $1 ; set c=1 if a >0
-.asm_1473d ;
-	ld a, [wd4a9] ;
+	ld c, $1
+.asm_1473d
+	ld a, [wd4a9]
 	cp c
 	ld a, c
 	ld [wd4a9], a
-	ret z ; ret if a=c
+	ret z
 	; fall through
 
 Func_14746: ; 0x14746
@@ -5189,7 +5189,7 @@ Func_16352: ; 0x16352
 .asm_1636d
 	ld a, [wPreviousNumPokeballs]
 	cp $3
-	jr nz, .asm_163b3
+	jr nz, .asm_163b3 ; numballs!=3
 	ld a, [wd607]
 	and a
 	jr nz, .asm_163b3

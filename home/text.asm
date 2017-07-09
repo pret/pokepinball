@@ -23,9 +23,9 @@ FillBottomMessageBufferWithBlackTile: ; 0x30e8
 	ld [wScrollingText1Enabled], a
 	ld [wScrollingText2Enabled], a
 	ld [wScrollingText3Enabled], a
-	ld [wd5e4], a
-	ld [wd5e9], a
-	ld [wd5ee], a
+	ld [wStationaryText1], a
+	ld [wStationaryText2], a
+	ld [wStationaryText3], a
 	ret
 
 Func_310a: ; 0x310a
@@ -584,27 +584,27 @@ Func_33a7: ; 0x33a7
 	inc de
 	ret
 
-Func_33c3: ; 0x33c3
-	ld a, [hli]
+HandleStationaryText: ; 0x33c3 Handles stationary text HandleStationaryText
+	ld a, [hli] ;+1
 	and a
-	ret z
-	ld a, [hli]
+	ret z ;ret if var 1 is 0
+	ld a, [hli] ;+2 load var2 into e
 	ld e, a
 	ld d, wBottomMessageBuffer / $100
 	push hl
-	ld l, [hl]
+	ld l, [hl] ;Place text from var 2 in buffer into var3 in text
 	ld h, wBottomMessageText / $100
 	call PlaceTextLow
 	pop hl
-	inc hl
+	inc hl ;+3 dec Var4, ret if var not 0
 	ld a, [hl]
 	dec a
-	ld [hli], a
+	ld [hli], a ;+4
 	ret nz
-	ld a, [hl]
+	ld a, [hl] ;dec Var5
 	dec a
-	ld [hld], a
-	bit 7, a
+	ld [hld], a ;+3
+	bit 7, a ;if Var5 <= 128, ret, else toggle off
 	ret z
 	dec hl
 	dec hl
@@ -623,55 +623,55 @@ Func_33e3: ; 0x33e3
 	ld c, $0
 	ld a, [wScrollingText1Enabled]
 	and a
-	jr z, .asm_33fe ;if ?? is 0
-	push bc ;store b and 0
+	jr z, .Scrolling1Off ;if scrolling text is enabled, scroll text and inc c. repeat for each struct
+	push bc
 	ld hl, wScrollingText1
 	call HandleScrolling
 	pop bc
 	inc c
-.asm_33fe
+.Scrolling1Off
 	ld a, [wScrollingText2Enabled]
 	and a
-	jr z, .asm_340d
+	jr z, .Scrolling2Off
 	push bc
 	ld hl, wScrollingText2
 	call HandleScrolling
 	pop bc
 	inc c
-.asm_340d
+.Scrolling2Off
 	ld a, [wScrollingText3Enabled]
 	and a
-	jr z, .asm_341c
+	jr z, .Scrolling3Off
 	push bc
 	ld hl, wScrollingText3
 	call HandleScrolling
 	pop bc
 	inc c
-.asm_341c
-	ld a, [wd5e4]
+.Scrolling3Off
+	ld a, [wStationaryText1]
 	and a
 	jr z, .asm_342b
 	push bc
-	ld hl, wd5e4
-	call Func_33c3
+	ld hl, wStationaryText1
+	call HandleStationaryText
 	pop bc
 	inc c
 .asm_342b
-	ld a, [wd5e9]
+	ld a, [wStationaryText2]
 	and a
 	jr z, .asm_343a
 	push bc
-	ld hl, wd5e9
-	call Func_33c3
+	ld hl, wStationaryText2
+	call HandleStationaryText
 	pop bc
 	inc c
 .asm_343a
-	ld a, [wd5ee]
+	ld a, [wStationaryText3]
 	and a
 	jr z, .asm_3449
 	push bc
-	ld hl, wd5ee
-	call Func_33c3
+	ld hl, wStationaryText3
+	call HandleStationaryText
 	pop bc
 	inc c
 .asm_3449
@@ -705,7 +705,7 @@ Func_3475: ; 0x3475
 	ld [hPressedButtons], a
 	call HandleTilts
 	ld a, [wCurrentStage]
-	bit 0, a
+	bit 0, a ;handle flippers if the stage has any
 	callba nz, HandleFlippers
 	callba DrawSpritesForStage
 	call Func_33e3
@@ -713,7 +713,7 @@ Func_3475: ; 0x3475
 	rst AdvanceFrame
 	ld a, [wd5ca]
 	and a
-	jr nz, Func_3475
+	jr nz, Func_3475 ;loops until wd5ca is zero
 	ret
 
 FivePoints:       ; 34a6

@@ -127,12 +127,12 @@ Func_20394: ; 0x20394
 	push de
 	call FillBottomMessageBufferWithBlackTile
 	call Func_30db
-	ld hl, wd5e9
+	ld hl, wStationaryText2
 	ld de, Data_2a2a
 	call Func_3372
 	pop de
 	pop bc
-	ld hl, wd5e4
+	ld hl, wStationaryText1
 	ld de, HitText
 	call Func_3357
 	ld a, [wNumMonHits]
@@ -271,12 +271,12 @@ Func_204f1: ; 0x204f1
 	push de
 	call FillBottomMessageBufferWithBlackTile
 	call Func_30db
-	ld hl, wd5e9
+	ld hl, wStationaryText2
 	ld de, Data_2a3d
 	call Func_3372
 	pop de
 	pop bc
-	ld hl, wd5e4
+	ld hl, wStationaryText1
 	ld de, FlippedText
 	call Func_3357
 .asm_2055e

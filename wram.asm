@@ -229,7 +229,7 @@ wDrawBottomMessageBox:: ; 0xd4aa
 wd4ab:: ; 0xd4ab
 	ds $1
 
-wCurrentStage:: ; 0xd4ac
+wCurrentStage:: ; 0xd4ac see constants/stage_constants.asm for list. bit 1 is 1 if the stage has flippers
 	ds $1
 
 wd4ad:: ; 0xd4ad
@@ -752,13 +752,22 @@ wScrollingText2:: ; 0xd5d4
 wScrollingText3:: ; 0xd5dc
 	scrolling_text wScrollingText3
 
-wd5e4:: ; 0xd5e4
+stationary_text: MACRO
+\1Enabled:: ds 1              ; Toggles if enabled. 0 is off, non-0 is on
+\1MessageBoxOffset:: ds 1     ; Offset in wBottomMessageBuffer to place first character of text
+\1SourceTextOffset:: ds 1     ; Offset in wBottomMessageText for the text to be displayed
+\1DurationLowByte:: ;how many frames to stay on screen
+\1Duration:: ds 1
+\1DurationHighByte:: ds 1
+ENDM
+
+wStationaryText1:: ; 0xd5e4
 	ds $5
 
-wd5e9:: ; 0xd5e9
+wStationaryText2:: ; 0xd5e9
 	ds $5
 
-wd5ee:: ; 0xd5ee
+wStationaryText3:: ; 0xd5ee
 	ds $5
 
 wCapturingMon:: ; 0xd5f3

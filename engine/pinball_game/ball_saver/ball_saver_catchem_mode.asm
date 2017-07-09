@@ -8,7 +8,7 @@ InitBallSaverForCatchEmMode: ; 0xdbd4
 	ld a, $0
 	ld [wBallSaverIconOn], a
 	ld a, $ff
-	ld [wd4a2], a
+	ld [wBallSaverFlashRate], a
 	ld a, 59
 	ld [wBallSaverTimerFrames], a
 	ld a, 60
@@ -43,9 +43,9 @@ RestoreBallSaverAfterCatchEmMode: ; 0xdc00
 	ld c, $ff
 .asm_dc34
 	ld a, c
-	ld [wd4a2], a
+	ld [wBallSaverFlashRate], a
 	ld a, [wCurrentStage]
 	bit 0, a
 	ret z
-	callba Func_14707
+	callba DrawBallSaverIcon
 	ret

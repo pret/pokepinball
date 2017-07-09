@@ -197,7 +197,7 @@ wd49f:: ; 0xd49f
 wBallSaverIconOn:: ; 0xd4a1
 	ds $1
 
-wd4a2:: ; 0xd4a2
+wBallSaverFlashRate:: ; 0xd4a2
 	ds $1
 
 wBallSaverTimerFrames:: ; 0xd4a3
@@ -469,16 +469,18 @@ wWhichCAVELight:: ; 0xd50d
 wWhichCAVELightId:: ; 0xd50e
 	ds $1
 
-wd50f:: ; 0xd50f
-	ds $3
+wCAVELightStates:: ; 0xd50f
+; Marks each of the 4 CAVE lights as On (1) or Off (0).
+; When all four are On, it will do a blinking animation, and then open the Slot bonus.
+	ds $4
 
-wd512:: ; 0xd512
+wCAVELightsBlinking:: ; 0xd513
+; Set to 1 when the 4 CAVE lights are blinking for a couple seconds after successfully
+; lighting up all 4. Set to 0, otherwise.
 	ds $1
 
-wd513:: ; 0xd513
-	ds $1
-
-wd514:: ; 0xd514
+wCAVELightsBlinkingFramesRemaining:: ; 0xd514
+; Holds the number of frames remaining in the 4 CAVE lights' blinking animation.
 	ds $1
 
 wWhichPikachu:: ; 0xd515
@@ -782,16 +784,18 @@ wWhichPinballUpgradeTrigger:: ; 0xd5f7
 wWhichPinballUpgradeTriggerId:: ; 0xd5f8
 	ds $1
 
-wd5f9:: ; 0xd5f9
-	ds $2
+wBallUpgradeTriggerStates:: ; 0xd5f9
+; Marks each of the 3 ball upgrade triggers as On (1) or Off (0).
+; When all three are On, it upgrades the pinball field multiplier. (e.g. Pokeball -> Great Ball)
+	ds $3
 
-wd5fb:: ; 0xd5fb
+wBallUpgradeTriggersBlinking:: ; 0xd5fc
+; Set to 1 when the 3 ball upgrade triggers are blinking for a couple seconds after successfully
+; lighting up all 3. Set to 0, otherwise.
 	ds $1
 
-wd5fc:: ; 0xd5fc
-	ds $1
-
-wd5fd:: ; 0xd5fd
+wBallUpgradeTriggersBlinkingFramesRemaining:: ; 0xd5fd
+; Holds the number of frames remaining in the ball upgrade blinking animation.
 	ds $1
 
 wDittoSlotCollision:: ; 0xd5fe

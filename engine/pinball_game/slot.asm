@@ -403,7 +403,7 @@ SlotRewardUpgradeBall: ; 0xf040
 	ld de, FieldMultiplierSpecialBonusText
 	call LoadScrollingText
 .asm_f0b0
-	callba Func_155bb
+	callba TransitionPinballUpgradePalette
 	ret
 
 BallTypeProgressionBlueField: ; 0xf0bb

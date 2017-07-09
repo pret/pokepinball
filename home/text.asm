@@ -52,11 +52,11 @@ Func_310a: ; 0x310a
 
 LoadMonNameIntoBottomMessageBufferList: ; 0x3125 increases address to load into by 64
 	ld b, $1
-	jr JumpToPlaceText
+	jr PlaceText
 
 PlaceTextLow: ; 0x3129 disables special loads PlaceTextLow
 	ld b, $0
-JumpToPlaceText: ; 0x312b loads e chars of text text into de
+PlaceText: ; 0x312b loads e chars of text text into de
 	ld a, [wd805]
 	and a
 	jp nz, UnusedPlaceString ;unused alternate place string

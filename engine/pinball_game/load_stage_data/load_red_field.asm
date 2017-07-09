@@ -1,7 +1,7 @@
 _LoadStageDataRedFieldTop: ; 0x14000
 	call Func_14091
 	call Func_159f4
-	call Func_15450
+	call LoadPinballUpgradeTriggersGraphics_RedField
 	call Func_16859
 	call UpdateSpinnerChargeGraphics_RedField
 	call Func_14234
@@ -14,12 +14,12 @@ _LoadStageDataRedFieldBottom: ; 0x1401c
 	call Func_14091
 	call Func_14377
 	call Func_14135
-	call Func_asm_1522d
+	call LoadCAVELightsGraphics_RedField
 	call Func_14282
 	call Func_1414b
 	call Func_14234
 	call Func_14746
-	call Func_14707
+	call DrawBallSaverIcon
 	call Func_140f9
 	call Func_16878
 	call Func_140e2

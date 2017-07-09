@@ -3,9 +3,9 @@
 ResolveRedFieldTopGameObjectCollisions: ; 0x1460e
 	call ResolveVoltorbCollision
 	call ResolveRedStageSpinnerCollision
-	call ResolveRedStagePinballUpgradeTriggersCollision
-	call HandleRedStageBallTypeUpgradeCounter
-	call Func_15270
+	call ResolveBallUpgradeTriggersCollision_RedField
+	call UpdateBallTypeUpgradeCounter_RedField
+	call UpdateCAVELightsBlinking_RedField
 	call ResolveRedStageBoardTriggerCollision
 	call ResolveRedStagePikachuCollision
 	call ResolveStaryuCollision
@@ -13,7 +13,7 @@ ResolveRedFieldTopGameObjectCollisions: ; 0x1460e
 	call ResolveDittoSlotCollision
 	call Func_161e0
 	call Func_164e3
-	call Func_146a9
+	call UpdateBallSaverState
 	call Func_174ea
 	call UpdateMapMoveCounters_RedFieldTop
 	callba HandleExtraBall
@@ -27,9 +27,9 @@ ResolveRedFieldBottomGameObjectCollisions: ; 0x14652
 	call ResolveDiglettCollision
 	call UpdateMapMoveCounters_RedFieldBottom
 	call UpdateRedStageSpinner
-	call Func_154a9
-	call HandleRedStageBallTypeUpgradeCounter
-	call Func_151cb
+	call UpdatePinballUpgradeBlinkingAnimation_RedField
+	call UpdateBallTypeUpgradeCounter_RedField
+	call ResolveCAVELightCollision_RedField
 	call ResolveRedStagePinballLaunchCollision
 	call ResolveRedStagePikachuCollision
 	call Func_167ff
@@ -39,39 +39,39 @@ ResolveRedFieldBottomGameObjectCollisions: ; 0x14652
 	call Func_161af
 	call Func_164e3
 	call Func_14733
-	call Func_146a2
+	call UpdateBallSaver
 	call Func_174d0
 	callba HandleExtraBall
 	ld a, $0
 	callba Func_10000
 	ret
 
-Func_146a2: ; 0x146a2
-	call Func_146a9
-	call nz, Func_14707
+UpdateBallSaver: ; 0x146a2
+	call UpdateBallSaverState
+	call nz, DrawBallSaverIcon ;redraw icon if its state changed
 	ret
 
-Func_146a9: ; 0x146a9
+UpdateBallSaverState: ; 0x146a9
 	ld a, [wBallSaverTimerFrames]
 	ld hl, wBallSaverTimerSeconds
-	or [hl] ;if both the number of frames and number of seconds left is 0, skip
+	or [hl] ;skip if timer ran out
 	ret z
 	ld a, [wBallXPos + 1]
-	cp 154 ;if high? Byte of ball X pos is >= 154, jump ahead
-	jr nc, .asm_146e8
+	cp 154 ;if high? Byte of ball X pos is >= 154, don't update timers
+	jr nc, .SkipSecondsOrFramesUpdate
 	ld a, [wBallSaverTimerFrames]
 	dec a
 	ld [wBallSaverTimerFrames], a
 	bit 7, a
-	jr z, .asm_146e8
-	ld a, 59
+	jr z, .SkipSecondsOrFramesUpdate
+	ld a, 59 ;if frames underflowed, set to 59 and decrement second
 	ld [wBallSaverTimerFrames], a
 	ld a, [hl]
 	dec a
 	bit 7, a
-	jr nz, .asm_146cf
+	jr nz, .DontClampSeconds ;if seconds would underflow, keep it at 0
 	ld [hl], a
-.asm_146cf
+.DontClampSeconds
 	inc a
 	ld c, $0
 	cp $2
@@ -85,9 +85,9 @@ Func_146a9: ; 0x146a9
 	ld c, $ff
 .asm_146e4
 	ld a, c
-	ld [wd4a2], a
-.asm_146e8
-	ld a, [wd4a2]
+	ld [wBallSaverFlashRate], a
+.SkipSecondsOrFramesUpdate
+	ld a, [wBallSaverFlashRate]
 	ld c, $0
 	and a
 	jr z, .asm_146fe
@@ -96,19 +96,19 @@ Func_146a9: ; 0x146a9
 	jr z, .asm_146fe
 	ld hl, hNumFramesDropped
 	and [hl]
-	jr z, .asm_146fe
+	jr z, .asm_146fe ; hNumFramesDropped used as timer for flashing
 	ld c, $0
 .asm_146fe
 	ld a, [wBallSaverIconOn]
-	cp c
+	cp c ;did the icon state change ?
 	ld a, c
 	ld [wBallSaverIconOn], a
 	ret
 
-Func_14707: ; 0x14707
+DrawBallSaverIcon: ; 0x14707
 	ld a, [wBallSaverIconOn]
 	and a
-	jr nz, .asm_1471c
+	jr nz, .DrawIconOn
 	ld a, BANK(BgTileData_1172b)
 	ld hl, BgTileData_1172b
 	deCoord 8, 13, vBGMap
@@ -116,7 +116,7 @@ Func_14707: ; 0x14707
 	call LoadOrCopyVRAMData
 	ret
 
-.asm_1471c
+.DrawIconOn
 	ld a, BANK(BgTileData_1472f)
 	ld hl, BgTileData_1472f
 	deCoord 8, 13, vBGMap
@@ -124,10 +124,10 @@ Func_14707: ; 0x14707
 	call LoadOrCopyVRAMData
 	ret
 
-BgTileData_1172b:
+BgTileData_1172b: ;BallSaverIconOffSprite
 	db $AA, $AB, $AC, $AD
 
-BgTileData_1472f:
+BgTileData_1472f: ;BallSaverIconOnSprite
 	db $B4, $B5, $B6, $B7
 
 Func_14733: ; 0x14733
@@ -739,20 +739,20 @@ UpdateSpinnerChargeGraphics_RedField: ; 0x14ece
 
 INCLUDE "data/queued_tiledata/red_field/spinner.asm"
 
-Func_151cb: ; 0x151cb
+ResolveCAVELightCollision_RedField: ; 0x151cb
 	ld a, [wWhichCAVELight]
 	and a
 	jr z, .asm_15229
 	xor a
 	ld [wWhichCAVELight], a
-	ld a, [wd513]
+	ld a, [wCAVELightsBlinking]
 	and a
 	jr nz, .asm_15229
 	ld a, [wWhichCAVELightId]
 	sub $a
 	ld c, a
 	ld b, $0
-	ld hl, wd50f
+	ld hl, wCAVELightStates
 	add hl, bc
 	ld a, [hl]
 	ld [hl], $1
@@ -760,66 +760,69 @@ Func_151cb: ; 0x151cb
 	ret nz
 	ld bc, OneHundredPoints
 	callba AddBigBCD6FromQueueWithBallMultiplier
-	ld hl, wd50f
+	ld hl, wCAVELightStates
 	ld a, [hli]
 	and [hl]
 	inc hl
 	and [hl]
 	inc hl
 	and [hl]
-	jr z, Func_asm_1522d
+	jr z, LoadCAVELightsGraphics_RedField
 	ld a, $1
-	ld [wd513], a
+	ld [wCAVELightsBlinking], a
 	ld a, $80
-	ld [wd514], a
+	ld [wCAVELightsBlinkingFramesRemaining], a
 	ld bc, FourHundredPoints
 	callba AddBigBCD6FromQueueWithBallMultiplier
 	lb de, $00, $09
 	call PlaySoundEffect
 	ld hl, wNumCAVECompletions
 	call Increment_Max100
-	jr Func_asm_1522d
+	jr LoadCAVELightsGraphics_RedField
 
 .asm_15229
-	call Func_15270
+	call UpdateCAVELightsBlinking_RedField
 	ret z
 	; fall through
 
-Func_asm_1522d: ; 0x1522d
-	ld hl, wd512
+LoadCAVELightsGraphics_RedField: ; 0x1522d
+; Loads the graphics for each of the 4 CAVE lights, depending on what their current toggled state is.
+	ld hl, wCAVELightStates + 3
 	ld b, $4
-.asm_15232
+.loop
 	ld a, [hld]
 	push hl
-	call Func_1523c
+	call LoadCAVELightGraphics_RedField
 	pop hl
 	dec b
-	jr nz, .asm_15232
+	jr nz, .loop
 	ret
 
-Func_1523c: ; 0x1523c
+LoadCAVELightGraphics_RedField: ; 0x1523c
+; Loads a graphics for single CAVE light.
+; Input: a = toggle state for CAVE light
 	and a
-	jr z, .asm_1524e
+	jr z, .toggledOff
 	ld a, [hGameBoyColorFlag]
 	and a
-	jr nz, .asm_15249
+	jr nz, .toggledOnGameboy
 	ld hl, TileDataPointers_152dd
-	jr .asm_1525b
+	jr .load
 
-.asm_15249
+.toggledOnGameboy
 	ld hl, TileDataPointers_1531d
-	jr .asm_1525b
+	jr .load
 
-.asm_1524e
+.toggledOff
 	ld a, [hGameBoyColorFlag]
 	and a
-	jr nz, .asm_15258
+	jr nz, .toggledOffGameboy
 	ld hl, TileDataPointers_152e5
-	jr .asm_1525b
+	jr .load
 
-.asm_15258
+.toggledOffGameboy
 	ld hl, TileDataPointers_15325
-.asm_1525b
+.load
 	push bc
 	dec b
 	sla b
@@ -835,15 +838,15 @@ Func_1523c: ; 0x1523c
 	pop bc
 	ret
 
-Func_15270: ; 0x15270
-	ld a, [wd513]
+UpdateCAVELightsBlinking_RedField: ; 0x15270
+	ld a, [wCAVELightsBlinking]
 	and a
-	jr z, .asm_152a6
-	ld a, [wd514]
+	jr z, .notBlinking
+	ld a, [wCAVELightsBlinkingFramesRemaining]
 	dec a
-	ld [wd514], a
+	ld [wCAVELightsBlinkingFramesRemaining], a
 	jr nz, .asm_1528d
-	ld [wd513], a
+	ld [wCAVELightsBlinking], a
 	ld a, $1
 	ld [wd608], a
 	ld a, $3
@@ -852,12 +855,12 @@ Func_15270: ; 0x15270
 .asm_1528d
 	and $7
 	ret nz
-	ld a, [wd514]
+	ld a, [wCAVELightsBlinkingFramesRemaining]
 	srl a
 	srl a
 	srl a
 	and $1
-	ld hl, wd50f
+	ld hl, wCAVELightStates
 	ld [hli], a
 	ld [hli], a
 	ld [hli], a
@@ -866,11 +869,11 @@ Func_15270: ; 0x15270
 	and a
 	ret
 
-.asm_152a6
+.notBlinking
 	ld hl, wKeyConfigLeftFlipper
 	call IsKeyPressed
-	jr z, .asm_152c2
-	ld hl, wd50f
+	jr z, .checkRightFlipperKeyPress
+	ld hl, wCAVELightStates
 	ld a, [hli]
 	ld c, a
 	ld a, [hli]
@@ -889,11 +892,11 @@ Func_15270: ; 0x15270
 	ld [hl], a
 	ret
 
-.asm_152c2
+.checkRightFlipperKeyPress
 	ld hl, wKeyConfigRightFlipper
 	call IsKeyPressed
 	ret z
-	ld hl, wd50f
+	ld hl, wCAVELightStates
 	ld a, [hli]
 	ld c, a
 	ld a, [hli]
@@ -912,186 +915,20 @@ Func_15270: ; 0x15270
 	ld [hl], a
 	ret
 
-TileDataPointers_152dd:
-	dw TileData_152ed
-	dw TileData_152f3
-	dw TileData_152f9
-	dw TileData_152ff
+INCLUDE "data/queued_tiledata/red_field/cave_lights.asm"
 
-TileDataPointers_152e5:
-	dw TileData_15305
-	dw TileData_1530b
-	dw TileData_15311
-	dw TileData_15317
-
-TileData_152ed: ; 0x152ed
-	db $01 ; total number of tiles
-
-	db $01 ; number of tiles
-	dw vBGMap + $121
-	db $7d
-
-	db $00 ; terminator
-
-TileData_152f3: ; 0x152f3
-	db $01 ; total number of tiles
-
-	db $01 ; number of tiles
-	dw vBGMap + $123
-	db $7d
-
-	db $00 ; terminator
-
-TileData_152f9: ; 0x152f9
-	db $01 ; total number of tiles
-
-	db $01 ; number of tiles
-	dw vBGMap + $130
-	db $7f
-
-	db $00 ; terminator
-
-TileData_152ff: ; 0x152ff
-	db $01 ; total number of tiles
-
-	db $01 ; number of tiles
-	dw vBGMap + $132
-	db $7f
-
-	db $00 ; terminator
-
-TileData_15305: ; 0x15305
-	db $01 ; total number of tiles
-
-	db $01 ; number of tiles
-	dw vBGMap + $121
-	db $7c
-
-	db $00 ; terminator
-
-TileData_1530b: ; 0x1530b
-	db $01 ; total number of tiles
-
-	db $01 ; number of tiles
-	dw vBGMap + $123
-	db $7c
-
-	db $00 ; terminator
-
-TileData_15311: ; 0x15311
-	db $01 ; total number of tiles
-
-	db $01 ; number of tiles
-	dw vBGMap + $130
-	db $7e
-
-	db $00 ; terminator
-
-TileData_15317: ; 0x15317
-	db $01 ; total number of tiles
-
-	db $01 ; number of tiles
-	dw vBGMap + $132
-	db $7e
-
-	db $00 ; terminator
-
-TileDataPointers_1531d:
-	dw TileData_1532d
-	dw TileData_15333
-	dw TileData_15339
-	dw TileData_1533f
-
-TileDataPointers_15325:
-	dw TileData_15345
-	dw TileData_1534b
-	dw TileData_15351
-	dw TileData_15357
-
-TileData_1532d: ; 0x1532d
-	db $01 ; total number of tiles
-
-	db $01 ; number of tiles
-	dw vBGMap + $121
-	db $27
-
-	db $00 ; terminator
-
-TileData_15333: ; 0x15333
-	db $01 ; total number of tiles
-
-	db $01 ; number of tiles
-	dw vBGMap + $123
-	db $29
-
-	db $00 ; terminator
-
-TileData_15339: ; 0x15339
-	db $01 ; total number of tiles
-
-	db $01 ; number of tiles
-	dw vBGMap + $130
-	db $7E
-
-	db $00 ; terminator
-
-TileData_1533f: ; 0x1533f
-	db $01 ; total number of tiles
-
-	db $01 ; number of tiles
-	dw vBGMap + $132
-	db $7F
-
-	db $00 ; terminator
-
-TileData_15345: ; 0x15345
-	db $01 ; total number of tiles
-
-	db $01 ; number of tiles
-	dw vBGMap + $121
-	db $26
-
-	db $00 ; terminator
-
-TileData_1534b: ; 0x1534b
-	db $01 ; total number of tiles
-
-	db $01 ; number of tiles
-	dw vBGMap + $123
-	db $28
-
-	db $00 ; terminator
-
-TileData_15351: ; 0x15351
-	db $01 ; total number of tiles
-
-	db $01 ; number of tiles
-	dw vBGMap + $130
-	db $7C
-
-	db $00 ; terminator
-
-TileData_15357: ; 0x15357
-	db $01 ; total number of tiles
-
-	db $01 ; number of tiles
-	dw vBGMap + $132
-	db $7D
-
-	db $00 ; terminator
-
-ResolveRedStagePinballUpgradeTriggersCollision: ; 0x1535d
+ResolveBallUpgradeTriggersCollision_RedField: ; 0x1535d
 	ld a, [wWhichPinballUpgradeTrigger]
 	and a
-	jp z, .asm_1544c
+	jp z, .updatePinballUpgradeTriggersAnimation
 	xor a
 	ld [wWhichPinballUpgradeTrigger], a
 	ld a, [wStageCollisionState]
 	bit 0, a
-	jp z, .asm_1544c
-	ld a, [wd5fc]
+	jp z, .updatePinballUpgradeTriggersAnimation
+	ld a, [wBallUpgradeTriggersBlinking]
 	and a
-	jp nz, .asm_1544c
+	jp nz, .updatePinballUpgradeTriggersAnimation
 	xor a
 	ld [wRightAlleyTrigger], a
 	ld [wLeftAlleyTrigger], a
@@ -1103,7 +940,7 @@ ResolveRedStagePinballUpgradeTriggersCollision: ; 0x1535d
 	sub $e
 	ld c, a
 	ld b, $0
-	ld hl, wd5f9
+	ld hl, wBallUpgradeTriggerStates
 	add hl, bc
 	ld a, [hl]
 	ld [hl], $1
@@ -1111,25 +948,25 @@ ResolveRedStagePinballUpgradeTriggersCollision: ; 0x1535d
 	ret nz
 	ld bc, OneHundredPoints
 	callba AddBigBCD6FromQueueWithBallMultiplier
-	ld hl, wd5f9
+	ld hl, wBallUpgradeTriggerStates
 	ld a, [hli]
 	and [hl]
 	inc hl
 	and [hl]
-	jr nz, .asm_153c0
+	jr nz, .allTriggersOn
 	lb de, $00, $09
 	call PlaySoundEffect
-	jp Func_15450
+	jp LoadPinballUpgradeTriggersGraphics_RedField
 
-.asm_153c0
+.allTriggersOn
 	ld a, $1
-	ld [wd5fc], a
+	ld [wBallUpgradeTriggersBlinking], a
 	ld a, $80
-	ld [wd5fd], a
+	ld [wBallUpgradeTriggersBlinkingFramesRemaining], a
 	; load approximately 1 minute of frames into wBallTypeCounter
-	ld a, $10
+	ld a, PINBALL_UPGRADE_FRAMES_COUNTER & $ff
 	ld [wBallTypeCounter], a
-	ld a, $e
+	ld a, PINBALL_UPGRADE_FRAMES_COUNTER >> 8
 	ld [wBallTypeCounter + 1], a
 	ld bc, FourHundredPoints
 	callba AddBigBCD6FromQueueWithBallMultiplier
@@ -1152,7 +989,7 @@ ResolveRedStagePinballUpgradeTriggersCollision: ; 0x1535d
 	ld [wBallType], a
 	add $30
 	ld [wBottomMessageText + $12], a
-	jr .asm_15447
+	jr .done
 
 .masterBall
 	lb de, $0f, $4d
@@ -1173,52 +1010,55 @@ ResolveRedStagePinballUpgradeTriggersCollision: ; 0x1535d
 	ld hl, wScrollingText1
 	ld de, FieldMultiplierSpecialBonusText
 	call LoadScrollingText
-.asm_15447
+.done
 	call TransitionPinballUpgrade
-	jr Func_15450
+	jr LoadPinballUpgradeTriggersGraphics_RedField
 
-.asm_1544c
-	call Func_154a9
+.updatePinballUpgradeTriggersAnimation
+	call UpdatePinballUpgradeBlinkingAnimation_RedField
 	ret z
 
-Func_15450
+LoadPinballUpgradeTriggersGraphics_RedField
+; Loads the on or off graphics for each of the 3 pinball upgrade trigger dots, depending on their current toggle state.
 	ld a, [wStageCollisionState]
 	bit 0, a
 	ret z
-	ld hl, wd5fb
+	ld hl, wBallUpgradeTriggerStates + 2
 	ld b, $3
-.asm_1545b
+.loop
 	ld a, [hld]
 	push hl
-	call Func_15465
+	call LoadPinballUpgradeTriggerGraphics_RedField
 	pop hl
 	dec b
-	jr nz, .asm_1545b
+	jr nz, .loop
 	ret
 
-Func_15465: ; 0x15465
+LoadPinballUpgradeTriggerGraphics_RedField: ; 0x15465
+; Loads the on or off graphics for one of the 3 pinball upgrade trigger dots, depending on its current toggle state.
+; Input: a = toggle state
 	and a
-	jr z, .asm_15477
+	jr z, .toggledOff
 	ld a, [hGameBoyColorFlag]
 	and a
-	jr nz, .asm_15472
+	jr nz, .toggledOnGameboy
 	ld hl, TileDataPointers_15511
-	jr .asm_15484
+	jr .load
 
-.asm_15472
+.toggledOnGameboy
 	ld hl, TileDataPointers_15543
-	jr .asm_15484
+	jr .load
 
-.asm_15477
+.toggledOff
 	ld a, [hGameBoyColorFlag]
 	and a
-	jr nz, .asm_15481
+	jr nz, .toggledOffGameboy
 	ld hl, TileDataPointers_15517
-	jr .asm_15484
+	jr .load
 
-.asm_15481
+.toggledOffGameboy
 	ld hl, TileDataPointers_15549
-.asm_15484
+.load
 	push bc
 	dec b
 	sla b
@@ -1234,38 +1074,39 @@ Func_15465: ; 0x15465
 	pop bc
 	ret
 
-Func_15499: ; 0x15499
+LoadDisabledPinballUpgradeTriggerGraphics_RedField: ; 0x15499
 	ld a, [hGameBoyColorFlag]
 	and a
 	ret nz
 	ld b, $3
-.asm_1549f
+.loop
 	push hl
 	xor a
-	call Func_15465
+	call LoadPinballUpgradeTriggerGraphics_RedField
 	pop hl
 	dec b
-	jr nz, .asm_1549f
+	jr nz, .loop
 	ret
 
-Func_154a9: ; 0x154a9
-	ld a, [wd5fc]
+UpdatePinballUpgradeBlinkingAnimation_RedField: ; 0x154a9
+	ld a, [wBallUpgradeTriggersBlinking]
 	and a
-	jr z, .asm_154d6
-	ld a, [wd5fd]
+	jr z, .notBlinking
+	ld a, [wBallUpgradeTriggersBlinkingFramesRemaining]
 	dec a
-	ld [wd5fd], a
-	jr nz, .asm_154bb
-	ld [wd5fc], a
-.asm_154bb
+	ld [wBallUpgradeTriggersBlinkingFramesRemaining], a
+	jr nz, .stillBlinking
+	ld [wBallUpgradeTriggersBlinking], a
+.stillBlinking
 	and $7
-	jr nz, .asm_154d4
-	ld a, [wd5fd]
+	jr nz, .dontFlipState
+	; Blink the triggers on or off
+	ld a, [wBallUpgradeTriggersBlinkingFramesRemaining]
 	srl a
 	srl a
 	srl a
 	and $1
-	ld hl, wd5f9
+	ld hl, wBallUpgradeTriggerStates
 	ld [hli], a
 	ld [hli], a
 	ld [hl], a
@@ -1273,15 +1114,15 @@ Func_154a9: ; 0x154a9
 	and a
 	ret
 
-.asm_154d4
+.dontFlipState
 	xor a
 	ret
 
-.asm_154d6
+.notBlinking
 	ld hl, wKeyConfigLeftFlipper
 	call IsKeyPressed
-	jr z, .asm_154ee
-	ld hl, wd5f9
+	jr z, .checkRightFlipperKeyPress
+	ld hl, wBallUpgradeTriggerStates
 	ld a, [hli]
 	ld c, a
 	ld a, [hli]
@@ -1296,11 +1137,11 @@ Func_154a9: ; 0x154a9
 	ld [hl], a
 	ret
 
-.asm_154ee
+.checkRightFlipperKeyPress
 	ld hl, wKeyConfigRightFlipper
 	call IsKeyPressed
 	ret z
-	ld hl, wd5f9
+	ld hl, wBallUpgradeTriggerStates
 	ld a, [hli]
 	ld c, a
 	ld a, [hli]
@@ -1333,135 +1174,9 @@ BallTypeDegradationRedField: ; 0x1550b
 	db ULTRA_BALL  ; unused
 	db ULTRA_BALL  ; MASTER_BALL -> GREAT_BALL
 
-TileDataPointers_15511:
-	dw TileData_1551d
-	dw TileData_15523
-	dw TileData_1552a
+INCLUDE "data/queued_tiledata/red_field/ball_upgrade_triggers.asm"
 
-TileDataPointers_15517:
-	dw TileData_15530
-	dw TileData_15536
-	dw TileData_1553d
-
-TileData_1551d: ; 0x1551d
-	db $01 ; total number of tiles
-
-	db $01 ; number of tiles
-	dw vBGMap + $E7
-	db $ac
-
-	db $00 ; terminator
-
-TileData_15523: ; 0x15523
-	db $02 ; total number of tiles
-
-	db $02 ; number of tiles
-	dw vBGMap + $C9
-	db $ad, $ae
-
-	db $00 ; terminator
-
-TileData_1552a: ; 0x1552a
-	db $01 ; total number of tiles
-
-	db $01 ; number of tiles
-	dw vBGMap + $CC
-	db $af
-
-	db $00 ; terminator
-
-TileData_15530: ; 0x15530
-	db $01 ; total number of tiles
-
-	db $01 ; number of tiles
-	dw vBGMap + $E7
-	db $66
-
-	db $00 ; terminator
-
-TileData_15536: ; 0x15536
-	db $02 ; total number of tiles
-
-	db $02 ; number of tiles
-	dw vBGMap + $C9
-	db $68, $69
-
-	db $00 ; terminator
-
-TileData_1553d: ; 0x1553d
-	db $01 ; total number of tiles
-
-	db $01 ; number of tiles
-	dw vBGMap + $CC
-	db $6a
-
-	db $00 ; terminator
-
-TileDataPointers_15543:
-	dw TileData_1554f
-	dw TileData_15555
-	dw TileData_1555c
-
-TileDataPointers_15549:
-	dw TileData_15562
-	dw TileData_15568
-	dw TileData_1556F
-
-TileData_1554f: ; 0x1554f
-	db $01 ; total number of tiles
-
-	db $01 ; number of tiles
-	dw vBGMap + $e7
-	db $3D
-
-	db $00 ; terminator
-
-TileData_15555: ; 0x15555
-	db $02 ; total number of tiles
-
-	db $02 ; number of tiles
-	dw vBGMap + $c9
-	db $3F, $40
-
-	db $00 ; terminator
-
-TileData_1555c: ; 0x1555c
-	db $01 ; total number of tiles
-
-	db $01 ; number of tiles
-	dw vBGMap + $cc
-	db $41
-
-	db $00 ; terminator
-
-TileData_15562: ; 0x15562
-	db $01 ; total number of tiles
-
-	db $01 ; number of tiles
-	dw vBGMap + $e7
-	db $37
-
-	db $00 ; terminator
-
-TileData_15568: ; 0x15568
-	db $02 ; total number of tiles
-
-	db $02 ; number of tiles
-	dw vBGMap + $c9
-	db $39, $3a
-
-	db $00 ; terminator
-
-TileData_1556F: ; 0x1556F
-	db $01 ; total number of tiles
-
-	db $01 ; number of tiles
-	dw vBGMap + $cc
-	db $3B
-
-	db $00 ; terminator
-
-HandleRedStageBallTypeUpgradeCounter: ; 0x15575
+UpdateBallTypeUpgradeCounter_RedField: ; 0x15575
 	ld a, [wCapturingMon]
 	and a
 	ret nz
@@ -1488,9 +1203,9 @@ HandleRedStageBallTypeUpgradeCounter: ; 0x15575
 	and a
 	jr z, .pokeball
 	; load approximately 1 minute of frames into wBallTypeCounter
-	ld a, $10
+	ld a, PINBALL_UPGRADE_FRAMES_COUNTER & $ff
 	ld [wBallTypeCounter], a
-	ld a, $e
+	ld a, PINBALL_UPGRADE_FRAMES_COUNTER >> 8
 	ld [wBallTypeCounter + 1], a
 .pokeball
 	call TransitionPinballUpgrade
@@ -1501,16 +1216,16 @@ TransitionPinballUpgrade: ; 0x155a7
 	ld c, a
 	sla c
 	ld b, $0
-	ld hl, PinballUpgradeTransitionPointers
+	ld hl, PinballUpgradeTransition_TileDataPointers
 	add hl, bc
 	ld a, [hli]
 	ld h, [hl]
 	ld l, a
-	ld a, Bank(PinballUpgradeTransitionPointers)
+	ld a, Bank(PinballUpgradeTransition_TileDataPointers)
 	call Func_10aa
 	; fall through
 
-Func_155bb: ; 0x155bb
+TransitionPinballUpgradePalette: ; 0x155bb
 	ld a, [hGameBoyColorFlag]
 	and a
 	ret z
@@ -1519,448 +1234,17 @@ Func_155bb: ; 0x155bb
 	sla a
 	ld c, a
 	ld b, $0
-	ld hl, Data_157f7
+	ld hl, PinballUpgradeTransitionPalettes
 	add hl, bc
 	ld c, [hl]
 	inc hl
 	ld b, [hl]
-	ld a, BANK(Data_157f7)
+	ld a, BANK(PinballUpgradeTransitionPalettes)
 	ld de, LoadPalettes
 	call Func_10c5
 	ret
 
-PinballUpgradeTransitionPointers:
-	dw TransitionToPokeBallPointers  ; POKE_BALL
-	dw TransitionToPokeBallPointers  ; POKE_BALL
-	dw TransitionToGreatBallPointers ; GREAT_BALL
-	dw TransitionToUltraBallPointers ; ULTRA_BALL
-	dw TransitionToUltraBallPointers ; ULTRA_BALL
-	dw TransitionToMasterBallPointers ; MASTER_BALL
-
-TransitionToPokeBallPointers:
-	db 11
-	dw TransitionToPokeBall_TileData_1
-	dw TransitionToPokeBall_TileData_2
-	dw TransitionToPokeBall_TileData_3
-	dw TransitionToPokeBall_TileData_4
-	dw TransitionToPokeBall_TileData_5
-	dw TransitionToPokeBall_TileData_6
-	dw TransitionToPokeBall_TileData_7
-	dw TransitionToPokeBall_TileData_8
-	dw TransitionToPokeBall_TileData_9
-	dw TransitionToPokeBall_TileData_10
-	dw TransitionToPokeBall_TileData_11
-
-TransitionToGreatBallPointers:
-	db 11
-	dw TransitionToGreatBall_TileData_1
-	dw TransitionToGreatBall_TileData_2
-	dw TransitionToGreatBall_TileData_3
-	dw TransitionToGreatBall_TileData_4
-	dw TransitionToGreatBall_TileData_5
-	dw TransitionToGreatBall_TileData_6
-	dw TransitionToGreatBall_TileData_7
-	dw TransitionToGreatBall_TileData_8
-	dw TransitionToGreatBall_TileData_9
-	dw TransitionToGreatBall_TileData_10
-	dw TransitionToGreatBall_TileData_11
-
-TransitionToUltraBallPointers:
-	db 11
-	dw TransitionToUltraBall_TileData_1
-	dw TransitionToUltraBall_TileData_2
-	dw TransitionToUltraBall_TileData_3
-	dw TransitionToUltraBall_TileData_4
-	dw TransitionToUltraBall_TileData_5
-	dw TransitionToUltraBall_TileData_6
-	dw TransitionToUltraBall_TileData_7
-	dw TransitionToUltraBall_TileData_8
-	dw TransitionToUltraBall_TileData_9
-	dw TransitionToUltraBall_TileData_10
-	dw TransitionToUltraBall_TileData_11
-
-TransitionToMasterBallPointers:
-	db 11
-	dw TransitionToMasterBall_TileData_1
-	dw TransitionToMasterBall_TileData_2
-	dw TransitionToMasterBall_TileData_3
-	dw TransitionToMasterBall_TileData_4
-	dw TransitionToMasterBall_TileData_5
-	dw TransitionToMasterBall_TileData_6
-	dw TransitionToMasterBall_TileData_7
-	dw TransitionToMasterBall_TileData_8
-	dw TransitionToMasterBall_TileData_9
-	dw TransitionToMasterBall_TileData_10
-	dw TransitionToMasterBall_TileData_11
-
-TransitionToPokeBall_TileData_1:
-	dw Func_11d2
-	db $30, $03
-	dw (vTilesOB tile $40)
-	dw PinballPokeballGfx + $0
-	db Bank(PinballPokeballGfx)
-	db $00
-
-TransitionToPokeBall_TileData_2:
-	dw Func_11d2
-	db $30, $03
-	dw (vTilesOB tile $43)
-	dw PinballPokeballGfx + $30
-	db Bank(PinballPokeballGfx)
-	db $00
-
-TransitionToPokeBall_TileData_3:
-	dw Func_11d2
-	db $30, $03
-	dw (vTilesOB tile $46)
-	dw PinballPokeballGfx + $60
-	db Bank(PinballPokeballGfx)
-	db $00
-
-TransitionToPokeBall_TileData_4:
-	dw Func_11d2
-	db $30, $03
-	dw (vTilesOB tile $49)
-	dw PinballPokeballGfx + $90
-	db Bank(PinballPokeballGfx)
-	db $00
-
-TransitionToPokeBall_TileData_5:
-	dw Func_11d2
-	db $30, $03
-	dw (vTilesOB tile $4c)
-	dw PinballPokeballGfx + $c0
-	db Bank(PinballPokeballGfx)
-	db $00
-
-TransitionToPokeBall_TileData_6:
-	dw Func_11d2
-	db $30, $03
-	dw (vTilesOB tile $4f)
-	dw PinballPokeballGfx + $f0
-	db Bank(PinballPokeballGfx)
-	db $00
-
-TransitionToPokeBall_TileData_7:
-	dw Func_11d2
-	db $30, $03
-	dw (vTilesOB tile $52)
-	dw PinballPokeballGfx + $120
-	db Bank(PinballPokeballGfx)
-	db $00
-
-TransitionToPokeBall_TileData_8:
-	dw Func_11d2
-	db $30, $03
-	dw (vTilesOB tile $55)
-	dw PinballPokeballGfx + $150
-	db Bank(PinballPokeballGfx)
-	db $00
-
-TransitionToPokeBall_TileData_9:
-	dw Func_11d2
-	db $30, $03
-	dw (vTilesOB tile $58)
-	dw PinballPokeballGfx + $180
-	db Bank(PinballPokeballGfx)
-	db $00
-
-TransitionToPokeBall_TileData_10:
-	dw Func_11d2
-	db $30, $03
-	dw (vTilesOB tile $5b)
-	dw PinballPokeballGfx + $1b0
-	db Bank(PinballPokeballGfx)
-	db $00
-
-TransitionToPokeBall_TileData_11:
-	dw Func_11d2
-	db $20, $02
-	dw (vTilesOB tile $5e)
-	dw PinballPokeballGfx + $1e0
-	db Bank(PinballPokeballGfx)
-	db $00
-
-TransitionToGreatBall_TileData_1:
-	dw Func_11d2
-	db $30, $03
-	dw (vTilesOB tile $40)
-	dw PinballGreatballGfx + $0
-	db Bank(PinballGreatballGfx)
-	db $00
-
-TransitionToGreatBall_TileData_2:
-	dw Func_11d2
-	db $30, $03
-	dw (vTilesOB tile $43)
-	dw PinballGreatballGfx + $30
-	db Bank(PinballGreatballGfx)
-	db $00
-
-TransitionToGreatBall_TileData_3:
-	dw Func_11d2
-	db $30, $03
-	dw (vTilesOB tile $46)
-	dw PinballGreatballGfx + $60
-	db Bank(PinballGreatballGfx)
-	db $00
-
-TransitionToGreatBall_TileData_4:
-	dw Func_11d2
-	db $30, $03
-	dw (vTilesOB tile $49)
-	dw PinballGreatballGfx + $90
-	db Bank(PinballGreatballGfx)
-	db $00
-
-TransitionToGreatBall_TileData_5:
-	dw Func_11d2
-	db $30, $03
-	dw (vTilesOB tile $4c)
-	dw PinballGreatballGfx + $c0
-	db Bank(PinballGreatballGfx)
-	db $00
-
-TransitionToGreatBall_TileData_6:
-	dw Func_11d2
-	db $30, $03
-	dw (vTilesOB tile $4f)
-	dw PinballGreatballGfx + $f0
-	db Bank(PinballGreatballGfx)
-	db $00
-
-TransitionToGreatBall_TileData_7:
-	dw Func_11d2
-	db $30, $03
-	dw (vTilesOB tile $52)
-	dw PinballGreatballGfx + $120
-	db Bank(PinballGreatballGfx)
-	db $00
-
-TransitionToGreatBall_TileData_8:
-	dw Func_11d2
-	db $30, $03
-	dw (vTilesOB tile $55)
-	dw PinballGreatballGfx + $150
-	db Bank(PinballGreatballGfx)
-	db $00
-
-TransitionToGreatBall_TileData_9:
-	dw Func_11d2
-	db $30, $03
-	dw (vTilesOB tile $58)
-	dw PinballGreatballGfx + $180
-	db Bank(PinballGreatballGfx)
-	db $00
-
-TransitionToGreatBall_TileData_10:
-	dw Func_11d2
-	db $30, $03
-	dw (vTilesOB tile $5b)
-	dw PinballGreatballGfx + $1b0
-	db Bank(PinballGreatballGfx)
-	db $00
-
-TransitionToGreatBall_TileData_11:
-	dw Func_11d2
-	db $20, $02
-	dw (vTilesOB tile $5e)
-	dw PinballGreatballGfx + $1e0
-	db Bank(PinballGreatballGfx)
-	db $00
-
-TransitionToUltraBall_TileData_1:
-	dw Func_11d2
-	db $30, $03
-	dw (vTilesOB tile $40)
-	dw PinballUltraballGfx + $0
-	db Bank(PinballUltraballGfx)
-	db $00
-
-TransitionToUltraBall_TileData_2:
-	dw Func_11d2
-	db $30, $03
-	dw (vTilesOB tile $43)
-	dw PinballUltraballGfx + $30
-	db Bank(PinballUltraballGfx)
-	db $00
-
-TransitionToUltraBall_TileData_3:
-	dw Func_11d2
-	db $30, $03
-	dw (vTilesOB tile $46)
-	dw PinballUltraballGfx + $60
-	db Bank(PinballUltraballGfx)
-	db $00
-
-TransitionToUltraBall_TileData_4:
-	dw Func_11d2
-	db $30, $03
-	dw (vTilesOB tile $49)
-	dw PinballUltraballGfx + $90
-	db Bank(PinballUltraballGfx)
-	db $00
-
-TransitionToUltraBall_TileData_5:
-	dw Func_11d2
-	db $30, $03
-	dw (vTilesOB tile $4c)
-	dw PinballUltraballGfx + $c0
-	db Bank(PinballUltraballGfx)
-	db $00
-
-TransitionToUltraBall_TileData_6:
-	dw Func_11d2
-	db $30, $03
-	dw (vTilesOB tile $4f)
-	dw PinballUltraballGfx + $f0
-	db Bank(PinballUltraballGfx)
-	db $00
-
-TransitionToUltraBall_TileData_7:
-	dw Func_11d2
-	db $30, $03
-	dw (vTilesOB tile $52)
-	dw PinballUltraballGfx + $120
-	db Bank(PinballUltraballGfx)
-	db $00
-
-TransitionToUltraBall_TileData_8:
-	dw Func_11d2
-	db $30, $03
-	dw (vTilesOB tile $55)
-	dw PinballUltraballGfx + $150
-	db Bank(PinballUltraballGfx)
-	db $00
-
-TransitionToUltraBall_TileData_9:
-	dw Func_11d2
-	db $30, $03
-	dw (vTilesOB tile $58)
-	dw PinballUltraballGfx + $180
-	db Bank(PinballUltraballGfx)
-	db $00
-
-TransitionToUltraBall_TileData_10:
-	dw Func_11d2
-	db $30, $03
-	dw (vTilesOB tile $5b)
-	dw PinballUltraballGfx + $1b0
-	db Bank(PinballUltraballGfx)
-	db $00
-
-TransitionToUltraBall_TileData_11:
-	dw Func_11d2
-	db $20, $02
-	dw (vTilesOB tile $5e)
-	dw PinballUltraballGfx + $1e0
-	db Bank(PinballUltraballGfx)
-	db $00
-
-TransitionToMasterBall_TileData_1:
-	dw Func_11d2
-	db $30, $03
-	dw (vTilesOB tile $40)
-	dw PinballMasterballGfx + $0
-	db Bank(PinballMasterballGfx)
-	db $00
-
-TransitionToMasterBall_TileData_2:
-	dw Func_11d2
-	db $30, $03
-	dw (vTilesOB tile $43)
-	dw PinballMasterballGfx + $30
-	db Bank(PinballMasterballGfx)
-	db $00
-
-TransitionToMasterBall_TileData_3:
-	dw Func_11d2
-	db $30, $03
-	dw (vTilesOB tile $46)
-	dw PinballMasterballGfx + $60
-	db Bank(PinballMasterballGfx)
-	db $00
-
-TransitionToMasterBall_TileData_4:
-	dw Func_11d2
-	db $30, $03
-	dw (vTilesOB tile $49)
-	dw PinballMasterballGfx + $90
-	db Bank(PinballMasterballGfx)
-	db $00
-
-TransitionToMasterBall_TileData_5:
-	dw Func_11d2
-	db $30, $03
-	dw (vTilesOB tile $4c)
-	dw PinballMasterballGfx + $c0
-	db Bank(PinballMasterballGfx)
-	db $00
-
-TransitionToMasterBall_TileData_6:
-	dw Func_11d2
-	db $30, $03
-	dw (vTilesOB tile $4f)
-	dw PinballMasterballGfx + $f0
-	db Bank(PinballMasterballGfx)
-	db $00
-
-TransitionToMasterBall_TileData_7:
-	dw Func_11d2
-	db $30, $03
-	dw (vTilesOB tile $52)
-	dw PinballMasterballGfx + $120
-	db Bank(PinballMasterballGfx)
-	db $00
-
-TransitionToMasterBall_TileData_8:
-	dw Func_11d2
-	db $30, $03
-	dw (vTilesOB tile $55)
-	dw PinballMasterballGfx + $150
-	db Bank(PinballMasterballGfx)
-	db $00
-
-TransitionToMasterBall_TileData_9:
-	dw Func_11d2
-	db $30, $03
-	dw (vTilesOB tile $58)
-	dw PinballMasterballGfx + $180
-	db Bank(PinballMasterballGfx)
-	db $00
-
-TransitionToMasterBall_TileData_10:
-	dw Func_11d2
-	db $30, $03
-	dw (vTilesOB tile $5b)
-	dw PinballMasterballGfx + $1b0
-	db Bank(PinballMasterballGfx)
-	db $00
-
-TransitionToMasterBall_TileData_11:
-	dw Func_11d2
-	db $20, $02
-	dw (vTilesOB tile $5e)
-	dw PinballMasterballGfx + $1e0
-	db Bank(PinballMasterballGfx)
-	db $00
-
-Data_157f7:
-	dw Data_15803
-	dw Data_15803
-	dw Data_1580a
-	dw Data_15811
-	dw Data_15811
-	dw Data_15818
-
-Data_15803:
-	db $08, $04, $40, $68, $51, $37, $00
-Data_1580a:
-	db $08, $04, $40, $70, $51, $37, $00
-Data_15811:
-	db $08, $04, $40, $78, $51, $37, $00
-Data_15818:
-	db $08, $04, $40, $80, $51, $37, $00
+INCLUDE "data/queued_tiledata/ball_upgrade.asm"
 
 ResolveRedStageBoardTriggerCollision: ; 0x1581f
 	ld a, [wWhichBoardTrigger]
@@ -4181,8 +3465,8 @@ ResolveStaryuCollision: ; 0x16781
 	call PlaySoundEffect
 	ld a, [wStageCollisionState]
 	bit 0, a
-	jp nz, Func_15450
-	jp Func_15499
+	jp nz, LoadPinballUpgradeTriggersGraphics_RedField
+	jp LoadDisabledPinballUpgradeTriggerGraphics_RedField
 
 Func_167ff: ; 0x167ff
 	ld a, [wStaryuCollision]

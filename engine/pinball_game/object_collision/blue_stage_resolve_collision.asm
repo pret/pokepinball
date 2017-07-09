@@ -1,9 +1,9 @@
 ResolveBlueFieldTopGameObjectCollisions: ; 0x1c715
 	call ResolveShellderCollision
 	call ResolveBlueStageSpinnerCollision
-	call ResolveBlueStagePinballUpgradeTriggersCollision
-	call HandleBlueStageBallTypeUpgradeCounter
-	call Func_1e66a
+	call ResolveBallUpgradeTriggersCollision_BlueField
+	call UpdateBallTypeUpgradeCounter_BlueField
+	call UpdateCAVELightsBlinking_BlueField
 	call ResolveBlueStageBoardTriggerCollision
 	call ResolveBlueStagePikachuCollision
 	call ResolveSlowpokeCollision
@@ -27,9 +27,9 @@ ResolveBlueFieldBottomGameObjectCollisions: ; 0x1c769
 	call ResolveBlueStageBumperCollision
 	call ResolvePsyduckPoliwagCollision
 	call UpdateBlueStageSpinner
-	call Func_1e4b8
-	call HandleBlueStageBallTypeUpgradeCounter
-	call Func_1e5c5
+	call UpdatePinballUpgradeBlinkingAnimation_BlueField
+	call UpdateBallTypeUpgradeCounter_BlueField
+	call ResolveCAVELightCollision_BlueField
 	call ResolveBlueStagePinballLaunchCollision
 	call ResolveBlueStagePikachuCollision
 	call Func_1ead4
@@ -2010,10 +2010,10 @@ UpdateMapMoveCounters_BlueFieldTop: ; 0x1df15
 
 INCLUDE "data/queued_tiledata/blue_field/poliwag_psyduck.asm"
 
-ResolveBlueStagePinballUpgradeTriggersCollision: ; 0x1e356
+ResolveBallUpgradeTriggersCollision_BlueField: ; 0x1e356
 	ld a, [wWhichPinballUpgradeTrigger]
 	and a
-	jp z, Func_1e471
+	jp z, UpdatePinballUpgradeTriggers
 	xor a
 	ld [wWhichPinballUpgradeTrigger], a
 	ld a, [wStageCollisionState]
@@ -2028,10 +2028,10 @@ ResolveBlueStagePinballUpgradeTriggersCollision: ; 0x1e356
 .asm_1e386
 	ld a, [wStageCollisionState]
 	bit 0, a
-	jp z, Func_1e471
-	ld a, [wd5fc]
+	jp z, UpdatePinballUpgradeTriggers
+	ld a, [wBallUpgradeTriggersBlinking]
 	and a
-	jp nz, Func_1e471
+	jp nz, UpdatePinballUpgradeTriggers
 	xor a
 	ld [wRightAlleyTrigger], a
 	ld [wLeftAlleyTrigger], a
@@ -2042,35 +2042,35 @@ ResolveBlueStagePinballUpgradeTriggersCollision: ; 0x1e356
 	sub $13
 	ld c, a
 	ld b, $0
-	ld hl, wd5f9
+	ld hl, wBallUpgradeTriggerStates
 	add hl, bc
 	ld a, [hl]
 	ld [hl], $1
 	and a
-	jr z, .asm_1e3bf
+	jr z, .toggled
 	ld [hl], $0
-.asm_1e3bf
+.toggled
 	ld bc, OneHundredPoints
 	callba AddBigBCD6FromQueueWithBallMultiplier
-	ld hl, wd5f9
+	ld hl, wBallUpgradeTriggerStates
 	ld a, [hli]
 	and [hl]
 	inc hl
 	and [hl]
-	jr nz, .asm_1e3de
+	jr nz, .allTriggersOn
 	lb de, $00, $09
 	call PlaySoundEffect
-	jp asm_1e475
+	jp LoadPinballUpgradeTriggersGraphics_BlueField
 
-.asm_1e3de
+.allTriggersOn
 	ld a, $1
-	ld [wd5fc], a
+	ld [wBallUpgradeTriggersBlinking], a
 	ld a, $80
-	ld [wd5fd], a
+	ld [wBallUpgradeTriggersBlinkingFramesRemaining], a
 	; load approximately 1 minute of frames into wBallTypeCounter
-	ld a, $10
+	ld a, PINBALL_UPGRADE_FRAMES_COUNTER & $ff
 	ld [wBallTypeCounter], a
-	ld a, $e
+	ld a, PINBALL_UPGRADE_FRAMES_COUNTER >> 8
 	ld [wBallTypeCounter + 1], a
 	ld bc, FourHundredPoints
 	callba AddBigBCD6FromQueueWithBallMultiplier
@@ -2093,7 +2093,7 @@ ResolveBlueStagePinballUpgradeTriggersCollision: ; 0x1e356
 	ld [wBallType], a
 	add $30
 	ld [wBottomMessageText + $12], a
-	jr .asm_1e465
+	jr .done
 
 .masterBall
 	lb de, $0f, $4d
@@ -2114,48 +2114,52 @@ ResolveBlueStagePinballUpgradeTriggersCollision: ; 0x1e356
 	ld hl, wScrollingText1
 	ld de, FieldMultiplierSpecialBonusText
 	call LoadScrollingText
-.asm_1e465
+.done
 	callba TransitionPinballUpgrade
-	jr asm_1e475
+	jr LoadPinballUpgradeTriggersGraphics_BlueField
 
-Func_1e471: ; 0x1e471
-	call Func_1e4b8
+UpdatePinballUpgradeTriggers: ; 0x1e471
+	call UpdatePinballUpgradeBlinkingAnimation_BlueField
 	ret z
-asm_1e475: ; 0x1e475
-	ld hl, wd5fb
+	; fall through
+LoadPinballUpgradeTriggersGraphics_BlueField: ; 0x1e475
+; Loads the on or off graphics for each of the 3 pinball upgrade trigger dots, depending on their current toggle state.
+	ld hl, wBallUpgradeTriggerStates + 2
 	ld b, $3
-.asm_1e47a
+.loop
 	ld a, [hld]
 	push hl
-	call Func_1e484
+	call LoadPinballUpgradeTriggerGraphics_BlueField
 	pop hl
 	dec b
-	jr nz, .asm_1e47a
+	jr nz, .loop
 	ret
 
-Func_1e484: ; 0x1e484
+LoadPinballUpgradeTriggerGraphics_BlueField: ; 0x1e484
+; Loads the on or off graphics for one of the 3 pinball upgrade trigger dots, depending on its current toggle state.
+; Input: a = toggle state
 	and a
-	jr z, .asm_1e496
+	jr z, .toggledOff
 	ld a, [hGameBoyColorFlag]
 	and a
-	jr nz, .asm_1e491
+	jr nz, .toggledOnGameboy
 	ld hl, TileDataPointers_1e520
-	jr .asm_1e4a3
+	jr .load
 
-.asm_1e491
+.toggledOnGameboy
 	ld hl, TileDataPointers_1e556
-	jr .asm_1e4a3
+	jr .load
 
-.asm_1e496
+.toggledOff
 	ld a, [hGameBoyColorFlag]
 	and a
-	jr nz, .asm_1e4a0
+	jr nz, .toggledOffGameboy
 	ld hl, TileDataPointers_1e526
-	jr .asm_1e4a3
+	jr .load
 
-.asm_1e4a0
+.toggledOffGameboy
 	ld hl, TileDataPointers_1e55c
-.asm_1e4a3
+.load
 	push bc
 	dec b
 	sla b
@@ -2171,24 +2175,27 @@ Func_1e484: ; 0x1e484
 	pop bc
 	ret
 
-Func_1e4b8: ; 0x1e4b8
-	ld a, [wd5fc]
+UpdatePinballUpgradeBlinkingAnimation_BlueField: ; 0x1e4b8
+; Controls the brief blinking animation of the 3 upgrade triggers after successfully
+; upgrading the pinball.
+	ld a, [wBallUpgradeTriggersBlinking]
 	and a
-	jr z, .asm_1e4e5
-	ld a, [wd5fd]
+	jr z, .notBlinking
+	ld a, [wBallUpgradeTriggersBlinkingFramesRemaining]
 	dec a
-	ld [wd5fd], a
-	jr nz, .asm_1e4ca
-	ld [wd5fc], a
-.asm_1e4ca
+	ld [wBallUpgradeTriggersBlinkingFramesRemaining], a
+	jr nz, .stillBlinking
+	ld [wBallUpgradeTriggersBlinking], a
+.stillBlinking
 	and $7
-	jr nz, .asm_1e4e3
-	ld a, [wd5fd]
+	jr nz, .dontFlipState
+	; Blink the triggers on or off
+	ld a, [wBallUpgradeTriggersBlinkingFramesRemaining]
 	srl a
 	srl a
 	srl a
 	and $1
-	ld hl, wd5f9
+	ld hl, wBallUpgradeTriggerStates
 	ld [hli], a
 	ld [hli], a
 	ld [hl], a
@@ -2196,16 +2203,16 @@ Func_1e4b8: ; 0x1e4b8
 	and a
 	ret
 
-.asm_1e4e3
+.dontFlipState
 	xor a
 	ret
 
-.asm_1e4e5
+.notBlinking
 	ld hl, wKeyConfigLeftFlipper
 	call IsKeyPressed
-	jr z, .leftFlipperKeyIsPressed
+	jr z, .checkRightFlipperKeyPress
 	; left flipper key is pressed
-	ld hl, wd5f9
+	ld hl, wBallUpgradeTriggerStates
 	ld a, [hli]
 	ld c, a
 	ld a, [hli]
@@ -2220,12 +2227,12 @@ Func_1e4b8: ; 0x1e4b8
 	ld [hl], a
 	ret
 
-.leftFlipperKeyIsPressed
+.checkRightFlipperKeyPress
 	ld hl, wKeyConfigRightFlipper
 	call IsKeyPressed
 	ret z
 	; right flipper key is pressed
-	ld hl, wd5f9
+	ld hl, wBallUpgradeTriggerStates
 	ld a, [hli]
 	ld c, a
 	ld a, [hli]
@@ -2258,99 +2265,9 @@ BallTypeDegradation2BlueField: ; 0x1e51a
 	db ULTRA_BALL  ; unused
 	db ULTRA_BALL  ; MASTER_BALL -> GREAT_BALL
 
-TileDataPointers_1e520:
-	dw TileData_1e52c
-	dw TileData_1e533
-	dw TileData_1e53a
+INCLUDE "data/queued_tiledata/blue_field/ball_upgrade_triggers.asm"
 
-TileDataPointers_1e526:
-	dw TileData_1e541
-	dw TileData_1e548
-	dw TileData_1e54f
-
-TileData_1e52c: ; 0x1e52c
-	db $02, $02
-	dw vBGMap + $86
-	db $66, $67
-	db $00
-
-TileData_1e533: ; 0x1e533
-	db $02, $02
-	dw vBGMap + $69
-	db $66, $67
-	db $00
-
-TileData_1e53a: ; 0x1e53a
-	db $02, $02
-	dw vBGMap + $8C
-	db $66, $67
-	db $00
-
-TileData_1e541: ; 0x1e541
-	db $02, $02
-	dw vBGMap + $86
-	db $64, $65
-	db $00
-
-TileData_1e548: ; 0x1e548
-	db $02, $02
-	dw vBGMap + $69
-	db $64, $65
-	db $00
-
-TileData_1e54f: ; 0x1e54f
-	db $02, $02
-	dw vBGMap + $8C
-	db $64, $65
-	db $00
-
-TileDataPointers_1e556:
-	dw TileData_1e562
-	dw TileData_1e569
-	dw TileData_1e570
-
-TileDataPointers_1e55c:
-	dw TileData_1e577
-	dw TileData_1e57e
-	dw TileData_1e585
-
-TileData_1e562: ; 0x1e562
-	db $02, $02
-	dw vBGMap + $86
-	db $43, $43
-	db $00
-
-TileData_1e569: ; 0x1e569
-	db $02, $02
-	dw vBGMap + $69
-	db $43, $43
-	db $00
-
-TileData_1e570: ; 0x1e570
-	db $02, $02
-	dw vBGMap + $8C
-	db $43, $43
-	db $00
-
-TileData_1e577: ; 0x1e577
-	db $02, $02
-	dw vBGMap + $86
-	db $42, $42
-	db $00
-
-TileData_1e57e: ; 0x1e57e
-	db $02, $02
-	dw vBGMap + $69
-	db $42, $42
-	db $00
-
-TileData_1e585: ; 0x1e585
-	db $02, $02
-	dw vBGMap + $8C
-	db $42, $42
-	db $00
-
-HandleBlueStageBallTypeUpgradeCounter: ; 0x1e58c
+UpdateBallTypeUpgradeCounter_BlueField: ; 0x1e58c
 	ld a, [wCapturingMon]
 	and a
 	ret nz
@@ -2367,7 +2284,7 @@ HandleBlueStageBallTypeUpgradeCounter: ; 0x1e58c
 	ld [hl], c
 	or c
 	ret nz
-	; counter is now 0! Degrade the ball upgrade.
+	; counter is now 0! Degrade the ball upgrade type.
 	ld a, [wBallType]
 	ld c, a
 	ld b, $0
@@ -2378,28 +2295,28 @@ HandleBlueStageBallTypeUpgradeCounter: ; 0x1e58c
 	and a
 	jr z, .pokeball
 	; load approximately 1 minute of frames into wBallTypeCounter
-	ld a, $10
+	ld a, PINBALL_UPGRADE_FRAMES_COUNTER & $ff
 	ld [wBallTypeCounter], a
-	ld a, $e
+	ld a, PINBALL_UPGRADE_FRAMES_COUNTER >> 8
 	ld [wBallTypeCounter + 1], a
 .pokeball
 	callba TransitionPinballUpgrade
 	ret
 
-Func_1e5c5: ; 0x1e5c5
+ResolveCAVELightCollision_BlueField: ; 0x1e5c5
 	ld a, [wWhichCAVELight]
 	and a
-	jr z, .asm_1e623
+	jr z, .noCollision
 	xor a
 	ld [wWhichCAVELight], a
-	ld a, [wd513]
+	ld a, [wCAVELightsBlinking]
 	and a
-	jr nz, .asm_1e623
+	jr nz, .noCollision
 	ld a, [wWhichCAVELightId]
 	sub $16
 	ld c, a
 	ld b, $0
-	ld hl, wd50f
+	ld hl, wCAVELightStates
 	add hl, bc
 	ld a, [hl]
 	ld [hl], $1
@@ -2407,66 +2324,69 @@ Func_1e5c5: ; 0x1e5c5
 	ret nz
 	ld bc, OneHundredPoints
 	callba AddBigBCD6FromQueueWithBallMultiplier
-	ld hl, wd50f
+	ld hl, wCAVELightStates
 	ld a, [hli]
 	and [hl]
 	inc hl
 	and [hl]
 	inc hl
 	and [hl]
-	jr z, Func_1e627
+	jr z, LoadCAVELightsGraphics_BlueField
 	ld a, $1
-	ld [wd513], a
+	ld [wCAVELightsBlinking], a
 	ld a, $80
-	ld [wd514], a
+	ld [wCAVELightsBlinkingFramesRemaining], a
 	ld bc, FourHundredPoints
 	callba AddBigBCD6FromQueueWithBallMultiplier
 	lb de, $00, $09
 	call PlaySoundEffect
 	ld hl, wNumCAVECompletions
 	call Increment_Max100
-	jr Func_1e627
+	jr LoadCAVELightsGraphics_BlueField
 
-.asm_1e623
-	call Func_1e66a
+.noCollision
+	call UpdateCAVELightsBlinking_BlueField
 	ret z
 	; fall through
 
-Func_1e627: ; 0x1e627
-	ld hl, wd512
+LoadCAVELightsGraphics_BlueField: ; 0x1e627
+; Loads the graphics for each of the 4 CAVE lights, depending on what their current toggled state is.
+	ld hl, wCAVELightStates + 3
 	ld b, $4
-.asm_1e62c
+.loop
 	ld a, [hld]
 	push hl
-	call Func_1e636
+	call LoadCAVELightGraphics_BlueField
 	pop hl
 	dec b
-	jr nz, .asm_1e62c
+	jr nz, .loop
 	ret
 
-Func_1e636: ; 0x1e636
+LoadCAVELightGraphics_BlueField: ; 0x1e636
+; Loads a graphics for single CAVE light.
+; Input: a = toggle state for CAVE light
 	and a
-	jr z, .asm_1e648
+	jr z, .toggledOff
 	ld a, [hGameBoyColorFlag]
 	and a
-	jr nz, .asm_1e643
+	jr nz, .toggledOnGameboy
 	ld hl, TileDataPointers_1e6d7
-	jr .asm_1e655
+	jr .load
 
-.asm_1e643
+.toggledOnGameboy
 	ld hl, TileDataPointers_1e717
-	jr .asm_1e655
+	jr .load
 
-.asm_1e648
+.toggledOff
 	ld a, [hGameBoyColorFlag]
 	and a
-	jr nz, .asm_1e652
+	jr nz, .toggledOffGameboy
 	ld hl, TileDataPointers_1e6df
-	jr .asm_1e655
+	jr .load
 
-.asm_1e652
+.toggledOffGameboy
 	ld hl, TileDataPointers_1e71f
-.asm_1e655
+.load
 	push bc
 	dec b
 	sla b
@@ -2482,15 +2402,15 @@ Func_1e636: ; 0x1e636
 	pop bc
 	ret
 
-Func_1e66a: ; 0x1e66a
-	ld a, [wd513]
+UpdateCAVELightsBlinking_BlueField: ; 0x1e66a
+	ld a, [wCAVELightsBlinking]
 	and a
-	jr z, .asm_1e6a0
-	ld a, [wd514]
+	jr z, .notBlinking
+	ld a, [wCAVELightsBlinkingFramesRemaining]
 	dec a
-	ld [wd514], a
+	ld [wCAVELightsBlinkingFramesRemaining], a
 	jr nz, .asm_1e687
-	ld [wd513], a
+	ld [wCAVELightsBlinking], a
 	ld a, $1
 	ld [wd608], a
 	ld a, $3
@@ -2499,12 +2419,12 @@ Func_1e66a: ; 0x1e66a
 .asm_1e687
 	and $7
 	ret nz
-	ld a, [wd514]
+	ld a, [wCAVELightsBlinkingFramesRemaining]
 	srl a
 	srl a
 	srl a
 	and $1
-	ld hl, wd50f
+	ld hl, wCAVELightStates
 	ld [hli], a
 	ld [hli], a
 	ld [hli], a
@@ -2513,11 +2433,11 @@ Func_1e66a: ; 0x1e66a
 	and a
 	ret
 
-.asm_1e6a0
+.notBlinking
 	ld hl, wKeyConfigLeftFlipper
 	call IsKeyPressed
-	jr z, .asm_1e6bc
-	ld hl, wd50f
+	jr z, .checkRightFlipperKeyPress
+	ld hl, wCAVELightStates
 	ld a, [hli]
 	ld c, a
 	ld a, [hli]
@@ -2536,11 +2456,11 @@ Func_1e66a: ; 0x1e66a
 	ld [hl], a
 	ret
 
-.asm_1e6bc
+.checkRightFlipperKeyPress
 	ld hl, wKeyConfigRightFlipper
 	call IsKeyPressed
 	ret z
-	ld hl, wd50f
+	ld hl, wCAVELightStates
 	ld a, [hli]
 	ld c, a
 	ld a, [hli]
@@ -2559,173 +2479,7 @@ Func_1e66a: ; 0x1e66a
 	ld [hl], a
 	ret
 
-TileDataPointers_1e6d7:
-	dw TileData_1e6e7
-	dw TileData_1e6ed
-	dw TileData_1e6f3
-	dw TileData_1e6f9
-
-TileDataPointers_1e6df:
-	dw TileData_1e6ff
-	dw TileData_1e705
-	dw TileData_1e70b
-	dw TileData_1e711
-
-TileData_1e6e7: ; 0x1e6e7
-	db $01 ; total number of tiles
-
-	db $01 ; number of tiles
-	dw vBGMap + $121
-	db $5E
-
-	db $00 ; terminator
-
-TileData_1e6ed: ; 0x1e6ed
-	db $01 ; total number of tiles
-
-	db $01 ; number of tiles
-	dw vBGMap + $123
-	db $5E
-
-	db $00 ; terminator
-
-TileData_1e6f3: ; 0x1e6f3
-	db $01 ; total number of tiles
-
-	db $01 ; number of tiles
-	dw vBGMap + $130
-	db $60
-
-	db $00 ; terminator
-
-TileData_1e6f9: ; 0x1e6f9
-	db $01 ; total number of tiles
-
-	db $01 ; number of tiles
-	dw vBGMap + $132
-	db $60
-
-	db $00 ; terminator
-
-TileData_1e6ff: ; 0x1e6ff
-	db $01 ; total number of tiles
-
-	db $01 ; number of tiles
-	dw vBGMap + $121
-	db $5D
-
-	db $00 ; terminator
-
-TileData_1e705: ; 0x1e705
-	db $01 ; total number of tiles
-
-	db $01 ; number of tiles
-	dw vBGMap + $123
-	db $5D
-
-	db $00 ; terminator
-
-TileData_1e70b: ; 0x1e70b
-	db $01 ; total number of tiles
-
-	db $01 ; number of tiles
-	dw vBGMap + $130
-	db $5F
-
-	db $00 ; terminator
-
-TileData_1e711: ; 0x1e711
-	db $01 ; total number of tiles
-
-	db $01 ; number of tiles
-	dw vBGMap + $132
-	db $5F
-
-	db $00 ; terminator
-
-TileDataPointers_1e717:
-	dw TileData_1e727
-	dw TileData_1e72d
-	dw TileData_1e733
-	dw TileData_1e739
-
-TileDataPointers_1e71f:
-	dw TileData_1e73f
-	dw TileData_1e745
-	dw TileData_1e74b
-	dw TileData_1e751
-
-TileData_1e727: ; 0x1e727
-	db $01 ; total number of tiles
-
-	db $01 ; number of tiles
-	dw vBGMap + $121
-	db $49
-
-	db $00 ; terminator
-
-TileData_1e72d: ; 0x1e72d
-	db $01 ; total number of tiles
-
-	db $01 ; number of tiles
-	dw vBGMap + $123
-	db $4A
-
-	db $00 ; terminator
-
-TileData_1e733: ; 0x1e733
-	db $01 ; total number of tiles
-
-	db $01 ; number of tiles
-	dw vBGMap + $130
-	db $4B
-
-	db $00 ; terminator
-
-TileData_1e739: ; 0x1e739
-	db $01 ; total number of tiles
-
-	db $01 ; number of tiles
-	dw vBGMap + $132
-	db $4C
-
-	db $00 ; terminator
-
-TileData_1e73f: ; 0x1e73f
-	db $01 ; total number of tiles
-
-	db $01 ; number of tiles
-	dw vBGMap + $121
-	db $47
-
-	db $00 ; terminator
-
-TileData_1e745: ; 0x1e745
-	db $01 ; total number of tiles
-
-	db $01 ; number of tiles
-	dw vBGMap + $123
-	db $48
-
-	db $00 ; terminator
-
-TileData_1e74b: ; 0x1e74b
-	db $01 ; total number of tiles
-
-	db $01 ; number of tiles
-	dw vBGMap + $130
-	db $7A
-
-	db $00 ; terminator
-
-TileData_1e751: ; 0x1e751
-	db $01 ; total number of tiles
-
-	db $01 ; number of tiles
-	dw vBGMap + $132
-	db $7B
-
-	db $00 ; terminator
+INCLUDE "data/queued_tiledata/blue_field/cave_lights.asm"
 
 Func_1e757: ; 0x1e757
 	ld a, [wSlotCollision]

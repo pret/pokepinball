@@ -19,7 +19,7 @@ _LoadStageDataRedFieldBottom: ; 0x1401c
 	call Func_1414b
 	call Func_14234
 	call Func_14746
-	call Func_14707
+	call DrawBallSaverIcon
 	call Func_140f9
 	call Func_16878
 	call Func_140e2

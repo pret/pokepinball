@@ -195,7 +195,7 @@ wd49f:: ; 0xd49f
 wBallSaverIconOn:: ; 0xd4a1
 	ds $1
 
-wd4a2:: ; 0xd4a2
+wBallSaverFlashRate:: ; 0xd4a2
 	ds $1
 
 wBallSaverTimerFrames:: ; 0xd4a3

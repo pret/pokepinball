@@ -14,7 +14,7 @@ ResolveBlueFieldTopGameObjectCollisions: ; 0x1c715
 	call Func_1e9c0
 	call UpdateForceFieldDirection
 	call Func_1f18a
-	callba Func_146a9
+	callba UpdateBallSaverState
 	call Func_1f27b
 	call UpdateMapMoveCounters_BlueFieldTop
 	callba HandleExtraBall
@@ -39,7 +39,7 @@ ResolveBlueFieldBottomGameObjectCollisions: ; 0x1c769
 	call Func_1ea0a
 	call UpdateForceFieldDirection
 	callba Func_14733
-	callba Func_146a2
+	callba UpdateBallSaver
 	call Func_1f261
 	call UpdateMapMoveCounters_BlueFieldBottom
 	callba HandleExtraBall

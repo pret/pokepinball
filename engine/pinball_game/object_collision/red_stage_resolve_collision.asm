@@ -13,7 +13,7 @@ ResolveRedFieldTopGameObjectCollisions: ; 0x1460e
 	call ResolveDittoSlotCollision
 	call Func_161e0
 	call Func_164e3
-	call Func_146a9
+	call UpdateBallSaverState
 	call Func_174ea
 	call UpdateMapMoveCounters_RedFieldTop
 	callba HandleExtraBall
@@ -39,39 +39,39 @@ ResolveRedFieldBottomGameObjectCollisions: ; 0x14652
 	call Func_161af
 	call Func_164e3
 	call Func_14733
-	call Func_146a2
+	call UpdateBallSaver
 	call Func_174d0
 	callba HandleExtraBall
 	ld a, $0
 	callba Func_10000
 	ret
 
-Func_146a2: ; 0x146a2
-	call Func_146a9
-	call nz, Func_14707
+UpdateBallSaver: ; 0x146a2
+	call UpdateBallSaverState
+	call nz, DrawBallSaverIcon ;redraw icon if its state changed
 	ret
 
-Func_146a9: ; 0x146a9
+UpdateBallSaverState: ; 0x146a9
 	ld a, [wBallSaverTimerFrames]
 	ld hl, wBallSaverTimerSeconds
-	or [hl] ;if both the number of frames and number of seconds left is 0, skip
+	or [hl] ;skip if timer ran out
 	ret z
 	ld a, [wBallXPos + 1]
-	cp 154 ;if high? Byte of ball X pos is >= 154, jump ahead
-	jr nc, .asm_146e8
+	cp 154 ;if high? Byte of ball X pos is >= 154, don't update timers
+	jr nc, .SkipSecondsOrFramesUpdate
 	ld a, [wBallSaverTimerFrames]
 	dec a
 	ld [wBallSaverTimerFrames], a
 	bit 7, a
-	jr z, .asm_146e8
-	ld a, 59
+	jr z, .SkipSecondsOrFramesUpdate
+	ld a, 59 ;if frames underflowed, set to 59 and decrement second
 	ld [wBallSaverTimerFrames], a
 	ld a, [hl]
 	dec a
 	bit 7, a
-	jr nz, .asm_146cf
+	jr nz, .DontClampSeconds ;if seconds would underflow, keep it at 0
 	ld [hl], a
-.asm_146cf
+.DontClampSeconds
 	inc a
 	ld c, $0
 	cp $2
@@ -85,9 +85,9 @@ Func_146a9: ; 0x146a9
 	ld c, $ff
 .asm_146e4
 	ld a, c
-	ld [wd4a2], a
-.asm_146e8
-	ld a, [wd4a2]
+	ld [wBallSaverFlashRate], a
+.SkipSecondsOrFramesUpdate
+	ld a, [wBallSaverFlashRate]
 	ld c, $0
 	and a
 	jr z, .asm_146fe
@@ -96,19 +96,19 @@ Func_146a9: ; 0x146a9
 	jr z, .asm_146fe
 	ld hl, hNumFramesDropped
 	and [hl]
-	jr z, .asm_146fe
+	jr z, .asm_146fe ; hNumFramesDropped used as timer for flashing
 	ld c, $0
 .asm_146fe
 	ld a, [wBallSaverIconOn]
-	cp c
+	cp c ;did the icon state change ?
 	ld a, c
 	ld [wBallSaverIconOn], a
 	ret
 
-Func_14707: ; 0x14707
+DrawBallSaverIcon: ; 0x14707
 	ld a, [wBallSaverIconOn]
 	and a
-	jr nz, .asm_1471c
+	jr nz, .DrawIconOn
 	ld a, BANK(BgTileData_1172b)
 	ld hl, BgTileData_1172b
 	deCoord 8, 13, vBGMap
@@ -116,7 +116,7 @@ Func_14707: ; 0x14707
 	call LoadOrCopyVRAMData
 	ret
 
-.asm_1471c
+.DrawIconOn
 	ld a, BANK(BgTileData_1472f)
 	ld hl, BgTileData_1472f
 	deCoord 8, 13, vBGMap
@@ -124,10 +124,10 @@ Func_14707: ; 0x14707
 	call LoadOrCopyVRAMData
 	ret
 
-BgTileData_1172b:
+BgTileData_1172b: ;BallSaverIconOffSprite
 	db $AA, $AB, $AC, $AD
 
-BgTileData_1472f:
+BgTileData_1472f: ;BallSaverIconOnSprite
 	db $B4, $B5, $B6, $B7
 
 Func_14733: ; 0x14733

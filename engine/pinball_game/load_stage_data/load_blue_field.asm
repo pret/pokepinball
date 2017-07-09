@@ -20,7 +20,7 @@ _LoadStageDataBlueFieldBottom: ; 0x1c191
 	call Func_1c305
 	call Func_1c3ee
 	callba Func_14746
-	callba Func_14707
+	callba DrawBallSaverIcon
 	call Func_1c235
 	call Func_1c21e
 	call Func_1e8f6

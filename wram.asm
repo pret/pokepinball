@@ -229,7 +229,7 @@ wDrawBottomMessageBox:: ; 0xd4aa
 wd4ab:: ; 0xd4ab
 	ds $1
 
-wCurrentStage:: ; 0xd4ac
+wCurrentStage:: ; 0xd4ac see constants/stage_constants.asm for list. bit 1 is 1 if the stage has flippers
 	ds $1
 
 wd4ad:: ; 0xd4ad
@@ -556,7 +556,7 @@ wInSpecialMode:: ; 0xd54b
 ; Set to 1 if currently in special game mode. See wSpecialMode.
 	ds $1
 
-wd54c:: ; 0xd54c
+wd54c:: ; 0xd54c 10000 sets it to c. red evo mode checks it for it's contents
 	ds $1
 
 wd54d:: ; 0xd54d
@@ -730,7 +730,7 @@ wWildMonCollision:: ; 0xd5c7
 
 	ds $1
 
-wd5ca:: ; 0xd5ca set to 1 by a commonly called text function that is called at the start of catch and raises the score bar
+wd5ca:: ; 0xd5ca set to 1 by a commonly called text function that is called at the start of catch and raises the score bar. set off by text handler if no text is ready to run. Possibly toggles if text is running?
 	ds $1
 
 wd5cb:: ; 0xd5cb set to 0 if the above is 0 during Func_33e3
@@ -754,14 +754,23 @@ wScrollingText2:: ; 0xd5d4
 wScrollingText3:: ; 0xd5dc
 	scrolling_text wScrollingText3
 
-wd5e4:: ; 0xd5e4
-	ds $5
+stationary_text: MACRO
+\1Enabled::ds 1              ; Toggles if enabled. 0 is off, non-0 is on
+\1MessageBoxOffset:: ds 1     ; Offset in wBottomMessageBuffer to place first character of text
+\1SourceTextOffset:: ds 1     ; Offset in wBottomMessageText for the text to be displayed
+\1Duration::
+\1DurationLowByte:: ds 1 ;how many frames to stay on screen.
+\1DurationHighByte:: ds 1 ;thiswill trigger as 0 if >= 128
+ENDM
 
-wd5e9:: ; 0xd5e9
-	ds $5
+wStationaryText1:: ; 0xd5e4
+	stationary_text wStationaryText1
 
-wd5ee:: ; 0xd5ee
-	ds $5
+wStationaryText2:: ; 0xd5e9
+	stationary_text wStationaryText2
+
+wStationaryText3:: ; 0xd5ee
+	stationary_text wStationaryText3
 
 wCapturingMon:: ; 0xd5f3
 ; Set to 1 when the capturing animation starts.

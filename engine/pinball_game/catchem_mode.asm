@@ -1163,12 +1163,12 @@ Func_10825: ; 0x10825
 	call AddBCDEToCurBufferValue
 	call FillBottomMessageBufferWithBlackTile
 	call Func_30db
-	ld hl, wd5e9
+	ld hl, wStationaryText2
 	ld de, Data_2a50
 	call Func_3372
 	pop de
 	pop bc
-	ld hl, wd5e4
+	ld hl, wStationaryText1
 	ld de, JackpotText
 	call Func_3357
 	ret

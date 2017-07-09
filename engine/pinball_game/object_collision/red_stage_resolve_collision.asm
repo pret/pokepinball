@@ -11,8 +11,8 @@ ResolveRedFieldTopGameObjectCollisions: ; 0x1460e
 	call ResolveStaryuCollision
 	call ResolveBellsproutCollision
 	call ResolveDittoSlotCollision
-	call Func_161e0
-	call Func_164e3
+	call ApplySlotForceField_RedFieldTop
+	call OpenSlotCave_RedField
 	call UpdateBallSaverState
 	call Func_174ea
 	call UpdateMapMoveCounters_RedFieldTop
@@ -35,9 +35,9 @@ ResolveRedFieldBottomGameObjectCollisions: ; 0x14652
 	call Func_167ff
 	call Func_169a6
 	call ResolveRedStageBonusMultiplierCollision
-	call Func_16279
-	call Func_161af
-	call Func_164e3
+	call ResolveSlotCollision_RedField
+	call ApplySlotForceField_RedFieldBottom
+	call OpenSlotCave_RedField
 	call Func_14733
 	call UpdateBallSaver
 	call Func_174d0
@@ -457,9 +457,9 @@ HitLeftDiglett3Times: ; 0x14947
 
 AddScoreForHittingDiglett: ; 0x1496d
 	ld a, $55
-	ld [wd803], a
+	ld [wRumblePattern], a
 	ld a, $4
-	ld [wd804], a
+	ld [wRumbleDuration], a
 	ld a, $2
 	ld [wd7eb], a
 	ld bc, FiveHundredPoints
@@ -582,9 +582,9 @@ ResolveVoltorbCollision: ; 0x14d85
 
 Func_14dc9: ; 0x14dc9
 	ld a, $ff
-	ld [wd803], a
+	ld [wRumblePattern], a
 	ld a, $3
-	ld [wd804], a
+	ld [wRumbleDuration], a
 	ld hl, $0200
 	ld a, l
 	ld [wFlipperYForce], a
@@ -848,9 +848,9 @@ UpdateCAVELightsBlinking_RedField: ; 0x15270
 	jr nz, .asm_1528d
 	ld [wCAVELightsBlinking], a
 	ld a, $1
-	ld [wd608], a
+	ld [wOpenedSlotByGetting4CAVELights], a
 	ld a, $3
-	ld [wd607], a
+	ld [wFramesUntilSlotCaveOpens], a
 	xor a
 .asm_1528d
 	and $7
@@ -2478,9 +2478,9 @@ asm_15fc0
 
 ApplyBumperCollision_RedField: ; 0x15fda
 	ld a, $ff
-	ld [wd803], a
+	ld [wRumblePattern], a
 	ld a, $3
-	ld [wd804], a
+	ld [wRumbleDuration], a
 	ld hl, $0200
 	ld a, l
 	ld [wFlipperYForce], a
@@ -2530,17 +2530,17 @@ ResolveDittoSlotCollision: ; 0x160f0
 	ld a, $23
 	ld [wBallYPos + 1], a
 	ld a, $10
-	ld [wd600], a
+	ld [wDittoEnterOrExitCounter], a
 	ld a, $5
-	ld [wd803], a
+	ld [wRumblePattern], a
 	ld a, $8
-	ld [wd804], a
+	ld [wRumbleDuration], a
 .asm_16137
-	ld a, [wd600]
+	ld a, [wDittoEnterOrExitCounter]
 	and a
 	ret z
 	dec a
-	ld [wd600], a
+	ld [wDittoEnterOrExitCounter], a
 	cp $f
 	jr nz, .asm_1614f
 	callba LoadMiniBallGfx
@@ -2549,7 +2549,7 @@ ResolveDittoSlotCollision: ; 0x160f0
 .asm_1614f
 	cp $c
 	jr nz, .asm_1615e
-	callba Func_dd62
+	callba LoadSuperMiniPinballGfx
 	ret
 
 .asm_1615e
@@ -2569,9 +2569,9 @@ ResolveDittoSlotCollision: ; 0x160f0
 	ld [wPinballIsVisible], a
 	ld [wEnableBallGravityAndTilt], a
 	ld a, $5
-	ld [wd803], a
+	ld [wRumblePattern], a
 	ld a, $8
-	ld [wd804], a
+	ld [wRumbleDuration], a
 	ret
 
 .asm_1618e
@@ -2588,8 +2588,9 @@ ResolveDittoSlotCollision: ; 0x160f0
 	ld [wBallYVelocity + 1], a
 	ret
 
-Func_161af: ; 0x161af
-	ld a, [wd604]
+ApplySlotForceField_RedFieldBottom: ; 0x161af
+; Applies the force field to the pinball when near the slot cave opening.
+	ld a, [wSlotIsOpen]
 	and a
 	ret z
 	ld a, [wBallYPos + 1]
@@ -2616,10 +2617,13 @@ Func_161af: ; 0x161af
 	sla c
 	sla c
 	add hl, bc
-	jr asm_1620f
+	jr _ApplySlotForceField_RedField
 
-Func_161e0: ; 0x161e0
-	ld a, [wd604]
+ApplySlotForceField_RedFieldTop: ; 0x161e0
+; Applies the force field to the pinball when near the slot cave opening.
+; Even though the Slot cave is on the bottom half of the board, the force field
+; still affects the pinball when it's really close to the bottom of the top-half of the board.
+	ld a, [wSlotIsOpen]
 	and a
 	ret z
 	ld a, [wBallYPos + 1]
@@ -2646,7 +2650,10 @@ Func_161e0: ; 0x161e0
 	sla c
 	sla c
 	add hl, bc
-asm_1620f: ; 0x1620f
+	; fall through
+
+_ApplySlotForceField_RedField: ; 0x1620f
+; Applies the force field to the pinball when near the slot cave opening.
 	ld bc, BallPhysicsData_f0000
 	add hl, bc
 	ld de, wBallXVelocity
@@ -2710,29 +2717,29 @@ asm_1620f: ; 0x1620f
 	ld a, h
 	cp $2
 	ret c
-	ld a, [wd804]
+	ld a, [wRumbleDuration]
 	and a
 	ret nz
 	ld a, $5
-	ld [wd803], a
+	ld [wRumblePattern], a
 	ld a, $8
-	ld [wd804], a
+	ld [wRumbleDuration], a
 	lb de, $00, $04
 	call PlaySoundEffect
 	ret
 
-Func_16279: ; 0x16279
+ResolveSlotCollision_RedField: ; 0x16279
 	ld a, [wSlotCollision]
 	and a
-	jr z, .asm_162ae
+	jr z, .noCollision
 	xor a
 	ld [wSlotCollision], a
-	ld a, [wd604]
+	ld a, [wSlotIsOpen]
 	and a
 	ret z
-	ld a, [wd603]
+	ld a, [wSlotEnterOrExitCounter]
 	and a
-	jr nz, .asm_162ae
+	jr nz, .noCollision
 	xor a
 	ld hl, wBallXVelocity
 	ld [hli], a
@@ -2747,16 +2754,16 @@ Func_16279: ; 0x16279
 	ld a, $16
 	ld [wBallYPos + 1], a
 	ld a, $13
-	ld [wd603], a
-.asm_162ae
-	ld a, [wd603]
+	ld [wSlotEnterOrExitCounter], a
+.noCollision
+	ld a, [wSlotEnterOrExitCounter]
 	and a
 	ret z
 	dec a
-	ld [wd603], a
+	ld [wSlotEnterOrExitCounter], a
 	ld a, $18
-	ld [wd606], a
-	ld a, [wd603]
+	ld [wSlotGlowingAnimationCounter], a
+	ld a, [wSlotEnterOrExitCounter]
 	cp $12
 	jr nz, .asm_162d4
 	lb de, $00, $21
@@ -2767,7 +2774,7 @@ Func_16279: ; 0x16279
 .asm_162d4
 	cp $f
 	jr nz, .asm_162e3
-	callba Func_dd62
+	callba LoadSuperMiniPinballGfx
 	ret
 
 .asm_162e3
@@ -2782,18 +2789,18 @@ Func_16279: ; 0x16279
 .asm_162f2
 	cp $9
 	jr nz, .asm_162fa
-	call Func_16352
+	call DoSlotLogic_RedField
 	ret
 
 .asm_162fa
 	cp $6
 	jr nz, .asm_16317
 	xor a
-	ld [wd604], a
+	ld [wSlotIsOpen], a
 	ld a, $5
-	ld [wd803], a
+	ld [wRumblePattern], a
 	ld a, $8
-	ld [wd804], a
+	ld [wRumbleDuration], a
 	callba LoadMiniBallGfx
 	ret
 
@@ -2810,7 +2817,7 @@ Func_16279: ; 0x16279
 .asm_16330
 	and a
 	ret nz
-	call Func_16425
+	call LoadSlotCaveCoverGraphics_RedField
 	ld a, [wCatchEmOrEvolutionSlotRewardActive]
 	cp CATCHEM_MODE_SLOT_REWARD
 	ret nz
@@ -2822,7 +2829,9 @@ Func_16279: ; 0x16279
 	ld [wCatchEmOrEvolutionSlotRewardActive], a
 	ret
 
-Func_16352: ; 0x16352
+DoSlotLogic_RedField: ; 0x16352
+; Performs the slot logic when pinball entered the slot cave.
+; This could be the slot roulette, or evolving a pokemon, for example.
 	xor a
 	ld [wIndicatorStates + 4], a
 	ld a, $d
@@ -2837,7 +2846,7 @@ Func_16352: ; 0x16352
 	ld a, [wPreviousNumPokeballs]
 	cp $3
 	jr nz, .asm_163b3
-	ld a, [wd607]
+	ld a, [wFramesUntilSlotCaveOpens]
 	and a
 	jr nz, .asm_163b3
 .asm_1637a
@@ -2857,22 +2866,22 @@ Func_16352: ; 0x16352
 	ld a, [wd498]
 	ld c, a
 	ld b, $0
-	ld hl, GoToBonusStageTextIds_RedField
+	ld hl, BonusStages_RedField
 	add hl, bc
 	ld a, [hl]
-	ld [wd497], a
-	call Func_163f2
+	ld [wNextStage], a
+	call ShowScrollingGoToBonusText_RedField
 	xor a
-	ld [wd609], a
+	ld [wOpenedSlotByGetting3Pokeballs], a
 	ld [wCatchEmOrEvolutionSlotRewardActive], a
 	ld a, $1e
-	ld [wd607], a
+	ld [wFramesUntilSlotCaveOpens], a
 	ret
 
 .asm_163b3
 	callba Func_ed8e
 	xor a
-	ld [wd608], a
+	ld [wOpenedSlotByGetting4CAVELights], a
 	ld a, [wd61d]
 	cp $d
 	jr nc, .asm_1637a
@@ -2893,11 +2902,11 @@ Func_16352: ; 0x16352
 	ld [wCatchEmOrEvolutionSlotRewardActive], a
 	ret
 
-Func_163f2: ; 0x163f2
+ShowScrollingGoToBonusText_RedField: ; 0x163f2
 	call FillBottomMessageBufferWithBlackTile
 	call Func_30db
 	ld hl, wScrollingText3
-	ld a, [wd497]
+	ld a, [wNextStage]
 	ld de, GoToDiglettStageText
 	cp STAGE_DIGLETT_BONUS
 	jr z, .asm_1640f
@@ -2914,19 +2923,21 @@ Func_163f2: ; 0x163f2
 	call PlaySoundEffect
 	ret
 
-GoToBonusStageTextIds_RedField:
+BonusStages_RedField:
 	db STAGE_GENGAR_BONUS
 	db STAGE_MEWTWO_BONUS
 	db STAGE_MEOWTH_BONUS
 	db STAGE_DIGLETT_BONUS
 	db STAGE_SEEL_BONUS
 
-Func_16425: ; 0x16425
+LoadSlotCaveCoverGraphics_RedField: ; 0x16425
+; Loads the graphics for the circular slot cave area.
+; It looks like a cover that opens and closes.
 	ld a, [wCurrentStage]
 	and $1
 	sla a
 	ld c, a
-	ld a, [wd604]
+	ld a, [wSlotIsOpen]
 	add c
 	sla a
 	ld c, a
@@ -2947,160 +2958,19 @@ Func_16425: ; 0x16425
 	call Func_10aa
 	ret
 
-TileDataPointers_1644d:
-	dw TileData_16455
-	dw TileData_16458
-	dw TileData_1645b
-	dw TileData_16460
+INCLUDE "data/queued_tiledata/red_field/slot_cave.asm"
 
-TileData_16455: ; 0x16455
-	db $01
-	dw TileData_16465
-
-TileData_16458: ; 0x16458
-	db $01
-	dw TileData_1646f
-
-TileData_1645b: ; 0x1645b
-	db $02
-	dw TileData_16479
-	dw TileData_16483
-
-TileData_16460: ; 0x16460
-	db $02
-	dw TileData_1648D
-	dw TileData_16497
-
-TileData_16465: ; 0x16465
-	dw Func_11d2
-	db $20, $02
-	dw vTilesSH tile $46
-	dw StageRedFieldTopBaseGameBoyGfx + $1c0
-	db Bank(StageRedFieldTopBaseGameBoyGfx)
-	db $00
-
-TileData_1646f: ; 0x1646f
-	dw Func_11d2
-	db $20, $02
-	dw vTilesSH tile $46
-	dw StageRedFieldBottomIndicatorsGfx_Gameboy + $340
-	db Bank(StageRedFieldBottomIndicatorsGfx_Gameboy)
-	db $00
-
-TileData_16479: ; 0x16479
-	dw Func_11d2
-	db $20, $02
-	dw vTilesBG tile $48
-	dw StageRedFieldBottomBaseGameBoyGfx + $c80
-	db Bank(StageRedFieldBottomBaseGameBoyGfx)
-	db $00
-
-TileData_16483: ; 0x16483
-	dw Func_11d2
-	db $20, $02
-	dw vTilesBG tile $4A
-	dw StageRedFieldBottomBaseGameBoyGfx + $CA0
-	db Bank(StageRedFieldBottomBaseGameBoyGfx)
-	db $00
-
-TileData_1648D: ; 0x1648D
-	dw Func_11d2
-	db $20, $02
-	dw vTilesBG tile $48
-	dw StageRedFieldBottomIndicatorsGfx_Gameboy + $340
-	db Bank(StageRedFieldBottomIndicatorsGfx_Gameboy)
-	db $00
-
-TileData_16497: ; 0x16497
-	dw Func_11d2
-	db $20, $02
-	dw vTilesBG tile $4A
-	dw StageRedFieldBottomIndicatorsGfx_Gameboy + $360
-	db Bank(StageRedFieldBottomIndicatorsGfx_Gameboy)
-	db $00
-
-TileDataPointers_164a1:
-	dw TileData_164a9
-	dw TileData_164ac
-	dw TileData_164af
-	dw TileData_164b2
-
-TileData_164a9: ; 0x164a9
-	db $01
-	dw TileData_164b5
-
-TileData_164ac: ; 0x164ac
-	db $01
-	dw TileData_164be
-
-TileData_164af: ; 0x164af
-	db $01
-	dw TileData_164c7
-
-TileData_164b2: ; 0x164b2
-	db $01
-	dw TileData_164d5
-
-TileData_164b5: ; 0x164b5
-	dw LoadTileLists
-	db $02
-
-	db $02
-	dw vBGMap + $229
-	db $d4, $d5
-
-	db $00
-
-TileData_164be: ; 0x164be
-	dw LoadTileLists
-	db $02
-
-	db $02
-
-	dw vBGMap + $229
-	db $d6, $d7
-
-	db $00
-
-TileData_164c7: ; 0x164c7
-	dw LoadTileLists
-	db $04
-
-	db $02
-	dw vBGMap + $9
-	db $38, $39
-
-	db $02
-	dw vBGMap + $29
-	db $3a, $3b
-
-	db $00
-
-TileData_164d5: ; 0x164d5
-	dw LoadTileLists
-	db $04
-
-	db $02
-	dw vBGMap + $9
-	db $3c, $3d
-
-	db $02
-	dw vBGMap + $29
-	db $3e, $3f
-
-	db $00
-
-Func_164e3: ; 0x164e3
-	ld a, [wd607]
+OpenSlotCave_RedField: ; 0x164e3
+	ld a, [wFramesUntilSlotCaveOpens]
 	and a
 	ret z
 	dec a
-	ld [wd607], a
+	ld [wFramesUntilSlotCaveOpens], a
 	ret nz
 	ld a, [wInSpecialMode]
 	and a
 	ret nz
-	ld a, [wd609]
+	ld a, [wOpenedSlotByGetting3Pokeballs]
 	and a
 	jr z, .asm_164ff
 	ld a, [wd498]
@@ -3108,7 +2978,7 @@ Func_164e3: ; 0x164e3
 	jr .asm_16506
 
 .asm_164ff
-	ld a, [wd608]
+	ld a, [wOpenedSlotByGetting4CAVELights]
 	and a
 	ret z
 	ld a, $1a
@@ -3116,16 +2986,16 @@ Func_164e3: ; 0x164e3
 	ld hl, wCurrentStage
 	bit 0, [hl]
 	callba nz, LoadBillboardTileData
-	ld a, [wd604]
+	ld a, [wSlotIsOpen]
 	and a
 	ret nz
 	ld a, $1
-	ld [wd604], a
+	ld [wSlotIsOpen], a
 	ld a, $80
 	ld [wIndicatorStates + 4], a
 	ld a, [wCurrentStage]
 	bit 0, a
-	call nz, Func_16425
+	call nz, LoadSlotCaveCoverGraphics_RedField
 	ret
 
 ResolveRedStagePinballLaunchCollision: ; 0x1652d
@@ -3325,9 +3195,9 @@ Func_1669e: ; 0x1669e
 	ld a, $1
 	ld [wd85d], a
 	ld a, $ff
-	ld [wd803], a
+	ld [wRumblePattern], a
 	ld a, $60
-	ld [wd804], a
+	ld [wRumbleDuration], a
 	ld hl, wNumPikachuSaves
 	call Increment_Max100
 	jr nc, .asm_166f0
@@ -5050,9 +4920,9 @@ Func_174ea: ; 0x174ea
 	cp $3
 	jr c, .asm_1750f
 	ld a, $1
-	ld [wd609], a
+	ld [wOpenedSlotByGetting3Pokeballs], a
 	ld a, $3
-	ld [wd607], a
+	ld [wFramesUntilSlotCaveOpens], a
 .asm_1750f
 	ld a, [wPreviousNumPokeballs]
 	scf

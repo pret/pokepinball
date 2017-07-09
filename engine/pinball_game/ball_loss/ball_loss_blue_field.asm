@@ -78,16 +78,16 @@ Func_ded6: ; 0xded6
 	cp SPECIAL_MODE_CATCHEM
 	jr nz, .asm_df05
 	ld a, $0
-	ld [wd604], a
+	ld [wSlotIsOpen], a
 	ld a, $1e
-	ld [wd607], a
+	ld [wFramesUntilSlotCaveOpens], a
 	callba ConcludeEvolutionMode
 	ret
 
 .asm_df05
 	ld a, $0
-	ld [wd604], a
+	ld [wSlotIsOpen], a
 	ld a, $1e
-	ld [wd607], a
+	ld [wFramesUntilSlotCaveOpens], a
 	callba Func_3022b
 	ret

@@ -210,9 +210,9 @@ Func_18464: ; 0x18464
 	ld bc, OneHundredThousandPoints
 	callba AddBigBCD6FromQueue
 	ld a, $33
-	ld [wd803], a
+	ld [wRumblePattern], a
 	ld a, $8
-	ld [wd804], a
+	ld [wRumbleDuration], a
 	ld hl, $0100
 	ld a, l
 	ld [wFlipperYForce], a
@@ -458,9 +458,9 @@ Func_1860b: ; 0x1860b
 	ld bc, FiveHundredThousandPoints
 	callba AddBigBCD6FromQueue
 	ld a, $33
-	ld [wd803], a
+	ld [wRumblePattern], a
 	ld a, $8
-	ld [wd804], a
+	ld [wRumbleDuration], a
 	ld hl, $0100
 	ld a, l
 	ld [wFlipperYForce], a
@@ -727,9 +727,9 @@ Func_187b1: ; 0x187b1
 	ld bc, FiveMillionPoints
 	callba AddBigBCD6FromQueue
 	ld a, $33
-	ld [wd803], a
+	ld [wRumblePattern], a
 	ld a, $8
-	ld [wd804], a
+	ld [wRumbleDuration], a
 	ld hl, $0200
 	ld a, l
 	ld [wFlipperYForce], a
@@ -773,9 +773,9 @@ Func_18876: ; 0x18876
 	ld a, $1
 	ld [wd6a4], a
 	ld a, $11
-	ld [wd803], a
+	ld [wRumblePattern], a
 	ld a, $8
-	ld [wd804], a
+	ld [wRumbleDuration], a
 .asm_1889b
 	ld a, [wGengarAnimationState]
 	ld hl, wd6a3
@@ -824,9 +824,9 @@ Func_188e1: ; 0x188e1
 	jr nz, .asm_18901
 .asm_188f7
 	ld a, $1
-	ld [wd803], a
+	ld [wRumblePattern], a
 	ld a, $8
-	ld [wd804], a
+	ld [wRumbleDuration], a
 .asm_18901
 	ld a, [wGengarAnimationState]
 	cp $6
@@ -1429,9 +1429,9 @@ Func_18d34: ; 0x18d34
 	ld bc, OneHundredPoints
 	callba AddBigBCD6FromQueue
 	ld a, $ff
-	ld [wd803], a
+	ld [wRumblePattern], a
 	ld a, $3
-	ld [wd804], a
+	ld [wRumbleDuration], a
 	ld hl, $0100
 	ld a, l
 	ld [wFlipperYForce], a

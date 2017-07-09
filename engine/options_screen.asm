@@ -163,8 +163,8 @@ Func_c493: ; 0xc493
 	lb de, $00, $01
 	call PlaySoundEffect
 	xor a
-	ld [wd803], a
-	ld [wd804], a
+	ld [wRumblePattern], a
+	ld [wRumbleDuration], a
 	ld a, $1
 	ld [wScreenState], a
 	ret
@@ -192,8 +192,8 @@ Func_c4b4: ; 0xc4b4
 	inc a
 	ld [wd917], a
 	xor a
-	ld [wd803], a
-	ld [wd804], a
+	ld [wRumblePattern], a
+	ld [wRumbleDuration], a
 	lb de, $00, $03
 	call PlaySoundEffect
 	ret
@@ -742,9 +742,9 @@ Func_c869: ; 0xc869
 	cp $1
 	ret nz
 	ld a, $55
-	ld [wd803], a
+	ld [wRumblePattern], a
 	ld a, $40
-	ld [wd804], a
+	ld [wRumbleDuration], a
 	ret
 
 Func_c88a: ; 0xc88a

@@ -2,7 +2,7 @@ _LoadStageDataBlueFieldTop: ; 0x1c165
 	call LoadPinballUpgradeTriggersGraphics_BlueField
 	call UpdateSpinnerChargeGraphics_BlueField
 	call Func_1c3ee
-	call Func_1e8f6
+	call LoadSlotCaveCoverGraphics_BlueField
 	callba Func_142fc
 	ld a, $1
 	ld [wBlueStageForceFieldGfxNeedsLoading], a
@@ -23,7 +23,7 @@ _LoadStageDataBlueFieldBottom: ; 0x1c191
 	callba DrawBallSaverIcon
 	call Func_1c235
 	call Func_1c21e
-	call Func_1e8f6
+	call LoadSlotCaveCoverGraphics_BlueField
 	callba Func_142fc
 	callba Func_1404a
 	call Func_1c203
@@ -432,7 +432,7 @@ Func_1c4b6: ; 0x1c4b6
 	ld a, [wInSpecialMode]
 	and a
 	jr nz, .asm_1c4f0
-	ld a, [wd609]
+	ld a, [wOpenedSlotByGetting3Pokeballs]
 	and a
 	jr z, .asm_1c4d2
 	ld a, [wd498]
@@ -441,7 +441,7 @@ Func_1c4b6: ; 0x1c4b6
 	ret
 
 .asm_1c4d2
-	ld a, [wd608]
+	ld a, [wOpenedSlotByGetting4CAVELights]
 	and a
 	jr z, .asm_1c4e5
 	ld a, $1a
@@ -463,7 +463,7 @@ Func_1c4b6: ; 0x1c4b6
 	ret
 
 .asm_1c508
-	ld a, [wd604]
+	ld a, [wSlotIsOpen]
 	and a
 	ld a, $14
 	jr nz, .asm_1c515

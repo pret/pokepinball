@@ -78,17 +78,17 @@ Func_ddfd: ; 0xddfd
 	cp SPECIAL_MODE_CATCHEM
 	jr nz, .asm_de2d
 	xor a
-	ld [wd604], a
+	ld [wSlotIsOpen], a
 	ld a, $1e
-	ld [wd607], a
+	ld [wFramesUntilSlotCaveOpens], a
 	callba ConcludeEvolutionMode
 	jr .asm_de40
 
 .asm_de2d
 	xor a
-	ld [wd604], a
+	ld [wSlotIsOpen], a
 	ld a, $1e
-	ld [wd607], a
+	ld [wFramesUntilSlotCaveOpens], a
 	callba Func_3022b
 .asm_de40
 	ld a, [wd7ad]

@@ -220,7 +220,7 @@ GameScreenFunction_HandleBallLoss: ; 0xda36
 
 GameScreenFunction_EndBall: ; 0xdab2
 	xor a
-	ld [wd803], a
+	ld [wRumblePattern], a
 	ld a, [wGameOver]
 	and a
 	jp nz, TransitionToHighScoresScreen
@@ -261,7 +261,7 @@ GameScreenFunction_EndBall: ; 0xdab2
 	ld [wd4ad], a
 	ld a, [wStageCollisionState]
 	ld [wd4b0], a
-	ld a, [wd497]
+	ld a, [wNextStage]
 	ld [wCurrentStage], a
 	xor a
 	ld [wd496], a

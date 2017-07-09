@@ -1,7 +1,7 @@
 Func_ed8e: ; 0xed8e
 	xor a
-	ld [wd803], a
-	ld [wd804], a
+	ld [wRumblePattern], a
+	ld [wRumbleDuration], a
 	ld [wCatchEmOrEvolutionSlotRewardActive], a
 	ld a, [wNumPartyMons]
 	ld [wSlotAnyPokemonCaught], a

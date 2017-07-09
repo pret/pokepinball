@@ -547,9 +547,9 @@ Func_1aad4: ; 0x1aad4
 	lb de, $00, $36
 	call PlaySoundEffect
 	ld a, $33
-	ld [wd803], a
+	ld [wRumblePattern], a
 	ld a, $8
-	ld [wd804], a
+	ld [wRumbleDuration], a
 	ld hl, $0200
 	ld a, l
 	ld [wFlipperYForce], a

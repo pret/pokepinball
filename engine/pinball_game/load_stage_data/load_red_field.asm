@@ -5,7 +5,7 @@ _LoadStageDataRedFieldTop: ; 0x14000
 	call Func_16859
 	call UpdateSpinnerChargeGraphics_RedField
 	call Func_14234
-	call Func_16425
+	call LoadSlotCaveCoverGraphics_RedField
 	call Func_142fc
 	call Func_1404a
 	ret
@@ -23,7 +23,7 @@ _LoadStageDataRedFieldBottom: ; 0x1401c
 	call Func_140f9
 	call Func_16878
 	call Func_140e2
-	call Func_16425
+	call LoadSlotCaveCoverGraphics_RedField
 	call Func_142fc
 	call Func_1404a
 	ret
@@ -391,7 +391,7 @@ Func_142fc: ; 0x142fc
 	jr .asm_14328
 
 .asm_1431e
-	callba Func_dd62
+	callba LoadSuperMiniPinballGfx
 .asm_14328
 	ld a, [hGameBoyColorFlag]
 	and a
@@ -438,7 +438,7 @@ Func_14377: ; 0x14377
 	ld a, [wInSpecialMode]
 	and a
 	jr nz, .asm_143b1
-	ld a, [wd609]
+	ld a, [wOpenedSlotByGetting3Pokeballs]
 	and a
 	jr z, .asm_14393
 	ld a, [wd498]
@@ -447,7 +447,7 @@ Func_14377: ; 0x14377
 	ret
 
 .asm_14393
-	ld a, [wd608]
+	ld a, [wOpenedSlotByGetting4CAVELights]
 	and a
 	jr z, .asm_143a6
 	ld a, $1a
@@ -469,7 +469,7 @@ Func_14377: ; 0x14377
 	ret
 
 .asm_143c9
-	ld a, [wd604]
+	ld a, [wSlotIsOpen]
 	and a
 	ld a, $14
 	jr nz, .asm_143d6

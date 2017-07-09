@@ -1090,14 +1090,14 @@ ResetIndicatorStates: ; 0x107a5
 
 Func_107b0: ; 0x107b0
 	xor a
-	ld [wd604], a
+	ld [wSlotIsOpen], a
 	ld [wIndicatorStates + 4], a
-	callba Func_16425
+	callba LoadSlotCaveCoverGraphics_RedField
 	ret
 
 Func_107c2: ; 0x107c2
 	ld a, $1e
-	ld [wd607], a
+	ld [wFramesUntilSlotCaveOpens], a
 	ret
 
 Func_107c8: ; 0x107c8

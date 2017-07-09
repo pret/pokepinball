@@ -80,11 +80,12 @@ LoadMiniBallGfx: ; 0xdd12
 	call LoadOrCopyVRAMData
 	ret
 
-Func_dd62: ; 0xdd62
+LoadSuperMiniPinballGfx: ; 0xdd62
+; Loads the mini pinball graphics, which are used when entering the Slot or Ditto caves.
 	ld a, $2
 	ld [wd4c8], a
 	ld a, $2a
-	ld hl, PinballBallMiniGfx
+	ld hl, PinballBallSuperMiniGfx
 	ld de, vTilesOB tile $40
 	ld bc, $0200
 	call LoadOrCopyVRAMData

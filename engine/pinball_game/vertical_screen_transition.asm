@@ -4,7 +4,7 @@ FieldVerticalTransition: ; 0xe674
 	push af
 	xor a
 	ld [wPinballIsVisible], a
-	ld [wd803], a
+	ld [wRumblePattern], a
 	callba DrawSpritesForStage
 	call CleanOAMBuffer
 	pop af

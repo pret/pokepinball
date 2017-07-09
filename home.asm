@@ -356,9 +356,9 @@ VBlank: ; 0x2f2
 	ld a, [wd917]
 	and a
 	jr nz, .asm_3b5
-	ld a, [wd803]
+	ld a, [wRumblePattern]
 	rrca
-	ld [wd803], a
+	ld [wRumblePattern], a
 	and $1
 	jr z, .asm_3b5
 	set 3, [hl]
@@ -2560,23 +2560,25 @@ Func_1ffc: ; 0x1ffc
 	ld a, SCREEN_ERASE_ALL_DATA
 	ld [wCurrentScreen], a
 .master_loop
-	call Func_2034
+	call TickRumbleDuration
 	call DoScreenLogic
 	call CleanOAMBuffer
 	call ClearPersistentJoypadStates
 	rst AdvanceFrame
 	jr .master_loop
 
-Func_2034: ; 0x2034
-	ld a, [wd804]
+TickRumbleDuration: ; 0x2034
+; Decrements the Gameboy rumble duration.
+; Turns off rumble when it gets to 0.
+	ld a, [wRumbleDuration]
 	and a
-	jr z, .asm_203f
+	jr z, .rumbleOff
 	dec a
-	ld [wd804], a
+	ld [wRumbleDuration], a
 	ret
 
-.asm_203f
-	ld [wd803], a
+.rumbleOff
+	ld [wRumblePattern], a
 	ret
 
 DoScreenLogic: ; 0x2043
@@ -2983,9 +2985,9 @@ ApplyTorque: ; 0x222b
 	cp $3
 	jr c, .asm_2254
 	ld a, $ff
-	ld [wd803], a
+	ld [wRumblePattern], a
 	ld a, $1
-	ld [wd804], a
+	ld [wRumbleDuration], a
 	ld a, [wFlipperCollision]
 	and a
 	jr nz, .asm_2254

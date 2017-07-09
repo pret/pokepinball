@@ -165,7 +165,8 @@ wd495:: ; 0xd495
 wd496:: ; 0xd496
 	ds $1
 
-wd497:: ; 0xd497
+wNextStage:: ; 0xd497
+; Holds the id of the next stage to go to. Used for transitioning between bonus stage and the main red/blue field.
 	ds $1
 
 wd498:: ; 0xd498
@@ -802,29 +803,43 @@ wDittoSlotCollision:: ; 0xd5fe
 ; Second byte is set by HandleGameObjectCollision, but is unused
 	ds $2
 
-wd600:: ; 0xd600
+wDittoEnterOrExitCounter:: ; 0xd600
+; Number of frames remaining in the process when the pinball is entering or exiting the Ditto cave.
+; This functions the same way as wSlotEnterOrExitCounter.
 	ds $1
 
 wSlotCollision:: ; 0xd601
 ; Second byte is set by HandleGameObjectCollision, but is unused
 	ds $2
 
-wd603:: ; 0xd603
+wSlotEnterOrExitCounter:: ; 0xd603
+; Number of frames remaining in the process when the pinball is entering or exiting the slot cave.
+; This functions the same way as wDittoEnterOrExitCounter.
 	ds $1
 
-wd604:: ; 0xd604
-	ds $2
-
-wd606:: ; 0xd606
+wSlotIsOpen:: ; 0xd604
+; Whether or not the Slot is open for the pinball to enter. 1 = open; 0 = closed
 	ds $1
 
-wd607:: ; 0xd607
+	ds $1 ; unused
+
+wSlotGlowingAnimationCounter:: ; 0xd606
+; When the slot is open, this counter increments once every frame, which controls the glowing
+; animation around the slot cave.
 	ds $1
 
-wd608:: ; 0xd608
+wFramesUntilSlotCaveOpens:: ; 0xd607
+; When set to non-zero value, it decrements once per frame. When it hits 0, the Slot cave will open.
 	ds $1
 
-wd609:: ; 0xd609
+wOpenedSlotByGetting4CAVELights:: ; 0xd608
+; Set to 1 when the slot bonus was trigered by lighting up all 4 CAVE lights.
+; See wCAVELightStates
+	ds $1
+
+wOpenedSlotByGetting3Pokeballs:: ; 0xd609
+; Set to 1 when the slot bonus was triggered by achieving 3 Pokeballs (the pokeballs underneath the billboard).
+; See wNumPokeballs.
 	ds $1
 
 wWhichBonusMultiplierRailing:: ; 0xd60a
@@ -1827,10 +1842,13 @@ wd801:: ; 0xd801
 wOAMBufferSize:: ; 0xd802
 	ds $1
 
-wd803:: ; 0xd803
+wRumblePattern:: ; 0xd803
+; Holds the rumble pattern for the upcoming frames.
+; This gets rotated to the right once per frame. If bit 0 is set, then it turns on rumble.
 	ds $1
 
-wd804:: ; 0xd804
+wRumbleDuration:: ; 0xd804
+; Number of frames to rumble the Gameboy. See wRumblePattern.
 	ds $1
 
 wd805:: ; 0xd805 enables unused and odd PlaceString

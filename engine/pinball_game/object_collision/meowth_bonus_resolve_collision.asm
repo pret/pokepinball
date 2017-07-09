@@ -415,9 +415,9 @@ Func_245ab: ; 0x245ab
 	ld [wd6e7], a
 	ld [wd6f3], a
 	ld a, $ff
-	ld [wd803], a
+	ld [wRumblePattern], a
 	ld a, $3
-	ld [wd804], a
+	ld [wRumbleDuration], a
 	lb de, $00, $33
 	call PlaySoundEffect
 	ld bc, OneThousandPoints
@@ -1661,9 +1661,9 @@ Func_24e7f: ; 0x24e7f
 	ld [hl], a
 .asm_24e92
 	ld a, $ff
-	ld [wd803], a
+	ld [wRumblePattern], a
 	ld a, $3
-	ld [wd804], a
+	ld [wRumbleDuration], a
 	lb de, $00, $32
 	call PlaySoundEffect
 	ld a, [wMeowthStageBonusCounter]

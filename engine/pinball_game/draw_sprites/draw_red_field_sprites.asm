@@ -22,7 +22,7 @@ DrawSpritesRedFieldBottom: ; 0x1757e
 	call DrawPinball
 	call Func_17f0f
 	call Func_17f75
-	call Func_17fca
+	call DrawSlotGlow_RedField
 	ret
 
 DrawTimer: ; 0x175a4
@@ -733,13 +733,14 @@ OAMOffsets_17fbe:
 	db $2E, $2C
 	db $6A, $2C
 
-Func_17fca: ; 0x17fca
-	ld a, [wd604]
+DrawSlotGlow_RedField: ; 0x17fca
+; Draws the glowing animation surround the slot cave entrance.
+	ld a, [wSlotIsOpen]
 	and a
 	ret z
-	ld a, [wd606]
+	ld a, [wSlotGlowingAnimationCounter]
 	inc a
-	ld [wd606], a
+	ld [wSlotGlowingAnimationCounter], a
 	ld a, $40
 	ld hl, hSCX
 	sub [hl]
@@ -748,7 +749,7 @@ Func_17fca: ; 0x17fca
 	ld hl, hSCY
 	sub [hl]
 	ld c, a
-	ld a, [wd606]
+	ld a, [wSlotGlowingAnimationCounter]
 	srl a
 	srl a
 	srl a

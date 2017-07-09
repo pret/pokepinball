@@ -915,7 +915,7 @@ ConcludeEvolutionMode_RedField: ; 0x10fe3
 	bit 0, a
 	jp z, Func_10aff
 	callba Func_14135
-	callba Func_16425
+	callba LoadSlotCaveCoverGraphics_RedField
 	callba LoadMapBillboardTileData
 	ld a, BANK(StageSharedBonusSlotGlowGfx)
 	ld hl, StageSharedBonusSlotGlowGfx + $60
@@ -1052,7 +1052,7 @@ ConcludeEvolutionMode_BlueField: ; 0x11195
 	bit 0, a
 	jp z, Func_1120e
 	callba Func_1c2cb
-	callba Func_1e8f6
+	callba LoadSlotCaveCoverGraphics_BlueField
 	callba LoadMapBillboardTileData
 	ld a, Bank(StageSharedBonusSlotGlowGfx)
 	ld hl, StageSharedBonusSlotGlowGfx + $60
@@ -1597,7 +1597,7 @@ Func_31234: ; 0x31234
 	bit 0, a
 	ret z
 	callba Func_14135
-	callba Func_16425
+	callba LoadSlotCaveCoverGraphics_RedField
 	callba LoadMapBillboardTileData
 	ret
 
@@ -1775,7 +1775,7 @@ Func_313c3: ; 0x313c3
 	bit 0, a
 	ret z
 	callba Func_1c2cb
-	callba Func_1e8f6
+	callba LoadSlotCaveCoverGraphics_BlueField
 	callba LoadMapBillboardTileData
 	ret
 
@@ -1954,7 +1954,7 @@ Func_3151f: ; 0x3151f
 	ld a, $3
 	ld [wd54d], a
 	xor a
-	ld [wd604], a
+	ld [wSlotIsOpen], a
 	ld [wIndicatorStates], a
 	ld [wIndicatorStates + 1], a
 	ld [wIndicatorStates + 2], a
@@ -1964,7 +1964,7 @@ Func_3151f: ; 0x3151f
 	bit 0, a
 	jr z, .asm_31577
 	callba Func_14135
-	callba Func_16425
+	callba LoadSlotCaveCoverGraphics_RedField
 	callba LoadMapBillboardTileData
 .asm_31577
 	callba StopTimer
@@ -1988,7 +1988,7 @@ Func_31591: ; 0x31591
 	ld a, $80
 	ld [wIndicatorStates + 4], a
 	ld a, $1
-	ld [wd604], a
+	ld [wSlotIsOpen], a
 	ld [wd54d], a
 .asm_315b1
 	scf
@@ -2007,7 +2007,7 @@ Func_315b3: ; 0x315b3
 	ld a, $80
 	ld [wIndicatorStates + 4], a
 	ld a, $1
-	ld [wd604], a
+	ld [wSlotIsOpen], a
 	ld [wd54d], a
 .asm_315d3
 	scf
@@ -2108,7 +2108,7 @@ Func_3168c: ; 0x3168c
 	ld a, $3
 	ld [wd54d], a
 	xor a
-	ld [wd604], a
+	ld [wSlotIsOpen], a
 	ld [wIndicatorStates], a
 	ld [wIndicatorStates + 1], a
 	ld [wIndicatorStates + 2], a
@@ -2118,7 +2118,7 @@ Func_3168c: ; 0x3168c
 	bit 0, a
 	jr z, .asm_316ee
 	callba Func_1c2cb
-	callba Func_1e8f6
+	callba LoadSlotCaveCoverGraphics_BlueField
 	callba LoadMapBillboardTileData
 .asm_316ee
 	callba StopTimer
@@ -2142,7 +2142,7 @@ Func_31708: ; 0x31708
 	ld a, $80
 	ld [wIndicatorStates + 4], a
 	ld a, $1
-	ld [wd604], a
+	ld [wSlotIsOpen], a
 	ld [wd54d], a
 .asm_31728
 	scf
@@ -2161,7 +2161,7 @@ Func_3172a: ; 0x3172a
 	ld a, $80
 	ld [wIndicatorStates + 4], a
 	ld a, $1
-	ld [wd604], a
+	ld [wSlotIsOpen], a
 	ld [wd54d], a
 .asm_3174a
 	scf
@@ -2664,7 +2664,7 @@ PinballUltraballMiniGfx: ; 0xa9400
 	INCBIN "gfx/stage/ball_ultraball_mini.w32.interleave.2bpp"
 PinballMasterballMiniGfx: ; 0xa9600
 	INCBIN "gfx/stage/ball_masterball_mini.w32.interleave.2bpp"
-PinballBallMiniGfx: ; 0xa9800
+PinballBallSuperMiniGfx: ; 0xa9800
 	INCBIN "gfx/stage/ball_mini.w32.interleave.2bpp"
 
 HighScoresBaseGameBoyGfx: ; 0xa9a00

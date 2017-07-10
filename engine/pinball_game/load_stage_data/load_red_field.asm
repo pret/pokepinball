@@ -13,7 +13,7 @@ _LoadStageDataRedFieldTop: ; 0x14000
 _LoadStageDataRedFieldBottom: ; 0x1401c
 	call Func_14091
 	call Func_14377
-	call Func_14135
+	call ClearAllRedIndicators
 	call LoadCAVELightsGraphics_RedField
 	call Func_14282
 	call Func_1414b
@@ -110,20 +110,20 @@ Func_140e2: ; 0x140e2
 	ret
 
 Func_140f9: ; 0x140f9
-	ld a, [wd4ef]
+	ld a, [wLeftDiglettAnimationController]
 	and a
-	jr z, .asm_1410c
-	xor a
+	jr z, .asm_1410c ;skip ??? if wLeftDiglettAnimationController = 0
+	xor a ;wut
 	ld a, $66
 	ld [wStageCollisionMap + $e3], a
 	ld a, $67
-	ld [wStageCollisionMap + $103], a
+	ld [wStageCollisionMap + $103], a ;load into the collision map?
 	ld a, $2
 .asm_1410c
 	call LoadDiglettGraphics
 	ld a, [wLeftMapMoveCounter]
 	call LoadDiglettNumberGraphics
-	ld a, [wd4f1]
+	ld a, [wRightDiglettAnimationController]
 	and a
 	jr z, .asm_14127
 	ld a, $6a
@@ -139,20 +139,20 @@ Func_140f9: ; 0x140f9
 	call LoadDiglettNumberGraphics
 	ret
 
-Func_14135: ; 0x14135
+ClearAllRedIndicators: ; 0x14135
 	ld bc, $0000
-.asm_14138
+.Loop5Times
 	push bc
-	ld hl, wIndicatorStates
+	ld hl, wIndicatorStates ;for each of 5 states
 	add hl, bc
 	ld a, [hl]
-	res 7, a
+	res 7, a ;clear bit 7
 	call LoadArrowIndicatorGraphics_RedField
 	pop bc
 	inc c
 	ld a, c
 	cp $5
-	jr nz, .asm_14138
+	jr nz, .Loop5Times
 	ret
 
 Func_1414b: ; 0x1414b

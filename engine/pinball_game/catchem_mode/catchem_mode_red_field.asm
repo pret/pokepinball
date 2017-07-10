@@ -210,7 +210,7 @@ Func_201ce: ; 0x201ce
 	ret
 
 Func_201f2: ; 0x201f2
-	callba Func_107f8
+	callba PlayLowTimeSfx
 	ld a, [wd57e]
 	and a
 	ret z

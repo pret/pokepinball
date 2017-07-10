@@ -1128,7 +1128,7 @@ Func_107e9: ; 0x107e9
 	ld [wd7ad], a
 	ret
 
-Func_107f8: ; 0x107f8
+PlayLowTimeSfx: ; 0x107f8
 	ld a, [wTimerFrames]
 	and a
 	ret nz
@@ -1136,21 +1136,21 @@ Func_107f8: ; 0x107f8
 	and a
 	ret nz
 	ld a, [wTimerSeconds]
-	cp $20
-	jr nz, .asm_10810
+	cp 32
+	jr nz, .Not32Seconds
 	lb de, $07, $49
 	call PlaySoundEffect
 	ret
 
-.asm_10810
-	cp $10
-	jr nz, .asm_1081b
+.Not32Seconds
+	cp 16
+	jr nz, .Not16Seconds
 	lb de, $0a, $4a
 	call PlaySoundEffect
 	ret
 
-.asm_1081b
-	cp $5
+.Not16Seconds
+	cp 5
 	ret nz
 	lb de, $0d, $4b
 	call PlaySoundEffect
@@ -1236,7 +1236,7 @@ Func_10871: ; 0x10871
 	ret
 
 .asm_108d3
-	callba Func_14135
+	callba ClearAllRedIndicators
 	callba Func_10184
 	ld a, [hGameBoyColorFlag]
 	and a
@@ -1251,7 +1251,7 @@ Func_108f5: ; 0x108f5
 	ld a, [wCurrentStage]
 	bit 0, a
 	ret z
-	callba Func_14135
+	callba ClearAllRedIndicators
 	call Func_10432
 	callba LoadMapBillboardTileData
 	ld a, Bank(StageSharedBonusSlotGlowGfx)

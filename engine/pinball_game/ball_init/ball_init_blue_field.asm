@@ -53,8 +53,8 @@ InitBallBlueField: ; 0x1c08d
 	ld [wd613], a
 	inc a
 	ld [wCurBonusMultiplier], a
-	ld [wd4ef], a
-	ld [wd4f1], a
+	ld [wLeftDiglettAnimationController], a
+	ld [wRightDiglettAnimationController], a
 	ld a, $3
 	ld [wd610], a
 	call GetBCDForNextBonusMultiplier_BlueField

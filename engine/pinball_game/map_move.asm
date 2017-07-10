@@ -125,7 +125,7 @@ Func_311b4: ; 0x311b4
 	ld a, [wCurrentStage]
 	bit 0, a
 	ret z
-	callba Func_14135
+	callba ClearAllRedIndicators
 	ret
 
 Func_31234: ; 0x31234
@@ -136,7 +136,7 @@ Func_31234: ; 0x31234
 	ld a, [wCurrentStage]
 	bit 0, a
 	ret z
-	callba Func_14135
+	callba ClearAllRedIndicators
 	callba LoadSlotCaveCoverGraphics_RedField
 	callba LoadMapBillboardTileData
 	ret
@@ -446,7 +446,7 @@ Func_314ae: ; 0x314ae
 	ret
 
 .asm_314d6
-	call Func_3151f
+	call UpdateMapMove_RedField
 	ld a, [wd54d]
 	call CallInFollowingTable
 PointerTable_314df: ; 0xd13df
@@ -481,12 +481,12 @@ Func_31505: ; 0x31505
 	scf
 	ret
 
-Func_3151f: ; 0x3151f
+UpdateMapMove_RedField: ; 0x3151f handle map move timer and fail when it expires
 	ld a, $50
-	ld [wd4ef], a
-	ld [wd4f1], a
-	callba Func_107f8
-	ld a, [wd57e]
+	ld [wLeftDiglettAnimationController], a
+	ld [wRightDiglettAnimationController], a
+	callba PlayLowTimeSfx
+	ld a, [wd57e] ;if ??? is 0, quit, else make it zero (this only truns once per something?) and handle a failed map move
 	and a
 	ret z
 	xor a
@@ -494,7 +494,7 @@ Func_3151f: ; 0x3151f
 	ld a, $3
 	ld [wd54d], a
 	xor a
-	ld [wSlotIsOpen], a
+	ld [wSlotIsOpen], a ;close slot and indicators
 	ld [wIndicatorStates], a
 	ld [wIndicatorStates + 1], a
 	ld [wIndicatorStates + 2], a
@@ -502,12 +502,12 @@ Func_3151f: ; 0x3151f
 	ld [wIndicatorStates + 4], a
 	ld a, [wCurrentStage]
 	bit 0, a
-	jr z, .asm_31577
-	callba Func_14135
+	jr z, .asm_31577 ;if on stage without flippers(the tops), jump
+	callba ClearAllRedIndicators ;clear indicators
 	callba LoadSlotCaveCoverGraphics_RedField
 	callba LoadMapBillboardTileData
 .asm_31577
-	callba StopTimer
+	callba StopTimer ;stop the timer
 	call FillBottomMessageBufferWithBlackTile
 	call Func_30db
 	ld hl, wScrollingText1
@@ -639,7 +639,7 @@ Func_3168c: ; 0x3168c
 	ld [wd645], a
 	ld a, $1
 	ld [wd646], a
-	callba Func_107f8
+	callba PlayLowTimeSfx
 	ld a, [wd57e]
 	and a
 	ret z

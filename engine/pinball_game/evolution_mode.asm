@@ -651,7 +651,7 @@ StartEvolutionMode_RedField: ; 0x10ebb
 	ld de, vTilesOB tile $20
 	ld bc, $00e0
 	call LoadOrCopyVRAMData
-	callba Func_14135
+	callba ClearAllRedIndicators
 	callba Func_10184
 	ld a, [hGameBoyColorFlag]
 	and a
@@ -700,7 +700,7 @@ ConcludeEvolutionMode_RedField: ; 0x10fe3
 	ld a, [wCurrentStage]
 	bit 0, a
 	jp z, LoadRedFieldTopGraphics
-	callba Func_14135
+	callba ClearAllRedIndicators
 	callba LoadSlotCaveCoverGraphics_RedField
 	callba LoadMapBillboardTileData
 	ld a, BANK(StageSharedBonusSlotGlowGfx)

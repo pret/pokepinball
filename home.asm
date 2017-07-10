@@ -1402,7 +1402,7 @@ Func_e5d: ; 0xe5d
 
 DrawBottomMessageBox: ; 0xe69
 ; Draws the current scrolling bottom message box to VRAM during V-Blank.
-; Note, this only applies to the 1-tile high message bar. When it displays, things like Ball Bonus summary, and 
+; Note, this only applies to the 1-tile high message bar. When it displays, things like Ball Bonus summary, and
 ; the Save/Cancel menu, this is not used to draw the message buffer.
 	ld a, [rLY]
 	cp $90
@@ -1660,20 +1660,20 @@ Func_10a7: ; 0x10a7
 Func_10aa: ; 0x10aa
 	ld c, a
 	ld a, [hli]
-	ld b, a
+	ld b, a ;bc = [hl]a
 .loop
 	push bc
 	ld a, c
 	ld c, [hl]
 	inc hl
-	ld b, [hl]
+	ld b, [hl] ;pull pointer from HL, load into BC
 	inc hl
 	push af
 	ld a, [bc]
 	ld e, a
 	inc bc
 	ld a, [bc]
-	ld d, a
+	ld d, a ;pull de from bc
 	inc bc
 	pop af
 	push hl

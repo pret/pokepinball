@@ -231,7 +231,7 @@ wDrawBottomMessageBox:: ; 0xd4aa
 wd4ab:: ; 0xd4ab
 	ds $1
 
-wCurrentStage:: ; 0xd4ac see constants/stage_constants.asm for list. bit 1 is 1 if the stage has flippers
+wCurrentStage:: ; 0xd4ac see constants/stage_constants.asm for list. bit 0 is 1 if the stage has flippers
 	ds $1
 
 wd4ad:: ; 0xd4ad
@@ -391,13 +391,13 @@ wWhichDiglettId:: ; 0xd4ee
 wWhichPsyduckPoliwagId::
 	ds $1
 
-wd4ef:: ; 0xd4ef
+wLeftDiglettAnimationController:: ; 0xd4ef $50 = in and pained look. 0 = normal state
 	ds $1
 
 wLeftMapMoveCounter:: ; 0xd4f0
 	ds $1
 
-wd4f1:: ; 0xd4f1
+wRightDiglettAnimationController:: ; 0xd4f1 $50 = in and pained look. 0 = normal state
 	ds $1
 
 wRightMapMoveCounter:: ; 0xd4f2
@@ -672,7 +672,7 @@ wTimerActive:: ; 0xd57d
 ; Set to 1 when the Timer is displayed and counting down.
 	ds $1
 
-wd57e:: ; 0xd57e
+wd57e:: ; 0xd57e when map mode fails by time, toggled to off from on
 	ds $1
 
 wd57f:: ; 0xd57f

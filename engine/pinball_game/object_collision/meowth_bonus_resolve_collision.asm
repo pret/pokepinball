@@ -222,7 +222,7 @@ ResolveMeowthBonusGameObjectCollisions: ; 0x2442a
 	ld a, [wd712]
 	cp $4
 	jr z, .asm_244c1
-	callba Func_107f8
+	callba PlayLowTimeSfx
 .asm_244c1
 	ld a, [wd57e]
 	and a

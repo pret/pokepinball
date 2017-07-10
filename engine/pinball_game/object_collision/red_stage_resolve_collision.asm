@@ -284,11 +284,11 @@ ResolveDiglettCollision: ; 0x147aa
 	ret
 
 .asm_14834
-	ld a, [wd4ef]
+	ld a, [wLeftDiglettAnimationController]
 	and a
 	jr z, .asm_14857
 	dec a
-	ld [wd4ef], a
+	ld [wLeftDiglettAnimationController], a
 	jr nz, .asm_14857
 	ld a, [wLeftMapMoveCounter]
 	sub $3
@@ -301,11 +301,11 @@ ResolveDiglettCollision: ; 0x147aa
 	ld a, $65
 	ld [wStageCollisionMap + $103], a
 .asm_14857
-	ld a, [wd4f1]
+	ld a, [wRightDiglettAnimationController]
 	and a
 	jr z, .asm_1487c
 	dec a
-	ld [wd4f1], a
+	ld [wRightDiglettAnimationController], a
 	jr nz, .asm_1487c
 	ld a, [wRightMapMoveCounter]
 	sub $3
@@ -471,7 +471,7 @@ AddScoreForHittingDiglett: ; 0x1496d
 	ret
 
 UpdateDiglettAnimations: ; 0x14990
-	ld a, [wd4ef]
+	ld a, [wLeftDiglettAnimationController]
 	and a
 	jr nz, .asm_149b6
 	ld a, [wLeftMapMoveDiglettAnimationCounter]
@@ -491,7 +491,7 @@ UpdateDiglettAnimations: ; 0x14990
 	ld [wLeftMapMoveDiglettFrame], a
 	call LoadDiglettGraphics
 .asm_149b6
-	ld a, [wd4f1]
+	ld a, [wRightDiglettAnimationController]
 	and a
 	ret nz
 	ld a, [wRightMapMoveDiglettAnimationCounter]
@@ -2659,21 +2659,21 @@ UpdateArrowIndicators_RedField: ; 0x169a6
 
 LoadArrowIndicatorGraphics_RedField: ; 0x169cd
 	push af
-	sla c
+	sla c ;double offset
 	ld hl, TileDataPointers_169ed
 	ld a, [hGameBoyColorFlag]
 	and a
 	jr z, .asm_169db
 	ld hl, TileDataPointers_16bef
 .asm_169db
-	add hl, bc
+	add hl, bc ;add offset, load pointer into HL
 	ld a, [hli]
 	ld h, [hl]
 	ld l, a
 	pop af
 	sla a
 	ld c, a
-	add hl, bc
+	add hl, bc ;add offset to second pointer
 	ld a, [hli]
 	ld h, [hl]
 	ld l, a

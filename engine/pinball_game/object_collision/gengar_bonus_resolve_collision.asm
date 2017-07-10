@@ -4,7 +4,7 @@ ResolveGengarBonusGameObjectCollisions: ; 0x18377
 	call Func_187b1
 	call Func_18d34
 	call Func_183b7
-	callba Func_107f8
+	callba PlayLowTimeSfx
 	ld a, [wd57e]
 	and a
 	ret z

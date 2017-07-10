@@ -69,7 +69,7 @@ Func_205e0: ; 0x205e0
 	ld [wIndicatorStates + 10], a
 	ld a, [wCurrentStage]
 	bit 0, a
-	callba nz, Func_14135
+	callba nz, ClearAllRedIndicators
 	ld bc, OneMillionPoints
 	callba AddBigBCD6FromQueue
 	call FillBottomMessageBufferWithBlackTile
@@ -225,7 +225,7 @@ Func_2077b: ; 0x2077b
 	jr nz, .asm_2078e
 	call Func_20a55
 .asm_2078e
-	callba Func_107f8
+	callba PlayLowTimeSfx
 	ld a, [wd57e]
 	and a
 	ret z
@@ -254,7 +254,7 @@ Func_2077b: ; 0x2077b
 	ld a, [wCurrentStage]
 	bit 0, a
 	jr z, .asm_207f5
-	callba Func_14135
+	callba ClearAllRedIndicators
 	callba LoadSlotCaveCoverGraphics_RedField
 .asm_207f5
 	callba StopTimer
@@ -492,7 +492,7 @@ Func_20977: ; 0x20977
 	ld [wIndicatorStates + 10], a
 	ld a, [wCurrentStage]
 	bit 0, a
-	callba nz, Func_14135
+	callba nz, ClearAllRedIndicators
 	ld a, [hGameBoyColorFlag]
 	and a
 	jr z, .asm_209bf
@@ -540,7 +540,7 @@ Func_209eb: ; 0x209eb
 	ld [wIndicatorStates + 10], a
 	ld a, [wCurrentStage]
 	bit 0, a
-	callba nz, Func_14135
+	callba nz, ClearAllRedIndicators
 	ld a, $58
 	ld [wd556], a
 	ld a, $2
@@ -615,7 +615,7 @@ asm_20a9f:
 	ld [wIndicatorStates + 10], a
 	ld a, [wCurrentStage]
 	bit 0, a
-	callba nz, Func_14135
+	callba nz, ClearAllRedIndicators
 	ld a, [hGameBoyColorFlag]
 	and a
 	jr z, .asm_20ada

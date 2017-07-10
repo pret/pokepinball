@@ -222,7 +222,7 @@ Func_20da0: ; 0x20da0
 	jr nz, .asm_20db3
 	call Func_21079
 .asm_20db3
-	callba Func_107f8
+	callba PlayLowTimeSfx
 	ld a, [wd57e]
 	and a
 	ret z

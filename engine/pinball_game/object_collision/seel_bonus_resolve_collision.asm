@@ -37,7 +37,7 @@ ResolveSeelBonusGameObjectCollisions: ; 0x25c5a
 	ld a, [wd794]
 	cp $2
 	jr z, .asm_25cc1
-	callba Func_107f8
+	callba PlayLowTimeSfx
 .asm_25cc1
 	ld a, [wd57e]
 	and a

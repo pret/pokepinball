@@ -153,8 +153,8 @@ GameScreenFunction_HandleBallPhysics: ; 0xd909
 	callba HideScoreIfBallLow
 	callba Func_8645
 	call Func_dba9
-	call Func_dc7c
-	call Func_dcb4
+	call DrawNumPartyMonsIcon
+	call DrawPikachuSaverLightningBoltIcon
 .asm_d9e9
 	ld a, [wTimerActive]
 	and a

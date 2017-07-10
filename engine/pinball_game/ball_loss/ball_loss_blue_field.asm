@@ -10,7 +10,7 @@ HandleBallLossBlueField: ; 0xde4f
 	ld [wNumTimesBallSavedTextWillDisplay], a
 	push af
 	ld de, BallSavedText
-	call Func_dc6d
+	call ShowBallLossText
 	pop af
 	jr nz, .skip_save_text
 	ld a, $1
@@ -43,7 +43,7 @@ HandleBallLossBlueField: ; 0xde4f
 	ld a, $1
 	ld [wd49c], a ; Extra Ball
 	ld de, EndOfBallBonusText
-	call Func_dc6d
+	call ShowBallLossText
 	ret
 
 .noExtraBall
@@ -54,12 +54,12 @@ HandleBallLossBlueField: ; 0xde4f
 	inc a
 	ld [wd49d], a
 	ld de, EndOfBallBonusText
-	call Func_dc6d
+	call ShowBallLossText
 	ret
 
 .gameOver
 	ld de, EndOfBallBonusText
-	call Func_dc6d
+	call ShowBallLossText
 	ld a, $1
 	ld [wGameOver], a
 	ret

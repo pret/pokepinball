@@ -19,3 +19,31 @@ CallTable_84bd: ; 0x84bd
 	padded_dab DrawSpritesDiglettBonus    ; STAGE_DIGLETT_BONUS
 	padded_dab DrawSpritesSeelBonus       ; STAGE_SEEL_BONUS
 	padded_dab DrawSpritesSeelBonus       ; STAGE_SEEL_BONUS
+
+UnusedFunc_84fd:
+; unused
+	ld a, [hGameBoyColorFlag]
+	and a
+	jr z, .not_cgb
+	ld a, $1
+	ld [rVBK], a
+	xor a
+	call .FillAttrsOrBGMap
+	xor a
+	ld [rVBK], a
+.not_cgb
+	ld a, $81
+	call .FillAttrsOrBGMap
+	ld de, wBottomMessageBuffer + $47
+	call Func_8524
+	ret
+
+.FillAttrsOrBGMap: ; 8519 (2:4519)
+	hlCoord 0, 0, vBGWin
+	ld b, $20
+.loop
+	ld [hli], a
+	ld [hli], a
+	dec b
+	jr nz, .loop
+	ret

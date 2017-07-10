@@ -29,7 +29,7 @@ CheckForResetButtonCombo: ; 0x8167
 	call LoadVideoData
 	call ClearOAMBuffer
 	call Func_b66
-	call Func_588
+	call EnableLCD
 	call SGBNormal
 	call FadeIn
 	ld hl, wScreenState
@@ -107,7 +107,7 @@ HandleEraseAllDataInput: ; 0x81d4
 
 ExitEraseAllDataMenu: ; 0x820f
 	call FadeOut
-	call Func_576
+	call DisableLCD
 	ld hl, wCurrentScreen
 	inc [hl]
 	xor a

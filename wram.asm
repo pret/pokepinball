@@ -165,7 +165,8 @@ wd495:: ; 0xd495
 wd496:: ; 0xd496
 	ds $1
 
-wd497:: ; 0xd497
+wNextStage:: ; 0xd497
+; Holds the id of the next stage to go to. Used for transitioning between bonus stage and the main red/blue field.
 	ds $1
 
 wd498:: ; 0xd498
@@ -218,7 +219,8 @@ wBallSaverTimerSecondsBackup:: ; 0xd4a7
 wNumTimesBallSavedTextWillDisplayBackup:: ; 0xd4a8
 	ds $1
 
-wd4a9:: ; 0xd4a9
+wExtraBall:: ; 0xd4a9
+; Set to 1 if the player has an extra ball.
 	ds $1
 
 wDrawBottomMessageBox:: ; 0xd4aa
@@ -283,7 +285,10 @@ wd4c8:: ; 0xd4c8
 wd4c9:: ; 0xd4c9
 	ds $1
 
-wd4ca:: ; 0xd4ca
+wShowExtraBallText:: ; 0xd4ca
+; Setting this byte to 1 or 2 will cause the "Extra Ball" message to scroll across the bottom of the screen.
+; 1 = "EXTRA BALL"
+; 2 = "EXTRA BALL SPECIAL BONUS"
 	ds $1
 
 wWhichVoltorb:: ; 0xd4cb
@@ -324,7 +329,9 @@ wWhichBumper:: ; 0xd4d8
 wWhichBumperId:: ; 0xd4d9
 	ds $1
 
-wd4da:: ; 0xd4da
+wBumperLightUpDuration:: ; 0xd4da
+; Number of frames left in the Bumper light-up animation when the pinball bounces off of it.
+; This is shared by both bumpers, so only one can be lit up at a time.
 	ds $1
 
 wd4db:: ; 0xd4db
@@ -493,7 +500,9 @@ wPikachuSaverCharge:: ; 0xd517
 ; in the right alley. The charge's value ranges from 0 - 15.
 	ds $1
 
-wd518:: ; 0xd518
+wWhichPikachuSaverSide:: ; 0xd518
+; 0 = Pikachu is on the left side
+; 1 = Pikachu is on the right side
 	ds $1
 
 wPikachuSaverAnimation:: ; 0xd519
@@ -600,7 +609,9 @@ wd558:: ; 0xd558
 wd559:: ; 0xd559
 	ds $1
 
-wd55a:: ; 0xd55a
+wMapMoveDirection:: ; 0xd55a
+; 0 = need to hit the ball left to open map move slot cave
+; 1 = need to hit the ball right to open map move slot cave
 	ds $1
 
 wRareMonsFlag:: ; 0xd55b
@@ -802,29 +813,43 @@ wDittoSlotCollision:: ; 0xd5fe
 ; Second byte is set by HandleGameObjectCollision, but is unused
 	ds $2
 
-wd600:: ; 0xd600
+wDittoEnterOrExitCounter:: ; 0xd600
+; Number of frames remaining in the process when the pinball is entering or exiting the Ditto cave.
+; This functions the same way as wSlotEnterOrExitCounter.
 	ds $1
 
 wSlotCollision:: ; 0xd601
 ; Second byte is set by HandleGameObjectCollision, but is unused
 	ds $2
 
-wd603:: ; 0xd603
+wSlotEnterOrExitCounter:: ; 0xd603
+; Number of frames remaining in the process when the pinball is entering or exiting the slot cave.
+; This functions the same way as wDittoEnterOrExitCounter.
 	ds $1
 
-wd604:: ; 0xd604
-	ds $2
-
-wd606:: ; 0xd606
+wSlotIsOpen:: ; 0xd604
+; Whether or not the Slot is open for the pinball to enter. 1 = open; 0 = closed
 	ds $1
 
-wd607:: ; 0xd607
+	ds $1 ; unused
+
+wSlotGlowingAnimationCounter:: ; 0xd606
+; When the slot is open, this counter increments once every frame, which controls the glowing
+; animation around the slot cave.
 	ds $1
 
-wd608:: ; 0xd608
+wFramesUntilSlotCaveOpens:: ; 0xd607
+; When set to non-zero value, it decrements once per frame. When it hits 0, the Slot cave will open.
 	ds $1
 
-wd609:: ; 0xd609
+wOpenedSlotByGetting4CAVELights:: ; 0xd608
+; Set to 1 when the slot bonus was trigered by lighting up all 4 CAVE lights.
+; See wCAVELightStates
+	ds $1
+
+wOpenedSlotByGetting3Pokeballs:: ; 0xd609
+; Set to 1 when the slot bonus was triggered by achieving 3 Pokeballs (the pokeballs underneath the billboard).
+; See wNumPokeballs.
 	ds $1
 
 wWhichBonusMultiplierRailing:: ; 0xd60a
@@ -1011,7 +1036,7 @@ wd645:: ; 0xd645
 wd646:: ; 0xd646
 	ds $1
 
-wd647:: ; 0xd647
+wBonusMultiplierRailingEndLightDuration:: ; 0xd647
 	ds $1
 
 wd648:: ; 0xd648
@@ -1827,10 +1852,13 @@ wd801:: ; 0xd801
 wOAMBufferSize:: ; 0xd802
 	ds $1
 
-wd803:: ; 0xd803
+wRumblePattern:: ; 0xd803
+; Holds the rumble pattern for the upcoming frames.
+; This gets rotated to the right once per frame. If bit 0 is set, then it turns on rumble.
 	ds $1
 
-wd804:: ; 0xd804
+wRumbleDuration:: ; 0xd804
+; Number of frames to rumble the Gameboy. See wRumblePattern.
 	ds $1
 
 wd805:: ; 0xd805 enables unused and odd PlaceString
@@ -1873,19 +1901,7 @@ wd811:: ; 0xd811
 	ds $1
 
 wd812:: ; 0xd812
-	ds $18
-
-wd82a:: ; 0xd82a
-	ds $7
-
-wd831:: ; 0xd831
-	ds $c
-
-wd83d:: ; 0xd83d
-	ds $9
-
-wd846:: ; 0xd846
-	ds $2
+	ds $36
 
 wd848:: ; 0xd848
 	ds $1
@@ -2155,6 +2171,7 @@ wd8e9:: ; 0xd8e9
 	ds $1
 
 wd8ea:: ; 0xd8ea
+; IR status flags?
 	ds $1
 
 wd8eb:: ; 0xd8eb

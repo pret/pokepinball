@@ -137,13 +137,13 @@ Func_1936f: ; 0x1936f
 	ld a, h
 	cp $2
 	jr c, .asm_19410
-	ld a, [wd804]
+	ld a, [wRumbleDuration]
 	and a
 	jr nz, .asm_19410
 	ld a, $5
-	ld [wd803], a
+	ld [wRumblePattern], a
 	ld a, $8
-	ld [wd804], a
+	ld [wRumbleDuration], a
 .asm_19410
 	scf
 	ret

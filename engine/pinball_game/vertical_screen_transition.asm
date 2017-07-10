@@ -4,7 +4,7 @@ FieldVerticalTransition: ; 0xe674
 	push af
 	xor a
 	ld [wPinballIsVisible], a
-	ld [wd803], a
+	ld [wRumblePattern], a
 	callba DrawSpritesForStage
 	call CleanOAMBuffer
 	pop af
@@ -17,13 +17,13 @@ FieldVerticalTransition: ; 0xe674
 	ld [hOBP1], a
 	rst AdvanceFrame
 	call Func_e5d
-	call Func_576
+	call DisableLCD
 	call ClearOAMBuffer
 	call Func_1129
 	call LoadStageCollisionAttributes
 	call LoadStageData
 	call Func_e5d
-	call Func_588
+	call EnableLCD
 	ld a, $e4
 	ld [hBGP], a
 	ld a, $e1

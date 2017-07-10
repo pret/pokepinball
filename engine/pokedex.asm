@@ -64,7 +64,7 @@ LoadPokedexScreen: ; 0x2800e
 	call SetSongBank
 	ld de, $0004
 	call PlaySong
-	call Func_588
+	call EnableLCD
 	call FadeIn
 	ld hl, wScreenState
 	inc [hl]
@@ -711,7 +711,7 @@ Func_284bc: ; 0x284bc
 
 ExitPokedexScreen: ; 0x284f9
 	call FadeOut
-	call Func_576
+	call DisableLCD
 	ld hl, hSTAT
 	res 6, [hl]
 	ld hl, rIE

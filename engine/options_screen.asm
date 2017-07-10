@@ -36,7 +36,7 @@ Func_c35a: ; 0xc35a
 	call SetSongBank
 	ld de, $0002
 	call PlaySong
-	call Func_588
+	call EnableLCD
 	ld a, [wSoundTestCurrentBackgroundMusic]
 	hlCoord 7, 11, vBGMap
 	call RedrawSoundTestID
@@ -146,7 +146,7 @@ Func_c447: ; 0xc447
 
 Func_c483: ; 0xc483
 	call FadeOut
-	call Func_576
+	call DisableLCD
 	ld a, SCREEN_TITLESCREEN
 	ld [wCurrentScreen], a
 	xor a
@@ -163,8 +163,8 @@ Func_c493: ; 0xc493
 	lb de, $00, $01
 	call PlaySoundEffect
 	xor a
-	ld [wd803], a
-	ld [wd804], a
+	ld [wRumblePattern], a
+	ld [wRumbleDuration], a
 	ld a, $1
 	ld [wScreenState], a
 	ret
@@ -192,8 +192,8 @@ Func_c4b4: ; 0xc4b4
 	inc a
 	ld [wd917], a
 	xor a
-	ld [wd803], a
-	ld [wd804], a
+	ld [wRumblePattern], a
+	ld [wRumbleDuration], a
 	lb de, $00, $03
 	call PlaySoundEffect
 	ret
@@ -742,9 +742,9 @@ Func_c869: ; 0xc869
 	cp $1
 	ret nz
 	ld a, $55
-	ld [wd803], a
+	ld [wRumblePattern], a
 	ld a, $40
-	ld [wd804], a
+	ld [wRumbleDuration], a
 	ret
 
 Func_c88a: ; 0xc88a

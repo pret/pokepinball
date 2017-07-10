@@ -9,12 +9,12 @@ IncrementBonusMultiplierFromFieldEvent: ; 0x30164
 	jr z, .maxed
 	ld [wCurBonusMultiplierFromFieldEvents], a
 	ld a, $1
-	ld [wd4ca], a
+	ld [wShowExtraBallText], a
 	ret
 
 .maxed
 	ld bc, TenMillionPoints
 	callba AddBigBCD6FromQueue
 	ld a, $2
-	ld [wd4ca], a
+	ld [wShowExtraBallText], a
 	ret

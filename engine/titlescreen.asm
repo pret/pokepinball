@@ -34,7 +34,7 @@ FadeInTitlescreen: ; 0xc00e
 	call SetSongBank
 	ld de, $0004
 	call PlaySong
-	call Func_588
+	call EnableLCD
 	call FadeIn
 	ld hl, wScreenState
 	inc [hl]
@@ -148,7 +148,7 @@ Func_c10e: ; 0xc10e
 	and a
 	jr z, .asm_c177
 	call FadeOut
-	call Func_576
+	call DisableLCD
 	ld a, [wd7c2]
 	and a
 	jr z, .asm_c173
@@ -224,7 +224,7 @@ Func_c1b1: ; 0xc1b1
 
 Func_c1cb: ; 0c1cb
 	call FadeOut
-	call Func_576
+	call DisableLCD
 	ld a, [wTitleScreenCursorSelection]
 	ld c, a
 	ld b, $0
@@ -243,7 +243,7 @@ Data_c1e4: ; 0xc1e4
 
 GoToHighScoresFromTitlescreen: ; 0xc1e7
 	call FadeOut
-	call Func_576
+	call DisableLCD
 	ld a, SCREEN_HIGH_SCORES
 	ld [wCurrentScreen], a
 	ld a, $1

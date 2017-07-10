@@ -258,9 +258,9 @@ Func_25da3: ; 0x25da3
 	ld [wd79a], a
 .asm_25e07
 	ld a, $33
-	ld [wd803], a
+	ld [wRumblePattern], a
 	ld a, $8
-	ld [wd804], a
+	ld [wRumbleDuration], a
 	lb de, $00, $30
 	call PlaySoundEffect
 	call Func_25e85

@@ -9,7 +9,7 @@ SECTION "rst 18", ROM0
 	jp JumpToFuncInTable
 
 SECTION "rst 20", ROM0
-	jp Func_486
+	jp _ReadHalfword
 
 SECTION "VBlankInt", ROM0
 	jp VBlank
@@ -334,7 +334,7 @@ VBlank: ; 0x2f2
 	jr nz, .asm_37d
 	ld a, [wd85d]
 	and a
-	call nz, Func_504
+	call nz, UpdateSFX
 .asm_37d
 	ld a, [wd84a]
 	and a
@@ -356,9 +356,9 @@ VBlank: ; 0x2f2
 	ld a, [wd917]
 	and a
 	jr nz, .asm_3b5
-	ld a, [wd803]
+	ld a, [wRumblePattern]
 	rrca
-	ld [wd803], a
+	ld [wRumblePattern], a
 	and $1
 	jr z, .asm_3b5
 	set 3, [hl]
@@ -382,7 +382,7 @@ Func_3c3:
 	jr z, .asm_03cf
 	call FadeOut
 	; Fades palettes in from white screen.
-	call Func_576
+	call DisableLCD
 .asm_03cf
 	ld hl, hSTAT
 	res 6, [hl]
@@ -444,7 +444,7 @@ Timer: ; 0x418
 	jr z, .asm_42a
 	ld a, [wd85d]
 	and a
-	call nz, Func_504
+	call nz, UpdateSFX
 .asm_42a
 	ld a, [wd84a]
 	and a
@@ -522,7 +522,7 @@ JumpToFuncInTable: ; 0x477
 	pop de
 	jp hl
 
-Func_486: ; 0x486
+_ReadHalfword: ; 0x486
 	rlca
 	add l
 	ld l, a
@@ -534,105 +534,7 @@ Func_486: ; 0x486
 	ld l, a
 	ret
 
-PlaySong: ; 0x490
-	ld a, [hLoadedROMBank]
-	push af
-	ld a, [wCurrentSongBank]
-	ld [hLoadedROMBank], a
-	ld [MBC5RomBank], a
-	ld a, e
-	ld [wStageSong], a
-	ld a, [wCurrentSongBank]
-	ld [wStageSongBank], a
-	call PlaySong_BankF  ; this function is replicated in multiple banks.
-	pop af
-	ld [hLoadedROMBank], a
-	ld [MBC5RomBank], a
-	ret
-
-PlaySoundEffect: ; 0x4af
-; input:  de = sound effect id?  I think d specifies something special and e holds the id
-	ld a, [wdead]
-	and a
-	ret nz
-	ld a, [wSFXTimer]
-	and a
-	jr z, .asm_4bd
-	ld a, d
-	and a
-	ret z
-.asm_4bd
-	ld a, d
-	ld [wSFXTimer], a
-	ld d, $0
-	ld a, [hLoadedROMBank]
-	push af
-	ld a, [wCurrentSongBank]
-	ld [hLoadedROMBank], a
-	ld [MBC5RomBank], a
-	call PlaySoundEffect_BankF  ; this function is replicated in multiple banks
-	pop af
-	ld [hLoadedROMBank], a
-	ld [MBC5RomBank], a
-	ret
-
-Func_4d8: ; 0x4d8
-	push bc
-	push de
-	push hl
-	ld a, [wChannel4 + 2]
-	ld hl, wChannel5 + 2
-	or [hl]
-	ld hl, wChannel6 + 2
-	or [hl]
-	and $1
-	call z, PlaySoundEffect
-	pop hl
-	pop de
-	pop bc
-	ret
-
-PlayCry: ; 0x4ef
-; Plays a Pokemon cry.
-; Input:  e = mon id
-	ld a, [hLoadedROMBank]
-	push af
-	ld a, [wCurrentSongBank]
-	ld [hLoadedROMBank], a
-	ld [MBC5RomBank], a
-	call PlayCry_BankF  ; this function is replicated in multiple banks
-	pop af
-	ld [hLoadedROMBank], a
-	ld [MBC5RomBank], a
-	ret
-
-Func_504: ; 0x504
-	ld a, [hLoadedROMBank]
-	push af
-	ld a, [wCurrentSongBank]
-	ld [hLoadedROMBank], a
-	ld [MBC5RomBank], a
-	call Func_3c180
-	pop af
-	ld [hLoadedROMBank], a
-	ld [MBC5RomBank], a
-	ld a, [wd801]
-	inc a
-	ld [wd801], a
-	and $3
-	ret nz
-	ld a, [wSFXTimer]
-	and a
-	ret z
-	dec a
-	ld [wSFXTimer], a
-	ret
-
-SetSongBank: ; 0x52c
-	di
-	ld [wCurrentSongBank], a
-	ei
-	ret
+INCLUDE "home/audio.asm"
 
 CallInFollowingTable: ; 0x532
 ; Calls a function in a table located immediately after a call to this function.
@@ -690,7 +592,7 @@ BankSwitch: ; 0x54f
 	ld a, [hFarCallTempA]
 	jp hl
 
-Func_576: ; 0x576
+DisableLCD: ; 0x576
 	ld a, [rLCDC]
 	bit 7, a
 	ret z
@@ -703,17 +605,17 @@ Func_576: ; 0x576
 	jr nz, .asm_581
 	ret
 
-Func_588: ; 0x588
+EnableLCD: ; 0x588
 	ld a, [hFFC4]
 	and a
-	call nz, Func_597
+	call nz, .UpdatePals
 	ld a, [hLCDC]
 	set 7, a
 	ld [rLCDC], a
 	ld [hLCDC], a
 	ret
 
-Func_597: ; 0x597
+.UpdatePals
 	ld de, rBGPI
 	ld a, $80
 	ld [de], a
@@ -721,7 +623,7 @@ Func_597: ; 0x597
 	ld b, $8
 .asm_5a0
 	ld a, [wBGP]
-	call Func_5c2
+	call .UpdateDMGPals
 	dec b
 	jr nz, .asm_5a0
 	ld de, rOBPI
@@ -731,14 +633,14 @@ Func_597: ; 0x597
 	ld b, $4
 .asm_5b2
 	ld a, [wOBP0]
-	call Func_5c2
+	call .UpdateDMGPals
 	ld a, [wOBP1]
-	call Func_5c2
+	call .UpdateDMGPals
 	dec b
 	jr nz, .asm_5b2
 	ret
 
-Func_5c2: ; 0x5c2
+.UpdateDMGPals
 	push bc
 	ld b, $4
 .asm_5c5
@@ -769,13 +671,13 @@ GreyscalePalette:
 	RGB 11, 11, 11
 	RGB 0, 0, 0
 
-Func_5e9:
+VBlankIntDisable:
 	ld a, [rIE]
 	res 0, a
 	ld [rIE], a
 	ret
 
-Func_5f0:
+VBlankIntEnable:
 	ld a, [rIE]
 	set 0, a
 	ld [rIE], a
@@ -811,9 +713,9 @@ WaitForLCD: ; 0x60f
 	and $3
 	jr nz, WaitForLCD
 	ld a, $a
-.delay10Cycles
+.delay40Cycles
 	dec a
-	jr nz, .delay10Cycles
+	jr nz, .delay40Cycles
 	ret
 
 Func_61b: ; 0x61b
@@ -842,585 +744,7 @@ Func_61b: ; 0x61b
 .asm_63d
 	ret
 
-Func_63e: ; 0xc3e
-	dec bc
-.asm_63f
-	ld [hli], a
-	dec bc
-	bit 7, b
-	jr z, .asm_63f
-	ret
-
-Func_646:
-	srl b
-	rr c
-.asm_064a
-	ld a, e
-	ld [hli], a
-	ld a, d
-	ld [hli], a
-	dec bc
-	ld a, b
-	or c
-	jr nz, .asm_064a
-	ret
-
-ClearData: ; 0x654
-; Clears bc bytes starting at hl.
-; bc can be a maximum of $7fff, since it checks bit 7 of b when looping.
-	xor a
-	dec bc
-.clearLoop
-	ld [hli], a
-	dec bc
-	bit 7, b
-	jr z, .clearLoop
-	ret
-
-LocalCopyData: ; 0x65d
-	ld a, [hli]
-	ld [de], a
-	inc de
-	dec bc
-	ld a, c
-	or b
-	jr nz, LocalCopyData
-	ret
-
-FarCopyData: ; 0x666 spooky
-; Copies data from any bank to either working RAM or video RAM
-; Input: hl = address of data to copy
-;        a  = bank of data to copy
-;        de = destination for data
-;        bc = number of bytes to copy
-	bit 7, h
-	jr nz, .copyFromSRAM
-	ld [hROMBankBuffer], a
-	ld a, [hLoadedROMBank]
-	push af
-	ld a, [hROMBankBuffer]
-	ld [hLoadedROMBank], a
-	ld [MBC5RomBank], a
-	scf
-	jr .copyData
-
-.copyFromSRAM
-	ld [MBC5SRamBank], a
-	and a
-.copyData
-	push af
-.copyLoop
-	ld a, [hli]
-	ld [de], a
-	inc de
-	dec bc
-	ld a, c
-	or b
-	jr nz, .copyLoop
-	pop af
-	ret nc
-	pop af
-	ld [hLoadedROMBank], a
-	ld [MBC5RomBank], a
-	ret
-
-ReadByteFromBank: ; 0x68f
-; Input: a  = bank
-;        hl = address of byte to read
-; Output: a = byte at a:hl
-	push de
-	ld d, a
-	ld a, [hLoadedROMBank]
-	ld e, a
-	ld a, d
-	ld [hLoadedROMBank], a
-	ld [MBC5RomBank], a
-	ld d, [hl]
-	ld a, e
-	ld [hLoadedROMBank], a
-	ld [MBC5RomBank], a
-	ld a, d
-	pop de
-	ret
-
-LoadVideoData: ; 0x6a4
-; Input:
-;     hl = address of pointer table
-;      a = index of item to load in pointer table
-; This needs more documentation. It loads things like graphics and palettes.
-	sla a
-	ld c, a
-	ld b, $0
-	add hl, bc
-	ld a, [hli]
-	ld h, [hl]
-	ld l, a
-.loadItem
-	ld a, [hli]
-	ld c, a
-	and [hl]
-	cp $ff      ; two consecutive $ff bytes terminate the array
-	ret z
-	ld a, [hli]
-	ld b, a     ; bc contains pointer to data to be loaded
-	push hl
-	push bc
-	ld a, [hli] ; a contains bank of data to be loaded
-	ld e, [hl]
-	inc hl
-	ld d, [hl]  ; de contains destination address for data
-	inc hl
-	ld c, [hl]
-	inc hl
-	ld b, [hl]  ; bc contains last word of data struct
-	inc hl      ; this is a wasted instruction
-	pop hl
-	call Func_6cb
-	pop hl
-	ld bc, $0005
-	add hl, bc
-	jr .loadItem
-
-Func_6cb: ; 0x6cb
-	srl b
-	rr c
-	jp c, Func_6fd  ; if lowest bit of bc is set
-	jp Func_6d5 ; This jumps to the next instruction... Strange.
-
-Func_6d5: ; 0x6d5
-	ld [hROMBankBuffer], a  ; save bank of data to be loaded
-	ld a, [hLoadedROMBank]
-	push af
-	ld a, [hROMBankBuffer]  ; a contains bank of data to be loaded
-	ld [hLoadedROMBank], a
-	ld [MBC5RomBank], a  ; switch bank to the bank of data to be loaded
-	srl b
-	rr c
-	rl a
-	and $1  ; checks bit 1 of the last word in the data struct
-	ld [rVBK], a  ; set VRAM Bank
-.copyByte
-	ld a, [hli]
-	ld [de], a
-	inc de
-	dec bc
-	ld a, c
-	or b  ; does bc = 0?
-	jr nz, .copyByte
-	xor a
-	ld [rVBK], a  ; set VRAM Bank to Bank 0
-	pop af
-	ld [hLoadedROMBank], a
-	ld [MBC5RomBank], a  ; reload the previous ROM Bank
-	ret
-
-Func_6fd: ; 0x6fd
-	ld [hROMBankBuffer], a  ; save bank of data to be loaded
-	ld a, [hLoadedROMBank]
-	push af
-	ld a, [hROMBankBuffer]  ; a contains bank of data to be loaded
-	ld [hLoadedROMBank], a
-	ld [MBC5RomBank], a  ; switch bank to the bank of data to be loaded
-	ld a, e
-	bit 6, a
-	jr nz, .asm_717
-	ld de, rBGPI
-	call Func_724
-	jr z, .asm_71d
-	xor a
-.asm_717
-	ld de, rOBPI
-	call Func_724
-.asm_71d
-	pop af
-	ld [hLoadedROMBank], a
-	ld [MBC5RomBank], a
-	ret
-
-Func_724: ; 0x724
-	res 6, a
-	ld b, a
-	set 7, a
-	ld [de], a
-	inc de
-.copyByte
-	ld a, [hli]
-	ld [de], a
-	inc b
-	dec c
-	ret z
-	bit 6, b
-	jr z, .copyByte
-	ret
-
-LoadOrCopyVRAMData: ; 0x735
-	push hl
-	ld hl, rLCDC
-	bit 7, [hl]
-	pop hl
-	jp z, FarCopyData
-	; fall through
-LoadVRAMData: ; 0x73f
-; This loads some data into VRAM. It waits for the LCD H-Blank to copy the data 4 bytes at a time.
-; input:  hl = source of data
-;          a = bank of data to load
-;         de = destination of data
-;         bc = number of bytes to copy
-	bit 7, h
-	jr nz, .asm_752
-	ld [hROMBankBuffer], a
-	ld a, [hLoadedROMBank]
-	push af
-	ld a, [hROMBankBuffer]
-	ld [hLoadedROMBank], a
-	ld [MBC5RomBank], a
-	scf
-	jr .asm_756
-
-.asm_752
-	ld [MBC5SRamBank], a
-	and a
-.asm_756
-	push af
-	call WaitForLCD
-.loop
-	call Func_61b
-.waitForHBlank
-	ld a, [rSTAT]
-	and $3
-	jr nz, .waitForHBlank
-	ld a, [hli]
-	ld [de], a
-	inc de
-	ld a, [hli]
-	ld [de], a
-	inc de
-	ld a, [hli]
-	ld [de], a
-	inc de
-	ld a, [hli]
-	ld [de], a
-	inc de
-	nop
-	nop
-	nop
-	nop
-	nop
-	nop
-	nop
-	nop
-	nop
-	nop
-	nop
-	nop
-	dec bc
-	dec bc
-	dec bc
-	dec bc
-	nop
-	nop
-	nop
-	nop
-	ld a, b
-	or c
-	jr nz, .loop
-	pop af
-	ret nc
-	pop af
-	ld [hLoadedROMBank], a
-	ld [MBC5RomBank], a
-	ret
-
-FarCopyPalettes: ; 0x790
-	push hl
-	ld hl, rLCDC
-	bit 7, [hl]
-	pop hl
-	jp nz, Func_7dc
-	bit 7, h
-	jr nz, .asm_7ad
-	ld [hROMBankBuffer], a
-	ld a, [hLoadedROMBank]
-	push af
-	ld a, [hROMBankBuffer]
-	ld [hLoadedROMBank], a
-	ld [MBC5RomBank], a
-	scf
-	jr .asm_7b1
-
-.asm_7ad
-	ld [MBC5SRamBank], a
-	and a
-.asm_7b1
-	push af
-	ld a, e
-	bit 6, e
-	ld de, rBGPI
-	jr z, .asm_7bf
-	res 6, a
-	ld de, rOBPI
-.asm_7bf
-	set 7, a
-	ld [de], a
-	inc de
-.asm_7c3
-	ld a, [hli]
-	ld [de], a
-	ld a, [hli]
-	ld [de], a
-	ld a, [hli]
-	ld [de], a
-	ld a, [hli]
-	ld [de], a
-	dec bc
-	dec bc
-	dec bc
-	dec bc
-	ld a, b
-	or c
-	jr nz, .asm_7c3
-	pop af
-	ret nc
-	pop af
-	ld [hLoadedROMBank], a
-	ld [MBC5RomBank], a
-	ret
-
-Func_7dc: ; 0x7dc
-	bit 7, h
-	jr nz, .asm_7ef
-	ld [hROMBankBuffer], a
-	ld a, [hLoadedROMBank]
-	push af
-	ld a, [hROMBankBuffer]
-	ld [hLoadedROMBank], a
-	ld [MBC5RomBank], a
-	scf
-	jr .asm_7f3
-
-.asm_7ef
-	ld [MBC5SRamBank], a
-	and a
-.asm_7f3
-	push af
-	ld a, e
-	bit 6, e
-	ld de, rBGPI
-	jr z, .asm_801
-	res 6, a
-	ld de, rOBPI
-.asm_801
-	push hl
-	ld h, d
-	ld l, e
-	set 7, a
-	call PutTileInVRAM
-	inc de
-	pop hl
-	call WaitForLCD
-.asm_80e
-	call Func_61b
-.asm_811
-	ld a, [rSTAT]
-	and $3
-	jr nz, .asm_811
-	ld a, [hli]
-	ld [de], a
-	ld a, [hli]
-	ld [de], a
-	ld a, [hli]
-	ld [de], a
-	ld a, [hli]
-	ld [de], a
-	nop
-	nop
-	nop
-	nop
-	nop
-	nop
-	nop
-	nop
-	nop
-	nop
-	nop
-	nop
-	nop
-	nop
-	nop
-	nop
-	nop
-	nop
-	nop
-	nop
-	dec bc
-	dec bc
-	dec bc
-	dec bc
-	nop
-	nop
-	nop
-	nop
-	ld a, b
-	or c
-	jr nz, .asm_80e
-	pop af
-	ret nc
-	pop af
-	ld [hLoadedROMBank], a
-	ld [MBC5RomBank], a
-	ret
-
-PutTileInVRAM: ; 0x848
-; Puts a tile in VRAM.
-; input:  a = tile number
-;        hl = pointer to VRAM location where tile should be placed
-	push af
-	call WaitForLCD
-	call Func_61b
-.asm_84f
-	ld a, [rSTAT]
-	and $3
-	jr nz, .asm_84f  ; wait for lcd controller to finish transferring data
-	pop af
-	ld [hl], a  ; Store tile number in VRAM background map
-	ret
-
-Func_858: ; 0x858
-	push af
-	call WaitForLCD
-	call Func_61b
-.asm_85f
-	ld a, [rSTAT]
-	and $3
-	jr nz, .asm_85f
-	ld a, $1
-	ld [rVBK], a
-	pop af
-	ld [hl], a
-	xor a
-	ld [rVBK], a
-	ret
-
-LoadBillboardPaletteMap: ; 0x86f
-; Loads the background palette map for a 6x4-tile billboard picture.
-	ld [hROMBankBuffer], a
-	ld a, [hLoadedROMBank]
-	push af
-	ld a, [hROMBankBuffer]
-	ld [hLoadedROMBank], a
-	ld [MBC5RomBank], a
-	ld a, [rLCDC]
-	bit 7, a
-	jr nz, .asm_8ac
-	ld a, $1
-	ld [rVBK], a
-	ld b, $4
-.loop
-	push bc
-	ld a, [de]
-	ld [hli], a
-	inc de
-	ld a, [de]
-	ld [hli], a
-	inc de
-	ld a, [de]
-	ld [hli], a
-	inc de
-	ld a, [de]
-	ld [hli], a
-	inc de
-	ld a, [de]
-	ld [hli], a
-	inc de
-	ld a, [de]
-	ld [hli], a
-	inc de
-	ld bc, $001a
-	add hl, bc
-	pop bc
-	dec b
-	jr nz, .loop
-	xor a
-	ld [rVBK], a
-	pop af
-	ld [hLoadedROMBank], a
-	ld [MBC5RomBank], a
-	ret
-
-.asm_8ac
-	ld b, $4
-.asm_8ae
-	push bc
-	ld a, [de]
-	call Func_858
-	inc hl
-	inc de
-	ld a, [de]
-	call Func_858
-	inc hl
-	inc de
-	ld a, [de]
-	call Func_858
-	inc hl
-	inc de
-	ld a, [de]
-	call Func_858
-	inc hl
-	inc de
-	ld a, [de]
-	call Func_858
-	inc hl
-	inc de
-	ld a, [de]
-	call Func_858
-	inc de
-	ld bc, $001b
-	add hl, bc
-	pop bc
-	dec b
-	jr nz, .asm_8ae
-	pop af
-	ld [hLoadedROMBank], a
-	ld [MBC5RomBank], a
-	ret
-
-Func_8e1: ; 0x8e1
-	ld [hROMBankBuffer], a
-	ld a, [hLoadedROMBank]
-	push af
-	ld a, [hROMBankBuffer]
-	ld [hLoadedROMBank], a
-	ld [MBC5RomBank], a
-	ld a, [rLCDC]
-	bit 7, a
-	jr nz, .asm_902
-	ld a, c
-	ld [hli], a
-.asm_8f5
-	ld a, [de]
-	ld [hl], a
-	inc de
-	dec b
-	jr nz, .asm_8f5
-	pop af
-	ld [hLoadedROMBank], a
-	ld [MBC5RomBank], a
-	ret
-
-.asm_902
-	ld a, c
-	call PutTileInVRAM
-	inc hl
-.asm_907
-	ld a, [de]
-	call PutTileInVRAM
-	inc de
-	dec b
-	jr nz, .asm_907
-	pop af
-	ld [hLoadedROMBank], a
-	ld [MBC5RomBank], a
-	ret
+INCLUDE "home/copy.asm"
 
 ClearOAMBuffer: ; 0x916
 ; Clears the OAM buffer by loading $f0 into all of the entries.
@@ -1481,266 +805,8 @@ SGBWait1750: ; 0x948
 	jr nz, SGBWait1750
 	ret
 
-GenRandom: ; 0x959
-	push bc
-	push de
-	push hl
-	ld a, [wd811]
-	ld c, a
-	ld b, $0
-	inc a
-	cp $37
-	jr nz, .asm_96e
-	call Func_9fa
-	xor a
-	ld bc, $0000
-.asm_96e
-	ld [wd811], a
-	ld hl, wd812
-	add hl, bc
-	ld a, [hl]
-	pop hl
-	pop de
-	pop bc
-	ret
-
-Func_97a: ; 0x97a
-	ld a, [wd810]
-	ld d, a
-	ld a, $0
-	ld a, [$afff]
-.asm_983
-	cp d
-	jr c, .asm_989
-	sub d
-	jr .asm_983
-
-.asm_989
-	ld [wd80f], a
-	ld [wd848], a
-	ld e, $1
-	ld hl, Data_9c4
-	ld a, $36
-.asm_996
-	push af
-	ld c, [hl]
-	inc hl
-	ld b, $0
-	push hl
-	ld hl, wd812
-	add hl, bc
-	ld [hl], e
-	ld a, [wd80f]
-	sub e
-	jr nc, .asm_9a8
-	add d
-.asm_9a8
-	ld e, a
-	ld a, [hl]
-	ld [wd80f], a
-	pop hl
-	pop af
-	dec a
-	jr nz, .asm_996
-	call Func_9fa
-	call Func_9fa
-	call Func_9fa
-	ld a, $0
-	call GenRandom
-	ld [$afff], a
-	ret
-
-Data_9c4:
-	db $14, $29, $07, $1c, $31, $0f, $24, $02, $17
-	db $2c, $0a, $1f, $34, $12, $27, $05, $1a, $2f
-	db $0d, $22, $00, $15, $2a, $08, $1d, $32, $10
-	db $25, $03, $18, $2d, $0b, $20, $35, $13, $28
-	db $06, $1b, $30, $0e, $23, $01, $16, $2b, $09
-	db $1e, $33, $11, $26, $04, $19, $2e, $0c, $21
-
-Func_9fa: ; 0x9fa
-	ld a, [wd810]
-	ld d, a
-	ld bc, wd812
-	ld hl, wd831
-	ld e, $18
-.asm_a06
-	ld a, [bc]
-	sub [hl]
-	jr nc, .asm_a0b
-	add d
-.asm_a0b
-	ld [bc], a
-	dec e
-	jr nz, .asm_a06
-	ld bc, wd82a
-	ld hl, wd812
-	ld e, $1f
-.asm_a17
-	ld a, [bc]
-	sub [hl]
-	jr nc, .asm_a1c
-	add d
-.asm_a1c
-	ld [bc], a
-	dec e
-	jr nz, .asm_a17
-	ret
-
-Func_a21: ; 0xa21
-	push bc
-	push hl
-	ld c, a
-	ld b, $0
-	ld hl, Data_a38
-	add hl, bc
-	ld l, [hl]
-	call GenRandom
-	call Func_dd4
-	inc h
-	srl h
-	ld a, h
-	pop hl
-	pop bc
-	ret
-
-Data_a38:
-x = 0
-REPT 128
-	db x | ((x >> 7) & 1)
-x = x + 2
-ENDR
-
-ReadJoypad: ; 0xab8
-; Reads the current state of the joypad and saves the state into
-; some registers the game uses during gameplay. It remembers the joypad state
-; from the current frame, previous frame, and two frames ago.
-	ld a, $20
-	ld [rJOYP], a
-	ld a, [rJOYP]
-	ld a, [rJOYP]
-	and $f
-	swap a
-	ld b, a
-	ld a, $30
-	ld [rJOYP], a
-	ld a, $10
-	ld [rJOYP], a
-	ld a, [rJOYP]
-	ld a, [rJOYP]
-	ld a, [rJOYP]
-	ld a, [rJOYP]
-	ld a, [rJOYP]
-	ld a, [rJOYP]
-	and $f
-	or b
-	cpl  ; a contains currently-pressed buttons
-	ld [hJoypadState], a
-	ld a, $30
-	ld [rJOYP], a
-	ld a, [hJoypadState]
-	ld hl, hPreviousJoypadState
-	xor [hl]  ; a contains buttons that are different from previous frame
-	push af
-	ld hl, hJoypadState
-	and [hl]  ; a contains newly-pressed buttons compared to last frame
-	ld [hNewlyPressedButtons], a
-	ld [hPressedButtons], a
-	pop af
-	ld hl, hPreviousJoypadState
-	and [hl]  ; a contains newly-pressed buttons compared to two frames ago
-	ld [hPrevPreviousJoypadState], a
-	ld a, [hJoypadState]
-	and a
-	jr z, .asm_b15
-	ld hl, hPreviousJoypadState
-	cp [hl]
-	jr nz, .asm_b15
-	; button(s) is pressed, and they're identical to the buttons pressed last frame.
-	; this code is related to holding down a button for an extended period of time.
-	ld hl, hJoyRepeatDelay
-	dec [hl]
-	jr nz, .asm_b1a
-	ld a, [hJoypadState]
-	ld [hPressedButtons], a
-	ld a, [wd807]
-	ld [hJoyRepeatDelay], a
-	jr .asm_b1a
-
-.asm_b15
-	ld a, [wd806]
-	ld [hJoyRepeatDelay], a
-.asm_b1a
-	ld a, [hJoypadState]
-	ld [hPreviousJoypadState], a
-	ld hl, wJoypadStatesPersistent
-	ld a, [hJoypadState]
-	or [hl]
-	ld [hli], a
-	ld a, [hNewlyPressedButtons]
-	or [hl]
-	ld [hli], a
-	ld a, [hPressedButtons]
-	or [hl]
-	ld [hli], a
-	ret
-
-ClearPersistentJoypadStates: ; 0xb2e
-	ld hl, wJoypadStatesPersistent
-	xor a
-	ld [hli], a
-	ld [hli], a
-	ld [hl], a
-	ret
-
-IsKeyPressed2: ; 0xb36
-	ld a, [hJoypadState]
-	and [hl]
-	jr z, .asm_b3e
-	cp [hl]
-	jr z, .asm_b48
-.asm_b3e
-	inc hl
-	ld a, [hJoypadState]
-	and [hl]
-	ret z
-	cp [hl]
-	jr z, .asm_b48
-	xor a
-	ret
-
-.asm_b48
-	ld a, $1
-	and a
-	ret
-
-IsKeyPressed: ; 0xb4c
-; Checks if a key for the specified key config is pressed.
-; input:   hl = pointer to key config byte pair (e.g. wKeyConfigLeftFlipper)
-; output:  zero flag is set if a corresponding key is pressed
-;          zero flag is reset if no corresponding key is pressed
-	ld a, [hJoypadState]
-	and [hl]
-	jr z, .asm_b58
-	cp [hl]
-	jr nz, .asm_b58
-	ld a, [hNewlyPressedButtons]
-	and [hl]
-	ret nz
-.asm_b58
-	inc hl
-	ld a, [hJoypadState]
-	and [hl]
-	ret z
-	cp [hl]
-	jr nz, .asm_b64
-	ld a, [hNewlyPressedButtons]
-	and [hl]
-	ret
-
-.asm_b64
-	xor a
-	ret
+INCLUDE "home/random.asm"
+INCLUDE "home/joypad.asm"
 
 Func_b66: ; 0xb66
 	ld a, [hGameBoyColorFlag]
@@ -3255,7 +2321,8 @@ Func_1bb2: ; 0x1bb2
 	ret
 
 Data_1bcf:
-	db $02, $01, $04, $03
+	;  $ff, >$7f, >$3f, else
+	db $02,  $01,  $04,  $03
 
 Func_1bd3: ; 0x1bd3
 	lb de, $00, $01
@@ -3266,463 +2333,7 @@ Func_1bd3: ; 0x1bd3
 	scf
 	ret
 
-Func_1be3: ; 0x1be3
-	ld a, $c0
-	ld [rRP], a
-	ld a, $ff
-	ld [wd8ea], a
-	xor a
-	ld b, a
-.asm_1bee
-	inc a
-	jr nz, .asm_1bee
-	inc b
-	jr nz, .asm_1bee
-	ld hl, wd8eb
-	ld a, [rKEY1]
-	bit 7, a
-	jr z, .asm_1c0c
-	ld [hl], $e
-	inc hl
-	ld [hl], $12
-	inc hl
-	ld [hl], $8
-	inc hl
-	ld [hl], $c
-	inc hl
-	ld [hl], $c
-	ret
-
-.asm_1c0c
-	ld [hl], $6
-	inc hl
-	ld [hl], $8
-	inc hl
-	ld [hl], $2
-	inc hl
-	ld [hl], $4
-	inc hl
-	ld [hl], $5
-	ret
-
-Func_1c1b: ; 0x1c1b
-	inc d
-	ret z
-	ld a, [$ff00+c]
-	bit 1, a
-	jr z, Func_1c1b
-	ret
-
-Func_1c23: ; 0x1c23
-	inc d
-	ret z
-	ld a, [$ff00+c]
-	bit 1, a
-	jr nz, Func_1c23
-	ret
-
-Func_1c2b: ; 0x1c2b
-	ld a, $c1
-	ld [$ff00+c], a
-.asm_1c2e
-	dec d
-	jr nz, .asm_1c2e
-	ret
-
-Func_1c32: ; 0x1c32
-	ld a, $c0
-	ld [$ff00+c], a
-.asm_1c35
-	dec d
-	jr nz, .asm_1c35
-	ret
-
-Func_1c39:
-	xor a
-	ld [hNumFramesSinceLastVBlank], a
-	ld a, $1
-	ld [wd8e9], a
-.asm_1c41
-	ld b, $2
-	ld c, rRP % $100
-	ld a, [$ff00+c]
-	and b
-	jr z, Func_1c50
-	ld a, [hNumFramesSinceLastVBlank]
-	and a
-	jr nz, Func_1ca1
-	jr .asm_1c41
-
-Func_1c50: ; 0x1c50
-	ld a, $1
-	ld [wd8e9], a
-	ld b, $1a
-	ld c, rRP % $100
-	ld d, $0
-	ld e, d
-	call Func_1c23
-	ld a, d
-	and a
-	jp z, Func_1dc2
-	ld d, e
-	call Func_1c1b
-	ld a, d
-	and a
-	jp z, Func_1dc2
-	call Func_1c23
-	ld a, d
-	and a
-	jp z, Func_1dc2
-	call Func_1c1b
-	ld a, d
-	and a
-	jp z, Func_1dc2
-	cp $8
-	jp c, Func_1dc2
-	cp $2a
-	jp nc, Func_1dc2
-	ld a, $0
-	ld [wd8ea], a
-	ld d, b
-	call Func_1c32
-	ld d, b
-	call Func_1c2b
-	ld d, b
-	call Func_1c32
-	ld d, b
-	call Func_1c2b
-	ld d, b
-	call Func_1c32
-	ret
-
-Func_1ca1: ; 0x1ca1
-	ld a, $2
-	ld [wd8e9], a
-	ld b, $1a
-	ld c, rRP % $100
-	ld d, b
-	ld e, $0
-	call Func_1c32
-	ld d, b
-	call Func_1c2b
-	ld d, b
-	call Func_1c32
-	ld d, b
-	call Func_1c2b
-	ld d, b
-	call Func_1c32
-	ld d, e
-	call Func_1c23
-	ld a, d
-	and a
-	jp z, Func_1dc2
-	ld d, e
-	call Func_1c1b
-	ld a, d
-	and a
-	jp z, Func_1dc2
-	ld d, e
-	call Func_1c23
-	ld a, d
-	and a
-	jp z, Func_1dc2
-	ld d, e
-	call Func_1c1b
-	ld a, d
-	and a
-	jp z, Func_1dc2
-	ld d, $1a
-	call Func_1c32
-	ld a, $0
-	ld [wd8ea], a
-	ret
-
-Func_1cef:
-	xor a
-	ld [rRP], a
-	ld a, $ff
-	ld [wd8ea], a
-	ret
-
-Func_1cf8: ; 0x1cf8
-	xor a
-	ld [wd8e4], a
-	ld [wd8e5], a
-	push hl
-	push bc
-	ld hl, wd8e6
-	ld a, $5a
-	ld [hli], a
-	ld [hl], b
-	dec hl
-	ld b, $2
-	ld d, $1e
-	call Func_1c32
-	call Func_1d44
-	pop bc
-	pop hl
-	call Func_1ed3
-	call Func_1d44
-	ld a, [wd8e4]
-	ld [wd8e6], a
-	ld a, [wd8e5]
-	ld [wd8e7], a
-	ld hl, wd8e6
-	ld b, $2
-	call Func_1d44
-	ld hl, wd8ea
-	ld b, $1
-	call Func_1e3b
-	ld a, [wd8e6]
-	ld [wd8e4], a
-	ld a, [wd8e7]
-	ld [wd8e5], a
-	ret
-
-Func_1d44: ; 0x1d44
-	ld a, [wd8ea]
-	cp $0
-	ret nz
-	ld c, rRP % $100
-	ld d, $16
-	call Func_1c2b
-	ld d, $16
-	call Func_1c32
-	ld a, b
-	cpl
-	ld b, a
-.asm_1d59
-	inc b
-	jr z, .asm_1dae
-	ld a, $8
-	ld [wd8e3], a
-	ld a, [hli]
-	ld e, a
-	ld a, [wd8e4]
-	add e
-	ld [wd8e4], a
-	jr nc, .asm_1d75
-	ld a, [wd8e5]
-	inc a
-	ld [wd8e5], a
-	jr .asm_1d78
-
-.asm_1d75
-	call Func_1ed3
-.asm_1d78
-	ld a, e
-	rlca
-	ld e, a
-	jr nc, .asm_1d8d
-	ld a, [wd8eb]
-	ld d, a
-	call Func_1c2b
-	ld a, [wd8ec]
-	ld d, a
-	call Func_1c32
-	jr .asm_1d9b
-
-.asm_1d8d
-	ld a, [wd8ed]
-	ld d, a
-	call Func_1c2b
-	ld a, [wd8ee]
-	ld d, a
-	call Func_1c32
-.asm_1d9b
-	ld a, [wd8e3]
-	dec a
-	ld [wd8e3], a
-	jr z, .asm_1dac
-	call Func_1ed4
-	call Func_1ed4
-	jr .asm_1d78
-
-.asm_1dac
-	jr .asm_1d59
-
-.asm_1dae
-	call Func_1ed3
-	call Func_1ed3
-	call Func_1ed4
-	ld d, $16
-	call Func_1c2b
-	ld d, $16
-	call Func_1c32
-	ret
-
-Func_1dc2: ; 0x1dc2
-	ld a, $2
-	ld [wd8ea], a
-	ret
-
-Func_1dc8:
-	ld a, [wd8ea]
-	or $1
-	ld [wd8ea], a
-	ret
-
-Func_1dd1: ; 0x1dd1
-	ld a, [wd8ea]
-	or $4
-	ld [wd8ea], a
-	ret
-
-Func_1dda: ; 0x1dda
-	xor a
-	ld [wd8e4], a
-	ld [wd8e5], a
-	push hl
-	ld hl, wd8e6
-	ld b, $2
-	call Func_1e3b
-	ld a, [wd8e7]
-	ld [wd8e8], a
-	ld b, a
-	pop hl
-	ld a, [wd8e6]
-	cp $5a
-	jp nz, Func_1dd1
-	call Func_1e3b
-	ld a, [wd8e4]
-	ld d, a
-	ld a, [wd8e5]
-	ld e, a
-	push de
-	ld hl, wd8e6
-	ld b, $2
-	call Func_1e3b
-	pop de
-	ld hl, wd8e6
-	ld a, [hli]
-	xor d
-	ld b, a
-	ld a, [hl]
-	xor e
-	or b
-	jr z, .asm_1e22
-	ld a, [wd8ea]
-	or $1
-	ld [wd8ea], a
-.asm_1e22
-	push de
-	ld hl, wd8ea
-	ld b, $1
-	call Func_1d44
-	pop de
-	ld a, d
-	ld [wd8e4], a
-	ld a, e
-	ld [wd8e5], a
-	ld a, [wd8e8]
-	cp $82
-	ret z
-	ret
-
-Func_1e3b: ; 0x1e3b
-	ld a, [wd8ea]
-	cp $0
-	ret nz
-	ld c, rRP % $100
-	ld d, $0
-	call Func_1c23
-	ld a, d
-	or a
-	jp z, Func_1dc2
-	ld d, $0
-	call Func_1c1b
-	ld a, d
-	or a
-	jp z, Func_1dc2
-	ld d, $0
-	call Func_1c23
-	ld a, d
-	or a
-	jp z, Func_1dc2
-	call Func_1ed4
-	call Func_1ed4
-	push af
-	pop af
-	ld a, b
-	cpl
-	ld b, a
-.asm_1e6c
-	inc b
-	jr z, .asm_1eb9
-	ld a, $8
-	ld [wd8e3], a
-.asm_1e74
-	ld d, $0
-	call Func_1c1b
-	call Func_1c23
-	ld a, [wd8ef]
-	cp d
-	jr nc, .asm_1e88
-	ld a, e
-	set 0, a
-	ld e, a
-	jr .asm_1e8c
-
-.asm_1e88
-	ld a, e
-	res 0, a
-	ld e, a
-.asm_1e8c
-	ld a, [wd8e3]
-	dec a
-	ld [wd8e3], a
-	jr z, .asm_1ea0
-	ld a, e
-	rlca
-	ld e, a
-	call Func_1ed4
-	call Func_1ed4
-	jr .asm_1e74
-
-.asm_1ea0
-	ld a, e
-	ld [hli], a
-	ld a, [wd8e4]
-	add e
-	ld [wd8e4], a
-	jr nc, .asm_1eb4
-	ld a, [wd8e5]
-	inc a
-	ld [wd8e5], a
-	jr .asm_1eb7
-
-.asm_1eb4
-	call Func_1ed3
-.asm_1eb7
-	jr .asm_1e6c
-
-.asm_1eb9
-	ld d, $0
-	call Func_1c1b
-	ld a, d
-	and a
-	jp z, Func_1dc2
-	ld d, $11
-	call Func_1c32
-	ret
-
-Func_1ec9:
-	ld b, $00
-	jp Func_1cf8
-
-Func_1ece:
-	ld b, $00
-	jp Func_1dda
-
-Func_1ed3: ; 0x1ed3
-	ret
-
-Func_1ed4: ; 0x1ed4
-	jr z, .asm_1ed6
-.asm_1ed6
-	jr nz, .asm_1ed8
-.asm_1ed8
-	ret
+INCLUDE "home/ir.asm"
 
 Func_1ed9:
 	push bc
@@ -3949,23 +2560,25 @@ Func_1ffc: ; 0x1ffc
 	ld a, SCREEN_ERASE_ALL_DATA
 	ld [wCurrentScreen], a
 .master_loop
-	call Func_2034
+	call TickRumbleDuration
 	call DoScreenLogic
 	call CleanOAMBuffer
 	call ClearPersistentJoypadStates
 	rst AdvanceFrame
 	jr .master_loop
 
-Func_2034: ; 0x2034
-	ld a, [wd804]
+TickRumbleDuration: ; 0x2034
+; Decrements the Gameboy rumble duration.
+; Turns off rumble when it gets to 0.
+	ld a, [wRumbleDuration]
 	and a
-	jr z, .asm_203f
+	jr z, .rumbleOff
 	dec a
-	ld [wd804], a
+	ld [wRumbleDuration], a
 	ret
 
-.asm_203f
-	ld [wd803], a
+.rumbleOff
+	ld [wRumblePattern], a
 	ret
 
 DoScreenLogic: ; 0x2043
@@ -4372,15 +2985,15 @@ ApplyTorque: ; 0x222b
 	cp $3
 	jr c, .asm_2254
 	ld a, $ff
-	ld [wd803], a
+	ld [wRumblePattern], a
 	ld a, $1
-	ld [wd804], a
+	ld [wRumbleDuration], a
 	ld a, [wFlipperCollision]
 	and a
 	jr nz, .asm_2254
 	push de
 	ld de, $0008
-	call Func_4d8
+	call PlaySFXIfNoneActive
 	pop de
 .asm_2254
 	srl d

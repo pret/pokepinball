@@ -10,7 +10,7 @@ HandleBallLossBlueField: ; 0xde4f
 	ld [wNumTimesBallSavedTextWillDisplay], a
 	push af
 	ld de, BallSavedText
-	call Func_dc6d
+	call ShowBallLossText
 	pop af
 	jr nz, .skip_save_text
 	ld a, $1
@@ -37,16 +37,16 @@ HandleBallLossBlueField: ; 0xde4f
 	call Func_ded6
 	ld a, [wCurBonusMultiplierFromFieldEvents]
 	and a
-	jr z, .asm_deb6
+	jr z, .noExtraBall
 	dec a
 	ld [wCurBonusMultiplierFromFieldEvents], a
 	ld a, $1
-	ld [wd49c], a
+	ld [wd49c], a ; Extra Ball
 	ld de, EndOfBallBonusText
-	call Func_dc6d
+	call ShowBallLossText
 	ret
 
-.asm_deb6
+.noExtraBall
 	ld a, [wd49d]
 	ld hl, wd49e
 	cp [hl]
@@ -54,12 +54,12 @@ HandleBallLossBlueField: ; 0xde4f
 	inc a
 	ld [wd49d], a
 	ld de, EndOfBallBonusText
-	call Func_dc6d
+	call ShowBallLossText
 	ret
 
 .gameOver
 	ld de, EndOfBallBonusText
-	call Func_dc6d
+	call ShowBallLossText
 	ld a, $1
 	ld [wGameOver], a
 	ret
@@ -78,16 +78,16 @@ Func_ded6: ; 0xded6
 	cp SPECIAL_MODE_CATCHEM
 	jr nz, .asm_df05
 	ld a, $0
-	ld [wd604], a
+	ld [wSlotIsOpen], a
 	ld a, $1e
-	ld [wd607], a
+	ld [wFramesUntilSlotCaveOpens], a
 	callba ConcludeEvolutionMode
 	ret
 
 .asm_df05
 	ld a, $0
-	ld [wd604], a
+	ld [wSlotIsOpen], a
 	ld a, $1e
-	ld [wd607], a
+	ld [wFramesUntilSlotCaveOpens], a
 	callba Func_3022b
 	ret

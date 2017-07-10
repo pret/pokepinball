@@ -20,7 +20,7 @@ DrawSpritesBlueFieldBottom: ; 0x1f35a
 	callba DrawPinball
 	call Func_1f4a3
 	call Func_1f509
-	call Func_1f55e
+	call DrawSlotGlow_BlueField
 	ret
 
 DrawShellderSprites: ; 0x1f395
@@ -149,7 +149,7 @@ DrawPikachuSavers_BlueStage: ; 0x1f448
 	ld e, a
 	ld a, [wPikachuSaverSlotRewardActive]
 	and a
-	ld a, [wd518]
+	ld a, [wWhichPikachuSaverSide]
 	jr z, .asm_1f473
 	ld a, [wd51c]
 	and a
@@ -351,13 +351,14 @@ OAMOffsetsTable_1f552: ; 0x1f552
 	db $25, $2C
 	db $73, $2C
 
-Func_1f55e: ; 0x1f55e
-	ld a, [wd604]
+DrawSlotGlow_BlueField: ; 0x1f55e
+; Draws the glowing animation surround the slot cave entrance.
+	ld a, [wSlotIsOpen]
 	and a
 	ret z
-	ld a, [wd606]
+	ld a, [wSlotGlowingAnimationCounter]
 	inc a
-	ld [wd606], a
+	ld [wSlotGlowingAnimationCounter], a
 	ld a, $40
 	ld hl, hSCX
 	sub [hl]
@@ -366,7 +367,7 @@ Func_1f55e: ; 0x1f55e
 	ld hl, hSCY
 	sub [hl]
 	ld c, a
-	ld a, [wd606]
+	ld a, [wSlotGlowingAnimationCounter]
 	srl a
 	srl a
 	srl a

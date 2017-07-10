@@ -135,7 +135,7 @@ Func_20c76: ; 0x20c76
 	lb de, $07, $45
 	call PlaySoundEffect
 	ld a, $1
-	ld [wd604], a
+	ld [wSlotIsOpen], a
 	ld a, $80
 	ld [wIndicatorStates + 4], a
 	xor a
@@ -169,7 +169,7 @@ Func_20c76: ; 0x20c76
 	ld bc, $0008
 	call Func_7dc
 .asm_20d25
-	callba Func_1e8f6
+	callba LoadSlotCaveCoverGraphics_BlueField
 	ret
 
 Func_20d30: ; 0x20d30
@@ -231,7 +231,7 @@ Func_20da0: ; 0x20da0
 	ld a, $2
 	ld [wd54d], a
 	xor a
-	ld [wd604], a
+	ld [wSlotIsOpen], a
 	ld hl, wIndicatorStates
 	ld [wIndicatorStates + 4], a
 	ld [wIndicatorStates + 9], a
@@ -252,7 +252,7 @@ Func_20da0: ; 0x20da0
 	bit 0, a
 	jr z, .asm_20e1a
 	callba Func_1c2cb
-	callba Func_1e8f6
+	callba LoadSlotCaveCoverGraphics_BlueField
 .asm_20e1a
 	callba StopTimer
 	call FillBottomMessageBufferWithBlackTile

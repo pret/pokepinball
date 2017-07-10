@@ -32,3 +32,13 @@ CallTable_dc4d: ; 0xdc4d
 	dw HandleBallLossSeelBonus
 	; STAGE_SEEL_BONUS
 	dw HandleBallLossSeelBonus
+
+ShowBallLossText: ; 0xdc6d
+; Input: de = pointer to scrolling text header
+	push de
+	call FillBottomMessageBufferWithBlackTile
+	call Func_30db
+	ld hl, wScrollingText3
+	pop de
+	call LoadScrollingText
+	ret

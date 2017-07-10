@@ -7,7 +7,7 @@ SaveGame: ; 0xda05
 	ld a, [wd849]
 	and a
 	call nz, Func_e5d
-	call Func_576
+	call DisableLCD
 	ld hl, hSTAT
 	res 6, [hl]
 	ld hl, rIE

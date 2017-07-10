@@ -8,23 +8,23 @@ ResolveBlueFieldTopGameObjectCollisions: ; 0x1c715
 	call ResolveBlueStagePikachuCollision
 	call ResolveSlowpokeCollision
 	call ResolveCloysterCollision
-	call Func_1ea3b
+	call ApplySlotForceField_BlueFieldTop
 	call ResolvePsyduckPoliwagCollision
-	call ResolveBlueStageForceFieldCollision
-	call Func_1e9c0
+	call ResolveForceFieldCollision
+	call OpenSlotCave_BlueField
 	call UpdateForceFieldDirection
-	call Func_1f18a
+	call UpdateForceFieldGraphics
 	callba UpdateBallSaverState
-	call Func_1f27b
+	call UpdateBlinkingPokeballs_BlueField
 	call UpdateMapMoveCounters_BlueFieldTop
-	callba HandleExtraBall
+	callba ShowExtraBallMessage
 	ld a, $0
 	callba Func_10000
 	ret
 
 ResolveBlueFieldBottomGameObjectCollisions: ; 0x1c769
 	call ResolveWildMonCollision_BlueField
-	call ResolveBlueStageBumperCollision
+	call ResolveBumpersCollision_BlueField
 	call ResolvePsyduckPoliwagCollision
 	call UpdateBlueStageSpinner
 	call UpdatePinballUpgradeBlinkingAnimation_BlueField
@@ -32,17 +32,17 @@ ResolveBlueFieldBottomGameObjectCollisions: ; 0x1c769
 	call ResolveCAVELightCollision_BlueField
 	call ResolveBlueStagePinballLaunchCollision
 	call ResolveBlueStagePikachuCollision
-	call Func_1ead4
-	call ResolveBlueStageBonusMultiplierCollision
-	call Func_1e757
-	call Func_1e9c0
-	call Func_1ea0a
+	call UpdateArrowIndicators_BlueField
+	call ResolveBonusMultiplierCollision_BlueField
+	call ResolveSlotCollision_BlueField
+	call OpenSlotCave_BlueField
+	call ApplySlotForceField_BlueFieldBottom
 	call UpdateForceFieldDirection
-	callba Func_14733
+	callba UpdateAgainText
 	callba UpdateBallSaver
-	call Func_1f261
+	call UpdatePokeballs_BlueField
 	call UpdateMapMoveCounters_BlueFieldBottom
-	callba HandleExtraBall
+	callba ShowExtraBallMessage
 	ld a, $0
 	callba Func_10000
 	ret
@@ -219,7 +219,7 @@ UpdateForceFieldDirection: ; 0x1c8b6
 	ld a, [wd644]
 	cp $0
 	jr z, .asm_1c925
-	ld a, [wd55a]
+	ld a, [wMapMoveDirection]
 	cp $0
 	jr nz, .asm_1c933
 	jr .asm_1c947
@@ -245,7 +245,7 @@ UpdateForceFieldDirection: ; 0x1c8b6
 	ld a, [wd644]
 	cp $0
 	jr z, .asm_1c955
-	ld a, [wd55a]
+	ld a, [wMapMoveDirection]
 	cp $0
 	jr z, .asm_1c969
 .asm_1c955
@@ -357,9 +357,9 @@ ResolveShellderCollision: ; 0x1c9c1
 
 ApplyShellderCollision: ; 0x1ca29
 	ld a, $ff
-	ld [wd803], a
+	ld [wRumblePattern], a
 	ld a, $3
-	ld [wd804], a
+	ld [wRumbleDuration], a
 	ld hl, $0200
 	ld a, l
 	ld [wFlipperYForce], a
@@ -526,40 +526,43 @@ UpdateSpinnerChargeGraphics_BlueField: ; 0x1cb43
 
 INCLUDE "data/queued_tiledata/blue_field/spinner.asm"
 
-ResolveBlueStageBumperCollision: ; 1ce40
+ResolveBumpersCollision_BlueField: ; 1ce40
 	ld a, [wWhichBumper]
 	and a
-	jr z, .asm_1ce53
-	call LoadBumperCollisionGraphics_BlueField
-	call Func_1ce60
+	jr z, .noNewCollision
+	call LoadBumpersGraphics_BlueField
+	call LightUpBumper_BlueField
 	xor a
 	ld [wWhichBumper], a
 	call ApplyBumperCollision_BlueField
-.asm_1ce53
-	ld a, [wd4da]
+.noNewCollision
+	ld a, [wBumperLightUpDuration]
 	and a
 	ret z
 	dec a
-	ld [wd4da], a
-	call z, LoadBumperCollisionGraphics_BlueField
+	ld [wBumperLightUpDuration], a
+	call z, LoadBumpersGraphics_BlueField
 	ret
 
-Func_1ce60: ; 0x1ce60
-	ld a, $10
-	ld [wd4da], a
+LightUpBumper_BlueField: ; 0x1ce60
+; Makes the hit bumper light briefly
+	ld a, 16
+	ld [wBumperLightUpDuration], a
 	ld a, [wWhichBumperId]
 	sub $1
 	ld [wd4db], a
 	sla a
 	inc a
-	jr asm_1ce7a
+	jr LoadBumperGraphics_BlueField
 
-LoadBumperCollisionGraphics_BlueField: ; 1ce72
+LoadBumpersGraphics_BlueField: ; 1ce72
 	ld a, [wd4db]
 	cp $ff
 	ret z
 	sla a
-asm_1ce7a: ; 0x1ce7a
+	; fall through
+
+LoadBumperGraphics_BlueField: ; 0x1ce7a
 	sla a
 	ld c, a
 	ld b, $0
@@ -579,9 +582,9 @@ asm_1ce7a: ; 0x1ce7a
 
 ApplyBumperCollision_BlueField: ; 0x1ce94
 	ld a, $ff
-	ld [wd803], a
+	ld [wRumblePattern], a
 	ld a, $3
-	ld [wd804], a
+	ld [wRumbleDuration], a
 	ld hl, $0200
 	ld a, l
 	ld [wFlipperYForce], a
@@ -623,7 +626,7 @@ ResolveBlueStageBoardTriggerCollision: ; 0x1cfaa
 	callba LoadStageCollisionAttributes
 	ld a, $1
 	ld [wd580], a
-	callba Func_1404a
+	callba LoadTimerGraphics
 .asm_1cfe5
 	ld a, [wWhichBoardTriggerId]
 	sub $7
@@ -739,14 +742,14 @@ ResolveBlueStagePikachuCollision: ; 0x1d0a1
 	jr nz, .asm_1d0c9
 	ld a, [wWhichPikachuId]
 	sub $d
-	ld hl, wd518
+	ld hl, wWhichPikachuSaverSide
 	cp [hl]
 	jr nz, .asm_1d110
 	ld a, [wPikachuSaverCharge]
 	cp MAX_PIKACHU_SAVER_CHARGE
 	jr nz, .asm_1d0fc
 .asm_1d0c9
-	ld hl, PikachuSaverAnimationDataRedStage
+	ld hl, PikachuSaverAnimationData_BlueField
 	ld de, wPikachuSaverAnimation
 	call InitAnimation
 	ld a, [wPikachuSaverSlotRewardActive]
@@ -769,7 +772,7 @@ ResolveBlueStagePikachuCollision: ; 0x1d0a1
 	jr .asm_1d110
 
 .asm_1d0fc
-	ld hl, PikachuSaverAnimation2DataRedStage
+	ld hl, PikachuSaverAnimation2Data_BlueField
 	ld de, wPikachuSaverAnimation
 	call InitAnimation
 	ld a, $2
@@ -779,8 +782,8 @@ ResolveBlueStagePikachuCollision: ; 0x1d0a1
 .asm_1d110
 	ld a, [wd51c]
 	and a
-	call z, Func_1d1fb
-	call Func_1d133
+	call z, SetPikachuSaverSide_BlueField
+	call UpdatePikachuSaverAnimation_BlueField
 	ld a, [wPikachuSaverCharge]
 	cp MAX_PIKACHU_SAVER_CHARGE
 	ret nz
@@ -795,11 +798,11 @@ ResolveBlueStagePikachuCollision: ; 0x1d0a1
 	call PlaySoundEffect
 	ret
 
-Func_1d133: ; 0x1d133
+UpdatePikachuSaverAnimation_BlueField: ; 0x1d133
 	ld a, [wd51c]
 	cp $1
 	jr nz, .asm_1d1ae
-	ld hl, PikachuSaverAnimationDataRedStage
+	ld hl, PikachuSaverAnimationData_BlueField
 	ld de, wPikachuSaverAnimation
 	call UpdateAnimation
 	ret nc
@@ -815,9 +818,9 @@ Func_1d133: ; 0x1d133
 	ld a, $1
 	ld [wd85d], a
 	ld a, $ff
-	ld [wd803], a
+	ld [wRumblePattern], a
 	ld a, $60
-	ld [wd804], a
+	ld [wRumbleDuration], a
 	ld hl, wNumPikachuSaves
 	call Increment_Max100
 	jr nc, .asm_1d185
@@ -846,7 +849,7 @@ Func_1d133: ; 0x1d133
 .asm_1d1ae
 	cp $2
 	jr nz, .asm_1d1c7
-	ld hl, PikachuSaverAnimation2DataRedStage
+	ld hl, PikachuSaverAnimation2Data_BlueField
 	ld de, wPikachuSaverAnimation
 	call UpdateAnimation
 	ret nc
@@ -864,7 +867,7 @@ Func_1d133: ; 0x1d133
 	ld [wPikachuSaverAnimationFrame], a
 	ret
 
-PikachuSaverAnimationDataRedStage: ; 0x1d1d1
+PikachuSaverAnimationData_BlueField: ; 0x1d1d1
 ; Each entry is [duration][OAM id]
 	db $0C, $02
 	db $05, $03
@@ -886,17 +889,18 @@ PikachuSaverAnimationDataRedStage: ; 0x1d1d1
 	db $01, $00
 	db $00
 
-PikachuSaverAnimation2DataRedStage: ; 0x1d1f6
+PikachuSaverAnimation2Data_BlueField: ; 0x1d1f6
 ; Each entry is [duration][OAM id]
 	db $0C, $02
 	db $01, $00
 	db $00
 
-Func_1d1fb: ; 0x1d1fb
+SetPikachuSaverSide_BlueField: ; 0x1d1fb
+; Sets which side Pikachu is on, depending on which flipper was pressed last.
 	ld hl, wKeyConfigLeftFlipper
 	call IsKeyPressed2
 	jr z, .asm_1d209
-	ld hl, wd518
+	ld hl, wWhichPikachuSaverSide
 	ld [hl], $0
 	ret
 
@@ -904,7 +908,7 @@ Func_1d1fb: ; 0x1d1fb
 	ld hl, wKeyConfigRightFlipper
 	call IsKeyPressed2
 	ret z
-	ld hl, wd518
+	ld hl, wWhichPikachuSaverSide
 	ld [hl], $1
 	ret
 
@@ -1147,8 +1151,8 @@ CloysterCollisionAnimationData: ; 0x1d41d
 	db $28, $01
 	db 00 ; terminator
 
-ResolveBlueStageBonusMultiplierCollision: ; 0x1d438
-	call Func_1d692
+ResolveBonusMultiplierCollision_BlueField: ; 0x1d438
+	call UpdateBonusMultiplierRailingLight
 	ld a, [wWhichBonusMultiplierRailing]
 	and a
 	jp z, UpdateBonusMultiplierRailing_BlueField
@@ -1170,7 +1174,7 @@ ResolveBlueStageBonusMultiplierCollision: ; 0x1d438
 .asm_1d45e
 	call LoadBonusMultiplierRailingGraphics_BlueField
 	ld a, $3c
-	ld [wd647], a
+	ld [wBonusMultiplierRailingEndLightDuration], a
 	ld a, $9
 	callba Func_10000
 	ld a, [wd610]
@@ -1197,7 +1201,7 @@ ResolveBlueStageBonusMultiplierCollision: ; 0x1d438
 .asm_1d499
 	call LoadBonusMultiplierRailingGraphics_BlueField
 	ld a, $1e
-	ld [wd647], a
+	ld [wBonusMultiplierRailingEndLightDuration], a
 	ld a, $a
 	callba Func_10000
 	ld a, [wd611]
@@ -1238,8 +1242,8 @@ asm_1d4fa: ; 0x1d4fa
 	ld a, [wBonusMultiplierOnesDigit]
 	add $14
 	call LoadBonusMultiplierRailingGraphics_BlueField
-	ld a, $3c
-	ld [wd647], a
+	ld a, 60
+	ld [wBonusMultiplierRailingEndLightDuration], a
 	ret
 
 UpdateBonusMultiplierRailing_BlueField: ; 0x1d51b
@@ -1443,7 +1447,7 @@ GetBCDForNextBonusMultiplier_BlueField: ; 0x1d65f
 .max99
 	ld b, a
 	xor a
-	ld hl, Data_1d68b
+	ld hl, PowersOfTwo_1d68b
 	ld c, $7
 .loop
 	bit 0, b
@@ -1464,31 +1468,33 @@ GetBCDForNextBonusMultiplier_BlueField: ; 0x1d65f
 	ld [wBonusMultiplierOnesDigit], a
 	ret
 
-Data_1d68b:
+PowersOfTwo_1d68b:
 ; BCD powers of 2
 	db $01, $02, $04, $08, $16, $32, $64
 
-Func_1d692: ; 0x1d692
-	ld a, [wd647]
+UpdateBonusMultiplierRailingLight: ; 0x1d692
+; When one of the two bonus multiplier buttons are hit, they stay lit up for a second.
+; This function turns of the light effect after the duration runs out.
+	ld a, [wBonusMultiplierRailingEndLightDuration]
 	cp $1
-	jr z, .asm_1d69e
+	jr z, .turnOffLight
 	dec a
-	ld [wd647], a
+	ld [wBonusMultiplierRailingEndLightDuration], a
 	ret
 
-.asm_1d69e
+.turnOffLight
 	ld a, $0
-	ld [wd647], a
+	ld [wBonusMultiplierRailingEndLightDuration], a
 	ld a, [hGameBoyColorFlag]
 	and a
-	jr nz, .asm_1d6b3
+	jr nz, .gameboy
 	ld a, $1e
 	call LoadBonusMultiplierRailingGraphics_BlueField
 	ld a, $20
 	call LoadBonusMultiplierRailingGraphics_BlueField
 	ret
 
-.asm_1d6b3
+.gameboy
 	ld a, $2a
 	call LoadBonusMultiplierRailingGraphics_BlueField
 	ld a, $28
@@ -1775,7 +1781,7 @@ HitPoliwag3Times: ; 0x1ddc7
 	callba z, IncrementBonusMultiplierFromFieldEvent
 .asm_1dde4
 	xor a
-	ld [wd55a], a
+	ld [wMapMoveDirection], a
 	callba StartMapMoveMode
 	scf
 	ret
@@ -1791,7 +1797,7 @@ HitPsyduck3Times: ; 0x1ddf4
 	callba z, IncrementBonusMultiplierFromFieldEvent
 .asm_1de11
 	ld a, $1
-	ld [wd55a], a
+	ld [wMapMoveDirection], a
 	callba StartMapMoveMode
 	scf
 	ret
@@ -1801,9 +1807,9 @@ AddScorePsyduckOrPoliwag: ; 0x1de22
 	bit 0, a
 	ret z
 	ld a, $55
-	ld [wd803], a
+	ld [wRumblePattern], a
 	ld a, $4
-	ld [wd804], a
+	ld [wRumbleDuration], a
 	ld a, $2
 	ld [wd7eb], a
 	ld bc, FiveHundredPoints
@@ -2024,7 +2030,7 @@ ResolveBallUpgradeTriggersCollision_BlueField: ; 0x1e356
 	callba LoadStageCollisionAttributes
 	ld a, $1
 	ld [wd580], a
-	callba Func_1404a
+	callba LoadTimerGraphics
 .asm_1e386
 	ld a, [wStageCollisionState]
 	bit 0, a
@@ -2412,9 +2418,9 @@ UpdateCAVELightsBlinking_BlueField: ; 0x1e66a
 	jr nz, .asm_1e687
 	ld [wCAVELightsBlinking], a
 	ld a, $1
-	ld [wd608], a
+	ld [wOpenedSlotByGetting4CAVELights], a
 	ld a, $3
-	ld [wd607], a
+	ld [wFramesUntilSlotCaveOpens], a
 	xor a
 .asm_1e687
 	and $7
@@ -2481,18 +2487,18 @@ UpdateCAVELightsBlinking_BlueField: ; 0x1e66a
 
 INCLUDE "data/queued_tiledata/blue_field/cave_lights.asm"
 
-Func_1e757: ; 0x1e757
+ResolveSlotCollision_BlueField: ; 0x1e757
 	ld a, [wSlotCollision]
 	and a
-	jr z, .asm_1e78c
+	jr z, .noCollision
 	xor a
 	ld [wSlotCollision], a
-	ld a, [wd604]
+	ld a, [wSlotIsOpen]
 	and a
 	ret z
-	ld a, [wd603]
+	ld a, [wSlotEnterOrExitCounter]
 	and a
-	jr nz, .asm_1e78c
+	jr nz, .noCollision
 	xor a
 	ld hl, wBallXVelocity
 	ld [hli], a
@@ -2507,16 +2513,16 @@ Func_1e757: ; 0x1e757
 	ld a, $16
 	ld [wBallYPos + 1], a
 	ld a, $13
-	ld [wd603], a
-.asm_1e78c
-	ld a, [wd603]
+	ld [wSlotEnterOrExitCounter], a
+.noCollision
+	ld a, [wSlotEnterOrExitCounter]
 	and a
 	ret z
 	dec a
-	ld [wd603], a
+	ld [wSlotEnterOrExitCounter], a
 	ld a, $18
-	ld [wd606], a
-	ld a, [wd603]
+	ld [wSlotGlowingAnimationCounter], a
+	ld a, [wSlotEnterOrExitCounter]
 	cp $12
 	jr nz, .asm_1e7b2
 	lb de, $00, $21
@@ -2527,7 +2533,7 @@ Func_1e757: ; 0x1e757
 .asm_1e7b2
 	cp $f
 	jr nz, .asm_1e7c1
-	callba Func_dd62
+	callba LoadSuperMiniPinballGfx
 	ret
 
 .asm_1e7c1
@@ -2542,18 +2548,18 @@ Func_1e757: ; 0x1e757
 .asm_1e7d0
 	cp $9
 	jr nz, .asm_1e7d8
-	call Func_1e830
+	call DoSlotLogic_BlueField
 	ret
 
 .asm_1e7d8
 	cp $6
 	jr nz, .asm_1e7f5
 	xor a
-	ld [wd604], a
+	ld [wSlotIsOpen], a
 	ld a, $5
-	ld [wd803], a
+	ld [wRumblePattern], a
 	ld a, $8
-	ld [wd804], a
+	ld [wRumbleDuration], a
 	callba LoadMiniBallGfx
 	ret
 
@@ -2570,7 +2576,7 @@ Func_1e757: ; 0x1e757
 .asm_1e80e
 	and a
 	ret nz
-	call Func_1e8f6
+	call LoadSlotCaveCoverGraphics_BlueField
 	ld a, [wCatchEmOrEvolutionSlotRewardActive]
 	cp CATCHEM_MODE_SLOT_REWARD
 	ret nz
@@ -2582,7 +2588,9 @@ Func_1e757: ; 0x1e757
 	ld [wCatchEmOrEvolutionSlotRewardActive], a
 	ret
 
-Func_1e830: ; 0x1e830
+DoSlotLogic_BlueField: ; 0x1e830
+; Performs the slot logic when pinball entered the slot cave.
+; This could be the slot roulette, or evolving a pokemon, for example.
 	xor a
 	ld [wIndicatorStates + 4], a
 	ld a, $d
@@ -2597,7 +2605,7 @@ Func_1e830: ; 0x1e830
 	ld a, [wPreviousNumPokeballs]
 	cp $3
 	jr nz, .asm_1e891
-	ld a, [wd607]
+	ld a, [wFramesUntilSlotCaveOpens]
 	and a
 	jr nz, .asm_1e891
 .asm_1e858
@@ -2617,22 +2625,22 @@ Func_1e830: ; 0x1e830
 	ld a, [wd498]
 	ld c, a
 	ld b, $0
-	ld hl, GoToBonusStageTextIds_BlueField
+	ld hl, BonusStages_BlueField
 	add hl, bc
 	ld a, [hl]
-	ld [wd497], a
-	call Func_1e8c3
+	ld [wNextStage], a
+	call ShowScrollingGoToBonusText_BlueField
 	xor a
-	ld [wd609], a
+	ld [wOpenedSlotByGetting3Pokeballs], a
 	ld [wCatchEmOrEvolutionSlotRewardActive], a
 	ld a, $1e
-	ld [wd607], a
+	ld [wFramesUntilSlotCaveOpens], a
 	ret
 
 .asm_1e891
 	callba Func_ed8e
 	xor a
-	ld [wd608], a
+	ld [wOpenedSlotByGetting4CAVELights], a
 	ld a, [wd61d]
 	cp $d
 	jr nc, .asm_1e858
@@ -2647,11 +2655,11 @@ Func_1e830: ; 0x1e830
 	ld [wCatchEmOrEvolutionSlotRewardActive], a
 	ret
 
-Func_1e8c3: ; 0x1e8c3
+ShowScrollingGoToBonusText_BlueField: ; 0x1e8c3
 	call FillBottomMessageBufferWithBlackTile
 	call Func_30db
 	ld hl, wScrollingText3
-	ld a, [wd497]
+	ld a, [wNextStage]
 	ld de, GoToMeowthStageText
 	cp STAGE_MEOWTH_BONUS
 	jr z, .loadText
@@ -2668,19 +2676,21 @@ Func_1e8c3: ; 0x1e8c3
 	call PlaySoundEffect
 	ret
 
-GoToBonusStageTextIds_BlueField:
+BonusStages_BlueField:
 	db STAGE_GENGAR_BONUS
 	db STAGE_MEWTWO_BONUS
 	db STAGE_MEOWTH_BONUS
 	db STAGE_DIGLETT_BONUS
 	db STAGE_SEEL_BONUS
 
-Func_1e8f6: ; 0x1e8f6
+LoadSlotCaveCoverGraphics_BlueField: ; 0x1e8f6
+; Loads the graphics for the circular slot cave area.
+; It looks like a cover that opens and closes.
 	ld a, [wCurrentStage]
 	and $1
 	sla a
 	ld c, a
-	ld a, [wd604]
+	ld a, [wSlotIsOpen]
 	add c
 	sla a
 	ld c, a
@@ -2701,178 +2711,19 @@ Func_1e8f6: ; 0x1e8f6
 	call Func_10aa
 	ret
 
-TileDataPointers_1e91e:
-	dw TileData_1e926
-	dw TileData_1e929
-	dw TileData_1e92c
-	dw TileData_1e931
+INCLUDE "data/queued_tiledata/blue_field/slot_cave.asm"
 
-TileData_1e926: ; 0x1e926
-	db $01
-	dw TileData_1e936
-
-TileData_1e929: ; 0x1e929
-	db $01
-	dw TileData_1e93f
-
-TileData_1e92c: ; 0x1e92c
-	db $02
-	dw TileData_1e948
-	dw TileData_1e952
-
-TileData_1e931: ; 0x1e931
-	db $02
-	dw TileData_1e95c
-	dw TileData_1e966
-
-TileData_1e936: ; 0x1e936
-	dw LoadTileLists
-	db $02 ; total number of tiles
-
-	db $02 ; number of tiles
-	dw vBGMap + $229
-	db $EE, $EF
-
-	db $00 ; terminator
-
-TileData_1e93f: ; 0x1e93f
-	dw LoadTileLists
-	db $02 ; total number of tiles
-
-	db $02 ; number of tiles
-	dw vBGMap + $229
-	db $F0, $F1
-
-	db $00 ; terminator
-
-TileData_1e948: ; 0x1e948
-	dw Func_11d2
-	db $20, $02
-	dw vTilesBG tile $1F
-	dw StageBlueFieldBottomBaseGameBoyGfx + $9F0
-	db Bank(StageBlueFieldBottomBaseGameBoyGfx)
-	db $00
-
-TileData_1e952: ; 0x1e952
-	dw Func_11d2
-	db $20, $02
-	dw vTilesBG tile $21
-	dw StageBlueFieldBottomBaseGameBoyGfx + $A10
-	db Bank(StageBlueFieldBottomBaseGameBoyGfx)
-	db $00
-
-TileData_1e95c: ; 0x1e95c
-	dw Func_11d2
-	db $20, $02
-	dw vTilesBG tile $1F
-	dw StageRedFieldBottomIndicatorsGfx_Gameboy + $1BC0
-	db Bank(StageRedFieldBottomIndicatorsGfx_Gameboy)
-	db $00
-
-TileData_1e966: ; 0x1e966
-	dw Func_11d2
-	db $20, $02
-	dw vTilesBG tile $21
-	dw StageRedFieldBottomIndicatorsGfx_Gameboy + $1BE0
-	db Bank(StageRedFieldBottomIndicatorsGfx_Gameboy)
-	db $00
-
-TileDataPointers_1e970:
-	dw TileData_1e978
-	dw TileData_1e97d
-	dw TileData_1e980
-	dw TileData_1e983
-
-TileData_1e978: ; 0x1e978
-	db $02
-	dw TileData_1e986
-	dw TileData_1e98F
-
-TileData_1e97d: ; 0x1e97d
-	db $01
-	dw TileData_1e99b
-
-TileData_1e980: ; 0x1e980
-	db $01
-	dw TileData_1e9a4
-
-TileData_1e983: ; 0x1e983
-	db $01
-	dw TileData_1e9b2
-
-TileData_1e986: ; 0x1e986
-	dw LoadTileLists
-	db $02 ; total number of tiles
-
-	db $02 ; number of tiles
-	dw vBGMap + $229
-	db $F0, $F1
-
-	db $00 ; terminator
-
-TileData_1e98F: ; 0x1e98F
-	dw LoadTileLists
-	db $02 ; total number of tiles
-
-	db $01 ; number of tiles
-	dw vBGMap + $224
-	db $D8
-
-	db $01 ; number of tiles
-	dw vBGMap + $22f
-	db $EC
-
-	db $00 ; terminator
-
-TileData_1e99b: ; 0x1e99b
-	dw LoadTileLists
-	db $02 ; total number of tiles
-
-	db $02 ; number of tiles
-	dw vBGMap + $229
-	db $F2, $F3
-
-	db $00 ; terminator
-
-TileData_1e9a4: ; 0x1e9a4
-	dw LoadTileLists
-	db $04 ; total number of tiles
-
-	db $02 ; number of tiles
-	dw $9809
-	db $15, $16
-
-	db $02 ; terminator
-	dw vBGMap + $29
-	db $17, $18
-
-	db $00 ; terminator
-
-TileData_1e9b2: ; 0x1e9b2
-	dw LoadTileLists
-	db $04 ; total number of tiles
-
-	db $02 ; number of tiles
-	dw vBGMap + $9
-	db $19, $1A
-
-	db $02 ; terminator
-	dw vBGMap + $29
-	db $1B, $1C
-
-	db $00 ; terminator
-
-Func_1e9c0: ; 0x1e9c0
-	ld a, [wd607]
+OpenSlotCave_BlueField: ; 0x1e9c0
+	ld a, [wFramesUntilSlotCaveOpens]
 	and a
 	ret z
 	dec a
-	ld [wd607], a
+	ld [wFramesUntilSlotCaveOpens], a
 	ret nz
 	ld a, [wInSpecialMode]
 	and a
 	ret nz
-	ld a, [wd609]
+	ld a, [wOpenedSlotByGetting3Pokeballs]
 	and a
 	jr z, .asm_1e9dc
 	ld a, [wd498]
@@ -2880,28 +2731,29 @@ Func_1e9c0: ; 0x1e9c0
 	jr .asm_1e9e3
 
 .asm_1e9dc
-	ld a, [wd608]
+	ld a, [wOpenedSlotByGetting4CAVELights]
 	and a
 	ret z
-	ld a, $1a
+	ld a, $1a ; "Slot On" billboard picture id
 .asm_1e9e3
 	ld hl, wCurrentStage
 	bit 0, [hl]
 	callba nz, LoadBillboardTileData
-	ld a, [wd604]
+	ld a, [wSlotIsOpen]
 	and a
 	ret nz
 	ld a, $1
-	ld [wd604], a
+	ld [wSlotIsOpen], a
 	ld a, $80
 	ld [wIndicatorStates + 4], a
 	ld a, [wCurrentStage]
 	bit 0, a
-	call nz, Func_1e8f6
+	call nz, LoadSlotCaveCoverGraphics_BlueField
 	ret
 
-Func_1ea0a: ; 0x1ea0a
-	ld a, [wd604]
+ApplySlotForceField_BlueFieldBottom: ; 0x1ea0a
+; Applies the force field to the pinball when near the slot cave opening.
+	ld a, [wSlotIsOpen]
 	and a
 	ret z
 	ld a, [wBallYPos + 1]
@@ -2928,10 +2780,13 @@ Func_1ea0a: ; 0x1ea0a
 	sla c
 	sla c
 	add hl, bc
-	jr asm_1ea6a
+	jr _ApplySlotForceField_BlueField
 
-Func_1ea3b: ; 0x1ea3b
-	ld a, [wd604]
+ApplySlotForceField_BlueFieldTop: ; 0x1ea3b
+; Applies the force field to the pinball when near the slot cave opening.
+; Even though the Slot cave is on the bottom half of the board, the force field
+; still affects the pinball when it's really close to the bottom of the top-half of the board.
+	ld a, [wSlotIsOpen]
 	and a
 	ret z
 	ld a, [wBallYPos + 1]
@@ -2960,7 +2815,8 @@ Func_1ea3b: ; 0x1ea3b
 	add hl, bc
 	; fall through
 
-asm_1ea6a: ; 0x1ea6a
+_ApplySlotForceField_BlueField: ; 0x1ea6a
+; Applies the force field to the pinball when near the slot cave opening.
 	ld bc, BallPhysicsData_f0000
 	add hl, bc
 	ld de, wBallXVelocity
@@ -3024,18 +2880,19 @@ asm_1ea6a: ; 0x1ea6a
 	ld a, h
 	cp $2
 	ret c
-	ld a, [wd804]
+	ld a, [wRumbleDuration]
 	and a
 	ret nz
 	ld a, $5
-	ld [wd803], a
+	ld [wRumblePattern], a
 	ld a, $8
-	ld [wd804], a
+	ld [wRumbleDuration], a
 	lb de, $00, $04
 	call PlaySoundEffect
 	ret
 
-Func_1ead4: ; 0x1ead4
+UpdateArrowIndicators_BlueField: ; 0x1ead4
+; Updates the 5 blinking arrow indicators in the blue field bottom.
 	ld a, [hNumFramesDropped]
 	and $f
 	ret nz
@@ -3056,7 +2913,7 @@ Func_1ead4: ; 0x1ead4
 	jr z, .asm_1eaf5
 	inc a
 .asm_1eaf5
-	call Func_1eb41
+	call LoadArrowIndicatorGraphics_BlueStage
 .asm_1eaf8
 	pop bc
 	inc c
@@ -3070,7 +2927,7 @@ Func_1ead4: ; 0x1ead4
 	bit 0, a
 	ret z
 	ld bc, $0002
-.asm_1eb0d
+.loop
 	push bc
 	ld hl, wIndicatorStates
 	add hl, bc
@@ -3100,23 +2957,23 @@ Func_1ead4: ; 0x1ead4
 	ld d, a
 	pop af
 	add d
-	call Func_1eb41
+	call LoadArrowIndicatorGraphics_BlueStage
 	pop bc
 	inc c
 	ld a, c
 	cp $5
-	jr nz, .asm_1eb0d
+	jr nz, .loop
 	ret
 
-Func_1eb41: ; 0x1eb41
+LoadArrowIndicatorGraphics_BlueStage: ; 0x1eb41
 	push af
 	sla c
 	ld hl, TileDataPointers_1eb61
 	ld a, [hGameBoyColorFlag]
 	and a
-	jr z, .asm_1eb4f
+	jr z, .gameboy
 	ld hl, TileDataPointers_1ed51
-.asm_1eb4f
+.gameboy
 	add hl, bc
 	ld a, [hli]
 	ld h, [hl]
@@ -3132,970 +2989,23 @@ Func_1eb41: ; 0x1eb41
 	call Func_10aa
 	ret
 
-TileDataPointers_1eb61:
-	dw TileDataPointers_1eb6b
-	dw TileDataPointers_1eb75
-	dw TileDataPointers_1eb7f
-	dw TileDataPointers_1eb87
-	dw TileDataPointers_1eb8f
+INCLUDE "data/queued_tiledata/blue_field/arrow_indicators.asm"
 
-TileDataPointers_1eb6b: ; 0x1eb6b
-	dw TileData_1eb97
-	dw TileData_1eb9a
-	dw TileData_1eb9d
-	dw TileData_1eba0
-	dw TileData_1eba3
-
-TileDataPointers_1eb75: ; 0x1eb75
-	dw TileData_1eba6
-	dw TileData_1eba9
-	dw TileData_1ebac
-	dw TileData_1ebaf
-	dw TileData_1ebb2
-
-TileDataPointers_1eb7f: ; 0x1eb7f
-	dw TileData_1ebb5
-	dw TileData_1ebb8
-	dw TileData_1ebbb
-	dw TileData_1ebbe
-
-TileDataPointers_1eb87: ; 0x1eb87
-	dw TileData_1ebc1
-	dw TileData_1ebc6
-	dw TileData_1ebcb
-	dw TileData_1ebd0
-
-TileDataPointers_1eb8f: ; 0x1eb8f
-	dw TileData_1ebd5
-	dw TileData_1ebda
-	dw TileData_1ebdf
-	dw TileData_1ebe4
-
-TileData_1eb97: ; 0x1eb97
-	db $01
-	dw TileData_1ebe9
-
-TileData_1eb9a: ; 0x1eb9a
-	db $01
-	dw TileData_1ebf9
-
-TileData_1eb9d: ; 0x1eb9d
-	db $01
-	dw TileData_1ec09
-
-TileData_1eba0: ; 0x1eba0
-	db $01
-	dw TileData_1ec19
-
-TileData_1eba3: ; 0x1eba3
-	db $01
-	dw TileData_1ec29
-
-TileData_1eba6: ; 0x1eba6
-	db $01
-	dw TileData_1ec39
-
-TileData_1eba9: ; 0x1eba9
-	db $01
-	dw TileData_1ec49
-
-TileData_1ebac: ; 0x1ebac
-	db $01
-	dw TileData_1ec59
-
-TileData_1ebaf: ; 0x1ebaf
-	db $01
-	dw TileData_1ec69
-
-TileData_1ebb2: ; 0x1ebb2
-	db $01
-	dw TileData_1ec79
-
-TileData_1ebb5: ; 0x1ebb5
-	db $01
-	dw TileData_1ec89
-
-TileData_1ebb8: ; 0x1ebb8
-	db $01
-	dw TileData_1ec93
-
-TileData_1ebbb: ; 0x1ebbb
-	db $01
-	dw TileData_1ec9d
-
-TileData_1ebbe: ; 0x1ebbe
-	db $01
-	dw TileData_1eca7
-
-TileData_1ebc1: ; 0x1ebc1
-	db $02
-	dw TileData_1ecb1
-	dw TileData_1ecbb
-
-TileData_1ebc6: ; 0x1ebc6
-	db $02
-	dw TileData_1ecc5
-	dw TileData_1eccf
-
-TileData_1ebcb: ; 0x1ebcb
-	db $02
-	dw TileData_1ecd9
-	dw TileData_1ece3
-
-TileData_1ebd0: ; 0x1ebd0
-	db $02
-	dw TileData_1eced
-	dw TileData_1ecf7
-
-TileData_1ebd5: ; 0x1ebd5
-	db $02
-	dw TileData_1ed01
-	dw TileData_1ed0b
-
-TileData_1ebda: ; 0x1ebda
-	db $02
-	dw TileData_1ed15
-	dw TileData_1ed1f
-
-TileData_1ebdf: ; 0x1ebdf
-	db $02
-	dw TileData_1ed01
-	dw TileData_1ed0b
-
-TileData_1ebe4: ; 0x1ebe4
-	db $02
-	dw TileData_1ed15
-	dw TileData_1ed1f
-
-TileData_1ebe9: ; 0x1ebe9
-	dw LoadTileLists
-	db $03 ; total number of tiles
-
-	db $01 ; number of tiles
-	dw vBGMap + $64
-	db $3D
-
-	db $01 ; number of tiles
-	dw vBGMap + $84
-	db $17
-
-	db $01 ; number of tiles
-	dw vBGMap + $A5
-	db $3D
-
-	db $00 ; terminator
-
-TileData_1ebf9: ; 0x1ebf9
-	dw LoadTileLists
-	db $03 ; total number of tiles
-
-	db $01 ; number of tiles
-	dw vBGMap + $64
-	db $3E
-
-	db $01 ; number of tiles
-	dw vBGMap + $84
-	db $17
-
-	db $01 ; number of tiles
-	dw vBGMap + $A5
-	db $3D
-
-	db $00 ; terminator
-
-TileData_1ec09: ; 0x1ec09
-	dw LoadTileLists
-	db $03 ; total number of tiles
-
-	db $01 ; number of tiles
-	dw vBGMap + $64
-	db $3E
-
-	db $01 ; number of tiles
-	dw vBGMap + $84
-	db $18
-
-	db $01 ; number of tiles
-	dw vBGMap + $A5
-	db $3D
-
-	db $00 ; terminator
-
-TileData_1ec19: ; 0x1ec19
-	dw LoadTileLists
-	db $03 ; total number of tiles
-
-	db $01 ; number of tiles
-	dw vBGMap + $64
-	db $3E
-
-	db $01 ; number of tiles
-	dw vBGMap + $84
-	db $18
-
-	db $01 ; number of tiles
-	dw vBGMap + $A5
-	db $3E
-
-	db $00 ; terminator
-
-TileData_1ec29: ; 0x1ec29
-	dw LoadTileLists
-	db $03 ; total number of tiles
-
-	db $01 ; number of tiles
-	dw vBGMap + $64
-	db $3D
-
-	db $01 ; number of tiles
-	dw vBGMap + $84
-	db $18
-
-	db $01 ; number of tiles
-	dw vBGMap + $A5
-	db $3D
-
-	db $00 ; terminator
-
-TileData_1ec39: ; 0x1ec39
-	dw LoadTileLists
-	db $03 ; total number of tiles
-
-	db $01 ; number of tiles
-	dw vBGMap + $6F
-	db $3F
-
-	db $01 ; number of tiles
-	dw vBGMap + $8F
-	db $1D
-
-	db $01 ; number of tiles
-	dw vBGMap + $AE
-	db $3F
-
-	db $00 ; terminator
-
-TileData_1ec49: ; 0x1ec49
-	dw LoadTileLists
-	db $03 ; total number of tiles
-
-	db $01 ; number of tiles
-	dw vBGMap + $6F
-	db $40
-
-	db $01 ; number of tiles
-	dw vBGMap + $8F
-	db $1D
-
-	db $01 ; number of tiles
-	dw vBGMap + $AE
-	db $3F
-
-	db $00 ; terminator
-
-TileData_1ec59: ; 0x1ec59
-	dw LoadTileLists
-	db $03 ; total number of tiles
-
-	db $01 ; number of tiles
-	dw vBGMap + $6F
-	db $40
-
-	db $01 ; number of tiles
-	dw vBGMap + $8F
-	db $1E
-
-	db $01 ; number of tiles
-	dw vBGMap + $AE
-	db $3F
-
-	db $00 ; terminator
-
-TileData_1ec69: ; 0x1ec69
-	dw LoadTileLists
-	db $03 ; total number of tiles
-
-	db $01 ; number of tiles
-	dw vBGMap + $6F
-	db $40
-
-	db $01 ; number of tiles
-	dw vBGMap + $8F
-	db $1E
-
-	db $01 ; number of tiles
-	dw vBGMap + $AE
-	db $40
-
-	db $00 ; terminator
-
-TileData_1ec79: ; 0x1ec79
-	dw LoadTileLists
-	db $03 ; total number of tiles
-
-	db $01 ; number of tiles
-	dw vBGMap + $6F
-	db $40
-
-	db $01 ; number of tiles
-	dw vBGMap + $8F
-	db $1D
-
-	db $01 ; number of tiles
-	dw vBGMap + $AE
-	db $40
-
-	db $00 ; terminator
-
-TileData_1ec89: ; 0x1ec89
-	dw Func_11d2
-	db $20, $02
-	dw vTilesBG tile $15
-	dw StageBlueFieldBottomBaseGameBoyGfx + $950
-	db Bank(StageBlueFieldBottomBaseGameBoyGfx)
-	db $00
-
-TileData_1ec93: ; 0x1ec93
-	dw Func_11d2
-	db $20, $02
-	dw vTilesBG tile $15
-	dw StageRedFieldBottomIndicatorsGfx_Gameboy + $1F40
-	db Bank(StageRedFieldBottomIndicatorsGfx_Gameboy)
-	db $00
-
-TileData_1ec9d: ; 0x1ec9d
-	dw Func_11d2
-	db $20, $02
-	dw vTilesBG tile $15
-	dw StageRedFieldBottomIndicatorsGfx_Gameboy + $1F60
-	db Bank(StageRedFieldBottomIndicatorsGfx_Gameboy)
-	db $00
-
-TileData_1eca7: ; 0x1eca7
-	dw Func_11d2
-	db $20, $02
-	dw vTilesBG tile $15
-	dw StageRedFieldBottomIndicatorsGfx_Gameboy + $1F80
-	db Bank(StageRedFieldBottomIndicatorsGfx_Gameboy)
-	db $00
-
-TileData_1ecb1: ; 0x1ecb1
-	dw Func_11d2
-	db $20, $02
-	dw vTilesBG tile $19
-	dw StageBlueFieldBottomBaseGameBoyGfx + $990
-	db Bank(StageBlueFieldBottomBaseGameBoyGfx)
-	db $00
-
-TileData_1ecbb: ; 0x1ecbb
-	dw Func_11d2
-	db $20, $02
-	dw vTilesBG tile $1B
-	dw StageBlueFieldBottomBaseGameBoyGfx + $9B0
-	db Bank(StageBlueFieldBottomBaseGameBoyGfx)
-	db $00
-
-TileData_1ecc5: ; 0x1ecc5
-	dw Func_11d2
-	db $20, $02
-	dw vTilesBG tile $19
-	dw StageRedFieldBottomIndicatorsGfx_Gameboy + $2270
-	db Bank(StageRedFieldBottomIndicatorsGfx_Gameboy)
-	db $00
-
-TileData_1eccf: ; 0x1eccf
-	dw Func_11d2
-	db $20, $02
-	dw vTilesBG tile $1B
-	dw StageRedFieldBottomIndicatorsGfx_Gameboy + $2290
-	db Bank(StageRedFieldBottomIndicatorsGfx_Gameboy)
-	db $00
-
-TileData_1ecd9: ; 0x1ecd9
-	dw Func_11d2
-	db $20, $02
-	dw vTilesBG tile $19
-	dw StageRedFieldBottomIndicatorsGfx_Gameboy + $22B0
-	db Bank(StageRedFieldBottomIndicatorsGfx_Gameboy)
-	db $00
-
-TileData_1ece3: ; 0x1ece3
-	dw Func_11d2
-	db $20, $02
-	dw vTilesBG tile $1B
-	dw StageRedFieldBottomIndicatorsGfx_Gameboy + $22D0
-	db Bank(StageRedFieldBottomIndicatorsGfx_Gameboy)
-	db $00
-
-TileData_1eced: ; 0x1eced
-	dw Func_11d2
-	db $20, $02
-	dw vTilesBG tile $19
-	dw StageRedFieldBottomIndicatorsGfx_Gameboy + $22F0
-	db Bank(StageRedFieldBottomIndicatorsGfx_Gameboy)
-	db $00
-
-TileData_1ecf7: ; 0x1ecf7
-	dw Func_11d2
-	db $20, $02
-	dw vTilesBG tile $1B
-	dw StageRedFieldBottomIndicatorsGfx_Gameboy + $2310
-	db Bank(StageRedFieldBottomIndicatorsGfx_Gameboy)
-	db $00
-
-TileData_1ed01: ; 0x1ed01
-	dw Func_11d2
-	db $20, $02
-	dw vTilesBG tile $23
-	dw StageBlueFieldBottomBaseGameBoyGfx + $A30
-	db Bank(StageBlueFieldBottomBaseGameBoyGfx)
-	db $00
-
-TileData_1ed0b: ; 0x1ed0b
-	dw Func_11d2
-	db $20, $02
-	dw vTilesBG tile $25
-	dw StageBlueFieldBottomBaseGameBoyGfx + $A50
-	db Bank(StageBlueFieldBottomBaseGameBoyGfx)
-	db $00
-
-TileData_1ed15: ; 0x1ed15
-	dw Func_11d2
-	db $20, $02
-	dw vTilesBG tile $23
-	dw StageRedFieldBottomIndicatorsGfx_Gameboy + $1C00
-	db Bank(StageRedFieldBottomIndicatorsGfx_Gameboy)
-	db $00
-
-TileData_1ed1f: ; 0x1ed1f
-	dw Func_11d2
-	db $20, $02
-	dw vTilesBG tile $25
-	dw StageRedFieldBottomIndicatorsGfx_Gameboy + $1C20
-	db Bank(StageRedFieldBottomIndicatorsGfx_Gameboy)
-	db $00
-
-TileData_1ed29: ; 0x1ed29
-	dw Func_11d2
-	db $20, $02
-	dw vTilesBG tile $23
-	dw StageRedFieldBottomIndicatorsGfx_Gameboy + $1C40
-	db Bank(StageRedFieldBottomIndicatorsGfx_Gameboy)
-	db $00
-
-TileData_1ed33: ; 0x1ed33
-	dw Func_11d2
-	db $20, $02
-	dw vTilesBG tile $25
-	dw StageRedFieldBottomIndicatorsGfx_Gameboy + $1C60
-	db Bank(StageRedFieldBottomIndicatorsGfx_Gameboy)
-	db $00
-
-TileData_1e3d: ; 0x1e3d
-	dw Func_11d2
-	db $20, $02
-	dw vTilesBG tile $23
-	dw StageRedFieldBottomIndicatorsGfx_Gameboy + $1C80
-	db Bank(StageRedFieldBottomIndicatorsGfx_Gameboy)
-	db $00
-
-TileData_1ed47: ; 0x1ed47
-	dw Func_11d2
-	db $20, $02
-	dw vTilesBG tile $25
-	dw StageRedFieldBottomIndicatorsGfx_Gameboy + $1CA0
-	db Bank(StageRedFieldBottomIndicatorsGfx_Gameboy)
-	db $00
-
-TileDataPointers_1ed51: ; 0x1ed51
-	dw TileDataPointers_1ed5b
-	dw TileDataPointers_1ed65
-	dw TileDataPointers_1ed6f
-	dw TileDataPointers_1ed77
-	dw TileDataPointers_1ed7f
-
-TileDataPointers_1ed5b: ; 0x1ed5b
-	dw TileData_1ed87
-	dw TileData_1ed8a
-	dw TileData_1ed8d
-	dw TileData_1ed90
-	dw TileData_1ed93
-
-TileDataPointers_1ed65: ; 0x1ed65
-	dw TileData_1ed96
-	dw TileData_1ed99
-	dw TileData_1ed9c
-	dw TileData_1ed9f
-	dw TileData_1eda2
-
-TileDataPointers_1ed6f: ; 0x1ed6f
-	dw TileData_1eda5
-	dw TileData_1eda8
-	dw TileData_1edab
-	dw TileData_1edae
-
-TileDataPointers_1ed77: ; 0x1ed77
-	dw TileData_1edb1
-	dw TileData_1edb4
-	dw TileData_1edb7
-	dw TileData_1edba
-
-TileDataPointers_1ed7f: ; 0x1ed7f
-	dw TileData_1edbd
-	dw TileData_1edc0
-	dw TileData_1edc3
-	dw TileData_1edc6
-
-TileData_1ed87: ; 0x1ed87
-	db $01
-	dw TileData_1edc9
-
-TileData_1ed8a: ; 0x1ed8a
-	db $01
-	dw TileData_1edd9
-
-TileData_1ed8d: ; 0x1ed8d
-	db $01
-	dw TileData_1ede9
-
-TileData_1ed90: ; 0x1ed90
-	db $01
-	dw TileData_1edf9
-
-TileData_1ed93: ; 0x1ed93
-	db $01
-	dw TileData_1ee09
-
-TileData_1ed96: ; 0x1ed96
-	db $01
-	dw TileData_1ee19
-
-TileData_1ed99: ; 0x1ed99
-	db $01
-	dw TileData_1ee29
-
-TileData_1ed9c: ; 0x1ed9c
-	db $01
-	dw TileData_1ee39
-
-TileData_1ed9f: ; 0x1ed9f
-	db $01
-	dw TileData_1ee49
-
-TileData_1eda2: ; 0x1eda2
-	db $01
-	dw TileData_1ee59
-
-TileData_1eda5: ; 0x1eda5
-	db $01
-	dw TileData_1ee69
-
-TileData_1eda8: ; 0x1eda8
-	db $01
-	dw TileData_1ee75
-
-TileData_1edab: ; 0x1edab
-	db $01
-	dw TileData_1ee81
-
-TileData_1edae: ; 0x1edae
-	db $01
-	dw TileData_1ee8d
-
-TileData_1edb1: ; 0x1edb1
-	db $01
-	dw TileData_1ee99
-
-TileData_1edb4: ; 0x1edb4
-	db $01
-	dw TileData_1eea7
-
-TileData_1edb7: ; 0x1edb7
-	db $01
-	dw TileData_1eeb5
-
-TileData_1edba: ; 0x1edba
-	db $01
-	dw TileData_1eec3
-
-TileData_1edbd: ; 0x1edbd
-	db $01
-	dw TileData_1eed1
-
-TileData_1edc0: ; 0x1edc0
-	db $01
-	dw TileData_1eedf
-
-TileData_1edc3: ; 0x1edc3
-	db $01
-	dw TileData_1eeed
-
-TileData_1edc6: ; 0x1edc6
-	db $01
-	dw TileData_1eefb
-
-TileData_1edc9: ; 0x1edc9
-	dw LoadTileLists
-	db $03 ; total number of tiles
-
-	db $01 ; number of tiles
-	dw vBGMap + $64
-	db $31
-
-	db $01 ; number of tiles
-	dw vBGMap + $84
-	db $0D
-
-	db $01 ; number of tiles
-	dw vBGMap + $A5
-	db $7C
-
-	db $00 ; terminator
-
-TileData_1edd9: ; 0x1edd9
-	dw LoadTileLists
-	db $03 ; total number of tiles
-
-	db $01 ; number of tiles
-	dw vBGMap + $64
-	db $32
-
-	db $01 ; number of tiles
-	dw vBGMap + $84
-	db $0D
-
-	db $01 ; number of tiles
-	dw vBGMap + $A5
-	db $7C
-
-	db $00 ; terminator
-
-TileData_1ede9: ; 0x1ede9
-	dw LoadTileLists
-	db $03 ; total number of tiles
-
-	db $01 ; number of tiles
-	dw vBGMap + $64
-	db $32
-
-	db $01 ; number of tiles
-	dw vBGMap + $84
-	db $0E
-
-	db $01 ; number of tiles
-	dw vBGMap + $A5
-	db $7C
-
-	db $00 ; terminator
-
-TileData_1edf9: ; 0x1edf9
-	dw LoadTileLists
-	db $03 ; total number of tiles
-
-	db $01 ; number of tiles
-	dw vBGMap + $64
-	db $32
-
-	db $01 ; number of tiles
-	dw vBGMap + $84
-	db $0E
-
-	db $01 ; number of tiles
-	dw vBGMap + $A5
-	db $7D
-
-	db $00 ; terminator
-
-TileData_1ee09: ; 0x1ee09
-	dw LoadTileLists
-	db $03 ; total number of tiles
-
-	db $01 ; number of tiles
-	dw vBGMap + $64
-	db $31
-
-	db $01 ; number of tiles
-	dw vBGMap + $84
-	db $0E
-
-	db $01 ; number of tiles
-	dw vBGMap + $A5
-	db $7C
-
-	db $00 ; terminator
-
-TileData_1ee19: ; 0x1ee19
-	dw LoadTileLists
-	db $03 ; total number of tiles
-
-	db $01 ; number of tiles
-	dw vBGMap + $6F
-	db $33
-
-	db $01 ; number of tiles
-	dw vBGMap + $8F
-	db $0F
-
-	db $01 ; number of tiles
-	dw vBGMap + $AE
-	db $7E
-
-	db $00 ; terminator
-
-TileData_1ee29: ; 0x1ee29
-	dw LoadTileLists
-	db $03 ; total number of tiles
-
-	db $01 ; number of tiles
-	dw vBGMap + $6F
-	db $34
-
-	db $01 ; number of tiles
-	dw vBGMap + $8F
-	db $0F
-
-	db $01 ; number of tiles
-	dw vBGMap + $AE
-	db $7E
-
-	db $00 ; terminator
-
-TileData_1ee39: ; 0x1ee39
-	dw LoadTileLists
-	db $03 ; total number of tiles
-
-	db $01 ; number of tiles
-	dw vBGMap + $6F
-	db $34
-
-	db $01 ; number of tiles
-	dw vBGMap + $8F
-	db $10
-
-	db $01 ; number of tiles
-	dw vBGMap + $AE
-	db $7E
-
-	db $00 ; terminator
-
-TileData_1ee49: ; 0x1ee49
-	dw LoadTileLists
-	db $03 ; total number of tiles
-
-	db $01 ; number of tiles
-	dw vBGMap + $6F
-	db $34
-
-	db $01 ; number of tiles
-	dw vBGMap + $8F
-	db $10
-
-	db $01 ; number of tiles
-	dw vBGMap + $AE
-	db $7F
-
-	db $00 ; terminator
-
-TileData_1ee59: ; 0x1ee59
-	dw LoadTileLists
-	db $03 ; total number of tiles
-
-	db $01 ; number of tiles
-	dw vBGMap + $6F
-	db $33
-
-	db $01 ; number of tiles
-	dw vBGMap + $8F
-	db $10
-
-	db $01 ; number of tiles
-	dw vBGMap + $AE
-	db $7E
-
-	db $00 ; terminator
-
-TileData_1ee69: ; 0x1ee69
-	dw LoadTileLists
-	db $02 ; total number of tiles
-
-	db $01 ; number of tiles
-	dw vBGMap + $48
-	db $05
-
-	db $01 ; number of tiles
-	dw vBGMap + $68
-	db $06
-
-	db $00 ; terminator
-
-TileData_1ee75: ; 0x1ee75
-	dw LoadTileLists
-	db $02 ; total number of tiles
-
-	db $01 ; number of tiles
-	dw vBGMap + $48
-	db $07
-
-	db $01 ; number of tiles
-	dw vBGMap + $68
-	db $08
-
-	db $00 ; terminator
-
-TileData_1ee81: ; 0x1ee81
-	dw LoadTileLists
-	db $02 ; total number of tiles
-
-	db $01 ; number of tiles
-	dw vBGMap + $48
-	db $09
-
-	db $01 ; number of tiles
-	dw vBGMap + $68
-	db $0A
-
-	db $00 ; terminator
-
-TileData_1ee8d: ; 0x1ee8d
-	dw LoadTileLists
-	db $02 ; total number of tiles
-
-	db $01 ; number of tiles
-	dw vBGMap + $48
-	db $0B
-
-	db $01 ; number of tiles
-	dw vBGMap + $68
-	db $0C
-
-	db $00 ; terminator
-
-TileData_1ee99: ; 0x1ee99
-	dw LoadTileLists
-	db $04 ; total number of tiles
-
-	db $02 ; number of tiles
-	dw vBGMap + $4B
-	db $26, $27
-
-	db $02 ; number of tiles
-	dw vBGMap + $6B
-	db $28, $29
-
-	db $00 ; terminator
-
-TileData_1eea7: ; 0x1eea7
-	dw LoadTileLists
-	db $04 ; total number of tiles
-
-	db $02 ; number of tiles
-	dw vBGMap + $4B
-	db $2A, $2B
-
-	db $02 ; number of tiles
-	dw vBGMap + $6B
-	db $2C, $2D
-
-	db $00 ; terminator
-
-TileData_1eeb5: ; 0x1eeb5
-	dw LoadTileLists
-	db $04 ; total number of tiles
-
-	db $02 ; number of tiles
-	dw vBGMap + $4B
-	db $2E, $2F
-
-	db $02 ; number of tiles
-	dw vBGMap + $6B
-	db $30, $31
-
-	db $00 ; terminator
-
-TileData_1eec3: ; 0x1eec3
-	dw LoadTileLists
-	db $04 ; total number of tiles
-
-	db $02 ; number of tiles
-	dw vBGMap + $4B
-	db $32, $33
-
-	db $02 ; number of tiles
-	dw vBGMap + $6B
-	db $34, $35
-
-	db $00 ; terminator
-
-TileData_1eed1: ; 0x1eed1
-	dw LoadTileLists
-	db $04 ; total number of tiles
-
-	db $02 ; number of tiles
-	dw vBGMap + $49
-	db $16, $17
-
-	db $02 ; number of tiles
-	dw vBGMap + $69
-	db $18, $19
-
-	db $00 ; terminator
-
-TileData_1eedf: ; 0x1eedf
-	dw LoadTileLists
-	db $04 ; total number of tiles
-
-	db $02 ; number of tiles
-	dw vBGMap + $49
-	db $1A, $1B
-
-	db $02 ; number of tiles
-	dw vBGMap + $69
-	db $1C, $1D
-
-	db $00 ; terminator
-
-TileData_1eeed: ; 0x1eeed
-	dw LoadTileLists
-	db $04 ; total number of tiles
-
-	db $02 ; number of tiles
-	dw vBGMap + $49
-	db $1E, $1F
-
-	db $02 ; number of tiles
-	dw vBGMap + $69
-	db $20, $21
-
-	db $00 ; terminator
-
-TileData_1eefb: ; 0x1eefb
-	dw LoadTileLists
-	db $04 ; total number of tiles
-
-	db $02 ; number of tiles
-	dw vBGMap + $49
-	db $22, $23
-
-	db $02 ; number of tiles
-	dw vBGMap + $69
-	db $24, $25
-
-	db $00 ; terminator
-
-ResolveBlueStageForceFieldCollision: ; 0x1ef09
+ResolveForceFieldCollision: ; 0x1ef09
+; Handles the collision with the directional force field in between Slowpoke and Cloyster.
 	ld a, [wBlueStageForceFieldDirection]
 	cp $0  ; up direction
-	jp z, Func_1ef20
+	jp z, ResolveForceFieldCollision_Up
 	cp $1  ; right direction
-	jp z, Func_1ef4d
+	jp z, ResolveForceFieldCollision_Right
 	cp $2  ; down direction
-	jp z, Func_1ef7e
+	jp z, ResolveForceFieldCollision_Down
 	cp $3  ; left direction
-	jp z, Func_1efae
+	jp z, ResolveForceFieldCollision_Left
 	; fall through
 	; default to upward forcefield
 
-Func_1ef20: ; 0x1ef20
+ResolveForceFieldCollision_Up: ; 0x1ef20
 	ld a, [wBallYPos + 1]
 	sub $60
 	cp $30
@@ -4120,9 +3030,9 @@ Func_1ef20: ; 0x1ef20
 	sla c
 	sla c
 	add hl, bc
-	jp Func_1efdc
+	jp ApplyForceFieldForce
 
-Func_1ef4d: ; 0x1ef4d
+ResolveForceFieldCollision_Right: ; 0x1ef4d
 	ld a, [wBallXPos + 1]
 	sub $38
 	cp $30
@@ -4150,9 +3060,9 @@ Func_1ef4d: ; 0x1ef4d
 	sla c
 	sla c
 	add hl, bc
-	jp Func_1efdc
+	jp ApplyForceFieldForce
 
-Func_1ef7e: ; 0x1ef7e
+ResolveForceFieldCollision_Down: ; 0x1ef7e
 	ld a, [wBallYPos + 1]
 	sub $60
 	cp $30
@@ -4180,9 +3090,9 @@ Func_1ef7e: ; 0x1ef7e
 	sla c
 	sla c
 	add hl, bc
-	jr Func_1efdc
+	jr ApplyForceFieldForce
 
-Func_1efae: ; 0x1efae
+ResolveForceFieldCollision_Left: ; 0x1efae
 	ld a, [wBallXPos + 1]
 	sub $38
 	cp $30
@@ -4211,20 +3121,21 @@ Func_1efae: ; 0x1efae
 	sla c
 	add hl, bc
 	; fall through
-Func_1efdc: ; 0x1efdc
+
+ApplyForceFieldForce: ; 0x1efdc
 	ld a, [wBlueStageForceFieldDirection]
 	cp $0  ; up direction
-	jp z, Func_1eff3
+	jp z, ApplyForceFieldForce_Up
 	cp $1  ; right direction
-	jp z, Func_1f0be
+	jp z, ApplyForceFieldForce_Right
 	cp $2  ; down direction
-	jp z, Func_1f057
+	jp z, ApplyForceFieldForce_Down
 	cp $3  ; left direction
-	jp z, Func_1f124
+	jp z, ApplyForceFieldForce_Left
 	; fall through
 	; default to upward forcefield
 
-Func_1eff3:  ; 0x1eff3
+ApplyForceFieldForce_Up:  ; 0x1eff3
 	ld bc, BallPhysicsData_ec000
 	add hl, bc
 	ld de, wBallXVelocity
@@ -4288,16 +3199,16 @@ Func_1eff3:  ; 0x1eff3
 	ld a, h
 	cp $2
 	ret c
-	ld a, [wd804]
+	ld a, [wRumbleDuration]
 	and a
 	ret nz
 	ld a, $5
-	ld [wd803], a
+	ld [wRumblePattern], a
 	ld a, $8
-	ld [wd804], a
+	ld [wRumbleDuration], a
 	ret
 
-Func_1f057: ; 0x1f057
+ApplyForceFieldForce_Down: ; 0x1f057
 	ld bc, BallPhysicsData_ec000
 	add hl, bc
 	ld de, wBallXVelocity
@@ -4363,16 +3274,16 @@ Func_1f057: ; 0x1f057
 	ld a, h
 	cp $2
 	ret c
-	ld a, [wd804]
+	ld a, [wRumbleDuration]
 	and a
 	ret nz
 	ld a, $5
-	ld [wd803], a
+	ld [wRumblePattern], a
 	ld a, $8
-	ld [wd804], a
+	ld [wRumbleDuration], a
 	ret
 
-Func_1f0be: ; 0x1f0be
+ApplyForceFieldForce_Right: ; 0x1f0be
 	ld bc, BallPhysicsData_ec000
 	add hl, bc
 	ld de, wBallYVelocity
@@ -4438,16 +3349,16 @@ Func_1f0be: ; 0x1f0be
 	ld a, h
 	cp $2
 	ret c
-	ld a, [wd804]
+	ld a, [wRumbleDuration]
 	and a
 	ret nz
 	ld a, $5
-	ld [wd803], a
+	ld [wRumblePattern], a
 	ld a, $8
-	ld [wd804], a
+	ld [wRumbleDuration], a
 	ret
 
-Func_1f124: ; 0x1f124
+ApplyForceFieldForce_Left: ; 0x1f124
 	ld bc, BallPhysicsData_ec000
 	add hl, bc
 	ld de, wBallYVelocity
@@ -4513,19 +3424,19 @@ Func_1f124: ; 0x1f124
 	ld a, h
 	cp $2
 	ret c
-	ld a, [wd804]
+	ld a, [wRumbleDuration]
 	and a
 	ret nz
 	ld a, $5
-	ld [wd803], a
+	ld [wRumblePattern], a
 	ld a, $8
-	ld [wd804], a
+	ld [wRumbleDuration], a
 	ret
 
-Func_1f18a: ; 0x1f18a
+UpdateForceFieldGraphics: ; 0x1f18a
 	ld a, [wBlueStageForceFieldGfxNeedsLoading]
 	cp $0
-	jr z, .asm_1f1b4
+	jr z, .done
 	ld a, [wBlueStageForceFieldDirection]
 	sla a
 	ld c, a
@@ -4533,9 +3444,9 @@ Func_1f18a: ; 0x1f18a
 	ld hl, TileDataPointers_1f1b5
 	ld a, [hGameBoyColorFlag]
 	and a
-	jr z, .asm_1f1a4
+	jr z, .gameboy
 	ld hl, TileDataPointers_1f201
-.asm_1f1a4
+.gameboy
 	add hl, bc
 	ld a, [hli]
 	ld h, [hl]
@@ -4546,17 +3457,19 @@ Func_1f18a: ; 0x1f18a
 	call Func_10aa
 	ld a, $0
 	ld [wBlueStageForceFieldGfxNeedsLoading], a
-.asm_1f1b4
+.done
 	ret
 
 INCLUDE "data/queued_tiledata/blue_field/force_field.asm"
 
-Func_1f261: ; 0x1f261
-	call Func_1f27b
+UpdatePokeballs_BlueField: ; 0x1f261
+; Update the pokeballs underneath the billboard, which blink for awhile after catch'em mode and evolution mode.
+	call UpdateBlinkingPokeballs_BlueField
 	ret nc
 	; fall through
 
-Func_1f265: ; 0x1f265
+LoadPokeballsGraphics_BlueField: ; 0x1f265
+; Loads the graphics for the list of pokeballs underneath the billboard picture.
 	sla a
 	ld c, a
 	ld b, $0
@@ -4571,7 +3484,7 @@ Func_1f265: ; 0x1f265
 	call Func_10c5
 	ret
 
-Func_1f27b: ; 0x1f27b
+UpdateBlinkingPokeballs_BlueField: ; 0x1f27b
 	ld a, [wPreviousNumPokeballs]
 	ld hl, wNumPokeballs
 	cp [hl]
@@ -4579,21 +3492,21 @@ Func_1f27b: ; 0x1f27b
 	ld a, [wPokeballBlinkingCounter]
 	dec a
 	ld [wPokeballBlinkingCounter], a
-	jr nz, .asm_1f2a5
+	jr nz, .stillBlinking
 	ld a, [wNumPokeballs]
 	ld [wPreviousNumPokeballs], a
 	cp $3
-	jr c, .asm_1f2a0
+	jr c, .dontOpenSlot
 	ld a, $1
-	ld [wd609], a
+	ld [wOpenedSlotByGetting3Pokeballs], a
 	ld a, $3
-	ld [wd607], a
-.asm_1f2a0
+	ld [wFramesUntilSlotCaveOpens], a
+.dontOpenSlot
 	ld a, [wPreviousNumPokeballs]
 	scf
 	ret
 
-.asm_1f2a5
+.stillBlinking
 	and $7
 	ret nz
 	ld a, [wPokeballBlinkingCounter]
@@ -4608,59 +3521,20 @@ Func_1f27b: ; 0x1f27b
 	scf
 	ret
 
-TileDataPointers_1f2b9:
-	dw TileData_1f2c1
-	dw TileData_1f2cc
-	dw TileData_1f2d7
-	dw TileData_1f2e2
+INCLUDE "data/queued_tiledata/blue_field/pokeballs.asm"
 
-TileData_1f2c1: ; 0x1f2c1
-	db $06 ; total number of tiles
-
-	db $06 ; number of tiles
-	dw vBGMap + $107
-	db $B0, $B1, $B0, $B1, $B0, $B1
-
-	db $00 ; terminator
-
-TileData_1f2cc: ; 0x1f2cc
-	db $06 ; total number of tiles
-
-	db $06 ; number of tiles
-	dw vBGMap + $107
-	db $AE, $AF, $B0, $B1, $B0, $B1
-
-	db $00 ; terminator
-
-TileData_1f2d7: ; 0x1f2d7
-	db $06 ; total number of tiles
-
-	db $06 ; number of tiles
-	dw vBGMap + $107
-	db $AE, $AF, $AE, $AF, $B0, $B1
-
-	db $00 ; terminator
-
-TileData_1f2e2: ; 0x1f2e2
-	db $06 ; total number of tiles
-
-	db $06 ; number of tiles
-	dw vBGMap + $107
-	db $AE, $AF, $AE, $AF, $AE, $AF
-
-	db $00 ; terminator
-
-Func_1f2ed: ; 0x1f2ed
+CloseSlotCave: ; 0x1f2ed
+; Closes the Slot cave, so it can't be entered.
 	xor a
-	ld [wd604], a
+	ld [wSlotIsOpen], a
 	ld [wIndicatorStates + 4], a
 	ld [hFarCallTempA], a
-	ld a, Bank(Func_1e8f6)  ; this is in the same bank...
-	ld hl, Func_1e8f6
+	ld a, Bank(LoadSlotCaveCoverGraphics_BlueField)  ; this is in the same bank...
+	ld hl, LoadSlotCaveCoverGraphics_BlueField
 	call BankSwitch
 	ret
 
-Func_1f2ff: ; 0x1f2ff
+SetLeftAndRightAlleyArrowIndicatorStates_BlueField: ; 0x1f2ff
 	ld a, [wLeftAlleyCount]
 	cp $3
 	jr c, .asm_1f30b

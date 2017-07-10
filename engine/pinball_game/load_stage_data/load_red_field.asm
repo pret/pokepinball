@@ -1,13 +1,13 @@
 _LoadStageDataRedFieldTop: ; 0x14000
 	call Func_14091
-	call Func_159f4
+	call LoadFieldStructureGraphics_RedField
 	call LoadPinballUpgradeTriggersGraphics_RedField
-	call Func_16859
+	call LoadStaryuGraphics_Top
 	call UpdateSpinnerChargeGraphics_RedField
 	call Func_14234
-	call Func_16425
+	call LoadSlotCaveCoverGraphics_RedField
 	call Func_142fc
-	call Func_1404a
+	call LoadTimerGraphics
 	ret
 
 _LoadStageDataRedFieldBottom: ; 0x1401c
@@ -18,17 +18,17 @@ _LoadStageDataRedFieldBottom: ; 0x1401c
 	call Func_14282
 	call Func_1414b
 	call Func_14234
-	call Func_14746
+	call LoadAgainTextGraphics
 	call DrawBallSaverIcon
 	call Func_140f9
-	call Func_16878
+	call LoadStaryuGraphics_Bottom
 	call Func_140e2
-	call Func_16425
+	call LoadSlotCaveCoverGraphics_RedField
 	call Func_142fc
-	call Func_1404a
+	call LoadTimerGraphics
 	ret
 
-Func_1404a: ; 0x1404a
+LoadTimerGraphics: ; 0x1404a
 	ld a, [wTimerActive]
 	and a
 	ret z
@@ -95,7 +95,7 @@ Func_14091: ; 0x14091
 	bit 0, a
 	ret nz
 	callba LoadStageCollisionAttributes
-	call Func_159f4
+	call LoadFieldStructureGraphics_RedField
 	ret
 
 Func_140e2: ; 0x140e2
@@ -147,7 +147,7 @@ Func_14135: ; 0x14135
 	add hl, bc
 	ld a, [hl]
 	res 7, a
-	call Func_169cd
+	call LoadArrowIndicatorGraphics_RedField
 	pop bc
 	inc c
 	ld a, c
@@ -299,7 +299,7 @@ Func_14234: ; 0x14234
 	ld hl, PaletteData_dd188
 	ld de, $0070
 	ld bc, $0010
-	call Func_6fd
+	call FarCopyCGBPals
 	ret
 
 Func_14282: ; 0x14282
@@ -322,7 +322,7 @@ Func_14282: ; 0x14282
 
 .asm_1429e
 	ld a, [wPreviousNumPokeballs]
-	call Func_174d4
+	call LoadPokeballsGraphics_RedField
 	ld a, BANK(CaughtPokeballGfx)
 	ld hl, CaughtPokeballGfx
 	ld de, vTilesSH tile $2e
@@ -391,7 +391,7 @@ Func_142fc: ; 0x142fc
 	jr .asm_14328
 
 .asm_1431e
-	callba Func_dd62
+	callba LoadSuperMiniPinballGfx
 .asm_14328
 	ld a, [hGameBoyColorFlag]
 	and a
@@ -403,7 +403,7 @@ Func_142fc: ; 0x142fc
 	ld hl, PokeBallObjPalette
 	ld de, $0040
 	ld bc, $0008
-	call Func_6fd
+	call FarCopyCGBPals
 	ret
 
 .notPokeball
@@ -413,7 +413,7 @@ Func_142fc: ; 0x142fc
 	ld hl, GreatBallObjPalette
 	ld de, $0040
 	ld bc, $0008
-	call Func_6fd
+	call FarCopyCGBPals
 	ret
 
 .notGreatball
@@ -423,7 +423,7 @@ Func_142fc: ; 0x142fc
 	ld hl, UltraBallObjPalette
 	ld de, $0040
 	ld bc, $0008
-	call Func_6fd
+	call FarCopyCGBPals
 	ret
 
 .notUltraball
@@ -431,14 +431,14 @@ Func_142fc: ; 0x142fc
 	ld hl, MasterBallObjPalette
 	ld de, $0040
 	ld bc, $0008
-	call Func_6fd
+	call FarCopyCGBPals
 	ret
 
 Func_14377: ; 0x14377
 	ld a, [wInSpecialMode]
 	and a
 	jr nz, .asm_143b1
-	ld a, [wd609]
+	ld a, [wOpenedSlotByGetting3Pokeballs]
 	and a
 	jr z, .asm_14393
 	ld a, [wd498]
@@ -447,7 +447,7 @@ Func_14377: ; 0x14377
 	ret
 
 .asm_14393
-	ld a, [wd608]
+	ld a, [wOpenedSlotByGetting4CAVELights]
 	and a
 	jr z, .asm_143a6
 	ld a, $1a
@@ -469,11 +469,11 @@ Func_14377: ; 0x14377
 	ret
 
 .asm_143c9
-	ld a, [wd604]
+	ld a, [wSlotIsOpen]
 	and a
 	ld a, $14
 	jr nz, .asm_143d6
-	ld a, [wd55a]
+	ld a, [wMapMoveDirection]
 	add $12
 .asm_143d6
 	callba LoadBillboardTileData

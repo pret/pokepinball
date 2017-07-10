@@ -50,8 +50,8 @@ HandleInGameMenu: ; 0x86d7
 	ld bc, $04c3
 	call SaveData
 	xor a
-	ld [wd803], a
-	ld [wd804], a
+	ld [wRumblePattern], a
+	ld [wRumbleDuration], a
 .pickedCancel
 	ld bc, $003c
 	call AdvanceFrames

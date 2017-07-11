@@ -196,7 +196,7 @@ Func_20d30: ; 0x20d30
 	ret
 
 Func_20d7c: ; 0x20d7c
-	ld a, [wd5ca]
+	ld a, [wBottomTextEnabled]
 	and a
 	ret nz
 	call FillBottomMessageBufferWithBlackTile

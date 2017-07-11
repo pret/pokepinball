@@ -12,7 +12,7 @@ HandleBallLossDiglettBonus: ; 0xe056
 	ld a, $2
 	ld [wd4c8], a
 	xor a
-	ld [wd7ac], a
+	ld [wDisableHorizontalScrollForBallStart], a
 	ld a, [wCompletedBonusStage]
 	and a
 	ret nz

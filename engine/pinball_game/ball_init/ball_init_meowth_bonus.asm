@@ -26,7 +26,7 @@ InitBallMeowthBonusStage: ; 0x24059
 	dec b
 	jr nz, .asm_24081
 	ld a, $1
-	ld [wd7ac], a
+	ld [wDisableHorizontalScrollForBallStart], a
 	ld a, $40
 	ld [wMeowthXPosition], a
 	ld a, $20

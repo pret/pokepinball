@@ -2067,7 +2067,7 @@ DoSlotLogic_RedField: ; 0x16352
 	ld [wBonusStageSlotRewardActive], a
 	ld a, $1
 	ld [wd495], a
-	ld [wd4ae], a
+	ld [wMoveToNextScreenState], a
 	ld a, [wd498]
 	ld c, a
 	ld b, $0
@@ -2839,7 +2839,7 @@ UpdateBonusMultiplierRailing_RedField: ; 0x16e51
 	ret
 
 ShowBonusMultiplierMessage_RedField: ; 0x16ef5
-	ld a, [wd5ca]
+	ld a, [wBottomTextEnabled]
 	and a
 	ret nz
 	ld a, [wd613]

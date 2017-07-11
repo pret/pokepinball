@@ -237,7 +237,8 @@ wCurrentStage:: ; 0xd4ac see constants/stage_constants.asm for list. bit 0 is 1 
 wd4ad:: ; 0xd4ad
 	ds $1
 
-wd4ae:: ; 0xd4ae
+wMoveToNextScreenState:: ; 0xd4ae
+; This is set when the the screen state should advance, in the pinball game's core logic state.
 	ds $1
 
 wStageCollisionState:: ; 0xd4af
@@ -741,10 +742,15 @@ wWildMonCollision:: ; 0xd5c7
 
 	ds $1
 
-wd5ca:: ; 0xd5ca set to 1 by a commonly called text function that is called at the start of catch and raises the score bar. set off by text handler if no text is ready to run. Possibly toggles if text is running?
+wBottomTextEnabled:: ; 0xd5ca
+; 1 = text messages in the bottom black bar are enabled
+; 0 = disabled--the text won't appear even if LoadScrollingText is called
 	ds $1
 
-wd5cb:: ; 0xd5cb set to 0 if the above is 0 during Func_33e3
+wDisableDrawScoreboardInfo:: ; 0xd5cb
+; This is set when text messages are shown in the bottom black bar.
+; 1 = Skip drawing the scoreboard icons in the bottom black bar. (num pokemon caught, number of balls left, score)
+; 0 = Draw them.
 	ds $1
 
 scrolling_text: MACRO
@@ -1660,10 +1666,12 @@ wd79c:: ; 0xd79c
 wd79e:: ; 0xd79e
 	ds $1
 
-wd79f:: ; 0xd79f
+wLeftAndRightTiltPixelsOffset:: ; 0xd79f
+; Horizontal offset in pixels that the left and right tilt are currently moving the screen.
 	ds $1
 
-wd7a0:: ; 0xd7a0
+wUpperTiltPixelsOffset:: ; 0xd7a0
+; Vertical offset in pixels that the upper tilt is currently moving the screen.
 	ds $1
 
 wLeftTiltCounter:: ; 0xd7a1
@@ -1693,13 +1701,19 @@ wRightTiltPushing:: ; 0xd7a8
 wUpperTiltPushing:: ; 0xd7a9
 	ds $1
 
-wd7aa:: ; 0xd7aa
+wUnused_d7aa:: ; 0xd7aa
+; not actually used
 	ds $1
 
 wSCX:: ; 0xd7ab
 	ds $1
 
-wd7ac:: ; 0xd7ac
+wDisableHorizontalScrollForBallStart:: ; 0xd7ac
+; Controls whether or not the screen will scroll to accomodate the pinball when its off-screen.
+; When the ball is launched on the Blue and Red Fields, the screen starts off scrolled to the right.
+; However, when the balls rolls in on Bonus Stages, the screen does NOT scroll.
+; 1 = Disable the scrolling
+; 0 = Enable the scrolling
 	ds $1
 
 wd7ad:: ; 0xd7ad

@@ -885,9 +885,9 @@ Func_1894c: ; 0x1894c
 	inc a
 	ld [wBallYPos + 1], a
 .asm_18973
-	ld a, [wd7a0]
+	ld a, [wUpperTiltPixelsOffset]
 	dec a
-	ld [wd7a0], a
+	ld [wUpperTiltPixelsOffset], a
 	ld a, $1
 	ld [wUpperTiltPushing], a
 	ret
@@ -907,9 +907,9 @@ Func_1894c: ; 0x1894c
 	jr z, .asm_189a5
 	dec a
 	ld [wd6a5], a
-	ld a, [wd7a0]
+	ld a, [wUpperTiltPixelsOffset]
 	inc a
-	ld [wd7a0], a
+	ld [wUpperTiltPixelsOffset], a
 	ret
 
 .asm_189a5

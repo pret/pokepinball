@@ -40,7 +40,7 @@ CallTable_3021f: ; 0x3021f
 
 Func_3022b: ; 0x3022b
 	xor a
-	ld [wd5ca], a ;turn text off
+	ld [wBottomTextEnabled], a ;turn text off
 	call FillBottomMessageBufferWithBlackTile ;clear text
 	xor a
 	ld [wInSpecialMode], a
@@ -471,7 +471,7 @@ Func_314f3: ; 0x314f3
 	ret
 
 Func_31505: ; 0x31505
-	ld a, [wd5ca]
+	ld a, [wBottomTextEnabled]
 	and a
 	ret nz
 	call FillBottomMessageBufferWithBlackTile
@@ -564,9 +564,9 @@ Func_315d5: ; 0x315d5
 	ld bc, ArrivedAtMapText
 	callba LoadScrollingMapNameText
 .asm_31603
-	callba Func_33e3
+	callba UpdateBottomText
 	rst AdvanceFrame
-	ld a, [wd5ca]
+	ld a, [wBottomTextEnabled]
 	and a
 	jr nz, .asm_31603
 	ld a, $2
@@ -621,7 +621,7 @@ Func_31660: ; 0x31660
 	ret
 
 Func_31672: ; 0x31672
-	ld a, [wd5ca] ;if text is off
+	ld a, [wBottomTextEnabled] ;if text is off
 	and a
 	ret nz
 	call FillBottomMessageBufferWithBlackTile
@@ -718,9 +718,9 @@ Func_3174c: ; 0x3174c
 	ld bc, ArrivedAtMapText
 	callba LoadScrollingMapNameText
 .asm_3177a
-	callba Func_33e3
+	callba UpdateBottomText
 	rst AdvanceFrame
-	ld a, [wd5ca]
+	ld a, [wBottomTextEnabled]
 	and a
 	jr nz, .asm_3177a
 	ld a, $2

@@ -198,7 +198,7 @@ CapturePokemonRedStage: ; 0x201c2
 	ret
 
 Func_201ce: ; 0x201ce
-	ld a, [wd5ca]
+	ld a, [wBottomTextEnabled]
 	and a
 	ret nz
 	call FillBottomMessageBufferWithBlackTile

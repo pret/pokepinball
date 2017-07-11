@@ -25,7 +25,7 @@ StartEvolutionMode_CallTable: ; 0x10abc
 
 ConcludeEvolutionMode: ; 0x10ac8
 	xor a
-	ld [wd5ca], a
+	ld [wBottomTextEnabled], a
 	call FillBottomMessageBufferWithBlackTile
 	xor a
 	ld [wInSpecialMode], a

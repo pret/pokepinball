@@ -49,7 +49,7 @@ GameScreenFunction_StartBall: ; 0xd87f
 	callba InitBallForStage
 	callba LoadStageCollisionAttributes
 	callba LoadStageData
-	callba Func_ed5e
+	callba ScrollScreenToShowPinball
 	call ClearOAMBuffer
 	callba DrawSpritesForStage
 	ld a, [wUpdateAudioEngineUsingTimerInterrupt]
@@ -145,25 +145,25 @@ GameScreenFunction_HandleBallPhysics: ; 0xd909
 	call MoveBallPosition
 	callba CheckStageTransition
 	callba DrawSpritesForStage
-	call Func_33e3
-	ld a, [wd5cb]
+	call UpdateBottomText
+	ld a, [wDisableDrawScoreboardInfo]
 	and a
-	jr nz, .asm_d9e9
+	jr nz, .skipDrawingScoreboard
 	callba Func_85c7
 	callba HideScoreIfBallLow
 	callba Func_8645
 	call Func_dba9
 	call DrawNumPartyMonsIcon
 	call DrawPikachuSaverLightningBoltIcon
-.asm_d9e9
+.skipDrawingScoreboard
 	ld a, [wTimerActive]
 	and a
 	callba nz, Func_86a4
-	ld a, [wd4ae]
+	ld a, [wMoveToNextScreenState]
 	and a
 	ret z
 	xor a
-	ld [wd4ae], a
+	ld [wMoveToNextScreenState], a
 	ld hl, wScreenState
 	inc [hl]
 	ret
@@ -186,9 +186,9 @@ GameScreenFunction_HandleBallLoss: ; 0xda36
 	bit 0, a
 	callba nz, HandleFlippers
 	callba DrawSpritesForStage
-	call Func_33e3
+	call UpdateBottomText
 	callba Func_85c7
-	ld a, [wd5ca]
+	ld a, [wBottomTextEnabled]
 	and a
 	ret nz
 	ld a, [wd4c9]

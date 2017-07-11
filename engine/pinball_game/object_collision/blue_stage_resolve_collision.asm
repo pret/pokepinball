@@ -1334,7 +1334,7 @@ UpdateBonusMultiplierRailing_BlueField: ; 0x1d51b
 	ret
 
 ShowBonusMultiplierMessage_BlueField: ; 0x1d5bf
-	ld a, [wd5ca]
+	ld a, [wBottomTextEnabled]
 	and a
 	ret nz
 	ld a, [wd613]
@@ -2621,7 +2621,7 @@ DoSlotLogic_BlueField: ; 0x1e830
 	ld [wBonusStageSlotRewardActive], a
 	ld a, $1
 	ld [wd495], a
-	ld [wd4ae], a
+	ld [wMoveToNextScreenState], a
 	ld a, [wd498]
 	ld c, a
 	ld b, $0

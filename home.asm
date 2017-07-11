@@ -3872,9 +3872,9 @@ HandleLeftTilt: ; 0x358c
 	dec a  ; move ball's position to the left by 1 pixel
 	ld [wBallXPos + 1], a
 .skipBallMovement
-	ld a, [wd79f]
+	ld a, [wLeftAndRightTiltPixelsOffset]
 	inc a
-	ld [wd79f], a
+	ld [wLeftAndRightTiltPixelsOffset], a
 	ld a, $1
 	ld [wLeftTiltPushing], a
 	ret
@@ -3890,9 +3890,9 @@ HandleLeftTilt: ; 0x358c
 	jr z, .done
 	dec a
 	ld [wLeftTiltCounter], a
-	ld a, [wd79f]
+	ld a, [wLeftAndRightTiltPixelsOffset]
 	dec a
-	ld [wd79f], a
+	ld [wLeftAndRightTiltPixelsOffset], a
 	ret
 
 .done
@@ -3928,9 +3928,9 @@ HandleRightTilt: ; 0x35f3
 	inc a  ; move ball's position to the right by 1 pixel
 	ld [wBallXPos + 1], a
 .skipBallMovement
-	ld a, [wd79f]
+	ld a, [wLeftAndRightTiltPixelsOffset]
 	dec a
-	ld [wd79f], a
+	ld [wLeftAndRightTiltPixelsOffset], a
 	ld a, $1
 	ld [wRightTiltPushing], a
 	ret
@@ -3946,9 +3946,9 @@ HandleRightTilt: ; 0x35f3
 	jr z, .done
 	dec a
 	ld [wRightTiltCounter], a
-	ld a, [wd79f]
+	ld a, [wLeftAndRightTiltPixelsOffset]
 	inc a
-	ld [wd79f], a
+	ld [wLeftAndRightTiltPixelsOffset], a
 	ret
 
 .done
@@ -3984,9 +3984,9 @@ HandleUpperTilt: ; 0x365a
 	inc a  ; move ball's position down by 1 pixel
 	ld [wBallYPos + 1], a
 .skipBallMovement
-	ld a, [wd7a0]
+	ld a, [wUpperTiltPixelsOffset]
 	dec a
-	ld [wd7a0], a
+	ld [wUpperTiltPixelsOffset], a
 	ld a, $1
 	ld [wUpperTiltPushing], a
 	ret
@@ -4002,9 +4002,9 @@ HandleUpperTilt: ; 0x365a
 	jr z, .done
 	dec a
 	ld [wUpperTiltCounter], a
-	ld a, [wd7a0]
+	ld a, [wUpperTiltPixelsOffset]
 	inc a
-	ld [wd7a0], a
+	ld [wUpperTiltPixelsOffset], a
 	ret
 
 .done

@@ -10,7 +10,7 @@ InitGengarBonusStage: ; 0x18099
 	ret
 .asm_180ac
 	ld a, $1
-	ld [wd7ac], a
+	ld [wDisableHorizontalScrollForBallStart], a
 	ld a, [wBallType]
 	ld [wBallTypeBackup], a
 	xor a

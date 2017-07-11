@@ -5,7 +5,7 @@ InitMewtwoBonusStage: ; 0x1924f
 	xor a
 	ld [wStageCollisionState], a
 	ld a, $1
-	ld [wd7ac], a
+	ld [wDisableHorizontalScrollForBallStart], a
 	ld a, [wBallType]
 	ld [wBallTypeBackup], a
 	xor a

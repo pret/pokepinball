@@ -25,7 +25,7 @@ Func_ed8e: ; 0xed8e
 	ld hl, HandleFlippers
 	call nz, BankSwitch
 	callba DrawSpritesForStage
-	call Func_33e3
+	call UpdateBottomText
 	call CleanOAMBuffer
 	rst AdvanceFrame
 	ld a, [wd7af]

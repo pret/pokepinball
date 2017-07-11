@@ -810,13 +810,13 @@ UpdatePikachuSaverAnimation_BlueField: ; 0x1d133
 	cp $1
 	jr nz, .asm_1d18c
 	xor a
-	ld [wd85d], a
+	ld [wAudioEngineEnabled], a
 	call Func_310a
 	rst AdvanceFrame
 	ld a, $1
 	callba PlayPikachuSoundClip
 	ld a, $1
-	ld [wd85d], a
+	ld [wAudioEngineEnabled], a
 	ld a, $ff
 	ld [wRumblePattern], a
 	ld a, $60

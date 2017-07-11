@@ -1906,10 +1906,13 @@ wd812:: ; 0xd812
 wd848:: ; 0xd848
 	ds $1
 
-wd849:: ; 0xd849
+wUpdateAudioEngineUsingTimerInterrupt:: ; 0xd849
+; See ToggleAudioEngineUpdateMethod function for more in-depth explanation.
 	ds $1
 
-wd84a:: ; 0xd84a
+wToggleAudioEngineUpdateMethod:: ; 0xd84a
+; When this byte is set to 1, it toggles between the audio engine being updated by V-Blank vs. Timer Interrupt.
+; See ToggleAudioEngineUpdateMethod function for more in-depth explanation.
 	ds $1
 
 wd84b:: ; 0xd84b
@@ -1921,7 +1924,9 @@ wd84f:: ; 0xd84f
 wCurrentSongBank:: ; 0xd85b
 	ds $2
 
-wd85d:: ; 0xd85d
+wAudioEngineEnabled:: ; 0xd85d
+; 1 = normal audio (music/sfx) engine is enabled
+; 0 = disabled
 	ds $1
 
 wd85e:: ; 0xd85e

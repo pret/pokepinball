@@ -14,7 +14,7 @@ GameScreenFunction_LoadGFX: ; 0xd861
 	callba InitializeCurrentStage
 	call FillBottomMessageBufferWithBlackTile
 	ld a, $1
-	ld [wd85d], a
+	ld [wAudioEngineEnabled], a
 	ld [wDrawBottomMessageBox], a
 	ld hl, wScreenState
 	inc [hl]
@@ -52,9 +52,9 @@ GameScreenFunction_StartBall: ; 0xd87f
 	callba Func_ed5e
 	call ClearOAMBuffer
 	callba DrawSpritesForStage
-	ld a, [wd849]
+	ld a, [wUpdateAudioEngineUsingTimerInterrupt]
 	and a
-	call nz, Func_e5d
+	call nz, ToggleAudioEngineUpdateMethod
 	ld a, $1
 	ld [wDrawBottomMessageBox], a
 	xor a
@@ -231,9 +231,9 @@ GameScreenFunction_EndBall: ; 0xdab2
 	and a
 	jr nz, .asm_db28
 	call FadeOut
-	ld a, [wd849]
+	ld a, [wUpdateAudioEngineUsingTimerInterrupt]
 	and a
-	call z, Func_e5d
+	call z, ToggleAudioEngineUpdateMethod
 	call DisableLCD
 	ld hl, hSTAT
 	res 6, [hl]
@@ -249,9 +249,9 @@ GameScreenFunction_EndBall: ; 0xdab2
 	ld bc, $0004
 	call AdvanceFrames
 	call FadeOut
-	ld a, [wd849]
+	ld a, [wUpdateAudioEngineUsingTimerInterrupt]
 	and a
-	call nz, Func_e5d
+	call nz, ToggleAudioEngineUpdateMethod
 	call DisableLCD
 	ld hl, hSTAT
 	res 6, [hl]
@@ -276,9 +276,9 @@ GameScreenFunction_EndBall: ; 0xdab2
 	ld bc, $0004
 	call AdvanceFrames
 	call FadeOut
-	ld a, [wd849]
+	ld a, [wUpdateAudioEngineUsingTimerInterrupt]
 	and a
-	call nz, Func_e5d
+	call nz, ToggleAudioEngineUpdateMethod
 	call DisableLCD
 	ld hl, hSTAT
 	res 6, [hl]

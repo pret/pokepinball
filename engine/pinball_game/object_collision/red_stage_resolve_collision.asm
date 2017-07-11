@@ -2392,13 +2392,13 @@ UpdatePikachuSaverAnimation_RedField: ; 0x1669e
 	cp $1
 	jr nz, .asm_166f7
 	xor a
-	ld [wd85d], a
+	ld [wAudioEngineEnabled], a
 	call Func_310a
 	rst AdvanceFrame
 	ld a, $1
 	callba PlayPikachuSoundClip
 	ld a, $1
-	ld [wd85d], a
+	ld [wAudioEngineEnabled], a
 	ld a, $ff
 	ld [wRumblePattern], a
 	ld a, $60

@@ -16,13 +16,13 @@ FieldVerticalTransition: ; 0xe674
 	ld [hOBP0], a
 	ld [hOBP1], a
 	rst AdvanceFrame
-	call Func_e5d
+	call ToggleAudioEngineUpdateMethod
 	call DisableLCD
 	call ClearOAMBuffer
 	call Func_1129
 	call LoadStageCollisionAttributes
 	call LoadStageData
-	call Func_e5d
+	call ToggleAudioEngineUpdateMethod
 	call EnableLCD
 	ld a, $e4
 	ld [hBGP], a

@@ -124,8 +124,8 @@ Start: ; 0x150
 	ld a, $a6
 	ld [hli], a
 	ld a, $0
-	ld [wd849], a
-	ld [wd84a], a
+	ld [wUpdateAudioEngineUsingTimerInterrupt], a
+	ld [wToggleAudioEngineUpdateMethod], a
 	ld a, Bank(PlaySong_BankF)
 	call SetSongBank
 	call Func_23b
@@ -222,8 +222,8 @@ SoftReset:
 	ld a, $a6
 	ld [hli], a
 	ld a, $0
-	ld [wd849], a
-	ld [wd84a], a
+	ld [wUpdateAudioEngineUsingTimerInterrupt], a
+	ld [wToggleAudioEngineUpdateMethod], a
 	ld a, BANK(Func_3c000)
 	call SetSongBank
 	ld a, [hSGBFlag]
@@ -329,29 +329,30 @@ VBlank: ; 0x2f2
 	ld a, [wd8e1]
 	and a
 	call nz, Func_167b
-	ld a, [wd849]
+	ld a, [wUpdateAudioEngineUsingTimerInterrupt]
 	and a
-	jr nz, .asm_37d
-	ld a, [wd85d]
+	jr nz, .skipAudioEngineUpdate
+	ld a, [wAudioEngineEnabled]
 	and a
 	call nz, UpdateSFX
-.asm_37d
-	ld a, [wd84a]
+.skipAudioEngineUpdate
+	ld a, [wToggleAudioEngineUpdateMethod]
 	and a
-	jr z, .asm_39d
+	jr z, .skipTimerToggle
+	; Enable timer interrupts for audio engine updating.
 	xor a
-	ld [wd84a], a
+	ld [wToggleAudioEngineUpdateMethod], a
 	ld a, $1
-	ld [wd849], a
-	ld a, $bc
+	ld [wUpdateAudioEngineUsingTimerInterrupt], a
+	ld a, -68
 	ld [rTMA], a
 	ld a, $0
 	ld [rTAC], a
 	ld hl, rIE
 	set 2, [hl]
 	ld a, $4
-	ld [rTAC], a
-.asm_39d
+	ld [rTAC], a ; Timer interrupt will fire ~60 times per second
+.skipTimerToggle
 	ld hl, MBC5SRamBank
 	ld a, [wd917]
 	and a
@@ -439,24 +440,25 @@ Timer: ; 0x418
 	push bc
 	push de
 	push hl
-	ld a, [wd849]
+	ld a, [wUpdateAudioEngineUsingTimerInterrupt]
 	and a
 	jr z, .asm_42a
-	ld a, [wd85d]
+	ld a, [wAudioEngineEnabled]
 	and a
 	call nz, UpdateSFX
 .asm_42a
-	ld a, [wd84a]
+	ld a, [wToggleAudioEngineUpdateMethod]
 	and a
-	jr z, .asm_440
+	jr z, .skipTimer
 	xor a
-	ld [wd84a], a
-	ld [wd849], a
+	ld [wToggleAudioEngineUpdateMethod], a
+	ld [wUpdateAudioEngineUsingTimerInterrupt], a
+	; disable timer
 	ld a, $0
 	ld [rTAC], a
 	ld hl, rIE
 	res 2, [hl]
-.asm_440
+.skipTimer
 	pop hl
 	pop de
 	pop bc
@@ -1391,13 +1393,18 @@ Modulo_C: ; 0xe55
 	and a
 	ret
 
-Func_e5d: ; 0xe5d
+ToggleAudioEngineUpdateMethod: ; 0xe5d
+; The audio engine is normally updated once every V-Blank interrupt. However, during pinball gameplay,
+; the LCD is disabled (no V-Blanks) when the pinball is transitioning between the Top- and Bottom-halfs of 
+; the Red and Blue Fields. Therefore, the audio engine wouldn't get updated for a fraction of a second, which
+; would has a noticeable pause in the music. To solve this, the Timer interrupt is enabled while the V-Blank is
+; disabled, and the audio engine gets updated during the Timer interrupt.
 	ld a, $1
-	ld [wd84a], a
-.asm_e62
-	ld a, [wd84a]
+	ld [wToggleAudioEngineUpdateMethod], a
+.wait
+	ld a, [wToggleAudioEngineUpdateMethod]
 	and a
-	jr nz, .asm_e62
+	jr nz, .wait
 	ret
 
 DrawBottomMessageBox: ; 0xe69
@@ -2552,7 +2559,7 @@ Func_1ffc: ; 0x1ffc
 	ld [wd807], a
 	callba Func_3c000
 	ld a, $1
-	ld [wd85d], a
+	ld [wAudioEngineEnabled], a
 	ld a, $37 ; space character for player high scores name
 	ld [wPlayerName], a
 	ld [wPlayerName + 1], a

@@ -254,13 +254,13 @@ SlotRewardPikachuSaver: ; 0xef83
 	ld a, MAX_PIKACHU_SAVER_CHARGE
 	ld [wPikachuSaverCharge], a
 	xor a
-	ld [wd85d], a
+	ld [wAudioEngineEnabled], a
 	call Func_310a
 	rst AdvanceFrame
 	ld a, $0
 	callba PlayPikachuSoundClip
 	ld a, $1
-	ld [wd85d], a
+	ld [wAudioEngineEnabled], a
 	ret
 
 SlotRewardBonusMultiplier: ; 0xefa7

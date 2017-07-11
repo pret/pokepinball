@@ -224,31 +224,31 @@ ResolveWildMonCollision_RedField: ; 0x14795
 ResolveDiglettCollision: ; 0x147aa
 	ld a, [wWhichDiglett]
 	and a
-	jp z, .asm_14834
+	jp z, .asm_14834 ;if no diglett hit (runs every frame when above a certain line on bottom boards, jump
 	xor a
 	ld [wWhichDiglett], a
 	ld a, [wWhichDiglettId]
 	sub $1
 	sla a
-	ld c, a
+	ld c, a ;-1 then * 2
 	ld b, $0
-	ld hl, wLeftMapMoveCounter
+	ld hl, wLeftMapMoveCounter ;select approprioate map move counter
 	add hl, bc
 	ld a, [hl]
 	cp $3
-	jr z, .asm_14834
+	jr z, .asm_14834 ;if counter is set to 3, jump
 	inc a
-	ld [hld], a
-	ld [hl], $50
+	ld [hld], a ;oherwise, add 1 to the counter
+	ld [hl], $50 ;and set the animation of that diglett
 	ld hl, wLeftMapMoveCounterFramesUntilDecrease
 	add hl, bc
-	ld a, MAP_MOVE_FRAMES_COUNTER & $ff
+	ld a, MAP_MOVE_FRAMES_COUNTER & $ff ;load in time until digletts decay
 	ld [hli], a
 	ld a, MAP_MOVE_FRAMES_COUNTER >> 8
 	ld [hl], a
 	ld a, c
 	and a
-	jr z, .asm_14807
+	jr z, .asm_14807 ;if left diglett, jump
 	ld a, $6a
 	ld [wStageCollisionMap + $f0], a
 	ld a, $6b

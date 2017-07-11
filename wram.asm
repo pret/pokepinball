@@ -385,7 +385,7 @@ wPreviousTriggeredGameObject:: ; 0xd4ec
 ; an object two frames in a row. It has to "un-collide" before it can collide again.
 	ds $1
 
-wWhichDiglett:: ; 0xd4ed
+wWhichDiglett:: ; 0xd4ed 0 = none, left = 1 right = 2
 wWhichPsyduckPoliwag::
 	ds $1
 wWhichDiglettId:: ; 0xd4ee
@@ -395,7 +395,7 @@ wWhichPsyduckPoliwagId::
 wLeftDiglettAnimationController:: ; 0xd4ef $50 = in and pained look. 0 = normal state
 	ds $1
 
-wLeftMapMoveCounter:: ; 0xd4f0
+wLeftMapMoveCounter:: ; 0xd4f0 WARNING, diglet identifying code relies on this being 2 bytes before right map move counter
 	ds $1
 
 wRightDiglettAnimationController:: ; 0xd4f1 $50 = in and pained look. 0 = normal state
@@ -530,7 +530,7 @@ wCollidedAlleyTriggers:: ; 0xd521
 
 	ds $6 ; free space
 
-wIndicatorStates:: ; 0xd52f
+wIndicatorStates:: ; 0xd52f 0 = evo arrows, 1 = catch arrows, 2 = left small alley, 3 = bellsprout, 4 = slot. bit 7 controls if enabled and flashing, bit 1 and 2 control is solid (set = solid)
 	ds $13
 
 wLeftAlleyTrigger:: ; 0xd542
@@ -566,7 +566,7 @@ wInSpecialMode:: ; 0xd54b
 ; Set to 1 if currently in special game mode. See wSpecialMode.
 	ds $1
 
-wd54c:: ; 0xd54c 10000 sets it to c. red evo mode checks it for it's contents
+wd54c:: ; 0xd54c 10000 sets it to a input.  7 and 8 from the digletts
 	ds $1
 
 wd54d:: ; 0xd54d

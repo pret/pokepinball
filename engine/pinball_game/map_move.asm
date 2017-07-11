@@ -430,15 +430,15 @@ Func_314ae: ; 0x314ae
 	ld a, [wd54c]
 	jr z, .asm_314d0
 	cp $1
-	jp z, Func_31591
+	jp z, OpenRedMapMoveSlotFromLeft
 	cp $3
-	jp z, Func_31591
+	jp z, OpenRedMapMoveSlotFromLeft
 	cp $2
-	jp z, Func_315b3
+	jp z, OpenRedMapMoveSlotFromRight
 	cp $5
-	jp z, Func_315b3
+	jp z, OpenRedMapMoveSlotFromRight
 	cp $d
-	jp z, Func_315d5
+	jp z, ResolveSucsessfulRedMapMove
 .asm_314d0
 	cp $0
 	jr z, .asm_314d6
@@ -515,13 +515,13 @@ UpdateMapMove_RedField: ; 0x3151f handle map move timer and fail when it expires
 	call LoadScrollingText
 	ret
 
-Func_31591: ; 0x31591
+OpenRedMapMoveSlotFromLeft: ; 0x31591
 	ld a, [wMapMoveDirection]
 	and a
-	jr nz, .asm_315b1
+	jr nz, .NotApplicibleOrCompleted
 	ld a, [wIndicatorStates]
 	and a
-	jr z, .asm_315b1
+	jr z, .NotApplicibleOrCompleted
 	xor a
 	ld [wIndicatorStates], a
 	ld [wIndicatorStates + 2], a
@@ -530,17 +530,17 @@ Func_31591: ; 0x31591
 	ld a, $1
 	ld [wSlotIsOpen], a
 	ld [wd54d], a
-.asm_315b1
+.NotApplicibleOrCompleted
 	scf
 	ret
 
-Func_315b3: ; 0x315b3
+OpenRedMapMoveSlotFromRight: ; 0x315b3
 	ld a, [wMapMoveDirection]
 	and a
-	jr z, .asm_315d3
+	jr z, .NotApplicibleOrCompleted
 	ld a, [wIndicatorStates + 1]
 	and a
-	jr z, .asm_315d3
+	jr z, .NotApplicibleOrCompleted
 	xor a
 	ld [wIndicatorStates + 1], a
 	ld [wIndicatorStates + 3], a
@@ -549,11 +549,11 @@ Func_315b3: ; 0x315b3
 	ld a, $1
 	ld [wSlotIsOpen], a
 	ld [wd54d], a
-.asm_315d3
+.NotApplicibleOrCompleted
 	scf
 	ret
 
-Func_315d5: ; 0x315d5
+ResolveSucsessfulRedMapMove: ; 0x315d5
 	ld de, $0000
 	call PlaySong
 	rst AdvanceFrame

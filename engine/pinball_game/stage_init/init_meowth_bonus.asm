@@ -12,7 +12,7 @@ InitMeowthBonusStage: ; 0x24000
 	ld [wBallType], a
 	ld [wCompletedBonusStage], a
 	ld a, $1
-	ld [wd7ac], a
+	ld [wDisableHorizontalScrollForBallStart], a
 	ld a, $40
 	ld [wMeowthXPosition], a
 	ld a, $20

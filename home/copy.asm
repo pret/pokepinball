@@ -1,3 +1,29 @@
+Func_61b: ; 0x61b
+	ld a, [rLY]  ; LY register (LCDC Y-Coordinate)
+	cp $40
+	jr c, .asm_625
+	cp $80
+	jr c, .asm_63d
+.asm_625
+	ld a, [rLY]  ; LY register (LCDC Y-Coordinate)
+	cp $40
+	jr c, .asm_625
+	cp $80
+	jr nc, .asm_625
+.asm_62f
+	ld a, [rSTAT]
+	and $3
+	jr nz, .asm_62f  ; wait for lcd controller to finish transferring data
+	ld a, $15
+.wait
+	dec a
+	jr nz, .wait
+	nop
+	nop
+	nop
+.asm_63d
+	ret
+
 __memset_8: ; 0xc3e
 	dec bc
 .asm_63f

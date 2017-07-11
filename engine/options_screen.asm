@@ -31,7 +31,7 @@ Func_c35a: ; 0xc35a
 	ld [wd91f], a
 	call Func_c43a
 	call Func_c948
-	call Func_b66
+	call SetAllPalettesWhite
 	ld a, $12
 	call SetSongBank
 	ld de, $0002

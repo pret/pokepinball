@@ -10,7 +10,7 @@ HandleBallLossGengarBonus: ; 0xdf1a
 	cp $5
 	jr c, .asm_df50
 	xor a
-	ld [wd4ae], a
+	ld [wMoveToNextScreenState], a
 	ld a, [wd6a7]
 	and a
 	ret nz
@@ -38,7 +38,7 @@ HandleBallLossGengarBonus: ; 0xdf1a
 	ld a, $2
 	ld [wd4c8], a
 	xor a
-	ld [wd7ac], a
+	ld [wDisableHorizontalScrollForBallStart], a
 	ld a, [wCompletedBonusStage]
 	and a
 	ret nz

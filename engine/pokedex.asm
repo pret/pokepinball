@@ -59,7 +59,7 @@ LoadPokedexScreen: ; 0x2800e
 	call Func_28ad1
 	call Func_28add
 	call CountNumSeenOwnedMons
-	call Func_b66
+	call SetAllPalettesWhite
 	ld a, $f
 	call SetSongBank
 	ld de, $0004

@@ -10,7 +10,7 @@ HandleBallLossMewtwoBonus: ; 0xdf7e
 	cp $8
 	jr c, .asm_dfb4
 	xor a
-	ld [wd4ae], a
+	ld [wMoveToNextScreenState], a
 	ld a, [wd6b2]
 	and a
 	ret nz
@@ -38,7 +38,7 @@ HandleBallLossMewtwoBonus: ; 0xdf7e
 	ld a, $2
 	ld [wd4c8], a
 	xor a
-	ld [wd7ac], a
+	ld [wDisableHorizontalScrollForBallStart], a
 	ld a, [wCompletedBonusStage]
 	and a
 	ret nz

@@ -23,7 +23,7 @@ LoadFieldSelectScreen: ; 0xd6dd
 	call ClearOAMBuffer
 	ld a, $8
 	ld [wFieldSelectBlinkingBorderFrame], a
-	call Func_b66
+	call SetAllPalettesWhite
 	ld a, $12
 	call SetSongBank
 	ld de, $0003

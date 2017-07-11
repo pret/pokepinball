@@ -200,7 +200,7 @@ CapturePokemonBlueStage: ; 0x20483
 	ret
 
 Func_2048f: ; 0x2048f
-	ld a, [wd5ca]
+	ld a, [wBottomTextEnabled]
 	and a
 	ret nz
 	call FillBottomMessageBufferWithBlackTile

@@ -25,7 +25,7 @@ StartEvolutionMode_CallTable: ; 0x10abc
 
 ConcludeEvolutionMode: ; 0x10ac8
 	xor a
-	ld [wd5ca], a
+	ld [wBottomTextEnabled], a
 	call FillBottomMessageBufferWithBlackTile
 	xor a
 	ld [wInSpecialMode], a
@@ -719,12 +719,12 @@ ConcludeEvolutionMode_RedField: ; 0x10fe3
 .asm_11036
 	ld hl, BlankSaverSpaceTileDataRedField
 	ld a, BANK(BlankSaverSpaceTileDataRedField)
-	call Func_10aa
+	call QueueGraphicsToLoad
 	ld a, [wPreviousNumPokeballs]
 	callba LoadPokeballsGraphics_RedField
 	ld hl, CaughtPokeballTileDataPointers
 	ld a, BANK(CaughtPokeballTileDataPointers)
-	call Func_10aa
+	call QueueGraphicsToLoad
 	ret
 
 StartEvolutionMode_UnusedField: ; 0x11054
@@ -856,12 +856,12 @@ ConcludeEvolutionMode_BlueField: ; 0x11195
 .asm_111f0
 	ld hl, BlankSaverSpaceTileDataBlueField
 	ld a, BANK(BlankSaverSpaceTileDataBlueField)
-	call Func_10aa
+	call QueueGraphicsToLoad
 	ld a, [wPreviousNumPokeballs]
 	callba LoadPokeballsGraphics_RedField
 	ld hl, Data_10a88
 	ld a, BANK(Data_10a88)
-	call Func_10aa
+	call QueueGraphicsToLoad
 	ret
 
 LoadBlueFieldTopGraphics: ; 0x1120e

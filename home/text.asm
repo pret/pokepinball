@@ -4,8 +4,8 @@ Func_30db: ; 0x30db
 	ld a, $86
 	ld [hWY], a ;force text bar up
 	ld a, $1
-	ld [wd5ca], a ;place 1 in ???
-	ld [wd5cb], a
+	ld [wBottomTextEnabled], a
+	ld [wDisableDrawScoreboardInfo], a
 	ret
 
 FillBottomMessageBufferWithBlackTile: ; 0x30e8 wipes the message buffer and disables all text
@@ -445,7 +445,8 @@ Func_3309: ; 0x3309
 	inc de
 	ret
 
-HandleScrolling: ; 0x3325 activates while text is scrolling
+HandleScrollingText: ; 0x3325 activates while text is scrolling
+; Input: hl = pointer to scrolling_text struct
 	ld a, [hli] ;if scrolling set to off, ret.
 	and a
 	ret z
@@ -612,21 +613,22 @@ HandleStationaryText: ; 0x33c3 Handles stationary text
 	ld [hl], $0
 	ret
 
-Func_33e3: ; 0x33e3
-	ld a, [wd5ca]
+UpdateBottomText: ; 0x33e3
+; Updates the scrolling and/or stationary text messages in the bottom black bar.
+	ld a, [wBottomTextEnabled]
 	and a
-	jr nz, .asm_33ed ;if ??? = z, load 0 into ???, else jump
-	ld [wd5cb], a
+	jr nz, .textEnabled
+	ld [wDisableDrawScoreboardInfo], a
 	ret
 
-.asm_33ed
+.textEnabled
 	ld c, $0
 	ld a, [wScrollingText1Enabled]
 	and a
 	jr z, .Scrolling1Off ;if scrolling text is enabled, scroll text and inc c. repeat for each struct
 	push bc
 	ld hl, wScrollingText1
-	call HandleScrolling
+	call HandleScrollingText
 	pop bc
 	inc c
 .Scrolling1Off
@@ -635,7 +637,7 @@ Func_33e3: ; 0x33e3
 	jr z, .Scrolling2Off
 	push bc
 	ld hl, wScrollingText2
-	call HandleScrolling
+	call HandleScrollingText
 	pop bc
 	inc c
 .Scrolling2Off
@@ -644,7 +646,7 @@ Func_33e3: ; 0x33e3
 	jr z, .Scrolling3Off
 	push bc
 	ld hl, wScrollingText3
-	call HandleScrolling
+	call HandleScrollingText
 	pop bc
 	inc c
 .Scrolling3Off
@@ -678,7 +680,7 @@ Func_33e3: ; 0x33e3
 	ld a, c
 	and a
 	ret nz ;if text has displayed, we are done, else
-	ld [wd5ca], a ;place 0 in ???
+	ld [wBottomTextEnabled], a ; disable bottom text
 	call FillBottomMessageBufferWithBlackTile ;fill with default data?
 	ld a, [hGameBoyColorFlag]
 	and a
@@ -708,12 +710,12 @@ Func_3475: ; 0x3475
 	bit 0, a ;handle flippers if the stage has any
 	callba nz, HandleFlippers
 	callba DrawSpritesForStage
-	call Func_33e3
+	call UpdateBottomText
 	call CleanOAMBuffer
 	rst AdvanceFrame
-	ld a, [wd5ca]
+	ld a, [wBottomTextEnabled]
 	and a
-	jr nz, Func_3475 ;loops until wd5ca is zero
+	jr nz, Func_3475 ;loops until wBottomTextEnabled is zero
 	ret
 
 FivePoints:       ; 34a6

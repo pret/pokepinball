@@ -16,13 +16,13 @@ FieldVerticalTransition: ; 0xe674
 	ld [hOBP0], a
 	ld [hOBP1], a
 	rst AdvanceFrame
-	call Func_e5d
+	call ToggleAudioEngineUpdateMethod
 	call DisableLCD
 	call ClearOAMBuffer
 	call Func_1129
 	call LoadStageCollisionAttributes
 	call LoadStageData
-	call Func_e5d
+	call ToggleAudioEngineUpdateMethod
 	call EnableLCD
 	ld a, $e4
 	ld [hBGP], a
@@ -37,13 +37,13 @@ LoadStageData: ; 0xe6c2
 	ld a, [wCurrentStage]
 	bit 0, a
 	ld a, $86
-	jr z, .asm_e6d5
-	ld a, [wd5ca]
+	jr z, .gotWindowYPos
+	ld a, [wBottomTextEnabled]
 	and a
 	ld a, $86
-	jr nz, .asm_e6d5
+	jr nz, .gotWindowYPos
 	ld a, $90
-.asm_e6d5
+.gotWindowYPos
 	ld [hWY], a
 	ld hl, StageGfxPointers_GameBoy
 	ld a, [hGameBoyColorFlag]
@@ -61,7 +61,7 @@ LoadStageData: ; 0xe6c2
 INCLUDE "data/stage_base_gfx.asm"
 
 CheckStageTransition: ; 0xece9
-	call Func_ed5e
+	call ScrollScreenToShowPinball
 	ld a, [wBallYPos + 1]
 	add $10
 	cp $18
@@ -99,7 +99,7 @@ CheckStageTransition: ; 0xece9
 
 .youLose
 	ld a, $1
-	ld [wd4ae], a
+	ld [wMoveToNextScreenState], a
 	callba HandleBallLoss
 	ret
 
@@ -143,9 +143,11 @@ BallMovingDownStageTransitions: ; 0xed4e
 	db $FF                      ; STAGE_SEEL_BONUS
 	db $FF                      ; STAGE_SEEL_BONUS
 
-Func_ed5e: ; 0xed5e
+ScrollScreenToShowPinball: ; 0xed5e
+; When the ball is launched on the Blue and Red Fields, the screen starts off scrolled to the right.
+; However, when the balls rolls in on Bonus Stages, the screen does NOT scroll.
 	ld hl, wSCX
-	ld a, [wd7ac]
+	ld a, [wDisableHorizontalScrollForBallStart]
 	and a
 	jr nz, .modify_scx_and_scy
 	ld a, [wBallXPos + 1]
@@ -154,7 +156,7 @@ Func_ed5e: ; 0xed5e
 	jr nc, .okay1
 	ld a, -2
 .okay1
-	ld [wd7aa], a
+	ld [wUnused_d7aa], a ; This is not used
 	add [hl]
 	cp $22
 	jr z, .modify_scx_and_scy
@@ -163,11 +165,11 @@ Func_ed5e: ; 0xed5e
 	ld [hl], a
 .modify_scx_and_scy
 	ld a, [hl]
-	ld hl, wd79f
+	ld hl, wLeftAndRightTiltPixelsOffset
 	sub [hl]
 	ld [hSCX], a
 	xor a
-	ld hl, wd7a0
+	ld hl, wUpperTiltPixelsOffset
 	sub [hl]
 	ld [hSCY], a
 	ret

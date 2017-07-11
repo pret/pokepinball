@@ -274,7 +274,7 @@ Func_24516: ; 0x24516
 	ld h, [hl]
 	ld l, a
 	ld a, Bank(TileDataPointers_24533)
-	call Func_10aa
+	call QueueGraphicsToLoad
 	ret
 
 TileDataPointers_24533: ; 0x24533
@@ -1894,7 +1894,7 @@ Func_24fa3: ; 0x24fa3
 	ld h, [hl]
 	ld l, a
 	ld a, Bank(TileDataPointers_25007)
-	call Func_10aa
+	call QueueGraphicsToLoad
 	ret
 
 TileDataPointers_25007:

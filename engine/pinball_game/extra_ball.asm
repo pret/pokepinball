@@ -1,6 +1,6 @@
 ShowExtraBallMessage: ; 0x30188
 ; Displays the extra ball scrolling message, if an extra ball has been granted.
-	ld a, [wd5ca]
+	ld a, [wBottomTextEnabled]
 	and a
 	ret nz
 	ld a, [wShowExtraBallText]

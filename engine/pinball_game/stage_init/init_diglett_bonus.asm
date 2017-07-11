@@ -5,7 +5,7 @@ InitDiglettBonusStage: ; 0x199f2
 	xor a
 	ld [wStageCollisionState], a
 	ld a, $1
-	ld [wd7ac], a
+	ld [wDisableHorizontalScrollForBallStart], a
 	ld a, [wBallType]
 	ld [wBallTypeBackup], a
 	xor a

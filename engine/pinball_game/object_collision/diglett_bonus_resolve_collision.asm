@@ -41,7 +41,7 @@ Func_19bbd: ; 0x19bbd
 	ld h, [hl]
 	ld l, a
 	ld a, Bank(Data_19bda)
-	call Func_10aa
+	call QueueGraphicsToLoad
 	ret
 
 Data_19bda:
@@ -355,7 +355,7 @@ Func_19da8: ; 0x19da8
 	ld h, [hl]
 	ld l, a
 	ld a, Bank(DiglettTileDataPointers)
-	call Func_10aa
+	call QueueGraphicsToLoad
 	pop bc
 	ret
 

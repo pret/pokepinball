@@ -6,7 +6,7 @@ InitSeelBonusStage: ; 0x25a7c
 	ld [wd4c8], a
 	ld [wStageCollisionState], a
 	ld a, $1
-	ld [wd7ac], a
+	ld [wDisableHorizontalScrollForBallStart], a
 	ld a, [wBallType]
 	ld [wBallTypeBackup], a
 	xor a

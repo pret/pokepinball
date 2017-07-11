@@ -20,7 +20,7 @@ FadeInCopyrightScreen: ; 0x8228
 	ld hl, CopyrightTextGfxPointers
 	call LoadVideoData
 	call ClearOAMBuffer
-	call Func_b66
+	call SetAllPalettesWhite
 	call EnableLCD
 	call SGBNormal
 	ld bc, $0050

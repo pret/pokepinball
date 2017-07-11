@@ -4,9 +4,9 @@ SaveGame: ; 0xda05
 	ld bc, $0004
 	call AdvanceFrames
 	call FadeOut
-	ld a, [wd849]
+	ld a, [wUpdateAudioEngineUsingTimerInterrupt]
 	and a
-	call nz, Func_e5d
+	call nz, ToggleAudioEngineUpdateMethod
 	call DisableLCD
 	ld hl, hSTAT
 	res 6, [hl]

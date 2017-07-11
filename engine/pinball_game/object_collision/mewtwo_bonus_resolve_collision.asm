@@ -49,7 +49,7 @@ Func_194ac: ; 0x194ac
 	ld h, [hl]
 	ld l, a
 	ld a, Bank(Data_194c9)
-	call Func_10aa
+	call QueueGraphicsToLoad
 	ret
 
 Data_194c9:

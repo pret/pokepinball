@@ -29,7 +29,7 @@ FadeInTitlescreen: ; 0xc00e
 	ld a, $2
 	ld [wTitleScreenPokeballAnimationCounter], a
 	call HandleTitlescreenAnimations
-	call Func_b66
+	call SetAllPalettesWhite
 	ld a, $11
 	call SetSongBank
 	ld de, $0004

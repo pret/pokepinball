@@ -160,7 +160,7 @@ LoadAgainTextGraphics: ; 0x14746
 	ld h, [hl]
 	ld l, a
 	ld a, BANK(AgainTextTileData)
-	call Func_10aa
+	call QueueGraphicsToLoad
 	ret
 
 AgainTextTileData:
@@ -528,7 +528,7 @@ LoadDiglettGraphics: ; 0x149d9
 	or h
 	ret z
 	ld a, BANK(TileListDataPointers_14a11)
-	call Func_10aa
+	call QueueGraphicsToLoad
 	ret
 
 LoadDiglettNumberGraphics: ; 0x149f5
@@ -548,7 +548,7 @@ LoadDiglettNumberGraphics: ; 0x149f5
 	or h
 	ret z
 	ld a, BANK(Data_14af5)
-	call Func_10aa
+	call QueueGraphicsToLoad
 	ret
 
 INCLUDE "data/queued_tiledata/red_field/diglett.asm"
@@ -736,7 +736,7 @@ UpdateSpinnerChargeGraphics_RedField: ; 0x14ece
 	ld h, [hl]
 	ld l, a
 	ld a, BANK(TileDataPointers_14eeb)
-	call Func_10aa
+	call QueueGraphicsToLoad
 	ret
 
 INCLUDE "data/queued_tiledata/red_field/spinner.asm"
@@ -834,9 +834,9 @@ LoadCAVELightGraphics_RedField: ; 0x1523c
 	ld c, [hl]
 	inc hl
 	ld b, [hl]
-	ld a, $5
+	ld a, Bank(TileDataPointers_152dd)
 	ld de, LoadTileLists
-	call Func_10c5
+	call QueueGraphicsToLoadWithFunc
 	pop bc
 	ret
 
@@ -1070,9 +1070,9 @@ LoadPinballUpgradeTriggerGraphics_RedField: ; 0x15465
 	ld c, [hl]
 	inc hl
 	ld b, [hl]
-	ld a, $5
+	ld a, Bank(TileDataPointers_15511)
 	ld de, LoadTileLists
-	call Func_10c5
+	call QueueGraphicsToLoadWithFunc
 	pop bc
 	ret
 
@@ -1224,7 +1224,7 @@ TransitionPinballUpgrade: ; 0x155a7
 	ld h, [hl]
 	ld l, a
 	ld a, Bank(PinballUpgradeTransition_TileDataPointers)
-	call Func_10aa
+	call QueueGraphicsToLoad
 	; fall through
 
 TransitionPinballUpgradePalette: ; 0x155bb
@@ -1243,7 +1243,7 @@ TransitionPinballUpgradePalette: ; 0x155bb
 	ld b, [hl]
 	ld a, BANK(PinballUpgradeTransitionPalettes)
 	ld de, LoadPalettes
-	call Func_10c5
+	call QueueGraphicsToLoadWithFunc
 	ret
 
 INCLUDE "data/queued_tiledata/ball_upgrade.asm"
@@ -1512,7 +1512,7 @@ LoadFieldStructureGraphics_RedField: ; 0x159f4
 	or h
 	ret z
 	ld a, Bank(TileDataPointers_15a3f)
-	call Func_10aa
+	call QueueGraphicsToLoad
 	ld a, [wStageCollisionState]
 	ld [wd7f2], a
 	ret
@@ -1678,7 +1678,7 @@ LoadBumperGraphics_RedField: ; 0x15fc0
 	ld h, [hl]
 	ld l, a
 	ld a, Bank(TileDataPointers_16010)
-	call Func_10aa
+	call QueueGraphicsToLoad
 	ret
 
 ApplyBumperCollision_RedField: ; 0x15fda
@@ -2160,7 +2160,7 @@ LoadSlotCaveCoverGraphics_RedField: ; 0x16425
 	or h
 	ret z
 	ld a, Bank(TileDataPointers_1644d)
-	call Func_10aa
+	call QueueGraphicsToLoad
 	ret
 
 INCLUDE "data/queued_tiledata/red_field/slot_cave.asm"
@@ -2602,7 +2602,7 @@ LoadStaryuGraphics_Top: ; 0x16859
 	or h
 	ret z
 	ld a, Bank(TileDataPointers_16899)
-	call Func_10aa
+	call QueueGraphicsToLoad
 	ret
 
 LoadStaryuGraphics_Bottom: ; 0x16878
@@ -2624,7 +2624,7 @@ LoadStaryuGraphics_Bottom: ; 0x16878
 	or h
 	ret z
 	ld a, Bank(TileDataPointers_1695a)
-	call Func_10aa
+	call QueueGraphicsToLoad
 	ret
 
 INCLUDE "data/queued_tiledata/red_field/staryu_bumper.asm"
@@ -2678,7 +2678,7 @@ LoadArrowIndicatorGraphics_RedField: ; 0x169cd
 	ld h, [hl]
 	ld l, a
 	ld a, Bank(TileDataPointers_169ed)
-	call Func_10aa
+	call QueueGraphicsToLoad
 	ret
 
 INCLUDE "data/queued_tiledata/red_field/arrow_indicators.asm"
@@ -2900,7 +2900,7 @@ LoadBonusMultiplierRailingGraphics_RedField_Gameboy: ; 0x16f38
 	ld h, [hl]
 	ld l, a
 	ld a, Bank(BonusMultiplierRailingTileDataPointers_16fc8)
-	call Func_10aa
+	call QueueGraphicsToLoad
 .asm_16f5c
 	pop af
 	ld bc, $0000
@@ -2919,7 +2919,7 @@ LoadBonusMultiplierRailingGraphics_RedField_Gameboy: ; 0x16f38
 	ld h, [hl]
 	ld l, a
 	ld a, Bank(BonusMultiplierRailingTileData_171e4)
-	call Func_10aa
+	call QueueGraphicsToLoad
 	ret
 
 LoadBonusMultiplierRailingGraphics_RedField_GameboyColor: ; 0x16f7b
@@ -2937,7 +2937,7 @@ LoadBonusMultiplierRailingGraphics_RedField_GameboyColor: ; 0x16f7b
 	ld h, [hl]
 	ld l, a
 	ld a, Bank(BonusMultiplierRailingTileDataPointers_17228)
-	call Func_10aa
+	call QueueGraphicsToLoad
 	ret
 
 GetBCDForNextBonusMultiplier_RedField: ; 0x16f95
@@ -3002,9 +3002,9 @@ LoadPokeballsGraphics_RedField: ; 0x174d4
 	ld c, a
 	ld a, [hli]
 	ld b, a
-	ld a, $5
+	ld a, Bank(TileDataPointers_17528)
 	ld de, LoadTileLists
-	call Func_10c5
+	call QueueGraphicsToLoadWithFunc
 	ret
 
 UpdateBlinkingPokeballs_RedField: ; 0x174ea

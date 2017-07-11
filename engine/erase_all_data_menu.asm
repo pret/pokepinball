@@ -28,7 +28,7 @@ CheckForResetButtonCombo: ; 0x8167
 	ld hl, EraseAllDataGfxPointers
 	call LoadVideoData
 	call ClearOAMBuffer
-	call Func_b66
+	call SetAllPalettesWhite
 	call EnableLCD
 	call SGBNormal
 	call FadeIn

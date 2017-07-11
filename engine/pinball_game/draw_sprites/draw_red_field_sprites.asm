@@ -149,7 +149,7 @@ Func_17665: ; 0x17665
 	ld h, [hl]
 	ld l, a
 	ld a, Bank(TimerDigitsTileData)
-	call Func_10aa
+	call QueueGraphicsToLoad
 	ret
 
 INCLUDE "data/timer_digits_tiledata.asm"

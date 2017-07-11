@@ -44,8 +44,8 @@ InitBlueField: ; 0x1c000
 	ld [wd64a], a
 	ld [wd643], a
 	ld [wd644], a
-	ld [wd645], a
-	ld [wd646], a
+	ld [wPsyduckState], a
+	ld [wPoliwagState], a
 	callba Start20SecondSaverTimer
 	callba GetBCDForNextBonusMultiplier_BlueField
 	ld a, $10

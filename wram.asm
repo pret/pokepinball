@@ -1036,10 +1036,10 @@ wd643:: ; 0xd643
 wd644:: ; 0xd644
 	ds $1
 
-wd645:: ; 0xd645
+wPsyduckState:: ; 0xd645
 	ds $1
 
-wd646:: ; 0xd646
+wPoliwagState:: ; 0xd646
 	ds $1
 
 wBonusMultiplierRailingEndLightDuration:: ; 0xd647

@@ -145,7 +145,7 @@ Func_cb14: ; 0xcb14
 	ld hl, hLCDC
 	set 3, [hl]
 .asm_cb7f
-	call Func_b66
+	call SetAllPalettesWhite
 	ld a, [wda7f]
 	and a
 	jr z, .asm_cbbd

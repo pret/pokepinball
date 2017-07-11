@@ -52,7 +52,7 @@ Func_183db: ; 0x183db
 	ld h, [hl]
 	ld l, a
 	ld a, BANK(TileDataPointers_183f8)
-	call Func_10aa
+	call QueueGraphicsToLoad
 	ret
 
 TileDataPointers_183f8:
@@ -1462,7 +1462,7 @@ Func_18d72: ; 0x18d72
 	or h
 	ret z
 	ld a, Bank(TileDataPointers_18ddb)
-	call Func_10aa
+	call QueueGraphicsToLoad
 	ret
 
 Func_18d91: ; 0x18d91

@@ -59,7 +59,7 @@ GameScreenFunction_StartBall: ; 0xd87f
 	ld [wDrawBottomMessageBox], a
 	xor a
 	ld [wd7c1], a
-	call Func_b66
+	call SetAllPalettesWhite
 	call EnableLCD
 	call FadeIn
 	ld hl, wScreenState

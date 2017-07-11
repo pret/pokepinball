@@ -596,7 +596,7 @@ Func_3161b: ; 0x3161b
 	ret
 
 .asm_31643
-	call Func_3168c
+	call UpdateMapMove_BlueField
 	ld a, [wd54d]
 	call CallInFollowingTable
 PointerTable_3164c: ; 0x3164c
@@ -631,14 +631,14 @@ Func_31672: ; 0x31672
 	scf
 	ret
 
-Func_3168c: ; 0x3168c
+UpdateMapMove_BlueField: ; 0x3168c
 	ld a, $50
-	ld [wLeftMapMoveDiglettAnimationCounter], a
-	ld [wRightMapMoveDiglettFrame], a
+	ld [wLeftMapMovePoliwagAnimationCounter], a
+	ld [wRightMapMovePsyduckFrame], a
 	ld a, $3
-	ld [wd645], a
+	ld [wPsyduckState], a
 	ld a, $1
-	ld [wd646], a
+	ld [wPoliwagState], a
 	callba PlayLowTimeSfx
 	ld a, [wd57e]
 	and a

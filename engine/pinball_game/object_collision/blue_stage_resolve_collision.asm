@@ -521,7 +521,7 @@ UpdateSpinnerChargeGraphics_BlueField: ; 0x1cb43
 	ld h, [hl]
 	ld l, a
 	ld a, Bank(TileDataPointers_1cb60)
-	call Func_10aa
+	call QueueGraphicsToLoad
 	ret
 
 INCLUDE "data/queued_tiledata/blue_field/spinner.asm"
@@ -577,7 +577,7 @@ LoadBumperGraphics_BlueField: ; 0x1ce7a
 	ld h, [hl]
 	ld l, a
 	ld a, Bank(TileDataPointers_1ceca)
-	call Func_10aa
+	call QueueGraphicsToLoad
 	ret
 
 ApplyBumperCollision_BlueField: ; 0x1ce94
@@ -1395,7 +1395,7 @@ LoadBonusMultiplierRailingGraphics_BlueField_Gameboy: ; 0x1d602
 	ld h, [hl]
 	ld l, a
 	ld a, Bank(BonusMultiplierRailingTileDataPointers_1d6be)
-	call Func_10aa
+	call QueueGraphicsToLoad
 .asm_1d626
 	pop af
 	ld bc, $0000
@@ -1414,7 +1414,7 @@ LoadBonusMultiplierRailingGraphics_BlueField_Gameboy: ; 0x1d602
 	ld h, [hl]
 	ld l, a
 	ld a, Bank(BonusMultiplierRailingTileDataPointers_1d946)
-	call Func_10aa
+	call QueueGraphicsToLoad
 	ret
 
 LoadBonusMultiplierRailingGraphics_BlueField_GameboyColor: ; 0x1d645
@@ -1432,7 +1432,7 @@ LoadBonusMultiplierRailingGraphics_BlueField_GameboyColor: ; 0x1d645
 	ld h, [hl]
 	ld l, a
 	ld a, Bank(BonusMultiplierRailingTileDataPointers_1d97a)
-	call Func_10aa
+	call QueueGraphicsToLoad
 	ret
 
 GetBCDForNextBonusMultiplier_BlueField: ; 0x1d65f
@@ -1541,7 +1541,7 @@ ResolvePsyduckPoliwagCollision: ; 0x1dbd2
 	ld a, $7
 	callba Func_10000
 	ld a, $2
-	ld [wd646], a
+	ld [wPoliwagState], a
 	ld a, $78
 	ld [wLeftMapMovePoliwagAnimationCounter], a
 	ld a, $14
@@ -1582,7 +1582,7 @@ ResolvePsyduckPoliwagCollision: ; 0x1dbd2
 	ccf
 	call z, HitPsyduck3Times
 	ld a, $2
-	ld [wd645], a
+	ld [wPsyduckState], a
 	ld a, $28
 	ld [wRightMapMovePsyduckAnimationCounter], a
 	ld a, $78
@@ -1597,7 +1597,7 @@ UpdatePsyduckAndPoliwag: ; 0x1dc8e
 	ret
 
 UpdatePoliwag: ; 0x1dc95
-	ld a, [wd646]
+	ld a, [wPoliwagState]
 	cp $0
 	ret z
 	ld a, [wLeftMapMovePoliwagAnimationCounter]
@@ -1618,7 +1618,7 @@ UpdatePoliwag: ; 0x1dc95
 	ret
 
 .asm_1dcb9
-	ld a, [wd646]
+	ld a, [wPoliwagState]
 	cp $2
 	ret nz
 	call Func_1130
@@ -1646,11 +1646,11 @@ UpdatePoliwag: ; 0x1dc95
 	ccf
 	call z, HitPoliwag3Times
 	ld a, $1
-	ld [wd646], a
+	ld [wPoliwagState], a
 	ret
 
 .asm_1dceb
-	ld a, [wd646]
+	ld a, [wPoliwagState]
 	cp $1
 	ret nz
 	ld a, [wLeftMapMovePoliwagAnimationCounter]
@@ -1667,7 +1667,7 @@ UpdatePoliwag: ; 0x1dc95
 	ld [wStageCollisionMap + $103], a
 .asm_1dd0c
 	ld a, $0
-	ld [wd646], a
+	ld [wPoliwagState], a
 	ld a, [wLeftMapMoveCounter]
 	sub $3
 	ret nz
@@ -1678,14 +1678,14 @@ UpdatePoliwag: ; 0x1dc95
 	ld a, $0
 	call LoadPsyduckOrPoliwagGraphics
 	ld a, $0
-	ld [wd646], a
+	ld [wPoliwagState], a
 	ret
 
 ; XXX
 	ret
 
 UpdatePsyduck: ; 0x1dd2e
-	ld a, [wd645]
+	ld a, [wPsyduckState]
 	cp $0
 	ret z
 	cp $1
@@ -1703,7 +1703,7 @@ UpdatePsyduck: ; 0x1dd2e
 	ld a, $2
 	call LoadPsyduckOrPoliwagGraphics
 	ld a, $1
-	ld [wd645], a
+	ld [wPsyduckState], a
 	ret
 
 .asm_1dd53
@@ -1714,7 +1714,7 @@ UpdatePsyduck: ; 0x1dd2e
 	add $3
 	call LoadPsyduckOrPoliwagGraphics
 	ld a, $3
-	ld [wd645], a
+	ld [wPsyduckState], a
 	ret
 
 .asm_1dd69
@@ -1754,7 +1754,7 @@ UpdatePsyduck: ; 0x1dd2e
 	ld a, $25
 	ld [wStageCollisionMap + $110], a
 	ld a, $0
-	ld [wd645], a
+	ld [wPsyduckState], a
 .asm_1dda9
 	ld a, [wRightMapMoveCounter]
 	sub $3
@@ -1767,7 +1767,7 @@ UpdatePsyduck: ; 0x1dd2e
 	ld a, $2
 	call LoadPsyduckOrPoliwagGraphics
 	ld a, $0
-	ld [wd645], a
+	ld [wPsyduckState], a
 	ret
 
 HitPoliwag3Times: ; 0x1ddc7
@@ -1840,7 +1840,7 @@ LoadPsyduckOrPoliwagGraphics: ; 0x1de4b
 	or h
 	ret z
 	ld a, Bank(TileDataPointers_1df66)
-	call Func_10aa
+	call QueueGraphicsToLoad
 	ret
 
 LoadPsyduckOrPoliwagNumberGraphics: ; 0x1de6f
@@ -1866,7 +1866,7 @@ LoadPsyduckOrPoliwagNumberGraphics: ; 0x1de6f
 	or h
 	ret z
 	ld a, Bank(TileDataPointers_1e0a4)
-	call Func_10aa
+	call QueueGraphicsToLoad
 	ret
 
 UpdateMapMoveCounters_BlueFieldBottom: ; 0x1de93
@@ -2175,9 +2175,9 @@ LoadPinballUpgradeTriggerGraphics_BlueField: ; 0x1e484
 	ld c, [hl]
 	inc hl
 	ld b, [hl]
-	ld a, $7
+	ld a, Bank(TileDataPointers_1e520)
 	ld de, LoadTileLists
-	call Func_10c5
+	call QueueGraphicsToLoadWithFunc
 	pop bc
 	ret
 
@@ -2402,9 +2402,9 @@ LoadCAVELightGraphics_BlueField: ; 0x1e636
 	ld c, [hl]
 	inc hl
 	ld b, [hl]
-	ld a, $7
+	ld a, Bank(TileDataPointers_1e6d7)
 	ld de, LoadTileLists
-	call Func_10c5
+	call QueueGraphicsToLoadWithFunc
 	pop bc
 	ret
 
@@ -2708,7 +2708,7 @@ LoadSlotCaveCoverGraphics_BlueField: ; 0x1e8f6
 	or h
 	ret z
 	ld a, Bank(TileDataPointers_1e91e)
-	call Func_10aa
+	call QueueGraphicsToLoad
 	ret
 
 INCLUDE "data/queued_tiledata/blue_field/slot_cave.asm"
@@ -2986,7 +2986,7 @@ LoadArrowIndicatorGraphics_BlueStage: ; 0x1eb41
 	ld h, [hl]
 	ld l, a
 	ld a, Bank(TileDataPointers_1eb61)
-	call Func_10aa
+	call QueueGraphicsToLoad
 	ret
 
 INCLUDE "data/queued_tiledata/blue_field/arrow_indicators.asm"
@@ -3454,7 +3454,7 @@ UpdateForceFieldGraphics: ; 0x1f18a
 	or h
 	ret z
 	ld a, Bank(TileDataPointers_1f1b5)
-	call Func_10aa
+	call QueueGraphicsToLoad
 	ld a, $0
 	ld [wBlueStageForceFieldGfxNeedsLoading], a
 .done
@@ -3479,9 +3479,9 @@ LoadPokeballsGraphics_BlueField: ; 0x1f265
 	ld c, a
 	ld a, [hli]
 	ld b, a
-	ld a, $7
+	ld a, Bank(TileDataPointers_1f2b9)
 	ld de, LoadTileLists
-	call Func_10c5
+	call QueueGraphicsToLoadWithFunc
 	ret
 
 UpdateBlinkingPokeballs_BlueField: ; 0x1f27b

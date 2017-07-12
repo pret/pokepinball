@@ -102,7 +102,7 @@ INCLUDE "engine/pinball_game/end_of_ball_bonus.asm"
 
 SECTION "bank4", ROMX
 
-Func_10000: ; 0x10000 set to 4 b
+Func_10000: ; 0x10000
 	ld c, a
 	ld a, [wInSpecialMode] ;special mode in c
 	and a

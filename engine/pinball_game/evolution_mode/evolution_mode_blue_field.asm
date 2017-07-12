@@ -223,11 +223,11 @@ Func_20da0: ; 0x20da0
 	call Func_21079
 .asm_20db3
 	callba PlayLowTimeSfx
-	ld a, [wd57e]
+	ld a, [wTimeRanOut]
 	and a
 	ret z
 	xor a
-	ld [wd57e], a
+	ld [wTimeRanOut], a
 	ld a, $2
 	ld [wd54d], a
 	xor a

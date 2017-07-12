@@ -226,11 +226,11 @@ Func_2077b: ; 0x2077b
 	call Func_20a55
 .asm_2078e
 	callba PlayLowTimeSfx
-	ld a, [wd57e]
+	ld a, [wTimeRanOut]
 	and a
 	ret z
 	xor a
-	ld [wd57e], a
+	ld [wTimeRanOut], a
 	ld a, $2
 	ld [wd54d], a
 	xor a

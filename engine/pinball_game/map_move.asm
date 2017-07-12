@@ -486,11 +486,11 @@ UpdateMapMove_RedField: ; 0x3151f handle map move timer and fail when it expires
 	ld [wLeftDiglettAnimationController], a
 	ld [wRightDiglettAnimationController], a
 	callba PlayLowTimeSfx
-	ld a, [wd57e] ;if ??? is 0, quit, else make it zero (this only truns once per something?) and handle a failed map move
+	ld a, [wTimeRanOut] ;if ??? is 0, quit, else make it zero (this only truns once per something?) and handle a failed map move
 	and a
 	ret z
 	xor a
-	ld [wd57e], a
+	ld [wTimeRanOut], a
 	ld a, $3
 	ld [wd54d], a
 	xor a
@@ -640,11 +640,11 @@ UpdateMapMove_BlueField: ; 0x3168c
 	ld a, $1
 	ld [wPoliwagState], a
 	callba PlayLowTimeSfx
-	ld a, [wd57e]
+	ld a, [wTimeRanOut]
 	and a
 	ret z
 	xor a
-	ld [wd57e], a
+	ld [wTimeRanOut], a
 	ld a, $3
 	ld [wd54d], a
 	xor a

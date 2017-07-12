@@ -5,11 +5,11 @@ ResolveGengarBonusGameObjectCollisions: ; 0x18377
 	call Func_18d34
 	call Func_183b7
 	callba PlayLowTimeSfx
-	ld a, [wd57e]
+	ld a, [wTimeRanOut]
 	and a
 	ret z
 	xor a
-	ld [wd57e], a
+	ld [wTimeRanOut], a
 	ld a, $1
 	ld [wd7be], a
 	call Func_2862

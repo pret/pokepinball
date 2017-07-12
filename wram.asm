@@ -395,7 +395,7 @@ wWhichPsyduckPoliwagId::
 wLeftDiglettAnimationController:: ; 0xd4ef $50 = in and pained look. 0 = normal state
 	ds $1
 
-wLeftMapMoveCounter:: ; 0xd4f0 WARNING, diglet identifying code relies on this being 2 bytes before right map move counter
+wLeftMapMoveCounter:: ; 0xd4f0 WARNING, diglet identifying code relies on this being 2 bytes before right map move counter and 1 byte after that digletts animation controller
 	ds $1
 
 wRightDiglettAnimationController:: ; 0xd4f1 $50 = in and pained look. 0 = normal state
@@ -427,7 +427,7 @@ wLeftMapMoveCounterFramesUntilDecrease:: ; 0xd4f7
 
 wRightMapMoveCounterFramesUntilDecrease:: ; 0xd4f9
 ; Holds the number of frames remaining until the wRightMapMoveCounter
-; counter will decrease by 1.
+; counter will decrease by 1. WARNING: red tables diglett function relies on this being immediatly after wLeftMapMoveCounterFramesUntilDecrease
 	ds $2
 
 wBellsproutCollision:: ; 0xd4fb
@@ -566,10 +566,10 @@ wInSpecialMode:: ; 0xd54b
 ; Set to 1 if currently in special game mode. See wSpecialMode.
 	ds $1
 
-wd54c:: ; 0xd54c 10000 sets it to a input.  7 and 8 from the digletts
+wd54c:: ; 0xd54c 10000 sets it to a input, records what the ball has collided with.  7 and 8 from the digletts, 4 from voltorb, b = upper cave lights?, 1 is upper left red trigger, 2 is a right trigger, 5 is bellsprout, d = slot, 6 = staryu, 9/a = right railing multiplier?,
 	ds $1
 
-wd54d:: ; 0xd54d
+wd54d:: ; 0xd54d catch mode progress?
 	ds $1
 
 wd54e:: ; 0xd54e
@@ -673,10 +673,10 @@ wTimerActive:: ; 0xd57d
 ; Set to 1 when the Timer is displayed and counting down.
 	ds $1
 
-wd57e:: ; 0xd57e when map mode fails by time, toggled to off from on
+wTimeRanOut:: ; 0xd57e set to 1 when the timer reaches 0
 	ds $1
 
-wd57f:: ; 0xd57f
+wPauseTimer:: ; 0xd57f If set to nz, timer pauses
 	ds $1
 
 wd580:: ; 0xd580

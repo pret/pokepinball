@@ -1,13 +1,13 @@
-Func_10a95: ; 0x19a95
+HandleEvoModeCollision: ; 0x19a95
 	ld a, [wCurrentStage]
 	call CallInFollowingTable
-PointerTable_10a9b: ; 0x10a9b
-	padded_dab Func_20581 ; STAGE_RED_FIELD_TOP
-	padded_dab Func_20581 ; STAGE_RED_FIELD_BOTTOM
-	padded_dab Func_20581
-	padded_dab Func_20581
-	padded_dab Func_20bae ; STAGE_BLUE_FIELD_TOP
-	padded_dab Func_20bae ; STAGE_BLUE_FIELD_BOTTOM
+HandleEvoModeCollisionPointerTable: ; 0x10a9b
+	padded_dab HandleRedEvoModeCollision ; STAGE_RED_FIELD_TOP
+	padded_dab HandleRedEvoModeCollision ; STAGE_RED_FIELD_BOTTOM
+	padded_dab HandleRedEvoModeCollision
+	padded_dab HandleRedEvoModeCollision
+	padded_dab HandleBlueEvoModeCollision ; STAGE_BLUE_FIELD_TOP
+	padded_dab HandleBlueEvoModeCollision ; STAGE_BLUE_FIELD_BOTTOM
 
 StartEvolutionMode: ; 0x10ab3
 	ld a, [wInSpecialMode]

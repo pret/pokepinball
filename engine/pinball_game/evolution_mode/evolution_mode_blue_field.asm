@@ -1,5 +1,5 @@
-Func_20bae: ; 0x20bae
-	ld a, [wd54c]
+HandleBlueEvoModeCollision: ; 0x20bae
+	ld a, [wSpecialModeCollisionID]
 	cp $4
 	jp z, Func_20e34
 	cp $1

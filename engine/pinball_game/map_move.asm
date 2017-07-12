@@ -1,13 +1,13 @@
-Func_301ce: ; 0x301ce
+HandleMapModeCollision: ; 0x301ce
 	ld a, [wCurrentStage]
 	call CallInFollowingTable
-PointerTable_301d4: ; 0x301d4
-	padded_dab Func_314ae ; STAGE_RED_FIELD_TOP
-	padded_dab Func_314ae ; STAGE_RED_FIELD_BOTTOM
-	padded_dab Func_314ae
-	padded_dab Func_314ae
-	padded_dab Func_3161b ; STAGE_BLUE_FIELD_TOP
-	padded_dab Func_3161b ; STAGE_BLUE_FIELD_BOTTOM
+HandleMapModeCollisionPointerTable: ; 0x301d4
+	padded_dab HandleRedMapModeCollision ; STAGE_RED_FIELD_TOP
+	padded_dab HandleRedMapModeCollision ; STAGE_RED_FIELD_BOTTOM
+	padded_dab HandleRedMapModeCollision
+	padded_dab HandleRedMapModeCollision
+	padded_dab HandleBlueMapModeCollision ; STAGE_BLUE_FIELD_TOP
+	padded_dab HandleBlueMapModeCollision ; STAGE_BLUE_FIELD_BOTTOM
 
 StartMapMoveMode: ; 0x301ec
 	ld a, [wInSpecialMode]
@@ -424,10 +424,10 @@ SecondMapMoveSet_BlueField:
 	db SAFFRON_CITY
 	db CINNABAR_ISLAND
 
-Func_314ae: ; 0x314ae
+HandleRedMapModeCollision: ; 0x314ae
 	ld a, [wTimerActive]
 	and a
-	ld a, [wd54c]
+	ld a, [wSpecialModeCollisionID]
 	jr z, .asm_314d0
 	cp $1
 	jp z, OpenRedMapMoveSlotFromLeft
@@ -574,10 +574,10 @@ ResolveSucsessfulRedMapMove: ; 0x315d5
 	scf
 	ret
 
-Func_3161b: ; 0x3161b
+HandleBlueMapModeCollision: ; 0x3161b
 	ld a, [wTimerActive]
 	and a
-	ld a, [wd54c]
+	ld a, [wSpecialModeCollisionID]
 	jr z, .asm_3163d
 	cp $1
 	jp z, Func_31708

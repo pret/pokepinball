@@ -19,7 +19,7 @@ ResolveBlueFieldTopGameObjectCollisions: ; 0x1c715
 	call UpdateMapMoveCounters_BlueFieldTop
 	callba ShowExtraBallMessage
 	ld a, $0
-	callba Func_10000
+	callba CheckSpecialModeColision
 	ret
 
 ResolveBlueFieldBottomGameObjectCollisions: ; 0x1c769
@@ -44,7 +44,7 @@ ResolveBlueFieldBottomGameObjectCollisions: ; 0x1c769
 	call UpdateMapMoveCounters_BlueFieldBottom
 	callba ShowExtraBallMessage
 	ld a, $0
-	callba Func_10000
+	callba CheckSpecialModeColision
 	ret
 
 InitBlueFieldCollisionAttributes: ; 0x1c7c7
@@ -339,7 +339,7 @@ ResolveShellderCollision: ; 0x1c9c1
 	sub $3
 	ld [wWhichAnimatedShellder], a
 	ld a, $4
-	callba Func_10000
+	callba CheckSpecialModeColision
 	ld bc, FiveHundredPoints
 	callba AddBigBCD6FromQueueWithBallMultiplier
 	ret
@@ -398,7 +398,7 @@ ResolveBlueStageSpinnerCollision: ; 0x1ca5f
 	ld a, b
 	ld [wd50c], a
 	ld a, $c
-	callba Func_10000
+	callba CheckSpecialModeColision
 	; fall through
 
 UpdateBlueStageSpinner: ; 0x1ca85
@@ -659,7 +659,7 @@ HandleSecondaryLeftAlleyTrigger_BlueField: ; 0x1d010
 	xor a
 	ld [wLeftAlleyTrigger], a
 	ld a, $1
-	callba Func_10000
+	callba CheckSpecialModeColision
 	ret c
 	ld a, [wLeftAlleyCount]
 	cp $3
@@ -688,7 +688,7 @@ HandleSecondaryRightAlleyTrigger_BlueField: ; 0x1d047
 	xor a
 	ld [wRightAlleyTrigger], a
 	ld a, $2
-	callba Func_10000
+	callba CheckSpecialModeColision
 	ret c
 	ld a, [wRightAlleyCount]
 	cp $3
@@ -1003,7 +1003,7 @@ ResolveSlowpokeCollision: ; 0x1d216
 	cp $0
 	jr nz, .asm_1d2f8
 	ld a, $f
-	callba Func_10000
+	callba CheckSpecialModeColision
 .asm_1d2f8
 	xor a
 	ld [wd642], a
@@ -1122,7 +1122,7 @@ ResolveCloysterCollision: ; 0x1d32d
 	lb de, $00, $06
 	call PlaySoundEffect
 	ld a, $e
-	callba Func_10000
+	callba CheckSpecialModeColision
 	xor a
 	ld [wBlueFieldForceFieldFrameCounter], a
 	ld [wBlueFieldForceFieldSecondsCounter], a
@@ -1176,7 +1176,7 @@ ResolveBonusMultiplierCollision_BlueField: ; 0x1d438
 	ld a, $3c
 	ld [wBonusMultiplierRailingEndLightDuration], a
 	ld a, $9
-	callba Func_10000
+	callba CheckSpecialModeColision
 	ld a, [wd610]
 	cp $3
 	jp nz, asm_1d4fa
@@ -1203,7 +1203,7 @@ ResolveBonusMultiplierCollision_BlueField: ; 0x1d438
 	ld a, $1e
 	ld [wBonusMultiplierRailingEndLightDuration], a
 	ld a, $a
-	callba Func_10000
+	callba CheckSpecialModeColision
 	ld a, [wd611]
 	cp $3
 	jr nz, asm_1d4fa
@@ -1539,7 +1539,7 @@ ResolvePsyduckPoliwagCollision: ; 0x1dbd2
 	ld a, [wLeftMapMoveCounter]
 	cp $3
 	ld a, $7
-	callba Func_10000
+	callba CheckSpecialModeColision
 	ld a, $2
 	ld [wPoliwagState], a
 	ld a, $78
@@ -1576,7 +1576,7 @@ ResolvePsyduckPoliwagCollision: ; 0x1dbd2
 	ld a, [wRightMapMoveCounter]
 	cp $3
 	ld a, $8
-	callba Func_10000
+	callba CheckSpecialModeColision
 	ld a, [wRightMapMoveCounter]
 	cp $3
 	ccf
@@ -2043,7 +2043,7 @@ ResolveBallUpgradeTriggersCollision_BlueField: ; 0x1e356
 	ld [wLeftAlleyTrigger], a
 	ld [wSecondaryLeftAlleyTrigger], a
 	ld a, $b
-	callba Func_10000
+	callba CheckSpecialModeColision
 	ld a, [wWhichPinballUpgradeTriggerId]
 	sub $13
 	ld c, a
@@ -2594,7 +2594,7 @@ DoSlotLogic_BlueField: ; 0x1e830
 	xor a
 	ld [wIndicatorStates + 4], a
 	ld a, $d
-	callba Func_10000
+	callba CheckSpecialModeColision
 	jr nc, .asm_1e84b
 	ld a, $1
 	ld [wPinballIsVisible], a

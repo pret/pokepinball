@@ -1,5 +1,5 @@
-Func_202bc: ; 0x202bc
-	ld a, [wd54c]
+HandleBlueCatchEmCollision: ; 0x202bc
+	ld a, [wSpecialModeCollisionID]
 	cp $4
 	jp z, Func_204f1
 	cp $c

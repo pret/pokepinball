@@ -566,7 +566,23 @@ wInSpecialMode:: ; 0xd54b
 ; Set to 1 if currently in special game mode. See wSpecialMode.
 	ds $1
 
-wd54c:: ; 0xd54c 10000 sets it to a input, records what the ball has collided with.  7 and 8 from the digletts, 4 from voltorb, b = upper cave lights?, 1 is upper left red trigger, 2 is a right trigger, 5 is bellsprout, d = slot, 6 = staryu, 9/a = right railing multiplier?,
+wSpecialModeCollisionID:: ; 0xd54c 10000 sets it to a input, records what the ball has collided with
+;0 nothing hit?
+;1 upper left red trigger (under ditto) | secondary left trigger on blue
+;2 second right trigger
+;3 second staryu ally trigger
+;4 any voltob | any shellder
+;5 bellsprout | N/A
+;6 staryu | N/A
+;7 left diglett | poliwag
+;8 right diglett | psyduck
+;9 hit right railing (33 multiplier)
+;a hit right railing (otherwise)
+;b upper cave lights (ball upgrade)
+;c Spinner
+;d slot hole
+;e N/A | cloyster
+;f N/A | slowpoke
 	ds $1
 
 wd54d:: ; 0xd54d catch mode progress?
@@ -1908,7 +1924,7 @@ wOBP1:: ; 0xd80e
 wd80f:: ; 0xd80f
 	ds $1
 
-wd810:: ; 0xd810
+wd810:: ; 0xd810 loaded by Func_9fa, RNG related
 	ds $1
 
 wd811:: ; 0xd811

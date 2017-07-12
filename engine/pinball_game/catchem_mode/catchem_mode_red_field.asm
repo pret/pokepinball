@@ -1,5 +1,5 @@
-Func_20000: ; 0x20000
-	ld a, [wd54c]
+HandleRedCatchEmCollision: ; 0x20000
+	ld a, [wSpecialModeCollisionID]
 	cp $4
 	jp z, Func_20230 ;if collided with voltorb
 	cp $c

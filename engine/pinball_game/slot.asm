@@ -269,7 +269,7 @@ SlotRewardBonusMultiplier: ; 0xefa7
 
 SlotRewardSmallPoints: ; 0xefb2
 	ld a, $8
-	call Func_a21
+	call RandomRange
 	ld [wCurSlotBonus], a
 	ld b, $80
 .asm_efbc
@@ -308,7 +308,7 @@ SlotRewardSmallPoints: ; 0xefb2
 
 SlotRewardBigPoints: ; 0xeff3
 	ld a, $8
-	call Func_a21
+	call RandomRange
 	ld [wCurSlotBonus], a
 	ld b, $80
 .asm_effd
@@ -417,7 +417,7 @@ BallTypeProgressionBlueField: ; 0xf0bb
 
 SlotBonusMultiplier: ; 0xf0c1
 	ld a, $4
-	call Func_a21
+	call RandomRange
 	ld [wCurSlotBonus], a
 	ld b, $80
 .asm_f0cb

@@ -147,8 +147,8 @@ Start: ; 0x150
 	ld [rIE], a  ; Only enable LCD Status interrupt
 	ei
 	ld a, $ff
-	ld [wd810], a
-	call Func_97a
+	ld [wRNGModulus], a
+	call ResetRNG
 	xor a
 	ld [wBootCheck], a
 	ld a, BANK(Func_1ffc)
@@ -236,8 +236,8 @@ SoftReset:
 	ld [rIE], a
 	ei
 	ld a, $ff
-	ld [wd810], a
-	call Func_97a
+	ld [wRNGModulus], a
+	call ResetRNG
 	ld a, [hGameBoyColorFlag]
 	ld [$fffd], a
 	xor a
@@ -785,7 +785,7 @@ INCLUDE "home/random.asm"
 INCLUDE "home/joypad.asm"
 INCLUDE "home/palettes.asm"
 
-Func_dd4: ; 0xdd4
+HorrendousMultiplyAbyL: ; 0xdd4
 ; Return a * l to hl
 ; Stupid waste of space
 	push bc

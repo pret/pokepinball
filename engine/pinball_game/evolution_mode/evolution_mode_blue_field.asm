@@ -638,7 +638,7 @@ asm_210c7:
 
 Func_2111d: ; 0x2111d
 	ld a, $11
-	call Func_a21
+	call RandomRange
 	ld c, a
 	ld b, $0
 	ld hl, wd566

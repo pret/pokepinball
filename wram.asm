@@ -1921,19 +1921,19 @@ wOBP0:: ; 0xd80d
 wOBP1:: ; 0xd80e
 	ds $1
 
-wd80f:: ; 0xd80f
+wRNGSub:: ; 0xd80f
 	ds $1
 
-wd810:: ; 0xd810 loaded by Func_9fa, RNG related
+wRNGModulus:: ; 0xd810 loaded by UpdateRNG, RNG related
 	ds $1
 
-wd811:: ; 0xd811
+wRNGPointer:: ; 0xd811
 	ds $1
 
-wd812:: ; 0xd812
+wRNGValues:: ; 0xd812
 	ds $36
 
-wd848:: ; 0xd848
+wRNGSub2:: ; 0xd848
 	ds $1
 
 wUpdateAudioEngineUsingTimerInterrupt:: ; 0xd849

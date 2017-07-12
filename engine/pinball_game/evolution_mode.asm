@@ -443,7 +443,7 @@ InitEvolutionModeForMon: ; 0x10d1d
 	jr nz, .asm_10d8a
 	xor a
 .asm_10d8a
-	call Func_a21
+	call RandomRange
 	sla a
 	ld c, a
 	pop hl
@@ -478,7 +478,7 @@ InitEvolutionModeForMon: ; 0x10d1d
 .asm_10dc0
 	push bc
 	ld a, c
-	call Func_a21
+	call RandomRange
 	ld c, a
 	ld b, $0
 	ld hl, wd55c

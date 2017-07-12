@@ -9,8 +9,8 @@ StartTimer: ; 0x867d
 	ld [wTimerMinutes], a
 	xor a
 	ld [wTimerFrames], a
-	ld [wd57e], a
-	ld [wd57f], a
+	ld [wTimeRanOut], a
+	ld [wPauseTimer], a
 	ld a, $1
 	ld [wTimerActive], a
 	ld a, $1
@@ -18,36 +18,36 @@ StartTimer: ; 0x867d
 	callba LoadTimerGraphics
 	ret
 
-Func_86a4: ; 0x86a4
-	ld a, [wd57f]
+DecrementTimer: ; 0x86a4
+	ld a, [wPauseTimer] ;quit unless ??? is 0
 	and a
 	ret nz
 	ld a, [wTimerFrames]
 	inc a
-	cp $3c
-	jr c, .asm_86b2
+	cp 60
+	jr c, .IfSecondHasNotPassed ;if frames +1 >= 60, reset it
 	xor a
-.asm_86b2
-	ld [wTimerFrames], a
-	ret c
+.IfSecondHasNotPassed
+	ld [wTimerFrames], a ;inc frames
+	ret c ;done if there was no reset
 	ld hl, wTimerMinutes
 	ld a, [hld]
 	or [hl]
-	jr nz, .asm_86c3
+	jr nz, .IfTimeLeft ;if minutes or seconds is non-zero, jump, else ret marking that time ran out
 	ld a, $1
-	ld [wd57e], a
+	ld [wTimeRanOut], a
 	ret
 
-.asm_86c3
+.IfTimeLeft
 	ld a, [hl]
 	sub $1
-	daa
-	jr nc, .asm_86cb
+	daa ;take 1 from seconds
+	jr nc, .IfMinuteHasNotPassed ; if < 0, set to 59
 	ld a, $59
-.asm_86cb
+.IfMinuteHasNotPassed
 	ld [hli], a
 	ld a, [hl]
-	sbc $0
+	sbc $0 ;sub minutes by 1 only if carry is set from the seconds sub
 	daa
 	ld [hl], a
 	ret

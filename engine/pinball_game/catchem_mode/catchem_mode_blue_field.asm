@@ -1,5 +1,5 @@
-Func_202bc: ; 0x202bc
-	ld a, [wd54c]
+HandleBlueCatchEmCollision: ; 0x202bc
+	ld a, [wSpecialModeCollisionID]
 	cp $4
 	jp z, Func_204f1
 	cp $c
@@ -142,9 +142,9 @@ Func_20394: ; 0x20394
 
 .asm_20417
 	xor a
-	ld [wd57e], a
+	ld [wTimeRanOut], a
 	ld a, $1
-	ld [wd57f], a
+	ld [wPauseTimer], a
 	ld hl, wd54d
 	inc [hl]
 	ld c, $2
@@ -213,11 +213,11 @@ Func_2048f: ; 0x2048f
 
 Func_204b3: ; 0x204b3
 	callba PlayLowTimeSfx
-	ld a, [wd57e]
+	ld a, [wTimeRanOut]
 	and a
 	ret z
 	xor a
-	ld [wd57e], a
+	ld [wTimeRanOut], a
 	ld a, $7
 	ld [wd54d], a
 	; Automatically set Mew as caught, since you can't possibly catch it

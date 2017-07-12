@@ -18,7 +18,7 @@ ResolveRedFieldTopGameObjectCollisions: ; 0x1460e
 	call UpdateMapMoveCounters_RedFieldTop
 	callba ShowExtraBallMessage
 	ld a, $0
-	callba Func_10000
+	callba CheckSpecialModeColision
 	ret
 
 ResolveRedFieldBottomGameObjectCollisions: ; 0x14652
@@ -43,7 +43,7 @@ ResolveRedFieldBottomGameObjectCollisions: ; 0x14652
 	call UpdatePokeballs_RedField
 	callba ShowExtraBallMessage
 	ld a, $0
-	callba Func_10000
+	callba CheckSpecialModeColision
 	ret
 
 UpdateBallSaver: ; 0x146a2
@@ -224,31 +224,31 @@ ResolveWildMonCollision_RedField: ; 0x14795
 ResolveDiglettCollision: ; 0x147aa
 	ld a, [wWhichDiglett]
 	and a
-	jp z, .asm_14834
+	jp z, .asm_14834 ;if no diglett hit (runs every frame when above a certain line on bottom boards, jump
 	xor a
 	ld [wWhichDiglett], a
 	ld a, [wWhichDiglettId]
 	sub $1
 	sla a
-	ld c, a
+	ld c, a ;-1 then * 2
 	ld b, $0
-	ld hl, wLeftMapMoveCounter
+	ld hl, wLeftMapMoveCounter ;select approprioate map move counter
 	add hl, bc
 	ld a, [hl]
 	cp $3
-	jr z, .asm_14834
+	jr z, .asm_14834 ;if counter is set to 3, jump
 	inc a
-	ld [hld], a
-	ld [hl], $50
+	ld [hld], a ;oherwise, add 1 to the counter
+	ld [hl], $50 ;and set the animation of that diglett
 	ld hl, wLeftMapMoveCounterFramesUntilDecrease
 	add hl, bc
-	ld a, MAP_MOVE_FRAMES_COUNTER & $ff
+	ld a, MAP_MOVE_FRAMES_COUNTER & $ff ;load in time until digletts decay
 	ld [hli], a
 	ld a, MAP_MOVE_FRAMES_COUNTER >> 8
 	ld [hl], a
 	ld a, c
 	and a
-	jr z, .asm_14807
+	jr z, .asm_14807 ;if left diglett, jump
 	ld a, $6a
 	ld [wStageCollisionMap + $f0], a
 	ld a, $6b
@@ -259,7 +259,7 @@ ResolveDiglettCollision: ; 0x147aa
 	add $4
 	call LoadDiglettNumberGraphics
 	ld a, $8
-	callba Func_10000
+	callba CheckSpecialModeColision
 	ld a, [wRightMapMoveCounter]
 	cp $3
 	call z, HitRightDiglett3Times
@@ -275,7 +275,7 @@ ResolveDiglettCollision: ; 0x147aa
 	ld a, [wLeftMapMoveCounter]
 	call LoadDiglettNumberGraphics
 	ld a, $7
-	callba Func_10000
+	callba CheckSpecialModeColision
 	ld a, [wLeftMapMoveCounter]
 	cp $3
 	call z, HitLeftDiglett3Times
@@ -566,7 +566,7 @@ ResolveVoltorbCollision: ; 0x14d85
 	sub $3
 	ld [wWhichAnimatedVoltorb], a
 	ld a, $4
-	callba Func_10000
+	callba CheckSpecialModeColision
 	ld bc, FiveHundredPoints
 	callba AddBigBCD6FromQueueWithBallMultiplier
 	ret
@@ -613,7 +613,7 @@ ResolveRedStageSpinnerCollision: ; 0x14dea
 	ld a, b
 	ld [wd50c], a
 	ld a, $c
-	callba Func_10000
+	callba CheckSpecialModeColision
 	; fall through
 
 UpdateRedStageSpinner: ; 0x14e10
@@ -937,7 +937,7 @@ ResolveBallUpgradeTriggersCollision_RedField: ; 0x1535d
 	ld [wSecondaryLeftAlleyTrigger], a
 	call UpdateFieldStructures_RedField
 	ld a, $b
-	callba Func_10000
+	callba CheckSpecialModeColision
 	ld a, [wWhichPinballUpgradeTriggerId]
 	sub $e
 	ld c, a
@@ -1301,7 +1301,7 @@ HandleSecondaryLeftAlleyTrigger_RedField: ; 0x1587c
 	xor a
 	ld [wLeftAlleyTrigger], a
 	ld a, $1
-	callba Func_10000
+	callba CheckSpecialModeColision
 	ret c
 	ld a, [wLeftAlleyCount]
 	cp $3
@@ -1331,7 +1331,7 @@ HandleThirdLeftAlleyTrigger_RedField: ; 0x158c0
 	xor a
 	ld [wLeftAlleyTrigger], a
 	ld a, $1
-	callba Func_10000
+	callba CheckSpecialModeColision
 	ret c
 	ld a, [wLeftAlleyCount]
 	cp $3
@@ -1360,7 +1360,7 @@ HandleSecondaryStaryuAlleyTrigger_RedField: ; 0x15904
 	xor a
 	ld [wSecondaryLeftAlleyTrigger], a
 	ld a, $3
-	callba Func_10000
+	callba CheckSpecialModeColision
 	ret
 
 HandleLeftAlleyTrigger_RedField: ; 0x1591e
@@ -1395,7 +1395,7 @@ HandleSecondaryRightAlleyTrigger_RedField: ; 0x15944
 	xor a
 	ld [wRightAlleyTrigger], a
 	ld a, $2
-	callba Func_10000
+	callba CheckSpecialModeColision
 	ret c
 	ld a, [wRightAlleyCount]
 	cp $3
@@ -1434,7 +1434,7 @@ HandleThirdRightAlleyTrigger_RedField: ; 0x15990
 	xor a
 	ld [wRightAlleyTrigger], a
 	ld a, $2
-	callba Func_10000
+	callba CheckSpecialModeColision
 	ret c
 	ld a, [wRightAlleyCount]
 	cp $3
@@ -1606,7 +1606,7 @@ ResolveBellsproutCollision: ; 0x15e93
 	lb de, $00, $06
 	call PlaySoundEffect
 	ld a, $5
-	callba Func_10000
+	callba CheckSpecialModeColision
 	ret
 
 BellsproutAnimationData: ; 0x15f69
@@ -2040,7 +2040,7 @@ DoSlotLogic_RedField: ; 0x16352
 	xor a
 	ld [wIndicatorStates + 4], a
 	ld a, $d
-	callba Func_10000
+	callba CheckSpecialModeColision
 	jr nc, .asm_1636d
 	ld a, $1
 	ld [wPinballIsVisible], a
@@ -2513,7 +2513,7 @@ ResolveStaryuCollision_Top: ; 0x16781
 	ld [wd503], a
 	call LoadStaryuGraphics_Top
 	ld a, $6
-	callba Func_10000
+	callba CheckSpecialModeColision
 	ret
 
 .asm_167bd
@@ -2562,7 +2562,7 @@ ResolveStaryuCollision_Bottom: ; 0x167ff
 	ld [wd503], a
 	call LoadStaryuGraphics_Bottom
 	ld a, $6
-	callba Func_10000
+	callba CheckSpecialModeColision
 	ret
 
 .noCollision
@@ -2695,7 +2695,7 @@ ResolveRedStageBonusMultiplierCollision: ; 016d9d
 	sub $21
 	jr nz, .hitRightRailing
 	ld a, $9
-	callba Func_10000
+	callba CheckSpecialModeColision
 	ld a, [wd610]
 	cp $3
 	jr nz, .asm_16e35
@@ -2710,7 +2710,7 @@ ResolveRedStageBonusMultiplierCollision: ; 016d9d
 
 .hitRightRailing
 	ld a, $a
-	callba Func_10000
+	callba CheckSpecialModeColision
 	ld a, [wd611]
 	cp $3
 	jr nz, .asm_16e35

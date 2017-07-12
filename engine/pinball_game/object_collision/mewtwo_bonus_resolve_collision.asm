@@ -3,11 +3,11 @@ ResolveMewtwoBonusGameObjectCollisions: ; 0x19451
 	call Func_19701
 	call Func_1948b
 	callba PlayLowTimeSfx
-	ld a, [wd57e]
+	ld a, [wTimeRanOut]
 	and a
 	ret z
 	xor a
-	ld [wd57e], a
+	ld [wTimeRanOut], a
 	ld a, $1
 	ld [wd7be], a
 	call Func_2862

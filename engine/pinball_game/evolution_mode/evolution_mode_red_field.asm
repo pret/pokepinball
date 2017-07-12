@@ -1,21 +1,21 @@
-Func_20581: ; 0x20581
-	ld a, [wd54c]
+HandleRedEvoModeCollision: ; 0x20581
+	ld a, [wSpecialModeCollisionID]
 	cp $4
-	jp z, Func_2080f
+	jp z, Func_2080f ;voltorb
 	cp $3
 	jp z, Func_20839
 	cp $5
-	jp z, Func_2085a
+	jp z, Func_2085a ;bellsprout
 	cp $6
-	jp z, Func_20887
+	jp z, Func_20887 ;staryu
 	cp $7
-	jp z, Func_208a8
+	jp z, Func_208a8 ;diglett
 	cp $8
-	jp z, Func_208c9
+	jp z, Func_208c9 ;diglett
 	cp $9
-	jp z, Func_208ea
+	jp z, Func_208ea ;right rail?
 	cp $a
-	jp z, Func_2090b
+	jp z, Func_2090b ;right rail?
 	cp $b
 	jp z, Func_2092c
 	cp $c
@@ -226,11 +226,11 @@ Func_2077b: ; 0x2077b
 	call Func_20a55
 .asm_2078e
 	callba PlayLowTimeSfx
-	ld a, [wd57e]
+	ld a, [wTimeRanOut]
 	and a
 	ret z
 	xor a
-	ld [wd57e], a
+	ld [wTimeRanOut], a
 	ld a, $2
 	ld [wd54d], a
 	xor a
@@ -355,16 +355,16 @@ Func_20887: ; 0x20887
 Func_208a8: ; 0x208a8
 	ld a, [wd551]
 	and a
-	jr nz, .asm_208c7
+	jr nz, .asm_208c7 ;if ??? is NZ, skip
 	ld a, [wIndicatorStates + 13]
 	and a
-	jr z, .asm_208c7
+	jr z, .asm_208c7 ;if indicator is off, skip
 	xor a
-	ld [wIndicatorStates + 13], a
+	ld [wIndicatorStates + 13], a ;flick off indicator
 	ld a, [wd55d]
 	and a
 	ld a, $0
-	ld [wd55d], a
+	ld [wd55d], a ;make ??? 0
 	jp nz, Func_20977
 	jp Func_209eb
 

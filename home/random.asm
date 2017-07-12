@@ -4,16 +4,16 @@ GenRandom: ; 0x959
 	push hl
 	ld a, [wd811]
 	ld c, a
-	ld b, $0
+	ld b, $0 ;load ??? into c
 	inc a
-	cp 54 + 1
+	cp 54 + 1 ;inc ???, if ??? is 55 do alot of subtraction and make ??? 0
 	jr nz, .asm_96e
 	call Func_9fa
 	xor a
 	ld bc, $0000
 .asm_96e
-	ld [wd811], a
-	ld hl, wd812
+	ld [wd811], a ;place wd811 + 1 back in
+	ld hl, wd812 ;choose number generated based on wd811 and all the subtraction
 	add hl, bc
 	ld a, [hl]
 	pop hl
@@ -79,11 +79,11 @@ Func_9fa: ; 0x9fa
 	ld a, [wd810]
 	ld d, a
 	ld bc, wd812
-	ld hl, wd812 + $1f
+	ld hl, wd812 + $1f ;d831
 	ld e, $18
 .asm_a06
 	ld a, [bc]
-	sub [hl]
+	sub [hl] ;sub d831 from wd812, add wd810 if it does not carry, put result in wd812. repeat 24 times
 	jr nc, .asm_a0b
 	add d
 .asm_a0b
@@ -109,11 +109,11 @@ Func_a21: ; 0xa21
 	push hl
 	ld c, a
 	ld b, $0
-	ld hl, Data_a38
+	ld hl, Data_a38 ;jump to c in table, load (twice c?) into l
 	add hl, bc
 	ld l, [hl]
-	call GenRandom
-	call Func_dd4
+	call GenRandom ;a = a psuedo random number
+	call Func_dd4 ;a * l
 	inc h
 	srl h
 	ld a, h
@@ -121,7 +121,7 @@ Func_a21: ; 0xa21
 	pop bc
 	ret
 
-Data_a38:
+Data_a38: ;starting from 0, go up 2 each byte
 x = 0
 REPT 128
 	db x | ((x >> 7) & 1)

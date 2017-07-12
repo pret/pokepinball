@@ -385,7 +385,7 @@ wPreviousTriggeredGameObject:: ; 0xd4ec
 ; an object two frames in a row. It has to "un-collide" before it can collide again.
 	ds $1
 
-wWhichDiglett:: ; 0xd4ed
+wWhichDiglett:: ; 0xd4ed 0 = none, left = 1 right = 2
 wWhichPsyduckPoliwag::
 	ds $1
 wWhichDiglettId:: ; 0xd4ee
@@ -395,7 +395,7 @@ wWhichPsyduckPoliwagId::
 wLeftDiglettAnimationController:: ; 0xd4ef $50 = in and pained look. 0 = normal state
 	ds $1
 
-wLeftMapMoveCounter:: ; 0xd4f0
+wLeftMapMoveCounter:: ; 0xd4f0 WARNING, diglet identifying code relies on this being 2 bytes before right map move counter and 1 byte after that digletts animation controller
 	ds $1
 
 wRightDiglettAnimationController:: ; 0xd4f1 $50 = in and pained look. 0 = normal state
@@ -427,7 +427,7 @@ wLeftMapMoveCounterFramesUntilDecrease:: ; 0xd4f7
 
 wRightMapMoveCounterFramesUntilDecrease:: ; 0xd4f9
 ; Holds the number of frames remaining until the wRightMapMoveCounter
-; counter will decrease by 1.
+; counter will decrease by 1. WARNING: red tables diglett function relies on this being immediatly after wLeftMapMoveCounterFramesUntilDecrease
 	ds $2
 
 wBellsproutCollision:: ; 0xd4fb
@@ -530,7 +530,7 @@ wCollidedAlleyTriggers:: ; 0xd521
 
 	ds $6 ; free space
 
-wIndicatorStates:: ; 0xd52f
+wIndicatorStates:: ; 0xd52f 0 = evo arrows, 1 = catch arrows, 2 = left small alley, 3 = bellsprout, 4 = slot. bit 7 controls if enabled and flashing, bit 1 and 2 control is solid (set = solid)
 	ds $13
 
 wLeftAlleyTrigger:: ; 0xd542
@@ -566,10 +566,26 @@ wInSpecialMode:: ; 0xd54b
 ; Set to 1 if currently in special game mode. See wSpecialMode.
 	ds $1
 
-wd54c:: ; 0xd54c 10000 sets it to c. red evo mode checks it for it's contents
+wSpecialModeCollisionID:: ; 0xd54c 10000 sets it to a input, records what the ball has collided with
+;0 nothing hit?
+;1 upper left red trigger (under ditto) | secondary left trigger on blue
+;2 second right trigger
+;3 second staryu ally trigger
+;4 any voltob | any shellder
+;5 bellsprout | N/A
+;6 staryu | N/A
+;7 left diglett | poliwag
+;8 right diglett | psyduck
+;9 hit right railing (33 multiplier)
+;a hit right railing (otherwise)
+;b upper cave lights (ball upgrade)
+;c Spinner
+;d slot hole
+;e N/A | cloyster
+;f N/A | slowpoke
 	ds $1
 
-wd54d:: ; 0xd54d
+wd54d:: ; 0xd54d catch mode progress?
 	ds $1
 
 wd54e:: ; 0xd54e
@@ -673,10 +689,10 @@ wTimerActive:: ; 0xd57d
 ; Set to 1 when the Timer is displayed and counting down.
 	ds $1
 
-wd57e:: ; 0xd57e when map mode fails by time, toggled to off from on
+wTimeRanOut:: ; 0xd57e set to 1 when the timer reaches 0
 	ds $1
 
-wd57f:: ; 0xd57f
+wPauseTimer:: ; 0xd57f If set to nz, timer pauses
 	ds $1
 
 wd580:: ; 0xd580
@@ -1908,7 +1924,7 @@ wOBP1:: ; 0xd80e
 wd80f:: ; 0xd80f
 	ds $1
 
-wd810:: ; 0xd810
+wd810:: ; 0xd810 loaded by Func_9fa, RNG related
 	ds $1
 
 wd811:: ; 0xd811

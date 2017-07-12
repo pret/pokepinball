@@ -158,7 +158,7 @@ GameScreenFunction_HandleBallPhysics: ; 0xd909
 .skipDrawingScoreboard
 	ld a, [wTimerActive]
 	and a
-	callba nz, Func_86a4
+	callba nz, DecrementTimer
 	ld a, [wMoveToNextScreenState]
 	and a
 	ret z

@@ -102,31 +102,31 @@ INCLUDE "engine/pinball_game/end_of_ball_bonus.asm"
 
 SECTION "bank4", ROMX
 
-Func_10000: ; 0x10000
+CheckSpecialModeColision: ; 0x10000
 	ld c, a
 	ld a, [wInSpecialMode] ;special mode in c
 	and a
 	ret z ;if mot in special mode, ret
 	ld a, c
-	ld [wd54c], a
+	ld [wSpecialModeCollisionID], a
 	ld a, [wSpecialMode]
 	cp SPECIAL_MODE_CATCHEM ;branch based on mode
-	jp z, Func_10a95
+	jp z, HandleEvoModeCollision ;call evo mode logic
 	cp SPECIAL_MODE_EVOLUTION
-	jr nz, .next
-	callba Func_301ce
+	jr nz, .CatchMode  ;call catch mode logic
+	callba HandleMapModeCollision ;call map move logic
 	ret
 
-.next
+.CatchMode
 	ld a, [wCurrentStage]
 	call CallInFollowingTable
-CallTable_10027: ; 0x10027
-	padded_dab Func_20000 ; STAGE_RED_FIELD_TOP
-	padded_dab Func_20000 ; STAGE_RED_FIELD_BOTTOM
-	padded_dab Func_20000
-	padded_dab Func_20000
-	padded_dab Func_202bc ; STAGE_BLUE_FIELD_TOP
-	padded_dab Func_202bc ; STAGE_BLUE_FIELD_BOTTOM
+HandleCatchEmCollisionCallTable: ; 0x10027
+	padded_dab HandleRedCatchEmCollision ; STAGE_RED_FIELD_TOP
+	padded_dab HandleRedCatchEmCollision ; STAGE_RED_FIELD_BOTTOM
+	padded_dab HandleRedCatchEmCollision
+	padded_dab HandleRedCatchEmCollision
+	padded_dab HandleBlueCatchEmCollision ; STAGE_BLUE_FIELD_TOP
+	padded_dab HandleBlueCatchEmCollision ; STAGE_BLUE_FIELD_BOTTOM
 
 INCLUDE "engine/pinball_game/catchem_mode.asm"
 INCLUDE "engine/pinball_game/evolution_mode.asm"

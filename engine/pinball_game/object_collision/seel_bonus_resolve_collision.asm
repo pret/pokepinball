@@ -39,11 +39,11 @@ ResolveSeelBonusGameObjectCollisions: ; 0x25c5a
 	jr z, .asm_25cc1
 	callba PlayLowTimeSfx
 .asm_25cc1
-	ld a, [wd57e]
+	ld a, [wTimeRanOut]
 	and a
 	ret z
 	xor a
-	ld [wd57e], a
+	ld [wTimeRanOut], a
 	ld a, $1
 	ld [wd7be], a
 	call Func_2862

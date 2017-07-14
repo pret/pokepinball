@@ -159,20 +159,28 @@ wd489:: ; 0xd489
 wd48f:: ; 0xd48f
 	ds $6
 
-wd495:: ; 0xd495
+wGoingToBonusStage:: ; 0xd495
+; Set to 1 when the player's pinball enters the Slot cave to go to a Bonus Stage.
 	ds $1
 
-wd496:: ; 0xd496
+wReturningFromBonusStage:: ; 0xd496
+; Set to 1 when a bonus stage is is finished. This is used when the main field logic is determining
+; where to start the ball, since it falls out of the Slot cave after a bonus stage.
 	ds $1
 
 wNextStage:: ; 0xd497
 ; Holds the id of the next stage to go to. Used for transitioning between bonus stage and the main red/blue field.
 	ds $1
 
-wd498:: ; 0xd498
+wNextBonusStage:: ; 0xd498
+; Holds id of the next Bonus Stage the player is eligible to go to.
+; This is not the raw stage id (e.g. STAGE_MEOWTH_BONUS), rather, its the id in the order the STAGE constants are defined.
+; See constants/bonus_stage_order_constants.asm for list of values.
 	ds $1
 
-wd499:: ; 0xd499
+wInitialNextBonusStage:: ; 0xd499
+; Holds the id of the first Bonus Stage for the current field. This is used to "wrap around" back to the start of the bonus stages
+; after defeating the Mewtwo stage.  See wNextBonusStage.
 	ds $1
 
 wCompletedBonusStage:: ; 0xd49a

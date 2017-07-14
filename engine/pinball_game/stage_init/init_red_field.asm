@@ -30,8 +30,8 @@ InitRedField: ; 0x30000
 	ld a, $3
 	ld [wd49e], a
 	ld [wd610], a
-	ld [wd498], a
-	ld [wd499], a
+	ld [wNextBonusStage], a ; BONUS_STAGE_ORDER_DIGLETT
+	ld [wInitialNextBonusStage], a ; BONUS_STAGE_ORDER_DIGLETT
 	ld a, $4
 	ld [wStageCollisionState], a
 	ld [wd7ad], a

@@ -188,12 +188,12 @@ ResolveMeowthBonusGameObjectCollisions: ; 0x2442a
 	ld a, [wd712]
 	cp $2
 	jr nc, .asm_24498
-	ld a, [wd498]
-	cp $4
+	ld a, [wNextBonusStage]
+	cp BONUS_STAGE_ORDER_SEEL
 	ret z
-	ld a, $4
+	ld a, BONUS_STAGE_ORDER_SEEL
 	ld [wd712], a
-	ld [wd498], a
+	ld [wNextBonusStage], a
 	ld a, $96
 	ld [wd739], a
 	ld de, $0000

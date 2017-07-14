@@ -224,12 +224,12 @@ GameScreenFunction_EndBall: ; 0xdab2
 	ld a, [wGameOver]
 	and a
 	jp nz, TransitionToHighScoresScreen
-	ld a, [wd495]
+	ld a, [wGoingToBonusStage]
 	and a
-	jr nz, .asm_dae6
-	ld a, [wd496]
+	jr nz, .goingToBonusStage
+	ld a, [wReturningFromBonusStage]
 	and a
-	jr nz, .asm_db28
+	jr nz, .returningFromBonusStage
 	call FadeOut
 	ld a, [wUpdateAudioEngineUsingTimerInterrupt]
 	and a
@@ -243,7 +243,7 @@ GameScreenFunction_EndBall: ; 0xdab2
 	ld [wScreenState], a
 	ret
 
-.asm_dae6
+.goingToBonusStage
 	ld de, $0000
 	call PlaySong
 	ld bc, $0004
@@ -264,13 +264,13 @@ GameScreenFunction_EndBall: ; 0xdab2
 	ld a, [wNextStage]
 	ld [wCurrentStage], a
 	xor a
-	ld [wd496], a
-	ld [wd495], a
+	ld [wReturningFromBonusStage], a
+	ld [wGoingToBonusStage], a
 	ld a, $0
 	ld [wScreenState], a
 	ret
 
-.asm_db28
+.returningFromBonusStage
 	ld de, $0000
 	call PlaySong
 	ld bc, $0004

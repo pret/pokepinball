@@ -219,7 +219,7 @@ Func_eef9: ; 0xeef9
 	cp $d
 	ret nz
 	push hl
-	ld hl, wd498
+	ld hl, wNextBonusStage
 	add [hl]
 	pop hl
 	ret

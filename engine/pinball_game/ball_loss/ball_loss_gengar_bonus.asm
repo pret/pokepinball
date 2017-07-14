@@ -32,9 +32,9 @@ HandleBallLossGengarBonus: ; 0xdf1a
 
 .asm_df57
 	xor a
-	ld [wd495], a
+	ld [wGoingToBonusStage], a
 	ld a, $1
-	ld [wd496], a
+	ld [wReturningFromBonusStage], a
 	ld a, $2
 	ld [wd4c8], a
 	xor a

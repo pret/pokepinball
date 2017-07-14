@@ -2930,7 +2930,7 @@ Func_248a: ; 0x248a
 	sub $e0
 	ld b, a
 	ld a, [wCurrentStage]
-	cp $6  ; gengar stage buggy?
+	cp FIRST_BONUS_STAGE
 	jr nc, .bonusStage
 	bit 4, b
 	ld hl, BottomLeftCollisionMasks

@@ -1,32 +1,32 @@
 HandleRedEvoModeCollision: ; 0x20581
 	ld a, [wSpecialModeCollisionID]
-	cp $4
+	cp SPECIAL_COLLISION_VOLTORB
 	jp z, Func_2080f ;voltorb
-	cp $3
+	cp SPECIAL_COLLISION_STARYU_ALLY_TRIGGER
 	jp z, Func_20839
-	cp $5
+	cp SPECIAL_COLLISION_SHELLDER
 	jp z, Func_2085a ;bellsprout
-	cp $6
+	cp SPECIAL_COLLISION_STARYU
 	jp z, Func_20887 ;staryu
-	cp $7
+	cp SPECIAL_COLLISION_LEFT_DIGLETT
 	jp z, Func_208a8 ;diglett
-	cp $8
+	cp SPECIAL_COLLISION_RIGHT_DIGLETT
 	jp z, Func_208c9 ;diglett
 	cp $9
 	jp z, Func_208ea ;right rail?
 	cp $a
 	jp z, Func_2090b ;right rail?
-	cp $b
+	cp SPECIAL_COLLISION_BALL_UPGRADE
 	jp z, Func_2092c
-	cp $c
+	cp SPECIAL_COLLISION_SPINNER
 	jp z, Func_2094d
-	cp $d
+	cp SPECIAL_COLLISION_SLOT_HOLE
 	jp z, Func_20b02
-	cp $2
+	cp SPECIAL_COLLISION_RIGHT_TRIGGER
 	jp z, Func_20a65
-	cp $1
+	cp SPECIAL_COLLISION_LEFT_TRIGGER
 	jp z, Func_20a82
-	cp $0
+	cp SPECIAL_COLLISION_NOTHING
 	jr z, .asm_205cb
 	scf
 	ret

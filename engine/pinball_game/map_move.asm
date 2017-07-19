@@ -429,18 +429,18 @@ HandleRedMapModeCollision: ; 0x314ae
 	and a
 	ld a, [wSpecialModeCollisionID]
 	jr z, .asm_314d0
-	cp $1
+	cp SPECIAL_COLLISION_LEFT_TRIGGER
 	jp z, OpenRedMapMoveSlotFromLeft
-	cp $3
+	cp SPECIAL_COLLISION_STARYU_ALLY_TRIGGER
 	jp z, OpenRedMapMoveSlotFromLeft
-	cp $2
+	cp SPECIAL_COLLISION_RIGHT_TRIGGER
 	jp z, OpenRedMapMoveSlotFromRight
-	cp $5
+	cp SPECIAL_COLLISION_BELLSPROUT
 	jp z, OpenRedMapMoveSlotFromRight
-	cp $d
+	cp SPECIAL_COLLISION_SLOT_HOLE
 	jp z, ResolveSucsessfulRedMapMove
 .asm_314d0
-	cp $0
+	cp SPECIAL_COLLISION_NOTHING
 	jr z, .asm_314d6
 	scf
 	ret
@@ -579,18 +579,18 @@ HandleBlueMapModeCollision: ; 0x3161b
 	and a
 	ld a, [wSpecialModeCollisionID]
 	jr z, .asm_3163d
-	cp $1
+	cp SPECIAL_COLLISION_LEFT_TRIGGER
 	jp z, Func_31708
-	cp $f
+	cp SPECIAL_COLLISION_SLOWPOKE
 	jp z, Func_31708
-	cp $2
+	cp SPECIAL_COLLISION_RIGHT_TRIGGER
 	jp z, Func_3172a
-	cp $e
+	cp SPECIAL_COLLISION_CLOYSTER
 	jp z, Func_3172a
-	cp $d
+	cp SPECIAL_COLLISION_SLOT_HOLE
 	jp z, Func_3174c
 .asm_3163d
-	cp $0
+	cp SPECIAL_COLLISION_NOTHING
 	jr z, .asm_31643
 	scf
 	ret

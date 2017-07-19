@@ -1,14 +1,14 @@
 HandleBlueCatchEmCollision: ; 0x202bc
 	ld a, [wSpecialModeCollisionID]
-	cp $4
+	cp SPECIAL_COLLISION_SHELLDER
 	jp z, Func_204f1
-	cp $c
+	cp SPECIAL_COLLISION_SPINNER
 	jp z, Func_20569
-	cp $f
+	cp SPECIAL_COLLISION_SLOWPOKE
 	jp z, Func_20573
-	cp $e
+	cp SPECIAL_COLLISION_CLOYSTER
 	jp z, Func_2057a
-	cp $0
+	cp SPECIAL_COLLISION_NOTHING
 	jr z, .asm_202d9
 	scf
 	ret

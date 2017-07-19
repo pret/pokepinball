@@ -1,12 +1,12 @@
 HandleRedCatchEmCollision: ; 0x20000
 	ld a, [wSpecialModeCollisionID]
-	cp $4
+	cp SPECIAL_COLLISION_VOLTORB
 	jp z, Func_20230 ;if collided with voltorb
-	cp $c
+	cp SPECIAL_COLLISION_SPINNER
 	jp z, Func_202a8
-	cp $5
+	cp SPECIAL_COLLISION_BELLSPROUT
 	jp z, Func_202b2 ;bellsprout
-	cp $0
+	cp SPECIAL_COLLISION_NOTHING
 	jr z, .asm_20018
 	scf
 	ret

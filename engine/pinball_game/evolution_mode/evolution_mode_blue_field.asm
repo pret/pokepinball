@@ -1,30 +1,30 @@
 HandleBlueEvoModeCollision: ; 0x20bae
 	ld a, [wSpecialModeCollisionID]
-	cp $4
+	cp SPECIAL_COLLISION_SHELLDER
 	jp z, Func_20e34
-	cp $1
+	cp SPECIAL_COLLISION_LEFT_TRIGGER
 	jp z, Func_21089
-	cp $e
+	cp SPECIAL_COLLISION_CLOYSTER
 	jp z, Func_20e5e
-	cp $f
+	cp SPECIAL_COLLISION_SLOWPOKE
 	jp z, Func_20e82
-	cp $7
+	cp SPECIAL_COLLISION_POLIWAG
 	jp z, Func_20ea6
-	cp $8
+	cp SPECIAL_COLLISION_PPSYDUCK
 	jp z, Func_20ec7
 	cp $9
 	jp z, Func_20ee8
 	cp $a
 	jp z, Func_20f09
-	cp $b
+	cp SPECIAL_COLLISION_BALL_UPGRADE
 	jp z, Func_20f2a
-	cp $c
+	cp SPECIAL_COLLISION_SPINNER
 	jp z, Func_20f4b
-	cp $d
+	cp SPECIAL_COLLISION_SLOT_HOLE
 	jp z, Func_2112a
-	cp $2
+	cp SPECIAL_COLLISION_RIGHT_TRIGGER
 	jp z, Func_2105c
-	cp $0
+	cp SPECIAL_COLLISION_NOTHING
 	jr z, .asm_20bf3
 	scf
 	ret

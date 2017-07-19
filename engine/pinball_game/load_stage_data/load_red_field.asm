@@ -441,7 +441,7 @@ Func_14377: ; 0x14377
 	ld a, [wOpenedSlotByGetting3Pokeballs]
 	and a
 	jr z, .asm_14393
-	ld a, [wd498]
+	ld a, [wNextBonusStage]
 	add $15
 	callba LoadBillboardTileData
 	ret

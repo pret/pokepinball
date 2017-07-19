@@ -999,8 +999,8 @@ Func_189af: ; 0x189af
 	ret nz
 	ld a, $1
 	ld [wd6a8], a
-	ld a, $1
-	ld [wd498], a
+	ld a, BONUS_STAGE_ORDER_MEWTWO
+	ld [wNextBonusStage], a
 	ld a, $1
 	ld [wCompletedBonusStage], a
 	call FillBottomMessageBufferWithBlackTile

@@ -1,5 +1,5 @@
 InitBallBlueField: ; 0x1c08d
-	ld a, [wd496]
+	ld a, [wReturningFromBonusStage]
 	and a
 	jp nz, StartBallAfterBonusStageBlueField
 	ld a, $0
@@ -78,7 +78,7 @@ StartBallAfterBonusStageBlueField: ; 0x1c129
 	ld [wBallYVelocity + 1], a
 	ld [wBallXVelocity], a
 	ld [wBallXVelocity + 1], a
-	ld [wd496], a
+	ld [wReturningFromBonusStage], a
 	ld [wSCX], a
 	ld [wd7be], a
 	ld a, [wBallTypeBackup]

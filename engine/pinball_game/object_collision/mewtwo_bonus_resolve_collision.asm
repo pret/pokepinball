@@ -339,8 +339,8 @@ Func_19638: ; 0x19638
 	ret nz
 	ld a, $1
 	ld [wd6b3], a
-	ld a, [wd499]
-	ld [wd498], a
+	ld a, [wInitialNextBonusStage]
+	ld [wNextBonusStage], a
 	ld a, [wNumMewtwoBonusCompletions]
 	cp $2  ; only counts up to 2. Gets reset to 0 when Mew is encountered in Catch 'Em Mode.
 	jr z, .asm_1965e

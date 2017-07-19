@@ -640,7 +640,7 @@ asm_20a9f:
 
 Func_20af5: ; 0x20af5
 	ld a, $11
-	call Func_a21
+	call RandomRange
 	ld c, a
 	ld b, $0
 	ld hl, wd566

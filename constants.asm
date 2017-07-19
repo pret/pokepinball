@@ -3,6 +3,7 @@ INCLUDE "vram.asm"
 INCLUDE "gbhw.asm"
 
 INCLUDE "constants/ball_types.asm"
+INCLUDE "constants/bonus_stage_order_constants.asm"
 INCLUDE "constants/diglett_stage_constants.asm"
 INCLUDE "constants/evolution_line_constants.asm"
 INCLUDE "constants/evolution_type_constants.asm"

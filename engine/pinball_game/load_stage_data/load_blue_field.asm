@@ -435,7 +435,7 @@ Func_1c4b6: ; 0x1c4b6
 	ld a, [wOpenedSlotByGetting3Pokeballs]
 	and a
 	jr z, .asm_1c4d2
-	ld a, [wd498]
+	ld a, [wNextBonusStage]
 	add $15
 	callba LoadBillboardTileData
 	ret

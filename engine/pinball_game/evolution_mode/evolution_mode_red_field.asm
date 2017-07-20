@@ -4,7 +4,7 @@ HandleRedEvoModeCollision: ; 0x20581
 	jp z, Func_2080f ;voltorb
 	cp SPECIAL_COLLISION_STARYU_ALLY_TRIGGER
 	jp z, Func_20839
-	cp SPECIAL_COLLISION_SHELLDER
+	cp SPECIAL_COLLISION_BELLSPROUT
 	jp z, Func_2085a ;bellsprout
 	cp SPECIAL_COLLISION_STARYU
 	jp z, Func_20887 ;staryu

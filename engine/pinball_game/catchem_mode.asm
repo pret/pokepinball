@@ -1157,8 +1157,8 @@ PlayLowTimeSfx: ; 0x107f8
 	ret
 
 Func_10825: ; 0x10825
-	call Retrieve8DigitBCDValueAtwd47a ;retreive ???, put it on the stack
-	push bc
+	call Retrieve8DigitBCDValueAtwd47a ;retreive somethign score related, put it on the stack
+	push bc ;store data on stack to bge read in by LoadScoreTextFromStack
 	push de
 	call AddBCDEToCurBufferValue
 	call FillBottomMessageBufferWithBlackTile

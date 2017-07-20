@@ -211,7 +211,7 @@ Func_1c305: ; 0x1c305
 	and a
 	ret z
 	ld a, [wSpecialMode]
-	cp SPECIAL_MODE_EVOLUTION
+	cp SPECIAL_MODE_MAP_MOVE
 	ret z
 	ld a, [wd5c6]
 	and a
@@ -318,7 +318,7 @@ Func_1c3ee: ; 0x1c3ee
 	and a
 	ret z
 	ld a, [wSpecialMode]
-	cp SPECIAL_MODE_CATCHEM
+	cp SPECIAL_MODE_EVOLUTION
 	ret nz
 	ld a, [wd554]
 	cp $3
@@ -366,7 +366,7 @@ Func_1c43c: ; 0x1c43c
 	ret
 
 .asm_1c450
-	cp SPECIAL_MODE_CATCHEM
+	cp SPECIAL_MODE_EVOLUTION
 	jr nz, .asm_1c458
 	call Func_1c47d
 	ret

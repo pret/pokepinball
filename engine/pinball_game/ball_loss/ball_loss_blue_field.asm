@@ -75,7 +75,7 @@ Func_ded6: ; 0xded6
 	ret
 
 .asm_deec
-	cp SPECIAL_MODE_CATCHEM
+	cp SPECIAL_MODE_EVOLUTION
 	jr nz, .asm_df05
 	ld a, $0
 	ld [wSlotIsOpen], a

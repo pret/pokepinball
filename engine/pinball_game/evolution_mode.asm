@@ -361,7 +361,7 @@ SelectPokemonToEvolve: ; 0x10cb7
 	call LoadVRAMData
 .asm_10cfc
 	call FillBottomMessageBufferWithBlackTile
-	ld a, SPECIAL_MODE_CATCHEM
+	ld a, SPECIAL_MODE_EVOLUTION
 	ld [wDrawBottomMessageBox], a
 	ld [wInSpecialMode], a
 	ld [wSpecialMode], a

@@ -75,7 +75,7 @@ Func_ddfd: ; 0xddfd
 	jr .asm_de40
 
 .asm_de14
-	cp SPECIAL_MODE_CATCHEM
+	cp SPECIAL_MODE_EVOLUTION
 	jr nz, .asm_de2d
 	xor a
 	ld [wSlotIsOpen], a

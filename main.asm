@@ -110,9 +110,9 @@ CheckSpecialModeColision: ; 0x10000
 	ld a, c
 	ld [wSpecialModeCollisionID], a
 	ld a, [wSpecialMode]
-	cp SPECIAL_MODE_CATCHEM ;branch based on mode
+	cp SPECIAL_MODE_EVOLUTION ;branch based on mode
 	jp z, HandleEvoModeCollision ;call evo mode logic
-	cp SPECIAL_MODE_EVOLUTION
+	cp SPECIAL_MODE_MAP_MOVE
 	jr nz, .CatchMode  ;call catch mode logic
 	callba HandleMapModeCollision ;call map move logic
 	ret

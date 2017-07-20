@@ -160,7 +160,7 @@ Func_1414b: ; 0x1414b
 	and a
 	ret z
 	ld a, [wSpecialMode]
-	cp SPECIAL_MODE_EVOLUTION
+	cp SPECIAL_MODE_MAP_MOVE
 	ret z
 	ld a, [wd5c6]
 	and a
@@ -267,7 +267,7 @@ Func_14234: ; 0x14234
 	and a
 	ret z
 	ld a, [wSpecialMode]
-	cp SPECIAL_MODE_CATCHEM
+	cp SPECIAL_MODE_EVOLUTION
 	ret nz
 	ld a, [wd554]
 	cp $3
@@ -315,7 +315,7 @@ Func_14282: ; 0x14282
 	ret
 
 .asm_14296
-	cp SPECIAL_MODE_CATCHEM
+	cp SPECIAL_MODE_EVOLUTION
 	jr nz, .asm_1429e
 	call Func_142c3
 	ret
@@ -460,7 +460,7 @@ Func_14377: ; 0x14377
 
 .asm_143b1
 	ld a, [wSpecialMode]
-	cp SPECIAL_MODE_EVOLUTION
+	cp SPECIAL_MODE_MAP_MOVE
 	ret nz
 	ld a, [wd54d]
 	cp $3

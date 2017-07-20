@@ -10,7 +10,7 @@ HandleBlueEvoModeCollision: ; 0x20bae
 	jp z, Func_20e82
 	cp SPECIAL_COLLISION_POLIWAG
 	jp z, Func_20ea6
-	cp SPECIAL_COLLISION_PPSYDUCK
+	cp SPECIAL_COLLISION_PSYDUCK
 	jp z, Func_20ec7
 	cp $9
 	jp z, Func_20ee8

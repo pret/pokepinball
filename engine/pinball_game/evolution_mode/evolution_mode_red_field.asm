@@ -73,7 +73,7 @@ Func_205e0: ; 0x205e0
 	ld bc, OneMillionPoints
 	callba AddBigBCD6FromQueue
 	call FillBottomMessageBufferWithBlackTile
-	call Func_30db
+	call EnableBottomText
 	ld de, YeahYouGotItText
 	ld hl, wScrollingText1
 	call LoadScrollingText
@@ -259,7 +259,7 @@ Func_2077b: ; 0x2077b
 .asm_207f5
 	callba StopTimer
 	call FillBottomMessageBufferWithBlackTile
-	call Func_30db
+	call EnableBottomText
 	ld hl, wScrollingText1
 	ld de, EvolutionFailedText
 	call LoadScrollingText
@@ -505,7 +505,7 @@ Func_20977: ; 0x20977
 	ld bc, ThreeHundredThousandPoints
 	callba AddBigBCD6FromQueue
 	call FillBottomMessageBufferWithBlackTile
-	call Func_30db
+	call EnableBottomText
 	ld a, [wCurrentEvolutionType]
 	dec a
 	ld c, a
@@ -548,7 +548,7 @@ Func_209eb: ; 0x209eb
 	ld bc, ThreeHundredThousandPoints
 	callba AddBigBCD6FromQueue
 	call FillBottomMessageBufferWithBlackTile
-	call Func_30db
+	call EnableBottomText
 	ld hl, wScrollingText1
 	ld a, [wCurrentEvolutionType]
 	cp EVO_EXPERIENCE
@@ -626,7 +626,7 @@ asm_20a9f:
 	call Func_7dc
 .asm_20ada
 	call FillBottomMessageBufferWithBlackTile
-	call Func_30db
+	call EnableBottomText
 	ld a, [wCurrentEvolutionType]
 	cp EVO_EXPERIENCE
 	ld de, PokemonRecoveredText

@@ -1004,7 +1004,7 @@ Func_189af: ; 0x189af
 	ld a, $1
 	ld [wCompletedBonusStage], a
 	call FillBottomMessageBufferWithBlackTile
-	call Func_30db
+	call EnableBottomText
 	ld hl, wScrollingText3
 	ld de, GengarStageClearedText
 	call LoadScrollingText

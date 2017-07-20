@@ -63,7 +63,7 @@ LoadScrollingMapNameText: ; 0x3118f
 ; Input: bc = pointer to prefix scrolling text
 	push bc
 	call FillBottomMessageBufferWithBlackTile
-	call Func_30db
+	call EnableBottomText
 	ld a, [wCurrentMap]
 	sla a
 	ld c, a
@@ -509,7 +509,7 @@ UpdateMapMove_RedField: ; 0x3151f handle map move timer and fail when it expires
 .asm_31577
 	callba StopTimer ;stop the timer
 	call FillBottomMessageBufferWithBlackTile
-	call Func_30db
+	call EnableBottomText
 	ld hl, wScrollingText1
 	ld de, MapMoveFailedText
 	call LoadScrollingText
@@ -663,7 +663,7 @@ UpdateMapMove_BlueField: ; 0x3168c
 .asm_316ee
 	callba StopTimer
 	call FillBottomMessageBufferWithBlackTile
-	call Func_30db
+	call EnableBottomText
 	ld hl, wScrollingText1
 	ld de, MapMoveFailedText
 	call LoadScrollingText

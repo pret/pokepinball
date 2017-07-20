@@ -205,7 +205,7 @@ GameScreenFunction_HandleBallLoss: ; 0xda36
 	ld [wd49c], a
 	ld [wDrawBottomMessageBox], a
 	call FillBottomMessageBufferWithBlackTile
-	call Func_30db
+	call EnableBottomText
 	ld hl, wScrollingText3
 	ld de, ShootAgainText
 	call LoadScrollingText

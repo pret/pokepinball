@@ -929,7 +929,7 @@ ShowAnimatedWildMon: ; 0x10678
 
 Func_10696: ; 0x10696
 	call FillBottomMessageBufferWithBlackTile
-	call Func_30db
+	call EnableBottomText
 	ld hl, wScrollingText1
 	ld de, LetsGetPokemonText
 	call LoadScrollingText
@@ -937,7 +937,7 @@ Func_10696: ; 0x10696
 
 Func_106a6: ; 0x106a6
 	call FillBottomMessageBufferWithBlackTile
-	call Func_30db
+	call EnableBottomText
 	ld hl, wScrollingText1
 	ld de, PokemonRanAwayText
 	call LoadScrollingText
@@ -978,7 +978,7 @@ Func_106b6: ; 0x106b6
 	push bc
 	push de
 	call FillBottomMessageBufferWithBlackTile
-	call Func_30db
+	call EnableBottomText
 	ld hl, wScrollingText1
 	pop de
 	call LoadScrollingText
@@ -1157,15 +1157,15 @@ PlayLowTimeSfx: ; 0x107f8
 	ret
 
 Func_10825: ; 0x10825
-	call Retrieve8DigitBCDValueAtwd47a
+	call Retrieve8DigitBCDValueAtwd47a ;retreive ???, put it on the stack
 	push bc
 	push de
 	call AddBCDEToCurBufferValue
 	call FillBottomMessageBufferWithBlackTile
-	call Func_30db
+	call EnableBottomText
 	ld hl, wStationaryText2
 	ld de, Data_2a50
-	call Func_3372
+	call LoadScoreTextFromStack
 	pop de
 	pop bc
 	ld hl, wStationaryText1
@@ -1177,7 +1177,7 @@ Func_10848: ; 0x10848
 	ld bc, OneHundredMillionPoints
 	callba AddBigBCD6FromQueue
 	call FillBottomMessageBufferWithBlackTile
-	call Func_30db
+	call EnableBottomText
 	ld hl, wScrollingText2
 	ld de, OneBillionText
 	call LoadScrollingText

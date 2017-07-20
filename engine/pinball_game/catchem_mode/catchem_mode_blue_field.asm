@@ -126,10 +126,10 @@ Func_20394: ; 0x20394
 	push bc
 	push de
 	call FillBottomMessageBufferWithBlackTile
-	call Func_30db
+	call EnableBottomText
 	ld hl, wStationaryText2
 	ld de, Data_2a2a
-	call Func_3372
+	call LoadScoreTextFromStack
 	pop de
 	pop bc
 	ld hl, wStationaryText1
@@ -270,10 +270,10 @@ Func_204f1: ; 0x204f1
 	push bc
 	push de
 	call FillBottomMessageBufferWithBlackTile
-	call Func_30db
+	call EnableBottomText
 	ld hl, wStationaryText2
 	ld de, Data_2a3d
-	call Func_3372
+	call LoadScoreTextFromStack
 	pop de
 	pop bc
 	ld hl, wStationaryText1

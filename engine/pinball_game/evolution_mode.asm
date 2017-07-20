@@ -92,7 +92,7 @@ VideoData_10b2a: ; 0x10b2a
 
 Func_10b3f: ; 0x10b3f
 	call FillBottomMessageBufferWithBlackTile
-	call Func_30db
+	call EnableBottomText
 	ld hl, wScrollingText1
 	ld a, [wCurrentEvolutionType]
 	cp EVO_EXPERIENCE
@@ -548,7 +548,7 @@ Func_10e0a: ; 0x10e0a
 	push bc
 	push de
 	call FillBottomMessageBufferWithBlackTile
-	call Func_30db
+	call EnableBottomText
 	ld hl, wScrollingText1
 	pop de
 	call LoadScrollingText
@@ -593,7 +593,7 @@ Func_10e8b: ; 0x10e8b
 	push bc
 	push de
 	call FillBottomMessageBufferWithBlackTile
-	call Func_30db
+	call EnableBottomText
 	ld hl, wScrollingText2
 	ld de, Data_2b6b
 	call Func_32cc

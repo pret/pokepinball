@@ -124,10 +124,10 @@ Func_200d3: ; 0x200d3
 	push bc
 	push de
 	call FillBottomMessageBufferWithBlackTile
-	call Func_30db
+	call EnableBottomText
 	ld hl, wStationaryText2
 	ld de, Data_2a2a
-	call Func_3372
+	call LoadScoreTextFromStack
 	pop de
 	pop bc
 	ld hl, wStationaryText1
@@ -268,10 +268,10 @@ Func_20230: ; 0x20230
 	push bc
 	push de
 	call FillBottomMessageBufferWithBlackTile
-	call Func_30db
+	call EnableBottomText
 	ld hl, wStationaryText2
 	ld de, Data_2a3d
-	call Func_3372
+	call LoadScoreTextFromStack
 	pop de
 	pop bc
 	ld hl, wStationaryText1

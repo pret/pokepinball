@@ -367,7 +367,7 @@ SlotRewardUpgradeBall: ; 0xf040
 	lb de, $06, $3a
 	call PlaySoundEffect
 	call FillBottomMessageBufferWithBlackTile
-	call Func_30db
+	call EnableBottomText
 	ld de, FieldMultiplierText
 	ld hl, wScrollingText1
 	call LoadScrollingText
@@ -393,7 +393,7 @@ SlotRewardUpgradeBall: ; 0xf040
 	push bc
 	push de
 	call FillBottomMessageBufferWithBlackTile
-	call Func_30db
+	call EnableBottomText
 	ld hl, wScrollingText2
 	ld de, DigitsText1to8
 	call Func_32cc

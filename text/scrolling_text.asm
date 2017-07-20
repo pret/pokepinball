@@ -75,7 +75,7 @@ JackpotText:
 	db "JACKPOT @"
 
 Data_2a50:
-	db $4a, $10, $b4, $00, $00, $00
+	db $4a, $10, $b4, $00, $00, $00 ;stationarytextheader
 
 YouGotAText:
 	db $05, $54, $00, $00, $00, $1e

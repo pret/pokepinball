@@ -12,9 +12,9 @@ HandleBlueEvoModeCollision: ; 0x20bae
 	jp z, Func_20ea6
 	cp SPECIAL_COLLISION_PSYDUCK
 	jp z, Func_20ec7
-	cp $9
+	cp SPECIAL_COLLISION_LEFT_BONUS_MULTIPLIER
 	jp z, Func_20ee8
-	cp $a
+	cp SPECIAL_COLLISION_RIGHT_BONUS_MULTIPLIER
 	jp z, Func_20f09
 	cp SPECIAL_COLLISION_BALL_UPGRADE
 	jp z, Func_20f2a

@@ -12,9 +12,9 @@ HandleRedEvoModeCollision: ; 0x20581
 	jp z, Func_208a8 ;diglett
 	cp SPECIAL_COLLISION_RIGHT_DIGLETT
 	jp z, Func_208c9 ;diglett
-	cp $9
+	cp SPECIAL_COLLISION_LEFT_BONUS_MULTIPLIER
 	jp z, Func_208ea ;right rail?
-	cp $a
+	cp SPECIAL_COLLISION_RIGHT_BONUS_MULTIPLIER
 	jp z, Func_2090b ;right rail?
 	cp SPECIAL_COLLISION_BALL_UPGRADE
 	jp z, Func_2092c
@@ -269,10 +269,10 @@ Func_2080f: ; 0x2080f
 	ld bc, $0001
 	ld de, $5000
 	call AddBCDEToJackpot
-	ld a, [wd551]
+	ld a, [wd551] ;if ??? is not zero, ret c
 	and a
 	jr nz, .asm_20837
-	ld a, [wIndicatorStates + 9]
+	ld a, [wIndicatorStates + 9] ;if indicator is z, ret
 	and a
 	jr z, .asm_20837
 	xor a

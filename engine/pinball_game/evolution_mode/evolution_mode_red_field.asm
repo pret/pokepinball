@@ -268,7 +268,7 @@ Func_2077b: ; 0x2077b
 Func_2080f: ; 0x2080f
 	ld bc, $0001
 	ld de, $5000
-	call Func_3538
+	call AddBCDEToJackpot
 	ld a, [wd551]
 	and a
 	jr nz, .asm_20837
@@ -311,7 +311,7 @@ Func_20839: ; 0x20839
 Func_2085a: ; 0x2085a
 	ld bc, $0007
 	ld de, $5000
-	call Func_3538
+	call AddBCDEToJackpot
 	ld a, [wd551]
 	and a
 	jr nz, .asm_20885
@@ -455,7 +455,7 @@ Func_2092c: ; 0x2092c
 Func_2094d: ; 0x2094d
 	ld bc, $0000
 	ld de, $1500
-	call Func_3538
+	call AddBCDEToJackpot
 	ld a, [wd551]
 	and a
 	jr nz, .asm_20975
@@ -717,14 +717,14 @@ Func_20b02: ; 0x20b02
 	call Func_8e1
 .asm_20b80
 	callba Func_10e0a
-	call Func_3475
+	call MainLoopUntilTextIsClear
 	ld de, $0000
 	call PlaySong
 	rst AdvanceFrame
 	lb de, $2d, $26
 	call PlaySoundEffect
-	callba Func_10825
-	call Func_3475
+	callba ShowJackpotText
+	call MainLoopUntilTextIsClear
 	ld a, $1
 	ld [wd54d], a
 	scf

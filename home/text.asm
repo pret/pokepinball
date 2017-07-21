@@ -493,9 +493,9 @@ HandleScrollingText: ; 0x3325 activates while text is scrolling
 	ld [hl], $0 ;+0
 	ret
 
-Func_3357: ; 0x3357
+LoadStationaryTextAndHeader: ; 0x3357 LoadStationaryTextAndHeader
 	ld a, $1
-	ld [hli], a
+	ld [hli], a ;Enable and load StationaryText de. then load the text after it in until a $00 is loaded in
 	ld a, [de]
 	ld [hli], a
 	inc de
@@ -512,12 +512,12 @@ Func_3357: ; 0x3357
 	pop af
 	ld l, a
 	ld h, wBottomMessageText / $100
-.asm_336b
+.Loop
 	ld a, [de]
 	ld [hli], a
 	inc de
 	and a
-	jr nz, .asm_336b
+	jr nz, .Loop
 	ret
 
 LoadScoreTextFromStack: ; 0x3372 load stationary text header DE into HL, then load 4 byte BCD score from the stack into the buffer, ending in an 0 and space
@@ -700,7 +700,7 @@ UpdateBottomText: ; 0x33e3
 	call LoadOrCopyVRAMData
 	ret
 
-Func_3475: ; 0x3475
+MainLoopUntilTextIsClear: ; 0x3475
 	xor a
 	ld [hJoypadState], a
 	ld [hNewlyPressedButtons], a
@@ -715,7 +715,7 @@ Func_3475: ; 0x3475
 	rst AdvanceFrame
 	ld a, [wBottomTextEnabled]
 	and a
-	jr nz, Func_3475 ;loops until wBottomTextEnabled is zero
+	jr nz, MainLoopUntilTextIsClear ;loops until wBottomTextEnabled is zero
 	ret
 
 FivePoints:       ; 34a6

@@ -766,14 +766,14 @@ CapturePokemon: ; 0x1052d
 	ld a, [wBallCaptureAnimationFrameCounter]
 	cp $1
 	ret nz
-	call Func_3475
+	call MainLoopUntilTextIsClear
 	ld de, $0000
 	call PlaySong
 	rst AdvanceFrame
 	lb de, $23, $29
 	call PlaySoundEffect
-	call Func_10825
-	call Func_3475
+	call ShowJackpotText
+	call MainLoopUntilTextIsClear
 	ld a, [wNumPartyMons]
 	and a
 	call z, Func_10848
@@ -1156,21 +1156,21 @@ PlayLowTimeSfx: ; 0x107f8
 	call PlaySoundEffect
 	ret
 
-Func_10825: ; 0x10825
-	call Retrieve8DigitBCDValueAtwd47a ;retreive somethign score related, put it on the stack
+ShowJackpotText: ; 0x10825
+	call RetrieveJackpot ;retreive somethign score related, put it on the stack
 	push bc ;store data on stack to bge read in by LoadScoreTextFromStack
 	push de
 	call AddBCDEToCurBufferValue
 	call FillBottomMessageBufferWithBlackTile
 	call EnableBottomText
 	ld hl, wStationaryText2
-	ld de, Data_2a50
+	ld de, CatchModeJackpotScoreStationaryTextHeader
 	call LoadScoreTextFromStack
 	pop de
 	pop bc
 	ld hl, wStationaryText1
 	ld de, JackpotText
-	call Func_3357
+	call LoadStationaryTextAndHeader
 	ret
 
 Func_10848: ; 0x10848
@@ -1184,7 +1184,7 @@ Func_10848: ; 0x10848
 	ld hl, wScrollingText1
 	ld de, PokemonCaughtSpecialBonusText
 	call LoadScrollingText
-	call Func_3475
+	call MainLoopUntilTextIsClear
 	ret
 
 Func_10871: ; 0x10871

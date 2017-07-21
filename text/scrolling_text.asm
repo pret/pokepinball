@@ -74,7 +74,7 @@ JackpotText:
 	db $42, $00, $b4, $00
 	db "JACKPOT @"
 
-Data_2a50:
+CatchModeJackpotScoreStationaryTextHeader:
 	db $4a, $10, $b4, $00, $00, $00 ;stationarytextheader
 
 YouGotAText:

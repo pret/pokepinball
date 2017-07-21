@@ -131,8 +131,8 @@ wd478:: ; 0xd478
 wd479:: ; 0xd479
 	ds $1
 
-wd47a:: ; 0xd47a
-; BCD buffer
+wCurrentJackpot:: ; 0xd47a
+; BCD buffer. holds catchem jackpot score
 	ds $4
 
 wBallType:: ; 0xd47e

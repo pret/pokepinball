@@ -132,7 +132,7 @@ Func_200d3: ; 0x200d3
 	pop bc
 	ld hl, wStationaryText1
 	ld de, HitText
-	call Func_3357
+	call LoadStationaryTextAndHeader
 	ld a, [wNumMonHits]
 	callba Func_10611
 	ld c, $2
@@ -276,22 +276,22 @@ Func_20230: ; 0x20230
 	pop bc
 	ld hl, wStationaryText1
 	ld de, FlippedText
-	call Func_3357
+	call LoadStationaryTextAndHeader
 .asm_2029d
 	ld bc, $0001
 	ld de, $0000
-	call Func_3538
+	call AddBCDEToJackpot
 	scf
 	ret
 
 Func_202a8: ; 0x202a8
 	ld bc, $0000
 	ld de, $1000
-	call Func_3538
+	call AddBCDEToJackpot
 	ret
 
 Func_202b2: ; 0x202b2
 	ld bc, $0005
 	ld de, $0000
-	call Func_3538
+	call AddBCDEToJackpot
 	ret

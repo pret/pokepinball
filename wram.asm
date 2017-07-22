@@ -716,8 +716,17 @@ wTimerDigits:: ; 0xd582
 ; fourth byte = unused, but still written to
 	ds $4
 
-wd586:: ; 0xd586
-	ds $30
+wBillboardTilesIlluminationStates:: ; 0xd586
+; This array holds the illuminated state for each of the 24 tiles in a pokemon's billboard picture.
+; During Catch'Em mode, the billboard picture starts with all tiles being "dark", and they light up
+; as the Shellder or Voltorb are hit.
+;
+; If the tile is lit up, the value is $01, and $00 when dark.
+;
+; Each entry in this array is 2 bytes.
+; Byte 1 = Current illumination state
+; Bytes 2 = Previous illumination state. This is used to avoid re-loading the same graphics.
+	ds $18 * 2
 
 wd5b6:: ; 0xd5b6 a 24 wide block starts here and is filled before catch mode
 	ds $5

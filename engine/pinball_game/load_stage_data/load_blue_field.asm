@@ -299,7 +299,7 @@ Func_1c3c3: ; 0x1c3c3
 	ret
 
 Func_1c3ca: ; 0x1c3ca
-	ld hl, wd586
+	ld hl, wBillboardTilesIlluminationStates
 	ld b, $18
 .asm_1c3cf
 	ld a, [hli]

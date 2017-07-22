@@ -235,7 +235,7 @@ Func_20230: ; 0x20230
 	sla a
 	ld c, a
 	ld b, $0
-	ld hl, wd586
+	ld hl, wBillboardTilesIlluminationStates
 	add hl, bc
 	ld d, $4
 .asm_20242

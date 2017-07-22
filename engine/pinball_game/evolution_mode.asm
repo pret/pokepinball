@@ -377,7 +377,7 @@ SelectPokemonToEvolve: ; 0x10cb7
 	ret
 
 InitEvolutionModeForMon: ; 0x10d1d
-	ld hl, wd586
+	ld hl, wBillboardTilesIlluminationStates
 	ld b, $18
 .asm_10d22
 	ld a, $1

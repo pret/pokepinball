@@ -538,7 +538,7 @@ wCollidedAlleyTriggers:: ; 0xd521
 
 	ds $6 ; free space
 
-wIndicatorStates:: ; 0xd52f 0 = evo arrows, 1 = catch arrows, 2 = left small alley, 3 = bellsprout, 4 = slot. bit 7 controls if enabled and flashing, bit 1 and 2 control is solid (set = solid)
+wIndicatorStates:: ; 0xd52f 0 = evo arrows, 1 = catch arrows, 2 = left small alley, 3 = bellsprout, 4 = slot. bit 7 controls if enabled and flashing, bit 1 and 2 control is solid (set = solid), +9 is the arrow pointing to voltorb on red evo mode
 	ds $13
 
 wLeftAlleyTrigger:: ; 0xd542
@@ -574,26 +574,10 @@ wInSpecialMode:: ; 0xd54b
 ; Set to 1 if currently in special game mode. See wSpecialMode.
 	ds $1
 
-wSpecialModeCollisionID:: ; 0xd54c 10000 sets it to a input, records what the ball has collided with
-;0 nothing hit?
-;1 upper left red trigger (under ditto) | secondary left trigger on blue
-;2 second right trigger
-;3 second staryu ally trigger
-;4 any voltob | any shellder
-;5 bellsprout | N/A
-;6 staryu | N/A
-;7 left diglett | poliwag
-;8 right diglett | psyduck
-;9 hit right railing (33 multiplier)
-;a hit right railing (otherwise)
-;b upper cave lights (ball upgrade)
-;c Spinner
-;d slot hole
-;e N/A | cloyster
-;f N/A | slowpoke
+wSpecialModeCollisionID:: ; 0xd54c 10000 sets it to a input, records what the ball has collided with see constants/special_collision_constants.asm for more info
 	ds $1
 
-wd54d:: ; 0xd54d catch mode progress?
+wd54d:: ; 0xd54d catch mode progress? used for all 3 special modes
 	ds $1
 
 wd54e:: ; 0xd54e
@@ -607,7 +591,7 @@ wSpecialMode:: ; 0xd550
 ; See SPECIAL_MODE constants.
 	ds $1
 
-wd551:: ; 0xd551
+wd551:: ; 0xd551 if non zero, voltobs skip applying experiance gain in evo mode. set to 0 onm collect experiance. set to 1 is pokemon is tired, 0 on recovered. 7 when exp is active for collecting. set to 0 on conclude evo mode. Tracks evo mode state?
 	ds $1
 
 wCurrentEvolutionMon:: ; 0xd552
@@ -719,7 +703,7 @@ wTimerDigits:: ; 0xd582
 wd586:: ; 0xd586
 	ds $30
 
-wd5b6:: ; 0xd5b6 a 24 wide block starts here and is filled before catch mode
+wd5b6:: ; 0xd5b6 a 24 wide block starts here and is filled before catch mode. used in catch and evo mode. first step of catch mode only passes if it is 24
 	ds $5
 
 wWildMonIsHittable:: ; 0xd5bb

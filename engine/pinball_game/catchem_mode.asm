@@ -55,7 +55,7 @@ StartCatchEmMode: ; 0x1003f
 	ld l, c
 	add hl, bc
 	add hl, bc  ; multiply the evolution line id by 3, add it to pointer to ???
-	ld bc, Data_13685 ;mystery data
+	ld bc, Data_13685 ;mystery data, seems pokedex related too
 	add hl, bc
 	ld a, [hli]
 	ld [wd5c1], a
@@ -179,10 +179,10 @@ CallTable_10178: ; 0x10178
 	dw Func_109fc      ; STAGE_BLUE_FIELD_TOP
 	dw Func_109fc      ; STAGE_BLUE_FIELD_BOTTOM
 
-Func_10184: ; 0x10184
+Func_10184: ; 0x10184 called by what looks like the "hit voltorb and shellder" handllers, as well as some evo mode stuff
 	ld a, [wCurrentStage]
 	bit 0, a
-	ret z
+	ret z  ;skip if stage has no flippers
 	ld a, [wCurrentCatchEmMon]
 	ld c, a
 	ld b, $0
@@ -192,16 +192,16 @@ Func_10184: ; 0x10184
 	ld c, a
 	jr nc, .asm_10199
 	inc b
-.asm_10199
+.asm_10199 ;double current catch em mon
 	ld hl, MonBillboardPicPointers
 	add hl, bc
 	ld a, [hli]
-	ld [$ff8c], a
+	ld [$ff8c], a ;load 3 byte billboard pointer into Hram
 	ld a, [hli]
 	ld [$ff8d], a
 	ld a, [hl]
 	ld [$ff8e], a
-	ld hl, MonBillboardPaletteMapPointers
+	ld hl, MonBillboardPaletteMapPointers ;and the PAL pointers
 	add hl, bc
 	ld a, [hli]
 	ld [$ff8f], a
@@ -215,21 +215,21 @@ Func_10184: ; 0x10184
 .asm_101bb
 	ld a, [hli]
 	cp [hl]
-	ld [hli], a
+	ld [hli], a ;load first byte into next and test it gainst the second byte, if it's the same skip
 	jr z, .asm_101d2
-	ld b, a
+	ld b, a ;else store in b
 	call nz, Func_101d9
 	ld a, [hGameBoyColorFlag]
 	and a
-	jr z, .asm_101d2
+	jr z, .asm_101d2 ;skip if DMG
 	ld a, [wCurrentStage]
 	bit 0, a
 	ld a, b
-	call nz, Func_10230
+	call nz, Func_10230 ;if lower stage, run ???
 .asm_101d2
 	inc c
 	ld a, c
-	cp $18
+	cp $18 ;run 24 times
 	jr nz, .asm_101bb
 	ret
 
@@ -239,13 +239,13 @@ Func_101d9: ; 0x101d9
 	push de
 	push af
 	ld a, $10
-	ld [de], a
+	ld [de], a ;load 16 into de
 	inc de
 	ld a, $1
-	ld [de], a
+	ld [de], a ;1 into de+1
 	inc de
 	ld b, $0
-	ld hl, Data_102a4
+	ld hl, Data_102a4 ;add c to ???
 	add hl, bc
 	ld c, [hl]
 	sla c
@@ -255,23 +255,23 @@ Func_101d9: ; 0x101d9
 	sla c
 	rl b
 	sla c
-	rl b
-	ld hl, vTilesSH tile $10
-	add hl, bc
+	rl b ;multiply ??? by 16
+	ld hl, vTilesSH tile $10 ;wut
+	add hl, bc ;add ???*16 to wut
 	ld a, l
 	ld [de], a
 	inc de
 	ld a, h
 	ld [de], a
-	inc de
-	ld a, [$ff8c]
+	inc de ;load result in to de
+	ld a, [$ff8c] ;loaded billboard pointer
 	ld l, a
 	ld a, [$ff8d]
 	ld h, a
-	add hl, bc
+	add hl, bc ;add ???*16
 	pop af
 	and a
-	jr nz, .asm_10215
+	jr nz, .asm_10215 ;if a is 0, add $180 (384)
 	ld bc, $0180
 	add hl, bc
 .asm_10215
@@ -283,14 +283,14 @@ Func_101d9: ; 0x101d9
 	inc de
 	ld a, [$ff8e]
 	ld [de], a
-	inc de
+	inc de ;load adjusted pointer into de, then 0
 	ld a, $0
 	ld [de], a
 	inc de
 	pop bc
 	push de
 	xor a
-	ld de, Func_11d2
+	ld de, Func_11d2 ;queue graphics load from the adjusted pointer bank 0 using this funch
 	call QueueGraphicsToLoadWithFunc
 	pop de
 	pop hl
@@ -306,13 +306,13 @@ Func_10230: ; 0x10230
 	ld [de], a
 	inc de
 	ld [de], a
-	inc de
+	inc de ;load 1 into first 2 bytes from DE
 	ld b, $0
 	ld hl, Data_102a4
-	add hl, bc
+	add hl, bc ;retrieve entry c from ???
 	ld c, [hl]
 	sla c
-	ld hl, PointerTable_10274
+	ld hl, PointerTable_10274 ;grab billboard BG position(?) pointer entry c, place in de
 	add hl, bc
 	ld a, [hli]
 	ld [de], a
@@ -321,34 +321,34 @@ Func_10230: ; 0x10230
 	ld [de], a
 	inc de
 	srl c
-	ld a, [$ff8f]
+	ld a, [$ff8f];load PAL pointer
 	ld l, a
 	ld a, [$ff90]
 	ld h, a
-	add hl, bc
+	add hl, bc ;add the value from Data_102a4
 	pop af
 	and a
 	ld a, [$ff91]
-	call ReadByteFromBank
-	jr nz, .asm_10261
+	call ReadByteFromBank ;fetch pallete data
+	jr nz, .asm_10261 ;
 	ld a, $5
 .asm_10261
-	ld [de], a
+	ld [de], a ;if a's initial place is 0, make it 5 into de, else load the PAL bank
 	inc de
 	ld a, $0
-	ld [de], a
+	ld [de], a ;then load 0
 	inc de
 	pop bc
 	push de
 	xor a
-	ld de, LoadTileListsBank1
+	ld de, LoadTileListsBank1 ;load pal pointer as graphics?
 	call QueueGraphicsToLoadWithFunc
 	pop de
 	pop hl
 	pop bc
 	ret
 
-PointerTable_10274: ; 0x10274
+PointerTable_10274: ; 0x10274 4x6 area? the billboard's position?
 	dw $9887
 	dw $9888
 	dw $9889

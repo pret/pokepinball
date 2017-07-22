@@ -27,7 +27,7 @@ PointerTable_20021: ; 0x20021
 
 Func_20041: ; 0x20041
 	ld a, [wd5b6]
-	cp $18
+	cp $18 ;if not 24, ret
 	jr nz, .asm_2005d
 	ld a, [wCurrentStage]
 	bit 0, a
@@ -228,28 +228,28 @@ Func_201f2: ; 0x201f2
 	callba Func_106a6
 	ret
 
-Func_20230: ; 0x20230
+Func_20230: ; 0x20230 resolve hitting a voltorb in catch mode?
 	ld a, [wd5b6]
 	cp $18
-	jr z, .asm_2029d
+	jr z, .asm_2029d ;if ?? is 24, add to jackpot and ret c
 	sla a
 	ld c, a
 	ld b, $0
 	ld hl, wd586
-	add hl, bc
+	add hl, bc ;else go ???*2 down ???
 	ld d, $4
 .asm_20242
 	ld a, $1
 	ld [hli], a
-	inc hl
+	inc hl ;load in 1
 	ld a, l
 	cp wd5b6 % $100
-	jr z, .asm_2024e
+	jr z, .asm_2024e ;continue until you reach ??? or until 4 spaces are done
 	dec d
 	jr nz, .asm_20242
 .asm_2024e
 	ld a, [wd5b6]
-	add $4
+	add $4 ;then add 4 to ??, clamp to 24
 	cp $18
 	jr c, .master_loop9
 	ld a, $18
@@ -258,7 +258,7 @@ Func_20230: ; 0x20230
 	cp $18
 	jr nz, .asm_20264
 	xor a
-	ld [wIndicatorStates + 9], a
+	ld [wIndicatorStates + 9], a ;if 24, unmark voltorb arrow indicator
 .asm_20264
 	callba Func_10184
 	ld bc, OneHundredThousandPoints

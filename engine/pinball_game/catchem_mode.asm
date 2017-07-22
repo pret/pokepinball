@@ -766,14 +766,14 @@ CapturePokemon: ; 0x1052d
 	ld a, [wBallCaptureAnimationFrameCounter]
 	cp $1
 	ret nz
-	call Func_3475
+	call MainLoopUntilTextIsClear
 	ld de, $0000
 	call PlaySong
 	rst AdvanceFrame
 	lb de, $23, $29
 	call PlaySoundEffect
-	call Func_10825
-	call Func_3475
+	call ShowJackpotText
+	call MainLoopUntilTextIsClear
 	ld a, [wNumPartyMons]
 	and a
 	call z, Func_10848
@@ -929,7 +929,7 @@ ShowAnimatedWildMon: ; 0x10678
 
 Func_10696: ; 0x10696
 	call FillBottomMessageBufferWithBlackTile
-	call Func_30db
+	call EnableBottomText
 	ld hl, wScrollingText1
 	ld de, LetsGetPokemonText
 	call LoadScrollingText
@@ -937,7 +937,7 @@ Func_10696: ; 0x10696
 
 Func_106a6: ; 0x106a6
 	call FillBottomMessageBufferWithBlackTile
-	call Func_30db
+	call EnableBottomText
 	ld hl, wScrollingText1
 	ld de, PokemonRanAwayText
 	call LoadScrollingText
@@ -978,7 +978,7 @@ Func_106b6: ; 0x106b6
 	push bc
 	push de
 	call FillBottomMessageBufferWithBlackTile
-	call Func_30db
+	call EnableBottomText
 	ld hl, wScrollingText1
 	pop de
 	call LoadScrollingText
@@ -1156,35 +1156,35 @@ PlayLowTimeSfx: ; 0x107f8
 	call PlaySoundEffect
 	ret
 
-Func_10825: ; 0x10825
-	call Retrieve8DigitBCDValueAtwd47a
-	push bc
+ShowJackpotText: ; 0x10825
+	call RetrieveJackpot ;retreive somethign score related, put it on the stack
+	push bc ;store data on stack to bge read in by LoadScoreTextFromStack
 	push de
 	call AddBCDEToCurBufferValue
 	call FillBottomMessageBufferWithBlackTile
-	call Func_30db
+	call EnableBottomText
 	ld hl, wStationaryText2
-	ld de, Data_2a50
-	call Func_3372
+	ld de, CatchModeJackpotScoreStationaryTextHeader
+	call LoadScoreTextFromStack
 	pop de
 	pop bc
 	ld hl, wStationaryText1
 	ld de, JackpotText
-	call Func_3357
+	call LoadStationaryTextAndHeader
 	ret
 
 Func_10848: ; 0x10848
 	ld bc, OneHundredMillionPoints
 	callba AddBigBCD6FromQueue
 	call FillBottomMessageBufferWithBlackTile
-	call Func_30db
+	call EnableBottomText
 	ld hl, wScrollingText2
 	ld de, OneBillionText
 	call LoadScrollingText
 	ld hl, wScrollingText1
 	ld de, PokemonCaughtSpecialBonusText
 	call LoadScrollingText
-	call Func_3475
+	call MainLoopUntilTextIsClear
 	ret
 
 Func_10871: ; 0x10871

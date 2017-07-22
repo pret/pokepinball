@@ -1,14 +1,14 @@
 HandleBlueCatchEmCollision: ; 0x202bc
 	ld a, [wSpecialModeCollisionID]
-	cp $4
+	cp SPECIAL_COLLISION_SHELLDER
 	jp z, Func_204f1
-	cp $c
+	cp SPECIAL_COLLISION_SPINNER
 	jp z, Func_20569
-	cp $f
+	cp SPECIAL_COLLISION_SLOWPOKE
 	jp z, Func_20573
-	cp $e
+	cp SPECIAL_COLLISION_CLOYSTER
 	jp z, Func_2057a
-	cp $0
+	cp SPECIAL_COLLISION_NOTHING
 	jr z, .asm_202d9
 	scf
 	ret
@@ -126,15 +126,15 @@ Func_20394: ; 0x20394
 	push bc
 	push de
 	call FillBottomMessageBufferWithBlackTile
-	call Func_30db
+	call EnableBottomText
 	ld hl, wStationaryText2
 	ld de, Data_2a2a
-	call Func_3372
+	call LoadScoreTextFromStack
 	pop de
 	pop bc
 	ld hl, wStationaryText1
 	ld de, HitText
-	call Func_3357
+	call LoadStationaryTextAndHeader
 	ld a, [wNumMonHits]
 	callba Func_10611
 	ld c, $2
@@ -270,26 +270,26 @@ Func_204f1: ; 0x204f1
 	push bc
 	push de
 	call FillBottomMessageBufferWithBlackTile
-	call Func_30db
+	call EnableBottomText
 	ld hl, wStationaryText2
 	ld de, Data_2a3d
-	call Func_3372
+	call LoadScoreTextFromStack
 	pop de
 	pop bc
 	ld hl, wStationaryText1
 	ld de, FlippedText
-	call Func_3357
+	call LoadStationaryTextAndHeader
 .asm_2055e
 	ld bc, $0001
 	ld de, $0000
-	call Func_3538
+	call AddBCDEToJackpot
 	scf
 	ret
 
 Func_20569: ; 0x20569
 	ld bc, $0000
 	ld de, $1000
-	call Func_3538
+	call AddBCDEToJackpot
 	ret
 
 Func_20573: ; 0x20573

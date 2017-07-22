@@ -3287,9 +3287,9 @@ AddBCDEToCurBufferValue: ; 0x351c
 	callba AddBigBCD6FromQueue
 	ret
 
-Func_3538: ; 0x3538
-; Add BCD value bcde to [wd47a].  Cap at $99999999.
-	ld hl, wd47a
+AddBCDEToJackpot: ; 0x3538
+; Add BCD value bcde to [wCurrentJackpot].  Cap at $99999999.
+	ld hl, wCurrentJackpot
 	ld a, [hl]
 	add e
 	daa
@@ -3307,7 +3307,7 @@ Func_3538: ; 0x3538
 	daa
 	ld [hli], a
 	ret nc
-	ld hl, wd47a
+	ld hl, wCurrentJackpot
 	ld a, $99
 	ld [hli], a
 	ld [hli], a
@@ -3315,15 +3315,15 @@ Func_3538: ; 0x3538
 	ld [hli], a
 	ret
 
-Retrieve8DigitBCDValueAtwd47a: ; 0x3556
-; Retrieves a 4-byte BCD value at wd47a
-	ld a, [wd47a]
+RetrieveJackpot: ; 0x3556
+; Retrieves a 4-byte BCD value at wCurrentJackpot
+	ld a, [wCurrentJackpot]
 	ld e, a
-	ld a, [wd47a + 1]
+	ld a, [wCurrentJackpot + 1]
 	ld d, a
-	ld a, [wd47a + 2]
+	ld a, [wCurrentJackpot + 2]
 	ld c, a
-	ld a, [wd47a + 3]
+	ld a, [wCurrentJackpot + 3]
 	ld b, a
 	ret
 
@@ -3352,8 +3352,8 @@ Func_3570:
 	ret
 
 Func_3579: ; 0x3579
-; Delete 4-byte BCD value at wd47a
-	ld hl, wd47a
+; Delete 4-byte BCD value at wCurrentJackpot
+	ld hl, wCurrentJackpot
 	xor a
 	ld [hli], a
 	ld [hli], a

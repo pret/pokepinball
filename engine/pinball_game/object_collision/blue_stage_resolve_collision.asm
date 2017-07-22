@@ -1343,7 +1343,7 @@ ShowBonusMultiplierMessage_BlueField: ; 0x1d5bf
 	xor a
 	ld [wd613], a
 	call FillBottomMessageBufferWithBlackTile
-	call Func_30db
+	call EnableBottomText
 	ld hl, wScrollingText1
 	ld de, BonusMultiplierText
 	call LoadScrollingText
@@ -2086,7 +2086,7 @@ ResolveBallUpgradeTriggersCollision_BlueField: ; 0x1e356
 	lb de, $06, $3a
 	call PlaySoundEffect
 	call FillBottomMessageBufferWithBlackTile
-	call Func_30db
+	call EnableBottomText
 	ld hl, wScrollingText1
 	ld de, FieldMultiplierText
 	call LoadScrollingText
@@ -2111,7 +2111,7 @@ ResolveBallUpgradeTriggersCollision_BlueField: ; 0x1e356
 	push bc
 	push de
 	call FillBottomMessageBufferWithBlackTile
-	call Func_30db
+	call EnableBottomText
 	ld hl, wScrollingText2
 	ld de, DigitsText1to8
 	call Func_32cc
@@ -2657,7 +2657,7 @@ DoSlotLogic_BlueField: ; 0x1e830
 
 ShowScrollingGoToBonusText_BlueField: ; 0x1e8c3
 	call FillBottomMessageBufferWithBlackTile
-	call Func_30db
+	call EnableBottomText
 	ld hl, wScrollingText3
 	ld a, [wNextStage]
 	ld de, GoToMeowthStageText

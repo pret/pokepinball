@@ -9,7 +9,7 @@ ShowExtraBallMessage: ; 0x30188
 	cp $1
 	jr nz, .asm_301a7
 	call FillBottomMessageBufferWithBlackTile
-	call Func_30db
+	call EnableBottomText
 	ld hl, wScrollingText1
 	ld de, ExtraBallText
 	call LoadScrollingText
@@ -21,7 +21,7 @@ ShowExtraBallMessage: ; 0x30188
 	push bc
 	push de
 	call FillBottomMessageBufferWithBlackTile
-	call Func_30db
+	call EnableBottomText
 	ld hl, wScrollingText2
 	ld de, DigitsText1to9
 	call Func_32cc

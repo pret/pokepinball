@@ -1,30 +1,30 @@
 HandleBlueEvoModeCollision: ; 0x20bae
 	ld a, [wSpecialModeCollisionID]
-	cp $4
+	cp SPECIAL_COLLISION_SHELLDER
 	jp z, Func_20e34
-	cp $1
+	cp SPECIAL_COLLISION_LEFT_TRIGGER
 	jp z, Func_21089
-	cp $e
+	cp SPECIAL_COLLISION_CLOYSTER
 	jp z, Func_20e5e
-	cp $f
+	cp SPECIAL_COLLISION_SLOWPOKE
 	jp z, Func_20e82
-	cp $7
+	cp SPECIAL_COLLISION_POLIWAG
 	jp z, Func_20ea6
-	cp $8
+	cp SPECIAL_COLLISION_PSYDUCK
 	jp z, Func_20ec7
-	cp $9
+	cp SPECIAL_COLLISION_LEFT_BONUS_MULTIPLIER
 	jp z, Func_20ee8
-	cp $a
+	cp SPECIAL_COLLISION_RIGHT_BONUS_MULTIPLIER
 	jp z, Func_20f09
-	cp $b
+	cp SPECIAL_COLLISION_BALL_UPGRADE
 	jp z, Func_20f2a
-	cp $c
+	cp SPECIAL_COLLISION_SPINNER
 	jp z, Func_20f4b
-	cp $d
+	cp SPECIAL_COLLISION_SLOT_HOLE
 	jp z, Func_2112a
-	cp $2
+	cp SPECIAL_COLLISION_RIGHT_TRIGGER
 	jp z, Func_2105c
-	cp $0
+	cp SPECIAL_COLLISION_NOTHING
 	jr z, .asm_20bf3
 	scf
 	ret
@@ -70,7 +70,7 @@ Func_20c08: ; 0x20c08
 	ld bc, OneMillionPoints
 	callba AddBigBCD6FromQueue
 	call FillBottomMessageBufferWithBlackTile
-	call Func_30db
+	call EnableBottomText
 	ld de, YeahYouGotItText
 	ld hl, wScrollingText1
 	call LoadScrollingText
@@ -256,7 +256,7 @@ Func_20da0: ; 0x20da0
 .asm_20e1a
 	callba StopTimer
 	call FillBottomMessageBufferWithBlackTile
-	call Func_30db
+	call EnableBottomText
 	ld hl, wScrollingText1
 	ld de, EvolutionFailedText
 	call LoadScrollingText
@@ -265,7 +265,7 @@ Func_20da0: ; 0x20da0
 Func_20e34: ; 0x20e34
 	ld bc, $0001
 	ld de, $5000
-	call Func_3538
+	call AddBCDEToJackpot
 	ld a, [wd551]
 	and a
 	jr nz, .asm_20e5c
@@ -430,7 +430,7 @@ Func_20f2a: ; 0x20f2a
 Func_20f4b: ; 0x20f4b
 	ld bc, $0000
 	ld de, $1500
-	call Func_3538
+	call AddBCDEToJackpot
 	ld a, [wd551]
 	and a
 	jr nz, .asm_20f73
@@ -482,7 +482,7 @@ Func_20f75: ; 0x20f75
 	ld bc, ThreeHundredThousandPoints
 	callba AddBigBCD6FromQueue
 	call FillBottomMessageBufferWithBlackTile
-	call Func_30db
+	call EnableBottomText
 	ld a, [wCurrentEvolutionType]
 	dec a
 	ld c, a
@@ -526,7 +526,7 @@ Func_20fef: ; 0x20fef
 	ld bc, ThreeHundredThousandPoints
 	callba AddBigBCD6FromQueue
 	call FillBottomMessageBufferWithBlackTile
-	call Func_30db
+	call EnableBottomText
 	ld hl, wScrollingText1
 	ld a, [wCurrentEvolutionType]
 	cp EVO_EXPERIENCE
@@ -624,7 +624,7 @@ asm_210c7:
 	call Func_7dc
 .asm_21102
 	call FillBottomMessageBufferWithBlackTile
-	call Func_30db
+	call EnableBottomText
 	ld a, [wCurrentEvolutionType]
 	cp EVO_EXPERIENCE
 	ld de, PokemonRecoveredText
@@ -715,14 +715,14 @@ Func_2112a: ; 0x2112a
 	call Func_8e1
 .asm_211a8
 	callba Func_10e0a
-	call Func_3475
+	call MainLoopUntilTextIsClear
 	ld de, $0000
 	call PlaySong
 	rst AdvanceFrame
 	lb de, $2d, $26
 	call PlaySoundEffect
-	callba Func_10825
-	call Func_3475
+	callba ShowJackpotText
+	call MainLoopUntilTextIsClear
 	ld a, $1
 	ld [wd54d], a
 	scf

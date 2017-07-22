@@ -1,6 +1,6 @@
 INCLUDE "text/scrolling_text.asm"
 
-Func_30db: ; 0x30db
+EnableBottomText: ; 0x30db
 	ld a, $86
 	ld [hWY], a ;force text bar up
 	ld a, $1
@@ -493,9 +493,9 @@ HandleScrollingText: ; 0x3325 activates while text is scrolling
 	ld [hl], $0 ;+0
 	ret
 
-Func_3357: ; 0x3357
+LoadStationaryTextAndHeader: ; 0x3357 LoadStationaryTextAndHeader
 	ld a, $1
-	ld [hli], a
+	ld [hli], a ;Enable and load StationaryText de. then load the text after it in until a $00 is loaded in
 	ld a, [de]
 	ld [hli], a
 	inc de
@@ -512,17 +512,17 @@ Func_3357: ; 0x3357
 	pop af
 	ld l, a
 	ld h, wBottomMessageText / $100
-.asm_336b
+.Loop
 	ld a, [de]
 	ld [hli], a
 	inc de
 	and a
-	jr nz, .asm_336b
+	jr nz, .Loop
 	ret
 
-Func_3372: ; 0x3372
+LoadScoreTextFromStack: ; 0x3372 load stationary text header DE into HL, then load 4 byte BCD score from the stack into the buffer, ending in an 0 and space
 	ld a, $1
-	ld [hli], a
+	ld [hli], a ;load 1, then first 4 bytes of de into hl
 	ld a, [de]
 	ld [hli], a
 	inc de
@@ -538,49 +538,49 @@ Func_3372: ; 0x3372
 	pop af
 	ld e, a
 	ld d, wBottomMessageText / $100
-	ld hl, sp + 5
+	ld hl, sp + 5 ;access a 4 byte buffer stored previously on the stack
 	lb bc, 8, 1
-.asm_338a
+.Loop
 	ld a, [hl]
 	swap a
-	and $f
-	call Func_33a7
+	and $f ;get 10's digit
+	call LoadBCDDigitAsText
 	dec b
 	ld a, [hld]
-	and $f
-	call Func_33a7
+	and $f ;get units digit
+	call LoadBCDDigitAsText
 	dec b
-	jr nz, .asm_338a
-	ld a, $30
+	jr nz, .Loop ;loop 4 times
+	ld a, "0"
 	ld [de], a
 	inc de
-	ld a, $20
+	ld a, " " ;end with a 0 and a space
 	ld [de], a
 	inc de
 	xor a
 	ld [de], a
 	ret
 
-Func_33a7: ; 0x33a7
-	jr nz, .asm_33b0
+LoadBCDDigitAsText: ; 0x33a7 Enter BCD digit a into text DE. b is a loop counter and c is a "have you entered a digit yet" flag
+	jr nz, .EnterDigit ;if no digit, not end of loop and not yet entered a digit, skip
 	ld a, b
 	dec a
-	jr z, .asm_33b0
+	jr z, .EnterDigit
 	ld a, c
 	and a
 	ret nz
-.asm_33b0
-	add $30
+.EnterDigit
+	add "0" ;load digit into de
 	ld [de], a
 	inc de
-	ld c, $0
+	ld c, $0 ;mark that a digit has been entered
 	ld a, b
 	cp $6
-	jr z, .asm_33be
+	jr z, .EnterComma
 	cp $3
-	ret nz
-.asm_33be
-	ld a, $2c
+	ret nz ;if b is 3 or 6, load a seperator comma into the text
+.EnterComma
+	ld a, ","
 	ld [de], a
 	inc de
 	ret
@@ -700,7 +700,7 @@ UpdateBottomText: ; 0x33e3
 	call LoadOrCopyVRAMData
 	ret
 
-Func_3475: ; 0x3475
+MainLoopUntilTextIsClear: ; 0x3475
 	xor a
 	ld [hJoypadState], a
 	ld [hNewlyPressedButtons], a
@@ -715,7 +715,7 @@ Func_3475: ; 0x3475
 	rst AdvanceFrame
 	ld a, [wBottomTextEnabled]
 	and a
-	jr nz, Func_3475 ;loops until wBottomTextEnabled is zero
+	jr nz, MainLoopUntilTextIsClear ;loops until wBottomTextEnabled is zero
 	ret
 
 FivePoints:       ; 34a6

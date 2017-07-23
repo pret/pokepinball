@@ -30,7 +30,7 @@ ConcludeEvolutionMode: ; 0x10ac8
 	xor a
 	ld [wInSpecialMode], a
 	ld [wWildMonIsHittable], a
-	ld [wd5b6], a
+	ld [NumberOfCatchModeTilesFlipped], a
 	ld [wNumMonHits], a
 	ld [wd551], a
 	ld [wd554], a

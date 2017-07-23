@@ -577,7 +577,7 @@ wInSpecialMode:: ; 0xd54b
 wSpecialModeCollisionID:: ; 0xd54c 10000 sets it to a input, records what the ball has collided with see constants/special_collision_constants.asm for more info
 	ds $1
 
-wd54d:: ; 0xd54d catch mode progress? used for all 3 special modes
+wd54d:: ; 0xd54d catch mode progress? used for all 3 special modes. incremented when mon in catch mode is hit 3 times
 	ds $1
 
 wd54e:: ; 0xd54e
@@ -700,23 +700,23 @@ wTimerDigits:: ; 0xd582
 ; fourth byte = unused, but still written to
 	ds $4
 
-wd586:: ; 0xd586
+wd586:: ; 0xd586 something to do with catch mode billboard flipping
 	ds $30
 
-wd5b6:: ; 0xd5b6 a 24 wide block starts here and is filled before catch mode. used in catch and evo mode. first step of catch mode only passes if it is 24
+NumberOfCatchModeTilesFlipped:: ; 0xd5b6 a 24 wide block starts here and is filled before catch mode. first step of catch mode only passes if it is 24. top byte records the number of tiles flipped
 	ds $5
 
 wWildMonIsHittable:: ; 0xd5bb
 ; Set to 1 when the wild pokemon is animated and hittable with the pinball.
 	ds $1
 
-wd5bc:: ; 0xd5bc
+wCurrentAnimatedMonSpriteType:: ; 0xd5bc
 	ds $1
 
-wd5bd:: ; 0xd5bd
+wCurrentAnimatedMonSpriteFrame:: ; 0xd5bd
 	ds $1
 
-wd5be:: ; 0xd5be
+wLoopsUntilNextCatchSpriteAnimationChange:: ; 0xd5be
 	ds $1
 
 wBallHitWildMon:: ; 0xd5bf
@@ -725,16 +725,16 @@ wBallHitWildMon:: ; 0xd5bf
 wNumMonHits:: ; 0xd5c0
 	ds $1
 
-wd5c1:: ; 0xd5c1
+CurrentCatchMonIdleFrame1Duration:: ; 0xd5c1 sets wLoopsUntilNextCatchSpriteAnimationChange if wCurrentAnimatedMonSpriteFrame - wCurrentAnimatedMonSpriteType < 1 holds animatedSpriteType
+	ds $1 ;mystery data byte 1
+
+CurrentCatchMonIdleFrame2Duration:: ; 0xd5c2 sets wLoopsUntilNextCatchSpriteAnimationChange if wCurrentAnimatedMonSpriteFrame - wCurrentAnimatedMonSpriteType >= 1
+	ds $1 ;mystery data byte 2
+
+CurrentCatchMonHitFrameDuration:: ; 0xd5c3
 	ds $1
 
-wd5c2:: ; 0xd5c2
-	ds $1
-
-wd5c3:: ; 0xd5c3
-	ds $1
-
-wd5c4:: ; 0xd5c4
+wCatchModeMonUpdateTimer:: ; 0xd5c4 increments while the caught mon is active once per frame(?), ensuring that the code only checks for the mon being hit every 4 frames or when the animation changes....for some reason (performance?)
 	ds $1
 
 wNumMewHitsLow:: ; 0xd5c5

@@ -67,7 +67,7 @@ FlippedText:
 	db $42, $00, $40, $00
 	db "FLIPPED @"
 
-Data_2a3d:
+CatchModeTileFlippedScoreStationaryTextHeader:
 	db $4a, $10, $40, $00, $00, $00
 
 JackpotText:

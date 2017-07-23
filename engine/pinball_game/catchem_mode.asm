@@ -55,24 +55,24 @@ StartCatchEmMode: ; 0x1003f
 	ld l, c
 	add hl, bc
 	add hl, bc  ; multiply the evolution line id by 3, add it to pointer to ???
-	ld bc, Data_13685 ;mystery data, seems pokedex related too
+	ld bc, CatchSpriteFrameDurations ;mystery data, seems pokedex related too
 	add hl, bc
 	ld a, [hli]
-	ld [wd5c1], a
-	ld [wd5be], a
+	ld [CurrentCatchMonIdleFrame1Duration], a
+	ld [wLoopsUntilNextCatchSpriteAnimationChange], a
 	ld a, [hli]
-	ld [wd5c2], a
+	ld [CurrentCatchMonIdleFrame2Duration], a
 	ld a, [hli]
-	ld [wd5c3], a ;load the 3 bytes into ????
+	ld [CurrentCatchMonHitFrameDuration], a ;load the 3 bytes into ????
 	ld hl, wd586
-	ld a, [wd5b6]
+	ld a, [NumberOfCatchModeTilesFlipped]
 	ld c, a
 	and a
 	ld b, $18
-	jr z, .asm_100c7 ;if ?? = 0, jump with b = 24 (2 seperate loops?
+	jr z, .asm_100c7 ;if tiles flipped = 0, jump with b = 24 (2 seperate loops?)
 .asm_100ba
 	ld a, $1
-	ld [hli], a ;load 1 then 0 into data from wd5b6 C times, where C is the contents of wd5b6
+	ld [hli], a ;load 1 then 0 into data from NumberOfCatchModeTilesFlipped C times, where C is the contents of NumberOfCatchModeTilesFlipped
 	xor a
 	ld [hli], a
 	dec b
@@ -81,7 +81,7 @@ StartCatchEmMode: ; 0x1003f
 	ld a, b ;load 24 - times looped into a, if 0: skip
 	and a
 	jr z, .asm_100ce
-.asm_100c7 ;loop 0 then 1 into the rest of the data from wd5b6
+.asm_100c7 ;loop 0 then 1 into the rest of the data from NumberOfCatchModeTilesFlipped
 	xor a
 	ld [hli], a
 	inc a
@@ -165,7 +165,7 @@ ConcludeCatchEmMode: ; 0x10157
 	ld [wInSpecialMode], a
 	ld [wWildMonIsHittable], a
 	ld [wd5c6], a
-	ld [wd5b6], a
+	ld [NumberOfCatchModeTilesFlipped], a
 	ld [wNumMonHits], a
 	call ClearWildMonCollisionMask
 	callba StopTimer
@@ -210,7 +210,7 @@ Func_10184: ; 0x10184 called by what looks like the "hit voltorb and shellder" h
 	ld a, [hli]
 	ld [$ff91], a
 	ld de, wc000
-	ld hl, wd586
+	ld hl, wd586 ;what tiles are flipped?
 	ld c, $0
 .asm_101bb
 	ld a, [hli]
@@ -838,14 +838,14 @@ BallCaptureAnimationData: ; 0x105e4
 	db $00  ; terminator
 
 Func_10611: ; 0x10611
-	and a
+	and a ;if a NZ
 	ret z
-	dec a
+	dec a ;dec a
 	sla a
 	ld c, a
 	ld b, $0
 	ld hl, Data_1062a
-	add hl, bc
+	add hl, bc ;load that graphics data and qeue it up
 	ld a, [hli]
 	ld c, a
 	ld a, [hl]
@@ -918,8 +918,8 @@ ShowAnimatedWildMon: ; 0x10678
 	ld hl, MonAnimatedSpriteTypes
 	add hl, bc
 	ld a, [hl]
-	ld [wd5bc], a
-	ld [wd5bd], a
+	ld [wCurrentAnimatedMonSpriteType], a
+	ld [wCurrentAnimatedMonSpriteFrame], a
 	ld a, $1
 	ld [wWildMonIsHittable], a
 	xor a

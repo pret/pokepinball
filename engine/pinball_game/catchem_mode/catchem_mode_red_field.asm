@@ -235,8 +235,8 @@ HandleCatchModeVoltorbHit: ; 0x20230 resolve hitting a voltorb in catch mode?
 	sla a
 	ld c, a
 	ld b, $0
-	ld hl, wd586
-	add hl, bc ;else go FlippedCount*2 down ???
+	ld hl, wBillboardTilesIlluminationStates
+	add hl, bc
 	ld d, $4
 .LoopFlippedStatusInsertion
 	ld a, $1

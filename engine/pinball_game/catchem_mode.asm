@@ -64,7 +64,7 @@ StartCatchEmMode: ; 0x1003f
 	ld [CurrentCatchMonIdleFrame2Duration], a
 	ld a, [hli]
 	ld [CurrentCatchMonHitFrameDuration], a ;load the 3 bytes into ????
-	ld hl, wd586
+	ld hl, wBillboardTilesIlluminationStates
 	ld a, [NumberOfCatchModeTilesFlipped]
 	ld c, a
 	and a
@@ -210,7 +210,7 @@ Func_10184: ; 0x10184 called by what looks like the "hit voltorb and shellder" h
 	ld a, [hli]
 	ld [$ff91], a
 	ld de, wc000
-	ld hl, wd586 ;what tiles are flipped?
+	ld hl, wBillboardTilesIlluminationStates
 	ld c, $0
 .Loop24Times
 	ld a, [hli]
@@ -892,7 +892,7 @@ Func_10648: ; 0x10648
 	jr nz, .asm_10677
 	ld a, $14
 	ld [wd54e], a
-	ld hl, wd586
+	ld hl, wBillboardTilesIlluminationStates
 	ld b, $18
 .asm_1065e
 	ld a, [wd54f]

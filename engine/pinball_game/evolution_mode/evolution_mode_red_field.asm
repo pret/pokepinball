@@ -2,7 +2,7 @@ HandleRedEvoModeCollision: ; 0x20581
 	ld a, [wSpecialModeCollisionID]
 	cp SPECIAL_COLLISION_VOLTORB
 	jp z, Func_2080f ;voltorb
-	cp SPECIAL_COLLISION_STARYU_ALLY_TRIGGER
+	cp SPECIAL_COLLISION_STARYU_ALLEY_TRIGGER
 	jp z, Func_20839
 	cp SPECIAL_COLLISION_BELLSPROUT
 	jp z, Func_2085a ;bellsprout

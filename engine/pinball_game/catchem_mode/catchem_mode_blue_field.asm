@@ -237,7 +237,7 @@ Func_204f1: ; 0x204f1
 	sla a
 	ld c, a
 	ld b, $0
-	ld hl, wd586
+	ld hl, wBillboardTilesIlluminationStates
 	add hl, bc
 	ld d, $4
 .asm_20503

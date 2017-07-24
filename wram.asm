@@ -538,7 +538,7 @@ wCollidedAlleyTriggers:: ; 0xd521
 
 	ds $6 ; free space
 
-wIndicatorStates:: ; 0xd52f 0 = evo arrows, 1 = catch arrows, 2 = left small alley, 3 = bellsprout, 4 = slot. bit 7 controls if enabled and flashing, bit 1 and 2 control is solid (set = solid)
+wIndicatorStates:: ; 0xd52f 0 = evo arrows, 1 = catch arrows, 2 = left small alley, 3 = bellsprout, 4 = slot. bit 7 controls if enabled and flashing, bit 1 and 2 control is solid (set = solid), +9 is the arrow pointing to voltorb on red evo mode
 	ds $13
 
 wLeftAlleyTrigger:: ; 0xd542
@@ -574,32 +574,16 @@ wInSpecialMode:: ; 0xd54b
 ; Set to 1 if currently in special game mode. See wSpecialMode.
 	ds $1
 
-wSpecialModeCollisionID:: ; 0xd54c 10000 sets it to a input, records what the ball has collided with
-;0 nothing hit?
-;1 upper left red trigger (under ditto) | secondary left trigger on blue
-;2 second right trigger
-;3 second staryu ally trigger
-;4 any voltob | any shellder
-;5 bellsprout | N/A
-;6 staryu | N/A
-;7 left diglett | poliwag
-;8 right diglett | psyduck
-;9 hit right railing (33 multiplier)
-;a hit right railing (otherwise)
-;b upper cave lights (ball upgrade)
-;c Spinner
-;d slot hole
-;e N/A | cloyster
-;f N/A | slowpoke
+wSpecialModeCollisionID:: ; 0xd54c 10000 sets it to a input, records what the ball has collided with see constants/special_collision_constants.asm for more info
 	ds $1
 
-wd54d:: ; 0xd54d catch mode progress?
+wd54d:: ; 0xd54d catch mode current step? used for all 3 special modes.
 	ds $1
 
-wd54e:: ; 0xd54e
+wd54e:: ; 0xd54e set to 20 by catch mode when all tiles are flipped and on lower stage
 	ds $1
 
-wd54f:: ; 0xd54f
+wd54f:: ; 0xd54f set to 5 by catch mode when all tiles are flipped and on lower stage
 	ds $1
 
 wSpecialMode:: ; 0xd550
@@ -607,7 +591,7 @@ wSpecialMode:: ; 0xd550
 ; See SPECIAL_MODE constants.
 	ds $1
 
-wd551:: ; 0xd551
+wd551:: ; 0xd551 if non zero, voltobs skip applying experiance gain in evo mode. set to 0 onm collect experiance. set to 1 is pokemon is tired, 0 on recovered. 7 when exp is active for collecting. set to 0 on conclude evo mode. Tracks evo mode state?
 	ds $1
 
 wCurrentEvolutionMon:: ; 0xd552
@@ -728,20 +712,20 @@ wBillboardTilesIlluminationStates:: ; 0xd586
 ; Bytes 2 = Previous illumination state. This is used to avoid re-loading the same graphics.
 	ds $18 * 2
 
-wd5b6:: ; 0xd5b6 a 24 wide block starts here and is filled before catch mode
+wNumberOfCatchModeTilesFlipped:: ; 0xd5b6 a 24 wide block starts here and is filled before catch mode. first step of catch mode only passes if it is 24. top byte records the number of tiles flipped
 	ds $5
 
 wWildMonIsHittable:: ; 0xd5bb
 ; Set to 1 when the wild pokemon is animated and hittable with the pinball.
 	ds $1
 
-wd5bc:: ; 0xd5bc
+wCurrentAnimatedMonSpriteType:: ; 0xd5bc
 	ds $1
 
-wd5bd:: ; 0xd5bd
+wCurrentAnimatedMonSpriteFrame:: ; 0xd5bd
 	ds $1
 
-wd5be:: ; 0xd5be
+wLoopsUntilNextCatchSpriteAnimationChange:: ; 0xd5be
 	ds $1
 
 wBallHitWildMon:: ; 0xd5bf
@@ -750,16 +734,16 @@ wBallHitWildMon:: ; 0xd5bf
 wNumMonHits:: ; 0xd5c0
 	ds $1
 
-wd5c1:: ; 0xd5c1
+wCurrentCatchMonIdleFrame1Duration:: ; 0xd5c1 sets wLoopsUntilNextCatchSpriteAnimationChange if wCurrentAnimatedMonSpriteFrame - wCurrentAnimatedMonSpriteType < 1 holds animatedSpriteType
+	ds $1 ;mystery data byte 1
+
+wCurrentCatchMonIdleFrame2Duration:: ; 0xd5c2 sets wLoopsUntilNextCatchSpriteAnimationChange if wCurrentAnimatedMonSpriteFrame - wCurrentAnimatedMonSpriteType >= 1
+	ds $1 ;mystery data byte 2
+
+wCurrentCatchMonHitFrameDuration:: ; 0xd5c3
 	ds $1
 
-wd5c2:: ; 0xd5c2
-	ds $1
-
-wd5c3:: ; 0xd5c3
-	ds $1
-
-wd5c4:: ; 0xd5c4
+wCatchModeMonUpdateTimer:: ; 0xd5c4 increments while the caught mon is active once per frame(?), ensuring that the code only checks for the mon being hit every 4 frames or when the animation changes....for some reason (performance?)
 	ds $1
 
 wNumMewHitsLow:: ; 0xd5c5

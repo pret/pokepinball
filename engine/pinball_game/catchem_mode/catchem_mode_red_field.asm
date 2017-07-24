@@ -1,7 +1,7 @@
 HandleRedCatchEmCollision: ; 0x20000
 	ld a, [wSpecialModeCollisionID]
 	cp SPECIAL_COLLISION_VOLTORB
-	jp z, Func_20230 ;if collided with voltorb
+	jp z, HandleCatchModeVoltorbHit ;if collided with voltorb
 	cp SPECIAL_COLLISION_SPINNER
 	jp z, Func_202a8
 	cp SPECIAL_COLLISION_BELLSPROUT
@@ -20,25 +20,25 @@ PointerTable_20021: ; 0x20021
 	padded_dab Func_2005f
 	padded_dab Func_2006b
 	padded_dab Func_200a3
-	padded_dab Func_200d3
+	padded_dab CatchEmModeUpdateMonStateRedTable
 	padded_dab Func_20193
 	padded_dab CapturePokemonRedStage
 	padded_dab Func_201ce
 
 Func_20041: ; 0x20041
-	ld a, [wd5b6]
-	cp $18
-	jr nz, .asm_2005d
+	ld a, [wNumberOfCatchModeTilesFlipped]
+	cp $18 ;if not 24 and not on lower stage, ret
+	jr nz, .NotDone
 	ld a, [wCurrentStage]
 	bit 0, a
-	jr z, .asm_2005d
+	jr z, .NotDone
 	ld hl, wd54d
-	inc [hl]
+	inc [hl] ;else progress catch em mode
 	ld a, $14
 	ld [wd54e], a
 	ld a, $5
 	ld [wd54f], a
-.asm_2005d
+.NotDone
 	scf
 	ret
 
@@ -83,40 +83,40 @@ Func_200a3: ; 0x200a3
 	scf
 	ret
 
-Func_200d3: ; 0x200d3
-	ld a, [wd5be]
+CatchEmModeUpdateMonStateRedTable: ; 0x200d3
+	ld a, [wLoopsUntilNextCatchSpriteAnimationChange] ;dec time until next animation change, if zero jump
 	dec a
-	ld [wd5be], a
-	jr z, .asm_200e6
-	ld a, [wd5c4]
+	ld [wLoopsUntilNextCatchSpriteAnimationChange], a
+	jr z, .ChangeAnimation
+	ld a, [wCatchModeMonUpdateTimer] ;load ??? and inc it
 	inc a
-	ld [wd5c4], a
+	ld [wCatchModeMonUpdateTimer], a
 	and $3
-	ret nz
-.asm_200e6
+	ret nz ;only continue every 4 loops?
+.ChangeAnimation
 	ld a, [wBallHitWildMon]
 	and a
-	jp z, .asm_20167
+	jp z, .BallDidntHitMon ;if no ball hit(?), jump
 	xor a
-	ld [wBallHitWildMon], a
-	ld a, [wd5c3]
-	ld [wd5be], a
+	ld [wBallHitWildMon], a ;toggle off ball hit
+	ld a, [wCurrentCatchMonHitFrameDuration]
+	ld [wLoopsUntilNextCatchSpriteAnimationChange], a ;load byte 3 of mystery data into ??? (cause it to loop X times between a colision check?)
 	xor a
-	ld [wd5c4], a
+	ld [wCatchModeMonUpdateTimer], a ;load 0 into ??? stops double hits?
 	ld a, [wCurrentCatchEmMon]
 	cp MEW - 1
 	jr nz, .notMew
 	ld a, [wNumMewHitsLow]
 	inc a
 	ld [wNumMewHitsLow], a
-	jr nz, .asm_20116
+	jr nz, .Not256MewHits
 .notMew
 	ld a, [wNumMonHits]
 	cp $3
 	jr z, .hitMonThreeTimes
 	inc a
 	ld [wNumMonHits], a
-.asm_20116
+.Not256MewHits
 	ld bc, ThreeHundredThousandPoints
 	callba AddBigBCD6FromQueue
 	ld bc, $0030
@@ -134,44 +134,44 @@ Func_200d3: ; 0x200d3
 	ld de, HitText
 	call LoadStationaryTextAndHeader
 	ld a, [wNumMonHits]
-	callba Func_10611
+	callba Func_10611 ;queue up a graphic based on number of mon hits
 	ld c, $2
-	jr .asm_2018a
+	jr .UpdateMonAnimation
 
 .hitMonThreeTimes
 	xor a
 	ld [wTimeRanOut], a
 	ld a, $1
-	ld [wPauseTimer], a
-	ld hl, wd54d
+	ld [wPauseTimer], a ;pause timer
+	ld hl, wd54d ;inc ??
 	inc [hl]
 	ld c, $2
-	jr .asm_2018a
+	jr .UpdateMonAnimation
 
-.asm_20167
-	ld a, [wd5be]
+.BallDidntHitMon
+	ld a, [wLoopsUntilNextCatchSpriteAnimationChange]
 	and a
-	ret nz
-	ld a, [wd5bc]
+	ret nz ;run if ??? = 0. wLoopsUntilNextCatchSpriteAnimationChange is how many loops apart to run this?
+	ld a, [wCurrentAnimatedMonSpriteType]
 	ld c, a
-	ld a, [wd5bd]
-	sub c
+	ld a, [wCurrentAnimatedMonSpriteFrame]
+	sub c ;if ??? - ??? >= 1, make c 1, else make it 0
 	cp $1
 	ld c, $0
-	jr nc, .asm_2017c
+	jr nc, .SetFrameTo0
 	ld c, $1
-.asm_2017c
+.SetFrameTo0
 	ld b, $0
-	ld hl, wd5c1
+	ld hl, wCurrentCatchMonIdleFrame1Duration ;add c to ???, place it in ???. the mystery data sets how far apart these checks are
 	add hl, bc
 	ld a, [hl]
-	ld [wd5be], a
+	ld [wLoopsUntilNextCatchSpriteAnimationChange], a
 	xor a
-	ld [wd5c4], a
-.asm_2018a
-	ld a, [wd5bc]
+	ld [wCatchModeMonUpdateTimer], a; 0 out ???
+.UpdateMonAnimation
+	ld a, [wCurrentAnimatedMonSpriteType] ;add c to first animation type, add to second animation type?
 	add c
-	ld [wd5bd], a
+	ld [wCurrentAnimatedMonSpriteFrame], a
 	scf
 	ret
 
@@ -228,39 +228,39 @@ Func_201f2: ; 0x201f2
 	callba Func_106a6
 	ret
 
-Func_20230: ; 0x20230
-	ld a, [wd5b6]
+HandleCatchModeVoltorbHit: ; 0x20230 resolve hitting a voltorb in catch mode?
+	ld a, [wNumberOfCatchModeTilesFlipped]
 	cp $18
-	jr z, .asm_2029d
+	jr z, .AllTilesFlipped ;if FlippedCount is 24, add to jackpot and ret c
 	sla a
 	ld c, a
 	ld b, $0
 	ld hl, wBillboardTilesIlluminationStates
 	add hl, bc
 	ld d, $4
-.asm_20242
+.LoopFlippedStatusInsertion
 	ld a, $1
 	ld [hli], a
-	inc hl
+	inc hl ;load in 1
 	ld a, l
-	cp wd5b6 % $100
-	jr z, .asm_2024e
+	cp wNumberOfCatchModeTilesFlipped % $100
+	jr z, .ExitLoop ;continue until you reach FlippedCount or until 4 spaces are done
 	dec d
-	jr nz, .asm_20242
-.asm_2024e
-	ld a, [wd5b6]
-	add $4
+	jr nz, .LoopFlippedStatusInsertion
+.ExitLoop
+	ld a, [wNumberOfCatchModeTilesFlipped]
+	add $4 ;then add 4 to FlippedCount, clamp to 24
 	cp $18
-	jr c, .master_loop9
+	jr c, .DontClamp
 	ld a, $18
-.master_loop9
-	ld [wd5b6], a
+.DontClamp
+	ld [wNumberOfCatchModeTilesFlipped], a
 	cp $18
-	jr nz, .asm_20264
+	jr nz, .NotDoneFlipping
 	xor a
-	ld [wIndicatorStates + 9], a
-.asm_20264
-	callba Func_10184
+	ld [wIndicatorStates + 9], a ;if 24, unmark voltorb arrow indicator
+.NotDoneFlipping
+	callba Func_10184 ;load billboard graphics?
 	ld bc, OneHundredThousandPoints
 	callba AddBigBCD6FromQueue
 	ld bc, $0010
@@ -270,14 +270,14 @@ Func_20230: ; 0x20230
 	call FillBottomMessageBufferWithBlackTile
 	call EnableBottomText
 	ld hl, wStationaryText2
-	ld de, Data_2a3d
+	ld de, CatchModeTileFlippedScoreStationaryTextHeader
 	call LoadScoreTextFromStack
 	pop de
 	pop bc
 	ld hl, wStationaryText1
 	ld de, FlippedText
 	call LoadStationaryTextAndHeader
-.asm_2029d
+.AllTilesFlipped
 	ld bc, $0001
 	ld de, $0000
 	call AddBCDEToJackpot

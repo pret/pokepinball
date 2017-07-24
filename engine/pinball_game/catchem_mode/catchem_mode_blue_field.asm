@@ -28,7 +28,7 @@ PointerTable_202e2: ; 0x202e2
 	padded_dab Func_2048f
 
 Func_20302: ; 0x20302
-	ld a, [wd5b6]
+	ld a, [wNumberOfCatchModeTilesFlipped]
 	cp $18
 	jr nz, .asm_2031e
 	ld a, [wCurrentStage]
@@ -86,13 +86,13 @@ Func_20364: ; 0x20364
 	ret
 
 Func_20394: ; 0x20394
-	ld a, [wd5be]
+	ld a, [wLoopsUntilNextCatchSpriteAnimationChange]
 	dec a
-	ld [wd5be], a
+	ld [wLoopsUntilNextCatchSpriteAnimationChange], a
 	jr z, .asm_203a7
-	ld a, [wd5c4]
+	ld a, [wCatchModeMonUpdateTimer]
 	inc a
-	ld [wd5c4], a
+	ld [wCatchModeMonUpdateTimer], a
 	and $3
 	ret nz
 .asm_203a7
@@ -101,10 +101,10 @@ Func_20394: ; 0x20394
 	jp z, .asm_20428
 	xor a
 	ld [wBallHitWildMon], a
-	ld a, [wd5c3]
-	ld [wd5be], a
+	ld a, [wCurrentCatchMonHitFrameDuration]
+	ld [wLoopsUntilNextCatchSpriteAnimationChange], a
 	xor a
-	ld [wd5c4], a
+	ld [wCatchModeMonUpdateTimer], a
 	ld a, [wCurrentCatchEmMon]
 	cp MEW - 1
 	jr nz, .notMew
@@ -151,12 +151,12 @@ Func_20394: ; 0x20394
 	jr .asm_2044b
 
 .asm_20428
-	ld a, [wd5be]
+	ld a, [wLoopsUntilNextCatchSpriteAnimationChange]
 	and a
 	ret nz
-	ld a, [wd5bc]
+	ld a, [wCurrentAnimatedMonSpriteType]
 	ld c, a
-	ld a, [wd5bd]
+	ld a, [wCurrentAnimatedMonSpriteFrame]
 	sub c
 	cp $1
 	ld c, $0
@@ -164,16 +164,16 @@ Func_20394: ; 0x20394
 	ld c, $1
 .asm_2043d
 	ld b, $0
-	ld hl, wd5c1
+	ld hl, wCurrentCatchMonIdleFrame1Duration
 	add hl, bc
 	ld a, [hl]
-	ld [wd5be], a
+	ld [wLoopsUntilNextCatchSpriteAnimationChange], a
 	xor a
-	ld [wd5c4], a
+	ld [wCatchModeMonUpdateTimer], a
 .asm_2044b
-	ld a, [wd5bc]
+	ld a, [wCurrentAnimatedMonSpriteType]
 	add c
-	ld [wd5bd], a
+	ld [wCurrentAnimatedMonSpriteFrame], a
 	scf
 	ret
 
@@ -231,7 +231,7 @@ Func_204b3: ; 0x204b3
 	ret
 
 Func_204f1: ; 0x204f1
-	ld a, [wd5b6]
+	ld a, [wNumberOfCatchModeTilesFlipped]
 	cp $18
 	jr z, .asm_2055e
 	sla a
@@ -245,18 +245,18 @@ Func_204f1: ; 0x204f1
 	ld [hli], a
 	inc hl
 	ld a, l
-	cp wd5b6 % $100
+	cp wNumberOfCatchModeTilesFlipped % $100
 	jr z, .asm_2050f
 	dec d
 	jr nz, .asm_20503
 .asm_2050f
-	ld a, [wd5b6]
+	ld a, [wNumberOfCatchModeTilesFlipped]
 	add $4
 	cp $18
 	jr c, .asm_2051a
 	ld a, $18
 .asm_2051a
-	ld [wd5b6], a
+	ld [wNumberOfCatchModeTilesFlipped], a
 	cp $18
 	jr nz, .asm_20525
 	xor a
@@ -272,7 +272,7 @@ Func_204f1: ; 0x204f1
 	call FillBottomMessageBufferWithBlackTile
 	call EnableBottomText
 	ld hl, wStationaryText2
-	ld de, Data_2a3d
+	ld de, CatchModeTileFlippedScoreStationaryTextHeader
 	call LoadScoreTextFromStack
 	pop de
 	pop bc

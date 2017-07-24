@@ -1180,35 +1180,35 @@ Func_287e7: ; 0x287e7
 	call ReadByteFromBank
 	bit 7, a
 	ret nz
-	ld [wd5bc], a
+	ld [wCurrentAnimatedMonSpriteType], a
 	call Func_28815
-	ld a, [wd5bd]
+	ld a, [wCurrentAnimatedMonSpriteFrame]
 	add $a5
 	ld bc, $2030
 	call LoadOAMData
 	ret
 
 Func_28815: ; 0x28815
-	ld a, [wd5be]
+	ld a, [wLoopsUntilNextCatchSpriteAnimationChange]
 	dec a
-	ld [wd5be], a
+	ld [wLoopsUntilNextCatchSpriteAnimationChange], a
 	ret nz
 	ld a, [wBallHitWildMon]
 	inc a
 	and $7
 	ld [wBallHitWildMon], a
 	jr nz, .asm_28836
-	ld a, [wd5c3]
-	ld [wd5be], a
+	ld a, [wCurrentCatchMonHitFrameDuration]
+	ld [wLoopsUntilNextCatchSpriteAnimationChange], a
 	xor a
-	ld [wd5c4], a
+	ld [wCatchModeMonUpdateTimer], a
 	ld c, $2
 	jr .asm_28854
 
 .asm_28836
-	ld a, [wd5bc]
+	ld a, [wCurrentAnimatedMonSpriteType]
 	ld c, a
-	ld a, [wd5bd]
+	ld a, [wCurrentAnimatedMonSpriteFrame]
 	sub c
 	cp $1
 	ld c, $0
@@ -1216,16 +1216,16 @@ Func_28815: ; 0x28815
 	ld c, $1
 .asm_28846
 	ld b, $0
-	ld hl, wd5c1
+	ld hl, wCurrentCatchMonIdleFrame1Duration
 	add hl, bc
 	ld a, [hl]
-	ld [wd5be], a
+	ld [wLoopsUntilNextCatchSpriteAnimationChange], a
 	xor a
-	ld [wd5c4], a
+	ld [wCatchModeMonUpdateTimer], a
 .asm_28854
-	ld a, [wd5bc]
+	ld a, [wCurrentAnimatedMonSpriteType]
 	add c
-	ld [wd5bd], a
+	ld [wCurrentAnimatedMonSpriteFrame], a
 	ret
 
 Func_2885c: ; 0x2885c
@@ -1822,20 +1822,20 @@ Func_28bf5: ; 0x28bf5
 	jr nc, .asm_28c4b
 	inc b
 .asm_28c4b
-	ld hl, Data_13685
+	ld hl, CatchSpriteFrameDurations
 	add hl, bc
-	ld a, Bank(Data_13685)
+	ld a, Bank(CatchSpriteFrameDurations)
 	call ReadByteFromBank
-	ld [wd5c1], a
-	ld [wd5be], a
+	ld [wCurrentCatchMonIdleFrame1Duration], a
+	ld [wLoopsUntilNextCatchSpriteAnimationChange], a
 	inc hl
-	ld a, Bank(Data_13685)
+	ld a, Bank(CatchSpriteFrameDurations)
 	call ReadByteFromBank
-	ld [wd5c2], a
+	ld [wCurrentCatchMonIdleFrame2Duration], a
 	inc hl
-	ld a, Bank(Data_13685)
+	ld a, Bank(CatchSpriteFrameDurations)
 	call ReadByteFromBank
-	ld [wd5c3], a
+	ld [wCurrentCatchMonHitFrameDuration], a
 	ld a, [wCurPokedexIndex]
 	ld c, a
 	ld b, $0
@@ -1843,8 +1843,8 @@ Func_28bf5: ; 0x28bf5
 	add hl, bc
 	ld a, Bank(MonAnimatedSpriteTypes)
 	call ReadByteFromBank
-	ld [wd5bc], a
-	ld [wd5bd], a
+	ld [wCurrentAnimatedMonSpriteType], a
+	ld [wCurrentAnimatedMonSpriteFrame], a
 	call Func_28cf8
 	pop bc
 	ld a, [hGameBoyColorFlag]

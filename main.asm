@@ -296,7 +296,7 @@ INCLUDE "data/mon_gfx/mon_gfx_pointers.asm"
 INCLUDE "data/mon_animated_sprite_types.asm"
 INCLUDE "data/collision/mon_collision_mask_pointers.asm"
 
-Data_13685: ; 0x13685
+CatchSpriteFrameDurations: ; 0x13685
 ; Each 3-byte entry is related to an evolution line. Don't know what this is for, yet.
 	db $12, $12, $10 ; EVOLINE_BULBASAUR
 	db $10, $10, $10 ; EVOLINE_CHARMANDER

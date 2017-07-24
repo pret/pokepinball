@@ -40,7 +40,7 @@ PointerTable_205d4: ; 0x205d4
 	padded_dab Func_2070b
 	padded_dab Func_20757
 
-Func_205e0: ; 0x205e0
+Func_205e0: ; 0x205e0 runs on collecting exp in evo mode?
 	ld a, [wCurrentStage]
 	ld b, a
 	ld a, [wd578]
@@ -271,10 +271,10 @@ Func_2080f: ; 0x2080f
 	call AddBCDEToJackpot
 	ld a, [wd551] ;if ??? is not zero, ret c
 	and a
-	jr nz, .asm_20837
+	jr nz, .RetC
 	ld a, [wIndicatorStates + 9] ;if indicator is z, ret
 	and a
-	jr z, .asm_20837
+	jr z, .RetC
 	xor a
 	ld [wIndicatorStates + 9], a
 	ld a, [wd55c]
@@ -284,7 +284,7 @@ Func_2080f: ; 0x2080f
 	jp nz, Func_20977
 	jp Func_209eb
 
-.asm_20837
+.RetC
 	scf
 	ret
 

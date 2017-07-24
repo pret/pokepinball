@@ -389,7 +389,7 @@ DrawAnimatedMon_BlueStage: ; 0x1f58b
 	ld hl, hSCY
 	sub [hl]
 	ld c, a
-	ld a, [wd5bd]
+	ld a, [wCurrentAnimatedMonSpriteFrame]
 	ld e, a
 	ld d, $0
 	ld hl, AnimatedMonOAMIds_BlueStage

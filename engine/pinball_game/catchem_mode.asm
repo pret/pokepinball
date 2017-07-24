@@ -179,7 +179,7 @@ CallTable_10178: ; 0x10178
 	dw Func_109fc      ; STAGE_BLUE_FIELD_TOP
 	dw Func_109fc      ; STAGE_BLUE_FIELD_BOTTOM
 
-Func_10184: ; 0x10184 called by what looks like the "hit voltorb and shellder" handllers, as well as some evo mode stuff
+Func_10184: ; 0x10184 called by what looks like the "hit voltorb and shellder" handllers and after all tiles are flipped, as well as some evo mode stuff
 	ld a, [wCurrentStage]
 	bit 0, a
 	ret z  ;skip if stage has no flippers
@@ -190,9 +190,9 @@ Func_10184: ; 0x10184 called by what looks like the "hit voltorb and shellder" h
 	rl b
 	add c
 	ld c, a
-	jr nc, .asm_10199
+	jr nc, .NoOverflow
 	inc b
-.asm_10199 ;double current catch em mon
+.NoOverflow ;double current catch em mon
 	ld hl, MonBillboardPicPointers
 	add hl, bc
 	ld a, [hli]
@@ -212,25 +212,25 @@ Func_10184: ; 0x10184 called by what looks like the "hit voltorb and shellder" h
 	ld de, wc000
 	ld hl, wd586 ;what tiles are flipped?
 	ld c, $0
-.asm_101bb
+.Loop24Times
 	ld a, [hli]
 	cp [hl]
 	ld [hli], a ;load first byte into next and test it gainst the second byte, if it's the same skip
-	jr z, .asm_101d2
+	jr z, .NextLoop
 	ld b, a ;else store in b
 	call nz, Func_101d9
 	ld a, [hGameBoyColorFlag]
 	and a
-	jr z, .asm_101d2 ;skip if DMG
+	jr z, .NextLoop ;skip if DMG
 	ld a, [wCurrentStage]
 	bit 0, a
 	ld a, b
 	call nz, Func_10230 ;if lower stage, run ???
-.asm_101d2
+.NextLoop
 	inc c
 	ld a, c
 	cp $18 ;run 24 times
-	jr nz, .asm_101bb
+	jr nz, .Loop24Times
 	ret
 
 Func_101d9: ; 0x101d9
@@ -245,7 +245,7 @@ Func_101d9: ; 0x101d9
 	ld [de], a ;1 into de+1
 	inc de
 	ld b, $0
-	ld hl, Data_102a4 ;add c to ???
+	ld hl, Data_102a4 ;retrieve ???? c
 	add hl, bc
 	ld c, [hl]
 	sla c
@@ -257,7 +257,7 @@ Func_101d9: ; 0x101d9
 	sla c
 	rl b ;multiply ??? by 16
 	ld hl, vTilesSH tile $10 ;wut
-	add hl, bc ;add ???*16 to wut
+	add hl, bc ;add ???*16 to wut (8 2 bit pixels?)
 	ld a, l
 	ld [de], a
 	inc de
@@ -290,7 +290,7 @@ Func_101d9: ; 0x101d9
 	pop bc
 	push de
 	xor a
-	ld de, Func_11d2 ;queue graphics load from the adjusted pointer bank 0 using this funch
+	ld de, Func_11d2 ;queue graphics load from the adjusted pointer bank 0 using this func
 	call QueueGraphicsToLoadWithFunc
 	pop de
 	pop hl

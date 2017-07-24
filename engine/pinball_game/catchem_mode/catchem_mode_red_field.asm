@@ -27,18 +27,18 @@ PointerTable_20021: ; 0x20021
 
 Func_20041: ; 0x20041
 	ld a, [NumberOfCatchModeTilesFlipped]
-	cp $18 ;if not 24, ret
-	jr nz, .asm_2005d
+	cp $18 ;if not 24 and not on lower stage, ret
+	jr nz, .NotDone
 	ld a, [wCurrentStage]
 	bit 0, a
-	jr z, .asm_2005d
+	jr z, .NotDone
 	ld hl, wd54d
-	inc [hl]
+	inc [hl] ;else progress catch em mode
 	ld a, $14
 	ld [wd54e], a
 	ld a, $5
 	ld [wd54f], a
-.asm_2005d
+.NotDone
 	scf
 	ret
 

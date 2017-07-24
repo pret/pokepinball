@@ -577,13 +577,13 @@ wInSpecialMode:: ; 0xd54b
 wSpecialModeCollisionID:: ; 0xd54c 10000 sets it to a input, records what the ball has collided with see constants/special_collision_constants.asm for more info
 	ds $1
 
-wd54d:: ; 0xd54d catch mode progress? used for all 3 special modes. incremented when mon in catch mode is hit 3 times
+wd54d:: ; 0xd54d catch mode current step? used for all 3 special modes.
 	ds $1
 
-wd54e:: ; 0xd54e
+wd54e:: ; 0xd54e set to 20 by catch mode when all tiles are flipped and on lower stage
 	ds $1
 
-wd54f:: ; 0xd54f
+wd54f:: ; 0xd54f set to 5 by catch mode when all tiles are flipped and on lower stage
 	ds $1
 
 wSpecialMode:: ; 0xd550
@@ -700,7 +700,7 @@ wTimerDigits:: ; 0xd582
 ; fourth byte = unused, but still written to
 	ds $4
 
-wd586:: ; 0xd586 something to do with catch mode billboard flipping
+wd586:: ; 0xd586 something to do with catch mode billboard flipping. array of flags that set wether each tile is gray?
 	ds $30
 
 NumberOfCatchModeTilesFlipped:: ; 0xd5b6 a 24 wide block starts here and is filled before catch mode. first step of catch mode only passes if it is 24. top byte records the number of tiles flipped

@@ -58,21 +58,21 @@ StartCatchEmMode: ; 0x1003f
 	ld bc, CatchSpriteFrameDurations ;mystery data, seems pokedex related too
 	add hl, bc
 	ld a, [hli]
-	ld [CurrentCatchMonIdleFrame1Duration], a
+	ld [wCurrentCatchMonIdleFrame1Duration], a
 	ld [wLoopsUntilNextCatchSpriteAnimationChange], a
 	ld a, [hli]
-	ld [CurrentCatchMonIdleFrame2Duration], a
+	ld [wCurrentCatchMonIdleFrame2Duration], a
 	ld a, [hli]
-	ld [CurrentCatchMonHitFrameDuration], a ;load the 3 bytes into ????
+	ld [wCurrentCatchMonHitFrameDuration], a ;load the 3 bytes into ????
 	ld hl, wBillboardTilesIlluminationStates
-	ld a, [NumberOfCatchModeTilesFlipped]
+	ld a, [wNumberOfCatchModeTilesFlipped]
 	ld c, a
 	and a
 	ld b, $18
 	jr z, .asm_100c7 ;if tiles flipped = 0, jump with b = 24 (2 seperate loops?)
 .asm_100ba
 	ld a, $1
-	ld [hli], a ;load 1 then 0 into data from NumberOfCatchModeTilesFlipped C times, where C is the contents of NumberOfCatchModeTilesFlipped
+	ld [hli], a ;load 1 then 0 into data from wNumberOfCatchModeTilesFlipped C times, where C is the contents of wNumberOfCatchModeTilesFlipped
 	xor a
 	ld [hli], a
 	dec b
@@ -81,7 +81,7 @@ StartCatchEmMode: ; 0x1003f
 	ld a, b ;load 24 - times looped into a, if 0: skip
 	and a
 	jr z, .asm_100ce
-.asm_100c7 ;loop 0 then 1 into the rest of the data from NumberOfCatchModeTilesFlipped
+.asm_100c7 ;loop 0 then 1 into the rest of the data from wNumberOfCatchModeTilesFlipped
 	xor a
 	ld [hli], a
 	inc a
@@ -165,7 +165,7 @@ ConcludeCatchEmMode: ; 0x10157
 	ld [wInSpecialMode], a
 	ld [wWildMonIsHittable], a
 	ld [wd5c6], a
-	ld [NumberOfCatchModeTilesFlipped], a
+	ld [wNumberOfCatchModeTilesFlipped], a
 	ld [wNumMonHits], a
 	call ClearWildMonCollisionMask
 	callba StopTimer

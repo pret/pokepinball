@@ -26,7 +26,7 @@ PointerTable_20021: ; 0x20021
 	padded_dab Func_201ce
 
 Func_20041: ; 0x20041
-	ld a, [NumberOfCatchModeTilesFlipped]
+	ld a, [wNumberOfCatchModeTilesFlipped]
 	cp $18 ;if not 24 and not on lower stage, ret
 	jr nz, .NotDone
 	ld a, [wCurrentStage]
@@ -99,7 +99,7 @@ CatchEmModeUpdateMonStateRedTable: ; 0x200d3
 	jp z, .BallDidntHitMon ;if no ball hit(?), jump
 	xor a
 	ld [wBallHitWildMon], a ;toggle off ball hit
-	ld a, [CurrentCatchMonHitFrameDuration]
+	ld a, [wCurrentCatchMonHitFrameDuration]
 	ld [wLoopsUntilNextCatchSpriteAnimationChange], a ;load byte 3 of mystery data into ??? (cause it to loop X times between a colision check?)
 	xor a
 	ld [wCatchModeMonUpdateTimer], a ;load 0 into ??? stops double hits?
@@ -162,7 +162,7 @@ CatchEmModeUpdateMonStateRedTable: ; 0x200d3
 	ld c, $1
 .SetFrameTo0
 	ld b, $0
-	ld hl, CurrentCatchMonIdleFrame1Duration ;add c to ???, place it in ???. the mystery data sets how far apart these checks are
+	ld hl, wCurrentCatchMonIdleFrame1Duration ;add c to ???, place it in ???. the mystery data sets how far apart these checks are
 	add hl, bc
 	ld a, [hl]
 	ld [wLoopsUntilNextCatchSpriteAnimationChange], a
@@ -229,7 +229,7 @@ Func_201f2: ; 0x201f2
 	ret
 
 HandleCatchModeVoltorbHit: ; 0x20230 resolve hitting a voltorb in catch mode?
-	ld a, [NumberOfCatchModeTilesFlipped]
+	ld a, [wNumberOfCatchModeTilesFlipped]
 	cp $18
 	jr z, .AllTilesFlipped ;if FlippedCount is 24, add to jackpot and ret c
 	sla a
@@ -243,18 +243,18 @@ HandleCatchModeVoltorbHit: ; 0x20230 resolve hitting a voltorb in catch mode?
 	ld [hli], a
 	inc hl ;load in 1
 	ld a, l
-	cp NumberOfCatchModeTilesFlipped % $100
+	cp wNumberOfCatchModeTilesFlipped % $100
 	jr z, .ExitLoop ;continue until you reach FlippedCount or until 4 spaces are done
 	dec d
 	jr nz, .LoopFlippedStatusInsertion
 .ExitLoop
-	ld a, [NumberOfCatchModeTilesFlipped]
+	ld a, [wNumberOfCatchModeTilesFlipped]
 	add $4 ;then add 4 to FlippedCount, clamp to 24
 	cp $18
 	jr c, .DontClamp
 	ld a, $18
 .DontClamp
-	ld [NumberOfCatchModeTilesFlipped], a
+	ld [wNumberOfCatchModeTilesFlipped], a
 	cp $18
 	jr nz, .NotDoneFlipping
 	xor a

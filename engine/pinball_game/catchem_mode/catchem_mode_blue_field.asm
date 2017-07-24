@@ -28,7 +28,7 @@ PointerTable_202e2: ; 0x202e2
 	padded_dab Func_2048f
 
 Func_20302: ; 0x20302
-	ld a, [NumberOfCatchModeTilesFlipped]
+	ld a, [wNumberOfCatchModeTilesFlipped]
 	cp $18
 	jr nz, .asm_2031e
 	ld a, [wCurrentStage]
@@ -101,7 +101,7 @@ Func_20394: ; 0x20394
 	jp z, .asm_20428
 	xor a
 	ld [wBallHitWildMon], a
-	ld a, [CurrentCatchMonHitFrameDuration]
+	ld a, [wCurrentCatchMonHitFrameDuration]
 	ld [wLoopsUntilNextCatchSpriteAnimationChange], a
 	xor a
 	ld [wCatchModeMonUpdateTimer], a
@@ -164,7 +164,7 @@ Func_20394: ; 0x20394
 	ld c, $1
 .asm_2043d
 	ld b, $0
-	ld hl, CurrentCatchMonIdleFrame1Duration
+	ld hl, wCurrentCatchMonIdleFrame1Duration
 	add hl, bc
 	ld a, [hl]
 	ld [wLoopsUntilNextCatchSpriteAnimationChange], a
@@ -231,7 +231,7 @@ Func_204b3: ; 0x204b3
 	ret
 
 Func_204f1: ; 0x204f1
-	ld a, [NumberOfCatchModeTilesFlipped]
+	ld a, [wNumberOfCatchModeTilesFlipped]
 	cp $18
 	jr z, .asm_2055e
 	sla a
@@ -245,18 +245,18 @@ Func_204f1: ; 0x204f1
 	ld [hli], a
 	inc hl
 	ld a, l
-	cp NumberOfCatchModeTilesFlipped % $100
+	cp wNumberOfCatchModeTilesFlipped % $100
 	jr z, .asm_2050f
 	dec d
 	jr nz, .asm_20503
 .asm_2050f
-	ld a, [NumberOfCatchModeTilesFlipped]
+	ld a, [wNumberOfCatchModeTilesFlipped]
 	add $4
 	cp $18
 	jr c, .asm_2051a
 	ld a, $18
 .asm_2051a
-	ld [NumberOfCatchModeTilesFlipped], a
+	ld [wNumberOfCatchModeTilesFlipped], a
 	cp $18
 	jr nz, .asm_20525
 	xor a

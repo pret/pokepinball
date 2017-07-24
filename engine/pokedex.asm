@@ -1198,7 +1198,7 @@ Func_28815: ; 0x28815
 	and $7
 	ld [wBallHitWildMon], a
 	jr nz, .asm_28836
-	ld a, [CurrentCatchMonHitFrameDuration]
+	ld a, [wCurrentCatchMonHitFrameDuration]
 	ld [wLoopsUntilNextCatchSpriteAnimationChange], a
 	xor a
 	ld [wCatchModeMonUpdateTimer], a
@@ -1216,7 +1216,7 @@ Func_28815: ; 0x28815
 	ld c, $1
 .asm_28846
 	ld b, $0
-	ld hl, CurrentCatchMonIdleFrame1Duration
+	ld hl, wCurrentCatchMonIdleFrame1Duration
 	add hl, bc
 	ld a, [hl]
 	ld [wLoopsUntilNextCatchSpriteAnimationChange], a
@@ -1826,16 +1826,16 @@ Func_28bf5: ; 0x28bf5
 	add hl, bc
 	ld a, Bank(CatchSpriteFrameDurations)
 	call ReadByteFromBank
-	ld [CurrentCatchMonIdleFrame1Duration], a
+	ld [wCurrentCatchMonIdleFrame1Duration], a
 	ld [wLoopsUntilNextCatchSpriteAnimationChange], a
 	inc hl
 	ld a, Bank(CatchSpriteFrameDurations)
 	call ReadByteFromBank
-	ld [CurrentCatchMonIdleFrame2Duration], a
+	ld [wCurrentCatchMonIdleFrame2Duration], a
 	inc hl
 	ld a, Bank(CatchSpriteFrameDurations)
 	call ReadByteFromBank
-	ld [CurrentCatchMonHitFrameDuration], a
+	ld [wCurrentCatchMonHitFrameDuration], a
 	ld a, [wCurPokedexIndex]
 	ld c, a
 	ld b, $0

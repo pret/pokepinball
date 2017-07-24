@@ -712,7 +712,7 @@ wBillboardTilesIlluminationStates:: ; 0xd586
 ; Bytes 2 = Previous illumination state. This is used to avoid re-loading the same graphics.
 	ds $18 * 2
 
-NumberOfCatchModeTilesFlipped:: ; 0xd5b6 a 24 wide block starts here and is filled before catch mode. first step of catch mode only passes if it is 24. top byte records the number of tiles flipped
+wNumberOfCatchModeTilesFlipped:: ; 0xd5b6 a 24 wide block starts here and is filled before catch mode. first step of catch mode only passes if it is 24. top byte records the number of tiles flipped
 	ds $5
 
 wWildMonIsHittable:: ; 0xd5bb
@@ -734,13 +734,13 @@ wBallHitWildMon:: ; 0xd5bf
 wNumMonHits:: ; 0xd5c0
 	ds $1
 
-CurrentCatchMonIdleFrame1Duration:: ; 0xd5c1 sets wLoopsUntilNextCatchSpriteAnimationChange if wCurrentAnimatedMonSpriteFrame - wCurrentAnimatedMonSpriteType < 1 holds animatedSpriteType
+wCurrentCatchMonIdleFrame1Duration:: ; 0xd5c1 sets wLoopsUntilNextCatchSpriteAnimationChange if wCurrentAnimatedMonSpriteFrame - wCurrentAnimatedMonSpriteType < 1 holds animatedSpriteType
 	ds $1 ;mystery data byte 1
 
-CurrentCatchMonIdleFrame2Duration:: ; 0xd5c2 sets wLoopsUntilNextCatchSpriteAnimationChange if wCurrentAnimatedMonSpriteFrame - wCurrentAnimatedMonSpriteType >= 1
+wCurrentCatchMonIdleFrame2Duration:: ; 0xd5c2 sets wLoopsUntilNextCatchSpriteAnimationChange if wCurrentAnimatedMonSpriteFrame - wCurrentAnimatedMonSpriteType >= 1
 	ds $1 ;mystery data byte 2
 
-CurrentCatchMonHitFrameDuration:: ; 0xd5c3
+wCurrentCatchMonHitFrameDuration:: ; 0xd5c3
 	ds $1
 
 wCatchModeMonUpdateTimer:: ; 0xd5c4 increments while the caught mon is active once per frame(?), ensuring that the code only checks for the mon being hit every 4 frames or when the animation changes....for some reason (performance?)

@@ -617,42 +617,45 @@ PaletteData_dcc38:  ; 0xdcc38
 	RGB 11, 25, 31
 	RGB 0, 11, 31
 	RGB 0, 0, 0
-PaletteData_dcc40:  ; 0xdcc40
+
+GoToGengarBonusOnBillboardBGPalette:  ; 0xdcc40
 	RGB 31, 31, 31
 	RGB 15, 15, 19
 	RGB 31, 0, 31
 	RGB 0, 0, 0
-PaletteData_dcc48:  ; 0xdcc48
+GoToMewtwoBonusOnBillboardBGPalette:  ; 0xdcc48
 	RGB 31, 31, 31
 	RGB 31, 25, 31
 	RGB 31, 0, 31
 	RGB 0, 0, 0
-PaletteData_dcc50:  ; 0xdcc50
+GoToMeowthBonusOnBillboardBGPalette:  ; 0xdcc50
 	RGB 31, 31, 31
 	RGB 31, 31, 0
 	RGB 27, 11, 2
 	RGB 0, 0, 0
-PaletteData_dcc58:  ; 0xdcc58
+GoToDiglettBonusOnBillboardBGPalette:  ; 0xdcc58
 	RGB 31, 31, 31
 	RGB 31, 18, 8
 	RGB 27, 0, 0
 	RGB 0, 0, 0
-PaletteData_dcc60:  ; 0xdcc60
+GoToSeelBonusOnBillboardBGPalette:  ; 0xdcc60
 	RGB 31, 31, 31
 	RGB 20, 20, 26
 	RGB 31, 11, 10
 	RGB 0, 0, 0
-PaletteData_dcc68:  ; 0xdcc68
+
+HurryUp2OnBillboardBGPalette: ; 0xdcc68
+HurryUpOnBillboardBGPalette:
 	RGB 31, 31, 31
     RGB 0, 11, 31
     RGB 29, 0, 0
     RGB 0, 0, 0
-PaletteData_dcc70:  ; 0xdcc70
+GoToNextOnBillboardBGPalette:  ; 0xdcc70
 	RGB 31, 31, 31
     RGB 31, 16, 0
     RGB 29, 0, 0
     RGB 0, 0, 0
-PaletteData_dcc78:  ; 0xdcc78
+GoToNextOnBillboardBGPalette2:  ; 0xdcc78
 	RGB 31, 31, 31
     RGB 20, 20, 20
     RGB 8, 8, 8

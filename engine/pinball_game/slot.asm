@@ -524,47 +524,47 @@ Func_f2a0: ; 0xf2a0
 	ret
 
 PaletteDataPointerTable_f2be: ; 0xf2be
-	dwb PaletteData_dcc00, Bank(PaletteData_dcc00)
-	dwb PaletteData_dcc00, Bank(PaletteData_dcc00)
-	dwb PaletteData_dcc00, Bank(PaletteData_dcc00)
-	dwb PaletteData_dcc08, Bank(PaletteData_dcc08)
-	dwb PaletteData_dcc08, Bank(PaletteData_dcc08)
-	dwb PaletteData_dcc10, Bank(PaletteData_dcc10)
-	dwb PaletteData_dcc18, Bank(PaletteData_dcc18)
-	dwb PaletteData_dcc20, Bank(PaletteData_dcc20)
-	dwb PaletteData_dcc08, Bank(PaletteData_dcc08)
-	dwb PaletteData_dcc28, Bank(PaletteData_dcc28)
-	dwb PaletteData_dcc08, Bank(PaletteData_dcc08)
-	dwb PaletteData_dcc30, Bank(PaletteData_dcc30)
-	dwb PaletteData_dcc38, Bank(PaletteData_dcc38)
-	dwb PaletteData_dcc40, Bank(PaletteData_dcc40)
-	dwb PaletteData_dcc48, Bank(PaletteData_dcc48)
-	dwb PaletteData_dcc50, Bank(PaletteData_dcc50)
-	dwb PaletteData_dcc58, Bank(PaletteData_dcc58)
-	dwb PaletteData_dcc60, Bank(PaletteData_dcc60)
-	dwb PaletteData_dcc00, Bank(PaletteData_dcc00)
-	dwb PaletteData_dcc00, Bank(PaletteData_dcc00)
-	dwb PaletteData_dcc00, Bank(PaletteData_dcc00)
-	dwb PaletteData_dcc00, Bank(PaletteData_dcc00)
-	dwb PaletteData_dcc00, Bank(PaletteData_dcc00)
-	dwb PaletteData_dcc00, Bank(PaletteData_dcc00)
-	dwb PaletteData_dcc00, Bank(PaletteData_dcc00)
-	dwb PaletteData_dcc00, Bank(PaletteData_dcc00)
-	dwb PaletteData_dcc00, Bank(PaletteData_dcc00)
-	dwb PaletteData_dcc00, Bank(PaletteData_dcc00)
-	dwb PaletteData_dcc00, Bank(PaletteData_dcc00)
-	dwb PaletteData_dcc00, Bank(PaletteData_dcc00)
-	dwb PaletteData_dcc00, Bank(PaletteData_dcc00)
-	dwb PaletteData_dcc00, Bank(PaletteData_dcc00)
-	dwb PaletteData_dcc00, Bank(PaletteData_dcc00)
-	dwb PaletteData_dcc00, Bank(PaletteData_dcc00)
-	dwb PaletteData_dcc00, Bank(PaletteData_dcc00)
-	dwb PaletteData_dcc00, Bank(PaletteData_dcc00)
-	dwb PaletteData_dcc00, Bank(PaletteData_dcc00)
-	dwb PaletteData_dcc00, Bank(PaletteData_dcc00)
-	dwb PaletteData_dcc00, Bank(PaletteData_dcc00)
-	dwb PaletteData_dcc00, Bank(PaletteData_dcc00)
-	dwb PaletteData_dcc00, Bank(PaletteData_dcc00)
+	dab PaletteData_dcc00
+	dab PaletteData_dcc00
+	dab PaletteData_dcc00
+	dab PaletteData_dcc08
+	dab PaletteData_dcc08
+	dab PaletteData_dcc10
+	dab PaletteData_dcc18
+	dab PaletteData_dcc20
+	dab PaletteData_dcc08
+	dab PaletteData_dcc28
+	dab PaletteData_dcc08
+	dab PaletteData_dcc30
+	dab PaletteData_dcc38
+	dab GoToGengarBonusOnBillboardBGPalette
+	dab GoToMewtwoBonusOnBillboardBGPalette
+	dab GoToMeowthBonusOnBillboardBGPalette
+	dab GoToDiglettBonusOnBillboardBGPalette
+	dab GoToSeelBonusOnBillboardBGPalette
+	dab PaletteData_dcc00
+	dab PaletteData_dcc00
+	dab PaletteData_dcc00
+	dab PaletteData_dcc00
+	dab PaletteData_dcc00
+	dab PaletteData_dcc00
+	dab PaletteData_dcc00
+	dab PaletteData_dcc00
+	dab PaletteData_dcc00
+	dab PaletteData_dcc00
+	dab PaletteData_dcc00
+	dab PaletteData_dcc00
+	dab PaletteData_dcc00
+	dab PaletteData_dcc00
+	dab PaletteData_dcc00
+	dab PaletteData_dcc00
+	dab PaletteData_dcc00
+	dab PaletteData_dcc00
+	dab PaletteData_dcc00
+	dab PaletteData_dcc00
+	dab PaletteData_dcc00
+	dab PaletteData_dcc00
+	dab PaletteData_dcc00
 
 Data_f339: ; 0xf339
 	db $02, $06, $00, $08, $04, $02, $06, $08, $04, $00, $06, $02, $04, $08, $00, $02

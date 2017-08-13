@@ -1239,7 +1239,7 @@ INCLUDE "gfx/high_scores/high_scores_transition_palettes_2.asm"
 
 SECTION "bank36", ROMX
 
-PaletteMap_d8000: ; 0xd8000
+SlotRewardBillboardBGPaletteMap: ; 0xd8000
 	db $6, $6, $6, $6, $6, $6
 	db $6, $6, $6, $6, $6, $6
 	db $6, $6, $6, $6, $6, $6
@@ -1358,7 +1358,7 @@ PaletteData_dd190: ; 0xdd190
     RGB 9, 22, 6
     RGB 4, 13, 31
     RGB 2, 2, 2
-PaletteData_dd198: ; 0xdd198
+SlotOnBillboardBGPalette: ; 0xdd198
     RGB 31, 31, 31
     RGB 31, 26, 2
     RGB 31, 3, 0

@@ -1,13 +1,13 @@
 HandleBallLossSeelBonus: ; 0xe08b
 	xor a
 	ld [wd64e], a
-	ld a, [wd7be]
+	ld a, [wFlippersDisabled]
 	and a
-	jr z, .asm_e09b
+	jr z, .flippersEnabled
 	ld a, [wCompletedBonusStage]
 	and a
 	jr z, .asm_e0b8
-.asm_e09b
+.flippersEnabled
 	ld a, [wd793]
 	cp $14
 	jr nc, .asm_e0b8

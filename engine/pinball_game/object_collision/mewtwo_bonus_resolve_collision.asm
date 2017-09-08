@@ -9,8 +9,8 @@ ResolveMewtwoBonusGameObjectCollisions: ; 0x19451
 	xor a
 	ld [wTimeRanOut], a
 	ld a, $1
-	ld [wd7be], a
-	call Func_2862
+	ld [wFlippersDisabled], a
+	call LoadFlippersPalette
 	callba StopTimer
 	ld a, [wd6b1]
 	cp $8
@@ -170,7 +170,7 @@ Func_19531: ; 0x19531
 	jr z, .asm_195a2
 	xor a
 	ld [wd6aa], a
-	ld a, [wd7be]
+	ld a, [wFlippersDisabled]
 	and a
 	jr nz, .asm_195a2
 	ld a, [wd6af]
@@ -204,8 +204,8 @@ Func_19531: ; 0x19531
 	ld de, wd6ae
 	call Func_19679
 	ld a, $1
-	ld [wd7be], a
-	call Func_2862
+	ld [wFlippersDisabled], a
+	call LoadFlippersPalette
 	callba StopTimer
 	ld de, $0000
 	call PlaySong
@@ -411,7 +411,7 @@ Func_19701: ; 0x19701
 	jr z, .asm_19742
 	xor a
 	ld [wd6b4], a
-	ld a, [wd7be]
+	ld a, [wFlippersDisabled]
 	and a
 	jr nz, .asm_19742
 	ld a, [wd6b5]

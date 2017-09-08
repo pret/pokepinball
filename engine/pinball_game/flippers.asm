@@ -21,7 +21,7 @@ Func_e118: ; 0xe118
 	call IsKeyPressed2
 	ld hl, -$0333
 	jr z, .asm_e13b
-	ld a, [wd7be]
+	ld a, [wFlippersDisabled]
 	and a
 	jr nz, .asm_e13b
 	ld hl,  $0333
@@ -67,7 +67,7 @@ Func_e118: ; 0xe118
 	call IsKeyPressed2
 	ld hl, -$0333
 	jr z, .asm_e18e
-	ld a, [wd7be]
+	ld a, [wFlippersDisabled]
 	and a
 	jr nz, .asm_e18e
 	ld hl,  $0333
@@ -112,7 +112,7 @@ Func_e118: ; 0xe118
 	ret
 
 PlayFlipperSoundIfPressed: ; 0xe1ce
-	ld a, [wd7be]
+	ld a, [wFlippersDisabled]
 	and a
 	ret nz
 	ld hl, wKeyConfigLeftFlipper
@@ -676,7 +676,7 @@ DrawFlippers: ; 0xe4a1
 	ld a, [hGameBoyColorFlag]
 	and a
 	jr nz, .asm_e4d4
-	ld a, [wd7be]
+	ld a, [wFlippersDisabled]
 	and a
 	jr z, .asm_e4d4
 	ld a, $18
@@ -708,7 +708,7 @@ DrawFlippers: ; 0xe4a1
 	ld a, [hGameBoyColorFlag]
 	and a
 	jr nz, .asm_e504
-	ld a, [wd7be]
+	ld a, [wFlippersDisabled]
 	and a
 	jr z, .asm_e504
 	ld a, $17

@@ -1,13 +1,13 @@
 HandleBallLossMeowthBonus: ; 0xdfe2
 	xor a
 	ld [wd64e], a
-	ld a, [wd7be]
+	ld a, [wFlippersDisabled]
 	and a
-	jr z, .asm_dff2
+	jr z, .flippersEnabled
 	ld a, [wCompletedBonusStage]
 	and a
 	jr z, .asm_e00f
-.asm_dff2
+.flippersEnabled
 	ld a, [wMeowthStageScore]
 	cp 20
 	jr nc, .asm_e00f

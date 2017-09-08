@@ -151,8 +151,8 @@ Start: ; 0x150
 	call ResetRNG
 	xor a
 	ld [wBootCheck], a
-	ld a, BANK(Func_1ffc)
-	ld hl, Func_1ffc
+	ld a, BANK(Main)
+	ld hl, Main
 	call BankSwitchSimple
 Func_23b: ; 0x23b
 	ld a, [hGameBoyColorFlag]
@@ -243,7 +243,7 @@ SoftReset:
 	xor a
 	ld [wBootCheck], a
 	ld a, $0
-	ld hl, Func_1ffc
+	ld hl, Main
 	call BankSwitchSimple
 	; fallthrough
 
@@ -2076,7 +2076,8 @@ asm_1fca
 	pop bc
 	ret
 
-Func_1ffc: ; 0x1ffc
+Main: ; 0x1ffc
+; This is the main game loop.
 	ld a, $b
 	ld [wd806], a
 	ld a, $4
@@ -2116,36 +2117,15 @@ DoScreenLogic: ; 0x2043
 	ld a, [wCurrentScreen]
 	call CallInFollowingTable
 CallTable_2049: ; 0x2049
-; First two bytes is function pointer.
-; Third byte is bank of function.
-; Fourth byte seems to be unused.
-	; SCREEN_SELECT_GAMEBOY_TARGET
-	padded_dab HandleSelectGameboyTargetMenu
-
-	; SCREEN_ERASE_ALL_DATA
-	padded_dab HandleEraseAllDataMenu
-
-	; SCREEN_COPYRIGHT
-	padded_dab HandleCopyrightScreen
-
-	; SCREEN_TITLESCREEN
-	padded_dab HandleTitlescreen
-
-	; SCREEN_PINBALL_GAME
-	padded_dab HandlePinballGame
-
-	; SCREEN_POKEDEX
-	padded_dab HandlePokedexScreen
-
-	; SCREEN_OPTIONS
-	padded_dab HandleOptionsScreen
-
-	; SCREEN_HIGH_SCORES
-	padded_dab HandleHighScoresScreen
-
-	; SCREEN_FIELD_SELECT
-	padded_dab HandleFieldSelectScreen
-	; end of call table
+	padded_dab HandleSelectGameboyTargetMenu ; SCREEN_SELECT_GAMEBOY_TARGET
+	padded_dab HandleEraseAllDataMenu        ; SCREEN_ERASE_ALL_DATA
+	padded_dab HandleCopyrightScreen         ; SCREEN_COPYRIGHT
+	padded_dab HandleTitlescreen             ; SCREEN_TITLESCREEN
+	padded_dab HandlePinballGame             ; SCREEN_PINBALL_GAME
+	padded_dab HandlePokedexScreen           ; SCREEN_POKEDEX
+	padded_dab HandleOptionsScreen           ; SCREEN_OPTIONS
+	padded_dab HandleHighScoresScreen        ; SCREEN_HIGH_SCORES
+	padded_dab HandleFieldSelectScreen       ; SCREEN_FIELD_SELECT
 
 LoadDexVWFCharacter: ; 0x206d
 ; Loads a single variable-width-font character used in various parts of the Pokedex screen.
@@ -3166,38 +3146,42 @@ SubTileXPos_CollisionData7: ; 0x268e
 INCLUDE "data/sine_table.asm"
 INCLUDE "engine/pinball_game/object_collision/object_collision.asm"
 
-Func_2862: ; 0x2862
-	ld a, [wd7be]
+LoadFlippersPalette: ; 0x2862
+; Loads the flippers' color palette.
+; When the flippers are active, they are white/blue. When disabled at the end of a Bonus Stage, they turn Red.
+	ld a, [wFlippersDisabled]
 	and a
-	jr nz, .asm_287c
+	jr nz, .flippersDisabled
 	ld a, [hGameBoyColorFlag]
 	and a
-	jr z, .asm_287b
-	ld a, $0
-	ld hl, Data_2890
+	jr z, .done
+	ld a, Bank(ActiveFlippersPalette)
+	ld hl, ActiveFlippersPalette
 	ld de, $0052
 	ld bc, $0004
 	call FarCopyPalettes
-.asm_287b
+.done
 	ret
 
-.asm_287c
+.flippersDisabled
 	ld a, [hGameBoyColorFlag]
 	and a
-	jr z, .asm_288f
-	ld a, $0
-	ld hl, Data_2894
+	jr z, .done2
+	ld a, Bank(DisabledFlippersPalette)
+	ld hl, DisabledFlippersPalette
 	ld de, $0052
 	ld bc, $0004
 	call FarCopyPalettes
-.asm_288f
+.done2
 	ret
 
-Data_2890:
+ActiveFlippersPalette:
+; The white/blue color when the flippers are active.
 	RGB 31, 31, 31
 	RGB 21, 21, 27
 
-Data_2894:
+DisabledFlippersPalette:
+; The reddish colors when the flippers are disabled at the end of a Bonus Stage.
 	RGB 27, 10, 10
 	RGB 20, 04, 04
 
@@ -3206,405 +3190,10 @@ CatchBarTiles:
 	db $80, $AE, $AF, $B0, $B1, $B2, $B3, $80
 CatchBarTilesEnd:
 
-InitAnimation: ; 0x28a0
-; Initializes an OAM animation.
-; hl = pointer to first frame of animation
-; de = pointer to destination animation struct
-	ld a, [hli]
-	ld [de], a
-	inc de
-	ld a, [hli]
-	ld [de], a
-	inc de
-	xor a
-	ld [de], a
-	ret
-
-UpdateAnimation: ; 0x28a9
-; Updates an animation struct.  (See wDugtrioAnimationFrameCounter)
-; Input:  de = pointer to 3-byte animation struct
-;         hl = pointer to animation frames data
-; Sets carry flag if the animation is over.
-	ld a, [de]
-	and a
-	ret z  ; return, if counter is zero
-	dec a
-	ld [de], a
-	ret nz  ; return if counter is not zero after the decrement
-	push de
-	inc de
-	inc de
-	ld a, [de]  ; a = current frame index
-	inc a
-	ld [de], a
-	ld c, a
-	ld b, $0
-	sla c
-	rl b
-	add hl, bc  ; hl = pointer to two-byte entry in the frames data table
-	ld a, [hli]
-	pop de
-	and a
-	scf
-	ret z  ; return if the next entry is $00
-	push de
-	ld [de], a  ; save the animation duration
-	inc de
-	ld a, [hli]
-	ld [de], a  ; save the next animation frame id
-	pop de
-	ret
-
+INCLUDE "home/animation.asm"
 INCLUDE "home/text.asm"
-
-Func_3500:
-	ld hl, wScoreToAdd
-	ld a, e
-	ld [hli], a
-	ld a, d
-	ld [hli], a
-	ld a, c
-	ld [hli], a
-	ld a, b
-	ld [hli], a
-	xor a
-	ld [hli], a
-	ld [hl], a
-	ld bc, wScoreToAdd
-	callba AddBigBCD6FromQueueWithBallMultiplier
-	ret
-
-AddBCDEToCurBufferValue: ; 0x351c
-	ld hl, wScoreToAdd
-	ld a, e
-	ld [hli], a
-	ld a, d
-	ld [hli], a
-	ld a, c
-	ld [hli], a
-	ld a, b
-	ld [hli], a
-	xor a
-	ld [hli], a
-	ld [hl], a
-	ld bc, wScoreToAdd
-	callba AddBigBCD6FromQueue
-	ret
-
-AddBCDEToJackpot: ; 0x3538
-; Add BCD value bcde to [wCurrentJackpot].  Cap at $99999999.
-	ld hl, wCurrentJackpot
-	ld a, [hl]
-	add e
-	daa
-	ld [hli], a
-	ld a, [hl]
-	adc d
-	daa
-	ld [hli], a
-	ld a, [hl]
-	adc c
-	daa
-	ld [hli], a
-	ld a, [hl]
-	adc b
-	daa
-	ld [hli], a
-	ret nc
-	ld hl, wCurrentJackpot
-	ld a, $99
-	ld [hli], a
-	ld [hli], a
-	ld [hli], a
-	ld [hli], a
-	ret
-
-RetrieveJackpot: ; 0x3556
-; Retrieves a 4-byte BCD value at wCurrentJackpot
-	ld a, [wCurrentJackpot]
-	ld e, a
-	ld a, [wCurrentJackpot + 1]
-	ld d, a
-	ld a, [wCurrentJackpot + 2]
-	ld c, a
-	ld a, [wCurrentJackpot + 3]
-	ld b, a
-	ret
-
-Func_3567:
-; BCD add bc to hl
-	ld a, l
-	add c
-	daa
-	ld l, a
-	ld a, h
-	adc b
-	daa
-	ld h, a
-	ret
-
-Func_3570:
-; BCD add de to hl
-	ld a, l
-	add e
-	daa
-	ld l, a
-	ld a, h
-	adc d
-	daa
-	ld h, a
-	ret
-
-Func_3579: ; 0x3579
-; Delete 4-byte BCD value at wCurrentJackpot
-	ld hl, wCurrentJackpot
-	xor a
-	ld [hli], a
-	ld [hli], a
-	ld [hli], a
-	ld [hli], a
-	ret
-
-HandleTilts: ; 0x3582
-	call HandleLeftTilt
-	call HandleRightTilt
-	call HandleUpperTilt
-	ret
-
-HandleLeftTilt: ; 0x358c
-	ld a, [wLeftTiltReset]
-	and a
-	jr nz, .tiltCoolDown
-	ld hl, wKeyConfigLeftTilt
-	call IsKeyPressed2
-	jr z, .tiltCoolDown
-	ld a, [wLeftTiltCounter]
-	cp $3
-	jr z, .startCoolDown
-	inc a
-	ld [wLeftTiltCounter], a
-	cp $1
-	jr nz, .skipSoundEffect
-	lb de, $00, $3f
-	call PlaySoundEffect
-.skipSoundEffect
-	ld a, [wPinballIsVisible]
-	ld hl, wEnableBallGravityAndTilt
-	and [hl]
-	jr z, .skipBallMovement
-	ld a, [wBallXPos + 1]
-	dec a  ; move ball's position to the left by 1 pixel
-	ld [wBallXPos + 1], a
-.skipBallMovement
-	ld a, [wLeftAndRightTiltPixelsOffset]
-	inc a
-	ld [wLeftAndRightTiltPixelsOffset], a
-	ld a, $1
-	ld [wLeftTiltPushing], a
-	ret
-
-.startCoolDown
-	ld a, $1
-	ld [wLeftTiltReset], a
-.tiltCoolDown
-	xor a
-	ld [wLeftTiltPushing], a
-	ld a, [wLeftTiltCounter]
-	and a
-	jr z, .done
-	dec a
-	ld [wLeftTiltCounter], a
-	ld a, [wLeftAndRightTiltPixelsOffset]
-	dec a
-	ld [wLeftAndRightTiltPixelsOffset], a
-	ret
-
-.done
-	ld hl, wKeyConfigLeftTilt
-	call IsKeyPressed2
-	ret nz
-	xor a
-	ld [wLeftTiltReset], a
-	ret
-
-HandleRightTilt: ; 0x35f3
-	ld a, [wRightTiltReset]
-	and a
-	jr nz, .tiltCoolDown
-	ld hl, wKeyConfigRightTilt
-	call IsKeyPressed2
-	jr z, .tiltCoolDown
-	ld a, [wRightTiltCounter]
-	cp $3
-	jr z, .startCoolDown
-	inc a
-	ld [wRightTiltCounter], a
-	cp $1
-	jr nz, .skipSoundEffect
-	lb de, $00, $3f
-	call PlaySoundEffect
-.skipSoundEffect
-	ld a, [wPinballIsVisible]
-	ld hl, wEnableBallGravityAndTilt
-	and [hl]
-	jr z, .skipBallMovement
-	ld a, [wBallXPos + 1]
-	inc a  ; move ball's position to the right by 1 pixel
-	ld [wBallXPos + 1], a
-.skipBallMovement
-	ld a, [wLeftAndRightTiltPixelsOffset]
-	dec a
-	ld [wLeftAndRightTiltPixelsOffset], a
-	ld a, $1
-	ld [wRightTiltPushing], a
-	ret
-
-.startCoolDown
-	ld a, $1
-	ld [wRightTiltReset], a
-.tiltCoolDown
-	xor a
-	ld [wRightTiltPushing], a
-	ld a, [wRightTiltCounter]
-	and a
-	jr z, .done
-	dec a
-	ld [wRightTiltCounter], a
-	ld a, [wLeftAndRightTiltPixelsOffset]
-	inc a
-	ld [wLeftAndRightTiltPixelsOffset], a
-	ret
-
-.done
-	ld hl, wKeyConfigRightTilt
-	call IsKeyPressed2
-	ret nz
-	xor a
-	ld [wRightTiltReset], a
-	ret
-
-HandleUpperTilt: ; 0x365a
-	ld a, [wUpperTiltReset]
-	and a
-	jr nz, .tiltCoolDown
-	ld hl, wKeyConfigUpperTilt
-	call IsKeyPressed2
-	jr z, .tiltCoolDown
-	ld a, [wUpperTiltCounter]
-	cp $4
-	jr z, .startCoolDown
-	inc a
-	ld [wUpperTiltCounter], a
-	cp $1
-	jr nz, .skipSoundEffect
-	lb de, $00, $3f
-	call PlaySoundEffect
-.skipSoundEffect
-	ld a, [wPinballIsVisible]
-	ld hl, wEnableBallGravityAndTilt
-	and [hl]
-	jr z, .skipBallMovement
-	ld a, [wBallYPos + 1]
-	inc a  ; move ball's position down by 1 pixel
-	ld [wBallYPos + 1], a
-.skipBallMovement
-	ld a, [wUpperTiltPixelsOffset]
-	dec a
-	ld [wUpperTiltPixelsOffset], a
-	ld a, $1
-	ld [wUpperTiltPushing], a
-	ret
-
-.startCoolDown
-	ld a, $1
-	ld [wUpperTiltReset], a
-.tiltCoolDown
-	xor a
-	ld [wUpperTiltPushing], a
-	ld a, [wUpperTiltCounter]
-	and a
-	jr z, .done
-	dec a
-	ld [wUpperTiltCounter], a
-	ld a, [wUpperTiltPixelsOffset]
-	inc a
-	ld [wUpperTiltPixelsOffset], a
-	ret
-
-.done
-	ld hl, wKeyConfigUpperTilt
-	call IsKeyPressed2
-	ret nz
-	xor a
-	ld [wUpperTiltReset], a
-	ret
-
-ApplyTiltForces: ; 0x36c1
-	ld a, [wPinballIsVisible]
-	ld hl, wEnableBallGravityAndTilt
-	and [hl]
-	ret z
-	ld c, $0
-	ld a, [wUpperTiltPushing]
-	srl a
-	rl c
-	ld a, [wRightTiltPushing]
-	srl a
-	rl c
-	ld a, [wLeftTiltPushing]
-	srl a
-	rl c
-	ld b, $0
-	sla c
-	ld hl, Data_372d
-	add hl, bc
-	ld a, [hli]
-	ld h, [hl]
-	ld l, a
-	bit 7, h
-	ret nz
-	ld a, [wCollisionForceAngle]
-	ld c, a
-	ld b, $0
-	sla c
-	rl b
-	sla c
-	rl b
-	add hl, bc
-	ld a, [hLoadedROMBank]
-	push af
-	ld a, BANK(TiltLeftOnlyForce)
-	ld [hLoadedROMBank], a
-	ld [MBC5RomBank], a
-	ld a, [wBallXVelocity]
-	add [hl]
-	ld [wBallXVelocity], a
-	inc hl
-	ld a, [wBallXVelocity + 1]
-	adc [hl]
-	ld [wBallXVelocity + 1], a
-	inc hl
-	ld a, [wBallYVelocity]
-	add [hl]
-	ld [wBallYVelocity], a
-	inc hl
-	ld a, [wBallYVelocity + 1]
-	adc [hl]
-	ld [wBallYVelocity + 1], a
-	pop af
-	ld [hLoadedROMBank], a
-	ld [MBC5RomBank], a
-	ret
-
-Data_372d:
-	dw    -1 ; no tilt
-	dw TiltLeftOnlyForce
-	dw TiltRightOnlyForce
-	dw    -1 ; left + right (cancel)
-	dw TiltUpOnlyForce
-	dw TiltUpLeftForce
-	dw TiltUpRightForce
-	dw TiltUpOnlyForce
+INCLUDE "home/bcd.asm"
+INCLUDE "home/tilt.asm"
 
 SECTION "bank0.2", ROM0
 

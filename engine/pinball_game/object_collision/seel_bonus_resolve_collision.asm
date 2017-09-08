@@ -45,8 +45,8 @@ ResolveSeelBonusGameObjectCollisions: ; 0x25c5a
 	xor a
 	ld [wTimeRanOut], a
 	ld a, $1
-	ld [wd7be], a
-	call Func_2862
+	ld [wFlippersDisabled], a
+	call LoadFlippersPalette
 	callba StopTimer
 	ld a, $3
 	ld [wd791], a

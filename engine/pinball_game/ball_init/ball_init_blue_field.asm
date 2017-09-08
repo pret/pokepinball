@@ -80,7 +80,7 @@ StartBallAfterBonusStageBlueField: ; 0x1c129
 	ld [wBallXVelocity + 1], a
 	ld [wReturningFromBonusStage], a
 	ld [wSCX], a
-	ld [wd7be], a
+	ld [wFlippersDisabled], a
 	ld a, [wBallTypeBackup]
 	ld [wBallType], a
 	ld a, $10

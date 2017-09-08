@@ -20,7 +20,7 @@ InitRedField: ; 0x30000
 	ld [hli], a ; wNumPokeballs
 	ld [hli], a ; wPokeballBlinkingCounter
 	ld [wDisableHorizontalScrollForBallStart], a
-	ld [wd7be], a
+	ld [wFlippersDisabled], a
 	ld [wCurrentMap], a  ; PALLET_TOWN
 	ld a, $1
 	ld [wd49d], a

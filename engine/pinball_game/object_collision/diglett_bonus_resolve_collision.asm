@@ -683,8 +683,8 @@ Func_1ab30: ; 0x1ab30
 	lb de, $4b, $2a
 	call PlaySoundEffect
 	ld a, $1
-	ld [wd7be], a
-	call Func_2862
+	ld [wFlippersDisabled], a
+	call LoadFlippersPalette
 	ld hl, Data_1ac56
 	jr asm_1ac2f
 

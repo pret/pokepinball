@@ -1778,7 +1778,9 @@ wFlipperXForce:: ; 0xd7ba
 wFlipperYForce:: ; 0xd7bc
 	dw
 
-wd7be:: ; 0xd7be
+wFlippersDisabled:: ; 0xd7be
+; 0 = enabled
+; 1 = disabled
 	ds $1
 
 wStageSong:: ; 0xd7bf

@@ -1,6 +1,6 @@
 _LoadStageDataDiglettBonus: ; 0x19a76
 	callba Func_142fc
-	call Func_2862
+	call LoadFlippersPalette
 	ld a, [wd7c1]
 	and a
 	ret z

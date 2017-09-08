@@ -85,7 +85,7 @@ StartBallAfterBonusStageRedField: ; 0x30128
 	ld [wBallXVelocity + 1], a
 	ld [wReturningFromBonusStage], a
 	ld [wSCX], a
-	ld [wd7be], a
+	ld [wFlippersDisabled], a
 	ld a, [wBallTypeBackup]
 	ld [wBallType], a
 	ld a, $f

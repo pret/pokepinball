@@ -1,3 +1,29 @@
+CheckSpecialModeColision: ; 0x10000
+	ld c, a
+	ld a, [wInSpecialMode] ;special mode in c
+	and a
+	ret z ;if mot in special mode, ret
+	ld a, c
+	ld [wSpecialModeCollisionID], a
+	ld a, [wSpecialMode]
+	cp SPECIAL_MODE_EVOLUTION ;branch based on mode
+	jp z, HandleEvoModeCollision ;call evo mode logic
+	cp SPECIAL_MODE_MAP_MOVE
+	jr nz, .CatchMode  ;call catch mode logic
+	callba HandleMapModeCollision ;call map move logic
+	ret
+
+.CatchMode
+	ld a, [wCurrentStage]
+	call CallInFollowingTable
+HandleCatchEmCollisionCallTable: ; 0x10027
+	padded_dab HandleRedCatchEmCollision ; STAGE_RED_FIELD_TOP
+	padded_dab HandleRedCatchEmCollision ; STAGE_RED_FIELD_BOTTOM
+	padded_dab HandleRedCatchEmCollision
+	padded_dab HandleRedCatchEmCollision
+	padded_dab HandleBlueCatchEmCollision ; STAGE_BLUE_FIELD_TOP
+	padded_dab HandleBlueCatchEmCollision ; STAGE_BLUE_FIELD_BOTTOM
+
 StartCatchEmMode: ; 0x1003f
 	ld a, [wInSpecialMode]  ; current game mode?
 	and a

@@ -319,3 +319,28 @@ Func_8ed6: ; 0x8ed6
 
 Data_8ed8: ; 0x8ed8
 	db $FF, $7F, $3F, $1F, $0F, $07, $03, $01
+
+Func_8ee0: ; 0x8ee0
+	ld a, [$ff8d]
+	ld [$ff90], a
+	ld a, [$ff8e]
+	ld [$ff91], a
+	ld a, [$ff8d]
+	ld c, a
+	ld a, [$ff8e]
+	ld b, a
+	ld a, [$ff8c]
+	ld l, a
+	ld h, $0
+	add hl, bc
+	ld a, l
+	ld [$ff8d], a
+	ld a, h
+	ld [$ff8e], a
+	srl h
+	rr l
+	srl h
+	rr l
+	ld a, [$ff8f]
+	cp l
+	ret

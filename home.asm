@@ -1862,7 +1862,8 @@ Func_1bd3: ; 0x1bd3
 
 INCLUDE "home/ir.asm"
 
-Func_1ed9:
+Unused_Func_1ed9:
+; unused
 	push bc
 	push de
 	push hl
@@ -1872,13 +1873,14 @@ Func_1ed9:
 	rl d
 	ld a, [hLoadedROMBank]
 	push af
-	ld a, BANK(Data_8f06)
+	ld a, $2
 	ld [hLoadedROMBank], a
 	ld [MBC5RomBank], a
-	ld hl, Data_8f06
+	ld hl, $4f06
 	jr asm_1f3b
 
-Func_1ef2:
+Unused_Func_1ef2:
+; unused
 	push bc
 	push de
 	push hl
@@ -1888,10 +1890,10 @@ Func_1ef2:
 	rl d
 	ld a, [hLoadedROMBank]
 	push af
-	ld a, BANK(Data_8f06)
+	ld a, $2
 	ld [hLoadedROMBank], a
 	ld [MBC5RomBank], a
-	ld hl, Data_8f06
+	ld hl, $4f06
 	jr asm_1f3b
 
 LoadOAMData2: ; 0x1f0b
@@ -1967,7 +1969,8 @@ asm_1f3b: ; 0x1f3b
 	pop bc
 	ret
 
-Func_1f68:
+Unused_Func_1f68:
+; unused
 	push bc
 	push de
 	push hl
@@ -1977,13 +1980,14 @@ Func_1f68:
 	rl d
 	ld a, [hLoadedROMBank]
 	push af
-	ld a, BANK(Data_8f06)
+	ld a, $2
 	ld [hLoadedROMBank], a
 	ld [MBC5RomBank], a
-	ld hl, Data_8f06 ; all 0s
+	ld hl, $4f06
 	jr asm_1fca
 
-Func_1f81:
+Unused_Func_1f81:
+; unused
 	push bc
 	push de
 	push hl
@@ -1993,10 +1997,10 @@ Func_1f81:
 	rl d
 	ld a, [hLoadedROMBank]
 	push af
-	ld a, BANK(Data_8f06)
+	ld a, $2
 	ld [hLoadedROMBank], a
 	ld [MBC5RomBank], a
-	ld hl, Data_8f06 ; all 0s
+	ld hl, $4f06
 	jr asm_1fca
 
 Func_1f9a:

@@ -88,7 +88,7 @@ Func_e118: ; 0xe118
 	ld a, l
 	ld [wd7b4], a
 	ld a, h
-	ld [wd7b5], a
+	ld [wd7b4 + 1], a
 	ld a, [wd7b2]
 	ld c, a
 	ld a, [wd7b3]
@@ -195,7 +195,7 @@ CheckRightFlipperCollision: ; 0xe226
 	; collision with flipper occurred
 	ld a, [wd7b4]
 	ld [$ffc0], a
-	ld a, [wd7b5]
+	ld a, [wd7b4 + 1]
 	ld [$ffc1], a
 	ret
 

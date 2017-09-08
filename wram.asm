@@ -1755,10 +1755,7 @@ wd7b3:: ; 0xd7b3
 	ds $1
 
 wd7b4:: ; 0xd7b4
-	ds $1
-
-wd7b5:: ; 0xd7b5
-	ds $1
+	ds $2
 
 wLeftFlipperAnimationState:: ; 0xd7b6
 	ds $1
@@ -2238,10 +2235,14 @@ wScreenState:: ; 0xd8f2
 
 	ds $3
 
-wd8f6:: ; 0xd8f6
-	ds $12
+wFieldSelectPressedButton:: ; 0xd8f6
+; Holds which button was pressed on the field select screen. (A or B)
+	ds $1
+
+	ds $11
 
 wd908:: ; 0xd908
+; unused
 	ds $1
 
 wTitleScreenCursorSelection:: ; 0xd909

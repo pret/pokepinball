@@ -57,7 +57,7 @@ ChooseFieldToPlay: ; 0xd74e
 	ld a, [hNewlyPressedButtons]
 	and (A_BUTTON | B_BUTTON)
 	ret z
-	ld [wd8f6], a
+	ld [wFieldSelectPressedButton], a
 	ld a, $18  ; number of frames to blink the border after selecting the Field
 	ld [wFieldSelectBlinkingBorderTimer], a
 	ld a, $1
@@ -69,7 +69,7 @@ ChooseFieldToPlay: ; 0xd74e
 	ret
 
 ExitFieldSelectScreen: ; 0xd774
-	ld a, [wd8f6]  ; this holds the button that was pressed (A or B)
+	ld a, [wFieldSelectPressedButton]  ; this holds the button that was pressed (A or B)
 	bit BIT_A_BUTTON, a
 	jr z, .didntPressA
 	ld hl, FieldSelectConfirmationAnimationData
@@ -83,7 +83,7 @@ ExitFieldSelectScreen: ; 0xd774
 	push af
 	call FadeOut
 	call DisableLCD
-	ld a, [wd8f6]
+	ld a, [wFieldSelectPressedButton]
 	bit BIT_A_BUTTON, a
 	jr z, .pressedB
 	ld a, [wSelectedFieldIndex]

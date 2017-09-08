@@ -19,7 +19,7 @@ InitBallForStage: ; 0x83ba
 	ld [wd7b0], a
 	ld [wd7b1], a
 	ld [wd7b4], a
-	ld [wd7b5], a
+	ld [wd7b4 + 1], a
 	ld [wBallSpin], a
 	ld [wBallRotation], a
 	inc a

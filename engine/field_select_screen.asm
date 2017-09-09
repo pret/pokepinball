@@ -95,14 +95,14 @@ ExitFieldSelectScreen: ; 0xd774
 	ld [wCurrentStage], a
 	pop af
 	xor a
-	ld [wd7c2], a
+	ld [wSavedGame], a
 	ld hl, wPartyMons
 	ld de, sSaveGame
 	ld bc, $04c3
 	call SaveData
 	xor a
-	ld [wd7c1], a
-	; Start a round of Pinball! Yayy
+	ld [wLoadingSavedGame], a
+	; Start a game of Pinball
 	ld a, SCREEN_PINBALL_GAME
 	ld [wCurrentScreen], a
 	xor a

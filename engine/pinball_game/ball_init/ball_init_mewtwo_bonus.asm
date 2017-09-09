@@ -13,9 +13,9 @@ InitBallMewtwoBonusStage: ; 0x192e3
 	ld [wSCX], a
 	ld [wStageCollisionState], a
 	ld [wd6a9], a
-	ld a, [wd4c9]
+	ld a, [wLostBall]
 	and a
 	ret z
 	xor a
-	ld [wd4c9], a
+	ld [wLostBall], a
 	ret

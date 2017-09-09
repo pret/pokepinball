@@ -44,7 +44,7 @@ CallTable_8348: ; 0x8348
 
 ResetDataForStageInitialization: ; 0x8388
 ; Resets some game data, depending on which stage is being initialized.
-	ld a, [wd7c1]
+	ld a, [wLoadingSavedGame]
 	and a
 	jr z, .asm_8398
 	ld hl, wSubTileBallXPos

@@ -299,7 +299,8 @@ wd4c7:: ; 0xd4c7
 wd4c8:: ; 0xd4c8
 	ds $1
 
-wd4c9:: ; 0xd4c9
+wLostBall:: ; 0xd4c9
+; Set to 1 when a ball was lost. (Lost a "life"). 0 otherwise.
 	ds $1
 
 wShowExtraBallText:: ; 0xd4ca
@@ -486,11 +487,10 @@ wd509:: ; 0xd509
 wd50a:: ; 0xd50a
 	ds $1
 
-wd50b:: ; 0xd50b
-	ds $1
-
-wd50c:: ; 0xd50c
-	ds $1
+wSpinnerVelocity:: ; 0xd50b
+; When the ball intially passes through the spinner, the ball's y velocity is saved to this location.
+; Then, the velocity saved here is decreased a little bit each frame, while it's adding to the current "spinner charge".
+	ds $2
 
 wWhichCAVELight:: ; 0xd50d
 	ds $1
@@ -915,7 +915,8 @@ wd611:: ; 0xd611
 wd612:: ; 0xd612
 	ds $1
 
-wd613:: ; 0xd613
+wShowBonusMultiplierBottomMessage:: ; 0xd613
+; Set to 1 when the bonus multiplier message should appear on the bottom of the screen. 0 otherwise.
 	ds $1
 
 wd614:: ; 0xd614
@@ -1798,10 +1799,14 @@ wStageSong:: ; 0xd7bf
 wStageSongBank:: ; 0xd7c0
 	ds $1
 
-wd7c1:: ; 0xd7c1
+wLoadingSavedGame:: ; 0xd7c1
+; Set to 1 when the pinball game is being initialized from a saved game via the Titlescreen.
+; 0 otherwise.
 	ds $1
 
-wd7c2:: ; 0xd7c2
+wSavedGame:: ; 0xd7c2
+; Set to 1 when there is a pinball game saved, ready to resume via the Titlescreen.
+; 0 otherwise.
 	ds $1
 
 wSubTileBallXPos:: ; 0xd7c3

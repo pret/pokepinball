@@ -30,7 +30,7 @@ HandleBallLossRedField: ; 0xdd76
 	call PlaySoundEffect
 	call Start20SecondSaverTimer
 	ld a, $1
-	ld [wd4c9], a
+	ld [wLostBall], a
 	xor a
 	ld [wPinballLaunched], a
 	ld [wd4df], a

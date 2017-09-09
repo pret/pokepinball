@@ -1,5 +1,5 @@
 InitMewtwoBonusStage: ; 0x1924f
-	ld a, [wd7c1]
+	ld a, [wLoadingSavedGame]
 	and a
 	ret nz
 	xor a

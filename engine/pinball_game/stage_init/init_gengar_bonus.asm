@@ -1,5 +1,5 @@
 InitGengarBonusStage: ; 0x18099
-	ld a, [wd7c1]
+	ld a, [wLoadingSavedGame]
 	and a
 	jr z, .asm_180ac
 	xor a

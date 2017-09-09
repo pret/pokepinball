@@ -609,21 +609,21 @@ ResolveRedStageSpinnerCollision: ; 0x14dea
 	ld a, [wBallYVelocity + 1]
 	ld b, a
 	ld a, c
-	ld [wd50b], a
+	ld [wSpinnerVelocity], a
 	ld a, b
-	ld [wd50c], a
+	ld [wSpinnerVelocity + 1], a
 	ld a, $c
 	callba CheckSpecialModeColision
 	; fall through
 
 UpdateRedStageSpinner: ; 0x14e10
-	ld hl, wd50b
+	ld hl, wSpinnerVelocity
 	ld a, [hli]
 	or [hl]
 	ret z
-	ld a, [wd50b]
+	ld a, [wSpinnerVelocity]
 	ld c, a
-	ld a, [wd50c]
+	ld a, [wSpinnerVelocity + 1]
 	ld b, a
 	bit 7, b
 	jr nz, .asm_14e2e
@@ -648,10 +648,10 @@ UpdateRedStageSpinner: ; 0x14e10
 	ld bc, $0000
 .asm_14e3b
 	ld a, c
-	ld [wd50b], a
+	ld [wSpinnerVelocity], a
 	ld a, b
-	ld [wd50c], a
-	ld hl, wd50b
+	ld [wSpinnerVelocity + 1], a
+	ld hl, wSpinnerVelocity
 	ld a, [wd509]
 	add [hl]
 	ld [wd509], a
@@ -2740,7 +2740,7 @@ ResolveRedStageBonusMultiplierCollision: ; 016d9d
 	ld a, [wBonusMultiplierOnesDigit]
 	ld [wd615], a
 	ld a, $1
-	ld [wd613], a
+	ld [wShowBonusMultiplierBottomMessage], a
 .asm_16e35
 	ld bc, TenPoints
 	callba AddBigBCD6FromQueueWithBallMultiplier
@@ -2842,11 +2842,11 @@ ShowBonusMultiplierMessage_RedField: ; 0x16ef5
 	ld a, [wBottomTextEnabled]
 	and a
 	ret nz
-	ld a, [wd613]
+	ld a, [wShowBonusMultiplierBottomMessage]
 	and a
 	ret z
 	xor a
-	ld [wd613], a
+	ld [wShowBonusMultiplierBottomMessage], a
 	call FillBottomMessageBufferWithBlackTile
 	call EnableBottomText
 	ld hl, wScrollingText1

@@ -58,7 +58,7 @@ GameScreenFunction_StartBall: ; 0xd87f
 	ld a, $1
 	ld [wDrawBottomMessageBox], a
 	xor a
-	ld [wd7c1], a
+	ld [wLoadingSavedGame], a
 	call SetAllPalettesWhite
 	call EnableLCD
 	call FadeIn
@@ -191,7 +191,7 @@ GameScreenFunction_HandleBallLoss: ; 0xda36
 	ld a, [wBottomTextEnabled]
 	and a
 	ret nz
-	ld a, [wd4c9]
+	ld a, [wLostBall]
 	and a
 	jr z, .asm_daa9
 	ld a, [wd49c]

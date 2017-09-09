@@ -394,24 +394,24 @@ ResolveBlueStageSpinnerCollision: ; 0x1ca5f
 	ld a, [wBallYVelocity + 1]
 	ld b, a
 	ld a, c
-	ld [wd50b], a
+	ld [wSpinnerVelocity], a
 	ld a, b
-	ld [wd50c], a
+	ld [wSpinnerVelocity + 1], a
 	ld a, $c
 	callba CheckSpecialModeColision
 	; fall through
 
 UpdateBlueStageSpinner: ; 0x1ca85
-	ld hl, wd50b
+	ld hl, wSpinnerVelocity
 	ld a, [hli]
 	or [hl]
 	ret z
-	ld a, [wd50b]
+	ld a, [wSpinnerVelocity]
 	ld c, a
-	ld a, [wd50c]
+	ld a, [wSpinnerVelocity + 1]
 	ld b, a
 	bit 7, b
-	jr nz, .asm_1caa3
+	jr nz, .upwardVelocity
 	ld a, c
 	sub $7
 	ld c, a
@@ -421,7 +421,7 @@ UpdateBlueStageSpinner: ; 0x1ca85
 	jr nc, .asm_1cab0
 	jr .asm_1caad
 
-.asm_1caa3
+.upwardVelocity
 	ld a, c
 	add $7
 	ld c, a
@@ -433,10 +433,10 @@ UpdateBlueStageSpinner: ; 0x1ca85
 	ld bc, $0000
 .asm_1cab0
 	ld a, c
-	ld [wd50b], a
+	ld [wSpinnerVelocity], a
 	ld a, b
-	ld [wd50c], a
-	ld hl, wd50b
+	ld [wSpinnerVelocity + 1], a
+	ld hl, wSpinnerVelocity
 	ld a, [wd509]
 	add [hl]
 	ld [wd509], a
@@ -1233,7 +1233,7 @@ ResolveBonusMultiplierCollision_BlueField: ; 0x1d438
 	ld a, [wBonusMultiplierOnesDigit]
 	ld [wd615], a
 	ld a, $1
-	ld [wd613], a
+	ld [wShowBonusMultiplierBottomMessage], a
 asm_1d4fa: ; 0x1d4fa
 	ld bc, TenPoints
 	callba AddBigBCD6FromQueueWithBallMultiplier
@@ -1337,11 +1337,11 @@ ShowBonusMultiplierMessage_BlueField: ; 0x1d5bf
 	ld a, [wBottomTextEnabled]
 	and a
 	ret nz
-	ld a, [wd613]
+	ld a, [wShowBonusMultiplierBottomMessage]
 	and a
 	ret z
 	xor a
-	ld [wd613], a
+	ld [wShowBonusMultiplierBottomMessage], a
 	call FillBottomMessageBufferWithBlackTile
 	call EnableBottomText
 	ld hl, wScrollingText1

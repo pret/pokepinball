@@ -14,14 +14,14 @@ InitBallBlueField: ; 0x1c08d
 	ld [wEnableBallGravityAndTilt], a
 	ld [wd580], a
 	call InitBlueFieldCollisionAttributes
-	ld a, [wd4c9]
+	ld a, [wLostBall]
 	and a
 	ret z
 	xor a
-	ld [wd4c9], a
+	ld [wLostBall], a
 	xor a
-	ld [wd50b], a
-	ld [wd50c], a
+	ld [wSpinnerVelocity], a
+	ld [wSpinnerVelocity + 1], a
 	ld [wPikachuSaverSlotRewardActive], a
 	ld [wd51e], a
 	ld [wPikachuSaverCharge], a
@@ -50,7 +50,7 @@ InitBallBlueField: ; 0x1c08d
 	ld [wNumPsyduckTriples], a
 	ld [wNumSpinnerTurns], a
 	ld [wNumPikachuSaves], a
-	ld [wd613], a
+	ld [wShowBonusMultiplierBottomMessage], a
 	inc a
 	ld [wCurBonusMultiplier], a
 	ld [wLeftDiglettAnimationController], a

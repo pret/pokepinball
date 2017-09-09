@@ -1,5 +1,5 @@
 InitSeelBonusStage: ; 0x25a7c
-	ld a, [wd7c1]
+	ld a, [wLoadingSavedGame]
 	and a
 	ret nz
 	xor a

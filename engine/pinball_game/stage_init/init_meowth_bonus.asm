@@ -1,5 +1,5 @@
 InitMeowthBonusStage: ; 0x24000
-	ld a, [wd7c1]
+	ld a, [wLoadingSavedGame]
 	and a
 	ret nz
 	xor a

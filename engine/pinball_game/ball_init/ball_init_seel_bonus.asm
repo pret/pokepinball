@@ -57,9 +57,9 @@ InitBallSeelBonusStage: ; 0x25af1
 	ld de, wd77f
 	ld a, [wd780]
 	call Func_26137
-	ld a, [wd4c9]
+	ld a, [wLostBall]
 	and a
 	ret z
 	xor a
-	ld [wd4c9], a
+	ld [wLostBall], a
 	ret

@@ -23,7 +23,7 @@ Func_18000: ; 0x18000
 	ld [hl], a
 	ld [wNumPartyMons], a
 	ld [wCurBonusMultiplierFromFieldEvents], a
-	ld [wd4c9], a
+	ld [wLostBall], a
 	ld a, $1
 	ld [wd49d], a
 	ld a, $3

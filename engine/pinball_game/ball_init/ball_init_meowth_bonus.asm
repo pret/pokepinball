@@ -77,9 +77,9 @@ InitBallMeowthBonusStage: ; 0x24059
 	ld [wd798], a
 	ld [wd799], a
 	ld [wd79a], a
-	ld a, [wd4c9]
+	ld a, [wLostBall]
 	and a
 	ret z
 	xor a
-	ld [wd4c9], a
+	ld [wLostBall], a
 	ret

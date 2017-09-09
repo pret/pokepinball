@@ -66,7 +66,7 @@ TitlescreenLoop: ; 0xc089
 	and a
 	jr nz, .asm_c0d3
 	; player chose "Game Start"
-	ld a, [wd7c2]  ; if this is non-zero, the main menu will prompt for "continue or new game?".
+	ld a, [wSavedGame]  ; if this is non-zero, the main menu will prompt for "continue or new game?".
 	and a
 	jr z, .noPreviouslySavedGame
 	lb de, $00, $01
@@ -149,31 +149,31 @@ Func_c10e: ; 0xc10e
 	jr z, .asm_c177
 	call FadeOut
 	call DisableLCD
-	ld a, [wd7c2]
+	ld a, [wSavedGame]
 	and a
-	jr z, .asm_c173
+	jr z, .notLoadingSavedGame
 	ld hl, sSaveGame
 	ld de, wPartyMons
 	ld bc, $04c3
 	call LoadSavedData
-	jr nc, .asm_c173
+	jr nc, .notLoadingSavedGame
 	xor a
-	ld [wd7c2], a
+	ld [wSavedGame], a
 	ld hl, wPartyMons
 	ld de, sSaveGame
 	ld bc, $04c3
 	call SaveData
 	ld a, $1
-	ld [wd7c1], a
+	ld [wLoadingSavedGame], a
 	ld a, SCREEN_PINBALL_GAME
 	ld [wCurrentScreen], a
 	ld a, $0
 	ld [wScreenState], a
 	ret
 
-.asm_c173
+.notLoadingSavedGame
 	xor a
-	ld [wd7c1], a
+	ld [wLoadingSavedGame], a
 .asm_c177
 	ld hl, wScreenState
 	inc [hl]

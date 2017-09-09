@@ -1,5 +1,5 @@
 InitBlueField: ; 0x1c000
-	ld a, [wd7c1]
+	ld a, [wLoadingSavedGame]
 	and a
 	ret nz
 	xor a
@@ -12,7 +12,7 @@ InitBlueField: ; 0x1c000
 	ld [hl], a
 	ld [wNumPartyMons], a
 	ld [wCurBonusMultiplierFromFieldEvents], a
-	ld [wd4c9], a
+	ld [wLostBall], a
 	ld [wBallType], a
 	ld [wd4c8], a
 	ld hl, wPreviousNumPokeballs

@@ -96,7 +96,7 @@ FadeOutCopyrightScreenAndLoadData: ; 0x82a8
 	call LoadSavedData
 	jr c, .asm_8308
 	xor a
-	ld [wd7c2], a  ; if this is non-zero, the main menu will prompt for "continue or new game?".
+	ld [wSavedGame], a
 .asm_8308
 	ld hl, wCurrentScreen
 	inc [hl]

@@ -1,5 +1,5 @@
 HandleBallLossDiglettBonus: ; 0xe056
-	ld a, [wd4ad]
+	ld a, [wCurrentStageBackup]
 	ld hl, wCurrentStage
 	cp [hl]
 	ret z

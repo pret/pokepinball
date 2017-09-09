@@ -22,7 +22,7 @@ HandleBallLossSeelBonus: ; 0xe08b
 	ld [wd793], a
 	callba Func_262f4
 .asm_e0b8
-	ld a, [wd4ad]
+	ld a, [wCurrentStageBackup]
 	ld hl, wCurrentStage
 	cp [hl]
 	ret z

@@ -1,5 +1,5 @@
 HandleBallLossMewtwoBonus: ; 0xdf7e
-	ld a, [wd4ad]
+	ld a, [wCurrentStageBackup]
 	ld hl, wCurrentStage
 	cp [hl]
 	ret z

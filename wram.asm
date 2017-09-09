@@ -10,8 +10,10 @@ SECTION "WRAM Bank 0", WRAM0
 wc000:: ; 0xc000
 	ds $10
 
-wc010:: ; 0xc010
-	ds $140
+wPokedexFontBuffer:: ; 0xc010
+; Buffer to build up the variable-width font used for various displayed text in the pokedex screen.
+; This buffer is copied directly to VRAM tile data. There is room for 10 characters worth of the widest text character.
+	ds 10 * $20
 
 wc150:: ; 0xc150
 	ds $68
@@ -19,19 +21,14 @@ wc150:: ; 0xc150
 wc1b8:: ; 0xc1b8
 	ds $c8
 
-wc280:: ; 0xc280
-	ds $9
-
-wc289:: ; 0xc289
-	ds $37
-
-wc2c0:: ; 0xc2c0
-	ds $140
+wSendHighScoresTopBarTilemap:: ; 0xc280
+; This is the tilemap data that is sent via infrared in the High Scores screen.
+; It actually takes up $400 bytes of spaces, but there are other labels that use this space, too.
+	ds $180
 
 wMonAnimatedCollisionMask:: ; 0xc400
 	ds $80
 
-wc480:: ; 0xc480
 	ds $40
 
 wc4c0:: ; 0xc4c0
@@ -150,13 +147,19 @@ wCurBonusMultiplier:: ; 0xd482
 ; railings. (left one first, then right one). See MAX_BONUS_MULTIPLIER
 	ds $1
 
-wd483:: ; 0xd483
+wEndOfBallBonusCategoryScore:: ; 0xd483
+; The "Bonus" score for the currently-displayed category of bonus score. (e.g. bonus score for "Pokemon Caught" category)
+; It is a 6-digit BCD value.
 	ds $6
 
-wd489:: ; 0xd489
+wEndOfBallBonusSubTotal:: ; 0xd489
+; The running subtotal for the end-of-ball-bonus display.
+; It is a 6-digit BCD value.
 	ds $6
 
-wd48f:: ; 0xd48f
+wEndOfBallBonusTotalScore:: ; 0xd48f
+; The final score after the end-of-ball-bonus score is added to the player's previous score.
+; It is a 6-digit BCD value.
 	ds $6
 
 wGoingToBonusStage:: ; 0xd495
@@ -239,10 +242,12 @@ wDrawBottomMessageBox:: ; 0xd4aa
 wd4ab:: ; 0xd4ab
 	ds $1
 
-wCurrentStage:: ; 0xd4ac see constants/stage_constants.asm for list. bit 0 is 1 if the stage has flippers
+wCurrentStage:: ; 0xd4ac
+; see constants/stage_constants.asm for list. bit 0 is 1 if the stage has flippers
 	ds $1
 
-wd4ad:: ; 0xd4ad
+wCurrentStageBackup:: ; 0xd4ad
+; Holds backup of current stage id when going to a Bonus Stage. See wCurrentStage.
 	ds $1
 
 wMoveToNextScreenState:: ; 0xd4ae
@@ -252,8 +257,11 @@ wMoveToNextScreenState:: ; 0xd4ae
 wStageCollisionState:: ; 0xd4af
 	ds $1
 
-wd4b0:: ; 0xd4b0
-	ds $3
+wStageCollisionStateBackup:: ; 0xd4b0
+; Holds backup of stage collision state when going to a Bonus Stage. See wStageCollisionState.
+	ds $1
+
+	ds $2
 
 wBallXPos:: ; 0xd4b3
 	ds $2
@@ -343,7 +351,11 @@ wBumperLightUpDuration:: ; 0xd4da
 ; This is shared by both bumpers, so only one can be lit up at a time.
 	ds $1
 
-wd4db:: ; 0xd4db
+wWhichBumperGfx:: ; 0xd4db
+; Determines which bumper graphics will be loaded by LoadBumperGraphics_RedField and LoadBumperGraphics_BlueField
+; $0 = left bumper
+; $1 = right bumper
+; $FF = neither bumper
 	ds $1
 
 wPinballLaunchCollision:: ; 0xd4dc

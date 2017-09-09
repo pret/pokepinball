@@ -61,7 +61,7 @@ ResetDataForStageInitialization: ; 0x8388
 	ld hl, wHighScoreId
 	ld bc, $0039
 	call ClearData
-	ld hl, wd4ad
+	ld hl, wCurrentStageBackup
 	ld bc, $034d
 	call ClearData
 	ret

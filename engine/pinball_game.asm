@@ -258,9 +258,9 @@ GameScreenFunction_EndBall: ; 0xdab2
 	ld hl, rIE
 	res 1, [hl]
 	ld a, [wCurrentStage]
-	ld [wd4ad], a
+	ld [wCurrentStageBackup], a
 	ld a, [wStageCollisionState]
-	ld [wd4b0], a
+	ld [wStageCollisionStateBackup], a
 	ld a, [wNextStage]
 	ld [wCurrentStage], a
 	xor a
@@ -284,9 +284,9 @@ GameScreenFunction_EndBall: ; 0xdab2
 	res 6, [hl]
 	ld hl, rIE
 	res 1, [hl]
-	ld a, [wd4ad]
+	ld a, [wCurrentStageBackup]
 	ld [wCurrentStage], a
-	ld a, [wd4b0]
+	ld a, [wStageCollisionStateBackup]
 	ld [wStageCollisionState], a
 	ld a, $1
 	ld [wScreenState], a

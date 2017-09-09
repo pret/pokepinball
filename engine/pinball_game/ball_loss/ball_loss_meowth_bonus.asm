@@ -22,7 +22,7 @@ HandleBallLossMeowthBonus: ; 0xdfe2
 	ld [wMeowthStageScore], a
 	callba Func_24fa3
 .asm_e00f
-	ld a, [wd4ad]
+	ld a, [wCurrentStageBackup]
 	ld hl, wCurrentStage
 	cp [hl]
 	ret z

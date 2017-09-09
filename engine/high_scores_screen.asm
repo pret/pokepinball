@@ -810,17 +810,17 @@ Func_d042: ; 0xd042
 	ld [wd8aa], a
 	ld a, BANK(HighScoresTilemap)
 	ld hl, HighScoresTilemap + $3c0
-	ld de, wc280
+	ld de, wSendHighScoresTopBarTilemap
 	ld bc, $0040
 	call FarCopyData
 	ld a, $0
 	hlCoord 0, 2, vBGMap
-	ld de, wc2c0
+	ld de, wSendHighScoresTopBarTilemap + $40
 	ld bc, $01c0
 	call LoadVRAMData
 	ld a, BANK(HighScoresTilemap)
 	ld hl, HighScoresTilemap + $280
-	ld de, wc480
+	ld de, wSendHighScoresTopBarTilemap + $200
 	ld bc, $0040
 	call FarCopyData
 	call Func_d6b6
@@ -836,17 +836,17 @@ Func_d042: ; 0xd042
 .asm_d0a2
 	ld a, BANK(HighScoresTilemap2)
 	ld hl, HighScoresTilemap2 + $3c0
-	ld de, wc280
+	ld de, wSendHighScoresTopBarTilemap
 	ld bc, $0040
 	call FarCopyData
 	ld a, $0
 	hlCoord 0, 2, vBGWin
-	ld de, wc2c0
+	ld de, wSendHighScoresTopBarTilemap + $40
 	ld bc, $01c0
 	call LoadVRAMData
 	ld a, BANK(HighScoresTilemap2)
 	ld hl, HighScoresTilemap2 + $280
-	ld de, wc480
+	ld de, wSendHighScoresTopBarTilemap + $200
 	ld bc, $0040
 	call FarCopyData
 	call Func_d6b6
@@ -883,7 +883,7 @@ Func_d0f5: ; 0xd0f5
 	ret
 
 Func_d107: ; 0xd107
-	ld hl, wc280
+	ld hl, wSendHighScoresTopBarTilemap
 	ld a, $c0
 	ld b, $20
 .clear
@@ -892,7 +892,7 @@ rept 32
 endr
 	dec b
 	jr nz, .clear
-	ld hl, wc280
+	ld hl, wSendHighScoresTopBarTilemap
 	ld b, $5
 .loop
 	ld c, $4
@@ -1721,11 +1721,11 @@ Func_d68a: ; 0xd68a
 	ret nz
 	ld hl, vBGMap
 	add hl, bc
-	call Func_d6aa
+	call ShowDexCompletionCrown
 	ld hl, vBGWin
 	add hl, bc
 	; fall through
-Func_d6aa: ; 0xd6aa
+ShowDexCompletionCrown: ; 0xd6aa
 	ld a, $56
 	call PutTileInVRAM
 	inc hl
@@ -1747,8 +1747,8 @@ Func_d6b6: ; 0xd6b6
 	ld a, c
 	cp NUM_POKEMON
 	ret nz
-	ld hl, wc289
-	ld a, $56
+	ld hl, wSendHighScoresTopBarTilemap + $9
+	ld a, $56   ; a crown is shown when Dex is completed
 	ld [hli], a
 	ld a, $57
 	ld [hli], a

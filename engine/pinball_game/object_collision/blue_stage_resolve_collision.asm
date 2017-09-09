@@ -550,13 +550,13 @@ LightUpBumper_BlueField: ; 0x1ce60
 	ld [wBumperLightUpDuration], a
 	ld a, [wWhichBumperId]
 	sub $1
-	ld [wd4db], a
+	ld [wWhichBumperGfx], a
 	sla a
 	inc a
 	jr LoadBumperGraphics_BlueField
 
 LoadBumpersGraphics_BlueField: ; 1ce72
-	ld a, [wd4db]
+	ld a, [wWhichBumperGfx]
 	cp $ff
 	ret z
 	sla a

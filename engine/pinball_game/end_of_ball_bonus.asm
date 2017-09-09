@@ -65,9 +65,9 @@ ShowBallBonusSummary: ; 0xf5a0
 	ld de, wBottomMessageText + $80
 	ld hl, SubtotalPointsText
 	call PlaceTextAlphanumericOnly
-	ld hl, wd489
+	ld hl, wEndOfBallBonusSubTotal
 	call ClearBCD6Buffer
-	ld hl, wd48f
+	ld hl, wEndOfBallBonusTotalScore
 	call ClearBCD6Buffer
 	ld a, $1
 	ld [wd4ab], a
@@ -189,7 +189,7 @@ Func_f676: ; 0xf676
 .asm_f6c7
 	push de
 	push hl
-	ld hl, wd48f + $5
+	ld hl, wEndOfBallBonusTotalScore + $5
 	ld de, wBottomMessageText + $86
 	call Func_f8bd
 	ld bc, $0040
@@ -214,8 +214,8 @@ Func_f676: ; 0xf676
 	jr z, .asm_f709
 	dec a
 	ld [wCurBonusMultiplier], a
-	ld hl, wd48f
-	ld de, wd489
+	ld hl, wEndOfBallBonusTotalScore
+	ld de, wEndOfBallBonusSubTotal
 	call AddBigBCD6
 	jr .asm_f6c7
 
@@ -269,7 +269,7 @@ Func_f70d: ; 0xf70d
 	ld [wd4ab], a
 .asm_f76c
 	ld hl, wScore
-	ld de, wd48f
+	ld de, wEndOfBallBonusTotalScore
 	call AddBigBCD6
 	ld hl, wScore + $5
 	ld de, wBottomMessageText + $66
@@ -430,13 +430,13 @@ Func_f83a: ; 0xf83a
 
 Func_f853: ; 0xf853
 	push hl
-	ld hl, wd483
+	ld hl, wEndOfBallBonusCategoryScore
 	call ClearBCD6Buffer
 	pop hl
 .asm_f85b
 	push de
 	push hl
-	ld hl, wd483 + $5
+	ld hl, wEndOfBallBonusCategoryScore + $5
 	ld de, wBottomMessageText + $46
 	call Func_f8bd
 	ld bc, $0040
@@ -462,17 +462,17 @@ Func_f853: ; 0xf853
 	dec [hl]
 	push de
 	push hl
-	ld hl, wd483
+	ld hl, wEndOfBallBonusCategoryScore
 	call AddBigBCD6
 	pop hl
 	pop de
 	jr .asm_f85b
 
 .asm_f899
-	ld hl, wd489
-	ld de, wd483
+	ld hl, wEndOfBallBonusSubTotal
+	ld de, wEndOfBallBonusCategoryScore
 	call AddBigBCD6
-	ld hl, wd489 + $5
+	ld hl, wEndOfBallBonusSubTotal + $5
 	ld de, wBottomMessageText + $86
 	call Func_f8bd
 	ld bc, $0040

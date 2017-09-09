@@ -51,7 +51,7 @@ LoadDexVWFCharacter_: ; 0x8d17
 	rl b
 	sla c
 	rl b
-	ld hl, wc010
+	ld hl, wPokedexFontBuffer
 	add hl, bc
 	ld d, h
 	ld e, l
@@ -209,7 +209,7 @@ Func_8e01: ; 0x8e01
 	ld b, a
 	sla c
 	rl b
-	ld hl, wc010
+	ld hl, wPokedexFontBuffer
 	add hl, bc
 	ld d, h
 	ld e, l

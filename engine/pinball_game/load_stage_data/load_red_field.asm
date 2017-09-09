@@ -68,7 +68,7 @@ LoadTimerGraphics: ; 0x1404a
 Func_14091: ; 0x14091
 	ld a, $ff
 	ld [wWhichAnimatedVoltorb], a
-	ld [wd4db], a
+	ld [wWhichBumperGfx], a
 	ld a, [wBallXPos + 1]
 	ld [wd4c5], a
 	ld a, [wBallYPos + 1]

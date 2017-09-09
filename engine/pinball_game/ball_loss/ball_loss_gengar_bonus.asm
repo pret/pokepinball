@@ -1,5 +1,5 @@
 HandleBallLossGengarBonus: ; 0xdf1a
-	ld a, [wd4ad]
+	ld a, [wCurrentStageBackup]
 	ld hl, wCurrentStage
 	cp [hl]
 	ret z

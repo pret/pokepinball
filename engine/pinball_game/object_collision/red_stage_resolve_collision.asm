@@ -1651,13 +1651,13 @@ LightUpBumper_RedField: ; 0x15fa6
 	ld [wBumperLightUpDuration], a
 	ld a, [wWhichBumperId]
 	sub $6
-	ld [wd4db], a
+	ld [wWhichBumperGfx], a
 	sla a
 	inc a
 	jr LoadBumperGraphics_RedField
 
 LoadBumpersGraphics_RedField: ; 0x15fb8
-	ld a, [wd4db]
+	ld a, [wWhichBumperGfx]
 	cp $ff
 	ret z
 	sla a

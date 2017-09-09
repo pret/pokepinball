@@ -1,31 +1,31 @@
 HandleBlueCatchEmCollision: ; 0x202bc
 	ld a, [wSpecialModeCollisionID]
 	cp SPECIAL_COLLISION_SHELLDER
-	jp z, Func_204f1
+	jp z, HandleShellderCollision_CatchemMode
 	cp SPECIAL_COLLISION_SPINNER
-	jp z, Func_20569
+	jp z, HandleSpinnerCollision_CatchemMode_BlueField
 	cp SPECIAL_COLLISION_SLOWPOKE
-	jp z, Func_20573
+	jp z, HandleSlowpokeCollision_CatchemMode
 	cp SPECIAL_COLLISION_CLOYSTER
-	jp z, Func_2057a
+	jp z, HandleCloysterCollision_CatchemMode
 	cp SPECIAL_COLLISION_NOTHING
-	jr z, .asm_202d9
+	jr z, .noCollision
 	scf
 	ret
 
-.asm_202d9
-	call Func_204b3
-	ld a, [wd54d]
+.noCollision
+	call CheckIfCatchemModeTimerExpired_BlueField
+	ld a, [wSpecialModeState]
 	call CallInFollowingTable
-PointerTable_202e2: ; 0x202e2
+CatchemModeCallTable_BlueField: ; 0x202e2
 	padded_dab Func_20302
 	padded_dab Func_20320
 	padded_dab Func_2032c
-	padded_dab Func_20364
-	padded_dab Func_20394
-	padded_dab Func_20454
-	padded_dab CapturePokemonBlueStage
-	padded_dab Func_2048f
+	padded_dab ShowAnimatedCatchemPokemon_BlueField
+	padded_dab UpdateMonState_CatchemMode_BlueField
+	padded_dab CatchPokemon_BlueField
+	padded_dab CapturePokemonAnimation_BlueField
+	padded_dab ConcludeCatchemMode_BlueField
 
 Func_20302: ; 0x20302
 	ld a, [wNumberOfCatchModeTilesFlipped]
@@ -34,7 +34,7 @@ Func_20302: ; 0x20302
 	ld a, [wCurrentStage]
 	bit 0, a
 	jr z, .asm_2031e
-	ld hl, wd54d
+	ld hl, wSpecialModeState
 	inc [hl]
 	ld a, $14
 	ld [wd54e], a
@@ -63,13 +63,13 @@ Func_2032c: ; 0x2032c
 .asm_20333
 	ld a, $1
 	ld [wd5c6], a
-	ld hl, wd54d
+	ld hl, wSpecialModeState
 	inc [hl]
 .asm_20362
 	scf
 	ret
 
-Func_20364: ; 0x20364
+ShowAnimatedCatchemPokemon_BlueField: ; 0x20364
 	ld a, [wCurrentStage]
 	bit 0, a
 	jr z, .asm_20370
@@ -77,15 +77,15 @@ Func_20364: ; 0x20364
 	jr nz, .asm_20392
 .asm_20370
 	callba ShowAnimatedWildMon
-	callba Func_10732
+	callba PlayCatchemPokemonCry
 	callba LoadWildMonCollisionMask
-	ld hl, wd54d
+	ld hl, wSpecialModeState
 	inc [hl]
 .asm_20392
 	scf
 	ret
 
-Func_20394: ; 0x20394
+UpdateMonState_CatchemMode_BlueField: ; 0x20394
 	ld a, [wLoopsUntilNextCatchSpriteAnimationChange]
 	dec a
 	ld [wLoopsUntilNextCatchSpriteAnimationChange], a
@@ -145,7 +145,7 @@ Func_20394: ; 0x20394
 	ld [wTimeRanOut], a
 	ld a, $1
 	ld [wPauseTimer], a
-	ld hl, wd54d
+	ld hl, wSpecialModeState
 	inc [hl]
 	ld c, $2
 	jr .asm_2044b
@@ -177,7 +177,7 @@ Func_20394: ; 0x20394
 	scf
 	ret
 
-Func_20454: ; 0x20454
+CatchPokemon_BlueField: ; 0x20454
 	ld a, [wd580]
 	and a
 	jr z, .asm_2045f
@@ -187,19 +187,19 @@ Func_20454: ; 0x20454
 
 .asm_2045f
 	callba BallCaptureInit
-	ld hl, wd54d
+	ld hl, wSpecialModeState
 	inc [hl]
-	callba Func_106b6
+	callba ShowCapturedPokemonText
 	callba AddCaughtPokemonToParty
 	scf
 	ret
 
-CapturePokemonBlueStage: ; 0x20483
-	callba CapturePokemon
+CapturePokemonAnimation_BlueField: ; 0x20483
+	callba CapturePokemonAnimation
 	scf
 	ret
 
-Func_2048f: ; 0x2048f
+ConcludeCatchemMode_BlueField: ; 0x2048f
 	ld a, [wBottomTextEnabled]
 	and a
 	ret nz
@@ -211,7 +211,7 @@ Func_2048f: ; 0x2048f
 	scf
 	ret
 
-Func_204b3: ; 0x204b3
+CheckIfCatchemModeTimerExpired_BlueField: ; 0x204b3
 	callba PlayLowTimeSfx
 	ld a, [wTimeRanOut]
 	and a
@@ -219,7 +219,7 @@ Func_204b3: ; 0x204b3
 	xor a
 	ld [wTimeRanOut], a
 	ld a, $7
-	ld [wd54d], a
+	ld [wSpecialModeState], a
 	; Automatically set Mew as caught, since you can't possibly catch it
 	ld a, [wCurrentCatchEmMon]
 	cp MEW - 1
@@ -230,10 +230,10 @@ Func_204b3: ; 0x204b3
 	callba Func_106a6
 	ret
 
-Func_204f1: ; 0x204f1
+HandleShellderCollision_CatchemMode: ; 0x204f1
 	ld a, [wNumberOfCatchModeTilesFlipped]
-	cp $18
-	jr z, .asm_2055e
+	cp 24
+	jr z, .allTilesFlipped
 	sla a
 	ld c, a
 	ld b, $0
@@ -279,25 +279,25 @@ Func_204f1: ; 0x204f1
 	ld hl, wStationaryText1
 	ld de, FlippedText
 	call LoadStationaryTextAndHeader
-.asm_2055e
+.allTilesFlipped
 	ld bc, $0001
 	ld de, $0000
 	call AddBCDEToJackpot
 	scf
 	ret
 
-Func_20569: ; 0x20569
+HandleSpinnerCollision_CatchemMode_BlueField: ; 0x20569
 	ld bc, $0000
 	ld de, $1000
 	call AddBCDEToJackpot
 	ret
 
-Func_20573: ; 0x20573
+HandleSlowpokeCollision_CatchemMode: ; 0x20573
 	ld bc, $0005
 	ld de, $0000
 	ret
 
-Func_2057a: ; 0x2057a
+HandleCloysterCollision_CatchemMode: ; 0x2057a
 	ld bc, $0005
 	ld de, $0000
 	ret

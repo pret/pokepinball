@@ -33,7 +33,7 @@ HandleRedEvoModeCollision: ; 0x20581
 
 .asm_205cb
 	call Func_2077b
-	ld a, [wd54d]
+	ld a, [wSpecialModeState]
 	call CallInFollowingTable
 PointerTable_205d4: ; 0x205d4
 	padded_dab Func_205e0
@@ -232,7 +232,7 @@ Func_2077b: ; 0x2077b
 	xor a
 	ld [wTimeRanOut], a
 	ld a, $2
-	ld [wd54d], a
+	ld [wSpecialModeState], a
 	xor a
 	ld [wSlotIsOpen], a
 	ld hl, wIndicatorStates
@@ -726,6 +726,6 @@ Func_20b02: ; 0x20b02
 	callba ShowJackpotText
 	call MainLoopUntilTextIsClear
 	ld a, $1
-	ld [wd54d], a
+	ld [wSpecialModeState], a
 	scf
 	ret

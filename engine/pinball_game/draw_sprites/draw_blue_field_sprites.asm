@@ -2,12 +2,12 @@ DrawSpritesBlueFieldTop: ; 0x1f330
 	ld bc, $7f00
 	callba DrawTimer
 	call DrawShellderSprites
-	call Func_1f3e1
-	call Func_1f408
-	call Func_1f428
+	call DrawSpinner_BlueField
+	call DrawSlowpoke
+	call DrawCloyster
 	callba DrawPinball
-	call Func_1f48f
-	call Func_1f4f8
+	call DrawEvolutionIndicatorArrows_BlueFieldTop
+	call DrawEvolutionTrinket_BlueFieldTop
 	ret
 
 DrawSpritesBlueFieldBottom: ; 0x1f35a
@@ -18,8 +18,8 @@ DrawSpritesBlueFieldBottom: ; 0x1f35a
 	call DrawPikachuSavers_BlueStage
 	callba DrawFlippers
 	callba DrawPinball
-	call Func_1f4a3
-	call Func_1f509
+	call DrawEvolutionIndicatorArrows_BlueFieldBottom
+	call DrawEvolutionTrinket_BlueFieldBottom
 	call DrawSlotGlow_BlueField
 	ret
 
@@ -77,7 +77,7 @@ Data_1f3db:
 	db $02
 	db $E0, $E1, $E0 ; OAM ids
 
-Func_1f3e1: ; 0x1f3e1
+DrawSpinner_BlueField: ; 0x1f3e1
 	ld a, $8a
 	ld hl, hSCX
 	sub [hl]
@@ -91,16 +91,16 @@ Func_1f3e1: ; 0x1f3e1
 	srl a
 	ld e, a
 	ld d, $0
-	ld hl, OAMIds_1f402
+	ld hl, SpinnerOAMIds_BlueField
 	add hl, de
 	ld a, [hl]
 	call LoadOAMData
 	ret
 
-OAMIds_1f402:
+SpinnerOAMIds_BlueField:
 	db $E8, $E9, $EA, $EB, $EC, $ED
 
-Func_1f408: ; 0x1f408
+DrawSlowpoke: ; 0x1f408
 	ld a, $18
 	ld hl, hSCX
 	sub [hl]
@@ -112,16 +112,16 @@ Func_1f408: ; 0x1f408
 	ld a, [wSlowpokeAnimationFrame]
 	ld e, a
 	ld d, $0
-	ld hl, OAMIds_1f425
+	ld hl, SlowpokeOAMIds
 	add hl, de
 	ld a, [hl]
 	call LoadOAMData
 	ret
 
-OAMIds_1f425:
+SlowpokeOAMIds:
 	db $E2, $E3, $E4
 
-Func_1f428: ; 0x1f428
+DrawCloyster: ; 0x1f428
 	ld a, $70
 	ld hl, hSCX
 	sub [hl]
@@ -133,13 +133,13 @@ Func_1f428: ; 0x1f428
 	ld a, [wCloysterAnimationFrame]
 	ld e, a
 	ld d, $0
-	ld hl, OAMIds_1f445
+	ld hl, CloysterOAMIds
 	add hl, de
 	ld a, [hl]
 	call LoadOAMData
 	ret
 
-OAMIds_1f445:
+CloysterOAMIds:
 	db $E5, $E6, $E7
 
 DrawPikachuSavers_BlueStage: ; 0x1f448
@@ -188,7 +188,7 @@ PikachuSaverOAMOffsets_BlueStage:
 	dw $7E0F
 	dw $7E92
 
-Func_1f48f: ; 0x1f48f
+DrawEvolutionIndicatorArrows_BlueFieldTop: ; 0x1f48f
 	ld a, [wd551]
 	and a
 	ret nz
@@ -196,11 +196,11 @@ Func_1f48f: ; 0x1f48f
 	bit 4, a
 	ret z
 	ld de, wIndicatorStates + 5
-	ld hl, OAMDataTable_1f4ce
+	ld hl, EvolutionIndicatorArrowsOAM_BlueFieldTop
 	ld b, $6
-	jr asm_1f4b5
+	jr DrawEvolutionIndicatorArrows_BlueField
 
-Func_1f4a3: ; 0x1f4a3
+DrawEvolutionIndicatorArrows_BlueFieldBottom: ; 0x1f4a3
 	ld a, [wd551]
 	and a
 	ret nz
@@ -208,9 +208,9 @@ Func_1f4a3: ; 0x1f4a3
 	bit 4, a
 	ret z
 	ld de, wIndicatorStates + 11
-	ld hl, OAMDataTable_1f4e0
+	ld hl, EvolutionIndicatorArrowsOAM_BlueFieldBottom
 	ld b, $8
-asm_1f4b5:
+DrawEvolutionIndicatorArrows_BlueField:
 	push bc
 	ld a, [hSCX]
 	ld b, a
@@ -229,10 +229,10 @@ asm_1f4b5:
 	pop bc
 	inc de
 	dec b
-	jr nz, asm_1f4b5
+	jr nz, DrawEvolutionIndicatorArrows_BlueField
 	ret
 
-OAMDataTable_1f4ce: ; 0x1f4ce
+EvolutionIndicatorArrowsOAM_BlueFieldTop: ; 0x1f4ce
  ; Each entry is:
  ; [OAM x/y Offsets],[OAM Id]
 	db $0D, $37
@@ -253,7 +253,7 @@ OAMDataTable_1f4ce: ; 0x1f4ce
 	db $61, $64
 	db $F0
 
-OAMDataTable_1f4e0: ; 0x1f4e0
+EvolutionIndicatorArrowsOAM_BlueFieldBottom: ; 0x1f4e0
  ; Each entry is 3 bytes:
  ; [OAM x/y Offsets],[OAM Id]
 	db $2D, $13
@@ -280,25 +280,25 @@ OAMDataTable_1f4e0: ; 0x1f4e0
 	db $89, $40
 	db $37
 
-Func_1f4f8: ; 0x1f4f8
+DrawEvolutionTrinket_BlueFieldTop: ; 0x1f4f8
 	ld a, [wd551]
 	and a
 	ret z
 	ld de, wd566
-	ld hl, OAMOffsetsTable_1f53a
+	ld hl, EvolutionTrinketOAMOffsets_BlueFieldTop
 	ld b, $c
 	ld c, $47
-	jr asm_1f518
+	jr DrawEvolutionTrinket_BlueField
 
-Func_1f509: ; 0x1f509
+DrawEvolutionTrinket_BlueFieldBottom: ; 0x1f509
 	ld a, [wd551]
 	and a
 	ret z
 	ld de, wd572
-	ld hl, OAMOffsetsTable_1f552
+	ld hl, EvolutionTrinketOAMOffsets_BlueFieldBottom
 	ld b, $6
 	ld c, $40
-asm_1f518: ; 0x1f518
+DrawEvolutionTrinket_BlueField: ; 0x1f518
 	push bc
 	ld a, [de]
 	add c
@@ -324,10 +324,10 @@ asm_1f518: ; 0x1f518
 	pop bc
 	inc de
 	dec b
-	jr nz, asm_1f518
+	jr nz, DrawEvolutionTrinket_BlueField
 	ret
 
-OAMOffsetsTable_1f53a: ; 0x1f53a
+EvolutionTrinketOAMOffsets_BlueFieldTop: ; 0x1f53a
 ; OAM data x, y offsets
 	db $4C, $08
 	db $2B, $12
@@ -342,7 +342,7 @@ OAMOffsetsTable_1f53a: ; 0x1f53a
 	db $61, $7F
 	db $8D, $65
 
-OAMOffsetsTable_1f552: ; 0x1f552
+EvolutionTrinketOAMOffsets_BlueFieldBottom: ; 0x1f552
 ; OAM data x, y offsets
 	db $3B, $12
 	db $5D, $12

@@ -34,7 +34,7 @@ HandleBallLossRedField: ; 0xdd76
 	xor a
 	ld [wPinballLaunched], a
 	ld [wd4df], a
-	call Func_ddfd
+	call ConcludeSpecialMode_RedField
 	ld a, [wCurBonusMultiplierFromFieldEvents]
 	and a
 	jr z, .asm_dddd
@@ -64,33 +64,33 @@ HandleBallLossRedField: ; 0xdd76
 	ld [wGameOver], a
 	ret
 
-Func_ddfd: ; 0xddfd
+ConcludeSpecialMode_RedField: ; 0xddfd
 	ld a, [wInSpecialMode]
 	and a
 	ret z
 	ld a, [wSpecialMode]
 	and a
-	jr nz, .asm_de14
+	jr nz, .notCatchEmMode
 	callba ConcludeCatchEmMode
-	jr .asm_de40
+	jr .setCollisionState
 
-.asm_de14
+.notCatchEmMode
 	cp SPECIAL_MODE_EVOLUTION
-	jr nz, .asm_de2d
+	jr nz, .notEvolutionMode
 	xor a
 	ld [wSlotIsOpen], a
 	ld a, $1e
 	ld [wFramesUntilSlotCaveOpens], a
 	callba ConcludeEvolutionMode
-	jr .asm_de40
+	jr .setCollisionState
 
-.asm_de2d
+.notEvolutionMode
 	xor a
 	ld [wSlotIsOpen], a
 	ld a, $1e
 	ld [wFramesUntilSlotCaveOpens], a
-	callba Func_3022b
-.asm_de40
+	callba ConcludeMapMoveMode
+.setCollisionState
 	ld a, [wd7ad]
 	ld c, a
 	ld a, [wStageCollisionState]

@@ -366,7 +366,7 @@ SelectPokemonToEvolve: ; 0x10cb7
 	ld [wInSpecialMode], a
 	ld [wSpecialMode], a
 	xor a
-	ld [wd54d], a
+	ld [wSpecialModeState], a
 	ld a, [wCurSelectedPartyMon]
 	ld c, a
 	ld b, $0

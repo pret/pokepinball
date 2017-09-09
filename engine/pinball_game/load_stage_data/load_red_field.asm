@@ -462,7 +462,7 @@ Func_14377: ; 0x14377
 	ld a, [wSpecialMode]
 	cp SPECIAL_MODE_MAP_MOVE
 	ret nz
-	ld a, [wd54d]
+	ld a, [wSpecialModeState]
 	cp $3
 	jr nz, .asm_143c9
 	callba LoadMapBillboardTileData

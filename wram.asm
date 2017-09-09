@@ -589,7 +589,8 @@ wInSpecialMode:: ; 0xd54b
 wSpecialModeCollisionID:: ; 0xd54c 10000 sets it to a input, records what the ball has collided with see constants/special_collision_constants.asm for more info
 	ds $1
 
-wd54d:: ; 0xd54d catch mode current step? used for all 3 special modes.
+wSpecialModeState:: ; 0xd54d
+; Tracks the current state of special modes (catchem, evolution, map move)
 	ds $1
 
 wd54e:: ; 0xd54e set to 20 by catch mode when all tiles are flipped and on lower stage

@@ -456,7 +456,7 @@ Func_1c4b6: ; 0x1c4b6
 	ld a, [wSpecialMode]
 	cp SPECIAL_MODE_MAP_MOVE
 	ret nz
-	ld a, [wd54d]
+	ld a, [wSpecialModeState]
 	cp $3
 	jr nz, .asm_1c508
 	callba LoadMapBillboardTileData

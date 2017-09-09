@@ -32,7 +32,7 @@ StartCatchEmMode: ; 0x1003f
 	ld [wInSpecialMode], a  ; set special mode flag
 	xor a
 	ld [wSpecialMode], a
-	ld [wd54d], a ;set ??? to 0
+	ld [wSpecialModeState], a
 	ld a, [wCurrentStage]
 	sla a
 	ld c, a ;store twice current stage to use a pointer offset
@@ -762,7 +762,7 @@ LoadShakeBallGfx: ; 0x104e2
 	call LoadVRAMData
 	ret
 
-CapturePokemon: ; 0x1052d
+CapturePokemonAnimation: ; 0x1052d
 	ld a, [wBallCaptureAnimationFrame]
 	cp $c
 	jr nz, .asm_10541
@@ -932,7 +932,7 @@ Func_10648: ; 0x10648
 	dec a
 	ld [wd54f], a
 	jr nz, .asm_10677
-	ld hl, wd54d
+	ld hl, wSpecialModeState
 	inc [hl]
 .asm_10677
 	ret
@@ -969,7 +969,7 @@ Func_106a6: ; 0x106a6
 	call LoadScrollingText
 	ret
 
-Func_106b6: ; 0x106b6
+ShowCapturedPokemonText: ; 0x106b6
 	ld a, [wCurrentCatchEmMon]
 	ld c, a
 	ld b, $0
@@ -1041,7 +1041,7 @@ Func_106b6: ; 0x106b6
 	ld [wScrollingText2StopOffset], a
 	ret
 
-Func_10732: ; 0x10732
+PlayCatchemPokemonCry: ; 0x10732
 	ld a, [wCurrentCatchEmMon]
 	inc a
 	ld e, a

@@ -41,9 +41,9 @@ InitMewtwoBonusStage: ; 0x1924f
 	jr nz, .loop2
 	ld bc, $0200  ; 2 minutes 0 seconds
 	callba StartTimer
-	ld a, $12
+	ld a, Bank(Music_MewtwoStage)
 	call SetSongBank
-	ld de, $0001
+	ld de, MUSIC_MEWTWO_STAGE
 	call PlaySong
 	ret
 

@@ -24,9 +24,9 @@ LoadFieldSelectScreen: ; 0xd6dd
 	ld a, $8
 	ld [wFieldSelectBlinkingBorderFrame], a
 	call SetAllPalettesWhite
-	ld a, $12
+	ld a, Bank(Music_FieldSelect)
 	call SetSongBank
-	ld de, $0003
+	ld de, MUSIC_FIELD_SELECT
 	call PlaySong
 	call EnableLCD
 	call FadeIn

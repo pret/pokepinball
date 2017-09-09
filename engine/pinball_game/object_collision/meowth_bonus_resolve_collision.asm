@@ -196,7 +196,7 @@ ResolveMeowthBonusGameObjectCollisions: ; 0x2442a
 	ld [wNextBonusStage], a
 	ld a, $96
 	ld [wd739], a
-	ld de, $0000
+	ld de, MUSIC_NOTHING
 	call PlaySong
 	ld a, $1
 	ld [wCompletedBonusStage], a
@@ -214,7 +214,7 @@ ResolveMeowthBonusGameObjectCollisions: ; 0x2442a
 	ld a, [wSFXTimer]
 	and a
 	jr nz, .asm_244b0
-	ld de, $0004
+	ld de, MUSIC_MEOWTH_STAGE
 	call PlaySong
 	ld a, $5
 	ld [wd712], a

@@ -2068,7 +2068,7 @@ ChannelPointers_BankF: ; 0x3cc92
 
 SongHeaderPointers_BankF: ; 0x3cca2
 	dw Music_Nothing0F
-	dw Music_BlueField
+	dw Music_RedField
 	dw Music_CatchEmRed
 	dw Music_HurryUpRed
 	dw Music_Pokedex
@@ -2077,7 +2077,7 @@ SongHeaderPointers_BankF: ; 0x3cca2
 	dw Music_GengarInTheGraveyard
 
 INCLUDE "audio/music/nothing0f.asm"
-INCLUDE "audio/music/bluefield.asm"
+INCLUDE "audio/music/redfield.asm"
 INCLUDE "audio/music/catchemred.asm"
 INCLUDE "audio/music/pokedex.asm"
 INCLUDE "audio/music/hurryupred.asm"

@@ -9,7 +9,7 @@ ResolveSeelBonusGameObjectCollisions: ; 0x25c5a
 	jr nc, .asm_25c98
 	ld a, BONUS_STAGE_ORDER_MEWTWO
 	ld [wNextBonusStage], a
-	ld de, $0000
+	ld de, MUSIC_NOTHING
 	call PlaySong
 	ld a, $1
 	ld [wCompletedBonusStage], a
@@ -29,7 +29,7 @@ ResolveSeelBonusGameObjectCollisions: ; 0x25c5a
 	ld a, [wSFXTimer]
 	and a
 	jr nz, .asm_25cb0
-	ld de, $0003
+	ld de, MUSIC_SEEL_STAGE
 	call PlaySong
 	ld a, $5
 	ld [wd794], a

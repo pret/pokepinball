@@ -60,9 +60,9 @@ LoadPokedexScreen: ; 0x2800e
 	call Func_28add
 	call CountNumSeenOwnedMons
 	call SetAllPalettesWhite
-	ld a, $f
+	ld a, Bank(Music_Pokedex)
 	call SetSongBank
-	ld de, $0004
+	ld de, MUSIC_POKEDEX
 	call PlaySong
 	call EnableLCD
 	call FadeIn

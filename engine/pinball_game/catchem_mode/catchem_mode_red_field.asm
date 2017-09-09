@@ -204,7 +204,7 @@ Func_201ce: ; 0x201ce
 	call FillBottomMessageBufferWithBlackTile
 	callba RestoreBallSaverAfterCatchEmMode
 	callba ConcludeCatchEmMode
-	ld de, $0001
+	ld de, MUSIC_RED_FIELD
 	call PlaySong
 	scf
 	ret

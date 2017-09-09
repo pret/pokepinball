@@ -152,16 +152,16 @@ Func_cb14: ; 0xcb14
 	ld a, [wda81]
 	and a
 	jr nz, .asm_cb9b
-	ld a, $13
+	ld a, Bank(Music_EndCredits)
 	call SetSongBank
-	ld de, $0001
+	ld de, MUSIC_END_CREDITS
 	call PlaySong
 	jr .asm_cba6
 
 .asm_cb9b
-	ld a, $13
+	ld a, Bank(Music_NameEntry)
 	call SetSongBank
-	ld de, $0002
+	ld de, MUSIC_NAME_ENTRY
 	call PlaySong
 .asm_cba6
 	call EnableLCD
@@ -175,9 +175,9 @@ Func_cb14: ; 0xcb14
 	ret
 
 .asm_cbbd
-	ld a, $10
+	ld a, Bank(Music_HiScore)
 	call SetSongBank
-	ld de, $0004
+	ld de, MUSIC_HI_SCORE
 	call PlaySong
 	call EnableLCD
 	ld bc, $0009
@@ -389,12 +389,12 @@ Func_cd6c: ; 0xcd6c
 	ld a, [wd8f0]
 	and a
 	jr z, .asm_cdbb
-	ld de, $0000
+	ld de, MUSIC_NOTHING
 	call PlaySong
 	rst AdvanceFrame
 	call Func_cdce
 	push af
-	ld de, $0004
+	ld de, MUSIC_HI_SCORE
 	call PlaySong
 	pop af
 	jr nc, .asm_cdc6

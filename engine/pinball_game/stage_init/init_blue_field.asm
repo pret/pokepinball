@@ -48,8 +48,8 @@ InitBlueField: ; 0x1c000
 	ld [wPoliwagState], a
 	callba Start20SecondSaverTimer
 	callba GetBCDForNextBonusMultiplier_BlueField
-	ld a, $10
+	ld a, Bank(Music_BlueField)
 	call SetSongBank
-	ld de, $0001
+	ld de, MUSIC_BLUE_FIELD
 	call PlaySong
 	ret

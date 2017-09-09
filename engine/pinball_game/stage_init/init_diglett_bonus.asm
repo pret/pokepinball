@@ -27,8 +27,8 @@ InitDiglettBonusStage: ; 0x199f2
 	xor a
 	ld [wDugtrioAnimationIndex], a
 	ld [wDugrioState], a
-	ld a, $11
+	ld a, Bank(Music_WhackTheDiglett)
 	call SetSongBank
-	ld de, $0001
+	ld de, MUSIC_WHACK_DIGLETT
 	call PlaySong
 	ret

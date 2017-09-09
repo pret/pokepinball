@@ -185,7 +185,7 @@ Func_19c52: ; 0x19c52
 	ld a, $1
 	ld [wDugrioState], a
 	call Func_1ac2c
-	ld de, $0002
+	ld de, MUSIC_WHACK_DUGTRIO
 	call PlaySong
 .asm_19cc8
 	call Func_19cdd
@@ -660,7 +660,7 @@ Func_1ab30: ; 0x1ab30
 	ld a, [wDugtrioAnimationIndex]
 	cp $1
 	jr nz, .asm_1abf2
-	ld de, $0000
+	ld de, MUSIC_NOTHING
 	call PlaySong
 	ret
 

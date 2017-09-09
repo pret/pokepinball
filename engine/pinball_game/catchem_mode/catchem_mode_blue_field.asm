@@ -206,7 +206,7 @@ Func_2048f: ; 0x2048f
 	call FillBottomMessageBufferWithBlackTile
 	callba RestoreBallSaverAfterCatchEmMode
 	callba ConcludeCatchEmMode
-	ld de, $0001
+	ld de, MUSIC_BLUE_FIELD
 	call PlaySong
 	scf
 	ret

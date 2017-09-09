@@ -42,8 +42,8 @@ InitRedField: ; 0x30000
 	ld [wIndicatorStates + 1], a
 	callba Start20SecondSaverTimer
 	callba GetBCDForNextBonusMultiplier_RedField
-	ld a, $f
+	ld a, Bank(Music_RedField)
 	call SetSongBank
-	ld de, $0001
+	ld de, MUSIC_RED_FIELD
 	call PlaySong
 	ret

@@ -207,7 +207,7 @@ Func_19531: ; 0x19531
 	ld [wFlippersDisabled], a
 	call LoadFlippersPalette
 	callba StopTimer
-	ld de, $0000
+	ld de, MUSIC_NOTHING
 	call PlaySong
 .asm_195a2
 	call Func_195ac

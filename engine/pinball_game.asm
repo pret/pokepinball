@@ -244,7 +244,7 @@ GameScreenFunction_EndBall: ; 0xdab2
 	ret
 
 .goingToBonusStage
-	ld de, $0000
+	ld de, MUSIC_NOTHING
 	call PlaySong
 	ld bc, $0004
 	call AdvanceFrames
@@ -271,7 +271,7 @@ GameScreenFunction_EndBall: ; 0xdab2
 	ret
 
 .returningFromBonusStage
-	ld de, $0000
+	ld de, MUSIC_NOTHING
 	call PlaySong
 	ld bc, $0004
 	call AdvanceFrames
@@ -295,7 +295,7 @@ GameScreenFunction_EndBall: ; 0xdab2
 TransitionToHighScoresScreen: ; 0xdb5d
 	xor a
 	ld [wGameOver], a
-	ld de, $0000
+	ld de, MUSIC_NOTHING
 	call PlaySong
 	ld bc, $0004
 	call AdvanceFrames

@@ -793,7 +793,7 @@ CapturePokemon: ; 0x1052d
 	cp $1
 	ret nz
 	call MainLoopUntilTextIsClear
-	ld de, $0000
+	ld de, MUSIC_NOTHING
 	call PlaySong
 	rst AdvanceFrame
 	lb de, $23, $29
@@ -818,7 +818,7 @@ CapturePokemon: ; 0x1052d
 	ld [wEnableBallGravityAndTilt], a
 	callba RestoreBallSaverAfterCatchEmMode
 	call ConcludeCatchEmMode
-	ld de, $0001
+	ld de, MUSIC_BLUE_FIELD ; This is either MUSIC_BLUE_FIELD or MUSIC_RED_FIELD, they just happen to be the same song id in their respective audio Banks.
 	call PlaySong
 	ld hl, wNumPokemonCaughtInBallBonus
 	call Increment_Max100
@@ -1252,7 +1252,7 @@ Func_10871: ; 0x10871
 	call Func_107b0
 	ld a, $4
 	ld [wd7ad], a
-	ld de, $0002
+	ld de, MUSIC_CATCH_EM_BLUE ; This is either MUSIC_CATCH_EM_BLUE or MUSIC_CATCH_EM_RED. They happen to have the same id in their respective audio Banks.
 	call PlaySong
 	ld a, [wCurrentStage]
 	bit 0, a
@@ -1385,7 +1385,7 @@ Func_1098c: ; 0x1098c
 	xor a
 	ld [wRightAlleyCount], a
 	callba CloseSlotCave
-	ld de, $0002
+	ld de, MUSIC_CATCH_EM_BLUE ; This is either MUSIC_CATCH_EM_BLUE or MUSIC_CATCH_EM_RED. They happen to have the same id in their respective audio
 	call PlaySong
 	ld a, [wCurrentStage]
 	bit 0, a

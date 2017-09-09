@@ -632,7 +632,7 @@ StartEvolutionMode_RedField: ; 0x10ebb
 	call Func_107b0
 	ld a, $2
 	ld [wd7ad], a
-	ld de, $0002
+	ld de, MUSIC_CATCH_EM_BLUE ; Either MUSIC_CATCH_EM_BLUE or MUSIC_CATCH_EM_RED. They have the same id in their respective audio Banks.
 	call PlaySong
 	call SetPokemonSeenFlag
 	ld a, [wCurrentStage]
@@ -768,7 +768,7 @@ StartEvolutionMode_BlueField: ; 0x11061
 	callba CloseSlotCave
 	ld a, $2
 	ld [wd7ad], a
-	ld de, $0002
+	ld de, MUSIC_CATCH_EM_BLUE ; Either MUSIC_CATCH_EM_BLUE or MUSIC_CATCH_EM_RED. They have the same id in their respective audio Banks.
 	call PlaySong
 	call SetPokemonSeenFlag
 	ld a, [wCurrentStage]

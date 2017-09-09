@@ -2121,7 +2121,7 @@ ShowScrollingGoToBonusText_RedField: ; 0x163f2
 	ld de, GoToMewtwoStageText
 .asm_1640f
 	call LoadScrollingText
-	ld de, $0000
+	ld de, MUSIC_NOTHING
 	call PlaySong
 	rst AdvanceFrame
 	lb de, $3c, $23

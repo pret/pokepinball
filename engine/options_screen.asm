@@ -32,9 +32,9 @@ Func_c35a: ; 0xc35a
 	call Func_c43a
 	call Func_c948
 	call SetAllPalettesWhite
-	ld a, $12
+	ld a, Bank(Music_Options)
 	call SetSongBank
-	ld de, $0002
+	ld de, MUSIC_OPTIONS
 	call PlaySong
 	call EnableLCD
 	ld a, [wSoundTestCurrentBackgroundMusic]
@@ -138,7 +138,7 @@ Func_c447: ; 0xc447
 	ret
 
 .asm_c477
-	ld de, $0000
+	ld de, MUSIC_NOTHING
 	call PlaySong
 	ld a, $5
 	ld [wScreenState], a
@@ -456,14 +456,14 @@ Func_c691: ; 0xc91
 	ld a, [hNewlyPressedButtons]
 	bit BIT_B_BUTTON, a
 	ret z
-	ld de, $0000
+	ld de, MUSIC_NOTHING
 	call PlaySong
 	rst AdvanceFrame
 	rst AdvanceFrame
 	rst AdvanceFrame
-	ld a, $12
+	ld a, Bank(Music_Options)
 	call SetSongBank
-	ld de, $0002
+	ld de, MUSIC_OPTIONS
 	call PlaySong
 	lb de, $00, $01
 	call PlaySoundEffect
@@ -507,7 +507,7 @@ Func_c6e8: ; 0xc6e8
 	ld a, [hNewlyPressedButtons]
 	bit BIT_A_BUTTON, a
 	jr z, UpdateSoundTestBackgroundMusicSelection
-	ld de, $0000
+	ld de, MUSIC_NOTHING
 	call PlaySong
 	rst AdvanceFrame
 	rst AdvanceFrame
@@ -601,15 +601,15 @@ RedrawSoundTestID: ; 0xc76c
 	ret
 
 SongBanks: ; 0xc77e
-	db MUSIC_NOTHING_0F,BANK(Music_Nothing0F)
-	db MUSIC_BLUE_FIELD,BANK(Music_BlueField)
+	db MUSIC_NOTHING,BANK(Music_Nothing0F)
+	db MUSIC_RED_FIELD,BANK(Music_RedField)
 	db MUSIC_CATCH_EM_RED,BANK(Music_CatchEmRed)
 	db MUSIC_HURRY_UP_RED,BANK(Music_HurryUpRed)
 	db MUSIC_POKEDEX,BANK(Music_Pokedex)
 	db MUSIC_GASTLY_GRAVEYARD,BANK(Music_GastlyInTheGraveyard)
 	db MUSIC_HAUNTER_GRAVEYARD,BANK(Music_HaunterInTheGraveyard)
 	db MUSIC_GENGAR_GRAVEYARD,BANK(Music_GengarInTheGraveyard)
-	db MUSIC_RED_FIELD,BANK(Music_RedField)
+	db MUSIC_BLUE_FIELD,BANK(Music_BlueField)
 	db MUSIC_CATCH_EM_BLUE,BANK(Music_CatchEmBlue)
 	db MUSIC_HURRY_UP_BLUE,BANK(Music_HurryUpBlue)
 	db MUSIC_HI_SCORE,BANK(Music_HiScore)

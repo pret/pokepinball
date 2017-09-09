@@ -2063,14 +2063,14 @@ ChannelPointers_Bank10:
 
 SongHeaderPointers_Bank10:
 	dw Music_Nothing10
-	dw Music_RedField
+	dw Music_BlueField
 	dw Music_CatchEmBlue
 	dw Music_HurryUpBlue
 	dw Music_HiScore
 	dw Music_GameOver
 
 INCLUDE "audio/music/nothing10.asm"
-INCLUDE "audio/music/redfield.asm"
+INCLUDE "audio/music/bluefield.asm"
 INCLUDE "audio/music/catchemblue.asm"
 INCLUDE "audio/music/hiscore.asm"
 INCLUDE "audio/music/gameover.asm"

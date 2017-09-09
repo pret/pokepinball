@@ -179,7 +179,7 @@ Func_2070b: ; 0x2070b
 	callba RestoreBallSaverAfterCatchEmMode
 	callba PlaceEvolutionInParty
 	callba ConcludeEvolutionMode
-	ld de, $0001
+	ld de, MUSIC_RED_FIELD
 	call PlaySong
 	ld hl, wNumPokemonEvolvedInBallBonus
 	call Increment_Max100
@@ -205,7 +205,7 @@ Func_20757: ; 0x20757
 	call FillBottomMessageBufferWithBlackTile
 	callba RestoreBallSaverAfterCatchEmMode
 	callba ConcludeEvolutionMode
-	ld de, $0001
+	ld de, MUSIC_RED_FIELD
 	call PlaySong
 	scf
 	ret
@@ -718,7 +718,7 @@ Func_20b02: ; 0x20b02
 .asm_20b80
 	callba Func_10e0a
 	call MainLoopUntilTextIsClear
-	ld de, $0000
+	ld de, MUSIC_NOTHING
 	call PlaySong
 	rst AdvanceFrame
 	lb de, $2d, $26

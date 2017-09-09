@@ -1,5 +1,5 @@
 SaveGame: ; 0xda05
-	ld de, $0000
+	ld de, MUSIC_NOTHING
 	call PlaySong
 	ld bc, $0004
 	call AdvanceFrames

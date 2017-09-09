@@ -120,7 +120,7 @@ Func_311b4: ; 0x311b4
 	callba Func_107b0
 	ld a, $4
 	ld [wd7ad], a
-	ld de, $0003
+	ld de, MUSIC_HURRY_UP_BLUE ; Either MUSIC_HURRY_UP_BLUE or MUSIC_HURRY_UP_RED. They have the same id in their respective audio Banks.
 	call PlaySong
 	ld a, [wCurrentStage]
 	bit 0, a
@@ -297,7 +297,7 @@ Func_31326: ; 0x31326
 	ld a, $1
 	ld [wd644], a
 	callba CloseSlotCave
-	ld de, $0003
+	ld de, MUSIC_HURRY_UP_BLUE ; Either MUSIC_HURRY_UP_BLUE or MUSIC_HURRY_UP_RED. They have the same id in their respective audio Banks.
 	call PlaySong
 	ld a, [wCurrentStage]
 	bit 0, a
@@ -465,7 +465,7 @@ Func_314f1: ; 0x314f1
 
 Func_314f3: ; 0x314f3
 	callba Func_3022b
-	ld de, $0001
+	ld de, MUSIC_BLUE_FIELD ; Either MUSIC_BLUE_FIELD or MUSIC_RED_FIELD. They have the same id in their respective audio Banks.
 	call PlaySong
 	scf
 	ret
@@ -476,7 +476,7 @@ Func_31505: ; 0x31505
 	ret nz
 	call FillBottomMessageBufferWithBlackTile
 	callba Func_3022b
-	ld de, $0001
+	ld de, MUSIC_BLUE_FIELD ; Either MUSIC_BLUE_FIELD or MUSIC_RED_FIELD. They have the same id in their respective audio Banks.
 	call PlaySong
 	scf
 	ret
@@ -554,7 +554,7 @@ OpenRedMapMoveSlotFromRight: ; 0x315b3
 	ret
 
 ResolveSucsessfulRedMapMove: ; 0x315d5
-	ld de, $0000
+	ld de, MUSIC_NOTHING
 	call PlaySong
 	rst AdvanceFrame
 	callba ChooseNextMap_RedField
@@ -615,7 +615,7 @@ Func_3165e: ; 0x3165e
 
 Func_31660: ; 0x31660
 	callba Func_3022b
-	ld de, $0001
+	ld de, MUSIC_BLUE_FIELD ; Either MUSIC_BLUE_FIELD or MUSIC_RED_FIELD. They have the same id in their respective audio Banks.
 	call PlaySong
 	scf
 	ret
@@ -626,7 +626,7 @@ Func_31672: ; 0x31672
 	ret nz
 	call FillBottomMessageBufferWithBlackTile
 	callba Func_3022b
-	ld de, $0001
+	ld de, MUSIC_BLUE_FIELD ; Either MUSIC_BLUE_FIELD or MUSIC_RED_FIELD. They have the same id in their respective audio Banks.
 	call PlaySong
 	scf
 	ret
@@ -708,7 +708,7 @@ Func_3172a: ; 0x3172a
 	ret
 
 Func_3174c: ; 0x3174c
-	ld de, $0000
+	ld de, MUSIC_NOTHING
 	call PlaySong
 	rst AdvanceFrame
 	callba ChooseNextMap_BlueField

@@ -22,7 +22,7 @@ HandleBallLossRedField: ; 0xdd76
 	ret
 
 .youLose
-	ld de, $0000
+	ld de, MUSIC_NOTHING
 	call PlaySong
 	ld bc, $001e
 	call AdvanceFrames

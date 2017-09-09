@@ -27,9 +27,9 @@ InitSeelBonusStage: ; 0x25a7c
 	ld [wd739], a
 	ld bc, $0130  ; 1 minute 30 seconds
 	callba StartTimer
-	ld a, $11
+	ld a, Bank(Music_SeelStage)
 	call SetSongBank
-	ld de, $0003
+	ld de, MUSIC_SEEL_STAGE
 	call PlaySong
 	ret
 

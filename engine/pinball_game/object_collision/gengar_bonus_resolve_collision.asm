@@ -346,7 +346,7 @@ Func_18562: ; 0x18562
 	ld [wd659], a
 	ld [wd662], a
 	ld [wd66b], a
-	ld de, $0006
+	ld de, MUSIC_HAUNTER_GRAVEYARD
 	call PlaySong
 	ret
 
@@ -585,7 +585,7 @@ Func_186f7: ; 0x186f7
 	ld [wd656], a
 	call Func_18d72
 	call Func_18d91
-	ld de, $0000
+	ld de, MUSIC_NOTHING
 	call PlaySong
 	ret
 
@@ -721,7 +721,7 @@ Func_187b1: ; 0x187b1
 	ld [wFlippersDisabled], a
 	call LoadFlippersPalette
 	callba StopTimer
-	ld de, $0000
+	ld de, MUSIC_NOTHING
 	call PlaySong
 .asm_18826
 	ld bc, FiveMillionPoints
@@ -1027,7 +1027,7 @@ Func_189af: ; 0x189af
 	inc de
 	xor a
 	ld [de], a
-	ld de, $0007
+	ld de, MUSIC_GENGAR_GRAVEYARD
 	call PlaySong
 	ret
 

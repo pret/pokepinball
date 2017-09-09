@@ -81,9 +81,9 @@ ShowBallBonusSummary: ; 0xf5a0
 	ld a, [wGameOver]
 	and a
 	ret z
-	ld a, $10
+	ld a, Bank(Music_GameOver)
 	call SetSongBank
-	ld de, $0005
+	ld de, MUSIC_GAME_OVER
 	call PlaySong
 	ld hl, wBottomMessageText
 	ld bc, $0040

@@ -58,9 +58,9 @@ InitBallBlueField: ; 0x1c08d
 	ld a, $3
 	ld [wd610], a
 	call GetBCDForNextBonusMultiplier_BlueField
-	ld a, $10
+	ld a, Bank(Music_BlueField)
 	call SetSongBank
-	ld de, $0001
+	ld de, MUSIC_BLUE_FIELD
 	call PlaySong
 	ret
 
@@ -83,8 +83,8 @@ StartBallAfterBonusStageBlueField: ; 0x1c129
 	ld [wFlippersDisabled], a
 	ld a, [wBallTypeBackup]
 	ld [wBallType], a
-	ld a, $10
+	ld a, Bank(Music_BlueField)
 	call SetSongBank
-	ld de, $0001
+	ld de, MUSIC_BLUE_FIELD
 	call PlaySong
 	ret

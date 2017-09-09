@@ -27,8 +27,8 @@ InitMeowthBonusStage: ; 0x24000
 	ld [wd739], a
 	ld bc, $0100  ; 1 minute 0 seconds
 	callba StartTimer
-	ld a, $12
+	ld a, Bank(Music_MeowthStage)
 	call SetSongBank
-	ld de, $0004
+	ld de, MUSIC_MEOWTH_STAGE
 	call PlaySong
 	ret

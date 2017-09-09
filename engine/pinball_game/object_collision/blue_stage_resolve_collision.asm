@@ -2669,7 +2669,7 @@ ShowScrollingGoToBonusText_BlueField: ; 0x1e8c3
 	ld de, GoToMewtwoStageText
 .loadText
 	call LoadScrollingText
-	ld de, $0000
+	ld de, MUSIC_NOTHING
 	call PlaySong
 	rst AdvanceFrame
 	lb de, $3c, $23

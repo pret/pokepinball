@@ -43,9 +43,9 @@ InitGengarBonusStage: ; 0x18099
 	ld [wd656], a
 	ld bc, $0130  ; 1 minute 30 seconds
 	callba StartTimer
-	ld a, $f
+	ld a, Bank(Music_GastlyInTheGraveyard)
 	call SetSongBank
-	ld de, $0005
+	ld de, MUSIC_GASTLY_GRAVEYARD
 	call PlaySong
 	ret
 

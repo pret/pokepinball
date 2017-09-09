@@ -63,9 +63,9 @@ InitBallRedField: ; 0x3007d
 	ld a, $3
 	ld [wd610], a
 	callba GetBCDForNextBonusMultiplier_RedField
-	ld a, $f
+	ld a, Bank(Music_RedField)
 	call SetSongBank
-	ld de, $0001
+	ld de, MUSIC_RED_FIELD
 	call PlaySong
 	ret
 
@@ -88,8 +88,8 @@ StartBallAfterBonusStageRedField: ; 0x30128
 	ld [wFlippersDisabled], a
 	ld a, [wBallTypeBackup]
 	ld [wBallType], a
-	ld a, $f
+	ld a, Bank(Music_RedField)
 	call SetSongBank
-	ld de, $0001
+	ld de, MUSIC_RED_FIELD
 	call PlaySong
 	ret

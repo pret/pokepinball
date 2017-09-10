@@ -254,7 +254,7 @@ ResolveDiglettCollision: ; 0x147aa
 	ld a, $6b
 	ld [wStageCollisionMap + $110], a
 	ld a, $5
-	call LoadDiglettGraphics
+	call _LoadDiglettGraphics
 	ld a, [wRightMapMoveCounter]
 	add $4
 	call LoadDiglettNumberGraphics
@@ -271,7 +271,7 @@ ResolveDiglettCollision: ; 0x147aa
 	ld a, $67
 	ld [wStageCollisionMap + $103], a
 	ld a, $2
-	call LoadDiglettGraphics
+	call _LoadDiglettGraphics
 	ld a, [wLeftMapMoveCounter]
 	call LoadDiglettNumberGraphics
 	ld a, $7
@@ -489,7 +489,7 @@ UpdateDiglettAnimations: ; 0x14990
 	ld a, [wLeftMapMoveDiglettFrame]
 	xor $1
 	ld [wLeftMapMoveDiglettFrame], a
-	call LoadDiglettGraphics
+	call _LoadDiglettGraphics
 .asm_149b6
 	ld a, [wRightDiglettAnimationController]
 	and a
@@ -511,7 +511,7 @@ UpdateDiglettAnimations: ; 0x14990
 	ld [wRightMapMoveDiglettFrame], a
 	add $3
 	; fall through
-LoadDiglettGraphics: ; 0x149d9
+_LoadDiglettGraphics: ; 0x149d9
 	sla a
 	ld c, a
 	ld b, $0
@@ -2745,10 +2745,10 @@ ResolveRedStageBonusMultiplierCollision: ; 016d9d
 	ld bc, TenPoints
 	callba AddBigBCD6FromQueueWithBallMultiplier
 	ld a, [wBonusMultiplierTensDigit]
-	call LoadBonusMultiplierRailingGraphics_RedField
+	call _LoadBonusMultiplierRailingGraphics_RedField
 	ld a, [wBonusMultiplierOnesDigit]
 	add $14
-	call LoadBonusMultiplierRailingGraphics_RedField
+	call _LoadBonusMultiplierRailingGraphics_RedField
 	ret
 
 UpdateBonusMultiplierRailing_RedField: ; 0x16e51
@@ -2776,10 +2776,10 @@ UpdateBonusMultiplierRailing_RedField: ; 0x16e51
 	ld a, [wCurBonusMultiplier]
 	call GetBCDForNextBonusMultiplier_RedField
 	ld a, [wBonusMultiplierTensDigit]
-	call LoadBonusMultiplierRailingGraphics_RedField
+	call _LoadBonusMultiplierRailingGraphics_RedField
 	ld a, [wBonusMultiplierOnesDigit]
 	add $14
-	call LoadBonusMultiplierRailingGraphics_RedField
+	call _LoadBonusMultiplierRailingGraphics_RedField
 	ret
 
 .asm_16e8f
@@ -2800,14 +2800,14 @@ UpdateBonusMultiplierRailing_RedField: ; 0x16e51
 	ld a, [wBonusMultiplierTensDigit]
 	res 7, a
 	ld [wBonusMultiplierTensDigit], a
-	call LoadBonusMultiplierRailingGraphics_RedField
+	call _LoadBonusMultiplierRailingGraphics_RedField
 	jr .asm_16ec1
 
 .asm_16eb6
 	ld a, [wBonusMultiplierTensDigit]
 	set 7, a
 	ld [wBonusMultiplierTensDigit], a
-	call LoadBonusMultiplierRailingGraphics_RedField
+	call _LoadBonusMultiplierRailingGraphics_RedField
 .asm_16ec1
 	ld a, [wd611]
 	cp $2
@@ -2827,7 +2827,7 @@ UpdateBonusMultiplierRailing_RedField: ; 0x16e51
 	res 7, a
 	ld [wBonusMultiplierOnesDigit], a
 	add $14
-	call LoadBonusMultiplierRailingGraphics_RedField
+	call _LoadBonusMultiplierRailingGraphics_RedField
 	ret
 
 .asm_16ee7
@@ -2835,7 +2835,7 @@ UpdateBonusMultiplierRailing_RedField: ; 0x16e51
 	set 7, a
 	ld [wBonusMultiplierOnesDigit], a
 	add $14
-	call LoadBonusMultiplierRailingGraphics_RedField
+	call _LoadBonusMultiplierRailingGraphics_RedField
 	ret
 
 ShowBonusMultiplierMessage_RedField: ; 0x16ef5
@@ -2865,7 +2865,7 @@ ShowBonusMultiplierMessage_RedField: ; 0x16ef5
 	ld [hl], a
 	ret
 
-LoadBonusMultiplierRailingGraphics_RedField: ; 0x16f28
+_LoadBonusMultiplierRailingGraphics_RedField: ; 0x16f28
 	push af
 	ld a, [hGameBoyColorFlag]
 	and a

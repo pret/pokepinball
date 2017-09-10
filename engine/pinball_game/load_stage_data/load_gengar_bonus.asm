@@ -1,5 +1,5 @@
 _LoadStageDataGengarBonus: ; 0x1818b
-	callba Func_142fc
+	callba LoadBallGraphics
 	call LoadFlippersPalette
 	call Func_18d72
 	ld a, [wLoadingSavedGame]

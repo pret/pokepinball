@@ -1,9 +1,9 @@
 _LoadStageDataBlueFieldTop: ; 0x1c165
 	call LoadPinballUpgradeTriggersGraphics_BlueField
 	call UpdateSpinnerChargeGraphics_BlueField
-	call Func_1c3ee
+	call LoadEvolutionTrinketGraphics_BlueField
 	call LoadSlotCaveCoverGraphics_BlueField
-	callba Func_142fc
+	callba LoadBallGraphics
 	ld a, $1
 	ld [wBlueStageForceFieldGfxNeedsLoading], a
 	call UpdateForceFieldGraphics
@@ -13,18 +13,18 @@ _LoadStageDataBlueFieldTop: ; 0x1c165
 
 _LoadStageDataBlueFieldBottom: ; 0x1c191
 	call Func_1c1db
-	call Func_1c4b6
+	call LoadBillboardGraphics_BlueField
 	call Func_1c2cb
 	call LoadCAVELightsGraphics_BlueField
-	call Func_1c43c
+	call LoadBillboardStatusBarGraphics_BlueField
 	call Func_1c305
-	call Func_1c3ee
+	call LoadEvolutionTrinketGraphics_BlueField
 	callba LoadAgainTextGraphics
 	callba DrawBallSaverIcon
-	call Func_1c235
-	call Func_1c21e
+	call LoadPsyduckOrPoliwagGraphics
+	call LoadBonusMultiplierRailingGraphics_BlueField
 	call LoadSlotCaveCoverGraphics_BlueField
-	callba Func_142fc
+	callba LoadBallGraphics
 	callba LoadTimerGraphics
 	call Func_1c203
 	ret
@@ -61,19 +61,19 @@ Func_1c203: ; 0x1c203
 	ld [wd4c7], a
 	ret
 
-Func_1c21e: ; 0x1c21e
+LoadBonusMultiplierRailingGraphics_BlueField: ; 0x1c21e
 	ld a, $ff
 	ld [wd60e], a
 	ld [wd60f], a
 	ld a, [wBonusMultiplierTensDigit]
-	call LoadBonusMultiplierRailingGraphics_BlueField
+	call _LoadBonusMultiplierRailingGraphics_BlueField
 	ld a, [wBonusMultiplierOnesDigit]
 	add $14
-	call LoadBonusMultiplierRailingGraphics_BlueField
+	call _LoadBonusMultiplierRailingGraphics_BlueField
 	ret
 
-Func_1c235: ; 0x1c235
-	ld a, [wLeftMapMoveDiglettAnimationCounter]
+LoadPsyduckOrPoliwagGraphics: ; 0x1c235
+	ld a, [wLeftMapMovePoliwagAnimationCounter]
 	and a
 	jr z, .asm_1c249
 	ld a, $54
@@ -86,7 +86,7 @@ Func_1c235: ; 0x1c235
 .asm_1c249
 	xor a
 .asm_1c24a
-	call LoadPsyduckOrPoliwagGraphics
+	call _LoadPsyduckOrPoliwagGraphics
 	ld a, [wLeftMapMoveCounter]
 	call LoadPsyduckOrPoliwagNumberGraphics
 	ld a, [hGameBoyColorFlag]
@@ -107,7 +107,7 @@ Func_1c235: ; 0x1c235
 	ld a, $8
 .asm_1c269
 	call LoadPsyduckOrPoliwagNumberGraphics
-	ld a, [wRightMapMoveDiglettFrame]
+	ld a, [wRightMapMovePsyduckFrame]
 	and a
 	jr z, .asm_1c295
 	ld a, $52
@@ -134,7 +134,7 @@ Func_1c235: ; 0x1c235
 .asm_1c295
 	ld a, $2
 .asm_1c297
-	call LoadPsyduckOrPoliwagGraphics
+	call _LoadPsyduckOrPoliwagGraphics
 	ld a, [wRightMapMoveCounter]
 	add $4
 	call LoadPsyduckOrPoliwagNumberGraphics
@@ -160,7 +160,7 @@ Func_1c235: ; 0x1c235
 
 .asm_1c2bd
 	ld a, $6
-	call LoadPsyduckOrPoliwagGraphics
+	call _LoadPsyduckOrPoliwagGraphics
 	ld a, [wRightMapMoveCounter]
 	add $4
 	call LoadPsyduckOrPoliwagNumberGraphics
@@ -313,7 +313,7 @@ Func_1c3ca: ; 0x1c3ca
 	callba nz, Func_102bc
 	ret
 
-Func_1c3ee: ; 0x1c3ee
+LoadEvolutionTrinketGraphics_BlueField: ; 0x1c3ee
 	ld a, [wInSpecialMode]
 	and a
 	ret z
@@ -353,7 +353,7 @@ Func_1c3ee: ; 0x1c3ee
 	call FarCopyCGBPals
 	ret
 
-Func_1c43c: ; 0x1c43c
+LoadBillboardStatusBarGraphics_BlueField: ; 0x1c43c
 	ld a, [wInSpecialMode]
 	and a
 	jr z, .asm_1c458
@@ -428,7 +428,7 @@ Func_1c491: ; 0x1c491
 	pop bc
 	ret
 
-Func_1c4b6: ; 0x1c4b6
+LoadBillboardGraphics_BlueField: ; 0x1c4b6
 	ld a, [wInSpecialMode]
 	and a
 	jr nz, .asm_1c4f0

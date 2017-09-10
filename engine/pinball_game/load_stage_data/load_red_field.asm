@@ -4,27 +4,27 @@ _LoadStageDataRedFieldTop: ; 0x14000
 	call LoadPinballUpgradeTriggersGraphics_RedField
 	call LoadStaryuGraphics_Top
 	call UpdateSpinnerChargeGraphics_RedField
-	call Func_14234
+	call LoadEvolutionTrinketGraphics_RedField
 	call LoadSlotCaveCoverGraphics_RedField
-	call Func_142fc
+	call LoadBallGraphics
 	call LoadTimerGraphics
 	ret
 
 _LoadStageDataRedFieldBottom: ; 0x1401c
 	call Func_14091
-	call Func_14377
+	call LoadBillboardGraphics_RedField
 	call ClearAllRedIndicators
 	call LoadCAVELightsGraphics_RedField
-	call Func_14282
+	call LoadBillboardStatusBarGraphics_RedField
 	call Func_1414b
-	call Func_14234
+	call LoadEvolutionTrinketGraphics_RedField
 	call LoadAgainTextGraphics
 	call DrawBallSaverIcon
-	call Func_140f9
+	call LoadDiglettGraphics
 	call LoadStaryuGraphics_Bottom
-	call Func_140e2
+	call LoadBonusMultiplierRailingGraphics_RedField
 	call LoadSlotCaveCoverGraphics_RedField
-	call Func_142fc
+	call LoadBallGraphics
 	call LoadTimerGraphics
 	ret
 
@@ -98,18 +98,18 @@ Func_14091: ; 0x14091
 	call LoadFieldStructureGraphics_RedField
 	ret
 
-Func_140e2: ; 0x140e2
+LoadBonusMultiplierRailingGraphics_RedField: ; 0x140e2
 	ld a, $ff
 	ld [wd60e], a
 	ld [wd60f], a
 	ld a, [wBonusMultiplierTensDigit]
-	call LoadBonusMultiplierRailingGraphics_RedField
+	call _LoadBonusMultiplierRailingGraphics_RedField
 	ld a, [wBonusMultiplierOnesDigit]
 	add $14
-	call LoadBonusMultiplierRailingGraphics_RedField
+	call _LoadBonusMultiplierRailingGraphics_RedField
 	ret
 
-Func_140f9: ; 0x140f9
+LoadDiglettGraphics: ; 0x140f9
 	ld a, [wLeftDiglettAnimationController]
 	and a
 	jr z, .asm_1410c ;skip ??? if wLeftDiglettAnimationController = 0
@@ -120,7 +120,7 @@ Func_140f9: ; 0x140f9
 	ld [wStageCollisionMap + $103], a ;load into the collision map?
 	ld a, $2
 .asm_1410c
-	call LoadDiglettGraphics
+	call _LoadDiglettGraphics
 	ld a, [wLeftMapMoveCounter]
 	call LoadDiglettNumberGraphics
 	ld a, [wRightDiglettAnimationController]
@@ -133,7 +133,7 @@ Func_140f9: ; 0x140f9
 	ld a, $2
 .asm_14127
 	add $3
-	call LoadDiglettGraphics
+	call _LoadDiglettGraphics
 	ld a, [wRightMapMoveCounter]
 	add $4
 	call LoadDiglettNumberGraphics
@@ -262,7 +262,7 @@ Func_14210: ; 0x14210
 	callba nz, Func_102bc
 	ret
 
-Func_14234: ; 0x14234
+LoadEvolutionTrinketGraphics_RedField: ; 0x14234
 	ld a, [wInSpecialMode]
 	and a
 	ret z
@@ -302,7 +302,7 @@ Func_14234: ; 0x14234
 	call FarCopyCGBPals
 	ret
 
-Func_14282: ; 0x14282
+LoadBillboardStatusBarGraphics_RedField: ; 0x14282
 	ld a, [wInSpecialMode]
 	and a
 	jr z, .asm_1429e
@@ -377,22 +377,22 @@ Func_142d7: ; 0x142d7
 	pop bc
 	ret
 
-Func_142fc: ; 0x142fc
+LoadBallGraphics: ; 0x142fc
 	ld a, [wd4c8]
 	and a
-	jr nz, .asm_1430e
+	jr nz, .miniBall
 	callba LoadBallGfx
-	jr .asm_14328
+	jr .loadBallPalette
 
-.asm_1430e
+.miniBall
 	cp $1
-	jr nz, .asm_1431e
+	jr nz, .superMiniBall
 	callba LoadMiniBallGfx
-	jr .asm_14328
+	jr .loadBallPalette
 
-.asm_1431e
+.superMiniBall
 	callba LoadSuperMiniPinballGfx
-.asm_14328
+.loadBallPalette
 	ld a, [hGameBoyColorFlag]
 	and a
 	ret z
@@ -434,7 +434,7 @@ Func_142fc: ; 0x142fc
 	call FarCopyCGBPals
 	ret
 
-Func_14377: ; 0x14377
+LoadBillboardGraphics_RedField: ; 0x14377
 	ld a, [wInSpecialMode]
 	and a
 	jr nz, .asm_143b1

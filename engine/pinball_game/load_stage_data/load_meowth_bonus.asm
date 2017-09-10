@@ -1,5 +1,5 @@
 _LoadStageDataMeowthBonus: ; 0x24128
-	callba Func_142fc
+	callba LoadBallGraphics
 	call LoadFlippersPalette
 	callba Func_24fa3
 	call Func_24516

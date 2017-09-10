@@ -1,5 +1,5 @@
 _LoadStageDataMewtwoBonus: ; 0x19310
-	callba Func_142fc
+	callba LoadBallGraphics
 	call LoadFlippersPalette
 	callba LoadTimerGraphics
 	ld a, [wLoadingSavedGame]

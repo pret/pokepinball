@@ -1,5 +1,5 @@
 _LoadStageDataDiglettBonus: ; 0x19a76
-	callba Func_142fc
+	callba LoadBallGraphics
 	call LoadFlippersPalette
 	ld a, [wLoadingSavedGame]
 	and a

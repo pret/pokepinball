@@ -106,9 +106,9 @@ Func_311b4: ; 0x311b4
 
 .asm_311e2
 	ld a, $2
-	callba LoadDiglettGraphics
+	callba _LoadDiglettGraphics
 	ld a, $5
-	callba LoadDiglettGraphics
+	callba _LoadDiglettGraphics
 	ld a, $6a
 	ld [wStageCollisionMap + $f0], a
 	ld a, $6b
@@ -264,7 +264,7 @@ Func_31326: ; 0x31326
 	ld [wIndicatorStates + 3], a
 	ld [wIndicatorStates + 4], a
 	ld a, $3
-	callba LoadPsyduckOrPoliwagGraphics
+	callba _LoadPsyduckOrPoliwagGraphics
 	jr .asm_31382
 
 .asm_3134c
@@ -276,9 +276,9 @@ Func_31326: ; 0x31326
 	ld [wIndicatorStates + 2], a
 	ld [wIndicatorStates + 4], a
 	ld a, $1
-	callba LoadPsyduckOrPoliwagGraphics
+	callba _LoadPsyduckOrPoliwagGraphics
 	ld a, $6
-	callba LoadPsyduckOrPoliwagGraphics
+	callba _LoadPsyduckOrPoliwagGraphics
 	ld a, $7
 	callba LoadPsyduckOrPoliwagNumberGraphics
 .asm_31382

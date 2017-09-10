@@ -1,10 +1,10 @@
 DrawSpritesDiglettBonus: ; 0x1ac98
 	callba DrawFlippers
 	callba DrawPinball
-	call Func_1acb0
+	call DrawDugtrio
 	ret
 
-Func_1acb0: ; 0x1acb0
+DrawDugtrio: ; 0x1acb0
 	ld a, $40
 	ld hl, hSCX
 	sub [hl]

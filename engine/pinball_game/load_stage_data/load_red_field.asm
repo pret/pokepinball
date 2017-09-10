@@ -289,7 +289,7 @@ Func_14234: ; 0x14234
 	ld bc, $00e0
 	call FarCopyData
 .asm_1426a
-	ld a, [wd551]
+	ld a, [wEvolutionObjectsDisabled]
 	and a
 	ret z
 	ld a, [hGameBoyColorFlag]

@@ -1121,7 +1121,7 @@ Func_107b0: ; 0x107b0
 	callba LoadSlotCaveCoverGraphics_RedField
 	ret
 
-Func_107c2: ; 0x107c2
+OpenSlotCave: ; 0x107c2
 	ld a, $1e
 	ld [wFramesUntilSlotCaveOpens], a
 	ret
@@ -1271,7 +1271,7 @@ Func_10871: ; 0x10871
 
 Func_108f5: ; 0x108f5
 	call ResetIndicatorStates
-	call Func_107c2
+	call OpenSlotCave
 	call SetLeftAndRightAlleyArrowIndicatorStates_RedField
 	call Func_107e9
 	ld a, [wCurrentStage]
@@ -1402,7 +1402,7 @@ Func_1098c: ; 0x1098c
 
 Func_109fc: ; 0x109fc
 	call ResetIndicatorStates
-	call Func_107c2
+	call OpenSlotCave
 	callba SetLeftAndRightAlleyArrowIndicatorStates_BlueField
 	ld a, [wCurrentStage]
 	bit 0, a

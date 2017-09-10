@@ -32,7 +32,7 @@ ConcludeEvolutionMode: ; 0x10ac8
 	ld [wWildMonIsHittable], a
 	ld [wNumberOfCatchModeTilesFlipped], a
 	ld [wNumMonHits], a
-	ld [wd551], a
+	ld [wEvolutionObjectsDisabled], a
 	ld [wd554], a
 	call ClearWildMonCollisionMask
 	callba StopTimer
@@ -90,16 +90,16 @@ VideoData_10b2a: ; 0x10b2a
 	dw $8900
 	dw $E0
 
-Func_10b3f: ; 0x10b3f
+ShowStartEvolutionModeText: ; 0x10b3f
 	call FillBottomMessageBufferWithBlackTile
 	call EnableBottomText
 	ld hl, wScrollingText1
 	ld a, [wCurrentEvolutionType]
 	cp EVO_EXPERIENCE
 	ld de, StartTrainingText
-	jr z, .asm_10b55
+	jr z, .showText
 	ld de, FindItemsText
-.asm_10b55
+.showText
 	call LoadScrollingText
 	ret
 
@@ -455,8 +455,8 @@ InitEvolutionModeForMon: ; 0x10d1d
 	ld [wCurrentEvolutionType], a
 	xor a
 	ld [wd554], a
-	ld [wd556], a
-	ld [wd557], a
+	ld [wEvolutionTrinketCooldownFrames], a
+	ld [wEvolutionTrinketCooldownFrames + 1], a
 	ld hl, wd55c
 	ld a, $1
 	ld b, $3
@@ -493,7 +493,7 @@ InitEvolutionModeForMon: ; 0x10d1d
 	dec b
 	jr nz, .asm_10dc0
 	callba InitBallSaverForCatchEmMode
-	call Func_10b3f
+	call ShowStartEvolutionModeText
 	call Func_3579
 	ld a, [wCurrentStage]
 	bit 0, a
@@ -511,10 +511,10 @@ InitEvolutionModeForMon: ; 0x10d1d
 .asm_10e09
 	ret
 
-Func_10e0a: ; 0x10e0a
+ShowMonEvolvedText: ; 0x10e0a
 	ld a, [wCurrentEvolutionMon]
 	cp $ff
-	jp z, Func_10e8b
+	jp z, EvolutionSpecialBonus
 	ld c, a
 	ld b, $0
 	sla c
@@ -558,16 +558,15 @@ Func_10e0a: ; 0x10e0a
 	pop hl
 	ld de, wBottomMessageText + $20
 	ld b, $0
-.asm_10e67
+.loadMonNameLoop
 	ld a, [hli]
 	and a
-	jr z, .asm_10e70
+	jr z, .continue
 	ld [de], a
 	inc de
 	inc b
-	jr .asm_10e67
-
-.asm_10e70
+	jr .loadMonNameLoop
+.continue
 	ld a, $20
 	ld [de], a
 	inc de
@@ -585,7 +584,7 @@ Func_10e0a: ; 0x10e0a
 	ld [wScrollingText2StopOffset], a
 	ret
 
-Func_10e8b: ; 0x10e8b
+EvolutionSpecialBonus: ; 0x10e8b
 	ld bc, OneMillionPoints
 	callba AddBigBCD6FromQueue
 	ld bc, $0100
@@ -637,7 +636,7 @@ StartEvolutionMode_RedField: ; 0x10ebb
 	call SetPokemonSeenFlag
 	ld a, [wCurrentStage]
 	bit 0, a
-	jr nz, .asm_10f0b
+	jr nz, .bottom
 	ld a, BANK(EvolutionTrinketsGfx)
 	ld hl, EvolutionTrinketsGfx
 	ld de, vTilesSH tile $10
@@ -645,7 +644,7 @@ StartEvolutionMode_RedField: ; 0x10ebb
 	call LoadOrCopyVRAMData
 	ret
 
-.asm_10f0b
+.bottom
 	ld a, BANK(EvolutionTrinketsGfx)
 	ld hl, EvolutionTrinketsGfx
 	ld de, vTilesOB tile $20
@@ -694,7 +693,7 @@ IndicatorStates_10fd0:  ; 0x10fd0
 
 ConcludeEvolutionMode_RedField: ; 0x10fe3
 	call ResetIndicatorStates
-	call Func_107c2
+	call OpenSlotCave
 	call SetLeftAndRightAlleyArrowIndicatorStates_RedField
 	call Func_107e9
 	ld a, [wCurrentStage]
@@ -773,7 +772,7 @@ StartEvolutionMode_BlueField: ; 0x11061
 	call SetPokemonSeenFlag
 	ld a, [wCurrentStage]
 	bit 0, a
-	jr nz, .asm_110bd
+	jr nz, .bottom
 	ld a, BANK(EvolutionTrinketsGfx)
 	ld hl, EvolutionTrinketsGfx
 	ld de, vTilesOB tile $60
@@ -781,7 +780,7 @@ StartEvolutionMode_BlueField: ; 0x11061
 	call LoadOrCopyVRAMData
 	ret
 
-.asm_110bd
+.bottom
 	ld a, BANK(EvolutionTrinketsGfx)
 	ld hl, EvolutionTrinketsGfx
 	ld de, vTilesOB tile $20
@@ -832,7 +831,7 @@ ConcludeEvolutionMode_BlueField: ; 0x11195
 	xor a
 	ld [wd643], a
 	call ResetIndicatorStates
-	call Func_107c2
+	call OpenSlotCave
 	callba SetLeftAndRightAlleyArrowIndicatorStates_BlueField
 	ld a, [wCurrentStage]
 	bit 0, a

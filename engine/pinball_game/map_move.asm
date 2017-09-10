@@ -130,7 +130,7 @@ Func_311b4: ; 0x311b4
 
 Func_31234: ; 0x31234
 	callba ResetIndicatorStates
-	callba Func_107c2
+	callba OpenSlotCave
 	callba SetLeftAndRightAlleyArrowIndicatorStates_RedField
 	callba Func_107e9
 	ld a, [wCurrentStage]
@@ -307,7 +307,7 @@ Func_31326: ; 0x31326
 
 Func_313c3: ; 0x313c3
 	callba ResetIndicatorStates
-	callba Func_107c2
+	callba OpenSlotCave
 	callba SetLeftAndRightAlleyArrowIndicatorStates_BlueField
 	ld a, $0
 	ld [wd644], a

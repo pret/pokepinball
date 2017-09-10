@@ -340,7 +340,7 @@ Func_1c3ee: ; 0x1c3ee
 	ld bc, $00e0
 	call FarCopyData
 .asm_1c424
-	ld a, [wd551]
+	ld a, [wEvolutionObjectsDisabled]
 	and a
 	ret z
 	ld a, [hGameBoyColorFlag]

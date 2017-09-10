@@ -335,7 +335,7 @@ Func_17e5e: ; 0x17e5e
 INCLUDE "engine/pinball_game/draw_sprites/draw_pinball.asm"
 
 DrawEvolutionIndicatorArrows_RedFieldTop: ; 0x17efb
-	ld a, [wd551]
+	ld a, [wEvolutionObjectsDisabled]
 	and a
 	ret nz
 	ld a, [hNumFramesDropped]
@@ -347,7 +347,7 @@ DrawEvolutionIndicatorArrows_RedFieldTop: ; 0x17efb
 	jr DrawEvolutionIndicatorArrows_RedField
 
 DrawEvolutionIndicatorArrows_RedFieldBottom: ; 0x17f0f
-	ld a, [wd551]
+	ld a, [wEvolutionObjectsDisabled]
 	and a
 	ret nz
 	ld a, [hNumFramesDropped]
@@ -423,7 +423,7 @@ EvolutionIndicatorArrowsOAM_RedFieldBottom:
 	db $37 ; oam id
 
 DrawEvolutionTrinket_RedFieldTop: ; 0x17f64
-	ld a, [wd551]
+	ld a, [wEvolutionObjectsDisabled]
 	and a
 	ret z
 	ld de, wd566
@@ -433,7 +433,7 @@ DrawEvolutionTrinket_RedFieldTop: ; 0x17f64
 	jr DrawEvolutionTrinket_RedField
 
 DrawEvolutionTrinket_RedFieldBottom: ; 0x17f75
-	ld a, [wd551]
+	ld a, [wEvolutionObjectsDisabled]
 	and a
 	ret z
 	ld de, wd572

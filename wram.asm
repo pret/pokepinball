@@ -604,7 +604,9 @@ wSpecialMode:: ; 0xd550
 ; See SPECIAL_MODE constants.
 	ds $1
 
-wd551:: ; 0xd551 if non zero, voltobs skip applying experiance gain in evo mode. set to 0 onm collect experiance. set to 1 is pokemon is tired, 0 on recovered. 7 when exp is active for collecting. set to 0 on conclude evo mode. Tracks evo mode state?
+wEvolutionObjectsDisabled:: ; 0xd551
+; 0 = Hitting an evolution game object will either create an evolution trinket or show the "item not found" message.
+; non-0 = The volution game objects are disabled, meaning the player needs to wait a few seconds before they can be hit again.
 	ds $1
 
 wCurrentEvolutionMon:: ; 0xd552
@@ -619,11 +621,11 @@ wd554:: ; 0xd554
 wd555:: ; 0xd555
 	ds $1
 
-wd556:: ; 0xd556
-	ds $1
-
-wd557:: ; 0xd557
-	ds $1
+wEvolutionTrinketCooldownFrames:: ; 0xd556
+; Holds the number of remaining frames until the player can hit more objects to discover evolution trinkets in evolution mode.
+; When the pinball hits an object in evolution mode, sometimes that object doesn't contain a trinket. When this happens, this
+; cooldown is created so the player has to wait a few seconds until the objects becomes activated again.
+	ds $2
 
 wd558:: ; 0xd558
 	ds $1

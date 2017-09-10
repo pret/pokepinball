@@ -1,44 +1,44 @@
 HandleBlueEvoModeCollision: ; 0x20bae
 	ld a, [wSpecialModeCollisionID]
 	cp SPECIAL_COLLISION_SHELLDER
-	jp z, Func_20e34
+	jp z, HandleShellderCollision_EvolutionMode
 	cp SPECIAL_COLLISION_LEFT_TRIGGER
-	jp z, Func_21089
+	jp z, HandleLeftTriggerCollision_EvolutionMode_BlueField
 	cp SPECIAL_COLLISION_CLOYSTER
-	jp z, Func_20e5e
+	jp z, HandleCloysterCollision_EvolutionMode
 	cp SPECIAL_COLLISION_SLOWPOKE
-	jp z, Func_20e82
+	jp z, HandleSlowpokeCollision_EvolutionMode
 	cp SPECIAL_COLLISION_POLIWAG
-	jp z, Func_20ea6
+	jp z, HandlePoliwagCollision_EvolutionMode
 	cp SPECIAL_COLLISION_PSYDUCK
-	jp z, Func_20ec7
+	jp z, HandlePsyduckCollision_EvolutionMode
 	cp SPECIAL_COLLISION_LEFT_BONUS_MULTIPLIER
-	jp z, Func_20ee8
+	jp z, HandleLeftBonusMultiplierCollision_EvolutionMode_BlueField
 	cp SPECIAL_COLLISION_RIGHT_BONUS_MULTIPLIER
-	jp z, Func_20f09
+	jp z, HandleRightBonusMultiplierCollision_EvolutionMode_BlueField
 	cp SPECIAL_COLLISION_BALL_UPGRADE
-	jp z, Func_20f2a
+	jp z, HandleBallUpgradeCollision_EvolutionMode_BlueField
 	cp SPECIAL_COLLISION_SPINNER
-	jp z, Func_20f4b
+	jp z, HandleSpinnerCollision_EvolutionMode_BlueField
 	cp SPECIAL_COLLISION_SLOT_HOLE
-	jp z, Func_2112a
+	jp z, HandleSlotCaveCollision_EvolutionMode_BlueField
 	cp SPECIAL_COLLISION_RIGHT_TRIGGER
-	jp z, Func_2105c
+	jp z, HandleRightTriggerCollision_EvolutionMode_BlueField
 	cp SPECIAL_COLLISION_NOTHING
-	jr z, .asm_20bf3
+	jr z, .noCollision
 	scf
 	ret
-
-.asm_20bf3
-	call Func_20da0
+.noCollision
+	call CheckIfEvolutionModeTimerExpired_BlueField
 	ld a, [wSpecialModeState]
 	call CallInFollowingTable
-PointerTable_20bfc: ; 0x20bfc
-	padded_dab Func_20c08
-	padded_dab Func_20d30
-	padded_dab Func_20d7c
+EvolutionModeCallTable_BlueField: ; 0x20bfc
+	padded_dab HandleEvolutionMode_BlueField
+	padded_dab CompleteEvolutionMode_BlueField
+	padded_dab FailEvolutionMode_BlueField
 
-Func_20c08: ; 0x20c08
+HandleEvolutionMode_BlueField: ; 0x20c08
+; Handles the logic for what happens when an evolution trinket is collected.
 	ld a, [wCurrentStage]
 	ld b, a
 	ld a, [wd578]
@@ -58,8 +58,8 @@ Func_20c08: ; 0x20c08
 	ret z
 	xor a
 	ld [hl], a
-	ld [wd551], a
-	call Func_20c76
+	ld [wEvolutionObjectsDisabled], a
+	call ProgressEvolution
 	ld a, [wd558]
 	ld [wIndicatorStates], a
 	ld a, [wd559]
@@ -86,10 +86,10 @@ Func_20c08: ; 0x20c08
 	scf
 	ret
 
-Func_20c76: ; 0x20c76
+ProgressEvolution: ; 0x20c76
 	ld a, [wCurrentStage]
 	bit 0, a
-	jr z, .asm_20ca6
+	jr z, .top
 	ld a, [wCurrentEvolutionType]
 	dec a
 	ld c, a
@@ -112,7 +112,7 @@ Func_20c76: ; 0x20c76
 	ld bc, $0020
 	ld a, BANK(EvolutionProgressIconsGfx)
 	call LoadVRAMData
-.asm_20ca6
+.top
 	ld a, [wd554]
 	inc a
 	ld [wd554], a
@@ -172,7 +172,7 @@ Func_20c76: ; 0x20c76
 	callba LoadSlotCaveCoverGraphics_BlueField
 	ret
 
-Func_20d30: ; 0x20d30
+CompleteEvolutionMode_BlueField: ; 0x20d30
 	callba RestoreBallSaverAfterCatchEmMode
 	callba PlaceEvolutionInParty
 	callba ConcludeEvolutionMode
@@ -195,7 +195,7 @@ Func_20d30: ; 0x20d30
 	scf
 	ret
 
-Func_20d7c: ; 0x20d7c
+FailEvolutionMode_BlueField: ; 0x20d7c
 	ld a, [wBottomTextEnabled]
 	and a
 	ret nz
@@ -207,21 +207,21 @@ Func_20d7c: ; 0x20d7c
 	scf
 	ret
 
-Func_20da0: ; 0x20da0
-	ld hl, wd556
+CheckIfEvolutionModeTimerExpired_BlueField: ; 0x20da0
+	ld hl, wEvolutionTrinketCooldownFrames
 	ld a, [hli]
 	ld c, a
 	ld b, [hl]
 	or b
-	jr z, .asm_20db3
+	jr z, .cooldownNotEnding
 	dec bc
 	ld a, b
 	ld [hld], a
 	ld [hl], c
 	or c
-	jr nz, .asm_20db3
-	call Func_21079
-.asm_20db3
+	jr nz, .cooldownNotEnding
+	call EndEvolutionTrinketCooldown_BlueField
+.cooldownNotEnding
 	callba PlayLowTimeSfx
 	ld a, [wTimeRanOut]
 	and a
@@ -247,7 +247,7 @@ Func_20da0: ; 0x20da0
 	ld [wIndicatorStates + 7], a
 	ld [wd558], a
 	ld [wd559], a
-	ld [wd551], a
+	ld [wEvolutionObjectsDisabled], a
 	ld a, [wCurrentStage]
 	bit 0, a
 	jr z, .asm_20e1a
@@ -262,36 +262,36 @@ Func_20da0: ; 0x20da0
 	call LoadScrollingText
 	ret
 
-Func_20e34: ; 0x20e34
+HandleShellderCollision_EvolutionMode: ; 0x20e34
 	ld bc, $0001
 	ld de, $5000
 	call AddBCDEToJackpot
-	ld a, [wd551]
+	ld a, [wEvolutionObjectsDisabled]
 	and a
-	jr nz, .asm_20e5c
+	jr nz, .disabled
 	ld a, [wIndicatorStates + 9]
 	and a
-	jr z, .asm_20e5c
+	jr z, .disabled
 	xor a
 	ld [wIndicatorStates + 9], a
 	ld a, [wd55c]
 	and a
 	ld a, $0
 	ld [wd55c], a
-	jp nz, Func_20f75
-	jp Func_20fef
+	jp nz, CreateEvolutionTrinket_BlueField
+	jp EvolutionTrinketNotFound_BlueField
 
-.asm_20e5c
+.disabled
 	scf
 	ret
 
-Func_20e5e: ; 0x20e5e
-	ld a, [wd551]
+HandleCloysterCollision_EvolutionMode: ; 0x20e5e
+	ld a, [wEvolutionObjectsDisabled]
 	and a
-	jr nz, .asm_20e80
+	jr nz, .disabled
 	ld a, [wIndicatorStates + 3]
 	and a
-	jr z, .asm_20e80
+	jr z, .disabled
 	xor a
 	ld [wIndicatorStates + 3], a
 	ld [wIndicatorStates + 10], a
@@ -299,20 +299,20 @@ Func_20e5e: ; 0x20e5e
 	and a
 	ld a, $0
 	ld [wd562], a
-	jp nz, Func_20f75
-	jp Func_20fef
+	jp nz, CreateEvolutionTrinket_BlueField
+	jp EvolutionTrinketNotFound_BlueField
 
-.asm_20e80
+.disabled
 	scf
 	ret
 
-Func_20e82: ; 0x20e82
-	ld a, [wd551]
+HandleSlowpokeCollision_EvolutionMode: ; 0x20e82
+	ld a, [wEvolutionObjectsDisabled]
 	and a
-	jr nz, .asm_20ea4
+	jr nz, .disabled
 	ld a, [wIndicatorStates + 8]
 	and a
-	jr z, .asm_20ea4
+	jr z, .disabled
 	xor a
 	ld [wIndicatorStates + 8], a
 	ld [wIndicatorStates + 2], a
@@ -320,143 +320,144 @@ Func_20e82: ; 0x20e82
 	and a
 	ld a, $0
 	ld [wd561], a
-	jp nz, Func_20f75
-	jp Func_20fef
+	jp nz, CreateEvolutionTrinket_BlueField
+	jp EvolutionTrinketNotFound_BlueField
 
-.asm_20ea4
+.disabled
 	scf
 	ret
 
-Func_20ea6: ; 0x20ea6
-	ld a, [wd551]
+HandlePoliwagCollision_EvolutionMode: ; 0x20ea6
+	ld a, [wEvolutionObjectsDisabled]
 	and a
-	jr nz, .asm_20ec5
+	jr nz, .disabled
 	ld a, [wIndicatorStates + 13]
 	and a
-	jr z, .asm_20ec5
+	jr z, .disabled
 	xor a
 	ld [wIndicatorStates + 13], a
 	ld a, [wd55d]
 	and a
 	ld a, $0
 	ld [wd55d], a
-	jp nz, Func_20f75
-	jp Func_20fef
+	jp nz, CreateEvolutionTrinket_BlueField
+	jp EvolutionTrinketNotFound_BlueField
 
-.asm_20ec5
+.disabled
 	scf
 	ret
 
-Func_20ec7: ; 0x20ec7
-	ld a, [wd551]
+HandlePsyduckCollision_EvolutionMode: ; 0x20ec7
+	ld a, [wEvolutionObjectsDisabled]
 	and a
-	jr nz, .asm_20ee6
+	jr nz, .disabled
 	ld a, [wIndicatorStates + 14]
 	and a
-	jr z, .asm_20ee6
+	jr z, .disabled
 	xor a
 	ld [wIndicatorStates + 14], a
 	ld a, [wd55e]
 	and a
 	ld a, $0
 	ld [wd55e], a
-	jp nz, Func_20f75
-	jp Func_20fef
+	jp nz, CreateEvolutionTrinket_BlueField
+	jp EvolutionTrinketNotFound_BlueField
 
-.asm_20ee6
+.disabled
 	scf
 	ret
 
-Func_20ee8: ; 0x20ee8
-	ld a, [wd551]
+HandleLeftBonusMultiplierCollision_EvolutionMode_BlueField: ; 0x20ee8
+	ld a, [wEvolutionObjectsDisabled]
 	and a
-	jr nz, .asm_20f07
+	jr nz, .disabled
 	ld a, [wIndicatorStates + 11]
 	and a
-	jr z, .asm_20f07
+	jr z, .disabled
 	xor a
 	ld [wIndicatorStates + 11], a
 	ld a, [wd55f]
 	and a
 	ld a, $0
 	ld [wd55f], a
-	jp nz, Func_20f75
-	jp Func_20fef
+	jp nz, CreateEvolutionTrinket_BlueField
+	jp EvolutionTrinketNotFound_BlueField
 
-.asm_20f07
+.disabled
 	scf
 	ret
 
-Func_20f09: ; 0x20f09
-	ld a, [wd551]
+HandleRightBonusMultiplierCollision_EvolutionMode_BlueField: ; 0x20f09
+	ld a, [wEvolutionObjectsDisabled]
 	and a
-	jr nz, .asm_20f28
+	jr nz, .disabled
 	ld a, [wIndicatorStates + 12]
 	and a
-	jr z, .asm_20f28
+	jr z, .disabled
 	xor a
 	ld [wIndicatorStates + 12], a
 	ld a, [wd560]
 	and a
 	ld a, $0
 	ld [wd560], a
-	jp nz, Func_20f75
-	jp Func_20fef
+	jp nz, CreateEvolutionTrinket_BlueField
+	jp EvolutionTrinketNotFound_BlueField
 
-.asm_20f28
+.disabled
 	scf
 	ret
 
-Func_20f2a: ; 0x20f2a
-	ld a, [wd551]
+HandleBallUpgradeCollision_EvolutionMode_BlueField: ; 0x20f2a
+	ld a, [wEvolutionObjectsDisabled]
 	and a
-	jr nz, .asm_20f49
+	jr nz, .disabled
 	ld a, [wIndicatorStates + 6]
 	and a
-	jr z, .asm_20f49
+	jr z, .disabled
 	xor a
 	ld [wIndicatorStates + 6], a
 	ld a, [wd565]
 	and a
 	ld a, $0
 	ld [wd565], a
-	jp nz, Func_20f75
-	jp Func_20fef
+	jp nz, CreateEvolutionTrinket_BlueField
+	jp EvolutionTrinketNotFound_BlueField
 
-.asm_20f49
+.disabled
 	scf
 	ret
 
-Func_20f4b: ; 0x20f4b
+HandleSpinnerCollision_EvolutionMode_BlueField: ; 0x20f4b
 	ld bc, $0000
 	ld de, $1500
 	call AddBCDEToJackpot
-	ld a, [wd551]
+	ld a, [wEvolutionObjectsDisabled]
 	and a
-	jr nz, .asm_20f73
+	jr nz, .disabled
 	ld a, [wIndicatorStates + 7]
 	and a
-	jr z, .asm_20f73
+	jr z, .disabled
 	xor a
 	ld [wIndicatorStates + 7], a
 	ld a, [wd564]
 	and a
 	ld a, $0
 	ld [wd564], a
-	jp nz, Func_20f75
-	jp Func_20fef
+	jp nz, CreateEvolutionTrinket_BlueField
+	jp EvolutionTrinketNotFound_BlueField
 
-.asm_20f73
+.disabled
 	scf
 	ret
 
-Func_20f75: ; 0x20f75
+CreateEvolutionTrinket_BlueField: ; 0x20f75
+; Makes an evolution trinket appear somewhere randomly on the pinball table.
 	lb de, $07, $46
 	call PlaySoundEffect
-	call Func_2111d
+	call ChooseNextEvolutionTrinketLocation_BlueField
 	ld a, [wCurrentEvolutionType]
 	ld [hl], a
-	ld [wd551], a
+	ld [wEvolutionObjectsDisabled], a
 	ld a, [wIndicatorStates]
 	ld [wd558], a
 	ld a, [wIndicatorStates + 3]
@@ -499,11 +500,13 @@ Func_20f75: ; 0x20f75
 	scf
 	ret
 
-Func_20fef: ; 0x20fef
+EvolutionTrinketNotFound_BlueField: ; 0x20fef
+; Shows that an evolution trinket isn't available from hitting whichever object that generated this event.
+; Disables the ability to find more evolution trinkets for several seconds.
 	lb de, $07, $47
 	call PlaySoundEffect
 	ld a, $1
-	ld [wd551], a
+	ld [wEvolutionObjectsDisabled], a
 	ld a, [wIndicatorStates]
 	ld [wd558], a
 	ld a, $80
@@ -520,9 +523,9 @@ Func_20fef: ; 0x20fef
 	bit 0, a
 	callba nz, Func_1c2cb
 	ld a, $58
-	ld [wd556], a
+	ld [wEvolutionTrinketCooldownFrames], a
 	ld a, $2
-	ld [wd557], a
+	ld [wEvolutionTrinketCooldownFrames + 1], a
 	ld bc, ThreeHundredThousandPoints
 	callba AddBigBCD6FromQueue
 	call FillBottomMessageBufferWithBlackTile
@@ -538,38 +541,38 @@ Func_20fef: ; 0x20fef
 	scf
 	ret
 
-Func_2105c: ; 0x2105c
-	ld a, [wd551]
+HandleRightTriggerCollision_EvolutionMode_BlueField: ; 0x2105c
+	ld a, [wEvolutionObjectsDisabled]
 	and a
-	jr z, .asm_21077
+	jr z, .evolutionObjectsEnabled
 	ld a, [wIndicatorStates + 1]
 	and a
-	jr z, .asm_21077
+	jr z, .evolutionObjectsEnabled
 	ld bc, TenThousandPoints
 	callba AddBigBCD6FromQueue
-	jr asm_210c7
+	jr RecoverPokemon_BlueField
 
-.asm_21077
+.evolutionObjectsEnabled
 	scf
 	ret
 
-Func_21079: ; 0x21079
-	ld a, [wd551]
+EndEvolutionTrinketCooldown_BlueField: ; 0x21079
+	ld a, [wEvolutionObjectsDisabled]
 	and a
-	jr z, .asm_21087
+	jr z, .evolutionObjectsEnabled
 	ld a, [wIndicatorStates + 1]
 	and a
-	jr z, .asm_21087
-	jr asm_210c7
+	jr z, .evolutionObjectsEnabled
+	jr RecoverPokemon_BlueField
 
-.asm_21087
+.evolutionObjectsEnabled
 	scf
 	ret
 
-Func_21089: ; 0x21089
-	ld a, [wd551]
+HandleLeftTriggerCollision_EvolutionMode_BlueField: ; 0x21089
+	ld a, [wEvolutionObjectsDisabled]
 	and a
-	jr nz, .asm_210aa
+	jr nz, .disabled
 	ld a, [wIndicatorStates]
 	and a
 	jr z, .asm_210a8
@@ -579,32 +582,32 @@ Func_21089: ; 0x21089
 	and a
 	ld a, $0
 	ld [wd563], a
-	jp nz, Func_20f75
-	jp Func_20fef
+	jp nz, CreateEvolutionTrinket_BlueField
+	jp EvolutionTrinketNotFound_BlueField
 
 .asm_210a8
 	scf
 	ret
 
-.asm_210aa
-	ld a, [wd551]
+.disabled
+	ld a, [wEvolutionObjectsDisabled]
 	and a
-	jr z, .asm_210c5
+	jr z, .evolutionObjectsEnabled
 	ld a, [wIndicatorStates]
 	and a
-	jr z, .asm_210c5
+	jr z, .evolutionObjectsEnabled
 	ld bc, TenThousandPoints
 	callba AddBigBCD6FromQueue
-	jr asm_210c7
+	jr RecoverPokemon_BlueField
 
-.asm_210c5
+.evolutionObjectsEnabled
 	scf
 	ret
 
-asm_210c7:
+RecoverPokemon_BlueField:
 	xor a
 	ld [wIndicatorStates + 1], a
-	ld [wd551], a
+	ld [wEvolutionObjectsDisabled], a
 	ld a, [wd558]
 	ld [wIndicatorStates], a
 	ld a, [wd559]
@@ -636,7 +639,7 @@ asm_210c7:
 	scf
 	ret
 
-Func_2111d: ; 0x2111d
+ChooseNextEvolutionTrinketLocation_BlueField: ; 0x2111d
 	ld a, $11
 	call RandomRange
 	ld c, a
@@ -645,7 +648,7 @@ Func_2111d: ; 0x2111d
 	add hl, bc
 	ret
 
-Func_2112a: ; 0x2112a
+HandleSlotCaveCollision_EvolutionMode_BlueField: ; 0x2112a
 	ld a, [wCurrentEvolutionMon]
 	cp $ff
 	jr nz, .asm_21134
@@ -714,7 +717,7 @@ Func_2112a: ; 0x2112a
 	ld hl, rBGPI
 	call Func_8e1
 .asm_211a8
-	callba Func_10e0a
+	callba ShowMonEvolvedText
 	call MainLoopUntilTextIsClear
 	ld de, MUSIC_NOTHING
 	call PlaySong

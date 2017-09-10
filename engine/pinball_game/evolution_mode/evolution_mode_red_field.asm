@@ -1,46 +1,46 @@
 HandleRedEvoModeCollision: ; 0x20581
 	ld a, [wSpecialModeCollisionID]
 	cp SPECIAL_COLLISION_VOLTORB
-	jp z, Func_2080f ;voltorb
+	jp z, HandleVoltorbCollision_EvolutionMode
 	cp SPECIAL_COLLISION_STARYU_ALLEY_TRIGGER
-	jp z, Func_20839
+	jp z, HandleStaryuAlleyTriggerCollision_EvolutionMode
 	cp SPECIAL_COLLISION_BELLSPROUT
-	jp z, Func_2085a ;bellsprout
+	jp z, HandleBellsproutCollision_EvolutionMode
 	cp SPECIAL_COLLISION_STARYU
-	jp z, Func_20887 ;staryu
+	jp z, HandleStaryuCollision_EvolutionMode
 	cp SPECIAL_COLLISION_LEFT_DIGLETT
-	jp z, Func_208a8 ;diglett
+	jp z, HandleLeftDiglettCollision_EvolutionMode
 	cp SPECIAL_COLLISION_RIGHT_DIGLETT
-	jp z, Func_208c9 ;diglett
+	jp z, HandleRightDiglettCollision_EvolutionMode
 	cp SPECIAL_COLLISION_LEFT_BONUS_MULTIPLIER
-	jp z, Func_208ea ;right rail?
+	jp z, HandleLeftBonusMultiplierCollision_EvolutionMode_RedField
 	cp SPECIAL_COLLISION_RIGHT_BONUS_MULTIPLIER
-	jp z, Func_2090b ;right rail?
+	jp z, HandleRightBonusMultiplierCollision_EvolutionMode_RedField
 	cp SPECIAL_COLLISION_BALL_UPGRADE
-	jp z, Func_2092c
+	jp z, HandleBallUpgradeCollision_EvolutionMode_RedField
 	cp SPECIAL_COLLISION_SPINNER
-	jp z, Func_2094d
+	jp z, HandleSpinnerCollision_EvolutionMode_RedField
 	cp SPECIAL_COLLISION_SLOT_HOLE
-	jp z, Func_20b02
+	jp z, HandleSlotCaveCollision_EvolutionMode_RedField
 	cp SPECIAL_COLLISION_RIGHT_TRIGGER
-	jp z, Func_20a65
+	jp z, HandleRightTriggerCollision_EvolutionMode_RedField
 	cp SPECIAL_COLLISION_LEFT_TRIGGER
-	jp z, Func_20a82
+	jp z, HandleLeftTriggerCollision_EvolutionMode_RedField
 	cp SPECIAL_COLLISION_NOTHING
-	jr z, .asm_205cb
+	jr z, .noCollision
 	scf
 	ret
-
-.asm_205cb
-	call Func_2077b
+.noCollision
+	call CheckIfEvolutionModeTimerExpired_RedField
 	ld a, [wSpecialModeState]
 	call CallInFollowingTable
-PointerTable_205d4: ; 0x205d4
-	padded_dab Func_205e0
-	padded_dab Func_2070b
-	padded_dab Func_20757
+EvolutionModeCallTable_RedField: ; 0x205d4
+	padded_dab HandleEvolutionMode_RedField
+	padded_dab CompleteEvolutionMode_RedField
+	padded_dab FailEvolutionMode_RedField
 
-Func_205e0: ; 0x205e0 runs on collecting exp in evo mode?
+HandleEvolutionMode_RedField: ; 0x205e0
+; Handles the logic for what happens when an evolution trinket is collected.
 	ld a, [wCurrentStage]
 	ld b, a
 	ld a, [wd578]
@@ -60,7 +60,7 @@ Func_205e0: ; 0x205e0 runs on collecting exp in evo mode?
 	ret z
 	xor a
 	ld [hl], a
-	ld [wd551], a
+	ld [wEvolutionObjectsDisabled], a
 	call Func_20651
 	ld a, [wd558]
 	ld [wIndicatorStates + 2], a
@@ -175,7 +175,7 @@ Func_20651: ; 0x20651
 	callba LoadSlotCaveCoverGraphics_RedField
 	ret
 
-Func_2070b: ; 0x2070b
+CompleteEvolutionMode_RedField: ; 0x2070b
 	callba RestoreBallSaverAfterCatchEmMode
 	callba PlaceEvolutionInParty
 	callba ConcludeEvolutionMode
@@ -198,7 +198,7 @@ Func_2070b: ; 0x2070b
 	scf
 	ret
 
-Func_20757: ; 0x20757
+FailEvolutionMode_RedField: ; 0x20757
 	ld a, [wBottomTextEnabled]
 	and a
 	ret nz
@@ -210,21 +210,21 @@ Func_20757: ; 0x20757
 	scf
 	ret
 
-Func_2077b: ; 0x2077b
-	ld hl, wd556
+CheckIfEvolutionModeTimerExpired_RedField: ; 0x2077b
+	ld hl, wEvolutionTrinketCooldownFrames
 	ld a, [hli]
 	ld c, a
 	ld b, [hl]
 	or b
-	jr z, .asm_2078e
+	jr z, .cooldownNotEnding
 	dec bc
 	ld a, b
 	ld [hld], a
 	ld [hl], c
 	or c
-	jr nz, .asm_2078e
-	call Func_20a55
-.asm_2078e
+	jr nz, .cooldownNotEnding
+	call EndEvolutionTrinketCooldown_RedField
+.cooldownNotEnding
 	callba PlayLowTimeSfx
 	ld a, [wTimeRanOut]
 	and a
@@ -250,7 +250,7 @@ Func_2077b: ; 0x2077b
 	ld [wIndicatorStates + 7], a
 	ld [wd558], a
 	ld [wd559], a
-	ld [wd551], a
+	ld [wEvolutionObjectsDisabled], a
 	ld a, [wCurrentStage]
 	bit 0, a
 	jr z, .asm_207f5
@@ -265,59 +265,59 @@ Func_2077b: ; 0x2077b
 	call LoadScrollingText
 	ret
 
-Func_2080f: ; 0x2080f
+HandleVoltorbCollision_EvolutionMode: ; 0x2080f
 	ld bc, $0001
 	ld de, $5000
 	call AddBCDEToJackpot
-	ld a, [wd551] ;if ??? is not zero, ret c
+	ld a, [wEvolutionObjectsDisabled]
 	and a
-	jr nz, .RetC
-	ld a, [wIndicatorStates + 9] ;if indicator is z, ret
+	jr nz, .disabled
+	ld a, [wIndicatorStates + 9]
 	and a
-	jr z, .RetC
+	jr z, .disabled
 	xor a
 	ld [wIndicatorStates + 9], a
 	ld a, [wd55c]
 	and a
 	ld a, $0
 	ld [wd55c], a
-	jp nz, Func_20977
-	jp Func_209eb
+	jp nz, CreateEvolutionTrinket_RedField
+	jp EvolutionTrinketNotFound_RedField
 
-.RetC
+.disabled
 	scf
 	ret
 
-Func_20839: ; 0x20839
-	ld a, [wd551]
+HandleStaryuAlleyTriggerCollision_EvolutionMode: ; 0x20839
+	ld a, [wEvolutionObjectsDisabled]
 	and a
-	jr nz, .asm_20858
+	jr nz, .disabled
 	ld a, [wIndicatorStates + 2]
 	and a
-	jr z, .asm_20858
+	jr z, .disabled
 	xor a
 	ld [wIndicatorStates + 2], a
 	ld a, [wd563]
 	and a
 	ld a, $0
 	ld [wd563], a
-	jp nz, Func_20977
-	jp Func_209eb
+	jp nz, CreateEvolutionTrinket_RedField
+	jp EvolutionTrinketNotFound_RedField
 
-.asm_20858
+.disabled
 	scf
 	ret
 
-Func_2085a: ; 0x2085a
+HandleBellsproutCollision_EvolutionMode: ; 0x2085a
 	ld bc, $0007
 	ld de, $5000
 	call AddBCDEToJackpot
-	ld a, [wd551]
+	ld a, [wEvolutionObjectsDisabled]
 	and a
-	jr nz, .asm_20885
+	jr nz, .disabled
 	ld a, [wIndicatorStates + 3]
 	and a
-	jr z, .asm_20885
+	jr z, .disabled
 	xor a
 	ld [wIndicatorStates + 3], a
 	ld [wIndicatorStates + 10], a
@@ -325,163 +325,163 @@ Func_2085a: ; 0x2085a
 	and a
 	ld a, $0
 	ld [wd562], a
-	jp nz, Func_20977
-	jp Func_209eb
+	jp nz, CreateEvolutionTrinket_RedField
+	jp EvolutionTrinketNotFound_RedField
 
-.asm_20885
+.disabled
 	scf
 	ret
 
-Func_20887: ; 0x20887
-	ld a, [wd551]
+HandleStaryuCollision_EvolutionMode: ; 0x20887
+	ld a, [wEvolutionObjectsDisabled]
 	and a
-	jr nz, .asm_208a6
+	jr nz, .disabled
 	ld a, [wIndicatorStates + 8]
 	and a
-	jr z, .asm_208a6
+	jr z, .disabled
 	xor a
 	ld [wIndicatorStates + 8], a
 	ld a, [wd561]
 	and a
 	ld a, $0
 	ld [wd561], a
-	jp nz, Func_20977
-	jp Func_209eb
+	jp nz, CreateEvolutionTrinket_RedField
+	jp EvolutionTrinketNotFound_RedField
 
-.asm_208a6
+.disabled
 	scf
 	ret
 
-Func_208a8: ; 0x208a8
-	ld a, [wd551]
+HandleLeftDiglettCollision_EvolutionMode: ; 0x208a8
+	ld a, [wEvolutionObjectsDisabled]
 	and a
-	jr nz, .asm_208c7 ;if ??? is NZ, skip
+	jr nz, .disabled
 	ld a, [wIndicatorStates + 13]
 	and a
-	jr z, .asm_208c7 ;if indicator is off, skip
+	jr z, .disabled
 	xor a
 	ld [wIndicatorStates + 13], a ;flick off indicator
 	ld a, [wd55d]
 	and a
 	ld a, $0
 	ld [wd55d], a ;make ??? 0
-	jp nz, Func_20977
-	jp Func_209eb
+	jp nz, CreateEvolutionTrinket_RedField
+	jp EvolutionTrinketNotFound_RedField
 
-.asm_208c7
+.disabled
 	scf
 	ret
 
-Func_208c9: ; 0x208c9
-	ld a, [wd551]
+HandleRightDiglettCollision_EvolutionMode: ; 0x208c9
+	ld a, [wEvolutionObjectsDisabled]
 	and a
-	jr nz, .asm_208e8
+	jr nz, .disabled
 	ld a, [wIndicatorStates + 14]
 	and a
-	jr z, .asm_208e8
+	jr z, .disabled
 	xor a
 	ld [wIndicatorStates + 14], a
 	ld a, [wd55e]
 	and a
 	ld a, $0
 	ld [wd55e], a
-	jp nz, Func_20977
-	jp Func_209eb
+	jp nz, CreateEvolutionTrinket_RedField
+	jp EvolutionTrinketNotFound_RedField
 
-.asm_208e8
+.disabled
 	scf
 	ret
 
-Func_208ea: ; 0x208ea
-	ld a, [wd551]
+HandleLeftBonusMultiplierCollision_EvolutionMode_RedField: ; 0x208ea
+	ld a, [wEvolutionObjectsDisabled]
 	and a
-	jr nz, .asm_20909
+	jr nz, .disabled
 	ld a, [wIndicatorStates + 11]
 	and a
-	jr z, .asm_20909
+	jr z, .disabled
 	xor a
 	ld [wIndicatorStates + 11], a
 	ld a, [wd55f]
 	and a
 	ld a, $0
 	ld [wd55f], a
-	jp nz, Func_20977
-	jp Func_209eb
+	jp nz, CreateEvolutionTrinket_RedField
+	jp EvolutionTrinketNotFound_RedField
 
-.asm_20909
+.disabled
 	scf
 	ret
 
-Func_2090b: ; 0x2090b
-	ld a, [wd551]
+HandleRightBonusMultiplierCollision_EvolutionMode_RedField: ; 0x2090b
+	ld a, [wEvolutionObjectsDisabled]
 	and a
-	jr nz, .asm_2092a
+	jr nz, .disabled
 	ld a, [wIndicatorStates + 12]
 	and a
-	jr z, .asm_2092a
+	jr z, .disabled
 	xor a
 	ld [wIndicatorStates + 12], a
 	ld a, [wd560]
 	and a
 	ld a, $0
 	ld [wd560], a
-	jp nz, Func_20977
-	jp Func_209eb
+	jp nz, CreateEvolutionTrinket_RedField
+	jp EvolutionTrinketNotFound_RedField
 
-.asm_2092a
+.disabled
 	scf
 	ret
 
-Func_2092c: ; 0x2092c
-	ld a, [wd551]
+HandleBallUpgradeCollision_EvolutionMode_RedField: ; 0x2092c
+	ld a, [wEvolutionObjectsDisabled]
 	and a
-	jr nz, .asm_2094b
+	jr nz, .disabled
 	ld a, [wIndicatorStates + 6]
 	and a
-	jr z, .asm_2094b
+	jr z, .disabled
 	xor a
 	ld [wIndicatorStates + 6], a
 	ld a, [wd565]
 	and a
 	ld a, $0
 	ld [wd565], a
-	jp nz, Func_20977
-	jp Func_209eb
+	jp nz, CreateEvolutionTrinket_RedField
+	jp EvolutionTrinketNotFound_RedField
 
-.asm_2094b
+.disabled
 	scf
 	ret
 
-Func_2094d: ; 0x2094d
+HandleSpinnerCollision_EvolutionMode_RedField: ; 0x2094d
 	ld bc, $0000
 	ld de, $1500
 	call AddBCDEToJackpot
-	ld a, [wd551]
+	ld a, [wEvolutionObjectsDisabled]
 	and a
-	jr nz, .asm_20975
+	jr nz, .disabled
 	ld a, [wIndicatorStates + 7]
 	and a
-	jr z, .asm_20975
+	jr z, .disabled
 	xor a
 	ld [wIndicatorStates + 7], a
 	ld a, [wd564]
 	and a
 	ld a, $0
 	ld [wd564], a
-	jp nz, Func_20977
-	jp Func_209eb
+	jp nz, CreateEvolutionTrinket_RedField
+	jp EvolutionTrinketNotFound_RedField
 
-.asm_20975
+.disabled
 	scf
 	ret
 
-Func_20977: ; 0x20977
+CreateEvolutionTrinket_RedField: ; 0x20977
 	lb de, $07, $46
 	call PlaySoundEffect
-	call Func_20af5
+	call ChooseNextEvolutionTrinketLocation_RedField
 	ld a, [wCurrentEvolutionType]
 	ld [hl], a
-	ld [wd551], a
+	ld [wEvolutionObjectsDisabled], a
 	ld a, [wIndicatorStates + 2]
 	ld [wd558], a
 	ld a, [wIndicatorStates + 3]
@@ -522,11 +522,11 @@ Func_20977: ; 0x20977
 	scf
 	ret
 
-Func_209eb: ; 0x209eb
+EvolutionTrinketNotFound_RedField: ; 0x209eb
 	lb de, $07, $47
 	call PlaySoundEffect
 	ld a, $1
-	ld [wd551], a
+	ld [wEvolutionObjectsDisabled], a
 	ld a, $80
 	ld [wIndicatorStates], a
 	ld [wIndicatorStates + 1], a
@@ -542,9 +542,9 @@ Func_209eb: ; 0x209eb
 	bit 0, a
 	callba nz, ClearAllRedIndicators
 	ld a, $58
-	ld [wd556], a
+	ld [wEvolutionTrinketCooldownFrames], a
 	ld a, $2
-	ld [wd557], a
+	ld [wEvolutionTrinketCooldownFrames + 1], a
 	ld bc, ThreeHundredThousandPoints
 	callba AddBigBCD6FromQueue
 	call FillBottomMessageBufferWithBlackTile
@@ -560,54 +560,54 @@ Func_209eb: ; 0x209eb
 	scf
 	ret
 
-Func_20a55: ; 0x20a55
-	ld a, [wd551]
+EndEvolutionTrinketCooldown_RedField: ; 0x20a55
+	ld a, [wEvolutionObjectsDisabled]
 	and a
-	jr z, .asm_20a63
+	jr z, .evolutionObjectsEnabled
 	ld a, [wIndicatorStates + 1]
 	and a
-	jr z, .asm_20a63
-	jr asm_20a9f
+	jr z, .evolutionObjectsEnabled
+	jr RecoverPokemon_RedField
 
-.asm_20a63
+.evolutionObjectsEnabled
 	scf
 	ret
 
-Func_20a65: ; 0x20a65
-	ld a, [wd551]
+HandleRightTriggerCollision_EvolutionMode_RedField: ; 0x20a65
+	ld a, [wEvolutionObjectsDisabled]
 	and a
-	jr z, .asm_20a80
+	jr z, .evolutionObjectsEnabled
 	ld a, [wIndicatorStates + 1]
 	and a
-	jr z, .asm_20a80
+	jr z, .evolutionObjectsEnabled
 	ld bc, TenThousandPoints
 	callba AddBigBCD6FromQueue
-	jr asm_20a9f
+	jr RecoverPokemon_RedField
 
-.asm_20a80
+.evolutionObjectsEnabled
 	scf
 	ret
 
-Func_20a82: ; 0x20a82
-	ld a, [wd551]
+HandleLeftTriggerCollision_EvolutionMode_RedField: ; 0x20a82
+	ld a, [wEvolutionObjectsDisabled]
 	and a
-	jr z, .asm_20a9d
+	jr z, .evolutionObjectsEnabled
 	ld a, [wIndicatorStates]
 	and a
-	jr z, .asm_20a9d
+	jr z, .evolutionObjectsEnabled
 	ld bc, TenThousandPoints
 	callba AddBigBCD6FromQueue
-	jr asm_20a9f
+	jr RecoverPokemon_RedField
 
-.asm_20a9d
+.evolutionObjectsEnabled
 	scf
 	ret
 
-asm_20a9f:
+RecoverPokemon_RedField:
 	xor a
 	ld [wIndicatorStates], a
 	ld [wIndicatorStates + 1], a
-	ld [wd551], a
+	ld [wEvolutionObjectsDisabled], a
 	ld a, [wd558]
 	ld [wIndicatorStates + 2], a
 	ld a, [wd559]
@@ -638,7 +638,7 @@ asm_20a9f:
 	scf
 	ret
 
-Func_20af5: ; 0x20af5
+ChooseNextEvolutionTrinketLocation_RedField: ; 0x20af5
 	ld a, $11
 	call RandomRange
 	ld c, a
@@ -647,7 +647,7 @@ Func_20af5: ; 0x20af5
 	add hl, bc
 	ret
 
-Func_20b02: ; 0x20b02
+HandleSlotCaveCollision_EvolutionMode_RedField: ; 0x20b02
 	ld a, [wCurrentEvolutionMon]
 	cp $ff
 	jr nz, .asm_20b0c
@@ -716,7 +716,7 @@ Func_20b02: ; 0x20b02
 	ld hl, rBGPI
 	call Func_8e1
 .asm_20b80
-	callba Func_10e0a
+	callba ShowMonEvolvedText
 	call MainLoopUntilTextIsClear
 	ld de, MUSIC_NOTHING
 	call PlaySong

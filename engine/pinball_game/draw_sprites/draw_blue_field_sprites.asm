@@ -189,7 +189,7 @@ PikachuSaverOAMOffsets_BlueStage:
 	dw $7E92
 
 DrawEvolutionIndicatorArrows_BlueFieldTop: ; 0x1f48f
-	ld a, [wd551]
+	ld a, [wEvolutionObjectsDisabled]
 	and a
 	ret nz
 	ld a, [hNumFramesDropped]
@@ -201,7 +201,7 @@ DrawEvolutionIndicatorArrows_BlueFieldTop: ; 0x1f48f
 	jr DrawEvolutionIndicatorArrows_BlueField
 
 DrawEvolutionIndicatorArrows_BlueFieldBottom: ; 0x1f4a3
-	ld a, [wd551]
+	ld a, [wEvolutionObjectsDisabled]
 	and a
 	ret nz
 	ld a, [hNumFramesDropped]
@@ -281,7 +281,7 @@ EvolutionIndicatorArrowsOAM_BlueFieldBottom: ; 0x1f4e0
 	db $37
 
 DrawEvolutionTrinket_BlueFieldTop: ; 0x1f4f8
-	ld a, [wd551]
+	ld a, [wEvolutionObjectsDisabled]
 	and a
 	ret z
 	ld de, wd566
@@ -291,7 +291,7 @@ DrawEvolutionTrinket_BlueFieldTop: ; 0x1f4f8
 	jr DrawEvolutionTrinket_BlueField
 
 DrawEvolutionTrinket_BlueFieldBottom: ; 0x1f509
-	ld a, [wd551]
+	ld a, [wEvolutionObjectsDisabled]
 	and a
 	ret z
 	ld de, wd572

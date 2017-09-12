@@ -677,7 +677,9 @@ wd566:: ; 0xd566
 wd572:: ; 0xd572
 	ds $6
 
-wd578:: ; 0xd578
+wCollidedPointIndex:: ; 0xd578
+; Stores the result of the PinballCollidesWithPoints function.
+; This index is 1-based, meaning 1 corresponds to the first item in the points array
 	ds $1
 
 wCurrentCatchEmMon:: ; 0xd579

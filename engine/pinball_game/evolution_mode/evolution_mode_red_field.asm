@@ -43,7 +43,7 @@ HandleEvolutionMode_RedField: ; 0x205e0
 ; Handles the logic for what happens when an evolution trinket is collected.
 	ld a, [wCurrentStage]
 	ld b, a
-	ld a, [wd578]
+	ld a, [wCollidedPointIndex]
 	and a
 	ret z
 	dec a

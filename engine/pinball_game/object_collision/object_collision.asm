@@ -145,7 +145,7 @@ PinballCollidesWithPoints: ; 0x27fd
 ; Checks if pinball collides with any of the (x, y) points in the given list.
 ; Saves the index of the collided point.
 ; Input:  hl = pointer to array of (x, y) points
-; Output: Saves index of collided point in wd578
+; Output: Saves index of collided point in wCollidedPointIndex. The returned index starts at 1, not 0.  If the no points are colliding, this value is never set.
 	ld a, [wBallXPos + 1]
 	ld b, a
 	ld a, [wBallYPos + 1]
@@ -165,7 +165,7 @@ PinballCollidesWithPoints: ; 0x27fd
 	cp $e8
 	jr c, .nextPoint
 	ld a, d
-	ld [wd578], a
+	ld [wCollidedPointIndex], a
 	ret
 
 ResolveGameObjectCollisions: ; 0x281c

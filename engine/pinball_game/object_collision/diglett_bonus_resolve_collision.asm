@@ -517,7 +517,79 @@ Data_19e13:
 	dw DiglettInitializeOrder
 	dw DiglettUpdateOrder
 
-INCLUDE "data/diglett_stage/diglett_stage_animation_data.asm"
+DiglettInitializeOrder: ; 0x19ed1
+; This list specifies the order that digletts are initialized.
+; Each byte corresponds to an entry in wDiglettStates.
+	db $00
+	db $1C
+	db $01
+	db $1D
+	db $03
+	db $19
+	db $06
+	db $15
+	db $02
+	db $1E
+	db $04
+	db $1A
+	db $07
+	db $16
+	db $0A
+	db $11
+	db $05
+	db $1B
+	db $08
+	db $17
+	db $0B
+	db $12
+	db $0E
+	db $09
+	db $18
+	db $0C
+	db $13
+	db $0F
+	db $0D
+	db $14
+	db $10
+	dbw $FF, DiglettInitializeOrder  ; terminator
+
+DiglettUpdateOrder: ; 0x19ef3
+; This list specifies the order that digletts are updated.
+; Each byte corresponds to an entry in wDiglettStates
+	db $00
+	db $11
+	db $03
+	db $14
+	db $06
+	db $17
+	db $09
+	db $1A
+	db $0C
+	db $1D
+	db $0F
+	db $01
+	db $12
+	db $04
+	db $15
+	db $07
+	db $18
+	db $0A
+	db $1B
+	db $0D
+	db $1E
+	db $10
+	db $02
+	db $13
+	db $05
+	db $16
+	db $08
+	db $19
+	db $0B
+	db $1C
+	db $0E
+	dbw $FF, DiglettUpdateOrder  ; terminator
+
+INCLUDE "data/queued_tiledata/diglett_bonus/digletts.asm"
 
 Func_1aad4: ; 0x1aad4
 	ld a, [wd75f]

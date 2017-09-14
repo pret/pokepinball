@@ -25,7 +25,7 @@ INCLUDE "engine/pokedex/variable_width_font_character.asm"
 
 SECTION "bank2.2", ROMX
 
-INCLUDE "data/unknown/unused_9800.asm"
+INCLUDE "data/unused/unused_9800.asm"
 
 PokedexCharactersGfx: ; 0xa000
 	INCBIN "gfx/pokedex/characters.interleave.2bpp"
@@ -189,7 +189,7 @@ SECTION "bank12", ROMX
 INCLUDE "audio/engine_12.asm"
 
 ; This is a blob of unused junk data
-INCBIN "data/unknown/unused_4b6a8.bin"
+INCBIN "data/unused/unused_4b6a8.bin"
 
 SECTION "bank13", ROMX
 
@@ -866,7 +866,7 @@ DiglettBonusTilemap_GameBoyColor: ; 0xd3000
 DiglettBonusTilemap2_GameBoyColor: ; 0xd3400
 	INCBIN "gfx/tilemaps/stage_diglett_bonus_gameboycolor_2.map"
 
-INCBIN "data/unused_data_d3800.bin"
+INCBIN "data/unused/unused_data_d3800.bin"
 
 SECTION "bank35", ROMX
 
@@ -1034,7 +1034,7 @@ EvolutionTrinketsGfx:
 
 Unknown_dbf60: ; 0xdbf60
 ; this seems to be unused garbage
-	INCBIN "data/unknown/unused_dbf60.bin"
+	INCBIN "data/unused/unused_dbf60.bin"
 
 SECTION "bank37", ROMX
 

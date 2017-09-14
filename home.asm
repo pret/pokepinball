@@ -785,9 +785,10 @@ INCLUDE "home/random.asm"
 INCLUDE "home/joypad.asm"
 INCLUDE "home/palettes.asm"
 
-HorrendousMultiplyAbyL: ; 0xdd4
+MultiplyAbyL_AncientEgyptian: ; 0xdd4
 ; Return a * l to hl
-; Stupid waste of space
+; This is a constant-time multiplication algorithm that uses binary decomposition to achieve the result.
+; See https://en.wikipedia.org/wiki/Ancient_Egyptian_multiplication
 	push bc
 	ld c, l
 	ld b, $0

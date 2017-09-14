@@ -119,7 +119,7 @@ RandomRange: ; 0xa21
 	add hl, bc
 	ld l, [hl]
 	call GenRandom
-	call HorrendousMultiplyAbyL
+	call MultiplyAbyL_AncientEgyptian
 	inc h
 	srl h
 	ld a, h

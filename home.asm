@@ -15,7 +15,7 @@ SECTION "VBlankInt", ROM0
 	jp VBlank
 
 SECTION "HBlankInt", ROM0
-	jp LCD
+	jp HBlank
 
 SECTION "TimerInt", ROM0
 	jp Timer
@@ -399,7 +399,7 @@ Func_3c3:
 	ld [hGameBoyColorFlag], a
 	jp SoftReset
 
-LCD: ; 0x3ec
+HBlank: ; 0x3ec
 	push af
 	push bc
 	push de
@@ -408,7 +408,7 @@ LCD: ; 0x3ec
 	sla a
 	ld c, a
 	ld b, $0
-	ld hl, PointerTable_408
+	ld hl, HBlankRoutines
 	add hl, bc
 	ld a, [hli]
 	ld h, [hl]
@@ -424,7 +424,7 @@ Func_3ff: ; 0x3ff
 	pop af
 	reti
 
-PointerTable_408: ; 0x408
+HBlankRoutines: ; 0x408
 	dw Func_fbc
 	dw Func_fbf
 	dw Func_fea

@@ -1,756 +1,605 @@
-PokedexMonAttributesTexts: ; 0x2a85ds
+PokedexMonAttributesTexts: ; 0x2a85d
 ; BULBASAUR
-	db $30, $30, $31, $00 ; Dex number 001
-	db $20, $32, $72, $34, $00 ; Height 02'4"
-	db $20, $20, $31, $35, $00 ; Weight 0015
-	db $83 ; end
+	dex_number 1
+	dex_height 2, 4
+	dex_weight 15
 ; IVYSAUR
-	db $30, $30, $32, $00 ; Dex number 002
-	db $20, $33, $72, $33, $00 ; Height 03'3"
-	db $20, $20, $32, $39, $00 ; Weight 0029
-	db $83 ; end
+	dex_number 2
+	dex_height 3, 3
+	dex_weight 29
 ; VENUSAUR
-	db $30, $30, $33, $00 ; Dex number 003
-	db $20, $36, $72, $37, $00 ; Height 06'7"
-	db $20, $32, $32, $31, $00 ; Weight 0221
-	db $83 ; end
+	dex_number 3
+	dex_height 6, 7
+	dex_weight 221
 ; CHARMANDER
-	db $30, $30, $34, $00 ; Dex number 004
-	db $20, $32, $72, $30, $00 ; Height 02'0"
-	db $20, $20, $31, $39, $00 ; Weight 0019
-	db $83 ; end
+	dex_number 4
+	dex_height 2, 0
+	dex_weight 19
 ; CHARMELEON
-	db $30, $30, $35, $00 ; Dex number 005
-	db $20, $33, $72, $37, $00 ; Height 03'7"
-	db $20, $20, $34, $32, $00 ; Weight 0042
-	db $83 ; end
+	dex_number 5
+	dex_height 3, 7
+	dex_weight 42
 ; CHARIZARD
-	db $30, $30, $36, $00 ; Dex number 006
-	db $20, $35, $72, $37, $00 ; Height 05'7"
-	db $20, $32, $30, $30, $00 ; Weight 0200
-	db $83 ; end
+	dex_number 6
+	dex_height 5, 7
+	dex_weight 200
 ; SQUIRTLE
-	db $30, $30, $37, $00 ; Dex number 007
-	db $20, $31, $72, $38, $00 ; Height 01'8"
-	db $20, $20, $32, $30, $00 ; Weight 0020
-	db $83 ; end
+	dex_number 7
+	dex_height 1, 8
+	dex_weight 20
 ; WARTORTLE
-	db $30, $30, $38, $00 ; Dex number 008
-	db $20, $33, $72, $33, $00 ; Height 03'3"
-	db $20, $20, $35, $30, $00 ; Weight 0050
-	db $83 ; end
+	dex_number 8
+	dex_height 3, 3
+	dex_weight 50
 ; BLASTOISE
-	db $30, $30, $39, $00 ; Dex number 009
-	db $20, $35, $72, $33, $00 ; Height 05'3"
-	db $20, $31, $38, $39, $00 ; Weight 0189
-	db $83 ; end
+	dex_number 9
+	dex_height 5, 3
+	dex_weight 189
 ; CATERPIE
-	db $30, $31, $30, $00 ; Dex number 010
-	db $20, $31, $72, $30, $00 ; Height 01'0"
-	db $20, $20, $20, $36, $00 ; Weight 0006
-	db $83 ; end
+	dex_number 10
+	dex_height 1, 0
+	dex_weight 6
 ; METAPOD
-	db $30, $31, $31, $00 ; Dex number 011
-	db $20, $32, $72, $34, $00 ; Height 02'4"
-	db $20, $20, $32, $32, $00 ; Weight 0022
-	db $83 ; end
+	dex_number 11
+	dex_height 2, 4
+	dex_weight 22
 ; BUTTERFREE
-	db $30, $31, $32, $00 ; Dex number 012
-	db $20, $33, $72, $37, $00 ; Height 03'7"
-	db $20, $20, $37, $31, $00 ; Weight 0071
-	db $83 ; end
+	dex_number 12
+	dex_height 3, 7
+	dex_weight 71
 ; WEEDLE
-	db $30, $31, $33, $00 ; Dex number 013
-	db $20, $31, $72, $30, $00 ; Height 01'0"
-	db $20, $20, $20, $37, $00 ; Weight 0007
-	db $83 ; end
+	dex_number 13
+	dex_height 1, 0
+	dex_weight 7
 ; KAKUNA
-	db $30, $31, $34, $00 ; Dex number 014
-	db $20, $32, $72, $30, $00 ; Height 02'0"
-	db $20, $20, $32, $32, $00 ; Weight 0022
-	db $83 ; end
+	dex_number 14
+	dex_height 2, 0
+	dex_weight 22
 ; BEEDRILL
-	db $30, $31, $35, $00 ; Dex number 015
-	db $20, $33, $72, $33, $00 ; Height 03'3"
-	db $20, $20, $36, $35, $00 ; Weight 0065
-	db $83 ; end
+	dex_number 15
+	dex_height 3, 3
+	dex_weight 65
 ; PIDGEY
-	db $30, $31, $36, $00 ; Dex number 016
-	db $20, $31, $72, $30, $00 ; Height 01'0"
-	db $20, $20, $20, $34, $00 ; Weight 0004
-	db $83 ; end
+	dex_number 16
+	dex_height 1, 0
+	dex_weight 4
 ; PIDGEOTTO
-	db $30, $31, $37, $00 ; Dex number 017
-	db $20, $33, $72, $37, $00 ; Height 03'7"
-	db $20, $20, $36, $36, $00 ; Weight 0066
-	db $83 ; end
+	dex_number 17
+	dex_height 3, 7
+	dex_weight 66
 ; PIDGEOT
-	db $30, $31, $38, $00 ; Dex number 018
-	db $20, $34, $70, $31, $00 ; Height 04'1"
-	db $20, $20, $38, $37, $00 ; Weight 0087
-	db $83 ; end
+	dex_number 18
+	dex_height 4, 11
+	dex_weight 87
 ; RATTATA
-	db $30, $31, $39, $00 ; Dex number 019
-	db $20, $31, $72, $30, $00 ; Height 01'0"
-	db $20, $20, $20, $38, $00 ; Weight 0008
-	db $83 ; end
+	dex_number 19
+	dex_height 1, 0
+	dex_weight 8
 ; RATICATE
-	db $30, $32, $30, $00 ; Dex number 020
-	db $20, $32, $72, $34, $00 ; Height 02'4"
-	db $20, $20, $34, $31, $00 ; Weight 0041
-	db $83 ; end
+	dex_number 20
+	dex_height 2, 4
+	dex_weight 41
 ; SPEAROW
-	db $30, $32, $31, $00 ; Dex number 021
-	db $20, $31, $72, $30, $00 ; Height 01'0"
-	db $20, $20, $20, $34, $00 ; Weight 0004
-	db $83 ; end
+	dex_number 21
+	dex_height 1, 0
+	dex_weight 4
 ; FEAROW
-	db $30, $32, $32, $00 ; Dex number 022
-	db $20, $33, $70, $31, $00 ; Height 03'1"
-	db $20, $20, $38, $34, $00 ; Weight 0084
-	db $83 ; end
+	dex_number 22
+	dex_height 3, 11
+	dex_weight 84
 ; EKANS
-	db $30, $32, $33, $00 ; Dex number 023
-	db $20, $36, $72, $37, $00 ; Height 06'7"
-	db $20, $20, $31, $35, $00 ; Weight 0015
-	db $83 ; end
+	dex_number 23
+	dex_height 6, 7
+	dex_weight 15
 ; ARBOK
-	db $30, $32, $34, $00 ; Dex number 024
-	db $31, $31, $72, $36, $00 ; Height 11'6"
-	db $20, $31, $34, $33, $00 ; Weight 0143
-	db $83 ; end
+	dex_number 24
+	dex_height 11, 6
+	dex_weight 143
 ; PIKACHU
-	db $30, $32, $35, $00 ; Dex number 025
-	db $20, $31, $72, $34, $00 ; Height 01'4"
-	db $20, $20, $31, $33, $00 ; Weight 0013
-	db $83 ; end
+	dex_number 25
+	dex_height 1, 4
+	dex_weight 13
 ; RAICHU
-	db $30, $32, $36, $00 ; Dex number 026
-	db $20, $32, $72, $37, $00 ; Height 02'7"
-	db $20, $20, $36, $36, $00 ; Weight 0066
-	db $83 ; end
+	dex_number 26
+	dex_height 2, 7
+	dex_weight 66
 ; SANDSHREW
-	db $30, $32, $37, $00 ; Dex number 027
-	db $20, $32, $72, $30, $00 ; Height 02'0"
-	db $20, $20, $32, $36, $00 ; Weight 0026
-	db $83 ; end
+	dex_number 27
+	dex_height 2, 0
+	dex_weight 26
 ; SANDSLASH
-	db $30, $32, $38, $00 ; Dex number 028
-	db $20, $33, $72, $33, $00 ; Height 03'3"
-	db $20, $20, $36, $35, $00 ; Weight 0065
-	db $83 ; end
+	dex_number 28
+	dex_height 3, 3
+	dex_weight 65
 ; NIDORAN_F
-	db $30, $32, $39, $00 ; Dex number 029
-	db $20, $31, $72, $34, $00 ; Height 01'4"
-	db $20, $20, $31, $35, $00 ; Weight 0015
-	db $83 ; end
+	dex_number 29
+	dex_height 1, 4
+	dex_weight 15
 ; NIDORINA
-	db $30, $33, $30, $00 ; Dex number 030
-	db $20, $32, $72, $37, $00 ; Height 02'7"
-	db $20, $20, $34, $34, $00 ; Weight 0044
-	db $83 ; end
+	dex_number 30
+	dex_height 2, 7
+	dex_weight 44
 ; NIDOQUEEN
-	db $30, $33, $31, $00 ; Dex number 031
-	db $20, $34, $72, $33, $00 ; Height 04'3"
-	db $20, $31, $33, $32, $00 ; Weight 0132
-	db $83 ; end
+	dex_number 31
+	dex_height 4, 3
+	dex_weight 132
 ; NIDORAN_M
-	db $30, $33, $32, $00 ; Dex number 032
-	db $20, $31, $72, $38, $00 ; Height 01'8"
-	db $20, $20, $32, $30, $00 ; Weight 0020
-	db $83 ; end
+	dex_number 32
+	dex_height 1, 8
+	dex_weight 20
 ; NIDORINO
-	db $30, $33, $33, $00 ; Dex number 033
-	db $20, $32, $70, $31, $00 ; Height 02'1"
-	db $20, $20, $34, $33, $00 ; Weight 0043
-	db $83 ; end
+	dex_number 33
+	dex_height 2, 11
+	dex_weight 43
 ; NIDOKING
-	db $30, $33, $34, $00 ; Dex number 034
-	db $20, $34, $72, $37, $00 ; Height 04'7"
-	db $20, $31, $33, $37, $00 ; Weight 0137
-	db $83 ; end
+	dex_number 34
+	dex_height 4, 7
+	dex_weight 137
 ; CLEFAIRY
-	db $30, $33, $35, $00 ; Dex number 035
-	db $20, $32, $72, $30, $00 ; Height 02'0"
-	db $20, $20, $31, $37, $00 ; Weight 0017
-	db $83 ; end
+	dex_number 35
+	dex_height 2, 0
+	dex_weight 17
 ; CLEFABLE
-	db $30, $33, $36, $00 ; Dex number 036
-	db $20, $34, $72, $33, $00 ; Height 04'3"
-	db $20, $20, $38, $38, $00 ; Weight 0088
-	db $83 ; end
+	dex_number 36
+	dex_height 4, 3
+	dex_weight 88
 ; VULPIX
-	db $30, $33, $37, $00 ; Dex number 037
-	db $20, $32, $72, $30, $00 ; Height 02'0"
-	db $20, $20, $32, $32, $00 ; Weight 0022
-	db $83 ; end
+	dex_number 37
+	dex_height 2, 0
+	dex_weight 22
 ; NINETALES
-	db $30, $33, $38, $00 ; Dex number 038
-	db $20, $33, $72, $37, $00 ; Height 03'7"
-	db $20, $20, $34, $34, $00 ; Weight 0044
-	db $83 ; end
+	dex_number 38
+	dex_height 3, 7
+	dex_weight 44
 ; JIGGLYPUFF
-	db $30, $33, $39, $00 ; Dex number 039
-	db $20, $31, $72, $38, $00 ; Height 01'8"
-	db $20, $20, $31, $32, $00 ; Weight 0012
-	db $83 ; end
+	dex_number 39
+	dex_height 1, 8
+	dex_weight 12
 ; WIGGLYTUFF
-	db $30, $34, $30, $00 ; Dex number 040
-	db $20, $33, $72, $33, $00 ; Height 03'3"
-	db $20, $20, $32, $36, $00 ; Weight 0026
-	db $83 ; end
+	dex_number 40
+	dex_height 3, 3
+	dex_weight 26
 ; ZUBAT
-	db $30, $34, $31, $00 ; Dex number 041
-	db $20, $32, $72, $37, $00 ; Height 02'7"
-	db $20, $20, $31, $37, $00 ; Weight 0017
-	db $83 ; end
+	dex_number 41
+	dex_height 2, 7
+	dex_weight 17
 ; GOLBAT
-	db $30, $34, $32, $00 ; Dex number 042
-	db $20, $35, $72, $33, $00 ; Height 05'3"
-	db $20, $31, $32, $31, $00 ; Weight 0121
-	db $83 ; end
+	dex_number 42
+	dex_height 5, 3
+	dex_weight 121
 ; ODDISH
-	db $30, $34, $33, $00 ; Dex number 043
-	db $20, $31, $72, $38, $00 ; Height 01'8"
-	db $20, $20, $31, $32, $00 ; Weight 0012
-	db $83 ; end
+	dex_number 43
+	dex_height 1, 8
+	dex_weight 12
 ; GLOOM
-	db $30, $34, $34, $00 ; Dex number 044
-	db $20, $32, $72, $37, $00 ; Height 02'7"
-	db $20, $20, $31, $39, $00 ; Weight 0019
-	db $83 ; end
+	dex_number 44
+	dex_height 2, 7
+	dex_weight 19
 ; VILEPLUME
-	db $30, $34, $35, $00 ; Dex number 045
-	db $20, $33, $70, $31, $00 ; Height 03'1"
-	db $20, $20, $34, $31, $00 ; Weight 0041
-	db $83 ; end
+	dex_number 45
+	dex_height 3, 11
+	dex_weight 41
 ; PARAS
-	db $30, $34, $36, $00 ; Dex number 046
-	db $20, $31, $72, $30, $00 ; Height 01'0"
-	db $20, $20, $31, $32, $00 ; Weight 0012
-	db $83 ; end
+	dex_number 46
+	dex_height 1, 0
+	dex_weight 12
 ; PARASECT
-	db $30, $34, $37, $00 ; Dex number 047
-	db $20, $33, $72, $33, $00 ; Height 03'3"
-	db $20, $20, $36, $35, $00 ; Weight 0065
-	db $83 ; end
+	dex_number 47
+	dex_height 3, 3
+	dex_weight 65
 ; VENONAT
-	db $30, $34, $38, $00 ; Dex number 048
-	db $20, $33, $72, $33, $00 ; Height 03'3"
-	db $20, $20, $36, $36, $00 ; Weight 0066
-	db $83 ; end
+	dex_number 48
+	dex_height 3, 3
+	dex_weight 66
 ; VENOMOTH
-	db $30, $34, $39, $00 ; Dex number 049
-	db $20, $34, $70, $31, $00 ; Height 04'1"
-	db $20, $20, $32, $38, $00 ; Weight 0028
-	db $83 ; end
+	dex_number 49
+	dex_height 4, 11
+	dex_weight 28
 ; DIGLETT
-	db $30, $35, $30, $00 ; Dex number 050
-	db $20, $30, $72, $38, $00 ; Height 00'8"
-	db $20, $20, $20, $32, $00 ; Weight 0002
-	db $83 ; end
+	dex_number 50
+	dex_height 0, 8
+	dex_weight 2
 ; DUGTRIO
-	db $30, $35, $31, $00 ; Dex number 051
-	db $20, $32, $72, $34, $00 ; Height 02'4"
-	db $20, $20, $37, $33, $00 ; Weight 0073
-	db $83 ; end
+	dex_number 51
+	dex_height 2, 4
+	dex_weight 73
 ; MEOWTH
-	db $30, $35, $32, $00 ; Dex number 052
-	db $20, $31, $72, $34, $00 ; Height 01'4"
-	db $20, $20, $20, $39, $00 ; Weight 0009
-	db $83 ; end
+	dex_number 52
+	dex_height 1, 4
+	dex_weight 9
 ; PERSIAN
-	db $30, $35, $33, $00 ; Dex number 053
-	db $20, $33, $72, $33, $00 ; Height 03'3"
-	db $20, $20, $37, $31, $00 ; Weight 0071
-	db $83 ; end
+	dex_number 53
+	dex_height 3, 3
+	dex_weight 71
 ; PSYDUCK
-	db $30, $35, $34, $00 ; Dex number 054
-	db $20, $32, $72, $37, $00 ; Height 02'7"
-	db $20, $20, $34, $33, $00 ; Weight 0043
-	db $83 ; end
+	dex_number 54
+	dex_height 2, 7
+	dex_weight 43
 ; GOLDUCK
-	db $30, $35, $35, $00 ; Dex number 055
-	db $20, $35, $72, $37, $00 ; Height 05'7"
-	db $20, $31, $36, $39, $00 ; Weight 0169
-	db $83 ; end
+	dex_number 55
+	dex_height 5, 7
+	dex_weight 169
 ; MANKEY
-	db $30, $35, $36, $00 ; Dex number 056
-	db $20, $31, $72, $38, $00 ; Height 01'8"
-	db $20, $20, $36, $32, $00 ; Weight 0062
-	db $83 ; end
+	dex_number 56
+	dex_height 1, 8
+	dex_weight 62
 ; PRIMEAPE
-	db $30, $35, $37, $00 ; Dex number 057
-	db $20, $33, $72, $33, $00 ; Height 03'3"
-	db $20, $20, $37, $31, $00 ; Weight 0071
-	db $83 ; end
+	dex_number 57
+	dex_height 3, 3
+	dex_weight 71
 ; GROWLITHE
-	db $30, $35, $38, $00 ; Dex number 058
-	db $20, $32, $72, $34, $00 ; Height 02'4"
-	db $20, $20, $34, $32, $00 ; Weight 0042
-	db $83 ; end
+	dex_number 58
+	dex_height 2, 4
+	dex_weight 42
 ; ARCANINE
-	db $30, $35, $39, $00 ; Dex number 059
-	db $20, $36, $72, $33, $00 ; Height 06'3"
-	db $20, $33, $34, $32, $00 ; Weight 0342
-	db $83 ; end
+	dex_number 59
+	dex_height 6, 3
+	dex_weight 342
 ; POLIWAG
-	db $30, $36, $30, $00 ; Dex number 060
-	db $20, $32, $72, $30, $00 ; Height 02'0"
-	db $20, $20, $32, $37, $00 ; Weight 0027
-	db $83 ; end
+	dex_number 60
+	dex_height 2, 0
+	dex_weight 27
 ; POLIWHIRL
-	db $30, $36, $31, $00 ; Dex number 061
-	db $20, $33, $72, $33, $00 ; Height 03'3"
-	db $20, $20, $34, $34, $00 ; Weight 0044
-	db $83 ; end
+	dex_number 61
+	dex_height 3, 3
+	dex_weight 44
 ; POLIWRATH
-	db $30, $36, $32, $00 ; Dex number 062
-	db $20, $34, $72, $33, $00 ; Height 04'3"
-	db $20, $31, $31, $39, $00 ; Weight 0119
-	db $83 ; end
+	dex_number 62
+	dex_height 4, 3
+	dex_weight 119
 ; ABRA
-	db $30, $36, $33, $00 ; Dex number 063
-	db $20, $32, $70, $31, $00 ; Height 02'1"
-	db $20, $20, $34, $33, $00 ; Weight 0043
-	db $83 ; end
+	dex_number 63
+	dex_height 2, 11
+	dex_weight 43
 ; KADABRA
-	db $30, $36, $34, $00 ; Dex number 064
-	db $20, $34, $72, $33, $00 ; Height 04'3"
-	db $20, $31, $32, $35, $00 ; Weight 0125
-	db $83 ; end
+	dex_number 64
+	dex_height 4, 3
+	dex_weight 125
 ; ALAKAZAM
-	db $30, $36, $35, $00 ; Dex number 065
-	db $20, $34, $70, $31, $00 ; Height 04'1"
-	db $20, $31, $30, $36, $00 ; Weight 0106
-	db $83 ; end
+	dex_number 65
+	dex_height 4, 11
+	dex_weight 106
 ; MACHOP
-	db $30, $36, $36, $00 ; Dex number 066
-	db $20, $32, $72, $37, $00 ; Height 02'7"
-	db $20, $20, $34, $33, $00 ; Weight 0043
-	db $83 ; end
+	dex_number 66
+	dex_height 2, 7
+	dex_weight 43
 ; MACHOKE
-	db $30, $36, $37, $00 ; Dex number 067
-	db $20, $34, $70, $31, $00 ; Height 04'1"
-	db $20, $31, $35, $35, $00 ; Weight 0155
-	db $83 ; end
+	dex_number 67
+	dex_height 4, 11
+	dex_weight 155
 ; MACHAMP
-	db $30, $36, $38, $00 ; Dex number 068
-	db $20, $35, $72, $33, $00 ; Height 05'3"
-	db $20, $32, $38, $37, $00 ; Weight 0287
-	db $83 ; end
+	dex_number 68
+	dex_height 5, 3
+	dex_weight 287
 ; BELLSPROUT
-	db $30, $36, $39, $00 ; Dex number 069
-	db $20, $32, $72, $34, $00 ; Height 02'4"
-	db $20, $20, $20, $39, $00 ; Weight 0009
-	db $83 ; end
+	dex_number 69
+	dex_height 2, 4
+	dex_weight 9
 ; WEEPINBELL
-	db $30, $37, $30, $00 ; Dex number 070
-	db $20, $33, $72, $33, $00 ; Height 03'3"
-	db $20, $20, $31, $34, $00 ; Weight 0014
-	db $83 ; end
+	dex_number 70
+	dex_height 3, 3
+	dex_weight 14
 ; VICTREEBEL
-	db $30, $37, $31, $00 ; Dex number 071
-	db $20, $35, $72, $37, $00 ; Height 05'7"
-	db $20, $20, $33, $34, $00 ; Weight 0034
-	db $83 ; end
+	dex_number 71
+	dex_height 5, 7
+	dex_weight 34
 ; TENTACOOL
-	db $30, $37, $32, $00 ; Dex number 072
-	db $20, $32, $70, $31, $00 ; Height 02'1"
-	db $20, $31, $30, $30, $00 ; Weight 0100
-	db $83 ; end
+	dex_number 72
+	dex_height 2, 11
+	dex_weight 100
 ; TENTACRUEL
-	db $30, $37, $33, $00 ; Dex number 073
-	db $20, $35, $72, $33, $00 ; Height 05'3"
-	db $20, $31, $32, $31, $00 ; Weight 0121
-	db $83 ; end
+	dex_number 73
+	dex_height 5, 3
+	dex_weight 121
 ; GEODUDE
-	db $30, $37, $34, $00 ; Dex number 074
-	db $20, $31, $72, $34, $00 ; Height 01'4"
-	db $20, $20, $34, $34, $00 ; Weight 0044
-	db $83 ; end
+	dex_number 74
+	dex_height 1, 4
+	dex_weight 44
 ; GRAVELER
-	db $30, $37, $35, $00 ; Dex number 075
-	db $20, $33, $72, $33, $00 ; Height 03'3"
-	db $20, $32, $33, $32, $00 ; Weight 0232
-	db $83 ; end
+	dex_number 75
+	dex_height 3, 3
+	dex_weight 232
 ; GOLEM
-	db $30, $37, $36, $00 ; Dex number 076
-	db $20, $34, $72, $37, $00 ; Height 04'7"
-	db $20, $36, $36, $32, $00 ; Weight 0662
-	db $83 ; end
+	dex_number 76
+	dex_height 4, 7
+	dex_weight 662
 ; PONYTA
-	db $30, $37, $37, $00 ; Dex number 077
-	db $20, $33, $72, $33, $00 ; Height 03'3"
-	db $20, $20, $36, $36, $00 ; Weight 0066
-	db $83 ; end
+	dex_number 77
+	dex_height 3, 3
+	dex_weight 66
 ; RAPIDASH
-	db $30, $37, $38, $00 ; Dex number 078
-	db $20, $35, $72, $37, $00 ; Height 05'7"
-	db $20, $32, $30, $39, $00 ; Weight 0209
-	db $83 ; end
+	dex_number 78
+	dex_height 5, 7
+	dex_weight 209
 ; SLOWPOKE
-	db $30, $37, $39, $00 ; Dex number 079
-	db $20, $33, $70, $31, $00 ; Height 03'1"
-	db $20, $20, $37, $39, $00 ; Weight 0079
-	db $83 ; end
+	dex_number 79
+	dex_height 3, 11
+	dex_weight 79
 ; SLOWBRO
-	db $30, $38, $30, $00 ; Dex number 080
-	db $20, $35, $72, $33, $00 ; Height 05'3"
-	db $20, $31, $37, $33, $00 ; Weight 0173
-	db $83 ; end
+	dex_number 80
+	dex_height 5, 3
+	dex_weight 173
 ; MAGNEMITE
-	db $30, $38, $31, $00 ; Dex number 081
-	db $20, $31, $72, $30, $00 ; Height 01'0"
-	db $20, $20, $31, $33, $00 ; Weight 0013
-	db $83 ; end
+	dex_number 81
+	dex_height 1, 0
+	dex_weight 13
 ; MAGNETON
-	db $30, $38, $32, $00 ; Dex number 082
-	db $20, $33, $72, $33, $00 ; Height 03'3"
-	db $20, $31, $33, $32, $00 ; Weight 0132
-	db $83 ; end
+	dex_number 82
+	dex_height 3, 3
+	dex_weight 132
 ; FARFETCH_D
-	db $30, $38, $33, $00 ; Dex number 083
-	db $20, $32, $72, $37, $00 ; Height 02'7"
-	db $20, $20, $33, $33, $00 ; Weight 0033
-	db $83 ; end
+	dex_number 83
+	dex_height 2, 7
+	dex_weight 33
 ; DODUO
-	db $30, $38, $34, $00 ; Dex number 084
-	db $20, $34, $72, $37, $00 ; Height 04'7"
-	db $20, $20, $38, $36, $00 ; Weight 0086
-	db $83 ; end
+	dex_number 84
+	dex_height 4, 7
+	dex_weight 86
 ; DODRIO
-	db $30, $38, $35, $00 ; Dex number 085
-	db $20, $35, $70, $31, $00 ; Height 05'1"
-	db $20, $31, $38, $38, $00 ; Weight 0188
-	db $83 ; end
+	dex_number 85
+	dex_height 5, 11
+	dex_weight 188
 ; SEEL
-	db $30, $38, $36, $00 ; Dex number 086
-	db $20, $33, $72, $37, $00 ; Height 03'7"
-	db $20, $31, $39, $38, $00 ; Weight 0198
-	db $83 ; end
+	dex_number 86
+	dex_height 3, 7
+	dex_weight 198
 ; DEWGONG
-	db $30, $38, $37, $00 ; Dex number 087
-	db $20, $35, $72, $37, $00 ; Height 05'7"
-	db $20, $32, $36, $35, $00 ; Weight 0265
-	db $83 ; end
+	dex_number 87
+	dex_height 5, 7
+	dex_weight 265
 ; GRIMER
-	db $30, $38, $38, $00 ; Dex number 088
-	db $20, $32, $70, $31, $00 ; Height 02'1"
-	db $20, $20, $36, $36, $00 ; Weight 0066
-	db $83 ; end
+	dex_number 88
+	dex_height 2, 11
+	dex_weight 66
 ; MUK
-	db $30, $38, $39, $00 ; Dex number 089
-	db $20, $33, $70, $31, $00 ; Height 03'1"
-	db $20, $20, $36, $36, $00 ; Weight 0066
-	db $83 ; end
+	dex_number 89
+	dex_height 3, 11
+	dex_weight 66
 ; SHELLDER
-	db $30, $39, $30, $00 ; Dex number 090
-	db $20, $31, $72, $30, $00 ; Height 01'0"
-	db $20, $20, $20, $39, $00 ; Weight 0009
-	db $83 ; end
+	dex_number 90
+	dex_height 1, 0
+	dex_weight 9
 ; CLOYSTER
-	db $30, $39, $31, $00 ; Dex number 091
-	db $20, $34, $70, $31, $00 ; Height 04'1"
-	db $20, $32, $39, $32, $00 ; Weight 0292
-	db $83 ; end
+	dex_number 91
+	dex_height 4, 11
+	dex_weight 292
 ; GASTLY
-	db $30, $39, $32, $00 ; Dex number 092
-	db $20, $34, $72, $33, $00 ; Height 04'3"
-	db $20, $20, $30, $32, $00 ; Weight 0002
-	db $FC ; end
+	dex_number 92
+	dex_height 4, 3
+	dex_weight_decimal 0, 2
 ; HAUNTER
-	db $30, $39, $33, $00 ; Dex number 093
-	db $20, $35, $72, $33, $00 ; Height 05'3"
-	db $20, $20, $30, $32, $00 ; Weight 0002
-	db $FC ; end
+	dex_number 93
+	dex_height 5, 3
+	dex_weight_decimal 0, 2
 ; GENGAR
-	db $30, $39, $34, $00 ; Dex number 094
-	db $20, $34, $70, $31, $00 ; Height 04'1"
-	db $20, $20, $38, $39, $00 ; Weight 0089
-	db $83 ; end
+	dex_number 94
+	dex_height 4, 11
+	dex_weight 89
 ; ONIX
-	db $30, $39, $35, $00 ; Dex number 095
-	db $32, $38, $70, $30, $00 ; Height 28'0"
-	db $20, $34, $36, $33, $00 ; Weight 0463
-	db $83 ; end
+	dex_number 95
+	dex_height 28, 10
+	dex_weight 463
 ; DROWZEE
-	db $30, $39, $36, $00 ; Dex number 096
-	db $20, $33, $72, $33, $00 ; Height 03'3"
-	db $20, $20, $37, $31, $00 ; Weight 0071
-	db $83 ; end
+	dex_number 96
+	dex_height 3, 3
+	dex_weight 71
 ; HYPNO
-	db $30, $39, $37, $00 ; Dex number 097
-	db $20, $35, $72, $33, $00 ; Height 05'3"
-	db $20, $31, $36, $37, $00 ; Weight 0167
-	db $83 ; end
+	dex_number 97
+	dex_height 5, 3
+	dex_weight 167
 ; KRABBY
-	db $30, $39, $38, $00 ; Dex number 098
-	db $20, $31, $72, $34, $00 ; Height 01'4"
-	db $20, $20, $31, $34, $00 ; Weight 0014
-	db $83 ; end
+	dex_number 98
+	dex_height 1, 4
+	dex_weight 14
 ; KINGLER
-	db $30, $39, $39, $00 ; Dex number 099
-	db $20, $34, $72, $33, $00 ; Height 04'3"
-	db $20, $31, $33, $32, $00 ; Weight 0132
-	db $83 ; end
+	dex_number 99
+	dex_height 4, 3
+	dex_weight 132
 ; VOLTORB
-	db $31, $30, $30, $00 ; Dex number 100
-	db $20, $31, $72, $38, $00 ; Height 01'8"
-	db $20, $20, $32, $33, $00 ; Weight 0023
-	db $83 ; end
+	dex_number 100
+	dex_height 1, 8
+	dex_weight 23
 ; ELECTRODE
-	db $31, $30, $31, $00 ; Dex number 101
-	db $20, $33, $70, $31, $00 ; Height 03'1"
-	db $20, $31, $34, $37, $00 ; Weight 0147
-	db $83 ; end
+	dex_number 101
+	dex_height 3, 11
+	dex_weight 147
 ; EXEGGCUTE
-	db $31, $30, $32, $00 ; Dex number 102
-	db $20, $31, $72, $34, $00 ; Height 01'4"
-	db $20, $20, $20, $36, $00 ; Weight 0006
-	db $83 ; end
+	dex_number 102
+	dex_height 1, 4
+	dex_weight 6
 ; EXEGGUTOR
-	db $31, $30, $33, $00 ; Dex number 103
-	db $20, $36, $72, $37, $00 ; Height 06'7"
-	db $20, $32, $36, $35, $00 ; Weight 0265
-	db $83 ; end
+	dex_number 103
+	dex_height 6, 7
+	dex_weight 265
 ; CUBONE
-	db $31, $30, $34, $00 ; Dex number 104
-	db $20, $31, $72, $34, $00 ; Height 01'4"
-	db $20, $20, $31, $34, $00 ; Weight 0014
-	db $83 ; end
+	dex_number 104
+	dex_height 1, 4
+	dex_weight 14
 ; MAROWAK
-	db $31, $30, $35, $00 ; Dex number 105
-	db $20, $33, $72, $33, $00 ; Height 03'3"
-	db $20, $20, $39, $39, $00 ; Weight 0099
-	db $83 ; end
+	dex_number 105
+	dex_height 3, 3
+	dex_weight 99
 ; HITMONLEE
-	db $31, $30, $36, $00 ; Dex number 106
-	db $20, $34, $70, $31, $00 ; Height 04'1"
-	db $20, $31, $31, $30, $00 ; Weight 0110
-	db $83 ; end
+	dex_number 106
+	dex_height 4, 11
+	dex_weight 110
 ; HITMONCHAN
-	db $31, $30, $37, $00 ; Dex number 107
-	db $20, $34, $72, $37, $00 ; Height 04'7"
-	db $20, $31, $31, $31, $00 ; Weight 0111
-	db $83 ; end
+	dex_number 107
+	dex_height 4, 7
+	dex_weight 111
 ; LICKITUNG
-	db $31, $30, $38, $00 ; Dex number 108
-	db $20, $33, $70, $31, $00 ; Height 03'1"
-	db $20, $31, $34, $34, $00 ; Weight 0144
-	db $83 ; end
+	dex_number 108
+	dex_height 3, 11
+	dex_weight 144
 ; KOFFING
-	db $31, $30, $39, $00 ; Dex number 109
-	db $20, $32, $72, $30, $00 ; Height 02'0"
-	db $20, $20, $20, $32, $00 ; Weight 0002
-	db $83 ; end
+	dex_number 109
+	dex_height 2, 0
+	dex_weight 2
 ; WEEZING
-	db $31, $31, $30, $00 ; Dex number 110
-	db $20, $33, $70, $31, $00 ; Height 03'1"
-	db $20, $20, $32, $31, $00 ; Weight 0021
-	db $83 ; end
+	dex_number 110
+	dex_height 3, 11
+	dex_weight 21
 ; RHYHORN
-	db $31, $31, $31, $00 ; Dex number 111
-	db $20, $33, $72, $33, $00 ; Height 03'3"
-	db $20, $32, $35, $34, $00 ; Weight 0254
-	db $83 ; end
+	dex_number 111
+	dex_height 3, 3
+	dex_weight 254
 ; RHYDON
-	db $31, $31, $32, $00 ; Dex number 112
-	db $20, $36, $72, $33, $00 ; Height 06'3"
-	db $20, $32, $36, $35, $00 ; Weight 0265
-	db $83 ; end
+	dex_number 112
+	dex_height 6, 3
+	dex_weight 265
 ; CHANSEY
-	db $31, $31, $33, $00 ; Dex number 113
-	db $20, $33, $72, $37, $00 ; Height 03'7"
-	db $20, $20, $37, $36, $00 ; Weight 0076
-	db $83 ; end
+	dex_number 113
+	dex_height 3, 7
+	dex_weight 76
 ; TANGELA
-	db $31, $31, $34, $00 ; Dex number 114
-	db $20, $33, $72, $33, $00 ; Height 03'3"
-	db $20, $20, $37, $37, $00 ; Weight 0077
-	db $83 ; end
+	dex_number 114
+	dex_height 3, 3
+	dex_weight 77
 ; KANGASKHAN
-	db $31, $31, $35, $00 ; Dex number 115
-	db $20, $37, $72, $33, $00 ; Height 07'3"
-	db $20, $31, $37, $36, $00 ; Weight 0176
-	db $83 ; end
+	dex_number 115
+	dex_height 7, 3
+	dex_weight 176
 ; HORSEA
-	db $31, $31, $36, $00 ; Dex number 116
-	db $20, $31, $72, $34, $00 ; Height 01'4"
-	db $20, $20, $31, $38, $00 ; Weight 0018
-	db $83 ; end
+	dex_number 116
+	dex_height 1, 4
+	dex_weight 18
 ; SEADRA
-	db $31, $31, $37, $00 ; Dex number 117
-	db $20, $33, $70, $31, $00 ; Height 03'1"
-	db $20, $20, $35, $35, $00 ; Weight 0055
-	db $83 ; end
+	dex_number 117
+	dex_height 3, 11
+	dex_weight 55
 ; GOLDEEN
-	db $31, $31, $38, $00 ; Dex number 118
-	db $20, $32, $72, $30, $00 ; Height 02'0"
-	db $20, $20, $33, $33, $00 ; Weight 0033
-	db $83 ; end
+	dex_number 118
+	dex_height 2, 0
+	dex_weight 33
 ; SEAKING
-	db $31, $31, $39, $00 ; Dex number 119
-	db $20, $34, $72, $33, $00 ; Height 04'3"
-	db $20, $20, $38, $36, $00 ; Weight 0086
-	db $83 ; end
+	dex_number 119
+	dex_height 4, 3
+	dex_weight 86
 ; STARYU
-	db $31, $32, $30, $00 ; Dex number 120
-	db $20, $32, $72, $37, $00 ; Height 02'7"
-	db $20, $20, $37, $36, $00 ; Weight 0076
-	db $83 ; end
+	dex_number 120
+	dex_height 2, 7
+	dex_weight 76
 ; STARMIE
-	db $31, $32, $31, $00 ; Dex number 121
-	db $20, $33, $72, $37, $00 ; Height 03'7"
-	db $20, $31, $37, $36, $00 ; Weight 0176
-	db $83 ; end
+	dex_number 121
+	dex_height 3, 7
+	dex_weight 176
 ; MR_MIME
-	db $31, $32, $32, $00 ; Dex number 122
-	db $20, $34, $72, $33, $00 ; Height 04'3"
-	db $20, $31, $32, $30, $00 ; Weight 0120
-	db $83 ; end
+	dex_number 122
+	dex_height 4, 3
+	dex_weight 120
 ; SCYTHER
-	db $31, $32, $33, $00 ; Dex number 123
-	db $20, $34, $70, $31, $00 ; Height 04'1"
-	db $20, $31, $32, $33, $00 ; Weight 0123
-	db $83 ; end
+	dex_number 123
+	dex_height 4, 11
+	dex_weight 123
 ; JYNX
-	db $31, $32, $34, $00 ; Dex number 124
-	db $20, $34, $72, $37, $00 ; Height 04'7"
-	db $20, $20, $39, $30, $00 ; Weight 0090
-	db $83 ; end
+	dex_number 124
+	dex_height 4, 7
+	dex_weight 90
 ; ELECTABUZZ
-	db $31, $32, $35, $00 ; Dex number 125
-	db $20, $33, $72, $37, $00 ; Height 03'7"
-	db $20, $20, $36, $36, $00 ; Weight 0066
-	db $83 ; end
+	dex_number 125
+	dex_height 3, 7
+	dex_weight 66
 ; MAGMAR
-	db $31, $32, $36, $00 ; Dex number 126
-	db $20, $34, $72, $33, $00 ; Height 04'3"
-	db $20, $20, $39, $38, $00 ; Weight 0098
-	db $83 ; end
+	dex_number 126
+	dex_height 4, 3
+	dex_weight 98
 ; PINSIR
-	db $31, $32, $37, $00 ; Dex number 127
-	db $20, $34, $70, $31, $00 ; Height 04'1"
-	db $20, $31, $32, $31, $00 ; Weight 0121
-	db $83 ; end
+	dex_number 127
+	dex_height 4, 11
+	dex_weight 121
 ; TAUROS
-	db $31, $32, $38, $00 ; Dex number 128
-	db $20, $34, $72, $37, $00 ; Height 04'7"
-	db $20, $31, $39, $35, $00 ; Weight 0195
-	db $83 ; end
+	dex_number 128
+	dex_height 4, 7
+	dex_weight 195
 ; MAGIKARP
-	db $31, $32, $39, $00 ; Dex number 129
-	db $20, $32, $70, $31, $00 ; Height 02'1"
-	db $20, $20, $32, $32, $00 ; Weight 0022
-	db $83 ; end
+	dex_number 129
+	dex_height 2, 11
+	dex_weight 22
 ; GYARADOS
-	db $31, $33, $30, $00 ; Dex number 130
-	db $32, $31, $72, $34, $00 ; Height 21'4"
-	db $20, $35, $31, $38, $00 ; Weight 0518
-	db $83 ; end
+	dex_number 130
+	dex_height 21, 4
+	dex_weight 518
 ; LAPRAS
-	db $31, $33, $31, $00 ; Dex number 131
-	db $20, $38, $72, $32, $00 ; Height 08'2"
-	db $20, $34, $38, $35, $00 ; Weight 0485
-	db $83 ; end
+	dex_number 131
+	dex_height 8, 2
+	dex_weight 485
 ; DITTO
-	db $31, $33, $32, $00 ; Dex number 132
-	db $20, $31, $72, $30, $00 ; Height 01'0"
-	db $20, $20, $20, $39, $00 ; Weight 0009
-	db $83 ; end
+	dex_number 132
+	dex_height 1, 0
+	dex_weight 9
 ; EEVEE
-	db $31, $33, $33, $00 ; Dex number 133
-	db $20, $31, $72, $30, $00 ; Height 01'0"
-	db $20, $20, $31, $34, $00 ; Weight 0014
-	db $83 ; end
+	dex_number 133
+	dex_height 1, 0
+	dex_weight 14
 ; VAPOREON
-	db $31, $33, $34, $00 ; Dex number 134
-	db $20, $33, $72, $33, $00 ; Height 03'3"
-	db $20, $20, $36, $34, $00 ; Weight 0064
-	db $83 ; end
+	dex_number 134
+	dex_height 3, 3
+	dex_weight 64
 ; JOLTEON
-	db $31, $33, $35, $00 ; Dex number 135
-	db $20, $32, $72, $37, $00 ; Height 02'7"
-	db $20, $20, $35, $34, $00 ; Weight 0054
-	db $83 ; end
+	dex_number 135
+	dex_height 2, 7
+	dex_weight 54
 ; FLAREON
-	db $31, $33, $36, $00 ; Dex number 136
-	db $20, $32, $70, $31, $00 ; Height 02'1"
-	db $20, $20, $35, $35, $00 ; Weight 0055
-	db $83 ; end
+	dex_number 136
+	dex_height 2, 11
+	dex_weight 55
 ; PORYGON
-	db $31, $33, $37, $00 ; Dex number 137
-	db $20, $32, $72, $37, $00 ; Height 02'7"
-	db $20, $20, $38, $30, $00 ; Weight 0080
-	db $83 ; end
+	dex_number 137
+	dex_height 2, 7
+	dex_weight 80
 ; OMANYTE
-	db $31, $33, $38, $00 ; Dex number 138
-	db $20, $31, $72, $34, $00 ; Height 01'4"
-	db $20, $20, $31, $37, $00 ; Weight 0017
-	db $83 ; end
+	dex_number 138
+	dex_height 1, 4
+	dex_weight 17
 ; OMASTAR
-	db $31, $33, $39, $00 ; Dex number 139
-	db $20, $33, $72, $33, $00 ; Height 03'3"
-	db $20, $20, $37, $37, $00 ; Weight 0077
-	db $83 ; end
+	dex_number 139
+	dex_height 3, 3
+	dex_weight 77
 ; KABUTO
-	db $31, $34, $30, $00 ; Dex number 140
-	db $20, $31, $72, $38, $00 ; Height 01'8"
-	db $20, $20, $32, $35, $00 ; Weight 0025
-	db $83 ; end
+	dex_number 140
+	dex_height 1, 8
+	dex_weight 25
 ; KABUTOPS
-	db $31, $34, $31, $00 ; Dex number 141
-	db $20, $34, $72, $33, $00 ; Height 04'3"
-	db $20, $20, $38, $39, $00 ; Weight 0089
-	db $83 ; end
+	dex_number 141
+	dex_height 4, 3
+	dex_weight 89
 ; AERODACTYL
-	db $31, $34, $32, $00 ; Dex number 142
-	db $20, $35, $70, $31, $00 ; Height 05'1"
-	db $20, $31, $33, $30, $00 ; Weight 0130
-	db $83 ; end
+	dex_number 142
+	dex_height 5, 11
+	dex_weight 130
 ; SNORLAX
-	db $31, $34, $33, $00 ; Dex number 143
-	db $20, $36, $70, $31, $00 ; Height 06'1"
-	db $31, $30, $31, $34, $00 ; Weight 1014
-	db $83 ; end
+	dex_number 143
+	dex_height 6, 11
+	dex_weight 1014
 ; ARTICUNO
-	db $31, $34, $34, $00 ; Dex number 144
-	db $20, $35, $72, $37, $00 ; Height 05'7"
-	db $20, $31, $32, $32, $00 ; Weight 0122
-	db $83 ; end
+	dex_number 144
+	dex_height 5, 7
+	dex_weight 122
 ; ZAPDOS
-	db $31, $34, $35, $00 ; Dex number 145
-	db $20, $35, $72, $33, $00 ; Height 05'3"
-	db $20, $31, $31, $36, $00 ; Weight 0116
-	db $83 ; end
+	dex_number 145
+	dex_height 5, 3
+	dex_weight 116
 ; MOLTRES
-	db $31, $34, $36, $00 ; Dex number 146
-	db $20, $36, $72, $37, $00 ; Height 06'7"
-	db $20, $31, $33, $32, $00 ; Weight 0132
-	db $83 ; end
+	dex_number 146
+	dex_height 6, 7
+	dex_weight 132
 ; DRATINI
-	db $31, $34, $37, $00 ; Dex number 147
-	db $20, $35, $70, $31, $00 ; Height 05'1"
-	db $20, $20, $20, $37, $00 ; Weight 0007
-	db $83 ; end
+	dex_number 147
+	dex_height 5, 11
+	dex_weight 7
 ; DRAGONAIR
-	db $31, $34, $38, $00 ; Dex number 148
-	db $31, $33, $72, $31, $00 ; Height 13'1"
-	db $20, $20, $33, $36, $00 ; Weight 0036
-	db $83 ; end
+	dex_number 148
+	dex_height 13, 1
+	dex_weight 36
 ; DRAGONITE
-	db $31, $34, $39, $00 ; Dex number 149
-	db $20, $37, $72, $33, $00 ; Height 07'3"
-	db $20, $34, $36, $33, $00 ; Weight 0463
-	db $83 ; end
+	dex_number 149
+	dex_height 7, 3
+	dex_weight 463
 ; MEWTWO
-	db $31, $35, $30, $00 ; Dex number 150
-	db $20, $36, $72, $37, $00 ; Height 06'7"
-	db $20, $32, $36, $39, $00 ; Weight 0269
-	db $83 ; end
+	dex_number 150
+	dex_height 6, 7
+	dex_weight 269
 ; MEW
-	db $31, $35, $31, $00 ; Dex number 151
-	db $20, $31, $72, $34, $00 ; Height 01'4"
-	db $20, $20, $20, $39, $00 ; Weight 0009
-	db $83 ; end
+	dex_number 151
+	dex_height 1, 4
+	dex_weight 9

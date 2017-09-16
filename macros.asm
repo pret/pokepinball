@@ -1,4 +1,5 @@
 INCLUDE "macros/pokedex.asm"
+INCLUDE "macros/scrolling_text.asm"
 INCLUDE "macros/sound.asm"
 
 AdvanceFrame EQUS "$10"

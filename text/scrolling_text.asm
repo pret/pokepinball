@@ -1,152 +1,156 @@
-; 6-byte header for scrolling text in the bottom message box. See LoadScrollingText, and wScrollingText1 for documentation.
-
 BallSavedText:
-	db $05, $54, $45, $14, $00, $33
+	scrolling_text_normal 5, 20, 0, 16
 	db "BALL SAVED @"
 
 ShootAgainText:
-	db $05, $54, $44, $14, $00, $34
+	scrolling_text_normal 4, 20, 0, 16
 	db "SHOOT AGAIN @"
 
 EndOfBallBonusText:
-	db $05, $54, $41, $14, $00, $3a
+	scrolling_text_normal 1, 20, 0, 19
 	db "END OF BALL BONUS @"
 
 FieldMultiplierText:
-	db $05, $54, $40, $14, $00, $3c
+	scrolling_text_normal 0, 20, 0, 20
 	db "FIELD MULTIPLIER x0 @"
 
 FieldMultiplierSpecialBonusText:
-	db $07, $54, $00, $00, $00, $33
+	scrolling_text_nopause 7, 51
 	db "FIELD MULTIPLIER SPECIAL BONUS @"
 
 DigitsText1to8:
-	db $07, $73, $46, $14, $20, $50
+	scrolling_text 7, 51, 6, 20, 2, 15
 	db "12345678 @"
 
 BonusMultiplierText:
-	db $05, $54, $40, $14, $00, $3d
+	scrolling_text_normal 0, 20, 0, 21
 	db "BONUS MULTIPLIER x0  @"
 
 ExtraBallText:
-	db $05, $54, $45, $14, $00, $33
+	scrolling_text_normal 5, 20, 0, 16
 	db "EXTRA BALL @"
 
 ExtraBallSpecialBonusText:
-	db $07, $54, $00, $00, $00, $2d
+	scrolling_text_nopause 7, 45
 	db "EXTRA BALL SPECIAL BONUS @"
 
 DigitsText1to9:
-	db $07, $6d, $45, $14, $20, $4b
+	scrolling_text 7, 45, 5, 20, 2, 15
 	db "123456789 @"
 
 LetsGetPokemonText:
-	db $05, $54, $41, $14, $00, $3a
+	scrolling_text_normal 1, 20, 0, 19
 	db "LET`S GET POKeMON @"
 
 PokemonRanAwayText:
-	db $05, $54, $42, $14, $00, $39
+	scrolling_text_normal 2, 20, 0, 19
 	db "POKeMON RAN AWAY @"
 
 PokemonCaughtSpecialBonusText:
-	db $07, $54, $00, $00, $00, $31
+	scrolling_text_nopause 7, 49
 	db "POKeMON CAUGHT SPECIAL BONUS @"
 
 OneBillionText:
-	db $07, $6e, $45, $14, $20, $50
+	scrolling_text 7, 46, 5, 20, 2, 19
 	db "1,000,000,000 @"
 
 HitText:
-	db $44, $00, $40, $00
+	stationary_text 4, 0, 64
 	db "HIT @"
 
 Data_2a2a:
-	db $48, $10, $40, $00, $00, $00
+	stationary_text 8, 1, 64
+
+	db $00, $00 ; unused
 
 FlippedText:
-	db $42, $00, $40, $00
+	stationary_text 2, 0, 64
 	db "FLIPPED @"
 
 CatchModeTileFlippedScoreStationaryTextHeader:
-	db $4a, $10, $40, $00, $00, $00
+	stationary_text 10, 1, 64
+
+	db $00, $00 ; unused
 
 JackpotText:
-	db $42, $00, $b4, $00
+	stationary_text 2, 0, 180
 	db "JACKPOT @"
 
 CatchModeJackpotScoreStationaryTextHeader:
-	db $4a, $10, $b4, $00, $00, $00 ;stationarytextheader
+	stationary_text 10, 1, 180
+
+	db $00, $00 ; unused
 
 YouGotAText:
-	db $05, $54, $00, $00, $00, $1e
+	scrolling_text_nopause 5, 30
 	db "YOU GOT A @"
 
 YouGotAnText:
-	db $05, $54, $00, $00, $00, $1f
+	scrolling_text_nopause 5, 31
 	db "YOU GOT AN @"
 
 Data_2a79:
-	db $05, $5e, $40, $14, $20, $43
+	scrolling_text 5, 30, 0, 20, 2, 17
 	db "                 @"
 
 Data_2a91:
-	db $05, $5f, $40, $14, $20, $44
+	scrolling_text 5, 31, 0, 20, 2, 17
 	db "                 @"
 
 StartTrainingText:
-	db $05, $54, $43, $14, $00, $37
+	scrolling_text_normal 3, 20, 0, 18
 	db "START TRAINING @"
 
 FindItemsText:
-	db $05, $54, $45, $14, $00, $33
+	scrolling_text_normal 5, 20, 0, 16
 	db "FIND ITEMS @"
 
 EvolutionFailedText:
-	db $05, $54, $42, $14, $00, $39
+	scrolling_text_normal 2, 20, 0, 19
 	db "EVOLUTION FAILED @"
 
 ItEvolvedIntoAText:
-	db $05, $54, $00, $00, $00, $26
+	scrolling_text_nopause 5, 38
 	db "IT EVOLVED INTO A @"
 
 ItEvolvedIntoAnText:
-	db $05, $54, $00, $00, $00, $27
+	scrolling_text_nopause 5, 39
 	db "IT EVOLVED INTO AN @"
 
 Data_2b1c:
-	db $05, $66, $40, $14, $20, $4b
+	scrolling_text 5, 38, 0, 20, 2, 17
 	db "                 @"
 
 Data_2b34:
-	db $05, $67, $40, $14, $20, $4c
+	scrolling_text 5, 39, 0, 20, 2, 17
 	db "                 @"
 
 EvolutionSpecialBonusText:
-	db $07, $54, $00, $00, $00, $2c
+	scrolling_text_nopause 7, 44
 	db "EVOLUTION SPECIAL BONUS @"
 
 Data_2b6b:
-	db $07, $6c, $46, $14, $20, $49
+	scrolling_text 7, 44, 6, 20, 2, 15
 	db "12345678 @"
 
 PokemonIsTiredText:
-	db $05, $54, $42, $14, $00, $39
+	scrolling_text_normal 2, 20, 0, 19
 	db "POKeMON IS TIRED @"
 
 ItemNotFoundText:
-	db $05, $54, $43, $14, $00, $37
+	scrolling_text_normal 3, 20, 0, 18
 	db "ITEM NOT FOUND @"
 
 PokemonRecoveredText:
-	db $05, $54, $41, $14, $00, $3a
+	scrolling_text_normal 1, 20, 0, 19
 	db "POKeMON RECOVERED @"
 
 TryNextPlaceText:
-	db $05, $54, $43, $14, $00, $37
+	scrolling_text_normal 3, 20, 0, 18
 	db "TRY NEXT PLACE @"
 
 YeahYouGotItText:
-	db $05, $54, $42, $14, $00, $39
+	scrolling_text_normal 2, 20, 0, 19
 	db "YEAH! YOU GOT IT @"
 
 EvolutionTypeGetTextPointers:
@@ -159,43 +163,43 @@ EvolutionTypeGetTextPointers:
 	dw GetExperienceText
 
 GetExperienceText:
-	db $05, $54, $43, $14, $00, $37
+	scrolling_text_normal 3, 20, 0, 18
 	db "GET EXPERIENCE @"
 
 GetFireStoneText:
-	db $05, $54, $42, $14, $00, $39
+	scrolling_text_normal 2, 20, 0, 19
 	db "GET A FIRE STONE @"
 
 GetWaterStoneText:
-	db $05, $54, $41, $14, $00, $3a
+	scrolling_text_normal 1, 20, 0, 19
 	db "GET A WATER STONE @"
 
 GetThunderStoneText:
-	db $05, $54, $40, $14, $00, $3c
+	scrolling_text_normal 0, 20, 0, 20
 	db "GET A THUNDER STONE @"
 
 GetLeafStoneText:
-	db $05, $54, $42, $14, $00, $39
+	scrolling_text_normal 2, 20, 0, 19
 	db "GET A LEAF STONE @"
 
 GetMoonStoneText:
-	db $05, $54, $42, $14, $00, $39
+	scrolling_text_normal 2, 20, 0, 19
 	db "GET A MOON STONE @"
 
 GetLinkCableText:
-	db $05, $54, $42, $14, $00, $39
+	scrolling_text_normal 2, 20, 0, 19
 	db "GET A LINK CABLE @"
 
 MapMoveFailedText:
-	db $05, $54, $42, $14, $00, $38
+	scrolling_text_normal 2, 20, 0, 18
 	db "MAP MOVE FAILED @"
 
 ArrivedAtMapText:
-	db $05, $54, $00, $00, $00, $1f
+	scrolling_text_nopause 5, 31
 	db "ARRIVED AT @"
 
 StartFromMapText:
-	db $05, $54, $00, $00, $00, $1f
+	scrolling_text_nopause 5, 31
 	db "START FROM @"
 
 MapNames:
@@ -211,7 +215,7 @@ MapNames:
 	dw LavenderTownText
 	dw CeladonCityText
 	dw CyclingRoadText
-	dw FuchiaCityText ; mispelling -- should be fuchsia
+	dw FuchiaCityText
 	dw SafariZoneText
 	dw SaffronCityText
 	dw SeafoamIslandsText
@@ -219,135 +223,135 @@ MapNames:
 	dw IndigoPlateauText
 
 PalletTownText:
-	db $05, $5f, $44, $14, $20, $3f
+	scrolling_text 5, 31, 4, 20, 2, 16
 	db "PALLET TOWN @"
 
 ViridianCityText:
-	db $05, $5f, $43, $14, $20, $41
+	scrolling_text 5, 31, 3, 20, 2, 17
 	db "VIRIDIAN CITY @"
 
 ViridianForestText:
-	db $05, $5f, $42, $14, $20, $43
+	scrolling_text 5, 31, 2, 20, 2, 18
 	db "VIRIDIAN FOREST @"
 
 PewterCityText:
-	db $05, $5f, $44, $14, $20, $3f
+	scrolling_text 5, 31, 4, 20, 2, 16
 	db "PEWTER CITY @"
 
 MtMoonText:
-	db $05, $5f, $46, $14, $20, $3b
+	scrolling_text 5, 31, 6, 20, 2, 14
 	db "MT.MOON @"
 
 CeruleanCityText:
-	db $05, $5f, $43, $14, $20, $41
+	scrolling_text 5, 31, 3, 20, 2, 17
 	db "CERULEAN CITY @"
 
 VermilionSeasideText:
-	db $05, $5f, $40, $14, $20, $47
+	scrolling_text 5, 31, 0, 20, 2, 20
 	db "VERMILION : SEASIDE @"
 
 VermilionStreetsText:
-	db $05, $5f, $40, $14, $20, $47
+	scrolling_text 5, 31, 0, 20, 2, 20
 	db "VERMILION : STREETS @"
 
 RockMountainText:
-	db $05, $5f, $43, $14, $20, $41
+	scrolling_text 5, 31, 3, 20, 2, 17
 	db "ROCK MOUNTAIN @"
 
 LavenderTownText:
-	db $05, $5f, $43, $14, $20, $41
+	scrolling_text 5, 31, 3, 20, 2, 17
 	db "LAVENDER TOWN @"
 
 CeladonCityText:
-	db $05, $5f, $44, $14, $20, $40
+	scrolling_text 5, 31, 4, 20, 2, 17
 	db "CELADON CITY @"
 
 CyclingRoadText:
-	db $05, $5f, $44, $14, $20, $40
+	scrolling_text 5, 31, 4, 20, 2, 17
 	db "CYCLING ROAD @"
 
 FuchiaCityText:
-	db $05, $5f, $44, $14, $20, $3f
+	scrolling_text 5, 31, 4, 20, 2, 16
 	db "FUCHIA CITY @" ; mispelling -- should be fuchsia
 
 SafariZoneText:
-	db $05, $5f, $44, $14, $20, $3f
+	scrolling_text 5, 31, 4, 20, 2, 16
 	db "SAFARI ZONE @"
 
 SaffronCityText:
-	db $05, $5f, $44, $14, $20, $40
+	scrolling_text 5, 31, 4, 20, 2, 17
 	db "SAFFRON CITY @"
 
 SeafoamIslandsText:
-	db $05, $5f, $42, $14, $20, $43
+	scrolling_text 5, 31, 2, 20, 2, 18
 	db "SEAFOAM ISLANDS @"
 
 CinnabarIslandText:
-	db $05, $5f, $42, $14, $20, $43
+	scrolling_text 5, 31, 2, 20, 2, 18
 	db "CINNABAR ISLAND @"
 
 IndigoPlateauText:
-	db $05, $5f, $43, $14, $20, $42
+	scrolling_text 5, 31, 3, 20, 2, 18
 	db "INDIGO PLATEAU @"
 
 GoToDiglettStageText:
-	db $05, $54, $40, $14, $00, $3c
+	scrolling_text_normal 0, 20, 0, 20
 	db "GO TO DIGLETT STAGE @"
 
 GoToGengarStageText:
-	db $05, $54, $41, $14, $00, $3b
+	scrolling_text_normal 1, 20, 0, 20
 	db "GO TO GENGAR STAGE @"
 
 GoToMewtwoStageText:
-	db $05, $54, $41, $14, $00, $3b
+	scrolling_text_normal 1, 20, 0, 20
 	db "GO TO MEWTWO STAGE @"
 
 GoToMeowthStageText:
-	db $05, $54, $41, $14, $00, $3b
+	scrolling_text_normal 1, 20, 0, 20
 	db "GO TO MEOWTH STAGE @"
 
 GoToSeelStageText:
-	db $05, $54, $42, $14, $00, $39
+	scrolling_text_normal 2, 20, 0, 19
 	db "GO TO SEEL STAGE @"
 
 EndGengarStageText:
-	db $05, $54, $42, $14, $00, $39
+	scrolling_text_normal 2, 20, 0, 19
 	db "END GENGAR STAGE @"
 
 EndMewtwoStageText:
-	db $05, $54, $42, $14, $00, $39
+	scrolling_text_normal 2, 20, 0, 19
 	db "END MEWTWO STAGE @"
 
 EndDiglettStageText:
-	db $05, $54, $41, $14, $00, $3a
+	scrolling_text_normal 1, 20, 0, 19
 	db "END DIGLETT STAGE @"
 
 EndMeowthStageText:
-	db $05, $54, $42, $14, $00, $39
+	scrolling_text_normal 2, 20, 0, 19
 	db "END MEOWTH STAGE @"
 
 EndSeelStageText:
-	db $05, $54, $43, $14, $00, $37
+	scrolling_text_normal 3, 20, 0, 18
 	db "END SEEL STAGE @"
 
 GengarStageClearedText:
-	db $05, $54, $40, $14, $00, $3d
+	scrolling_text_normal 0, 20, 0, 21
 	db "GENGAR STAGE CLEARED @"
 
 MewtwoStageClearedText:
-	db $05, $54, $40, $14, $00, $3d
+	scrolling_text_normal 0, 20, 0, 21
 	db "MEWTWO STAGE CLEARED @"
 
 DiglettStageClearedText:
-	db $05, $54, $3f, $14, $00, $3e
+	scrolling_text_normal -1, 20, 0, 21
 	db "DIGLETT STAGE CLEARED @"
 
 MeowthStageClearedText:
-	db $05, $54, $40, $14, $00, $3d
+	scrolling_text_normal 0, 20, 0, 21
 	db "MEOWTH STAGE CLEARED @"
 
 SeelStageClearedText:
-	db $05, $54, $41, $14, $00, $3b
+	scrolling_text_normal 1, 20, 0, 20
 	db "SEEL STAGE CLEARED @"
 
 NumPokemonCaughtText:

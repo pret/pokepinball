@@ -1,6 +1,4 @@
 MonDexNames: ; 0x29892
-; The first byte of each entry is the symbol displayed to the left of the mon's
-; name in the evolution menu. Fully-evolved pokemon have an asterisk next to their names.
 	db "BULBASAUR @"
 	db "IVYSAUR   @"
 	db "VENUSAUR  @"

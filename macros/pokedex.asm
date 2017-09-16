@@ -68,3 +68,22 @@ x = \1 * 10
 	db (\2 % 10) + $30
 	db $00, $FC
 	ENDM
+
+dex_species: MACRO
+	REPT _NARG
+	dex_species_char \1
+	SHIFT
+	ENDR
+	REPT 11 - _NARG
+	dex_species_char " "
+	ENDR
+	db $00
+	ENDM
+
+dex_species_char: MACRO
+	IF \1 == " "
+	db $81, $40
+	ELSE
+	db $82, \1 + $1F
+	ENDC
+	ENDM

@@ -62,11 +62,11 @@ LoadGameboyTargetMenuGfx: ; 0x8049
 	ld a, $80
 	ld de, rBGPI
 	ld hl, Data_80e4
-	call Fill33Bytes
+	call FillPalette
 	ld a, $80
 	ld de, rOBPI
 	ld hl, Data_80f4
-	call Fill33Bytes
+	call FillPalette
 	ld hl, SelectGameboyTargetGfxPointers
 	xor a
 	call LoadVideoData
@@ -121,7 +121,7 @@ FillTilesVRAM: ; 0x80c3
 	jr nz, .fillLoop
 	ret
 
-Fill33Bytes: ; 0x80d1
+FillPalette: ; 0x80d1
 ; First places a in [de].
 ; Then, reads 32 bytes from hl and places them in order at de + 1
 	ld [de], a
@@ -143,39 +143,26 @@ Fill33Bytes: ; 0x80d1
 	ret
 
 Data_80e4: ; 0x80e4
-	db $FF
-	db $7F
-	db $B5
-	db $56
-	db $6B
-	db $2D
-	db $00
-	db $00
-	db $FF
-	db $7F
-	db $B5
-	db $56
-	db $6B
-	db $2D
-	db $00
-	db $00
+	RGB 31, 31, 31
+	RGB 21, 21, 21
+	RGB 11, 11, 11
+	RGB 00, 00, 00
+
+	RGB 31, 31, 31
+	RGB 21, 21, 21
+	RGB 11, 11, 11
+	RGB 00, 00, 00
+
 Data_80f4: ; 0x80f4
-	db $B5
-	db $56
-	db $FF
-	db $7F
-	db $6B
-	db $2D
-	db $00
-	db $00
-	db $FF
-	db $7F
-	db $B5
-	db $56
-	db $6B
-	db $2D
-	db $00
-	db $00
+	RGB 21, 21, 21
+	RGB 31, 31, 31
+	RGB 11, 11, 11
+	RGB 00, 00, 00
+
+	RGB 31, 31, 31
+	RGB 21, 21, 21
+	RGB 11, 11, 11
+	RGB 00, 00, 00
 
 SelectCGBOrDMG: ; 0x8104
 	ld a, [hNewlyPressedButtons]

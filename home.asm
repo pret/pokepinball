@@ -14,8 +14,8 @@ SECTION "rst 20", ROM0
 SECTION "VBlankInt", ROM0
 	jp VBlank
 
-SECTION "HBlankInt", ROM0
-	jp HBlank
+SECTION "STATInt", ROM0
+	jp LCDCStatus
 
 SECTION "TimerInt", ROM0
 	jp Timer
@@ -104,7 +104,7 @@ Start: ; 0x150
 	ld [wd7fb], a
 	ld [wd7fc], a
 	ld [wd7fd], a
-	ld [hHBlankRoutine], a
+	ld [hStatIntrRoutine], a
 	ld [$ffb1], a
 	ld [wd8e1], a
 	ld [wd7fe], a
@@ -160,13 +160,13 @@ Func_23b: ; 0x23b
 	jr nz, .asm_248
 	ld a, $1
 	ld [hGameBoyColorFlag], a
-	ld [$fffd], a
+	ld [hGameBoyColorFlagBackup], a
 	ret
 
 .asm_248
 	xor a
 	ld [hGameBoyColorFlag], a
-	ld [$fffd], a
+	ld [hGameBoyColorFlagBackup], a
 	ret
 
 SoftReset:
@@ -203,7 +203,7 @@ SoftReset:
 	ld [wd7fb], a
 	ld [wd7fc], a
 	ld [wd7fd], a
-	ld [hHBlankRoutine], a
+	ld [hStatIntrRoutine], a
 	ld [$ffb1], a
 	ld [wd8e1], a
 	ld [wd7fe], a
@@ -239,10 +239,10 @@ SoftReset:
 	ld [wRNGModulus], a
 	call ResetRNG
 	ld a, [hGameBoyColorFlag]
-	ld [$fffd], a
+	ld [hGameBoyColorFlagBackup], a
 	xor a
 	ld [wBootCheck], a
-	ld a, $0
+	ld a, Bank(Main)
 	ld hl, Main
 	call BankSwitchSimple
 	; fallthrough
@@ -310,9 +310,9 @@ VBlank: ; 0x2f2
 	and $f
 	jr z, .skipBootCheck
 	ld hl, sp + 8
-	ld [hl], Func_3c3 & $ff
+	ld [hl], FadeAndSoftReset & $ff
 	inc hl
-	ld [hl], Func_3c3 >> 8
+	ld [hl], FadeAndSoftReset >> 8
 	ld a, $1
 	ld [wBootCheck], a
 .skipBootCheck
@@ -377,62 +377,62 @@ VBlank: ; 0x2f2
 	pop af
 	reti
 
-Func_3c3:
+FadeAndSoftReset:
 	ld a, [rLCDC]
 	bit 7, a
-	jr z, .asm_03cf
+	jr z, .LCD_disabled
 	call FadeOut
 	; Fades palettes in from white screen.
 	call DisableLCD
-.asm_03cf
+.LCD_disabled
 	ld hl, hSTAT
-	res 6, [hl]
+	res 6, [hl] ; disable LYC=LY interrupt
 	ld hl, rIE
-	res 1, [hl]
+	res 1, [hl] ; disable STAT interrupt
 	xor a
 	ld [MBC5SRamEnable], a
 	ld [rSB], a
 	ld [rSC], a
 	ld [rIE], a
 	ld [rNR52], a
-	ld a, [$fffd]
+	ld a, [hGameBoyColorFlagBackup]
 	ld [hGameBoyColorFlag], a
 	jp SoftReset
 
-HBlank: ; 0x3ec
+LCDCStatus: ; 0x3ec
 	push af
 	push bc
 	push de
 	push hl
-	ld a, [hHBlankRoutine]
+	ld a, [hStatIntrRoutine]
 	sla a
 	ld c, a
-	ld b, $0
-	ld hl, HBlankRoutines
+	ld b, 0
+	ld hl, StatIntrRoutines
 	add hl, bc
 	ld a, [hli]
 	ld h, [hl]
 	ld l, a
 	jp hl
 
-Func_3ff: ; 0x3ff
+StatIntrDone: ; 0x3ff
 	ld a, $1
-	ld [$ffb5], a
+	ld [hStatIntrFired], a
 	pop hl
 	pop de
 	pop bc
 	pop af
 	reti
 
-HBlankRoutines: ; 0x408
-	dw Func_fbc
-	dw Func_fbf
-	dw Func_fea
-	dw Func_105d
-	dw Func_109e
-	dw Func_10a1
-	dw Func_10a4
-	dw Func_10a7
+StatIntrRoutines: ; 0x408s
+	dw StatIntrNothing
+	dw StatIntrTogglePinballWindow
+	dw StatIntrTogglePokedexWindow
+	dw StatIntrToggleHighScoresWindow
+	dw StatIntrNothing2
+	dw StatIntrNothing3
+	dw StatIntrNothing4
+	dw StatIntrNothing5
 
 Timer: ; 0x418
 	ei
@@ -1017,61 +1017,64 @@ Write4BottomMessageBytes: ; 0xef8
 
 INCLUDE "home/save.asm"
 
-Func_fbc: ; 0xfbc
-	jp Func_3ff
+StatIntrNothing: ; 0xfbc
+	jp StatIntrDone
 
-Func_fbf: ; 0xfbf
+StatIntrTogglePinballWindow
+; Handles switching the tile data to the black status bar
+; window anchored to the bottom of the screen during pinball
+; gameplay.
 	ld hl, hLastLYC
 	ld c, [hl]
 	ld a, [rLY]
 	cp c
-	jp c, Func_3ff
+	jp c, StatIntrDone
 	inc c
 	inc c
 	cp c
-	jp nc, Func_3ff
+	jp nc, StatIntrDone
 	ld a, [hLCDCMask]
 	ld c, a
 	ld a, [hLCDC]
-	xor $10
+	xor $10 ; toggle window tile data
 	and c
 	ld c, a
 	ld hl, rSTAT
-.asm_fdb
+.waitForHBlank
 	ld a, [hl]
 	and $3
-	jr nz, .asm_fdb
+	jr nz, .waitForHBlank
 	ld a, [rLCDC]
-	and $80
+	and $80 ; enable LCD display
 	or c
 	ld [rLCDC], a
-	jp Func_3ff
+	jp StatIntrDone
 
-Func_fea: ; 0xfea
+StatIntrTogglePokedexWindow: ; 0xfea
 	ld hl, hLastLYC
 	ld a, [hLYCSub]
 	cp [hl]
 	jr nz, .asm_1015
 	ld a, [rLY]
 	cp [hl]
-	jp nz, Func_3ff
+	jp nz, StatIntrDone
 	ld a, [hLCDC]
-	xor $18
+	xor $18 ; toggle window tile data and tile map
 	ld c, a
 	ld a, [hHBlankSCX]
 	ld b, a
 	ld hl, rSTAT
-.asm_1003
+.waitForHBlank
 	ld a, [hl]
 	and $3
-	jr nz, .asm_1003
+	jr nz, .waitForHBlank
 	ld a, [rLCDC]
-	and $80
+	and $80 ; enable LCD display
 	or c
 	ld [rLCDC], a
 	ld a, b
 	ld [rSCY], a
-	jp Func_3ff
+	jp StatIntrDone
 
 .asm_1015
 	ld a, [rLY]
@@ -1085,40 +1088,40 @@ Func_fea: ; 0xfea
 	ld a, [hLYCSub]
 	ld b, a
 	ld hl, rSTAT
-.asm_1029
+.waitForHBlank_2
 	ld a, [hl]
 	and $3
-	jr nz, .asm_1029
+	jr nz, .waitForHBlank_2
 	ld a, c
 	ld [rSCY], a
 	ld a, b
 	ld [rLYC], a
-	jp Func_3ff
+	jp StatIntrDone
 
 .asm_1037
 	ld hl, hLYCSub
 	ld a, [rLY]
 	cp [hl]
-	jp nz, Func_3ff
+	jp nz, StatIntrDone
 	ld a, [hLCDC]
-	xor $18
+	xor $18 ; toggle window tile data and tile map
 	ld c, a
 	ld a, [hHBlankSCX]
 	ld b, a
 	ld hl, rSTAT
-.asm_104b
+.waitForHBlank_3
 	ld a, [hl]
 	and $3
-	jr nz, .asm_104b
+	jr nz, .waitForHBlank_3
 	ld a, [rLCDC]
 	and $80
 	or c
 	ld [rLCDC], a
 	ld a, b
 	ld [rSCY], a
-	jp Func_3ff
+	jp StatIntrDone
 
-Func_105d: ; 0x105d
+StatIntrToggleHighScoresWindow
 	ld hl, hLastLYC
 	ld a, [rLY]
 	cp [hl]
@@ -1132,15 +1135,15 @@ Func_105d: ; 0x105d
 	ld a, [hHBlankSCX]
 	ld b, a
 	ld hl, rSTAT
-.asm_1072
+.waitForHBlank
 	ld a, [hl]
 	and $3
-	jr nz, .asm_1072
+	jr nz, .waitForHBlank
 	ld a, b
 	ld [rSCY], a
 	ld a, c
 	ld [rLYC], a
-	jp Func_3ff
+	jp StatIntrDone
 
 .asm_1080
 	ld hl, hLYCSub
@@ -1149,30 +1152,30 @@ Func_105d: ; 0x105d
 	jr z, .asm_108d
 	dec a
 	cp [hl]
-	jp nz, Func_3ff
+	jp nz, StatIntrDone
 .asm_108d
 	ld a, [hHBlankSCY]
 	ld b, a
 	ld hl, rSTAT
-.asm_1093
+.waitForHBlank_2
 	ld a, [hl]
 	and $3
-	jr nz, .asm_1093
+	jr nz, .waitForHBlank_2
 	ld a, b
 	ld [rSCY], a
-	jp Func_3ff
+	jp StatIntrDone
 
-Func_109e: ; 0x109e
-	jp Func_3ff
+StatIntrNothing2: ; 0x109e
+	jp StatIntrDone
 
-Func_10a1: ; 0x10a1
-	jp Func_3ff
+StatIntrNothing3: ; 0x10a1
+	jp StatIntrDone
 
-Func_10a4: ; 0x10a4
-	jp Func_3ff
+StatIntrNothing4: ; 0x10a4
+	jp StatIntrDone
 
-Func_10a7: ; 0x10a7
-	jp Func_3ff
+StatIntrNothing5: ; 0x10a7
+	jp StatIntrDone
 
 QueueGraphicsToLoad: ; 0x10aa
 ; Queues graphics data to be loaded into VRAM at the next available time.

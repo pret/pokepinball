@@ -120,7 +120,7 @@ Func_cb14: ; 0xcb14
 	ld hl, rIE
 	set 1, [hl]
 	ld a, $3
-	ld [hHBlankRoutine], a
+	ld [hStatIntrRoutine], a
 	ld a, [hGameBoyColorFlag]
 	and a
 	jr z, .asm_cb51

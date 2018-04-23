@@ -10,7 +10,7 @@ ROM0
 	org $0040
 	"VBlankInt"
 	org $0048
-	"HBlankInt"
+	"STATInt"
 	org $0050
 	"TimerInt"
 	org $0058

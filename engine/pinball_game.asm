@@ -45,7 +45,7 @@ GameScreenFunction_StartBall: ; 0xd87f
 	ld hl, rIE
 	set 1, [hl]
 	ld a, $1
-	ld [hHBlankRoutine], a
+	ld [hStatIntrRoutine], a
 	callba InitBallForStage
 	callba LoadStageCollisionAttributes
 	callba LoadStageData

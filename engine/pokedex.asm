@@ -35,7 +35,7 @@ LoadPokedexScreen: ; 0x2800e
 	ld hl, rIE
 	set 1, [hl]
 	ld a, $2
-	ld [hHBlankRoutine], a
+	ld [hStatIntrRoutine], a
 	ld hl, PointerTable_280a2
 	ld a, [hGameBoyColorFlag]
 	call LoadVideoData

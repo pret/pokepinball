@@ -1053,17 +1053,7 @@ INCLUDE "data/stage_palettes.asm"
 INCLUDE "data/billboard/map_palettes_2.asm"
 INCLUDE "data/ball_palettes.asm"
 INCLUDE "data/evolution_trinket_palettes.asm"
-
-SlotOnBillboardBGPalette: ; 0xdd198
-    RGB 31, 31, 31
-    RGB 31, 26, 2
-    RGB 31, 3, 0
-    RGB 0, 0, 0
-PaletteData_dd1a0: ; 0xdd1a0
-    RGB 31, 31, 31
-    RGB 31, 26, 2
-    RGB 31, 3, 0
-    RGB 0, 0, 0
+INCLUDE "data/slot_on_billboard_palettes.asm"
 
 SECTION "bank39", ROMX
 

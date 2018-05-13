@@ -3131,8 +3131,8 @@ SlotOnBillboardBGPaletteData: ; 0x3116a
 	db $10
 	db $08 ; number of colors
 	db $30 ; OAM palettes
-	dw SlotOnBillboardBGPalette
-	db Bank(SlotOnBillboardBGPalette)
+	dw SlotOnBillboardBGPalettes
+	db Bank(SlotOnBillboardBGPalettes)
 	db $00 ; terminator
 
 SlotOnBillboardBGPaletteMapData: ; 0x31173

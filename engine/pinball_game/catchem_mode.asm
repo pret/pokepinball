@@ -74,13 +74,13 @@ StartCatchEmMode: ; 0x1003f
 	ld a, [wCurrentCatchEmMon] ;wow gamefreak
 	ld c, a
 	ld b, $0
-	ld hl, EvolutionLineIds ;fetch the mon's evolution line
+	ld hl, CatchemMonIds ; fetch the mon's catchem id
 	add hl, bc
 	ld c, [hl]
 	ld h, b
 	ld l, c
 	add hl, bc
-	add hl, bc  ; multiply the evolution line id by 3, add it to pointer to ???
+	add hl, bc  ; multiply the catchem mod id by 3, add it to pointer to ???
 	ld bc, CatchSpriteFrameDurations ;mystery data, seems pokedex related too
 	add hl, bc
 	ld a, [hli]
@@ -1217,9 +1217,9 @@ Func_10871: ; 0x10871
 	ld a, [wCurrentCatchEmMon]
 	ld c, a
 	ld b, $0
-	ld hl, EvolutionLineIds
+	ld hl, CatchemMonIds
 	add hl, bc
-	ld a, [hl] ; a contains evolution line id
+	ld a, [hl]
 	ld c, a
 	ld b, $0
 	ld l, c
@@ -1352,7 +1352,7 @@ Func_1098c: ; 0x1098c
 	ld a, [wCurrentCatchEmMon]
 	ld c, a
 	ld b, $0
-	ld hl, EvolutionLineIds
+	ld hl, CatchemMonIds
 	add hl, bc
 	ld a, [hl]
 	ld c, a

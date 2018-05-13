@@ -1809,9 +1809,9 @@ Func_28bf5: ; 0x28bf5
 	ld a, [wCurPokedexIndex]
 	ld c, a
 	ld b, $0
-	ld hl, EvolutionLineIds
+	ld hl, CatchemMonIds
 	add hl, bc
-	ld a, BANK(EvolutionLineIds)
+	ld a, BANK(CatchemMonIds)
 	call ReadByteFromBank
 	ld c, a
 	ld b, $0

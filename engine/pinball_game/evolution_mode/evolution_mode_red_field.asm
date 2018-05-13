@@ -496,8 +496,8 @@ CreateEvolutionTrinket_RedField: ; 0x20977
 	ld a, [hGameBoyColorFlag]
 	and a
 	jr z, .asm_209bf
-	ld a, BANK(PaletteData_dd188)
-	ld hl, PaletteData_dd188
+	ld a, BANK(EvolutionTrinketPalettes)
+	ld hl, EvolutionTrinketPalettes
 	ld de, $0070
 	ld bc, $0010
 	call Func_7dc

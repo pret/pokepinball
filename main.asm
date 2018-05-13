@@ -1052,17 +1052,8 @@ INCLUDE "data/mon_gfx/mon_billboard_palettes_6.asm"
 INCLUDE "data/stage_palettes.asm"
 INCLUDE "data/billboard/map_palettes_2.asm"
 INCLUDE "data/ball_palettes.asm"
+INCLUDE "data/evolution_trinket_palettes.asm"
 
-PaletteData_dd188: ; 0xdd188
-	RGB 31, 31, 31
-    RGB 31, 29, 0
-    RGB 29, 3, 2
-    RGB 2, 2, 2
-PaletteData_dd190: ; 0xdd190
-    RGB 31, 31, 31
-    RGB 9, 22, 6
-    RGB 4, 13, 31
-    RGB 2, 2, 2
 SlotOnBillboardBGPalette: ; 0xdd198
     RGB 31, 31, 31
     RGB 31, 26, 2

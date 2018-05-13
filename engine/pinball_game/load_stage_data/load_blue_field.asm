@@ -346,8 +346,8 @@ LoadEvolutionTrinketGraphics_BlueField: ; 0x1c3ee
 	ld a, [hGameBoyColorFlag]
 	and a
 	ret z
-	ld a, BANK(PaletteData_dd188)
-	ld hl, PaletteData_dd188
+	ld a, BANK(EvolutionTrinketPalettes)
+	ld hl, EvolutionTrinketPalettes
 	ld de, $0070
 	ld bc, $0010
 	call FarCopyCGBPals

@@ -26,28 +26,78 @@ DrawSpritesRedFieldBottom: ; 0x1757e
 	ret
 
 INCLUDE "engine/pinball_game/draw_sprites/draw_timer.asm"
-INCLUDE "engine/pinball_game/draw_sprites/draw_wild_mon.asm"
+
+DrawMonCaptureAnimation: ; 0x17c67
+	ld a, [wCapturingMon]
+	and a
+	ret z
+	ld a, $50
+	ld hl, hSCX
+	sub [hl]
+	ld b, a
+	ld a, $38
+	ld hl, hSCY
+	sub [hl]
+	ld c, a
+	ld a, [wBallCaptureAnimationFrame]
+	ld e, a
+	ld d, $0
+	ld hl, BallCaptureAnimationOAMIds
+	add hl, de
+	ld a, [hl]
+	call LoadOAMData
+	ret
+
+BallCaptureAnimationOAMIds:
+	db $19, $1A, $1B, $1C, $1D, $1E, $1F, $20, $21, $22, $23, $24, $25
+
+DrawAnimatedMon_RedStage: ; 0x17c96
+	ld a, [wWildMonIsHittable]
+	and a
+	ret z
+	ld a, $50
+	ld hl, hSCX
+	sub [hl]
+	ld b, a
+	ld a, $3e
+	ld hl, hSCY
+	sub [hl]
+	ld c, a
+	ld a, [wCurrentAnimatedMonSpriteFrame]
+	ld e, a
+	ld d, $0
+	ld hl, AnimatedMonOAMIds_RedStage
+	add hl, de
+	ld a, [hl]
+	call LoadOAMData
+	ret
+
+AnimatedMonOAMIds_RedStage:
+	db $26, $27, $28 ; animated sprite type 0
+	db $29, $2A, $2B ; animated sprite type 1
+	db $2C, $2D, $2E ; animated sprite type 2
+	db $2F, $30, $31 ; animated sprite type 3
 
 DrawVoltorbSprites: ; 0x17cc4
 	ld de, wVoltorb1Animation
-	ld hl, OAMData_17d15
+	ld hl, Voltorb1OAMData
 	call DrawVoltorbSprite
 	ld de, wVoltorb2Animation
-	ld hl, OAMData_17d1b
+	ld hl, Voltorb2OAMData
 	call DrawVoltorbSprite
 	ld de, wVoltorb3Animation
-	ld hl, OAMData_17d21
+	ld hl, Voltorb3OAMData
 	; fall through
 
 DrawVoltorbSprite: ; 0x17cdc
 	push hl
-	ld hl, AnimationData_17d27
+	ld hl, VoltorbAnimation
 	call UpdateAnimation
 	ld h, d
 	ld l, e
 	ld a, [hl]
 	and a
-	jr nz, .asm_17cf6
+	jr nz, .drawVoltorb
 	call GenRandom
 	and $7
 	add $1e
@@ -56,7 +106,7 @@ DrawVoltorbSprite: ; 0x17cdc
 	ld [hli], a
 	xor a
 	ld [hl], a
-.asm_17cf6
+.drawVoltorb
 	pop hl
 	inc de
 	ld a, [hSCX]
@@ -82,22 +132,22 @@ DrawVoltorbSprite: ; 0x17cdc
 	call LoadOAMData
 	ret
 
-OAMData_17d15:
+Voltorb1OAMData:
 	db $3A, $4E ; x, y offsets
-	db $00 ; ???
+	db $00 ; which voltorb
 	db $BD, $BC, $CE ; oam ids
 
-OAMData_17d1b:
+Voltorb2OAMData:
 	db $53, $44 ; x, y offsets
-	db $01 ; ???
+	db $01 ; which voltorb
 	db $BD, $BC, $CD ; oam ids
 
-OAMData_17d21:
+Voltorb3OAMData:
 	db $4D, $60 ; x, y offsets
-	db $02 ; ???
+	db $02 ; which voltorb
 	db $BD, $BC, $CF ; oam ids
 
-AnimationData_17d27:
+VoltorbAnimation:
 ; Each entry is [duration][OAM id]
 	db $1E, $01
 	db $02, $02
@@ -119,13 +169,13 @@ DrawDitto: ; 0x17d34
 	ld a, [wStageCollisionState]
 	ld e, a
 	ld d, $0
-	ld hl, OAMIds_17d51
+	ld hl, DittoOAMIds
 	add hl, de
 	ld a, [hl]
 	call LoadOAMData
 	ret
 
-OAMIds_17d51:
+DittoOAMIds:
 	db $C9
 	db $C9
 	db $C9
@@ -179,18 +229,18 @@ DrawStaryu: ; 0x17d92
 	ld a, [hGameBoyColorFlag]
 	and a
 	ret z
-	ld hl, AnimationData_17dd0
-	ld de, wd504
+	ld hl, StaryuAnimation
+	ld de, wStaryuAnimation
 	call UpdateAnimation
-	ld a, [wd504]
+	ld a, [wStaryuAnimationFrameCounter]
 	and a
-	jr nz, .asm_17db1
+	jr nz, .drawStaryu
 	ld a, $13
-	ld [wd504], a
+	ld [wStaryuAnimationFrameCounter], a
 	xor a
-	ld [wd505], a
-	ld [wd506], a
-.asm_17db1
+	ld [wStaryuAnimationFrame], a
+	ld [wStaryuAnimationIndex], a
+.drawStaryu
 	ld a, $2b
 	ld hl, hSCX
 	sub [hl]
@@ -199,20 +249,20 @@ DrawStaryu: ; 0x17d92
 	ld hl, hSCY
 	sub [hl]
 	ld c, a
-	ld a, [wd505]
+	ld a, [wStaryuAnimationFrame]
 	ld e, a
 	ld d, $0
-	ld hl, OAMIds_17dce
+	ld hl, StaryuAnimationOAMIds
 	add hl, de
 	ld a, [hl]
 	call LoadOAMData
 	ret
 
-OAMIds_17dce: ; 0x17dce
+StaryuAnimationOAMIds: ; 0x17dce
 	db $CB
 	db $D0
 
-AnimationData_17dd0:
+StaryuAnimation:
 ; Each entry is [duration][OAM id]
 	db $14, $00
 	db $13, $01

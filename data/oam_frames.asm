@@ -13,42 +13,42 @@ OAMDataPointers: ; 0x4000
 	dw OAMData_b
 	dw OAMData_c
 	dw OAMData_d
-	dw OAMData_e
-	dw OAMData_f
-	dw OAMData_10
-	dw OAMData_11
-	dw OAMData_12
-	dw OAMData_13
-	dw OAMData_14
-	dw OAMData_15
-	dw OAMData_16
+	dw PikachuSaverAnimationFrame0OAM
+	dw PikachuSaverAnimationFrame1OAM
+	dw PikachuSaverAnimationFrame2OAM
+	dw PikachuSaverAnimationFrame3OAM
+	dw PikachuSaverAnimationFrame4OAM
+	dw PikachuSaverAnimationFrame5OAM
+	dw PikachuSaverAnimationFrame6OAM
+	dw PikachuSaverAnimationFrame7OAM
+	dw PikachuSaverAnimationFrame8OAM
 	dw OAMData_17
 	dw OAMData_18
-	dw OAMData_19
-	dw OAMData_1a
-	dw OAMData_1b
-	dw OAMData_1c
-	dw OAMData_1d
-	dw OAMData_1e
-	dw OAMData_1f
-	dw OAMData_20
-	dw OAMData_21
-	dw OAMData_22
-	dw OAMData_23
-	dw OAMData_24
-	dw OAMData_25
-	dw OAMData_26
-	dw OAMData_27
-	dw OAMData_28
-	dw OAMData_29
-	dw OAMData_2a
-	dw OAMData_2b
-	dw OAMData_2c
-	dw OAMData_2d
-	dw OAMData_2e
-	dw OAMData_2f
-	dw OAMData_30
-	dw OAMData_31
+	dw BallCaptureFrame0OAM
+	dw BallCaptureFrame1OAM
+	dw BallCaptureFrame2OAM
+	dw BallCaptureFrame3OAM
+	dw BallCaptureFrame4OAM
+	dw BallCaptureFrame5OAM
+	dw BallCaptureFrame6OAM
+	dw BallCaptureFrame7OAM
+	dw BallCaptureFrame8OAM
+	dw BallCaptureFrame9OAM
+	dw BallCaptureFrame10OAM
+	dw BallCaptureFrame11OAM
+	dw BallCaptureFrame12OAM
+	dw AnimatedMonSpriteType0Frame0OAM
+	dw AnimatedMonSpriteType0Frame1OAM
+	dw AnimatedMonSpriteType0Frame2OAM
+	dw AnimatedMonSpriteType1Frame0OAM
+	dw AnimatedMonSpriteType1Frame1OAM
+	dw AnimatedMonSpriteType1Frame2OAM
+	dw AnimatedMonSpriteType2Frame0OAM
+	dw AnimatedMonSpriteType2Frame1OAM
+	dw AnimatedMonSpriteType2Frame2OAM
+	dw AnimatedMonSpriteType3Frame0OAM
+	dw AnimatedMonSpriteType3Frame1OAM
+	dw AnimatedMonSpriteType3Frame2OAM
 	dw OAMData_32
 	dw OAMData_33
 	dw OAMData_34
@@ -64,23 +64,23 @@ OAMDataPointers: ; 0x4000
 	dw OAMData_3e
 	dw OAMData_3f
 	dw OAMData_40
-	dw OAMData_41
-	dw OAMData_42
-	dw OAMData_43
-	dw OAMData_44
-	dw OAMData_45
-	dw OAMData_46
-	dw OAMData_47
-	dw OAMData_48
-	dw OAMData_49
-	dw OAMData_4a
-	dw OAMData_4b
-	dw OAMData_4c
-	dw OAMData_4d
-	dw OAMData_4e
-	dw OAMData_4f
-	dw OAMData_50
-	dw OAMData_51
+	dw ThunderStoneTrinketTopOAM
+	dw MoonStoneTrinketTopOAM
+	dw FireStoneTrinketTopOAM
+	dw LeafStoneTrinketTopOAM
+	dw WaterStoneTrinketTopOAM
+	dw LinkCableTrinketTopOAM
+	dw ExperienceTrinketTopOAM
+	dw ThunderStoneTrinketBottomOAM
+	dw MoonStoneTrinketBottomOAM
+	dw FireStoneTrinketBottomOAM
+	dw LeafStoneTrinketBottomOAM
+	dw WaterStoneTrinketBottomOAM
+	dw LinkCableTrinketBottomOAM
+	dw ExperienceTrinketBottomOAM
+	dw SlotGlow0OAM
+	dw SlotGlow1OAM
+	dw SlotGlow2OAM
 	dw OAMData_52
 	dw OAMData_53
 	dw OAMData_54
@@ -89,22 +89,22 @@ OAMDataPointers: ; 0x4000
 	dw OAMData_57
 	dw OAMData_58
 	dw OAMData_59
+	dw TitlescreenPikachuBlinkFrame0OAM
 	dw TitlescreenPikachuBlinkFrame1OAM
 	dw TitlescreenPikachuBlinkFrame2OAM
-	dw TitlescreenPikachuBlinkFrame3OAM
+	dw TitlescreenPokeball0OAM
 	dw TitlescreenPokeball1OAM
 	dw TitlescreenPokeball2OAM
 	dw TitlescreenPokeball3OAM
 	dw TitlescreenPokeball4OAM
-	dw TitlescreenPokeball5OAM
 	dw OAMData_62
 	dw OAMData_63
 	dw OAMData_64
 	dw OAMData_65
 	dw OAMData_66
+	dw DexScrollBarFrame0OAM
 	dw DexScrollBarFrame1OAM
 	dw DexScrollBarFrame2OAM
-	dw DexScrollBarFrame3OAM
 	dw PokeDexTextOAM
 	dw OAMData_6b
 	dw Digit0OAM
@@ -151,12 +151,12 @@ OAMDataPointers: ; 0x4000
 	dw HighScoresRightArrowOAM
 	dw HighScoresLeftArrowOAM
 	dw OAMData_97
+	dw SendHighScoresAnimation0OAM
 	dw SendHighScoresAnimation1OAM
 	dw SendHighScoresAnimation2OAM
 	dw SendHighScoresAnimation3OAM
 	dw SendHighScoresAnimation4OAM
 	dw SendHighScoresAnimation5OAM
-	dw SendHighScoresAnimation6OAM
 	dw FieldSelectGreyBorderOAM
 	dw FieldSelectWhiteBorderOAM
 	dw FieldSelectBlackBorderOAM
@@ -187,27 +187,27 @@ OAMDataPointers: ; 0x4000
 	dw Timer8DigitOAM
 	dw Timer9DigitOAM
 	dw TimerColonOAM
-	dw OAMData_bc
-	dw OAMData_bd
-	dw OAMData_be
-	dw OAMData_bf
-	dw OAMData_c0
-	dw OAMData_c1
-	dw OAMData_c2
-	dw OAMData_c3
-	dw OAMData_c4
-	dw OAMData_c5
-	dw OAMData_c6
-	dw OAMData_c7
-	dw OAMData_c8
-	dw OAMData_c9
-	dw OAMData_ca
-	dw OAMData_cb
-	dw OAMData_cc
-	dw OAMData_cd
-	dw OAMData_ce
-	dw OAMData_cf
-	dw OAMData_d0
+	dw VoltorbStationaryOAM
+	dw VoltorbCollisionOAM
+	dw BellsproutHeadFrame0OAM
+	dw BellsproutHeadFrame1OAM
+	dw BellsproutHeadFrame2OAM
+	dw BellsproutHeadFrame3OAM
+	dw RedFieldSpinnerFrame0OAM
+	dw RedFieldSpinnerFrame1OAM
+	dw RedFieldSpinnerFrame2OAM
+	dw RedFieldSpinnerFrame3OAM
+	dw RedFieldSpinnerFrame4OAM
+	dw RedFieldSpinnerFrame5OAM
+	dw DittoLargeOAM
+	dw DittoMediumOAM
+	dw DittoSmallOAM
+	dw StaryuFrame0OAM
+	dw BellsproutBodyOAM
+	dw Voltorb2ShakeOAM
+	dw Voltorb1ShakeOAM
+	dw Voltorb3ShakeOAM
+	dw StaryuFrame1OAM
 	dw OAMData_d1
 	dw OAMData_d2
 	dw OAMData_d3
@@ -231,12 +231,12 @@ OAMDataPointers: ; 0x4000
 	dw OAMData_e5
 	dw OAMData_e6
 	dw OAMData_e7
-	dw OAMData_e8
-	dw OAMData_e9
-	dw OAMData_ea
-	dw OAMData_eb
-	dw OAMData_ec
-	dw OAMData_ed
+	dw BlueFieldSpinnerFrame0OAM
+	dw BlueFieldSpinnerFrame1OAM
+	dw BlueFieldSpinnerFrame2OAM
+	dw BlueFieldSpinnerFrame3OAM
+	dw BlueFieldSpinnerFrame4OAM
+	dw BlueFieldSpinnerFrame5OAM
 	dw OAMData_ee
 	dw OAMData_ef
 	dw OAMData_f0
@@ -325,36 +325,36 @@ OAMData_d: ; 0x427b
 	db $fd, $13, $6c, $22
 	db $80 ; terminator
 
-OAMData_e: ; 0x4288
+PikachuSaverAnimationFrame0OAM: ; 0x4288
 	db $00, $09, $74, $04
 	db $00, $01, $72, $04
 	db $80 ; terminator
 
-OAMData_f: ; 0x4291
+PikachuSaverAnimationFrame1OAM: ; 0x4291
 	db $00, $01, $76, $04
 	db $00, $09, $78, $04
 	db $80 ; terminator
 
-OAMData_10: ; 0x429a
+PikachuSaverAnimationFrame2OAM: ; 0x429a
 	db $00, $09, $7c, $04
 	db $00, $01, $7a, $04
 	db $80 ; terminator
 
-OAMData_11: ; 0x42a3
+PikachuSaverAnimationFrame3OAM: ; 0x42a3
 	db $f5, $01, $3d, $51
 	db $f1, $06, $3e, $31
 	db $00, $09, $7c, $04
 	db $00, $01, $7a, $04
 	db $80 ; terminator
 
-OAMData_12: ; 0x42b4
+PikachuSaverAnimationFrame4OAM: ; 0x42b4
 	db $f1, $07, $3c, $11
 	db $f1, $02, $3e, $11
 	db $00, $09, $7c, $04
 	db $00, $01, $7a, $04
 	db $80 ; terminator
 
-OAMData_13: ; 0x42c5
+PikachuSaverAnimationFrame5OAM: ; 0x42c5
 	db $e9, $06, $3e, $31
 	db $e9, $01, $3c, $31
 	db $f1, $00, $3e, $31
@@ -363,7 +363,7 @@ OAMData_13: ; 0x42c5
 	db $00, $01, $7a, $04
 	db $80 ; terminator
 
-OAMData_14: ; 0x42de
+PikachuSaverAnimationFrame6OAM: ; 0x42de
 	db $e8, $01, $3e, $11
 	db $e8, $06, $3c, $11
 	db $f3, $01, $3c, $31
@@ -372,7 +372,7 @@ OAMData_14: ; 0x42de
 	db $00, $01, $7a, $04
 	db $80 ; terminator
 
-OAMData_15: ; 0x42f7
+PikachuSaverAnimationFrame7OAM: ; 0x42f7
 	db $e5, $09, $3e, $11
 	db $f1, $07, $3c, $11
 	db $e9, $02, $3f, $51
@@ -381,7 +381,7 @@ OAMData_15: ; 0x42f7
 	db $00, $01, $7a, $04
 	db $80 ; terminator
 
-OAMData_16: ; 0x4310
+PikachuSaverAnimationFrame8OAM: ; 0x4310
 	db $e8, $01, $3d, $51
 	db $f5, $00, $3f, $71
 	db $f2, $06, $3e, $31
@@ -402,12 +402,12 @@ OAMData_18: ; 0x4336
 	db $14, $13, $60, $31
 	db $80 ; terminator
 
-OAMData_19: ; 0x4343
+BallCaptureFrame0OAM: ; 0x4343
 	db $00, $08, $a2, $02
 	db $00, $00, $a0, $02
 	db $80 ; terminator
 
-OAMData_1a: ; 0x434c
+BallCaptureFrame1OAM: ; 0x434c
 	db $00, $10, $9e, $02
 	db $00, $08, $9c, $02
 	db $00, $00, $9a, $02
@@ -418,7 +418,7 @@ OAMData_1a: ; 0x434c
 	db $f0, $f8, $90, $02
 	db $80 ; terminator
 
-OAMData_1b: ; 0x436d
+BallCaptureFrame2OAM: ; 0x436d
 	db $01, $0f, $a7, $62
 	db $ff, $f7, $7f, $62
 	db $e7, $07, $7e, $02
@@ -438,7 +438,7 @@ OAMData_1b: ; 0x436d
 	db $f5, $01, $40, $00
 	db $80 ; terminator
 
-OAMData_1c: ; 0x43b2
+BallCaptureFrame3OAM: ; 0x43b2
 	db $02, $11, $7f, $42
 	db $e6, $f9, $7e, $22
 	db $e6, $0f, $7e, $02
@@ -450,52 +450,52 @@ OAMData_1c: ; 0x43b2
 	db $01, $f7, $7f, $62
 	db $80 ; terminator
 
-OAMData_1d: ; 0x43d7
+BallCaptureFrame4OAM: ; 0x43d7
 	db $ee, $09, $42, $00
 	db $ee, $01, $40, $00
 	db $80 ; terminator
 
-OAMData_1e: ; 0x43e0
+BallCaptureFrame5OAM: ; 0x43e0
 	db $ed, $09, $42, $00
 	db $ed, $01, $40, $00
 	db $80 ; terminator
 
-OAMData_1f: ; 0x43e9
+BallCaptureFrame6OAM: ; 0x43e9
 	db $ee, $09, $42, $00
 	db $ee, $01, $40, $00
 	db $80 ; terminator
 
-OAMData_20: ; 0x43f2
+BallCaptureFrame7OAM: ; 0x43f2
 	db $f0, $09, $42, $00
 	db $f0, $01, $40, $00
 	db $80 ; terminator
 
-OAMData_21: ; 0x43fb
+BallCaptureFrame8OAM: ; 0x43fb
 	db $f5, $09, $42, $00
 	db $f5, $01, $40, $00
 	db $80 ; terminator
 
-OAMData_22: ; 0x4404
+BallCaptureFrame9OAM: ; 0x4404
 	db $fb, $09, $42, $00
 	db $fb, $01, $40, $00
 	db $80 ; terminator
 
-OAMData_23: ; 0x440d
+BallCaptureFrame10OAM: ; 0x440d
 	db $02, $09, $42, $00
 	db $02, $01, $40, $00
 	db $80 ; terminator
 
-OAMData_24: ; 0x4416
+BallCaptureFrame11OAM: ; 0x4416
 	db $01, $09, $42, $00
 	db $01, $01, $40, $00
 	db $80 ; terminator
 
-OAMData_25: ; 0x441f
+BallCaptureFrame12OAM: ; 0x441f
 	db $02, $0a, $3a, $00
 	db $02, $02, $38, $00
 	db $80 ; terminator
 
-OAMData_26: ; 0x4428
+AnimatedMonSpriteType0Frame0OAM: ; 0x4428
 	db $fb, $0a, $9e, $15
 	db $fb, $02, $9c, $15
 	db $ff, $15, $9a, $13
@@ -506,7 +506,7 @@ OAMData_26: ; 0x4428
 	db $ef, $00, $90, $13
 	db $80 ; terminator
 
-OAMData_27: ; 0x4449
+AnimatedMonSpriteType0Frame1OAM: ; 0x4449
 	db $fc, $0a, $1c, $15
 	db $fc, $02, $1a, $15
 	db $fe, $15, $9a, $13
@@ -517,7 +517,7 @@ OAMData_27: ; 0x4449
 	db $ef, $00, $a0, $13
 	db $80 ; terminator
 
-OAMData_28: ; 0x446a
+AnimatedMonSpriteType0Frame2OAM: ; 0x446a
 	db $ff, $08, $2e, $15
 	db $ff, $00, $2c, $15
 	db $ff, $10, $2a, $13
@@ -529,7 +529,7 @@ OAMData_28: ; 0x446a
 	db $ef, $00, $1e, $13
 	db $80 ; terminator
 
-OAMData_29: ; 0x448f
+AnimatedMonSpriteType1Frame0OAM: ; 0x448f
 	db $ef, $03, $92, $15
 	db $f3, $0b, $94, $15
 	db $f3, $fb, $90, $15
@@ -541,7 +541,7 @@ OAMData_29: ; 0x448f
 	db $00, $f9, $96, $13
 	db $80 ; terminator
 
-OAMData_2a: ; 0x44b4
+AnimatedMonSpriteType1Frame1OAM: ; 0x44b4
 	db $f0, $04, $a4, $15
 	db $f3, $0c, $a6, $15
 	db $f3, $fc, $a2, $15
@@ -551,7 +551,7 @@ OAMData_2a: ; 0x44b4
 	db $00, $fa, $a8, $13
 	db $80 ; terminator
 
-OAMData_2b: ; 0x44d1
+AnimatedMonSpriteType1Frame2OAM: ; 0x44d1
 	db $f8, $10, $26, $15
 	db $f3, $08, $24, $15
 	db $f3, $00, $22, $15
@@ -562,7 +562,7 @@ OAMData_2b: ; 0x44d1
 	db $00, $f8, $28, $13
 	db $80 ; terminator
 
-OAMData_2c: ; 0x44f2
+AnimatedMonSpriteType2Frame0OAM: ; 0x44f2
 	db $00, $10, $9e, $13
 	db $00, $08, $9c, $13
 	db $00, $00, $9a, $13
@@ -573,7 +573,7 @@ OAMData_2c: ; 0x44f2
 	db $f0, $f8, $90, $13
 	db $80 ; terminator
 
-OAMData_2d: ; 0x4513
+AnimatedMonSpriteType2Frame1OAM: ; 0x4513
 	db $00, $10, $1e, $13
 	db $00, $08, $1c, $13
 	db $00, $00, $1a, $13
@@ -584,7 +584,7 @@ OAMData_2d: ; 0x4513
 	db $f0, $f8, $a0, $13
 	db $80 ; terminator
 
-OAMData_2e: ; 0x4534
+AnimatedMonSpriteType2Frame2OAM: ; 0x4534
 	db $00, $10, $2e, $13
 	db $00, $08, $2c, $13
 	db $00, $00, $2a, $13
@@ -595,7 +595,7 @@ OAMData_2e: ; 0x4534
 	db $f0, $f8, $20, $13
 	db $80 ; terminator
 
-OAMData_2f: ; 0x4555
+AnimatedMonSpriteType3Frame0OAM: ; 0x4555
 	db $00, $10, $9e, $13
 	db $00, $08, $9c, $13
 	db $00, $00, $9a, $13
@@ -606,7 +606,7 @@ OAMData_2f: ; 0x4555
 	db $f0, $f8, $90, $13
 	db $80 ; terminator
 
-OAMData_30: ; 0x4576
+AnimatedMonSpriteType3Frame1OAM: ; 0x4576
 	db $00, $10, $1e, $13
 	db $00, $08, $1c, $13
 	db $00, $00, $1a, $13
@@ -617,7 +617,7 @@ OAMData_30: ; 0x4576
 	db $f0, $f8, $a0, $13
 	db $80 ; terminator
 
-OAMData_31: ; 0x4597
+AnimatedMonSpriteType3Frame2OAM: ; 0x4597
 	db $01, $10, $2e, $13
 	db $01, $08, $2c, $13
 	db $01, $00, $2a, $13
@@ -688,63 +688,63 @@ OAMData_40: ; 0x45fe
 	db $10, $08, $9c, $06
 	db $80 ; terminator
 
-OAMData_41: ; 0x4603
+ThunderStoneTrinketTopOAM: ; 0x4603
 	db $10, $08, $20, $06
 	db $80 ; terminator
 
-OAMData_42: ; 0x4608
+MoonStoneTrinketTopOAM: ; 0x4608
 	db $10, $08, $22, $06
 	db $80 ; terminator
 
-OAMData_43: ; 0x460d
+FireStoneTrinketTopOAM: ; 0x460d
 	db $10, $08, $24, $06
 	db $80 ; terminator
 
-OAMData_44: ; 0x4612
+LeafStoneTrinketTopOAM: ; 0x4612
 	db $10, $08, $26, $17
 	db $80 ; terminator
 
-OAMData_45: ; 0x4617
+WaterStoneTrinketTopOAM: ; 0x4617
 	db $10, $08, $28, $17
 	db $80 ; terminator
 
-OAMData_46: ; 0x461c
+LinkCableTrinketTopOAM: ; 0x461c
 	db $10, $08, $2a, $06
 	db $80 ; terminator
 
-OAMData_47: ; 0x4621
+ExperienceTrinketTopOAM: ; 0x4621
 	db $10, $08, $2c, $06
 	db $80 ; terminator
 
-OAMData_48: ; 0x4626
+ThunderStoneTrinketBottomOAM: ; 0x4626
 	db $10, $08, $60, $06
 	db $80 ; terminator
 
-OAMData_49: ; 0x462b
+MoonStoneTrinketBottomOAM: ; 0x462b
 	db $10, $08, $62, $06
 	db $80 ; terminator
 
-OAMData_4a: ; 0x4630
+FireStoneTrinketBottomOAM: ; 0x4630
 	db $10, $08, $64, $06
 	db $80 ; terminator
 
-OAMData_4b: ; 0x4635
+LeafStoneTrinketBottomOAM: ; 0x4635
 	db $10, $08, $66, $17
 	db $80 ; terminator
 
-OAMData_4c: ; 0x463a
+WaterStoneTrinketBottomOAM: ; 0x463a
 	db $10, $08, $68, $17
 	db $80 ; terminator
 
-OAMData_4d: ; 0x463f
+LinkCableTrinketBottomOAM: ; 0x463f
 	db $10, $08, $6a, $06
 	db $80 ; terminator
 
-OAMData_4e: ; 0x4644
+ExperienceTrinketBottomOAM: ; 0x4644
 	db $10, $08, $6c, $06
 	db $80 ; terminator
 
-OAMData_4f: ; 0x4649
+SlotGlow0OAM: ; 0x4649
 	db $1f, $19, $20, $37
 	db $1f, $21, $1e, $37
 	db $0f, $19, $1c, $37
@@ -755,7 +755,7 @@ OAMData_4f: ; 0x4649
 	db $0f, $08, $1a, $17
 	db $80 ; terminator
 
-OAMData_50: ; 0x466a
+SlotGlow1OAM: ; 0x466a
 	db $1f, $19, $28, $37
 	db $1f, $21, $26, $37
 	db $0f, $19, $24, $37
@@ -766,7 +766,7 @@ OAMData_50: ; 0x466a
 	db $0f, $08, $22, $17
 	db $80 ; terminator
 
-OAMData_51: ; 0x468b
+SlotGlow2OAM: ; 0x468b
 	db $1f, $19, $38, $37
 	db $1f, $10, $38, $17
 	db $1f, $21, $2e, $37
@@ -895,7 +895,7 @@ OAMData_59: ; 0x47e3
 	db $08, $00, $55, $00
 	db $80 ; terminator
 
-TitlescreenPikachuBlinkFrame1OAM: ; 0x482c
+TitlescreenPikachuBlinkFrame0OAM: ; 0x482c
 	db $10, $28, $3f, $00
 	db $10, $20, $3e, $00
 	db $10, $18, $3d, $00
@@ -903,13 +903,13 @@ TitlescreenPikachuBlinkFrame1OAM: ; 0x482c
 	db $10, $08, $3b, $00
 	db $80 ; terminator
 
-TitlescreenPikachuBlinkFrame2OAM: ; 0x4841
+TitlescreenPikachuBlinkFrame1OAM: ; 0x4841
 	db $18, $09, $44, $00
 	db $10, $10, $41, $00
 	db $10, $08, $40, $00
 	db $80 ; terminator
 
-TitlescreenPikachuBlinkFrame3OAM: ; 0x484e
+TitlescreenPikachuBlinkFrame2OAM: ; 0x484e
 	db $18, $09, $45, $00
 	db $10, $10, $43, $00
 	db $10, $08, $42, $00
@@ -917,35 +917,35 @@ TitlescreenPikachuBlinkFrame3OAM: ; 0x484e
 
 ; These next 5 OAM entries are for the individual frames of the
 ; bouncing pokeball on the titlescreen.
-TitlescreenPokeball1OAM: ; 0x485b
+TitlescreenPokeball0OAM: ; 0x485b
 	db $14, $00, $4c, $02
 	db $0c, $00, $46, $31
 	db $14, $f8, $47, $02
 	db $0c, $f8, $46, $11
 	db $80 ; terminator
 
-TitlescreenPokeball2OAM: ; 0x486c
+TitlescreenPokeball1OAM: ; 0x486c
 	db $15, $00, $4d, $02
 	db $0d, $00, $48, $31
 	db $15, $f8, $49, $02
 	db $0d, $f8, $48, $11
 	db $80 ; terminator
 
-TitlescreenPokeball3OAM: ; 0x487d
+TitlescreenPokeball2OAM: ; 0x487d
 	db $13, $00, $4c, $02
 	db $0b, $00, $46, $31
 	db $13, $f8, $47, $02
 	db $0b, $f8, $46, $11
 	db $80 ; terminator
 
-TitlescreenPokeball4OAM: ; 0x488e
+TitlescreenPokeball3OAM: ; 0x488e
 	db $11, $00, $4e, $02
 	db $09, $00, $4a, $31
 	db $11, $f8, $4b, $02
 	db $09, $f8, $4a, $11
 	db $80 ; terminator
 
-TitlescreenPokeball5OAM: ; 0x489f
+TitlescreenPokeball4OAM: ; 0x489f
 	db $11, $00, $4c, $02
 	db $09, $00, $46, $31
 	db $11, $f8, $47, $02
@@ -981,15 +981,15 @@ OAMData_66: ; 0x48e0
 	db $10, $08, $75, $17
 	db $80 ; terminator
 
-DexScrollBarFrame1OAM: ; 0x48ed
+DexScrollBarFrame0OAM: ; 0x48ed
 	db $10, $08, $78, $00
 	db $80 ; terminator
 
-DexScrollBarFrame2OAM: ; 0x48f2
+DexScrollBarFrame1OAM: ; 0x48f2
 	db $10, $08, $79, $00
 	db $80 ; terminator
 
-DexScrollBarFrame3OAM: ; 0x48f7
+DexScrollBarFrame2OAM: ; 0x48f7
 	db $10, $08, $79, $11
 	db $80 ; terminator
 
@@ -1428,42 +1428,42 @@ OAMData_97: ; 0x4d71
 	db $0e, $e8, $72, $02
 	db $80 ; terminator
 
-SendHighScoresAnimation1OAM: ; 0x4dc2
+SendHighScoresAnimation0OAM: ; 0x4dc2
 	db $18, $10, $8f, $04
 	db $18, $08, $8e, $04
 	db $10, $10, $8d, $04
 	db $10, $08, $8c, $04
 	db $80 ; terminator
 
-SendHighScoresAnimation2OAM: ; 0x4dd3
+SendHighScoresAnimation1OAM: ; 0x4dd3
 	db $18, $10, $91, $04
 	db $18, $08, $90, $04
 	db $10, $10, $8d, $04
 	db $10, $08, $8c, $04
 	db $80 ; terminator
 
-SendHighScoresAnimation3OAM: ; 0x4de4
+SendHighScoresAnimation2OAM: ; 0x4de4
 	db $18, $10, $93, $04
 	db $18, $08, $92, $04
 	db $10, $10, $8d, $04
 	db $10, $08, $8c, $04
 	db $80 ; terminator
 
-SendHighScoresAnimation4OAM: ; 0x4df5
+SendHighScoresAnimation3OAM: ; 0x4df5
 	db $10, $10, $95, $04
 	db $10, $08, $94, $04
 	db $18, $10, $93, $04
 	db $18, $08, $92, $04
 	db $80 ; terminator
 
-SendHighScoresAnimation5OAM: ; 0x4e06
+SendHighScoresAnimation4OAM: ; 0x4e06
 	db $18, $10, $97, $04
 	db $18, $08, $96, $04
 	db $10, $10, $95, $04
 	db $10, $08, $94, $04
 	db $80 ; terminator
 
-SendHighScoresAnimation6OAM: ; 0x4e17
+SendHighScoresAnimation5OAM: ; 0x4e17
 	db $18, $10, $8f, $04
 	db $18, $08, $8e, $04
 	db $10, $10, $95, $04
@@ -1882,72 +1882,71 @@ TimerColonOAM: ; 0x5349
 	db $10, $08, $74, $08
 	db $80 ; terminator
 
-OAMData_bc: ; 0x534e
+VoltorbStationaryOAM: ; 0x534e
 	db $10, $10, $30, $11
 	db $10, $08, $2e, $11
 	db $80 ; terminator
 
-OAMData_bd: ; 0x5357
+VoltorbCollisionOAM: ; 0x5357
 	db $10, $10, $34, $11
 	db $10, $08, $32, $11
 	db $80 ; terminator
 
-OAMData_be: ; 0x5360
-; bellsprout?
+BellsproutHeadFrame0OAM: ; 0x5360
 	db $12, $10, $66, $15
 	db $02, $10, $64, $15
 	db $12, $08, $62, $15
 	db $02, $08, $60, $15
 	db $80 ; terminator
 
-OAMData_bf: ; 0x5371
+BellsproutHeadFrame1OAM: ; 0x5371
 	db $00, $0a, $68, $15
 	db $10, $10, $6c, $15
 	db $10, $08, $6a, $15
 	db $80 ; terminator
 
-OAMData_c0: ; 0x537e
+BellsproutHeadFrame2OAM: ; 0x537e
 	db $0f, $10, $70, $15
 	db $0f, $08, $6e, $15
 	db $80 ; terminator
 
-OAMData_c1: ; 0x5387
+BellsproutHeadFrame3OAM: ; 0x5387
 	db $00, $0b, $72, $15
 	db $10, $10, $76, $15
 	db $10, $08, $74, $15
 	db $80 ; terminator
 
-OAMData_c2: ; 0x5394
+RedFieldSpinnerFrame0OAM: ; 0x5394
 	db $08, $0f, $78, $22
 	db $08, $07, $78, $02
 	db $80 ; terminator
 
-OAMData_c3: ; 0x539d
+RedFieldSpinnerFrame1OAM: ; 0x539d
 	db $08, $0f, $7b, $62
 	db $08, $07, $7b, $42
 	db $80 ; terminator
 
-OAMData_c4: ; 0x53a6
+RedFieldSpinnerFrame2OAM: ; 0x53a6
 	db $08, $0f, $7d, $62
 	db $08, $07, $7d, $42
 	db $80 ; terminator
 
-OAMData_c5: ; 0x53af
+RedFieldSpinnerFrame3OAM: ; 0x53af
 	db $08, $0f, $7e, $22
 	db $08, $07, $7e, $02
 	db $80 ; terminator
 
-OAMData_c6: ; 0x53b8
+RedFieldSpinnerFrame4OAM: ; 0x53b8
 	db $08, $0f, $7c, $22
 	db $08, $07, $7c, $02
 	db $80 ; terminator
 
-OAMData_c7: ; 0x53c1
+RedFieldSpinnerFrame5OAM: ; 0x53c1
 	db $08, $0f, $7a, $22
 	db $08, $07, $7a, $02
 	db $80 ; terminator
 
-OAMData_c8: ; 0x53ca
+DittoLargeOAM: ; 0x53ca
 	db $18, $11, $96, $02
 	db $20, $29, $a6, $02
 	db $30, $21, $a4, $02
@@ -1962,7 +1961,7 @@ OAMData_c8: ; 0x53ca
 	db $18, $09, $90, $02
 	db $80 ; terminator
 
-OAMData_c9: ; 0x53fb
+DittoMediumOAM: ; 0x53fb
 	db $18, $21, $2c, $02
 	db $18, $19, $28, $02
 	db $30, $09, $20, $02
@@ -1974,41 +1973,41 @@ OAMData_c9: ; 0x53fb
 	db $10, $09, $1c, $02
 	db $80 ; terminator
 
-OAMData_ca: ; 0x5420
+DittoSmallOAM: ; 0x5420
 	db $30, $08, $1a, $02
 	db $20, $08, $a8, $02
 	db $80 ; terminator
 
-OAMData_cb: ; 0x5429
+StaryuFrame0OAM: ; 0x5429
 	db $10, $18, $06, $1b
 	db $20, $10, $04, $1b
 	db $10, $10, $02, $1b
 	db $10, $08, $00, $1b
 	db $80 ; terminator
 
-OAMData_cc: ; 0x543a
+BellsproutBodyOAM: ; 0x543a
 	db $20, $11, $0e, $0c
 	db $10, $11, $0c, $0c
 	db $22, $09, $0a, $0c
 	db $12, $09, $08, $0c
 	db $80 ; terminator
 
-OAMData_cd: ; 0x544b
+Voltorb2ShakeOAM: ; 0x544b
 	db $0f, $11, $30, $11
 	db $0f, $09, $2e, $11
 	db $80 ; terminator
 
-OAMData_ce: ; 0x5454
+Voltorb1ShakeOAM: ; 0x5454
 	db $10, $0f, $30, $11
 	db $10, $07, $2e, $11
 	db $80 ; terminator
 
-OAMData_cf: ; 0x545d
+Voltorb3ShakeOAM: ; 0x545d
 	db $11, $11, $30, $11
 	db $11, $09, $2e, $11
 	db $80 ; terminator
 
-OAMData_d0: ; 0x5466
+StaryuFrame1OAM: ; 0x5466
 	db $10, $17, $16, $1b
 	db $1f, $0f, $14, $1b
 	db $0f, $0f, $12, $1b
@@ -2139,32 +2138,32 @@ OAMData_e7: ; 0x5551
 	db $10, $18, $24, $13
 	db $80 ; terminator
 
-OAMData_e8: ; 0x556a
+BlueFieldSpinnerFrame0OAM: ; 0x556a
 	db $10, $10, $78, $22
 	db $10, $08, $78, $02
 	db $80 ; terminator
 
-OAMData_e9: ; 0x5573
+BlueFieldSpinnerFrame1OAM: ; 0x5573
 	db $10, $10, $7b, $62
 	db $10, $08, $7b, $42
 	db $80 ; terminator
 
-OAMData_ea: ; 0x557c
+BlueFieldSpinnerFrame2OAM: ; 0x557c
 	db $10, $10, $7d, $62
 	db $10, $08, $7d, $42
 	db $80 ; terminator
 
-OAMData_eb: ; 0x5585
+BlueFieldSpinnerFrame3OAM: ; 0x5585
 	db $10, $10, $7e, $22
 	db $10, $08, $7e, $02
 	db $80 ; terminator
 
-OAMData_ec: ; 0x558e
+BlueFieldSpinnerFrame4OAM: ; 0x558e
 	db $10, $10, $7c, $22
 	db $10, $08, $7c, $02
 	db $80 ; terminator
 
-OAMData_ed: ; 0x5597
+BlueFieldSpinnerFrame5OAM: ; 0x5597
 	db $10, $10, $7a, $22
 	db $10, $08, $7a, $02
 	db $80 ; terminator

@@ -399,4 +399,7 @@ DrawAnimatedMon_BlueStage: ; 0x1f58b
 	ret
 
 AnimatedMonOAMIds_BlueStage:
-	db $26, $27, $28, $29, $2A, $2B, $2C, $2D, $2E, $2F, $30, $31
+	db $26, $27, $28 ; animated sprite type 0
+	db $29, $2A, $2B ; animated sprite type 1
+	db $2C, $2D, $2E ; animated sprite type 2
+	db $2F, $30, $31 ; animated sprite type 3

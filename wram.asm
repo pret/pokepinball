@@ -468,14 +468,8 @@ wd502:: ; 0xd502
 wd503:: ; 0xd503
 	ds $1
 
-wd504:: ; 0xd504
-	ds $1
-
-wd505:: ; 0xd505
-	ds $1
-
-wd506:: ; 0xd506
-	ds $1
+wStaryuAnimation:: ; 0xd504
+	animation wStaryuAnimation
 
 wSpinnerCollision:: ; 0xd507
 ; Second byte is set by HandleGameObjectCollision, but is unused

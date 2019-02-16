@@ -53,7 +53,7 @@ Select the following packages:
 * git
 * gcc-core
 
-The latest pokepinball-compatible version of **rgbds** is  [**0.3.0**](https://github.com/rednex/rgbds/releases/download/v0.3.0/rgbds-0.3.0-win32.zip). To install, put each of the files in the download in `C:\cygwin\usr\local\bin`.
+The latest pokepinball-compatible version of **rgbds** is  [**0.3.6**](https://github.com/rednex/rgbds/releases/download/v0.3.6/rgbds-0.3.6-win32.zip). To install, put each of the files in the download in `C:\cygwin\usr\local\bin`.
 
 Then set up the repository. In the **Cygwin terminal**:
 

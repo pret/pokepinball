@@ -69,16 +69,20 @@ x = \1 * 10
 	db $00, $FC
 	ENDM
 
+; \1 = species string
 dex_species: MACRO
-	REPT _NARG
-	dex_species_char \1
-	SHIFT
-	ENDR
-	REPT 11 - _NARG
-	dex_species_char " "
-	ENDR
-	db $00
-	ENDM
+; Add right padding to format to 11 characters, define 2 bytes
+; for each character (using dex_species_char below)
+I = 0
+    REPT STRLEN(\1)
+I = I + 1
+        dex_species_char STRSUB(\1\, I\, 1)
+    ENDR
+    REPT 11 - STRLEN(\1)
+        dex_species_char " "
+    ENDR
+    db "@"
+ENDM
 
 dex_species_char: MACRO
 	IF \1 == " "

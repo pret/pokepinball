@@ -1,8 +1,8 @@
 dex_number: MACRO
-	db ((\1 / 100) % 10) + $30
-	db ((\1 / 10) % 10) + $30
-	db ((\1 / 1) % 10) + $30
-	db $00
+	db ((\1 / 100) % 10) + "0"
+	db ((\1 / 10) % 10) + "0"
+	db ((\1 / 1) % 10) + "0"
+	db "@"
 	ENDM
 
 ; \1 = feet
@@ -10,12 +10,12 @@ dex_number: MACRO
 dex_height: MACRO
 feet_tens_digit = (\1 / 10) % 10
 	IF feet_tens_digit == 0
-	db $20
+	db " "
 	ELSE
-	db feet_tens_digit + $30
+	db feet_tens_digit + "0"
 	ENDC
 feet_ones_digit = \1 % 10
-	db feet_ones_digit + $30
+	db feet_ones_digit + "0"
 inches_tens_digit = (\2 / 10) % 10
 	IF inches_tens_digit > 0
 	db $70
@@ -23,49 +23,49 @@ inches_tens_digit = (\2 / 10) % 10
 	db $72
 	ENDC
 inches_ones_digit = \2 % 10
-	db inches_ones_digit + $30
-	db $00
+	db inches_ones_digit + "0"
+	db "@"
 	ENDM
 
 dex_weight: MACRO
 	IF \1 >= 1000
-	db ((\1 / 1000) % 10) + $30
+	db ((\1 / 1000) % 10) + "0"
 	ELSE
-	db $20
+	db " "
 	ENDC
 
 	IF \1 >= 100
-	db ((\1 / 100) % 10) + $30
+	db ((\1 / 100) % 10) + "0"
 	ELSE
-	db $20
+	db " "
 	ENDC
 
 	IF \1 >= 10
-	db ((\1 / 10) % 10) + $30
+	db ((\1 / 10) % 10) + "0"
 	ELSE
-	db $20
+	db " "
 	ENDC
 
-	db (\1 % 10) + $30
+	db (\1 % 10) + "0"
 	db $00, $83
 	ENDM
 
 dex_weight_decimal: MACRO
 x = \1 * 10
 	IF x >= 100
-	db ((x / 100) % 10) + $30
+	db ((x / 100) % 10) + "0"
 	ELSE
-	db $20
+	db " "
 	ENDC
 
 	IF x >= 10
-	db ((x / 100) % 10) + $30
+	db ((x / 100) % 10) + "0"
 	ELSE
-	db $20
+	db " "
 	ENDC
 
-	db (x % 10) + $30
-	db (\2 % 10) + $30
+	db (x % 10) + "0"
+	db (\2 % 10) + "0"
 	db $00, $FC
 	ENDM
 

@@ -5,7 +5,7 @@ Dependencies:
 	sudo apt-get install make gcc bison git
 	sudo easy_install pip
 
-The assembler used is [**rgbds**](https://github.com/bentley/rgbds).
+The assembler used is [**rgbds**](https://github.com/bentley/rgbds) version [0.4.0](https://github.com/rednex/rgbds/releases/tag/v0.4.0).
 
 	git clone https://github.com/rednex/rgbds
 	cd rgbds
@@ -53,7 +53,7 @@ Select the following packages:
 * git
 * gcc-core
 
-The latest pokepinball-compatible version of **rgbds** is  [**0.3.6**](https://github.com/rednex/rgbds/releases/download/v0.3.6/rgbds-0.3.6-win32.zip). To install, put each of the files in the download in `C:\cygwin\usr\local\bin`.
+The latest pokepinball-compatible version of **rgbds** is  [**0.4.0**](https://github.com/rednex/rgbds/releases/tag/v0.4.0). To install, put each of the files in the download in `C:\cygwin\usr\local\bin`.
 
 Then set up the repository. In the **Cygwin terminal**:
 

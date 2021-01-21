@@ -136,7 +136,7 @@ Func_1527: ; 1527 (0:1527)
 .asm_15b5
 	ld a, [wd8c8 + 1]
 	ld [wd8c8], a
-asm_15bb
+Func_15bb:
 	ld a, $7
 	ld [wd8ad], a
 	ld a, $1
@@ -181,7 +181,7 @@ Func_15f8: ; 15f8 (0:15f8)
 	inc [hl]
 	ld a, [hl]
 	cp $2
-	jr z, asm_15bb
+	jr z, Func_15bb
 	ret
 
 Func_1612: ; 1612 (0:1612)

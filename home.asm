@@ -1020,7 +1020,7 @@ INCLUDE "home/save.asm"
 StatIntrNothing: ; 0xfbc
 	jp StatIntrDone
 
-StatIntrTogglePinballWindow
+StatIntrTogglePinballWindow:
 ; Handles switching the tile data to the black status bar
 ; window anchored to the bottom of the screen during pinball
 ; gameplay.
@@ -1121,7 +1121,7 @@ StatIntrTogglePokedexWindow: ; 0xfea
 	ld [rSCY], a
 	jp StatIntrDone
 
-StatIntrToggleHighScoresWindow
+StatIntrToggleHighScoresWindow:
 	ld hl, hLastLYC
 	ld a, [rLY]
 	cp [hl]
@@ -2037,7 +2037,7 @@ Func_1fb3:
 	ld [hLoadedROMBank], a
 	ld [MBC5RomBank], a
 	ld hl, OAMDataPointers
-asm_1fca
+asm_1fca:
 	add hl, de
 	ld a, [hli]
 	ld e, a
@@ -2179,7 +2179,7 @@ MultiplyBbyCUnsigned: ; 0x20ab
 	push af
 	xor a
 	ld [hSignedMathSignBuffer], a
-	jr asm_20c6
+	jr MultiplyBbyCSigned.asm_20c6
 
 MultiplyBbyCSigned:
 	; s16 bc = (s8)b * (s8)c
@@ -2195,12 +2195,12 @@ MultiplyBbyCSigned:
 	ld b, a
 .asm_20be
 	bit 7, c
-	jr z, asm_20c6
+	jr z, .asm_20c6
 	ld a, c
 	cpl
 	inc a
 	ld c, a
-asm_20c6
+.asm_20c6
 	; b*c == (b**2 + c**2 - (b - c)**2) / 2
 	push de
 	push hl

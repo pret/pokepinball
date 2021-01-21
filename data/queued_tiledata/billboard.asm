@@ -38,7 +38,7 @@ PalletTownBillboardTileDataList: ; 0x302b0
 	dw PalletTownBillboardTileData7
 	dw PalletTownBillboardTileData8
 
-ViridianCityBillboardTileDataList
+ViridianCityBillboardTileDataList:
 	db $08
 	dw ViridianCityBillboardTileData1
 	dw ViridianCityBillboardTileData2
@@ -1492,7 +1492,7 @@ HurryUp2OnBillboardTileData2: ; 0x30a25
 	db Bank(HurryUp2OnPic)
 	db $00
 
-HurryUp2OnBillboardTileData3 ; 0x30a2f
+HurryUp2OnBillboardTileData3: ; 0x30a2f
 	dw Func_11d2
 	db $30, $03
 	dw vTilesSH tile $16

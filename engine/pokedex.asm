@@ -1896,10 +1896,10 @@ Func_28cd4: ; 0x28cd4
 	cp [hl]
 	ret z
 	ld [hl], a
-	ld de, .Data_28ce0
-	jr asm_28d1d
+	ld de, .data_28ce0
+	jr Func_28d1d
 
-.Data_28ce0: ; 0x28ce0
+.data_28ce0: ; 0x28ce0
 	db $0
 	db $1
 	db $2
@@ -1932,7 +1932,7 @@ Func_28cf8: ; 0x28cf8
 	ret z
 	ld [hl], a
 	ld de, .data_28d05
-	jr asm_28d1d
+	jr Func_28d1d
 
 .data_28d05
 	db $fe
@@ -1960,7 +1960,7 @@ Func_28cf8: ; 0x28cf8
 	db $fe
 	db $fe
 
-asm_28d1d
+Func_28d1d:
 	hlCoord 1, 3, vBGMap
 	ld b, $4
 .asm_28d22

@@ -33,8 +33,5 @@ Other disassembly projects:
 [pokeruby]: https://github.com/pret/pokeruby
 [pokefirered]: https://github.com/pret/pokefirered
 [pokeemerald]: https://github.com/pret/pokeemerald
-[docs]: https://pret.github.io/pokecrystal/
-[wiki]: https://github.com/pret/pokecrystal/wiki
-[tutorials]: https://github.com/pret/pokecrystal/wiki/Tutorials
 [discord]: https://discord.gg/d5dubZ3
 [irc]: https://kiwiirc.com/client/irc.freenode.net/?#pret

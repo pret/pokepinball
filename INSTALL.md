@@ -1,49 +1,50 @@
-# Linux
+# Instructions
 
-Dependencies:
+These instructions explain how to set up the tools required to build **pokepinball**, including [**rgbds**](https://github.com/gbdev/rgbds), which assembles the source files into a ROM.
 
-	sudo apt-get install make gcc bison git
-	sudo easy_install pip
+If you run into trouble, ask for help on IRC or Discord (see [README.md](README.md)).
 
-The assembler used is [**rgbds**](https://github.com/bentley/rgbds) version [0.4.0](https://github.com/rednex/rgbds/releases/tag/v0.4.0).
+## Linux
 
-	git clone https://github.com/rednex/rgbds
-	cd rgbds
-	sudo mkdir -p /usr/local/man/man{1,7}
-	sudo make install
-	cd ..
-	rm -rf rgbds
+Open **Terminal** and enter the following commands, depending on which distro you're using.
 
-Set up the repository.
+### Debian or Ubuntu
 
-	git clone https://github.com/huderlem/pokepinball
-	cd pokepinball
+To install the software required for **pokepinball**:
 
-To build `pokepinball.gbc`:
+```bash
+sudo apt-get install make gcc git
+```
 
-	make
+Then follow the [**rgbds** instructions](https://rgbds.gbdev.io/install/source) to build **rgbds 0.4.2** from source.
 
-This will take a few seconds the first time you build because it needs to process all of the graphics.
+After that, you're ready to [build **pokepinball**](#build-pokepinball).
 
-To remove all generated files by the build process:
+### Arch Linux
 
-	make clean
+To install the software required for **pokepinball**:
 
-To compare the built `pokepinball.gbc` to the original ROM:
+```bash
+sudo pacman -S make gcc git rgbds
+```
 
-	make compare
+Now you're ready to [build **pokepinball**](#build-pokepinball).
 
-
-# OS X
-
-In the shell, run:
-
-	xcode-select --install
-
-Then follow the Linux instructions.
+If you want to compile and install **rgbds** yourself instead, then follow the [**rgbds** instructions](https://rgbds.gbdev.io/install/source) to build **rgbds 0.4.2** from source.
 
 
-# Windows
+## macOS
+
+Install [**Homebrew**](https://brew.sh/). Follow the official instructions.
+
+Open **Terminal** and prepare to enter commands.
+
+Then follow the [**rgbds** instructions](https://rgbds.gbdev.io/install/macos) for macOS to install **rgbds 0.4.2**.
+
+Now you're ready to [build **pokepinball**](#build-pokepinball).
+
+
+## Windows
 
 To build on Windows, install [**Cygwin**](http://cygwin.com/install.html) with the default settings.
 
@@ -53,13 +54,33 @@ Select the following packages:
 * git
 * gcc-core
 
-The latest pokepinball-compatible version of **rgbds** is  [**0.4.0**](https://github.com/rednex/rgbds/releases/tag/v0.4.0). To install, put each of the files in the download in `C:\cygwin\usr\local\bin`.
+The latest pokepinball-compatible version of **rgbds** is  [**0.4.2**](https://github.com/gbdev/rgbds/releases/tag/v0.4.2). To install, put each of the files in the download in `C:\cygwin\usr\local\bin`.
 
-Then set up the repository. In the **Cygwin terminal**:
+Now you're ready to [build **pokepinball**](#build-pokepinball).
 
-	git clone https://github.com/pret/pokepinball.git
-	cd pokepinball
+## Build pokepinball
 
-To build `pokepinball.gbc`:
+To download the **pokepinball** source files:
 
-	make
+```bash
+git clone https://github.com/pret/pokepinball
+cd pokepinball
+```
+
+To build **pokepinball.gbc**:
+
+```bash
+make
+```
+
+To remove all generated files by the build process:
+
+```bash
+make clean
+```
+
+To compare the built **pokepinball.gbc** to the original ROM:
+
+```bash
+make compare
+```

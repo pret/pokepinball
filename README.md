@@ -11,16 +11,19 @@ To set up the repository, see [**INSTALL.md**](INSTALL.md).
 
 ## See also
 
-* Disassembly of [**Pokémon Red/Blue**][pokered]
-* Disassembly of [**Pokémon Yellow**][pokeyellow]
-* Disassembly of [**Pokémon Gold**][pokegold]
-* Disassembly of [**Pokémon Crystal**][pokecrystal]
-* Disassembly of [**Pokémon TCG**][poketcg]
-* Disassembly of [**Pokémon Ruby**][pokeruby]
-* Disassembly of [**Pokémon Fire Red**][pokefirered]
-* Disassembly of [**Pokémon Emerald**][pokeemerald]
-* Discord: [**pret**][Discord]
-* irc: **irc.freenode.net** [**#pret**][irc]
+- **Discord:** [pret][discord]
+- **IRC:** [freenode#pret][irc]
+
+Other disassembly projects:
+
+- [**Pokémon Red/Blue**][pokered]
+- [**Pokémon Yellow**][pokeyellow]
+- [**Pokémon Gold/Silver**][pokegold]
+- [**Pokémon Crystal**][pokecrystal]
+- [**Pokémon TCG**][poketcg]
+- [**Pokémon Ruby**][pokeruby]
+- [**Pokémon FireRed**][pokefirered]
+- [**Pokémon Emerald**][pokeemerald]
 
 [pokered]: https://github.com/pret/pokered
 [pokeyellow]: https://github.com/pret/pokeyellow
@@ -30,5 +33,8 @@ To set up the repository, see [**INSTALL.md**](INSTALL.md).
 [pokeruby]: https://github.com/pret/pokeruby
 [pokefirered]: https://github.com/pret/pokefirered
 [pokeemerald]: https://github.com/pret/pokeemerald
-[Discord]: https://discord.gg/d5dubZ3
+[docs]: https://pret.github.io/pokecrystal/
+[wiki]: https://github.com/pret/pokecrystal/wiki
+[tutorials]: https://github.com/pret/pokecrystal/wiki/Tutorials
+[discord]: https://discord.gg/d5dubZ3
 [irc]: https://kiwiirc.com/client/irc.freenode.net/?#pret

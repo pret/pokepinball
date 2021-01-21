@@ -534,7 +534,7 @@ EvolutionTrinketOAMOffsets_RedFieldTop:
 	db $59, $7A
 	db $71, $7A
 
-EvolutionTrinketOAMOffsets_RedFieldBottom
+EvolutionTrinketOAMOffsets_RedFieldBottom:
 ; x, y offsets
 	db $3D, $13
 	db $5B, $13

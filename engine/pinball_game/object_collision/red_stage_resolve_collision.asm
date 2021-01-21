@@ -1020,7 +1020,7 @@ ResolveBallUpgradeTriggersCollision_RedField: ; 0x1535d
 	call UpdatePinballUpgradeBlinkingAnimation_RedField
 	ret z
 
-LoadPinballUpgradeTriggersGraphics_RedField
+LoadPinballUpgradeTriggersGraphics_RedField:
 ; Loads the on or off graphics for each of the 3 pinball upgrade trigger dots, depending on their current toggle state.
 	ld a, [wStageCollisionState]
 	bit 0, a

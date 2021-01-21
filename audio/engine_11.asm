@@ -251,7 +251,7 @@ PlayCry_Bank11:
 	call Func_44b15
 	ret
 
-Unused_4417c; ; 0x4017c
+Unused_4417c: ; 0x4017c
 ; ???
 	db $87, $56, $BF, $56
 
@@ -3680,7 +3680,7 @@ SoundEffect50_Channel4_Bank11:
 	dutycycle $00
 	soundeffect_note $01, $91, $96, $07
 SoundEffect50_Channel4_loop_Bank11:
-_Bank11	soundeffect_note $03, $F1, $C6, $07
+	soundeffect_note $03, $F1, $C6, $07
 	loopchannel $02, SoundEffect50_Channel4_loop_Bank11
 	soundeffect_note $0A, $C1, $C6, $07
 	soundeffect_note $01, $00, $00, $00

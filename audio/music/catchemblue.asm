@@ -1,35 +1,33 @@
-Music_CatchEmBlue: ; 4138f
-	dbw $c0, Music_CatchEmBlue_Ch1
-	dbw $01, Music_CatchEmBlue_Ch2
-	dbw $02, Music_CatchEmBlue_Ch3
-	dbw $03, Music_CatchEmBlue_Ch4
-; 4139b
+Music_CatchEmBlue:
+	channel_count 4
+	channel 1, Music_CatchEmBlue_Ch1
+	channel 2, Music_CatchEmBlue_Ch2
+	channel 3, Music_CatchEmBlue_Ch3
+	channel 4, Music_CatchEmBlue_Ch4
 
-
-Music_CatchEmBlue_Ch1: ; 4139b
+Music_CatchEmBlue_Ch1:
 	tempo 160
-	volume $77
-	vibrato $9, $34
-	tone $0001
-	notetype $c, $b3
-	note __, 16
-
-Music_CatchEmBlue_branch_413aa: ; 413aa
-	notetype $8, $a2
-	dutycycle $3
+	volume 7, 7
+	vibrato 9, 3, 4
+	pitch_offset 1
+	note_type 12, 11, 3
+	rest 16
+Music_CatchEmBlue_branch_413aa:
+	note_type 8, 10, 2
+	duty_cycle 3
 	octave 4
 	note C#, 2
-	note __, 12
-	note __, 10
+	rest 12
+	rest 10
 	octave 3
 	note A#, 2
-	note __, 12
+	rest 12
 	note A#, 3
-	note __, 7
+	rest 7
 	octave 4
 	note C#, 2
-	note __, 1
-	intensity $81
+	rest 1
+	volume_envelope 8, 1
 	octave 2
 	note A#, 2
 	octave 3
@@ -39,18 +37,18 @@ Music_CatchEmBlue_branch_413aa: ; 413aa
 	note C#, 1
 	octave 3
 	note C#, 2
-	intensity $a2
+	volume_envelope 10, 2
 	note A#, 2
-	note __, 2
+	rest 2
 	octave 4
 	note F_, 3
-	note __, 6
+	rest 6
 	note C#, 2
-	note __, 12
+	rest 12
 	note D#, 3
-	note __, 7
-	intensity $81
-	dutycycle $2
+	rest 7
+	volume_envelope 8, 1
+	duty_cycle 2
 	octave 3
 	note A#, 2
 	octave 4
@@ -60,23 +58,23 @@ Music_CatchEmBlue_branch_413aa: ; 413aa
 	note A_, 1
 	note A#, 2
 	note F_, 1
-	note __, 3
+	rest 3
 	note G#, 5
 	note G_, 1
 	note G#, 2
 	note D#, 1
-	note __, 3
+	rest 3
 	note F#, 5
 	note F_, 1
 	note F#, 2
 	note F_, 4
 	note G#, 3
-	dutycycle $3
+	duty_cycle 3
 	octave 3
 	note A#, 2
 	octave 4
 	note C_, 3
-	dutycycle $2
+	duty_cycle 2
 	note D#, 1
 	note A#, 2
 	note F_, 1
@@ -89,8 +87,8 @@ Music_CatchEmBlue_branch_413aa: ; 413aa
 	note G_, 1
 	note G#, 2
 	note F_, 1
-	intensity $a1
-	dutycycle $3
+	volume_envelope 10, 1
+	duty_cycle 3
 	note C#, 3
 	note C#, 3
 	note C_, 2
@@ -100,11 +98,11 @@ Music_CatchEmBlue_branch_413aa: ; 413aa
 	note G_, 1
 	note F#, 2
 	note A_, 1
-	note __, 2
-	intensity $a3
+	rest 2
+	volume_envelope 10, 3
 	note A_, 3
-	intensity $81
-	dutycycle $2
+	volume_envelope 8, 1
+	duty_cycle 2
 	octave 5
 	note E_, 1
 	note F_, 2
@@ -116,9 +114,9 @@ Music_CatchEmBlue_branch_413aa: ; 413aa
 	note F_, 4
 	note G#, 3
 	note G_, 2
-	intensity $83
+	volume_envelope 8, 3
 	note G#, 3
-	intensity $81
+	volume_envelope 8, 1
 	octave 5
 	note C_, 1
 	note C#, 2
@@ -128,38 +126,38 @@ Music_CatchEmBlue_branch_413aa: ; 413aa
 	note F_, 1
 	note F#, 2
 	note F_, 1
-	note __, 3
+	rest 3
 	octave 5
 	note C_, 2
 	octave 4
 	note F_, 1
 	note B_, 2
-	intensity $83
+	volume_envelope 8, 3
 	octave 5
 	note C_, 3
-	intensity $81
+	volume_envelope 8, 1
 	octave 4
 	note F_, 1
-	note __, 6
-	intensity $a1
-	dutycycle $3
+	rest 6
+	volume_envelope 10, 1
+	duty_cycle 3
 	note C#, 3
 	note C_, 3
 	octave 3
 	note A#, 2
-	intensity $a2
+	volume_envelope 10, 2
 	note F_, 2
-	note __, 5
-	intensity $a1
+	rest 5
+	volume_envelope 10, 1
 	note F#, 2
 	note F#, 1
 	note A#, 3
-	intensity $a3
+	volume_envelope 10, 3
 	note F#, 3
-	note __, 12
-	note __, 6
-	intensity $81
-	dutycycle $2
+	rest 12
+	rest 6
+	volume_envelope 8, 1
+	duty_cycle 2
 	octave 4
 	note D_, 2
 	note A#, 3
@@ -169,47 +167,47 @@ Music_CatchEmBlue_branch_413aa: ; 413aa
 	note F_, 1
 	note D_, 1
 	note F_, 1
-	intensity $73
+	volume_envelope 7, 3
 	note A#, 3
-	note __, 9
-	note __, 12
-	intensity $72
+	rest 9
+	rest 12
+	volume_envelope 7, 2
 	note D_, 2
-	note __, 4
-	intensity $71
-	note D_, 2
-	note D_, 1
+	rest 4
+	volume_envelope 7, 1
 	note D_, 2
 	note D_, 1
-	note __, 12
-	note __, 2
-	intensity $81
+	note D_, 2
+	note D_, 1
+	rest 12
+	rest 2
+	volume_envelope 8, 1
 	note C_, 1
-	intensity $91
+	volume_envelope 9, 1
 	note C_, 3
-	intensity $81
+	volume_envelope 8, 1
 	note C_, 2
-	intensity $91
+	volume_envelope 9, 1
 	note C_, 4
-	note __, 12
-	note __, 6
-	intensity $71
+	rest 12
+	rest 6
+	volume_envelope 7, 1
 	note D_, 2
 	note D_, 1
 	note D_, 2
 	note D_, 1
-	notetype $c, $b3
-	note __, 16
-	note __, 16
-	note __, 16
-	note __, 16
-	notetype $8, $a2
-	dutycycle $3
-	note __, 12
+	note_type 12, 11, 3
+	rest 16
+	rest 16
+	rest 16
+	rest 16
+	note_type 8, 10, 2
+	duty_cycle 3
+	rest 12
 	octave 4
 	note F_, 2
-	note __, 10
-	callchannel Music_CatchEmBlue_branch_4158d
+	rest 10
+	sound_call Music_CatchEmBlue_branch_4158d
 	note G#, 2
 	note F_, 1
 	octave 4
@@ -250,15 +248,15 @@ Music_CatchEmBlue_branch_413aa: ; 413aa
 	note A#, 1
 	note G_, 2
 	note A#, 1
-	note __, 12
-	note __, 2
-	intensity $a4
-	dutycycle $3
+	rest 12
+	rest 2
+	volume_envelope 10, 4
+	duty_cycle 3
 	note A#, 3
-	note __, 3
+	rest 3
 	note A_, 4
-	dutycycle $2
-	callchannel Music_CatchEmBlue_branch_4158d
+	duty_cycle 2
+	sound_call Music_CatchEmBlue_branch_4158d
 	note G#, 2
 	note D_, 1
 	note F_, 2
@@ -266,20 +264,20 @@ Music_CatchEmBlue_branch_413aa: ; 413aa
 	note F_, 2
 	note D_, 1
 	note F_, 2
-	intensity $a2
-	dutycycle $3
+	volume_envelope 10, 2
+	duty_cycle 3
 	note D#, 3
-	note __, 4
-	intensity $a1
+	rest 4
+	volume_envelope 10, 1
 	note D#, 2
 	note C_, 2
 	note D#, 2
-	intensity $a2
+	volume_envelope 10, 2
 	note D#, 2
-	note __, 4
+	rest 4
 	note G_, 2
-	note __, 4
-	intensity $a1
+	rest 4
+	volume_envelope 10, 1
 	note F_, 2
 	note C_, 3
 	octave 2
@@ -289,72 +287,72 @@ Music_CatchEmBlue_branch_413aa: ; 413aa
 	note C_, 1
 	octave 4
 	note C_, 2
-	intensity $97
+	volume_envelope 9, 7
 	note D#, 12
-	note __, 1
-	intensity $94
+	rest 1
+	volume_envelope 9, 4
 	note D_, 6
-	note __, 6
+	rest 6
 	note C#, 6
-	note __, 6
-	intensity $a1
+	rest 6
+	volume_envelope 10, 1
 	note C_, 6
 	note C_, 2
 	note C_, 1
 	note C#, 2
 	octave 3
 	note B_, 1
-	intensity $a4
+	volume_envelope 10, 4
 	octave 4
 	note C_, 6
-	note __, 12
-	note __, 3
-	intensity $a1
+	rest 12
+	rest 3
+	volume_envelope 10, 1
 	octave 3
 	note B_, 2
 	octave 4
 	note C_, 1
-	intensity $a2
+	volume_envelope 10, 2
 	note C#, 2
-	note __, 1
-	intensity $a1
+	rest 1
+	volume_envelope 10, 1
 	note C#, 3
 	note C#, 3
 	note C#, 5
-	intensity $a3
+	volume_envelope 10, 3
 	octave 3
 	note D#, 3
-	note __, 3
+	rest 3
 	note F#, 3
 	octave 4
 	note D_, 1
-	intensity $97
+	volume_envelope 9, 7
 	note D#, 12
-	note __, 6
-	intensity $81
+	rest 6
+	volume_envelope 8, 1
 	octave 2
 	note G#, 2
 	note G#, 2
 	note G#, 2
-	intensity $a1
+	volume_envelope 10, 1
 	octave 3
 	note F#, 3
 	note C#, 3
 	note F#, 2
 	note E_, 1
-	intensity $82
+	volume_envelope 8, 2
 	note F_, 3
-	note __, 12
-	intensity $a1
+	rest 12
+	volume_envelope 10, 1
 	note D#, 3
 	note D#, 3
 	note G#, 2
 	note D_, 1
-	intensity $a3
+	volume_envelope 10, 3
 	note D#, 3
-	note __, 9
-	intensity $81
-	dutycycle $2
+	rest 9
+	volume_envelope 8, 1
+	duty_cycle 2
 	note C#, 3
 	note F#, 3
 	note C#, 3
@@ -374,55 +372,54 @@ Music_CatchEmBlue_branch_413aa: ; 413aa
 	note D#, 1
 	note C_, 1
 	note D#, 1
-	intensity $41
+	volume_envelope 4, 1
 	note C_, 1
 	note D#, 1
-	intensity $a1
+	volume_envelope 10, 1
 	note C_, 1
-	intensity $51
+	volume_envelope 5, 1
 	note D#, 1
-	intensity $a1
-	note C_, 1
-	note D#, 1
-	intensity $61
+	volume_envelope 10, 1
 	note C_, 1
 	note D#, 1
-	intensity $a1
+	volume_envelope 6, 1
+	note C_, 1
+	note D#, 1
+	volume_envelope 10, 1
 	octave 3
 	note G#, 1
-	intensity $71
+	volume_envelope 7, 1
 	octave 4
 	note D#, 1
 	octave 3
 	note G#, 1
 	octave 4
 	note D#, 1
-	intensity $a1
+	volume_envelope 10, 1
 	octave 3
 	note G#, 1
-	intensity $81
+	volume_envelope 8, 1
 	octave 4
 	note D#, 1
 	octave 3
 	note G#, 1
-	intensity $91
+	volume_envelope 9, 1
 	octave 4
 	note G#, 1
 	octave 3
 	note G#, 1
-	intensity $a1
+	volume_envelope 10, 1
 	octave 4
 	note G#, 1
 	octave 3
 	note G#, 1
 	octave 4
 	note G#, 1
-	loopchannel 0, Music_CatchEmBlue_branch_413aa
-; 4158d
+	sound_loop 0, Music_CatchEmBlue_branch_413aa
 
-Music_CatchEmBlue_branch_4158d: ; 4158d
-	intensity $71
-	dutycycle $2
+Music_CatchEmBlue_branch_4158d:
+	volume_envelope 7, 1
+	duty_cycle 2
 	octave 2
 	note A#, 2
 	octave 3
@@ -447,43 +444,42 @@ Music_CatchEmBlue_branch_4158d: ; 4158d
 	note F_, 1
 	note A_, 2
 	note F_, 1
-	endchannel
+	sound_ret
 
-Music_CatchEmBlue_Ch2: ; 415aa
-	vibrato $9, $34
-	notetype $c, $b3
-	note __, 16
-
-Music_CatchEmBlue_branch_415b1: ; 415b1
-	notetype $8, $b2
-	dutycycle $3
-	callchannel Music_CatchEmBlue_branch_418d2
-	intensity $b2
+Music_CatchEmBlue_Ch2:
+	vibrato 9, 3, 4
+	note_type 12, 11, 3
+	rest 16
+Music_CatchEmBlue_branch_415b1:
+	note_type 8, 11, 2
+	duty_cycle 3
+	sound_call Music_CatchEmBlue_branch_418d2
+	volume_envelope 11, 2
 	note G_, 2
-	note __, 1
-	intensity $b1
+	rest 1
+	volume_envelope 11, 1
 	octave 3
 	note G_, 2
 	note A#, 1
 	octave 4
 	note C#, 2
 	note D#, 3
-	intensity $b2
+	volume_envelope 11, 2
 	note F_, 2
-	note __, 1
+	rest 1
 	note F#, 3
-	note __, 1
-	intensity $b1
+	rest 1
+	volume_envelope 11, 1
 	note F_, 1
 	note F#, 1
 	note F_, 1
 	note D#, 2
 	note C_, 1
-	callchannel Music_CatchEmBlue_branch_418d2
-	intensity $b2
+	sound_call Music_CatchEmBlue_branch_418d2
+	volume_envelope 11, 2
 	note A#, 2
-	note __, 1
-	intensity $b1
+	rest 1
+	volume_envelope 11, 1
 	octave 3
 	note G_, 2
 	note A#, 1
@@ -492,27 +488,27 @@ Music_CatchEmBlue_branch_415b1: ; 415b1
 	note D#, 1
 	note F_, 2
 	note G_, 3
-	intensity $b2
+	volume_envelope 11, 2
 	note G#, 3
-	note __, 3
-	intensity $b1
+	rest 3
+	volume_envelope 11, 1
 	octave 3
 	note A#, 1
 	note A#, 2
 	note A#, 1
-	callchannel Music_CatchEmBlue_branch_41900
+	sound_call Music_CatchEmBlue_branch_41900
 	note A#, 3
 	octave 4
 	note C#, 3
 	note C#, 2
 	note C#, 3
-	intensity $b4
+	volume_envelope 11, 4
 	note C_, 7
-	intensity $b1
+	volume_envelope 11, 1
 	note F#, 2
 	note G#, 3
 	note C_, 1
-	callchannel Music_CatchEmBlue_branch_41900
+	sound_call Music_CatchEmBlue_branch_41900
 	octave 4
 	note F_, 3
 	note F_, 3
@@ -524,54 +520,54 @@ Music_CatchEmBlue_branch_415b1: ; 415b1
 	note A#, 2
 	octave 4
 	note F#, 3
-	intensity $b3
+	volume_envelope 11, 3
 	note G#, 4
-	callchannel Music_CatchEmBlue_branch_41900
+	sound_call Music_CatchEmBlue_branch_41900
 	note A#, 3
 	octave 4
 	note C#, 3
 	note C#, 2
 	note C#, 3
-	intensity $b4
+	volume_envelope 11, 4
 	note C_, 7
-	note __, 3
-	intensity $b1
+	rest 3
+	volume_envelope 11, 1
 	octave 3
 	note A#, 2
 	note A#, 1
-	intensity $b1
+	volume_envelope 11, 1
 	octave 4
 	note C#, 2
 	octave 3
 	note A#, 4
 	octave 4
 	note F_, 2
-	intensity $91
+	volume_envelope 9, 1
 	octave 3
 	note A#, 1
-	intensity $b2
+	volume_envelope 11, 2
 	octave 4
 	note D#, 2
-	intensity $81
+	volume_envelope 8, 1
 	octave 3
 	note F_, 1
-	intensity $b1
+	volume_envelope 11, 1
 	octave 4
 	note C#, 2
-	intensity $b2
+	volume_envelope 11, 2
 	octave 3
 	note A#, 2
-	note __, 5
-	intensity $b1
+	rest 5
+	volume_envelope 11, 1
 	note A#, 2
 	note A#, 1
 	octave 4
 	note C#, 3
-	intensity $b3
+	volume_envelope 11, 3
 	octave 3
 	note A#, 3
-	note __, 6
-	intensity $b1
+	rest 6
+	volume_envelope 11, 1
 	octave 4
 	note A#, 2
 	octave 3
@@ -579,10 +575,10 @@ Music_CatchEmBlue_branch_415b1: ; 415b1
 	note A#, 1
 	octave 4
 	note F_, 2
-	intensity $b2
+	volume_envelope 11, 2
 	note D#, 3
-	note __, 1
-	intensity $b1
+	rest 1
+	volume_envelope 11, 1
 	note F_, 2
 	note G_, 1
 	note F_, 2
@@ -592,39 +588,39 @@ Music_CatchEmBlue_branch_415b1: ; 415b1
 	note F_, 2
 	note G_, 1
 	note F_, 3
-	note __, 6
-	intensity $91
-	dutycycle $2
+	rest 6
+	volume_envelope 9, 1
+	duty_cycle 2
 	octave 6
 	note D_, 1
 	octave 5
 	note A#, 1
 	note G_, 1
-	intensity $b2
-	dutycycle $3
+	volume_envelope 11, 2
+	duty_cycle 3
 	octave 4
 	note D_, 2
-	intensity $91
+	volume_envelope 9, 1
 	octave 3
 	note G_, 1
 	note A#, 2
 	octave 4
 	note D_, 1
-	intensity $b1
+	volume_envelope 11, 1
 	note D_, 2
 	note D_, 1
 	note D_, 2
-	intensity $b2
+	volume_envelope 11, 2
 	note D_, 2
-	note __, 1
-	intensity $91
-	dutycycle $2
+	rest 1
+	volume_envelope 9, 1
+	duty_cycle 2
 	note G_, 1
 	note A#, 2
 	octave 5
 	note D_, 1
-	intensity $b1
-	dutycycle $3
+	volume_envelope 11, 1
+	duty_cycle 3
 	octave 3
 	note A#, 2
 	note A#, 1
@@ -632,11 +628,11 @@ Music_CatchEmBlue_branch_415b1: ; 415b1
 	octave 4
 	note D_, 1
 	note C_, 3
-	intensity $b2
+	volume_envelope 11, 2
 	note F_, 3
-	note __, 8
-	intensity $91
-	dutycycle $2
+	rest 8
+	volume_envelope 9, 1
+	duty_cycle 2
 	octave 5
 	note E_, 1
 	note F_, 2
@@ -647,35 +643,35 @@ Music_CatchEmBlue_branch_415b1: ; 415b1
 	note F_, 3
 	octave 4
 	note F_, 1
-	intensity $b1
-	dutycycle $3
+	volume_envelope 11, 1
+	duty_cycle 3
 	note D_, 2
 	note D_, 1
-	intensity $b2
+	volume_envelope 11, 2
 	note D_, 3
-	intensity $b1
+	volume_envelope 11, 1
 	note D_, 2
 	note D_, 1
 	note D_, 2
 	note D_, 1
-	intensity $91
-	dutycycle $2
+	volume_envelope 9, 1
+	duty_cycle 2
 	octave 5
 	note D_, 2
 	note D_, 1
 	note D_, 3
-	intensity $b1
-	dutycycle $3
+	volume_envelope 11, 1
+	duty_cycle 3
 	octave 3
 	note A#, 2
 	note A#, 1
 	note A#, 2
 	octave 4
 	note D_, 1
-	intensity $b2
+	volume_envelope 11, 2
 	note C_, 3
-	intensity $91
-	dutycycle $2
+	volume_envelope 9, 1
+	duty_cycle 2
 	octave 3
 	note A_, 3
 	note F_, 2
@@ -694,50 +690,50 @@ Music_CatchEmBlue_branch_415b1: ; 415b1
 	note A_, 1
 	note F_, 1
 	note D#, 1
-	intensity $b2
-	dutycycle $3
+	volume_envelope 11, 2
+	duty_cycle 3
 	octave 3
 	note B_, 1
 	octave 4
 	note C_, 2
-	note __, 1
+	rest 1
 	octave 3
 	note A#, 2
-	note __, 1
+	rest 1
 	note G_, 2
-	note __, 1
+	rest 1
 	note A#, 2
-	intensity $b1
+	volume_envelope 11, 1
 	octave 4
 	note C_, 3
 	note D_, 4
-	intensity $b2
+	volume_envelope 11, 2
 	octave 3
 	note A#, 2
-	note __, 1
-	intensity $91
-	dutycycle $2
+	rest 1
+	volume_envelope 9, 1
+	duty_cycle 2
 	octave 4
 	note A#, 2
 	note A_, 2
 	note G#, 1
 	octave 3
 	note A_, 1
-	intensity $b2
-	dutycycle $3
+	volume_envelope 11, 2
+	duty_cycle 3
 	note A#, 2
-	note __, 1
+	rest 1
 	note A#, 2
-	note __, 1
+	rest 1
 	note A#, 2
-	intensity $b1
+	volume_envelope 11, 1
 	octave 4
 	note F_, 3
-	intensity $b2
+	volume_envelope 11, 2
 	note C#, 1
 	note D_, 2
-	intensity $91
-	dutycycle $2
+	volume_envelope 9, 1
+	duty_cycle 2
 	octave 3
 	note A#, 1
 	octave 4
@@ -749,28 +745,28 @@ Music_CatchEmBlue_branch_415b1: ; 415b1
 	note F_, 1
 	octave 4
 	note A#, 1
-	intensity $b2
-	dutycycle $3
+	volume_envelope 11, 2
+	duty_cycle 3
 	octave 3
 	note A#, 2
 	octave 4
 	note D_, 1
 	note D#, 2
 	note D_, 2
-	note __, 1
+	rest 1
 	note C#, 1
 	note C_, 2
-	note __, 1
+	rest 1
 	octave 3
 	note A#, 2
-	note __, 1
+	rest 1
 	note A_, 2
-	note __, 1
+	rest 1
 	note A#, 2
-	note __, 1
+	rest 1
 	octave 4
 	note C_, 2
-	note __, 1
+	rest 1
 	octave 3
 	note A_, 2
 	note A#, 1
@@ -779,22 +775,22 @@ Music_CatchEmBlue_branch_415b1: ; 415b1
 	octave 3
 	note B_, 1
 	note A#, 2
-	note __, 1
+	rest 1
 	note A_, 2
 	note A#, 2
 	note B_, 2
 	octave 4
 	note C_, 2
-	note __, 4
+	rest 4
 	note D_, 2
-	note __, 1
+	rest 1
 	note D#, 2
-	note __, 1
+	rest 1
 	note F_, 2
 	note A_, 1
 	note A#, 2
-	note __, 1
-	intensity $b1
+	rest 1
+	volume_envelope 11, 1
 	note A#, 2
 	octave 5
 	note C_, 3
@@ -806,61 +802,61 @@ Music_CatchEmBlue_branch_415b1: ; 415b1
 	note A#, 2
 	note A_, 3
 	note G_, 3
-	intensity $b2
+	volume_envelope 11, 2
 	note F_, 2
-	note __, 1
-	intensity $b1
+	rest 1
+	volume_envelope 11, 1
 	note G_, 3
 	note F_, 3
 	note F_, 2
 	note D_, 3
-	intensity $b2
+	volume_envelope 11, 2
 	octave 3
 	note A#, 3
-	intensity $91
-	dutycycle $2
+	volume_envelope 9, 1
+	duty_cycle 2
 	octave 5
 	note A_, 1
 	note A#, 2
 	octave 4
 	note A#, 1
-	intensity $b1
-	dutycycle $3
+	volume_envelope 11, 1
+	duty_cycle 3
 	octave 3
 	note A#, 2
-	intensity $91
-	dutycycle $2
+	volume_envelope 9, 1
+	duty_cycle 2
 	octave 5
 	note A#, 1
-	intensity $b1
-	dutycycle $3
+	volume_envelope 11, 1
+	duty_cycle 3
 	octave 4
 	note C_, 2
-	intensity $91
-	dutycycle $2
+	volume_envelope 9, 1
+	duty_cycle 2
 	octave 5
 	note A#, 1
-	intensity $b1
-	dutycycle $3
+	volume_envelope 11, 1
+	duty_cycle 3
 	octave 4
 	note D_, 3
 	note D_, 3
 	note D_, 2
 	note D#, 3
 	note F_, 2
-	note __, 2
+	rest 2
 	note F_, 3
 	note D#, 3
 	note D_, 3
-	intensity $b2
+	volume_envelope 11, 2
 	note D_, 1
-	intensity $91
+	volume_envelope 9, 1
 	note D#, 1
-	intensity $b1
+	volume_envelope 11, 1
 	note C_, 2
-	note __, 2
-	intensity $91
-	dutycycle $2
+	rest 2
+	volume_envelope 9, 1
+	duty_cycle 2
 	note F_, 1
 	note A_, 1
 	octave 5
@@ -868,30 +864,30 @@ Music_CatchEmBlue_branch_415b1: ; 415b1
 	note D#, 1
 	note F_, 1
 	note C_, 1
-	note __, 2
-	intensity $b3
-	dutycycle $3
+	rest 2
+	volume_envelope 11, 3
+	duty_cycle 3
 	octave 4
 	note A#, 3
-	intensity $91
-	dutycycle $2
+	volume_envelope 9, 1
+	duty_cycle 2
 	octave 3
 	note E_, 1
-	intensity $b1
+	volume_envelope 11, 1
 	note F_, 2
-	intensity $b3
-	dutycycle $3
+	volume_envelope 11, 3
+	duty_cycle 3
 	octave 5
 	note C_, 4
-	intensity $b2
-	dutycycle $3
-	note __, 2
-	intensity $b2
+	volume_envelope 11, 2
+	duty_cycle 3
+	rest 2
+	volume_envelope 11, 2
 	octave 4
 	note A_, 1
 	note A#, 2
-	note __, 1
-	intensity $b1
+	rest 1
+	volume_envelope 11, 1
 	note A#, 2
 	octave 5
 	note C_, 3
@@ -906,36 +902,36 @@ Music_CatchEmBlue_branch_415b1: ; 415b1
 	note G_, 3
 	note F_, 3
 	note G_, 2
-	intensity $91
+	volume_envelope 9, 1
 	note D_, 1
-	intensity $b1
+	volume_envelope 11, 1
 	note F_, 2
-	intensity $91
+	volume_envelope 9, 1
 	octave 3
 	note A#, 1
-	intensity $b1
+	volume_envelope 11, 1
 	octave 4
 	note F_, 2
 	note D_, 3
-	intensity $b2
+	volume_envelope 11, 2
 	octave 3
 	note A#, 3
-	note __, 3
-	intensity $91
+	rest 3
+	volume_envelope 9, 1
 	note A_, 1
-	intensity $b1
+	volume_envelope 11, 1
 	note A#, 2
 	octave 4
 	note D_, 2
 	note C_, 2
-	intensity $b2
+	volume_envelope 11, 2
 	octave 3
 	note A#, 2
-	note __, 4
+	rest 4
 	octave 4
 	note D_, 2
-	note __, 4
-	intensity $b1
+	rest 4
+	volume_envelope 11, 1
 	note C_, 2
 	octave 3
 	note F_, 3
@@ -944,18 +940,18 @@ Music_CatchEmBlue_branch_415b1: ; 415b1
 	note F_, 1
 	octave 4
 	note F_, 2
-	notetype $c, $a8
+	note_type 12, 10, 8
 	note A#, 9
-	intensity $a3
+	volume_envelope 10, 3
 	note A#, 3
-	notetype $8, $b3
-	note __, 1
-	note __, 5
+	note_type 8, 11, 3
+	rest 1
+	rest 5
 	note A_, 1
-	intensity $b3
+	volume_envelope 11, 3
 	note A#, 6
-	note __, 6
-	intensity $b1
+	rest 6
+	volume_envelope 11, 1
 	note G#, 2
 	octave 3
 	note G#, 3
@@ -965,10 +961,10 @@ Music_CatchEmBlue_branch_415b1: ; 415b1
 	note G#, 1
 	note A#, 2
 	note G_, 1
-	intensity $b3
+	volume_envelope 11, 3
 	note G#, 6
-	intensity $91
-	dutycycle $2
+	volume_envelope 9, 1
+	duty_cycle 2
 	note C_, 2
 	note D#, 2
 	note C_, 2
@@ -985,50 +981,50 @@ Music_CatchEmBlue_branch_415b1: ; 415b1
 	octave 2
 	note G#, 1
 	note D#, 1
-	intensity $b1
-	dutycycle $3
+	volume_envelope 11, 1
+	duty_cycle 3
 	octave 4
 	note G#, 1
-	note __, 1
+	rest 1
 	note A_, 1
-	intensity $b2
+	volume_envelope 11, 2
 	note A#, 2
-	note __, 1
-	intensity $b1
+	rest 1
+	volume_envelope 11, 1
 	note A#, 3
 	note A#, 3
 	note A#, 3
 	note C_, 2
-	intensity $b4
+	volume_envelope 11, 4
 	note G#, 3
-	intensity $b1
+	volume_envelope 11, 1
 	note C_, 1
 	note C_, 2
-	intensity $b4
+	volume_envelope 11, 4
 	note A#, 3
-	intensity $b1
+	volume_envelope 11, 1
 	note G_, 1
-	intensity $b6
+	volume_envelope 11, 6
 	note G#, 12
-	intensity $91
+	volume_envelope 9, 1
 	octave 3
 	note C_, 2
 	octave 2
 	note B_, 2
 	octave 3
 	note C_, 4
-	intensity $b1
+	volume_envelope 11, 1
 	octave 4
 	note G_, 1
 	note G#, 3
 	note A#, 3
 	note G#, 3
 	note A#, 2
-	intensity $b2
+	volume_envelope 11, 2
 	note G_, 1
 	note G#, 3
-	intensity $91
-	dutycycle $2
+	volume_envelope 9, 1
+	duty_cycle 2
 	octave 5
 	note G#, 1
 	note D#, 1
@@ -1039,18 +1035,18 @@ Music_CatchEmBlue_branch_415b1: ; 415b1
 	note C_, 1
 	note D#, 1
 	note F_, 1
-	intensity $b1
-	dutycycle $3
+	volume_envelope 11, 1
+	duty_cycle 3
 	note F#, 1
 	note G_, 3
 	note G#, 3
 	note G#, 3
 	note F_, 2
 	note G_, 1
-	intensity $b2
+	volume_envelope 11, 2
 	note G#, 3
-	intensity $91
-	dutycycle $2
+	volume_envelope 9, 1
+	duty_cycle 2
 	note C_, 1
 	octave 3
 	note B_, 1
@@ -1062,76 +1058,74 @@ Music_CatchEmBlue_branch_415b1: ; 415b1
 	note G_, 1
 	note F#, 1
 	note G_, 1
-	intensity $b1
-	dutycycle $3
+	volume_envelope 11, 1
+	duty_cycle 3
 	note G#, 3
-	intensity $b1
-	dutycycle $3
+	volume_envelope 11, 1
+	duty_cycle 3
 	note A#, 3
 	note G#, 3
 	note A#, 3
 	note G#, 1
 	note A#, 1
 	note G#, 1
-	intensity $91
-	dutycycle $2
+	volume_envelope 9, 1
+	duty_cycle 2
 	note D#, 1
 	note C_, 1
 	note D#, 1
 	note G#, 1
 	note D#, 1
-	intensity $92
-	dutycycle $3
+	volume_envelope 9, 2
+	duty_cycle 3
 	octave 5
 	note C_, 1
-	intensity $b2
+	volume_envelope 11, 2
 	note C#, 2
-	note __, 1
-	notetype $c, $b8
+	rest 1
+	note_type 12, 11, 8
 	note C_, 2
-	intensity $b8
+	volume_envelope 11, 8
 	note C_, 12
-	intensity $b4
+	volume_envelope 11, 4
 	note C_, 4
-	loopchannel 0, Music_CatchEmBlue_branch_415b1
-; 418d2
+	sound_loop 0, Music_CatchEmBlue_branch_415b1
 
-Music_CatchEmBlue_branch_418d2: ; 418d2
-	intensity $b2
+Music_CatchEmBlue_branch_418d2:
+	volume_envelope 11, 2
 	octave 4
 	note A#, 2
-	note __, 1
+	rest 1
 	octave 3
 	note A#, 2
-	notetype $8, $91
+	note_type 8, 9, 1
 	note F_, 1
-	notetype $8, $b1
+	note_type 8, 11, 1
 	octave 4
 	note C#, 2
 	note D#, 1
-	notetype $8, $91
+	note_type 8, 9, 1
 	octave 3
 	note F_, 2
-	notetype $8, $b2
+	note_type 8, 11, 2
 	octave 4
 	note F_, 2
-	note __, 1
-	notetype $8, $91
+	rest 1
+	note_type 8, 9, 1
 	note D#, 1
-	notetype $8, $b2
+	note_type 8, 11, 2
 	note G#, 3
-	notetype $8, $91
+	note_type 8, 9, 1
 	octave 3
 	note A#, 2
 	octave 4
 	note C#, 1
 	note F_, 2
 	note G#, 1
-	endchannel
-; 41900
+	sound_ret
 
-Music_CatchEmBlue_branch_41900: ; 41900
-	intensity $b1
+Music_CatchEmBlue_branch_41900:
+	volume_envelope 11, 1
 	octave 4
 	note C#, 2
 	octave 3
@@ -1140,7 +1134,7 @@ Music_CatchEmBlue_branch_41900: ; 41900
 	note C#, 2
 	octave 3
 	note A#, 1
-	notetype $8, $a1
+	note_type 8, 10, 1
 	octave 4
 	note C#, 2
 	octave 3
@@ -1149,7 +1143,7 @@ Music_CatchEmBlue_branch_41900: ; 41900
 	note C#, 2
 	octave 3
 	note A#, 1
-	notetype $8, $91
+	note_type 8, 9, 1
 	octave 4
 	note C#, 2
 	octave 3
@@ -1158,375 +1152,373 @@ Music_CatchEmBlue_branch_41900: ; 41900
 	note C#, 2
 	octave 3
 	note A#, 1
-	notetype $8, $81
+	note_type 8, 8, 1
 	octave 4
 	note C#, 2
-	notetype $8, $91
+	note_type 8, 9, 1
 	octave 3
 	note A#, 1
-	notetype $8, $a1
+	note_type 8, 10, 1
 	note A#, 2
-	notetype $8, $b1
+	note_type 8, 11, 1
 	note A#, 1
-	endchannel
+	sound_ret
 
-Music_CatchEmBlue_Ch3: ; 41933
-	notetype $c, $b3
-	note __, 16
-
-Music_CatchEmBlue_branch_41937: ; 41937
-	notetype $8, $22
+Music_CatchEmBlue_Ch3:
+	note_type 12, 11, 3
+	rest 16
+Music_CatchEmBlue_branch_41937:
+	note_type 8, 2, 2
 	octave 1
 	note A#, 2
-	note __, 6
+	rest 6
 	note A#, 1
-	note __, 2
+	rest 2
 	note G#, 2
-	note __, 4
+	rest 4
 	note G#, 1
-	note __, 2
+	rest 2
 	note G#, 1
-	note __, 2
+	rest 2
 	note F#, 1
 	note G_, 2
-	note __, 12
+	rest 12
 	note F#, 3
-	note __, 1
+	rest 1
 	note G#, 2
-	note __, 3
+	rest 3
 	note A_, 1
 	note A#, 2
-	note __, 3
+	rest 3
 	note A#, 1
 	octave 2
 	note A#, 1
-	note __, 1
+	rest 1
 	octave 1
 	note A#, 1
-	note __, 2
+	rest 2
 	note G#, 2
-	note __, 4
+	rest 4
 	note G#, 1
 	octave 2
 	note G#, 1
-	note __, 1
+	rest 1
 	octave 1
 	note G#, 1
-	note __, 2
+	rest 2
 	note F#, 1
 	note G_, 2
-	note __, 3
+	rest 3
 	note G_, 1
 	octave 2
 	note G_, 1
-	note __, 1
+	rest 1
 	octave 1
 	note G_, 1
-	note __, 2
+	rest 2
 	note G_, 1
-	note __, 2
+	rest 2
 	note F_, 3
-	note __, 6
+	rest 6
 	note A_, 1
-	callchannel Music_CatchEmBlue_branch_41b46
+	sound_call Music_CatchEmBlue_branch_41b46
 	note F#, 2
 	octave 2
 	note F#, 1
-	note __, 2
+	rest 2
 	octave 1
 	note F#, 1
 	note F#, 1
-	note __, 1
+	rest 1
 	note F#, 1
-	note __, 2
-	note __, 1
+	rest 2
+	rest 1
 	octave 2
 	note G#, 2
-	note __, 1
+	rest 1
 	note G_, 2
-	note __, 1
+	rest 1
 	note F#, 2
-	note __, 1
+	rest 1
 	note F_, 2
 	note A_, 1
-	callchannel Music_CatchEmBlue_branch_41b5b
-	callchannel Music_CatchEmBlue_branch_41b46
+	sound_call Music_CatchEmBlue_branch_41b5b
+	sound_call Music_CatchEmBlue_branch_41b46
 	octave 2
 	note F#, 1
 	note C#, 1
 	octave 1
 	note A#, 1
 	note F#, 1
-	note __, 2
+	rest 2
 	note F#, 1
-	note __, 1
+	rest 1
 	octave 2
 	note F#, 1
-	note __, 2
+	rest 2
 	octave 1
 	note F#, 1
 	note F_, 1
-	note __, 1
+	rest 1
 	octave 2
 	note F_, 1
-	note __, 2
+	rest 2
 	octave 1
 	note F_, 1
 	note F_, 1
-	note __, 1
+	rest 1
 	octave 2
 	note F_, 3
 	note A_, 1
-	callchannel Music_CatchEmBlue_branch_41b5b
+	sound_call Music_CatchEmBlue_branch_41b5b
 	octave 1
 	note A#, 2
-	note __, 3
+	rest 3
 	note A#, 1
 	octave 2
 	note F_, 1
-	note __, 1
+	rest 1
 	octave 1
 	note A#, 1
-	note __, 2
+	rest 2
 	note A#, 1
 	octave 2
 	note A#, 3
-	note __, 8
-	intensity $32
+	rest 8
+	volume_envelope 3, 2
 	octave 1
 	note D_, 1
-
-Music_CatchEmBlue_branch_419ba: ; 419ba
-	intensity $22
+Music_CatchEmBlue_branch_419ba:
+	volume_envelope 2, 2
 	note D#, 2
-	note __, 3
+	rest 3
 	note D#, 1
 	note G_, 1
-	note __, 1
+	rest 1
 	note F#, 1
 	note G_, 1
-	note __, 2
+	rest 2
 	note A#, 1
-	note __, 1
+	rest 1
 	note A_, 1
 	note A#, 1
-	note __, 1
+	rest 1
 	octave 2
 	note D#, 1
-	note __, 2
+	rest 2
 	octave 1
 	note A#, 1
-	note __, 2
+	rest 2
 	note G_, 1
 	note F_, 2
-	note __, 3
+	rest 3
 	note F_, 1
 	note A_, 1
-	note __, 1
+	rest 1
 	note G#, 1
 	note A_, 1
-	note __, 2
+	rest 2
 	octave 2
 	note C_, 1
-	note __, 1
+	rest 1
 	octave 1
 	note B_, 1
 	octave 2
 	note C_, 1
-	note __, 1
+	rest 1
 	note F_, 1
-	note __, 2
+	rest 2
 	note C_, 1
-	note __, 2
+	rest 2
 	octave 1
 	note A_, 1
-	loopchannel 2, Music_CatchEmBlue_branch_419ba
+	sound_loop 2, Music_CatchEmBlue_branch_419ba
 	note G_, 2
 	octave 2
 	note D_, 1
 	note G_, 1
-	note __, 2
+	rest 2
 	octave 1
 	note G_, 1
-	note __, 1
+	rest 1
 	octave 2
 	note G_, 1
-	note __, 2
+	rest 2
 	octave 1
 	note F_, 1
 	note F#, 2
 	note F#, 1
 	octave 2
 	note F#, 1
-	note __, 2
+	rest 2
 	note A#, 1
-	note __, 1
+	rest 1
 	note A_, 1
-	note __, 1
+	rest 1
 	note G#, 1
-	note __, 1
+	rest 1
 	octave 1
 	note F_, 2
 	octave 2
 	note D_, 1
 	note F_, 1
-	note __, 2
+	rest 2
 	octave 1
 	note F_, 1
-	note __, 1
+	rest 1
 	octave 2
 	note F_, 1
-	note __, 2
+	rest 2
 	octave 1
 	note A#, 1
 	note E_, 2
 	note A#, 1
 	octave 2
 	note D_, 1
-	note __, 1
+	rest 1
 	note G_, 1
 	note D_, 1
-	note __, 1
+	rest 1
 	octave 1
 	note A#, 1
-	note __, 2
+	rest 2
 	note B_, 1
 	octave 2
 	note C_, 2
-	note __, 1
+	rest 1
 	note C_, 2
-	note __, 1
+	rest 1
 	note D_, 2
-	note __, 1
+	rest 1
 	note D_, 2
-	note __, 1
+	rest 1
 	note D#, 2
-	note __, 1
+	rest 1
 	note D#, 2
-	note __, 1
+	rest 1
 	note E_, 2
-	note __, 1
+	rest 1
 	note E_, 2
-	note __, 1
+	rest 1
 	note F_, 2
 	octave 3
 	note D#, 1
-	note __, 2
+	rest 2
 	octave 2
 	note F_, 1
 	note F_, 1
-	note __, 1
+	rest 1
 	octave 3
 	note D#, 2
 	note C_, 2
 	octave 2
 	note A_, 2
-	note __, 9
+	rest 9
 	octave 1
 	note A_, 1
-	callchannel Music_CatchEmBlue_branch_41b7e
+	sound_call Music_CatchEmBlue_branch_41b7e
 	note G#, 2
-	note __, 1
+	rest 1
 	note F_, 2
-	note __, 1
+	rest 1
 	note D_, 2
-	note __, 1
+	rest 1
 	octave 1
 	note A#, 2
 	note F#, 1
 	note G_, 1
-	note __, 1
+	rest 1
 	note G_, 1
-	note __, 2
+	rest 2
 	note A#, 1
 	octave 2
 	note D#, 2
-	note __, 1
+	rest 1
 	note G_, 2
-	note __, 1
+	rest 1
 	octave 3
 	note D#, 1
 	note D_, 1
 	octave 2
 	note A#, 1
 	note G_, 2
-	note __, 1
+	rest 1
 	note D#, 2
 	note A#, 1
-	note __, 2
+	rest 2
 	note D#, 1
 	note E_, 2
-	note __, 1
+	rest 1
 	note E_, 2
-	note __, 1
+	rest 1
 	note G_, 2
-	note __, 1
+	rest 1
 	note A#, 2
-	note __, 1
+	rest 1
 	octave 3
 	note C_, 2
 	octave 2
 	note F_, 1
-	note __, 2
+	rest 2
 	note A#, 1
 	note F_, 1
-	note __, 1
+	rest 1
 	note F_, 1
 	octave 3
 	note C_, 1
-	note __, 1
+	rest 1
 	octave 2
 	note F_, 1
-	note __, 2
+	rest 2
 	note E_, 3
-	note __, 3
+	rest 3
 	note F_, 3
 	octave 1
 	note A_, 1
-	callchannel Music_CatchEmBlue_branch_41b7e
+	sound_call Music_CatchEmBlue_branch_41b7e
 	note G#, 2
-	note __, 1
+	rest 1
 	note F_, 2
-	note __, 1
+	rest 1
 	note D_, 2
-	note __, 1
+	rest 1
 	octave 1
 	note A#, 2
 	note G_, 1
 	note G#, 1
-	note __, 1
+	rest 1
 	note G#, 1
-	note __, 2
+	rest 2
 	octave 2
 	note C_, 1
 	note D#, 1
-	note __, 1
+	rest 1
 	note G_, 1
-	note __, 1
+	rest 1
 	note G#, 1
-	note __, 1
+	rest 1
 	note G#, 2
-	note __, 1
+	rest 1
 	note G_, 2
-	note __, 1
+	rest 1
 	note F#, 2
-	note __, 1
+	rest 1
 	note F_, 1
-	note __, 1
+	rest 1
 	note E_, 1
 	note F_, 2
 	octave 1
 	note F_, 1
-	note __, 2
+	rest 2
 	note F_, 1
 	note F_, 1
-	note __, 1
+	rest 1
 	octave 2
 	note C_, 1
 	note D#, 1
-	note __, 1
+	rest 1
 	note D_, 1
-	intensity $32
+	volume_envelope 3, 2
 	octave 3
 	note D#, 1
 	note D_, 1
@@ -1552,601 +1544,588 @@ Music_CatchEmBlue_branch_419ba: ; 419ba
 	note A#, 1
 	octave 3
 	note C_, 1
-	intensity $22
+	volume_envelope 2, 2
 	note D_, 1
 	note F_, 1
 	note A#, 1
 	octave 4
 	note D_, 1
 	note F_, 1
-	note __, 1
+	rest 1
 	octave 1
 	note F#, 1
-	note __, 1
+	rest 1
 	note F#, 1
 	note A#, 2
-	note __, 1
+	rest 1
 	octave 2
 	note C#, 2
-	note __, 1
+	rest 1
 	note F_, 2
-	note __, 1
+	rest 1
 	note G#, 2
-	note __, 1
+	rest 1
 	note G_, 2
-	note __, 1
+	rest 1
 	note F#, 2
-	note __, 1
+	rest 1
 	note F_, 2
-	note __, 1
+	rest 1
 	note D#, 1
-	note __, 1
+	rest 1
 	octave 1
 	note G#, 1
-	note __, 2
+	rest 2
 	note G#, 1
 	note G#, 1
-	note __, 1
+	rest 1
 	note G#, 1
 	note A#, 1
-	note __, 1
+	rest 1
 	note G#, 1
 	note G#, 2
-	note __, 1
+	rest 1
 	note A#, 1
-	note __, 1
+	rest 1
 	note G#, 1
-	note __, 6
+	rest 6
 	note F#, 1
-	note __, 1
+	rest 1
 	note F#, 1
 	note A#, 2
-	note __, 1
+	rest 1
 	octave 2
 	note C#, 2
-	note __, 1
+	rest 1
 	note F_, 2
-	note __, 3
-	intensity $32
+	rest 3
+	volume_envelope 3, 2
 	octave 3
 	note C_, 3
-	note __, 3
+	rest 3
 	note C#, 3
-	note __, 1
-	intensity $22
+	rest 1
+	volume_envelope 2, 2
 	octave 2
 	note G#, 1
 	note G_, 1
 	note F#, 1
 	note F_, 2
-	note __, 1
+	rest 1
 	note E_, 2
-	note __, 1
+	rest 1
 	note D#, 2
-	note __, 1
+	rest 1
 	note D_, 2
-	note __, 1
+	rest 1
 	note C#, 2
-	note __, 1
+	rest 1
 	note C_, 2
-	note __, 1
+	rest 1
 	note D#, 2
-	note __, 1
+	rest 1
 	octave 1
 	note F#, 1
-	note __, 2
+	rest 2
 	note F#, 1
-	note __, 2
+	rest 2
 	note A#, 1
-	note __, 1
+	rest 1
 	octave 2
 	note C_, 1
 	note C#, 3
-	note __, 12
+	rest 12
 	octave 1
 	note G#, 1
-	note __, 2
+	rest 2
 	note G#, 1
-	note __, 2
+	rest 2
 	octave 2
 	note C_, 1
-	note __, 1
+	rest 1
 	note D_, 1
 	note D#, 3
-	note __, 9
+	rest 9
 	octave 1
 	note G_, 3
 	note F#, 2
 	octave 2
 	note F#, 1
 	note F_, 2
-	note __, 1
+	rest 1
 	note E_, 2
-	note __, 1
+	rest 1
 	note D#, 2
-	note __, 1
+	rest 1
 	note D_, 2
-	note __, 1
+	rest 1
 	note C#, 2
-	note __, 1
+	rest 1
 	note G#, 2
-	note __, 1
-	notetype $c, $22
+	rest 1
+	note_type 12, 2, 2
 	octave 3
 	note D#, 2
 	note D#, 16
-	loopchannel 0, Music_CatchEmBlue_branch_41937
-; 41b46
+	sound_loop 0, Music_CatchEmBlue_branch_41937
 
-Music_CatchEmBlue_branch_41b46: ; 41b46
+Music_CatchEmBlue_branch_41b46:
 	note A#, 2
-	note __, 1
+	rest 1
 	octave 2
 	note A#, 2
-	note __, 1
+	rest 1
 	note A_, 2
-	note __, 1
+	rest 1
 	octave 1
 	note A#, 2
-	note __, 1
+	rest 1
 	note G#, 2
-	note __, 1
+	rest 1
 	octave 2
 	note G#, 2
-	note __, 1
+	rest 1
 	note G_, 2
-	note __, 1
+	rest 1
 	octave 1
 	note G#, 2
-	note __, 1
-	endchannel
-; 41b5b
+	rest 1
+	sound_ret
 
-Music_CatchEmBlue_branch_41b5b: ; 41b5b
+Music_CatchEmBlue_branch_41b5b:
 	note A#, 2
-	note __, 1
+	rest 1
 	note A_, 2
-	note __, 1
+	rest 1
 	note G#, 2
-	note __, 1
+	rest 1
 	note G_, 2
-	note __, 1
+	rest 1
 	note F#, 2
-	note __, 1
+	rest 1
 	note F_, 2
-	note __, 1
+	rest 1
 	note E_, 2
-	note __, 1
+	rest 1
 	note F_, 2
-	note __, 1
+	rest 1
 	octave 1
 	note F#, 2
-	note __, 1
+	rest 1
 	note F#, 2
-	note __, 1
+	rest 1
 	note G_, 2
-	note __, 1
+	rest 1
 	note G_, 2
-	note __, 1
+	rest 1
 	octave 2
 	note G#, 2
-	note __, 1
+	rest 1
 	note G_, 2
 	octave 3
 	note D#, 1
-	note __, 2
+	rest 2
 	octave 2
 	note F_, 4
-	endchannel
-; 41b7e
+	sound_ret
 
-Music_CatchEmBlue_branch_41b7e: ; 41b7e
+Music_CatchEmBlue_branch_41b7e:
 	note A#, 2
-	note __, 3
+	rest 3
 	note A#, 1
 	octave 2
 	note F_, 1
-	note __, 1
+	rest 1
 	note D_, 1
-	note __, 2
+	rest 2
 	octave 1
 	note A#, 1
 	note A_, 1
-	note __, 1
+	rest 1
 	note A_, 1
 	octave 2
 	note D_, 2
-	note __, 1
+	rest 1
 	note F_, 1
-	note __, 2
+	rest 2
 	note A_, 2
 	note G_, 1
-	endchannel
+	sound_ret
 
-Music_CatchEmBlue_Ch4: ; 41b93
-	togglenoise $0
-	notetype $8
-	note D#, 3
-	note D_, 3
-	note D#, 2
-	note D_, 1
-	note F#, 2
-	note G_, 1
-	note D_, 3
-	note D_, 3
-	note C#, 2
-	note C#, 1
-	note D_, 2
-	note D_, 1
+Music_CatchEmBlue_Ch4:
+	toggle_noise 0
+	drum_speed 8
+	drum_note 4, 3
+	drum_note 3, 3
+	drum_note 4, 2
+	drum_note 3, 1
+	drum_note 7, 2
+	drum_note 8, 1
+	drum_note 3, 3
+	drum_note 3, 3
+	drum_note 2, 2
+	drum_note 2, 1
+	drum_note 3, 2
+	drum_note 3, 1
+Music_CatchEmBlue_branch_41ba3:
+	drum_note 3, 3
+	drum_note 4, 2
+	drum_note 4, 1
+	drum_note 4, 2
+	drum_note 4, 3
+	drum_note 2, 1
+	drum_note 3, 3
+	drum_note 3, 3
+	drum_note 4, 2
+	drum_note 3, 1
+	drum_note 4, 2
+	drum_note 3, 1
+	drum_note 4, 2
+	drum_note 8, 1
+	drum_note 7, 3
+	drum_note 8, 2
+	drum_note 8, 1
+	drum_note 7, 3
+	drum_note 8, 2
+	drum_note 8, 1
+	drum_note 7, 2
+	drum_note 8, 1
+	drum_note 3, 1
+	drum_note 3, 1
+	drum_note 3, 1
+	drum_note 3, 2
+	drum_note 3, 1
+	drum_note 3, 3
+	drum_note 8, 2
+	drum_note 4, 1
+	drum_note 3, 5
+	drum_note 3, 3
+	drum_note 8, 1
+	drum_note 7, 3
+	drum_note 3, 2
+	drum_note 8, 1
+	drum_note 7, 2
+	drum_note 3, 1
+	drum_note 8, 2
+	drum_note 8, 1
+	drum_note 7, 2
+	drum_note 4, 1
+	drum_note 3, 2
+	drum_note 8, 1
+	drum_note 7, 2
+	drum_note 8, 1
+	drum_note 4, 2
+	drum_note 3, 1
+	drum_note 1, 5
+	drum_note 3, 1
+	drum_note 3, 2
+	drum_note 4, 1
+	sound_call Music_CatchEmBlue_branch_41cfe
+	drum_note 8, 2
+	drum_note 8, 1
+	drum_note 8, 2
+	drum_note 8, 1
+	drum_note 8, 2
+	drum_note 8, 1
+	drum_note 7, 3
+	sound_call Music_CatchEmBlue_branch_41cfe
+	drum_note 8, 2
+	drum_note 8, 1
+	drum_note 7, 3
+	drum_note 3, 2
+	drum_note 3, 1
+	drum_note 4, 2
+	drum_note 4, 1
+	sound_call Music_CatchEmBlue_branch_41cfe
+	drum_note 3, 1
+	drum_note 2, 1
+	drum_note 2, 1
+	drum_note 3, 3
+	drum_note 3, 2
+	drum_note 4, 1
+	drum_note 7, 3
+	sound_call Music_CatchEmBlue_branch_41cfe
+	drum_note 3, 2
+	drum_note 3, 1
+	drum_note 3, 2
+	drum_note 3, 1
+	drum_note 4, 2
+	drum_note 1, 1
+	drum_note 3, 2
+	drum_note 3, 1
+	drum_note 3, 2
+	drum_note 8, 1
+	drum_note 7, 3
+	drum_note 8, 2
+	drum_note 8, 1
+	drum_note 7, 3
+	drum_note 8, 2
+	drum_note 8, 1
+	drum_note 8, 2
+	drum_note 8, 1
+	drum_note 8, 2
+	drum_note 8, 1
+	drum_note 7, 3
+	sound_call Music_CatchEmBlue_branch_41cfe
+	drum_note 8, 2
+	drum_note 8, 1
+	drum_note 7, 3
+	drum_note 8, 2
+	drum_note 3, 1
+	drum_note 3, 2
+	drum_note 4, 1
+	sound_call Music_CatchEmBlue_branch_41cfe
+	drum_note 3, 1
+	drum_note 2, 1
+	drum_note 2, 1
+	drum_note 3, 3
+	drum_note 3, 2
+	drum_note 4, 1
+	drum_note 7, 3
+	sound_call Music_CatchEmBlue_branch_41cfe
+	drum_note 3, 2
+	drum_note 4, 3
+	drum_note 4, 1
+	drum_note 4, 2
+	drum_note 12, 1
+	drum_note 3, 2
+	drum_note 3, 1
+	drum_note 3, 2
+	drum_note 4, 3
+	drum_note 3, 1
+	drum_note 3, 2
+	drum_note 3, 3
+	drum_note 3, 1
+	drum_note 12, 12
+	sound_call Music_CatchEmBlue_branch_41d05
+	drum_note 4, 3
+	drum_note 8, 2
+	drum_note 8, 1
+	drum_note 3, 3
+	drum_note 8, 2
+	drum_note 8, 1
+	drum_note 4, 3
+	drum_note 3, 2
+	drum_note 3, 1
+	drum_note 3, 3
+	drum_note 3, 2
+	drum_note 3, 1
+	sound_call Music_CatchEmBlue_branch_41d05
+	drum_note 4, 3
+	drum_note 8, 2
+	drum_note 8, 1
+	drum_note 3, 2
+	drum_note 3, 1
+	drum_note 8, 2
+	drum_note 8, 1
+	drum_note 4, 3
+	drum_note 2, 1
+	drum_note 2, 1
+	drum_note 3, 1
+	drum_note 3, 3
+	drum_note 3, 2
+	drum_note 3, 1
+	sound_call Music_CatchEmBlue_branch_41d12
+	drum_note 3, 2
+	drum_note 3, 2
+	drum_note 3, 2
+	sound_call Music_CatchEmBlue_branch_41d12
+	drum_note 8, 2
+	drum_note 8, 1
+	drum_note 7, 3
+Music_CatchEmBlue_branch_41c5e:
+	drum_note 8, 2
+	drum_note 8, 1
+	drum_note 7, 3
+	sound_loop 4, Music_CatchEmBlue_branch_41c5e
+	drum_note 8, 2
+	drum_note 8, 1
+	drum_note 7, 3
+	drum_note 3, 2
+	drum_note 3, 2
+	drum_note 4, 2
+	drum_note 3, 2
+	drum_note 4, 2
+	drum_note 4, 2
+	drum_note 1, 6
+	sound_call Music_CatchEmBlue_branch_41d1c
+	drum_note 4, 3
+	drum_note 8, 2
+	drum_note 8, 1
+	drum_note 7, 3
+	drum_note 8, 2
+	drum_note 4, 1
+	sound_call Music_CatchEmBlue_branch_41d1c
+	drum_note 4, 3
+	drum_note 8, 2
+	drum_note 8, 1
+	drum_note 3, 2
+	drum_note 3, 3
+	drum_note 4, 1
+	drum_note 4, 3
+	drum_note 4, 2
+	drum_note 8, 1
+	drum_note 3, 3
+	drum_note 8, 2
+	drum_note 8, 1
+	drum_note 4, 3
+	drum_note 8, 2
+	drum_note 8, 1
+	drum_note 3, 3
+	drum_note 8, 2
+	drum_note 4, 1
+	drum_note 4, 3
+	drum_note 8, 2
+	drum_note 8, 1
+	drum_note 3, 3
+	drum_note 3, 2
+	drum_note 3, 1
+	drum_note 4, 2
+	drum_note 3, 3
+	drum_note 4, 1
+	drum_note 4, 2
+	drum_note 3, 2
+	drum_note 3, 2
+	sound_call Music_CatchEmBlue_branch_41d23
+	drum_note 3, 2
+	drum_note 8, 1
+	drum_note 8, 2
+	drum_note 8, 1
+	sound_call Music_CatchEmBlue_branch_41d23
+	drum_note 3, 2
+	drum_note 8, 1
+	drum_note 3, 2
+	drum_note 3, 1
+	sound_call Music_CatchEmBlue_branch_41d23
+	drum_note 3, 2
+	drum_note 8, 1
+	drum_note 7, 3
+	drum_note 7, 3
+	drum_note 8, 2
+	drum_note 8, 1
+	drum_note 8, 2
+	drum_note 8, 1
+	drum_note 7, 3
+	drum_note 4, 3
+	drum_note 2, 1
+	drum_note 2, 1
+	drum_note 3, 1
+	drum_note 3, 3
+	drum_note 3, 2
+	drum_note 3, 1
+Music_CatchEmBlue_branch_41cba:
+	sound_call Music_CatchEmBlue_branch_41d30
+	sound_loop 4, Music_CatchEmBlue_branch_41cba
+	sound_call Music_CatchEmBlue_branch_41d30
+	drum_note 4, 2
+	drum_note 3, 3
+	drum_note 3, 1
+	drum_note 4, 2
+	drum_note 3, 3
+	drum_note 3, 1
+	sound_call Music_CatchEmBlue_branch_41d30
+	sound_call Music_CatchEmBlue_branch_41d30
+	sound_call Music_CatchEmBlue_branch_41d30
+	drum_note 2, 1
+	drum_note 2, 1
+	drum_note 2, 1
+	drum_note 3, 3
+	drum_note 3, 3
+	drum_note 4, 2
+	drum_note 3, 1
+	sound_call Music_CatchEmBlue_branch_41d30
+	drum_note 4, 2
+	drum_note 3, 1
+	drum_note 4, 2
+	drum_note 3, 1
+	drum_note 3, 2
+	drum_note 3, 1
+	drum_note 4, 2
+	drum_note 3, 1
+	sound_call Music_CatchEmBlue_branch_41d30
+	sound_call Music_CatchEmBlue_branch_41d30
+	drum_note 3, 1
+	drum_note 3, 1
+	drum_note 3, 1
+	drum_note 3, 3
+	drum_note 3, 2
+	drum_note 3, 1
+	drum_note 4, 2
+	drum_note 2, 1
+	drum_note 3, 3
+	drum_note 3, 3
+	drum_note 2, 1
+	drum_note 2, 1
+	drum_note 2, 1
+	drum_note 3, 2
+	drum_note 3, 1
+	sound_loop 0, Music_CatchEmBlue_branch_41ba3
 
-Music_CatchEmBlue_branch_41ba3: ; 41ba3
-	note D_, 3
-	note D#, 2
-	note D#, 1
-	note D#, 2
-	note D#, 3
-	note C#, 1
-	note D_, 3
-	note D_, 3
-	note D#, 2
-	note D_, 1
-	note D#, 2
-	note D_, 1
-	note D#, 2
-	note G_, 1
-	note F#, 3
-	note G_, 2
-	note G_, 1
-	note F#, 3
-	note G_, 2
-	note G_, 1
-	note F#, 2
-	note G_, 1
-	note D_, 1
-	note D_, 1
-	note D_, 1
-	note D_, 2
-	note D_, 1
-	note D_, 3
-	note G_, 2
-	note D#, 1
-	note D_, 5
-	note D_, 3
-	note G_, 1
-	note F#, 3
-	note D_, 2
-	note G_, 1
-	note F#, 2
-	note D_, 1
-	note G_, 2
-	note G_, 1
-	note F#, 2
-	note D#, 1
-	note D_, 2
-	note G_, 1
-	note F#, 2
-	note G_, 1
-	note D#, 2
-	note D_, 1
-	note C_, 5
-	note D_, 1
-	note D_, 2
-	note D#, 1
-	callchannel Music_CatchEmBlue_branch_41cfe
-	note G_, 2
-	note G_, 1
-	note G_, 2
-	note G_, 1
-	note G_, 2
-	note G_, 1
-	note F#, 3
-	callchannel Music_CatchEmBlue_branch_41cfe
-	note G_, 2
-	note G_, 1
-	note F#, 3
-	note D_, 2
-	note D_, 1
-	note D#, 2
-	note D#, 1
-	callchannel Music_CatchEmBlue_branch_41cfe
-	note D_, 1
-	note C#, 1
-	note C#, 1
-	note D_, 3
-	note D_, 2
-	note D#, 1
-	note F#, 3
-	callchannel Music_CatchEmBlue_branch_41cfe
-	note D_, 2
-	note D_, 1
-	note D_, 2
-	note D_, 1
-	note D#, 2
-	note C_, 1
-	note D_, 2
-	note D_, 1
-	note D_, 2
-	note G_, 1
-	note F#, 3
-	note G_, 2
-	note G_, 1
-	note F#, 3
-	note G_, 2
-	note G_, 1
-	note G_, 2
-	note G_, 1
-	note G_, 2
-	note G_, 1
-	note F#, 3
-	callchannel Music_CatchEmBlue_branch_41cfe
-	note G_, 2
-	note G_, 1
-	note F#, 3
-	note G_, 2
-	note D_, 1
-	note D_, 2
-	note D#, 1
-	callchannel Music_CatchEmBlue_branch_41cfe
-	note D_, 1
-	note C#, 1
-	note C#, 1
-	note D_, 3
-	note D_, 2
-	note D#, 1
-	note F#, 3
-	callchannel Music_CatchEmBlue_branch_41cfe
-	note D_, 2
-	note D#, 3
-	note D#, 1
-	note D#, 2
-	note B_, 1
-	note D_, 2
-	note D_, 1
-	note D_, 2
-	note D#, 3
-	note D_, 1
-	note D_, 2
-	note D_, 3
-	note D_, 1
-	note B_, 12
-	callchannel Music_CatchEmBlue_branch_41d05
-	note D#, 3
-	note G_, 2
-	note G_, 1
-	note D_, 3
-	note G_, 2
-	note G_, 1
-	note D#, 3
-	note D_, 2
-	note D_, 1
-	note D_, 3
-	note D_, 2
-	note D_, 1
-	callchannel Music_CatchEmBlue_branch_41d05
-	note D#, 3
-	note G_, 2
-	note G_, 1
-	note D_, 2
-	note D_, 1
-	note G_, 2
-	note G_, 1
-	note D#, 3
-	note C#, 1
-	note C#, 1
-	note D_, 1
-	note D_, 3
-	note D_, 2
-	note D_, 1
-	callchannel Music_CatchEmBlue_branch_41d12
-	note D_, 2
-	note D_, 2
-	note D_, 2
-	callchannel Music_CatchEmBlue_branch_41d12
-	note G_, 2
-	note G_, 1
-	note F#, 3
+Music_CatchEmBlue_branch_41cfe:
+	drum_note 8, 2
+	drum_note 8, 1
+	drum_note 7, 3
+	drum_note 8, 2
+	drum_note 8, 1
+	drum_note 7, 3
+	sound_ret
 
-Music_CatchEmBlue_branch_41c5e: ; 41c5e
-	note G_, 2
-	note G_, 1
-	note F#, 3
-	loopchannel 4, Music_CatchEmBlue_branch_41c5e
-	note G_, 2
-	note G_, 1
-	note F#, 3
-	note D_, 2
-	note D_, 2
-	note D#, 2
-	note D_, 2
-	note D#, 2
-	note D#, 2
-	note C_, 6
-	callchannel Music_CatchEmBlue_branch_41d1c
-	note D#, 3
-	note G_, 2
-	note G_, 1
-	note F#, 3
-	note G_, 2
-	note D#, 1
-	callchannel Music_CatchEmBlue_branch_41d1c
-	note D#, 3
-	note G_, 2
-	note G_, 1
-	note D_, 2
-	note D_, 3
-	note D#, 1
-	note D#, 3
-	note D#, 2
-	note G_, 1
-	note D_, 3
-	note G_, 2
-	note G_, 1
-	note D#, 3
-	note G_, 2
-	note G_, 1
-	note D_, 3
-	note G_, 2
-	note D#, 1
-	note D#, 3
-	note G_, 2
-	note G_, 1
-	note D_, 3
-	note D_, 2
-	note D_, 1
-	note D#, 2
-	note D_, 3
-	note D#, 1
-	note D#, 2
-	note D_, 2
-	note D_, 2
-	callchannel Music_CatchEmBlue_branch_41d23
-	note D_, 2
-	note G_, 1
-	note G_, 2
-	note G_, 1
-	callchannel Music_CatchEmBlue_branch_41d23
-	note D_, 2
-	note G_, 1
-	note D_, 2
-	note D_, 1
-	callchannel Music_CatchEmBlue_branch_41d23
-	note D_, 2
-	note G_, 1
-	note F#, 3
-	note F#, 3
-	note G_, 2
-	note G_, 1
-	note G_, 2
-	note G_, 1
-	note F#, 3
-	note D#, 3
-	note C#, 1
-	note C#, 1
-	note D_, 1
-	note D_, 3
-	note D_, 2
-	note D_, 1
+Music_CatchEmBlue_branch_41d05:
+	drum_note 4, 3
+	drum_note 8, 2
+	drum_note 8, 1
+	drum_note 3, 3
+	drum_note 8, 2
+	drum_note 8, 1
+	drum_note 4, 3
+	drum_note 8, 2
+	drum_note 8, 1
+	drum_note 3, 3
+	drum_note 8, 2
+	drum_note 4, 1
+	sound_ret
 
-Music_CatchEmBlue_branch_41cba: ; 41cba
-	callchannel Music_CatchEmBlue_branch_41d30
-	loopchannel 4, Music_CatchEmBlue_branch_41cba
-	callchannel Music_CatchEmBlue_branch_41d30
-	note D#, 2
-	note D_, 3
-	note D_, 1
-	note D#, 2
-	note D_, 3
-	note D_, 1
-	callchannel Music_CatchEmBlue_branch_41d30
-	callchannel Music_CatchEmBlue_branch_41d30
-	callchannel Music_CatchEmBlue_branch_41d30
-	note C#, 1
-	note C#, 1
-	note C#, 1
-	note D_, 3
-	note D_, 3
-	note D#, 2
-	note D_, 1
-	callchannel Music_CatchEmBlue_branch_41d30
-	note D#, 2
-	note D_, 1
-	note D#, 2
-	note D_, 1
-	note D_, 2
-	note D_, 1
-	note D#, 2
-	note D_, 1
-	callchannel Music_CatchEmBlue_branch_41d30
-	callchannel Music_CatchEmBlue_branch_41d30
-	note D_, 1
-	note D_, 1
-	note D_, 1
-	note D_, 3
-	note D_, 2
-	note D_, 1
-	note D#, 2
-	note C#, 1
-	note D_, 3
-	note D_, 3
-	note C#, 1
-	note C#, 1
-	note C#, 1
-	note D_, 2
-	note D_, 1
-	loopchannel 0, Music_CatchEmBlue_branch_41ba3
-; 41cfe
+Music_CatchEmBlue_branch_41d12:
+	drum_note 4, 2
+	drum_note 8, 1
+	drum_note 7, 3
+	drum_note 8, 2
+	drum_note 3, 1
+	drum_note 4, 3
+	drum_note 8, 2
+	drum_note 8, 1
+	drum_note 7, 3
+	sound_ret
 
-Music_CatchEmBlue_branch_41cfe: ; 41cfe
-	note G_, 2
-	note G_, 1
-	note F#, 3
-	note G_, 2
-	note G_, 1
-	note F#, 3
-	endchannel
-; 41d05
+Music_CatchEmBlue_branch_41d1c:
+	drum_note 4, 3
+	drum_note 8, 2
+	drum_note 8, 1
+	drum_note 7, 3
+	drum_note 8, 2
+	drum_note 8, 1
+	sound_ret
 
-Music_CatchEmBlue_branch_41d05: ; 41d05
-	note D#, 3
-	note G_, 2
-	note G_, 1
-	note D_, 3
-	note G_, 2
-	note G_, 1
-	note D#, 3
-	note G_, 2
-	note G_, 1
-	note D_, 3
-	note G_, 2
-	note D#, 1
-	endchannel
-; 41d12
+Music_CatchEmBlue_branch_41d23:
+	drum_note 4, 2
+	drum_note 8, 1
+	drum_note 8, 2
+	drum_note 8, 1
+	drum_note 3, 2
+	drum_note 8, 1
+	drum_note 8, 2
+	drum_note 8, 1
+	drum_note 4, 2
+	drum_note 8, 1
+	drum_note 4, 2
+	drum_note 8, 1
+	sound_ret
 
-Music_CatchEmBlue_branch_41d12: ; 41d12
-	note D#, 2
-	note G_, 1
-	note F#, 3
-	note G_, 2
-	note D_, 1
-	note D#, 3
-	note G_, 2
-	note G_, 1
-	note F#, 3
-	endchannel
-; 41d1c
-
-Music_CatchEmBlue_branch_41d1c: ; 41d1c
-	note D#, 3
-	note G_, 2
-	note G_, 1
-	note F#, 3
-	note G_, 2
-	note G_, 1
-	endchannel
-; 41d23
-
-Music_CatchEmBlue_branch_41d23: ; 41d23
-	note D#, 2
-	note G_, 1
-	note G_, 2
-	note G_, 1
-	note D_, 2
-	note G_, 1
-	note G_, 2
-	note G_, 1
-	note D#, 2
-	note G_, 1
-	note D#, 2
-	note G_, 1
-	endchannel
-; 41d30
-
-Music_CatchEmBlue_branch_41d30: ; 41d30
-	note F#, 3
-	note G_, 2
-	note G_, 1
-	note F#, 3
-	note G_, 2
-	note G_, 1
-	endchannel
-; 41d37
+Music_CatchEmBlue_branch_41d30:
+	drum_note 7, 3
+	drum_note 8, 2
+	drum_note 8, 1
+	drum_note 7, 3
+	drum_note 8, 2
+	drum_note 8, 1
+	sound_ret

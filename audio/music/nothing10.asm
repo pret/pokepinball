@@ -1,17 +1,12 @@
-Music_Nothing10: ; 40cae
-	dbw $c0, Music_Nothing10_Ch1
-	dbw $01, Music_Nothing10_Ch2
-	dbw $02, Music_Nothing10_Ch3
-	dbw $03, Music_Nothing10_Ch4
-; 40cba
+Music_Nothing10:
+	channel_count 4
+	channel 1, Music_Nothing10_Ch1
+	channel 2, Music_Nothing10_Ch2
+	channel 3, Music_Nothing10_Ch3
+	channel 4, Music_Nothing10_Ch4
 
-
-Music_Nothing10_Ch1: ; 40cba
-
-Music_Nothing10_Ch2: ; 40cba
-
-Music_Nothing10_Ch3: ; 40cba
-
-Music_Nothing10_Ch4: ; 40cba
-	endchannel
-; 40cbb
+Music_Nothing10_Ch1:
+Music_Nothing10_Ch2:
+Music_Nothing10_Ch3:
+Music_Nothing10_Ch4:
+	sound_ret

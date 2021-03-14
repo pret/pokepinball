@@ -2,6 +2,7 @@ INCLUDE "hram.asm"
 INCLUDE "vram.asm"
 INCLUDE "gbhw.asm"
 
+INCLUDE "constants/audio_constants.asm"
 INCLUDE "constants/ball_types.asm"
 INCLUDE "constants/bonus_stage_order_constants.asm"
 INCLUDE "constants/diglett_stage_constants.asm"
@@ -17,3 +18,6 @@ INCLUDE "constants/sound_effect_constants.asm"
 INCLUDE "constants/species_constants.asm"
 INCLUDE "constants/stage_constants.asm"
 INCLUDE "constants/special_collision_constants.asm"
+
+FALSE EQU 0
+TRUE  EQU 1

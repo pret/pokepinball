@@ -1,3 +1,22 @@
+; Constant enumeration is useful for mons, maps, etc.
+const_def: MACRO
+if _NARG >= 1
+const_value = \1
+else
+const_value = 0
+endc
+if _NARG >= 2
+const_inc = \2
+else
+const_inc = 1
+endc
+ENDM
+
+const: MACRO
+\1 EQU const_value
+const_value = const_value + const_inc
+ENDM
+
 INCLUDE "macros/pokedex.asm"
 INCLUDE "macros/scrolling_text.asm"
 INCLUDE "macros/sound.asm"
@@ -80,16 +99,6 @@ bigBCD6: MACRO
 	dn ((\1) / 1000000000) % 10, ((\1) / 100000000) % 10
 	dn ((\1) / 100000000000) % 10, ((\1) / 10000000000) % 10
 	ENDM
-
-; Constant enumeration is useful for mons, maps, etc.
-const_def: MACRO
-const_value = 0
-ENDM
-
-const: MACRO
-\1 EQU const_value
-const_value = const_value + 1
-ENDM
 
 ;\1 = X
 ;\2 = Y

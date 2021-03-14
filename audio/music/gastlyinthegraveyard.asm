@@ -1,239 +1,230 @@
-Music_GastlyInTheGraveyard: ; 3ddea
-	dbw $80, Music_GastlyInTheGraveyard_Ch1
-	dbw $01, Music_GastlyInTheGraveyard_Ch2
-	dbw $02, Music_GastlyInTheGraveyard_Ch3
-; 3ddf3
+Music_GastlyInTheGraveyard:
+	channel_count 3
+	channel 1, Music_GastlyInTheGraveyard_Ch1
+	channel 2, Music_GastlyInTheGraveyard_Ch2
+	channel 3, Music_GastlyInTheGraveyard_Ch3
 
-
-Music_GastlyInTheGraveyard_Ch1: ; 3ddf3
-
-Music_HaunterInTheGraveyard_branch_3ddf3: ; 3ddf3
+Music_GastlyInTheGraveyard_Ch1:
+Music_HaunterInTheGraveyard_branch_3ddf3:
 	tempo 272
-	volume $77
-
-Music_GastlyInTheGraveyard_branch_3ddf8: ; 3ddf8
-	vibrato $12, $33
-	dutycycle $3
-	notetype $6, $48
+	volume 7, 7
+Music_GastlyInTheGraveyard_branch_3ddf8:
+	vibrato 18, 3, 3
+	duty_cycle 3
+	note_type 6, 4, 8
 	octave 5
 	note G#, 1
 	note A_, 1
 	note A#, 1
 	note B_, 1
-	notetype $c, $48
+	note_type 12, 4, 8
 	octave 6
 	note C_, 14
-	vibrato $0, $33
-	intensity $46
+	vibrato 0, 3, 3
+	volume_envelope 4, 6
 	note C_, 8
-	note __, 8
-	note __, 16
-	note __, 16
-	note __, 16
-	vibrato $12, $33
-	dutycycle $3
-	notetype $6, $48
+	rest 8
+	rest 16
+	rest 16
+	rest 16
+	vibrato 18, 3, 3
+	duty_cycle 3
+	note_type 6, 4, 8
 	octave 4
 	note G#, 1
 	note A_, 16
-	vibrato $0, $33
+	vibrato 0, 3, 3
 	note A_, 11
-	intensity $38
+	volume_envelope 3, 8
 	note G#, 1
 	note G_, 1
 	note F#, 1
 	note F_, 1
-	dutycycle $2
-	vibrato $12, $53
-	notetype $6, $b8
+	duty_cycle 2
+	vibrato 18, 5, 3
+	note_type 6, 11, 8
 	octave 3
 	note D_, 2
 	note C#, 2
 	note G_, 2
-	notetype $c, $98
+	note_type 12, 9, 8
 	note F#, 9
-	notetype $6, $48
+	note_type 6, 4, 8
 	note F_, 1
 	note E_, 1
-	notetype $6, $28
+	note_type 6, 2, 8
 	note D#, 1
 	note D_, 1
-	notetype $c, $b3
-	note __, 2
-	note __, 16
-	loopchannel 0, Music_GastlyInTheGraveyard_branch_3ddf8
+	note_type 12, 11, 3
+	rest 2
+	rest 16
+	sound_loop 0, Music_GastlyInTheGraveyard_branch_3ddf8
 
-Music_GastlyInTheGraveyard_Ch2: ; 3de4c
-
-Music_HaunterInTheGraveyard_branch_3de4c: ; 3de4c
-	tone $0001
-
-Music_GastlyInTheGraveyard_branch_3de4f: ; 3de4f
-	dutycycle $3
-	vibrato $12, $33
-	notetype $6, $48
+Music_GastlyInTheGraveyard_Ch2:
+Music_HaunterInTheGraveyard_branch_3de4c:
+	pitch_offset 1
+Music_GastlyInTheGraveyard_branch_3de4f:
+	duty_cycle 3
+	vibrato 18, 3, 3
+	note_type 6, 4, 8
 	octave 6
 	note C#, 1
 	note D_, 1
 	note D#, 1
 	note E_, 1
-	notetype $c, $48
+	note_type 12, 4, 8
 	note F_, 14
-	vibrato $0, $33
-	intensity $46
+	vibrato 0, 3, 3
+	volume_envelope 4, 6
 	note F_, 8
-	dutycycle $2
-	vibrato $12, $33
-	notetype $6, $98
+	duty_cycle 2
+	vibrato 18, 3, 3
+	note_type 6, 9, 8
 	octave 4
 	note F#, 1
-	intensity $28
+	volume_envelope 2, 8
 	note F#, 1
-	intensity $98
+	volume_envelope 9, 8
 	note F_, 1
-	intensity $28
+	volume_envelope 2, 8
 	note F_, 1
-	intensity $98
+	volume_envelope 9, 8
 	note A#, 1
-	intensity $28
+	volume_envelope 2, 8
 	note A#, 1
-	intensity $98
+	volume_envelope 9, 8
 	note A_, 4
-	intensity $68
+	volume_envelope 6, 8
 	note C#, 4
-	intensity $48
+	volume_envelope 4, 8
 	note C_, 2
-	intensity $18
+	volume_envelope 1, 8
 	note C_, 2
-	intensity $68
+	volume_envelope 6, 8
 	octave 3
 	note A#, 4
-	intensity $88
+	volume_envelope 8, 8
 	note A_, 2
-	intensity $28
+	volume_envelope 2, 8
 	note A_, 2
-	intensity $88
+	volume_envelope 8, 8
 	note F#, 6
-	callchannel Music_GastlyInTheGraveyard_branch_3dee0
-	callchannel Music_GastlyInTheGraveyard_branch_3dee0
-	note __, 16
-	dutycycle $3
-	intensity $48
+	sound_call Music_GastlyInTheGraveyard_branch_3dee0
+	sound_call Music_GastlyInTheGraveyard_branch_3dee0
+	rest 16
+	duty_cycle 3
+	volume_envelope 4, 8
 	octave 5
 	note G_, 1
 	note G#, 16
-	vibrato $0, $33
+	vibrato 0, 3, 3
 	note G#, 11
-	vibrato $12, $33
-	intensity $38
+	vibrato 18, 3, 3
+	volume_envelope 3, 8
 	note G_, 1
 	note F#, 1
 	note F_, 1
 	note E_, 1
-	dutycycle $2
-	vibrato $12, $53
-	intensity $b8
+	duty_cycle 2
+	vibrato 18, 5, 3
+	volume_envelope 11, 8
 	octave 3
 	note F#, 2
 	note F_, 2
 	note B_, 2
-	notetype $c, $a8
+	note_type 12, 10, 8
 	note A#, 9
-	notetype $6, $48
+	note_type 6, 4, 8
 	note A_, 1
 	note G#, 1
-	notetype $6, $38
+	note_type 6, 3, 8
 	note G_, 1
 	note F#, 1
-	intensity $78
+	volume_envelope 7, 8
 	octave 1
 	note F#, 4
-	notetype $c, $b3
-	note __, 14
-	notetype $6, $a8
+	note_type 12, 11, 3
+	rest 14
+	note_type 6, 10, 8
 	octave 2
 	note B_, 1
 	note A#, 1
 	note G_, 1
 	note F#, 1
-	loopchannel 0, Music_GastlyInTheGraveyard_branch_3de4f
-; 3dee0
+	sound_loop 0, Music_GastlyInTheGraveyard_branch_3de4f
 
-Music_GastlyInTheGraveyard_branch_3dee0: ; 3dee0
-	intensity $28
+Music_GastlyInTheGraveyard_branch_3dee0:
+	volume_envelope 2, 8
 	note F_, 1
 	note F#, 1
-	intensity $38
+	volume_envelope 3, 8
 	note F_, 1
 	note F#, 1
-	intensity $48
+	volume_envelope 4, 8
 	note F_, 1
 	note F#, 1
-	intensity $58
+	volume_envelope 5, 8
 	note F_, 1
 	note F#, 1
-	intensity $68
+	volume_envelope 6, 8
 	note F_, 1
 	note F#, 1
-	intensity $78
+	volume_envelope 7, 8
 	note F_, 1
 	note F#, 1
-	intensity $b8
+	volume_envelope 11, 8
 	note F_, 1
 	note F#, 1
 	note F_, 1
 	note F#, 1
-	intensity $a8
+	volume_envelope 10, 8
 	note F_, 1
 	note F#, 1
-	intensity $88
+	volume_envelope 8, 8
 	note F_, 1
 	note F#, 1
-	intensity $78
+	volume_envelope 7, 8
 	note F_, 1
 	note F#, 1
-	intensity $68
+	volume_envelope 6, 8
 	note F_, 1
 	note F#, 1
-	intensity $58
+	volume_envelope 5, 8
 	note F_, 1
 	note F#, 1
-	intensity $48
+	volume_envelope 4, 8
 	note F_, 1
 	note F#, 1
-	intensity $28
+	volume_envelope 2, 8
 	note F_, 1
 	note F#, 1
-	intensity $18
+	volume_envelope 1, 8
 	note F_, 1
 	note F#, 1
-	endchannel
+	sound_ret
 
-Music_GastlyInTheGraveyard_Ch3: ; 3df1f
-
-Music_GastlyInTheGraveyard_branch_3df1f: ; 3df1f
-
-Music_HaunterInTheGraveyard_branch_3df1f: ; 3df1f
-	notetype $6, $22
+Music_GastlyInTheGraveyard_Ch3:
+Music_HaunterInTheGraveyard_branch_3df1f:
+	note_type 6, 2, 2
 	octave 1
 	note B_, 2
-	notetype $6, $32
+	note_type 6, 3, 2
 	octave 2
 	note B_, 1
-	note __, 1
+	rest 1
 	octave 4
 	note D_, 1
-	note __, 1
+	rest 1
 	note F_, 1
-	note __, 1
-	notetype $6, $22
+	rest 1
+	note_type 6, 2, 2
 	octave 1
 	note B_, 2
-	note __, 6
+	rest 6
 	note B_, 2
-	note __, 6
+	rest 6
 	note B_, 2
-	notetype $6, $32
+	note_type 6, 3, 2
 	octave 4
 	note D_, 1
 	note C#, 1
@@ -241,48 +232,48 @@ Music_HaunterInTheGraveyard_branch_3df1f: ; 3df1f
 	note C#, 1
 	note D_, 1
 	note C#, 1
-	notetype $6, $22
+	note_type 6, 2, 2
 	octave 1
 	note B_, 2
-	notetype $6, $32
+	note_type 6, 3, 2
 	octave 3
 	note F_, 1
 	note F#, 1
 	note G_, 1
 	note G#, 1
-	note __, 2
-	notetype $6, $22
+	rest 2
+	note_type 6, 2, 2
 	octave 1
 	note B_, 2
-	notetype $6, $32
+	note_type 6, 3, 2
 	octave 4
 	note F_, 1
 	note F#, 1
 	note G_, 1
 	note G#, 1
-	note __, 2
-	notetype $6, $22
+	rest 2
+	note_type 6, 2, 2
 	octave 1
 	note B_, 2
-	note __, 6
+	rest 6
 	note B_, 2
-	note __, 6
-	notetype $6, $32
+	rest 6
+	note_type 6, 3, 2
 	octave 1
 	note B_, 2
 	octave 2
 	note B_, 1
-	note __, 1
+	rest 1
 	octave 4
 	note D_, 1
-	note __, 1
+	rest 1
 	note F_, 1
-	note __, 1
+	rest 1
 	octave 1
 	note B_, 2
-	note __, 6
+	rest 6
 	note B_, 2
-	note __, 6
+	rest 6
 	note B_, 2
 	octave 4
 	note D_, 1
@@ -291,100 +282,98 @@ Music_HaunterInTheGraveyard_branch_3df1f: ; 3df1f
 	note C#, 1
 	note D_, 1
 	note C#, 1
-	notetype $6, $22
+	note_type 6, 2, 2
 	octave 2
 	note D_, 2
-	note __, 6
-	notetype $6, $32
+	rest 6
+	note_type 6, 3, 2
 	note D_, 2
-	note __, 6
+	rest 6
 	octave 1
 	note B_, 2
 	octave 2
 	note B_, 1
-	note __, 1
+	rest 1
 	octave 4
 	note D_, 1
-	note __, 1
+	rest 1
 	note F_, 1
-	note __, 1
+	rest 1
 	octave 1
 	note B_, 2
-	note __, 6
-	notetype $6, $22
+	rest 6
+	note_type 6, 2, 2
 	octave 2
 	note D_, 2
-	note __, 6
-	notetype $6, $32
+	rest 6
+	note_type 6, 3, 2
 	note D_, 2
-	note __, 6
+	rest 6
 	octave 1
 	note B_, 2
 	octave 2
 	note B_, 1
-	note __, 1
+	rest 1
 	octave 4
 	note D_, 1
-	note __, 1
+	rest 1
 	note F_, 1
-	note __, 1
+	rest 1
 	octave 1
 	note B_, 2
-	note __, 6
-
-Music_GastlyInTheGraveyard_branch_3dfb0: ; 3dfb0
-	notetype $6, $22
+	rest 6
+Music_GastlyInTheGraveyard_branch_3dfb0:
+	note_type 6, 2, 2
 	octave 1
 	note B_, 2
-	notetype $6, $32
+	note_type 6, 3, 2
 	octave 2
 	note B_, 1
-	note __, 1
+	rest 1
 	octave 3
 	note D_, 1
-	note __, 1
+	rest 1
 	octave 2
 	note A#, 1
-	note __, 1
-	loopchannel 3, Music_GastlyInTheGraveyard_branch_3dfb0
-	notetype $6, $22
+	rest 1
+	sound_loop 3, Music_GastlyInTheGraveyard_branch_3dfb0
+	note_type 6, 2, 2
 	octave 1
 	note B_, 2
 	octave 2
 	note B_, 1
-	note __, 1
+	rest 1
 	octave 3
 	note D_, 1
-	note __, 1
+	rest 1
 	octave 2
 	note A#, 1
-	note __, 1
-	notetype $6, $22
+	rest 1
+	note_type 6, 2, 2
 	octave 1
 	note B_, 2
-	note __, 6
+	rest 6
 	note B_, 2
-	note __, 6
-	notetype $6, $32
+	rest 6
+	note_type 6, 3, 2
 	note B_, 2
-	note __, 6
+	rest 6
 	note B_, 2
-	note __, 2
-	notetype $6, $12
+	rest 2
+	note_type 6, 1, 2
 	note F#, 4
-	notetype $6, $32
+	note_type 6, 3, 2
 	note B_, 2
-	note __, 6
+	rest 6
 	note B_, 2
-	note __, 6
+	rest 6
 	note B_, 2
-	note __, 6
+	rest 6
 	note B_, 2
-	note __, 2
-	notetype $6, $22
+	rest 2
+	note_type 6, 2, 2
 	note B_, 1
 	note A#, 1
 	note G_, 1
 	note F#, 1
-	loopchannel 0, Music_GastlyInTheGraveyard_branch_3df1f
-; 3dffc
+	sound_loop 0, Music_GastlyInTheGraveyard_Ch3

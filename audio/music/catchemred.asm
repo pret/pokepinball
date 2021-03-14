@@ -1,22 +1,20 @@
-Music_CatchEmRed: ; 3d2ed
-	dbw $c0, Music_CatchEmRed_Ch1
-	dbw $01, Music_CatchEmRed_Ch2
-	dbw $02, Music_CatchEmRed_Ch3
-	dbw $03, Music_CatchEmRed_Ch4
-; 3d2f9
+Music_CatchEmRed:
+	channel_count 4
+	channel 1, Music_CatchEmRed_Ch1
+	channel 2, Music_CatchEmRed_Ch2
+	channel 3, Music_CatchEmRed_Ch3
+	channel 4, Music_CatchEmRed_Ch4
 
-
-Music_CatchEmRed_Ch1: ; 3d2f9
+Music_CatchEmRed_Ch1:
 	tempo 160
-	volume $77
-	dutycycle $3
-	vibrato $12, $34
-	tone $0001
-	notetype $8, $a2
-	note __, 12
-	note __, 12
-
-Music_CatchEmRed_branch_3d30b: ; 3d30b
+	volume 7, 7
+	duty_cycle 3
+	vibrato 18, 3, 4
+	pitch_offset 1
+	note_type 8, 10, 2
+	rest 12
+	rest 12
+Music_CatchEmRed_branch_3d30b:
 	octave 3
 	note D#, 8
 	note F#, 4
@@ -26,39 +24,39 @@ Music_CatchEmRed_branch_3d30b: ; 3d30b
 	note F#, 4
 	note D#, 8
 	note D#, 4
-	note __, 12
-	note __, 12
-	note __, 12
-	note __, 12
-	callchannel Music_CatchEmRed_branch_3d360
-	intensity $92
+	rest 12
+	rest 12
+	rest 12
+	rest 12
+	sound_call Music_CatchEmRed_branch_3d360
+	volume_envelope 9, 2
 	octave 4
 	note A_, 2
 	note A_, 3
 	note A_, 16
-	note __, 3
-	callchannel Music_CatchEmRed_branch_3d360
-	intensity $92
+	rest 3
+	sound_call Music_CatchEmRed_branch_3d360
+	volume_envelope 9, 2
 	octave 4
 	note A_, 2
 	note A_, 3
 	note A_, 16
-	note __, 3
-	intensity $a2
-	note __, 12
-	note __, 12
-	note __, 12
+	rest 3
+	volume_envelope 10, 2
+	rest 12
+	rest 12
+	rest 12
 	octave 4
 	note G_, 2
 	note F_, 3
 	note D#, 3
 	note D_, 12
-	note __, 6
+	rest 6
 	note D#, 6
 	octave 5
 	note C_, 16
-	note __, 12
-	intensity $72
+	rest 12
+	volume_envelope 7, 2
 	octave 6
 	note D_, 2
 	note C_, 1
@@ -69,82 +67,80 @@ Music_CatchEmRed_branch_3d30b: ; 3d30b
 	note C_, 6
 	octave 5
 	note A#, 16
-	intensity $a2
-	note __, 2
+	volume_envelope 10, 2
+	rest 2
 	note D_, 2
 	note D_, 3
 	note C_, 3
 	note D_, 4
-	note __, 12
-	note __, 12
-	note __, 12
-	note __, 12
+	rest 12
+	rest 12
+	rest 12
+	rest 12
 	octave 4
 	note A#, 2
 	note A#, 3
 	note A#, 16
-	note __, 3
+	rest 3
 	octave 5
 	note C_, 2
 	note C_, 3
 	note C_, 16
-	note __, 3
-	loopchannel 0, Music_CatchEmRed_branch_3d30b
-; 3d360
+	rest 3
+	sound_loop 0, Music_CatchEmRed_branch_3d30b
 
-Music_CatchEmRed_branch_3d360: ; 3d360
-	intensity $52
-	note __, 3
+Music_CatchEmRed_branch_3d360:
+	volume_envelope 5, 2
+	rest 3
 	octave 3
 	note F_, 5
 	note F_, 3
 	note F_, 13
-	note __, 3
+	rest 3
 	note G_, 5
 	note G_, 4
 	note G_, 5
 	note A_, 7
-	intensity $a2
-	note __, 12
-	note __, 12
-	note __, 12
-	note __, 12
-	note __, 12
+	volume_envelope 10, 2
+	rest 12
+	rest 12
+	rest 12
+	rest 12
+	rest 12
 	octave 5
 	note D#, 2
 	note D_, 3
 	note C_, 7
-	note __, 12
-	note __, 5
+	rest 12
+	rest 5
 	octave 4
 	note C_, 7
-	note __, 12
-	note __, 12
-	note __, 12
-	note __, 8
+	rest 12
+	rest 12
+	rest 12
+	rest 8
 	note D_, 16
-	note __, 12
+	rest 12
 	note A#, 2
 	note A#, 3
 	note A#, 16
-	note __, 3
-	endchannel
+	rest 3
+	sound_ret
 
-Music_CatchEmRed_Ch2: ; 3d386
-	dutycycle $1
-	vibrato $12, $34
-	notetype $8, $c1
-	note __, 12
-	note __, 6
+Music_CatchEmRed_Ch2:
+	duty_cycle 1
+	vibrato 18, 3, 4
+	note_type 8, 12, 1
+	rest 12
+	rest 6
 	octave 4
 	note G#, 2
 	note F#, 1
 	note F_, 2
 	note D#, 1
-
-Music_CatchEmRed_branch_3d395: ; 3d395
-	dutycycle $1
-	intensity $c1
+Music_CatchEmRed_branch_3d395:
+	duty_cycle 1
+	volume_envelope 12, 1
 	note D_, 2
 	octave 3
 	note A#, 1
@@ -178,33 +174,33 @@ Music_CatchEmRed_branch_3d395: ; 3d395
 	note A_, 2
 	octave 4
 	note C_, 4
-	note __, 12
-	note __, 12
-	note __, 12
-	note __, 12
-	callchannel Music_CatchEmRed_branch_3d4fe
-	intensity $92
+	rest 12
+	rest 12
+	rest 12
+	rest 12
+	sound_call Music_CatchEmRed_branch_3d4fe
+	volume_envelope 9, 2
 	octave 5
 	note F_, 2
 	note F_, 3
-	intensity $94
+	volume_envelope 9, 4
 	note F_, 12
-	note __, 7
-	callchannel Music_CatchEmRed_branch_3d4fe
-	intensity $92
+	rest 7
+	sound_call Music_CatchEmRed_branch_3d4fe
+	volume_envelope 9, 2
 	octave 5
 	note F_, 2
 	note F_, 3
-	intensity $94
+	volume_envelope 9, 4
 	note F_, 13
-	dutycycle $2
-	intensity $82
+	duty_cycle 2
+	volume_envelope 8, 2
 	octave 5
 	note C_, 3
 	note D_, 3
-	intensity $a2
+	volume_envelope 10, 2
 	note D#, 2
-	intensity $81
+	volume_envelope 8, 1
 	octave 3
 	note A#, 1
 	octave 4
@@ -213,27 +209,27 @@ Music_CatchEmRed_branch_3d395: ; 3d395
 	note A#, 2
 	octave 5
 	note D_, 1
-	intensity $a2
+	volume_envelope 10, 2
 	note D#, 3
 	note F_, 2
 	note D#, 1
-	intensity $81
+	volume_envelope 8, 1
 	octave 4
 	note G_, 2
-	intensity $a2
+	volume_envelope 10, 2
 	octave 5
 	note D_, 1
-	intensity $82
+	volume_envelope 8, 2
 	octave 4
 	note A#, 2
-	intensity $a2
+	volume_envelope 10, 2
 	octave 5
 	note C_, 3
-	intensity $83
+	volume_envelope 8, 3
 	note C#, 1
-	intensity $a2
+	volume_envelope 10, 2
 	note D_, 2
-	intensity $81
+	volume_envelope 8, 1
 	octave 3
 	note A#, 1
 	octave 4
@@ -242,163 +238,163 @@ Music_CatchEmRed_branch_3d395: ; 3d395
 	note A_, 2
 	octave 5
 	note C#, 1
-	intensity $a2
+	volume_envelope 10, 2
 	note D_, 3
-	intensity $93
+	volume_envelope 9, 3
 	note D#, 2
 	note D_, 3
 	note C_, 3
 	octave 4
 	note A#, 4
-	intensity $a2
+	volume_envelope 10, 2
 	octave 5
 	note D#, 3
 	note D_, 3
 	note C_, 3
 	note D#, 5
-	intensity $a4
+	volume_envelope 10, 4
 	note G_, 4
-	intensity $82
+	volume_envelope 8, 2
 	octave 4
 	note F_, 2
-	intensity $a4
+	volume_envelope 10, 4
 	octave 5
 	note F_, 4
-	intensity $81
+	volume_envelope 8, 1
 	octave 4
 	note A_, 2
 	note A#, 1
-	intensity $a2
+	volume_envelope 10, 2
 	octave 5
 	note D_, 2
 	note F_, 4
 	note D#, 3
 	note D_, 3
-	intensity $62
+	volume_envelope 6, 2
 	octave 4
 	note F_, 2
 	note G#, 1
-	intensity $82
+	volume_envelope 8, 2
 	note B_, 2
 	octave 5
 	note D_, 1
-	intensity $a2
+	volume_envelope 10, 2
 	note F_, 2
 	note G#, 1
-	intensity $a3
+	volume_envelope 10, 3
 	note A#, 2
-	intensity $82
+	volume_envelope 8, 2
 	note A_, 1
-	intensity $a3
+	volume_envelope 10, 3
 	note G_, 3
-	intensity $82
+	volume_envelope 8, 2
 	note D#, 2
 	octave 4
 	note A#, 1
-	intensity $a3
+	volume_envelope 10, 3
 	octave 5
 	note A#, 2
-	intensity $82
+	volume_envelope 8, 2
 	note D#, 1
-	intensity $a3
+	volume_envelope 10, 3
 	note A_, 3
-	intensity $82
+	volume_envelope 8, 2
 	note G_, 2
 	note D#, 1
-	intensity $a3
+	volume_envelope 10, 3
 	note G_, 3
-	intensity $82
+	volume_envelope 8, 2
 	note D#, 2
 	note C_, 1
-	intensity $a3
+	volume_envelope 10, 3
 	note F_, 3
 	note G#, 6
-	intensity $a2
+	volume_envelope 10, 2
 	note G_, 3
 	note F_, 2
 	note F_, 3
 	note D#, 3
-	intensity $a3
+	volume_envelope 10, 3
 	note F_, 4
 	note G_, 2
-	intensity $52
+	volume_envelope 5, 2
 	octave 4
 	note C_, 1
-	intensity $a3
+	volume_envelope 10, 3
 	octave 5
 	note F_, 2
-	intensity $52
+	volume_envelope 5, 2
 	octave 4
 	note D#, 1
 	note G_, 2
 	note A#, 1
-	intensity $a3
+	volume_envelope 10, 3
 	octave 5
 	note D#, 2
-	intensity $52
+	volume_envelope 5, 2
 	note C_, 1
-	intensity $a3
+	volume_envelope 10, 3
 	note A_, 2
-	intensity $62
+	volume_envelope 6, 2
 	octave 4
 	note D_, 1
-	intensity $a3
+	volume_envelope 10, 3
 	octave 5
 	note G_, 2
-	intensity $62
+	volume_envelope 6, 2
 	octave 4
 	note F_, 1
 	note A_, 2
 	octave 5
 	note C_, 1
-	intensity $a3
+	volume_envelope 10, 3
 	note F_, 2
-	intensity $62
+	volume_envelope 6, 2
 	note D_, 1
-	intensity $a3
+	volume_envelope 10, 3
 	note A#, 2
-	intensity $72
+	volume_envelope 7, 2
 	octave 4
 	note D#, 1
-	intensity $a3
+	volume_envelope 10, 3
 	octave 5
 	note A_, 2
-	intensity $72
+	volume_envelope 7, 2
 	octave 4
 	note G_, 1
 	note A#, 2
 	octave 5
 	note D_, 1
-	intensity $a3
+	volume_envelope 10, 3
 	note G_, 2
-	intensity $72
+	volume_envelope 7, 2
 	note F_, 1
-	intensity $a3
+	volume_envelope 10, 3
 	octave 6
 	note C_, 2
-	intensity $82
+	volume_envelope 8, 2
 	octave 4
 	note E_, 1
-	intensity $a3
+	volume_envelope 10, 3
 	octave 6
 	note D_, 2
-	intensity $82
+	volume_envelope 8, 2
 	octave 4
 	note G_, 1
 	note A#, 2
 	octave 5
 	note C_, 1
-	intensity $a3
+	volume_envelope 10, 3
 	note A#, 2
-	intensity $82
+	volume_envelope 8, 2
 	note E_, 1
-	intensity $a2
+	volume_envelope 10, 2
 	octave 6
 	note C_, 2
 	note C_, 3
-	intensity $a4
+	volume_envelope 10, 4
 	note C_, 7
-	intensity $82
+	volume_envelope 8, 2
 	octave 5
 	note C_, 2
 	octave 4
@@ -412,29 +408,28 @@ Music_CatchEmRed_branch_3d395: ; 3d395
 	note C_, 2
 	octave 5
 	note A#, 1
-	intensity $a2
+	volume_envelope 10, 2
 	note A_, 2
 	note A_, 3
-	intensity $a4
+	volume_envelope 10, 4
 	note A_, 13
-	dutycycle $1
-	intensity $82
+	duty_cycle 1
+	volume_envelope 8, 2
 	octave 4
 	note G#, 2
 	note F#, 1
 	note F_, 2
 	note D#, 1
-	loopchannel 0, Music_CatchEmRed_branch_3d395
-; 3d4fe
+	sound_loop 0, Music_CatchEmRed_branch_3d395
 
-Music_CatchEmRed_branch_3d4fe: ; 3d4fe
-	intensity $72
+Music_CatchEmRed_branch_3d4fe:
+	volume_envelope 7, 2
 	octave 4
-	note __, 3
+	rest 3
 	note D_, 5
 	note D_, 3
 	note D_, 13
-	note __, 3
+	rest 3
 	note D#, 5
 	note D#, 3
 	note D#, 1
@@ -442,42 +437,42 @@ Music_CatchEmRed_branch_3d4fe: ; 3d4fe
 	note F_, 4
 	octave 3
 	note F_, 3
-	intensity $c3
+	volume_envelope 12, 3
 	octave 4
 	note D_, 2
-	intensity $62
+	volume_envelope 6, 2
 	octave 3
 	note A#, 1
 	note F_, 2
 	note A#, 1
-	intensity $c3
+	volume_envelope 12, 3
 	octave 4
 	note D#, 2
-	intensity $62
+	volume_envelope 6, 2
 	octave 3
 	note A#, 1
 	note F_, 2
 	note A#, 1
-	intensity $c3
+	volume_envelope 12, 3
 	octave 4
 	note F_, 2
-	intensity $62
+	volume_envelope 6, 2
 	note D_, 1
 	octave 3
 	note A#, 2
 	octave 4
 	note D_, 1
-	intensity $c3
+	volume_envelope 12, 3
 	note A#, 2
-	intensity $62
+	volume_envelope 6, 2
 	note D_, 1
 	octave 3
 	note A#, 2
 	octave 4
 	note F_, 1
-	intensity $c3
+	volume_envelope 12, 3
 	note A_, 2
-	intensity $62
+	volume_envelope 6, 2
 	note D#, 1
 	note C_, 2
 	octave 3
@@ -485,11 +480,11 @@ Music_CatchEmRed_branch_3d4fe: ; 3d4fe
 	octave 4
 	note C_, 2
 	note D#, 1
-	intensity $c3
+	volume_envelope 12, 3
 	note G_, 2
 	note A_, 1
 	note G_, 2
-	intensity $62
+	volume_envelope 6, 2
 	note D#, 1
 	note C_, 2
 	octave 3
@@ -502,35 +497,35 @@ Music_CatchEmRed_branch_3d4fe: ; 3d4fe
 	note C_, 2
 	octave 3
 	note G_, 1
-	intensity $c3
+	volume_envelope 12, 3
 	octave 4
 	note D#, 2
-	intensity $62
+	volume_envelope 6, 2
 	octave 3
 	note G_, 1
-	intensity $c3
+	volume_envelope 12, 3
 	octave 4
 	note F_, 2
-	intensity $62
+	volume_envelope 6, 2
 	octave 3
 	note G_, 1
-	intensity $c3
+	volume_envelope 12, 3
 	octave 4
 	note G_, 2
-	intensity $62
+	volume_envelope 6, 2
 	note C_, 1
-	intensity $c3
+	volume_envelope 12, 3
 	octave 5
 	note C_, 2
 	octave 4
 	note A#, 3
 	note A_, 4
-	intensity $a3
+	volume_envelope 10, 3
 	note G_, 2
 	note A_, 1
-	intensity $c3
+	volume_envelope 12, 3
 	note A#, 2
-	intensity $73
+	volume_envelope 7, 3
 	note F_, 1
 	note D_, 2
 	octave 3
@@ -538,34 +533,34 @@ Music_CatchEmRed_branch_3d4fe: ; 3d4fe
 	octave 4
 	note D_, 2
 	note F_, 1
-	intensity $c3
+	volume_envelope 12, 3
 	note G_, 3
 	note F_, 2
-	intensity $73
+	volume_envelope 7, 3
 	note D_, 1
 	octave 3
 	note G#, 2
-	intensity $b4
+	volume_envelope 11, 4
 	octave 4
 	note G#, 7
-	intensity $73
+	volume_envelope 7, 3
 	note D#, 2
 	note G_, 1
-	intensity $c3
+	volume_envelope 12, 3
 	note A#, 2
-	intensity $73
+	volume_envelope 7, 3
 	note D#, 1
 	octave 3
 	note A#, 2
-	intensity $c3
+	volume_envelope 12, 3
 	octave 4
 	note A_, 1
 	note A#, 2
-	intensity $73
+	volume_envelope 7, 3
 	note D#, 1
-	intensity $c3
+	volume_envelope 12, 3
 	note G_, 3
-	intensity $73
+	volume_envelope 7, 3
 	octave 3
 	note G_, 2
 	note D#, 1
@@ -576,64 +571,64 @@ Music_CatchEmRed_branch_3d4fe: ; 3d4fe
 	note G_, 1
 	note D_, 2
 	note F_, 1
-	intensity $c3
+	volume_envelope 12, 3
 	note A#, 3
-	intensity $73
+	volume_envelope 7, 3
 	note D_, 2
-	intensity $c3
+	volume_envelope 12, 3
 	note A_, 1
 	note A#, 2
-	intensity $73
+	volume_envelope 7, 3
 	octave 3
 	note A#, 1
-	intensity $c3
+	volume_envelope 12, 3
 	octave 4
 	note F_, 2
-	intensity $73
+	volume_envelope 7, 3
 	note D_, 1
 	note F_, 2
 	octave 3
 	note A#, 1
 	note F_, 2
-	intensity $b4
+	volume_envelope 11, 4
 	octave 4
 	note G#, 4
-	intensity $73
+	volume_envelope 7, 3
 	note D#, 2
 	note G_, 1
-	intensity $c3
+	volume_envelope 12, 3
 	note A#, 2
-	intensity $73
+	volume_envelope 7, 3
 	note G_, 1
 	note D#, 2
 	octave 3
 	note A#, 1
-	intensity $c3
+	volume_envelope 12, 3
 	octave 5
 	note D_, 2
-	intensity $73
+	volume_envelope 7, 3
 	octave 4
 	note D#, 1
-	intensity $c3
+	volume_envelope 12, 3
 	octave 5
 	note C_, 2
 	octave 4
 	note A#, 1
-	intensity $73
+	volume_envelope 7, 3
 	note E_, 2
-	intensity $c3
+	volume_envelope 12, 3
 	note A_, 1
 	note A#, 2
-	intensity $73
+	volume_envelope 7, 3
 	note E_, 1
-	intensity $c3
+	volume_envelope 12, 3
 	note B_, 3
-	intensity $a3
+	volume_envelope 10, 3
 	octave 5
 	note C_, 2
 	note C_, 3
 	note C_, 7
-	intensity $72
+	volume_envelope 7, 2
 	octave 4
 	note C_, 2
 	octave 3
@@ -647,348 +642,346 @@ Music_CatchEmRed_branch_3d4fe: ; 3d4fe
 	note C_, 2
 	octave 4
 	note A#, 1
-	endchannel
+	sound_ret
 
-Music_CatchEmRed_Ch3: ; 3d60e
-	notetype $8, $23
-	note __, 12
-	note __, 6
+Music_CatchEmRed_Ch3:
+	note_type 8, 2, 3
+	rest 12
+	rest 6
 	octave 2
 	note D#, 6
-
-Music_CatchEmRed_branch_3d615: ; 3d615
+Music_CatchEmRed_branch_3d615:
 	note F_, 1
-	note __, 7
+	rest 7
 	note G#, 4
 	note F_, 1
-	note __, 7
+	rest 7
 	note F#, 4
 	note F_, 1
-	note __, 7
+	rest 7
 	note G#, 4
 	note F_, 1
-	note __, 7
+	rest 7
 	note A_, 4
 	note A#, 2
-	note __, 1
+	rest 1
 	note A_, 2
-	note __, 1
+	rest 1
 	note G#, 2
-	note __, 1
+	rest 1
 	note G_, 2
-	note __, 1
+	rest 1
 	note F_, 2
-	note __, 1
+	rest 1
 	note D_, 2
-	note __, 1
+	rest 1
 	octave 1
 	note A#, 2
-	note __, 1
+	rest 1
 	octave 2
 	note D_, 2
-	note __, 1
+	rest 1
 	note D#, 2
-	note __, 1
+	rest 1
 	octave 3
 	note C_, 2
-	note __, 1
+	rest 1
 	octave 2
 	note B_, 2
-	note __, 1
+	rest 1
 	note A#, 2
-	note __, 1
+	rest 1
 	note A_, 2
-	note __, 1
+	rest 1
 	note G_, 2
-	note __, 1
+	rest 1
 	note F_, 2
-	note __, 1
+	rest 1
 	note A_, 2
-	note __, 1
-
-Music_CatchEmRed_branch_3d645: ; 3d645
+	rest 1
+Music_CatchEmRed_branch_3d645:
 	note A#, 2
-	note __, 1
+	rest 1
 	note A_, 2
-	note __, 1
+	rest 1
 	note G#, 2
-	note __, 1
+	rest 1
 	note G_, 2
-	note __, 1
+	rest 1
 	note F_, 2
-	note __, 1
+	rest 1
 	note D_, 2
-	note __, 1
+	rest 1
 	octave 1
 	note A#, 2
-	note __, 1
+	rest 1
 	octave 2
 	note D_, 2
-	note __, 1
+	rest 1
 	note D#, 2
-	note __, 1
+	rest 1
 	octave 3
 	note C_, 2
-	note __, 1
+	rest 1
 	octave 2
 	note B_, 2
-	note __, 1
+	rest 1
 	note A#, 2
-	note __, 1
+	rest 1
 	note A_, 2
-	note __, 1
+	rest 1
 	note G_, 2
-	note __, 1
+	rest 1
 	note D#, 2
-	note __, 1
+	rest 1
 	note C_, 2
-	note __, 1
+	rest 1
 	note A#, 2
-	note __, 1
+	rest 1
 	note A_, 2
-	note __, 1
+	rest 1
 	note G#, 2
-	note __, 1
+	rest 1
 	note G_, 2
-	note __, 1
+	rest 1
 	note F_, 2
-	note __, 1
+	rest 1
 	note D_, 2
-	note __, 1
+	rest 1
 	octave 1
 	note A#, 2
-	note __, 1
+	rest 1
 	octave 2
 	note D_, 2
-	note __, 1
+	rest 1
 	note C_, 2
-	note __, 1
+	rest 1
 	note D#, 2
-	note __, 1
+	rest 1
 	note G_, 2
-	note __, 1
+	rest 1
 	octave 3
 	note C_, 2
-	note __, 1
+	rest 1
 	octave 2
 	note B_, 2
-	note __, 1
+	rest 1
 	note A#, 2
-	note __, 1
+	rest 1
 	note A_, 2
-	note __, 1
+	rest 1
 	note G_, 2
-	note __, 1
+	rest 1
 	octave 3
 	note C_, 2
-	note __, 1
+	rest 1
 	octave 2
 	note B_, 2
-	note __, 1
+	rest 1
 	note A#, 2
-	note __, 1
+	rest 1
 	note A_, 2
-	note __, 1
+	rest 1
 	octave 3
 	note C_, 1
-	note __, 1
+	rest 1
 	octave 2
 	note A_, 1
-	note __, 2
+	rest 2
 	note F_, 4
 	note C_, 2
-	note __, 1
+	rest 1
 	octave 1
 	note A#, 1
-	note __, 1
+	rest 1
 	octave 2
 	note A#, 1
 	note A_, 2
-	note __, 1
+	rest 1
 	note G#, 2
-	note __, 1
+	rest 1
 	note G_, 2
-	note __, 1
+	rest 1
 	note F#, 2
-	note __, 1
+	rest 1
 	note F_, 2
 	octave 3
 	note F_, 6
-	note __, 1
+	rest 1
 	octave 2
 	note D#, 2
-	note __, 1
+	rest 1
 	octave 3
 	note D#, 2
-	note __, 1
+	rest 1
 	note D_, 2
-	note __, 1
+	rest 1
 	note C#, 2
-	note __, 1
+	rest 1
 	note C_, 2
-	note __, 1
+	rest 1
 	octave 2
 	note B_, 2
-	note __, 1
+	rest 1
 	note A#, 2
-	note __, 1
+	rest 1
 	note A_, 2
-	note __, 1
+	rest 1
 	note A#, 1
 	note F_, 1
 	note D#, 1
 	note D_, 2
-	note __, 1
+	rest 1
 	note D#, 2
-	note __, 1
+	rest 1
 	note F_, 2
-	note __, 1
+	rest 1
 	note G#, 2
-	note __, 1
+	rest 1
 	note G_, 2
-	note __, 1
+	rest 1
 	note G#, 1
-	note __, 1
+	rest 1
 	octave 3
 	note F_, 4
 	octave 2
 	note G_, 2
-	note __, 1
+	rest 1
 	note D#, 2
-	note __, 1
+	rest 1
 	note C_, 2
-	note __, 1
+	rest 1
 	note F#, 2
-	note __, 1
+	rest 1
 	note G_, 2
-	note __, 1
+	rest 1
 	note E_, 2
-	note __, 1
+	rest 1
 	note C_, 2
-	note __, 1
+	rest 1
 	octave 1
 	note A#, 2
-	note __, 1
+	rest 1
 	octave 3
 	note F_, 1
-	note __, 1
+	rest 1
 	note F_, 1
-	note __, 2
+	rest 2
 	note F_, 7
 	note C_, 2
-	note __, 1
+	rest 1
 	octave 2
 	note A#, 2
-	note __, 1
+	rest 1
 	note A_, 2
-	note __, 1
+	rest 1
 	note F_, 2
-	note __, 1
+	rest 1
 	octave 3
 	note C_, 1
-	note __, 1
+	rest 1
 	note C_, 1
-	note __, 2
+	rest 2
 	note C_, 7
 	octave 2
 	note A_, 2
-	note __, 1
+	rest 1
 	note G#, 2
-	note __, 1
+	rest 1
 	note G_, 2
-	note __, 1
+	rest 1
 	note A_, 2
-	note __, 1
-	loopchannel 2, Music_CatchEmRed_branch_3d645
+	rest 1
+	sound_loop 2, Music_CatchEmRed_branch_3d645
 	note C_, 2
-	note __, 10
+	rest 10
 	note C_, 1
-	note __, 1
+	rest 1
 	note F_, 1
 	note C_, 2
-	note __, 1
+	rest 1
 	note C_, 2
-	note __, 1
+	rest 1
 	octave 1
 	note B_, 3
 	note A#, 2
-	note __, 7
+	rest 7
 	note A#, 1
-	note __, 2
+	rest 2
 	octave 2
 	note A#, 1
-	note __, 1
+	rest 1
 	note F_, 1
-	note __, 2
+	rest 2
 	note D_, 1
-	note __, 2
+	rest 2
 	note F_, 3
 	octave 1
 	note B_, 1
 	octave 2
 	note C_, 2
-	note __, 7
+	rest 7
 	note C_, 2
-	note __, 1
+	rest 1
 	note F_, 1
-	note __, 1
+	rest 1
 	octave 3
 	note C_, 4
 	octave 2
 	note D#, 1
-	note __, 1
+	rest 1
 	note A_, 4
 	octave 1
 	note A#, 2
-	note __, 7
+	rest 7
 	note A#, 2
-	note __, 1
+	rest 1
 	octave 2
 	note G#, 1
 	note F_, 1
 	note D_, 1
 	octave 1
 	note B_, 2
-	note __, 1
+	rest 1
 	note G#, 2
-	note __, 1
+	rest 1
 	note B_, 2
 	octave 2
 	note D_, 1
 	note D#, 3
 	note D_, 1
-	note __, 1
+	rest 1
 	note D#, 3
-	note __, 1
+	rest 1
 	note G_, 2
-	note __, 1
+	rest 1
 	note A_, 3
 	note D#, 1
-	note __, 1
+	rest 1
 	note C_, 1
 	octave 3
 	note C_, 3
 	octave 2
 	note A_, 1
-	note __, 1
+	rest 1
 	note D#, 1
 	octave 3
 	note D_, 2
-	note __, 1
+	rest 1
 	note C_, 2
-	note __, 1
+	rest 1
 	octave 2
 	note F_, 2
-	note __, 1
+	rest 1
 	note G#, 2
-	note __, 1
+	rest 1
 	note A#, 1
-	note __, 1
+	rest 1
 	note A#, 1
-	note __, 2
+	rest 2
 	octave 3
 	note F_, 1
-	note __, 2
+	rest 2
 	octave 2
 	note G#, 3
 	note C#, 1
@@ -997,521 +990,519 @@ Music_CatchEmRed_branch_3d645: ; 3d645
 	note C_, 1
 	octave 2
 	note A#, 2
-	note __, 1
+	rest 1
 	note G_, 2
-	note __, 1
+	rest 1
 	note D#, 2
-	note __, 1
+	rest 1
 	note D_, 2
 	octave 3
 	note D_, 1
 	note C_, 2
-	note __, 1
+	rest 1
 	octave 2
 	note A_, 2
-	note __, 1
+	rest 1
 	note F_, 3
 	note D#, 2
 	octave 3
 	note D#, 1
 	note D_, 2
-	note __, 1
+	rest 1
 	octave 2
 	note A#, 2
-	note __, 1
+	rest 1
 	note G_, 2
-	note __, 1
+	rest 1
 	octave 3
 	note E_, 1
-	note __, 1
+	rest 1
 	octave 2
 	note G_, 1
-	note __, 2
+	rest 2
 	note G_, 1
 	octave 3
 	note E_, 1
-	note __, 1
+	rest 1
 	note E_, 1
 	octave 2
 	note A#, 1
-	note __, 1
+	rest 1
 	octave 3
 	note E_, 1
 	note F_, 1
-	note __, 1
+	rest 1
 	note F_, 1
-	note __, 2
+	rest 2
 	note F_, 7
 	note C_, 2
-	note __, 1
+	rest 1
 	octave 2
 	note A#, 2
-	note __, 1
+	rest 1
 	note A_, 2
-	note __, 1
+	rest 1
 	note F_, 2
-	note __, 1
+	rest 1
 	octave 3
 	note F_, 1
-	note __, 1
+	rest 1
 	note F_, 1
-	note __, 2
+	rest 2
 	note F_, 7
 	octave 2
 	note A_, 2
-	note __, 1
+	rest 1
 	note G#, 2
-	note __, 1
+	rest 1
 	note G_, 2
-	note __, 1
+	rest 1
 	note A_, 2
-	note __, 1
-	loopchannel 0, Music_CatchEmRed_branch_3d615
+	rest 1
+	sound_loop 0, Music_CatchEmRed_branch_3d615
 
-Music_CatchEmRed_Ch4: ; 3d7b3
-	togglenoise $0
-	notetype $8
-	note G_, 2
-	note G_, 1
-	note F#, 3
-	note G_, 2
-	note G_, 1
-	note F#, 3
-	note G_, 2
-	note G_, 1
-	note F#, 3
-	note G_, 2
-	note G_, 1
-	note F#, 3
-
-Music_CatchEmRed_branch_3d7c3: ; 3d7c3
-	note D#, 2
-	note G_, 1
-	note F#, 3
-	note G_, 2
-	note F#, 4
-	note D#, 2
-	note G_, 1
-	note F#, 3
-	note G_, 2
-	note F#, 4
-	note D#, 2
-	note G_, 1
-	note F#, 3
-	note G_, 2
-	note F#, 4
-	note D#, 2
-	note G_, 1
-	note F#, 3
-	note G_, 2
-	note F#, 4
-	note G_, 2
-	note G_, 1
-	note F#, 3
-	note G_, 2
-	note G_, 1
-	note F#, 3
-	note G_, 2
-	note G_, 1
-	note F#, 3
-	note G_, 2
-	note G_, 1
-	note F#, 3
-	note G_, 2
-	note G_, 1
-	note F#, 3
-	note G_, 2
-	note G_, 1
-	note F#, 3
-	note G_, 2
-	note G_, 1
-	note G_, 2
-	note G_, 1
-	note G_, 2
-	note G_, 1
-	note F#, 3
-	note G_, 2
-	note G_, 1
-	note F#, 3
-	note G_, 2
-	note G_, 1
-	note F#, 3
-	note G_, 2
-	note G_, 1
-	note F#, 3
-	note G_, 2
-	note G_, 1
-	note F#, 3
-	note G_, 2
-	note G_, 1
-	note F#, 3
-	note G_, 2
-	note G_, 1
-	note F#, 3
-	note D_, 1
-	note D_, 1
-	note D_, 1
-	note D_, 3
-	note D_, 2
-	note C_, 1
-	note F#, 3
-	note G_, 2
-	note G_, 1
-	note F#, 3
-	note G_, 2
-	note G_, 1
-	note F#, 3
-	note G_, 2
-	note G_, 1
-	note F#, 3
-	note G_, 2
-	note G_, 1
-	note F#, 3
-	note G_, 2
-	note G_, 1
-	note F#, 3
-	note G_, 2
-	note G_, 1
-	note F#, 3
-	note G_, 2
-	note G_, 1
-	note F#, 3
-	note G_, 2
-	note G_, 1
-	note F#, 3
-	note G_, 2
-	note G_, 1
-	note F#, 3
-	note G_, 2
-	note G_, 1
-	note F#, 3
-	note D_, 2
-	note D#, 3
-	note F#, 1
-	note G_, 2
-	note G_, 1
-	note C_, 3
-	note G_, 2
-	note G_, 1
-	note F#, 3
-	note G_, 2
-	note G_, 1
-	note F#, 3
-	note D_, 2
-	note D#, 3
-	note F#, 1
-	note __, 6
-	note G_, 2
-	note G_, 1
-	note F#, 3
-	note G_, 2
-	note G_, 1
-	note F#, 3
-	note G_, 2
-	note G_, 1
-	note F#, 3
-	note G_, 2
-	note G_, 1
-	note F#, 3
-	note G_, 2
-	note G_, 1
-	note F#, 3
-	note G_, 2
-	note G_, 1
-	note F#, 3
-	note G_, 2
-	note G_, 1
-	note F#, 3
-	note D#, 2
-	note F#, 3
-	note F#, 1
-	note G_, 2
-	note G_, 1
-	note F#, 3
-	note G_, 2
-	note G_, 1
-	note F#, 3
-	note G_, 2
-	note G_, 1
-	note F#, 3
-	note G_, 2
-	note G_, 1
-	note F#, 3
-	note D_, 2
-	note D#, 1
-	note G_, 2
-	note F#, 1
-	note G_, 2
-	note G_, 1
-	note F#, 3
-	note G_, 2
-	note G_, 1
-	note F#, 3
-	note G_, 2
-	note G_, 1
-	note F#, 3
-	note D_, 2
-	note D#, 1
-	note D_, 2
-	note F#, 1
-	note G_, 2
-	note G_, 1
-	note F#, 3
-	note F#, 3
-	note F#, 3
-	note G_, 2
-	note G_, 1
-	note F#, 3
-	note G_, 2
-	note G_, 1
-	note F#, 3
-	note G_, 2
-	note G_, 1
-	note F#, 3
-	note G_, 2
-	note G_, 1
-	note F#, 3
-	note G_, 2
-	note G_, 1
-	note F#, 3
-	note G_, 2
-	note G_, 1
-	note F#, 3
-	note G_, 2
-	note G_, 1
-	note F#, 3
-	note G_, 2
-	note G_, 1
-	note F#, 3
-	note G_, 2
-	note G_, 1
-	note F#, 3
-	note G_, 2
-	note G_, 1
-	note F#, 3
-	note G_, 2
-	note G_, 1
-	note F#, 3
-	note G_, 2
-	note G_, 1
-	note F#, 3
-	note G_, 2
-	note G_, 1
-	note F#, 3
-	note G_, 2
-	note G_, 1
-	note F#, 3
-	note G_, 2
-	note G_, 1
-	note F#, 3
-	note G_, 2
-	note G_, 1
-	note F#, 3
-	note G_, 2
-	note G_, 1
-	note F#, 3
-	note G_, 2
-	note G_, 1
-	note F#, 3
-	note G_, 2
-	note G_, 1
-	note F#, 3
-	note D_, 2
-	note D#, 3
-	note F#, 1
-	note G_, 2
-	note G_, 1
-	note C_, 3
-	note G_, 2
-	note G_, 1
-	note F#, 3
-	note G_, 2
-	note G_, 1
-	note F#, 3
-	note D_, 2
-	note D#, 3
-	note F#, 7
-	note G_, 2
-	note G_, 1
-	note F#, 3
-	note G_, 2
-	note G_, 1
-	note F#, 3
-	note G_, 2
-	note G_, 1
-	note F#, 3
-	note G_, 2
-	note G_, 1
-	note F#, 3
-	note G_, 2
-	note G_, 1
-	note F#, 3
-	note G_, 2
-	note G_, 1
-	note F#, 3
-	note G_, 2
-	note G_, 1
-	note F#, 3
-	note D#, 2
-	note F#, 3
-	note F#, 1
-	note G_, 2
-	note G_, 1
-	note F#, 3
-	note G_, 2
-	note G_, 1
-	note F#, 3
-	note G_, 2
-	note G_, 1
-	note F#, 3
-	note G_, 2
-	note G_, 1
-	note F#, 3
-	note D_, 2
-	note D#, 1
-	note G_, 2
-	note F#, 1
-	note G_, 2
-	note G_, 1
-	note F#, 3
-	note G_, 2
-	note G_, 1
-	note F#, 3
-	note G_, 2
-	note G_, 1
-	note F#, 3
-	note D_, 2
-	note D#, 1
-	note D_, 2
-	note F#, 1
-	note G_, 2
-	note G_, 1
-	note F#, 3
-	note D_, 1
-	note D_, 1
-	note D_, 1
-	note D_, 3
-	note D#, 2
-	note D#, 1
-	note C_, 3
-	note D#, 3
-	note G_, 2
-	note G_, 1
-	note D_, 3
-	note G_, 2
-	note G_, 3
-	note G_, 4
-	note D_, 3
-	note G_, 2
-	note G_, 1
-	note D#, 3
-	note G_, 2
-	note G_, 1
-	note D_, 3
-	note G_, 2
-	note G_, 1
-	note D_, 2
-	note D_, 1
-	note F#, 3
-	note C_, 2
-	note D_, 3
-	note D_, 1
-	note D#, 3
-	note G_, 2
-	note G_, 1
-	note D_, 3
-	note G_, 2
-	note G_, 1
-	note D_, 2
-	note D_, 4
-	note D_, 2
-	note F#, 4
-	note D#, 3
-	note G_, 2
-	note G_, 1
-	note D_, 3
-	note G_, 2
-	note G_, 1
-	note G_, 2
-	note G_, 1
-	note G_, 2
-	note G_, 1
-	note D_, 3
-	note G_, 2
-	note G_, 1
-	note D#, 3
-	note G_, 2
-	note G_, 1
-	note D_, 3
-	note G_, 2
-	note G_, 3
-	note G_, 4
-	note D_, 3
-	note G_, 2
-	note G_, 1
-	note D#, 3
-	note G_, 2
-	note G_, 1
-	note D_, 3
-	note G_, 2
-	note G_, 1
-	note D_, 2
-	note D_, 1
-	note F#, 3
-	note C_, 2
-	note D_, 3
-	note D_, 1
-	note D#, 3
-	note G_, 2
-	note G_, 1
-	note D_, 3
-	note G_, 2
-	note G_, 1
-	note D#, 3
-	note G_, 2
-	note G_, 1
-	note D_, 3
-	note G_, 2
-	note G_, 1
-	note D#, 3
-	note G_, 2
-	note G_, 1
-	note D_, 3
-	note G_, 2
-	note G_, 1
-	note G_, 2
-	note G_, 1
-	note G_, 2
-	note G_, 1
-	note D_, 3
-	note G_, 2
-	note G_, 1
-	note D_, 2
-	note D#, 1
-	note G_, 2
-	note F#, 1
-	note G_, 2
-	note G_, 1
-	note F#, 3
-	note G_, 2
-	note G_, 1
-	note F#, 3
-	note G_, 2
-	note G_, 1
-	note F#, 3
-	note D_, 2
-	note D#, 1
-	note D_, 2
-	note F#, 1
-	note G_, 2
-	note G_, 1
-	note F#, 3
-	note D_, 1
-	note D_, 1
-	note D_, 1
-	note D_, 3
-	note D#, 2
-	note D#, 1
-	note C_, 3
-	loopchannel 0, Music_CatchEmRed_branch_3d7c3
-; 3d973
+Music_CatchEmRed_Ch4:
+	toggle_noise 0
+	drum_speed 8
+	drum_note 8, 2
+	drum_note 8, 1
+	drum_note 7, 3
+	drum_note 8, 2
+	drum_note 8, 1
+	drum_note 7, 3
+	drum_note 8, 2
+	drum_note 8, 1
+	drum_note 7, 3
+	drum_note 8, 2
+	drum_note 8, 1
+	drum_note 7, 3
+Music_CatchEmRed_branch_3d7c3:
+	drum_note 4, 2
+	drum_note 8, 1
+	drum_note 7, 3
+	drum_note 8, 2
+	drum_note 7, 4
+	drum_note 4, 2
+	drum_note 8, 1
+	drum_note 7, 3
+	drum_note 8, 2
+	drum_note 7, 4
+	drum_note 4, 2
+	drum_note 8, 1
+	drum_note 7, 3
+	drum_note 8, 2
+	drum_note 7, 4
+	drum_note 4, 2
+	drum_note 8, 1
+	drum_note 7, 3
+	drum_note 8, 2
+	drum_note 7, 4
+	drum_note 8, 2
+	drum_note 8, 1
+	drum_note 7, 3
+	drum_note 8, 2
+	drum_note 8, 1
+	drum_note 7, 3
+	drum_note 8, 2
+	drum_note 8, 1
+	drum_note 7, 3
+	drum_note 8, 2
+	drum_note 8, 1
+	drum_note 7, 3
+	drum_note 8, 2
+	drum_note 8, 1
+	drum_note 7, 3
+	drum_note 8, 2
+	drum_note 8, 1
+	drum_note 7, 3
+	drum_note 8, 2
+	drum_note 8, 1
+	drum_note 8, 2
+	drum_note 8, 1
+	drum_note 8, 2
+	drum_note 8, 1
+	drum_note 7, 3
+	drum_note 8, 2
+	drum_note 8, 1
+	drum_note 7, 3
+	drum_note 8, 2
+	drum_note 8, 1
+	drum_note 7, 3
+	drum_note 8, 2
+	drum_note 8, 1
+	drum_note 7, 3
+	drum_note 8, 2
+	drum_note 8, 1
+	drum_note 7, 3
+	drum_note 8, 2
+	drum_note 8, 1
+	drum_note 7, 3
+	drum_note 8, 2
+	drum_note 8, 1
+	drum_note 7, 3
+	drum_note 3, 1
+	drum_note 3, 1
+	drum_note 3, 1
+	drum_note 3, 3
+	drum_note 3, 2
+	drum_note 1, 1
+	drum_note 7, 3
+	drum_note 8, 2
+	drum_note 8, 1
+	drum_note 7, 3
+	drum_note 8, 2
+	drum_note 8, 1
+	drum_note 7, 3
+	drum_note 8, 2
+	drum_note 8, 1
+	drum_note 7, 3
+	drum_note 8, 2
+	drum_note 8, 1
+	drum_note 7, 3
+	drum_note 8, 2
+	drum_note 8, 1
+	drum_note 7, 3
+	drum_note 8, 2
+	drum_note 8, 1
+	drum_note 7, 3
+	drum_note 8, 2
+	drum_note 8, 1
+	drum_note 7, 3
+	drum_note 8, 2
+	drum_note 8, 1
+	drum_note 7, 3
+	drum_note 8, 2
+	drum_note 8, 1
+	drum_note 7, 3
+	drum_note 8, 2
+	drum_note 8, 1
+	drum_note 7, 3
+	drum_note 3, 2
+	drum_note 4, 3
+	drum_note 7, 1
+	drum_note 8, 2
+	drum_note 8, 1
+	drum_note 1, 3
+	drum_note 8, 2
+	drum_note 8, 1
+	drum_note 7, 3
+	drum_note 8, 2
+	drum_note 8, 1
+	drum_note 7, 3
+	drum_note 3, 2
+	drum_note 4, 3
+	drum_note 7, 1
+	rest 6
+	drum_note 8, 2
+	drum_note 8, 1
+	drum_note 7, 3
+	drum_note 8, 2
+	drum_note 8, 1
+	drum_note 7, 3
+	drum_note 8, 2
+	drum_note 8, 1
+	drum_note 7, 3
+	drum_note 8, 2
+	drum_note 8, 1
+	drum_note 7, 3
+	drum_note 8, 2
+	drum_note 8, 1
+	drum_note 7, 3
+	drum_note 8, 2
+	drum_note 8, 1
+	drum_note 7, 3
+	drum_note 8, 2
+	drum_note 8, 1
+	drum_note 7, 3
+	drum_note 4, 2
+	drum_note 7, 3
+	drum_note 7, 1
+	drum_note 8, 2
+	drum_note 8, 1
+	drum_note 7, 3
+	drum_note 8, 2
+	drum_note 8, 1
+	drum_note 7, 3
+	drum_note 8, 2
+	drum_note 8, 1
+	drum_note 7, 3
+	drum_note 8, 2
+	drum_note 8, 1
+	drum_note 7, 3
+	drum_note 3, 2
+	drum_note 4, 1
+	drum_note 8, 2
+	drum_note 7, 1
+	drum_note 8, 2
+	drum_note 8, 1
+	drum_note 7, 3
+	drum_note 8, 2
+	drum_note 8, 1
+	drum_note 7, 3
+	drum_note 8, 2
+	drum_note 8, 1
+	drum_note 7, 3
+	drum_note 3, 2
+	drum_note 4, 1
+	drum_note 3, 2
+	drum_note 7, 1
+	drum_note 8, 2
+	drum_note 8, 1
+	drum_note 7, 3
+	drum_note 7, 3
+	drum_note 7, 3
+	drum_note 8, 2
+	drum_note 8, 1
+	drum_note 7, 3
+	drum_note 8, 2
+	drum_note 8, 1
+	drum_note 7, 3
+	drum_note 8, 2
+	drum_note 8, 1
+	drum_note 7, 3
+	drum_note 8, 2
+	drum_note 8, 1
+	drum_note 7, 3
+	drum_note 8, 2
+	drum_note 8, 1
+	drum_note 7, 3
+	drum_note 8, 2
+	drum_note 8, 1
+	drum_note 7, 3
+	drum_note 8, 2
+	drum_note 8, 1
+	drum_note 7, 3
+	drum_note 8, 2
+	drum_note 8, 1
+	drum_note 7, 3
+	drum_note 8, 2
+	drum_note 8, 1
+	drum_note 7, 3
+	drum_note 8, 2
+	drum_note 8, 1
+	drum_note 7, 3
+	drum_note 8, 2
+	drum_note 8, 1
+	drum_note 7, 3
+	drum_note 8, 2
+	drum_note 8, 1
+	drum_note 7, 3
+	drum_note 8, 2
+	drum_note 8, 1
+	drum_note 7, 3
+	drum_note 8, 2
+	drum_note 8, 1
+	drum_note 7, 3
+	drum_note 8, 2
+	drum_note 8, 1
+	drum_note 7, 3
+	drum_note 8, 2
+	drum_note 8, 1
+	drum_note 7, 3
+	drum_note 8, 2
+	drum_note 8, 1
+	drum_note 7, 3
+	drum_note 8, 2
+	drum_note 8, 1
+	drum_note 7, 3
+	drum_note 8, 2
+	drum_note 8, 1
+	drum_note 7, 3
+	drum_note 3, 2
+	drum_note 4, 3
+	drum_note 7, 1
+	drum_note 8, 2
+	drum_note 8, 1
+	drum_note 1, 3
+	drum_note 8, 2
+	drum_note 8, 1
+	drum_note 7, 3
+	drum_note 8, 2
+	drum_note 8, 1
+	drum_note 7, 3
+	drum_note 3, 2
+	drum_note 4, 3
+	drum_note 7, 7
+	drum_note 8, 2
+	drum_note 8, 1
+	drum_note 7, 3
+	drum_note 8, 2
+	drum_note 8, 1
+	drum_note 7, 3
+	drum_note 8, 2
+	drum_note 8, 1
+	drum_note 7, 3
+	drum_note 8, 2
+	drum_note 8, 1
+	drum_note 7, 3
+	drum_note 8, 2
+	drum_note 8, 1
+	drum_note 7, 3
+	drum_note 8, 2
+	drum_note 8, 1
+	drum_note 7, 3
+	drum_note 8, 2
+	drum_note 8, 1
+	drum_note 7, 3
+	drum_note 4, 2
+	drum_note 7, 3
+	drum_note 7, 1
+	drum_note 8, 2
+	drum_note 8, 1
+	drum_note 7, 3
+	drum_note 8, 2
+	drum_note 8, 1
+	drum_note 7, 3
+	drum_note 8, 2
+	drum_note 8, 1
+	drum_note 7, 3
+	drum_note 8, 2
+	drum_note 8, 1
+	drum_note 7, 3
+	drum_note 3, 2
+	drum_note 4, 1
+	drum_note 8, 2
+	drum_note 7, 1
+	drum_note 8, 2
+	drum_note 8, 1
+	drum_note 7, 3
+	drum_note 8, 2
+	drum_note 8, 1
+	drum_note 7, 3
+	drum_note 8, 2
+	drum_note 8, 1
+	drum_note 7, 3
+	drum_note 3, 2
+	drum_note 4, 1
+	drum_note 3, 2
+	drum_note 7, 1
+	drum_note 8, 2
+	drum_note 8, 1
+	drum_note 7, 3
+	drum_note 3, 1
+	drum_note 3, 1
+	drum_note 3, 1
+	drum_note 3, 3
+	drum_note 4, 2
+	drum_note 4, 1
+	drum_note 1, 3
+	drum_note 4, 3
+	drum_note 8, 2
+	drum_note 8, 1
+	drum_note 3, 3
+	drum_note 8, 2
+	drum_note 8, 3
+	drum_note 8, 4
+	drum_note 3, 3
+	drum_note 8, 2
+	drum_note 8, 1
+	drum_note 4, 3
+	drum_note 8, 2
+	drum_note 8, 1
+	drum_note 3, 3
+	drum_note 8, 2
+	drum_note 8, 1
+	drum_note 3, 2
+	drum_note 3, 1
+	drum_note 7, 3
+	drum_note 1, 2
+	drum_note 3, 3
+	drum_note 3, 1
+	drum_note 4, 3
+	drum_note 8, 2
+	drum_note 8, 1
+	drum_note 3, 3
+	drum_note 8, 2
+	drum_note 8, 1
+	drum_note 3, 2
+	drum_note 3, 4
+	drum_note 3, 2
+	drum_note 7, 4
+	drum_note 4, 3
+	drum_note 8, 2
+	drum_note 8, 1
+	drum_note 3, 3
+	drum_note 8, 2
+	drum_note 8, 1
+	drum_note 8, 2
+	drum_note 8, 1
+	drum_note 8, 2
+	drum_note 8, 1
+	drum_note 3, 3
+	drum_note 8, 2
+	drum_note 8, 1
+	drum_note 4, 3
+	drum_note 8, 2
+	drum_note 8, 1
+	drum_note 3, 3
+	drum_note 8, 2
+	drum_note 8, 3
+	drum_note 8, 4
+	drum_note 3, 3
+	drum_note 8, 2
+	drum_note 8, 1
+	drum_note 4, 3
+	drum_note 8, 2
+	drum_note 8, 1
+	drum_note 3, 3
+	drum_note 8, 2
+	drum_note 8, 1
+	drum_note 3, 2
+	drum_note 3, 1
+	drum_note 7, 3
+	drum_note 1, 2
+	drum_note 3, 3
+	drum_note 3, 1
+	drum_note 4, 3
+	drum_note 8, 2
+	drum_note 8, 1
+	drum_note 3, 3
+	drum_note 8, 2
+	drum_note 8, 1
+	drum_note 4, 3
+	drum_note 8, 2
+	drum_note 8, 1
+	drum_note 3, 3
+	drum_note 8, 2
+	drum_note 8, 1
+	drum_note 4, 3
+	drum_note 8, 2
+	drum_note 8, 1
+	drum_note 3, 3
+	drum_note 8, 2
+	drum_note 8, 1
+	drum_note 8, 2
+	drum_note 8, 1
+	drum_note 8, 2
+	drum_note 8, 1
+	drum_note 3, 3
+	drum_note 8, 2
+	drum_note 8, 1
+	drum_note 3, 2
+	drum_note 4, 1
+	drum_note 8, 2
+	drum_note 7, 1
+	drum_note 8, 2
+	drum_note 8, 1
+	drum_note 7, 3
+	drum_note 8, 2
+	drum_note 8, 1
+	drum_note 7, 3
+	drum_note 8, 2
+	drum_note 8, 1
+	drum_note 7, 3
+	drum_note 3, 2
+	drum_note 4, 1
+	drum_note 3, 2
+	drum_note 7, 1
+	drum_note 8, 2
+	drum_note 8, 1
+	drum_note 7, 3
+	drum_note 3, 1
+	drum_note 3, 1
+	drum_note 3, 1
+	drum_note 3, 3
+	drum_note 4, 2
+	drum_note 4, 1
+	drum_note 1, 3
+	sound_loop 0, Music_CatchEmRed_branch_3d7c3

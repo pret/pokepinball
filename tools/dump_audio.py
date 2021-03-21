@@ -1036,6 +1036,9 @@ def dump_channel(start_address, sound_name, channel, prefix="", is_sfx=True, add
 	labels = []
 	branches = set()
 	if address is None:
+		if sound_name == "MewtwoStage" and channel == 2:
+			blobs.append(make_blob(0x49052, "; unreferenced\n"))
+			branches.add(0x49052)
 		blobs.append(make_blob(start_address, "{}{}_Ch{}:\n".format(prefix, sound_name, channel)))
 		address = start_address
 	while 1:

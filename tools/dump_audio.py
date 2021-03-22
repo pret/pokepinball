@@ -1092,6 +1092,8 @@ def dump_channel(start_address, sound_name, channel, prefix="", is_sfx=True, add
 				output += " {:x}".format(param)
 				if param == start_address:
 					label = "{}{}_Ch{}".format(prefix, sound_name, channel)
+				elif sound_name == "HaunterInTheGraveyard":
+					label = "{}{}_Ch{}".format(prefix, "GastlyInTheGraveyard", channel)
 				else:
 					label = "{}{}_branch_{:x}".format(prefix, sound_name, param)
 					if command_id == 0xfe and param >= start_address:
@@ -1104,7 +1106,8 @@ def dump_channel(start_address, sound_name, channel, prefix="", is_sfx=True, add
 		output += "\n"
 		blobs.append(make_blob(command_address, output, address, label))
 		if (command_id == 0xff or (is_infinite_loop(command_address) and
-			not (is_infinite_loop(address) or rom[address] == 0xff))):
+			not (is_infinite_loop(address) or rom[address] == 0xff)) or
+			(command_id == 0xfe and sound_name == "HaunterInTheGraveyard")):
 			blobs.append(make_blob(address, "\n"))
 			break
 	for branch in branches:

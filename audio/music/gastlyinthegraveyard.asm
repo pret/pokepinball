@@ -5,7 +5,6 @@ Music_GastlyInTheGraveyard:
 	channel 3, Music_GastlyInTheGraveyard_Ch3
 
 Music_GastlyInTheGraveyard_Ch1:
-Music_HaunterInTheGraveyard_branch_3ddf3:
 	tempo 272
 	volume 7, 7
 Music_GastlyInTheGraveyard_branch_3ddf8:
@@ -61,7 +60,6 @@ Music_GastlyInTheGraveyard_branch_3ddf8:
 	sound_loop 0, Music_GastlyInTheGraveyard_branch_3ddf8
 
 Music_GastlyInTheGraveyard_Ch2:
-Music_HaunterInTheGraveyard_branch_3de4c:
 	pitch_offset 1
 Music_GastlyInTheGraveyard_branch_3de4f:
 	duty_cycle 3
@@ -204,7 +202,6 @@ Music_GastlyInTheGraveyard_branch_3dee0:
 	sound_ret
 
 Music_GastlyInTheGraveyard_Ch3:
-Music_HaunterInTheGraveyard_branch_3df1f:
 	note_type 6, 2, 2
 	octave 1
 	note B_, 2

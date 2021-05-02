@@ -1832,13 +1832,20 @@ wd7c9:: ; 0xd7c9
 wd7d9:: ; 0xd7d9
 	ds $10
 
-wd7e9:: ; 0xd7e9
+wIsBallColliding:: ; 0xd7e9
+; Set to non-zero when the pinball is colliding with something.
 	ds $1
 
-wCollisionForceAngle:: ; 0xd7ea
+wCollisionNormalAngle:: ; 0xd7ea
+; The normal angle of the ball's collision. The coordinate system
+; is rotate by 90 degrees compared to standard math.
+; $00 = directly up on the Game Boy screen
+; $40 = directly right on the Game Boy screen
+; $80 = directly down on the Game Boy screen
+; $C0 = directly left on the Game Boy screen
 	ds $1
 
-wd7eb:: ; 0xd7eb
+wSpinForceAmplification:: ; 0xd7eb
 	ds $1
 
 wStageCollisionMapPointer:: ; 0xd7ec
@@ -1868,7 +1875,9 @@ wd7f6:: ; 0xd7f6
 wd7f7:: ; 0xd7f7
 	ds $1
 
-wd7f8:: ; 0xd7f8
+wNoCollisionApplied:: ; 0xd7f8
+; Set to $FF when collision forces were NOT applied to the ball.
+; Set to $00 otherwise.
 	ds $1
 
 wInGameMenuIndex:: ; 0xd7f9

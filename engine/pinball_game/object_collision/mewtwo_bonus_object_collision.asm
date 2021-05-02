@@ -159,7 +159,7 @@ Func_19414: ; 0x19414
 	ld a, [wd6aa]
 	bit 7, a
 	jr nz, .asm_1944f
-	ld a, [wd7e9]
+	ld a, [wIsBallColliding]
 	and a
 	ret z
 	ld a, [wCurCollisionAttribute]

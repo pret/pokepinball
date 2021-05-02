@@ -57,9 +57,9 @@ CheckMeowthCollision: ; 0x24170
 	bit 7, a
 	jr nz, .noCollision
 	sla a
-	ld [wCollisionForceAngle], a
+	ld [wCollisionNormalAngle], a
 	ld a, $1
-	ld [wd7e9], a
+	ld [wIsBallColliding], a
 	ld a, [wd6ec]
 	cp $2
 	ret z
@@ -205,9 +205,9 @@ CheckJewelCollision: ; 0x24272
 	bit 7, a
 	jr nz, .noCollision
 	sla a
-	ld [wCollisionForceAngle], a
+	ld [wCollisionNormalAngle], a
 	ld a, $1
-	ld [wd7e9], a
+	ld [wIsBallColliding], a
 	scf
 	ret
 

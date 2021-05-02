@@ -10,7 +10,7 @@ CheckDiglettBonusStageDiglettHeadsCollision: ; 0x19aba
 	ld a, [wd73b]
 	bit 7, a
 	jr nz, .asm_19b16
-	ld a, [wd7e9]
+	ld a, [wIsBallColliding]
 	and a
 	ret z ; is a collision happening?
 	ld a, [wCurCollisionAttribute]
@@ -86,7 +86,7 @@ CheckDiglettBonusStageDugtrioCollision: ; 0x19b4b
 	ld a, [wd75f]
 	bit 7, a
 	jr nz, .asm_19b86
-	ld a, [wd7e9]
+	ld a, [wIsBallColliding]
 	and a
 	ret z
 	ld a, [wCurCollisionAttribute]

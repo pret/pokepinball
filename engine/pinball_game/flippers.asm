@@ -601,7 +601,7 @@ HandleFlipperCollision: ; 0xe442
 ; This is called when the ball is colliding with either the
 ; right or left flipper.
 	ld a, $1
-	ld [wd7e9], a
+	ld [wIsBallColliding], a
 	xor a
 	ld [wBallPositionPointerOffsetFromStageTopLeft], a
 	ld [wBallPositionPointerOffsetFromStageTopLeft + 1], a
@@ -638,9 +638,9 @@ HandleFlipperCollision: ; 0xe442
 	cpl  ; invert the x collision attribute
 	inc a
 .asm_e48b
-	ld [wCollisionForceAngle], a
-	ld a, $1
-	ld [wd7eb], a
+	ld [wCollisionNormalAngle], a
+	ld a, 1
+	ld [wSpinForceAmplification], a
 	ld a, [wFlipperYForce + 1]
 	bit 7, a
 	ret z

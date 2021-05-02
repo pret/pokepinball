@@ -2269,48 +2269,55 @@ MultiplyBbyCSigned:
 	pop af
 	ret
 
-MultiplyBCByEAndRoundToMostSignificantShort: ; 0x210b
-; bc = round(bc * e / 256)
-; b^d = sign of output
+MultiplyVectorComponentByAngleFactor: ; 0x210b
+; Input: bc = velocity
+;         e = multiplier
+;         d = $0 if multiplier is treated as positive, $ff if multiplier is treated as negative
+; Output: bc = bc * e / 256
 	push af
 	push hl
 	ld a, b
 	xor d
 	ld [hSignedMathSignBuffer2], a
 	bit 7, b
-	jr z, .positive1
+	jr z, .positive
+	; negate bc
 	ld a, c
 	cpl
-	add $1
+	add 1
 	ld c, a
 	ld a, b
 	cpl
-	adc $0
+	adc 0
 	ld b, a
-.positive1
+.positive
 	push bc
+	; first, multiply the lo byte of the vector
 	ld b, e
 	call MultiplyBbyCUnsigned
 	ld l, c
 	ld h, b
+	; round to nearest hi byte
 	ld bc, $0080
 	add hl, bc
 	ld l, h
 	ld h, $0
 	pop bc
+	; then, multiply the hi byte of the vector
 	ld c, e
 	call MultiplyBbyCUnsigned
 	add hl, bc
 	ld a, [hSignedMathSignBuffer2]
 	rlca
 	jr nc, .positive2
+	; negate hl
 	ld a, l
 	cpl
-	add $1
+	add 1
 	ld l, a
 	ld a, h
 	cpl
-	adc $0
+	adc 0
 	ld h, a
 .positive2
 	ld c, l
@@ -2320,14 +2327,18 @@ MultiplyBCByEAndRoundToMostSignificantShort: ; 0x210b
 	ret
 
 Cosine: ; 0x2147
-	; cos(a)
+	; Input:  a = angle
+	; Output: e = cos(a)
+	;         d = 0 if cos(a) is positive, $ff if cos(a) is negative
 	add $40
 	; fall through
 Sine: ; 0x2149
-	; sin(a)
+	; Input:  a = angle
+	; Output: e = sin(a)
+	;         d = 0 if sin(a) is positive, $ff if sin(a) is negative
 	push hl
 	ld [hSignedMathSignBuffer], a
-	and $7f ; subtract 180 degrees
+	and $7f ; ensure angle is between 0 and 180 degrees
 	cp $40
 	jr c, .firstQuadrant
 	; convert angle so it's between 0 and 90 degrees
@@ -2366,7 +2377,7 @@ ApplyGravityToBall: ; 0x2168
 
 LimitBallVelocity: ; 0x2180
 ; Ensures that the ball's x and y velocity are kept under a threshold.
-; The ball can travel at a higher max speed when moving diagonally, since it
+; The ball can travel at a greater max speed when moving diagonally, since it
 ; limits the x and y components independently.
 	ld hl, wBallXVelocity + 1
 	call _LimitBallVelocity
@@ -2376,16 +2387,16 @@ _LimitBallVelocity: ; 0x2189
 	ld a, [hl]
 	bit 7, a  ; is it negative velocity?  (left or up)
 	jr nz, .negativeVelocity
-	cp $8
+	cp 8
 	ret c
-	ld a, $7  ; max positive velocity
+	ld a, 7  ; max positive velocity
 	ld [hl], a
 	ret
 
 .negativeVelocity
-	cp $f9
+	cp -7
 	ret nc
-	ld a, $f9  ; max negative velocity
+	ld a, -7  ; max negative velocity
 	ld [hl], a
 	ret
 
@@ -2409,24 +2420,24 @@ MoveBallPosition: ; 0x219c
 AddVelocityToPosition: ; 0x21c3
 	ld a, [de]
 	bit 7, a
-	jr nz, .asm_21d1
-	cp 1+4
-	jr c, .asm_21da
+	jr nz, .negativeVelocity
+	cp 5
+	jr c, .readLoByte
 	ld bc, $04ff
-	jr .asm_21de
+	jr .updateBallPos
 
-.asm_21d1
+.negativeVelocity
 	cp -4
-	jr nc, .asm_21da
+	jr nc, .readLoByte
 	ld bc, -$04ff
-	jr .asm_21de
+	jr .updateBallPos
 
-.asm_21da
+.readLoByte
 	ld b, a
 	dec de
 	ld a, [de]
 	ld c, a
-.asm_21de
+.updateBallPos
 	ld a, [hl]
 	add c
 	ld [hli], a
@@ -2435,35 +2446,42 @@ AddVelocityToPosition: ; 0x21c3
 	ld [hl], a
 	ret
 
-NegateAngleAndApplyCollisionForce: ; 0x21e5
+NegateAngleAndRotateVector: ; 0x21e5
 	cpl
 	inc a
 	; fall through
-ApplyCollisionForce: ; 0x21e7
+RotateVector: ; 0x21e7
+; Rotates a vector by an angle using the standard rotation matrix calculation. Note, that
+; the matrix is inverted vertically to account for negative y values mean "up" in this world.
+; Input:   bc = vector x component
+;          de = vector y component
+;           a = rotation angle
+; Returns: bc = resulting x component = xComponent * cos(angle) + yComponent * sin(angle)
+;          de = resulting y component = yComponent * cos(angle) - xComponent * sin(angle)
 	push hl
-	; bc_ret = bc * cos(a) + de * sin(x)
-	; de_ret = bc * cos(a) - de * sin(x)
 	push bc
 	push de
-	ld [hSineOrCosineArgumentBuffer], a
+	ld [hRotationAngleBuffer], a
 	call Cosine
 	ld a, e
 	ld [hCosineResultBuffer], a
 	ld a, d
 	ld [hCosineResultBuffer + 1], a
-	call MultiplyBCByEAndRoundToMostSignificantShort
+	; xComponent * cos(angle)
+	call MultiplyVectorComponentByAngleFactor
 	ld l, c
 	ld h, b
 	pop bc
 	push bc
-	ld a, [hSineOrCosineArgumentBuffer]
+	ld a, [hRotationAngleBuffer]
 	call Sine
 	ld a, e
 	ld [hSineResultBuffer], a
 	ld a, d
 	ld [hSineResultBuffer + 1], a
-	call MultiplyBCByEAndRoundToMostSignificantShort
-	add hl, bc
+	; yComponent * sin(angle)
+	call MultiplyVectorComponentByAngleFactor
+	add hl, bc  ; hl = xComponent * cos(angle) + yComponent * sin(angle)
 	pop de
 	pop bc
 	push hl
@@ -2473,7 +2491,8 @@ ApplyCollisionForce: ; 0x21e7
 	ld a, [hSineResultBuffer + 1]
 	cpl
 	ld d, a
-	call MultiplyBCByEAndRoundToMostSignificantShort
+	; xComponent * -sin(angle)
+	call MultiplyVectorComponentByAngleFactor
 	ld l, c
 	ld h, b
 	pop bc
@@ -2481,74 +2500,103 @@ ApplyCollisionForce: ; 0x21e7
 	ld e, a
 	ld a, [hCosineResultBuffer + 1]
 	ld d, a
-	call MultiplyBCByEAndRoundToMostSignificantShort
-	add hl, bc
+	; yComponent * cos(angle)
+	call MultiplyVectorComponentByAngleFactor
+	add hl, bc  ; hl = yComponent * cos(angle) - xComponent * sin(angle)
 	ld d, h
 	ld e, l
 	pop bc
 	pop hl
 	ret
 
-ApplyTorque: ; 0x222b
+ApplyCollisionForces: ; 0x222b
+; Applies the collision force to the ball's velocity and spin.
+; When this function is called, the ball's velocity has already been rotated
+; by the collision's normal angle, so that the velocity components are in a
+; standardized coordinate system, where the normal is pointing directly upward
+; at the colliding ball. If the ball is traveling away from the normal, then this
+; function is a no-op.
+; Input: bc = ball x velocity in rotated coordinate system
+;        de = ball y velocity in rotated coordinate system
+; Output: bc = updated ball x velocity in rotated coordinate system
+;         de = updated ball y velocity in rotated coordinate system
 	push hl
-	ld hl, wd7f8
+	ld hl, wNoCollisionApplied
 	ld [hl], $ff
+	; Early exit if the ball is traveling away from the collision normal.
 	bit 7, d
-	jr nz, .asm_2297
+	jr nz, .exit
 	ld [hl], $0
 	ld a, d
-	cp $3
-	jr c, .asm_2254
+	cp 3
+	jr c, .applyforces
+	; The ball collided hard because its y velocity is a
+	; large value. Shake the rumble pack, and play a little
+	; sound effect to enhance the collision.
 	ld a, $ff
 	ld [wRumblePattern], a
-	ld a, $1
+	ld a, 1
 	ld [wRumbleDuration], a
 	ld a, [wFlipperCollision]
 	and a
-	jr nz, .asm_2254
+	jr nz, .applyforces
 	push de
 	ld de, $0008
 	call PlaySFXIfNoneActive
 	pop de
-.asm_2254
+.applyforces
+	; First, apply some dampening of the vertical
+	; velocity component, so that walls absorb some
+	; of the ball's speed. Colliding with certain objects
+	; dampen the speed less that normal, like the flippers
+	; and Poliwag button.
+	; Divide y velocity by 4.
 	srl d
 	rr e
 	srl d
 	rr e
 	ld h, d
-	ld l, e
+	ld l, e  ; hl = yVelocity / 4
 	srl d
-	rr e
-	ld a, [wd7eb]
+	rr e  ; de = yVelocity / 8
+	ld a, [wSpinForceAmplification]
 	and a
-	jr z, .asm_226c
-.asm_2268
+	jr z, .updateYVelocity
+.amplify
 	add hl, de
 	dec a
-	jr nz, .asm_2268
-.asm_226c
+	jr nz, .amplify
+.updateYVelocity
+	; Negate the dampened dampened y velocity so that the ball
+	; bounces off.
 	ld d, h
 	ld e, l
 	ld a, e
 	cpl
-	add $1
+	add 1
 	ld e, a
 	ld a, d
 	cpl
-	adc $0
+	adc 0
 	ld d, a
 	ld a, [wBallSpin]
+	; Divide ball spin by 2, signed, and extend to 2 bytes (hl)
 	sra a
 	ld l, a
 	ld h, $0
 	bit 7, l
-	jr z, .asm_2286
+	jr z, .updateXVelocity
 	ld h, $ff
-.asm_2286
+.updateXVelocity
+	; hl = ballSpin / 2
+	; bc = x velocity component in rotated coordinate system
+	; Add the spin to the x velocity component.
 	add hl, bc
 	ld b, h
 	ld c, l
 	push bc
+	; Recalculate ball spin.
+	; new ball spin = (xVelocity * 4) >> 8
 	sla c
 	rl b
 	sla c
@@ -2556,7 +2604,7 @@ ApplyTorque: ; 0x222b
 	ld a, b
 	ld [wBallSpin], a
 	pop bc
-.asm_2297
+.exit
 	pop hl
 	ret
 
@@ -2594,7 +2642,7 @@ SetBallVelocity: ; 0x22a7
 	pop hl
 	ret
 
-CheckObjectCollision: ; 0x22b5
+CheckStageCollision: ; 0x22b5
 	ld a, [wBallXPos + 1]
 	sub $4
 	push af
@@ -2801,7 +2849,7 @@ CheckObjectCollision: ; 0x22b5
 	jr c, .asm_23c1
 .asm_23ee
 	ld a, e
-	ld [wd7e9], a
+	ld [wIsBallColliding], a
 	and a
 	ret z
 	ld a, [hLoadedROMBank]
@@ -2815,7 +2863,7 @@ CheckObjectCollision: ; 0x22b5
 	ld hl, CollisionForceAngles
 	add hl, de
 	ld a, [hl]
-	ld [wCollisionForceAngle], a
+	ld [wCollisionNormalAngle], a
 	sla e
 	rl d
 	ld hl, CollisionYDeltas

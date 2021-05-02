@@ -598,9 +598,9 @@ ApplyBumperCollision_BlueField: ; 0x1ce94
 	ld b, $0
 	ld hl, BumperCollisionAngleDeltas_BlueField
 	add hl, bc
-	ld a, [wCollisionForceAngle]
+	ld a, [wCollisionNormalAngle]
 	add [hl]
-	ld [wCollisionForceAngle], a
+	ld [wCollisionNormalAngle], a
 	lb de, $00, $0b
 	call PlaySoundEffect
 	ret
@@ -1808,10 +1808,10 @@ AddScorePsyduckOrPoliwag: ; 0x1de22
 	ret z
 	ld a, $55
 	ld [wRumblePattern], a
-	ld a, $4
+	ld a, 4
 	ld [wRumbleDuration], a
-	ld a, $2
-	ld [wd7eb], a
+	ld a, 2
+	ld [wSpinForceAmplification], a
 	ld bc, FiveHundredPoints
 	callba AddBigBCD6FromQueueWithBallMultiplier
 	lb de, $00, $0f

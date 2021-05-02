@@ -125,7 +125,7 @@ IsCollisionInList: ; 0x27da
 	ld c, [hl]
 	add hl, bc
 .checkList
-	ld a, [wd7e9]
+	ld a, [wIsBallColliding]
 	and a
 	ret z
 	ld a, [wCurCollisionAttribute]

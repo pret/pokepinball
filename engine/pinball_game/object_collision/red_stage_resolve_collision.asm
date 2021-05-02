@@ -460,10 +460,10 @@ HitLeftDiglett3Times: ; 0x14947
 AddScoreForHittingDiglett: ; 0x1496d
 	ld a, $55
 	ld [wRumblePattern], a
-	ld a, $4
+	ld a, 4
 	ld [wRumbleDuration], a
-	ld a, $2
-	ld [wd7eb], a
+	ld a, 2
+	ld [wSpinForceAmplification], a
 	ld bc, FiveHundredPoints
 	callba AddBigBCD6FromQueueWithBallMultiplier
 	lb de, $00, $0f
@@ -1699,9 +1699,9 @@ ApplyBumperCollision_RedField: ; 0x15fda
 	ld b, $0
 	ld hl, BumperCollisionAngleDeltas_RedField
 	add hl, bc
-	ld a, [wCollisionForceAngle]
+	ld a, [wCollisionNormalAngle]
 	add [hl]
-	ld [wCollisionForceAngle], a
+	ld [wCollisionNormalAngle], a
 	lb de, $00, $0b
 	call PlaySoundEffect
 	ret

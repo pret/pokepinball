@@ -12,11 +12,11 @@ HandleLeftTilt: ; 0x358c
 	call IsKeyPressed2
 	jr z, .tiltCoolDown
 	ld a, [wLeftTiltCounter]
-	cp $3
+	cp 3
 	jr z, .startCoolDown
 	inc a
 	ld [wLeftTiltCounter], a
-	cp $1
+	cp 1
 	jr nz, .skipSoundEffect
 	lb de, $00, $3f
 	call PlaySoundEffect
@@ -32,12 +32,12 @@ HandleLeftTilt: ; 0x358c
 	ld a, [wLeftAndRightTiltPixelsOffset]
 	inc a
 	ld [wLeftAndRightTiltPixelsOffset], a
-	ld a, $1
+	ld a, 1
 	ld [wLeftTiltPushing], a
 	ret
 
 .startCoolDown
-	ld a, $1
+	ld a, 1
 	ld [wLeftTiltReset], a
 .tiltCoolDown
 	xor a
@@ -68,11 +68,11 @@ HandleRightTilt: ; 0x35f3
 	call IsKeyPressed2
 	jr z, .tiltCoolDown
 	ld a, [wRightTiltCounter]
-	cp $3
+	cp 3
 	jr z, .startCoolDown
 	inc a
 	ld [wRightTiltCounter], a
-	cp $1
+	cp 1
 	jr nz, .skipSoundEffect
 	lb de, $00, $3f
 	call PlaySoundEffect
@@ -88,12 +88,12 @@ HandleRightTilt: ; 0x35f3
 	ld a, [wLeftAndRightTiltPixelsOffset]
 	dec a
 	ld [wLeftAndRightTiltPixelsOffset], a
-	ld a, $1
+	ld a, 1
 	ld [wRightTiltPushing], a
 	ret
 
 .startCoolDown
-	ld a, $1
+	ld a, 1
 	ld [wRightTiltReset], a
 .tiltCoolDown
 	xor a
@@ -124,11 +124,11 @@ HandleUpperTilt: ; 0x365a
 	call IsKeyPressed2
 	jr z, .tiltCoolDown
 	ld a, [wUpperTiltCounter]
-	cp $4
+	cp 4
 	jr z, .startCoolDown
 	inc a
 	ld [wUpperTiltCounter], a
-	cp $1
+	cp 1
 	jr nz, .skipSoundEffect
 	lb de, $00, $3f
 	call PlaySoundEffect
@@ -144,12 +144,12 @@ HandleUpperTilt: ; 0x365a
 	ld a, [wUpperTiltPixelsOffset]
 	dec a
 	ld [wUpperTiltPixelsOffset], a
-	ld a, $1
+	ld a, 1
 	ld [wUpperTiltPushing], a
 	ret
 
 .startCoolDown
-	ld a, $1
+	ld a, 1
 	ld [wUpperTiltReset], a
 .tiltCoolDown
 	xor a
@@ -196,7 +196,7 @@ ApplyTiltForces: ; 0x36c1
 	ld l, a
 	bit 7, h
 	ret nz
-	ld a, [wCollisionForceAngle]
+	ld a, [wCollisionNormalAngle]
 	ld c, a
 	ld b, $0
 	sla c

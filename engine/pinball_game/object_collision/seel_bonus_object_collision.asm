@@ -80,9 +80,9 @@ CheckSeelHeadCollision: ; 0x25c12
 	bit 7, a
 	jr nz, .noCollision
 	sla a
-	ld [wCollisionForceAngle], a
+	ld [wCollisionNormalAngle], a
 	ld a, $1
-	ld [wd7e9], a
+	ld [wIsBallColliding], a
 	scf
 	ret
 

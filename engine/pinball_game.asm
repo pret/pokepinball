@@ -70,7 +70,7 @@ GameScreenFunction_HandleBallPhysics: ; 0xd909
 ; main loop for stage logic
 	xor a
 	ld [wFlipperCollision], a
-	ld [wSpinForceAmplification], a
+	ld [wCollisionForceAmplification], a
 	call ApplyGravityToBall
 	call LimitBallVelocity
 	xor a
@@ -181,7 +181,7 @@ GameScreenFunction_HandleBallLoss: ; 0xda36
 	ld [hNewlyPressedButtons], a
 	ld [hPressedButtons], a
 	ld [wFlipperCollision], a
-	ld [wSpinForceAmplification], a
+	ld [wCollisionForceAmplification], a
 	xor a
 	ld [wIsBallColliding], a
 	ld [wPinballIsVisible], a

@@ -1845,7 +1845,7 @@ wCollisionNormalAngle:: ; 0xd7ea
 ; $C0 = directly left on the Game Boy screen
 	ds $1
 
-wSpinForceAmplification:: ; 0xd7eb
+wCollisionForceAmplification:: ; 0xd7eb
 	ds $1
 
 wStageCollisionMapPointer:: ; 0xd7ec

@@ -640,7 +640,7 @@ HandleFlipperCollision: ; 0xe442
 .asm_e48b
 	ld [wCollisionNormalAngle], a
 	ld a, 1
-	ld [wSpinForceAmplification], a
+	ld [wCollisionForceAmplification], a
 	ld a, [wFlipperYForce + 1]
 	bit 7, a
 	ret z

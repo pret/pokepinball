@@ -2559,7 +2559,7 @@ ApplyCollisionForces: ; 0x222b
 	ld l, e  ; hl = yVelocity / 4
 	srl d
 	rr e  ; de = yVelocity / 8
-	ld a, [wSpinForceAmplification]
+	ld a, [wCollisionForceAmplification]
 	and a
 	jr z, .updateYVelocity
 .amplify

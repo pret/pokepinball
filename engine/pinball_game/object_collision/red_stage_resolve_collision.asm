@@ -463,7 +463,7 @@ AddScoreForHittingDiglett: ; 0x1496d
 	ld a, 4
 	ld [wRumbleDuration], a
 	ld a, 2
-	ld [wSpinForceAmplification], a
+	ld [wCollisionForceAmplification], a
 	ld bc, FiveHundredPoints
 	callba AddBigBCD6FromQueueWithBallMultiplier
 	lb de, $00, $0f

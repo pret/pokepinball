@@ -1751,7 +1751,7 @@ wd7ad:: ; 0xd7ad
 wd7ae:: ; 0xd7ae
 	ds $1
 
-wd7af:: ; 0xd7af
+wLeftFlipperState:: ; 0xd7af
 	ds $1
 
 wd7b0:: ; 0xd7b0
@@ -1763,7 +1763,7 @@ wd7b1:: ; 0xd7b1
 wd7b2:: ; 0xd7b2
 	ds $1
 
-wd7b3:: ; 0xd7b3
+wRightFlipperState:: ; 0xd7b3
 	ds $1
 
 wd7b4:: ; 0xd7b4
@@ -1816,18 +1816,21 @@ wSubTileBallYPos:: ; 0xd7c4
 
 wUpperLeftCollisionAttribute:: ; 0xd7c5
 	ds $1
-
 wLowerLeftCollisionAttribute:: ; 0xd7c6
 	ds $1
-
 wUpperRightCollisionAttribute:: ; 0xd7c7
 	ds $1
-
 wLowerRightCollisionAttribute:: ; 0xd7c8
 	ds $1
 
-wd7c9:: ; 0xd7c9
-	ds $10
+wCollisionPointTests:: ; 0xd7c9
+; When the ball is tested for stage collision, there are 16
+; individual points around the center of the ball that are
+; tested to see if they are inside a collision mask. This
+; buffer holds the results of each of those tests. The order
+; of the points is clockwise, starting directly 4 pixels right
+; of the ball's center.
+	ds 16
 
 wd7d9:: ; 0xd7d9
 	ds $10
@@ -1863,13 +1866,13 @@ wStageCollisionMasksBank:: ; 0xd7f1
 wd7f2:: ; 0xd7f2
 	ds $1
 
-wBallPositionPointerOffsetFromStageTopLeft:: ; 0xd7f3
+wBallPositionTileOffset:: ; 0xd7f3
 	dw
 
 wCurCollisionAttribute:: ; 0xd7f5
 	ds $1
 
-wd7f6:: ; 0xd7f6
+wCurCollisionTileOffset:: ; 0xd7f6
 	ds $1
 
 wd7f7:: ; 0xd7f7

@@ -13,9 +13,9 @@ HandleFlippers: ; 0xe0fe
 
 Func_e118: ; 0xe118
 	call PlayFlipperSoundIfPressed
-	ld a, [wd7af]
+	ld a, [wLeftFlipperState]
 	ld [wLeftFlipperAnimationState], a
-	ld a, [wd7b3]
+	ld a, [wRightFlipperState]
 	ld [wRightFlipperAnimationState], a
 	ld hl, wKeyConfigLeftFlipper
 	call IsKeyPressed2
@@ -26,7 +26,7 @@ Func_e118: ; 0xe118
 	jr nz, .asm_e13b
 	ld hl,  $0333
 .asm_e13b
-	ld a, [wd7af]
+	ld a, [wLeftFlipperState]
 	and a
 	jr nz, .asm_e145
 	bit 7, h
@@ -45,7 +45,7 @@ Func_e118: ; 0xe118
 	ld [wd7b1], a
 	ld a, [wd7ae]
 	ld c, a
-	ld a, [wd7af]
+	ld a, [wLeftFlipperState]
 	ld b, a
 	add hl, bc
 	bit 7, h
@@ -62,7 +62,7 @@ Func_e118: ; 0xe118
 	ld a, l
 	ld [wd7ae], a
 	ld a, h
-	ld [wd7af], a
+	ld [wLeftFlipperState], a
 	ld hl, wKeyConfigRightFlipper
 	call IsKeyPressed2
 	ld hl, -$0333
@@ -72,7 +72,7 @@ Func_e118: ; 0xe118
 	jr nz, .asm_e18e
 	ld hl,  $0333
 .asm_e18e
-	ld a, [wd7b3]
+	ld a, [wRightFlipperState]
 	and a
 	jr nz, .asm_e198
 	bit 7, h
@@ -91,7 +91,7 @@ Func_e118: ; 0xe118
 	ld [wd7b4 + 1], a
 	ld a, [wd7b2]
 	ld c, a
-	ld a, [wd7b3]
+	ld a, [wRightFlipperState]
 	ld b, a
 	add hl, bc
 	bit 7, h
@@ -108,7 +108,7 @@ Func_e118: ; 0xe118
 	ld a, l
 	ld [wd7b2], a
 	ld a, h
-	ld [wd7b3], a
+	ld [wRightFlipperState], a
 	ret
 
 PlayFlipperSoundIfPressed: ; 0xe1ce
@@ -152,7 +152,7 @@ CheckLeftFlipperCollision:
 	inc c
 	ld a, [wLeftFlipperAnimationState]
 	ld [$ffc2], a
-	ld a, [wd7af]
+	ld a, [wLeftFlipperState]
 	ld [$ffc3], a
 	call ReadFlipperCollisionAttributes
 	ld a, [wFlipperCollision]
@@ -186,7 +186,7 @@ CheckRightFlipperCollision: ; 0xe226
 	inc c
 	ld a, [wRightFlipperAnimationState]
 	ld [$ffc2], a
-	ld a, [wd7b3]
+	ld a, [wRightFlipperState]
 	ld [$ffc3], a
 	call ReadFlipperCollisionAttributes
 	ld a, [wFlipperCollision]
@@ -603,11 +603,11 @@ HandleFlipperCollision: ; 0xe442
 	ld a, $1
 	ld [wIsBallColliding], a
 	xor a
-	ld [wBallPositionPointerOffsetFromStageTopLeft], a
-	ld [wBallPositionPointerOffsetFromStageTopLeft + 1], a
+	ld [wBallPositionTileOffset], a
+	ld [wBallPositionTileOffset + 1], a
 	ld [wCurCollisionAttribute], a
-	ld [wd7f6], a
-	ld [wd7f7], a
+	ld [wCurCollisionTileOffset], a
+	ld [wCurCollisionTileOffset + 1], a
 	ld a, [hFlipperYCollisionAttribute]
 	sla a
 	ld c, a
@@ -666,7 +666,7 @@ DrawFlippers: ; 0xe4a1
 	ld c, a
 	push hl
 	ld hl, LeftFlipperOAMIds
-	ld a, [wd7af]
+	ld a, [wLeftFlipperState]
 	ld e, a
 	ld d, $0
 	add hl, de
@@ -698,7 +698,7 @@ DrawFlippers: ; 0xe4a1
 	sub e
 	ld c, a
 	ld hl, RightFlipperOAMIds
-	ld a, [wd7b3]
+	ld a, [wRightFlipperState]
 	ld e, a
 	ld d, $0
 	add hl, de

@@ -13,9 +13,9 @@ InitBallForStage: ; 0x83ba
 	ld [wBallYVelocity], a
 	ld [wBallYVelocity + 1], a
 	ld [wd7ae], a
-	ld [wd7af], a
+	ld [wLeftFlipperState], a
 	ld [wd7b2], a
-	ld [wd7b3], a
+	ld [wRightFlipperState], a
 	ld [wd7b0], a
 	ld [wd7b1], a
 	ld [wd7b4], a

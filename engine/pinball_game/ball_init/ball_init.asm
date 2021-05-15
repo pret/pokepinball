@@ -12,14 +12,14 @@ InitBallForStage: ; 0x83ba
 	ld [wBallXVelocity + 1], a
 	ld [wBallYVelocity], a
 	ld [wBallYVelocity + 1], a
-	ld [wd7ae], a
 	ld [wLeftFlipperState], a
-	ld [wd7b2], a
+	ld [wLeftFlipperState + 1], a
 	ld [wRightFlipperState], a
-	ld [wd7b0], a
-	ld [wd7b1], a
-	ld [wd7b4], a
-	ld [wd7b4 + 1], a
+	ld [wRightFlipperState + 1], a
+	ld [wLeftFlipperStateChange], a
+	ld [wLeftFlipperStateChange + 1], a
+	ld [wRightFlipperStateChange], a
+	ld [wRightFlipperStateChange + 1], a
 	ld [wBallSpin], a
 	ld [wBallRotation], a
 	inc a

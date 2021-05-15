@@ -39,11 +39,18 @@ hStatIntrFired            EQU $FFB5
 hSignedMathSignBuffer     EQU $FFB6
 hSignedMathSignBuffer2    EQU $FFB7
 
+hBallXPos EQU $FFBA
+hBallYPos EQU $FFBC
+
+hFlipperStateChange   EQU $FFC0
+hPreviousFlipperState EQU $FFC2
+hFlipperState         EQU $FFC3
+
 hRotationAngleBuffer EQU $FF8C
 hCosineResultBuffer  EQU $FF8D
 hSineResultBuffer    EQU $FF8F
 
-hFlipperYCollisionAttribute  EQU $FFBF  ; Vertical collision attribute for when ball collides with a flipper.
+hFlipperCollisionRadius  EQU $FFBF
 
 hFFC4 = $FFC4
 

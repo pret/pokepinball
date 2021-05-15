@@ -1748,34 +1748,25 @@ wDisableHorizontalScrollForBallStart:: ; 0xd7ac
 wd7ad:: ; 0xd7ad
 	ds $1
 
-wd7ae:: ; 0xd7ae
-	ds $1
-
-wLeftFlipperState:: ; 0xd7af
-	ds $1
-
-wd7b0:: ; 0xd7b0
-	ds $1
-
-wd7b1:: ; 0xd7b1
-	ds $1
-
-wd7b2:: ; 0xd7b2
-	ds $1
-
-wRightFlipperState:: ; 0xd7b3
-	ds $1
-
-wd7b4:: ; 0xd7b4
+wLeftFlipperState:: ; 0xd7ae
 	ds $2
 
-wLeftFlipperAnimationState:: ; 0xd7b6
+wLeftFlipperStateChange:: ; 0xd7b0
+	ds $2
+
+wRightFlipperState:: ; 0xd7b2
+	ds $2
+
+wRightFlipperStateChange:: ; 0xd7b4
+	ds $2
+
+wPreviousLeftFlipperState:: ; 0xd7b6
 	ds $1
 
-wRightFlipperAnimationState:: ; 0xd7b7
+wPreviousRightFlipperState:: ; 0xd7b7
 	ds $1
 
-wFlipperXCollisionAttribute:: ; 0xd7b8
+wFlipperCollisionNormalAngle:: ; 0xd7b8
 	ds $1
 
 wFlipperCollision:: ; 0xd7b9

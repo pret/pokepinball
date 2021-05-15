@@ -3001,11 +3001,11 @@ TryLoadSpecialCollisionMask: ; 0x248a
 	jr nc, .bonusStage
 	bit 4, b
 	ld hl, BottomLeftCollisionMasks
-	ld a, [wLeftFlipperState]
+	ld a, [wLeftFlipperState + 1]
 	jr z, .checkFlipperPosition
 	res 4, b
 	ld hl, BottomRightCollisionMasks
-	ld a, [wRightFlipperState]
+	ld a, [wRightFlipperState + 1]
 .checkFlipperPosition
 	ld de, $0080
 	cp 7
@@ -3027,11 +3027,11 @@ TryLoadSpecialCollisionMask: ; 0x248a
 .bonusStage
 	bit 4, b
 	ld hl, BottomLeftBonusStageCollisionMasks
-	ld a, [wLeftFlipperState]
+	ld a, [wLeftFlipperState + 1]
 	jr z, .checkFlipperPosition2
 	res 4, b
 	ld hl, BottomRightBonusStageCollisionMasks
-	ld a, [wRightFlipperState]
+	ld a, [wRightFlipperState + 1]
 .checkFlipperPosition2
 	ld de, $0080
 	cp 7
@@ -3299,6 +3299,7 @@ BottomLeftBonusStageCollisionMasks:
 BottomRightBonusStageCollisionMasks:
 	INCBIN "data/collision/masks/bottom_right_bonus_stage_masks.masks"
 
+; These two squares data arrays must be aligned to $100 bytes and appear contiguously.
 SquaresLow:
 x = 0
 rept 256

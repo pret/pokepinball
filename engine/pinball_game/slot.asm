@@ -28,10 +28,10 @@ Func_ed8e: ; 0xed8e
 	call UpdateBottomText
 	call CleanOAMBuffer
 	rst AdvanceFrame
-	ld a, [wLeftFlipperState]
+	ld a, [wLeftFlipperState + 1]
 	and a
 	jr nz, .asm_edac
-	ld a, [wRightFlipperState]
+	ld a, [wRightFlipperState + 1]
 	and a
 	jr nz, .asm_edac
 	ld a, [hGameBoyColorFlag]

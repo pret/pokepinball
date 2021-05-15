@@ -1098,18 +1098,18 @@ TiltLeftOnlyForce:
 
 SECTION "bank3d", ROMX
 
-FlipperHorizontalCollisionAttributes: ; 0xf4000
-	INCBIN "data/collision/flippers/horizontal_attributes_0"
+FlipperCollisionRadii: ; 0xf4000
+	INCBIN "data/collision/flippers/radii_0"
 
 SECTION "bank3e", ROMX
 
-FlipperHorizontalCollisionAttributes2: ; 0xf8000
-	INCBIN "data/collision/flippers/horizontal_attributes_1"
+FlipperCollisionRadii2: ; 0xf8000
+	INCBIN "data/collision/flippers/radii_1"
 
-FlipperVerticalCollisionAttributes: ; 0xfa000
-	INCBIN "data/collision/flippers/vertical_attributes_0"
+FlipperCollisionNormalAngles: ; 0xfa000
+	INCBIN "data/collision/flippers/normal_angles_0"
 
 SECTION "bank3f", ROMX
 
-FlipperVerticalCollisionAttributes2: ; 0xfc000
-	INCBIN "data/collision/flippers/vertical_attributes_1"
+FlipperCollisionNormalAngles2: ; 0xfc000
+	INCBIN "data/collision/flippers/normal_angles_1"

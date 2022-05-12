@@ -12,7 +12,7 @@ endm
 
 Data_9800:
 
-w = $100
+DEF w = $100
 rept 8
 	macro_9800 w
 	DEF w = w >> 1

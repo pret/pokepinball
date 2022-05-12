@@ -83,7 +83,7 @@ AddBigBCD6FromQueue: ; 0x8588
 	ld b, $1
 asm_8592:
 	push hl
-x = 0
+DEF x = 0
 rept 6
 	ld a, [de]
 if x == 0
@@ -95,7 +95,7 @@ endc
 	ld [de], a
 	inc de
 	inc hl
-x = x + 1
+DEF x = x + 1
 endr
 	ld a, e
 	cp wAddScoreQueueEnd % $100

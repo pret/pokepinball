@@ -1,4 +1,4 @@
-const_value = 0
+DEF const_value = 0
 
 	const SPECIES_SEED       ; $0
 	const SPECIES_LIZARD     ; $1

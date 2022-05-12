@@ -21,13 +21,13 @@ INCLUDE "macros/pokedex.asm"
 INCLUDE "macros/scrolling_text.asm"
 INCLUDE "macros/sound.asm"
 
-AdvanceFrame EQUS "$10"
-JumpTable EQUS "$18"
-ReadHalfword EQUS "$20"
+DEF AdvanceFrame EQUS "$10"
+DEF JumpTable EQUS "$18"
+DEF ReadHalfword EQUS "$20"
 
-dex_text   EQUS "db "     ; Start beginning of pokedex description
-dex_line   EQUS "db $0d," ; Start new line in pokedex description
-dex_end    EQUS "db $00"  ; Terminate the pokedex description
+DEF dex_text   EQUS "db "     ; Start beginning of pokedex description
+DEF dex_line   EQUS "db $0d," ; Start new line in pokedex description
+DEF dex_end    EQUS "db $00"  ; Terminate the pokedex description
 
 MACRO dbw
 	db \1
@@ -107,11 +107,11 @@ MACRO coord
 	ld \1, \4 + $20 * \3 + \2
 ENDM
 
-hlCoord EQUS "coord hl,"
-deCoord EQUS "coord de,"
-bcCoord EQUS "coord bc,"
+DEF hlCoord EQUS "coord hl,"
+DEF deCoord EQUS "coord de,"
+DEF bcCoord EQUS "coord bc,"
 
-tile EQUS "+ $10 *"
+DEF tile EQUS "+ $10 *"
 
 ;\1 = 5-bit Blue value
 ;\2 = 5-bit Green value

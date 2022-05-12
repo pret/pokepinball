@@ -543,7 +543,7 @@ Func_f8d5: ; 0xf8d5
 	ret
 
 AddBigBCD6: ; 0xf902
-x = 0
+DEF x = 0
 rept 6
 	ld a, [de]
 if x == 0
@@ -551,7 +551,7 @@ if x == 0
 else
 	adc [hl]
 endc
-x = x + 1
+DEF x = x + 1
 	daa
 	ld [hli], a
 	inc de

@@ -41,7 +41,7 @@ MACRO noise_note
 ENDM
 
 	const_def $d0
-FIRST_MUSIC_CMD EQU const_value
+DEF FIRST_MUSIC_CMD EQU const_value
 
 	const octave_cmd ; $d0
 MACRO octave

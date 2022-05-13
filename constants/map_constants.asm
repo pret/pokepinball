@@ -1,4 +1,4 @@
-const_value = 0
+DEF const_value = 0
 
 	const PALLET_TOWN        ; $0
 	const VIRIDIAN_CITY      ; $1

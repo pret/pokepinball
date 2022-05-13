@@ -1,62 +1,62 @@
-hPushOAM EQU $FF80
+DEF hPushOAM EQU $FF80
 
-hFarCallTempA EQU $FF8A
-hFarCallTempE EQU $FF8B
-hJoypadState  EQU $FF98  ; current state of buttons. See joy_constants.asm for which bits
+DEF hFarCallTempA EQU $FF8A
+DEF hFarCallTempE EQU $FF8B
+DEF hJoypadState  EQU $FF98  ; current state of buttons. See joy_constants.asm for which bits
 	                     ; correspond to which buttons.
-hNewlyPressedButtons      EQU $FF99  ; buttons that were pressed in the current frame.
-hPressedButtons           EQU $FF9A  ; buttons that were pressed last frame and current frame(?)
-hPrevPreviousJoypadState  EQU $FF9B  ; joypad state from two frames ago. See joy_constants.asm for
+DEF hNewlyPressedButtons      EQU $FF99  ; buttons that were pressed in the current frame.
+DEF hPressedButtons           EQU $FF9A  ; buttons that were pressed last frame and current frame(?)
+DEF hPrevPreviousJoypadState  EQU $FF9B  ; joypad state from two frames ago. See joy_constants.asm for
 	                                 ; which bits correspond to which buttons. (need a better name for this...)
-hPreviousJoypadState  EQU $FF9C  ; prevoius frame's joypad state. See joy_constants.asm for
+DEF hPreviousJoypadState  EQU $FF9C  ; prevoius frame's joypad state. See joy_constants.asm for
 	                             ; which bits correspond to which buttons.
-hJoyRepeatDelay EQU $FF9D
+DEF hJoyRepeatDelay EQU $FF9D
 
-hLCDC               EQU $FF9E
-hSTAT               EQU $FF9F
-hSCY                EQU $FFA0
-hSCX                EQU $FFA1
-hLYC                EQU $FFA2
-hBGP                EQU $FFA3
-hOBP0               EQU $FFA4
-hOBP1               EQU $FFA5
-hWY                 EQU $FFA6
-hWX                 EQU $FFA7
-hLastLYC            EQU $FFA8
-hNextLYCSub         EQU $FFA9
-hLYCSub             EQU $FFAA
-hNextFrameHBlankSCX EQU $FFAB
-hHBlankSCX          EQU $FFAC
-hNextFrameHBlankSCY EQU $FFAD
-hHBlankSCY          EQU $FFAE
-hLCDCMask           EQU $FFAF
-hStatIntrRoutine    EQU $FFB0
+DEF hLCDC               EQU $FF9E
+DEF hSTAT               EQU $FF9F
+DEF hSCY                EQU $FFA0
+DEF hSCX                EQU $FFA1
+DEF hLYC                EQU $FFA2
+DEF hBGP                EQU $FFA3
+DEF hOBP0               EQU $FFA4
+DEF hOBP1               EQU $FFA5
+DEF hWY                 EQU $FFA6
+DEF hWX                 EQU $FFA7
+DEF hLastLYC            EQU $FFA8
+DEF hNextLYCSub         EQU $FFA9
+DEF hLYCSub             EQU $FFAA
+DEF hNextFrameHBlankSCX EQU $FFAB
+DEF hHBlankSCX          EQU $FFAC
+DEF hNextFrameHBlankSCY EQU $FFAD
+DEF hHBlankSCY          EQU $FFAE
+DEF hLCDCMask           EQU $FFAF
+DEF hStatIntrRoutine    EQU $FFB0
 
-hNumFramesSinceLastVBlank EQU $FFB2
-hNumFramesDropped         EQU $FFB3
-hVBlankCount              EQU $FFB4
-hStatIntrFired            EQU $FFB5
-hSignedMathSignBuffer     EQU $FFB6
-hSignedMathSignBuffer2    EQU $FFB7
+DEF hNumFramesSinceLastVBlank EQU $FFB2
+DEF hNumFramesDropped         EQU $FFB3
+DEF hVBlankCount              EQU $FFB4
+DEF hStatIntrFired            EQU $FFB5
+DEF hSignedMathSignBuffer     EQU $FFB6
+DEF hSignedMathSignBuffer2    EQU $FFB7
 
-hBallXPos EQU $FFBA
-hBallYPos EQU $FFBC
+DEF hBallXPos EQU $FFBA
+DEF hBallYPos EQU $FFBC
 
-hFlipperStateChange   EQU $FFC0
-hPreviousFlipperState EQU $FFC2
-hFlipperState         EQU $FFC3
+DEF hFlipperStateChange   EQU $FFC0
+DEF hPreviousFlipperState EQU $FFC2
+DEF hFlipperState         EQU $FFC3
 
-hRotationAngleBuffer EQU $FF8C
-hCosineResultBuffer  EQU $FF8D
-hSineResultBuffer    EQU $FF8F
+DEF hRotationAngleBuffer EQU $FF8C
+DEF hCosineResultBuffer  EQU $FF8D
+DEF hSineResultBuffer    EQU $FF8F
 
-hFlipperCollisionRadius  EQU $FFBF
+DEF hFlipperCollisionRadius  EQU $FFBF
 
-hFFC4 = $FFC4
+DEF hFFC4 = $FFC4
 
-hLoadedROMBank          EQU $FFF8  ; this is updated whenever the code switches ROM Banks
-hROMBankBuffer          EQU $FFFA
-hSGBFlag                EQU $FFFB
-hSGBInit                EQU $FFFC
-hGameBoyColorFlagBackup EQU $FFFD
-hGameBoyColorFlag       EQU $FFFE  ; this is set to $01 if a GameBoy Color is running the game. $00, otherwise.
+DEF hLoadedROMBank          EQU $FFF8  ; this is updated whenever the code switches ROM Banks
+DEF hROMBankBuffer          EQU $FFFA
+DEF hSGBFlag                EQU $FFFB
+DEF hSGBInit                EQU $FFFC
+DEF hGameBoyColorFlagBackup EQU $FFFD
+DEF hGameBoyColorFlag       EQU $FFFE  ; this is set to $01 if a GameBoy Color is running the game. $00, otherwise.

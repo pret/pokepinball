@@ -150,7 +150,7 @@ VIDEO_DATA_TILES_BANK2: MACRO
 	dw \2
 	dw (\3 << 2) | $2
 	ENDM
-	
+
 ;\1 = pointer to tilemap data
 ;\2 = destination for tilemap data in VRAM
 ;\3 = size of tilemap to copy

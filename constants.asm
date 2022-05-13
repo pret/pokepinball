@@ -19,5 +19,5 @@ INCLUDE "constants/species_constants.asm"
 INCLUDE "constants/stage_constants.asm"
 INCLUDE "constants/special_collision_constants.asm"
 
-FALSE EQU 0
-TRUE  EQU 1
+DEF FALSE EQU 0
+DEF TRUE  EQU 1

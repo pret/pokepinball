@@ -1,5 +1,5 @@
 BillboardPicturePointers: ; 0xf1b8
-BillboardPicturePointer: MACRO
+MACRO BillboardPicturePointer
 \1_Pointer: dab \1
 ENDM
 	BillboardPicturePointer BallSaver30SecondsOnPic

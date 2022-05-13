@@ -131,8 +131,6 @@ EvensAndOdds:
 ; The first 128 bytes are the first 128 even numbers starting at 0.
 ; The next 128 bytes are the first 128 odd numbers starting at 1.
 ; The (a)th element is essentially what you'd get from rlca.
-DEF x = 0
-REPT 128
-	db x | ((x >> 7) & 1)
-DEF x = x + 2
+FOR X, 0, 256, 2
+	db X | ((X >> 7) & 1)
 ENDR

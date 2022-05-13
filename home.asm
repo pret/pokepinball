@@ -3301,16 +3301,12 @@ BottomRightBonusStageCollisionMasks:
 
 ; These two squares data arrays must be aligned to $100 bytes and appear contiguously.
 SquaresLow:
-DEF x = 0
-rept 256
-	db (x * x) % $100
-DEF x = x + 1
-endr
+FOR X, 256
+	db (X * X) % $100
+ENDR
 
 SquaresHigh:
-DEF x = 0
-rept 256
-	db (x * x) / $100
-DEF x = x + 1
-endr
+FOR X, 256
+	db (X * X) / $100
+ENDR
 

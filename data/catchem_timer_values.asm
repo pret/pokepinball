@@ -1,6 +1,6 @@
 CatchEmTimerData: ; 0x12a22
 ; Each 2-byte entry represents the total time you have to catch a Pokemon.
-; They're all exactly 2 minutes, 0 seconds, but they can be changed to make 
+; They're all exactly 2 minutes, 0 seconds, but they can be changed to make
 ; different pokemon have different times, in order to add difficulty.
 ; First byte  = seconds value
 ; Second byte = minutes value

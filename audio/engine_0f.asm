@@ -1699,7 +1699,7 @@ Func_3ca2b: ; 0x3ca2b
 	ld h, d
 	add hl, de
 	add hl, hl
-	ld de, Data_3cb20 
+	ld de, Data_3cb20
 	add hl, de
 	ld e, [hl]
 	inc hl

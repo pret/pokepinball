@@ -16,7 +16,7 @@ To install the software required for **pokepinball**:
 sudo apt-get install make gcc git
 ```
 
-Then follow the [**rgbds** instructions](https://rgbds.gbdev.io/install/source) to build **rgbds 0.4.2** from source.
+Then follow the [**rgbds** instructions](https://rgbds.gbdev.io/install#building-from-source) to build **rgbds 0.5.2** from source.
 
 After that, you're ready to [build **pokepinball**](#build-pokepinball).
 
@@ -30,7 +30,7 @@ sudo pacman -S make gcc git rgbds
 
 Now you're ready to [build **pokepinball**](#build-pokepinball).
 
-If you want to compile and install **rgbds** yourself instead, then follow the [**rgbds** instructions](https://rgbds.gbdev.io/install/source) to build **rgbds 0.4.2** from source.
+If you want to compile and install **rgbds** yourself instead, then follow the [**rgbds** instructions](https://rgbds.gbdev.io/install#building-from-source) to build **rgbds 0.5.2** from source.
 
 
 ## macOS
@@ -39,7 +39,7 @@ Install [**Homebrew**](https://brew.sh/). Follow the official instructions.
 
 Open **Terminal** and prepare to enter commands.
 
-Then follow the [**rgbds** instructions](https://rgbds.gbdev.io/install/macos) for macOS to install **rgbds 0.4.2**.
+Then follow the [**rgbds** instructions](https://rgbds.gbdev.io/install#pre-built) for macOS to install **rgbds 0.5.2**.
 
 Now you're ready to [build **pokepinball**](#build-pokepinball).
 
@@ -54,7 +54,7 @@ Select the following packages:
 * git
 * gcc-core
 
-The latest pokepinball-compatible version of **rgbds** is  [**0.4.2**](https://github.com/gbdev/rgbds/releases/tag/v0.4.2). To install, put each of the files in the download in `C:\cygwin\usr\local\bin`.
+The latest pokepinball-compatible version of **rgbds** is  [**0.5.2**](https://github.com/gbdev/rgbds/releases/v0.5.2). To install, put each of the files in the download in `C:\cygwin\usr\local\bin`.
 
 Now you're ready to [build **pokepinball**](#build-pokepinball).
 

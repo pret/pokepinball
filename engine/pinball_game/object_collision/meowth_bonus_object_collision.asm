@@ -60,56 +60,56 @@ CheckMeowthCollision: ; 0x24170
 	ld [wCollisionNormalAngle], a
 	ld a, $1
 	ld [wIsBallColliding], a
-	ld a, [wd6ec]
-	cp $2
+	ld a, [wMeowthState]
+	cp 2
 	ret z
-	cp $3
+	cp 3
 	ret z
-	ld a, [wd713]
+	ld a, [wDisableMeowthJewelProduction]
 	and a
 	ret nz
 	ld a, [wMeowthYMovement]
 	and a
-	jr z, .asm_241ed
+	jr z, .walkingHorizontally
 	ld a, [wMeowthYMovement]
-	cp $1
-	jr nz, .asm_241df
-	ld a, [wd70b]
-	cp $3
-	jr z, .asm_241eb
-	jr .asm_241e6
+	cp 1
+	jr nz, .walkingUp
+	ld a, [wNumActiveJewelsBottom]
+	cp 3
+	jr z, .exit
+	jr .createNewJewel
 
-.asm_241df
-	ld a, [wd70c]
-	cp $3
-	jr z, .asm_241eb
-.asm_241e6
+.walkingUp
+	ld a, [wNumActiveJewelsTop]
+	cp 3
+	jr z, .exit
+.createNewJewel
 	ld a, $2
 	ld [wd6e7], a
-.asm_241eb
+.exit
 	scf
 	ret
 
-.asm_241ed
+.walkingHorizontally
 	ld a, [wMeowthYPosition]
-	cp $20
-	jr nz, .asm_241fd
-	ld a, [wd70b]
-	cp $3
-	jr z, .asm_24210
-	jr .asm_2420b
+	cp 32
+	jr nz, .locatedAtTop
+	ld a, [wNumActiveJewelsBottom]
+	cp 3
+	jr z, .exit2
+	jr .createNewJewel2
 
-.asm_241fd
+.locatedAtTop
 	ld a, [wMeowthYPosition]
-	cp $10
-	jr nz, .asm_24210
-	ld a, [wd70c]
-	cp $3
-	jr z, .asm_24210
-.asm_2420b
+	cp 16
+	jr nz, .exit2
+	ld a, [wNumActiveJewelsTop]
+	cp 3
+	jr z, .exit2
+.createNewJewel2
 	ld a, $1
 	ld [wd6e7], a
-.asm_24210
+.exit2
 	scf
 	ret
 

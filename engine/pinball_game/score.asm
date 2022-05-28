@@ -110,7 +110,7 @@ endr
 	ret
 
 Func_85c7: ; 0x85c7
-	ld a, [hNumFramesDropped]
+	ld a, [hFrameCounter]
 	and $3
 	ret nz
 	ld a, [wd478]

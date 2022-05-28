@@ -14,8 +14,8 @@ ResolveGengarBonusGameObjectCollisions: ; 0x18377
 	ld [wFlippersDisabled], a
 	call LoadFlippersPalette
 	callba StopTimer
-	ld a, [wd6a2]
-	cp $5
+	ld a, [wNumGengarHits]
+	cp 5
 	ret nc
 	ld a, $1
 	ld [wd6a8], a
@@ -204,9 +204,9 @@ Func_18464: ; 0x18464
 	pop de
 	ld a, $1
 	ld [de], a
-	ld a, [wd67b]
+	ld a, [wNumGastlyHits]
 	inc a
-	ld [wd67b], a
+	ld [wNumGastlyHits], a
 	ld bc, OneHundredThousandPoints
 	callba AddBigBCD6FromQueue
 	ld a, $33
@@ -336,8 +336,8 @@ Func_18562: ; 0x18562
 	ld a, [de]
 	cp $12
 	ret nz
-	ld a, [wd67b]
-	cp $a
+	ld a, [wNumGastlyHits]
+	cp 10
 	jr nz, .asm_185b1
 	ld a, $1
 	ld [wd67e], a
@@ -452,9 +452,9 @@ Func_1860b: ; 0x1860b
 	pop de
 	ld a, $1
 	ld [de], a
-	ld a, [wd695]
+	ld a, [wNumHaunterHits]
 	inc a
-	ld [wd695], a
+	ld [wNumHaunterHits], a
 	ld bc, FiveHundredThousandPoints
 	callba AddBigBCD6FromQueue
 	ld a, $33
@@ -578,8 +578,8 @@ Func_186f7: ; 0x186f7
 	ld a, [de]
 	cp $12
 	jr nz, .asm_18761
-	ld a, [wd695]
-	cp $a
+	ld a, [wNumHaunterHits]
+	cp 10
 	jr nz, .asm_18740
 	ld a, $1
 	ld [wd656], a
@@ -618,8 +618,8 @@ Func_186f7: ; 0x186f7
 .asm_18761
 	cp $13
 	ret nz
-	ld a, [wd695]
-	cp $a
+	ld a, [wNumHaunterHits]
+	cp 10
 	ret nz
 	ld a, $1
 	ld [wd698], a
@@ -697,10 +697,10 @@ Func_187b1: ; 0x187b1
 	dec de
 	dec de
 	dec de
-	ld a, [wd6a2]
+	ld a, [wNumGengarHits]
 	inc a
-	ld [wd6a2], a
-	cp $5
+	ld [wNumGengarHits], a
+	cp 5
 	jr nc, .asm_18804
 	ld hl, AnimationData_18b2b
 	call InitAnimation
@@ -785,8 +785,8 @@ Func_18876: ; 0x18876
 	and a
 	jr nz, .asm_188da
 	ld a, [wGengarYPos + 1]
-	add $80
-	cp $a0
+	add 128
+	cp 160
 	jr nc, .asm_188da
 	ld a, [wGengarAnimationState]
 	and a

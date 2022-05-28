@@ -30,9 +30,9 @@ InitGengarBonusStage: ; 0x18099
 	ld de, wd698
 	call Copy9BytesToDE
 	xor a
-	ld [wd67b], a
-	ld [wd695], a
-	ld hl, wd6a2
+	ld [wNumGastlyHits], a
+	ld [wNumHaunterHits], a
+	ld hl, wNumGengarHits
 	ld [hli], a
 	ld [hli], a
 	ld [hli], a

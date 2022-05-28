@@ -386,7 +386,7 @@ Func_c621: ; 0xc621
 	ld c, a
 	ld a, [hl]
 	ld b, a
-	ld a, [hNumFramesDropped]
+	ld a, [hFrameCounter]
 	bit 2, a
 	ret z
 	ld a, $84

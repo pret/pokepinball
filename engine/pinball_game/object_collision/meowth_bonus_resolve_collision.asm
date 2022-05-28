@@ -234,14 +234,14 @@ ResolveMeowthBonusGameObjectCollisions: ; 0x2442a
 	call LoadFlippersPalette
 	callba StopTimer
 	ld a, $1
-	ld [wd713], a
+	ld [wDisableMeowthJewelProduction], a
 	ld a, $1
 	ld [wd712], a
 	ld hl, MeowthAnimationData5
 	ld de, wMeowthAnimation
 	call InitAnimation
 	ld a, $4
-	ld [wd6ec], a
+	ld [wMeowthState], a
 	ret
 
 Func_244f5: ; 0x244f5
@@ -398,17 +398,17 @@ Func_245ab: ; 0x245ab
 	ld a, $1
 	ld [wd6f3], a
 	ld a, [wMeowthYPosition]
-	cp $20
-	jr z, .asm_245c7
-	cp $10
-	jr z, .asm_245cc
+	cp 32
+	jr z, .locatedAtBottom
+	cp 16
+	jr z, .locatedAtTop
 	jr .asm_245cf
 
-.asm_245c7
+.locatedAtBottom
 	call Func_247d9
 	jr .asm_245cf
 
-.asm_245cc
+.locatedAtTop
 	call Func_24c28
 .asm_245cf
 	xor a
@@ -424,7 +424,7 @@ Func_245ab: ; 0x245ab
 	callba AddBigBCD6FromQueueWithBallMultiplier
 	xor a
 	ld [wMeowthStageBonusCounter], a
-	ld a, [wd6ec]
+	ld a, [wMeowthState]
 	cp $2
 	jr nc, .asm_24621
 	and a
@@ -433,7 +433,7 @@ Func_245ab: ; 0x245ab
 	ld de, wMeowthAnimation
 	call InitAnimation
 	ld a, $2
-	ld [wd6ec], a
+	ld [wMeowthState], a
 	jr .asm_24651
 
 .asm_24611
@@ -441,41 +441,41 @@ Func_245ab: ; 0x245ab
 	ld de, wMeowthAnimation
 	call InitAnimation
 	ld a, $3
-	ld [wd6ec], a
+	ld [wMeowthState], a
 	jr .asm_24651
 
 .asm_24621
-	ld a, [wd713]
+	ld a, [wDisableMeowthJewelProduction]
 	and a
 	jr z, .asm_2462e
 	ld a, $4
-	ld [wd6ec], a
+	ld [wMeowthState], a
 	jr .asm_24651
 
 .asm_2462e
-	ld a, [wd6ec]
+	ld a, [wMeowthState]
 	cp $2
 	jr nc, .asm_24651
-	ld a, [wd70b]
-	cp $3
+	ld a, [wNumActiveJewelsBottom]
+	cp 3
 	jr nz, .asm_24651
-	ld a, [wd70c]
-	cp $3
+	ld a, [wNumActiveJewelsTop]
+	cp 3
 	jr nz, .asm_24651
 	ld hl, MeowthAnimationData5
 	ld de, wMeowthAnimation
 	call InitAnimation
 	ld a, $4
-	ld [wd6ec], a
+	ld [wMeowthState], a
 .asm_24651
-	ld a, [wd6ec]
+	ld a, [wMeowthState]
 	cp $2
 	call c, Func_24709
 	call Func_2465d
 	ret
 
 Func_2465d: ; 0x2465d
-	ld a, [wd6ec]
+	ld a, [wMeowthState]
 	sla a
 	ld c, a
 	ld b, $0
@@ -487,7 +487,7 @@ Func_2465d: ; 0x2465d
 	ld de, wMeowthAnimation
 	call UpdateAnimation
 	ret nc
-	ld a, [wd6ec]
+	ld a, [wMeowthState]
 	and a
 	jr nz, .asm_24689
 	ld a, [wMeowthAnimationIndex]
@@ -519,7 +519,7 @@ Func_2465d: ; 0x2465d
 	ld de, wMeowthAnimation
 	call InitAnimation
 	xor a
-	ld [wd6ec], a
+	ld [wMeowthState], a
 	ret
 
 .asm_246b5
@@ -532,7 +532,7 @@ Func_2465d: ; 0x2465d
 	ld de, wMeowthAnimation
 	call InitAnimation
 	ld a, $1
-	ld [wd6ec], a
+	ld [wMeowthState], a
 	ret
 
 .asm_246ce
@@ -608,52 +608,52 @@ Func_24709: ; 0x24709
 	jr z, .asm_24730
 	ld [wMeowthYPosition], a
 .asm_24730
-	call Func_24737
-	call Func_2476d
+	call UpdateMeowthHorizontalMovement
+	call UpdateMeowthVerticalMovement
 	ret
 
-Func_24737: ; 0x24737
+UpdateMeowthHorizontalMovement: ; 0x24737
 	ld a, [wMeowthXPosition]
-	cp $8
+	cp 8
 	jr nc, .asm_24742
-	ld a, $1
+	ld a, 1
 	jr .asm_2475a
 
 .asm_24742
-	cp $78
+	cp 120
 	jr c, .asm_2474a
-	ld a, $ff
+	ld a, -1
 	jr .asm_2475a
 
 .asm_2474a
-	ld a, [hNumFramesDropped]
+	ld a, [hFrameCounter]
 	and $3f
 	ret nz
 	call GenRandom
 	bit 7, a
-	ld a, $1
+	ld a, 1
 	jr z, .asm_2475a
-	ld a, $ff
+	ld a, -1
 .asm_2475a
 	ld [wMeowthXMovement], a
 	bit 7, a
-	ld a, $1
+	ld a, 1
 	jr z, .asm_24764
 	xor a
 .asm_24764
-	ld [wd6ec], a
-	ld a, $2
+	ld [wMeowthState], a
+	ld a, 2
 	ld [wMeowthAnimationFrameCounter], a
 	ret
 
-Func_2476d: ; 0x2476d
+UpdateMeowthVerticalMovement: ; 0x2476d
 	ld a, [wMeowthYMovement]
 	and a
 	jr z, .asm_247ab
-	cp $1
+	cp 1
 	jr z, .asm_24791
 	ld a, [wMeowthYPosition]
-	cp $10
+	cp 16
 	jr nz, .asm_2478d
 	ld a, [wd6e7]
 	cp $2
@@ -662,15 +662,15 @@ Func_2476d: ; 0x2476d
 	ld [wd6e7], a
 .asm_2478a
 	xor a
-	jr .asm_247c9
+	jr .saveYMovement
 
 .asm_2478d
-	ld a, $ff
-	jr .asm_247c9
+	ld a, -1
+	jr .saveYMovement
 
 .asm_24791
 	ld a, [wMeowthYPosition]
-	cp $20
+	cp 32
 	jr nz, .asm_247a7
 	ld a, [wd6e7]
 	cp $2
@@ -679,28 +679,28 @@ Func_2476d: ; 0x2476d
 	ld [wd6e7], a
 .asm_247a4
 	xor a
-	jr .asm_247c9
+	jr .saveYMovement
 
 .asm_247a7
-	ld a, $1
-	jr .asm_247c9
+	ld a, 1
+	jr .saveYMovement
 
 .asm_247ab
-	ld a, [wd70b]
-	cp $3
+	ld a, [wNumActiveJewelsBottom]
+	cp 3
 	jr z, .asm_247cd
-	ld a, [wd70c]
-	cp $3
+	ld a, [wNumActiveJewelsTop]
+	cp 3
 	jr z, .asm_247d3
-	ld a, [hNumFramesDropped]
+	ld a, [hFrameCounter]
 	and $3f
 	ret nz
 	call GenRandom
 	bit 0, a
-	ld a, $1
-	jr z, .asm_247c9
-	ld a, $ff
-.asm_247c9
+	ld a, 1
+	jr z, .saveYMovement
+	ld a, -1
+.saveYMovement
 	ld [wMeowthYMovement], a
 	ret
 
@@ -832,7 +832,7 @@ Func_248ac: ; 0x248ac
 	jr .asm_248d3
 
 .asm_248c4
-	ld hl, wd70b
+	ld hl, wNumActiveJewelsBottom
 	inc [hl]
 	ld a, $2
 	ld [wd717], a
@@ -851,7 +851,7 @@ Func_248ac: ; 0x248ac
 	jr .asm_248fa
 
 .asm_248eb
-	ld hl, wd70b
+	ld hl, wNumActiveJewelsBottom
 	inc [hl]
 	ld a, $2
 	ld [wd718], a
@@ -870,7 +870,7 @@ Func_248ac: ; 0x248ac
 	jr .asm_24921
 
 .asm_24912
-	ld hl, wd70b
+	ld hl, wNumActiveJewelsBottom
 	inc [hl]
 	ld a, $2
 	ld [wd719], a
@@ -966,7 +966,7 @@ Func_248ac: ; 0x248ac
 	ld [wd727], a
 	xor a
 	ld [wd717], a
-	ld hl, wd70b
+	ld hl, wNumActiveJewelsBottom
 	dec [hl]
 	ld a, [hl]
 	cp $2
@@ -980,7 +980,7 @@ Func_248ac: ; 0x248ac
 	ld [wd728], a
 	xor a
 	ld [wd718], a
-	ld hl, wd70b
+	ld hl, wNumActiveJewelsBottom
 	dec [hl]
 	ld a, [hl]
 	cp $2
@@ -994,13 +994,13 @@ Func_248ac: ; 0x248ac
 	ld [wd729], a
 	xor a
 	ld [wd719], a
-	ld hl, wd70b
+	ld hl, wNumActiveJewelsBottom
 	dec [hl]
 	ld a, [hl]
 	cp $2
 	ret nz
 .asm_24a06
-	ld a, [wd713]
+	ld a, [wDisableMeowthJewelProduction]
 	and a
 	ret nz
 	ld a, [wMeowthXMovement]
@@ -1010,7 +1010,7 @@ Func_248ac: ; 0x248ac
 	ld de, wMeowthAnimation
 	call InitAnimation
 	ld a, $1
-	ld [wd6ec], a
+	ld [wMeowthState], a
 	ret
 
 .asm_24a21
@@ -1018,7 +1018,7 @@ Func_248ac: ; 0x248ac
 	ld de, wMeowthAnimation
 	call InitAnimation
 	ld a, $0
-	ld [wd6ec], a
+	ld [wMeowthState], a
 	ret
 
 Func_24a30: ; 0x24a30
@@ -1355,7 +1355,7 @@ Func_24c28: ; 0x24c28
 	ld [wd731], a
 	ld a, $1
 	ld [wd721], a
-	ld hl, wd70c
+	ld hl, wNumActiveJewelsTop
 	inc [hl]
 	xor a
 	ld [wd6f3], a
@@ -1391,7 +1391,7 @@ Func_24c28: ; 0x24c28
 	ld [wd732], a
 	ld a, $1
 	ld [wd722], a
-	ld hl, wd70c
+	ld hl, wNumActiveJewelsTop
 	inc [hl]
 	xor a
 	ld [wd6f3], a
@@ -1427,7 +1427,7 @@ Func_24c28: ; 0x24c28
 	ld [wd733], a
 	ld a, $1
 	ld [wd723], a
-	ld hl, wd70c
+	ld hl, wNumActiveJewelsTop
 	inc [hl]
 	xor a
 	ld [wd6f3], a
@@ -1592,7 +1592,7 @@ Func_24d07: ; 0x24d07
 	ld [wd731], a
 	xor a
 	ld [wd721], a
-	ld hl, wd70c
+	ld hl, wNumActiveJewelsTop
 	dec [hl]
 	ld a, [hl]
 	cp $2
@@ -1606,7 +1606,7 @@ Func_24d07: ; 0x24d07
 	ld [wd732], a
 	xor a
 	ld [wd722], a
-	ld hl, wd70c
+	ld hl, wNumActiveJewelsTop
 	dec [hl]
 	ld a, [hl]
 	cp $2
@@ -1620,13 +1620,13 @@ Func_24d07: ; 0x24d07
 	ld [wd733], a
 	xor a
 	ld [wd723], a
-	ld hl, wd70c
+	ld hl, wNumActiveJewelsTop
 	dec [hl]
 	ld a, [hl]
 	cp $2
 	ret nz
 .asm_24e55
-	ld a, [wd713]
+	ld a, [wDisableMeowthJewelProduction]
 	and a
 	ret nz
 	ld a, [wMeowthXMovement]
@@ -1636,7 +1636,7 @@ Func_24d07: ; 0x24d07
 	ld de, wMeowthAnimation
 	call InitAnimation
 	ld a, $1
-	ld [wd6ec], a
+	ld [wMeowthState], a
 	ret
 
 .asm_24e70
@@ -1644,7 +1644,7 @@ Func_24d07: ; 0x24d07
 	ld de, wMeowthAnimation
 	call InitAnimation
 	ld a, $0
-	ld [wd6ec], a
+	ld [wMeowthState], a
 	ret
 
 Func_24e7f: ; 0x24e7f

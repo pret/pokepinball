@@ -1,8 +1,8 @@
 ResolveSeelBonusGameObjectCollisions: ; 0x25c5a
 	call Func_25da3
 	call Func_25ced
-	ld a, [wd793]
-	cp $14
+	ld a, [wSeelStageScore]
+	cp 20
 	jr c, .asm_25c98
 	ld a, [wd794]
 	cp $2
@@ -238,14 +238,14 @@ Func_25da3: ; 0x25da3
 	ld a, [hl]
 	add $8
 	ld [wd79e], a
-	ld a, [wd792]
-	cp $9
+	ld a, [wSeelStageStreak]
+	cp 9
 	jr nz, .asm_25df1
-	ld a, $0
-	ld [wd792], a
+	ld a, 0
+	ld [wSeelStageStreak], a
 	ld [wd79a], a
 .asm_25df1
-	ld a, [wd792]
+	ld a, [wSeelStageStreak]
 	dec a
 	cp $ff
 	jr z, .asm_25e04
@@ -264,14 +264,14 @@ Func_25da3: ; 0x25da3
 	lb de, $00, $30
 	call PlaySoundEffect
 	call Func_25e85
-	ld hl, wd792
+	ld hl, wSeelStageStreak
 	inc [hl]
-	ld a, [wd793]
-	cp $14
+	ld a, [wSeelStageScore]
+	cp 20
 	ret nc
-	ld hl, wd793
+	ld hl, wSeelStageScore
 	inc [hl]
-	ld a, [wd792]
+	ld a, [wSeelStageStreak]
 	dec a
 	ld b, a
 	ld a, [hl]
@@ -281,13 +281,13 @@ Func_25da3: ; 0x25da3
 	ld [wd64e], a
 	call Func_262f4
 .asm_25e38
-	ld de, wd76c    ; I think these three calls are one for each Seel swimming around
-	call Func_25f47
+	ld de, wd76c
+	call UpdateSeelAnimation
 	ld de, wd776
-	call Func_25f47
+	call UpdateSeelAnimation
 	ld de, wd780
-	call Func_25f47
-	ld a, [wd792]
+	call UpdateSeelAnimation
+	ld a, [wSeelStageStreak]
 	dec a
 	cp $ff
 	jr z, .asm_25e5d
@@ -302,19 +302,19 @@ Func_25da3: ; 0x25da3
 	ld bc, $087a  ; again, probably one call for each Seel swimming around
 	ld de, wd76d
 	ld hl, wd772
-	call Func_25ec5
+	call UpdateSeelPosition
 	ld bc, $087a
 	ld de, wd777
 	ld hl, wd77c
-	call Func_25ec5
+	call UpdateSeelPosition
 	ld bc, $087a
 	ld de, wd781
 	ld hl, wd786
-	call Func_25ec5
+	call UpdateSeelPosition
 	ret
 
 Func_25e85: ; 0x25e85
-	ld a, [wd792]
+	ld a, [wSeelStageStreak]
 	inc a
 	ld d, $1
 	ld e, a
@@ -350,7 +350,7 @@ Func_25e85: ; 0x25e85
 	jr nz, .asm_25e96
 	ret
 
-Func_25ec5: ; 0x25ec5
+UpdateSeelPosition: ; 0x25ec5
 	dec de
 	ld a, [de]
 	cp $1
@@ -367,12 +367,12 @@ Func_25ec5: ; 0x25ec5
 	and $f
 	ld c, a
 	ld b, $0
-	ld hl, SeelSwimmingYOffsets
+	ld hl, SeelSwimmingXDeltas
 	add hl, bc
 	pop bc
 	pop af
 	and a
-	jr nz, .asm_25f05
+	jr nz, .swimmingLeft
 	ld a, [de]
 	add [hl]
 	ld [de], a
@@ -402,7 +402,7 @@ Func_25ec5: ; 0x25ec5
 	call InitAnimation
 	ret
 
-.asm_25f05
+.swimmingLeft
 	ld a, [de]
 	sub [hl]
 	ld [de], a
@@ -432,11 +432,11 @@ Func_25ec5: ; 0x25ec5
 	call InitAnimation
 	ret
 
-SeelSwimmingYOffsets:
+SeelSwimmingXDeltas:
 	db $31, $32, $33, $34, $35, $36, $37, $36, $35, $34, $33, $32, $33, $34, $35, $36
 	db $37, $38, $39, $3A, $3B, $3A, $39, $38, $37, $36, $35, $34, $33, $32, $31, $30
 
-Func_25f47: ; 0x25f47
+UpdateSeelAnimation: ; 0x25f47
 	ld a, [de]
 	sla a
 	ld c, a
@@ -491,7 +491,7 @@ Func_25f77: ; 0x25f77
 	jp Func_26137
 
 .asm_25f8f
-	ld hl, wd792
+	ld hl, wSeelStageStreak
 	ld [hl], $0
 	call GenRandom
 	bit 7, a
@@ -577,7 +577,7 @@ Func_25ff3: ; 0x25ff3
 	inc de
 	inc de
 	inc de
-	ld a, [wd792]
+	ld a, [wSeelStageStreak]
 	cp $6
 	jr nc, .asm_26020
 	cp $2
@@ -679,7 +679,7 @@ Func_2607f: ; 0x2607f
 	inc de
 	inc de
 	inc de
-	ld a, [wd792]
+	ld a, [wSeelStageStreak]
 	cp $6
 	jr nc, .asm_260ac
 	cp $2
@@ -1107,7 +1107,7 @@ SeelStageAnimationData8:
 	db $00 ; terminator
 
 Func_262f4: ; 0x262f4
-	ld a, [wd793]
+	ld a, [wSeelStageScore]
 	ld c, a
 	ld b, $0
 .asm_262fa
@@ -1128,20 +1128,20 @@ Func_262f4: ; 0x262f4
 	sub $8
 .asm_2630c
 	ld [wd652], a
-	ld a, [wd792]
+	ld a, [wSeelStageStreak]
 	and a
 	jr z, .asm_2631b
 	ld b, a
-	ld a, [wd793]
+	ld a, [wSeelStageScore]
 	inc a
 	sub b
 .asm_2631b
 	ld [wd651], a
-	ld a, [wd793]
-	cp $15
+	ld a, [wSeelStageScore]
+	cp 21
 	jr c, .asm_2632a
-	ld a, $14
-	ld [wd793], a
+	ld a, 20
+	ld [wSeelStageScore], a
 .asm_2632a
 	push af
 	xor a

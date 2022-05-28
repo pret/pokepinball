@@ -321,7 +321,7 @@ VBlank: ; 0x2f2
 	inc [hl]
 	and a
 	jr nz, .asm_365
-	ld hl, hNumFramesDropped
+	ld hl, hFrameCounter
 	inc [hl]
 .asm_365
 	ld hl, hVBlankCount

@@ -415,7 +415,7 @@ Func_282e9: ; 0x282e9
 	ld a, Bank(MonAnimatedSpriteTypes)
 	call ReadByteFromBank
 	ld c, a
-	ld a, [hNumFramesDropped]
+	ld a, [hFrameCounter]
 	swap a
 	and $7
 	cp $7

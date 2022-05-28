@@ -36,7 +36,7 @@ InitBallSeelBonusStage: ; 0x25af1
 	ld a, $ff
 	ld [wd79a], a
 	xor a
-	ld [wd792], a
+	ld [wSeelStageStreak], a
 	ld [wd791], a
 	ld [wd64e], a
 	ld [wd64f], a

@@ -1180,7 +1180,7 @@ wd677:: ; 0xd677
 wd679:: ; 0xd679
 	ds $2
 
-wd67b:: ; 0xd67b
+wNumGastlyHits:: ; 0xd67b
 	ds $1
 
 wd67c:: ; 0xd67c
@@ -1228,7 +1228,7 @@ wd691:: ; 0xd691
 wd693:: ; 0xd693
 	ds $2
 
-wd695:: ; 0xd695
+wNumHaunterHits:: ; 0xd695
 	ds $1
 
 wd696:: ; 0xd696
@@ -1257,7 +1257,7 @@ wGengarYPos:: ; 0xd69f
 wd6a1:: ; 0xd6a1
 	ds $1
 
-wd6a2:: ; 0xd6a2
+wNumGengarHits:: ; 0xd6a2
 	ds $1
 
 wd6a3:: ; 0xd6a3
@@ -1365,7 +1365,7 @@ wd6e7:: ; 0xd6e7
 wMeowthAnimation:: ; 0xd6e9
 	animation wMeowthAnimation
 
-wd6ec:: ; 0xd6ec
+wMeowthState:: ; 0xd6ec
 	ds $1
 
 wMeowthXPosition:: ; 0xd6ed
@@ -1440,10 +1440,10 @@ wd706:: ; 0xd706
 wd707:: ; 0xd707
 	ds $4
 
-wd70b:: ; 0xd70b
+wNumActiveJewelsBottom:: ; 0xd70b
 	ds $1
 
-wd70c:: ; 0xd70c
+wNumActiveJewelsTop:: ; 0xd70c
 	ds $3
 
 wMeowthStageBonusCounter:: ; 0xd70f
@@ -1458,7 +1458,7 @@ wMeowthStageScore:: ; 0xd711
 wd712:: ; 0xd712
 	ds $1
 
-wd713:: ; 0xd713
+wDisableMeowthJewelProduction:: ; 0xd713
 	ds $1
 
 wd714:: ; 0xd714
@@ -1662,10 +1662,10 @@ wd786:: ; 0xd786
 wd791:: ; 0xd791
 	ds $1
 
-wd792:: ; 0xd792
+wSeelStageStreak:: ; 0xd792
 	ds $1
 
-wd793:: ; 0xd793
+wSeelStageScore:: ; 0xd793
 	ds $1
 
 wd794:: ; 0xd794

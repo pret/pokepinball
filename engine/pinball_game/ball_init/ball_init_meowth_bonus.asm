@@ -37,10 +37,10 @@ InitBallMeowthBonusStage: ; 0x24059
 	ld [wMeowthXMovement], a
 	xor a
 	ld [wMeowthAnimationFrame], a
-	ld [wd6ec], a
+	ld [wMeowthState], a
 	ld [wMeowthAnimationIndex], a
-	ld [wd70b], a
-	ld [wd70c], a
+	ld [wNumActiveJewelsBottom], a
+	ld [wNumActiveJewelsTop], a
 	ld a, $c8
 	ld [wd71a], a
 	ld [wd727], a

@@ -362,7 +362,7 @@ Func_ccb6: ; 0xccb6
 	ret
 
 Func_cd6c: ; 0xcd6c
-	ld a, [hNumFramesDropped]
+	ld a, [hFrameCounter]
 	and $1f
 	call z, Func_1a43
 	call Func_cf7d

@@ -21,9 +21,9 @@ InitMeowthBonusStage: ; 0x24000
 	ld [wMeowthAnimationFrameCounter], a
 	xor a
 	ld [wMeowthStageScore], a
-	ld [wd70b], a
+	ld [wNumActiveJewelsBottom], a
 	ld [wMeowthStageBonusCounter], a
-	ld [wd713], a
+	ld [wDisableMeowthJewelProduction], a
 	ld [wd739], a
 	ld bc, $0100  ; 1 minute 0 seconds
 	callba StartTimer

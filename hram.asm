@@ -33,7 +33,7 @@ hLCDCMask           EQU $FFAF
 hStatIntrRoutine    EQU $FFB0
 
 hNumFramesSinceLastVBlank EQU $FFB2
-hNumFramesDropped         EQU $FFB3
+hFrameCounter             EQU $FFB3
 hVBlankCount              EQU $FFB4
 hStatIntrFired            EQU $FFB5
 hSignedMathSignBuffer     EQU $FFB6

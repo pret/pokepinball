@@ -21,9 +21,9 @@ InitSeelBonusStage: ; 0x25a7c
 	ld de, wd781
 	call InitSeelPosition
 	xor a
-	ld [wd793], a
+	ld [wSeelStageScore], a
 	ld [wd791], a
-	ld [wd792], a
+	ld [wSeelStageStreak], a
 	ld [wd739], a
 	ld bc, $0130  ; 1 minute 30 seconds
 	callba StartTimer

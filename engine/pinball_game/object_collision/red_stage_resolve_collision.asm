@@ -94,9 +94,9 @@ UpdateBallSaverState: ; 0x146a9
 	ld c, $1
 	cp $ff
 	jr z, .asm_146fe
-	ld hl, hNumFramesDropped
+	ld hl, hFrameCounter
 	and [hl]
-	jr z, .asm_146fe ; hNumFramesDropped used as timer for flashing
+	jr z, .asm_146fe ; hFrameCounter used as timer for flashing
 	ld c, $0
 .asm_146fe
 	ld a, [wBallSaverIconOn]
@@ -2443,7 +2443,7 @@ UpdatePikachuSaverAnimation_RedField: ; 0x1669e
 	ret
 
 .asm_16732
-	ld a, [hNumFramesDropped]
+	ld a, [hFrameCounter]
 	swap a
 	and $1
 	ld [wPikachuSaverAnimationFrame], a
@@ -2631,7 +2631,7 @@ INCLUDE "data/queued_tiledata/red_field/staryu_bumper.asm"
 
 UpdateArrowIndicators_RedField: ; 0x169a6
 ; Updates the 5 blinking arrow indicators in the red field bottom.
-	ld a, [hNumFramesDropped]
+	ld a, [hFrameCounter]
 	and $1f
 	ret nz
 	ld bc, $0000
@@ -2643,7 +2643,7 @@ UpdateArrowIndicators_RedField: ; 0x169a6
 	jr z, .asm_169c5
 	ld a, [hl]
 	res 7, a
-	ld hl, hNumFramesDropped
+	ld hl, hFrameCounter
 	bit 5, [hl]
 	jr z, .asm_169c2
 	inc a
@@ -2787,7 +2787,7 @@ UpdateBonusMultiplierRailing_RedField: ; 0x16e51
 	cp $2
 	jr c, .asm_16ec1
 	cp $3
-	ld a, [hNumFramesDropped]
+	ld a, [hFrameCounter]
 	jr c, .asm_16ea0
 	srl a
 	srl a
@@ -2813,7 +2813,7 @@ UpdateBonusMultiplierRailing_RedField: ; 0x16e51
 	cp $2
 	ret c
 	cp $3
-	ld a, [hNumFramesDropped]
+	ld a, [hFrameCounter]
 	jr c, .asm_16ed1
 	srl a
 	srl a

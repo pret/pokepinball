@@ -8,18 +8,18 @@ HandleBallLossSeelBonus: ; 0xe08b
 	and a
 	jr z, .asm_e0b8
 .flippersEnabled
-	ld a, [wd793]
-	cp $14
+	ld a, [wSeelStageScore]
+	cp 20
 	jr nc, .asm_e0b8
-	cp $5
+	cp 5
 	jr c, .asm_e0aa
-	sub $4
+	sub 4
 	jr .asm_e0ab
 
 .asm_e0aa
 	xor a
 .asm_e0ab
-	ld [wd793], a
+	ld [wSeelStageScore], a
 	callba Func_262f4
 .asm_e0b8
 	ld a, [wCurrentStageBackup]

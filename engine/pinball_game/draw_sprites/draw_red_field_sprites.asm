@@ -309,7 +309,7 @@ DrawPikachuSavers_RedStage: ; 0x17e08
 	ld a, [wd51c]
 	and a
 	jr nz, .asm_17e29
-	ld a, [hNumFramesDropped]
+	ld a, [hFrameCounter]
 	srl a
 	srl a
 	srl a
@@ -388,7 +388,7 @@ DrawEvolutionIndicatorArrows_RedFieldTop: ; 0x17efb
 	ld a, [wEvolutionObjectsDisabled]
 	and a
 	ret nz
-	ld a, [hNumFramesDropped]
+	ld a, [hFrameCounter]
 	bit 4, a
 	ret z
 	ld de, wIndicatorStates + 5
@@ -400,7 +400,7 @@ DrawEvolutionIndicatorArrows_RedFieldBottom: ; 0x17f0f
 	ld a, [wEvolutionObjectsDisabled]
 	and a
 	ret nz
-	ld a, [hNumFramesDropped]
+	ld a, [hFrameCounter]
 	bit 4, a
 	ret z
 	ld de, wIndicatorStates + 11
@@ -506,7 +506,7 @@ DrawEvolutionTrinket_RedField: ; 0x17f84
 	ld a, [hli]
 	sub c
 	ld c, a
-	ld a, [hNumFramesDropped]
+	ld a, [hFrameCounter]
 	and $e
 	jr nz, .asm_17f9c
 	dec c

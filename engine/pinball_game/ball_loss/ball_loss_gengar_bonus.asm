@@ -6,8 +6,8 @@ HandleBallLossGengarBonus: ; 0xdf1a
 	ld a, [wd6a8]
 	and a
 	jr nz, .asm_df57
-	ld a, [wd6a2]
-	cp $5
+	ld a, [wNumGengarHits]
+	cp 5
 	jr c, .asm_df50
 	xor a
 	ld [wMoveToNextScreenState], a

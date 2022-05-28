@@ -861,7 +861,7 @@ UpdatePikachuSaverAnimation_BlueField: ; 0x1d133
 	ret
 
 .asm_1d1c7
-	ld a, [hNumFramesDropped]
+	ld a, [hFrameCounter]
 	swap a
 	and $1
 	ld [wPikachuSaverAnimationFrame], a
@@ -1282,7 +1282,7 @@ UpdateBonusMultiplierRailing_BlueField: ; 0x1d51b
 	cp $2
 	jr c, .asm_1d58b
 	cp $3
-	ld a, [hNumFramesDropped]
+	ld a, [hFrameCounter]
 	jr c, .asm_1d56a
 	srl a
 	srl a
@@ -1308,7 +1308,7 @@ UpdateBonusMultiplierRailing_BlueField: ; 0x1d51b
 	cp $2
 	ret c
 	cp $3
-	ld a, [hNumFramesDropped]
+	ld a, [hFrameCounter]
 	jr c, .asm_1d59b
 	srl a
 	srl a
@@ -2893,7 +2893,7 @@ _ApplySlotForceField_BlueField: ; 0x1ea6a
 
 UpdateArrowIndicators_BlueField: ; 0x1ead4
 ; Updates the 5 blinking arrow indicators in the blue field bottom.
-	ld a, [hNumFramesDropped]
+	ld a, [hFrameCounter]
 	and $f
 	ret nz
 	ld bc, $0000
@@ -2908,7 +2908,7 @@ UpdateArrowIndicators_BlueField: ; 0x1ead4
 	jr z, .asm_1eaf8
 	ld a, [hl]
 	res 7, a
-	ld hl, hNumFramesDropped
+	ld hl, hFrameCounter
 	bit 4, [hl]
 	jr z, .asm_1eaf5
 	inc a
@@ -2920,7 +2920,7 @@ UpdateArrowIndicators_BlueField: ; 0x1ead4
 	ld a, c
 	cp $2
 	jr nz, .asm_1eadc
-	ld a, [hNumFramesDropped]
+	ld a, [hFrameCounter]
 	and $f
 	ret nz
 	ld a, [wCurrentStage]
@@ -2938,7 +2938,7 @@ UpdateArrowIndicators_BlueField: ; 0x1ead4
 	jr z, .asm_1eb29
 	ld a, [hl]
 	res 7, a
-	ld hl, hNumFramesDropped
+	ld hl, hFrameCounter
 	bit 4, [hl]
 	jr z, .asm_1eb2b
 	inc a

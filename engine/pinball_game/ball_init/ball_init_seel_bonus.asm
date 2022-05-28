@@ -12,7 +12,7 @@ InitBallSeelBonusStage: ; 0x25af1
 	xor a
 	ld [wSCX], a
 	ld [wStageCollisionState], a
-	ld [wd766], a
+	ld [wSeelBonusClosedGate], a
 	ld a, $0
 	ld [wd772], a
 	ld a, $1

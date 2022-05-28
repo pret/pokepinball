@@ -98,7 +98,7 @@ ProgressEvolution: ; 0x20c76
 	sla c
 	ld hl, EvolutionProgressIconsGfx
 	add hl, bc
-	ld a, [wd554]
+	ld a, [wNumEvolutionTrinkets]
 	ld c, a
 	ld b, $0
 	swap c
@@ -113,9 +113,9 @@ ProgressEvolution: ; 0x20c76
 	ld a, BANK(EvolutionProgressIconsGfx)
 	call LoadVRAMData
 .top
-	ld a, [wd554]
+	ld a, [wNumEvolutionTrinkets]
 	inc a
-	ld [wd554], a
+	ld [wNumEvolutionTrinkets], a
 	cp $1
 	jr nz, .asm_20cb8
 	lb de, $07, $28

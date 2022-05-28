@@ -33,7 +33,7 @@ ConcludeEvolutionMode: ; 0x10ac8
 	ld [wNumberOfCatchModeTilesFlipped], a
 	ld [wNumMonHits], a
 	ld [wEvolutionObjectsDisabled], a
-	ld [wd554], a
+	ld [wNumEvolutionTrinkets], a
 	call ClearWildMonCollisionMask
 	callba StopTimer
 	ld a, [wCurrentStage]
@@ -454,7 +454,7 @@ InitEvolutionModeForMon: ; 0x10d1d
 	ld a, [hl]  ; a = evoluion type id
 	ld [wCurrentEvolutionType], a
 	xor a
-	ld [wd554], a
+	ld [wNumEvolutionTrinkets], a
 	ld [wEvolutionTrinketCooldownFrames], a
 	ld [wEvolutionTrinketCooldownFrames + 1], a
 	ld hl, wd55c

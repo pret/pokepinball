@@ -10,7 +10,7 @@ InitBallGengarBonusStage: ; 0x18157
 	xor a
 	ld [wSCX], a
 	ld [wStageCollisionState], a
-	ld [wd653], a
+	ld [wGengarBonusClosedGate], a
 	xor a
 	ld [wd674], a
 	ld a, $8

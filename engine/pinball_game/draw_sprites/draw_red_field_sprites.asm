@@ -283,7 +283,7 @@ DrawSpinner_RedField: ; 0x17de1
 	ld hl, hSCY
 	sub [hl]
 	ld c, a
-	ld a, [wd50a]
+	ld a, [wSpinnerState + 1]
 	srl a
 	srl a
 	ld e, a

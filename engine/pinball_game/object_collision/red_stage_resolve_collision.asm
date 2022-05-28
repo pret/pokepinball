@@ -652,11 +652,11 @@ UpdateRedStageSpinner: ; 0x14e10
 	ld a, b
 	ld [wSpinnerVelocity + 1], a
 	ld hl, wSpinnerVelocity
-	ld a, [wd509]
+	ld a, [wSpinnerState]
 	add [hl]
-	ld [wd509], a
+	ld [wSpinnerState], a
 	inc hl
-	ld a, [wd50a]
+	ld a, [wSpinnerState + 1]
 	adc [hl]
 	bit 7, a
 	ld c, $0
@@ -671,7 +671,7 @@ UpdateRedStageSpinner: ; 0x14e10
 	sub $18
 	ld c, $1
 .asm_14e66
-	ld [wd50a], a
+	ld [wSpinnerState + 1], a
 	ld a, c
 	and a
 	ret z

@@ -316,7 +316,7 @@ Func_101d9: ; 0x101d9
 	pop bc
 	push de
 	xor a
-	ld de, Func_11d2 ;queue graphics load from the adjusted pointer bank 0 using this func
+	ld de, Func_11d2 ; queue graphics load from the adjusted pointer bank 0 using this func
 	call QueueGraphicsToLoadWithFunc
 	pop de
 	pop hl
@@ -524,9 +524,9 @@ Func_10362: ; 0x10362
 	rl b
 	add c
 	ld c, a
-	jr nc, .asm_10371
+	jr nc, .loadPointer
 	inc b
-.asm_10371
+.loadPointer
 	ld hl, MonAnimatedPicPointers
 	add hl, bc
 	ld a, [hli]
@@ -536,13 +536,13 @@ Func_10362: ; 0x10362
 	ld a, [hl]
 	ld [$ff8e], a
 	ld de, wc150
-	ld bc, $0000
-.asm_10384
+	ld bc, 0
+.loop
 	call Func_1038e
 	inc c
 	ld a, c
 	cp $d
-	jr nz, .asm_10384
+	jr nz, .loop
 	ret
 
 Func_1038e: ; 0x1038e

@@ -6,7 +6,7 @@ CheckGengarBonusStageGameObjectCollisions: ; 0x181b1
 	ret
 
 CheckGengarBonusStageGastlyCollision: ; 0x181be
-	ld a, [wd659]
+	ld a, [wGastly1Enabled]
 	and a
 	ret z
 	ld a, [wGastly1XPos + 1]
@@ -14,7 +14,7 @@ CheckGengarBonusStageGastlyCollision: ; 0x181be
 	ld a, [wGastly1YPos + 1]
 	add $10
 	ld c, a
-	ld a, [wGastly1AnimationState]
+	ld a, [wGastly1AnimationFrame]
 	call CheckSingleGastlyCollision
 	ld a, $1
 	jr c, .hitGastly
@@ -23,7 +23,7 @@ CheckGengarBonusStageGastlyCollision: ; 0x181be
 	ld a, [wGastly2YPos + 1]
 	add $10
 	ld c, a
-	ld a, [wGastly2AnimationState]
+	ld a, [wGastly2AnimationFrame]
 	call CheckSingleGastlyCollision
 	ld a, $2
 	jr c, .hitGastly
@@ -32,7 +32,7 @@ CheckGengarBonusStageGastlyCollision: ; 0x181be
 	ld a, [wGastly3YPos + 1]
 	add $10
 	ld c, a
-	ld a, [wGastly3AnimationState]
+	ld a, [wGastly3AnimationFrame]
 	call CheckSingleGastlyCollision
 	ld a, $3
 	ret nc

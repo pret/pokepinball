@@ -349,7 +349,7 @@ HighScoresStageMapping: ; 0xdb99
 Func_dba9: ; 0xdba9
 	ld a, $85
 	ld [wBottomMessageBuffer + $44], a
-	ld a, [wd49d]
+	ld a, [wCurBallLife]
 	xor $3
 	inc a
 	add $86

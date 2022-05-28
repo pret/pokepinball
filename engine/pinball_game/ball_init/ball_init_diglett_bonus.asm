@@ -12,7 +12,7 @@ InitBallDiglettBonusStage: ; 0x19a38
 	xor a
 	ld [wSCX], a
 	ld [wStageCollisionState], a
-	ld [wd73a], a
+	ld [wDiglettBonusClosedGate], a
 	ld hl, wDiglettStates
 	ld b, NUM_DIGLETTS
 .asm_19a60

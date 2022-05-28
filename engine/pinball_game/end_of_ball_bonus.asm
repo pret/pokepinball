@@ -69,14 +69,14 @@ ShowBallBonusSummary: ; 0xf5a0
 	call ClearBCD6Buffer
 	ld hl, wEndOfBallBonusTotalScore
 	call ClearBCD6Buffer
-	ld a, $1
-	ld [wd4ab], a
+	ld a, 1
+	ld [wBallBonusWaitForButtonPress], a
 	call HandleNumPokemonCaughtBallBonus
 	call HandleNumPokemonEvolvedBallBonus
 	call HandleBallBonusForCurrentField
 	call Func_f676
-	ld a, $1
-	ld [wd4ab], a
+	ld a, 1
+	ld [wBallBonusWaitForButtonPress], a
 	call Func_f70d
 	ld a, [wGameOver]
 	and a
@@ -161,7 +161,7 @@ Func_f676: ; 0xf676
 	ld bc, $00c0
 	ld de, $0000
 	call Func_f80d
-	ld a, [wd4ab]
+	ld a, [wBallBonusWaitForButtonPress]
 	and a
 	jr z, .asm_f69f
 	rst AdvanceFrame
@@ -169,7 +169,7 @@ Func_f676: ; 0xf676
 	bit BIT_A_BUTTON, a
 	jr z, .asm_f69f
 	xor a
-	ld [wd4ab], a
+	ld [wBallBonusWaitForButtonPress], a
 .asm_f69f
 	pop bc
 	dec b
@@ -197,7 +197,7 @@ Func_f676: ; 0xf676
 	call Func_f80d
 	lb de, $00, $3e
 	call PlaySoundEffect
-	ld a, [wd4ab]
+	ld a, [wBallBonusWaitForButtonPress]
 	and a
 	jr z, .asm_f6f2
 	rst AdvanceFrame
@@ -205,7 +205,7 @@ Func_f676: ; 0xf676
 	bit BIT_A_BUTTON, a
 	jr z, .asm_f6f2
 	xor a
-	ld [wd4ab], a
+	ld [wBallBonusWaitForButtonPress], a
 .asm_f6f2
 	pop hl
 	pop de
@@ -234,7 +234,7 @@ Func_f70d: ; 0xf70d
 	ld bc, $00c0
 	ld de, $0000
 	call Func_f80d
-	ld a, [wd4ab]
+	ld a, [wBallBonusWaitForButtonPress]
 	and a
 	jr z, .asm_f736
 	rst AdvanceFrame
@@ -242,7 +242,7 @@ Func_f70d: ; 0xf70d
 	bit BIT_A_BUTTON, a
 	jr z, .asm_f736
 	xor a
-	ld [wd4ab], a
+	ld [wBallBonusWaitForButtonPress], a
 .asm_f736
 	pop bc
 	dec b
@@ -258,7 +258,7 @@ Func_f70d: ; 0xf70d
 	call Func_f80d
 	lb de, $00, $3e
 	call PlaySoundEffect
-	ld a, [wd4ab]
+	ld a, [wBallBonusWaitForButtonPress]
 	and a
 	jr z, .asm_f76c
 	rst AdvanceFrame
@@ -266,7 +266,7 @@ Func_f70d: ; 0xf70d
 	bit BIT_A_BUTTON, a
 	jr z, .asm_f76c
 	xor a
-	ld [wd4ab], a
+	ld [wBallBonusWaitForButtonPress], a
 .asm_f76c
 	ld hl, wScore
 	ld de, wEndOfBallBonusTotalScore
@@ -408,7 +408,7 @@ Func_f824: ; 0xf824
 	ret
 
 Func_f83a: ; 0xf83a
-	ld a, [wd4ab]
+	ld a, [wBallBonusWaitForButtonPress]
 	and a
 	ret z
 	ld b, $46
@@ -425,7 +425,7 @@ Func_f83a: ; 0xf83a
 
 .asm_f84e
 	xor a
-	ld [wd4ab], a
+	ld [wBallBonusWaitForButtonPress], a
 	ret
 
 Func_f853: ; 0xf853
@@ -444,7 +444,7 @@ Func_f853: ; 0xf853
 	call Func_f80d
 	lb de, $00, $3e
 	call PlaySoundEffect
-	ld a, [wd4ab]
+	ld a, [wBallBonusWaitForButtonPress]
 	and a
 	jr z, .asm_f886
 	rst AdvanceFrame
@@ -452,7 +452,7 @@ Func_f853: ; 0xf853
 	bit BIT_A_BUTTON, a
 	jr z, .asm_f886
 	xor a
-	ld [wd4ab], a
+	ld [wBallBonusWaitForButtonPress], a
 .asm_f886
 	pop hl
 	pop de

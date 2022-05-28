@@ -143,7 +143,7 @@ wBallTypeBackup:: ; 0xd481
 	ds $1
 
 wCurBonusMultiplier:: ; 0xd482
-; Current value of the bonus multplier. Incremented from achieving various events during the game, or hitting the two bonus multiplier
+; Current value of the bonus multiplier. Incremented from achieving various events during the game, or hitting the two bonus multiplier
 ; railings. (left one first, then right one). See MAX_BONUS_MULTIPLIER
 	ds $1
 
@@ -197,10 +197,12 @@ wCurBonusMultiplierFromFieldEvents:: ; 0xd49b
 wd49c:: ; 0xd49c
 	ds $1
 
-wd49d:: ; 0xd49d
+wCurBallLife:: ; 0xd49d
+; Keeps track of the current "life" of the ball. It starts at 1 and increments whenever the player loses a ball.
 	ds $1
 
-wd49e:: ; 0xd49e
+wNumBallLives:: ; 0xd49e
+; The total number of "lives" the ball has. It is always 3. wCurBallLifeis compared to it whenever the player loses a ball.
 	ds $1
 
 wd49f:: ; 0xd49f
@@ -239,7 +241,7 @@ wDrawBottomMessageBox:: ; 0xd4aa
 ; Set to 0 to disable.
 	ds $1
 
-wd4ab:: ; 0xd4ab
+wBallBonusWaitForButtonPress:: ; 0xd4ab
 	ds $1
 
 wCurrentStage:: ; 0xd4ac
@@ -475,11 +477,8 @@ wSpinnerCollision:: ; 0xd507
 ; Second byte is set by HandleGameObjectCollision, but is unused
 	ds $2
 
-wd509:: ; 0xd509
-	ds $1
-
-wd50a:: ; 0xd50a
-	ds $1
+wSpinnerState:: ; 0xd509
+	ds $2
 
 wSpinnerVelocity:: ; 0xd50b
 ; When the ball intially passes through the spinner, the ball's y velocity is saved to this location.
@@ -609,7 +608,7 @@ wCurrentEvolutionMon:: ; 0xd552
 wCurrentEvolutionType:: ; 0xd553
 	ds $1
 
-wd554:: ; 0xd554
+wNumEvolutionTrinkets:: ; 0xd554
 	ds $1
 
 wd555:: ; 0xd555
@@ -757,7 +756,7 @@ wCurrentCatchMonHitFrameDuration:: ; 0xd5c3
 wCatchModeMonUpdateTimer:: ; 0xd5c4 increments while the caught mon is active once per frame(?), ensuring that the code only checks for the mon being hit every 4 frames or when the animation changes....for some reason (performance?)
 	ds $1
 
-wNumMewHitsLow:: ; 0xd5c5
+wNumMewHits:: ; 0xd5c5
 	ds $1
 
 wd5c6:: ; 0xd5c6
@@ -1110,7 +1109,7 @@ wd651:: ; 0xd651
 wd652:: ; 0xd652
 	ds $1
 
-wd653:: ; 0xd653
+wGengarBonusClosedGate:: ; 0xd653
 	ds $1
 
 wWhichGravestone:: ; 0xd654
@@ -1126,13 +1125,13 @@ wd657:: ; 0xd657
 wd658:: ; 0xd658
 	ds $1
 
-wd659:: ; 0xd659
-	ds $2
+wGastly1Enabled:: ; 0xd659
+	ds $1
 
-wGastly1AnimationState:: ; 0xd65b
-	ds $2
+wGastly1Animation::
+	animation wGastly1Animation
 
-wd65d:: ; 0xd65d
+wGastly1InHitAnimation:: ; 0xd65d
 	ds $1
 
 wGastly1XPos:: ; 0xd65e
@@ -1140,13 +1139,13 @@ wGastly1XPos:: ; 0xd65e
 wGastly1YPos:: ; 0xd660
 	ds $2
 
-wd662:: ; 0xd662
-	ds $2
+wGastly2Enabled:: ; 0xd662
+	ds $1
 
-wGastly2AnimationState:: ; 0xd664
-	ds $2
+wGastly2Animation::
+	animation wGastly2Animation
 
-wd666:: ; 0xd666
+wGastly2InHitAnimation:: ; 0xd666
 	ds $1
 
 wGastly2XPos:: ; 0xd668
@@ -1154,13 +1153,13 @@ wGastly2XPos:: ; 0xd668
 wGastly2YPos:: ; 0xd66a
 	ds $2
 
-wd66b:: ; 0xd66b
-	ds $2
+wGastly3Enabled:: ; 0xd66b
+	ds $1
 
-wGastly3AnimationState:: ; 0xd66d
-	ds $2
+wGastly3Animation::
+	animation wGastly3Animation
 
-wd66f:: ; 0xd66f
+wGastly3InHitAnimation:: ; 0xd66f
 	ds $1
 
 wGastly3XPos:: ; 0xd671
@@ -1278,7 +1277,7 @@ wd6a7:: ; 0xd6a7
 wd6a8:: ; 0xd6a8
 	ds $1
 
-wd6a9:: ; 0xd6a9
+wMewtwoBonusClosedGate:: ; 0xd6a9
 	ds $1
 
 wd6aa:: ; 0xd6aa
@@ -1356,7 +1355,7 @@ wd6de:: ; 0xd6de
 wd6e5:: ; 0xd6e5
 	ds $1
 
-wd6e6:: ; 0xd6e6
+wMeowthBonusClosedGate:: ; 0xd6e6
 	ds $1
 
 wd6e7:: ; 0xd6e7
@@ -1554,7 +1553,7 @@ wd736:: ; 0xd736
 wd739:: ; 0xd739
 	ds $1
 
-wd73a:: ; 0xd73a
+wDiglettBonusClosedGate:: ; 0xd73a
 	ds $1
 
 wd73b:: ; 0xd73b
@@ -1587,7 +1586,7 @@ wDugrioState:: ; 0xd764
 wd765:: ; 0xd765
 	ds $1
 
-wd766:: ; 0xd766
+wSeelBonusClosedGate:: ; 0xd766
 	ds $1
 
 wd767:: ; 0xd767

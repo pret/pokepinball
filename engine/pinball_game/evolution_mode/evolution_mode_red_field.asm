@@ -101,7 +101,7 @@ Func_20651: ; 0x20651
 	sla c
 	ld hl, EvolutionProgressIconsGfx
 	add hl, bc
-	ld a, [wd554]
+	ld a, [wNumEvolutionTrinkets]
 	ld c, a
 	ld b, $0
 	swap c
@@ -116,9 +116,9 @@ Func_20651: ; 0x20651
 	ld a, BANK(EvolutionProgressIconsGfx)
 	call LoadVRAMData
 .asm_20681
-	ld a, [wd554]
+	ld a, [wNumEvolutionTrinkets]
 	inc a
-	ld [wd554], a
+	ld [wNumEvolutionTrinkets], a
 	cp $1
 	jr nz, .asm_20693
 	lb de, $07, $28

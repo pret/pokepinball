@@ -22,13 +22,13 @@ InitBlueField: ; 0x1c000
 	ld [wDisableHorizontalScrollForBallStart], a
 	ld [wFlippersDisabled], a
 	ld [wCurrentMap], a  ; PALLET_TOWN
-	ld a, $1
-	ld [wd49d], a
+	ld a, 1
+	ld [wCurBallLife], a
 	ld [wCurBonusMultiplier], a
-	ld a, $2
+	ld a, 2
 	ld [wRightAlleyCount], a
-	ld a, $3
-	ld [wd49e], a
+	ld a, 3
+	ld [wNumBallLives], a
 	ld [wd610], a
 	ld a, BONUS_STAGE_ORDER_MEOWTH
 	ld [wNextBonusStage], a

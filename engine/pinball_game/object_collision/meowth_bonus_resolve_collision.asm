@@ -178,7 +178,7 @@ ResolveMeowthBonusGameObjectCollisions: ; 0x2442a
 	xor a
 	ld [wd79a], a
 .asm_2444b
-	call Func_244f5
+	call TryCloseGate_MeowthBonus
 	call Func_245ab
 	call Func_248ac
 	call Func_24d07
@@ -244,16 +244,16 @@ ResolveMeowthBonusGameObjectCollisions: ; 0x2442a
 	ld [wMeowthState], a
 	ret
 
-Func_244f5: ; 0x244f5
-	ld a, [wd6e6]
+TryCloseGate_MeowthBonus: ; 0x244f5
+	ld a, [wMeowthBonusClosedGate]
 	and a
 	ret nz
 	ld a, [wBallXPos + 1]
-	cp $8a
+	cp 138
 	ret nc
-	ld a, $1
+	ld a, 1
 	ld [wStageCollisionState], a
-	ld [wd6e6], a
+	ld [wMeowthBonusClosedGate], a
 	callba LoadStageCollisionAttributes
 	call Func_24516
 	ret

@@ -320,7 +320,7 @@ LoadEvolutionTrinketGraphics_BlueField: ; 0x1c3ee
 	ld a, [wSpecialMode]
 	cp SPECIAL_MODE_EVOLUTION
 	ret nz
-	ld a, [wd554]
+	ld a, [wNumEvolutionTrinkets]
 	cp $3
 	ret z
 	ld a, [wCurrentStage]
@@ -391,7 +391,7 @@ Func_1c46d: ; 0x1c46d
 
 Func_1c47d: ; 0x1c47d
 	ld de, $0000
-	ld a, [wd554]
+	ld a, [wNumEvolutionTrinkets]
 	and a
 	ret z
 	ld b, a

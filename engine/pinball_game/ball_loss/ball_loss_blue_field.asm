@@ -47,12 +47,12 @@ HandleBallLossBlueField: ; 0xde4f
 	ret
 
 .noExtraBall
-	ld a, [wd49d]
-	ld hl, wd49e
+	ld a, [wCurBallLife]
+	ld hl, wNumBallLives
 	cp [hl]
 	jr z, .gameOver
 	inc a
-	ld [wd49d], a
+	ld [wCurBallLife], a
 	ld de, EndOfBallBonusText
 	call ShowBallLossText
 	ret

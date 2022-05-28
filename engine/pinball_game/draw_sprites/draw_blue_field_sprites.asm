@@ -86,7 +86,7 @@ DrawSpinner_BlueField: ; 0x1f3e1
 	ld hl, hSCY
 	sub [hl]
 	ld c, a
-	ld a, [wd50a]
+	ld a, [wSpinnerState + 1]
 	srl a
 	srl a
 	ld e, a
@@ -163,7 +163,7 @@ DrawPikachuSavers_BlueStage: ; 0x1f448
 
 .asm_1f469
 	ld a, [wBallXPos + 1]
-	cp $50
+	cp 80
 	ld a, $1
 	jr nc, .asm_1f473
 	xor a

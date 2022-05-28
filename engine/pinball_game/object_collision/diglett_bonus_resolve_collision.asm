@@ -1,19 +1,19 @@
 ResolveDiglettBonusGameObjectCollisions: ; 0x19b88
 	call Func_19c52
 	call Func_1aad4
-	call Func_19b92
+	call TryCloseGate_DiglettBonus
 	ret
 
-Func_19b92: ; 0x19b92
-	ld a, [wd73a]
+TryCloseGate_DiglettBonus: ; 0x19b92
+	ld a, [wDiglettBonusClosedGate]
 	and a
 	ret nz
 	ld a, [wBallXPos + 1]
-	cp $8a
+	cp 138
 	ret nc
-	ld a, $1
+	ld a, 1
 	ld [wStageCollisionState], a
-	ld [wd73a], a
+	ld [wDiglettBonusClosedGate], a
 	xor a
 	ld [wStageCollisionMap + $153], a
 	ld [wStageCollisionMap + $173], a

@@ -8,24 +8,26 @@ DrawSpritesGengarBonus: ; 0x18faf
 	callba DrawPinball
 	ret
 
-Func_18fda:
-; unused
+Debug_CycleGengarBonusPhase:
+; Leftover debugging function for quickly cycling through
+; the three phases of the Gengar Bonus stage. Pressing UP
+; will instantly skip to the next phase.
 	ld a, [hNewlyPressedButtons]
-	bit 6, a
+	bit BIT_D_UP, a
 	ret z
-	ld a, [wd659]
+	ld a, [wGastly1Enabled]
 	and a
-	jr z, .asm_18ff8
+	jr z, .disabled
 	ld a, $1
 	ld [wd67e], a
 	ld [wd687], a
 	xor a
-	ld [wd659], a
-	ld [wd662], a
-	ld [wd66b], a
+	ld [wGastly1Enabled], a
+	ld [wGastly2Enabled], a
+	ld [wGastly3Enabled], a
 	ret
 
-.asm_18ff8
+.disabled
 	ld a, [wd67e]
 	and a
 	jr z, .asm_1900b
@@ -40,20 +42,20 @@ Func_18fda:
 	ld a, [wd698]
 	and a
 	ret z
-	ld a, $1
-	ld [wd659], a
-	ld [wd662], a
-	ld [wd66b], a
+	ld a, 1
+	ld [wGastly1Enabled], a
+	ld [wGastly2Enabled], a
+	ld [wGastly3Enabled], a
 	xor a
 	ld [wd698], a
 	ret
 
 Func_19020: ; 0x19020
-	ld de, wd659
+	ld de, wGastly1Enabled
 	call Func_19033
-	ld de, wd662
+	ld de, wGastly2Enabled
 	call Func_19033
-	ld de, wd66b
+	ld de, wGastly3Enabled
 	call Func_19033
 	ret
 
@@ -234,9 +236,9 @@ Func_19104: ; 0x19104
 	ld a, $8
 	ld [wd6a1], a
 	xor a
-	ld [wd659], a
-	ld [wd662], a
-	ld [wd66b], a
+	ld [wGastly1Enabled], a
+	ld [wGastly2Enabled], a
+	ld [wGastly3Enabled], a
 	ld [wd698], a
 	pop de
 	scf
@@ -343,9 +345,9 @@ Func_191cb: ; 0x191cb
 	ld a, $8
 	ld [wd690], a
 	xor a
-	ld [wd659], a
-	ld [wd662], a
-	ld [wd66b], a
+	ld [wGastly1Enabled], a
+	ld [wGastly2Enabled], a
+	ld [wGastly3Enabled], a
 	ld [wd67e], a
 	ld [wd687], a
 	pop de

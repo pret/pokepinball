@@ -3,7 +3,7 @@ ResolveGengarBonusGameObjectCollisions: ; 0x18377
 	call Func_1860b
 	call Func_187b1
 	call Func_18d34
-	call Func_183b7
+	call TryCloseGate_GengarBonus
 	callba PlayLowTimeSfx
 	ld a, [wTimeRanOut]
 	and a
@@ -21,16 +21,16 @@ ResolveGengarBonusGameObjectCollisions: ; 0x18377
 	ld [wd6a8], a
 	ret
 
-Func_183b7: ; 0x183b7
-	ld a, [wd653]
+TryCloseGate_GengarBonus: ; 0x183b7
+	ld a, [wGengarBonusClosedGate]
 	and a
 	ret nz
 	ld a, [wBallXPos + 1]
-	cp $8a
+	cp 138
 	ret nc
-	ld a, $1
+	ld a, 1
 	ld [wStageCollisionState], a
-	ld [wd653], a
+	ld [wGengarBonusClosedGate], a
 	callba LoadStageCollisionAttributes
 	call Func_183db
 	call Func_18d91
@@ -168,7 +168,7 @@ TileData_1844e: ; 0x1844e
 	db $00 ; terminator
 
 Func_18464: ; 0x18464
-	ld a, [wd659]
+	ld a, [wGastly1Enabled]
 	and a
 	ret z
 	ld a, [wd657]
@@ -188,7 +188,7 @@ Func_18464: ; 0x18464
 	add c
 	ld c, a
 	ld b, $0
-	ld hl, wd65d
+	ld hl, wGastly1InHitAnimation
 	add hl, bc
 	ld d, h
 	ld e, l
@@ -224,22 +224,22 @@ Func_18464: ; 0x18464
 	call PlaySoundEffect
 .asm_184d5
 	ld bc, $0830
-	ld de, wd65d
+	ld de, wGastly1InHitAnimation
 	ld hl, wd675
 	call Func_1850c
 	ld bc, $5078
-	ld de, wd666
+	ld de, wGastly2InHitAnimation
 	ld hl, wd677
 	call Func_1850c
 	ld bc, $3050
-	ld de, wd66f
+	ld de, wGastly3InHitAnimation
 	ld hl, wd679
 	call Func_1850c
-	ld de, wd65d
+	ld de, wGastly1InHitAnimation
 	call Func_18562
-	ld de, wd666
+	ld de, wGastly2InHitAnimation
 	call Func_18562
-	ld de, wd66f
+	ld de, wGastly3InHitAnimation
 	call Func_18562
 	ret
 
@@ -343,26 +343,26 @@ Func_18562: ; 0x18562
 	ld [wd67e], a
 	ld [wd687], a
 	xor a
-	ld [wd659], a
-	ld [wd662], a
-	ld [wd66b], a
+	ld [wGastly1Enabled], a
+	ld [wGastly2Enabled], a
+	ld [wGastly3Enabled], a
 	ld de, MUSIC_HAUNTER_GRAVEYARD
 	call PlaySong
 	ret
 
 .asm_185b1
 	ld c, a
-	ld a, [wd65d]
+	ld a, [wGastly1InHitAnimation]
 	and a
 	jr nz, .asm_185b9
 	inc c
 .asm_185b9
-	ld a, [wd666]
+	ld a, [wGastly2InHitAnimation]
 	and a
 	jr nz, .asm_185c0
 	inc c
 .asm_185c0
-	ld a, [wd66f]
+	ld a, [wGastly3InHitAnimation]
 	and a
 	jr nz, .asm_185c7
 	inc c

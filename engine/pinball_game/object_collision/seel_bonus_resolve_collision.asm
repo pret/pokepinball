@@ -1,6 +1,6 @@
 ResolveSeelBonusGameObjectCollisions: ; 0x25c5a
 	call Func_25da3
-	call Func_25ced
+	call TryCloseGate_SeelBonus
 	ld a, [wSeelStageScore]
 	cp 20
 	jr c, .asm_25c98
@@ -57,16 +57,16 @@ ResolveSeelBonusGameObjectCollisions: ; 0x25c5a
 	ld [wd794], a
 	ret
 
-Func_25ced: ; 0x25ced
-	ld a, [wd766]
+TryCloseGate_SeelBonus: ; 0x25ced
+	ld a, [wSeelBonusClosedGate]
 	and a
 	ret nz
 	ld a, [wBallXPos + 1]
-	cp $8a
+	cp 138
 	ret nc
-	ld a, $1
+	ld a, 1
 	ld [wStageCollisionState], a
-	ld [wd766], a
+	ld [wSeelBonusClosedGate], a
 	callba LoadStageCollisionAttributes
 	call Func_25d0e
 	ret

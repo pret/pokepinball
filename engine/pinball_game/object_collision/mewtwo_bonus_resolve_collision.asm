@@ -1,7 +1,7 @@
 ResolveMewtwoBonusGameObjectCollisions: ; 0x19451
 	call Func_19531
 	call Func_19701
-	call Func_1948b
+	call TryCloseGate_MewtwoBonus
 	callba PlayLowTimeSfx
 	ld a, [wTimeRanOut]
 	and a
@@ -19,16 +19,16 @@ ResolveMewtwoBonusGameObjectCollisions: ; 0x19451
 	ld [wd6b3], a
 	ret
 
-Func_1948b: ; 0x1948b
-	ld a, [wd6a9]
+TryCloseGate_MewtwoBonus: ; 0x1948b
+	ld a, [wMewtwoBonusClosedGate]
 	and a
 	ret nz
 	ld a, [wBallXPos + 1]
-	cp $8a
+	cp 138
 	ret nc
-	ld a, $1
+	ld a, 1
 	ld [wStageCollisionState], a
-	ld [wd6a9], a
+	ld [wMewtwoBonusClosedGate], a
 	callba LoadStageCollisionAttributes
 	call Func_194ac
 	ret

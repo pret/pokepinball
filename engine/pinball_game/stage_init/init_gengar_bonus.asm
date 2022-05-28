@@ -18,7 +18,7 @@ InitGengarBonusStage: ; 0x18099
 	ld [wBallType], a
 	ld [wCompletedBonusStage], a
 	ld hl, GastlyInitialData
-	ld de, wd659
+	ld de, wGastly1Enabled
 	call Copy9BytesToDE
 	call Copy9BytesToDE
 	call Copy9BytesToDE
@@ -68,19 +68,19 @@ Copy9BytesToDE: ; 0x18112
 GastlyInitialData: ; 0x18121
 ; Gastly 1
 	db $01, $01
-	db $00, $00 ; wGastly1AnimationState
+	db $00, $00 ; wGastly1AnimationFrame
 	db $00
 	db $00, $08 ; wGastly1XPos
 	db $00, $08 ; wGastly1YPos
 ; Gastly 2
 	db $01, $01
-	db $00, $00 ; wGastly2AnimationState
+	db $00, $00 ; wGastly2AnimationFrame
 	db $00
 	db $00, $50 ; wGastly2XPos
 	db $00, $20 ; wGastly2YPos
 ; Gastly 3
 	db $01, $01
-	db $00, $00 ; wGastly2AnimationState
+	db $00, $00 ; wGastly2AnimationFrame
 	db $00
 	db $00, $30 ; wGastly3XPos
 	db $00, $38 ; wGastly3YPos

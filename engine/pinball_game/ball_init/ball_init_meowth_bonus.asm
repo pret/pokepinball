@@ -12,7 +12,7 @@ InitBallMeowthBonusStage: ; 0x24059
 	xor a
 	ld [wSCX], a
 	ld [wStageCollisionState], a
-	ld [wd6e6], a
+	ld [wMeowthBonusClosedGate], a
 	ld hl, wd6f3
 	ld b, $16
 .asm_24081

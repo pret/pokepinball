@@ -4,7 +4,7 @@ This is a disassembly of Pokémon Pinball (Game Boy Color).
 
 It builds the following rom:
 
-* Pokemon Pinball (U) [C][!].gb  `md5: fbe20570c2e52c937a9395024069ba3c`
+* Pokemon Pinball (U) [C][!].gb  `sha1: 9402014d14969432142abfde728c6f1a10ee4dac`
 
 To set up the repository, see [**INSTALL.md**](INSTALL.md).
 
@@ -12,7 +12,7 @@ To set up the repository, see [**INSTALL.md**](INSTALL.md).
 ## See also
 
 - **Discord:** [pret][discord]
-- **IRC:** [freenode#pret][irc]
+- **IRC:** [libera#pret][irc]
 
 Other disassembly projects:
 
@@ -34,4 +34,4 @@ Other disassembly projects:
 [pokefirered]: https://github.com/pret/pokefirered
 [pokeemerald]: https://github.com/pret/pokeemerald
 [discord]: https://discord.gg/d5dubZ3
-[irc]: https://kiwiirc.com/client/irc.freenode.net/?#pret
+[irc]: https://web.libera.chat/?#pret

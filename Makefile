@@ -8,7 +8,11 @@
 ROM := pokepinball.gbc
 OBJS := main.o wram.o sram.o
 
-MD5 := md5sum -c
+ifeq (,$(shell which sha1sum))
+SHA1 := shasum
+else
+SHA1 := sha1sum
+endif
 
 all: $(ROM) compare
 
@@ -26,7 +30,7 @@ $(ROM): $(OBJS) contents/contents.link
 
 # For contributors to make sure a change didn't affect the contents of the rom.
 compare: $(ROM)
-	@$(MD5) rom.md5
+	@$(SHA1) -c rom.sha1
 
 tools:
 	$(MAKE) -C tools

@@ -1694,7 +1694,7 @@ Func_44a2b:
 	ld h, d
 	add hl, de
 	add hl, hl
-	ld de, Data_44b20 
+	ld de, Data_44b20
 	add hl, de
 	ld e, [hl]
 	inc hl

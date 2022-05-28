@@ -905,7 +905,7 @@ Modulo_C: ; 0xe55
 
 ToggleAudioEngineUpdateMethod: ; 0xe5d
 ; The audio engine is normally updated once every V-Blank interrupt. However, during pinball gameplay,
-; the LCD is disabled (no V-Blanks) when the pinball is transitioning between the Top- and Bottom-halfs of 
+; the LCD is disabled (no V-Blanks) when the pinball is transitioning between the Top- and Bottom-halfs of
 ; the Red and Blue Fields. Therefore, the audio engine wouldn't get updated for a fraction of a second, which
 ; would has a noticeable pause in the music. To solve this, the Timer interrupt is enabled while the V-Blank is
 ; disabled, and the audio engine gets updated during the Timer interrupt.
@@ -3301,16 +3301,12 @@ BottomRightBonusStageCollisionMasks:
 
 ; These two squares data arrays must be aligned to $100 bytes and appear contiguously.
 SquaresLow:
-x = 0
-rept 256
-	db (x * x) % $100
-x = x + 1
-endr
+FOR X, 256
+	db (X * X) % $100
+ENDR
 
 SquaresHigh:
-x = 0
-rept 256
-	db (x * x) / $100
-x = x + 1
-endr
+FOR X, 256
+	db (X * X) / $100
+ENDR
 

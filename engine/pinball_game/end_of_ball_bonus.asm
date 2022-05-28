@@ -543,19 +543,17 @@ Func_f8d5: ; 0xf8d5
 	ret
 
 AddBigBCD6: ; 0xf902
-x = 0
-rept 6
+FOR X, 6
 	ld a, [de]
-if x == 0
-	add [hl]
-else
-	adc [hl]
-endc
-x = x + 1
+	if X == 0
+		add [hl]
+	else
+		adc [hl]
+	endc
 	daa
 	ld [hli], a
 	inc de
-endr
+ENDR
 	ret
 
 PointsPerPokemonCaught: ; 0xf921

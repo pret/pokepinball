@@ -1,5 +1,5 @@
 ; OAM Animations use this 3-byte struct.
-animation: MACRO
+MACRO animation
 \1FrameCounter:: ds 1
 \1Frame:: ds 1
 \1Index:: ds 1
@@ -781,7 +781,7 @@ wDisableDrawScoreboardInfo:: ; 0xd5cb
 ; 0 = Draw them.
 	ds $1
 
-scrolling_text: MACRO
+MACRO scrolling_text
 \1Enabled:: ds 1              ; Toggles if enabled. 0 is off, non-0 is on
 \1ScrollDelayCounter:: ds 1   ; Number of frames remaining until the next scroll step
 \1ScrollDelay:: ds 1          ; Number of frames between each scroll step
@@ -799,7 +799,7 @@ wScrollingText2:: ; 0xd5d4
 wScrollingText3:: ; 0xd5dc
 	scrolling_text wScrollingText3
 
-stationary_text: MACRO
+MACRO stationary_text
 \1Enabled::ds 1              ; Toggles if enabled. 0 is off, non-0 is on
 \1MessageBoxOffset:: ds 1     ; Offset in wBottomMessageBuffer to place first character of text
 \1SourceTextOffset:: ds 1     ; Offset in wBottomMessageText for the text to be displayed
@@ -2421,7 +2421,7 @@ wNumPokemonSeen:: ; 0xd9f9
 wNumPokemonOwned:: ; 0xd9fb
 	ds $2
 
-high_scores: MACRO
+MACRO high_scores
 \1Points:: ds 6
 \1Name:: ds 3
 \1Id:: ds 4

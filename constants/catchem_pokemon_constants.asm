@@ -1,5 +1,5 @@
-const_value = 0
-	
+DEF const_value = 0
+
 	const CATCHEM_BULBASAUR     ; $0
 	const CATCHEM_CHARMANDER    ; $1
 	const CATCHEM_SQUIRTLE      ; $2

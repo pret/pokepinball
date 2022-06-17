@@ -1876,16 +1876,7 @@ Data_3cb20:
 	dw $fded
 
 WavePatterns_BankF:
-WavePattern0_BankF: ; 0x3cb52
-	db $02, $46, $8A, $CE, $FF, $FE, $ED, $DC, $CB, $A9, $87, $65, $44, $33, $22, $11
-WavePattern1_BankF: ; 0x3cb62
-	db $02, $46, $8A, $CE, $EF, $FF, $FE, $EE, $DD, $CB, $A9, $87, $65, $43, $22, $11
-WavePattern2_BankF: ; 0x3cb72
-	db $01, $23, $43, $21, $FE, $CA, $8A, $CE, $01, $23, $43, $21, $FE, $CA, $8A, $CE
-WavePattern3_BankF: ; 0x3cb82
-	db $00, $11, $22, $33, $44, $33, $22, $11, $FF, $EE, $CC, $AA, $88, $AA, $CC, $EE
-WavePattern4_BankF: ; 0x3cb92
-	db $00, $11, $22, $33, $44, $33, $22, $11, $FF, $EE, $CC, $AA, $88, $AA, $CC, $EE
+INCLUDE "audio/wave_samples.asm"
 
 INCLUDE "audio/drumkits_0f.asm"
 

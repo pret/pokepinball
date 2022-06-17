@@ -1871,16 +1871,7 @@ Data_48b20:
 	dw $fded
 
 WavePatterns_Bank12:
-WavePattern0_Bank12:
-	db $02, $46, $8A, $CE, $FF, $FE, $ED, $DC, $CB, $A9, $87, $65, $44, $33, $22, $11
-WavePattern1_Bank12:
-	db $02, $46, $8A, $CE, $EF, $FF, $FE, $EE, $DD, $CB, $A9, $87, $65, $43, $22, $11
-WavePattern2_Bank12:
-	db $01, $23, $43, $21, $FE, $CA, $8A, $CE, $01, $23, $43, $21, $FE, $CA, $8A, $CE
-WavePattern3_Bank12:
-	db $00, $11, $22, $33, $44, $33, $22, $11, $FF, $EE, $CC, $AA, $88, $AA, $CC, $EE
-WavePattern4_Bank12:
-	db $00, $11, $22, $33, $44, $33, $22, $11, $FF, $EE, $CC, $AA, $88, $AA, $CC, $EE
+INCLUDE "audio/wave_samples.asm"
 
 INCLUDE "audio/drumkits_12.asm"
 

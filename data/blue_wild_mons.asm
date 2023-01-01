@@ -17,7 +17,7 @@ BlueStageViridianCityWildMons: ; 0x1144d
 	db TENTACOOL
 	db GOLDEEN
 
-BlueStagePalleViridianCityonsRare: ; 0x1145d
+BlueStageViridianCityWildMonsRare: ; 0x1145d
 	db BULBASAUR
 	db BULBASAUR
 	db BULBASAUR

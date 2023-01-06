@@ -2054,7 +2054,7 @@ DoSlotLogic_RedField: ; 0x16352
 	ld a, [wFramesUntilSlotCaveOpens]
 	and a
 	jr nz, .asm_163b3
-.asm_1637a
+.goToBonusStage
 	ld a, [wBonusStageSlotRewardActive]
 	and a
 	jr nz, .asm_16389
@@ -2079,7 +2079,7 @@ DoSlotLogic_RedField: ; 0x16352
 	xor a
 	ld [wOpenedSlotByGetting3Pokeballs], a
 	ld [wCatchEmOrEvolutionSlotRewardActive], a
-	ld a, $1e
+	ld a, 30
 	ld [wFramesUntilSlotCaveOpens], a
 	ret
 
@@ -2087,9 +2087,9 @@ DoSlotLogic_RedField: ; 0x16352
 	callba Func_ed8e
 	xor a
 	ld [wOpenedSlotByGetting4CAVELights], a
-	ld a, [wd61d]
-	cp $d
-	jr nc, .asm_1637a
+	ld a, [wSlotRouletteBillboardPicture]
+	cp BILLBOARD_GENGAR_BONUS
+	jr nc, .goToBonusStage
 	ld a, $1
 	ld [wPinballIsVisible], a
 	ld [wEnableBallGravityAndTilt], a
@@ -2276,7 +2276,7 @@ ChooseInitialMap_RedField: ; 0x1658f
 	lb de, $00, $48
 	call PlaySoundEffect
 	pop af
-	add (PalletTownPic_Pointer - BillboardPicturePointers) / 3 ; map billboard pictures start at the $29th entry in BillboardPicturePointers
+	add BILLBOARD_PALLET_TOWN
 	callba LoadBillboardPicture
 	ld b, $20  ; number of frames to delay before the next map is shown
 .waitOnCurrentMap

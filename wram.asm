@@ -926,19 +926,22 @@ wd615:: ; 0xd615
 wGameOver:: ; 0xd616
 	ds $3
 
-wd619:: ; 0xd619
+wSlotRewardProgress:: ; 0xd619
+; Increases in increments of 10 each time a slot reward is obtained.
 	ds $1
 
-wd61a:: ; 0xd61a
+wCurSlotRewardRouletteIndex:: ; 0xd61a
 	ds $1
 
-wd61b:: ; 0xd61b
-	ds $2
-
-wd61d:: ; 0xd61d
+wSlotRouletteCounter:: ; 0xd61b
 	ds $1
 
-wd61e:: ; 0xd61e
+	ds $1
+
+wSlotRouletteBillboardPicture:: ; 0xd61d
+	ds $1
+
+wSlotRouletteSlowed:: ; 0xd61e
 	ds $1
 
 wCurSlotBonus:: ; 0xd61f
@@ -948,7 +951,7 @@ wSlotAnyPokemonCaught:: ; 0xd620
 ; Used by the slot logic to store whether or not any pokemon are caught.
 	ds $1
 
-wd621:: ; 0xd621
+wSlotBallIncrease:: ; 0xd621
 	ds $1
 
 wCatchEmOrEvolutionSlotRewardActive:: ; 0xd622

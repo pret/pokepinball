@@ -11,8 +11,8 @@ Func_ed8e: ; 0xed8e
 	ld hl, BallTypeMultipliers
 	add hl, bc
 	ld a, [hl]
-	ld [wd621], a
-.asm_edac
+	ld [wSlotBallIncrease], a
+.waitForFlippers
 	xor a
 	ld [hJoypadState], a
 	ld [hNewlyPressedButtons], a
@@ -30,136 +30,136 @@ Func_ed8e: ; 0xed8e
 	rst AdvanceFrame
 	ld a, [wLeftFlipperState + 1]
 	and a
-	jr nz, .asm_edac
+	jr nz, .waitForFlippers
 	ld a, [wRightFlipperState + 1]
 	and a
-	jr nz, .asm_edac
+	jr nz, .waitForFlippers
 	ld a, [hGameBoyColorFlag]
 	and a
 	call nz, LoadGreyBillboardPaletteData
 	call GenRandom
 	and $f0
-	ld [wd61a], a
+	ld [wCurSlotRewardRouletteIndex], a
 	xor a
-	ld [wd61b], a
-	ld [wd61e], a
-.asm_6df7
-	ld a, [wd61a]
+	ld [wSlotRouletteCounter], a
+	ld [wSlotRouletteSlowed], a
+.rouletteLoop
+	ld a, [wCurSlotRewardRouletteIndex]
 	ld c, a
-	ld b, $0
-	ld hl, Data_f339
+	ld b, 0
+	ld hl, SlotRewardRoulettePermutations
 	add hl, bc
-	ld a, [wd619]
+	ld a, [wSlotRewardProgress]
 	add [hl]
 	ld c, a
-	ld hl, Data_f439
+	ld hl, SlotRewardSets
 	add hl, bc
 	ld a, [hli]
-	bit 7, a
-	jr nz, .asm_ee56
-	call Func_eef9
-	ld [wd61d], a
+	bit 7, a ; ignore empty entires
+	jr nz, .continue
+	call ConvertSlotRewardBillboardPicture
+	ld [wSlotRouletteBillboardPicture], a
 	push af
 	lb de, $00, $09
 	call PlaySoundEffect
 	pop af
 	call LoadBillboardOffPicture
-	ld a, [wd61b]
-	cp $a
-	jr nc, .asm_ee29
-	ld a, $a
-.asm_ee29
+	ld a, [wSlotRouletteCounter]
+	cp 10
+	jr nc, .startDelayLoop
+	ld a, 10
+.startDelayLoop
 	ld b, a
-.asm_ee2a
+.delayLoop
 	push bc
 	call Delay1Frame
-	ld a, [wd61e]
+	ld a, [wSlotRouletteSlowed]
 	and a
-	jr nz, .asm_ee47
-	call Func_ef1e
-	jr z, .asm_ee47
-	ld [wd61e], a
-	ld a, $32
-	ld [wd61b], a
+	jr nz, .continueDelay
+	call IsRightOrLeftFlipperKeyPressed
+	jr z, .continueDelay
+	ld [wSlotRouletteSlowed], a
+	ld a, 50
+	ld [wSlotRouletteCounter], a
 	lb de, $07, $28
 	call PlaySoundEffect
-.asm_ee47
+.continueDelay
 	pop bc
 	dec b
-	jr nz, .asm_ee2a
-	ld a, [wd61b]
+	jr nz, .delayLoop
+	ld a, [wSlotRouletteCounter]
 	inc a
-	ld [wd61b], a
-	cp $3c
-	jr z, .asm_ee69
-.asm_ee56
-	ld a, [wd61a]
+	ld [wSlotRouletteCounter], a
+	cp 60
+	jr z, .rouletteStopped
+.continue
+	ld a, [wCurSlotRewardRouletteIndex]
 	and $f0
 	ld b, a
-	ld a, [wd61a]
+	ld a, [wCurSlotRewardRouletteIndex]
 	inc a
 	and $f
 	or b
-	ld [wd61a], a
-	jp .asm_6df7
+	ld [wCurSlotRewardRouletteIndex], a
+	jp .rouletteLoop
 
-.asm_ee69
-	ld a, [wd61d]
-	cp $5
-	jr nz, .asm_ee78
+.rouletteStopped
+	ld a, [wSlotRouletteBillboardPicture]
+	cp BILLBOARD_SMALL_REWARD
+	jr nz, .playGoodRewardSoundEffect
 	lb de, $0c, $42
 	call PlaySoundEffect
-	jr .asm_ee7e
+	jr .displayReward
 
-.asm_ee78
+.playGoodRewardSoundEffect
 	lb de, $0c, $43
 	call PlaySoundEffect
-.asm_ee7e
-	ld b, $28
-.asm_ee80
+.displayReward
+	ld b, 40
+.displayRewardLoop
 	push bc
 	rst AdvanceFrame
 	pop bc
-	call Func_ef1e
-	jr nz, .asm_ee8b
+	call IsRightOrLeftFlipperKeyPressed
+	jr nz, .loadColoredRewardPicture
 	dec b
-	jr nz, .asm_ee80
-.asm_ee8b
+	jr nz, .displayRewardLoop
+.loadColoredRewardPicture
 	ld a, [hGameBoyColorFlag]
 	and a
-	ld a, [wd61d]
+	ld a, [wSlotRouletteBillboardPicture]
 	call nz, Func_f2a0
 	ld b, $80
-.asm_ee96
+.displayAnimatedRewardLoop
 	push bc
 	ld a, b
 	and $f
 	jr nz, .asm_eeae
 	bit 4, b
 	jr z, .asm_eea8
-	ld a, [wd61d]
+	ld a, [wSlotRouletteBillboardPicture]
 	call LoadBillboardPicture
 	jr .asm_eeae
 
 .asm_eea8
-	ld a, [wd61d]
+	ld a, [wSlotRouletteBillboardPicture]
 	call LoadBillboardOffPicture
 .asm_eeae
 	rst AdvanceFrame
 	pop bc
-	call Func_ef1e
+	call IsRightOrLeftFlipperKeyPressed
 	jr nz, .asm_eeb8
 	dec b
-	jr nz, .asm_ee96
+	jr nz, .displayAnimatedRewardLoop
 .asm_eeb8
-	ld a, [wd619]
-	add $a
-	cp $fa
-	jr nz, .asm_eec3
-	ld a, $64
-.asm_eec3
-	ld [wd619], a
-	ld a, [wd61d]
+	ld a, [wSlotRewardProgress]
+	add 10
+	cp 250
+	jr nz, .saveSlotRewardProgress
+	ld a, 100
+.saveSlotRewardProgress
+	ld [wSlotRewardProgress], a
+	ld a, [wSlotRouletteBillboardPicture]
 	rst JumpTable  ; calls JumpToFuncInTable
 SlotRewards_CallTable: ; 0xeeca
 	dw Start30SecondSaverTimer
@@ -193,30 +193,30 @@ Delay1Frame: ; 0xeeee
 	pop bc
 	ret
 
-Func_eef9: ; 0xeef9
-	cp $8
-	jr nz, .asm_ef09
+ConvertSlotRewardBillboardPicture: ; 0xeef9
+	cp BILLBOARD_EVOLUTION_MODE
+	jr nz, .checkBallUpgrade
 	ld a, [wSlotAnyPokemonCaught]
 	and a
-	jr nz, .asm_ef06
-	ld a, $7
+	jr nz, .evoMode
+	ld a, BILLBOARD_CATCHEM_MODE
 	ret
 
-.asm_ef06
-	ld a, $8
+.evoMode
+	ld a, BILLBOARD_EVOLUTION_MODE
 	ret
 
-.asm_ef09
-	cp $9
-	jr nz, .asm_ef14
+.checkBallUpgrade
+	cp BILLBOARD_GREAT_BALL
+	jr nz, .checkGoToBonus
 	push hl
-	ld hl, wd621
+	ld hl, wSlotBallIncrease
 	add [hl]
 	pop hl
 	ret
 
-.asm_ef14
-	cp $d
+.checkGoToBonus
+	cp BILLBOARD_GENGAR_BONUS
 	ret nz
 	push hl
 	ld hl, wNextBonusStage
@@ -224,14 +224,14 @@ Func_eef9: ; 0xeef9
 	pop hl
 	ret
 
-Func_ef1e: ; 0xef1e
+IsRightOrLeftFlipperKeyPressed: ; 0xef1e
 	push bc
 	ld hl, wKeyConfigRightFlipper
 	call IsKeyPressed
-	jr nz, .asm_ef2d
+	jr nz, .exit
 	ld hl, wKeyConfigLeftFlipper
 	call IsKeyPressed
-.asm_ef2d
+.exit
 	pop bc
 	ret
 
@@ -280,13 +280,13 @@ SlotRewardSmallPoints: ; 0xefb2
 	bit 4, b
 	jr z, .asm_efd0
 	ld a, [wCurSlotBonus]
-	add (SmallReward100PointsOnPic_Pointer - BillboardPicturePointers) / 3
+	add BILLBOARD_SMALL_REWARD_100
 	call LoadBillboardPicture
 	jr .asm_efd8
 
 .asm_efd0
 	ld a, [wCurSlotBonus]
-	add (SmallReward100PointsOnPic_Pointer - BillboardPicturePointers) / 3
+	add BILLBOARD_SMALL_REWARD_100
 	call LoadBillboardOffPicture
 .asm_efd8
 	rst AdvanceFrame
@@ -319,13 +319,13 @@ SlotRewardBigPoints: ; 0xeff3
 	bit 4, b
 	jr z, .asm_f011
 	ld a, [wCurSlotBonus]
-	add (BigReward1000000PointsOnPic_Pointer - BillboardPicturePointers) / 3
+	add BILLBOARD_BIG_REWARD_1000000
 	call LoadBillboardPicture
 	jr .asm_f019
 
 .asm_f011
 	ld a, [wCurSlotBonus]
-	add (BigReward1000000PointsOnPic_Pointer - BillboardPicturePointers) / 3
+	add BILLBOARD_BIG_REWARD_1000000
 	call LoadBillboardOffPicture
 .asm_f019
 	rst AdvanceFrame
@@ -428,13 +428,13 @@ SlotBonusMultiplier: ; 0xf0c1
 	bit 4, b
 	jr z, .asm_f0df
 	ld a, [wCurSlotBonus]
-	add (BonusMultiplierX1OnPic_Pointer - BillboardPicturePointers) / 3
+	add BILLBOARD_BONUS_MULTIPLIER_X1
 	call LoadBillboardPicture
 	jr .asm_f0e7
 
 .asm_f0df
 	ld a, [wCurSlotBonus]
-	add (BonusMultiplierX1OnPic_Pointer - BillboardPicturePointers) / 3
+	add BILLBOARD_BONUS_MULTIPLIER_X1
 	call LoadBillboardOffPicture
 .asm_f0e7
 	rst AdvanceFrame
@@ -566,38 +566,202 @@ PaletteDataPointerTable_f2be: ; 0xf2be
 	dab PaletteData_dcc00
 	dab PaletteData_dcc00
 
-Data_f339: ; 0xf339
-	db $02, $06, $00, $08, $04, $02, $06, $08, $04, $00, $06, $02, $04, $08, $00, $02
-	db $06, $02, $04, $08, $00, $06, $04, $08, $02, $00, $06, $08, $02, $00, $06, $08
-	db $02, $04, $00, $08, $06, $04, $00, $02, $06, $04, $00, $08, $06, $04, $02, $08
-	db $00, $08, $02, $04, $00, $08, $06, $02, $04, $00, $06, $08, $04, $00, $06, $02
-	db $00, $08, $02, $04, $00, $08, $06, $04, $02, $08, $00, $06, $02, $08, $00, $06
-	db $02, $00, $06, $04, $02, $00, $06, $08, $02, $04, $00, $06, $08, $04, $02, $06
-	db $00, $02, $08, $04, $00, $02, $06, $04, $08, $02, $06, $00, $04, $08, $06, $02
-	db $04, $08, $06, $02, $00, $08, $04, $06, $00, $02, $04, $06, $00, $02, $04, $08
-	db $02, $00, $04, $06, $02, $00, $08, $04, $02, $00, $06, $04, $08, $00, $06, $04
-	db $04, $00, $02, $08, $04, $06, $00, $08, $02, $04, $06, $08, $00, $04, $06, $02
-	db $06, $08, $04, $02, $06, $00, $08, $02, $04, $00, $06, $02, $08, $04, $06, $02
-	db $04, $06, $02, $00, $08, $04, $06, $00, $08, $02, $06, $00, $08, $02, $04, $00
-	db $02, $00, $06, $04, $02, $08, $06, $00, $04, $08, $02, $00, $04, $06, $08, $00
-	db $08, $06, $04, $00, $08, $06, $02, $00, $08, $06, $04, $00, $08, $06, $04, $02
-	db $02, $00, $06, $04, $08, $02, $00, $04, $08, $02, $00, $04, $06, $02, $08, $00
-	db $04, $06, $08, $02, $00, $06, $04, $08, $02, $06, $00, $08, $04, $06, $02, $08
+; Each row of 16 values is a single permutation, which is repeatedly cycled
+; through until stopping on the selected slot reward.
+SlotRewardRoulettePermutations: ; 0xf339
+	db 2, 6, 0, 8, 4, 2, 6, 8, 4, 0, 6, 2, 4, 8, 0, 2
+	db 6, 2, 4, 8, 0, 6, 4, 8, 2, 0, 6, 8, 2, 0, 6, 8
+	db 2, 4, 0, 8, 6, 4, 0, 2, 6, 4, 0, 8, 6, 4, 2, 8
+	db 0, 8, 2, 4, 0, 8, 6, 2, 4, 0, 6, 8, 4, 0, 6, 2
+	db 0, 8, 2, 4, 0, 8, 6, 4, 2, 8, 0, 6, 2, 8, 0, 6
+	db 2, 0, 6, 4, 2, 0, 6, 8, 2, 4, 0, 6, 8, 4, 2, 6
+	db 0, 2, 8, 4, 0, 2, 6, 4, 8, 2, 6, 0, 4, 8, 6, 2
+	db 4, 8, 6, 2, 0, 8, 4, 6, 0, 2, 4, 6, 0, 2, 4, 8
+	db 2, 0, 4, 6, 2, 0, 8, 4, 2, 0, 6, 4, 8, 0, 6, 4
+	db 4, 0, 2, 8, 4, 6, 0, 8, 2, 4, 6, 8, 0, 4, 6, 2
+	db 6, 8, 4, 2, 6, 0, 8, 2, 4, 0, 6, 2, 8, 4, 6, 2
+	db 4, 6, 2, 0, 8, 4, 6, 0, 8, 2, 6, 0, 8, 2, 4, 0
+	db 2, 0, 6, 4, 2, 8, 6, 0, 4, 8, 2, 0, 4, 6, 8, 0
+	db 8, 6, 4, 0, 8, 6, 2, 0, 8, 6, 4, 0, 8, 6, 4, 2
+	db 2, 0, 6, 4, 8, 2, 0, 4, 8, 2, 0, 4, 6, 2, 8, 0
+	db 4, 6, 8, 2, 0, 6, 4, 8, 2, 6, 0, 8, 4, 6, 2, 8
 
-Data_f439: ; 0xf439
-	db $05, $19, $0C, $4C, $00, $4C, $03, $4C, $FF, $00, $05, $19, $0C, $4C, $00, $4C
-	db $07, $4C, $FF, $00, $05, $19, $0C, $44, $00, $44, $03, $44, $06, $16, $05, $19
-	db $0C, $4C, $00, $4C, $08, $4C, $FF, $00, $01, $4C, $06, $66, $0D, $4C, $FF, $00
-	db $FF, $00, $05, $19, $0C, $4C, $00, $4C, $03, $4C, $FF, $00, $05, $19, $0C, $4C
-	db $00, $4C, $07, $4C, $FF, $00, $05, $19, $0C, $44, $00, $44, $03, $44, $06, $16
-	db $05, $19, $0C, $4C, $00, $4C, $08, $4C, $FF, $00, $01, $3F, $06, $3F, $0D, $3F
-	db $09, $3F, $FF, $00, $05, $11, $0C, $4F, $00, $4F, $03, $4F, $FF, $00, $05, $11
-	db $0C, $4F, $01, $4F, $07, $4F, $FF, $00, $05, $11, $0C, $44, $00, $44, $03, $44
-	db $06, $1E, $05, $11, $0C, $4F, $01, $4F, $08, $4F, $FF, $00, $02, $66, $06, $4C
-	db $0D, $4C, $FF, $00, $FF, $00, $05, $0A, $0C, $51, $00, $51, $03, $51, $FF, $00
-	db $05, $0A, $0C, $51, $01, $51, $07, $51, $FF, $00, $05, $0A, $0C, $44, $00, $44
-	db $03, $44, $06, $26, $05, $0A, $0C, $51, $01, $51, $08, $51, $FF, $00, $01, $3F
-	db $06, $3F, $0D, $3F, $09, $3F, $FF, $00, $05, $0A, $0C, $51, $00, $51, $03, $51
-	db $FF, $00, $05, $0A, $0C, $51, $01, $51, $07, $51, $FF, $00, $05, $0A, $0C, $44
-	db $00, $44, $03, $44, $06, $26, $05, $0A, $0C, $51, $01, $51, $08, $51, $FF, $00
-	db $01, $26, $06, $26, $0D, $26, $04, $8C, $FF, $00
+; Each group of 10 pairs corresponds to the offset in wSlotRewardProgress.
+; The second value in each row is unused. It appears to have been used in some
+; kind of weighting scheme, perhaps to control the probability of each item being
+; chosen if the player interrupted the roulette by pressing a flipper key?
+SlotRewardSets: ; 0xf439
+	; wSlotRewardProgress = 0
+	db BILLBOARD_SMALL_REWARD, $19
+	db BILLBOARD_BONUS_MULTIPLIER, $4C
+	db BILLBOARD_BALL_SAVER_30, $4C
+	db BILLBOARD_PIKACHU_SAVER, $4C
+	db $FF, $00
+
+	; wSlotRewardProgress = 10
+	db BILLBOARD_SMALL_REWARD, $19
+	db BILLBOARD_BONUS_MULTIPLIER, $4C
+	db BILLBOARD_BALL_SAVER_30, $4C
+	db BILLBOARD_CATCHEM_MODE, $4C
+	db $FF, $00
+
+	; wSlotRewardProgress = 20
+	db BILLBOARD_SMALL_REWARD, $19
+	db BILLBOARD_BONUS_MULTIPLIER, $44
+	db BILLBOARD_BALL_SAVER_30, $44
+	db BILLBOARD_PIKACHU_SAVER, $44
+	db BILLBOARD_BIG_REWARD, $16
+
+	; wSlotRewardProgress = 30
+	db BILLBOARD_SMALL_REWARD, $19
+	db BILLBOARD_BONUS_MULTIPLIER, $4C
+	db BILLBOARD_BALL_SAVER_30, $4C
+	db BILLBOARD_EVOLUTION_MODE, $4C
+	db $FF, $00
+
+	; wSlotRewardProgress = 40
+	db BILLBOARD_BALL_SAVER_60, $4C
+	db BILLBOARD_BIG_REWARD, $66
+	db BILLBOARD_GENGAR_BONUS, $4C
+	db $FF, $00
+	db $FF, $00
+
+	; wSlotRewardProgress = 50
+	db BILLBOARD_SMALL_REWARD, $19
+	db BILLBOARD_BONUS_MULTIPLIER, $4C
+	db BILLBOARD_BALL_SAVER_30, $4C
+	db BILLBOARD_PIKACHU_SAVER, $4C
+	db $FF, $00
+
+	; wSlotRewardProgress = 60
+	db BILLBOARD_SMALL_REWARD, $19
+	db BILLBOARD_BONUS_MULTIPLIER, $4C
+	db BILLBOARD_BALL_SAVER_30, $4C
+	db BILLBOARD_CATCHEM_MODE, $4C
+	db $FF, $00
+
+	; wSlotRewardProgress = 70
+	db BILLBOARD_SMALL_REWARD, $19
+	db BILLBOARD_BONUS_MULTIPLIER, $44
+	db BILLBOARD_BALL_SAVER_30, $44
+	db BILLBOARD_PIKACHU_SAVER, $44
+	db BILLBOARD_BIG_REWARD, $16
+
+	; wSlotRewardProgress = 80
+	db BILLBOARD_SMALL_REWARD, $19
+	db BILLBOARD_BONUS_MULTIPLIER, $4C
+	db BILLBOARD_BALL_SAVER_30, $4C
+	db BILLBOARD_EVOLUTION_MODE, $4C
+	db $FF, $00
+
+	; wSlotRewardProgress = 90
+	db BILLBOARD_BALL_SAVER_60, $3F
+	db BILLBOARD_BIG_REWARD, $3F
+	db BILLBOARD_GENGAR_BONUS, $3F
+	db BILLBOARD_GREAT_BALL, $3F
+	db $FF, $00
+
+	; wSlotRewardProgress = 100
+	db BILLBOARD_SMALL_REWARD, $11
+	db BILLBOARD_BONUS_MULTIPLIER, $4F
+	db BILLBOARD_BALL_SAVER_30, $4F
+	db BILLBOARD_PIKACHU_SAVER, $4F
+	db $FF, $00
+
+	; wSlotRewardProgress = 110
+	db BILLBOARD_SMALL_REWARD, $11
+	db BILLBOARD_BONUS_MULTIPLIER, $4F
+	db BILLBOARD_BALL_SAVER_60, $4F
+	db BILLBOARD_CATCHEM_MODE, $4F
+	db $FF, $00
+
+	; wSlotRewardProgress = 120
+	db BILLBOARD_SMALL_REWARD, $11
+	db BILLBOARD_BONUS_MULTIPLIER, $44
+	db BILLBOARD_BALL_SAVER_30, $44
+	db BILLBOARD_PIKACHU_SAVER, $44
+	db BILLBOARD_BIG_REWARD, $1E
+
+	; wSlotRewardProgress = 130
+	db BILLBOARD_SMALL_REWARD, $11
+	db BILLBOARD_BONUS_MULTIPLIER, $4F
+	db BILLBOARD_BALL_SAVER_60, $4F
+	db BILLBOARD_EVOLUTION_MODE, $4F
+	db $FF, $00
+
+	; wSlotRewardProgress = 140
+	db BILLBOARD_BALL_SAVER_90, $66
+	db BILLBOARD_BIG_REWARD, $4C
+	db BILLBOARD_GENGAR_BONUS, $4C
+	db $FF, $00
+	db $FF, $00
+
+	; wSlotRewardProgress = 150
+	db BILLBOARD_SMALL_REWARD, $0A
+	db BILLBOARD_BONUS_MULTIPLIER, $51
+	db BILLBOARD_BALL_SAVER_30, $51
+	db BILLBOARD_PIKACHU_SAVER, $51
+	db $FF, $00
+
+	; wSlotRewardProgress = 160
+	db BILLBOARD_SMALL_REWARD, $0A
+	db BILLBOARD_BONUS_MULTIPLIER, $51
+	db BILLBOARD_BALL_SAVER_60, $51
+	db BILLBOARD_CATCHEM_MODE, $51
+	db $FF, $00
+
+	; wSlotRewardProgress = 170
+	db BILLBOARD_SMALL_REWARD, $0A
+	db BILLBOARD_BONUS_MULTIPLIER, $44
+	db BILLBOARD_BALL_SAVER_30, $44
+	db BILLBOARD_PIKACHU_SAVER, $44
+	db BILLBOARD_BIG_REWARD, $26
+
+	; wSlotRewardProgress = 180
+	db BILLBOARD_SMALL_REWARD, $0A
+	db BILLBOARD_BONUS_MULTIPLIER, $51
+	db BILLBOARD_BALL_SAVER_60, $51
+	db BILLBOARD_EVOLUTION_MODE, $51
+	db $FF, $00
+
+	; wSlotRewardProgress = 190
+	db BILLBOARD_BALL_SAVER_60, $3F
+	db BILLBOARD_BIG_REWARD, $3F
+	db BILLBOARD_GENGAR_BONUS, $3F
+	db BILLBOARD_GREAT_BALL, $3F
+	db $FF, $00
+
+	; wSlotRewardProgress = 200
+	db BILLBOARD_SMALL_REWARD, $0A
+	db BILLBOARD_BONUS_MULTIPLIER, $51
+	db BILLBOARD_BALL_SAVER_30, $51
+	db BILLBOARD_PIKACHU_SAVER, $51
+	db $FF, $00
+
+	; wSlotRewardProgress = 210
+	db BILLBOARD_SMALL_REWARD, $0A
+	db BILLBOARD_BONUS_MULTIPLIER, $51
+	db BILLBOARD_BALL_SAVER_60, $51
+	db BILLBOARD_CATCHEM_MODE, $51
+	db $FF, $00
+
+	; wSlotRewardProgress = 220
+	db BILLBOARD_SMALL_REWARD, $0A
+	db BILLBOARD_BONUS_MULTIPLIER, $44
+	db BILLBOARD_BALL_SAVER_30, $44
+	db BILLBOARD_PIKACHU_SAVER, $44
+	db BILLBOARD_BIG_REWARD, $26
+
+	; wSlotRewardProgress = 230
+	db BILLBOARD_SMALL_REWARD, $0A
+	db BILLBOARD_BONUS_MULTIPLIER, $51
+	db BILLBOARD_BALL_SAVER_60, $51
+	db BILLBOARD_EVOLUTION_MODE, $51
+	db $FF, $00
+
+	; wSlotRewardProgress = 240
+	db BILLBOARD_BALL_SAVER_60, $26
+	db BILLBOARD_BIG_REWARD, $26
+	db BILLBOARD_GENGAR_BONUS, $26
+	db BILLBOARD_EXTRA_BALL, $8C
+	db $FF, $00

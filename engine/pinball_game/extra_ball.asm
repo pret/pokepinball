@@ -1,7 +1,7 @@
 AddExtraBall: ; 0x30164
 	ld a, [wExtraBalls]
 	inc a
-	cp MAX_EXTRA_BALLS
+	cp MAX_EXTRA_BALLS + 1
 	jr z, .maxed
 	ld [wExtraBalls], a
 	ld a, $1

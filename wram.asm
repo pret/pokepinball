@@ -202,7 +202,7 @@ wCurBallLife:: ; 0xd49d
 	ds $1
 
 wNumBallLives:: ; 0xd49e
-; The total number of "lives" the ball has. It is always 3. wCurBallLifeis compared to it whenever the player loses a ball.
+; The total number of "lives" the ball has. It is always 3. wCurBallLife is compared to it whenever the player loses a ball.
 	ds $1
 
 wd49f:: ; 0xd49f

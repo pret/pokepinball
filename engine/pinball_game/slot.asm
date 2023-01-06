@@ -166,7 +166,7 @@ SlotRewards_CallTable: ; 0xeeca
 	dw Start60SecondSaverTimer
 	dw Start90SecondSaverTimer
 	dw SlotRewardPikachuSaver
-	dw SlotRewardBonusMultiplier
+	dw SlotRewardExtraBall
 	dw SlotRewardSmallPoints
 	dw SlotRewardBigPoints
 	dw SlotRewardCatchEmMode
@@ -263,7 +263,7 @@ SlotRewardPikachuSaver: ; 0xef83
 	ld [wAudioEngineEnabled], a
 	ret
 
-SlotRewardBonusMultiplier: ; 0xefa7
+SlotRewardExtraBall: ; 0xefa7
 	callba IncrementBonusMultiplierFromFieldEvent
 	ret
 

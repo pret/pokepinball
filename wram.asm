@@ -190,11 +190,11 @@ wCompletedBonusStage:: ; 0xd49a
 ; Set to 1 when a bonus stage is successfully cleared.
 	ds $1
 
-wCurBonusMultiplierFromFieldEvents:: ; 0xd49b
-; Current value of the bonus multiplier received from field events, like catching a pokemon or hitting psyduck 3 times. See MAX_BONUS_MULTIPLIER_FIELD_EVENTS.
+wExtraBalls:: ; 0xd49b
 	ds $1
 
-wd49c:: ; 0xd49c
+wExtraBallState:: ; 0xd49c
+; Helper value to control the animation that occurs when an Extra Ball is exercised upon losing a ball.
 	ds $1
 
 wCurBallLife:: ; 0xd49d

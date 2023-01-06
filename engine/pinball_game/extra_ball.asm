@@ -1,3 +1,20 @@
+AddExtraBall: ; 0x30164
+	ld a, [wExtraBalls]
+	inc a
+	cp MAX_EXTRA_BALLS
+	jr z, .maxed
+	ld [wExtraBalls], a
+	ld a, $1
+	ld [wShowExtraBallText], a
+	ret
+
+.maxed
+	ld bc, TenMillionPoints
+	callba AddBigBCD6FromQueue
+	ld a, $2
+	ld [wShowExtraBallText], a
+	ret
+
 ShowExtraBallMessage: ; 0x30188
 ; Displays the extra ball scrolling message, if an extra ball has been granted.
 	ld a, [wBottomTextEnabled]

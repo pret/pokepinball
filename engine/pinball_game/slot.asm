@@ -264,7 +264,7 @@ SlotRewardPikachuSaver: ; 0xef83
 	ret
 
 SlotRewardExtraBall: ; 0xefa7
-	callba IncrementBonusMultiplierFromFieldEvent
+	callba AddExtraBall
 	ret
 
 SlotRewardSmallPoints: ; 0xefb2
@@ -465,7 +465,7 @@ SlotBonusMultiplier: ; 0xf0c1
 	call .DivideBy25
 	ld a, c
 	cp b
-	callba nz, IncrementBonusMultiplierFromFieldEvent
+	callba nz, AddExtraBall
 	callba GetBCDForNextBonusMultiplier_RedField
 	ld a, [wBonusMultiplierTensDigit]
 	callba Func_f154 ; no need for BankSwitch here...

@@ -35,13 +35,13 @@ HandleBallLossBlueField: ; 0xde4f
 	ld [wPinballLaunched], a
 	ld [wd4df], a
 	call ConcludeSpecialMode_BlueField
-	ld a, [wCurBonusMultiplierFromFieldEvents]
+	ld a, [wExtraBalls]
 	and a
 	jr z, .noExtraBall
 	dec a
-	ld [wCurBonusMultiplierFromFieldEvents], a
+	ld [wExtraBalls], a
 	ld a, $1
-	ld [wd49c], a ; Extra Ball
+	ld [wExtraBallState], a ; Extra Ball
 	ld de, EndOfBallBonusText
 	call ShowBallLossText
 	ret

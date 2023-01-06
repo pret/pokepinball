@@ -22,7 +22,7 @@ Func_18000: ; 0x18000
 	ld [hld], a
 	ld [hl], a
 	ld [wNumPartyMons], a
-	ld [wCurBonusMultiplierFromFieldEvents], a
+	ld [wExtraBalls], a
 	ld [wLostBall], a
 	ld a, 1
 	ld [wCurBallLife], a

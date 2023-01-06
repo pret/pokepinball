@@ -133,7 +133,7 @@ BgTileData_1472f: ;BallSaverIconOnSprite
 UpdateAgainText: ; 0x14733
 ; Determine which "Again" text to load. (Faded or solid, if extra ball).
 	ld c, $0
-	ld a, [wCurBonusMultiplierFromFieldEvents]
+	ld a, [wExtraBalls]
 	and a
 	jr z, .asm_1473d
 	ld c, $1
@@ -148,7 +148,7 @@ UpdateAgainText: ; 0x14733
 LoadAgainTextGraphics: ; 0x14746
 ; Loads the graphics that show whether or not the player has an Extra Ball.
 	ld c, $0
-	ld a, [wCurBonusMultiplierFromFieldEvents]
+	ld a, [wExtraBalls]
 	and a
 	jr z, .asm_14750
 	ld c, $2
@@ -437,7 +437,7 @@ HitRightDiglett3Times: ; 0x14920
 	jr nc, .asm_14937
 	ld c, $a
 	call Modulo_C
-	callba z, IncrementBonusMultiplierFromFieldEvent
+	callba z, AddExtraBall
 .asm_14937
 	ld a, $1
 	ld [wMapMoveDirection], a
@@ -450,7 +450,7 @@ HitLeftDiglett3Times: ; 0x14947
 	jr nc, .asm_1495e
 	ld c, $a
 	call Modulo_C
-	callba z, IncrementBonusMultiplierFromFieldEvent
+	callba z, AddExtraBall
 .asm_1495e
 	xor a
 	ld [wMapMoveDirection], a
@@ -1582,7 +1582,7 @@ ResolveBellsproutCollision: ; 0x15e93
 	ret nc
 	ld c, $19
 	call Modulo_C
-	callba z, IncrementBonusMultiplierFromFieldEvent
+	callba z, AddExtraBall
 	ret
 
 .asm_15f35
@@ -2408,7 +2408,7 @@ UpdatePikachuSaverAnimation_RedField: ; 0x1669e
 	jr nc, .asm_166f0
 	ld c, $a
 	call Modulo_C
-	callba z, IncrementBonusMultiplierFromFieldEvent
+	callba z, AddExtraBall
 .asm_166f0
 	lb de, $16, $10
 	call PlaySoundEffect
@@ -2733,7 +2733,7 @@ ResolveRedStageBonusMultiplierCollision: ; 016d9d
 	jr nc, .asm_16e24
 	ld c, $19
 	call Modulo_C
-	callba z, IncrementBonusMultiplierFromFieldEvent
+	callba z, AddExtraBall
 .asm_16e24
 	ld a, [wBonusMultiplierTensDigit]
 	ld [wd614], a

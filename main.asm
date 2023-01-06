@@ -152,7 +152,6 @@ SECTION "bankc", ROMX
 
 INCLUDE "engine/pinball_game/stage_init/init_red_field.asm"
 INCLUDE "engine/pinball_game/ball_init/ball_init_red_field.asm"
-INCLUDE "engine/pinball_game/bonus_multiplier.asm"
 INCLUDE "engine/pinball_game/extra_ball.asm"
 INCLUDE "engine/pinball_game/map_move.asm"
 

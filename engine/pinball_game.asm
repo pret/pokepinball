@@ -199,15 +199,15 @@ GameScreenFunction_HandleBallLoss: ; 0xda36
 	ld a, [wLostBall]
 	and a
 	jr z, .asm_daa9
-	ld a, [wd49c]
+	ld a, [wExtraBallState]
 	cp $2
 	jr z, .asm_daa9
 	call EndOfBallBonus
-	ld a, [wd49c]
+	ld a, [wExtraBallState]
 	and a
 	jr z, .asm_daa9
 	ld a, $2
-	ld [wd49c], a
+	ld [wExtraBallState], a
 	ld [wDrawBottomMessageBox], a
 	call FillBottomMessageBufferWithBlackTile
 	call EnableBottomText
@@ -218,7 +218,7 @@ GameScreenFunction_HandleBallLoss: ; 0xda36
 
 .asm_daa9
 	xor a
-	ld [wd49c], a
+	ld [wExtraBallState], a
 	ld hl, wScreenState
 	inc [hl]
 	ret

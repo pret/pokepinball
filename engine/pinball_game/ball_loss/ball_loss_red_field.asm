@@ -35,13 +35,13 @@ HandleBallLossRedField: ; 0xdd76
 	ld [wPinballLaunched], a
 	ld [wd4df], a
 	call ConcludeSpecialMode_RedField
-	ld a, [wCurBonusMultiplierFromFieldEvents]
+	ld a, [wExtraBalls]
 	and a
 	jr z, .asm_dddd
 	dec a
-	ld [wCurBonusMultiplierFromFieldEvents], a
+	ld [wExtraBalls], a
 	ld a, $1
-	ld [wd49c], a
+	ld [wExtraBallState], a
 	ld de, EndOfBallBonusText
 	call ShowBallLossText
 	ret

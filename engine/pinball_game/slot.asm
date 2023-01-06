@@ -1,4 +1,4 @@
-Func_ed8e: ; 0xed8e
+DoSlotRewardRoulette: ; 0xed8e
 	xor a
 	ld [wRumblePattern], a
 	ld [wRumbleDuration], a

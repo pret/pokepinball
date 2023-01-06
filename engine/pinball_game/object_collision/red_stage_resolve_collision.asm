@@ -2084,7 +2084,7 @@ DoSlotLogic_RedField: ; 0x16352
 	ret
 
 .asm_163b3
-	callba Func_ed8e
+	callba DoSlotRewardRoulette
 	xor a
 	ld [wOpenedSlotByGetting4CAVELights], a
 	ld a, [wSlotRouletteBillboardPicture]

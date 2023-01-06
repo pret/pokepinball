@@ -2638,7 +2638,7 @@ DoSlotLogic_BlueField: ; 0x1e830
 	ret
 
 .asm_1e891
-	callba Func_ed8e
+	callba DoSlotRewardRoulette
 	xor a
 	ld [wOpenedSlotByGetting4CAVELights], a
 	ld a, [wSlotRouletteBillboardPicture]

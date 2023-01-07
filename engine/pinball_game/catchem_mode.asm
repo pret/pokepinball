@@ -1114,7 +1114,7 @@ ResetIndicatorStates: ; 0x107a5
 	jr nz, .loop
 	ret
 
-Func_107b0: ; 0x107b0
+CloseSlotCave_: ; 0x107b0
 	xor a
 	ld [wSlotIsOpen], a
 	ld [wIndicatorStates + 4], a
@@ -1249,7 +1249,7 @@ Func_10871: ; 0x10871
 	jr nz, .loop
 	xor a
 	ld [wRightAlleyCount], a
-	call Func_107b0
+	call CloseSlotCave_
 	ld a, $4
 	ld [wd7ad], a
 	ld de, MUSIC_CATCH_EM_BLUE ; This is either MUSIC_CATCH_EM_BLUE or MUSIC_CATCH_EM_RED. They happen to have the same id in their respective audio Banks.

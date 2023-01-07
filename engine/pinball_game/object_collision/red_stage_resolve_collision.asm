@@ -435,7 +435,7 @@ HitRightDiglett3Times: ; 0x14920
 	ld hl, wNumDugtrioTriples
 	call Increment_Max100
 	jr nc, .asm_14937
-	ld c, $a
+	ld c, 10
 	call Modulo_C
 	callba z, AddExtraBall
 .asm_14937
@@ -448,7 +448,7 @@ HitLeftDiglett3Times: ; 0x14947
 	ld hl, wNumDugtrioTriples
 	call Increment_Max100
 	jr nc, .asm_1495e
-	ld c, $a
+	ld c, 10
 	call Modulo_C
 	callba z, AddExtraBall
 .asm_1495e
@@ -1580,7 +1580,7 @@ ResolveBellsproutCollision: ; 0x15e93
 	ld hl, wNumBellsproutEntries
 	call Increment_Max100
 	ret nc
-	ld c, $19
+	ld c, 25
 	call Modulo_C
 	callba z, AddExtraBall
 	ret
@@ -2406,7 +2406,7 @@ UpdatePikachuSaverAnimation_RedField: ; 0x1669e
 	ld hl, wNumPikachuSaves
 	call Increment_Max100
 	jr nc, .asm_166f0
-	ld c, $a
+	ld c, 10
 	call Modulo_C
 	callba z, AddExtraBall
 .asm_166f0
@@ -2731,7 +2731,7 @@ ResolveRedStageBonusMultiplierCollision: ; 016d9d
 .asm_16e10
 	ld [wCurBonusMultiplier], a
 	jr nc, .asm_16e24
-	ld c, $19
+	ld c, 25
 	call Modulo_C
 	callba z, AddExtraBall
 .asm_16e24

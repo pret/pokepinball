@@ -284,7 +284,7 @@ DrawEvolutionTrinket_BlueFieldTop: ; 0x1f4f8
 	ld a, [wEvolutionObjectsDisabled]
 	and a
 	ret z
-	ld de, wd566
+	ld de, wActiveEvolutionTrinkets
 	ld hl, EvolutionTrinketOAMOffsets_BlueFieldTop
 	ld b, $c
 	ld c, $47
@@ -294,7 +294,7 @@ DrawEvolutionTrinket_BlueFieldBottom: ; 0x1f509
 	ld a, [wEvolutionObjectsDisabled]
 	and a
 	ret z
-	ld de, wd572
+	ld de, wActiveEvolutionTrinkets + 12
 	ld hl, EvolutionTrinketOAMOffsets_BlueFieldBottom
 	ld b, $6
 	ld c, $40

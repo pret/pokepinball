@@ -543,7 +543,7 @@ wCollidedAlleyTriggers:: ; 0xd521
 
 	ds $6 ; free space
 
-wIndicatorStates:: ; 0xd52f 0 = evo arrows, 1 = catch arrows, 2 = left small alley, 3 = bellsprout, 4 = slot. bit 7 controls if enabled and flashing, bit 1 and 2 control is solid (set = solid), +9 is the arrow pointing to voltorb on red evo mode
+wIndicatorStates:: ; 0xd52f
 	ds $13
 
 wLeftAlleyTrigger:: ; 0xd542
@@ -611,7 +611,11 @@ wCurrentEvolutionType:: ; 0xd553
 wNumEvolutionTrinkets:: ; 0xd554
 	ds $1
 
-wd555:: ; 0xd555
+wNumPossibleEvolutionObjects:: ; 0xd555
+; Each mon has a different number of possible field objects that can produce trinkets.
+; This number is used to randomly choose objects that fall within that set, which will
+; produce trinkets when hit with the pinball. This also corresponds to the blinking
+; arrows that are displayed when the player is trying to hit one of the objects.
 	ds $1
 
 wEvolutionTrinketCooldownFrames:: ; 0xd556
@@ -634,41 +638,43 @@ wMapMoveDirection:: ; 0xd55a
 wRareMonsFlag:: ; 0xd55b
 	ds $1
 
-wd55c:: ; 0xd55c
-	ds $1
+wEvolutionObjectStates:: ; 0xd55c
+; There are 10 possible objects to hit that can spawn an evolution trinket. However, only three
+; will actually spawn the trinket. The rest are "duds". This list of states keeps track of which
+; ones will spawn the trinket. $1 = spawn trinket, $0 otherwise.
+; The indexes in this list correspond to the following objects:
+; Blue Field:
+;     0: Any of the 3 Shellder bumpers
+;     1: Poliwag
+;     2: Psyduck
+;     3: Left Bonus Multiplier railing
+;     4: Right Bonus Multiplier railing
+;     5: Slowpoke
+;     6: Cloyster
+;     7: Left alley trigger point
+;     8: Spinner
+;     9: Any of the 3 Ball Upgrade lights
+; Red Field:
+;     0: Any of the 3 Voltorb bumpers
+;     1: Left Diglett
+;     2: Right Diglett
+;     3: Left Bonus Multiplier railing
+;     4: Right Bonus Multiplier railing
+;     5: Staryu
+;     6: Bellsprout
+;     7: Staryu alley trigger point
+;     8: Spinner
+;     9: Any of the 3 Ball Upgrade lights
+	ds 10
 
-wd55d:: ; 0xd55d
-	ds $1
-
-wd55e:: ; 0xd55e
-	ds $1
-
-wd55f:: ; 0xd55f
-	ds $1
-
-wd560:: ; 0xd560
-	ds $1
-
-wd561:: ; 0xd561
-	ds $1
-
-wd562:: ; 0xd562
-	ds $1
-
-wd563:: ; 0xd563
-	ds $1
-
-wd564:: ; 0xd564
-	ds $1
-
-wd565:: ; 0xd565
-	ds $1
-
-wd566:: ; 0xd566
-	ds $c
-
-wd572:: ; 0xd572
-	ds $6
+wActiveEvolutionTrinkets:: ; 0xd566
+; There are 18 different positions that an evolution trinket can exist.
+; Each entry in this list corresponds to one of those positions. The values
+; in this list are evolution type constants, and $0 if the trinket is inactive.
+; (See constants/evolution_type_constants.asm)
+; During gameplay, only one of these trinkets is ever active at a given time.
+; However, the game logic perfectly supports multiple being active.
+	ds 18
 
 wCollidedPointIndex:: ; 0xd578
 ; Stores the result of the PinballCollidesWithPoints function.

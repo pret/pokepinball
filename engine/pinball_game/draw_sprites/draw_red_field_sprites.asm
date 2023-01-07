@@ -476,7 +476,7 @@ DrawEvolutionTrinket_RedFieldTop: ; 0x17f64
 	ld a, [wEvolutionObjectsDisabled]
 	and a
 	ret z
-	ld de, wd566
+	ld de, wActiveEvolutionTrinkets
 	ld hl, EvolutionTrinketOAMOffsets_RedFieldTop
 	ld b, $c
 	ld c, $39
@@ -486,7 +486,7 @@ DrawEvolutionTrinket_RedFieldBottom: ; 0x17f75
 	ld a, [wEvolutionObjectsDisabled]
 	and a
 	ret z
-	ld de, wd572
+	ld de, wActiveEvolutionTrinkets + 12
 	ld hl, EvolutionTrinketOAMOffsets_RedFieldBottom
 	ld b, $6
 	ld c, $40

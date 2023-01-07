@@ -117,7 +117,7 @@ Func_311b4: ; 0x311b4
 	ld [wStageCollisionMap + $e3], a
 	ld a, $67
 	ld [wStageCollisionMap + $103], a
-	callba Func_107b0
+	callba CloseSlotCave_
 	ld a, $4
 	ld [wd7ad], a
 	ld de, MUSIC_HURRY_UP_BLUE ; Either MUSIC_HURRY_UP_BLUE or MUSIC_HURRY_UP_RED. They have the same id in their respective audio Banks.

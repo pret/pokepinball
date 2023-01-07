@@ -110,7 +110,7 @@ UpdateRNG: ; 0x9fa
 	ret
 
 RandomRange: ; 0xa21
-; Random value 0 <= x < a
+; Random value 0 <= x <= a
 	push bc
 	push hl
 	ld c, a

@@ -8,7 +8,7 @@ DoSlotRewardRoulette: ; 0xed8e
 	ld a, [wBallType]
 	ld c, a
 	ld b, $0
-	ld hl, BallTypeMultipliers
+	ld hl, BallTypeIncreases
 	add hl, bc
 	ld a, [hl]
 	ld [wSlotBallIncrease], a
@@ -235,14 +235,13 @@ IsRightOrLeftFlipperKeyPressed: ; 0xef1e
 	pop bc
 	ret
 
-BallTypeMultipliers: ; 0xef2f
-; Score multiplier for each ball type.
-	db $00  ; POKE_BALL
-	db $00
-	db $01  ; GREAT_BALL
-	db $02  ; ULTRA_BALL
-	db $02
-	db $02  ; MASTER_BALL
+BallTypeIncreases: ; 0xef2f
+	db 0  ; POKE_BALL
+	db 0
+	db 1  ; GREAT_BALL
+	db 2  ; ULTRA_BALL
+	db 2
+	db 2  ; MASTER_BALL
 
 INCLUDE "engine/pinball_game/ball_saver/ball_saver_30.asm"
 INCLUDE "engine/pinball_game/ball_saver/ball_saver_60.asm"

@@ -46,12 +46,12 @@ HandleEvolutionMode_BlueField: ; 0x20c08
 	ret z
 	dec a
 	bit 0, b
-	jr z, .asm_20c18
-	add $c
-.asm_20c18
+	jr z, .checkTrinketActive
+	add 12
+.checkTrinketActive
 	ld c, a
 	ld b, $0
-	ld hl, wd566
+	ld hl, wActiveEvolutionTrinkets
 	add hl, bc
 	ld a, [hl]
 	and a
@@ -274,10 +274,10 @@ HandleShellderCollision_EvolutionMode: ; 0x20e34
 	jr z, .disabled
 	xor a
 	ld [wIndicatorStates + 9], a
-	ld a, [wd55c]
+	ld a, [wEvolutionObjectStates + 0]
 	and a
 	ld a, $0
-	ld [wd55c], a
+	ld [wEvolutionObjectStates + 0], a
 	jp nz, CreateEvolutionTrinket_BlueField
 	jp EvolutionTrinketNotFound_BlueField
 
@@ -295,10 +295,10 @@ HandleCloysterCollision_EvolutionMode: ; 0x20e5e
 	xor a
 	ld [wIndicatorStates + 3], a
 	ld [wIndicatorStates + 10], a
-	ld a, [wd562]
+	ld a, [wEvolutionObjectStates + 6]
 	and a
 	ld a, $0
-	ld [wd562], a
+	ld [wEvolutionObjectStates + 6], a
 	jp nz, CreateEvolutionTrinket_BlueField
 	jp EvolutionTrinketNotFound_BlueField
 
@@ -316,10 +316,10 @@ HandleSlowpokeCollision_EvolutionMode: ; 0x20e82
 	xor a
 	ld [wIndicatorStates + 8], a
 	ld [wIndicatorStates + 2], a
-	ld a, [wd561]
+	ld a, [wEvolutionObjectStates + 5]
 	and a
 	ld a, $0
-	ld [wd561], a
+	ld [wEvolutionObjectStates + 5], a
 	jp nz, CreateEvolutionTrinket_BlueField
 	jp EvolutionTrinketNotFound_BlueField
 
@@ -336,10 +336,10 @@ HandlePoliwagCollision_EvolutionMode: ; 0x20ea6
 	jr z, .disabled
 	xor a
 	ld [wIndicatorStates + 13], a
-	ld a, [wd55d]
+	ld a, [wEvolutionObjectStates + 1]
 	and a
 	ld a, $0
-	ld [wd55d], a
+	ld [wEvolutionObjectStates + 1], a
 	jp nz, CreateEvolutionTrinket_BlueField
 	jp EvolutionTrinketNotFound_BlueField
 
@@ -356,10 +356,10 @@ HandlePsyduckCollision_EvolutionMode: ; 0x20ec7
 	jr z, .disabled
 	xor a
 	ld [wIndicatorStates + 14], a
-	ld a, [wd55e]
+	ld a, [wEvolutionObjectStates + 2]
 	and a
 	ld a, $0
-	ld [wd55e], a
+	ld [wEvolutionObjectStates + 2], a
 	jp nz, CreateEvolutionTrinket_BlueField
 	jp EvolutionTrinketNotFound_BlueField
 
@@ -376,10 +376,10 @@ HandleLeftBonusMultiplierCollision_EvolutionMode_BlueField: ; 0x20ee8
 	jr z, .disabled
 	xor a
 	ld [wIndicatorStates + 11], a
-	ld a, [wd55f]
+	ld a, [wEvolutionObjectStates + 3]
 	and a
 	ld a, $0
-	ld [wd55f], a
+	ld [wEvolutionObjectStates + 3], a
 	jp nz, CreateEvolutionTrinket_BlueField
 	jp EvolutionTrinketNotFound_BlueField
 
@@ -396,10 +396,10 @@ HandleRightBonusMultiplierCollision_EvolutionMode_BlueField: ; 0x20f09
 	jr z, .disabled
 	xor a
 	ld [wIndicatorStates + 12], a
-	ld a, [wd560]
+	ld a, [wEvolutionObjectStates + 4]
 	and a
 	ld a, $0
-	ld [wd560], a
+	ld [wEvolutionObjectStates + 4], a
 	jp nz, CreateEvolutionTrinket_BlueField
 	jp EvolutionTrinketNotFound_BlueField
 
@@ -416,10 +416,10 @@ HandleBallUpgradeCollision_EvolutionMode_BlueField: ; 0x20f2a
 	jr z, .disabled
 	xor a
 	ld [wIndicatorStates + 6], a
-	ld a, [wd565]
+	ld a, [wEvolutionObjectStates + 9]
 	and a
 	ld a, $0
-	ld [wd565], a
+	ld [wEvolutionObjectStates + 9], a
 	jp nz, CreateEvolutionTrinket_BlueField
 	jp EvolutionTrinketNotFound_BlueField
 
@@ -439,10 +439,10 @@ HandleSpinnerCollision_EvolutionMode_BlueField: ; 0x20f4b
 	jr z, .disabled
 	xor a
 	ld [wIndicatorStates + 7], a
-	ld a, [wd564]
+	ld a, [wEvolutionObjectStates + 8]
 	and a
 	ld a, $0
-	ld [wd564], a
+	ld [wEvolutionObjectStates + 8], a
 	jp nz, CreateEvolutionTrinket_BlueField
 	jp EvolutionTrinketNotFound_BlueField
 
@@ -578,10 +578,10 @@ HandleLeftTriggerCollision_EvolutionMode_BlueField: ; 0x21089
 	jr z, .asm_210a8
 	xor a
 	ld [wIndicatorStates], a
-	ld a, [wd563]
+	ld a, [wEvolutionObjectStates + 7]
 	and a
 	ld a, $0
-	ld [wd563], a
+	ld [wEvolutionObjectStates + 7], a
 	jp nz, CreateEvolutionTrinket_BlueField
 	jp EvolutionTrinketNotFound_BlueField
 
@@ -640,11 +640,11 @@ RecoverPokemon_BlueField:
 	ret
 
 ChooseNextEvolutionTrinketLocation_BlueField: ; 0x2111d
-	ld a, $11
+	ld a, 17
 	call RandomRange
 	ld c, a
 	ld b, $0
-	ld hl, wd566
+	ld hl, wActiveEvolutionTrinkets
 	add hl, bc
 	ret
 

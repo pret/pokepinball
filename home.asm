@@ -880,7 +880,7 @@ Increment_Max100: ; 0xe4a
 ; Increments the value at [hl], but caps it at 100.
 ; Sets carry flag if the increment happens.
 	ld a, [hl]
-	cp $64
+	cp 100
 	jr z, .maxValue
 	inc a
 	ld [hl], a

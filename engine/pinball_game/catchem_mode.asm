@@ -823,13 +823,13 @@ CapturePokemonAnimation: ; 0x1052d
 	ld hl, wNumPokemonCaughtInBallBonus
 	call Increment_Max100
 	jr nc, .notMaxed
-	ld c, $a
+	ld c, 10
 	call Modulo_C
 	callba z, AddExtraBall ; increments bonus multiplier every 10 pokemon caught
 .notMaxed
 	call SetPokemonOwnedFlag
 	ld a, [wPreviousNumPokeballs]
-	cp $3
+	cp 3
 	ret z
 	inc a
 	ld [wNumPokeballs], a

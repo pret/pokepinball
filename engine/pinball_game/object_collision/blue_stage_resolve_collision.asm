@@ -824,7 +824,7 @@ UpdatePikachuSaverAnimation_BlueField: ; 0x1d133
 	ld hl, wNumPikachuSaves
 	call Increment_Max100
 	jr nc, .asm_1d185
-	ld c, $a
+	ld c, 10
 	call Modulo_C
 	callba z, AddExtraBall
 .asm_1d185
@@ -971,7 +971,7 @@ ResolveSlowpokeCollision: ; 0x1d216
 	ld hl, wNumBellsproutEntries ; This is an oversight. No need to tally bellsprout.
 	call Increment_Max100
 	ret nc
-	ld c, $19
+	ld c, 25
 	call Modulo_C
 	callba z, AddExtraBall
 	ret
@@ -1093,7 +1093,7 @@ ResolveCloysterCollision: ; 0x1d32d
 	ld hl, wNumBellsproutEntries
 	call Increment_Max100
 	ret nc
-	ld c, $19
+	ld c, 25
 	call Modulo_C
 	callba z, AddExtraBall
 	ret
@@ -1224,7 +1224,7 @@ ResolveBonusMultiplierCollision_BlueField: ; 0x1d438
 .setNewBonusMultplier
 	ld [wCurBonusMultiplier], a
 	jr nc, .asm_1d4e9
-	ld c, $19
+	ld c, 25
 	call Modulo_C
 	callba z, AddExtraBall
 .asm_1d4e9
@@ -1776,7 +1776,7 @@ HitPoliwag3Times: ; 0x1ddc7
 	ld hl, wNumDugtrioTriples ; developer oversight
 	call Increment_Max100
 	jr nc, .asm_1dde4
-	ld c, $a
+	ld c, 10
 	call Modulo_C
 	callba z, AddExtraBall
 .asm_1dde4
@@ -1792,7 +1792,7 @@ HitPsyduck3Times: ; 0x1ddf4
 	ld hl, wNumDugtrioTriples ; developer oversight
 	call Increment_Max100
 	jr nc, .asm_1de11
-	ld c, $a
+	ld c, 10
 	call Modulo_C
 	callba z, AddExtraBall
 .asm_1de11

@@ -22,7 +22,7 @@ endif
 
 %.o: dep = $(shell tools/scan_includes $(@D)/$*.asm)
 %.o: %.asm $$(dep)
-	rgbasm -h -o $@ $<
+	rgbasm -h -Wunmapped-char=0 -l -o $@ $<
 
 $(ROM): $(OBJS) contents/contents.link
 	rgblink -n $(ROM:.gbc=.sym) -m $(ROM:.gbc=.map) -l contents/contents.link -o $@ $(OBJS)

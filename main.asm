@@ -165,7 +165,7 @@ SlotOffPic: ; 0x34180
 SECTION "bankd.2", ROMX
 
 StageSeelBonusCollisionMasks: ; 0x37f00
-	INCBIN "data/collision/masks/seel_bonus.masks"
+	INCBIN "data/collision/masks/seel_bonus.1bpp"
 
 SECTION "banke", ROMX
 
@@ -297,7 +297,7 @@ MewtwoBonusBaseGameBoyColorGfx: ; 0x83000
 	INCBIN "gfx/stage/mewtwo_bonus/mewtwo_bonus_base_gameboycolor.2bpp"
 
 StageDiglettBonusCollisionMasks: ; 0x83d00
-	INCBIN "data/collision/masks/diglett_bonus.masks"
+	INCBIN "data/collision/masks/diglett_bonus.1bpp"
 
 SECTION "bank21", ROMX
 
@@ -497,7 +497,7 @@ PokedexInitialGfx:
 	INCBIN "gfx/pokedex/pokedex_initial.2bpp"
 
 StageBlueFieldBottomCollisionMasks: ; 0xaf000
-	INCBIN "data/collision/masks/blue_stage_bottom.masks"
+	INCBIN "data/collision/masks/blue_stage_bottom.1bpp"
 
 SECTION "bank2b.2", ROMX
 
@@ -630,18 +630,18 @@ StageRedFieldBottomTilemap_GameBoy: ; 0xba800
 SECTION "bank2e.3", ROMX
 
 StageRedFieldTopCollisionMasks0: ; 0xbb000
-	INCBIN "data/collision/masks/red_stage_top_0.masks"
+	INCBIN "data/collision/masks/red_stage_top_0.1bpp"
 
 StageRedFieldTopCollisionMasks1: ; 0xbb800
-	INCBIN "data/collision/masks/red_stage_top_1.masks"
+	INCBIN "data/collision/masks/red_stage_top_1.1bpp"
 
 SECTION "bank2f", ROMX
 
 StageRedFieldTopCollisionMasks2: ; 0xbc000
-	INCBIN "data/collision/masks/red_stage_top_2.masks"
+	INCBIN "data/collision/masks/red_stage_top_2.1bpp"
 
 StageRedFieldTopCollisionMasks3: ; 0xbc800
-	INCBIN "data/collision/masks/red_stage_top_3.masks"
+	INCBIN "data/collision/masks/red_stage_top_3.1bpp"
 
 StageRedFieldTopCollisionAttributes7: ; 0xbd000
 	INCBIN "data/collision/maps/red_stage_top_7.collision"
@@ -682,7 +682,7 @@ StageBlueFieldBottomTilemap_GameBoy: ; 0xc0000
 SECTION "bank30.2", ROMX
 
 StageBlueFieldTopCollisionMasks: ; 0xc0800
-	INCBIN "data/collision/masks/blue_stage_top.masks"
+	INCBIN "data/collision/masks/blue_stage_top.1bpp"
 
 StageBlueFieldTopCollisionAttributesBallEntrance: ; 0xc1000
 	INCBIN "data/collision/maps/blue_stage_top_ball_entrance.collision"
@@ -974,7 +974,7 @@ CaughtPokeballGfx: ; 0xd8f60
 SECTION "bank36.3", ROMX
 
 StageRedFieldBottomCollisionMasks: ; 0xd9000
-	INCBIN "data/collision/masks/red_stage_bottom.masks"
+	INCBIN "data/collision/masks/red_stage_bottom.1bpp"
 
 INCLUDE "data/mon_gfx/mon_billboard_palette_maps_3.asm"
 
@@ -1013,7 +1013,7 @@ GengarBonusGroundGfx: ; 0xdb400
 SECTION "bank36.7", ROMX
 
 StageGengarBonusCollisionMasks: ; 0xdb600
-	INCBIN "data/collision/masks/gengar_bonus.masks"
+	INCBIN "data/collision/masks/gengar_bonus.1bpp"
 
 INCLUDE "data/mon_gfx/mon_animated_palettes_2.asm"
 INCLUDE "data/mon_gfx/mon_billboard_palettes_4.asm"
@@ -1024,7 +1024,7 @@ StageRedFieldTopGfx6: ; 0xdbb80
 SECTION "bank36.8", ROMX
 
 StageMewtwoBonusCollisionMasks: ; 0xdbc80
-	INCBIN "data/collision/masks/mewtwo_bonus.masks"
+	INCBIN "data/collision/masks/mewtwo_bonus.1bpp"
 
 INCLUDE "data/mon_gfx/mon_animated_palettes_3.asm"
 
@@ -1045,7 +1045,7 @@ SECTION "bank37.2", ROMX
 INCLUDE "data/mon_gfx/mon_billboard_palettes_5.asm"
 
 StageMeowthBonusCollisionMasks: ; 0xdc600
-	INCBIN "data/collision/masks/meowth_bonus.masks"
+	INCBIN "data/collision/masks/meowth_bonus.1bpp"
 
 INCLUDE "data/mon_gfx/mon_billboard_palettes_6.asm"
 INCLUDE "data/stage_palettes.asm"

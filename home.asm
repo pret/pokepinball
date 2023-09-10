@@ -3288,16 +3288,16 @@ INCLUDE "home/tilt.asm"
 SECTION "bank0.2", ROM0
 
 BottomLeftCollisionMasks:
-	INCBIN "data/collision/masks/bottom_left_masks.masks"
+	INCBIN "data/collision/masks/bottom_left_masks.1bpp"
 
 BottomRightCollisionMasks:
-	INCBIN "data/collision/masks/bottom_right_masks.masks"
+	INCBIN "data/collision/masks/bottom_right_masks.1bpp"
 
 BottomLeftBonusStageCollisionMasks:
-	INCBIN "data/collision/masks/bottom_left_bonus_stage_masks.masks"
+	INCBIN "data/collision/masks/bottom_left_bonus_stage_masks.1bpp"
 
 BottomRightBonusStageCollisionMasks:
-	INCBIN "data/collision/masks/bottom_right_bonus_stage_masks.masks"
+	INCBIN "data/collision/masks/bottom_right_bonus_stage_masks.1bpp"
 
 ; These two squares data arrays must be aligned to $100 bytes and appear contiguously.
 SquaresLow:

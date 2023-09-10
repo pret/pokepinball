@@ -17,7 +17,7 @@ ResolveRedFieldTopGameObjectCollisions: ; 0x1460e
 	call UpdateBlinkingPokeballs_RedField
 	call UpdateMapMoveCounters_RedFieldTop
 	callba ShowExtraBallMessage
-	ld a, $0
+	ld a, SPECIAL_COLLISION_NOTHING
 	callba CheckSpecialModeColision
 	ret
 
@@ -42,7 +42,7 @@ ResolveRedFieldBottomGameObjectCollisions: ; 0x14652
 	call UpdateBallSaver
 	call UpdatePokeballs_RedField
 	callba ShowExtraBallMessage
-	ld a, $0
+	ld a, SPECIAL_COLLISION_NOTHING
 	callba CheckSpecialModeColision
 	ret
 
@@ -258,7 +258,7 @@ ResolveDiglettCollision: ; 0x147aa
 	ld a, [wRightMapMoveCounter]
 	add $4
 	call LoadDiglettNumberGraphics
-	ld a, $8
+	ld a, SPECIAL_COLLISION_RIGHT_DIGLETT
 	callba CheckSpecialModeColision
 	ld a, [wRightMapMoveCounter]
 	cp $3
@@ -274,7 +274,7 @@ ResolveDiglettCollision: ; 0x147aa
 	call _LoadDiglettGraphics
 	ld a, [wLeftMapMoveCounter]
 	call LoadDiglettNumberGraphics
-	ld a, $7
+	ld a, SPECIAL_COLLISION_LEFT_DIGLETT
 	callba CheckSpecialModeColision
 	ld a, [wLeftMapMoveCounter]
 	cp $3
@@ -565,7 +565,7 @@ ResolveVoltorbCollision: ; 0x14d85
 	ld a, [wWhichVoltorbId]
 	sub $3
 	ld [wWhichAnimatedVoltorb], a
-	ld a, $4
+	ld a, SPECIAL_COLLISION_VOLTORB
 	callba CheckSpecialModeColision
 	ld bc, FiveHundredPoints
 	callba AddBigBCD6FromQueueWithBallMultiplier
@@ -612,7 +612,7 @@ ResolveRedStageSpinnerCollision: ; 0x14dea
 	ld [wSpinnerVelocity], a
 	ld a, b
 	ld [wSpinnerVelocity + 1], a
-	ld a, $c
+	ld a, SPECIAL_COLLISION_SPINNER
 	callba CheckSpecialModeColision
 	; fall through
 
@@ -936,7 +936,7 @@ ResolveBallUpgradeTriggersCollision_RedField: ; 0x1535d
 	ld [wLeftAlleyTrigger], a
 	ld [wSecondaryLeftAlleyTrigger], a
 	call UpdateFieldStructures_RedField
-	ld a, $b
+	ld a, SPECIAL_COLLISION_BALL_UPGRADE
 	callba CheckSpecialModeColision
 	ld a, [wWhichPinballUpgradeTriggerId]
 	sub $e
@@ -1300,7 +1300,7 @@ HandleSecondaryLeftAlleyTrigger_RedField: ; 0x1587c
 	ret z
 	xor a
 	ld [wLeftAlleyTrigger], a
-	ld a, $1
+	ld a, SPECIAL_COLLISION_LEFT_TRIGGER
 	callba CheckSpecialModeColision
 	ret c
 	ld a, [wLeftAlleyCount]
@@ -1330,7 +1330,7 @@ HandleThirdLeftAlleyTrigger_RedField: ; 0x158c0
 	ret z
 	xor a
 	ld [wLeftAlleyTrigger], a
-	ld a, $1
+	ld a, SPECIAL_COLLISION_LEFT_TRIGGER
 	callba CheckSpecialModeColision
 	ret c
 	ld a, [wLeftAlleyCount]
@@ -1359,7 +1359,7 @@ HandleSecondaryStaryuAlleyTrigger_RedField: ; 0x15904
 	ret z
 	xor a
 	ld [wSecondaryLeftAlleyTrigger], a
-	ld a, $3
+	ld a, SPECIAL_COLLISION_STARYU_ALLEY_TRIGGER
 	callba CheckSpecialModeColision
 	ret
 
@@ -1394,7 +1394,7 @@ HandleSecondaryRightAlleyTrigger_RedField: ; 0x15944
 	ret z
 	xor a
 	ld [wRightAlleyTrigger], a
-	ld a, $2
+	ld a, SPECIAL_COLLISION_RIGHT_TRIGGER
 	callba CheckSpecialModeColision
 	ret c
 	ld a, [wRightAlleyCount]
@@ -1433,7 +1433,7 @@ HandleThirdRightAlleyTrigger_RedField: ; 0x15990
 	ret z
 	xor a
 	ld [wRightAlleyTrigger], a
-	ld a, $2
+	ld a, SPECIAL_COLLISION_RIGHT_TRIGGER
 	callba CheckSpecialModeColision
 	ret c
 	ld a, [wRightAlleyCount]
@@ -1605,7 +1605,7 @@ ResolveBellsproutCollision: ; 0x15e93
 	ld [wBallYVelocity + 1], a
 	lb de, $00, $06
 	call PlaySoundEffect
-	ld a, $5
+	ld a, SPECIAL_COLLISION_BELLSPROUT
 	callba CheckSpecialModeColision
 	ret
 
@@ -2039,7 +2039,7 @@ DoSlotLogic_RedField: ; 0x16352
 ; This could be the slot roulette, or evolving a pokemon, for example.
 	xor a
 	ld [wIndicatorStates + 4], a
-	ld a, $d
+	ld a, SPECIAL_COLLISION_SLOT_HOLE
 	callba CheckSpecialModeColision
 	jr nc, .asm_1636d
 	ld a, $1
@@ -2512,7 +2512,7 @@ ResolveStaryuCollision_Top: ; 0x16781
 	ld a, $14
 	ld [wd503], a
 	call LoadStaryuGraphics_Top
-	ld a, $6
+	ld a, SPECIAL_COLLISION_STARYU
 	callba CheckSpecialModeColision
 	ret
 
@@ -2561,7 +2561,7 @@ ResolveStaryuCollision_Bottom: ; 0x167ff
 	ld a, $14
 	ld [wd503], a
 	call LoadStaryuGraphics_Bottom
-	ld a, $6
+	ld a, SPECIAL_COLLISION_STARYU
 	callba CheckSpecialModeColision
 	ret
 
@@ -2694,7 +2694,7 @@ ResolveRedStageBonusMultiplierCollision: ; 016d9d
 	ld a, [wWhichBonusMultiplierRailingId]
 	sub $21
 	jr nz, .hitRightRailing
-	ld a, $9
+	ld a, SPECIAL_COLLISION_LEFT_BONUS_MULTIPLIER
 	callba CheckSpecialModeColision
 	ld a, [wd610]
 	cp $3
@@ -2709,7 +2709,7 @@ ResolveRedStageBonusMultiplierCollision: ; 016d9d
 	jr .asm_16e35
 
 .hitRightRailing
-	ld a, $a
+	ld a, SPECIAL_COLLISION_RIGHT_BONUS_MULTIPLIER
 	callba CheckSpecialModeColision
 	ld a, [wd611]
 	cp $3

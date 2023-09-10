@@ -88,12 +88,12 @@ SpriteDataPointers: ; 0x4000
 	SpriteDataPointer SlotGlow0Sprite, SPRITE_SLOT_GLOW_0
 	SpriteDataPointer SlotGlow1Sprite, SPRITE_SLOT_GLOW_1
 	SpriteDataPointer SlotGlow2Sprite, SPRITE_SLOT_GLOW_2
-	SpriteDataPointer SpriteData_52, SPRITE_DATA_52
-	SpriteDataPointer SpriteData_53, SPRITE_DATA_53
-	SpriteDataPointer SpriteData_54, SPRITE_DATA_54
-	SpriteDataPointer SpriteData_55, SPRITE_DATA_55
-	SpriteDataPointer SpriteData_56, SPRITE_DATA_56
-	SpriteDataPointer SpriteData_57, SPRITE_DATA_57
+	SpriteDataPointer TitlescreenContinuePromptFrame0Sprite, SPRITE_TITLESCREEN_CONTINUE_PROMPT_0
+	SpriteDataPointer TitlescreenContinuePromptFrame1Sprite, SPRITE_TITLESCREEN_CONTINUE_PROMPT_1
+	SpriteDataPointer TitlescreenContinuePromptFrame2Sprite, SPRITE_TITLESCREEN_CONTINUE_PROMPT_2
+	SpriteDataPointer TitlescreenContinuePromptFrame3Sprite, SPRITE_TITLESCREEN_CONTINUE_PROMPT_3
+	SpriteDataPointer TitlescreenContinuePromptFrame4Sprite, SPRITE_TITLESCREEN_CONTINUE_PROMPT_4
+	SpriteDataPointer TitlescreenContinuePromptFrame5Sprite, SPRITE_TITLESCREEN_CONTINUE_PROMPT_5
 	SpriteDataPointer SpriteData_58, SPRITE_DATA_58
 	SpriteDataPointer SpriteData_59, SPRITE_DATA_59
 	SpriteDataPointer TitlescreenPikachuBlinkFrame0Sprite, SPRITE_TITLESCREEN_PIKACHU_BLINK_0
@@ -125,21 +125,21 @@ SpriteDataPointers: ; 0x4000
 	SpriteDataPointer Digit8Sprite, SPRITE_DIGIT_8
 	SpriteDataPointer Digit9Sprite, SPRITE_DIGIT_9
 	SpriteDataPointer SlashCharacterSprite, SPRITE_SLASH_CHARACTER
-	SpriteDataPointer SpriteData_77, SPRITE_DATA_77
-	SpriteDataPointer SpriteData_78, SPRITE_DATA_78
-	SpriteDataPointer SpriteData_79, SPRITE_DATA_79
-	SpriteDataPointer SpriteData_7a, SPRITE_DATA_7a
-	SpriteDataPointer SpriteData_7b, SPRITE_DATA_7b
-	SpriteDataPointer SpriteData_7c, SPRITE_DATA_7c
-	SpriteDataPointer SpriteData_7d, SPRITE_DATA_7d
-	SpriteDataPointer SpriteData_7e, SPRITE_DATA_7e
-	SpriteDataPointer SpriteData_7f, SPRITE_DATA_7f
-	SpriteDataPointer SpriteData_80, SPRITE_DATA_80
-	SpriteDataPointer SpriteData_81, SPRITE_DATA_81
-	SpriteDataPointer SpriteData_82, SPRITE_DATA_82
+	SpriteDataPointer OptionsPikachuFrame0Sprite, SPRITE_OPTIONS_PIKACHU_0
+	SpriteDataPointer OptionsPikachuFrame1Sprite, SPRITE_OPTIONS_PIKACHU_1
+	SpriteDataPointer OptionsPikachuFrame2Sprite, SPRITE_OPTIONS_PIKACHU_2
+	SpriteDataPointer OptionsPikachuFrame3Sprite, SPRITE_OPTIONS_PIKACHU_3
+	SpriteDataPointer OptionsPsyduck0Sprite, SPRITE_OPTIONS_PSYDUCK_0
+	SpriteDataPointer OptionsPsyduck1Sprite, SPRITE_OPTIONS_PSYDUCK_1
+	SpriteDataPointer OptionsPokeballFrame0Sprite, SPRITE_OPTIONS_POKEBALL_0
+	SpriteDataPointer OptionsPokeballFrame1Sprite, SPRITE_OPTIONS_POKEBALL_1
+	SpriteDataPointer OptionsPokeballFrame2Sprite, SPRITE_OPTIONS_POKEBALL_2
+	SpriteDataPointer OptionsPokeballFrame3Sprite, SPRITE_OPTIONS_POKEBALL_3
+	SpriteDataPointer OptionsPokeballFrame4Sprite, SPRITE_OPTIONS_POKEBALL_4
+	SpriteDataPointer OptionsArrowSprite, SPRITE_OPTIONS_ARROW
 	SpriteDataPointer SpriteData_83, SPRITE_DATA_83
-	SpriteDataPointer SpriteData_84, SPRITE_DATA_84
-	SpriteDataPointer SpriteData_85, SPRITE_DATA_85
+	SpriteDataPointer OptionsSolidWhiteSprite, SPRITE_OPTIONS_SOLID_WHITE
+	SpriteDataPointer OptionsArrowFadedSprite, SPRITE_OPTIONS_ARROW_FADED
 	SpriteDataPointer HighScoresNameEntryAsterisk, SPRITE_HIGH_SCORES_NAME_ENTRY_ASTERISK
 	SpriteDataPointer HighScoresPrintSendDialogText, SPRITE_HIGH_SCORES_PRINT_SEND_DIALOG_TEXT
 	SpriteDataPointer HighScoresPrintSendDialogSelectionPrint, SPRITE_HIGH_SCORES_PRINT_SEND_DIALOG_SELECTION_PRINT
@@ -784,17 +784,17 @@ SlotGlow2Sprite: ; 0x468b
 	db $0f, $08, $2a, $17
 	db $80 ; terminator
 
-SpriteData_52: ; 0x46ac
+TitlescreenContinuePromptFrame0Sprite: ; 0x46ac
 	db $08, $f8, $60, $00
 	db $80 ; terminator
 
-SpriteData_53: ; 0x46b1
+TitlescreenContinuePromptFrame1Sprite: ; 0x46b1
 	db $08, $08, $60, $00
 	db $08, $00, $60, $00
 	db $08, $f8, $60, $00
 	db $80 ; terminator
 
-SpriteData_54: ; 0x46be
+TitlescreenContinuePromptFrame2Sprite: ; 0x46be
 	db $08, $20, $60, $00
 	db $08, $18, $60, $00
 	db $08, $10, $60, $00
@@ -803,7 +803,7 @@ SpriteData_54: ; 0x46be
 	db $08, $f8, $60, $00
 	db $80 ; terminator
 
-SpriteData_55: ; 0x46d7
+TitlescreenContinuePromptFrame3Sprite: ; 0x46d7
 	db $10, $20, $60, $00
 	db $10, $18, $60, $00
 	db $10, $10, $60, $00
@@ -818,7 +818,7 @@ SpriteData_55: ; 0x46d7
 	db $08, $f8, $60, $00
 	db $80 ; terminator
 
-SpriteData_56: ; 0x4708
+TitlescreenContinuePromptFrame4Sprite: ; 0x4708
 	db $10, $20, $60, $40
 	db $10, $18, $60, $40
 	db $10, $10, $60, $40
@@ -839,7 +839,7 @@ SpriteData_56: ; 0x4708
 	db $08, $00, $55, $00
 	db $80 ; terminator
 
-SpriteData_57: ; 0x4751
+TitlescreenContinuePromptFrame5Sprite: ; 0x4751
 	db $18, $20, $60, $40
 	db $18, $18, $60, $40
 	db $18, $10, $60, $40
@@ -960,6 +960,7 @@ TitlescreenPokeball4Sprite: ; 0x489f
 	db $80 ; terminator
 
 SpriteData_62: ; 0x48b0
+; seemingly-unused sprite data for titlescreen. It's just blank tiles.
 	db $10, $20, $53, $11
 	db $10, $18, $52, $11
 	db $08, $20, $51, $11
@@ -1059,19 +1060,19 @@ SlashCharacterSprite: ; 0x494c
 	db $10, $08, $5e, $11
 	db $80 ; terminator
 
-SpriteData_77: ; 0x4951
+OptionsPikachuFrame0Sprite: ; 0x4951
 	db $11, $07, $34, $00
 	db $80 ; terminator
 
-SpriteData_78: ; 0x4956
+OptionsPikachuFrame1Sprite: ; 0x4956
 	db $0f, $07, $36, $00
 	db $80 ; terminator
 
-SpriteData_79: ; 0x495b
+OptionsPikachuFrame2Sprite: ; 0x495b
 	db $0f, $07, $38, $00
 	db $80 ; terminator
 
-SpriteData_7a: ; 0x4960
+OptionsPikachuFrame3Sprite: ; 0x4960
 	db $f4, $18, $26, $13
 	db $f4, $10, $24, $13
 	db $f4, $08, $22, $13
@@ -1080,7 +1081,7 @@ SpriteData_7a: ; 0x4960
 	db $08, $08, $3c, $00
 	db $80 ; terminator
 
-SpriteData_7b: ; 0x4979
+OptionsPsyduck0Sprite: ; 0x4979
 	db $10, $28, $78, $00
 	db $10, $08, $5c, $02
 	db $10, $10, $5e, $02
@@ -1098,7 +1099,7 @@ SpriteData_7b: ; 0x4979
 	db $30, $28, $76, $02
 	db $80 ; terminator
 
-SpriteData_7c: ; 0x49b6
+OptionsPsyduck1Sprite: ; 0x49b6
 	db $11, $29, $7a, $02
 	db $11, $09, $40, $02
 	db $11, $11, $42, $02
@@ -1116,32 +1117,32 @@ SpriteData_7c: ; 0x49b6
 	db $31, $29, $5a, $02
 	db $80 ; terminator
 
-SpriteData_7d: ; 0x49f3
+OptionsPokeballFrame0Sprite: ; 0x49f3
 	db $0c, $10, $2a, $04
 	db $0c, $08, $28, $04
 	db $80 ; terminator
 
-SpriteData_7e: ; 0x49fc
+OptionsPokeballFrame1Sprite: ; 0x49fc
 	db $0d, $10, $2e, $04
 	db $0d, $08, $2c, $04
 	db $80 ; terminator
 
-SpriteData_7f: ; 0x4a05
+OptionsPokeballFrame2Sprite: ; 0x4a05
 	db $0b, $10, $2a, $04
 	db $0b, $08, $28, $04
 	db $80 ; terminator
 
-SpriteData_80: ; 0x4a0e
+OptionsPokeballFrame3Sprite: ; 0x4a0e
 	db $09, $10, $32, $04
 	db $09, $08, $30, $04
 	db $80 ; terminator
 
-SpriteData_81: ; 0x4a17
+OptionsPokeballFrame4Sprite: ; 0x4a17
 	db $09, $10, $2a, $04
 	db $09, $08, $28, $04
 	db $80 ; terminator
 
-SpriteData_82: ; 0x4a20
+OptionsArrowSprite: ; 0x4a20
 	db $10, $08, $7c, $00
 	db $80 ; terminator
 
@@ -1149,11 +1150,12 @@ SpriteData_83: ; 0x4a25
 	db $10, $08, $7c, $20
 	db $80 ; terminator
 
-SpriteData_84: ; 0x4a2a
+OptionsSolidWhiteSprite: ; 0x4a2a
+; Used in the Key Config menu to make an arrow blink during the key entry prompt
 	db $10, $08, $7e, $11
 	db $80 ; terminator
 
-SpriteData_85: ; 0x4a2f
+OptionsArrowFadedSprite: ; 0x4a2f
 	db $10, $08, $20, $13
 	db $80 ; terminator
 

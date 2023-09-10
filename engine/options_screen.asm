@@ -25,10 +25,10 @@ Func_c35a: ; 0xc35a
 	call LoadVideoData
 	call ClearSpriteBuffer
 	ld a, $2
-	ld [wd921], a
-	ld [wd91d], a
+	ld [wOptionsPokeballAnimationTimer], a
+	ld [wOptionsPsyduckAnimationTimer], a
 	ld a, $9
-	ld [wd91f], a
+	ld [wOptionsPikachuAnimationTimer], a
 	call Func_c43a
 	call Func_c948
 	call SetAllPalettesWhite
@@ -104,9 +104,9 @@ Func_c41a: ; 0xc41a
 	ret
 
 Func_c43a: ; 0xc43a
-	call Func_c7ac
-	call Func_c80b
-	call Func_c88a
+	call HandleOptionsPsyduckAnimation
+	call HandleOptionsPikachuAnimation
+	call HandleOptionsPokeballAnimation
 	call Func_c92e
 	ret
 
@@ -199,21 +199,21 @@ Func_c4b4: ; 0xc4b4
 	ret
 
 Func_c4e6: ; 0xc4e6
-	call Func_c7ac
-	call Func_c80b
-	call Func_c88a
+	call HandleOptionsPsyduckAnimation
+	call HandleOptionsPikachuAnimation
+	call HandleOptionsPokeballAnimation
 	xor a
 	call Func_c8f1
 	ret
 
 Func_c4f4: ; 0xc4f4
 	xor a
-	ld [wd91c], a
-	ld [wd91e], a
+	ld [wOptionsPsyduckAnimationFrame], a
+	ld [wOptionsPikachuAnimationFrame], a
 	ld a, $2
-	ld [wd91d], a
+	ld [wOptionsPsyduckAnimationTimer], a
 	ld a, $9
-	ld [wd91f], a
+	ld [wOptionsPikachuAnimationTimer], a
 	ret
 
 Func_c506: ; 0xc506
@@ -389,7 +389,7 @@ Func_c621: ; 0xc621
 	ld a, [hFrameCounter]
 	bit 2, a
 	ret z
-	ld a, $84
+	ld a, SPRITE_OPTIONS_SOLID_WHITE
 	call LoadSpriteData
 	ret
 
@@ -493,9 +493,9 @@ Func_c6bf: ; 0xc6bf
 	ret
 
 Func_c6d9: ; 0xc6d9
-	call Func_c7ac
-	call Func_c80b
-	call Func_c88a
+	call HandleOptionsPsyduckAnimation
+	call HandleOptionsPikachuAnimation
+	call HandleOptionsPokeballAnimation
 	ld a, $2
 	call Func_c8f1
 	ret
@@ -625,7 +625,7 @@ SongBanks: ; 0xc77e
 	db MUSIC_END_CREDITS,BANK(Music_EndCredits)
 	db MUSIC_NAME_ENTRY,BANK(Music_NameEntry)
 
-Func_c7ac: ; 0xc7ac
+HandleOptionsPsyduckAnimation: ; 0xc7ac
 	ld c, $0
 	ld a, [wScreenState]
 	cp $1
@@ -636,49 +636,52 @@ Func_c7ac: ; 0xc7ac
 	ld a, [wd917]
 	and a
 	jr nz, .asm_c7cc
-	ld a, [wd91e]
+	ld a, [wOptionsPikachuAnimationFrame]
 	cp $4
 	jr nz, .asm_c7cc
-	ld a, [wd91c]
+	ld a, [wOptionsPsyduckAnimationFrame]
 	ld c, a
 .asm_c7cc
 	sla c
 	ld b, $0
-	ld hl, Data_c806
+	ld hl, AnimationData_OptionsPsyduck
 	add hl, bc
 	ld a, [hl]
 	ld bc, $5050
 	call LoadSpriteData
-	ld a, [wd91d]
+	ld a, [wOptionsPsyduckAnimationTimer]
 	dec a
 	jr nz, .asm_c802
-	ld a, [wd91c]
+	ld a, [wOptionsPsyduckAnimationFrame]
 	sla a
 	ld c, a
 	ld b, $0
-	ld hl, Data_c806 + 2
+	ld hl, AnimationData_OptionsPsyduck + 2
 	add hl, bc
 	ld a, [hl]
 	and a
 	jr z, .asm_c7f5
-	ld a, [wd91c]
+	ld a, [wOptionsPsyduckAnimationFrame]
 	inc a
 .asm_c7f5
-	ld [wd91c], a
+	ld [wOptionsPsyduckAnimationFrame], a
 	sla a
 	ld c, a
 	ld b, $0
-	ld hl, Data_c806 + 1
+	ld hl, AnimationData_OptionsPsyduck + 1
 	add hl, bc
 	ld a, [hl]
 .asm_c802
-	ld [wd91d], a
+	ld [wOptionsPsyduckAnimationTimer], a
 	ret
 
-Data_c806: ; 0xc806
-	db $7B, $02, $7C, $02, $00
+AnimationData_OptionsPsyduck: ; 0xc806
+	; [sprite id][duration]
+	db SPRITE_OPTIONS_PSYDUCK_0, $02
+	db SPRITE_OPTIONS_PSYDUCK_1, $02
+	db $00 ; terminator
 
-Func_c80b: ; 0xc80b
+HandleOptionsPikachuAnimation: ; 0xc80b
 	ld c, $0
 	ld a, [wScreenState]
 	cp $1
@@ -689,44 +692,49 @@ Func_c80b: ; 0xc80b
 	ld a, [wd917]
 	and a
 	jr nz, .asm_c824
-	ld a, [wd91e]
+	ld a, [wOptionsPikachuAnimationFrame]
 	ld c, a
 .asm_c824
 	sla c
 	ld b, $0
-	ld hl, Data_c85e
+	ld hl, AnimationData_OptionsPikachu
 	add hl, bc
 	ld bc, $7870
 	ld a, [hl]
 	call LoadSpriteData
-	ld a, [wd91f]
+	ld a, [wOptionsPikachuAnimationTimer]
 	dec a
 	jr nz, .asm_c85a
-	ld a, [wd91e]
+	ld a, [wOptionsPikachuAnimationFrame]
 	sla a
 	ld c, a
 	ld b, $0
-	ld hl, Data_c85e + 2
+	ld hl, AnimationData_OptionsPikachu + 2
 	add hl, bc
 	ld a, [hl]
 	and a
-	ld a, [wd91e]
+	ld a, [wOptionsPikachuAnimationFrame]
 	jr z, .asm_c850
 	inc a
-	ld [wd91e], a
+	ld [wOptionsPikachuAnimationFrame], a
 .asm_c850
 	sla a
 	ld c, a
 	ld b, $0
-	ld hl, Data_c85e + 1
+	ld hl, AnimationData_OptionsPikachu + 1
 	add hl, bc
 	ld a, [hl]
 .asm_c85a
-	ld [wd91f], a
+	ld [wOptionsPikachuAnimationTimer], a
 	ret
 
-Data_c85e: ; 0xc85e
-	db $77, $09, $78, $09, $79, $09, $7A, $0D, $7A, $01, $00
+AnimationData_OptionsPikachu: ; 0xc85e
+	db SPRITE_OPTIONS_PIKACHU_0, $09
+	db SPRITE_OPTIONS_PIKACHU_1, $09
+	db SPRITE_OPTIONS_PIKACHU_2, $09
+	db SPRITE_OPTIONS_PIKACHU_3, $0D
+	db SPRITE_OPTIONS_PIKACHU_3, $01
+	db $00 ; terminator
 
 Func_c869: ; 0xc869
 	ld a, [wd916]
@@ -735,10 +743,10 @@ Func_c869: ; 0xc869
 	ld a, [wd917]
 	and a
 	ret nz
-	ld a, [wd91e]
+	ld a, [wOptionsPikachuAnimationFrame]
 	cp $3
 	ret nz
-	ld a, [wd91f]
+	ld a, [wOptionsPikachuAnimationTimer]
 	cp $1
 	ret nz
 	ld a, $55
@@ -747,12 +755,12 @@ Func_c869: ; 0xc869
 	ld [wRumbleDuration], a
 	ret
 
-Func_c88a: ; 0xc88a
+HandleOptionsPokeballAnimation: ; 0xc88a
 	ld a, [wd916]
 	sla a
 	ld c, a
 	ld b, $0
-	ld hl, Data_c8eb
+	ld hl, SpritePixelOffsets_OptionsPokeball
 	add hl, bc
 	ld a, [hli]
 	ld c, a
@@ -762,46 +770,56 @@ Func_c88a: ; 0xc88a
 	ld a, [wScreenState]
 	cp $1
 	jr nz, .asm_c8a9
-	ld a, [wd920]
+	ld a, [wOptionsPokeballAnimationFrame]
 	sla a
 	ld e, a
 .asm_c8a9
 	ld d, $0
-	ld hl, Data_c8de
+	ld hl, AnimationData_OptionsPokeball
 	add hl, de
 	ld a, [hl]
 	call LoadSpriteData
-	ld a, [wd921]
+	ld a, [wOptionsPokeballAnimationTimer]
 	dec a
 	jr nz, .asm_c8da
-	ld a, [wd920]
+	ld a, [wOptionsPokeballAnimationFrame]
 	sla a
 	ld c, a
 	ld b, $0
-	ld hl, Data_c8de + 2
+	ld hl, AnimationData_OptionsPokeball + 2
 	add hl, bc
 	ld a, [hl]
 	and a
 	jr z, .asm_c8cd
-	ld a, [wd920]
+	ld a, [wOptionsPokeballAnimationFrame]
 	inc a
 .asm_c8cd
-	ld [wd920], a
+	ld [wOptionsPokeballAnimationFrame], a
 	sla a
 	ld c, a
 	ld b, $0
-	ld hl, Data_c8de + 1
+	ld hl, AnimationData_OptionsPokeball + 1
 	add hl, bc
 	ld a, [hl]
 .asm_c8da
-	ld [wd921], a
+	ld [wOptionsPokeballAnimationTimer], a
 	ret
 
-Data_c8de: ; 0xc8de
-	db $7D, $02, $7E, $06, $7F, $02, $80, $04, $81, $06, $7F, $04, $00
+AnimationData_OptionsPokeball: ; 0xc8de
+	; [sprite id][duration]
+	db SPRITE_OPTIONS_POKEBALL_0, $02
+	db SPRITE_OPTIONS_POKEBALL_1, $06
+	db SPRITE_OPTIONS_POKEBALL_2, $02
+	db SPRITE_OPTIONS_POKEBALL_3, $04
+	db SPRITE_OPTIONS_POKEBALL_4, $06
+	db SPRITE_OPTIONS_POKEBALL_2, $04
+	db $00 ; terminator
 
-Data_c8eb: ; 0xc8eb
-	db $18, $08, $30, $08, $48, $08
+SpritePixelOffsets_OptionsPokeball: ; 0xc8eb
+	; [y][x]
+	db $18, $08
+	db $30, $08
+	db $48, $08
 
 Func_c8f1: ; 0xc8f1
 	ld c, a
@@ -810,7 +828,7 @@ Func_c8f1: ; 0xc8f1
 	add hl, bc
 	ld e, [hl]
 	sla c
-	ld hl, PointerTable_c910
+	ld hl, SpritePixelOffsetss_OptionsArrow
 	add hl, bc
 	ld a, [hli]
 	ld h, [hl]
@@ -822,20 +840,20 @@ Func_c8f1: ; 0xc8f1
 	ld c, a
 	ld a, [hl]
 	ld b, a
-	ld a, $82
+	ld a, SPRITE_OPTIONS_ARROW
 	call LoadSpriteData
 	ret
 
-PointerTable_c910: ; 0xc910
-	dw SpritePixelOffsetData_c916
-	dw SpritePixelOffsetData_c91a
-	dw SpritePixelOffsetData_c92a
+SpritePixelOffsetss_OptionsArrow: ; 0xc910
+	dw SpritePixelOffsets_OptionsArrowRumble
+	dw SpritePixelOffsets_OptionsArrowKeyConfig
+	dw SpritePixelOffsets_OptionsArrowBgm
 
-SpritePixelOffsetData_c916: ; 0xc916
+SpritePixelOffsets_OptionsArrowRumble: ; 0xc916
 	dw $5018
 	dw $7018
 
-SpritePixelOffsetData_c91a: ; 0xc91a
+SpritePixelOffsets_OptionsArrowKeyConfig: ; 0xc91a
 	dw $0808
 	dw $0818
 	dw $0828
@@ -845,7 +863,7 @@ SpritePixelOffsetData_c91a: ; 0xc91a
 	dw $0868
 	dw $0878
 
-SpritePixelOffsetData_c92a: ; 0xc92a
+SpritePixelOffsets_OptionsArrowBgm: ; 0xc92a
 	dw $1058
 	dw $1068
 
@@ -854,17 +872,17 @@ Func_c92e: ; 0xc92e
 	sla a
 	ld c, a
 	ld b, $0
-	ld hl, SpritePixelOffsetData_c944
+	ld hl, SpritePixelOffsets_OptionsArrowFadedRumble
 	add hl, bc
 	ld a, [hli]
 	ld c, a
 	ld a, [hli]
 	ld b, a
-	ld a, $85
+	ld a, SPRITE_OPTIONS_ARROW_FADED
 	call LoadSpriteData
 	ret
 
-SpritePixelOffsetData_c944: ; 0xc944
+SpritePixelOffsets_OptionsArrowFadedRumble: ; 0xc944
 	dw $5018
 	dw $7018
 

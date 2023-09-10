@@ -2290,10 +2290,10 @@ wTitleScreenBouncingBallAnimationFrame:: ; 0xd90e
 wTitleScreenPokeballAnimationCounter:: ; 0xd90f
 	ds $1
 
-wd910:: ; 0xd910
+wTitlescreenContinuePromptAnimationFrame:: ; 0xd910
 	ds $1
 
-wd911:: ; 0xd911
+wTitlescreenContinuePromptAnimationTimer:: ; 0xd911
 	ds $1
 
 wFieldSelectBlinkingBorderTimer:: ; 0xd912
@@ -2326,22 +2326,22 @@ wSoundTestCurrentBackgroundMusic:: ; 0xd91a
 wSoundTextCurrentSoundEffect:: ; 0xd91b
 	ds $1
 
-wd91c:: ; 0xd91c
+wOptionsPsyduckAnimationFrame:: ; 0xd91c
 	ds $1
 
-wd91d:: ; 0xd91d
+wOptionsPsyduckAnimationTimer:: ; 0xd91d
 	ds $1
 
-wd91e:: ; 0xd91e
+wOptionsPikachuAnimationFrame:: ; 0xd91e
 	ds $1
 
-wd91f:: ; 0xd91f
+wOptionsPikachuAnimationTimer:: ; 0xd91f
 	ds $1
 
-wd920:: ; 0xd920
+wOptionsPokeballAnimationFrame:: ; 0xd920
 	ds $1
 
-wd921:: ; 0xd921
+wOptionsPokeballAnimationTimer:: ; 0xd921
 	ds $1
 
 wd922:: ; 0xd922

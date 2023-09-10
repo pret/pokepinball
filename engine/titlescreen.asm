@@ -249,7 +249,7 @@ GoToHighScoresFromTitlescreen: ; 0xc1e7
 	ld a, $1
 	ld [wScreenState], a
 	xor a
-	ld [wda7f], a
+	ld [wHighScoreIsEnteringName], a
 	ret
 
 Func_c1fc: ; 0xc1fc

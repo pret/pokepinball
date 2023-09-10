@@ -2449,16 +2449,17 @@ wBlueHighScores:: ; 0xd9fd
 	high_scores wBlueHighScore4
 	high_scores wBlueHighScore5
 
-wda7f:: ; 0xda7f
+wHighScoreIsEnteringName:: ; 0xda7f
+; 1 during name entry; 0 otherwise
 	ds $1
 
-wda80:: ; 0xda80
+wHighScoreNameColumn:: ; 0xda80
 	ds $1
 
-wda81:: ; 0xda81
+wHighScoreNameRow:: ; 0xda81
 	ds $1
 
-wda82:: ; 0xda82
+wHighScoreNameEntryAsteriskBlinkCounter:: ; 0xda82
 	ds $1
 
 wHighScoresStage:: ; 0xda83
@@ -2467,7 +2468,8 @@ wHighScoresStage:: ; 0xda83
 wHighScoresArrowAnimationCounter:: ; 0xda84
 	ds $1
 
-wda85:: ; 0xda85
+wHighScoresPrintSendSelection:: ; 0xda85
+; 0 if print is selected, 1 if send is selected
 	ds $1
 
 wda86:: ; 0xda86

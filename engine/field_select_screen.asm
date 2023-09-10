@@ -198,18 +198,18 @@ AnimateBlinkingFieldSelectBorder: ; 0xd7fb
 
 FieldSelectBorderAnimationData:
 ; [sprite id][duration]
-	db $9e, $08
-	db $9f, $08
-	db $9e, $08
-	db $a0, $08
+	db SPRITE_FIELD_SELECT_BORDER_GREY, $08
+	db SPRITE_FIELD_SELECT_BORDER_WHITE, $08
+	db SPRITE_FIELD_SELECT_BORDER_GREY, $08
+	db SPRITE_FIELD_SELECT_BORDER_BLACK, $08
 	db $00  ; terminator
 
 FieldSelectConfirmationAnimationData:
 ; [sprite id][duration]
-	db $9F, $03
-	db $A0, $03
-	db $9F, $03
-	db $A0, $03
+	db SPRITE_FIELD_SELECT_BORDER_WHITE, $03
+	db SPRITE_FIELD_SELECT_BORDER_BLACK, $03
+	db SPRITE_FIELD_SELECT_BORDER_WHITE, $03
+	db SPRITE_FIELD_SELECT_BORDER_BLACK, $03
 	db $00  ; terminator
 
 FieldSelectBorderSpritePixelOffsetData:

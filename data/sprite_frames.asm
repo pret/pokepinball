@@ -140,21 +140,21 @@ SpriteDataPointers: ; 0x4000
 	SpriteDataPointer SpriteData_83, SPRITE_DATA_83
 	SpriteDataPointer SpriteData_84, SPRITE_DATA_84
 	SpriteDataPointer SpriteData_85, SPRITE_DATA_85
-	SpriteDataPointer SpriteData_86, SPRITE_DATA_86
-	SpriteDataPointer SpriteData_87, SPRITE_DATA_87
-	SpriteDataPointer SpriteData_88, SPRITE_DATA_88
-	SpriteDataPointer SpriteData_89, SPRITE_DATA_89
-	SpriteDataPointer SpriteData_8a, SPRITE_DATA_8a
-	SpriteDataPointer SpriteData_8b, SPRITE_DATA_8b
-	SpriteDataPointer SpriteData_8c, SPRITE_DATA_8c
-	SpriteDataPointer SpriteData_8d, SPRITE_DATA_8d
-	SpriteDataPointer SpriteData_8e, SPRITE_DATA_8e
+	SpriteDataPointer HighScoresNameEntryAsterisk, SPRITE_HIGH_SCORES_NAME_ENTRY_ASTERISK
+	SpriteDataPointer HighScoresPrintSendDialogText, SPRITE_HIGH_SCORES_PRINT_SEND_DIALOG_TEXT
+	SpriteDataPointer HighScoresPrintSendDialogSelectionPrint, SPRITE_HIGH_SCORES_PRINT_SEND_DIALOG_SELECTION_PRINT
+	SpriteDataPointer HighScoresPrintSendDialogSelectionSend, SPRITE_HIGH_SCORES_PRINT_SEND_DIALOG_SELECTION_SEND
+	SpriteDataPointer HighScoresPrintSendDialogDisabledNeither, SPRITE_HIGH_SCORES_PRINT_SEND_DIALOG_DISABLED_NEITHER
+	SpriteDataPointer HighScoresPrintSendDialogDisabledPrint, SPRITE_HIGH_SCORES_PRINT_SEND_DIALOG_DISABLED_PRINT
+	SpriteDataPointer HighScoresPrintSendDialogDisabledSend, SPRITE_HIGH_SCORES_PRINT_SEND_DIALOG_DISABLED_SEND
+	SpriteDataPointer HighScoresPrintSendDialogDisabledBoth, SPRITE_HIGH_SCORES_PRINT_SEND_DIALOG_DISABLED_BOTH
+	SpriteDataPointer HighScoresPrintingTextSprite, SPRITE_HIGH_SCORES_PRINTING
 	SpriteDataPointer SendingHighScoresTextSprite, SPRITE_SENDING_HIGH_SCORES_TEXT
 	SpriteDataPointer SpriteData_90, SPRITE_DATA_90
 	SpriteDataPointer SpriteData_91, SPRITE_DATA_91
 	SpriteDataPointer SpriteData_92, SPRITE_DATA_92
 	SpriteDataPointer SpriteData_93, SPRITE_DATA_93
-	SpriteDataPointer SpriteData_94, SPRITE_DATA_94
+	SpriteDataPointer HighScoresDeleteDataSprite, SPRITE_HIGH_SCORES_DELETE_DATA
 	SpriteDataPointer HighScoresRightArrowSprite, SPRITE_HIGH_SCORES_ARROW_RIGHT
 	SpriteDataPointer HighScoresLeftArrowSprite, SPRITE_HIGH_SCORES_ARROW_LEFT
 	SpriteDataPointer SpriteData_97, SPRITE_DATA_97
@@ -1157,12 +1157,14 @@ SpriteData_85: ; 0x4a2f
 	db $10, $08, $20, $13
 	db $80 ; terminator
 
-SpriteData_86: ; 0x4a34
+HighScoresNameEntryAsterisk: ; 0x4a34
+; The asterisk that flashes the current position during name entry
 	db $18, $08, $7f, $00
 	db $10, $08, $7e, $00
 	db $80 ; terminator
 
-SpriteData_87: ; 0x4a3d
+HighScoresPrintSendDialogText: ; 0x4a3d
+; The text portion of the HighScore Screen's Print/Send dialog
 	db $20, $25, $15, $02
 	db $18, $25, $0f, $02
 	db $10, $25, $0a, $02
@@ -1180,43 +1182,50 @@ SpriteData_87: ; 0x4a3d
 	db $20, $05, $11, $02
 	db $80 ; terminator
 
-SpriteData_88: ; 0x4a7a
+HighScoresPrintSendDialogSelectionPrint: ; 0x4a7a
+; The arrow part of the HighScore Screen's Print/Send dialog if print is currently selected
 	db $20, $f5, $10, $02
 	db $18, $f5, $02, $02
 	db $10, $f5, $01, $02
 	db $80 ; terminator
 
-SpriteData_89: ; 0x4a87
+HighScoresPrintSendDialogSelectionSend: ; 0x4a87
+; The arrow part of the HighScore Screen's Print/Send dialog if send is currently selected
 	db $10, $f5, $10, $42
 	db $18, $f5, $02, $42
 	db $20, $f5, $01, $42
 	db $80 ; terminator
 
-SpriteData_8a: ; 0x4a94
+HighScoresPrintSendDialogDisabledNeither: ; 0x4a94
+; The cross part of the HighScore Screen's Print/Send dialog if neither is disabled
 	db $20, $fd, $00, $02
 	db $18, $fd, $00, $02
 	db $10, $fd, $00, $02
 	db $80 ; terminator
 
-SpriteData_8b: ; 0x4aa1
+HighScoresPrintSendDialogDisabledPrint: ; 0x4aa1
+; The cross part of the HighScore Screen's Print/Send dialog if print is disabled (if a printer is not connected)
 	db $20, $fd, $00, $02
 	db $18, $fd, $04, $02
 	db $10, $fd, $03, $02
 	db $80 ; terminator
 
-SpriteData_8c: ; 0x4aae
+HighScoresPrintSendDialogDisabledSend: ; 0x4aae
+; The cross part of the HighScore Screen's Print/Send dialog if send is disabled (if running on GameBoy)
 	db $10, $fd, $00, $02
 	db $18, $fd, $04, $42
 	db $20, $fd, $03, $42
 	db $80 ; terminator
 
-SpriteData_8d: ; 0x4abb
+HighScoresPrintSendDialogDisabledBoth: ; 0x4abb
+; The cross part of the HighScore Screen's Print/Send dialog of both are disabled
 	db $18, $fd, $05, $02
 	db $20, $fd, $03, $42
 	db $10, $fd, $03, $02
 	db $80 ; terminator
 
-SpriteData_8e: ; 0x4ac8
+HighScoresPrintingTextSprite: ; 0x4ac8
+; the High Scores Screen's "Printing..." dialog box
 	db $0e, $2f, $1f, $02
 	db $0e, $27, $1e, $02
 	db $16, $2f, $29, $02
@@ -1355,7 +1364,8 @@ SpriteData_93: ; 0x4c5d
 	db $0d, $fc, $3c, $02
 	db $80 ; terminator
 
-SpriteData_94: ; 0x4cae
+HighScoresDeleteDataSprite: ; 0x4cae
+; the High Scores Screen's "Delete Data? (A) Okay/(B) Cancel" dialog box
 	db $28, $eb, $10, $02
 	db $20, $2b, $00, $02
 	db $20, $eb, $00, $02

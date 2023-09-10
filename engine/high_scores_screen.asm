@@ -54,9 +54,9 @@ Func_ca8f: ; 0xca8f
 	jr nz, .asm_cab0
 .asm_cad0
 	ld a, b
-	ld [wda81], a
+	ld [wHighScoreNameRow], a
 	xor a
-	ld [wda80], a
+	ld [wHighScoreNameColumn], a
 	inc b
 	ld hl, wRedHighScore4Id + 3
 	ld de, wRedHighScore5Id + 3
@@ -85,13 +85,13 @@ Func_ca8f: ; 0xca8f
 	dec a
 	jr nz, .asm_caed
 .asm_cb02
-	ld a, [wda81]
+	ld a, [wHighScoreNameRow]
 	cp $5
 	ld a, $1
 	jr nz, .asm_cb0c
 	xor a
 .asm_cb0c
-	ld [wda7f], a
+	ld [wHighScoreIsEnteringName], a
 	ld hl, wScreenState
 	inc [hl]
 	ret
@@ -131,7 +131,7 @@ Func_cb14: ; 0xcb14
 	call LoadVideoData
 	call ClearSpriteBuffer
 	ld a, $20
-	ld [wda82], a
+	ld [wHighScoreNameEntryAsteriskBlinkCounter], a
 	call Func_d211
 	hlCoord 0, 14, vBGMap
 	ld de, wRedHighScore5Id + $3
@@ -146,10 +146,10 @@ Func_cb14: ; 0xcb14
 	set 3, [hl]
 .asm_cb7f
 	call SetAllPalettesWhite
-	ld a, [wda7f]
+	ld a, [wHighScoreIsEnteringName]
 	and a
 	jr z, .asm_cbbd
-	ld a, [wda81]
+	ld a, [wHighScoreNameRow]
 	and a
 	jr nz, .asm_cb9b
 	ld a, Bank(Music_EndCredits)
@@ -322,9 +322,9 @@ Func_ccb6: ; 0xccb6
 	call PlaySoundEffect
 	call ClearSpriteBuffer
 	ld bc, $473b
-	ld a, $94
+	ld a, SPRITE_HIGH_SCORES_DELETE_DATA
 	call LoadSpriteData
-.asm_cd16
+.waitForDeleteScoresConfirmation
 	rst AdvanceFrame
 	ld a, [hNewlyPressedButtons]
 	bit BIT_B_BUTTON, a
@@ -335,7 +335,7 @@ Func_ccb6: ; 0xccb6
 
 .asm_cd24
 	bit 0, a
-	jr z, .asm_cd16
+	jr z, .waitForDeleteScoresConfirmation
 	lb de, $00, $01
 	call PlaySoundEffect
 	call CopyInitialHighScores
@@ -372,7 +372,7 @@ Func_cd6c: ; 0xcd6c
 	jr z, .asm_cdbb
 	lb de, $00, $01
 	call PlaySoundEffect
-	ld a, [wda85]
+	ld a, [wHighScoresPrintSendSelection]
 	and a
 	jr nz, .asm_cda1
 	ld a, [wd86e]
@@ -380,7 +380,7 @@ Func_cd6c: ; 0xcd6c
 	jr z, .asm_cdbb
 	call ClearSpriteBuffer
 	ld bc, $473b
-	ld a, $8e
+	ld a, SPRITE_HIGH_SCORES_PRINTING
 	call LoadSpriteData
 	call Func_d042
 	jr .asm_cdc6
@@ -559,7 +559,7 @@ SendHighScores: ; 0xced1
 	ld a, [wSendHighScoresAnimationFrame]
 	call LoadSpriteData
 	ld bc, $473b
-	ld a, $8f
+	ld a, SPRITE_SENDING_HIGH_SCORES_TEXT
 	call LoadSpriteData
 	call CleanSpriteBuffer
 	rst AdvanceFrame
@@ -594,7 +594,7 @@ SendHighScores: ; 0xced1
 	ld a, [wSendHighScoresAnimationFrame]
 	call LoadSpriteData
 	ld bc, $473b
-	ld a, $8f
+	ld a, SPRITE_SENDING_HIGH_SCORES_TEXT
 	call LoadSpriteData
 	call CleanSpriteBuffer
 	call Func_1ca1
@@ -615,12 +615,12 @@ SendHighScores: ; 0xced1
 
 SendHighScoresAnimationData: ; 0xcf4b
 ; Each entry is [sprite id][duration]
-	db $0C, $98
-	db $06, $99
-	db $0A, $9A
-	db $0C, $9B
-	db $0A, $9C
-	db $06, $9D
+	db $0C, SPRITE_SEND_HIGH_SCORES_0
+	db $06, SPRITE_SEND_HIGH_SCORES_1
+	db $0A, SPRITE_SEND_HIGH_SCORES_2
+	db $0C, SPRITE_SEND_HIGH_SCORES_3
+	db $0A, SPRITE_SEND_HIGH_SCORES_4
+	db $06, SPRITE_SEND_HIGH_SCORES_5
 	db $00  ; terminator
 
 Func_cf58: ; 0xcf58
@@ -633,7 +633,7 @@ Func_cf58: ; 0xcf58
 	rst AdvanceFrame
 	pop af
 	ld bc, $473b
-	add $8f
+	add SPRITE_SENDING_HIGH_SCORES_TEXT
 	call LoadSpriteData
 .asm_cf6f
 	rst AdvanceFrame
@@ -647,13 +647,13 @@ Func_cf58: ; 0xcf58
 Func_cf7d: ; 0xcf7d
 	ld a, [wNewlyPressedButtonsPersistent]
 	ld b, a
-	ld a, [wda85]
+	ld a, [wHighScoresPrintSendSelection]
 	bit 6, b
 	jr z, .asm_cf95
 	and a
 	ret z
 	dec a
-	ld [wda85], a
+	ld [wHighScoresPrintSendSelection], a
 	lb de, $00, $03
 	call PlaySoundEffect
 	ret
@@ -664,14 +664,14 @@ Func_cf7d: ; 0xcf7d
 	cp $1
 	ret z
 	inc a
-	ld [wda85], a
+	ld [wHighScoresPrintSendSelection], a
 	lb de, $00, $03
 	call PlaySoundEffect
 	ret
 
 Func_cfa6: ; 0xcfa6
 	ld bc, $473b
-	ld a, $87
+	ld a, SPRITE_HIGH_SCORES_PRINT_SEND_DIALOG_TEXT
 	call LoadSpriteData
 	ld a, [wd8f0]
 	and a
@@ -682,10 +682,10 @@ Func_cfa6: ; 0xcfa6
 	ld a, [wd86e]
 	add e
 	xor $3
-	add $8a
+	add SPRITE_HIGH_SCORES_PRINT_SEND_DIALOG_DISABLED_NEITHER
 	call LoadSpriteData
-	ld a, [wda85]
-	add $88
+	ld a, [wHighScoresPrintSendSelection]
+	add SPRITE_HIGH_SCORES_PRINT_SEND_DIALOG_SELECTION_PRINT
 	call LoadSpriteData
 	ret
 
@@ -958,7 +958,7 @@ ExitHighScoresScreen: ; 0xd171
 Func_d18b: ; 0xd18b
 	ld a, [hPressedButtons]
 	ld b, a
-	ld a, [wda81]
+	ld a, [wHighScoreNameRow]
 	ld e, a
 	sla e
 	sla e
@@ -966,7 +966,7 @@ Func_d18b: ; 0xd18b
 	sla e
 	add e
 	ld e, a
-	ld a, [wda80]
+	ld a, [wHighScoreNameColumn]
 	add e
 	ld e, a
 	ld d, $0
@@ -1003,7 +1003,7 @@ Func_d18b: ; 0xd18b
 Func_d1d2: ; 0xd1d2
 	ld a, [hNewlyPressedButtons]
 	ld b, a
-	ld a, [wda80]
+	ld a, [wHighScoreNameColumn]
 	bit BIT_A_BUTTON, b
 	jr z, .asm_d1fc
 	inc a
@@ -1012,7 +1012,7 @@ Func_d1d2: ; 0xd1d2
 	lb de, $07, $45
 	call PlaySoundEffect
 	xor a
-	ld [wda7f], a
+	ld [wHighScoreIsEnteringName], a
 	ld hl, wScreenState
 	inc [hl]
 	ld hl, wRedHighScore1Points
@@ -1028,51 +1028,52 @@ Func_d1d2: ; 0xd1d2
 	ret z
 	dec a
 .asm_d202
-	ld [wda80], a
+	ld [wHighScoreNameColumn], a
 	ld a, $20
-	ld [wda82], a
+	ld [wHighScoreNameEntryAsteriskBlinkCounter], a
 	lb de, $00, $01
 	call PlaySoundEffect
 	ret
 
 Func_d211: ; 0xd211
 ; related to high scores name entry?
-	ld a, [wda7f]
+	ld a, [wHighScoreIsEnteringName]
 	and a
 	ret z
 	ld a, [hJoypadState]
 	and (D_RIGHT | D_LEFT)
 	jr z, .asm_d221
+	; current name entry character changed; hide asterisk to show new letter
 	xor a
-	ld [wda82], a
+	ld [wHighScoreNameEntryAsteriskBlinkCounter], a
 	ret
 
 .asm_d221
-	ld a, [wda82]
+	ld a, [wHighScoreNameEntryAsteriskBlinkCounter]
 	inc a
-	ld [wda82], a
+	ld [wHighScoreNameEntryAsteriskBlinkCounter], a
 	bit 5, a
 	ret z
-	ld a, [wda81]
+	ld a, [wHighScoreNameRow]
 	ld e, a
 	ld d, $0
-	ld hl, SpritePixelYOffsets_d247
+	ld hl, SpritePixelYOffsets_Names
 	add hl, de
 	ld c, [hl]
-	ld a, [wda80]
+	ld a, [wHighScoreNameColumn]
 	ld e, a
 	ld d, $0
-	ld hl, SpritePixelXOffsets_d24c
+	ld hl, SpritePixelXOffsets_Names
 	add hl, de
 	ld b, [hl]
-	ld a, $86
+	ld a, SPRITE_HIGH_SCORES_NAME_ENTRY_ASTERISK
 	call LoadSpriteData
 	ret
 
-SpritePixelYOffsets_d247: ; 0xd247
+SpritePixelYOffsets_Names: ; 0xd247
 	db $10, $28, $40, $58, $70
 
-SpritePixelXOffsets_d24c: ; 0xd24c
+SpritePixelXOffsets_Names: ; 0xd24c
 	db $18, $20, $28
 
 AnimateHighScoresArrow: ; 0xd24f
@@ -1088,10 +1089,10 @@ AnimateHighScoresArrow: ; 0xd24f
 	ld a, [wHighScoresStage]
 	and a
 	ld c, $77
-	ld a, $95
+	ld a, SPRITE_HIGH_SCORES_ARROW_RIGHT
 	ld hl, HighScoresRightArrowSpritePixelXOffsets
 	jr z, .asm_d26d
-	ld a, $96
+	ld a, SPRITE_HIGH_SCORES_ARROW_LEFT
 	ld hl, HighScoresLeftArrowSpritePixelXOffsets
 .asm_d26d
 	push af
@@ -1405,7 +1406,7 @@ CopyInitialHighScoresForStage: ; 0xd40e
 INCLUDE "data/initial_high_scores.asm" ; 0xd42e
 
 Func_d46f: ; 0xd46f
-	ld a, [wda81]
+	ld a, [wHighScoreNameRow]
 	ld d, a
 	sla a
 	add d
@@ -1417,7 +1418,7 @@ Func_d46f: ; 0xd46f
 	rr e
 	srl d
 	rr e
-	ld a, [wda80]
+	ld a, [wHighScoreNameColumn]
 	add e
 	ld e, a
 	hlCoord 3, 2, vBGMap
@@ -1428,7 +1429,7 @@ Func_d46f: ; 0xd46f
 .asm_d496
 	add hl, de
 	push hl
-	ld a, [wda81]
+	ld a, [wHighScoreNameRow]
 	ld e, a
 	sla e
 	sla e
@@ -1436,7 +1437,7 @@ Func_d46f: ; 0xd46f
 	sla e
 	add e
 	ld e, a
-	ld a, [wda80]
+	ld a, [wHighScoreNameColumn]
 	add e
 	ld e, a
 	ld d, $0

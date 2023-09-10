@@ -1,4 +1,4 @@
-; OAM Animations use this 3-byte struct.
+; Sprite Animations use this 3-byte struct.
 MACRO animation
 \1FrameCounter:: ds 1
 \1Frame:: ds 1
@@ -58,9 +58,9 @@ wcb00:: ; 0xcb00
 
 SECTION "WRAM Bank 1", WRAMX
 
-wOAMBuffer:: ; 0xd000
+wSpriteBuffer:: ; 0xd000
 	ds $a0
-wOAMBufferEnd:: ; 0xd0a0
+wSpriteBufferEnd:: ; 0xd0a0
 
 SECTION "WRAM Bank 1.1", WRAMX
 wPaletteData:: ; 0xd200
@@ -1906,7 +1906,7 @@ wSFXTimer:: ; 0xd800
 wd801:: ; 0xd801
 	ds $1
 
-wOAMBufferSize:: ; 0xd802
+wSpriteBufferSize:: ; 0xd802
 	ds $1
 
 wRumblePattern:: ; 0xd803

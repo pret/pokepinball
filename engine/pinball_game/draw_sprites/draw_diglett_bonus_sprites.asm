@@ -16,13 +16,13 @@ DrawDugtrio: ; 0x1acb0
 	ld a, [wDugtrioAnimationFrame]
 	ld e, a
 	ld d, $0
-	ld hl, OAMIds_1accf
+	ld hl, SpriteIds_1accf
 	add hl, de
 	ld a, [hl]
 	bit 7, a
-	call z, LoadOAMData2
+	call z, LoadSpriteData2
 	ret
 
-OAMIds_1accf:
+SpriteIds_1accf:
 	db $46, $47, $48, $49, $4A, $4B, $4C, $4D, $4E, $4F, $50, $51, $52, $53
 	db $FF

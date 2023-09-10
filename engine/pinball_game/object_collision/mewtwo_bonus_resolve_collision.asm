@@ -712,7 +712,7 @@ OrbitingBallAnimations:
 	dw OrbitingBallAnimation4
 
 OrbitingBallAnimation1: ; 0x1991e
-; Each entry is [duration][OAM id]
+; Each entry is [duration][sprite id]
 	db $0A, $00
 	db $08, $01
 	db $08, $02
@@ -722,7 +722,7 @@ OrbitingBallAnimation1: ; 0x1991e
 	db $00 ; terminator
 
 OrbitingBallAnimation2: ; 0x1992b
-; Each entry is [duration][OAM id]
+; Each entry is [duration][sprite id]
 	db $05, $04
 	db $06, $05
 	db $06, $06
@@ -733,7 +733,7 @@ OrbitingBallAnimation2: ; 0x1992b
 	db $00 ; terminator
 
 OrbitingBallAnimation3: ; 0x1993a
-; Each entry is [duration][OAM id]
+; Each entry is [duration][sprite id]
 	db $05, $0A
 	db $05, $09
 	db $04, $08
@@ -745,6 +745,6 @@ OrbitingBallAnimation3: ; 0x1993a
 	db $00 ; terminator
 
 OrbitingBallAnimation4: ; 0x1994b
-; Each entry is [duration][OAM id]
+; Each entry is [duration][sprite id]
 	db $0C, $0B
 	db $00 ; terminator

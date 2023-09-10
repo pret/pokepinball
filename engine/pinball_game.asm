@@ -50,7 +50,7 @@ GameScreenFunction_StartBall: ; 0xd87f
 	callba LoadStageCollisionAttributes
 	callba LoadStageData
 	callba ScrollScreenToShowPinball
-	call ClearOAMBuffer
+	call ClearSpriteBuffer
 	callba DrawSpritesForStage
 	ld a, [wUpdateAudioEngineUsingTimerInterrupt]
 	and a

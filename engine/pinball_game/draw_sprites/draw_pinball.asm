@@ -24,7 +24,7 @@ DrawPinball: ; 0x17e81
 	srl a  ; there are 8 frames of the ball spinning
 	and $7
 	add $0
-	call LoadOAMData
+	call LoadSpriteData
 	ld a, [hGameBoyColorFlag]
 	and a
 	ret nz
@@ -52,7 +52,7 @@ DrawPinball: ; 0x17e81
 	srl a
 	and $7
 	add $0
-	call LoadOAMData
+	call LoadSpriteData
 	ld a, [wBallXPos + 1]
 	ld [wd4c5], a
 	ld a, [wBallYPos + 1]

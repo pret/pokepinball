@@ -29,7 +29,7 @@ DrawTimer: ; 0x175a4
 	and $f
 	call LoadTimerDigitTiles
 	ld d, $0
-	ld hl, TimerOAMIds
+	ld hl, TimerSpriteIds
 	add hl, de
 	ld a, [hli]
 	call DrawTimerDigit
@@ -42,7 +42,7 @@ DrawTimer: ; 0x175a4
 	ret
 
 DrawTimer_GameBoyColor: ; 0x175f5
-; Loads the OAM data for the timer in the top-right corner of the screen.
+; Loads the sprite data for the timer in the top-right corner of the screen.
 	ld a, [wTimerMinutes]
 	and $f
 	call DrawTimerDigit_GameBoyColor
@@ -57,16 +57,16 @@ DrawTimer_GameBoyColor: ; 0x175f5
 	call DrawTimerDigit_GameBoyColor  ; ones digit of the minutes
 	ret
 
-TimerOAMIds:
+TimerSpriteIds:
 	db $d7, $da, $d8, $d9
 	db $dc, $df, $dd, $de
 	db $dc, $db, $dd, $de
 	db $f5, $f8, $f6, $f7
 
 DrawTimerDigit_GameBoyColor: ; 0x17625
-	add $b1  ; the timer digits' OAM ids start at $b1
+	add $b1  ; the timer digits' sprite ids start at $b1
 DrawTimerDigit: ; 0x17627
-	call LoadOAMData
+	call LoadSpriteData
 	ld a, b
 	add $8
 	ld b, a

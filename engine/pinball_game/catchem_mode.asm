@@ -838,7 +838,7 @@ CapturePokemonAnimation: ; 0x1052d
 	ret
 
 BallCaptureAnimationData: ; 0x105e4
-; Each entry is [OAM id][duration]
+; Each entry is [sprite id][duration]
 	db $05, $00
 	db $05, $01
 	db $05, $02

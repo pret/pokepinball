@@ -1,5 +1,5 @@
 InitAnimation: ; 0x28a0
-; Initializes an OAM animation.
+; Initializes an sprite animation.
 ; hl = pointer to first frame of animation
 ; de = pointer to destination animation struct
 	ld a, [hli]

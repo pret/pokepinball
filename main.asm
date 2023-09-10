@@ -6,7 +6,7 @@ INCLUDE "home.asm"
 
 SECTION "bank1", ROMX
 
-INCLUDE "data/oam_frames.asm"
+INCLUDE "data/sprite_frames.asm"
 
 SECTION "bank2", ROMX
 

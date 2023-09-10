@@ -554,7 +554,7 @@ MewothAnimationDataTable: ; 0x246e2
 	dw MeowthAnimationData5
 
 MeowthAnimationData1: ; 0x246ec
-; Each entry is [OAM id][duration]
+; Each entry is [sprite id][duration]
 	db $10, $00
 	db $0B, $01
 	db $10, $02
@@ -562,7 +562,7 @@ MeowthAnimationData1: ; 0x246ec
 	db $00 ; terminator
 
 MeowthAnimationData2: ; 0x246f5
-; Each entry is [OAM id][duration]
+; Each entry is [sprite id][duration]
 	db $10, $04
 	db $0B, $05
 	db $10, $06
@@ -570,12 +570,12 @@ MeowthAnimationData2: ; 0x246f5
 	db $00 ; terminator
 
 MeowthAnimationData3: ; 0x246fe
-; Each entry is [OAM id][duration]
+; Each entry is [sprite id][duration]
 	db $16, $03
 	db $00 ; terminator
 
 MeowthAnimationData4: ; 0x24701
-; Each entry is [OAM id][duration]
+; Each entry is [sprite id][duration]
 	db $16, $07
 	db $00 ; terminator
 
@@ -1761,7 +1761,7 @@ MeowthStageAnimationDataTable: ; 0x24f30
 	dw MeowthStageAnimationData5
 
 MeowthStageAnimationData1: ; 0x24f3a
-; Each entry is [OAM id][duration]
+; Each entry is [sprite id][duration]
 	db $02, $00
 	db $02, $01
 	db $02, $02
@@ -1775,7 +1775,7 @@ MeowthStageAnimationData1: ; 0x24f3a
 	db $00 ; terminator
 
 MeowthStageAnimationData2: ; 0x24f4f
-; Each entry is [OAM id][duration]
+; Each entry is [sprite id][duration]
 	db $02, $03
 	db $02, $04
 	db $02, $05
@@ -1789,7 +1789,7 @@ MeowthStageAnimationData2: ; 0x24f4f
 	db $00 ; terminator
 
 MeowthStageAnimationData3: ; 0x24f64
-; Each entry is [OAM id][duration]
+; Each entry is [sprite id][duration]
 	db $02, $06
 	db $02, $07
 	db $02, $08
@@ -1803,7 +1803,7 @@ MeowthStageAnimationData3: ; 0x24f64
 	db $00 ; terminator
 
 MeowthStageAnimationData4: ; 0x24f79
-; Each entry is [OAM id][duration]
+; Each entry is [sprite id][duration]
 	db $02, $09
 	db $02, $0A
 	db $02, $0B
@@ -1817,7 +1817,7 @@ MeowthStageAnimationData4: ; 0x24f79
 	db $00 ; terminator
 
 MeowthStageAnimationData5: ; 0x24f8e
-; Each entry is [OAM id][duration]
+; Each entry is [sprite id][duration]
 	db $02, $0C
 	db $02, $0D
 	db $02, $0E

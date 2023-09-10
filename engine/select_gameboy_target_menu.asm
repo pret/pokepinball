@@ -38,7 +38,7 @@ InitSelectGameboyTargetMenu: ; 0x800a
 	ld [hSCX], a
 	ld [hSCY], a
 	call LoadGameboyTargetMenuGfx
-	call ClearOAMBuffer
+	call ClearSpriteBuffer
 	call SetAllPalettesWhite
 	call EnableLCD
 	call FadeIn

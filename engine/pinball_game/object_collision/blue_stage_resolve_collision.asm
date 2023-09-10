@@ -868,7 +868,7 @@ UpdatePikachuSaverAnimation_BlueField: ; 0x1d133
 	ret
 
 PikachuSaverAnimationData_BlueField: ; 0x1d1d1
-; Each entry is [duration][OAM id]
+; Each entry is [duration][sprite id]
 	db $0C, $02
 	db $05, $03
 	db $05, $02
@@ -890,7 +890,7 @@ PikachuSaverAnimationData_BlueField: ; 0x1d1d1
 	db $00
 
 PikachuSaverAnimation2Data_BlueField: ; 0x1d1f6
-; Each entry is [duration][OAM id]
+; Each entry is [duration][sprite id]
 	db $0C, $02
 	db $01, $00
 	db $00
@@ -1018,7 +1018,7 @@ ResolveSlowpokeCollision: ; 0x1d216
 	ret
 
 SlowpokeCollisionAnimationData: ; 0x1d312
-; Each entry is [OAM id][duration]
+; Each entry is [sprite id][duration]
 	db $08, $01
 	db $06, $02
 	db $06, $02
@@ -1135,7 +1135,7 @@ ResolveCloysterCollision: ; 0x1d32d
 	ret
 
 CloysterCollisionAnimationData: ; 0x1d41d
-; Each entry is [OAM id][duration]
+; Each entry is [sprite id][duration]
 	db $08, $01
 	db $06, $02
 	db $06, $02

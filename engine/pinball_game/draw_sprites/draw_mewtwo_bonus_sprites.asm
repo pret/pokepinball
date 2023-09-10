@@ -19,14 +19,14 @@ Func_19976: ; 0x19976
 	ld a, [wd6ad]
 	ld e, a
 	ld d, $0
-	ld hl, OAMIds_19995
+	ld hl, SpriteIds_19995
 	add hl, de
 	ld a, [hl]
 	cp $ff
-	call nz, LoadOAMData2
+	call nz, LoadSpriteData2
 	ret
 
-OAMIds_19995:
+SpriteIds_19995:
 	db $0F, $10, $11, $12, $17, $18, $19
 	db $FF
 
@@ -69,13 +69,13 @@ Func_199be: ; 0x199be
 	ld a, [de]
 	ld e, a
 	ld d, $0
-	ld hl, OAMIds_199e6
+	ld hl, SpriteIds_199e6
 	add hl, de
 	ld a, [hl]
 	cp $ff
-	call nz, LoadOAMData2
+	call nz, LoadSpriteData2
 	ret
 
-OAMIds_199e6:
+SpriteIds_199e6:
 	db $13, $14, $15, $16, $1A, $1B, $1C, $1D, $1E, $1F, $20
 	db $FF

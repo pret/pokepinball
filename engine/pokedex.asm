@@ -49,7 +49,7 @@ LoadPokedexScreen: ; 0x2800e
 	ld [wd95e], a
 	ld a, $1
 	ld [wd862], a
-	call ClearOAMBuffer
+	call ClearSpriteBuffer
 	call Func_285db
 	call Func_28931
 	call Func_289c8
@@ -143,7 +143,7 @@ MainPokedexScreen: ; 0x280fe
 	jp z, .asm_28174
 	call Func_288c6
 	call Func_2885c
-	call CleanOAMBuffer
+	call CleanSpriteBuffer
 	call Func_2887c
 	call Func_2885c
 	ld hl, wScreenState
@@ -376,7 +376,7 @@ VRAMAddresses_28289:
 	dw vBGWin + $12B
 	dw vBGWin + $130
 
-OAMOffsetsTable_282b9:
+SpriteOffsetsTable_282b9:
 ; y, x coordinates
 	db $40, $18
 	db $40, $40
@@ -429,20 +429,20 @@ Func_282e9: ; 0x282e9
 	add c
 	add $a5
 	ld bc, $2030
-	call LoadOAMData
+	call LoadSpriteData
 .asm_28318
 	ld a, [wdaa2]
 	sla a
 	ld c, a
 	ld b, $0
-	ld hl, OAMOffsetsTable_282b9
+	ld hl, SpriteOffsetsTable_282b9
 	add hl, bc
 	ld a, [hli]
 	ld c, a
 	ld a, [hli]
 	ld b, a
 	ld a, $63
-	call LoadOAMData
+	call LoadSpriteData
 	call Func_28368
 	ld a, [hNewlyPressedButtons]
 	and $6
@@ -848,13 +848,13 @@ Func_285db: ; 0x285db
 	call nz, Func_287e7
 	ld bc, $8c38
 	ld a, $64
-	call LoadOAMData
+	call LoadSpriteData
 	ld bc, vTilesSH tile $04
 	ld a, $65
-	call LoadOAMData
+	call LoadSpriteData
 	ld bc, $8888
 	ld a, $66
-	call LoadOAMData
+	call LoadSpriteData
 	call DrawCornerInfoPokedexScreen
 	ld a, [wCurPokedexIndex]
 	ld c, a
@@ -871,10 +871,10 @@ Func_285db: ; 0x285db
 	and $3
 	ld e, a
 	ld d, $0
-	ld hl, DexScrollBarOAMIds
+	ld hl, DexScrollBarSpriteIds
 	add hl, de
 	ld a, [hl]
-	call LoadOAMData
+	call LoadSpriteData
 	ld a, [wCurPokedexIndex]
 	ld hl, wPokedexOffset
 	sub [hl]
@@ -911,7 +911,7 @@ Func_285db: ; 0x285db
 	ld c, a
 	ld b, $10
 	ld a, $63
-	call LoadOAMData
+	call LoadSpriteData
 .asm_28667
 	pop bc
 	ld a, [wd95c]
@@ -936,7 +936,7 @@ PointerTable_2867f: ; 0x2867f
 	dw Func_286dd
 	dw Func_28765
 
-DexScrollBarOAMIds:
+DexScrollBarSpriteIds:
 	db $67, $68, $69, $68
 
 DrawCornerInfoPokedexScreen: ; 0x2868b
@@ -947,35 +947,35 @@ DrawCornerInfoPokedexScreen: ; 0x2868b
 	jr z, .asm_286c8
 	ld bc, $6d03
 	ld a, [wNumPokemonSeen + 1]
-	call LoadSeenOwnDigitOAM
+	call LoadSeenOwnDigitSprite
 	ld a, [wNumPokemonSeen]
 	swap a
-	call LoadSeenOwnDigitOAM
+	call LoadSeenOwnDigitSprite
 	ld a, [wNumPokemonSeen]
-	call LoadSeenOwnDigitOAM
+	call LoadSeenOwnDigitSprite
 	ld bc, $8202
 	ld a, $76
-	call LoadOAMData  ; draws the "/" between the seen/owned numbers
+	call LoadSpriteData  ; draws the "/" between the seen/owned numbers
 	ld bc, $8703
 	ld a, [wNumPokemonOwned + 1]
-	call LoadSeenOwnDigitOAM
+	call LoadSeenOwnDigitSprite
 	ld a, [wNumPokemonOwned]
 	swap a
-	call LoadSeenOwnDigitOAM
+	call LoadSeenOwnDigitSprite
 	ld a, [wNumPokemonOwned]
-	call LoadSeenOwnDigitOAM
+	call LoadSeenOwnDigitSprite
 	ret
 
 .asm_286c8
 	ld bc, $6800
 	ld a, $6a
-	call LoadOAMData
+	call LoadSpriteData
 	ret
 
-LoadSeenOwnDigitOAM: ; 0x286d1
+LoadSeenOwnDigitSprite: ; 0x286d1
 	and $f
 	add $6c
-	call LoadOAMData
+	call LoadSpriteData
 	ld a, b
 	add $7 ; adds 7 pixels to the next digit's x position on screen
 	ld b, a
@@ -1185,7 +1185,7 @@ Func_287e7: ; 0x287e7
 	ld a, [wCurrentAnimatedMonSpriteFrame]
 	add $a5
 	ld bc, $2030
-	call LoadOAMData
+	call LoadSpriteData
 	ret
 
 Func_28815: ; 0x28815
@@ -1238,10 +1238,10 @@ Func_2885c: ; 0x2885c
 	call nz, Func_287e7
 	ld bc, $8888
 	ld a, $66
-	call LoadOAMData
+	call LoadSpriteData
 	ld bc, $6800
 	ld a, $6a
-	call LoadOAMData
+	call LoadSpriteData
 	ret
 
 Func_2887c: ; 0x2887c

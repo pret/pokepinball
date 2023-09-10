@@ -676,7 +676,7 @@ DrawFlippers: ; 0xe4a1
 	ld a, [wCurrentStage]
 	and a
 	ret z
-	ld hl, FlippersOAMPixelOffsetData
+	ld hl, FlippersSpritePixelOffsetData
 	ld a, [hSCX]
 	ld d, a
 	ld a, [hSCY]
@@ -688,7 +688,7 @@ DrawFlippers: ; 0xe4a1
 	sub e
 	ld c, a
 	push hl
-	ld hl, LeftFlipperOAMIds
+	ld hl, LeftFlipperSpriteIds
 	ld a, [wLeftFlipperState + 1]
 	ld e, a
 	ld d, $0
@@ -708,7 +708,7 @@ DrawFlippers: ; 0xe4a1
 .asm_e4d4
 	ld a, $b
 .asm_e4d6
-	call LoadOAMData
+	call LoadSpriteData
 	pop hl
 	ld a, [hSCX]
 	ld d, a
@@ -720,7 +720,7 @@ DrawFlippers: ; 0xe4a1
 	ld a, [hli]
 	sub e
 	ld c, a
-	ld hl, RightFlipperOAMIds
+	ld hl, RightFlipperSpriteIds
 	ld a, [wRightFlipperState + 1]
 	ld e, a
 	ld d, $0
@@ -740,22 +740,22 @@ DrawFlippers: ; 0xe4a1
 .asm_e504
 	ld a, $8
 .asm_e506
-	call LoadOAMData
+	call LoadSpriteData
 	ret
 
-FlippersOAMPixelOffsetData:
-; flipper oam pixel offsets
+FlippersSpritePixelOffsetData:
+; flipper sprite pixel offsets
 	dw $7b38 ; left flipper
 	dw $7b68 ; right flipper
 
-LeftFlipperOAMIds:
+LeftFlipperSpriteIds:
 ; TODO: Don't know how exactly these are used, but it is used by the animation
 ; when the flipper is activated and rotates upward to hit the pinball.
 	db $0b, $0b, $0b, $0b, $0b, $0b, $0b
 	db $0c, $0c, $0c, $0c, $0c, $0c, $0c
 	db $0d, $0d, $0d, $0d, $0d, $0d, $0d
 
-RightFlipperOAMIds:
+RightFlipperSpriteIds:
 	db $08, $08, $08, $08, $08, $08, $08
 	db $09, $09, $09, $09, $09, $09, $09
 	db $0A, $0A, $0A, $0A, $0A, $0A, $0A

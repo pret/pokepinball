@@ -25,7 +25,7 @@ FadeInTitlescreen: ; 0xc00e
 	call LoadVideoData
 	ld a, $1
 	ld [wTitleScreenGameStartCursorSelection], a
-	call ClearOAMBuffer
+	call ClearSpriteBuffer
 	ld a, $2
 	ld [wTitleScreenPokeballAnimationCounter], a
 	call HandleTitlescreenAnimations
@@ -120,8 +120,8 @@ HandleTitlescreenAnimations: ; 0xc0f7
 	and a
 	jr z, .asm_c104
 	ld bc, $2040
-	ld a, $62  ; seemingly-unused OAM data for titlescreen. It's just blank tiles.
-	call LoadOAMData
+	ld a, $62  ; seemingly-unused sprite data for titlescreen. It's just blank tiles.
+	call LoadSpriteData
 .asm_c104
 	call Func_c21d  ; does nothing...
 	call HandleTitlescreenPikachuBlinkingAnimation
@@ -189,7 +189,7 @@ Func_c10e: ; 0xc10e
 	ld a, $2
 	ld [wd911], a
 .asm_c18f
-	call CleanOAMBuffer
+	call CleanSpriteBuffer
 	rst AdvanceFrame
 	call Func_c1b1
 	ld a, [wd910]
@@ -215,7 +215,7 @@ Func_c1b1: ; 0xc1b1
 	jr z, .asm_c1c1
 	ld bc, $2040
 	ld a, $62
-	call LoadOAMData
+	call LoadSpriteData
 .asm_c1c1
 	call Func_c21d
 	call HandleTitlescreenPikachuBlinkingAnimation
@@ -290,8 +290,8 @@ HandleTitlescreenPikachuBlinkingAnimation: ; 0xc21e
 	add hl, bc
 	lb bc, $38, $10
 	ld a, [hl]
-	cp $5a  ; blink animation frame 1 OAM id
-	call nz, LoadOAMData
+	cp $5a  ; blink animation frame 1 sprite id
+	call nz, LoadSpriteData
 	ld a, [wTitleScreenBlinkAnimationCounter]
 	dec a
 	jr nz, .done
@@ -322,7 +322,7 @@ HandleTitlescreenPikachuBlinkingAnimation: ; 0xc21e
 
 TitleScreenBlinkAnimation: ; 0xc25f
 ; Array of animation frames. The animation is looped when it finishes.
-; first byte = OAM data id to load
+; first byte = sprite data id to load
 ; second byte = number of frames to show this animation.
 	db $5a, $c8
 	db $5b, $04
@@ -352,16 +352,16 @@ HandleTitlescreenPokeballAnimation: ; 0xc278
 	ld e, $0
 	ld a, [wScreenState]  ; TODO: I think this is the "titlescreen state" byte.
 	cp $1
-	jr nz, .loadOAM  ; skip getting the correct animation frame
+	jr nz, .loadSprite  ; skip getting the correct animation frame
 	ld a, [wTitleScreenBouncingBallAnimationFrame]
 	sla a
 	ld e, a
-.loadOAM
+.loadSprite
 	ld d, $0
 	ld hl, TitleScreenPokeballAnimation
 	add hl, de
-	ld a, [hl]  ; a contains OAM id
-	call LoadOAMData
+	ld a, [hl]  ; a contains sprite id
+	call LoadSpriteData
 	ld a, [wTitleScreenPokeballAnimationCounter]
 	dec a
 	jr nz, .done
@@ -389,7 +389,7 @@ HandleTitlescreenPokeballAnimation: ; 0xc278
 	ret
 
 TitleScreenPokeballAnimation: ; 0xc2cc
-; first byte  = OAM id
+; first byte  = sprite id
 ; second byte = animation frame duration
 	db $5D, $02
 	db $5E, $06
@@ -422,7 +422,7 @@ Func_c2df: ; 0xc2df
 	add hl, de
 	ld a, [hl]
 .asm_c2fd
-	call LoadOAMData
+	call LoadSpriteData
 	ld a, [wd911]
 	dec a
 	jr nz, .asm_c327

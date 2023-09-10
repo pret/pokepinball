@@ -27,7 +27,7 @@ CheckForResetButtonCombo: ; 0x8167
 	ld a, [hGameBoyColorFlag]
 	ld hl, EraseAllDataGfxPointers
 	call LoadVideoData
-	call ClearOAMBuffer
+	call ClearSpriteBuffer
 	call SetAllPalettesWhite
 	call EnableLCD
 	call SGBNormal

@@ -23,7 +23,7 @@ Func_c35a: ; 0xc35a
 	ld hl, OptionsScreenVideoDataPointers
 	ld a, [hGameBoyColorFlag]
 	call LoadVideoData
-	call ClearOAMBuffer
+	call ClearSpriteBuffer
 	ld a, $2
 	ld [wd921], a
 	ld [wd91d], a
@@ -130,7 +130,7 @@ Func_c447: ; 0xc447
 .asm_c465
 	cp $1
 	jr nz, .asm_c477
-	call ClearOAMBuffer
+	call ClearSpriteBuffer
 	ld hl, hLCDC
 	set 3, [hl]
 	ld a, $4
@@ -225,7 +225,7 @@ Func_c506: ; 0xc506
 	ret z
 	lb de, $00, $01
 	call PlaySoundEffect
-	call ClearOAMBuffer
+	call ClearSpriteBuffer
 	ld hl, hLCDC
 	res 3, [hl]
 	ld hl, wKeyConfigBallStart
@@ -308,7 +308,7 @@ Func_c55a: ; 0xc55a
 	sla a
 	call Func_c621
 	call Func_c554
-	call CleanOAMBuffer
+	call CleanSpriteBuffer
 	rst AdvanceFrame
 	pop hl
 	pop bc
@@ -350,7 +350,7 @@ Func_c55a: ; 0xc55a
 	inc a
 	call Func_c621
 	call Func_c554
-	call CleanOAMBuffer
+	call CleanSpriteBuffer
 	rst AdvanceFrame
 	pop hl
 	pop de
@@ -380,7 +380,7 @@ Func_c621: ; 0xc621
 	sla a
 	ld c, a
 	ld b, $0
-	ld hl, OAMPixelOffsetData_c66d
+	ld hl, SpritePixelOffsetData_c66d
 	add hl, bc
 	ld a, [hli]
 	ld c, a
@@ -390,7 +390,7 @@ Func_c621: ; 0xc621
 	bit 2, a
 	ret z
 	ld a, $84
-	call LoadOAMData
+	call LoadSpriteData
 	ret
 
 Func_c639: ; 0xc639
@@ -430,7 +430,7 @@ PointerTable_c65f: ; 0xc65f
 	dw $9DAD
 	dw $9DED
 
-OAMPixelOffsetData_c66d: ; 0xc66d
+SpritePixelOffsetData_c66d: ; 0xc66d
 	dw $6018
 	dw $6020
 	dw $6028
@@ -648,7 +648,7 @@ Func_c7ac: ; 0xc7ac
 	add hl, bc
 	ld a, [hl]
 	ld bc, $5050
-	call LoadOAMData
+	call LoadSpriteData
 	ld a, [wd91d]
 	dec a
 	jr nz, .asm_c802
@@ -698,7 +698,7 @@ Func_c80b: ; 0xc80b
 	add hl, bc
 	ld bc, $7870
 	ld a, [hl]
-	call LoadOAMData
+	call LoadSpriteData
 	ld a, [wd91f]
 	dec a
 	jr nz, .asm_c85a
@@ -770,7 +770,7 @@ Func_c88a: ; 0xc88a
 	ld hl, Data_c8de
 	add hl, de
 	ld a, [hl]
-	call LoadOAMData
+	call LoadSpriteData
 	ld a, [wd921]
 	dec a
 	jr nz, .asm_c8da
@@ -823,19 +823,19 @@ Func_c8f1: ; 0xc8f1
 	ld a, [hl]
 	ld b, a
 	ld a, $82
-	call LoadOAMData
+	call LoadSpriteData
 	ret
 
 PointerTable_c910: ; 0xc910
-	dw OAMPixelOffsetData_c916
-	dw OAMPixelOffsetData_c91a
-	dw OAMPixelOffsetData_c92a
+	dw SpritePixelOffsetData_c916
+	dw SpritePixelOffsetData_c91a
+	dw SpritePixelOffsetData_c92a
 
-OAMPixelOffsetData_c916: ; 0xc916
+SpritePixelOffsetData_c916: ; 0xc916
 	dw $5018
 	dw $7018
 
-OAMPixelOffsetData_c91a: ; 0xc91a
+SpritePixelOffsetData_c91a: ; 0xc91a
 	dw $0808
 	dw $0818
 	dw $0828
@@ -845,7 +845,7 @@ OAMPixelOffsetData_c91a: ; 0xc91a
 	dw $0868
 	dw $0878
 
-OAMPixelOffsetData_c92a: ; 0xc92a
+SpritePixelOffsetData_c92a: ; 0xc92a
 	dw $1058
 	dw $1068
 
@@ -854,17 +854,17 @@ Func_c92e: ; 0xc92e
 	sla a
 	ld c, a
 	ld b, $0
-	ld hl, OAMPixelOffsetData_c944
+	ld hl, SpritePixelOffsetData_c944
 	add hl, bc
 	ld a, [hli]
 	ld c, a
 	ld a, [hli]
 	ld b, a
 	ld a, $85
-	call LoadOAMData
+	call LoadSpriteData
 	ret
 
-OAMPixelOffsetData_c944: ; 0xc944
+SpritePixelOffsetData_c944: ; 0xc944
 	dw $5018
 	dw $7018
 

@@ -129,7 +129,7 @@ Func_cb14: ; 0xcb14
 .asm_cb51
 	ld hl, HighScoresVideoDataPointers
 	call LoadVideoData
-	call ClearOAMBuffer
+	call ClearSpriteBuffer
 	ld a, $20
 	ld [wda82], a
 	call Func_d211
@@ -320,10 +320,10 @@ Func_ccb6: ; 0xccb6
 	ret z
 	lb de, $00, $01
 	call PlaySoundEffect
-	call ClearOAMBuffer
+	call ClearSpriteBuffer
 	ld bc, $473b
 	ld a, $94
-	call LoadOAMData
+	call LoadSpriteData
 .asm_cd16
 	rst AdvanceFrame
 	ld a, [hNewlyPressedButtons]
@@ -378,10 +378,10 @@ Func_cd6c: ; 0xcd6c
 	ld a, [wd86e]
 	and a
 	jr z, .asm_cdbb
-	call ClearOAMBuffer
+	call ClearSpriteBuffer
 	ld bc, $473b
 	ld a, $8e
-	call LoadOAMData
+	call LoadSpriteData
 	call Func_d042
 	jr .asm_cdc6
 
@@ -416,7 +416,7 @@ Func_cdce: ; 0xcdce
 	ld a, $0
 	ld [$abf6], a
 	pop af
-	call ClearOAMBuffer
+	call ClearSpriteBuffer
 	call Func_1be3
 	call SendHighScores
 	push af
@@ -557,11 +557,11 @@ SendHighScores: ; 0xced1
 	call InitAnimation
 	ld bc, $4800
 	ld a, [wSendHighScoresAnimationFrame]
-	call LoadOAMData
+	call LoadSpriteData
 	ld bc, $473b
 	ld a, $8f
-	call LoadOAMData
-	call CleanOAMBuffer
+	call LoadSpriteData
+	call CleanSpriteBuffer
 	rst AdvanceFrame
 	ld a, $1
 	ld [wd8e9], a
@@ -592,11 +592,11 @@ SendHighScores: ; 0xced1
 	jr nc, .continueAttempts
 	ld bc, $4800
 	ld a, [wSendHighScoresAnimationFrame]
-	call LoadOAMData
+	call LoadSpriteData
 	ld bc, $473b
 	ld a, $8f
-	call LoadOAMData
-	call CleanOAMBuffer
+	call LoadSpriteData
+	call CleanSpriteBuffer
 	call Func_1ca1
 	ld a, [wSendHighScoresAnimationIndex]
 	cp $6
@@ -614,7 +614,7 @@ SendHighScores: ; 0xced1
 	ret
 
 SendHighScoresAnimationData: ; 0xcf4b
-; Each entry is [OAM id][duration]
+; Each entry is [sprite id][duration]
 	db $0C, $98
 	db $06, $99
 	db $0A, $9A
@@ -629,12 +629,12 @@ Func_cf58: ; 0xcf58
 	push af
 	lb de, $00, $02
 	call PlaySoundEffect
-	call ClearOAMBuffer
+	call ClearSpriteBuffer
 	rst AdvanceFrame
 	pop af
 	ld bc, $473b
 	add $8f
-	call LoadOAMData
+	call LoadSpriteData
 .asm_cf6f
 	rst AdvanceFrame
 	ld a, [hNewlyPressedButtons]
@@ -672,7 +672,7 @@ Func_cf7d: ; 0xcf7d
 Func_cfa6: ; 0xcfa6
 	ld bc, $473b
 	ld a, $87
-	call LoadOAMData
+	call LoadSpriteData
 	ld a, [wd8f0]
 	and a
 	jr z, .asm_cfb6
@@ -683,10 +683,10 @@ Func_cfa6: ; 0xcfa6
 	add e
 	xor $3
 	add $8a
-	call LoadOAMData
+	call LoadSpriteData
 	ld a, [wda85]
 	add $88
-	call LoadOAMData
+	call LoadSpriteData
 	ret
 
 Func_cfcb: ; 0xcfcb
@@ -1056,23 +1056,23 @@ Func_d211: ; 0xd211
 	ld a, [wda81]
 	ld e, a
 	ld d, $0
-	ld hl, OAMPixelYOffsets_d247
+	ld hl, SpritePixelYOffsets_d247
 	add hl, de
 	ld c, [hl]
 	ld a, [wda80]
 	ld e, a
 	ld d, $0
-	ld hl, OAMPixelXOffsets_d24c
+	ld hl, SpritePixelXOffsets_d24c
 	add hl, de
 	ld b, [hl]
 	ld a, $86
-	call LoadOAMData
+	call LoadSpriteData
 	ret
 
-OAMPixelYOffsets_d247: ; 0xd247
+SpritePixelYOffsets_d247: ; 0xd247
 	db $10, $28, $40, $58, $70
 
-OAMPixelXOffsets_d24c: ; 0xd24c
+SpritePixelXOffsets_d24c: ; 0xd24c
 	db $18, $20, $28
 
 AnimateHighScoresArrow: ; 0xd24f
@@ -1089,10 +1089,10 @@ AnimateHighScoresArrow: ; 0xd24f
 	and a
 	ld c, $77
 	ld a, $95
-	ld hl, HighScoresRightArrowOAMPixelXOffsets
+	ld hl, HighScoresRightArrowSpritePixelXOffsets
 	jr z, .asm_d26d
 	ld a, $96
-	ld hl, HighScoresLeftArrowOAMPixelXOffsets
+	ld hl, HighScoresLeftArrowSpritePixelXOffsets
 .asm_d26d
 	push af
 	ld a, [wHighScoresArrowAnimationCounter]
@@ -1101,10 +1101,10 @@ AnimateHighScoresArrow: ; 0xd24f
 	add hl, de
 	ld b, [hl]
 	pop af
-	call LoadOAMData
+	call LoadSpriteData
 	ret
 
-HighScoresRightArrowOAMPixelXOffsets: ; 0xd27b
+HighScoresRightArrowSpritePixelXOffsets: ; 0xd27b
 ; Controls the animation of the right-arrow in the bottom corner of the
 ; high scores screen.
 	db $87, $87, $8A, $8A, $8A, $8A, $8A, $8A
@@ -1113,7 +1113,7 @@ HighScoresRightArrowOAMPixelXOffsets: ; 0xd27b
 	db $88, $88, $88, $88, $88, $88, $88, $88
 	db $88, $88, $88, $88, $88, $88, $88, $88
 
-HighScoresLeftArrowOAMPixelXOffsets: ; 0xd2a3
+HighScoresLeftArrowSpritePixelXOffsets: ; 0xd2a3
 	db $02, $02, $FF, $FF, $FF, $FF, $FF, $FF
 	db $00, $00, $01, $01, $01, $01, $01, $01
 	db $01, $01, $01, $01, $01, $01, $01, $01
@@ -1483,7 +1483,7 @@ Func_d4cf: ; 0xd4cf
 	jr .asm_d537
 
 .asm_d4f0
-	call ClearOAMBuffer
+	call ClearSpriteBuffer
 	call Func_d57b
 	ld a, $a5
 	ld [hWX], a
@@ -1525,7 +1525,7 @@ Func_d4cf: ; 0xd4cf
 	ret
 
 .asm_d537
-	call ClearOAMBuffer
+	call ClearSpriteBuffer
 	call Func_d57b
 	ld a, $7
 	ld [hWX], a

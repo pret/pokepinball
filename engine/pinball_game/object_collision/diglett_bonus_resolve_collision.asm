@@ -808,48 +808,48 @@ AnimationDataPointers_1ac62: ; 0x1ac62
 	dw AnimationData_1ac93
 
 AnimationData_1ac72: ; 0x1ac72
-; Each entry is [duration][OAM id]
+; Each entry is [duration][sprite id]
 	db $01, $0C
 	db $00 ; terminator
 
 AnimationData_1ac75: ; 0x1ac75
-; Each entry is [duration][OAM id]
+; Each entry is [duration][sprite id]
 	db $0E, $00
 	db $0E, $01
 	db $0E, $02
 	db $00 ; terminator
 
 AnimationData_1ac7c: ; 0x1ac7c
-; Each entry is [duration][OAM id]
+; Each entry is [duration][sprite id]
 	db $0D, $03
 	db $00 ; terminator
 
 AnimationData_1ac7f: ; 0x1ac7f
-; Each entry is [duration][OAM id]
+; Each entry is [duration][sprite id]
 	db $0E, $04
 	db $0E, $05
 	db $0E, $06
 	db $00
 
 AnimationData_1ac86: ; 0x1ac86
-; Each entry is [duration][OAM id]
+; Each entry is [duration][sprite id]
 	db $0D, $07
 	db $00 ; terminator
 
 AnimationData_1ac89: ; 0x1ac89
-; Each entry is [duration][OAM id]
+; Each entry is [duration][sprite id]
 	db $0E, $08
 	db $0E, $09
 	db $0E, $0A
 	db $00
 
 AnimationData_1ac90: ; 0x1ac90
-; Each entry is [duration][OAM id]
+; Each entry is [duration][sprite id]
 	db $0D, $0B
 	db $00 ; terminator
 
 AnimationData_1ac93: ; 0x1ac93
-; Each entry is [duration][OAM id]
+; Each entry is [duration][sprite id]
 	db $01, $0D
 	db $40, $0D
 	db $00 ; terminator

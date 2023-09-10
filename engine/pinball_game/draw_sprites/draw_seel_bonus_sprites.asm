@@ -37,14 +37,14 @@ Func_26bbc: ; 0x26bbc
 	ld a, [de]
 	ld e, a
 	ld d, $0
-	ld hl, OAMIds_26bdf
+	ld hl, SpriteIds_26bdf
 	add hl, de
 	ld a, [hl]
 	cp $ff
-	call nz, LoadOAMData2
+	call nz, LoadSpriteData2
 	ret
 
-OAMIds_26bdf:
+SpriteIds_26bdf:
 	db $54, $55, $56, $57, $58, $59, $5A, $5B, $5C, $5D, $5E, $5F, $60, $61, $62, $63
 	db $64, $65, $66, $67, $68, $69, $6A
 	db $FF
@@ -73,14 +73,14 @@ Func_26bf7: ; 0x26bf7: ; 0x26bf7
 	ld a, [de]
 	ld e, a
 	ld d, $0
-	ld hl, OAMIds_26c23
+	ld hl, SpriteIds_26c23
 	add hl, de
 	ld a, [hl]
 	cp $ff
-	call nz, LoadOAMData2
+	call nz, LoadSpriteData2
 	ret
 
-OAMIds_26c23:
+SpriteIds_26c23:
 	db $6B, $6C, $6D, $6E, $6F, $70, $71, $72, $73, $74, $75, $76, $77, $78, $79, $7A
 	db $7B, $7C, $7D, $7E, $7F, $80, $81, $82
 	db $FF
@@ -106,10 +106,10 @@ Func_26c3c: ; 0x26c3c
 .asm_26c5b
 	ld de, $0001
 .asm_26c5e
-	ld hl, OAMIds_26c7d
+	ld hl, SpriteIds_26c7d
 	add hl, de
 	ld a, [hl]
-	call LoadOAMData2
+	call LoadSpriteData2
 	ld hl, wd64f
 	inc [hl]
 	ld a, [hl]
@@ -125,5 +125,5 @@ Func_26c3c: ; 0x26c3c
 	ld [wd64e], a
 	ret
 
-OAMIds_26c7d:
+SpriteIds_26c7d:
 	db $83, $84

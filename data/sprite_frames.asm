@@ -1,253 +1,260 @@
+DEF const_value = 0
+
+MACRO SpriteDataPointer
+	const \2
+	dw \1
+ENDM
+
 SpriteDataPointers: ; 0x4000
-	dw BallSpin0Sprite
-	dw BallSpin1Sprite
-	dw BallSpin2Sprite
-	dw BallSpin3Sprite
-	dw BallSpin4Sprite
-	dw BallSpin5Sprite
-	dw BallSpin6Sprite
-	dw BallSpin7Sprite
-	dw SpriteData_8
-	dw SpriteData_9
-	dw SpriteData_a
-	dw SpriteData_b
-	dw SpriteData_c
-	dw SpriteData_d
-	dw PikachuSaverAnimationFrame0Sprite
-	dw PikachuSaverAnimationFrame1Sprite
-	dw PikachuSaverAnimationFrame2Sprite
-	dw PikachuSaverAnimationFrame3Sprite
-	dw PikachuSaverAnimationFrame4Sprite
-	dw PikachuSaverAnimationFrame5Sprite
-	dw PikachuSaverAnimationFrame6Sprite
-	dw PikachuSaverAnimationFrame7Sprite
-	dw PikachuSaverAnimationFrame8Sprite
-	dw SpriteData_17
-	dw SpriteData_18
-	dw BallCaptureFrame0Sprite
-	dw BallCaptureFrame1Sprite
-	dw BallCaptureFrame2Sprite
-	dw BallCaptureFrame3Sprite
-	dw BallCaptureFrame4Sprite
-	dw BallCaptureFrame5Sprite
-	dw BallCaptureFrame6Sprite
-	dw BallCaptureFrame7Sprite
-	dw BallCaptureFrame8Sprite
-	dw BallCaptureFrame9Sprite
-	dw BallCaptureFrame10Sprite
-	dw BallCaptureFrame11Sprite
-	dw BallCaptureFrame12Sprite
-	dw AnimatedMonSpriteType0Frame0Sprite
-	dw AnimatedMonSpriteType0Frame1Sprite
-	dw AnimatedMonSpriteType0Frame2Sprite
-	dw AnimatedMonSpriteType1Frame0Sprite
-	dw AnimatedMonSpriteType1Frame1Sprite
-	dw AnimatedMonSpriteType1Frame2Sprite
-	dw AnimatedMonSpriteType2Frame0Sprite
-	dw AnimatedMonSpriteType2Frame1Sprite
-	dw AnimatedMonSpriteType2Frame2Sprite
-	dw AnimatedMonSpriteType3Frame0Sprite
-	dw AnimatedMonSpriteType3Frame1Sprite
-	dw AnimatedMonSpriteType3Frame2Sprite
-	dw SpriteData_32
-	dw SpriteData_33
-	dw SpriteData_34
-	dw SpriteData_35
-	dw SpriteData_36
-	dw SpriteData_37
-	dw SpriteData_38
-	dw SpriteData_39
-	dw SpriteData_3a
-	dw SpriteData_3b
-	dw SpriteData_3c
-	dw SpriteData_3d
-	dw SpriteData_3e
-	dw SpriteData_3f
-	dw SpriteData_40
-	dw ThunderStoneTrinketTopSprite
-	dw MoonStoneTrinketTopSprite
-	dw FireStoneTrinketTopSprite
-	dw LeafStoneTrinketTopSprite
-	dw WaterStoneTrinketTopSprite
-	dw LinkCableTrinketTopSprite
-	dw ExperienceTrinketTopSprite
-	dw ThunderStoneTrinketBottomSprite
-	dw MoonStoneTrinketBottomSprite
-	dw FireStoneTrinketBottomSprite
-	dw LeafStoneTrinketBottomSprite
-	dw WaterStoneTrinketBottomSprite
-	dw LinkCableTrinketBottomSprite
-	dw ExperienceTrinketBottomSprite
-	dw SlotGlow0Sprite
-	dw SlotGlow1Sprite
-	dw SlotGlow2Sprite
-	dw SpriteData_52
-	dw SpriteData_53
-	dw SpriteData_54
-	dw SpriteData_55
-	dw SpriteData_56
-	dw SpriteData_57
-	dw SpriteData_58
-	dw SpriteData_59
-	dw TitlescreenPikachuBlinkFrame0Sprite
-	dw TitlescreenPikachuBlinkFrame1Sprite
-	dw TitlescreenPikachuBlinkFrame2Sprite
-	dw TitlescreenPokeball0Sprite
-	dw TitlescreenPokeball1Sprite
-	dw TitlescreenPokeball2Sprite
-	dw TitlescreenPokeball3Sprite
-	dw TitlescreenPokeball4Sprite
-	dw SpriteData_62
-	dw SpriteData_63
-	dw SpriteData_64
-	dw SpriteData_65
-	dw SpriteData_66
-	dw DexScrollBarFrame0Sprite
-	dw DexScrollBarFrame1Sprite
-	dw DexScrollBarFrame2Sprite
-	dw PokeDexTextSprite
-	dw SpriteData_6b
-	dw Digit0Sprite
-	dw Digit1Sprite
-	dw Digit2Sprite
-	dw Digit3Sprite
-	dw Digit4Sprite
-	dw Digit5Sprite
-	dw Digit6Sprite
-	dw Digit7Sprite
-	dw Digit8Sprite
-	dw Digit9Sprite
-	dw SlashCharacterSprite
-	dw SpriteData_77
-	dw SpriteData_78
-	dw SpriteData_79
-	dw SpriteData_7a
-	dw SpriteData_7b
-	dw SpriteData_7c
-	dw SpriteData_7d
-	dw SpriteData_7e
-	dw SpriteData_7f
-	dw SpriteData_80
-	dw SpriteData_81
-	dw SpriteData_82
-	dw SpriteData_83
-	dw SpriteData_84
-	dw SpriteData_85
-	dw SpriteData_86
-	dw SpriteData_87
-	dw SpriteData_88
-	dw SpriteData_89
-	dw SpriteData_8a
-	dw SpriteData_8b
-	dw SpriteData_8c
-	dw SpriteData_8d
-	dw SpriteData_8e
-	dw SendingHighScoresTextSprite
-	dw SpriteData_90
-	dw SpriteData_91
-	dw SpriteData_92
-	dw SpriteData_93
-	dw SpriteData_94
-	dw HighScoresRightArrowSprite
-	dw HighScoresLeftArrowSprite
-	dw SpriteData_97
-	dw SendHighScoresAnimation0Sprite
-	dw SendHighScoresAnimation1Sprite
-	dw SendHighScoresAnimation2Sprite
-	dw SendHighScoresAnimation3Sprite
-	dw SendHighScoresAnimation4Sprite
-	dw SendHighScoresAnimation5Sprite
-	dw FieldSelectGreyBorderSprite
-	dw FieldSelectWhiteBorderSprite
-	dw FieldSelectBlackBorderSprite
-	dw SpriteData_a1
-	dw SpriteData_a2
-	dw SpriteData_a3
-	dw SpriteData_a4
-	dw SpriteData_a5
-	dw SpriteData_a6
-	dw SpriteData_a7
-	dw SpriteData_a8
-	dw SpriteData_a9
-	dw SpriteData_aa
-	dw SpriteData_ab
-	dw SpriteData_ac
-	dw SpriteData_ad
-	dw SpriteData_ae
-	dw SpriteData_af
-	dw SpriteData_b0
-	dw Timer0DigitSprite
-	dw Timer1DigitSprite
-	dw Timer2DigitSprite
-	dw Timer3DigitSprite
-	dw Timer4DigitSprite
-	dw Timer5DigitSprite
-	dw Timer6DigitSprite
-	dw Timer7DigitSprite
-	dw Timer8DigitSprite
-	dw Timer9DigitSprite
-	dw TimerColonSprite
-	dw VoltorbStationarySprite
-	dw VoltorbCollisionSprite
-	dw BellsproutHeadFrame0Sprite
-	dw BellsproutHeadFrame1Sprite
-	dw BellsproutHeadFrame2Sprite
-	dw BellsproutHeadFrame3Sprite
-	dw RedFieldSpinnerFrame0Sprite
-	dw RedFieldSpinnerFrame1Sprite
-	dw RedFieldSpinnerFrame2Sprite
-	dw RedFieldSpinnerFrame3Sprite
-	dw RedFieldSpinnerFrame4Sprite
-	dw RedFieldSpinnerFrame5Sprite
-	dw DittoLargeSprite
-	dw DittoMediumSprite
-	dw DittoSmallSprite
-	dw StaryuFrame0Sprite
-	dw BellsproutBodySprite
-	dw Voltorb2ShakeSprite
-	dw Voltorb1ShakeSprite
-	dw Voltorb3ShakeSprite
-	dw StaryuFrame1Sprite
-	dw SpriteData_d1
-	dw SpriteData_d2
-	dw SpriteData_d3
-	dw SpriteData_d4
-	dw SpriteData_d5
-	dw SpriteData_d6
-	dw SpriteData_d7
-	dw SpriteData_d8
-	dw SpriteData_d9
-	dw SpriteData_da
-	dw SpriteData_db
-	dw SpriteData_dc
-	dw SpriteData_dd
-	dw SpriteData_de
-	dw SpriteData_df
-	dw SpriteData_e0
-	dw SpriteData_e1
-	dw SpriteData_e2
-	dw SpriteData_e3
-	dw SpriteData_e4
-	dw SpriteData_e5
-	dw SpriteData_e6
-	dw SpriteData_e7
-	dw BlueFieldSpinnerFrame0Sprite
-	dw BlueFieldSpinnerFrame1Sprite
-	dw BlueFieldSpinnerFrame2Sprite
-	dw BlueFieldSpinnerFrame3Sprite
-	dw BlueFieldSpinnerFrame4Sprite
-	dw BlueFieldSpinnerFrame5Sprite
-	dw SpriteData_ee
-	dw SpriteData_ef
-	dw SpriteData_f0
-	dw SpriteData_f1
-	dw SpriteData_f2
-	dw SpriteData_f3
-	dw SpriteData_f4
-	dw SpriteData_f5
-	dw SpriteData_f6
-	dw SpriteData_f7
-	dw SpriteData_f8
+	SpriteDataPointer BallSpin0Sprite, SPRITE_BALL_SPIN_0
+	SpriteDataPointer BallSpin1Sprite, SPRITE_BALL_SPIN_1
+	SpriteDataPointer BallSpin2Sprite, SPRITE_BALL_SPIN_2
+	SpriteDataPointer BallSpin3Sprite, SPRITE_BALL_SPIN_3
+	SpriteDataPointer BallSpin4Sprite, SPRITE_BALL_SPIN_4
+	SpriteDataPointer BallSpin5Sprite, SPRITE_BALL_SPIN_5
+	SpriteDataPointer BallSpin6Sprite, SPRITE_BALL_SPIN_6
+	SpriteDataPointer BallSpin7Sprite, SPRITE_BALL_SPIN_7
+	SpriteDataPointer SpriteData_8, SPRITE_DATA_8
+	SpriteDataPointer SpriteData_9, SPRITE_DATA_9
+	SpriteDataPointer SpriteData_a, SPRITE_DATA_a
+	SpriteDataPointer SpriteData_b, SPRITE_DATA_b
+	SpriteDataPointer SpriteData_c, SPRITE_DATA_c
+	SpriteDataPointer SpriteData_d, SPRITE_DATA_d
+	SpriteDataPointer PikachuSaverAnimationFrame0Sprite, SPRITE_PIKACHU_SAVER_0
+	SpriteDataPointer PikachuSaverAnimationFrame1Sprite, SPRITE_PIKACHU_SAVER_1
+	SpriteDataPointer PikachuSaverAnimationFrame2Sprite, SPRITE_PIKACHU_SAVER_2
+	SpriteDataPointer PikachuSaverAnimationFrame3Sprite, SPRITE_PIKACHU_SAVER_3
+	SpriteDataPointer PikachuSaverAnimationFrame4Sprite, SPRITE_PIKACHU_SAVER_4
+	SpriteDataPointer PikachuSaverAnimationFrame5Sprite, SPRITE_PIKACHU_SAVER_5
+	SpriteDataPointer PikachuSaverAnimationFrame6Sprite, SPRITE_PIKACHU_SAVER_6
+	SpriteDataPointer PikachuSaverAnimationFrame7Sprite, SPRITE_PIKACHU_SAVER_7
+	SpriteDataPointer PikachuSaverAnimationFrame8Sprite, SPRITE_PIKACHU_SAVER_8
+	SpriteDataPointer SpriteData_17, SPRITE_DATA_17
+	SpriteDataPointer SpriteData_18, SPRITE_DATA_18
+	SpriteDataPointer BallCaptureFrame0Sprite, SPRITE_BALL_CAPTURE_0
+	SpriteDataPointer BallCaptureFrame1Sprite, SPRITE_BALL_CAPTURE_1
+	SpriteDataPointer BallCaptureFrame2Sprite, SPRITE_BALL_CAPTURE_2
+	SpriteDataPointer BallCaptureFrame3Sprite, SPRITE_BALL_CAPTURE_3
+	SpriteDataPointer BallCaptureFrame4Sprite, SPRITE_BALL_CAPTURE_4
+	SpriteDataPointer BallCaptureFrame5Sprite, SPRITE_BALL_CAPTURE_5
+	SpriteDataPointer BallCaptureFrame6Sprite, SPRITE_BALL_CAPTURE_6
+	SpriteDataPointer BallCaptureFrame7Sprite, SPRITE_BALL_CAPTURE_7
+	SpriteDataPointer BallCaptureFrame8Sprite, SPRITE_BALL_CAPTURE_8
+	SpriteDataPointer BallCaptureFrame9Sprite, SPRITE_BALL_CAPTURE_9
+	SpriteDataPointer BallCaptureFrame10Sprite, SPRITE_BALL_CAPTURE_10
+	SpriteDataPointer BallCaptureFrame11Sprite, SPRITE_BALL_CAPTURE_11
+	SpriteDataPointer BallCaptureFrame12Sprite, SPRITE_BALL_CAPTURE_12
+	SpriteDataPointer AnimatedMonSpriteType0Frame0Sprite, SPRITE_ANIMATED_MON_TYPE_0_FRAME_0
+	SpriteDataPointer AnimatedMonSpriteType0Frame1Sprite, SPRITE_ANIMATED_MON_TYPE_0_FRAME_1
+	SpriteDataPointer AnimatedMonSpriteType0Frame2Sprite, SPRITE_ANIMATED_MON_TYPE_0_FRAME_2
+	SpriteDataPointer AnimatedMonSpriteType1Frame0Sprite, SPRITE_ANIMATED_MON_TYPE_1_FRAME_0
+	SpriteDataPointer AnimatedMonSpriteType1Frame1Sprite, SPRITE_ANIMATED_MON_TYPE_1_FRAME_1
+	SpriteDataPointer AnimatedMonSpriteType1Frame2Sprite, SPRITE_ANIMATED_MON_TYPE_1_FRAME_2
+	SpriteDataPointer AnimatedMonSpriteType2Frame0Sprite, SPRITE_ANIMATED_MON_TYPE_2_FRAME_0
+	SpriteDataPointer AnimatedMonSpriteType2Frame1Sprite, SPRITE_ANIMATED_MON_TYPE_2_FRAME_1
+	SpriteDataPointer AnimatedMonSpriteType2Frame2Sprite, SPRITE_ANIMATED_MON_TYPE_2_FRAME_2
+	SpriteDataPointer AnimatedMonSpriteType3Frame0Sprite, SPRITE_ANIMATED_MON_TYPE_3_FRAME_0
+	SpriteDataPointer AnimatedMonSpriteType3Frame1Sprite, SPRITE_ANIMATED_MON_TYPE_3_FRAME_1
+	SpriteDataPointer AnimatedMonSpriteType3Frame2Sprite, SPRITE_ANIMATED_MON_TYPE_3_FRAME_2
+	SpriteDataPointer SpriteData_32, SPRITE_DATA_32
+	SpriteDataPointer SpriteData_33, SPRITE_DATA_33
+	SpriteDataPointer SpriteData_34, SPRITE_DATA_34
+	SpriteDataPointer SpriteData_35, SPRITE_DATA_35
+	SpriteDataPointer SpriteData_36, SPRITE_DATA_36
+	SpriteDataPointer SpriteData_37, SPRITE_DATA_37
+	SpriteDataPointer SpriteData_38, SPRITE_DATA_38
+	SpriteDataPointer SpriteData_39, SPRITE_DATA_39
+	SpriteDataPointer SpriteData_3a, SPRITE_DATA_3a
+	SpriteDataPointer SpriteData_3b, SPRITE_DATA_3b
+	SpriteDataPointer SpriteData_3c, SPRITE_DATA_3c
+	SpriteDataPointer SpriteData_3d, SPRITE_DATA_3d
+	SpriteDataPointer SpriteData_3e, SPRITE_DATA_3e
+	SpriteDataPointer SpriteData_3f, SPRITE_DATA_3f
+	SpriteDataPointer SpriteData_40, SPRITE_DATA_40
+	SpriteDataPointer ThunderStoneTrinketTopSprite, SPRITE_TRINKET_THUNDERSTONE_TOP
+	SpriteDataPointer MoonStoneTrinketTopSprite, SPRITE_TRINKET_MOONSTONE_TOP
+	SpriteDataPointer FireStoneTrinketTopSprite, SPRITE_TRINKET_FIRESTONE_TOP
+	SpriteDataPointer LeafStoneTrinketTopSprite, SPRITE_TRINKET_LEAFSTONE_TOP
+	SpriteDataPointer WaterStoneTrinketTopSprite, SPRITE_TRINKET_WATERSTONE_TOP
+	SpriteDataPointer LinkCableTrinketTopSprite, SPRITE_TRINKET_LINKCABLE_TOP
+	SpriteDataPointer ExperienceTrinketTopSprite, SPRITE_TRINKET_EXPERIENCE_TOP
+	SpriteDataPointer ThunderStoneTrinketBottomSprite, SPRITE_TRINKET_THUNDERSTONE_BOTTOM
+	SpriteDataPointer MoonStoneTrinketBottomSprite, SPRITE_TRINKET_MOONSTONE_BOTTOM
+	SpriteDataPointer FireStoneTrinketBottomSprite, SPRITE_TRINKET_FIRESTONE_BOTTOM
+	SpriteDataPointer LeafStoneTrinketBottomSprite, SPRITE_TRINKET_LEAFSTONE_BOTTOM
+	SpriteDataPointer WaterStoneTrinketBottomSprite, SPRITE_TRINKET_WATERSTONE_BOTTOM
+	SpriteDataPointer LinkCableTrinketBottomSprite, SPRITE_TRINKET_LINKCABLE_BOTTOM
+	SpriteDataPointer ExperienceTrinketBottomSprite, SPRITE_TRINKET_EXPERIENCE_BOTTOM
+	SpriteDataPointer SlotGlow0Sprite, SPRITE_SLOT_GLOW_0
+	SpriteDataPointer SlotGlow1Sprite, SPRITE_SLOT_GLOW_1
+	SpriteDataPointer SlotGlow2Sprite, SPRITE_SLOT_GLOW_2
+	SpriteDataPointer SpriteData_52, SPRITE_DATA_52
+	SpriteDataPointer SpriteData_53, SPRITE_DATA_53
+	SpriteDataPointer SpriteData_54, SPRITE_DATA_54
+	SpriteDataPointer SpriteData_55, SPRITE_DATA_55
+	SpriteDataPointer SpriteData_56, SPRITE_DATA_56
+	SpriteDataPointer SpriteData_57, SPRITE_DATA_57
+	SpriteDataPointer SpriteData_58, SPRITE_DATA_58
+	SpriteDataPointer SpriteData_59, SPRITE_DATA_59
+	SpriteDataPointer TitlescreenPikachuBlinkFrame0Sprite, SPRITE_TITLESCREEN_PIKACHU_BLINK_0
+	SpriteDataPointer TitlescreenPikachuBlinkFrame1Sprite, SPRITE_TITLESCREEN_PIKACHU_BLINK_1
+	SpriteDataPointer TitlescreenPikachuBlinkFrame2Sprite, SPRITE_TITLESCREEN_PIKACHU_BLINK_2
+	SpriteDataPointer TitlescreenPokeball0Sprite, SPRITE_TITLESCREEN_POKEBALL_0
+	SpriteDataPointer TitlescreenPokeball1Sprite, SPRITE_TITLESCREEN_POKEBALL_1
+	SpriteDataPointer TitlescreenPokeball2Sprite, SPRITE_TITLESCREEN_POKEBALL_2
+	SpriteDataPointer TitlescreenPokeball3Sprite, SPRITE_TITLESCREEN_POKEBALL_3
+	SpriteDataPointer TitlescreenPokeball4Sprite, SPRITE_TITLESCREEN_POKEBALL_4
+	SpriteDataPointer SpriteData_62, SPRITE_DATA_62
+	SpriteDataPointer SpriteData_63, SPRITE_DATA_63
+	SpriteDataPointer SpriteData_64, SPRITE_DATA_64
+	SpriteDataPointer SpriteData_65, SPRITE_DATA_65
+	SpriteDataPointer SpriteData_66, SPRITE_DATA_66
+	SpriteDataPointer DexScrollBarFrame0Sprite, SPRITE_DEX_SCROLLBAR_0
+	SpriteDataPointer DexScrollBarFrame1Sprite, SPRITE_DEX_SCROLLBAR_1
+	SpriteDataPointer DexScrollBarFrame2Sprite, SPRITE_DEX_SCROLLBAR_2
+	SpriteDataPointer PokeDexTextSprite, SPRITE_POKEDEX_TEXT
+	SpriteDataPointer SpriteData_6b, SPRITE_DATA_6b
+	SpriteDataPointer Digit0Sprite, SPRITE_DIGIT_0
+	SpriteDataPointer Digit1Sprite, SPRITE_DIGIT_1
+	SpriteDataPointer Digit2Sprite, SPRITE_DIGIT_2
+	SpriteDataPointer Digit3Sprite, SPRITE_DIGIT_3
+	SpriteDataPointer Digit4Sprite, SPRITE_DIGIT_4
+	SpriteDataPointer Digit5Sprite, SPRITE_DIGIT_5
+	SpriteDataPointer Digit6Sprite, SPRITE_DIGIT_6
+	SpriteDataPointer Digit7Sprite, SPRITE_DIGIT_7
+	SpriteDataPointer Digit8Sprite, SPRITE_DIGIT_8
+	SpriteDataPointer Digit9Sprite, SPRITE_DIGIT_9
+	SpriteDataPointer SlashCharacterSprite, SPRITE_SLASH_CHARACTER
+	SpriteDataPointer SpriteData_77, SPRITE_DATA_77
+	SpriteDataPointer SpriteData_78, SPRITE_DATA_78
+	SpriteDataPointer SpriteData_79, SPRITE_DATA_79
+	SpriteDataPointer SpriteData_7a, SPRITE_DATA_7a
+	SpriteDataPointer SpriteData_7b, SPRITE_DATA_7b
+	SpriteDataPointer SpriteData_7c, SPRITE_DATA_7c
+	SpriteDataPointer SpriteData_7d, SPRITE_DATA_7d
+	SpriteDataPointer SpriteData_7e, SPRITE_DATA_7e
+	SpriteDataPointer SpriteData_7f, SPRITE_DATA_7f
+	SpriteDataPointer SpriteData_80, SPRITE_DATA_80
+	SpriteDataPointer SpriteData_81, SPRITE_DATA_81
+	SpriteDataPointer SpriteData_82, SPRITE_DATA_82
+	SpriteDataPointer SpriteData_83, SPRITE_DATA_83
+	SpriteDataPointer SpriteData_84, SPRITE_DATA_84
+	SpriteDataPointer SpriteData_85, SPRITE_DATA_85
+	SpriteDataPointer SpriteData_86, SPRITE_DATA_86
+	SpriteDataPointer SpriteData_87, SPRITE_DATA_87
+	SpriteDataPointer SpriteData_88, SPRITE_DATA_88
+	SpriteDataPointer SpriteData_89, SPRITE_DATA_89
+	SpriteDataPointer SpriteData_8a, SPRITE_DATA_8a
+	SpriteDataPointer SpriteData_8b, SPRITE_DATA_8b
+	SpriteDataPointer SpriteData_8c, SPRITE_DATA_8c
+	SpriteDataPointer SpriteData_8d, SPRITE_DATA_8d
+	SpriteDataPointer SpriteData_8e, SPRITE_DATA_8e
+	SpriteDataPointer SendingHighScoresTextSprite, SPRITE_SENDING_HIGH_SCORES_TEXT
+	SpriteDataPointer SpriteData_90, SPRITE_DATA_90
+	SpriteDataPointer SpriteData_91, SPRITE_DATA_91
+	SpriteDataPointer SpriteData_92, SPRITE_DATA_92
+	SpriteDataPointer SpriteData_93, SPRITE_DATA_93
+	SpriteDataPointer SpriteData_94, SPRITE_DATA_94
+	SpriteDataPointer HighScoresRightArrowSprite, SPRITE_HIGH_SCORES_ARROW_RIGHT
+	SpriteDataPointer HighScoresLeftArrowSprite, SPRITE_HIGH_SCORES_ARROW_LEFT
+	SpriteDataPointer SpriteData_97, SPRITE_DATA_97
+	SpriteDataPointer SendHighScoresAnimation0Sprite, SPRITE_SEND_HIGH_SCORES_0
+	SpriteDataPointer SendHighScoresAnimation1Sprite, SPRITE_SEND_HIGH_SCORES_1
+	SpriteDataPointer SendHighScoresAnimation2Sprite, SPRITE_SEND_HIGH_SCORES_2
+	SpriteDataPointer SendHighScoresAnimation3Sprite, SPRITE_SEND_HIGH_SCORES_3
+	SpriteDataPointer SendHighScoresAnimation4Sprite, SPRITE_SEND_HIGH_SCORES_4
+	SpriteDataPointer SendHighScoresAnimation5Sprite, SPRITE_SEND_HIGH_SCORES_5
+	SpriteDataPointer FieldSelectGreyBorderSprite, SPRITE_FIELD_SELECT_BORDER_GREY
+	SpriteDataPointer FieldSelectWhiteBorderSprite, SPRITE_FIELD_SELECT_BORDER_WHITE
+	SpriteDataPointer FieldSelectBlackBorderSprite, SPRITE_FIELD_SELECT_BORDER_BLACK
+	SpriteDataPointer SpriteData_a1, SPRITE_DATA_a1
+	SpriteDataPointer SpriteData_a2, SPRITE_DATA_a2
+	SpriteDataPointer SpriteData_a3, SPRITE_DATA_a3
+	SpriteDataPointer SpriteData_a4, SPRITE_DATA_a4
+	SpriteDataPointer SpriteData_a5, SPRITE_DATA_a5
+	SpriteDataPointer SpriteData_a6, SPRITE_DATA_a6
+	SpriteDataPointer SpriteData_a7, SPRITE_DATA_a7
+	SpriteDataPointer SpriteData_a8, SPRITE_DATA_a8
+	SpriteDataPointer SpriteData_a9, SPRITE_DATA_a9
+	SpriteDataPointer SpriteData_aa, SPRITE_DATA_aa
+	SpriteDataPointer SpriteData_ab, SPRITE_DATA_ab
+	SpriteDataPointer SpriteData_ac, SPRITE_DATA_ac
+	SpriteDataPointer SpriteData_ad, SPRITE_DATA_ad
+	SpriteDataPointer SpriteData_ae, SPRITE_DATA_ae
+	SpriteDataPointer SpriteData_af, SPRITE_DATA_af
+	SpriteDataPointer SpriteData_b0, SPRITE_DATA_b0
+	SpriteDataPointer Timer0DigitSprite, SPRITE_TIMER_DIGIT_0
+	SpriteDataPointer Timer1DigitSprite, SPRITE_TIMER_DIGIT_1
+	SpriteDataPointer Timer2DigitSprite, SPRITE_TIMER_DIGIT_2
+	SpriteDataPointer Timer3DigitSprite, SPRITE_TIMER_DIGIT_3
+	SpriteDataPointer Timer4DigitSprite, SPRITE_TIMER_DIGIT_4
+	SpriteDataPointer Timer5DigitSprite, SPRITE_TIMER_DIGIT_5
+	SpriteDataPointer Timer6DigitSprite, SPRITE_TIMER_DIGIT_6
+	SpriteDataPointer Timer7DigitSprite, SPRITE_TIMER_DIGIT_7
+	SpriteDataPointer Timer8DigitSprite, SPRITE_TIMER_DIGIT_8
+	SpriteDataPointer Timer9DigitSprite, SPRITE_TIMER_DIGIT_9
+	SpriteDataPointer TimerColonSprite, SPRITE_TIMER_COLON
+	SpriteDataPointer VoltorbStationarySprite, SPRITE_VOLTORB_STATIONARY
+	SpriteDataPointer VoltorbCollisionSprite, SPRITE_VOLTORB_COLLISION
+	SpriteDataPointer BellsproutHeadFrame0Sprite, SPRITE_BELLSPROUT_HEAD_0
+	SpriteDataPointer BellsproutHeadFrame1Sprite, SPRITE_BELLSPROUT_HEAD_1
+	SpriteDataPointer BellsproutHeadFrame2Sprite, SPRITE_BELLSPROUT_HEAD_2
+	SpriteDataPointer BellsproutHeadFrame3Sprite, SPRITE_BELLSPROUT_HEAD_3
+	SpriteDataPointer RedFieldSpinnerFrame0Sprite, SPRITE_RED_FIELD_SPINNER_0
+	SpriteDataPointer RedFieldSpinnerFrame1Sprite, SPRITE_RED_FIELD_SPINNER_1
+	SpriteDataPointer RedFieldSpinnerFrame2Sprite, SPRITE_RED_FIELD_SPINNER_2
+	SpriteDataPointer RedFieldSpinnerFrame3Sprite, SPRITE_RED_FIELD_SPINNER_3
+	SpriteDataPointer RedFieldSpinnerFrame4Sprite, SPRITE_RED_FIELD_SPINNER_4
+	SpriteDataPointer RedFieldSpinnerFrame5Sprite, SPRITE_RED_FIELD_SPINNER_5
+	SpriteDataPointer DittoLargeSprite, SPRITE_DITTO_LARGE
+	SpriteDataPointer DittoMediumSprite, SPRITE_DITTO_MEDIUM
+	SpriteDataPointer DittoSmallSprite, SPRITE_DITTO_SMALL
+	SpriteDataPointer StaryuFrame0Sprite, SPRITE_STARYU_0
+	SpriteDataPointer BellsproutBodySprite, SPRITE_BELLSPROUT_BODY
+	SpriteDataPointer Voltorb2ShakeSprite, SPRITE_VOLTORB_SHAKE_2
+	SpriteDataPointer Voltorb1ShakeSprite, SPRITE_VOLTORB_SHAKE_1
+	SpriteDataPointer Voltorb3ShakeSprite, SPRITE_VOLTORB_SHAKE_3
+	SpriteDataPointer StaryuFrame1Sprite, SPRITE_STARYU_1
+	SpriteDataPointer SpriteData_d1, SPRITE_DATA_d1
+	SpriteDataPointer SpriteData_d2, SPRITE_DATA_d2
+	SpriteDataPointer SpriteData_d3, SPRITE_DATA_d3
+	SpriteDataPointer SpriteData_d4, SPRITE_DATA_d4
+	SpriteDataPointer SpriteData_d5, SPRITE_DATA_d5
+	SpriteDataPointer SpriteData_d6, SPRITE_DATA_d6
+	SpriteDataPointer SpriteData_d7, SPRITE_DATA_d7
+	SpriteDataPointer SpriteData_d8, SPRITE_DATA_d8
+	SpriteDataPointer SpriteData_d9, SPRITE_DATA_d9
+	SpriteDataPointer SpriteData_da, SPRITE_DATA_da
+	SpriteDataPointer SpriteData_db, SPRITE_DATA_db
+	SpriteDataPointer SpriteData_dc, SPRITE_DATA_dc
+	SpriteDataPointer SpriteData_dd, SPRITE_DATA_dd
+	SpriteDataPointer SpriteData_de, SPRITE_DATA_de
+	SpriteDataPointer SpriteData_df, SPRITE_DATA_df
+	SpriteDataPointer SpriteData_e0, SPRITE_DATA_e0
+	SpriteDataPointer SpriteData_e1, SPRITE_DATA_e1
+	SpriteDataPointer SpriteData_e2, SPRITE_DATA_e2
+	SpriteDataPointer SpriteData_e3, SPRITE_DATA_e3
+	SpriteDataPointer SpriteData_e4, SPRITE_DATA_e4
+	SpriteDataPointer SpriteData_e5, SPRITE_DATA_e5
+	SpriteDataPointer SpriteData_e6, SPRITE_DATA_e6
+	SpriteDataPointer SpriteData_e7, SPRITE_DATA_e7
+	SpriteDataPointer BlueFieldSpinnerFrame0Sprite, SPRITE_BLUE_FIELD_SPINNER_0
+	SpriteDataPointer BlueFieldSpinnerFrame1Sprite, SPRITE_BLUE_FIELD_SPINNER_1
+	SpriteDataPointer BlueFieldSpinnerFrame2Sprite, SPRITE_BLUE_FIELD_SPINNER_2
+	SpriteDataPointer BlueFieldSpinnerFrame3Sprite, SPRITE_BLUE_FIELD_SPINNER_3
+	SpriteDataPointer BlueFieldSpinnerFrame4Sprite, SPRITE_BLUE_FIELD_SPINNER_4
+	SpriteDataPointer BlueFieldSpinnerFrame5Sprite, SPRITE_BLUE_FIELD_SPINNER_5
+	SpriteDataPointer SpriteData_ee, SPRITE_DATA_ee
+	SpriteDataPointer SpriteData_ef, SPRITE_DATA_ef
+	SpriteDataPointer SpriteData_f0, SPRITE_DATA_f0
+	SpriteDataPointer SpriteData_f1, SPRITE_DATA_f1
+	SpriteDataPointer SpriteData_f2, SPRITE_DATA_f2
+	SpriteDataPointer SpriteData_f3, SPRITE_DATA_f3
+	SpriteDataPointer SpriteData_f4, SPRITE_DATA_f4
+	SpriteDataPointer SpriteData_f5, SPRITE_DATA_f5
+	SpriteDataPointer SpriteData_f6, SPRITE_DATA_f6
+	SpriteDataPointer SpriteData_f7, SPRITE_DATA_f7
+	SpriteDataPointer SpriteData_f8, SPRITE_DATA_f8
 
 BallSpin0Sprite: ; 0x41f2
 	db $08, $08, $42, $00
@@ -2212,140 +2219,142 @@ SpriteData_f8: ; 0x55d2
 	db $10, $08, $78, $00
 	db $80 ; terminator
 
+DEF const_value = 0
+
 SpriteDataPointers2: ; 0x55d7
-	dw SpriteData2_0
-	dw SpriteData2_1
-	dw SpriteData2_2
-	dw SpriteData2_3
-	dw SpriteData2_4
-	dw SpriteData2_5
-	dw SpriteData2_6
-	dw SpriteData2_7
-	dw SpriteData2_8
-	dw SpriteData2_9
-	dw SpriteData2_a
-	dw SpriteData2_b
-	dw SpriteData2_c
-	dw SpriteData2_d
-	dw SpriteData2_e
-	dw SpriteData2_f
-	dw SpriteData2_10
-	dw SpriteData2_11
-	dw SpriteData2_12
-	dw SpriteData2_13
-	dw SpriteData2_14
-	dw SpriteData2_15
-	dw SpriteData2_16
-	dw SpriteData2_17
-	dw SpriteData2_18
-	dw SpriteData2_19
-	dw SpriteData2_1a
-	dw SpriteData2_1b
-	dw SpriteData2_1c
-	dw SpriteData2_1d
-	dw SpriteData2_1e
-	dw SpriteData2_1f
-	dw SpriteData2_20
-	dw SpriteData2_21
-	dw SpriteData2_22
-	dw SpriteData2_23
-	dw SpriteData2_24
-	dw SpriteData2_25
-	dw SpriteData2_26
-	dw SpriteData2_27
-	dw SpriteData2_28
-	dw SpriteData2_29
-	dw SpriteData2_2a
-	dw SpriteData2_2b
-	dw SpriteData2_2c
-	dw SpriteData2_2d
-	dw SpriteData2_2e
-	dw SpriteData2_2f
-	dw SpriteData2_30
-	dw SpriteData2_31
-	dw SpriteData2_32
-	dw SpriteData2_33
-	dw SpriteData2_34
-	dw SpriteData2_35
-	dw SpriteData2_36
-	dw SpriteData2_37
-	dw SpriteData2_38
-	dw SpriteData2_39
-	dw SpriteData2_3a
-	dw SpriteData2_3b
-	dw SpriteData2_3c
-	dw SpriteData2_3d
-	dw SpriteData2_3e
-	dw SpriteData2_3f
-	dw SpriteData2_40
-	dw SpriteData2_41
-	dw SpriteData2_42
-	dw SpriteData2_43
-	dw SpriteData2_44
-	dw SpriteData2_45
-	dw SpriteData2_46
-	dw SpriteData2_47
-	dw SpriteData2_48
-	dw SpriteData2_49
-	dw SpriteData2_4a
-	dw SpriteData2_4b
-	dw SpriteData2_4c
-	dw SpriteData2_4d
-	dw SpriteData2_4e
-	dw SpriteData2_4f
-	dw SpriteData2_50
-	dw SpriteData2_51
-	dw SpriteData2_52
-	dw SpriteData2_53
-	dw SpriteData2_54
-	dw SpriteData2_55
-	dw SpriteData2_56
-	dw SpriteData2_57
-	dw SpriteData2_58
-	dw SpriteData2_59
-	dw SpriteData2_5a
-	dw SpriteData2_5b
-	dw SpriteData2_5c
-	dw SpriteData2_5d
-	dw SpriteData2_5e
-	dw SpriteData2_5f
-	dw SpriteData2_60
-	dw SpriteData2_61
-	dw SpriteData2_62
-	dw SpriteData2_63
-	dw SpriteData2_64
-	dw SpriteData2_65
-	dw SpriteData2_66
-	dw SpriteData2_67
-	dw SpriteData2_68
-	dw SpriteData2_69
-	dw SpriteData2_6a
-	dw SpriteData2_6b
-	dw SpriteData2_6c
-	dw SpriteData2_6d
-	dw SpriteData2_6e
-	dw SpriteData2_6f
-	dw SpriteData2_70
-	dw SpriteData2_71
-	dw SpriteData2_72
-	dw SpriteData2_73
-	dw SpriteData2_74
-	dw SpriteData2_75
-	dw SpriteData2_76
-	dw SpriteData2_77
-	dw SpriteData2_78
-	dw SpriteData2_79
-	dw SpriteData2_7a
-	dw SpriteData2_7b
-	dw SpriteData2_7c
-	dw SpriteData2_7d
-	dw SpriteData2_7e
-	dw SpriteData2_7f
-	dw SpriteData2_80
-	dw SpriteData2_81
-	dw SpriteData2_82
-	dw SpriteData2_83
-	dw SpriteData2_84
+	SpriteDataPointer SpriteData2_0, SPRITE2_DATA_0
+	SpriteDataPointer SpriteData2_1, SPRITE2_DATA_1
+	SpriteDataPointer SpriteData2_2, SPRITE2_DATA_2
+	SpriteDataPointer SpriteData2_3, SPRITE2_DATA_3
+	SpriteDataPointer SpriteData2_4, SPRITE2_DATA_4
+	SpriteDataPointer SpriteData2_5, SPRITE2_DATA_5
+	SpriteDataPointer SpriteData2_6, SPRITE2_DATA_6
+	SpriteDataPointer SpriteData2_7, SPRITE2_DATA_7
+	SpriteDataPointer SpriteData2_8, SPRITE2_DATA_8
+	SpriteDataPointer SpriteData2_9, SPRITE2_DATA_9
+	SpriteDataPointer SpriteData2_a, SPRITE2_DATA_a
+	SpriteDataPointer SpriteData2_b, SPRITE2_DATA_b
+	SpriteDataPointer SpriteData2_c, SPRITE2_DATA_c
+	SpriteDataPointer SpriteData2_d, SPRITE2_DATA_d
+	SpriteDataPointer SpriteData2_e, SPRITE2_DATA_e
+	SpriteDataPointer SpriteData2_f, SPRITE2_DATA_f
+	SpriteDataPointer SpriteData2_10, SPRITE2_DATA_10
+	SpriteDataPointer SpriteData2_11, SPRITE2_DATA_11
+	SpriteDataPointer SpriteData2_12, SPRITE2_DATA_12
+	SpriteDataPointer SpriteData2_13, SPRITE2_DATA_13
+	SpriteDataPointer SpriteData2_14, SPRITE2_DATA_14
+	SpriteDataPointer SpriteData2_15, SPRITE2_DATA_15
+	SpriteDataPointer SpriteData2_16, SPRITE2_DATA_16
+	SpriteDataPointer SpriteData2_17, SPRITE2_DATA_17
+	SpriteDataPointer SpriteData2_18, SPRITE2_DATA_18
+	SpriteDataPointer SpriteData2_19, SPRITE2_DATA_19
+	SpriteDataPointer SpriteData2_1a, SPRITE2_DATA_1a
+	SpriteDataPointer SpriteData2_1b, SPRITE2_DATA_1b
+	SpriteDataPointer SpriteData2_1c, SPRITE2_DATA_1c
+	SpriteDataPointer SpriteData2_1d, SPRITE2_DATA_1d
+	SpriteDataPointer SpriteData2_1e, SPRITE2_DATA_1e
+	SpriteDataPointer SpriteData2_1f, SPRITE2_DATA_1f
+	SpriteDataPointer SpriteData2_20, SPRITE2_DATA_20
+	SpriteDataPointer SpriteData2_21, SPRITE2_DATA_21
+	SpriteDataPointer SpriteData2_22, SPRITE2_DATA_22
+	SpriteDataPointer SpriteData2_23, SPRITE2_DATA_23
+	SpriteDataPointer SpriteData2_24, SPRITE2_DATA_24
+	SpriteDataPointer SpriteData2_25, SPRITE2_DATA_25
+	SpriteDataPointer SpriteData2_26, SPRITE2_DATA_26
+	SpriteDataPointer SpriteData2_27, SPRITE2_DATA_27
+	SpriteDataPointer SpriteData2_28, SPRITE2_DATA_28
+	SpriteDataPointer SpriteData2_29, SPRITE2_DATA_29
+	SpriteDataPointer SpriteData2_2a, SPRITE2_DATA_2a
+	SpriteDataPointer SpriteData2_2b, SPRITE2_DATA_2b
+	SpriteDataPointer SpriteData2_2c, SPRITE2_DATA_2c
+	SpriteDataPointer SpriteData2_2d, SPRITE2_DATA_2d
+	SpriteDataPointer SpriteData2_2e, SPRITE2_DATA_2e
+	SpriteDataPointer SpriteData2_2f, SPRITE2_DATA_2f
+	SpriteDataPointer SpriteData2_30, SPRITE2_DATA_30
+	SpriteDataPointer SpriteData2_31, SPRITE2_DATA_31
+	SpriteDataPointer SpriteData2_32, SPRITE2_DATA_32
+	SpriteDataPointer SpriteData2_33, SPRITE2_DATA_33
+	SpriteDataPointer SpriteData2_34, SPRITE2_DATA_34
+	SpriteDataPointer SpriteData2_35, SPRITE2_DATA_35
+	SpriteDataPointer SpriteData2_36, SPRITE2_DATA_36
+	SpriteDataPointer SpriteData2_37, SPRITE2_DATA_37
+	SpriteDataPointer SpriteData2_38, SPRITE2_DATA_38
+	SpriteDataPointer SpriteData2_39, SPRITE2_DATA_39
+	SpriteDataPointer SpriteData2_3a, SPRITE2_DATA_3a
+	SpriteDataPointer SpriteData2_3b, SPRITE2_DATA_3b
+	SpriteDataPointer SpriteData2_3c, SPRITE2_DATA_3c
+	SpriteDataPointer SpriteData2_3d, SPRITE2_DATA_3d
+	SpriteDataPointer SpriteData2_3e, SPRITE2_DATA_3e
+	SpriteDataPointer SpriteData2_3f, SPRITE2_DATA_3f
+	SpriteDataPointer SpriteData2_40, SPRITE2_DATA_40
+	SpriteDataPointer SpriteData2_41, SPRITE2_DATA_41
+	SpriteDataPointer SpriteData2_42, SPRITE2_DATA_42
+	SpriteDataPointer SpriteData2_43, SPRITE2_DATA_43
+	SpriteDataPointer SpriteData2_44, SPRITE2_DATA_44
+	SpriteDataPointer SpriteData2_45, SPRITE2_DATA_45
+	SpriteDataPointer SpriteData2_46, SPRITE2_DATA_46
+	SpriteDataPointer SpriteData2_47, SPRITE2_DATA_47
+	SpriteDataPointer SpriteData2_48, SPRITE2_DATA_48
+	SpriteDataPointer SpriteData2_49, SPRITE2_DATA_49
+	SpriteDataPointer SpriteData2_4a, SPRITE2_DATA_4a
+	SpriteDataPointer SpriteData2_4b, SPRITE2_DATA_4b
+	SpriteDataPointer SpriteData2_4c, SPRITE2_DATA_4c
+	SpriteDataPointer SpriteData2_4d, SPRITE2_DATA_4d
+	SpriteDataPointer SpriteData2_4e, SPRITE2_DATA_4e
+	SpriteDataPointer SpriteData2_4f, SPRITE2_DATA_4f
+	SpriteDataPointer SpriteData2_50, SPRITE2_DATA_50
+	SpriteDataPointer SpriteData2_51, SPRITE2_DATA_51
+	SpriteDataPointer SpriteData2_52, SPRITE2_DATA_52
+	SpriteDataPointer SpriteData2_53, SPRITE2_DATA_53
+	SpriteDataPointer SpriteData2_54, SPRITE2_DATA_54
+	SpriteDataPointer SpriteData2_55, SPRITE2_DATA_55
+	SpriteDataPointer SpriteData2_56, SPRITE2_DATA_56
+	SpriteDataPointer SpriteData2_57, SPRITE2_DATA_57
+	SpriteDataPointer SpriteData2_58, SPRITE2_DATA_58
+	SpriteDataPointer SpriteData2_59, SPRITE2_DATA_59
+	SpriteDataPointer SpriteData2_5a, SPRITE2_DATA_5a
+	SpriteDataPointer SpriteData2_5b, SPRITE2_DATA_5b
+	SpriteDataPointer SpriteData2_5c, SPRITE2_DATA_5c
+	SpriteDataPointer SpriteData2_5d, SPRITE2_DATA_5d
+	SpriteDataPointer SpriteData2_5e, SPRITE2_DATA_5e
+	SpriteDataPointer SpriteData2_5f, SPRITE2_DATA_5f
+	SpriteDataPointer SpriteData2_60, SPRITE2_DATA_60
+	SpriteDataPointer SpriteData2_61, SPRITE2_DATA_61
+	SpriteDataPointer SpriteData2_62, SPRITE2_DATA_62
+	SpriteDataPointer SpriteData2_63, SPRITE2_DATA_63
+	SpriteDataPointer SpriteData2_64, SPRITE2_DATA_64
+	SpriteDataPointer SpriteData2_65, SPRITE2_DATA_65
+	SpriteDataPointer SpriteData2_66, SPRITE2_DATA_66
+	SpriteDataPointer SpriteData2_67, SPRITE2_DATA_67
+	SpriteDataPointer SpriteData2_68, SPRITE2_DATA_68
+	SpriteDataPointer SpriteData2_69, SPRITE2_DATA_69
+	SpriteDataPointer SpriteData2_6a, SPRITE2_DATA_6a
+	SpriteDataPointer SpriteData2_6b, SPRITE2_DATA_6b
+	SpriteDataPointer SpriteData2_6c, SPRITE2_DATA_6c
+	SpriteDataPointer SpriteData2_6d, SPRITE2_DATA_6d
+	SpriteDataPointer SpriteData2_6e, SPRITE2_DATA_6e
+	SpriteDataPointer SpriteData2_6f, SPRITE2_DATA_6f
+	SpriteDataPointer SpriteData2_70, SPRITE2_DATA_70
+	SpriteDataPointer SpriteData2_71, SPRITE2_DATA_71
+	SpriteDataPointer SpriteData2_72, SPRITE2_DATA_72
+	SpriteDataPointer SpriteData2_73, SPRITE2_DATA_73
+	SpriteDataPointer SpriteData2_74, SPRITE2_DATA_74
+	SpriteDataPointer SpriteData2_75, SPRITE2_DATA_75
+	SpriteDataPointer SpriteData2_76, SPRITE2_DATA_76
+	SpriteDataPointer SpriteData2_77, SPRITE2_DATA_77
+	SpriteDataPointer SpriteData2_78, SPRITE2_DATA_78
+	SpriteDataPointer SpriteData2_79, SPRITE2_DATA_79
+	SpriteDataPointer SpriteData2_7a, SPRITE2_DATA_7a
+	SpriteDataPointer SpriteData2_7b, SPRITE2_DATA_7b
+	SpriteDataPointer SpriteData2_7c, SPRITE2_DATA_7c
+	SpriteDataPointer SpriteData2_7d, SPRITE2_DATA_7d
+	SpriteDataPointer SpriteData2_7e, SPRITE2_DATA_7e
+	SpriteDataPointer SpriteData2_7f, SPRITE2_DATA_7f
+	SpriteDataPointer SpriteData2_80, SPRITE2_DATA_80
+	SpriteDataPointer SpriteData2_81, SPRITE2_DATA_81
+	SpriteDataPointer SpriteData2_82, SPRITE2_DATA_82
+	SpriteDataPointer SpriteData2_83, SPRITE2_DATA_83
+	SpriteDataPointer SpriteData2_84, SPRITE2_DATA_84
 
 SpriteData2_0: ; 0x56e1
 	db $20, $20, $9E, $04

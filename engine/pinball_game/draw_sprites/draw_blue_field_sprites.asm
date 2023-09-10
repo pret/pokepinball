@@ -25,13 +25,13 @@ DrawSpritesBlueFieldBottom: ; 0x1f35a
 
 DrawShellderSprites: ; 0x1f395
 	ld de, wShellder1Animation_Unused
-	ld hl, Data_1f3cf
+	ld hl, Shelder1SpriteData
 	call DrawShellderSprite
 	ld de, wShellder2Animation_Unused
-	ld hl, Data_1f3d5
+	ld hl, Shelder2SpriteData
 	call DrawShellderSprite
 	ld de, wShellder3Animation_Unused
-	ld hl, Data_1f3db
+	ld hl, Shelder3SpriteData
 	; fall through
 
 DrawShellderSprite: ; 0x1f3ad
@@ -62,20 +62,20 @@ DrawShellderSprite: ; 0x1f3ad
 	call LoadSpriteData
 	ret
 
-Data_1f3cf:
+Shelder1SpriteData:
 	db $48, $2D ; background scroll offsets (x, y)
 	db $01
-	db $E0, $E1, $E0 ; sprite ids
+	db SPRITE_SHELDER_STATIONARY, SPRITE_SHELDER_COLLISION, SPRITE_SHELDER_STATIONARY ; sprite ids
 
-Data_1f3d5:
+Shelder2SpriteData:
 	db $33, $3E ; background scroll offsets (x, y)
 	db $00
-	db $E0, $E1, $E0 ; sprite ids
+	db SPRITE_SHELDER_STATIONARY, SPRITE_SHELDER_COLLISION, SPRITE_SHELDER_STATIONARY ; sprite ids
 
-Data_1f3db:
+Shelder3SpriteData:
 	db $5D, $3E ; background scroll offsets (x, y)
 	db $02
-	db $E0, $E1, $E0 ; sprite ids
+	db SPRITE_SHELDER_STATIONARY, SPRITE_SHELDER_COLLISION, SPRITE_SHELDER_STATIONARY ; sprite ids
 
 DrawSpinner_BlueField: ; 0x1f3e1
 	ld a, $8a
@@ -98,7 +98,12 @@ DrawSpinner_BlueField: ; 0x1f3e1
 	ret
 
 SpinnerSpriteIds_BlueField:
-	db $E8, $E9, $EA, $EB, $EC, $ED
+	db SPRITE_BLUE_FIELD_SPINNER_0
+	db SPRITE_BLUE_FIELD_SPINNER_1
+	db SPRITE_BLUE_FIELD_SPINNER_2
+	db SPRITE_BLUE_FIELD_SPINNER_3
+	db SPRITE_BLUE_FIELD_SPINNER_4
+	db SPRITE_BLUE_FIELD_SPINNER_5
 
 DrawSlowpoke: ; 0x1f408
 	ld a, $18
@@ -119,7 +124,9 @@ DrawSlowpoke: ; 0x1f408
 	ret
 
 SlowpokeSpriteIds:
-	db $E2, $E3, $E4
+	db SPRITE_SLOWPOKE_0
+	db SPRITE_SLOWPOKE_1
+	db SPRITE_SLOWPOKE_2
 
 DrawCloyster: ; 0x1f428
 	ld a, $70
@@ -140,7 +147,9 @@ DrawCloyster: ; 0x1f428
 	ret
 
 CloysterSpriteIds:
-	db $E5, $E6, $E7
+	db SPRITE_CLOYSTER_0
+	db SPRITE_CLOYSTER_1
+	db SPRITE_CLOYSTER_2
 
 DrawPikachuSavers_BlueStage: ; 0x1f448
 	ld a, [hSCX]
@@ -180,7 +189,7 @@ DrawPikachuSavers_BlueStage: ; 0x1f448
 	sub e
 	ld c, a
 	ld a, [wPikachuSaverAnimationFrame]
-	add $e
+	add SPRITE_PIKACHU_SAVER_0
 	call LoadSpriteData
 	ret
 
@@ -236,49 +245,49 @@ EvolutionIndicatorArrowsSprite_BlueFieldTop: ; 0x1f4ce
  ; Each entry is:
  ; [sprite x/y Offsets],[sprite Id]
 	db $0D, $37
-	db $EE
+	db SPRITE_BLUE_FIELD_TOP_INDICATOR_ARROW_UP
 
 	db $35, $0D
-	db $F1
+	db SPRITE_BLUE_FIELD_TOP_INDICATOR_ARROW_DOWNRIGHT
 
 	db $8E, $4E
-	db $F4
+	db SPRITE_BLUE_FIELD_TOP_INDICATOR_ARROW_DOWN
 
 	db $36, $64
-	db $EF
+	db SPRITE_BLUE_FIELD_TOP_INDICATOR_ARROW_LEFT
 
 	db $4C, $49
-	db $EE
+	db SPRITE_BLUE_FIELD_TOP_INDICATOR_ARROW_UP
 
 	db $61, $64
-	db $F0
+	db SPRITE_BLUE_FIELD_TOP_INDICATOR_ARROW_RIGHT
 
 EvolutionIndicatorArrowsSprite_BlueFieldBottom: ; 0x1f4e0
  ; Each entry is 3 bytes:
  ; [sprite x/y Offsets],[sprite Id]
 	db $2D, $13
-	db $32
+	db SPRITE_BLUE_FIELD_BOTTOM_INDICATOR_ARROW_UPLEFT
 
 	db $6A, $13
-	db $33
+	db SPRITE_BLUE_FIELD_BOTTOM_INDICATOR_ARROW_UPRIGHT
 
 	db $25, $2D
-	db $34
+	db SPRITE_BLUE_FIELD_BOTTOM_INDICATOR_ARROW_LEFT
 
 	db $73, $2D
-	db $35
+	db SPRITE_BLUE_FIELD_BOTTOM_INDICATOR_ARROW_RIGHT
 
 	db $38, $14
-	db $36
+	db SPRITE_BLUE_FIELD_BOTTOM_INDICATOR_ARROW_DOWNLEFT
 
 	db $66, $14
-	db $36
+	db SPRITE_BLUE_FIELD_BOTTOM_INDICATOR_ARROW_DOWNLEFT
 
 	db $79, $40
-	db $37
+	db SPRITE_BLUE_FIELD_BOTTOM_INDICATOR_ARROW_DOWNRIGHT
 
 	db $89, $40
-	db $37
+	db SPRITE_BLUE_FIELD_BOTTOM_INDICATOR_ARROW_DOWNRIGHT
 
 DrawEvolutionTrinket_BlueFieldTop: ; 0x1f4f8
 	ld a, [wEvolutionObjectsDisabled]
@@ -287,7 +296,7 @@ DrawEvolutionTrinket_BlueFieldTop: ; 0x1f4f8
 	ld de, wActiveEvolutionTrinkets
 	ld hl, EvolutionTrinketSpriteOffsets_BlueFieldTop
 	ld b, $c
-	ld c, $47
+	ld c, SPRITE_TRINKET_FIRST_TOP - 1
 	jr DrawEvolutionTrinket_BlueField
 
 DrawEvolutionTrinket_BlueFieldBottom: ; 0x1f509
@@ -297,7 +306,7 @@ DrawEvolutionTrinket_BlueFieldBottom: ; 0x1f509
 	ld de, wActiveEvolutionTrinkets + 12
 	ld hl, EvolutionTrinketSpriteOffsets_BlueFieldBottom
 	ld b, $6
-	ld c, $40
+	ld c, SPRITE_TRINKET_FIRST_BOTTOM - 1
 DrawEvolutionTrinket_BlueField: ; 0x1f518
 	push bc
 	ld a, [de]
@@ -372,8 +381,8 @@ DrawSlotGlow_BlueField: ; 0x1f55e
 	srl a
 	srl a
 	and $3
-	add $4f
-	cp $52
+	add SPRITE_SLOT_GLOW_0
+	cp SPRITE_SLOT_GLOW_2 + 1
 	call nz, LoadSpriteData
 	ret
 
@@ -399,7 +408,7 @@ DrawAnimatedMon_BlueStage: ; 0x1f58b
 	ret
 
 AnimatedMonSpriteIds_BlueStage:
-	db $26, $27, $28 ; animated sprite type 0
-	db $29, $2A, $2B ; animated sprite type 1
-	db $2C, $2D, $2E ; animated sprite type 2
-	db $2F, $30, $31 ; animated sprite type 3
+	db SPRITE_ANIMATED_MON_TYPE_0_FRAME_0, SPRITE_ANIMATED_MON_TYPE_0_FRAME_1, SPRITE_ANIMATED_MON_TYPE_0_FRAME_2
+	db SPRITE_ANIMATED_MON_TYPE_1_FRAME_0, SPRITE_ANIMATED_MON_TYPE_1_FRAME_1, SPRITE_ANIMATED_MON_TYPE_1_FRAME_2
+	db SPRITE_ANIMATED_MON_TYPE_2_FRAME_0, SPRITE_ANIMATED_MON_TYPE_2_FRAME_1, SPRITE_ANIMATED_MON_TYPE_2_FRAME_2
+	db SPRITE_ANIMATED_MON_TYPE_3_FRAME_0, SPRITE_ANIMATED_MON_TYPE_3_FRAME_1, SPRITE_ANIMATED_MON_TYPE_3_FRAME_2

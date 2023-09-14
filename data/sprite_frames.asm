@@ -2306,20 +2306,20 @@ SpriteDataPointers2: ; 0x55d7
 	SpriteDataPointer SpriteData2_43, SPRITE2_DATA_43
 	SpriteDataPointer SpriteData2_44, SPRITE2_DATA_44
 	SpriteDataPointer SpriteData2_45, SPRITE2_DATA_45
-	SpriteDataPointer SpriteData2_46, SPRITE2_DATA_46
-	SpriteDataPointer SpriteData2_47, SPRITE2_DATA_47
-	SpriteDataPointer SpriteData2_48, SPRITE2_DATA_48
-	SpriteDataPointer SpriteData2_49, SPRITE2_DATA_49
-	SpriteDataPointer SpriteData2_4a, SPRITE2_DATA_4a
-	SpriteDataPointer SpriteData2_4b, SPRITE2_DATA_4b
-	SpriteDataPointer SpriteData2_4c, SPRITE2_DATA_4c
-	SpriteDataPointer SpriteData2_4d, SPRITE2_DATA_4d
-	SpriteDataPointer SpriteData2_4e, SPRITE2_DATA_4e
-	SpriteDataPointer SpriteData2_4f, SPRITE2_DATA_4f
-	SpriteDataPointer SpriteData2_50, SPRITE2_DATA_50
-	SpriteDataPointer SpriteData2_51, SPRITE2_DATA_51
-	SpriteDataPointer SpriteData2_52, SPRITE2_DATA_52
-	SpriteDataPointer SpriteData2_53, SPRITE2_DATA_53
+	SpriteDataPointer DugtrioHealth3Frame0Sprite, SPRITE2_DUGTRIO_HEALTH3_FRAME0
+	SpriteDataPointer DugtrioHealth3Frame1Sprite, SPRITE2_DUGTRIO_HEALTH3_FRAME1
+	SpriteDataPointer DugtrioHealth3Frame2Sprite, SPRITE2_DUGTRIO_HEALTH3_FRAME2
+	SpriteDataPointer DugtrioHealth3HitSprite, SPRITE2_DUGTRIO_HEALTH3_HIT
+	SpriteDataPointer DugtrioHealth2Frame0Sprite, SPRITE2_DUGTRIO_HEALTH2_FRAME0
+	SpriteDataPointer DugtrioHealth2Frame1Sprite, SPRITE2_DUGTRIO_HEALTH2_FRAME1
+	SpriteDataPointer DugtrioHealth2Frame2Sprite, SPRITE2_DUGTRIO_HEALTH2_FRAME2
+	SpriteDataPointer DugtrioHealth2HitSprite, SPRITE2_DUGTRIO_HEALTH2_HIT
+	SpriteDataPointer DugtrioHealth1Frame0Sprite, SPRITE2_DUGTRIO_HEALTH1_FRAME0
+	SpriteDataPointer DugtrioHealth1Frame1Sprite, SPRITE2_DUGTRIO_HEALTH1_FRAME1
+	SpriteDataPointer DugtrioHealth1Frame2Sprite, SPRITE2_DUGTRIO_HEALTH1_FRAME2
+	SpriteDataPointer DugtrioHealth1HitSprite, SPRITE2_DUGTRIO_HEALTH1_HIT
+	SpriteDataPointer DroppedDugtrioSprite, SPRITE2_DUGTRIO_DROPPED
+	SpriteDataPointer DefeatedDugtrioSprite, SPRITE2_DUGTRIO_DEFEATED
 	SpriteDataPointer SpriteData2_54, SPRITE2_DATA_54
 	SpriteDataPointer SpriteData2_55, SPRITE2_DATA_55
 	SpriteDataPointer SpriteData2_56, SPRITE2_DATA_56
@@ -3007,7 +3007,7 @@ SpriteData2_45: ; 0x
 	db $10, $08, $DE, $00
 	db $80  ; terminator
 
-SpriteData2_46: ; 0x
+DugtrioHealth3Frame0Sprite: ; 0x
 	db $20, $20, $9E, $11
 	db $20, $18, $9C, $11
 	db $20, $10, $9A, $11
@@ -3018,7 +3018,7 @@ SpriteData2_46: ; 0x
 	db $10, $08, $90, $11
 	db $80  ; terminator
 
-SpriteData2_47: ; 0x
+DugtrioHealth3Frame1Sprite: ; 0x
 	db $20, $20, $1E, $11
 	db $20, $18, $1C, $11
 	db $20, $10, $1A, $11
@@ -3029,7 +3029,7 @@ SpriteData2_47: ; 0x
 	db $10, $08, $A0, $11
 	db $80  ; terminator
 
-SpriteData2_48: ; 0x
+DugtrioHealth3Frame2Sprite: ; 0x
 	db $20, $20, $9E, $11
 	db $10, $20, $96, $11
 	db $20, $10, $1A, $11
@@ -3040,7 +3040,7 @@ SpriteData2_48: ; 0x
 	db $10, $10, $20, $11
 	db $80  ; terminator
 
-SpriteData2_49: ; 0x
+DugtrioHealth3HitSprite: ; 0x
 	db $10, $08, $A0, $11
 	db $20, $20, $32, $11
 	db $20, $18, $30, $11
@@ -3051,7 +3051,7 @@ SpriteData2_49: ; 0x
 	db $10, $10, $26, $11
 	db $80  ; terminator
 
-SpriteData2_4a: ; 0x
+DugtrioHealth2Frame0Sprite: ; 0x
 	db $20, $18, $AA, $11
 	db $20, $10, $7E, $11
 	db $10, $18, $7C, $11
@@ -3062,7 +3062,7 @@ SpriteData2_4a: ; 0x
 	db $10, $08, $90, $11
 	db $80  ; terminator
 
-SpriteData2_4b: ; 0x
+DugtrioHealth2Frame1Sprite: ; 0x
 	db $20, $18, $B2, $11
 	db $20, $10, $B0, $11
 	db $10, $18, $AE, $11
@@ -3073,7 +3073,7 @@ SpriteData2_4b: ; 0x
 	db $10, $08, $A0, $11
 	db $80  ; terminator
 
-SpriteData2_4c: ; 0x
+DugtrioHealth2Frame2Sprite: ; 0x
 	db $20, $10, $B0, $11
 	db $10, $10, $AC, $11
 	db $20, $18, $AA, $11
@@ -3084,7 +3084,7 @@ SpriteData2_4c: ; 0x
 	db $10, $08, $A0, $11
 	db $80  ; terminator
 
-SpriteData2_4d: ; 0x
+DugtrioHealth2HitSprite: ; 0x
 	db $20, $18, $BA, $11
 	db $20, $10, $B8, $11
 	db $10, $18, $B6, $11
@@ -3095,7 +3095,7 @@ SpriteData2_4d: ; 0x
 	db $10, $20, $2A, $11
 	db $80  ; terminator
 
-SpriteData2_4e: ; 0x
+DugtrioHealth1Frame0Sprite: ; 0x
 	db $20, $20, $C2, $11
 	db $20, $18, $C0, $11
 	db $10, $20, $BE, $11
@@ -3106,7 +3106,7 @@ SpriteData2_4e: ; 0x
 	db $10, $08, $90, $11
 	db $80  ; terminator
 
-SpriteData2_4f: ; 0x
+DugtrioHealth1Frame1Sprite: ; 0x
 	db $20, $10, $B0, $11
 	db $10, $10, $AC, $11
 	db $20, $08, $A8, $11
@@ -3117,7 +3117,7 @@ SpriteData2_4f: ; 0x
 	db $10, $18, $BC, $11
 	db $80  ; terminator
 
-SpriteData2_50: ; 0x
+DugtrioHealth1Frame2Sprite: ; 0x
 	db $20, $10, $B0, $11
 	db $10, $10, $AC, $11
 	db $20, $08, $A8, $11
@@ -3128,7 +3128,7 @@ SpriteData2_50: ; 0x
 	db $10, $18, $BC, $11
 	db $80  ; terminator
 
-SpriteData2_51: ; 0x
+DugtrioHealth1HitSprite: ; 0x
 	db $20, $20, $CA, $11
 	db $20, $18, $C8, $11
 	db $10, $20, $C6, $11
@@ -3139,7 +3139,7 @@ SpriteData2_51: ; 0x
 	db $20, $08, $2C, $11
 	db $80  ; terminator
 
-SpriteData2_52: ; 0x
+DroppedDugtrioSprite:
 	db $20, $08, $38, $11
 	db $10, $18, $36, $11
 	db $10, $10, $34, $11
@@ -3148,7 +3148,7 @@ SpriteData2_52: ; 0x
 	db $20, $10, $3A, $11
 	db $80  ; terminator
 
-SpriteData2_53: ; 0x
+DefeatedDugtrioSprite: ; 0x
 	db $20, $10, $CE, $11
 	db $20, $08, $CC, $11
 	db $20, $20, $C2, $11

@@ -179,7 +179,7 @@ Func_19c52: ; 0x19c52
 	ld a, c
 	cp NUM_DIGLETTS
 	jr nz, .asm_19cc8
-	ld hl, AnimationData_1ac75
+	ld hl, AnimationData_DugtrioHealth3
 	ld de, wDugtrioAnimation
 	call InitAnimation
 	ld a, $1
@@ -607,7 +607,7 @@ Func_1aad4: ; 0x1aad4
 	sla a
 	ld c, a
 	ld b, $0
-	ld hl, AnimationDataPointers_1ac62
+	ld hl, AnimationDataPointers_Dugtrio
 	add hl, bc
 	ld a, [hli]
 	ld h, [hl]
@@ -638,7 +638,7 @@ Func_1ab30: ; 0x1ab30
 	sla a
 	ld c, a
 	ld b, $0
-	ld hl, AnimationDataPointers_1ac62
+	ld hl, AnimationDataPointers_Dugtrio
 	add hl, bc
 	ld a, [hli]
 	ld h, [hl]
@@ -654,7 +654,7 @@ Func_1ab30: ; 0x1ab30
 	ld a, [wDugtrioAnimationIndex]
 	cp $3
 	ret nz
-	ld hl, AnimationData_1ac75
+	ld hl, AnimationData_DugtrioHealth3
 	ld de, wDugtrioAnimation
 	call InitAnimation
 	ld a, $1
@@ -667,7 +667,7 @@ Func_1ab30: ; 0x1ab30
 	ld a, [wDugtrioAnimationIndex]
 	cp $1
 	ret nz
-	ld hl, AnimationData_1ac7f
+	ld hl, AnimationData_DugtrioHealth2
 	ld de, wDugtrioAnimation
 	call InitAnimation
 	ld a, $3
@@ -680,7 +680,7 @@ Func_1ab30: ; 0x1ab30
 	ld a, [wDugtrioAnimationIndex]
 	cp $3
 	ret nz
-	ld hl, AnimationData_1ac7f
+	ld hl, AnimationData_DugtrioHealth2
 	ld de, wDugtrioAnimation
 	call InitAnimation
 	ld a, $3
@@ -693,7 +693,7 @@ Func_1ab30: ; 0x1ab30
 	ld a, [wDugtrioAnimationIndex]
 	cp $1
 	ret nz
-	ld hl, AnimationData_1ac89
+	ld hl, AnimationData_DugtrioHealth1
 	ld de, wDugtrioAnimation
 	call InitAnimation
 	ld a, $5
@@ -706,7 +706,7 @@ Func_1ab30: ; 0x1ab30
 	ld a, [wDugtrioAnimationIndex]
 	cp $3
 	ret nz
-	ld hl, AnimationData_1ac89
+	ld hl, AnimationData_DugtrioHealth1
 	ld de, wDugtrioAnimation
 	call InitAnimation
 	ld a, $5
@@ -719,7 +719,7 @@ Func_1ab30: ; 0x1ab30
 	ld a, [wDugtrioAnimationIndex]
 	cp $1
 	ret nz
-	ld hl, AnimationData_1ac93
+	ld hl, AnimationData_DugtrioDefeated
 	ld de, wDugtrioAnimation
 	call InitAnimation
 	ld a, $7
@@ -739,7 +739,7 @@ Func_1ab30: ; 0x1ab30
 .asm_1abf2
 	cp $2
 	ret nz
-	ld hl, AnimationData_1ac72
+	ld hl, AnimationData_DugtrioDropped
 	ld de, wDugtrioAnimation
 	call InitAnimation
 	xor a
@@ -797,59 +797,59 @@ Data_1ac56:
 	db $02, $02, $02, $02
 	db $02, $02, $02, $02
 
-AnimationDataPointers_1ac62: ; 0x1ac62
-	dw AnimationData_1ac72
-	dw AnimationData_1ac75
-	dw AnimationData_1ac7c
-	dw AnimationData_1ac7f
-	dw AnimationData_1ac86
-	dw AnimationData_1ac89
-	dw AnimationData_1ac90
-	dw AnimationData_1ac93
+AnimationDataPointers_Dugtrio: ; 0x1ac62
+	dw AnimationData_DugtrioDropped
+	dw AnimationData_DugtrioHealth3
+	dw AnimationData_DugtrioHealth3Hit
+	dw AnimationData_DugtrioHealth2
+	dw AnimationData_DugtrioHealth2Hit
+	dw AnimationData_DugtrioHealth1
+	dw AnimationData_DugtrioHealth1Hit
+	dw AnimationData_DugtrioDefeated
 
-AnimationData_1ac72: ; 0x1ac72
+AnimationData_DugtrioDropped: ; 0x1ac72
 ; Each entry is [duration][sprite id]
-	db $01, $0C
+	db $01, DUGTRIOSPRITE_DROPPED
 	db $00 ; terminator
 
-AnimationData_1ac75: ; 0x1ac75
+AnimationData_DugtrioHealth3: ; 0x1ac75
 ; Each entry is [duration][sprite id]
-	db $0E, $00
-	db $0E, $01
-	db $0E, $02
+	db $0E, DUGTRIOSPRITE_HEALTH3_FRAME0
+	db $0E, DUGTRIOSPRITE_HEALTH3_FRAME1
+	db $0E, DUGTRIOSPRITE_HEALTH3_FRAME2
 	db $00 ; terminator
 
-AnimationData_1ac7c: ; 0x1ac7c
+AnimationData_DugtrioHealth3Hit: ; 0x1ac7c
 ; Each entry is [duration][sprite id]
-	db $0D, $03
+	db $0D, DUGTRIOSPRITE_HEALTH3_HIT
 	db $00 ; terminator
 
-AnimationData_1ac7f: ; 0x1ac7f
+AnimationData_DugtrioHealth2: ; 0x1ac7f
 ; Each entry is [duration][sprite id]
-	db $0E, $04
-	db $0E, $05
-	db $0E, $06
+	db $0E, DUGTRIOSPRITE_HEALTH2_FRAME0
+	db $0E, DUGTRIOSPRITE_HEALTH2_FRAME1
+	db $0E, DUGTRIOSPRITE_HEALTH2_FRAME2
 	db $00
 
-AnimationData_1ac86: ; 0x1ac86
+AnimationData_DugtrioHealth2Hit: ; 0x1ac86
 ; Each entry is [duration][sprite id]
-	db $0D, $07
+	db $0D, DUGTRIOSPRITE_HEALTH2_HIT
 	db $00 ; terminator
 
-AnimationData_1ac89: ; 0x1ac89
+AnimationData_DugtrioHealth1: ; 0x1ac89
 ; Each entry is [duration][sprite id]
-	db $0E, $08
-	db $0E, $09
-	db $0E, $0A
+	db $0E, DUGTRIOSPRITE_HEALTH1_FRAME0
+	db $0E, DUGTRIOSPRITE_HEALTH1_FRAME1
+	db $0E, DUGTRIOSPRITE_HEALTH1_FRAME2
 	db $00
 
-AnimationData_1ac90: ; 0x1ac90
+AnimationData_DugtrioHealth1Hit: ; 0x1ac90
 ; Each entry is [duration][sprite id]
-	db $0D, $0B
+	db $0D, DUGTRIOSPRITE_HEALTH1_HIT
 	db $00 ; terminator
 
-AnimationData_1ac93: ; 0x1ac93
+AnimationData_DugtrioDefeated: ; 0x1ac93
 ; Each entry is [duration][sprite id]
-	db $01, $0D
-	db $40, $0D
+	db $01, DUGTRIOSPRITE_DEFEATED
+	db $40, DUGTRIOSPRITE_DEFEATED
 	db $00 ; terminator

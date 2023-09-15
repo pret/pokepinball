@@ -193,7 +193,7 @@ Func_19531: ; 0x19531
 	cp $8
 	jr z, .asm_19582
 	ld a, $2
-	ld de, wd6ae
+	ld de, wMewtwoAnimationIndex
 	call Func_19679
 	lb de, $00, $39
 	call PlaySoundEffect
@@ -201,7 +201,7 @@ Func_19531: ; 0x19531
 
 .asm_19582
 	ld a, $3
-	ld de, wd6ae
+	ld de, wMewtwoAnimationIndex
 	call Func_19679
 	ld a, $1
 	ld [wFlippersDisabled], a
@@ -219,7 +219,7 @@ Func_195ac: ; 0x195ac
 	ld a, [wd6af]
 	and a
 	ret nz
-	ld hl, wd6bd
+	ld hl, wOrbitingBall0PosIndex
 	ld de, $0008
 	ld b, $6
 .asm_195b9
@@ -233,7 +233,7 @@ Func_195ac: ; 0x195ac
 	cp $2
 	ret nz
 	ld a, $1
-	ld de, wd6ae
+	ld de, wMewtwoAnimationIndex
 	call Func_19679
 	ret
 
@@ -244,7 +244,7 @@ Func_195ac: ; 0x195ac
 	ret
 
 Func_195d3: ; 0x195d3
-	ld hl, wd6bd
+	ld hl, wOrbitingBall0PosIndex
 	ld de, $0008
 	ld b, $6
 .asm_195db
@@ -275,7 +275,7 @@ Func_195f5: ; 0x195f5
 	sla a
 	ld c, a
 	ld b, $0
-	ld hl, Data_19691
+	ld hl, MewtwoAnimations
 	add hl, bc
 	ld a, [hli]
 	ld h, [hl]
@@ -364,7 +364,7 @@ Func_19679: ; 0x19679
 	sla a
 	ld c, a
 	ld b, $0
-	ld hl, Data_19691
+	ld hl, MewtwoAnimations
 	add hl, bc
 	ld a, [hli]
 	ld h, [hl]
@@ -379,30 +379,72 @@ Func_19679: ; 0x19679
 	ld [de], a
 	ret
 
-Data_19691:
-	dw Data_19699
-	dw Data_196a2
-	dw Data_196bd
-	dw Data_196c0
+MewtwoAnimations:
+	dw MewtwoIdleAnimation
+	dw MewtwoRegeneratingAnimation
+	dw MewtwoHitAnimation
+	dw MewtwoDefeatedAnimation
 
-Data_19699: ; 0x19699
-	db $30, $00, $04, $05, $34, $04, $03, $05
+MewtwoIdleAnimation: ; 0x19699
+	db $30, MEWTWOSPRITE_BASE
+	db $04, MEWTWOSPRITE_IDLE_2
+	db $34, MEWTWOSPRITE_IDLE_1
+	db $03, MEWTWOSPRITE_IDLE_2
 	db $00 ; terminator
 
-Data_196a2: ; 0x196a2
-	db $0A, $00, $06, $01, $05, $02, $05, $01, $04, $02, $04, $01, $04, $02, $03, $01
-	db $03, $02, $03, $01, $03, $02, $04, $00, $40, $03
+MewtwoRegeneratingAnimation: ; 0x196a2
+	db $0A, MEWTWOSPRITE_BASE
+	db $06, MEWTWOSPRITE_REGENERATING_1
+	db $05, MEWTWOSPRITE_REGENERATING_2
+	db $05, MEWTWOSPRITE_REGENERATING_1
+	db $04, MEWTWOSPRITE_REGENERATING_2
+	db $04, MEWTWOSPRITE_REGENERATING_1
+	db $04, MEWTWOSPRITE_REGENERATING_2
+	db $03, MEWTWOSPRITE_REGENERATING_1
+	db $03, MEWTWOSPRITE_REGENERATING_2
+	db $03, MEWTWOSPRITE_REGENERATING_1
+	db $03, MEWTWOSPRITE_REGENERATING_2
+	db $04, MEWTWOSPRITE_BASE
+	db $40, MEWTWOSPRITE_REGENERATING_3
 	db $00 ; terminator
 
-Data_196bd: ; 0x196bd
-	db $10, $06
+MewtwoHitAnimation: ; 0x196bd
+	db $10, MEWTWOSPRITE_HIT
 	db $00 ; terminator
 
-Data_196c0: ; 0x196c0
-	db $04, $06, $04, $07, $04, $06, $04, $07, $04, $06, $04, $07, $04, $06, $04, $07
-	db $03, $06, $03, $07, $03, $06, $03, $07, $03, $06, $03, $07, $03, $06, $03, $07
-	db $02, $06, $02, $07, $02, $06, $02, $07, $02, $06, $02, $07, $02, $06, $02, $07
-	db $01, $06, $01, $07, $01, $06, $01, $07, $01, $06, $01, $07, $01, $06, $01, $07
+MewtwoDefeatedAnimation: ; 0x196c0
+	db $04, MEWTWOSPRITE_HIT
+	db $04, MEWTWOSPRITE_INVISIBLE
+	db $04, MEWTWOSPRITE_HIT
+	db $04, MEWTWOSPRITE_INVISIBLE
+	db $04, MEWTWOSPRITE_HIT
+	db $04, MEWTWOSPRITE_INVISIBLE
+	db $04, MEWTWOSPRITE_HIT
+	db $04, MEWTWOSPRITE_INVISIBLE
+	db $03, MEWTWOSPRITE_HIT
+	db $03, MEWTWOSPRITE_INVISIBLE
+	db $03, MEWTWOSPRITE_HIT
+	db $03, MEWTWOSPRITE_INVISIBLE
+	db $03, MEWTWOSPRITE_HIT
+	db $03, MEWTWOSPRITE_INVISIBLE
+	db $03, MEWTWOSPRITE_HIT
+	db $03, MEWTWOSPRITE_INVISIBLE
+	db $02, MEWTWOSPRITE_HIT
+	db $02, MEWTWOSPRITE_INVISIBLE
+	db $02, MEWTWOSPRITE_HIT
+	db $02, MEWTWOSPRITE_INVISIBLE
+	db $02, MEWTWOSPRITE_HIT
+	db $02, MEWTWOSPRITE_INVISIBLE
+	db $02, MEWTWOSPRITE_HIT
+	db $02, MEWTWOSPRITE_INVISIBLE
+	db $01, MEWTWOSPRITE_HIT
+	db $01, MEWTWOSPRITE_INVISIBLE
+	db $01, MEWTWOSPRITE_HIT
+	db $01, MEWTWOSPRITE_INVISIBLE
+	db $01, MEWTWOSPRITE_HIT
+	db $01, MEWTWOSPRITE_INVISIBLE
+	db $01, MEWTWOSPRITE_HIT
+	db $01, MEWTWOSPRITE_INVISIBLE
 	db $00 ; terminator
 
 Func_19701: ; 0x19701
@@ -421,7 +463,7 @@ Func_19701: ; 0x19701
 	sla a
 	ld c, a
 	ld b, $0
-	ld hl, wd6ba
+	ld hl, wOrbitingBall0AnimationGroup
 	add hl, bc
 	ld d, h
 	ld e, l
@@ -436,29 +478,29 @@ Func_19701: ; 0x19701
 	lb de, $00, $38
 	call PlaySoundEffect
 .asm_19742
-	ld de, wd6bd
+	ld de, wOrbitingBall0PosIndex
 	call SetOrbitingBallCoordinates
-	ld de, wd6c5
+	ld de, wOrbitingBall1PosIndex
 	call SetOrbitingBallCoordinates
-	ld de, wd6cd
+	ld de, wOrbitingBall2PosIndex
 	call SetOrbitingBallCoordinates
-	ld de, wd6d5
+	ld de, wOrbitingBall3PosIndex
 	call SetOrbitingBallCoordinates
-	ld de, wd6dd
+	ld de, wOrbitingBall4PosIndex
 	call SetOrbitingBallCoordinates
-	ld de, wd6e5
+	ld de, wOrbitingBall5PosIndex
 	call SetOrbitingBallCoordinates
-	ld de, wd6b6
+	ld de, wOrbitingBall0
 	call UpdateOrbitingBallAnimation
-	ld de, wd6be
+	ld de, wOrbitingBall1
 	call UpdateOrbitingBallAnimation
-	ld de, wd6c6
+	ld de, wOrbitingBall2
 	call UpdateOrbitingBallAnimation
-	ld de, wd6ce
+	ld de, wOrbitingBall3
 	call UpdateOrbitingBallAnimation
-	ld de, wd6d6
+	ld de, wOrbitingBall4
 	call UpdateOrbitingBallAnimation
-	ld de, wd6de
+	ld de, wOrbitingBall5
 	call UpdateOrbitingBallAnimation
 	ret
 
@@ -648,7 +690,7 @@ ResetOrbitingBalls: ; 0x1988e
 	ld b, $0
 	ld hl, OrbitingBallsStartCoordsIndices
 	add hl, bc
-	ld de, wd6bd
+	ld de, wOrbitingBall0PosIndex
 	ld b, $6
 .asm_198a3
 	ld a, [hli]
@@ -713,38 +755,38 @@ OrbitingBallAnimations:
 
 OrbitingBallAnimation1: ; 0x1991e
 ; Each entry is [duration][sprite id]
-	db $0A, $00
-	db $08, $01
-	db $08, $02
-	db $0A, $03
-	db $08, $02
-	db $08, $01
+	db $0A, ORBITINGBALLSPRITE_FULL_SIZE_0
+	db $08, ORBITINGBALLSPRITE_FULL_SIZE_1
+	db $08, ORBITINGBALLSPRITE_FULL_SIZE_2
+	db $0A, ORBITINGBALLSPRITE_FULL_SIZE_3
+	db $08, ORBITINGBALLSPRITE_FULL_SIZE_2
+	db $08, ORBITINGBALLSPRITE_FULL_SIZE_1
 	db $00 ; terminator
 
 OrbitingBallAnimation2: ; 0x1992b
 ; Each entry is [duration][sprite id]
-	db $05, $04
-	db $06, $05
-	db $06, $06
-	db $07, $07
-	db $07, $08
-	db $08, $09
-	db $08, $0A
+	db $05, ORBITINGBALLSPRITE_GROWING_0
+	db $06, ORBITINGBALLSPRITE_GROWING_1
+	db $06, ORBITINGBALLSPRITE_GROWING_2
+	db $07, ORBITINGBALLSPRITE_GROWING_3
+	db $07, ORBITINGBALLSPRITE_GROWING_4
+	db $08, ORBITINGBALLSPRITE_GROWING_5
+	db $08, ORBITINGBALLSPRITE_GROWING_6
 	db $00 ; terminator
 
 OrbitingBallAnimation3: ; 0x1993a
 ; Each entry is [duration][sprite id]
-	db $05, $0A
-	db $05, $09
-	db $04, $08
-	db $04, $07
-	db $03, $06
-	db $03, $05
-	db $02, $04
-	db $80, $0B
+	db $05, ORBITINGBALLSPRITE_GROWING_6
+	db $05, ORBITINGBALLSPRITE_GROWING_5
+	db $04, ORBITINGBALLSPRITE_GROWING_4
+	db $04, ORBITINGBALLSPRITE_GROWING_3
+	db $03, ORBITINGBALLSPRITE_GROWING_2
+	db $03, ORBITINGBALLSPRITE_GROWING_1
+	db $02, ORBITINGBALLSPRITE_GROWING_0
+	db $80, ORBITINGBALLSPRITE_INVISIBLE
 	db $00 ; terminator
 
 OrbitingBallAnimation4: ; 0x1994b
 ; Each entry is [duration][sprite id]
-	db $0C, $0B
+	db $0C, ORBITINGBALLSPRITE_INVISIBLE
 	db $00 ; terminator

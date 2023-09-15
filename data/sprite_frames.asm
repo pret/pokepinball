@@ -2251,24 +2251,24 @@ SpriteDataPointers2: ; 0x55d7
 	SpriteDataPointer GengarFrame3Sprite, SPRITE2_GENGAR_3
 	SpriteDataPointer GengarFrame4Sprite, SPRITE2_GENGAR_4
 	SpriteDataPointer GengarHitSprite, SPRITE2_GENGAR_HIT
-	SpriteDataPointer SpriteData2_f, SPRITE2_DATA_f
-	SpriteDataPointer SpriteData2_10, SPRITE2_DATA_10
-	SpriteDataPointer SpriteData2_11, SPRITE2_DATA_11
-	SpriteDataPointer SpriteData2_12, SPRITE2_DATA_12
-	SpriteDataPointer SpriteData2_13, SPRITE2_DATA_13
-	SpriteDataPointer SpriteData2_14, SPRITE2_DATA_14
-	SpriteDataPointer SpriteData2_15, SPRITE2_DATA_15
-	SpriteDataPointer SpriteData2_16, SPRITE2_DATA_16
-	SpriteDataPointer SpriteData2_17, SPRITE2_DATA_17
-	SpriteDataPointer SpriteData2_18, SPRITE2_DATA_18
-	SpriteDataPointer SpriteData2_19, SPRITE2_DATA_19
-	SpriteDataPointer SpriteData2_1a, SPRITE2_DATA_1a
-	SpriteDataPointer SpriteData2_1b, SPRITE2_DATA_1b
-	SpriteDataPointer SpriteData2_1c, SPRITE2_DATA_1c
-	SpriteDataPointer SpriteData2_1d, SPRITE2_DATA_1d
-	SpriteDataPointer SpriteData2_1e, SPRITE2_DATA_1e
-	SpriteDataPointer SpriteData2_1f, SPRITE2_DATA_1f
-	SpriteDataPointer SpriteData2_20, SPRITE2_DATA_20
+	SpriteDataPointer MewtwoBaseSprite, SPRITE2_MEWTWO_BASE
+	SpriteDataPointer MewtwoRegeneratingFrame1Sprite, SPRITE2_MEWTWO_REGENERATING_1
+	SpriteDataPointer MewtwoRegeneratingFrame2Sprite, SPRITE2_MEWTWO_REGENERATING_2
+	SpriteDataPointer MewtwoRegeneratingFrame3Sprite, SPRITE2_MEWTWO_REGENERATING_3
+	SpriteDataPointer OribitingBallFullSizeFrame0Sprite, SPRITE2_ORBITING_BALL_FULL_SIZE_0
+	SpriteDataPointer OribitingBallFullSizeFrame1Sprite, SPRITE2_ORBITING_BALL_FULL_SIZE_1
+	SpriteDataPointer OribitingBallFullSizeFrame2Sprite, SPRITE2_ORBITING_BALL_FULL_SIZE_2
+	SpriteDataPointer OribitingBallFullSizeFrame3Sprite, SPRITE2_ORBITING_BALL_FULL_SIZE_3
+	SpriteDataPointer MewtwoIdleFrame1Sprite, SPRITE2_MEWTWO_IDLE_1
+	SpriteDataPointer MewtwoIdleFrame2Sprite, SPRITE2_MEWTWO_IDLE_2
+	SpriteDataPointer MewtwoHitSprite, SPRITE2_MEWTWO_HIT
+	SpriteDataPointer OribitingBallGrowingFrame0Sprite, SPRITE2_ORBITING_BALL_GROWING_0
+	SpriteDataPointer OribitingBallGrowingFrame1Sprite, SPRITE2_ORBITING_BALL_GROWING_1
+	SpriteDataPointer OribitingBallGrowingFrame2Sprite, SPRITE2_ORBITING_BALL_GROWING_2
+	SpriteDataPointer OribitingBallGrowingFrame3Sprite, SPRITE2_ORBITING_BALL_GROWING_3
+	SpriteDataPointer OribitingBallGrowingFrame4Sprite, SPRITE2_ORBITING_BALL_GROWING_4
+	SpriteDataPointer OribitingBallGrowingFrame5Sprite, SPRITE2_ORBITING_BALL_GROWING_5
+	SpriteDataPointer OribitingBallGrowingFrame6Sprite, SPRITE2_ORBITING_BALL_GROWING_6
 	SpriteDataPointer SpriteData2_21, SPRITE2_DATA_21
 	SpriteDataPointer SpriteData2_22, SPRITE2_DATA_22
 	SpriteDataPointer SpriteData2_23, SPRITE2_DATA_23
@@ -2637,7 +2637,7 @@ GengarHitSprite: ; 0x
 	db $37, $10, $A8, $04
 	db $80  ; terminator
 
-SpriteData2_f: ; 0x
+MewtwoBaseSprite: ; 0x
 	db $20, $20, $9E, $04
 	db $20, $18, $9C, $04
 	db $20, $10, $9A, $04
@@ -2648,7 +2648,7 @@ SpriteData2_f: ; 0x
 	db $10, $08, $90, $04
 	db $80  ; terminator
 
-SpriteData2_10: ; 0x
+MewtwoRegeneratingFrame1Sprite: ; 0x
 	db $20, $08, $22, $04
 	db $10, $08, $20, $04
 	db $20, $20, $9E, $04
@@ -2659,7 +2659,7 @@ SpriteData2_10: ; 0x
 	db $10, $10, $92, $04
 	db $80  ; terminator
 
-SpriteData2_11: ; 0x
+MewtwoRegeneratingFrame2Sprite: ; 0x
 	db $20, $20, $1E, $04
 	db $20, $18, $1C, $04
 	db $20, $10, $1A, $04
@@ -2670,7 +2670,7 @@ SpriteData2_11: ; 0x
 	db $10, $08, $A0, $04
 	db $80  ; terminator
 
-SpriteData2_12: ; 0x
+MewtwoRegeneratingFrame3Sprite: ; 0x
 	db $20, $20, $2A, $04
 	db $10, $20, $28, $04
 	db $20, $08, $26, $04
@@ -2681,27 +2681,27 @@ SpriteData2_12: ; 0x
 	db $10, $10, $92, $04
 	db $80  ; terminator
 
-SpriteData2_13: ; 0x
+OribitingBallFullSizeFrame0Sprite: ; 0x
 	db $10, $10, $32, $11
 	db $10, $08, $30, $11
 	db $80  ; terminator
 
-SpriteData2_14: ; 0x
+OribitingBallFullSizeFrame1Sprite: ; 0x
 	db $10, $10, $36, $11
 	db $10, $08, $34, $11
 	db $80  ; terminator
 
-SpriteData2_15: ; 0x
+OribitingBallFullSizeFrame2Sprite: ; 0x
 	db $10, $10, $3A, $11
 	db $10, $08, $38, $11
 	db $80  ; terminator
 
-SpriteData2_16: ; 0x
+OribitingBallFullSizeFrame3Sprite: ; 0x
 	db $10, $10, $3E, $11
 	db $10, $08, $3C, $11
 	db $80  ; terminator
 
-SpriteData2_17: ; 0x
+MewtwoIdleFrame1Sprite: ; 0x
 	db $20, $10, $7E, $04
 	db $10, $18, $2E, $04
 	db $10, $10, $92, $04
@@ -2712,7 +2712,7 @@ SpriteData2_17: ; 0x
 	db $10, $08, $2C, $04
 	db $80  ; terminator
 
-SpriteData2_18: ; 0x
+MewtwoIdleFrame2Sprite: ; 0x
 	db $20, $10, $7E, $04
 	db $10, $18, $94, $04
 	db $10, $10, $92, $04
@@ -2723,7 +2723,7 @@ SpriteData2_18: ; 0x
 	db $20, $18, $AA, $04
 	db $80  ; terminator
 
-SpriteData2_19: ; 0x
+MewtwoHitSprite: ; 0x
 	db $1F, $20, $BC, $04
 	db $1F, $18, $BA, $04
 	db $1F, $10, $B8, $04
@@ -2734,37 +2734,37 @@ SpriteData2_19: ; 0x
 	db $0F, $08, $AE, $04
 	db $80  ; terminator
 
-SpriteData2_1a: ; 0x
+OribitingBallGrowingFrame0Sprite: ; 0x
 	db $10, $10, $C6, $31
 	db $10, $08, $C6, $11
 	db $80  ; terminator
 
-SpriteData2_1b: ; 0x
+OribitingBallGrowingFrame1Sprite: ; 0x
 	db $10, $10, $C8, $31
 	db $10, $08, $C8, $11
 	db $80  ; terminator
 
-SpriteData2_1c: ; 0x
+OribitingBallGrowingFrame2Sprite: ; 0x
 	db $10, $10, $CA, $31
 	db $10, $08, $CA, $11
 	db $80  ; terminator
 
-SpriteData2_1d: ; 0x
+OribitingBallGrowingFrame3Sprite: ; 0x
 	db $10, $10, $CC, $31
 	db $10, $08, $CC, $11
 	db $80  ; terminator
 
-SpriteData2_1e: ; 0x
+OribitingBallGrowingFrame4Sprite: ; 0x
 	db $10, $10, $CE, $31
 	db $10, $08, $CE, $11
 	db $80  ; terminator
 
-SpriteData2_1f: ; 0x
+OribitingBallGrowingFrame5Sprite: ; 0x
 	db $10, $10, $D0, $31
 	db $10, $08, $D0, $11
 	db $80  ; terminator
 
-SpriteData2_20: ; 0x
+OribitingBallGrowingFrame6Sprite: ; 0x
 	db $10, $10, $D2, $31
 	db $10, $08, $D2, $11
 	db $80  ; terminator

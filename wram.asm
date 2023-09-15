@@ -1292,14 +1292,8 @@ wMewtwoBonusClosedGate:: ; 0xd6a9
 wd6aa:: ; 0xd6aa
 	ds $2
 
-wd6ac:: ; 0xd6ac
-	ds $1
-
-wd6ad:: ; 0xd6ad
-	ds $1
-
-wd6ae:: ; 0xd6ae
-	ds $1
+wMewtwoAnimation:: ; 0xd6ac
+	animation wMewtwoAnimation
 
 wd6af:: ; 0xd6af
 	ds $1
@@ -1322,47 +1316,32 @@ wd6b4:: ; 0xd6b4
 wd6b5:: ; 0xd6b5
 	ds $1
 
-wd6b6:: ; 0xd6b6
-	ds $4
+MACRO orbiting_ball
+\1Enabled:: ds $1
+\1Animation:: animation \1Animation
+\1AnimationGroup:: ds $1  ; Index into OrbitingBallAnimations
+\1XPos:: ds $1
+\1YPos:: ds $1
+\1PosIndex:: ds $1  ; Index into MewtwoOrbitingBallsCoords
+ENDM
 
-wd6ba:: ; 0xd6ba
-	ds $1
+wOrbitingBall0:: ; 0xd6b6
+	orbiting_ball wOrbitingBall0
 
-wd6bb:: ; 0xd6bb
-	ds $2
+wOrbitingBall1:: ; 0xd6be
+	orbiting_ball wOrbitingBall1
 
-wd6bd:: ; 0xd6bd
-	ds $1
+wOrbitingBall2:: ; 0xd6c6
+	orbiting_ball wOrbitingBall2
 
-wd6be:: ; 0xd6be
-	ds $7
+wOrbitingBall3:: ; 0xd6ce
+	orbiting_ball wOrbitingBall3
 
-wd6c5:: ; 0xd6c5
-	ds $1
+wOrbitingBall4:: ; 0xd6d6
+	orbiting_ball wOrbitingBall4
 
-wd6c6:: ; 0xd6c6
-	ds $7
-
-wd6cd:: ; 0xd6cd
-	ds $1
-
-wd6ce:: ; 0xd6ce
-	ds $7
-
-wd6d5:: ; 0xd6d5
-	ds $1
-
-wd6d6:: ; 0xd6d6
-	ds $7
-
-wd6dd:: ; 0xd6dd
-	ds $1
-
-wd6de:: ; 0xd6de
-	ds $7
-
-wd6e5:: ; 0xd6e5
-	ds $1
+wOrbitingBall5:: ; 0xd6de
+	orbiting_ball wOrbitingBall5
 
 wMeowthBonusClosedGate:: ; 0xd6e6
 	ds $1

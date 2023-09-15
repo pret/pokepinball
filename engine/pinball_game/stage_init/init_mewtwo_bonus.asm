@@ -12,8 +12,8 @@ InitMewtwoBonusStage: ; 0x1924f
 	ld [wd4c8], a
 	ld [wBallType], a
 	ld [wCompletedBonusStage], a
-	ld hl, Data_192ab
-	ld de, wd6b6
+	ld hl, InitMewtwoOrbitingBallData
+	ld de, wOrbitingBall0
 	ld b, $c
 .loop
 	ld a, [hli]
@@ -31,7 +31,7 @@ InitMewtwoBonusStage: ; 0x1924f
 	dec b
 	jr nz, .loop
 	ld hl, Data_192db
-	ld de, wd6ac
+	ld de, wMewtwoAnimation
 	ld b, $8
 .loop2
 	ld a, [hli]
@@ -47,7 +47,7 @@ InitMewtwoBonusStage: ; 0x1924f
 	call PlaySong
 	ret
 
-Data_192ab:
+InitMewtwoOrbitingBallData:
 	db $01, $01, $00, $00
 	db $00, $62, $08, $00
 	db $01, $01, $00, $00

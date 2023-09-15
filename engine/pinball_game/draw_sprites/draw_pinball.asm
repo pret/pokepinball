@@ -22,8 +22,8 @@ DrawPinball: ; 0x17e81
 	srl a
 	srl a  ; divide wBallRotation by 8 because
 	srl a  ; there are 8 frames of the ball spinning
-	and $7
-	add $0
+	and SPRITE_BALL_SPIN_COUNT - 1
+	add SPRITE_BALL_SPIN
 	call LoadSpriteData
 	ld a, [hGameBoyColorFlag]
 	and a

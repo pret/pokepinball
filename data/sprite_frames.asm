@@ -1,11 +1,11 @@
-DEF const_value = 0
-
 MACRO SpriteDataPointer
 	const \2
 	dw \1
 ENDM
 
 SpriteDataPointers: ; 0x4000
+	const_def
+	DEF SPRITE_BALL_SPIN = const_value
 	SpriteDataPointer BallSpin0Sprite, SPRITE_BALL_SPIN_0
 	SpriteDataPointer BallSpin1Sprite, SPRITE_BALL_SPIN_1
 	SpriteDataPointer BallSpin2Sprite, SPRITE_BALL_SPIN_2
@@ -14,6 +14,7 @@ SpriteDataPointers: ; 0x4000
 	SpriteDataPointer BallSpin5Sprite, SPRITE_BALL_SPIN_5
 	SpriteDataPointer BallSpin6Sprite, SPRITE_BALL_SPIN_6
 	SpriteDataPointer BallSpin7Sprite, SPRITE_BALL_SPIN_7
+	DEF SPRITE_BALL_SPIN_COUNT = const_value - SPRITE_BALL_SPIN
 	SpriteDataPointer SpriteData_8, SPRITE_DATA_8
 	SpriteDataPointer SpriteData_9, SPRITE_DATA_9
 	SpriteDataPointer SpriteData_a, SPRITE_DATA_a
@@ -71,22 +72,24 @@ SpriteDataPointers: ; 0x4000
 	SpriteDataPointer SpriteData_3e, SPRITE_DATA_3e
 	SpriteDataPointer SpriteData_3f, SPRITE_DATA_3f
 	SpriteDataPointer SpriteData_40, SPRITE_DATA_40
+	DEF SPRITE_TRINKET_BOTTOM = const_value
 	SpriteDataPointer ThunderStoneTrinketBottomSprite, SPRITE_TRINKET_THUNDERSTONE_BOTTOM
-	DEF SPRITE_TRINKET_FIRST_BOTTOM = SPRITE_TRINKET_THUNDERSTONE_BOTTOM
 	SpriteDataPointer MoonStoneTrinketBottomSprite, SPRITE_TRINKET_MOONSTONE_BOTTOM
 	SpriteDataPointer FireStoneTrinketBottomSprite, SPRITE_TRINKET_FIRESTONE_BOTTOM
 	SpriteDataPointer LeafStoneTrinketBottomSprite, SPRITE_TRINKET_LEAFSTONE_BOTTOM
 	SpriteDataPointer WaterStoneTrinketBottomSprite, SPRITE_TRINKET_WATERSTONE_BOTTOM
 	SpriteDataPointer LinkCableTrinketBottomSprite, SPRITE_TRINKET_LINKCABLE_BOTTOM
 	SpriteDataPointer ExperienceTrinketBottomSprite, SPRITE_TRINKET_EXPERIENCE_BOTTOM
+	DEF SPRITE_TRINKET_BOTTOM_COUNT = const_value - SPRITE_TRINKET_BOTTOM
+	DEF SPRITE_TRINKET_TOP = const_value
 	SpriteDataPointer ThunderStoneTrinketTopSprite, SPRITE_TRINKET_THUNDERSTONE_TOP
-	DEF SPRITE_TRINKET_FIRST_TOP = SPRITE_TRINKET_THUNDERSTONE_TOP
 	SpriteDataPointer MoonStoneTrinketTopSprite, SPRITE_TRINKET_MOONSTONE_TOP
 	SpriteDataPointer FireStoneTrinketTopSprite, SPRITE_TRINKET_FIRESTONE_TOP
 	SpriteDataPointer LeafStoneTrinketTopSprite, SPRITE_TRINKET_LEAFSTONE_TOP
 	SpriteDataPointer WaterStoneTrinketTopSprite, SPRITE_TRINKET_WATERSTONE_TOP
 	SpriteDataPointer LinkCableTrinketTopSprite, SPRITE_TRINKET_LINKCABLE_TOP
 	SpriteDataPointer ExperienceTrinketTopSprite, SPRITE_TRINKET_EXPERIENCE_TOP
+	DEF SPRITE_TRINKET_TOP_COUNT = const_value - SPRITE_TRINKET_TOP
 	SpriteDataPointer SlotGlow0Sprite, SPRITE_SLOT_GLOW_0
 	SpriteDataPointer SlotGlow1Sprite, SPRITE_SLOT_GLOW_1
 	SpriteDataPointer SlotGlow2Sprite, SPRITE_SLOT_GLOW_2
@@ -185,6 +188,7 @@ SpriteDataPointers: ; 0x4000
 	SpriteDataPointer SpriteData_ae, SPRITE_DATA_ae
 	SpriteDataPointer SpriteData_af, SPRITE_DATA_af
 	SpriteDataPointer SpriteData_b0, SPRITE_DATA_b0
+	DEF SPRITE_TIMER_DIGIT = const_value
 	SpriteDataPointer Timer0DigitSprite, SPRITE_TIMER_DIGIT_0
 	SpriteDataPointer Timer1DigitSprite, SPRITE_TIMER_DIGIT_1
 	SpriteDataPointer Timer2DigitSprite, SPRITE_TIMER_DIGIT_2
@@ -196,6 +200,7 @@ SpriteDataPointers: ; 0x4000
 	SpriteDataPointer Timer8DigitSprite, SPRITE_TIMER_DIGIT_8
 	SpriteDataPointer Timer9DigitSprite, SPRITE_TIMER_DIGIT_9
 	SpriteDataPointer TimerColonSprite, SPRITE_TIMER_COLON
+	DEF SPRITE_TIMER_DIGIT_COUNT = const_value - SPRITE_TIMER_DIGIT
 	SpriteDataPointer VoltorbStationarySprite, SPRITE_VOLTORB_STATIONARY
 	SpriteDataPointer VoltorbCollisionSprite, SPRITE_VOLTORB_COLLISION
 	SpriteDataPointer BellsproutHeadFrame0Sprite, SPRITE_BELLSPROUT_HEAD_0
@@ -2233,9 +2238,8 @@ SpriteData_f8: ; 0x55d2
 	db $10, $08, $78, $00
 	db $80 ; terminator
 
-DEF const_value = 0
-
 SpriteDataPointers2: ; 0x55d7
+	const_def
 	SpriteDataPointer GastlyFrame0Sprite, SPRITE2_GASTLY_0
 	SpriteDataPointer GastlyFrame1Sprite, SPRITE2_GASTLY_1
 	SpriteDataPointer GastlyFrame2Sprite, SPRITE2_GASTLY_2

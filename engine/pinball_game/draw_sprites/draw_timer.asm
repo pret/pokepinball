@@ -51,10 +51,10 @@ DrawTimer_GameBoyColor: ; 0x175f5
 	ld a, [wTimerSeconds]
 	swap a
 	and $f
-	call DrawTimerDigit_GameBoyColor  ; tens digit of the minutes
+	call DrawTimerDigit_GameBoyColor  ; tens digit of the seconds
 	ld a, [wTimerSeconds]
 	and $f
-	call DrawTimerDigit_GameBoyColor  ; ones digit of the minutes
+	call DrawTimerDigit_GameBoyColor  ; ones digit of the seconds
 	ret
 
 TimerSpriteIds:
@@ -64,7 +64,7 @@ TimerSpriteIds:
 	db $f5, $f8, $f6, $f7
 
 DrawTimerDigit_GameBoyColor: ; 0x17625
-	add $b1  ; the timer digits' sprite ids start at $b1
+	add SPRITE_TIMER_DIGIT
 DrawTimerDigit: ; 0x17627
 	call LoadSpriteData
 	ld a, b

@@ -23,13 +23,13 @@ DrawDugtrio: ; 0x1acb0
 	call z, LoadSpriteData2
 	ret
 
-DEF const_value = 0
-MACRO DugtrioSpriteId
-	const \2
-	db \1
-ENDM
-
 DugtrioSpriteIds:
+	MACRO DugtrioSpriteId
+		const \2
+		db \1
+	ENDM
+	const_def
+
 	DugtrioSpriteId SPRITE2_DUGTRIO_HEALTH3_FRAME0, DUGTRIOSPRITE_HEALTH3_FRAME0
 	DugtrioSpriteId SPRITE2_DUGTRIO_HEALTH3_FRAME1, DUGTRIOSPRITE_HEALTH3_FRAME1
 	DugtrioSpriteId SPRITE2_DUGTRIO_HEALTH3_FRAME2, DUGTRIOSPRITE_HEALTH3_FRAME2

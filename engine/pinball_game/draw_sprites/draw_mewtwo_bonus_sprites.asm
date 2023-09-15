@@ -26,13 +26,13 @@ Func_19976: ; 0x19976
 	call nz, LoadSpriteData2
 	ret
 
-DEF const_value = 0
-MACRO MewtwoSpriteId
-       const \2
-       db \1
-ENDM
-
 MewtwoSpriteIds:
+	MACRO MewtwoSpriteId
+		   const \2
+		   db \1
+	ENDM
+	const_def
+
 	MewtwoSpriteId SPRITE2_MEWTWO_BASE, MEWTWOSPRITE_BASE
 	MewtwoSpriteId SPRITE2_MEWTWO_REGENERATING_1, MEWTWOSPRITE_REGENERATING_1
 	MewtwoSpriteId SPRITE2_MEWTWO_REGENERATING_2, MEWTWOSPRITE_REGENERATING_2
@@ -88,13 +88,13 @@ DrawOrbitingBallSprite: ; 0x199be
 	call nz, LoadSpriteData2
 	ret
 
-DEF const_value = 0
-MACRO OrbitingBallSpriteId
-       const \2
-       db \1
-ENDM
-
 OrbitingBallSpriteIds:
+	MACRO OrbitingBallSpriteId
+		   const \2
+		   db \1
+	ENDM
+	const_def
+
 	OrbitingBallSpriteId SPRITE2_ORBITING_BALL_FULL_SIZE_0, ORBITINGBALLSPRITE_FULL_SIZE_0
 	OrbitingBallSpriteId SPRITE2_ORBITING_BALL_FULL_SIZE_1, ORBITINGBALLSPRITE_FULL_SIZE_1
 	OrbitingBallSpriteId SPRITE2_ORBITING_BALL_FULL_SIZE_2, ORBITINGBALLSPRITE_FULL_SIZE_2

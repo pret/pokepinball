@@ -296,7 +296,7 @@ DrawEvolutionTrinket_BlueFieldTop: ; 0x1f4f8
 	ld de, wActiveEvolutionTrinkets
 	ld hl, EvolutionTrinketSpriteOffsets_BlueFieldTop
 	ld b, $c
-	ld c, SPRITE_TRINKET_FIRST_TOP - 1
+	ld c, SPRITE_TRINKET_TOP - 1
 	jr DrawEvolutionTrinket_BlueField
 
 DrawEvolutionTrinket_BlueFieldBottom: ; 0x1f509
@@ -306,7 +306,7 @@ DrawEvolutionTrinket_BlueFieldBottom: ; 0x1f509
 	ld de, wActiveEvolutionTrinkets + 12
 	ld hl, EvolutionTrinketSpriteOffsets_BlueFieldBottom
 	ld b, $6
-	ld c, SPRITE_TRINKET_FIRST_BOTTOM - 1
+	ld c, SPRITE_TRINKET_BOTTOM - 1
 DrawEvolutionTrinket_BlueField: ; 0x1f518
 	push bc
 	ld a, [de]

@@ -58,10 +58,10 @@ DrawTimer_GameBoyColor: ; 0x175f5
 	ret
 
 TimerSpriteIds:
-	db $d7, $da, $d8, $d9
-	db $dc, $df, $dd, $de
-	db $dc, $db, $dd, $de
-	db $f5, $f8, $f6, $f7
+	db SPRITE_TIMER_MINUTES_TOP, SPRITE_TIMER_COLON_TOP, SPRITE_TIMER_TENSECONDS_TOP, SPRITE_TIMER_ONESECONDS_TOP
+	db SPRITE_TIMER_MINUTES_BOTTOM, SPRITE_TIMER_COLON_BOTTOM, SPRITE_TIMER_TENSECONDS_BOTTOM, SPRITE_TIMER_ONESECONDS_BOTTOM
+	db SPRITE_TIMER_MINUTES_BOTTOM, SPRITE_TIMER_COLON_BOTTOMCATCHEM, SPRITE_TIMER_TENSECONDS_BOTTOM, SPRITE_TIMER_ONESECONDS_BOTTOM
+	db SPRITE_TIMER_MINUTES_BONUS, SPRITE_TIMER_COLON_BONUS, SPRITE_TIMER_TENSECONDS_BONUS, SPRITE_TIMER_ONESECONDS_BONUS
 
 DrawTimerDigit_GameBoyColor: ; 0x17625
 	add SPRITE_TIMER_DIGIT
@@ -73,6 +73,9 @@ DrawTimerDigit: ; 0x17627
 	ret
 
 Func_1762f: ; 0x1762f
+; determines which set of timer sprites to use based on the current board and board state
+; returns: d : an index into TimerDigitsTileData
+;          e : an index into TimerSpriteIds
 	lb de, $60, $0c
 	ld a, [wCurrentStage]
 	cp FIRST_BONUS_STAGE

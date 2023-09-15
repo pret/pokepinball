@@ -228,15 +228,15 @@ SpriteDataPointers: ; 0x4000
 	SpriteDataPointer SpriteData_d4, SPRITE_DATA_d4
 	SpriteDataPointer SpriteData_d5, SPRITE_DATA_d5
 	SpriteDataPointer SpriteData_d6, SPRITE_DATA_d6
-	SpriteDataPointer SpriteData_d7, SPRITE_DATA_d7
-	SpriteDataPointer SpriteData_d8, SPRITE_DATA_d8
-	SpriteDataPointer SpriteData_d9, SPRITE_DATA_d9
-	SpriteDataPointer SpriteData_da, SPRITE_DATA_da
-	SpriteDataPointer SpriteData_db, SPRITE_DATA_db
-	SpriteDataPointer SpriteData_dc, SPRITE_DATA_dc
-	SpriteDataPointer SpriteData_dd, SPRITE_DATA_dd
-	SpriteDataPointer SpriteData_de, SPRITE_DATA_de
-	SpriteDataPointer SpriteData_df, SPRITE_DATA_df
+	SpriteDataPointer TimerGameboyMinutesTopFieldSprite, SPRITE_TIMER_MINUTES_TOP
+	SpriteDataPointer TimerGameboyTenSecondsTopFieldSprite, SPRITE_TIMER_TENSECONDS_TOP
+	SpriteDataPointer TimerGameboyOneSecondsTopFieldSprite, SPRITE_TIMER_ONESECONDS_TOP
+	SpriteDataPointer TimerGameboyColonTopFieldSprite, SPRITE_TIMER_COLON_TOP
+	SpriteDataPointer TimerGameboyColonBottomFieldCatchemModeSprite, SPRITE_TIMER_COLON_BOTTOMCATCHEM
+	SpriteDataPointer TimerGameboyMinutesBottomFieldSprite, SPRITE_TIMER_MINUTES_BOTTOM
+	SpriteDataPointer TimerGameboyTenSecondsBottomFieldSprite, SPRITE_TIMER_TENSECONDS_BOTTOM
+	SpriteDataPointer TimerGameboyOneSecondsBottomFieldSprite, SPRITE_TIMER_ONESECONDS_BOTTOM
+	SpriteDataPointer TimerGameboyColonBottomFieldSprite, SPRITE_TIMER_COLON_BOTTOM
 	SpriteDataPointer ShelderStationarySprite, SPRITE_SHELDER_STATIONARY
 	SpriteDataPointer ShelderCollisionSprite, SPRITE_SHELDER_COLLISION
 	SpriteDataPointer Slowpoke0Sprite, SPRITE_SLOWPOKE_0
@@ -258,10 +258,10 @@ SpriteDataPointers: ; 0x4000
 	SpriteDataPointer BlueFieldTopIndicatorArrowUpLeftSprite, SPRITE_BLUE_FIELD_TOP_INDICATOR_ARROW_UPLEFT
 	SpriteDataPointer BlueFieldTopIndicatorArrowUpRightSprite, SPRITE_BLUE_FIELD_TOP_INDICATOR_ARROW_UPRIGHT
 	SpriteDataPointer BlueFieldTopIndicatorArrowDownSprite, SPRITE_BLUE_FIELD_TOP_INDICATOR_ARROW_DOWN
-	SpriteDataPointer SpriteData_f5, SPRITE_DATA_f5
-	SpriteDataPointer SpriteData_f6, SPRITE_DATA_f6
-	SpriteDataPointer SpriteData_f7, SPRITE_DATA_f7
-	SpriteDataPointer SpriteData_f8, SPRITE_DATA_f8
+	SpriteDataPointer TimerGameboyMinutesBonusFieldSprite, SPRITE_TIMER_MINUTES_BONUS
+	SpriteDataPointer TimerGameboyTenSecondsBonusFieldSprite, SPRITE_TIMER_TENSECONDS_BONUS
+	SpriteDataPointer TimerGameboyOneSecondsBonusFieldSprite, SPRITE_TIMER_ONESECONDS_BONUS
+	SpriteDataPointer TimerGameboyColonBonusFieldSprite, SPRITE_TIMER_COLON_BONUS
 
 BallSpin0Sprite: ; 0x41f2
 	db $08, $08, $42, $00
@@ -2064,39 +2064,39 @@ SpriteData_d6: ; 0x5490
 	db $10, $08, $3e, $06
 	db $80 ; terminator
 
-SpriteData_d7: ; 0x5495
+TimerGameboyMinutesTopFieldSprite: ; 0x5495
 	db $10, $08, $b0, $00
 	db $80 ; terminator
 
-SpriteData_d8: ; 0x549a
+TimerGameboyTenSecondsTopFieldSprite: ; 0x549a
 	db $10, $08, $b2, $00
 	db $80 ; terminator
 
-SpriteData_d9: ; 0x549f
+TimerGameboyOneSecondsTopFieldSprite: ; 0x549f
 	db $10, $08, $b4, $00
 	db $80 ; terminator
 
-SpriteData_da: ; 0x54a4
+TimerGameboyColonTopFieldSprite: ; 0x54a4
 	db $10, $08, $b6, $00
 	db $80 ; terminator
 
-SpriteData_db: ; 0x54a9
+TimerGameboyColonBottomFieldCatchemModeSprite: ; 0x54a9
 	db $10, $08, $38, $00
 	db $80 ; terminator
 
-SpriteData_dc: ; 0x54ae
+TimerGameboyMinutesBottomFieldSprite: ; 0x54ae
 	db $10, $08, $3a, $00
 	db $80 ; terminator
 
-SpriteData_dd: ; 0x54b3
+TimerGameboyTenSecondsBottomFieldSprite: ; 0x54b3
 	db $10, $08, $7e, $00
 	db $80 ; terminator
 
-SpriteData_de: ; 0x54b8
+TimerGameboyOneSecondsBottomFieldSprite: ; 0x54b8
 	db $10, $08, $bc, $00
 	db $80 ; terminator
 
-SpriteData_df: ; 0x54bd
+TimerGameboyColonBottomFieldSprite: ; 0x54bd
 	db $10, $08, $a8, $00
 	db $80 ; terminator
 
@@ -2222,19 +2222,19 @@ BlueFieldTopIndicatorArrowDownSprite: ; 0x55be
 	db $08, $08, $39, $46
 	db $80 ; terminator
 
-SpriteData_f5: ; 0x55c3
+TimerGameboyMinutesBonusFieldSprite: ; 0x55c3
 	db $10, $08, $72, $00
 	db $80 ; terminator
 
-SpriteData_f6: ; 0x55c8
+TimerGameboyTenSecondsBonusFieldSprite: ; 0x55c8
 	db $10, $08, $74, $00
 	db $80 ; terminator
 
-SpriteData_f7: ; 0x55cd
+TimerGameboyOneSecondsBonusFieldSprite: ; 0x55cd
 	db $10, $08, $76, $00
 	db $80 ; terminator
 
-SpriteData_f8: ; 0x55d2
+TimerGameboyColonBonusFieldSprite: ; 0x55d2
 	db $10, $08, $78, $00
 	db $80 ; terminator
 

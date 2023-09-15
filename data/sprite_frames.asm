@@ -15,12 +15,12 @@ SpriteDataPointers: ; 0x4000
 	SpriteDataPointer BallSpin6Sprite, SPRITE_BALL_SPIN_6
 	SpriteDataPointer BallSpin7Sprite, SPRITE_BALL_SPIN_7
 	DEF SPRITE_BALL_SPIN_COUNT = const_value - SPRITE_BALL_SPIN
-	SpriteDataPointer SpriteData_8, SPRITE_DATA_8
-	SpriteDataPointer SpriteData_9, SPRITE_DATA_9
-	SpriteDataPointer SpriteData_a, SPRITE_DATA_a
-	SpriteDataPointer SpriteData_b, SPRITE_DATA_b
-	SpriteDataPointer SpriteData_c, SPRITE_DATA_c
-	SpriteDataPointer SpriteData_d, SPRITE_DATA_d
+	SpriteDataPointer RightFlipperDownSprite, SPRITE_RIGHTFLIPPER_DOWN
+	SpriteDataPointer RightFlipperHorizontalSprite, SPRITE_RIGHTFLIPPER_HORIZONTAL
+	SpriteDataPointer RightFlipperUpSprite, SPRITE_RIGHTFLIPPER_UP
+	SpriteDataPointer LeftFlipperDownSprite, SPRITE_LEFTFLIPPER_DOWN
+	SpriteDataPointer LeftFlipperHorizontalSprite, SPRITE_LEFTFLIPPER_HORIZONTAL
+	SpriteDataPointer LeftFlipperUpSprite, SPRITE_LEFTFLIPPER_UP
 	SpriteDataPointer PikachuSaverAnimationFrame0Sprite, SPRITE_PIKACHU_SAVER_0
 	SpriteDataPointer PikachuSaverAnimationFrame1Sprite, SPRITE_PIKACHU_SAVER_1
 	SpriteDataPointer PikachuSaverAnimationFrame2Sprite, SPRITE_PIKACHU_SAVER_2
@@ -30,8 +30,8 @@ SpriteDataPointers: ; 0x4000
 	SpriteDataPointer PikachuSaverAnimationFrame6Sprite, SPRITE_PIKACHU_SAVER_6
 	SpriteDataPointer PikachuSaverAnimationFrame7Sprite, SPRITE_PIKACHU_SAVER_7
 	SpriteDataPointer PikachuSaverAnimationFrame8Sprite, SPRITE_PIKACHU_SAVER_8
-	SpriteDataPointer SpriteData_17, SPRITE_DATA_17
-	SpriteDataPointer SpriteData_18, SPRITE_DATA_18
+	SpriteDataPointer RightFlipperDisabledSprite, SPRITE_RIGHTFLIPPER_DISABLED
+	SpriteDataPointer LeftFlipperDisabledSprite, SPRITE_LEFTFLIPPER_DISABLED
 	SpriteDataPointer BallCaptureFrame0Sprite, SPRITE_BALL_CAPTURE_0
 	SpriteDataPointer BallCaptureFrame1Sprite, SPRITE_BALL_CAPTURE_1
 	SpriteDataPointer BallCaptureFrame2Sprite, SPRITE_BALL_CAPTURE_2
@@ -303,37 +303,37 @@ BallSpin7Sprite: ; 0x4231
 	db $08, $00, $5c, $00
 	db $80 ; terminator
 
-SpriteData_8: ; 0x423a
+RightFlipperDownSprite: ; 0x423a
 	db $0c, $05, $64, $02
 	db $0a, $fd, $62, $02
 	db $14, $f5, $60, $02
 	db $80 ; terminator
 
-SpriteData_9: ; 0x4247
+RightFlipperHorizontalSprite: ; 0x4247
 	db $0c, $05, $6a, $02
 	db $04, $fd, $68, $02
 	db $0c, $f5, $66, $02
 	db $80 ; terminator
 
-SpriteData_a: ; 0x4254
+RightFlipperUpSprite: ; 0x4254
 	db $0a, $05, $70, $02
 	db $03, $fd, $6e, $02
 	db $fd, $f5, $6c, $02
 	db $80 ; terminator
 
-SpriteData_b: ; 0x4261
+LeftFlipperDownSprite: ; 0x4261
 	db $0c, $03, $64, $22
 	db $0a, $0b, $62, $22
 	db $14, $13, $60, $22
 	db $80 ; terminator
 
-SpriteData_c: ; 0x426e
+LeftFlipperHorizontalSprite: ; 0x426e
 	db $0c, $03, $6a, $22
 	db $04, $0b, $68, $22
 	db $0c, $13, $66, $22
 	db $80 ; terminator
 
-SpriteData_d: ; 0x427b
+LeftFlipperUpSprite: ; 0x427b
 	db $0a, $03, $70, $22
 	db $03, $0b, $6e, $22
 	db $fd, $13, $6c, $22
@@ -404,13 +404,13 @@ PikachuSaverAnimationFrame8Sprite: ; 0x4310
 	db $00, $01, $7a, $04
 	db $80 ; terminator
 
-SpriteData_17: ; 0x4329
+RightFlipperDisabledSprite: ; 0x4329
 	db $0c, $05, $64, $11
 	db $0a, $fd, $62, $11
 	db $14, $f5, $60, $11
 	db $80 ; terminator
 
-SpriteData_18: ; 0x4336
+LeftFlipperDisabledSprite: ; 0x4336
 	db $0c, $03, $64, $31
 	db $0a, $0b, $62, $31
 	db $14, $13, $60, $31

@@ -109,16 +109,17 @@ SpriteDataPointers: ; 0x4000
 	SpriteDataPointer TitlescreenPokeball2Sprite, SPRITE_TITLESCREEN_POKEBALL_2
 	SpriteDataPointer TitlescreenPokeball3Sprite, SPRITE_TITLESCREEN_POKEBALL_3
 	SpriteDataPointer TitlescreenPokeball4Sprite, SPRITE_TITLESCREEN_POKEBALL_4
-	SpriteDataPointer SpriteData_62, SPRITE_DATA_62
-	SpriteDataPointer SpriteData_63, SPRITE_DATA_63
-	SpriteDataPointer SpriteData_64, SPRITE_DATA_64
-	SpriteDataPointer SpriteData_65, SPRITE_DATA_65
-	SpriteDataPointer SpriteData_66, SPRITE_DATA_66
+	SpriteDataPointer TitlescreenBlankSprite, SPRITE_TITLESCREEN_BLANK
+	SpriteDataPointer DexArrowSprite, SPRITE_DEX_ARROW
+	SpriteDataPointer DexScrollbarTopper0Sprite, SPRITE_DEX_SCROLLBAR_TOPPER_0
+	SpriteDataPointer DexScrollbarTopper1Sprite, SPRITE_DEX_SCROLLBAR_TOPPER_1
+	SpriteDataPointer DexScrollbarTopper2Sprite, SPRITE_DEX_SCROLLBAR_TOPPER_2
 	SpriteDataPointer DexScrollBarFrame0Sprite, SPRITE_DEX_SCROLLBAR_0
 	SpriteDataPointer DexScrollBarFrame1Sprite, SPRITE_DEX_SCROLLBAR_1
 	SpriteDataPointer DexScrollBarFrame2Sprite, SPRITE_DEX_SCROLLBAR_2
 	SpriteDataPointer PokeDexTextSprite, SPRITE_POKEDEX_TEXT
-	SpriteDataPointer SpriteData_6b, SPRITE_DATA_6b
+	SpriteDataPointer DexDownPointerSprite, SPRITE_DEX_DOWN_POINTER
+	DEF SPRITE_DIGIT = const_value
 	SpriteDataPointer Digit0Sprite, SPRITE_DIGIT_0
 	SpriteDataPointer Digit1Sprite, SPRITE_DIGIT_1
 	SpriteDataPointer Digit2Sprite, SPRITE_DIGIT_2
@@ -129,6 +130,7 @@ SpriteDataPointers: ; 0x4000
 	SpriteDataPointer Digit7Sprite, SPRITE_DIGIT_7
 	SpriteDataPointer Digit8Sprite, SPRITE_DIGIT_8
 	SpriteDataPointer Digit9Sprite, SPRITE_DIGIT_9
+	DEF SPRITE_DIGIT_COUNT = const_value - SPRITE_DIGIT
 	SpriteDataPointer SlashCharacterSprite, SPRITE_SLASH_CHARACTER
 	SpriteDataPointer OptionsPikachuFrame0Sprite, SPRITE_OPTIONS_PIKACHU_0
 	SpriteDataPointer OptionsPikachuFrame1Sprite, SPRITE_OPTIONS_PIKACHU_1
@@ -176,18 +178,19 @@ SpriteDataPointers: ; 0x4000
 	SpriteDataPointer SpriteData_a2, SPRITE_DATA_a2
 	SpriteDataPointer SpriteData_a3, SPRITE_DATA_a3
 	SpriteDataPointer SpriteData_a4, SPRITE_DATA_a4
-	SpriteDataPointer SpriteData_a5, SPRITE_DATA_a5
-	SpriteDataPointer SpriteData_a6, SPRITE_DATA_a6
-	SpriteDataPointer SpriteData_a7, SPRITE_DATA_a7
-	SpriteDataPointer SpriteData_a8, SPRITE_DATA_a8
-	SpriteDataPointer SpriteData_a9, SPRITE_DATA_a9
-	SpriteDataPointer SpriteData_aa, SPRITE_DATA_aa
-	SpriteDataPointer SpriteData_ab, SPRITE_DATA_ab
-	SpriteDataPointer SpriteData_ac, SPRITE_DATA_ac
-	SpriteDataPointer SpriteData_ad, SPRITE_DATA_ad
-	SpriteDataPointer SpriteData_ae, SPRITE_DATA_ae
-	SpriteDataPointer SpriteData_af, SPRITE_DATA_af
-	SpriteDataPointer SpriteData_b0, SPRITE_DATA_b0
+	DEF SPRITE_POKEDEX_ANIMATED_MON = const_value
+	SpriteDataPointer PoxedexAnimatedMonType0Frame0Sprite, SPRITE_POKEDEX_ANIMATED_MON_TYPE_0_FRAME_0
+	SpriteDataPointer PoxedexAnimatedMonType0Frame1Sprite, SPRITE_POKEDEX_ANIMATED_MON_TYPE_0_FRAME_1
+	SpriteDataPointer PoxedexAnimatedMonType0Frame2Sprite, SPRITE_POKEDEX_ANIMATED_MON_TYPE_0_FRAME_2
+	SpriteDataPointer PoxedexAnimatedMonType1Frame0Sprite, SPRITE_POKEDEX_ANIMATED_MON_TYPE_1_FRAME_0
+	SpriteDataPointer PoxedexAnimatedMonType1Frame1Sprite, SPRITE_POKEDEX_ANIMATED_MON_TYPE_1_FRAME_1
+	SpriteDataPointer PoxedexAnimatedMonType1Frame2Sprite, SPRITE_POKEDEX_ANIMATED_MON_TYPE_1_FRAME_2
+	SpriteDataPointer PoxedexAnimatedMonType2Frame0Sprite, SPRITE_POKEDEX_ANIMATED_MON_TYPE_2_FRAME_0
+	SpriteDataPointer PoxedexAnimatedMonType2Frame1Sprite, SPRITE_POKEDEX_ANIMATED_MON_TYPE_2_FRAME_1
+	SpriteDataPointer PoxedexAnimatedMonType2Frame2Sprite, SPRITE_POKEDEX_ANIMATED_MON_TYPE_2_FRAME_2
+	SpriteDataPointer PoxedexAnimatedMonType3Frame0Sprite, SPRITE_POKEDEX_ANIMATED_MON_TYPE_3_FRAME_0
+	SpriteDataPointer PoxedexAnimatedMonType3Frame1Sprite, SPRITE_POKEDEX_ANIMATED_MON_TYPE_3_FRAME_1
+	SpriteDataPointer PoxedexAnimatedMonType3Frame2Sprite, SPRITE_POKEDEX_ANIMATED_MON_TYPE_3_FRAME_2
 	DEF SPRITE_TIMER_DIGIT = const_value
 	SpriteDataPointer Timer0DigitSprite, SPRITE_TIMER_DIGIT_0
 	SpriteDataPointer Timer1DigitSprite, SPRITE_TIMER_DIGIT_1
@@ -966,7 +969,7 @@ TitlescreenPokeball4Sprite: ; 0x489f
 	db $09, $f8, $46, $11
 	db $80 ; terminator
 
-SpriteData_62: ; 0x48b0
+TitlescreenBlankSprite: ; 0x48b0
 ; seemingly-unused sprite data for titlescreen. It's just blank tiles.
 	db $10, $20, $53, $11
 	db $10, $18, $52, $11
@@ -975,22 +978,22 @@ SpriteData_62: ; 0x48b0
 	db $10, $0c, $4f, $11
 	db $80 ; terminator
 
-SpriteData_63: ; 0x48c5
+DexArrowSprite: ; 0x48c5
 	db $10, $08, $70, $11
 	db $80 ; terminator
 
-SpriteData_64: ; 0x48ca
+DexScrollbarTopper0Sprite: ; 0x48ca
 	db $10, $10, $71, $31
 	db $10, $08, $71, $11
 	db $80 ; terminator
 
-SpriteData_65: ; 0x48d3
+DexScrollbarTopper1Sprite: ; 0x48d3
 	db $10, $18, $74, $17
 	db $10, $10, $73, $00
 	db $10, $08, $72, $17
 	db $80 ; terminator
 
-SpriteData_66: ; 0x48e0
+DexScrollbarTopper2Sprite: ; 0x48e0
 	db $10, $18, $77, $17
 	db $10, $10, $76, $00
 	db $10, $08, $75, $17
@@ -1018,7 +1021,7 @@ PokeDexTextSprite: ; 0x48fc
 	db $12, $0c, $7a, $11
 	db $80 ; terminator
 
-SpriteData_6b: ; 0x4915
+DexDownPointerSprite: ; 0x4915
 	db $10, $08, $6f, $11
 	db $80 ; terminator
 
@@ -1635,7 +1638,7 @@ SpriteData_a4: ; 0x5002
 	db $10, $08, $7e, $28
 	db $80 ; terminator
 
-SpriteData_a5: ; 0x5007
+PoxedexAnimatedMonType0Frame0Sprite: ; 0x5007
 	db $03, $0a, $0f, $1d
 	db $fb, $0a, $0e, $1d
 	db $03, $02, $0d, $1d
@@ -1654,7 +1657,7 @@ SpriteData_a5: ; 0x5007
 	db $ef, $00, $00, $1b
 	db $80 ; terminator
 
-SpriteData_a6: ; 0x5048
+PoxedexAnimatedMonType0Frame1Sprite: ; 0x5048
 	db $04, $0a, $1d, $1d
 	db $fc, $0a, $1c, $1d
 	db $04, $02, $1b, $1d
@@ -1673,7 +1676,7 @@ SpriteData_a6: ; 0x5048
 	db $ef, $00, $10, $1b
 	db $80 ; terminator
 
-SpriteData_a7: ; 0x5089
+PoxedexAnimatedMonType0Frame2Sprite: ; 0x5089
 	db $07, $08, $2f, $1d
 	db $ff, $08, $2e, $1d
 	db $07, $00, $2d, $1d
@@ -1694,7 +1697,7 @@ SpriteData_a7: ; 0x5089
 	db $ef, $00, $1e, $1b
 	db $80 ; terminator
 
-SpriteData_a8: ; 0x50d2
+PoxedexAnimatedMonType1Frame0Sprite: ; 0x50d2
 	db $15, $01, $0b, $0a
 	db $ef, $03, $02, $1d
 	db $f7, $03, $03, $1d
@@ -1714,7 +1717,7 @@ SpriteData_a8: ; 0x50d2
 	db $00, $f9, $06, $1b
 	db $80 ; terminator
 
-SpriteData_a9: ; 0x5117
+PoxedexAnimatedMonType1Frame1Sprite: ; 0x5117
 	db $f8, $04, $15, $1d
 	db $f0, $04, $14, $1d
 	db $fb, $0c, $17, $1d
@@ -1731,7 +1734,7 @@ SpriteData_a9: ; 0x5117
 	db $00, $fa, $18, $1b
 	db $80 ; terminator
 
-SpriteData_aa: ; 0x5150
+PoxedexAnimatedMonType1Frame2Sprite: ; 0x5150
 	db $00, $10, $27, $1d
 	db $f8, $10, $26, $1d
 	db $fb, $08, $25, $1d
@@ -1750,7 +1753,7 @@ SpriteData_aa: ; 0x5150
 	db $00, $f8, $28, $1b
 	db $80 ; terminator
 
-SpriteData_ab: ; 0x5191
+PoxedexAnimatedMonType2Frame0Sprite: ; 0x5191
 	db $08, $10, $0f, $1b
 	db $00, $10, $0e, $1b
 	db $08, $08, $0d, $1b
@@ -1769,7 +1772,7 @@ SpriteData_ab: ; 0x5191
 	db $f0, $f8, $00, $1b
 	db $80 ; terminator
 
-SpriteData_ac: ; 0x51d2
+PoxedexAnimatedMonType2Frame1Sprite: ; 0x51d2
 	db $08, $10, $1f, $1b
 	db $00, $10, $1e, $1b
 	db $08, $08, $1d, $1b
@@ -1788,7 +1791,7 @@ SpriteData_ac: ; 0x51d2
 	db $f0, $f8, $10, $1b
 	db $80 ; terminator
 
-SpriteData_ad: ; 0x5213
+PoxedexAnimatedMonType2Frame2Sprite: ; 0x5213
 	db $08, $10, $2f, $1b
 	db $00, $10, $2e, $1b
 	db $08, $08, $2d, $1b
@@ -1807,7 +1810,7 @@ SpriteData_ad: ; 0x5213
 	db $f0, $f8, $20, $1b
 	db $80 ; terminator
 
-SpriteData_ae: ; 0x5254
+PoxedexAnimatedMonType3Frame0Sprite: ; 0x5254
 	db $08, $10, $0f, $1d
 	db $00, $10, $0e, $1b
 	db $08, $08, $0d, $1d
@@ -1826,7 +1829,7 @@ SpriteData_ae: ; 0x5254
 	db $f0, $f8, $00, $1b
 	db $80 ; terminator
 
-SpriteData_af: ; 0x5295
+PoxedexAnimatedMonType3Frame1Sprite: ; 0x5295
 	db $08, $10, $1f, $1d
 	db $00, $10, $1e, $1b
 	db $08, $08, $1d, $1d
@@ -1845,7 +1848,7 @@ SpriteData_af: ; 0x5295
 	db $f0, $f8, $10, $1b
 	db $80 ; terminator
 
-SpriteData_b0: ; 0x52d6
+PoxedexAnimatedMonType3Frame2Sprite: ; 0x52d6
 	db $09, $10, $2f, $1d
 	db $01, $10, $2e, $1b
 	db $09, $08, $2d, $1d

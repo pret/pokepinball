@@ -120,7 +120,7 @@ HandleTitlescreenAnimations: ; 0xc0f7
 	and a
 	jr z, .asm_c104
 	ld bc, $2040
-	ld a, SPRITE_DATA_62  ; seemingly-unused sprite data for titlescreen. It's just blank tiles.
+	ld a, SPRITE_TITLESCREEN_BLANK  ; seemingly-unused sprite data for titlescreen. It's just blank tiles.
 	call LoadSpriteData
 .asm_c104
 	call Func_c21d  ; does nothing...
@@ -214,7 +214,7 @@ Func_c1b1: ; 0xc1b1
 	and a
 	jr z, .asm_c1c1
 	ld bc, $2040
-	ld a, SPRITE_DATA_62
+	ld a, SPRITE_TITLESCREEN_BLANK
 	call LoadSpriteData
 .asm_c1c1
 	call Func_c21d

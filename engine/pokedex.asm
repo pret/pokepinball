@@ -427,7 +427,7 @@ Func_282e9: ; 0x282e9
 	ld a, $2
 .asm_2830f
 	add c
-	add $a5
+	add SPRITE_POKEDEX_ANIMATED_MON
 	ld bc, $2030
 	call LoadSpriteData
 .asm_28318
@@ -441,7 +441,7 @@ Func_282e9: ; 0x282e9
 	ld c, a
 	ld a, [hli]
 	ld b, a
-	ld a, $63
+	ld a, SPRITE_DEX_ARROW
 	call LoadSpriteData
 	call Func_28368
 	ld a, [hNewlyPressedButtons]
@@ -847,13 +847,13 @@ Func_285db: ; 0x285db
 	bit 1, [hl]  ; has pokemon been seen or captured?
 	call nz, Func_287e7
 	ld bc, $8c38
-	ld a, $64
+	ld a, SPRITE_DEX_SCROLLBAR_TOPPER_0
 	call LoadSpriteData
-	ld bc, vTilesSH tile $04
-	ld a, $65
+	ld bc, $8840
+	ld a, SPRITE_DEX_SCROLLBAR_TOPPER_1
 	call LoadSpriteData
 	ld bc, $8888
-	ld a, $66
+	ld a, SPRITE_DEX_SCROLLBAR_TOPPER_2
 	call LoadSpriteData
 	call DrawCornerInfoPokedexScreen
 	ld a, [wCurPokedexIndex]
@@ -910,7 +910,7 @@ Func_285db: ; 0x285db
 	add $40
 	ld c, a
 	ld b, $10
-	ld a, $63
+	ld a, SPRITE_DEX_ARROW
 	call LoadSpriteData
 .asm_28667
 	pop bc
@@ -937,7 +937,10 @@ PointerTable_2867f: ; 0x2867f
 	dw Func_28765
 
 DexScrollBarSpriteIds:
-	db $67, $68, $69, $68
+	db SPRITE_DEX_SCROLLBAR_0
+	db SPRITE_DEX_SCROLLBAR_1
+	db SPRITE_DEX_SCROLLBAR_2
+	db SPRITE_DEX_SCROLLBAR_1
 
 DrawCornerInfoPokedexScreen: ; 0x2868b
 ; If player is holding SELECT button, it draws the seen/own count in the top-right corner.
@@ -954,7 +957,7 @@ DrawCornerInfoPokedexScreen: ; 0x2868b
 	ld a, [wNumPokemonSeen]
 	call LoadSeenOwnDigitSprite
 	ld bc, $8202
-	ld a, $76
+	ld a, SPRITE_SLASH_CHARACTER
 	call LoadSpriteData  ; draws the "/" between the seen/owned numbers
 	ld bc, $8703
 	ld a, [wNumPokemonOwned + 1]
@@ -968,13 +971,13 @@ DrawCornerInfoPokedexScreen: ; 0x2868b
 
 .asm_286c8
 	ld bc, $6800
-	ld a, $6a
+	ld a, SPRITE_POKEDEX_TEXT
 	call LoadSpriteData
 	ret
 
 LoadSeenOwnDigitSprite: ; 0x286d1
 	and $f
-	add $6c
+	add SPRITE_DIGIT
 	call LoadSpriteData
 	ld a, b
 	add $7 ; adds 7 pixels to the next digit's x position on screen
@@ -1183,7 +1186,7 @@ Func_287e7: ; 0x287e7
 	ld [wCurrentAnimatedMonSpriteType], a
 	call Func_28815
 	ld a, [wCurrentAnimatedMonSpriteFrame]
-	add $a5
+	add SPRITE_POKEDEX_ANIMATED_MON
 	ld bc, $2030
 	call LoadSpriteData
 	ret
@@ -1237,10 +1240,10 @@ Func_2885c: ; 0x2885c
 	bit 1, [hl]
 	call nz, Func_287e7
 	ld bc, $8888
-	ld a, $66
+	ld a, SPRITE_DEX_SCROLLBAR_TOPPER_2
 	call LoadSpriteData
 	ld bc, $6800
-	ld a, $6a
+	ld a, SPRITE_POKEDEX_TEXT
 	call LoadSpriteData
 	ret
 

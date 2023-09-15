@@ -97,15 +97,18 @@ Func_19033: ; 0x19033
 	ld a, [de]
 	ld e, a
 	ld d, $0
-	ld hl, SpriteIds_1906b
+	ld hl, SpriteIds_Gastly
 	add hl, de
 	ld a, [hl]
 	cp $ff
 	call nz, LoadSpriteData2
 	ret
 
-SpriteIds_1906b:
-	db $00, $01, $02, $03
+SpriteIds_Gastly:
+	db SPRITE2_GASTLY_0
+	db SPRITE2_GASTLY_1
+	db SPRITE2_GASTLY_2
+	db SPRITE2_GASTLY_HIT
 	db $FF
 
 Func_19070: ; 0x19070
@@ -193,15 +196,19 @@ Func_190c6: ; 0x190c6
 	ld a, [de]
 	ld e, a
 	ld d, $0
-	ld hl, SpriteIds_190fe
+	ld hl, SpriteIds_Haunter
 	add hl, de
 	ld a, [hl]
 	cp $ff
 	call nz, LoadSpriteData2
 	ret
 
-SpriteIds_190fe:
-	db $04, $05, $06, $07, $08
+SpriteIds_Haunter:
+	db SPRITE2_HAUNTER_0
+	db SPRITE2_HAUNTER_1
+	db SPRITE2_HAUNTER_2
+	db SPRITE2_HAUNTER_3
+	db SPRITE2_HAUNTER_HIT
 	db $FF
 
 Func_19104: ; 0x19104
@@ -302,15 +309,20 @@ Func_1918c: ; 0x1918c
 	ld a, [de]
 	ld e, a
 	ld d, $0
-	ld hl, SpriteIds_191c4
+	ld hl, SpriteIds_Gengar
 	add hl, de
 	ld a, [hl]
 	cp $ff
 	call nz, LoadSpriteData2
 	ret
 
-SpriteIds_191c4:
-	db $09, $0A, $0B, $0C, $0D, $0E
+SpriteIds_Gengar:
+	db SPRITE2_GENGAR_0
+	db SPRITE2_GENGAR_1
+	db SPRITE2_GENGAR_2
+	db SPRITE2_GENGAR_3
+	db SPRITE2_GENGAR_4
+	db SPRITE2_GENGAR_HIT
 	db $FF
 
 Func_191cb: ; 0x191cb

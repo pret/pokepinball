@@ -2236,21 +2236,21 @@ SpriteData_f8: ; 0x55d2
 DEF const_value = 0
 
 SpriteDataPointers2: ; 0x55d7
-	SpriteDataPointer SpriteData2_0, SPRITE2_DATA_0
-	SpriteDataPointer SpriteData2_1, SPRITE2_DATA_1
-	SpriteDataPointer SpriteData2_2, SPRITE2_DATA_2
-	SpriteDataPointer SpriteData2_3, SPRITE2_DATA_3
-	SpriteDataPointer SpriteData2_4, SPRITE2_DATA_4
-	SpriteDataPointer SpriteData2_5, SPRITE2_DATA_5
-	SpriteDataPointer SpriteData2_6, SPRITE2_DATA_6
-	SpriteDataPointer SpriteData2_7, SPRITE2_DATA_7
-	SpriteDataPointer SpriteData2_8, SPRITE2_DATA_8
-	SpriteDataPointer SpriteData2_9, SPRITE2_DATA_9
-	SpriteDataPointer SpriteData2_a, SPRITE2_DATA_a
-	SpriteDataPointer SpriteData2_b, SPRITE2_DATA_b
-	SpriteDataPointer SpriteData2_c, SPRITE2_DATA_c
-	SpriteDataPointer SpriteData2_d, SPRITE2_DATA_d
-	SpriteDataPointer SpriteData2_e, SPRITE2_DATA_e
+	SpriteDataPointer GastlyFrame0Sprite, SPRITE2_GASTLY_0
+	SpriteDataPointer GastlyFrame1Sprite, SPRITE2_GASTLY_1
+	SpriteDataPointer GastlyFrame2Sprite, SPRITE2_GASTLY_2
+	SpriteDataPointer GastlyHitSprite, SPRITE2_GASTLY_HIT
+	SpriteDataPointer HaunterFrame0Sprite, SPRITE2_HAUNTER_0
+	SpriteDataPointer HaunterFrame1Sprite, SPRITE2_HAUNTER_1
+	SpriteDataPointer HaunterFrame2Sprite, SPRITE2_HAUNTER_2
+	SpriteDataPointer HaunterFrame3Sprite, SPRITE2_HAUNTER_3
+	SpriteDataPointer HaunterHitSprite, SPRITE2_HAUNTER_HIT
+	SpriteDataPointer GengarFrame0Sprite, SPRITE2_GENGAR_0
+	SpriteDataPointer GengarFrame1Sprite, SPRITE2_GENGAR_1
+	SpriteDataPointer GengarFrame2Sprite, SPRITE2_GENGAR_2
+	SpriteDataPointer GengarFrame3Sprite, SPRITE2_GENGAR_3
+	SpriteDataPointer GengarFrame4Sprite, SPRITE2_GENGAR_4
+	SpriteDataPointer GengarHitSprite, SPRITE2_GENGAR_HIT
 	SpriteDataPointer SpriteData2_f, SPRITE2_DATA_f
 	SpriteDataPointer SpriteData2_10, SPRITE2_DATA_10
 	SpriteDataPointer SpriteData2_11, SPRITE2_DATA_11
@@ -2370,7 +2370,7 @@ SpriteDataPointers2: ; 0x55d7
 	SpriteDataPointer SpriteData2_83, SPRITE2_DATA_83
 	SpriteDataPointer SpriteData2_84, SPRITE2_DATA_84
 
-SpriteData2_0: ; 0x56e1
+GastlyFrame0Sprite: ; 0x56e1
 	db $20, $20, $9E, $04
 	db $20, $18, $9C, $04
 	db $20, $10, $9A, $04
@@ -2381,7 +2381,7 @@ SpriteData2_0: ; 0x56e1
 	db $10, $08, $90, $04
 	db $80  ; terminator
 
-SpriteData2_1: ; 0x5702
+GastlyFrame1Sprite: ; 0x5702
 	db $21, $20, $9E, $04
 	db $21, $18, $9C, $04
 	db $21, $10, $9A, $04
@@ -2392,7 +2392,7 @@ SpriteData2_1: ; 0x5702
 	db $11, $08, $90, $04
 	db $80  ; terminator
 
-SpriteData2_2: ; 0x
+GastlyFrame2Sprite: ; 0x
 	db $1F, $20, $9E, $04
 	db $1F, $18, $9C, $04
 	db $1F, $10, $9A, $04
@@ -2403,7 +2403,7 @@ SpriteData2_2: ; 0x
 	db $0F, $08, $90, $04
 	db $80  ; terminator
 
-SpriteData2_3: ; 0x
+GastlyHitSprite: ; 0x
 	db $1F, $18, $A6, $04
 	db $1F, $10, $A4, $04
 	db $0F, $18, $A2, $04
@@ -2414,7 +2414,7 @@ SpriteData2_3: ; 0x
 	db $0F, $08, $90, $04
 	db $80  ; terminator
 
-SpriteData2_4: ; 0x
+HaunterFrame0Sprite: ; 0x
 	db $1A, $21, $1A, $04
 	db $1A, $19, $A8, $04
 	db $1E, $00, $A2, $24
@@ -2429,7 +2429,7 @@ SpriteData2_4: ; 0x
 	db $10, $08, $90, $04
 	db $80  ; terminator
 
-SpriteData2_5: ; 0x
+HaunterFrame1Sprite: ; 0x
 	db $1E, $02, $A6, $24
 	db $1E, $0A, $A4, $24
 	db $1C, $23, $A6, $04
@@ -2444,7 +2444,7 @@ SpriteData2_5: ; 0x
 	db $0E, $08, $90, $04
 	db $80  ; terminator
 
-SpriteData2_6: ; 0x
+HaunterFrame2Sprite: ; 0x
 	db $1E, $23, $A2, $04
 	db $1E, $1B, $A0, $04
 	db $1A, $02, $1A, $24
@@ -2459,7 +2459,7 @@ SpriteData2_6: ; 0x
 	db $0D, $08, $90, $04
 	db $80  ; terminator
 
-SpriteData2_7: ; 0x
+HaunterFrame3Sprite: ; 0x
 	db $1C, $00, $A6, $24
 	db $1C, $08, $A4, $24
 	db $1E, $21, $A6, $04
@@ -2474,7 +2474,7 @@ SpriteData2_7: ; 0x
 	db $0E, $08, $90, $04
 	db $80  ; terminator
 
-SpriteData2_8: ; 0x
+HaunterHitSprite: ; 0x
 	db $17, $09, $A8, $24
 	db $17, $01, $1A, $24
 	db $0F, $1E, $A8, $04
@@ -2488,7 +2488,7 @@ SpriteData2_8: ; 0x
 	db $0E, $08, $1C, $04
 	db $80  ; terminator
 
-SpriteData2_9: ; 0x
+GengarFrame0Sprite: ; 0x
 	db $20, $30, $32, $24
 	db $30, $30, $3A, $04
 	db $10, $30, $38, $04
@@ -2513,7 +2513,7 @@ SpriteData2_9: ; 0x
 	db $08, $10, $90, $04
 	db $80  ; terminator
 
-SpriteData2_a: ; 0x
+GengarFrame1Sprite: ; 0x
 	db $31, $08, $36, $04
 	db $39, $28, $26, $04
 	db $39, $20, $24, $04
@@ -2538,7 +2538,7 @@ SpriteData2_a: ; 0x
 	db $09, $10, $90, $04
 	db $80  ; terminator
 
-SpriteData2_b: ; 0x
+GengarFrame2Sprite: ; 0x
 	db $39, $28, $2E, $04
 	db $39, $20, $2C, $04
 	db $39, $18, $2A, $04
@@ -2563,7 +2563,7 @@ SpriteData2_b: ; 0x
 	db $09, $10, $90, $04
 	db $80  ; terminator
 
-SpriteData2_c: ; 0x
+GengarFrame3Sprite: ; 0x
 	db $39, $28, $7E, $04
 	db $39, $20, $7C, $04
 	db $39, $18, $7A, $04
@@ -2588,7 +2588,7 @@ SpriteData2_c: ; 0x
 	db $09, $10, $90, $04
 	db $80  ; terminator
 
-SpriteData2_d: ; 0x
+GengarFrame4Sprite: ; 0x
 	db $3A, $28, $B0, $04
 	db $3A, $20, $AE, $04
 	db $3A, $18, $AC, $04
@@ -2613,7 +2613,7 @@ SpriteData2_d: ; 0x
 	db $0A, $10, $90, $04
 	db $80  ; terminator
 
-SpriteData2_e: ; 0x
+GengarHitSprite: ; 0x
 	db $23, $04, $B2, $04
 	db $27, $2C, $D2, $04
 	db $27, $24, $D0, $04

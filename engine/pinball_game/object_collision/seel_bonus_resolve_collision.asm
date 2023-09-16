@@ -226,7 +226,7 @@ Func_25da3: ; 0x25da3
 	dec de
 	dec de
 	push bc
-	ld hl, SeelAnimationData10
+	ld hl, SeelHitAnimation
 	call InitAnimation
 	pop bc
 	ld hl, wd76e
@@ -398,7 +398,7 @@ UpdateSeelPosition: ; 0x25ec5
 	dec hl
 	ld d, h
 	ld e, l
-	ld hl, SeelAnimationData8
+	ld hl, SeelTurnRightToLeftAnimation
 	call InitAnimation
 	ret
 
@@ -428,7 +428,7 @@ UpdateSeelPosition: ; 0x25ec5
 	dec hl
 	ld d, h
 	ld e, l
-	ld hl, SeelAnimationData9
+	ld hl, SeelTurnLeftToRightAnimation
 	call InitAnimation
 	ret
 
@@ -828,120 +828,120 @@ Func_26137: ; 0x26137
 	ret
 
 SeelAnimationsTable: ; 0x2614f
-	dw SeelAnimationData1
-	dw SeelAnimationData2
-	dw SeelAnimationData3
-	dw SeelAnimationData4
-	dw SeelAnimationData5
-	dw SeelAnimationData6
-	dw SeelAnimationData7
-	dw SeelAnimationData8
-	dw SeelAnimationData9
-	dw SeelAnimationData10
-	dw SeelAnimationData11
-	dw SeelAnimationData12
+	dw SeelPeekingAnimation
+	dw SeelSwimRightAnimation
+	dw SeelEmergeRightAnimation
+	dw SeelSubmergeRightAnimation
+	dw SeelSwimLeftAnimation
+	dw SeelEmergeLeftAnimation
+	dw SeelSubmergeLeftAnimation
+	dw SeelTurnRightToLeftAnimation
+	dw SeelTurnLeftToRightAnimation
+	dw SeelHitAnimation
+	dw SeelSubmergeAfterHitRightAnimation
+	dw SeelSubmergeAfterHitLeftAnimation
 
-SeelAnimationData1:
-	db $1C, $00
-	db $1C, $01
+SeelPeekingAnimation:
+	db $1C, SEELSPRITE_PEEKING_0
+	db $1C, SEELSPRITE_PEEKING_1
 	db $00 ; terminator
 
-SeelAnimationData2:
-	db $0C, $03
-	db $08, $04
-	db $0C, $05
-	db $08, $04
+SeelSwimRightAnimation:
+	db $0C, SEELSPRITE_SWIM_RIGHT_0
+	db $08, SEELSPRITE_SWIM_RIGHT_1
+	db $0C, SEELSPRITE_SWIM_RIGHT_2
+	db $08, SEELSPRITE_SWIM_RIGHT_1
 	db $00 ; terminator
 
-SeelAnimationData3:
-	db $04, $06
-	db $04, $07
-	db $05, $08
-	db $05, $09
-	db $06, $0A
-	db $04, $0B
-	db $08, $0C
+SeelEmergeRightAnimation:
+	db $04, SEELSPRITE_TURN_RIGHT_TO_LEFT_0
+	db $04, SEELSPRITE_TURN_RIGHT_TO_LEFT_1
+	db $05, SEELSPRITE_SHADOW_CIRCLE_0
+	db $05, SEELSPRITE_SHADOW_CIRCLE_1
+	db $06, SEELSPRITE_SHADOW_CIRCLE_2
+	db $04, SEELSPRITE_EMERGE_0
+	db $08, SEELSPRITE_EMERGE_1
 	db $00 ; terminator
 
-SeelAnimationData4:
-	db $08, $0C
-	db $04, $0B
-	db $06, $0D
-	db $10, $17
-	db $06, $0A
-	db $05, $09
-	db $05, $08
-	db $04, $0E
-	db $04, $0F
+SeelSubmergeRightAnimation:
+	db $08, SEELSPRITE_EMERGE_1
+	db $04, SEELSPRITE_EMERGE_0
+	db $06, SEELSPRITE_SPLASH
+	db $10, SEELSPRITE_INVISIBLE
+	db $06, SEELSPRITE_SHADOW_CIRCLE_2
+	db $05, SEELSPRITE_SHADOW_CIRCLE_1
+	db $05, SEELSPRITE_SHADOW_CIRCLE_0
+	db $04, SEELSPRITE_TURN_LEFT_TO_RIGHT_2
+	db $04, SEELSPRITE_TURN_LEFT_TO_RIGHT_3
 	db $00 ; terminator
 
-SeelAnimationData5:
-	db $0C, $10
-	db $08, $11
-	db $0C, $12
-	db $08, $11
+SeelSwimLeftAnimation:
+	db $0C, SEELSPRITE_SWIM_LEFT_0
+	db $08, SEELSPRITE_SWIM_LEFT_1
+	db $0C, SEELSPRITE_SWIM_LEFT_2
+	db $08, SEELSPRITE_SWIM_LEFT_1
 	db $00 ; terminator
 
-SeelAnimationData6:
-	db $04, $13
-	db $04, $14
-	db $05, $08
-	db $05, $09
-	db $06, $0A
-	db $04, $0B
-	db $08, $0C
+SeelEmergeLeftAnimation:
+	db $04, SEELSPRITE_TURN_LEFT_TO_RIGHT_0
+	db $04, SEELSPRITE_TURN_LEFT_TO_RIGHT_1
+	db $05, SEELSPRITE_SHADOW_CIRCLE_0
+	db $05, SEELSPRITE_SHADOW_CIRCLE_1
+	db $06, SEELSPRITE_SHADOW_CIRCLE_2
+	db $04, SEELSPRITE_EMERGE_0
+	db $08, SEELSPRITE_EMERGE_1
 	db $00 ; terminator
 
-SeelAnimationData7:
-	db $08, $0C
-	db $04, $0B
-	db $06, $0D
-	db $10, $17
-	db $06, $0A
-	db $05, $09
-	db $05, $08
-	db $04, $15
-	db $04, $16
+SeelSubmergeLeftAnimation:
+	db $08, SEELSPRITE_EMERGE_1
+	db $04, SEELSPRITE_EMERGE_0
+	db $06, SEELSPRITE_SPLASH
+	db $10, SEELSPRITE_INVISIBLE
+	db $06, SEELSPRITE_SHADOW_CIRCLE_2
+	db $05, SEELSPRITE_SHADOW_CIRCLE_1
+	db $05, SEELSPRITE_SHADOW_CIRCLE_0
+	db $04, SEELSPRITE_TURN_RIGHT_TO_LEFT_2
+	db $04, SEELSPRITE_TURN_RIGHT_TO_LEFT_3
 	db $00 ; terminator
 
-SeelAnimationData8:
-	db $04, $06
-	db $04, $07
-	db $06, $0A
-	db $04, $15
-	db $04, $16
+SeelTurnRightToLeftAnimation:
+	db $04, SEELSPRITE_TURN_RIGHT_TO_LEFT_0
+	db $04, SEELSPRITE_TURN_RIGHT_TO_LEFT_1
+	db $06, SEELSPRITE_SHADOW_CIRCLE_2
+	db $04, SEELSPRITE_TURN_RIGHT_TO_LEFT_2
+	db $04, SEELSPRITE_TURN_RIGHT_TO_LEFT_3
 	db $00 ; terminator
 
-SeelAnimationData9:
-	db $04, $13
-	db $04, $14
-	db $06, $0A
-	db $04, $0E
-	db $04, $0F
+SeelTurnLeftToRightAnimation:
+	db $04, SEELSPRITE_TURN_LEFT_TO_RIGHT_0
+	db $04, SEELSPRITE_TURN_LEFT_TO_RIGHT_1
+	db $06, SEELSPRITE_SHADOW_CIRCLE_2
+	db $04, SEELSPRITE_TURN_LEFT_TO_RIGHT_2
+	db $04, SEELSPRITE_TURN_LEFT_TO_RIGHT_3
 	db $00 ; terminator
 
-SeelAnimationData10:
-	db $10, $02
+SeelHitAnimation:
+	db $10, SEELSPRITE_HIT
 	db $00 ; terminator
 
-SeelAnimationData11:
-	db $06, $0D
-	db $10, $17
-	db $06, $0A
-	db $05, $09
-	db $05, $08
-	db $04, $0E
-	db $04, $0F
+SeelSubmergeAfterHitRightAnimation:
+	db $06, SEELSPRITE_SPLASH
+	db $10, SEELSPRITE_INVISIBLE
+	db $06, SEELSPRITE_SHADOW_CIRCLE_2
+	db $05, SEELSPRITE_SHADOW_CIRCLE_1
+	db $05, SEELSPRITE_SHADOW_CIRCLE_0
+	db $04, SEELSPRITE_TURN_LEFT_TO_RIGHT_2
+	db $04, SEELSPRITE_TURN_LEFT_TO_RIGHT_3
 	db $00 ; terminator
 
-SeelAnimationData12:
-	db $06, $0D
-	db $10, $17
-	db $06, $0A
-	db $05, $09
-	db $05, $08
-	db $04, $15
-	db $04, $16
+SeelSubmergeAfterHitLeftAnimation:
+	db $06, SEELSPRITE_SPLASH
+	db $10, SEELSPRITE_INVISIBLE
+	db $06, SEELSPRITE_SHADOW_CIRCLE_2
+	db $05, SEELSPRITE_SHADOW_CIRCLE_1
+	db $05, SEELSPRITE_SHADOW_CIRCLE_0
+	db $04, SEELSPRITE_TURN_RIGHT_TO_LEFT_2
+	db $04, SEELSPRITE_TURN_RIGHT_TO_LEFT_3
 	db $00 ; terminator
 
 Func_261f9: ; 0x261f9
@@ -951,7 +951,7 @@ Func_261f9: ; 0x261f9
 	sla a
 	ld c, a
 	ld b, $0
-	ld hl, SeelStageAnimations
+	ld hl, SeelMultiplierAnimations
 	add hl, bc
 	ld a, [hli]
 	ld h, [hl]
@@ -967,7 +967,7 @@ Func_26212: ; 0x26212
 	sla a
 	ld c, a
 	ld b, $0
-	ld hl, SeelStageAnimations
+	ld hl, SeelMultiplierAnimations
 	add hl, bc
 	ld a, [hli]
 	ld h, [hl]
@@ -991,119 +991,119 @@ Func_26212: ; 0x26212
 	ld [wd795], a
 	ret
 
-SeelStageAnimations:
-	dw SeelStageAnimationData1
-	dw SeelStageAnimationData1
-	dw SeelStageAnimationData2
-	dw SeelStageAnimationData3
-	dw SeelStageAnimationData4
-	dw SeelStageAnimationData5
-	dw SeelStageAnimationData6
-	dw SeelStageAnimationData7
-	dw SeelStageAnimationData8
+SeelMultiplierAnimations:
+	dw SeelMultiplierAnimation2
+	dw SeelMultiplierAnimation2
+	dw SeelMultiplierAnimation4
+	dw SeelMultiplierAnimation8
+	dw SeelMultiplierAnimation16
+	dw SeelMultiplierAnimation32
+	dw SeelMultiplierAnimation64
+	dw SeelMultiplierAnimation128
+	dw SeelMultiplierAnimation256
 
-SeelStageAnimationData1:
-	db $02, $00
-	db $02, $01
-	db $02, $02
-	db $10, $00
-	db $04, $18
-	db $04, $00
-	db $04, $18
-	db $04, $00
-	db $04, $18
-	db $04, $00
+SeelMultiplierAnimation2:
+	db $02, SEELMULTIPLIERSPRITE_2_FRAME_0
+	db $02, SEELMULTIPLIERSPRITE_2_FRAME_1
+	db $02, SEELMULTIPLIERSPRITE_2_FRAME_2
+	db $10, SEELMULTIPLIERSPRITE_2_FRAME_0
+	db $04, SEELMULTIPLIERSPRITE_INVISIBLE
+	db $04, SEELMULTIPLIERSPRITE_2_FRAME_0
+	db $04, SEELMULTIPLIERSPRITE_INVISIBLE
+	db $04, SEELMULTIPLIERSPRITE_2_FRAME_0
+	db $04, SEELMULTIPLIERSPRITE_INVISIBLE
+	db $04, SEELMULTIPLIERSPRITE_2_FRAME_0
 	db $00 ; terminator
 
-SeelStageAnimationData2:
-	db $02, $03
-	db $02, $04
-	db $02, $05
-	db $10, $03
-	db $04, $18
-	db $04, $03
-	db $04, $18
-	db $04, $03
-	db $04, $18
-	db $04, $03
+SeelMultiplierAnimation4:
+	db $02, SEELMULTIPLIERSPRITE_4_FRAME_0
+	db $02, SEELMULTIPLIERSPRITE_4_FRAME_1
+	db $02, SEELMULTIPLIERSPRITE_4_FRAME_2
+	db $10, SEELMULTIPLIERSPRITE_4_FRAME_0
+	db $04, SEELMULTIPLIERSPRITE_INVISIBLE
+	db $04, SEELMULTIPLIERSPRITE_4_FRAME_0
+	db $04, SEELMULTIPLIERSPRITE_INVISIBLE
+	db $04, SEELMULTIPLIERSPRITE_4_FRAME_0
+	db $04, SEELMULTIPLIERSPRITE_INVISIBLE
+	db $04, SEELMULTIPLIERSPRITE_4_FRAME_0
 	db $00 ; terminator
 
-SeelStageAnimationData3:
-	db $02, $06
-	db $02, $07
-	db $02, $08
-	db $10, $06
-	db $04, $18
-	db $04, $06
-	db $04, $18
-	db $04, $06
-	db $04, $18
-	db $04, $06
+SeelMultiplierAnimation8:
+	db $02, SEELMULTIPLIERSPRITE_8_FRAME_0
+	db $02, SEELMULTIPLIERSPRITE_8_FRAME_1
+	db $02, SEELMULTIPLIERSPRITE_8_FRAME_2
+	db $10, SEELMULTIPLIERSPRITE_8_FRAME_0
+	db $04, SEELMULTIPLIERSPRITE_INVISIBLE
+	db $04, SEELMULTIPLIERSPRITE_8_FRAME_0
+	db $04, SEELMULTIPLIERSPRITE_INVISIBLE
+	db $04, SEELMULTIPLIERSPRITE_8_FRAME_0
+	db $04, SEELMULTIPLIERSPRITE_INVISIBLE
+	db $04, SEELMULTIPLIERSPRITE_8_FRAME_0
 	db $00 ; terminator
 
-SeelStageAnimationData4:
-	db $02, $09
-	db $02, $0A
-	db $02, $0B
-	db $10, $09
-	db $04, $18
-	db $04, $09
-	db $04, $18
-	db $04, $09
-	db $04, $18
-	db $04, $09
+SeelMultiplierAnimation16:
+	db $02, SEELMULTIPLIERSPRITE_16_FRAME_0
+	db $02, SEELMULTIPLIERSPRITE_16_FRAME_1
+	db $02, SEELMULTIPLIERSPRITE_16_FRAME_2
+	db $10, SEELMULTIPLIERSPRITE_16_FRAME_0
+	db $04, SEELMULTIPLIERSPRITE_INVISIBLE
+	db $04, SEELMULTIPLIERSPRITE_16_FRAME_0
+	db $04, SEELMULTIPLIERSPRITE_INVISIBLE
+	db $04, SEELMULTIPLIERSPRITE_16_FRAME_0
+	db $04, SEELMULTIPLIERSPRITE_INVISIBLE
+	db $04, SEELMULTIPLIERSPRITE_16_FRAME_0
 	db $00 ; terminator
 
-SeelStageAnimationData5:
-	db $02, $0C
-	db $02, $0D
-	db $02, $0E
-	db $10, $0C
-	db $04, $18
-	db $04, $0C
-	db $04, $18
-	db $04, $0C
-	db $04, $18
-	db $04, $0C
+SeelMultiplierAnimation32:
+	db $02, SEELMULTIPLIERSPRITE_32_FRAME_0
+	db $02, SEELMULTIPLIERSPRITE_32_FRAME_1
+	db $02, SEELMULTIPLIERSPRITE_32_FRAME_2
+	db $10, SEELMULTIPLIERSPRITE_32_FRAME_0
+	db $04, SEELMULTIPLIERSPRITE_INVISIBLE
+	db $04, SEELMULTIPLIERSPRITE_32_FRAME_0
+	db $04, SEELMULTIPLIERSPRITE_INVISIBLE
+	db $04, SEELMULTIPLIERSPRITE_32_FRAME_0
+	db $04, SEELMULTIPLIERSPRITE_INVISIBLE
+	db $04, SEELMULTIPLIERSPRITE_32_FRAME_0
 	db $00 ; terminator
 
-SeelStageAnimationData6:
-	db $02, $0F
-	db $02, $10
-	db $02, $11
-	db $10, $0F
-	db $04, $18
-	db $04, $0F
-	db $04, $18
-	db $04, $0F
-	db $04, $18
-	db $04, $0F
+SeelMultiplierAnimation64:
+	db $02, SEELMULTIPLIERSPRITE_64_FRAME_0
+	db $02, SEELMULTIPLIERSPRITE_64_FRAME_1
+	db $02, SEELMULTIPLIERSPRITE_64_FRAME_2
+	db $10, SEELMULTIPLIERSPRITE_64_FRAME_0
+	db $04, SEELMULTIPLIERSPRITE_INVISIBLE
+	db $04, SEELMULTIPLIERSPRITE_64_FRAME_0
+	db $04, SEELMULTIPLIERSPRITE_INVISIBLE
+	db $04, SEELMULTIPLIERSPRITE_64_FRAME_0
+	db $04, SEELMULTIPLIERSPRITE_INVISIBLE
+	db $04, SEELMULTIPLIERSPRITE_64_FRAME_0
 	db $00 ; terminator
 
-SeelStageAnimationData7:
-	db $02, $12
-	db $02, $13
-	db $02, $14
-	db $10, $12
-	db $04, $18
-	db $04, $12
-	db $04, $18
-	db $04, $12
-	db $04, $18
-	db $04, $12
+SeelMultiplierAnimation128:
+	db $02, SEELMULTIPLIERSPRITE_128_FRAME_0
+	db $02, SEELMULTIPLIERSPRITE_128_FRAME_1
+	db $02, SEELMULTIPLIERSPRITE_128_FRAME_2
+	db $10, SEELMULTIPLIERSPRITE_128_FRAME_0
+	db $04, SEELMULTIPLIERSPRITE_INVISIBLE
+	db $04, SEELMULTIPLIERSPRITE_128_FRAME_0
+	db $04, SEELMULTIPLIERSPRITE_INVISIBLE
+	db $04, SEELMULTIPLIERSPRITE_128_FRAME_0
+	db $04, SEELMULTIPLIERSPRITE_INVISIBLE
+	db $04, SEELMULTIPLIERSPRITE_128_FRAME_0
 	db $00 ; terminator
 
-SeelStageAnimationData8:
-	db $02, $15
-	db $02, $16
-	db $02, $17
-	db $10, $15
-	db $04, $18
-	db $04, $15
-	db $04, $18
-	db $04, $15
-	db $04, $18
-	db $04, $15
+SeelMultiplierAnimation256:
+	db $02, SEELMULTIPLIERSPRITE_256_FRAME_0
+	db $02, SEELMULTIPLIERSPRITE_256_FRAME_1
+	db $02, SEELMULTIPLIERSPRITE_256_FRAME_2
+	db $10, SEELMULTIPLIERSPRITE_256_FRAME_0
+	db $04, SEELMULTIPLIERSPRITE_INVISIBLE
+	db $04, SEELMULTIPLIERSPRITE_256_FRAME_0
+	db $04, SEELMULTIPLIERSPRITE_INVISIBLE
+	db $04, SEELMULTIPLIERSPRITE_256_FRAME_0
+	db $04, SEELMULTIPLIERSPRITE_INVISIBLE
+	db $04, SEELMULTIPLIERSPRITE_256_FRAME_0
 	db $00 ; terminator
 
 Func_262f4: ; 0x262f4

@@ -118,39 +118,39 @@ CheckMeowthCollision: ; 0x24170
 	ret
 
 CheckMeowthBonusStageJewelsCollision: ; 0x24214
-	ld a, [wd717]
+	ld a, [wMeowthJewel0State]
 	cp $2
 	jr nz, .asm_2422e
-	ld a, [wd71a]
+	ld a, [wMeowthJewel0XCoord]
 	sub $4
 	ld b, a
-	ld a, [wd727]
+	ld a, [wMeowthJewel0YCoord]
 	add $c
 	ld c, a
 	call CheckJewelCollision
 	ld a, $0
 	jr c, .asm_24260
 .asm_2422e
-	ld a, [wd718]
+	ld a, [wMeowthJewel1State]
 	cp $2
 	jr nz, .asm_24248
-	ld a, [wd71b]
+	ld a, [wMeowthJewel1XCoord]
 	sub $4
 	ld b, a
-	ld a, [wd728]
+	ld a, [wMeowthJewel1YCoord]
 	add $c
 	ld c, a
 	call CheckJewelCollision
 	ld a, $1
 	jr c, .asm_24260
 .asm_24248
-	ld a, [wd719]
+	ld a, [wMeowthJewel2State]
 	cp $2
 	ret nz
-	ld a, [wd71c]
+	ld a, [wMeowthJewel2XCoord]
 	sub $4
 	ld b, a
-	ld a, [wd729]
+	ld a, [wMeowthJewel2YCoord]
 	add $c
 	ld c, a
 	call CheckJewelCollision
@@ -159,11 +159,11 @@ CheckMeowthBonusStageJewelsCollision: ; 0x24214
 .asm_24260
 	ld b, $0
 	ld c, a
-	ld hl, wd717
+	ld hl, wMeowthJewel0State
 	add hl, bc
 	ld a, $3
 	ld [hl], a
-	ld hl, wd714
+	ld hl, wMeowthJewel0AnimationIndex
 	add hl, bc
 	ld a, $0
 	ld [hl], a
@@ -216,39 +216,39 @@ CheckJewelCollision: ; 0x24272
 	ret
 
 CheckMeowthBonusStageJewelsCollision2: ; 0x242bb
-	ld a, [wd721]
+	ld a, [wMeowthJewel3State]
 	cp $2
 	jr nz, .asm_242d5
-	ld a, [wd724]
+	ld a, [wMeowthJewel3XCoord]
 	sub $4
 	ld b, a
-	ld a, [wd731]
+	ld a, [wMeowthJewel3YCoord]
 	add $c
 	ld c, a
 	call CheckJewelCollision
 	ld a, $0
 	jr c, .asm_24307
 .asm_242d5
-	ld a, [wd722]
+	ld a, [wMeowthJewel4State]
 	cp $2
 	jr nz, .asm_242ef
-	ld a, [wd725]
+	ld a, [wMeowthJewel4XCoord]
 	sub $4
 	ld b, a
-	ld a, [wd732]
+	ld a, [wMeowthJewel4YCoord]
 	add $c
 	ld c, a
 	call CheckJewelCollision
 	ld a, $1
 	jr c, .asm_24307
 .asm_242ef
-	ld a, [wd723]
+	ld a, [wMeowthJewel5State]
 	cp $2
 	ret nz
-	ld a, [wd726]
+	ld a, [wMeowthJewel5XCoord]
 	sub $4
 	ld b, a
-	ld a, [wd733]
+	ld a, [wMeowthJewel5YCoord]
 	add $c
 	ld c, a
 	call CheckJewelCollision
@@ -257,11 +257,11 @@ CheckMeowthBonusStageJewelsCollision2: ; 0x242bb
 .asm_24307
 	ld b, $0
 	ld c, a
-	ld hl, wd721
+	ld hl, wMeowthJewel3State
 	add hl, bc
 	ld a, $3
 	ld [hl], a
-	ld hl, wd71e
+	ld hl, wMeowthJewel3AnimationIndex
 	add hl, bc
 	ld a, $0
 	ld [hl], a

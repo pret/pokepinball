@@ -2282,43 +2282,43 @@ SpriteDataPointers2: ; 0x55d7
 	SpriteDataPointer OribitingBallGrowingFrame4Sprite, SPRITE2_ORBITING_BALL_GROWING_4
 	SpriteDataPointer OribitingBallGrowingFrame5Sprite, SPRITE2_ORBITING_BALL_GROWING_5
 	SpriteDataPointer OribitingBallGrowingFrame6Sprite, SPRITE2_ORBITING_BALL_GROWING_6
-	SpriteDataPointer SpriteData2_21, SPRITE2_DATA_21
-	SpriteDataPointer SpriteData2_22, SPRITE2_DATA_22
-	SpriteDataPointer SpriteData2_23, SPRITE2_DATA_23
-	SpriteDataPointer SpriteData2_24, SPRITE2_DATA_24
-	SpriteDataPointer SpriteData2_25, SPRITE2_DATA_25
-	SpriteDataPointer SpriteData2_26, SPRITE2_DATA_26
-	SpriteDataPointer SpriteData2_27, SPRITE2_DATA_27
-	SpriteDataPointer SpriteData2_28, SPRITE2_DATA_28
-	SpriteDataPointer SpriteData2_29, SPRITE2_DATA_29
-	SpriteDataPointer SpriteData2_2a, SPRITE2_DATA_2a
-	SpriteDataPointer SpriteData2_2b, SPRITE2_DATA_2b
-	SpriteDataPointer SpriteData2_2c, SPRITE2_DATA_2c
-	SpriteDataPointer SpriteData2_2d, SPRITE2_DATA_2d
-	SpriteDataPointer SpriteData2_2e, SPRITE2_DATA_2e
-	SpriteDataPointer SpriteData2_2f, SPRITE2_DATA_2f
-	SpriteDataPointer SpriteData2_30, SPRITE2_DATA_30
-	SpriteDataPointer SpriteData2_31, SPRITE2_DATA_31
-	SpriteDataPointer SpriteData2_32, SPRITE2_DATA_32
-	SpriteDataPointer SpriteData2_33, SPRITE2_DATA_33
-	SpriteDataPointer SpriteData2_34, SPRITE2_DATA_34
-	SpriteDataPointer SpriteData2_35, SPRITE2_DATA_35
-	SpriteDataPointer SpriteData2_36, SPRITE2_DATA_36
-	SpriteDataPointer SpriteData2_37, SPRITE2_DATA_37
-	SpriteDataPointer SpriteData2_38, SPRITE2_DATA_38
-	SpriteDataPointer SpriteData2_39, SPRITE2_DATA_39
-	SpriteDataPointer SpriteData2_3a, SPRITE2_DATA_3a
-	SpriteDataPointer SpriteData2_3b, SPRITE2_DATA_3b
-	SpriteDataPointer SpriteData2_3c, SPRITE2_DATA_3c
-	SpriteDataPointer SpriteData2_3d, SPRITE2_DATA_3d
-	SpriteDataPointer SpriteData2_3e, SPRITE2_DATA_3e
-	SpriteDataPointer SpriteData2_3f, SPRITE2_DATA_3f
-	SpriteDataPointer SpriteData2_40, SPRITE2_DATA_40
-	SpriteDataPointer SpriteData2_41, SPRITE2_DATA_41
-	SpriteDataPointer SpriteData2_42, SPRITE2_DATA_42
-	SpriteDataPointer SpriteData2_43, SPRITE2_DATA_43
-	SpriteDataPointer SpriteData2_44, SPRITE2_DATA_44
-	SpriteDataPointer SpriteData2_45, SPRITE2_DATA_45
+	SpriteDataPointer MeowthWalkLeftFrame0Sprite, SPRITE2_MEOWTH_LEFT_WALK_0
+	SpriteDataPointer MeowthWalkLeftFrame1Sprite, SPRITE2_MEOWTH_LEFT_WALK_1
+	SpriteDataPointer MeowthWalkLeftFrame2Sprite, SPRITE2_MEOWTH_LEFT_WALK_2
+	SpriteDataPointer MeowthLeftHitSprite, SPRITE2_MEOWTH_LEFT_HIT
+	SpriteDataPointer MeowthWalkRightFrame0Sprite, SPRITE2_MEOWTH_RIGHT_WALK_0
+	SpriteDataPointer MeowthWalkRightFrame1Sprite, SPRITE2_MEOWTH_RIGHT_WALK_1
+	SpriteDataPointer MeowthWalkRightFrame2Sprite, SPRITE2_MEOWTH_RIGHT_WALK_2
+	SpriteDataPointer MeowthRightHitSprite, SPRITE2_MEOWTH_RIGHT_HIT
+	SpriteDataPointer MeowthCoinSpawnFrame0Sprite, SPRITE2_MEOWTHJEWEL_SPAWN_0
+	SpriteDataPointer MeowthCoinSpawnFrame1Sprite, SPRITE2_MEOWTHJEWEL_SPAWN_1
+	SpriteDataPointer MeowthCoinIdleFrame0Sprite, SPRITE2_MEOWTHJEWEL_IDLE_0
+	SpriteDataPointer MeowthCoinIdleFrame1Sprite, SPRITE2_MEOWTHJEWEL_IDLE_1
+	SpriteDataPointer MeowthCoinCollectFrame0Sprite, SPRITE2_MEOWTHJEWEL_COLLECT_0
+	SpriteDataPointer MeowthCoinCollectFrame1Sprite, SPRITE2_MEOWTHJEWEL_COLLECT_1
+	SpriteDataPointer MeowthCoinCollectFrame2Sprite, SPRITE2_MEOWTHJEWEL_COLLECT_2
+	SpriteDataPointer MeowthCoinCollectFrame3Sprite, SPRITE2_MEOWTHJEWEL_COLLECT_3
+	SpriteDataPointer MeowthCoinCollectFrame4Sprite, SPRITE2_MEOWTHJEWEL_COLLECT_4
+	SpriteDataPointer MeowthCoinCollectFrame5Sprite, SPRITE2_MEOWTHJEWEL_COLLECT_5
+	SpriteDataPointer MeowthTimeoutFrame0Sprite, SPRITE2_MEOWTH_TIMEOUT_0
+	SpriteDataPointer MeowthTimeoutFrame1Sprite, SPRITE2_MEOWTH_TIMEOUT_1
+	SpriteDataPointer MeowthMultiplier2Frame0Sprite, SPRITE2_MEOWTH_MULTIPLIER_2_FRAME_0
+	SpriteDataPointer MeowthMultiplier2Frame1Sprite, SPRITE2_MEOWTH_MULTIPLIER_2_FRAME_1
+	SpriteDataPointer MeowthMultiplier2Frame2Sprite, SPRITE2_MEOWTH_MULTIPLIER_2_FRAME_2
+	SpriteDataPointer MeowthMultiplier3Frame0Sprite, SPRITE2_MEOWTH_MULTIPLIER_3_FRAME_0
+	SpriteDataPointer MeowthMultiplier3Frame1Sprite, SPRITE2_MEOWTH_MULTIPLIER_3_FRAME_1
+	SpriteDataPointer MeowthMultiplier3Frame2Sprite, SPRITE2_MEOWTH_MULTIPLIER_3_FRAME_2
+	SpriteDataPointer MeowthMultiplier4Frame0Sprite, SPRITE2_MEOWTH_MULTIPLIER_4_FRAME_0
+	SpriteDataPointer MeowthMultiplier4Frame1Sprite, SPRITE2_MEOWTH_MULTIPLIER_4_FRAME_1
+	SpriteDataPointer MeowthMultiplier4Frame2Sprite, SPRITE2_MEOWTH_MULTIPLIER_4_FRAME_2
+	SpriteDataPointer MeowthMultiplier5Frame0Sprite, SPRITE2_MEOWTH_MULTIPLIER_5_FRAME_0
+	SpriteDataPointer MeowthMultiplier5Frame1Sprite, SPRITE2_MEOWTH_MULTIPLIER_5_FRAME_1
+	SpriteDataPointer MeowthMultiplier5Frame2Sprite, SPRITE2_MEOWTH_MULTIPLIER_5_FRAME_2
+	SpriteDataPointer MeowthMultiplier6Frame0Sprite, SPRITE2_MEOWTH_MULTIPLIER_6_FRAME_0
+	SpriteDataPointer MeowthMultiplier6Frame1Sprite, SPRITE2_MEOWTH_MULTIPLIER_6_FRAME_1
+	SpriteDataPointer MeowthMultiplier6Frame2Sprite, SPRITE2_MEOWTH_MULTIPLIER_6_FRAME_2
+	SpriteDataPointer MeowthProgressSparkleFrame0Sprite, SPRITE2_MEOWTH_PROGRESS_SPARKLE_0
+	SpriteDataPointer MeowthProgressSparkleFrame1Sprite, SPRITE2_MEOWTH_PROGRESS_SPARKLE_1
 	SpriteDataPointer DugtrioHealth3Frame0Sprite, SPRITE2_DUGTRIO_HEALTH3_FRAME0
 	SpriteDataPointer DugtrioHealth3Frame1Sprite, SPRITE2_DUGTRIO_HEALTH3_FRAME1
 	SpriteDataPointer DugtrioHealth3Frame2Sprite, SPRITE2_DUGTRIO_HEALTH3_FRAME2
@@ -2333,55 +2333,55 @@ SpriteDataPointers2: ; 0x55d7
 	SpriteDataPointer DugtrioHealth1HitSprite, SPRITE2_DUGTRIO_HEALTH1_HIT
 	SpriteDataPointer DroppedDugtrioSprite, SPRITE2_DUGTRIO_DROPPED
 	SpriteDataPointer DefeatedDugtrioSprite, SPRITE2_DUGTRIO_DEFEATED
-	SpriteDataPointer SpriteData2_54, SPRITE2_DATA_54
-	SpriteDataPointer SpriteData2_55, SPRITE2_DATA_55
-	SpriteDataPointer SpriteData2_56, SPRITE2_DATA_56
-	SpriteDataPointer SpriteData2_57, SPRITE2_DATA_57
-	SpriteDataPointer SpriteData2_58, SPRITE2_DATA_58
-	SpriteDataPointer SpriteData2_59, SPRITE2_DATA_59
-	SpriteDataPointer SpriteData2_5a, SPRITE2_DATA_5a
-	SpriteDataPointer SpriteData2_5b, SPRITE2_DATA_5b
-	SpriteDataPointer SpriteData2_5c, SPRITE2_DATA_5c
-	SpriteDataPointer SpriteData2_5d, SPRITE2_DATA_5d
-	SpriteDataPointer SpriteData2_5e, SPRITE2_DATA_5e
-	SpriteDataPointer SpriteData2_5f, SPRITE2_DATA_5f
-	SpriteDataPointer SpriteData2_60, SPRITE2_DATA_60
-	SpriteDataPointer SpriteData2_61, SPRITE2_DATA_61
-	SpriteDataPointer SpriteData2_62, SPRITE2_DATA_62
-	SpriteDataPointer SpriteData2_63, SPRITE2_DATA_63
-	SpriteDataPointer SpriteData2_64, SPRITE2_DATA_64
-	SpriteDataPointer SpriteData2_65, SPRITE2_DATA_65
-	SpriteDataPointer SpriteData2_66, SPRITE2_DATA_66
-	SpriteDataPointer SpriteData2_67, SPRITE2_DATA_67
-	SpriteDataPointer SpriteData2_68, SPRITE2_DATA_68
-	SpriteDataPointer SpriteData2_69, SPRITE2_DATA_69
-	SpriteDataPointer SpriteData2_6a, SPRITE2_DATA_6a
-	SpriteDataPointer SpriteData2_6b, SPRITE2_DATA_6b
-	SpriteDataPointer SpriteData2_6c, SPRITE2_DATA_6c
-	SpriteDataPointer SpriteData2_6d, SPRITE2_DATA_6d
-	SpriteDataPointer SpriteData2_6e, SPRITE2_DATA_6e
-	SpriteDataPointer SpriteData2_6f, SPRITE2_DATA_6f
-	SpriteDataPointer SpriteData2_70, SPRITE2_DATA_70
-	SpriteDataPointer SpriteData2_71, SPRITE2_DATA_71
-	SpriteDataPointer SpriteData2_72, SPRITE2_DATA_72
-	SpriteDataPointer SpriteData2_73, SPRITE2_DATA_73
-	SpriteDataPointer SpriteData2_74, SPRITE2_DATA_74
-	SpriteDataPointer SpriteData2_75, SPRITE2_DATA_75
-	SpriteDataPointer SpriteData2_76, SPRITE2_DATA_76
-	SpriteDataPointer SpriteData2_77, SPRITE2_DATA_77
-	SpriteDataPointer SpriteData2_78, SPRITE2_DATA_78
-	SpriteDataPointer SpriteData2_79, SPRITE2_DATA_79
-	SpriteDataPointer SpriteData2_7a, SPRITE2_DATA_7a
-	SpriteDataPointer SpriteData2_7b, SPRITE2_DATA_7b
-	SpriteDataPointer SpriteData2_7c, SPRITE2_DATA_7c
-	SpriteDataPointer SpriteData2_7d, SPRITE2_DATA_7d
-	SpriteDataPointer SpriteData2_7e, SPRITE2_DATA_7e
-	SpriteDataPointer SpriteData2_7f, SPRITE2_DATA_7f
-	SpriteDataPointer SpriteData2_80, SPRITE2_DATA_80
-	SpriteDataPointer SpriteData2_81, SPRITE2_DATA_81
-	SpriteDataPointer SpriteData2_82, SPRITE2_DATA_82
-	SpriteDataPointer SpriteData2_83, SPRITE2_DATA_83
-	SpriteDataPointer SpriteData2_84, SPRITE2_DATA_84
+	SpriteDataPointer SeelPeekingFrame0Sprite, SPRITE2_SEEL_PEEKING_0
+	SpriteDataPointer SeelPeekingFrame1Sprite, SPRITE2_SEEL_PEEKING_1
+	SpriteDataPointer SeelHitSprite, SPRITE2_SEEL_HIT
+	SpriteDataPointer SeelSwimRightFrame0Sprite, SPRITE2_SEEL_SWIM_RIGHT_0
+	SpriteDataPointer SeelSwimRightFrame1Sprite, SPRITE2_SEEL_SWIM_RIGHT_1
+	SpriteDataPointer SeelSwimRightFrame2Sprite, SPRITE2_SEEL_SWIM_RIGHT_2
+	SpriteDataPointer SeelTurnRightToLeftFrame0Sprite, SPRITE2_SEEL_TURN_RIGHT_TO_LEFT_0
+	SpriteDataPointer SeelTurnRightToLeftFrame1Sprite, SPRITE2_SEEL_TURN_RIGHT_TO_LEFT_1
+	SpriteDataPointer SeelShadowCircle0Sprite, SPRITE2_SEEL_SHADOW_CIRCLE_0
+	SpriteDataPointer SeelShadowCircle1Sprite, SPRITE2_SEEL_SHADOW_CIRCLE_1
+	SpriteDataPointer SeelShadowCircle2Sprite, SPRITE2_SEEL_SHADOW_CIRCLE_2
+	SpriteDataPointer SeelEmergeFrame0Sprite, SPRITE2_SEEL_EMERGE_0
+	SpriteDataPointer SeelEmergeFrame1Sprite, SPRITE2_SEEL_EMERGE_1
+	SpriteDataPointer SeelSplashSprite, SPRITE2_SEEL_SPLASH
+	SpriteDataPointer SeelTurnLeftToRightFrame2Sprite, SPRITE2_SEEL_TURN_LEFT_TO_RIGHT_2
+	SpriteDataPointer SeelTurnLeftToRightFrame3Sprite, SPRITE2_SEEL_TURN_LEFT_TO_RIGHT_3
+	SpriteDataPointer SeelSwimLeftFrame0Sprite, SPRITE2_SEEL_SWIM_LEFT_0
+	SpriteDataPointer SeelSwimLeftFrame1Sprite, SPRITE2_SEEL_SWIM_LEFT_1
+	SpriteDataPointer SeelSwimLeftFrame2Sprite, SPRITE2_SEEL_SWIM_LEFT_2
+	SpriteDataPointer SeelTurnLeftToRightFrame0Sprite, SPRITE2_SEEL_TURN_LEFT_TO_RIGHT_0
+	SpriteDataPointer SeelTurnLeftToRightFrame1Sprite, SPRITE2_SEEL_TURN_LEFT_TO_RIGHT_1
+	SpriteDataPointer SeelTurnRightToLeftFrame2Sprite, SPRITE2_SEEL_TURN_RIGHT_TO_LEFT_2
+	SpriteDataPointer SeelTurnRightToLeftFrame3Sprite, SPRITE2_SEEL_TURN_RIGHT_TO_LEFT_3
+	SpriteDataPointer SeelMultiplier2Frame0Sprite, SPRITE2_SEEL_MULTIPLIER_2_FRAME_0
+	SpriteDataPointer SeelMultiplier2Frame1Sprite, SPRITE2_SEEL_MULTIPLIER_2_FRAME_1
+	SpriteDataPointer SeelMultiplier2Frame2Sprite, SPRITE2_SEEL_MULTIPLIER_2_FRAME_2
+	SpriteDataPointer SeelMultiplier4Frame0Sprite, SPRITE2_SEEL_MULTIPLIER_4_FRAME_0
+	SpriteDataPointer SeelMultiplier4Frame1Sprite, SPRITE2_SEEL_MULTIPLIER_4_FRAME_1
+	SpriteDataPointer SeelMultiplier4Frame2Sprite, SPRITE2_SEEL_MULTIPLIER_4_FRAME_2
+	SpriteDataPointer SeelMultiplier8Frame0Sprite, SPRITE2_SEEL_MULTIPLIER_8_FRAME_0
+	SpriteDataPointer SeelMultiplier8Frame1Sprite, SPRITE2_SEEL_MULTIPLIER_8_FRAME_1
+	SpriteDataPointer SeelMultiplier8Frame2Sprite, SPRITE2_SEEL_MULTIPLIER_8_FRAME_2
+	SpriteDataPointer SeelMultiplier16Frame0Sprite, SPRITE2_SEEL_MULTIPLIER_16_FRAME_0
+	SpriteDataPointer SeelMultiplier16Frame1Sprite, SPRITE2_SEEL_MULTIPLIER_16_FRAME_1
+	SpriteDataPointer SeelMultiplier16Frame2Sprite, SPRITE2_SEEL_MULTIPLIER_16_FRAME_2
+	SpriteDataPointer SeelMultiplier32Frame0Sprite, SPRITE2_SEEL_MULTIPLIER_32_FRAME_0
+	SpriteDataPointer SeelMultiplier32Frame1Sprite, SPRITE2_SEEL_MULTIPLIER_32_FRAME_1
+	SpriteDataPointer SeelMultiplier32Frame2Sprite, SPRITE2_SEEL_MULTIPLIER_32_FRAME_2
+	SpriteDataPointer SeelMultiplier64Frame0Sprite, SPRITE2_SEEL_MULTIPLIER_64_FRAME_0
+	SpriteDataPointer SeelMultiplier64Frame1Sprite, SPRITE2_SEEL_MULTIPLIER_64_FRAME_1
+	SpriteDataPointer SeelMultiplier64Frame2Sprite, SPRITE2_SEEL_MULTIPLIER_64_FRAME_2
+	SpriteDataPointer SeelMultiplier128Frame0Sprite, SPRITE2_SEEL_MULTIPLIER_128_FRAME_0
+	SpriteDataPointer SeelMultiplier128Frame1Sprite, SPRITE2_SEEL_MULTIPLIER_128_FRAME_1
+	SpriteDataPointer SeelMultiplier128Frame2Sprite, SPRITE2_SEEL_MULTIPLIER_128_FRAME_2
+	SpriteDataPointer SeelMultiplier256Frame0Sprite, SPRITE2_SEEL_MULTIPLIER_256_FRAME_0
+	SpriteDataPointer SeelMultiplier256Frame1Sprite, SPRITE2_SEEL_MULTIPLIER_256_FRAME_1
+	SpriteDataPointer SeelMultiplier256Frame2Sprite, SPRITE2_SEEL_MULTIPLIER_256_FRAME_2
+	SpriteDataPointer SeelProgressSparkleFrame0, SPRITE2_SEEL_PROGRESS_SPARKLE_0
+	SpriteDataPointer SeelProgressSparkleFrame1, SPRITE2_SEEL_PROGRESS_SPARKLE_1
 
 GastlyFrame0Sprite: ; 0x56e1
 	db $20, $20, $9E, $04
@@ -2782,7 +2782,7 @@ OribitingBallGrowingFrame6Sprite: ; 0x
 	db $10, $08, $D2, $11
 	db $80  ; terminator
 
-SpriteData2_21: ; 0x
+MeowthWalkLeftFrame0Sprite: ; 0x
 	db $1E, $1F, $9E, $11
 	db $1E, $17, $9C, $11
 	db $1E, $0F, $9A, $11
@@ -2793,7 +2793,7 @@ SpriteData2_21: ; 0x
 	db $0E, $07, $90, $11
 	db $80  ; terminator
 
-SpriteData2_22: ; 0x
+MeowthWalkLeftFrame1Sprite: ; 0x
 	db $20, $20, $1E, $11
 	db $20, $18, $1C, $11
 	db $20, $10, $1A, $11
@@ -2804,7 +2804,7 @@ SpriteData2_22: ; 0x
 	db $10, $08, $A0, $11
 	db $80  ; terminator
 
-SpriteData2_23: ; 0x
+MeowthWalkLeftFrame2Sprite: ; 0x
 	db $0E, $1F, $96, $11
 	db $0E, $17, $94, $11
 	db $0E, $0F, $92, $11
@@ -2815,7 +2815,7 @@ SpriteData2_23: ; 0x
 	db $1E, $07, $20, $11
 	db $80  ; terminator
 
-SpriteData2_24: ; 0x
+MeowthLeftHitSprite: ; 0x
 	db $1A, $24, $34, $11
 	db $1A, $1C, $32, $11
 	db $1A, $14, $30, $11
@@ -2825,7 +2825,7 @@ SpriteData2_24: ; 0x
 	db $0A, $0C, $28, $11
 	db $80  ; terminator
 
-SpriteData2_25: ; 0x
+MeowthWalkRightFrame0Sprite: ; 0x
 	db $1E, $07, $9E, $31
 	db $1E, $0F, $9C, $31
 	db $1E, $17, $9A, $31
@@ -2836,7 +2836,7 @@ SpriteData2_25: ; 0x
 	db $0E, $1F, $90, $31
 	db $80  ; terminator
 
-SpriteData2_26: ; 0x
+MeowthWalkRightFrame1Sprite: ; 0x
 	db $20, $08, $1E, $31
 	db $20, $10, $1C, $31
 	db $20, $18, $1A, $31
@@ -2847,7 +2847,7 @@ SpriteData2_26: ; 0x
 	db $10, $20, $A0, $31
 	db $80  ; terminator
 
-SpriteData2_27: ; 0x
+MeowthWalkRightFrame2Sprite: ; 0x
 	db $0E, $07, $96, $31
 	db $0E, $0F, $94, $31
 	db $0E, $17, $92, $31
@@ -2858,7 +2858,7 @@ SpriteData2_27: ; 0x
 	db $1E, $1F, $20, $31
 	db $80  ; terminator
 
-SpriteData2_28: ; 0x
+MeowthRightHitSprite: ; 0x
 	db $1A, $0C, $34, $31
 	db $1A, $14, $32, $31
 	db $1A, $1C, $30, $31
@@ -2868,54 +2868,54 @@ SpriteData2_28: ; 0x
 	db $0A, $24, $28, $31
 	db $80  ; terminator
 
-SpriteData2_29: ; 0x
+MeowthCoinSpawnFrame0Sprite: ; 0x
 	db $10, $0C, $36, $13
 	db $80  ; terminator
 
-SpriteData2_2a: ; 0x
+MeowthCoinSpawnFrame1Sprite: ; 0x
 	db $10, $10, $3A, $13
 	db $10, $08, $38, $13
 	db $80  ; terminator
 
-SpriteData2_2b: ; 0x
+MeowthCoinIdleFrame0Sprite: ; 0x
 	db $10, $10, $3E, $13
 	db $10, $08, $3C, $13
 	db $80  ; terminator
 
-SpriteData2_2c: ; 0x
+MeowthCoinIdleFrame1Sprite: ; 0x
 	db $10, $10, $7C, $13
 	db $10, $08, $7A, $13
 	db $80  ; terminator
 
-SpriteData2_2d: ; 0x
+MeowthCoinCollectFrame0Sprite: ; 0x
 	db $10, $10, $AA, $13
 	db $10, $08, $7E, $13
 	db $80  ; terminator
 
-SpriteData2_2e: ; 0x
+MeowthCoinCollectFrame1Sprite: ; 0x
 	db $10, $0F, $AC, $33
 	db $10, $08, $AC, $13
 	db $80  ; terminator
 
-SpriteData2_2f: ; 0x
+MeowthCoinCollectFrame2Sprite: ; 0x
 	db $10, $0F, $AE, $33
 	db $10, $08, $AE, $13
 	db $80  ; terminator
 
-SpriteData2_30: ; 0x
+MeowthCoinCollectFrame3Sprite: ; 0x
 	db $10, $0F, $B0, $33
 	db $10, $08, $B0, $13
 	db $80  ; terminator
 
-SpriteData2_31: ; 0x
+MeowthCoinCollectFrame4Sprite: ; 0x
 	db $10, $0C, $B2, $13
 	db $80  ; terminator
 
-SpriteData2_32: ; 0x
+MeowthCoinCollectFrame5Sprite: ; 0x
 	db $10, $0C, $B4, $13
 	db $80  ; terminator
 
-SpriteData2_33: ; 0x
+MeowthTimeoutFrame0Sprite: ; 0x
 	db $20, $20, $C4, $11
 	db $20, $18, $C2, $11
 	db $20, $10, $C0, $11
@@ -2926,7 +2926,7 @@ SpriteData2_33: ; 0x
 	db $10, $08, $B6, $11
 	db $80  ; terminator
 
-SpriteData2_34: ; 0x
+MeowthTimeoutFrame1Sprite: ; 0x
 	db $20, $20, $CE, $11
 	db $20, $18, $CC, $11
 	db $20, $10, $CA, $11
@@ -2937,86 +2937,86 @@ SpriteData2_34: ; 0x
 	db $10, $08, $B6, $11
 	db $80  ; terminator
 
-SpriteData2_35: ; 0x
+MeowthMultiplier2Frame0Sprite: ; 0x
 	db $0A, $10, $D2, $00
 	db $0A, $08, $D0, $00
 	db $80  ; terminator
 
-SpriteData2_36: ; 0x
+MeowthMultiplier2Frame1Sprite: ; 0x
 	db $08, $10, $D2, $00
 	db $08, $08, $D0, $00
 	db $80  ; terminator
 
-SpriteData2_37: ; 0x
+MeowthMultiplier2Frame2Sprite: ; 0x
 	db $06, $10, $D2, $00
 	db $06, $08, $D0, $00
 	db $80  ; terminator
 
-SpriteData2_38: ; 0x
+MeowthMultiplier3Frame0Sprite: ; 0x
 	db $0A, $10, $D4, $00
 	db $0A, $08, $D0, $00
 	db $80  ; terminator
 
-SpriteData2_39: ; 0x
+MeowthMultiplier3Frame1Sprite: ; 0x
 	db $08, $10, $D4, $00
 	db $08, $08, $D0, $00
 	db $80  ; terminator
 
-SpriteData2_3a: ; 0x
+MeowthMultiplier3Frame2Sprite: ; 0x
 	db $06, $10, $D4, $00
 	db $06, $08, $D0, $00
 	db $80  ; terminator
 
-SpriteData2_3b: ; 0x
+MeowthMultiplier4Frame0Sprite: ; 0x
 	db $0A, $10, $D6, $00
 	db $0A, $08, $D0, $00
 	db $80  ; terminator
 
-SpriteData2_3c: ; 0x
+MeowthMultiplier4Frame1Sprite: ; 0x
 	db $08, $10, $D6, $00
 	db $08, $08, $D0, $00
 	db $80  ; terminator
 
-SpriteData2_3d: ; 0x
+MeowthMultiplier4Frame2Sprite: ; 0x
 	db $05, $10, $D6, $00
 	db $05, $08, $D0, $00
 	db $80  ; terminator
 
-SpriteData2_3e: ; 0x
+MeowthMultiplier5Frame0Sprite: ; 0x
 	db $0A, $10, $D8, $00
 	db $0A, $08, $D0, $00
 	db $80  ; terminator
 
-SpriteData2_3f: ; 0x
+MeowthMultiplier5Frame1Sprite: ; 0x
 	db $08, $10, $D8, $00
 	db $08, $08, $D0, $00
 	db $80  ; terminator
 
-SpriteData2_40: ; 0x
+MeowthMultiplier5Frame2Sprite: ; 0x
 	db $05, $10, $D8, $00
 	db $05, $08, $D0, $00
 	db $80  ; terminator
 
-SpriteData2_41: ; 0x
+MeowthMultiplier6Frame0Sprite: ; 0x
 	db $0A, $10, $DA, $00
 	db $0A, $08, $D0, $00
 	db $80  ; terminator
 
-SpriteData2_42: ; 0x
+MeowthMultiplier6Frame1Sprite: ; 0x
 	db $08, $10, $DA, $00
 	db $08, $08, $D0, $00
 	db $80  ; terminator
 
-SpriteData2_43: ; 0x
+MeowthMultiplier6Frame2Sprite: ; 0x
 	db $05, $10, $DA, $00
 	db $05, $08, $D0, $00
 	db $80  ; terminator
 
-SpriteData2_44: ; 0x
+MeowthProgressSparkleFrame0Sprite: ; 0x
 	db $10, $08, $DC, $00
 	db $80  ; terminator
 
-SpriteData2_45: ; 0x
+MeowthProgressSparkleFrame1Sprite: ; 0x
 	db $10, $08, $DE, $00
 	db $80  ; terminator
 
@@ -3172,7 +3172,7 @@ DefeatedDugtrioSprite: ; 0x
 	db $10, $08, $90, $11
 	db $80  ; terminator
 
-SpriteData2_54: ; 0x
+SeelPeekingFrame0Sprite: ; 0x
 	db $20, $20, $9A, $11
 	db $20, $18, $98, $11
 	db $20, $10, $96, $11
@@ -3181,7 +3181,7 @@ SpriteData2_54: ; 0x
 	db $10, $10, $90, $11
 	db $80  ; terminator
 
-SpriteData2_55: ; 0x
+SeelPeekingFrame1Sprite: ; 0x
 	db $20, $20, $A6, $11
 	db $20, $18, $A4, $11
 	db $20, $10, $A2, $11
@@ -3190,7 +3190,7 @@ SpriteData2_55: ; 0x
 	db $10, $10, $9C, $11
 	db $80  ; terminator
 
-SpriteData2_56: ; 0x
+SeelHitSprite: ; 0x
 	db $20, $20, $22, $11
 	db $20, $18, $20, $11
 	db $20, $10, $1E, $11
@@ -3199,57 +3199,57 @@ SpriteData2_56: ; 0x
 	db $10, $10, $A8, $11
 	db $80  ; terminator
 
-SpriteData2_57: ; 0x
+SeelSwimRightFrame0Sprite: ; 0x
 	db $26, $1E, $2A, $13
 	db $26, $16, $28, $13
 	db $26, $0E, $26, $13
 	db $26, $06, $24, $13
 	db $80  ; terminator
 
-SpriteData2_58: ; 0x
+SeelSwimRightFrame1Sprite: ; 0x
 	db $26, $1E, $32, $13
 	db $26, $16, $30, $13
 	db $26, $0E, $2E, $13
 	db $26, $06, $2C, $13
 	db $80  ; terminator
 
-SpriteData2_59: ; 0x
+SeelSwimRightFrame2Sprite: ; 0x
 	db $26, $1E, $3A, $13
 	db $26, $16, $38, $13
 	db $26, $0E, $36, $13
 	db $26, $06, $34, $13
 	db $80  ; terminator
 
-SpriteData2_5a: ; 0x
+SeelTurnRightToLeftFrame0Sprite: ; 0x
 	db $25, $1E, $7C, $13
 	db $25, $16, $7A, $13
 	db $25, $0E, $3E, $13
 	db $25, $06, $3C, $13
 	db $80  ; terminator
 
-SpriteData2_5b: ; 0x
+SeelTurnRightToLeftFrame1Sprite: ; 0x
 	db $24, $1B, $AC, $13
 	db $24, $13, $AA, $13
 	db $24, $0B, $7E, $13
 	db $80  ; terminator
 
-SpriteData2_5c: ; 0x
+SeelShadowCircle0Sprite: ; 0x
 	db $24, $18, $B0, $13
 	db $24, $10, $AE, $13
 	db $80  ; terminator
 
-SpriteData2_5d: ; 0x
+SeelShadowCircle1Sprite: ; 0x
 	db $22, $18, $B4, $13
 	db $22, $10, $B2, $13
 	db $80  ; terminator
 
-SpriteData2_5e: ; 0x
+SeelShadowCircle2Sprite: ; 0x
 	db $20, $1E, $BA, $13
 	db $20, $16, $B8, $13
 	db $20, $0E, $B6, $13
 	db $80  ; terminator
 
-SpriteData2_5f: ; 0x
+SeelEmergeFrame0Sprite: ; 0x
 	db $20, $20, $C6, $11
 	db $20, $18, $C4, $11
 	db $20, $10, $C2, $11
@@ -3258,7 +3258,7 @@ SpriteData2_5f: ; 0x
 	db $10, $10, $BC, $11
 	db $80  ; terminator
 
-SpriteData2_60: ; 0x
+SeelEmergeFrame1Sprite: ; 0x
 	db $20, $20, $D2, $11
 	db $20, $18, $D0, $11
 	db $20, $10, $CE, $11
@@ -3267,7 +3267,7 @@ SpriteData2_60: ; 0x
 	db $10, $10, $C8, $11
 	db $80  ; terminator
 
-SpriteData2_61: ; 0x
+SeelSplashSprite: ; 0x
 	db $20, $20, $DE, $11
 	db $20, $18, $DC, $11
 	db $20, $10, $DA, $11
@@ -3276,211 +3276,211 @@ SpriteData2_61: ; 0x
 	db $10, $10, $D4, $11
 	db $80  ; terminator
 
-SpriteData2_62: ; 0x
+SeelTurnLeftToRightFrame2Sprite: ; 0x
 	db $25, $1B, $AD, $53
 	db $25, $13, $AB, $53
 	db $25, $0B, $7F, $53
 	db $80  ; terminator
 
-SpriteData2_63: ; 0x
+SeelTurnLeftToRightFrame3Sprite: ; 0x
 	db $25, $1E, $7D, $53
 	db $25, $16, $7B, $53
 	db $25, $0E, $3F, $53
 	db $25, $06, $3D, $53
 	db $80  ; terminator
 
-SpriteData2_64: ; 0x
+SeelSwimLeftFrame0Sprite: ; 0x
 	db $26, $09, $2A, $33
 	db $26, $11, $28, $33
 	db $26, $19, $26, $33
 	db $26, $21, $24, $33
 	db $80  ; terminator
 
-SpriteData2_65: ; 0x
+SeelSwimLeftFrame1Sprite: ; 0x
 	db $26, $09, $32, $33
 	db $26, $11, $30, $33
 	db $26, $19, $2E, $33
 	db $26, $21, $2C, $33
 	db $80  ; terminator
 
-SpriteData2_66: ; 0x
+SeelSwimLeftFrame2Sprite: ; 0x
 	db $26, $09, $3A, $33
 	db $26, $11, $38, $33
 	db $26, $19, $36, $33
 	db $26, $21, $34, $33
 	db $80  ; terminator
 
-SpriteData2_67: ; 0x
+SeelTurnLeftToRightFrame0Sprite: ; 0x
 	db $25, $09, $7C, $33
 	db $25, $11, $7A, $33
 	db $25, $19, $3E, $33
 	db $25, $21, $3C, $33
 	db $80  ; terminator
 
-SpriteData2_68: ; 0x
+SeelTurnLeftToRightFrame1Sprite: ; 0x
 	db $24, $0E, $AC, $33
 	db $24, $16, $AA, $33
 	db $24, $1E, $7E, $33
 	db $80  ; terminator
 
-SpriteData2_69: ; 0x
+SeelTurnRightToLeftFrame2Sprite: ; 0x
 	db $25, $0E, $AD, $73
 	db $25, $16, $AB, $73
 	db $25, $1E, $7F, $73
 	db $80  ; terminator
 
-SpriteData2_6a: ; 0x
+SeelTurnRightToLeftFrame3Sprite: ; 0x
 	db $25, $09, $7D, $73
 	db $25, $11, $7B, $73
 	db $25, $19, $3F, $73
 	db $25, $21, $3D, $73
 	db $80  ; terminator
 
-SpriteData2_6b: ; 0x
+SeelMultiplier2Frame0Sprite: ; 0x
 	db $02, $18, $E4, $00
 	db $02, $10, $E0, $00
 	db $80  ; terminator
 
-SpriteData2_6c: ; 0x
+SeelMultiplier2Frame1Sprite: ; 0x
 	db $00, $18, $E4, $00
 	db $00, $10, $E0, $00
 	db $80  ; terminator
 
-SpriteData2_6d: ; 0x
+SeelMultiplier2Frame2Sprite: ; 0x
 	db $FE, $18, $E4, $00
 	db $FE, $10, $E0, $00
 	db $80  ; terminator
 
-SpriteData2_6e: ; 0x
+SeelMultiplier4Frame0Sprite: ; 0x
 	db $02, $18, $E8, $00
 	db $02, $10, $E0, $00
 	db $80  ; terminator
 
-SpriteData2_6f: ; 0x
+SeelMultiplier4Frame1Sprite: ; 0x
 	db $00, $18, $E8, $00
 	db $00, $10, $E0, $00
 	db $80  ; terminator
 
-SpriteData2_70: ; 0x
+SeelMultiplier4Frame2Sprite: ; 0x
 	db $FE, $18, $E8, $00
 	db $FE, $10, $E0, $00
 	db $80  ; terminator
 
-SpriteData2_71: ; 0x
+SeelMultiplier8Frame0Sprite: ; 0x
 	db $02, $18, $EE, $00
 	db $02, $10, $E0, $00
 	db $80  ; terminator
 
-SpriteData2_72: ; 0x
+SeelMultiplier8Frame1Sprite: ; 0x
 	db $00, $18, $EE, $00
 	db $00, $10, $E0, $00
 	db $80  ; terminator
 
-SpriteData2_73: ; 0x
+SeelMultiplier8Frame2Sprite: ; 0x
 	db $FE, $18, $EE, $00
 	db $FE, $10, $E0, $00
 	db $80  ; terminator
 
-SpriteData2_74: ; 0x
+SeelMultiplier16Frame0Sprite: ; 0x
 	db $02, $1C, $EC, $00
 	db $02, $14, $E2, $00
 	db $02, $0C, $E0, $00
 	db $80  ; terminator
 
-SpriteData2_75: ; 0x
+SeelMultiplier16Frame1Sprite: ; 0x
 	db $00, $1C, $EC, $00
 	db $00, $14, $E2, $00
 	db $00, $0C, $E0, $00
 	db $80  ; terminator
 
-SpriteData2_76: ; 0x
+SeelMultiplier16Frame2Sprite: ; 0x
 	db $FE, $1C, $EC, $00
 	db $FE, $14, $E2, $00
 	db $FE, $0C, $E0, $00
 	db $80  ; terminator
 
-SpriteData2_77: ; 0x
+SeelMultiplier32Frame0Sprite: ; 0x
 	db $02, $1C, $E4, $00
 	db $02, $14, $E6, $00
 	db $02, $0C, $E0, $00
 	db $80  ; terminator
 
-SpriteData2_78: ; 0x
+SeelMultiplier32Frame1Sprite: ; 0x
 	db $00, $1C, $E4, $00
 	db $00, $14, $E6, $00
 	db $00, $0C, $E0, $00
 	db $80  ; terminator
 
-SpriteData2_79: ; 0x
+SeelMultiplier32Frame2Sprite: ; 0x
 	db $FE, $1C, $E4, $00
 	db $FE, $14, $E6, $00
 	db $FE, $0C, $E0, $00
 	db $80  ; terminator
 
-SpriteData2_7a: ; 0x
+SeelMultiplier64Frame0Sprite: ; 0x
 	db $02, $1C, $E8, $00
 	db $02, $14, $EC, $00
 	db $02, $0C, $E0, $00
 	db $80  ; terminator
 
-SpriteData2_7b: ; 0x
+SeelMultiplier64Frame1Sprite: ; 0x
 	db $00, $1C, $E8, $00
 	db $00, $14, $EC, $00
 	db $00, $0C, $E0, $00
 	db $80  ; terminator
 
-SpriteData2_7c: ; 0x
+SeelMultiplier64Frame2Sprite: ; 0x
 	db $FE, $1C, $E8, $00
 	db $FE, $14, $EC, $00
 	db $FE, $0C, $E0, $00
 	db $80  ; terminator
 
-SpriteData2_7d: ; 0x
+SeelMultiplier128Frame0Sprite: ; 0x
 	db $02, $20, $EE, $00
 	db $02, $18, $E4, $00
 	db $02, $10, $E2, $00
 	db $02, $08, $E0, $00
 	db $80  ; terminator
 
-SpriteData2_7e: ; 0x
+SeelMultiplier128Frame1Sprite: ; 0x
 	db $00, $20, $EE, $00
 	db $00, $18, $E4, $00
 	db $00, $10, $E2, $00
 	db $00, $08, $E0, $00
 	db $80  ; terminator
 
-SpriteData2_7f: ; 0x
+SeelMultiplier128Frame2Sprite: ; 0x
 	db $FE, $20, $EE, $00
 	db $FE, $18, $E4, $00
 	db $FE, $10, $E2, $00
 	db $FE, $08, $E0, $00
 	db $80  ; terminator
 
-SpriteData2_80: ; 0x
+SeelMultiplier256Frame0Sprite: ; 0x
 	db $02, $20, $EC, $00
 	db $02, $18, $EA, $00
 	db $02, $10, $E4, $00
 	db $02, $08, $E0, $00
 	db $80  ; terminator
 
-SpriteData2_81: ; 0x
+SeelMultiplier256Frame1Sprite: ; 0x
 	db $00, $20, $EC, $00
 	db $00, $18, $EA, $00
 	db $00, $10, $E4, $00
 	db $00, $08, $E0, $00
 	db $80  ; terminator
 
-SpriteData2_82: ; 0x
+SeelMultiplier256Frame2Sprite: ; 0x
 	db $FE, $20, $EC, $00
 	db $FE, $18, $EA, $00
 	db $FE, $10, $E4, $00
 	db $FE, $08, $E0, $00
 	db $80  ; terminator
 
-SpriteData2_83: ; 0x6258
+SeelProgressSparkleFrame0: ; 0x6258
 	db $10, $08, $F0, $00
 	db $80  ; terminator
 
-SpriteData2_84: ; 0x625d
+SeelProgressSparkleFrame1: ; 0x625d
 	db $10, $08, $F2, $00
 	db $80  ; terminator

@@ -1448,67 +1448,67 @@ wd712:: ; 0xd712
 wDisableMeowthJewelProduction:: ; 0xd713
 	ds $1
 
-wd714:: ; 0xd714
+wMeowthJewel0AnimationIndex:: ; 0xd714
 	ds $1
 
-wd715:: ; 0xd715
+wMeowthJewel1AnimationIndex:: ; 0xd715
 	ds $1
 
-wd716:: ; 0xd716
+wMeowthJewel2AnimationIndex:: ; 0xd716
 	ds $1
 
-wd717:: ; 0xd717
+wMeowthJewel0State:: ; 0xd717
 	ds $1
 
-wd718:: ; 0xd718
+wMeowthJewel1State:: ; 0xd718
 	ds $1
 
-wd719:: ; 0xd719
+wMeowthJewel2State:: ; 0xd719
 	ds $1
 
-wd71a:: ; 0xd71a
+wMeowthJewel0XCoord:: ; 0xd71a
 	ds $1
 
-wd71b:: ; 0xd71b
+wMeowthJewel1XCoord:: ; 0xd71b
 	ds $1
 
-wd71c:: ; 0xd71c
+wMeowthJewel2XCoord:: ; 0xd71c
 	ds $2
 
-wd71e:: ; 0xd71e
+wMeowthJewel3AnimationIndex:: ; 0xd71e
 	ds $1
 
-wd71f:: ; 0xd71f
+wMeowthJewel4AnimationIndex:: ; 0xd71f
 	ds $1
 
-wd720:: ; 0xd720
+wMeowthJewel5AnimationIndex:: ; 0xd720
 	ds $1
 
-wd721:: ; 0xd721
+wMeowthJewel3State:: ; 0xd721
 	ds $1
 
-wd722:: ; 0xd722
+wMeowthJewel4State:: ; 0xd722
 	ds $1
 
-wd723:: ; 0xd723
+wMeowthJewel5State:: ; 0xd723
 	ds $1
 
-wd724:: ; 0xd724
+wMeowthJewel3XCoord:: ; 0xd724
 	ds $1
 
-wd725:: ; 0xd725
+wMeowthJewel4XCoord:: ; 0xd725
 	ds $1
 
-wd726:: ; 0xd726
+wMeowthJewel5XCoord:: ; 0xd726
 	ds $1
 
-wd727:: ; 0xd727
+wMeowthJewel0YCoord:: ; 0xd727
 	ds $1
 
-wd728:: ; 0xd728
+wMeowthJewel1YCoord:: ; 0xd728
 	ds $1
 
-wd729:: ; 0xd729
+wMeowthJewel2YCoord:: ; 0xd729
 	ds $1
 
 wd72a:: ; 0xd72a
@@ -1520,13 +1520,13 @@ wd72b:: ; 0xd72b
 wd72c:: ; 0xd72c
 	ds $5
 
-wd731:: ; 0xd731
+wMeowthJewel3YCoord:: ; 0xd731
 	ds $1
 
-wd732:: ; 0xd732
+wMeowthJewel4YCoord:: ; 0xd732
 	ds $1
 
-wd733:: ; 0xd733
+wMeowthJewel5YCoord:: ; 0xd733
 	ds $1
 
 wd734:: ; 0xd734

@@ -2,10 +2,10 @@ Func_24319: ; 0x2438f
 	ld a, [wd6f4]
 	cp $0
 	jr z, .asm_24333
-	ld a, [wd71a]
+	ld a, [wMeowthJewel0XCoord]
 	sub $4
 	ld b, a
-	ld a, [wd727]
+	ld a, [wMeowthJewel0YCoord]
 	add $4
 	ld c, a
 	call Func_24405
@@ -15,10 +15,10 @@ Func_24319: ; 0x2438f
 	ld a, [wd6f4]
 	cp $1
 	jr z, .asm_2434d
-	ld a, [wd71b]
+	ld a, [wMeowthJewel1XCoord]
 	sub $4
 	ld b, a
-	ld a, [wd728]
+	ld a, [wMeowthJewel1YCoord]
 	add $4
 	ld c, a
 	call Func_24405
@@ -28,10 +28,10 @@ Func_24319: ; 0x2438f
 	ld a, [wd6f4]
 	cp $2
 	ret z
-	ld a, [wd71c]
+	ld a, [wMeowthJewel2XCoord]
 	sub $4
 	ld b, a
-	ld a, [wd729]
+	ld a, [wMeowthJewel2YCoord]
 	add $4
 	ld c, a
 	call Func_24405
@@ -68,10 +68,10 @@ Func_2438f: ; 0x2438f
 	ld a, [wd6f4]
 	cp $a
 	jr z, .asm_243a9
-	ld a, [wd724]
+	ld a, [wMeowthJewel3XCoord]
 	sub $4
 	ld b, a
-	ld a, [wd731]
+	ld a, [wMeowthJewel3YCoord]
 	add $4
 	ld c, a
 	call Func_24405
@@ -81,10 +81,10 @@ Func_2438f: ; 0x2438f
 	ld a, [wd6f4]
 	cp $b
 	jr z, .asm_243c3
-	ld a, [wd725]
+	ld a, [wMeowthJewel4XCoord]
 	sub $4
 	ld b, a
-	ld a, [wd732]
+	ld a, [wMeowthJewel4YCoord]
 	add $4
 	ld c, a
 	call Func_24405
@@ -94,10 +94,10 @@ Func_2438f: ; 0x2438f
 	ld a, [wd6f4]
 	cp $c
 	ret z
-	ld a, [wd726]
+	ld a, [wMeowthJewel5XCoord]
 	sub $4
 	ld b, a
-	ld a, [wd733]
+	ld a, [wMeowthJewel5YCoord]
 	add $4
 	ld c, a
 	call Func_24405
@@ -131,7 +131,7 @@ Func_2438f: ; 0x2438f
 	ret
 
 Func_24405: ; 0x24405
-	ld hl, wd71a
+	ld hl, wMeowthJewel0XCoord
 	ld a, [wd6f4]
 	ld e, a
 	ld d, $0
@@ -142,7 +142,7 @@ Func_24405: ; 0x24405
 	cp $18
 	jr nc, .asm_24428
 	ld b, a
-	ld hl, wd727
+	ld hl, wMeowthJewel0YCoord
 	add hl, de
 	ld a, [hl]
 	add $8
@@ -555,33 +555,33 @@ MewothAnimationDataTable: ; 0x246e2
 
 MeowthAnimationData1: ; 0x246ec
 ; Each entry is [sprite id][duration]
-	db $10, $00
-	db $0B, $01
-	db $10, $02
-	db $0C, $01
+	db $10, MEOWTHSPRITE_LEFT_WALK_0
+	db $0B, MEOWTHSPRITE_LEFT_WALK_1
+	db $10, MEOWTHSPRITE_LEFT_WALK_2
+	db $0C, MEOWTHSPRITE_LEFT_WALK_1
 	db $00 ; terminator
 
 MeowthAnimationData2: ; 0x246f5
 ; Each entry is [sprite id][duration]
-	db $10, $04
-	db $0B, $05
-	db $10, $06
-	db $0C, $05
+	db $10, MEOWTHSPRITE_RIGHT_WALK_0
+	db $0B, MEOWTHSPRITE_RIGHT_WALK_1
+	db $10, MEOWTHSPRITE_RIGHT_WALK_2
+	db $0C, MEOWTHSPRITE_RIGHT_WALK_1
 	db $00 ; terminator
 
 MeowthAnimationData3: ; 0x246fe
 ; Each entry is [sprite id][duration]
-	db $16, $03
+	db $16, MEOWTHSPRITE_LEFT_HIT
 	db $00 ; terminator
 
 MeowthAnimationData4: ; 0x24701
 ; Each entry is [sprite id][duration]
-	db $16, $07
+	db $16, MEOWTHSPRITE_RIGHT_HIT
 	db $00 ; terminator
 
 MeowthAnimationData5: ; 0x24704
-	db $17, $08
-	db $17, $09
+	db $17, MEOWTHSPRITE_TIMEOUT_0
+	db $17, MEOWTHSPRITE_TIMEOUT_1
 	db $00 ; terminator
 
 Func_24709: ; 0x24709
@@ -718,20 +718,20 @@ Func_247d9: ; 0x247d9
 	ld a, [wd6f3]
 	and a
 	ret z
-	ld a, [wd71a]
+	ld a, [wMeowthJewel0XCoord]
 	cp $c8
 	jr nz, .asm_24823
 	ld a, [wMeowthXPosition]
 	add $8
-	ld [wd71a], a
+	ld [wMeowthJewel0XCoord], a
 	ld a, [wMeowthYPosition]
 	add $fb
-	ld [wd727], a
+	ld [wMeowthJewel0YCoord], a
 	ld a, $1
-	ld [wd717], a
+	ld [wMeowthJewel0State], a
 	xor a
 	ld [wd6f3], a
-	ld [wd714], a
+	ld [wMeowthJewel0AnimationIndex], a
 	ld [wd6f5], a
 	ld [wd6f8], a
 	ld [wd6fb], a
@@ -752,20 +752,20 @@ Func_247d9: ; 0x247d9
 	ret
 
 .asm_24823
-	ld a, [wd71b]
+	ld a, [wMeowthJewel1XCoord]
 	cp $c8
 	jr nz, .asm_24868
 	ld a, [wMeowthXPosition]
 	add $8
-	ld [wd71b], a
+	ld [wMeowthJewel1XCoord], a
 	ld a, [wMeowthYPosition]
 	add $fb
-	ld [wd728], a
+	ld [wMeowthJewel1YCoord], a
 	ld a, $1
-	ld [wd718], a
+	ld [wMeowthJewel1State], a
 	xor a
 	ld [wd6f3], a
-	ld [wd715], a
+	ld [wMeowthJewel1AnimationIndex], a
 	ld [wd6f6], a
 	ld [wd6f9], a
 	ld [wd6fc], a
@@ -786,20 +786,20 @@ Func_247d9: ; 0x247d9
 	ret
 
 .asm_24868
-	ld a, [wd71c]
+	ld a, [wMeowthJewel2XCoord]
 	cp $c8
 	ret nz
 	ld a, [wMeowthXPosition]
 	add $8
-	ld [wd71c], a
+	ld [wMeowthJewel2XCoord], a
 	ld a, [wMeowthYPosition]
 	add $fb
-	ld [wd729], a
+	ld [wMeowthJewel2YCoord], a
 	ld a, $1
-	ld [wd719], a
+	ld [wMeowthJewel2State], a
 	xor a
 	ld [wd6f3], a
-	ld [wd716], a
+	ld [wMeowthJewel2AnimationIndex], a
 	ld [wd6f7], a
 	ld [wd6fa], a
 	ld [wd6fd], a
@@ -820,10 +820,10 @@ Func_247d9: ; 0x247d9
 	ret
 
 Func_248ac: ; 0x248ac
-	ld a, [wd717]
+	ld a, [wMeowthJewel0State]
 	cp $1
 	jr nz, .asm_248d3
-	ld a, [wd714]
+	ld a, [wMeowthJewel0AnimationIndex]
 	cp $a
 	jr z, .asm_248c4
 	ld a, $0
@@ -835,14 +835,14 @@ Func_248ac: ; 0x248ac
 	ld hl, wNumActiveJewelsBottom
 	inc [hl]
 	ld a, $2
-	ld [wd717], a
+	ld [wMeowthJewel0State], a
 	lb de, $00, $34
 	call PlaySoundEffect
 .asm_248d3
-	ld a, [wd718]
+	ld a, [wMeowthJewel1State]
 	cp $1
 	jr nz, .asm_248fa
-	ld a, [wd715]
+	ld a, [wMeowthJewel1AnimationIndex]
 	cp $a
 	jr z, .asm_248eb
 	ld a, $1
@@ -854,14 +854,14 @@ Func_248ac: ; 0x248ac
 	ld hl, wNumActiveJewelsBottom
 	inc [hl]
 	ld a, $2
-	ld [wd718], a
+	ld [wMeowthJewel1State], a
 	lb de, $00, $34
 	call PlaySoundEffect
 .asm_248fa
-	ld a, [wd719]
+	ld a, [wMeowthJewel2State]
 	cp $1
 	jr nz, .asm_24921
-	ld a, [wd716]
+	ld a, [wMeowthJewel2AnimationIndex]
 	cp $a
 	jr z, .asm_24912
 	ld a, $2
@@ -873,36 +873,36 @@ Func_248ac: ; 0x248ac
 	ld hl, wNumActiveJewelsBottom
 	inc [hl]
 	ld a, $2
-	ld [wd719], a
+	ld [wMeowthJewel2State], a
 	lb de, $00, $34
 	call PlaySoundEffect
 .asm_24921
-	ld a, [wd717]
+	ld a, [wMeowthJewel0State]
 	cp $2
 	jr nz, .asm_2492c
-	ld hl, wd714
+	ld hl, wMeowthJewel0AnimationIndex
 	inc [hl]
 .asm_2492c
-	ld a, [wd718]
+	ld a, [wMeowthJewel1State]
 	cp $2
 	jr nz, .asm_24937
-	ld hl, wd715
+	ld hl, wMeowthJewel1AnimationIndex
 	inc [hl]
 .asm_24937
-	ld a, [wd719]
+	ld a, [wMeowthJewel2State]
 	cp $2
 	jr nz, .asm_24942
-	ld hl, wd716
+	ld hl, wMeowthJewel2AnimationIndex
 	inc [hl]
 .asm_24942
-	ld a, [wd717]
+	ld a, [wMeowthJewel0State]
 	cp $3
 	jr nz, .asm_24968
-	ld a, [wd71a]
+	ld a, [wMeowthJewel0XCoord]
 	ld b, a
-	ld a, [wd727]
+	ld a, [wMeowthJewel0YCoord]
 	ld c, a
-	ld hl, wd714
+	ld hl, wMeowthJewel0AnimationIndex
 	inc [hl]
 	ld a, [hl]
 	cp $2
@@ -914,16 +914,16 @@ Func_248ac: ; 0x248ac
 	cp $a
 	jr nz, .asm_24968
 	ld a, $4
-	ld [wd717], a
+	ld [wMeowthJewel0State], a
 .asm_24968
-	ld a, [wd718]
+	ld a, [wMeowthJewel1State]
 	cp $3
 	jr nz, .asm_2498e
-	ld a, [wd71b]
+	ld a, [wMeowthJewel1XCoord]
 	ld b, a
-	ld a, [wd728]
+	ld a, [wMeowthJewel1YCoord]
 	ld c, a
-	ld hl, wd715
+	ld hl, wMeowthJewel1AnimationIndex
 	inc [hl]
 	ld a, [hl]
 	cp $2
@@ -935,16 +935,16 @@ Func_248ac: ; 0x248ac
 	cp $a
 	jr nz, .asm_2498e
 	ld a, $4
-	ld [wd718], a
+	ld [wMeowthJewel1State], a
 .asm_2498e
-	ld a, [wd719]
+	ld a, [wMeowthJewel2State]
 	cp $3
 	jr nz, .asm_249b4
-	ld a, [wd71c]
+	ld a, [wMeowthJewel2XCoord]
 	ld b, a
-	ld a, [wd729]
+	ld a, [wMeowthJewel2YCoord]
 	ld c, a
-	ld hl, wd716
+	ld hl, wMeowthJewel2AnimationIndex
 	inc [hl]
 	ld a, [hl]
 	cp $2
@@ -956,44 +956,44 @@ Func_248ac: ; 0x248ac
 	cp $a
 	jr nz, .asm_249b4
 	ld a, $4
-	ld [wd719], a
+	ld [wMeowthJewel2State], a
 .asm_249b4
-	ld a, [wd717]
+	ld a, [wMeowthJewel0State]
 	cp $4
 	jr nz, .asm_249d0
 	ld a, $c8
-	ld [wd71a], a
-	ld [wd727], a
+	ld [wMeowthJewel0XCoord], a
+	ld [wMeowthJewel0YCoord], a
 	xor a
-	ld [wd717], a
+	ld [wMeowthJewel0State], a
 	ld hl, wNumActiveJewelsBottom
 	dec [hl]
 	ld a, [hl]
 	cp $2
 	jr z, .asm_24a06
 .asm_249d0
-	ld a, [wd718]
+	ld a, [wMeowthJewel1State]
 	cp $4
 	jr nz, .asm_249ec
 	ld a, $c8
-	ld [wd71b], a
-	ld [wd728], a
+	ld [wMeowthJewel1XCoord], a
+	ld [wMeowthJewel1YCoord], a
 	xor a
-	ld [wd718], a
+	ld [wMeowthJewel1State], a
 	ld hl, wNumActiveJewelsBottom
 	dec [hl]
 	ld a, [hl]
 	cp $2
 	jr z, .asm_24a06
 .asm_249ec
-	ld a, [wd719]
+	ld a, [wMeowthJewel2State]
 	cp $4
 	ret nz
 	ld a, $c8
-	ld [wd71c], a
-	ld [wd729], a
+	ld [wMeowthJewel2XCoord], a
+	ld [wMeowthJewel2YCoord], a
 	xor a
-	ld [wd719], a
+	ld [wMeowthJewel2State], a
 	ld hl, wNumActiveJewelsBottom
 	dec [hl]
 	ld a, [hl]
@@ -1046,7 +1046,7 @@ Func_24a30: ; 0x24a30
 	jr nz, .asm_24a5e
 	bit 0, a
 	jr nz, .asm_24a5e
-	ld hl, wd714
+	ld hl, wMeowthJewel0AnimationIndex
 	add hl, bc
 	inc [hl]
 .asm_24a5e
@@ -1066,7 +1066,7 @@ Func_24a30: ; 0x24a30
 	ld hl, wd72a
 	add hl, bc
 	ld [hl], $0
-	ld hl, wd71a
+	ld hl, wMeowthJewel0XCoord
 	add hl, bc
 	ld a, [hl]
 	push af
@@ -1081,7 +1081,7 @@ Func_24a30: ; 0x24a30
 	add [hl]
 	cp $8e
 	jr nc, .asm_24a97
-	ld hl, wd71a
+	ld hl, wMeowthJewel0XCoord
 	add hl, bc
 	ld [hl], a
 	jr .asm_24abf
@@ -1103,13 +1103,13 @@ Func_24a30: ; 0x24a30
 	sub d
 	inc a
 	ld d, a
-	ld hl, wd71a
+	ld hl, wMeowthJewel0XCoord
 	add hl, bc
 	ld a, [hl]
 	add d
 	cp $5
 	jr c, .asm_24a72
-	ld hl, wd71a
+	ld hl, wMeowthJewel0XCoord
 	add hl, bc
 	ld [hl], a
 .asm_24abf
@@ -1123,11 +1123,11 @@ Func_24a30: ; 0x24a30
 	inc hl
 	ld a, [hl]
 	ld d, a
-	ld hl, wd727
+	ld hl, wMeowthJewel0YCoord
 	add hl, bc
 	ld a, [hl]
 	add d
-	ld hl, wd727
+	ld hl, wMeowthJewel0YCoord
 	add hl, bc
 	ld [hl], a
 	ld hl, wd6f5
@@ -1216,7 +1216,7 @@ Func_24b41: ; 0x24b41
 	ld hl, wd72a
 	add hl, bc
 	ld [hl], $0
-	ld hl, wd71a
+	ld hl, wMeowthJewel0XCoord
 	add hl, bc
 	ld a, [hl]
 	push af
@@ -1231,7 +1231,7 @@ Func_24b41: ; 0x24b41
 	add [hl]
 	cp $90
 	jr nc, .asm_24b8a
-	ld hl, wd71a
+	ld hl, wMeowthJewel0XCoord
 	add hl, bc
 	ld [hl], a
 	jr .asm_24bb2
@@ -1253,13 +1253,13 @@ Func_24b41: ; 0x24b41
 	sub d
 	inc a
 	ld d, a
-	ld hl, wd71a
+	ld hl, wMeowthJewel0XCoord
 	add hl, bc
 	ld a, [hl]
 	add d
 	cp $6
 	jr c, .asm_24b65
-	ld hl, wd71a
+	ld hl, wMeowthJewel0XCoord
 	add hl, bc
 	ld [hl], a
 .asm_24bb2
@@ -1273,11 +1273,11 @@ Func_24b41: ; 0x24b41
 	inc hl
 	ld a, [hl]
 	ld d, a
-	ld hl, wd727
+	ld hl, wMeowthJewel0YCoord
 	add hl, bc
 	ld a, [hl]
 	add d
-	ld hl, wd727
+	ld hl, wMeowthJewel0YCoord
 	add hl, bc
 	ld [hl], a
 	ld hl, wd6f5
@@ -1316,7 +1316,7 @@ Func_24bf6: ; 0x24bf6
 	ld hl, wd6f8
 	add hl, bc
 	ld [hl], $0
-	ld hl, wd714
+	ld hl, wMeowthJewel0AnimationIndex
 	add hl, bc
 	ld [hl], $a
 	ccf
@@ -1344,22 +1344,22 @@ Func_24c28: ; 0x24c28
 	ld a, [wd6f3]
 	and a
 	ret z
-	ld a, [wd724]
+	ld a, [wMeowthJewel3XCoord]
 	cp $c8
 	jr nz, .asm_24c76
 	ld a, [wMeowthXPosition]
 	add $8
-	ld [wd724], a
+	ld [wMeowthJewel3XCoord], a
 	ld a, [wMeowthYPosition]
 	add $fb
-	ld [wd731], a
+	ld [wMeowthJewel3YCoord], a
 	ld a, $1
-	ld [wd721], a
+	ld [wMeowthJewel3State], a
 	ld hl, wNumActiveJewelsTop
 	inc [hl]
 	xor a
 	ld [wd6f3], a
-	ld [wd71e], a
+	ld [wMeowthJewel3AnimationIndex], a
 	ld [wd6ff], a
 	ld [wd702], a
 	ld [wd705], a
@@ -1380,22 +1380,22 @@ Func_24c28: ; 0x24c28
 	ret
 
 .asm_24c76
-	ld a, [wd725]
+	ld a, [wMeowthJewel4XCoord]
 	cp $c8
 	jr nz, .asm_24cbf
 	ld a, [wMeowthXPosition]
 	add $8
-	ld [wd725], a
+	ld [wMeowthJewel4XCoord], a
 	ld a, [wMeowthYPosition]
 	add $fb
-	ld [wd732], a
+	ld [wMeowthJewel4YCoord], a
 	ld a, $1
-	ld [wd722], a
+	ld [wMeowthJewel4State], a
 	ld hl, wNumActiveJewelsTop
 	inc [hl]
 	xor a
 	ld [wd6f3], a
-	ld [wd71f], a
+	ld [wMeowthJewel4AnimationIndex], a
 	ld [wd700], a
 	ld [wd703], a
 	ld [wd706], a
@@ -1416,22 +1416,22 @@ Func_24c28: ; 0x24c28
 	ret
 
 .asm_24cbf
-	ld a, [wd726]
+	ld a, [wMeowthJewel5XCoord]
 	cp $c8
 	ret nz
 	ld a, [wMeowthXPosition]
 	add $8
-	ld [wd726], a
+	ld [wMeowthJewel5XCoord], a
 	ld a, [wMeowthYPosition]
 	add $fb
-	ld [wd733], a
+	ld [wMeowthJewel5YCoord], a
 	ld a, $1
-	ld [wd723], a
+	ld [wMeowthJewel5State], a
 	ld hl, wNumActiveJewelsTop
 	inc [hl]
 	xor a
 	ld [wd6f3], a
-	ld [wd720], a
+	ld [wMeowthJewel5AnimationIndex], a
 	ld [wd701], a
 	ld [wd704], a
 	ld [wd707], a
@@ -1452,10 +1452,10 @@ Func_24c28: ; 0x24c28
 	ret
 
 Func_24d07: ; 0x24d07
-	ld a, [wd721]
+	ld a, [wMeowthJewel3State]
 	cp $1
 	jr nz, .asm_24d2a
-	ld a, [wd71e]
+	ld a, [wMeowthJewel3AnimationIndex]
 	cp $a
 	jr z, .asm_24d1f
 	ld a, $a
@@ -1465,14 +1465,14 @@ Func_24d07: ; 0x24d07
 
 .asm_24d1f
 	ld a, $2
-	ld [wd721], a
+	ld [wMeowthJewel3State], a
 	lb de, $00, $34
 	call PlaySoundEffect
 .asm_24d2a
-	ld a, [wd722]
+	ld a, [wMeowthJewel4State]
 	cp $1
 	jr nz, .asm_24d4d
-	ld a, [wd71f]
+	ld a, [wMeowthJewel4AnimationIndex]
 	cp $a
 	jr z, .asm_24d42
 	ld a, $b
@@ -1482,14 +1482,14 @@ Func_24d07: ; 0x24d07
 
 .asm_24d42
 	ld a, $2
-	ld [wd722], a
+	ld [wMeowthJewel4State], a
 	lb de, $00, $34
 	call PlaySoundEffect
 .asm_24d4d
-	ld a, [wd723]
+	ld a, [wMeowthJewel5State]
 	cp $1
 	jr nz, .asm_24d70
-	ld a, [wd720]
+	ld a, [wMeowthJewel5AnimationIndex]
 	cp $a
 	jr z, .asm_24d65
 	ld a, $c
@@ -1499,36 +1499,36 @@ Func_24d07: ; 0x24d07
 
 .asm_24d65
 	ld a, $2
-	ld [wd723], a
+	ld [wMeowthJewel5State], a
 	lb de, $00, $34
 	call PlaySoundEffect
 .asm_24d70
-	ld a, [wd721]
+	ld a, [wMeowthJewel3State]
 	cp $2
 	jr nz, .asm_24d7b
-	ld hl, wd71e
+	ld hl, wMeowthJewel3AnimationIndex
 	inc [hl]
 .asm_24d7b
-	ld a, [wd722]
+	ld a, [wMeowthJewel4State]
 	cp $2
 	jr nz, .asm_24d86
-	ld hl, wd71f
+	ld hl, wMeowthJewel4AnimationIndex
 	inc [hl]
 .asm_24d86
-	ld a, [wd723]
+	ld a, [wMeowthJewel5State]
 	cp $2
 	jr nz, .asm_24d91
-	ld hl, wd720
+	ld hl, wMeowthJewel5AnimationIndex
 	inc [hl]
 .asm_24d91
-	ld a, [wd721]
+	ld a, [wMeowthJewel3State]
 	cp $3
 	jr nz, .asm_24db7
-	ld a, [wd724]
+	ld a, [wMeowthJewel3XCoord]
 	ld b, a
-	ld a, [wd731]
+	ld a, [wMeowthJewel3YCoord]
 	ld c, a
-	ld hl, wd71e
+	ld hl, wMeowthJewel3AnimationIndex
 	inc [hl]
 	ld a, [hl]
 	cp $2
@@ -1540,16 +1540,16 @@ Func_24d07: ; 0x24d07
 	cp $a
 	jr nz, .asm_24db7
 	ld a, $4
-	ld [wd721], a
+	ld [wMeowthJewel3State], a
 .asm_24db7
-	ld a, [wd722]
+	ld a, [wMeowthJewel4State]
 	cp $3
 	jr nz, .asm_24ddd
-	ld a, [wd725]
+	ld a, [wMeowthJewel4XCoord]
 	ld b, a
-	ld a, [wd732]
+	ld a, [wMeowthJewel4YCoord]
 	ld c, a
-	ld hl, wd71f
+	ld hl, wMeowthJewel4AnimationIndex
 	inc [hl]
 	ld a, [hl]
 	cp $2
@@ -1561,16 +1561,16 @@ Func_24d07: ; 0x24d07
 	cp $a
 	jr nz, .asm_24ddd
 	ld a, $4
-	ld [wd722], a
+	ld [wMeowthJewel4State], a
 .asm_24ddd
-	ld a, [wd723]
+	ld a, [wMeowthJewel5State]
 	cp $3
 	jr nz, .asm_24e03
-	ld a, [wd726]
+	ld a, [wMeowthJewel5XCoord]
 	ld b, a
-	ld a, [wd733]
+	ld a, [wMeowthJewel5YCoord]
 	ld c, a
-	ld hl, wd720
+	ld hl, wMeowthJewel5AnimationIndex
 	inc [hl]
 	ld a, [hl]
 	cp $2
@@ -1582,44 +1582,44 @@ Func_24d07: ; 0x24d07
 	cp $a
 	jr nz, .asm_24e03
 	ld a, $4
-	ld [wd723], a
+	ld [wMeowthJewel5State], a
 .asm_24e03
-	ld a, [wd721]
+	ld a, [wMeowthJewel3State]
 	cp $4
 	jr nz, .asm_24e1f
 	ld a, $c8
-	ld [wd724], a
-	ld [wd731], a
+	ld [wMeowthJewel3XCoord], a
+	ld [wMeowthJewel3YCoord], a
 	xor a
-	ld [wd721], a
+	ld [wMeowthJewel3State], a
 	ld hl, wNumActiveJewelsTop
 	dec [hl]
 	ld a, [hl]
 	cp $2
 	jr z, .asm_24e55
 .asm_24e1f
-	ld a, [wd722]
+	ld a, [wMeowthJewel4State]
 	cp $4
 	jr nz, .asm_24e3b
 	ld a, $c8
-	ld [wd725], a
-	ld [wd732], a
+	ld [wMeowthJewel4XCoord], a
+	ld [wMeowthJewel4YCoord], a
 	xor a
-	ld [wd722], a
+	ld [wMeowthJewel4State], a
 	ld hl, wNumActiveJewelsTop
 	dec [hl]
 	ld a, [hl]
 	cp $2
 	jr z, .asm_24e55
 .asm_24e3b
-	ld a, [wd723]
+	ld a, [wMeowthJewel5State]
 	cp $4
 	ret nz
 	ld a, $c8
-	ld [wd726], a
-	ld [wd733], a
+	ld [wMeowthJewel5XCoord], a
+	ld [wMeowthJewel5YCoord], a
 	xor a
-	ld [wd723], a
+	ld [wMeowthJewel5State], a
 	ld hl, wNumActiveJewelsTop
 	dec [hl]
 	ld a, [hl]
@@ -1710,7 +1710,7 @@ Func_24ee7: ; 0x24ee7
 	sla a
 	ld c, a
 	ld b, $0
-	ld hl, MeowthStageAnimationDataTable
+	ld hl, MeowthMultiplierAnimations
 	add hl, bc
 	ld a, [hli]
 	ld h, [hl]
@@ -1726,7 +1726,7 @@ Func_24f00: ; 0x24f00
 	sla a
 	ld c, a
 	ld b, $0
-	ld hl, MeowthStageAnimationDataTable
+	ld hl, MeowthMultiplierAnimations
 	add hl, bc
 	ld a, [hli]
 	ld h, [hl]
@@ -1753,81 +1753,81 @@ Func_24f00: ; 0x24f00
 	ld [wd710], a
 	ret
 
-MeowthStageAnimationDataTable: ; 0x24f30
-	dw MeowthStageAnimationData1
-	dw MeowthStageAnimationData2
-	dw MeowthStageAnimationData3
-	dw MeowthStageAnimationData4
-	dw MeowthStageAnimationData5
+MeowthMultiplierAnimations: ; 0x24f30
+	dw MeowthMultiplier2Animation
+	dw MeowthMultiplier3Animation
+	dw MeowthMultiplier4Animation
+	dw MeowthMultiplier5Animation
+	dw MeowthMultiplier6Animation
 
-MeowthStageAnimationData1: ; 0x24f3a
+MeowthMultiplier2Animation: ; 0x24f3a
 ; Each entry is [sprite id][duration]
-	db $02, $00
-	db $02, $01
-	db $02, $02
-	db $10, $00
-	db $04, $0F
-	db $04, $00
-	db $04, $0F
-	db $04, $00
-	db $04, $0F
-	db $04, $00
+	db $02, MEOWTHMULTIPLIERSPRITE_2_FRAME_0
+	db $02, MEOWTHMULTIPLIERSPRITE_2_FRAME_1
+	db $02, MEOWTHMULTIPLIERSPRITE_2_FRAME_2
+	db $10, MEOWTHMULTIPLIERSPRITE_2_FRAME_0
+	db $04, MEOWTHMULTIPLIERSPRITE_INVISIBLE
+	db $04, MEOWTHMULTIPLIERSPRITE_2_FRAME_0
+	db $04, MEOWTHMULTIPLIERSPRITE_INVISIBLE
+	db $04, MEOWTHMULTIPLIERSPRITE_2_FRAME_0
+	db $04, MEOWTHMULTIPLIERSPRITE_INVISIBLE
+	db $04, MEOWTHMULTIPLIERSPRITE_2_FRAME_0
 	db $00 ; terminator
 
-MeowthStageAnimationData2: ; 0x24f4f
+MeowthMultiplier3Animation: ; 0x24f4f
 ; Each entry is [sprite id][duration]
-	db $02, $03
-	db $02, $04
-	db $02, $05
-	db $10, $03
-	db $04, $0F
-	db $04, $03
-	db $04, $0F
-	db $04, $03
-	db $04, $0F
-	db $04, $03
+	db $02, MEOWTHMULTIPLIERSPRITE_3_FRAME_0
+	db $02, MEOWTHMULTIPLIERSPRITE_3_FRAME_1
+	db $02, MEOWTHMULTIPLIERSPRITE_3_FRAME_2
+	db $10, MEOWTHMULTIPLIERSPRITE_3_FRAME_0
+	db $04, MEOWTHMULTIPLIERSPRITE_INVISIBLE
+	db $04, MEOWTHMULTIPLIERSPRITE_3_FRAME_0
+	db $04, MEOWTHMULTIPLIERSPRITE_INVISIBLE
+	db $04, MEOWTHMULTIPLIERSPRITE_3_FRAME_0
+	db $04, MEOWTHMULTIPLIERSPRITE_INVISIBLE
+	db $04, MEOWTHMULTIPLIERSPRITE_3_FRAME_0
 	db $00 ; terminator
 
-MeowthStageAnimationData3: ; 0x24f64
+MeowthMultiplier4Animation: ; 0x24f64
 ; Each entry is [sprite id][duration]
-	db $02, $06
-	db $02, $07
-	db $02, $08
-	db $10, $06
-	db $04, $0F
-	db $04, $06
-	db $04, $0F
-	db $04, $06
-	db $04, $0F
-	db $04, $06
+	db $02, MEOWTHMULTIPLIERSPRITE_4_FRAME_0
+	db $02, MEOWTHMULTIPLIERSPRITE_4_FRAME_1
+	db $02, MEOWTHMULTIPLIERSPRITE_4_FRAME_2
+	db $10, MEOWTHMULTIPLIERSPRITE_4_FRAME_0
+	db $04, MEOWTHMULTIPLIERSPRITE_INVISIBLE
+	db $04, MEOWTHMULTIPLIERSPRITE_4_FRAME_0
+	db $04, MEOWTHMULTIPLIERSPRITE_INVISIBLE
+	db $04, MEOWTHMULTIPLIERSPRITE_4_FRAME_0
+	db $04, MEOWTHMULTIPLIERSPRITE_INVISIBLE
+	db $04, MEOWTHMULTIPLIERSPRITE_4_FRAME_0
 	db $00 ; terminator
 
-MeowthStageAnimationData4: ; 0x24f79
+MeowthMultiplier5Animation: ; 0x24f79
 ; Each entry is [sprite id][duration]
-	db $02, $09
-	db $02, $0A
-	db $02, $0B
-	db $10, $09
-	db $04, $0F
-	db $04, $09
-	db $04, $0F
-	db $04, $09
-	db $04, $0F
-	db $04, $09
+	db $02, MEOWTHMULTIPLIERSPRITE_5_FRAME_0
+	db $02, MEOWTHMULTIPLIERSPRITE_5_FRAME_1
+	db $02, MEOWTHMULTIPLIERSPRITE_5_FRAME_2
+	db $10, MEOWTHMULTIPLIERSPRITE_5_FRAME_0
+	db $04, MEOWTHMULTIPLIERSPRITE_INVISIBLE
+	db $04, MEOWTHMULTIPLIERSPRITE_5_FRAME_0
+	db $04, MEOWTHMULTIPLIERSPRITE_INVISIBLE
+	db $04, MEOWTHMULTIPLIERSPRITE_5_FRAME_0
+	db $04, MEOWTHMULTIPLIERSPRITE_INVISIBLE
+	db $04, MEOWTHMULTIPLIERSPRITE_5_FRAME_0
 	db $00 ; terminator
 
-MeowthStageAnimationData5: ; 0x24f8e
+MeowthMultiplier6Animation: ; 0x24f8e
 ; Each entry is [sprite id][duration]
-	db $02, $0C
-	db $02, $0D
-	db $02, $0E
-	db $10, $0C
-	db $04, $0F
-	db $04, $0C
-	db $04, $0F
-	db $04, $0C
-	db $04, $0F
-	db $04, $0C
+	db $02, MEOWTHMULTIPLIERSPRITE_6_FRAME_0
+	db $02, MEOWTHMULTIPLIERSPRITE_6_FRAME_1
+	db $02, MEOWTHMULTIPLIERSPRITE_6_FRAME_2
+	db $10, MEOWTHMULTIPLIERSPRITE_6_FRAME_0
+	db $04, MEOWTHMULTIPLIERSPRITE_INVISIBLE
+	db $04, MEOWTHMULTIPLIERSPRITE_6_FRAME_0
+	db $04, MEOWTHMULTIPLIERSPRITE_INVISIBLE
+	db $04, MEOWTHMULTIPLIERSPRITE_6_FRAME_0
+	db $04, MEOWTHMULTIPLIERSPRITE_INVISIBLE
+	db $04, MEOWTHMULTIPLIERSPRITE_6_FRAME_0
 	db $00 ; terminator
 
 Func_24fa3: ; 0x24fa3

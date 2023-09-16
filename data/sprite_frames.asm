@@ -105,8 +105,10 @@ SpriteDataPointers: ; 0x4000
 	SpriteDataPointer TitlescreenContinuePromptFrame3Sprite, SPRITE_TITLESCREEN_CONTINUE_PROMPT_3
 	SpriteDataPointer TitlescreenContinuePromptFrame4Sprite, SPRITE_TITLESCREEN_CONTINUE_PROMPT_4
 	SpriteDataPointer TitlescreenContinuePromptFrame5Sprite, SPRITE_TITLESCREEN_CONTINUE_PROMPT_5
-	SpriteDataPointer SpriteData_58, SPRITE_DATA_58
-	SpriteDataPointer SpriteData_59, SPRITE_DATA_59
+	DEF SPRITE_TITLESCREEN_CONTINUE_PROMPT_SELECTION = const_value
+	SpriteDataPointer TitlescreenContinuePromptSelectedNewGameSprite, SPRITE_TITLESCREEN_CONTINUE_PROMPT_NEW_GAME
+	SpriteDataPointer TitlescreenContinuePromptSelectedContinueSprite, SPRITE_TITLESCREEN_CONTINUE_PROMPT_CONTINUE
+	DEF SPRITE_TITLESCREEN_CONTINUE_PROMPT_SELECTION_COUNT = const_value - SPRITE_TITLESCREEN_CONTINUE_PROMPT_SELECTION
 	SpriteDataPointer TitlescreenPikachuBlinkFrame0Sprite, SPRITE_TITLESCREEN_PIKACHU_BLINK_0
 	SpriteDataPointer TitlescreenPikachuBlinkFrame1Sprite, SPRITE_TITLESCREEN_PIKACHU_BLINK_1
 	SpriteDataPointer TitlescreenPikachuBlinkFrame2Sprite, SPRITE_TITLESCREEN_PIKACHU_BLINK_2
@@ -150,27 +152,33 @@ SpriteDataPointers: ; 0x4000
 	SpriteDataPointer OptionsPokeballFrame3Sprite, SPRITE_OPTIONS_POKEBALL_3
 	SpriteDataPointer OptionsPokeballFrame4Sprite, SPRITE_OPTIONS_POKEBALL_4
 	SpriteDataPointer OptionsArrowSprite, SPRITE_OPTIONS_ARROW
-	SpriteDataPointer SpriteData_83, SPRITE_DATA_83
+	SpriteDataPointer OptionsArrowLeftSprite, SPRITE_OPTIONS_ARROW_LEFT
 	SpriteDataPointer OptionsSolidWhiteSprite, SPRITE_OPTIONS_SOLID_WHITE
 	SpriteDataPointer OptionsArrowFadedSprite, SPRITE_OPTIONS_ARROW_FADED
 	SpriteDataPointer HighScoresNameEntryAsterisk, SPRITE_HIGH_SCORES_NAME_ENTRY_ASTERISK
 	SpriteDataPointer HighScoresPrintSendDialogText, SPRITE_HIGH_SCORES_PRINT_SEND_DIALOG_TEXT
+	DEF SPRITE_HIGH_SCORES_PRINT_SEND_DIALOG_SELECTION = const_value
 	SpriteDataPointer HighScoresPrintSendDialogSelectionPrint, SPRITE_HIGH_SCORES_PRINT_SEND_DIALOG_SELECTION_PRINT
 	SpriteDataPointer HighScoresPrintSendDialogSelectionSend, SPRITE_HIGH_SCORES_PRINT_SEND_DIALOG_SELECTION_SEND
+	DEF SPRITE_HIGH_SCORES_PRINT_SEND_DIALOG_SELECTION_COUNT = const_value - SPRITE_HIGH_SCORES_PRINT_SEND_DIALOG_SELECTION
+	DEF SPRITE_HIGH_SCORES_PRINT_SEND_DIALOG_DISABLED = const_value
 	SpriteDataPointer HighScoresPrintSendDialogDisabledNeither, SPRITE_HIGH_SCORES_PRINT_SEND_DIALOG_DISABLED_NEITHER
 	SpriteDataPointer HighScoresPrintSendDialogDisabledPrint, SPRITE_HIGH_SCORES_PRINT_SEND_DIALOG_DISABLED_PRINT
 	SpriteDataPointer HighScoresPrintSendDialogDisabledSend, SPRITE_HIGH_SCORES_PRINT_SEND_DIALOG_DISABLED_SEND
 	SpriteDataPointer HighScoresPrintSendDialogDisabledBoth, SPRITE_HIGH_SCORES_PRINT_SEND_DIALOG_DISABLED_BOTH
+	DEF SPRITE_HIGH_SCORES_PRINT_SEND_DIALOG_DISABLED_COUNT = const_value - SPRITE_HIGH_SCORES_PRINT_SEND_DIALOG_DISABLED
 	SpriteDataPointer HighScoresPrintingTextSprite, SPRITE_HIGH_SCORES_PRINTING
 	SpriteDataPointer SendingHighScoresTextSprite, SPRITE_SENDING_HIGH_SCORES_TEXT
-	SpriteDataPointer SpriteData_90, SPRITE_DATA_90
-	SpriteDataPointer SpriteData_91, SPRITE_DATA_91
-	SpriteDataPointer SpriteData_92, SPRITE_DATA_92
-	SpriteDataPointer SpriteData_93, SPRITE_DATA_93
+	DEF SPRITE_HIGH_SCORES_ERROR_DIALOGS = const_value
+	SpriteDataPointer HighScoresErrorDialog1Sprite, SPRITE_HIGH_SCORES_ERROR_DIALOG_1
+	SpriteDataPointer HighScoresErrorDialog2Sprite, SPRITE_HIGH_SCORES_ERROR_DIALOG_2
+	SpriteDataPointer HighScoresErrorDialog3Sprite, SPRITE_HIGH_SCORES_ERROR_DIALOG_3
+	SpriteDataPointer HighScoresErrorDialog4Sprite, SPRITE_HIGH_SCORES_ERROR_DIALOG_4
+	DEF SPRITE_HIGH_SCORES_ERROR_DIALOGS_LENGTH = const_value - SPRITE_HIGH_SCORES_ERROR_DIALOGS
 	SpriteDataPointer HighScoresDeleteDataSprite, SPRITE_HIGH_SCORES_DELETE_DATA
 	SpriteDataPointer HighScoresRightArrowSprite, SPRITE_HIGH_SCORES_ARROW_RIGHT
 	SpriteDataPointer HighScoresLeftArrowSprite, SPRITE_HIGH_SCORES_ARROW_LEFT
-	SpriteDataPointer SpriteData_97, SPRITE_DATA_97
+	SpriteDataPointer HighScoresSendErrorMessageSprite, SPRITE_HIGH_SCORES_SEND_ERROR
 	SpriteDataPointer SendHighScoresAnimation0Sprite, SPRITE_SEND_HIGH_SCORES_0
 	SpriteDataPointer SendHighScoresAnimation1Sprite, SPRITE_SEND_HIGH_SCORES_1
 	SpriteDataPointer SendHighScoresAnimation2Sprite, SPRITE_SEND_HIGH_SCORES_2
@@ -876,7 +884,7 @@ TitlescreenContinuePromptFrame5Sprite: ; 0x4751
 	db $08, $00, $55, $00
 	db $80 ; terminator
 
-SpriteData_58: ; 0x479a
+TitlescreenContinuePromptSelectedNewGameSprite: ; 0x479a
 	db $18, $f8, $60, $40
 	db $10, $f8, $5a, $00
 	db $08, $f8, $54, $00
@@ -897,7 +905,7 @@ SpriteData_58: ; 0x479a
 	db $08, $00, $55, $00
 	db $80 ; terminator
 
-SpriteData_59: ; 0x47e3
+TitlescreenContinuePromptSelectedContinueSprite: ; 0x47e3
 	db $08, $f8, $60, $40
 	db $18, $f8, $67, $00
 	db $10, $f8, $66, $00
@@ -1162,7 +1170,8 @@ OptionsArrowSprite: ; 0x4a20
 	db $10, $08, $7c, $00
 	db $80 ; terminator
 
-SpriteData_83: ; 0x4a25
+OptionsArrowLeftSprite: ; 0x4a25
+; Seemingly Unused
 	db $10, $08, $7c, $20
 	db $80 ; terminator
 
@@ -1290,7 +1299,7 @@ SendingHighScoresTextSprite: ; 0x4b19
 	db $0e, $e7, $2a, $02
 	db $80 ; terminator
 
-SpriteData_90: ; 0x4b6a
+HighScoresErrorDialog1Sprite: ; 0x4b6a
 	db $1d, $14, $48, $02
 	db $1d, $0c, $47, $02
 	db $15, $1c, $45, $02
@@ -1313,7 +1322,7 @@ SpriteData_90: ; 0x4b6a
 	db $0d, $fc, $3c, $02
 	db $80 ; terminator
 
-SpriteData_91: ; 0x4bbb
+HighScoresErrorDialog2Sprite: ; 0x4bbb
 	db $1d, $14, $49, $02
 	db $1d, $0c, $47, $02
 	db $15, $1c, $45, $02
@@ -1336,7 +1345,7 @@ SpriteData_91: ; 0x4bbb
 	db $0d, $fc, $3c, $02
 	db $80 ; terminator
 
-SpriteData_92: ; 0x4c0c
+HighScoresErrorDialog3Sprite: ; 0x4c0c
 	db $1d, $14, $4a, $02
 	db $1d, $0c, $47, $02
 	db $15, $1c, $45, $02
@@ -1359,7 +1368,7 @@ SpriteData_92: ; 0x4c0c
 	db $0d, $fc, $3c, $02
 	db $80 ; terminator
 
-SpriteData_93: ; 0x4c5d
+HighScoresErrorDialog4Sprite: ; 0x4c5d
 	db $1d, $14, $4b, $02
 	db $1d, $0c, $47, $02
 	db $15, $1c, $45, $02
@@ -1440,7 +1449,7 @@ HighScoresLeftArrowSprite: ; 0x4d60
 	db $10, $10, $7a, $31
 	db $80 ; terminator
 
-SpriteData_97: ; 0x4d71
+HighScoresSendErrorMessageSprite: ; 0x4d71
 	db $16, $30, $8b, $02
 	db $16, $28, $8a, $02
 	db $16, $20, $89, $02

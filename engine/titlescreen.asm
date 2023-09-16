@@ -410,7 +410,7 @@ HandleTitleScreenContinuePromptAnimation: ; 0xc2df
 	cp $6
 	jr nz, .asm_c2f0
 	ld a, [wTitleScreenGameStartCursorSelection]
-	add $58
+	add SPRITE_TITLESCREEN_CONTINUE_PROMPT_SELECTION
 	jr .asm_c2fd
 
 .asm_c2f0

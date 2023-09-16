@@ -633,7 +633,7 @@ Func_cf58: ; 0xcf58
 	rst AdvanceFrame
 	pop af
 	ld bc, $473b
-	add SPRITE_SENDING_HIGH_SCORES_TEXT
+	add SPRITE_HIGH_SCORES_ERROR_DIALOGS - 1
 	call LoadSpriteData
 .asm_cf6f
 	rst AdvanceFrame
@@ -682,10 +682,10 @@ Func_cfa6: ; 0xcfa6
 	ld a, [wd86e]
 	add e
 	xor $3
-	add SPRITE_HIGH_SCORES_PRINT_SEND_DIALOG_DISABLED_NEITHER
+	add SPRITE_HIGH_SCORES_PRINT_SEND_DIALOG_DISABLED
 	call LoadSpriteData
 	ld a, [wHighScoresPrintSendSelection]
-	add SPRITE_HIGH_SCORES_PRINT_SEND_DIALOG_SELECTION_PRINT
+	add SPRITE_HIGH_SCORES_PRINT_SEND_DIALOG_SELECTION
 	call LoadSpriteData
 	ret
 

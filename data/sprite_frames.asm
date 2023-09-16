@@ -21,6 +21,7 @@ SpriteDataPointers: ; 0x4000
 	SpriteDataPointer LeftFlipperDownSprite, SPRITE_LEFTFLIPPER_DOWN
 	SpriteDataPointer LeftFlipperHorizontalSprite, SPRITE_LEFTFLIPPER_HORIZONTAL
 	SpriteDataPointer LeftFlipperUpSprite, SPRITE_LEFTFLIPPER_UP
+	DEF SPRITE_PIKACHU_SAVER = const_value
 	SpriteDataPointer PikachuSaverAnimationFrame0Sprite, SPRITE_PIKACHU_SAVER_0
 	SpriteDataPointer PikachuSaverAnimationFrame1Sprite, SPRITE_PIKACHU_SAVER_1
 	SpriteDataPointer PikachuSaverAnimationFrame2Sprite, SPRITE_PIKACHU_SAVER_2
@@ -30,6 +31,7 @@ SpriteDataPointers: ; 0x4000
 	SpriteDataPointer PikachuSaverAnimationFrame6Sprite, SPRITE_PIKACHU_SAVER_6
 	SpriteDataPointer PikachuSaverAnimationFrame7Sprite, SPRITE_PIKACHU_SAVER_7
 	SpriteDataPointer PikachuSaverAnimationFrame8Sprite, SPRITE_PIKACHU_SAVER_8
+	DEF SPRITE_PIKACHU_SAVER_COUNT = const_value - SPRITE_PIKACHU_SAVER
 	SpriteDataPointer RightFlipperDisabledSprite, SPRITE_RIGHTFLIPPER_DISABLED
 	SpriteDataPointer LeftFlipperDisabledSprite, SPRITE_LEFTFLIPPER_DISABLED
 	SpriteDataPointer BallCaptureFrame0Sprite, SPRITE_BALL_CAPTURE_0
@@ -57,21 +59,23 @@ SpriteDataPointers: ; 0x4000
 	SpriteDataPointer AnimatedMonSpriteType3Frame0Sprite, SPRITE_ANIMATED_MON_TYPE_3_FRAME_0
 	SpriteDataPointer AnimatedMonSpriteType3Frame1Sprite, SPRITE_ANIMATED_MON_TYPE_3_FRAME_1
 	SpriteDataPointer AnimatedMonSpriteType3Frame2Sprite, SPRITE_ANIMATED_MON_TYPE_3_FRAME_2
-	SpriteDataPointer BlueFieldBottomIndicatorArrowUpLeftSprite, SPRITE_BLUE_FIELD_BOTTOM_INDICATOR_ARROW_UPLEFT
-	SpriteDataPointer BlueFieldBottomIndicatorArrowUpRightSprite, SPRITE_BLUE_FIELD_BOTTOM_INDICATOR_ARROW_UPRIGHT
-	SpriteDataPointer BlueFieldBottomIndicatorArrowLeftSprite, SPRITE_BLUE_FIELD_BOTTOM_INDICATOR_ARROW_LEFT
-	SpriteDataPointer BlueFieldBottomIndicatorArrowRightSprite, SPRITE_BLUE_FIELD_BOTTOM_INDICATOR_ARROW_RIGHT
-	SpriteDataPointer BlueFieldBottomIndicatorArrowDownLeftSprite, SPRITE_BLUE_FIELD_BOTTOM_INDICATOR_ARROW_DOWNLEFT
-	SpriteDataPointer BlueFieldBottomIndicatorArrowDownRightSprite, SPRITE_BLUE_FIELD_BOTTOM_INDICATOR_ARROW_DOWNRIGHT
-	SpriteDataPointer BlueFieldBottomIndicatorArrowUpSprite, SPRITE_BLUE_FIELD_BOTTOM_INDICATOR_ARROW_UP
-	SpriteDataPointer BlueFieldBottomIndicatorArrowDownSprite, SPRITE_BLUE_FIELD_BOTTOM_INDICATOR_ARROW_DOWN
-	SpriteDataPointer SpriteData_3a, SPRITE_DATA_3a
-	SpriteDataPointer SpriteData_3b, SPRITE_DATA_3b
-	SpriteDataPointer SpriteData_3c, SPRITE_DATA_3c
-	SpriteDataPointer SpriteData_3d, SPRITE_DATA_3d
-	SpriteDataPointer SpriteData_3e, SPRITE_DATA_3e
-	SpriteDataPointer SpriteData_3f, SPRITE_DATA_3f
-	SpriteDataPointer SpriteData_40, SPRITE_DATA_40
+	SpriteDataPointer BottomFieldIndicatorArrowUpLeftSprite, SPRITE_BOTTOM_FIELD_INDICATOR_ARROW_UPLEFT
+	SpriteDataPointer BottomFieldIndicatorArrowUpRightSprite, SPRITE_BOTTOM_FIELD_INDICATOR_ARROW_UPRIGHT
+	SpriteDataPointer BottomFieldIndicatorArrowLeftSprite, SPRITE_BOTTOM_FIELD_INDICATOR_ARROW_LEFT
+	SpriteDataPointer BottomFieldIndicatorArrowRightSprite, SPRITE_BOTTOM_FIELD_INDICATOR_ARROW_RIGHT
+	SpriteDataPointer BottomFieldIndicatorArrowDownLeftSprite, SPRITE_BOTTOM_FIELD_INDICATOR_ARROW_DOWNLEFT
+	SpriteDataPointer BottomFieldIndicatorArrowDownRightSprite, SPRITE_BOTTOM_FIELD_INDICATOR_ARROW_DOWNRIGHT
+	SpriteDataPointer BottomFieldIndicatorArrowUpSprite, SPRITE_BOTTOM_FIELD_INDICATOR_ARROW_UP
+	SpriteDataPointer BottomFieldIndicatorArrowDownSprite, SPRITE_BOTTOM_FIELD_INDICATOR_ARROW_DOWN
+	DEF SPRITE_TRINKET_RED_TOP = const_value
+	SpriteDataPointer ThunderStoneTrinketRedTopSprite, SPRITE_TRINKET_THUNDERSTONE_RED_TOP
+	SpriteDataPointer MoonStoneTrinketRedTopSprite, SPRITE_TRINKET_MOONSTONE_RED_TOP
+	SpriteDataPointer FireStoneTrinketRedTopSprite, SPRITE_TRINKET_FIRESTONE_RED_TOP
+	SpriteDataPointer LeafStoneTrinketRedTopSprite, SPRITE_TRINKET_LEAFSTONE_RED_TOP
+	SpriteDataPointer WaterStoneTrinketRedTopSprite, SPRITE_TRINKET_WATERSTONE_RED_TOP
+	SpriteDataPointer LinkCableTrinketRedTopSprite, SPRITE_TRINKET_LINKCABLE_RED_TOP
+	SpriteDataPointer ExperienceTrinketRedTopSprite, SPRITE_TRINKET_EXPERIENCE_RED_TOP
+	DEF SPRITE_TRINKET_RED_TOP_COUNT = const_value - SPRITE_TRINKET_RED_TOP
 	DEF SPRITE_TRINKET_BOTTOM = const_value
 	SpriteDataPointer ThunderStoneTrinketBottomSprite, SPRITE_TRINKET_THUNDERSTONE_BOTTOM
 	SpriteDataPointer MoonStoneTrinketBottomSprite, SPRITE_TRINKET_MOONSTONE_BOTTOM
@@ -81,18 +85,20 @@ SpriteDataPointers: ; 0x4000
 	SpriteDataPointer LinkCableTrinketBottomSprite, SPRITE_TRINKET_LINKCABLE_BOTTOM
 	SpriteDataPointer ExperienceTrinketBottomSprite, SPRITE_TRINKET_EXPERIENCE_BOTTOM
 	DEF SPRITE_TRINKET_BOTTOM_COUNT = const_value - SPRITE_TRINKET_BOTTOM
-	DEF SPRITE_TRINKET_TOP = const_value
-	SpriteDataPointer ThunderStoneTrinketTopSprite, SPRITE_TRINKET_THUNDERSTONE_TOP
-	SpriteDataPointer MoonStoneTrinketTopSprite, SPRITE_TRINKET_MOONSTONE_TOP
-	SpriteDataPointer FireStoneTrinketTopSprite, SPRITE_TRINKET_FIRESTONE_TOP
-	SpriteDataPointer LeafStoneTrinketTopSprite, SPRITE_TRINKET_LEAFSTONE_TOP
-	SpriteDataPointer WaterStoneTrinketTopSprite, SPRITE_TRINKET_WATERSTONE_TOP
-	SpriteDataPointer LinkCableTrinketTopSprite, SPRITE_TRINKET_LINKCABLE_TOP
-	SpriteDataPointer ExperienceTrinketTopSprite, SPRITE_TRINKET_EXPERIENCE_TOP
-	DEF SPRITE_TRINKET_TOP_COUNT = const_value - SPRITE_TRINKET_TOP
+	DEF SPRITE_TRINKET_BLUE_TOP = const_value
+	SpriteDataPointer ThunderStoneTrinketBlueTopSprite, SPRITE_TRINKET_THUNDERSTONE_BLUE_TOP
+	SpriteDataPointer MoonStoneTrinketBlueTopSprite, SPRITE_TRINKET_MOONSTONE_BLUE_TOP
+	SpriteDataPointer FireStoneTrinketBlueTopSprite, SPRITE_TRINKET_FIRESTONE_BLUE_TOP
+	SpriteDataPointer LeafStoneTrinketBlueTopSprite, SPRITE_TRINKET_LEAFSTONE_BLUE_TOP
+	SpriteDataPointer WaterStoneTrinketBlueTopSprite, SPRITE_TRINKET_WATERSTONE_BLUE_TOP
+	SpriteDataPointer LinkCableTrinketBlueTopSprite, SPRITE_TRINKET_LINKCABLE_BLUE_TOP
+	SpriteDataPointer ExperienceTrinketBlueTopSprite, SPRITE_TRINKET_EXPERIENCE_BLUE_TOP
+	DEF SPRITE_TRINKET_BLUE_TOP_COUNT = const_value - SPRITE_TRINKET_BLUE_TOP
+	DEF SPRITE_SLOT_GLOW = const_value
 	SpriteDataPointer SlotGlow0Sprite, SPRITE_SLOT_GLOW_0
 	SpriteDataPointer SlotGlow1Sprite, SPRITE_SLOT_GLOW_1
 	SpriteDataPointer SlotGlow2Sprite, SPRITE_SLOT_GLOW_2
+	DEF SPRITE_SLOT_GLOW_COUNT = const_value - SPRITE_SLOT_GLOW
 	SpriteDataPointer TitlescreenContinuePromptFrame0Sprite, SPRITE_TITLESCREEN_CONTINUE_PROMPT_0
 	SpriteDataPointer TitlescreenContinuePromptFrame1Sprite, SPRITE_TITLESCREEN_CONTINUE_PROMPT_1
 	SpriteDataPointer TitlescreenContinuePromptFrame2Sprite, SPRITE_TITLESCREEN_CONTINUE_PROMPT_2
@@ -225,12 +231,12 @@ SpriteDataPointers: ; 0x4000
 	SpriteDataPointer Voltorb1ShakeSprite, SPRITE_VOLTORB_SHAKE_1
 	SpriteDataPointer Voltorb3ShakeSprite, SPRITE_VOLTORB_SHAKE_3
 	SpriteDataPointer StaryuFrame1Sprite, SPRITE_STARYU_1
-	SpriteDataPointer SpriteData_d1, SPRITE_DATA_d1
-	SpriteDataPointer SpriteData_d2, SPRITE_DATA_d2
-	SpriteDataPointer SpriteData_d3, SPRITE_DATA_d3
-	SpriteDataPointer SpriteData_d4, SPRITE_DATA_d4
-	SpriteDataPointer SpriteData_d5, SPRITE_DATA_d5
-	SpriteDataPointer SpriteData_d6, SPRITE_DATA_d6
+	SpriteDataPointer RedFieldTopIndicatorArrowUpSprite, SPRITE_RED_FIELD_TOP_INDICATOR_ARROW_UP
+	SpriteDataPointer RedFieldTopIndicatorArrowDownSprite, SPRITE_RED_FIELD_TOP_INDICATOR_ARROW_DOWN
+	SpriteDataPointer RedFieldTopIndicatorArrowLeftUpSprite, SPRITE_RED_FIELD_TOP_INDICATOR_ARROW_LEFTUP
+	SpriteDataPointer RedFieldTopIndicatorArrowUpRightUpSprite, SPRITE_RED_FIELD_TOP_INDICATOR_ARROW_UPRIGHTUP
+	SpriteDataPointer RedFieldTopIndicatorArrowRightUpSprite, SPRITE_RED_FIELD_TOP_INDICATOR_ARROW_RIGHTUP
+	SpriteDataPointer RedFieldTopIndicatorArrowRightDownSprite, SPRITE_RED_FIELD_TOP_INDICATOR_ARROW_UPRIGHTDOWN
 	SpriteDataPointer TimerGameboyMinutesTopFieldSprite, SPRITE_TIMER_MINUTES_TOP
 	SpriteDataPointer TimerGameboyTenSecondsTopFieldSprite, SPRITE_TIMER_TENSECONDS_TOP
 	SpriteDataPointer TimerGameboyOneSecondsTopFieldSprite, SPRITE_TIMER_ONESECONDS_TOP
@@ -645,63 +651,63 @@ AnimatedMonSpriteType3Frame2Sprite: ; 0x4597
 	db $f1, $f8, $20, $13
 	db $80 ; terminator
 
-BlueFieldBottomIndicatorArrowUpLeftSprite: ; 0x45b8
+BottomFieldIndicatorArrowUpLeftSprite: ; 0x45b8
 	db $10, $08, $30, $06
 	db $80 ; terminator
 
-BlueFieldBottomIndicatorArrowUpRightSprite: ; 0x45bd
+BottomFieldIndicatorArrowUpRightSprite: ; 0x45bd
 	db $10, $08, $30, $26
 	db $80 ; terminator
 
-BlueFieldBottomIndicatorArrowLeftSprite: ; 0x45c2
+BottomFieldIndicatorArrowLeftSprite: ; 0x45c2
 	db $10, $08, $32, $06
 	db $80 ; terminator
 
-BlueFieldBottomIndicatorArrowRightSprite: ; 0x45c7
+BottomFieldIndicatorArrowRightSprite: ; 0x45c7
 	db $10, $08, $32, $26
 	db $80 ; terminator
 
-BlueFieldBottomIndicatorArrowDownLeftSprite: ; 0x45cc
+BottomFieldIndicatorArrowDownLeftSprite: ; 0x45cc
 	db $10, $08, $34, $06
 	db $80 ; terminator
 
-BlueFieldBottomIndicatorArrowDownRightSprite: ; 0x45d1
+BottomFieldIndicatorArrowDownRightSprite: ; 0x45d1
 	db $10, $08, $34, $26
 	db $80 ; terminator
 
-BlueFieldBottomIndicatorArrowUpSprite: ; 0x45d6
+BottomFieldIndicatorArrowUpSprite: ; 0x45d6
 	db $10, $08, $36, $06
 	db $80 ; terminator
 
-BlueFieldBottomIndicatorArrowDownSprite: ; 0x45db
+BottomFieldIndicatorArrowDownSprite: ; 0x45db
 	db $08, $08, $37, $46
 	db $80 ; terminator
 
-SpriteData_3a: ; 0x45e0
+ThunderStoneTrinketRedTopSprite: ; 0x45e0
 	db $10, $08, $90, $06
 	db $80 ; terminator
 
-SpriteData_3b: ; 0x45e5
+MoonStoneTrinketRedTopSprite: ; 0x45e5
 	db $10, $08, $92, $06
 	db $80 ; terminator
 
-SpriteData_3c: ; 0x45ea
+FireStoneTrinketRedTopSprite: ; 0x45ea
 	db $10, $08, $94, $06
 	db $80 ; terminator
 
-SpriteData_3d: ; 0x45ef
+LeafStoneTrinketRedTopSprite: ; 0x45ef
 	db $10, $08, $96, $17
 	db $80 ; terminator
 
-SpriteData_3e: ; 0x45f4
+WaterStoneTrinketRedTopSprite: ; 0x45f4
 	db $10, $08, $98, $17
 	db $80 ; terminator
 
-SpriteData_3f: ; 0x45f9
+LinkCableTrinketRedTopSprite: ; 0x45f9
 	db $10, $08, $9a, $06
 	db $80 ; terminator
 
-SpriteData_40: ; 0x45fe
+ExperienceTrinketRedTopSprite: ; 0x45fe
 	db $10, $08, $9c, $06
 	db $80 ; terminator
 
@@ -733,31 +739,31 @@ ExperienceTrinketBottomSprite: ; 0x4621
 	db $10, $08, $2c, $06
 	db $80 ; terminator
 
-ThunderStoneTrinketTopSprite: ; 0x4626
+ThunderStoneTrinketBlueTopSprite: ; 0x4626
 	db $10, $08, $60, $06
 	db $80 ; terminator
 
-MoonStoneTrinketTopSprite: ; 0x462b
+MoonStoneTrinketBlueTopSprite: ; 0x462b
 	db $10, $08, $62, $06
 	db $80 ; terminator
 
-FireStoneTrinketTopSprite: ; 0x4630
+FireStoneTrinketBlueTopSprite: ; 0x4630
 	db $10, $08, $64, $06
 	db $80 ; terminator
 
-LeafStoneTrinketTopSprite: ; 0x4635
+LeafStoneTrinketBlueTopSprite: ; 0x4635
 	db $10, $08, $66, $17
 	db $80 ; terminator
 
-WaterStoneTrinketTopSprite: ; 0x463a
+WaterStoneTrinketBlueTopSprite: ; 0x463a
 	db $10, $08, $68, $17
 	db $80 ; terminator
 
-LinkCableTrinketTopSprite: ; 0x463f
+LinkCableTrinketBlueTopSprite: ; 0x463f
 	db $10, $08, $6a, $06
 	db $80 ; terminator
 
-ExperienceTrinketTopSprite: ; 0x4644
+ExperienceTrinketBlueTopSprite: ; 0x4644
 	db $10, $08, $6c, $06
 	db $80 ; terminator
 
@@ -2043,27 +2049,27 @@ StaryuFrame1Sprite: ; 0x5466
 	db $0f, $07, $10, $1b
 	db $80 ; terminator
 
-SpriteData_d1: ; 0x5477
+RedFieldTopIndicatorArrowUpSprite: ; 0x5477
 	db $10, $08, $36, $06
 	db $80 ; terminator
 
-SpriteData_d2: ; 0x547c
+RedFieldTopIndicatorArrowDownSprite: ; 0x547c
 	db $08, $08, $37, $46
 	db $80 ; terminator
 
-SpriteData_d3: ; 0x5481
+RedFieldTopIndicatorArrowLeftUpSprite: ; 0x5481
 	db $10, $08, $38, $06
 	db $80 ; terminator
 
-SpriteData_d4: ; 0x5486
+RedFieldTopIndicatorArrowUpRightUpSprite: ; 0x5486
 	db $10, $08, $3a, $06
 	db $80 ; terminator
 
-SpriteData_d5: ; 0x548b
+RedFieldTopIndicatorArrowRightUpSprite: ; 0x548b
 	db $10, $08, $3c, $06
 	db $80 ; terminator
 
-SpriteData_d6: ; 0x5490
+RedFieldTopIndicatorArrowRightDownSprite: ; 0x5490
 	db $10, $08, $3e, $06
 	db $80 ; terminator
 

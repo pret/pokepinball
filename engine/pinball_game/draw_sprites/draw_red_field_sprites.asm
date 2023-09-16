@@ -49,7 +49,25 @@ DrawMonCaptureAnimation: ; 0x17c67
 	ret
 
 BallCaptureAnimationSpriteIds:
-	db $19, $1A, $1B, $1C, $1D, $1E, $1F, $20, $21, $22, $23, $24, $25
+	MACRO BallCaptureSpriteId
+		const \2
+		db \1
+	ENDM
+	const_def
+
+	BallCaptureSpriteId SPRITE_BALL_CAPTURE_0, BALLCAPTURESPRITE_0
+	BallCaptureSpriteId SPRITE_BALL_CAPTURE_1, BALLCAPTURESPRITE_1
+	BallCaptureSpriteId SPRITE_BALL_CAPTURE_2, BALLCAPTURESPRITE_2
+	BallCaptureSpriteId SPRITE_BALL_CAPTURE_3, BALLCAPTURESPRITE_3
+	BallCaptureSpriteId SPRITE_BALL_CAPTURE_4, BALLCAPTURESPRITE_4
+	BallCaptureSpriteId SPRITE_BALL_CAPTURE_5, BALLCAPTURESPRITE_5
+	BallCaptureSpriteId SPRITE_BALL_CAPTURE_6, BALLCAPTURESPRITE_6
+	BallCaptureSpriteId SPRITE_BALL_CAPTURE_7, BALLCAPTURESPRITE_7
+	BallCaptureSpriteId SPRITE_BALL_CAPTURE_8, BALLCAPTURESPRITE_8
+	BallCaptureSpriteId SPRITE_BALL_CAPTURE_9, BALLCAPTURESPRITE_9
+	BallCaptureSpriteId SPRITE_BALL_CAPTURE_10, BALLCAPTURESPRITE_10
+	BallCaptureSpriteId SPRITE_BALL_CAPTURE_11, BALLCAPTURESPRITE_11
+	BallCaptureSpriteId SPRITE_BALL_CAPTURE_12, BALLCAPTURESPRITE_12
 
 DrawAnimatedMon_RedStage: ; 0x17c96
 	ld a, [wWildMonIsHittable]
@@ -73,10 +91,10 @@ DrawAnimatedMon_RedStage: ; 0x17c96
 	ret
 
 AnimatedMonSpriteIds_RedStage:
-	db $26, $27, $28 ; animated sprite type 0
-	db $29, $2A, $2B ; animated sprite type 1
-	db $2C, $2D, $2E ; animated sprite type 2
-	db $2F, $30, $31 ; animated sprite type 3
+	db SPRITE_ANIMATED_MON_TYPE_0_FRAME_0, SPRITE_ANIMATED_MON_TYPE_0_FRAME_1, SPRITE_ANIMATED_MON_TYPE_0_FRAME_2 ; animated sprite type 0
+	db SPRITE_ANIMATED_MON_TYPE_1_FRAME_0, SPRITE_ANIMATED_MON_TYPE_1_FRAME_1, SPRITE_ANIMATED_MON_TYPE_1_FRAME_2 ; animated sprite type 1
+	db SPRITE_ANIMATED_MON_TYPE_2_FRAME_0, SPRITE_ANIMATED_MON_TYPE_2_FRAME_1, SPRITE_ANIMATED_MON_TYPE_2_FRAME_2 ; animated sprite type 2
+	db SPRITE_ANIMATED_MON_TYPE_3_FRAME_0, SPRITE_ANIMATED_MON_TYPE_3_FRAME_1, SPRITE_ANIMATED_MON_TYPE_3_FRAME_2 ; animated sprite type 3
 
 DrawVoltorbSprites: ; 0x17cc4
 	ld de, wVoltorb1Animation
@@ -135,17 +153,17 @@ DrawVoltorbSprite: ; 0x17cdc
 Voltorb1SpriteData:
 	db $3A, $4E ; x, y offsets
 	db $00 ; which voltorb
-	db $BD, $BC, $CE ; sprite ids
+	db SPRITE_VOLTORB_COLLISION, SPRITE_VOLTORB_STATIONARY, SPRITE_VOLTORB_SHAKE_1 ; sprite ids
 
 Voltorb2SpriteData:
 	db $53, $44 ; x, y offsets
 	db $01 ; which voltorb
-	db $BD, $BC, $CD ; sprite ids
+	db SPRITE_VOLTORB_COLLISION, SPRITE_VOLTORB_STATIONARY, SPRITE_VOLTORB_SHAKE_2 ; sprite ids
 
 Voltorb3SpriteData:
 	db $4D, $60 ; x, y offsets
 	db $02 ; which voltorb
-	db $BD, $BC, $CF ; sprite ids
+	db SPRITE_VOLTORB_COLLISION, SPRITE_VOLTORB_STATIONARY, SPRITE_VOLTORB_SHAKE_3 ; sprite ids
 
 VoltorbAnimation:
 ; Each entry is [duration][sprite id]
@@ -176,14 +194,14 @@ DrawDitto: ; 0x17d34
 	ret
 
 DittoSpriteIds:
-	db $C9
-	db $C9
-	db $C9
-	db $C9
-	db $C8
-	db $C8
-	db $CA
-	db $CA
+	db SPRITE_DITTO_MEDIUM
+	db SPRITE_DITTO_MEDIUM
+	db SPRITE_DITTO_MEDIUM
+	db SPRITE_DITTO_MEDIUM
+	db SPRITE_DITTO_LARGE
+	db SPRITE_DITTO_LARGE
+	db SPRITE_DITTO_SMALL
+	db SPRITE_DITTO_SMALL
 
 DrawBellsproutHead: ; 0x17d59
 	ld a, $74
@@ -204,10 +222,10 @@ DrawBellsproutHead: ; 0x17d59
 	ret
 
 BellsproutHeadAnimationSpriteIds: ; 0x17d76
-	db $BE
-	db $BF
-	db $C0
-	db $C1
+	db SPRITE_BELLSPROUT_HEAD_0
+	db SPRITE_BELLSPROUT_HEAD_1
+	db SPRITE_BELLSPROUT_HEAD_2
+	db SPRITE_BELLSPROUT_HEAD_3
 
 DrawBellsproutBody: ; 0x17d7a
 	ld a, [hGameBoyColorFlag]
@@ -221,7 +239,7 @@ DrawBellsproutBody: ; 0x17d7a
 	ld hl, hSCY
 	sub [hl]
 	ld c, a
-	ld a, $cc
+	ld a, SPRITE_BELLSPROUT_BODY
 	call LoadSpriteData
 	ret
 
@@ -259,19 +277,25 @@ DrawStaryu: ; 0x17d92
 	ret
 
 StaryuAnimationSpriteIds: ; 0x17dce
-	db $CB
-	db $D0
+	MACRO StaryuSpriteId
+		   const \2
+		   db \1
+	ENDM
+	const_def
+
+	StaryuSpriteId SPRITE_STARYU_0, STARYUSPRITE_0
+	StaryuSpriteId SPRITE_STARYU_1, STARYUSPRITE_1
 
 StaryuAnimation:
 ; Each entry is [duration][sprite id]
-	db $14, $00
-	db $13, $01
-	db $15, $00
-	db $12, $01
-	db $14, $00
-	db $13, $01
-	db $16, $00
-	db $13, $01
+	db $14, STARYUSPRITE_0
+	db $13, STARYUSPRITE_1
+	db $15, STARYUSPRITE_0
+	db $12, STARYUSPRITE_1
+	db $14, STARYUSPRITE_0
+	db $13, STARYUSPRITE_1
+	db $16, STARYUSPRITE_0
+	db $13, STARYUSPRITE_1
 	db $0 ; terminator
 
 DrawSpinner_RedField: ; 0x17de1
@@ -295,7 +319,12 @@ DrawSpinner_RedField: ; 0x17de1
 	ret
 
 SpinnerSpriteIds_RedField: ; 0x17e02
-	db $C2, $C3, $C4, $C5, $C6, $C7
+	db SPRITE_RED_FIELD_SPINNER_0
+	db SPRITE_RED_FIELD_SPINNER_1
+	db SPRITE_RED_FIELD_SPINNER_2
+	db SPRITE_RED_FIELD_SPINNER_3
+	db SPRITE_RED_FIELD_SPINNER_4
+	db SPRITE_RED_FIELD_SPINNER_5
 
 DrawPikachuSavers_RedStage: ; 0x17e08
 	ld a, [hSCX]
@@ -335,7 +364,7 @@ DrawPikachuSavers_RedStage: ; 0x17e08
 	sub e
 	ld c, a
 	ld a, [wPikachuSaverAnimationFrame]
-	add $e
+	add SPRITE_PIKACHU_SAVER
 	call LoadSpriteData
 	ret
 
@@ -430,47 +459,47 @@ DrawEvolutionIndicatorArrows_RedField: ; 0x17f21
 
 EvolutionIndicatorArrowsSprite_RedFieldTop:
 	db $0D, $37 ; x, y offsets
-	db $D1 ; sprite id
+	db SPRITE_RED_FIELD_TOP_INDICATOR_ARROW_UP ; sprite id
 
 	db $46, $22 ; x, y offsets
-	db $D6 ; sprite id
+	db SPRITE_RED_FIELD_TOP_INDICATOR_ARROW_UPRIGHTDOWN ; sprite id
 
 	db $8A, $4A ; x, y offsets
-	db $D2 ; sprite id
+	db SPRITE_RED_FIELD_TOP_INDICATOR_ARROW_DOWN ; sprite id
 
 	db $41, $81 ; x, y offsets
-	db $D3 ; sprite id
+	db SPRITE_RED_FIELD_TOP_INDICATOR_ARROW_LEFTUP ; sprite id
 
 	db $3D, $65 ; x, y offsets
-	db $D5 ; sprite id
+	db SPRITE_RED_FIELD_TOP_INDICATOR_ARROW_RIGHTUP ; sprite id
 
 	db $73, $74 ; x, y offsets
-	db $D4 ; sprite id
+	db SPRITE_RED_FIELD_TOP_INDICATOR_ARROW_UPRIGHTUP ; sprite id
 
 EvolutionIndicatorArrowsSprite_RedFieldBottom:
 	db $2D, $13 ; x, y offsets
-	db $32 ; sprite id
+	db SPRITE_BOTTOM_FIELD_INDICATOR_ARROW_UPLEFT ; sprite id
 
 	db $6A, $13 ; x, y offsets
-	db $33 ; sprite id
+	db SPRITE_BOTTOM_FIELD_INDICATOR_ARROW_UPRIGHT ; sprite id
 
 	db $25, $2D ; x, y offsets
-	db $34 ; sprite id
+	db SPRITE_BOTTOM_FIELD_INDICATOR_ARROW_LEFT ; sprite id
 
 	db $73, $2D ; x, y offsets
-	db $35 ; sprite id
+	db SPRITE_BOTTOM_FIELD_INDICATOR_ARROW_RIGHT ; sprite id
 
 	db $0F, $40 ; x, y offsets
-	db $36 ; sprite id
+	db SPRITE_BOTTOM_FIELD_INDICATOR_ARROW_DOWNLEFT ; sprite id
 
 	db $1F, $40 ; x, y offsets
-	db $36 ; sprite id
+	db SPRITE_BOTTOM_FIELD_INDICATOR_ARROW_DOWNLEFT ; sprite id
 
 	db $79, $40 ; x, y offsets
-	db $37 ; sprite id
+	db SPRITE_BOTTOM_FIELD_INDICATOR_ARROW_DOWNRIGHT ; sprite id
 
 	db $89, $40 ; x, y offsets
-	db $37 ; sprite id
+	db SPRITE_BOTTOM_FIELD_INDICATOR_ARROW_DOWNRIGHT ; sprite id
 
 DrawEvolutionTrinket_RedFieldTop: ; 0x17f64
 	ld a, [wEvolutionObjectsDisabled]
@@ -479,7 +508,7 @@ DrawEvolutionTrinket_RedFieldTop: ; 0x17f64
 	ld de, wActiveEvolutionTrinkets
 	ld hl, EvolutionTrinketSpriteOffsets_RedFieldTop
 	ld b, $c
-	ld c, $39
+	ld c, SPRITE_TRINKET_RED_TOP - 1
 	jr DrawEvolutionTrinket_RedField
 
 DrawEvolutionTrinket_RedFieldBottom: ; 0x17f75
@@ -489,7 +518,7 @@ DrawEvolutionTrinket_RedFieldBottom: ; 0x17f75
 	ld de, wActiveEvolutionTrinkets + 12
 	ld hl, EvolutionTrinketSpriteOffsets_RedFieldBottom
 	ld b, $6
-	ld c, $40
+	ld c, SPRITE_TRINKET_BOTTOM - 1
 DrawEvolutionTrinket_RedField: ; 0x17f84
 	push bc
 	ld a, [de]
@@ -564,7 +593,7 @@ DrawSlotGlow_RedField: ; 0x17fca
 	srl a
 	srl a
 	and $3
-	add $4f
-	cp $52
+	add SPRITE_SLOT_GLOW
+	cp SPRITE_SLOT_GLOW + 3
 	call nz, LoadSpriteData
 	ret

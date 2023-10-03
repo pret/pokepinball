@@ -594,6 +594,6 @@ DrawSlotGlow_RedField: ; 0x17fca
 	srl a
 	and $3
 	add SPRITE_SLOT_GLOW
-	cp SPRITE_SLOT_GLOW + 3
+	cp SPRITE_SLOT_GLOW + SPRITE_SLOT_GLOW_COUNT
 	call nz, LoadSpriteData
 	ret

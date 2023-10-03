@@ -624,7 +624,7 @@ SendHighScoresAnimationData: ; 0xcf4b
 	db $00  ; terminator
 
 Func_cf58: ; 0xcf58
-	cp $5
+	cp SPRITE_HIGH_SCORES_ERROR_DIALOGS_COUNT + 1
 	ret z
 	push af
 	lb de, $00, $02

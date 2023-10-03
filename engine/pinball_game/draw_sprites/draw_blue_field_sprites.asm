@@ -189,7 +189,7 @@ DrawPikachuSavers_BlueStage: ; 0x1f448
 	sub e
 	ld c, a
 	ld a, [wPikachuSaverAnimationFrame]
-	add SPRITE_PIKACHU_SAVER_0
+	add SPRITE_PIKACHU_SAVER
 	call LoadSpriteData
 	ret
 
@@ -381,8 +381,8 @@ DrawSlotGlow_BlueField: ; 0x1f55e
 	srl a
 	srl a
 	and $3
-	add SPRITE_SLOT_GLOW_0
-	cp SPRITE_SLOT_GLOW_2 + 1
+	add SPRITE_SLOT_GLOW
+	cp SPRITE_SLOT_GLOW + SPRITE_SLOT_GLOW_COUNT
 	call nz, LoadSpriteData
 	ret
 

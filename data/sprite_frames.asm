@@ -174,7 +174,7 @@ SpriteDataPointers: ; 0x4000
 	SpriteDataPointer HighScoresErrorDialog2Sprite, SPRITE_HIGH_SCORES_ERROR_DIALOG_2
 	SpriteDataPointer HighScoresErrorDialog3Sprite, SPRITE_HIGH_SCORES_ERROR_DIALOG_3
 	SpriteDataPointer HighScoresErrorDialog4Sprite, SPRITE_HIGH_SCORES_ERROR_DIALOG_4
-	DEF SPRITE_HIGH_SCORES_ERROR_DIALOGS_LENGTH = const_value - SPRITE_HIGH_SCORES_ERROR_DIALOGS
+	DEF SPRITE_HIGH_SCORES_ERROR_DIALOGS_COUNT = const_value - SPRITE_HIGH_SCORES_ERROR_DIALOGS
 	SpriteDataPointer HighScoresDeleteDataSprite, SPRITE_HIGH_SCORES_DELETE_DATA
 	SpriteDataPointer HighScoresRightArrowSprite, SPRITE_HIGH_SCORES_ARROW_RIGHT
 	SpriteDataPointer HighScoresLeftArrowSprite, SPRITE_HIGH_SCORES_ARROW_LEFT

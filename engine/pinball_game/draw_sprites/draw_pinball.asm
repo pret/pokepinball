@@ -22,6 +22,7 @@ DrawPinball: ; 0x17e81
 	srl a
 	srl a  ; divide wBallRotation by 8 because
 	srl a  ; there are 8 frames of the ball spinning
+	assert SPRITE_BALL_SPIN_COUNT == 8 ; or any power of two
 	and SPRITE_BALL_SPIN_COUNT - 1
 	add SPRITE_BALL_SPIN
 	call LoadSpriteData

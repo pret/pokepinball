@@ -1,4 +1,4 @@
-DEF hPushOAM EQU $FF80
+DEF hPushSprite EQU $FF80
 
 DEF hFarCallTempA EQU $FF8A
 DEF hFarCallTempE EQU $FF8B

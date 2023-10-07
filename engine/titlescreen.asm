@@ -25,7 +25,7 @@ FadeInTitlescreen: ; 0xc00e
 	call LoadVideoData
 	ld a, $1
 	ld [wTitleScreenGameStartCursorSelection], a
-	call ClearOAMBuffer
+	call ClearSpriteBuffer
 	ld a, $2
 	ld [wTitleScreenPokeballAnimationCounter], a
 	call HandleTitlescreenAnimations
@@ -72,9 +72,9 @@ TitlescreenLoop: ; 0xc089
 	lb de, $00, $01
 	call PlaySoundEffect
 	xor a
-	ld [wd910], a
+	ld [wTitlescreenContinuePromptAnimationFrame], a
 	ld a, $2
-	ld [wd911], a
+	ld [wTitlescreenContinuePromptAnimationTimer], a
 	ld a, $1
 	ld [wTitleScreenGameStartCursorSelection], a
 	ld hl, wScreenState
@@ -120,8 +120,8 @@ HandleTitlescreenAnimations: ; 0xc0f7
 	and a
 	jr z, .asm_c104
 	ld bc, $2040
-	ld a, $62  ; seemingly-unused OAM data for titlescreen. It's just blank tiles.
-	call LoadOAMData
+	ld a, SPRITE_TITLESCREEN_BLANK  ; seemingly-unused sprite data for titlescreen. It's just blank tiles.
+	call LoadSpriteData
 .asm_c104
 	call Func_c21d  ; does nothing...
 	call HandleTitlescreenPikachuBlinkingAnimation
@@ -131,7 +131,7 @@ HandleTitlescreenAnimations: ; 0xc0f7
 Func_c10e: ; 0xc10e
 	call Func_c1a2
 	call Func_c1b1
-	ld a, [wd910]
+	ld a, [wTitlescreenContinuePromptAnimationFrame]
 	cp $6
 	ret nz
 	ld a, [hNewlyPressedButtons]
@@ -185,14 +185,14 @@ Func_c10e: ; 0xc10e
 	lb de, $00, $01
 	call PlaySoundEffect
 	ld a, $8
-	ld [wd910], a
+	ld [wTitlescreenContinuePromptAnimationFrame], a
 	ld a, $2
-	ld [wd911], a
+	ld [wTitlescreenContinuePromptAnimationTimer], a
 .asm_c18f
-	call CleanOAMBuffer
+	call CleanSpriteBuffer
 	rst AdvanceFrame
 	call Func_c1b1
-	ld a, [wd910]
+	ld a, [wTitlescreenContinuePromptAnimationFrame]
 	cp $e
 	jr nz, .asm_c18f
 	ld hl, wScreenState
@@ -200,7 +200,7 @@ Func_c10e: ; 0xc10e
 	ret
 
 Func_c1a2: ; 0xc1a2
-	ld a, [wd910]
+	ld a, [wTitlescreenContinuePromptAnimationFrame]
 	cp $6
 	ret nz
 	ld hl, wTitleScreenGameStartCursorSelection
@@ -209,13 +209,13 @@ Func_c1a2: ; 0xc1a2
 	ret
 
 Func_c1b1: ; 0xc1b1
-	call Func_c2df
+	call HandleTitleScreenContinuePromptAnimation
 	ld a, [hGameBoyColorFlag]
 	and a
 	jr z, .asm_c1c1
 	ld bc, $2040
-	ld a, $62
-	call LoadOAMData
+	ld a, SPRITE_TITLESCREEN_BLANK
+	call LoadSpriteData
 .asm_c1c1
 	call Func_c21d
 	call HandleTitlescreenPikachuBlinkingAnimation
@@ -249,7 +249,7 @@ GoToHighScoresFromTitlescreen: ; 0xc1e7
 	ld a, $1
 	ld [wScreenState], a
 	xor a
-	ld [wda7f], a
+	ld [wHighScoreIsEnteringName], a
 	ret
 
 Func_c1fc: ; 0xc1fc
@@ -290,8 +290,8 @@ HandleTitlescreenPikachuBlinkingAnimation: ; 0xc21e
 	add hl, bc
 	lb bc, $38, $10
 	ld a, [hl]
-	cp $5a  ; blink animation frame 1 OAM id
-	call nz, LoadOAMData
+	cp SPRITE_TITLESCREEN_PIKACHU_BLINK_0
+	call nz, LoadSpriteData
 	ld a, [wTitleScreenBlinkAnimationCounter]
 	dec a
 	jr nz, .done
@@ -322,20 +322,20 @@ HandleTitlescreenPikachuBlinkingAnimation: ; 0xc21e
 
 TitleScreenBlinkAnimation: ; 0xc25f
 ; Array of animation frames. The animation is looped when it finishes.
-; first byte = OAM data id to load
+; first byte = sprite data id to load
 ; second byte = number of frames to show this animation.
-	db $5a, $c8
-	db $5b, $04
-	db $5c, $04
-	db $5b, $04
-	db $5a, $3c
-	db $5b, $03
-	db $5c, $03
-	db $5b, $03
-	db $5a, $03
-	db $5b, $03
-	db $5c, $03
-	db $5b, $03
+	db SPRITE_TITLESCREEN_PIKACHU_BLINK_0, $c8
+	db SPRITE_TITLESCREEN_PIKACHU_BLINK_1, $04
+	db SPRITE_TITLESCREEN_PIKACHU_BLINK_2, $04
+	db SPRITE_TITLESCREEN_PIKACHU_BLINK_1, $04
+	db SPRITE_TITLESCREEN_PIKACHU_BLINK_0, $3c
+	db SPRITE_TITLESCREEN_PIKACHU_BLINK_1, $03
+	db SPRITE_TITLESCREEN_PIKACHU_BLINK_2, $03
+	db SPRITE_TITLESCREEN_PIKACHU_BLINK_1, $03
+	db SPRITE_TITLESCREEN_PIKACHU_BLINK_0, $03
+	db SPRITE_TITLESCREEN_PIKACHU_BLINK_1, $03
+	db SPRITE_TITLESCREEN_PIKACHU_BLINK_2, $03
+	db SPRITE_TITLESCREEN_PIKACHU_BLINK_1, $03
 	db $00  ; terminator
 
 HandleTitlescreenPokeballAnimation: ; 0xc278
@@ -352,16 +352,16 @@ HandleTitlescreenPokeballAnimation: ; 0xc278
 	ld e, $0
 	ld a, [wScreenState]  ; TODO: I think this is the "titlescreen state" byte.
 	cp $1
-	jr nz, .loadOAM  ; skip getting the correct animation frame
+	jr nz, .loadSprite  ; skip getting the correct animation frame
 	ld a, [wTitleScreenBouncingBallAnimationFrame]
 	sla a
 	ld e, a
-.loadOAM
+.loadSprite
 	ld d, $0
 	ld hl, TitleScreenPokeballAnimation
 	add hl, de
-	ld a, [hl]  ; a contains OAM id
-	call LoadOAMData
+	ld a, [hl]  ; a contains sprite id
+	call LoadSpriteData
 	ld a, [wTitleScreenPokeballAnimationCounter]
 	dec a
 	jr nz, .done
@@ -389,14 +389,14 @@ HandleTitlescreenPokeballAnimation: ; 0xc278
 	ret
 
 TitleScreenPokeballAnimation: ; 0xc2cc
-; first byte  = OAM id
+; first byte  = sprite id
 ; second byte = animation frame duration
-	db $5D, $02
-	db $5E, $06
-	db $5F, $02
-	db $60, $04
-	db $61, $06
-	db $5F, $04
+	db SPRITE_TITLESCREEN_POKEBALL_0, $02
+	db SPRITE_TITLESCREEN_POKEBALL_1, $06
+	db SPRITE_TITLESCREEN_POKEBALL_2, $02
+	db SPRITE_TITLESCREEN_POKEBALL_3, $04
+	db SPRITE_TITLESCREEN_POKEBALL_4, $06
+	db SPRITE_TITLESCREEN_POKEBALL_2, $04
 	db $00  ; terminator
 
 TitleScreenPokeballCoordOffsets: ; 0xc2d9
@@ -404,65 +404,65 @@ TitleScreenPokeballCoordOffsets: ; 0xc2d9
 	db $73, $15
 	db $7F, $15
 
-Func_c2df: ; 0xc2df
+HandleTitleScreenContinuePromptAnimation: ; 0xc2df
 	ld bc, $4446  ; pixel offsets, not data
-	ld a, [wd910]
+	ld a, [wTitlescreenContinuePromptAnimationFrame]
 	cp $6
 	jr nz, .asm_c2f0
 	ld a, [wTitleScreenGameStartCursorSelection]
-	add $58
+	add SPRITE_TITLESCREEN_CONTINUE_PROMPT_SELECTION
 	jr .asm_c2fd
 
 .asm_c2f0
-	ld a, [wd910]
+	ld a, [wTitlescreenContinuePromptAnimationFrame]
 	sla a
 	ld e, a
 	ld d, $0
-	ld hl, Data_c32b
+	ld hl, AnimationData_TitlescreenContinuePrompt
 	add hl, de
 	ld a, [hl]
 .asm_c2fd
-	call LoadOAMData
-	ld a, [wd911]
+	call LoadSpriteData
+	ld a, [wTitlescreenContinuePromptAnimationTimer]
 	dec a
 	jr nz, .asm_c327
-	ld a, [wd910]
+	ld a, [wTitlescreenContinuePromptAnimationFrame]
 	sla a
 	ld c, a
 	ld b, $0
-	ld hl, Data_c32b + 2
+	ld hl, AnimationData_TitlescreenContinuePrompt + 2
 	add hl, bc
 	ld a, [hl]
 	and a
-	ld a, [wd910]
+	ld a, [wTitlescreenContinuePromptAnimationFrame]
 	jr z, .asm_c31d
 	inc a
-	ld [wd910], a
+	ld [wTitlescreenContinuePromptAnimationFrame], a
 .asm_c31d
 	sla a
 	ld c, a
 	ld b, $0
-	ld hl, Data_c32b + 1
+	ld hl, AnimationData_TitlescreenContinuePrompt + 1
 	add hl, bc
 	ld a, [hl]
 .asm_c327
-	ld [wd911], a
+	ld [wTitlescreenContinuePromptAnimationTimer], a
 	ret
 
-Data_c32b: ; 0xc32b
-	db $52, $02
-	db $53, $02
-	db $54, $02
-	db $55, $02
-	db $56, $02
-	db $57, $02
-	db $57, $02
+AnimationData_TitlescreenContinuePrompt: ; 0xc32b
+	db SPRITE_TITLESCREEN_CONTINUE_PROMPT_0, $02
+	db SPRITE_TITLESCREEN_CONTINUE_PROMPT_1, $02
+	db SPRITE_TITLESCREEN_CONTINUE_PROMPT_2, $02
+	db SPRITE_TITLESCREEN_CONTINUE_PROMPT_3, $02
+	db SPRITE_TITLESCREEN_CONTINUE_PROMPT_4, $02
+	db SPRITE_TITLESCREEN_CONTINUE_PROMPT_5, $02
+	db SPRITE_TITLESCREEN_CONTINUE_PROMPT_5, $02
 	db $00, $00
-	db $57, $02
-	db $56, $02
-	db $55, $02
-	db $54, $02
-	db $53, $02
-	db $52, $02
-	db $52, $02
+	db SPRITE_TITLESCREEN_CONTINUE_PROMPT_5, $02
+	db SPRITE_TITLESCREEN_CONTINUE_PROMPT_4, $02
+	db SPRITE_TITLESCREEN_CONTINUE_PROMPT_3, $02
+	db SPRITE_TITLESCREEN_CONTINUE_PROMPT_2, $02
+	db SPRITE_TITLESCREEN_CONTINUE_PROMPT_1, $02
+	db SPRITE_TITLESCREEN_CONTINUE_PROMPT_0, $02
+	db SPRITE_TITLESCREEN_CONTINUE_PROMPT_0, $02
 	db $00

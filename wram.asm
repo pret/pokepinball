@@ -1,4 +1,4 @@
-; OAM Animations use this 3-byte struct.
+; Sprite Animations use this 3-byte struct.
 MACRO animation
 \1FrameCounter:: ds 1
 \1Frame:: ds 1
@@ -58,9 +58,9 @@ wcb00:: ; 0xcb00
 
 SECTION "WRAM Bank 1", WRAMX
 
-wOAMBuffer:: ; 0xd000
+wSpriteBuffer:: ; 0xd000
 	ds $a0
-wOAMBufferEnd:: ; 0xd0a0
+wSpriteBufferEnd:: ; 0xd0a0
 
 SECTION "WRAM Bank 1.1", WRAMX
 wPaletteData:: ; 0xd200
@@ -1292,14 +1292,8 @@ wMewtwoBonusClosedGate:: ; 0xd6a9
 wd6aa:: ; 0xd6aa
 	ds $2
 
-wd6ac:: ; 0xd6ac
-	ds $1
-
-wd6ad:: ; 0xd6ad
-	ds $1
-
-wd6ae:: ; 0xd6ae
-	ds $1
+wMewtwoAnimation:: ; 0xd6ac
+	animation wMewtwoAnimation
 
 wd6af:: ; 0xd6af
 	ds $1
@@ -1322,47 +1316,32 @@ wd6b4:: ; 0xd6b4
 wd6b5:: ; 0xd6b5
 	ds $1
 
-wd6b6:: ; 0xd6b6
-	ds $4
+MACRO orbiting_ball
+\1Enabled:: ds $1
+\1Animation:: animation \1Animation
+\1AnimationGroup:: ds $1  ; Index into OrbitingBallAnimations
+\1XPos:: ds $1
+\1YPos:: ds $1
+\1PosIndex:: ds $1  ; Index into MewtwoOrbitingBallsCoords
+ENDM
 
-wd6ba:: ; 0xd6ba
-	ds $1
+wOrbitingBall0:: ; 0xd6b6
+	orbiting_ball wOrbitingBall0
 
-wd6bb:: ; 0xd6bb
-	ds $2
+wOrbitingBall1:: ; 0xd6be
+	orbiting_ball wOrbitingBall1
 
-wd6bd:: ; 0xd6bd
-	ds $1
+wOrbitingBall2:: ; 0xd6c6
+	orbiting_ball wOrbitingBall2
 
-wd6be:: ; 0xd6be
-	ds $7
+wOrbitingBall3:: ; 0xd6ce
+	orbiting_ball wOrbitingBall3
 
-wd6c5:: ; 0xd6c5
-	ds $1
+wOrbitingBall4:: ; 0xd6d6
+	orbiting_ball wOrbitingBall4
 
-wd6c6:: ; 0xd6c6
-	ds $7
-
-wd6cd:: ; 0xd6cd
-	ds $1
-
-wd6ce:: ; 0xd6ce
-	ds $7
-
-wd6d5:: ; 0xd6d5
-	ds $1
-
-wd6d6:: ; 0xd6d6
-	ds $7
-
-wd6dd:: ; 0xd6dd
-	ds $1
-
-wd6de:: ; 0xd6de
-	ds $7
-
-wd6e5:: ; 0xd6e5
-	ds $1
+wOrbitingBall5:: ; 0xd6de
+	orbiting_ball wOrbitingBall5
 
 wMeowthBonusClosedGate:: ; 0xd6e6
 	ds $1
@@ -1469,67 +1448,67 @@ wd712:: ; 0xd712
 wDisableMeowthJewelProduction:: ; 0xd713
 	ds $1
 
-wd714:: ; 0xd714
+wMeowthJewel0AnimationIndex:: ; 0xd714
 	ds $1
 
-wd715:: ; 0xd715
+wMeowthJewel1AnimationIndex:: ; 0xd715
 	ds $1
 
-wd716:: ; 0xd716
+wMeowthJewel2AnimationIndex:: ; 0xd716
 	ds $1
 
-wd717:: ; 0xd717
+wMeowthJewel0State:: ; 0xd717
 	ds $1
 
-wd718:: ; 0xd718
+wMeowthJewel1State:: ; 0xd718
 	ds $1
 
-wd719:: ; 0xd719
+wMeowthJewel2State:: ; 0xd719
 	ds $1
 
-wd71a:: ; 0xd71a
+wMeowthJewel0XCoord:: ; 0xd71a
 	ds $1
 
-wd71b:: ; 0xd71b
+wMeowthJewel1XCoord:: ; 0xd71b
 	ds $1
 
-wd71c:: ; 0xd71c
+wMeowthJewel2XCoord:: ; 0xd71c
 	ds $2
 
-wd71e:: ; 0xd71e
+wMeowthJewel3AnimationIndex:: ; 0xd71e
 	ds $1
 
-wd71f:: ; 0xd71f
+wMeowthJewel4AnimationIndex:: ; 0xd71f
 	ds $1
 
-wd720:: ; 0xd720
+wMeowthJewel5AnimationIndex:: ; 0xd720
 	ds $1
 
-wd721:: ; 0xd721
+wMeowthJewel3State:: ; 0xd721
 	ds $1
 
-wd722:: ; 0xd722
+wMeowthJewel4State:: ; 0xd722
 	ds $1
 
-wd723:: ; 0xd723
+wMeowthJewel5State:: ; 0xd723
 	ds $1
 
-wd724:: ; 0xd724
+wMeowthJewel3XCoord:: ; 0xd724
 	ds $1
 
-wd725:: ; 0xd725
+wMeowthJewel4XCoord:: ; 0xd725
 	ds $1
 
-wd726:: ; 0xd726
+wMeowthJewel5XCoord:: ; 0xd726
 	ds $1
 
-wd727:: ; 0xd727
+wMeowthJewel0YCoord:: ; 0xd727
 	ds $1
 
-wd728:: ; 0xd728
+wMeowthJewel1YCoord:: ; 0xd728
 	ds $1
 
-wd729:: ; 0xd729
+wMeowthJewel2YCoord:: ; 0xd729
 	ds $1
 
 wd72a:: ; 0xd72a
@@ -1541,13 +1520,13 @@ wd72b:: ; 0xd72b
 wd72c:: ; 0xd72c
 	ds $5
 
-wd731:: ; 0xd731
+wMeowthJewel3YCoord:: ; 0xd731
 	ds $1
 
-wd732:: ; 0xd732
+wMeowthJewel4YCoord:: ; 0xd732
 	ds $1
 
-wd733:: ; 0xd733
+wMeowthJewel5YCoord:: ; 0xd733
 	ds $1
 
 wd734:: ; 0xd734
@@ -1906,7 +1885,7 @@ wSFXTimer:: ; 0xd800
 wd801:: ; 0xd801
 	ds $1
 
-wOAMBufferSize:: ; 0xd802
+wSpriteBufferSize:: ; 0xd802
 	ds $1
 
 wRumblePattern:: ; 0xd803
@@ -2290,10 +2269,10 @@ wTitleScreenBouncingBallAnimationFrame:: ; 0xd90e
 wTitleScreenPokeballAnimationCounter:: ; 0xd90f
 	ds $1
 
-wd910:: ; 0xd910
+wTitlescreenContinuePromptAnimationFrame:: ; 0xd910
 	ds $1
 
-wd911:: ; 0xd911
+wTitlescreenContinuePromptAnimationTimer:: ; 0xd911
 	ds $1
 
 wFieldSelectBlinkingBorderTimer:: ; 0xd912
@@ -2326,22 +2305,22 @@ wSoundTestCurrentBackgroundMusic:: ; 0xd91a
 wSoundTextCurrentSoundEffect:: ; 0xd91b
 	ds $1
 
-wd91c:: ; 0xd91c
+wOptionsPsyduckAnimationFrame:: ; 0xd91c
 	ds $1
 
-wd91d:: ; 0xd91d
+wOptionsPsyduckAnimationTimer:: ; 0xd91d
 	ds $1
 
-wd91e:: ; 0xd91e
+wOptionsPikachuAnimationFrame:: ; 0xd91e
 	ds $1
 
-wd91f:: ; 0xd91f
+wOptionsPikachuAnimationTimer:: ; 0xd91f
 	ds $1
 
-wd920:: ; 0xd920
+wOptionsPokeballAnimationFrame:: ; 0xd920
 	ds $1
 
-wd921:: ; 0xd921
+wOptionsPokeballAnimationTimer:: ; 0xd921
 	ds $1
 
 wd922:: ; 0xd922
@@ -2449,16 +2428,17 @@ wBlueHighScores:: ; 0xd9fd
 	high_scores wBlueHighScore4
 	high_scores wBlueHighScore5
 
-wda7f:: ; 0xda7f
+wHighScoreIsEnteringName:: ; 0xda7f
+; 1 during name entry; 0 otherwise
 	ds $1
 
-wda80:: ; 0xda80
+wHighScoreNameColumn:: ; 0xda80
 	ds $1
 
-wda81:: ; 0xda81
+wHighScoreNameRow:: ; 0xda81
 	ds $1
 
-wda82:: ; 0xda82
+wHighScoreNameEntryAsteriskBlinkCounter:: ; 0xda82
 	ds $1
 
 wHighScoresStage:: ; 0xda83
@@ -2467,7 +2447,8 @@ wHighScoresStage:: ; 0xda83
 wHighScoresArrowAnimationCounter:: ; 0xda84
 	ds $1
 
-wda85:: ; 0xda85
+wHighScoresPrintSendSelection:: ; 0xda85
+; 0 if print is selected, 1 if send is selected
 	ds $1
 
 wda86:: ; 0xda86

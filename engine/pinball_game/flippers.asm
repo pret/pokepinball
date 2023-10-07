@@ -676,7 +676,7 @@ DrawFlippers: ; 0xe4a1
 	ld a, [wCurrentStage]
 	and a
 	ret z
-	ld hl, FlippersOAMPixelOffsetData
+	ld hl, FlippersSpritePixelOffsetData
 	ld a, [hSCX]
 	ld d, a
 	ld a, [hSCY]
@@ -688,13 +688,13 @@ DrawFlippers: ; 0xe4a1
 	sub e
 	ld c, a
 	push hl
-	ld hl, LeftFlipperOAMIds
+	ld hl, LeftFlipperSpriteIds
 	ld a, [wLeftFlipperState + 1]
 	ld e, a
 	ld d, $0
 	add hl, de
 	ld a, [hl]
-	cp $b
+	cp SPRITE_LEFTFLIPPER_DOWN
 	jr nz, .asm_e4d6
 	ld a, [hGameBoyColorFlag]
 	and a
@@ -702,13 +702,13 @@ DrawFlippers: ; 0xe4a1
 	ld a, [wFlippersDisabled]
 	and a
 	jr z, .asm_e4d4
-	ld a, $18
+	ld a, SPRITE_LEFTFLIPPER_DISABLED
 	jr .asm_e4d6
 
 .asm_e4d4
-	ld a, $b
+	ld a, SPRITE_LEFTFLIPPER_DOWN
 .asm_e4d6
-	call LoadOAMData
+	call LoadSpriteData
 	pop hl
 	ld a, [hSCX]
 	ld d, a
@@ -720,13 +720,13 @@ DrawFlippers: ; 0xe4a1
 	ld a, [hli]
 	sub e
 	ld c, a
-	ld hl, RightFlipperOAMIds
+	ld hl, RightFlipperSpriteIds
 	ld a, [wRightFlipperState + 1]
 	ld e, a
 	ld d, $0
 	add hl, de
 	ld a, [hl]
-	cp $8
+	cp SPRITE_RIGHTFLIPPER_DOWN
 	jr nz, .asm_e506
 	ld a, [hGameBoyColorFlag]
 	and a
@@ -734,31 +734,67 @@ DrawFlippers: ; 0xe4a1
 	ld a, [wFlippersDisabled]
 	and a
 	jr z, .asm_e504
-	ld a, $17
+	ld a, SPRITE_RIGHTFLIPPER_DISABLED
 	jr .asm_e506
 
 .asm_e504
-	ld a, $8
+	ld a, SPRITE_RIGHTFLIPPER_DOWN
 .asm_e506
-	call LoadOAMData
+	call LoadSpriteData
 	ret
 
-FlippersOAMPixelOffsetData:
-; flipper oam pixel offsets
+FlippersSpritePixelOffsetData:
+; flipper sprite pixel offsets
 	dw $7b38 ; left flipper
 	dw $7b68 ; right flipper
 
-LeftFlipperOAMIds:
+LeftFlipperSpriteIds:
 ; TODO: Don't know how exactly these are used, but it is used by the animation
 ; when the flipper is activated and rotates upward to hit the pinball.
-	db $0b, $0b, $0b, $0b, $0b, $0b, $0b
-	db $0c, $0c, $0c, $0c, $0c, $0c, $0c
-	db $0d, $0d, $0d, $0d, $0d, $0d, $0d
+	db SPRITE_LEFTFLIPPER_DOWN
+	db SPRITE_LEFTFLIPPER_DOWN
+	db SPRITE_LEFTFLIPPER_DOWN
+	db SPRITE_LEFTFLIPPER_DOWN
+	db SPRITE_LEFTFLIPPER_DOWN
+	db SPRITE_LEFTFLIPPER_DOWN
+	db SPRITE_LEFTFLIPPER_DOWN
+	db SPRITE_LEFTFLIPPER_HORIZONTAL
+	db SPRITE_LEFTFLIPPER_HORIZONTAL
+	db SPRITE_LEFTFLIPPER_HORIZONTAL
+	db SPRITE_LEFTFLIPPER_HORIZONTAL
+	db SPRITE_LEFTFLIPPER_HORIZONTAL
+	db SPRITE_LEFTFLIPPER_HORIZONTAL
+	db SPRITE_LEFTFLIPPER_HORIZONTAL
+	db SPRITE_LEFTFLIPPER_UP
+	db SPRITE_LEFTFLIPPER_UP
+	db SPRITE_LEFTFLIPPER_UP
+	db SPRITE_LEFTFLIPPER_UP
+	db SPRITE_LEFTFLIPPER_UP
+	db SPRITE_LEFTFLIPPER_UP
+	db SPRITE_LEFTFLIPPER_UP
 
-RightFlipperOAMIds:
-	db $08, $08, $08, $08, $08, $08, $08
-	db $09, $09, $09, $09, $09, $09, $09
-	db $0A, $0A, $0A, $0A, $0A, $0A, $0A
+RightFlipperSpriteIds:
+	db SPRITE_RIGHTFLIPPER_DOWN
+	db SPRITE_RIGHTFLIPPER_DOWN
+	db SPRITE_RIGHTFLIPPER_DOWN
+	db SPRITE_RIGHTFLIPPER_DOWN
+	db SPRITE_RIGHTFLIPPER_DOWN
+	db SPRITE_RIGHTFLIPPER_DOWN
+	db SPRITE_RIGHTFLIPPER_DOWN
+	db SPRITE_RIGHTFLIPPER_HORIZONTAL
+	db SPRITE_RIGHTFLIPPER_HORIZONTAL
+	db SPRITE_RIGHTFLIPPER_HORIZONTAL
+	db SPRITE_RIGHTFLIPPER_HORIZONTAL
+	db SPRITE_RIGHTFLIPPER_HORIZONTAL
+	db SPRITE_RIGHTFLIPPER_HORIZONTAL
+	db SPRITE_RIGHTFLIPPER_HORIZONTAL
+	db SPRITE_RIGHTFLIPPER_UP
+	db SPRITE_RIGHTFLIPPER_UP
+	db SPRITE_RIGHTFLIPPER_UP
+	db SPRITE_RIGHTFLIPPER_UP
+	db SPRITE_RIGHTFLIPPER_UP
+	db SPRITE_RIGHTFLIPPER_UP
+	db SPRITE_RIGHTFLIPPER_UP
 
 ; See CalculateFlipperYForce to see how these magnitudes are used.
 ; Each entry corresponds to a distance from the flipper's rotation point.

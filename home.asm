@@ -95,11 +95,11 @@ Start: ; 0x150
 	ld a, $0
 	ld [MBC5SRamBank], a   ; Load RAM Bank $0
 	ld sp, wStack    ; Initialize stack pointer to the end of WRAM Bank $1
-	ld hl, hPushOAM
+	ld hl, hPushSprite
 	ld bc, $007e
 	call ClearData  ; Clear High RAM (HRAM)
 	call WriteDMACodeToHRAM
-	call ClearOAMBuffer
+	call ClearSpriteBuffer
 	xor a
 	ld [wd7fb], a
 	ld [wd7fc], a
@@ -198,7 +198,7 @@ SoftReset:
 	ld [MBC5SRamBank], a
 	ld sp, wStack
 	call WriteDMACodeToHRAM
-	call ClearOAMBuffer
+	call ClearSpriteBuffer
 	xor a
 	ld [wd7fb], a
 	ld [wd7fc], a
@@ -252,7 +252,7 @@ VBlank: ; 0x2f2
 	push bc
 	push de
 	push hl
-	call hPushOAM ; OAM DMA transfer
+	call hPushSprite ; sprite DMA transfer
 	ld a, [hLCDC]
 	ld [rLCDC], a
 	call Func_113a
@@ -686,7 +686,7 @@ VBlankIntEnable:
 	ret
 
 WriteDMACodeToHRAM: ; 0x5f7
-; Initializes registers hPushOAM - hFarCallTempA
+; Initializes registers hPushSprite - hFarCallTempA
 	ld c, $80
 	ld b, $a  ; number of bytes to load
 	ld hl, DMARoutine
@@ -699,8 +699,8 @@ WriteDMACodeToHRAM: ; 0x5f7
 	ret
 
 DMARoutine:
-; This routine is initially loaded into hPushOAM - hFarCallTempA by WriteDMACodeToHRAM.
-	ld a, (wOAMBuffer >> 8)
+; This routine is initially loaded into hPushSprite - hFarCallTempA by WriteDMACodeToHRAM.
+	ld a, (wSpriteBuffer >> 8)
 	ld [rDMA], a   ; start DMA
 	ld a, $28
 .waitLoop               ; wait for DMA to finish
@@ -722,28 +722,28 @@ WaitForLCD: ; 0x60f
 
 INCLUDE "home/copy.asm"
 
-ClearOAMBuffer: ; 0x916
-; Clears the OAM buffer by loading $f0 into all of the entries.
-	ld hl, wOAMBuffer ; 0xd000
-	ld b, 4 * 40  ; wOAMBuffer is 4 * 40 bytes long (40 OAM entries, 4 bytes each)
+ClearSpriteBuffer: ; 0x916
+; Clears the sprite buffer by loading $f0 into all of the entries.
+	ld hl, wSpriteBuffer ; 0xd000
+	ld b, 4 * 40  ; wSpriteBuffer is 4 * 40 bytes long (40 sprite entries, 4 bytes each)
 	ld a, $f0  ; byte to write
 .loop
 	ld [hli], a
 	dec b
 	jr nz, .loop
 	xor a
-	ld [wOAMBufferSize], a
+	ld [wSpriteBufferSize], a
 	ret
 
-CleanOAMBuffer: ; 0x926
-; Cleans up any trailing unused oam slots in the oam buffer.
-	ld a, [wOAMBufferSize]
-	cp wOAMBufferEnd % $100
+CleanSpriteBuffer: ; 0x926
+; Cleans up any trailing unused sprite slots in the sprite buffer.
+	ld a, [wSpriteBufferSize]
+	cp wSpriteBufferEnd % $100
 	jr nc, .done
 	ld l, a
-	ld h, wOAMBufferEnd / $100
+	ld h, wSpriteBufferEnd / $100
 	cpl
-	add (wOAMBufferEnd + 1) % $100
+	add (wSpriteBufferEnd + 1) % $100
 	ld b, a
 	ld a, $f0
 .loop
@@ -752,7 +752,7 @@ CleanOAMBuffer: ; 0x926
 	jr nz, .loop
 .done
 	xor a
-	ld [wOAMBufferSize], a
+	ld [wSpriteBufferSize], a
 	ret
 
 AdvanceFrames: ; 0x93f
@@ -1900,9 +1900,9 @@ Unused_Func_1ef2:
 	ld hl, $4f06
 	jr asm_1f3b
 
-LoadOAMData2: ; 0x1f0b
-; This function loads OAM data, but it adds b and c to the x and y values
-; input:  a = OAM data id (see OAMDataPointers2)
+LoadSpriteData2: ; 0x1f0b
+; This function loads sprite data, but it adds b and c to the x and y values
+; input:  a = sprite data id (see SpriteDataPointers2)
 	push bc
 	push de
 	push hl
@@ -1912,15 +1912,15 @@ LoadOAMData2: ; 0x1f0b
 	rl d
 	ld a, [hLoadedROMBank]
 	push af
-	ld a, Bank(OAMDataPointers2)
+	ld a, Bank(SpriteDataPointers2)
 	ld [hLoadedROMBank], a
 	ld [MBC5RomBank], a
-	ld hl, OAMDataPointers2
+	ld hl, SpriteDataPointers2
 	jr asm_1f3b
 
-LoadOAMData: ; 0x1f24
-; This function loads OAM data, but it adds b and c to the x and y values
-; input:  a = OAM data id (see OAMDataPointers)
+LoadSpriteData: ; 0x1f24
+; This function loads sprite data, but it adds b and c to the x and y values
+; input:  a = sprite data id (see SpriteDataPointers)
 	push bc
 	push de
 	push hl
@@ -1930,23 +1930,23 @@ LoadOAMData: ; 0x1f24
 	rl d  ; multiply de by 2
 	ld a, [hLoadedROMBank]
 	push af
-	ld a, Bank(OAMDataPointers)
+	ld a, Bank(SpriteDataPointers)
 	ld [hLoadedROMBank], a
 	ld [MBC5RomBank], a
-	ld hl, OAMDataPointers
+	ld hl, SpriteDataPointers
 asm_1f3b: ; 0x1f3b
-	add hl, de  ; hl points to oam pointer in OAMDataPointers
+	add hl, de  ; hl points to sprite pointer in SpriteDataPointers
 	ld a, [hli]
 	ld e, a
 	ld a, [hl]
-	ld d, a  ; de points to OAM data
-	ld a, [wOAMBufferSize]
+	ld d, a  ; de points to sprite data
+	ld a, [wSpriteBufferSize]
 	ld l, a
-	ld h, (wOAMBuffer >> 8)
-.loadOAMDataLoop
+	ld h, (wSpriteBuffer >> 8)
+.LoadSpriteDataLoop
 	ld a, [de]
-	cp $80  ; OAM data list terminator
-	jr z, .doneReadingOAMData
+	cp $80  ; sprite data list terminator
+	jr z, .doneReadingSpriteData
 	add c
 	ld [hli], a
 	inc de
@@ -1960,11 +1960,11 @@ asm_1f3b: ; 0x1f3b
 	ld a, [de]
 	ld [hli], a
 	inc de
-	jr .loadOAMDataLoop
+	jr .LoadSpriteDataLoop
 
-.doneReadingOAMData
+.doneReadingSpriteData
 	ld a, l
-	ld [wOAMBufferSize], a
+	ld [wSpriteBufferSize], a
 	pop af
 	ld [hLoadedROMBank], a
 	ld [MBC5RomBank], a
@@ -2017,10 +2017,10 @@ Func_1f9a:
 	rl d
 	ld a, [hLoadedROMBank]
 	push af
-	ld a, BANK(OAMDataPointers2)
+	ld a, BANK(SpriteDataPointers2)
 	ld [hLoadedROMBank], a
 	ld [MBC5RomBank], a
-	ld hl, OAMDataPointers2
+	ld hl, SpriteDataPointers2
 	jr asm_1fca
 
 Func_1fb3:
@@ -2033,17 +2033,17 @@ Func_1fb3:
 	rl d
 	ld a, [hLoadedROMBank]
 	push af
-	ld a, BANK(OAMDataPointers)
+	ld a, BANK(SpriteDataPointers)
 	ld [hLoadedROMBank], a
 	ld [MBC5RomBank], a
-	ld hl, OAMDataPointers
+	ld hl, SpriteDataPointers
 asm_1fca:
 	add hl, de
 	ld a, [hli]
 	ld e, a
 	ld a, [hl]
 	ld d, a
-	ld a, [wOAMBufferSize]
+	ld a, [wSpriteBufferSize]
 	ld l, a
 	ld h, $d0
 .asm_1fd5
@@ -2071,7 +2071,7 @@ asm_1fca:
 
 .asm_1fee
 	ld a, l
-	ld [wOAMBufferSize], a
+	ld [wSpriteBufferSize], a
 	pop af
 	ld [hLoadedROMBank], a
 	ld [MBC5RomBank], a
@@ -2098,7 +2098,7 @@ Main: ; 0x1ffc
 .master_loop
 	call TickRumbleDuration
 	call DoScreenLogic
-	call CleanOAMBuffer
+	call CleanSpriteBuffer
 	call ClearPersistentJoypadStates
 	rst AdvanceFrame
 	jr .master_loop

@@ -22,9 +22,10 @@ DrawPinball: ; 0x17e81
 	srl a
 	srl a  ; divide wBallRotation by 8 because
 	srl a  ; there are 8 frames of the ball spinning
-	and $7
-	add $0
-	call LoadOAMData
+	assert SPRITE_BALL_SPIN_COUNT == 8 ; or any power of two
+	and SPRITE_BALL_SPIN_COUNT - 1
+	add SPRITE_BALL_SPIN
+	call LoadSpriteData
 	ld a, [hGameBoyColorFlag]
 	and a
 	ret nz
@@ -50,9 +51,9 @@ DrawPinball: ; 0x17e81
 	srl a
 	srl a
 	srl a
-	and $7
-	add $0
-	call LoadOAMData
+	and SPRITE_BALL_SPIN_COUNT - 1
+	add SPRITE_BALL_SPIN
+	call LoadSpriteData
 	ld a, [wBallXPos + 1]
 	ld [wd4c5], a
 	ld a, [wBallYPos + 1]

@@ -25,13 +25,13 @@ DrawSpritesBlueFieldBottom: ; 0x1f35a
 
 DrawShellderSprites: ; 0x1f395
 	ld de, wShellder1Animation_Unused
-	ld hl, Data_1f3cf
+	ld hl, Shelder1SpriteData
 	call DrawShellderSprite
 	ld de, wShellder2Animation_Unused
-	ld hl, Data_1f3d5
+	ld hl, Shelder2SpriteData
 	call DrawShellderSprite
 	ld de, wShellder3Animation_Unused
-	ld hl, Data_1f3db
+	ld hl, Shelder3SpriteData
 	; fall through
 
 DrawShellderSprite: ; 0x1f3ad
@@ -59,23 +59,23 @@ DrawShellderSprite: ; 0x1f3ad
 	ld d, $0
 	add hl, de
 	ld a, [hl]
-	call LoadOAMData
+	call LoadSpriteData
 	ret
 
-Data_1f3cf:
+Shelder1SpriteData:
 	db $48, $2D ; background scroll offsets (x, y)
 	db $01
-	db $E0, $E1, $E0 ; OAM ids
+	db SPRITE_SHELDER_STATIONARY, SPRITE_SHELDER_COLLISION, SPRITE_SHELDER_STATIONARY ; sprite ids
 
-Data_1f3d5:
+Shelder2SpriteData:
 	db $33, $3E ; background scroll offsets (x, y)
 	db $00
-	db $E0, $E1, $E0 ; OAM ids
+	db SPRITE_SHELDER_STATIONARY, SPRITE_SHELDER_COLLISION, SPRITE_SHELDER_STATIONARY ; sprite ids
 
-Data_1f3db:
+Shelder3SpriteData:
 	db $5D, $3E ; background scroll offsets (x, y)
 	db $02
-	db $E0, $E1, $E0 ; OAM ids
+	db SPRITE_SHELDER_STATIONARY, SPRITE_SHELDER_COLLISION, SPRITE_SHELDER_STATIONARY ; sprite ids
 
 DrawSpinner_BlueField: ; 0x1f3e1
 	ld a, $8a
@@ -91,14 +91,19 @@ DrawSpinner_BlueField: ; 0x1f3e1
 	srl a
 	ld e, a
 	ld d, $0
-	ld hl, SpinnerOAMIds_BlueField
+	ld hl, SpinnerSpriteIds_BlueField
 	add hl, de
 	ld a, [hl]
-	call LoadOAMData
+	call LoadSpriteData
 	ret
 
-SpinnerOAMIds_BlueField:
-	db $E8, $E9, $EA, $EB, $EC, $ED
+SpinnerSpriteIds_BlueField:
+	db SPRITE_BLUE_FIELD_SPINNER_0
+	db SPRITE_BLUE_FIELD_SPINNER_1
+	db SPRITE_BLUE_FIELD_SPINNER_2
+	db SPRITE_BLUE_FIELD_SPINNER_3
+	db SPRITE_BLUE_FIELD_SPINNER_4
+	db SPRITE_BLUE_FIELD_SPINNER_5
 
 DrawSlowpoke: ; 0x1f408
 	ld a, $18
@@ -112,14 +117,16 @@ DrawSlowpoke: ; 0x1f408
 	ld a, [wSlowpokeAnimationFrame]
 	ld e, a
 	ld d, $0
-	ld hl, SlowpokeOAMIds
+	ld hl, SlowpokeSpriteIds
 	add hl, de
 	ld a, [hl]
-	call LoadOAMData
+	call LoadSpriteData
 	ret
 
-SlowpokeOAMIds:
-	db $E2, $E3, $E4
+SlowpokeSpriteIds:
+	db SPRITE_SLOWPOKE_0
+	db SPRITE_SLOWPOKE_1
+	db SPRITE_SLOWPOKE_2
 
 DrawCloyster: ; 0x1f428
 	ld a, $70
@@ -133,14 +140,16 @@ DrawCloyster: ; 0x1f428
 	ld a, [wCloysterAnimationFrame]
 	ld e, a
 	ld d, $0
-	ld hl, CloysterOAMIds
+	ld hl, CloysterSpriteIds
 	add hl, de
 	ld a, [hl]
-	call LoadOAMData
+	call LoadSpriteData
 	ret
 
-CloysterOAMIds:
-	db $E5, $E6, $E7
+CloysterSpriteIds:
+	db SPRITE_CLOYSTER_0
+	db SPRITE_CLOYSTER_1
+	db SPRITE_CLOYSTER_2
 
 DrawPikachuSavers_BlueStage: ; 0x1f448
 	ld a, [hSCX]
@@ -171,7 +180,7 @@ DrawPikachuSavers_BlueStage: ; 0x1f448
 	sla a
 	ld c, a
 	ld b, $0
-	ld hl, PikachuSaverOAMOffsets_BlueStage
+	ld hl, PikachuSaverSpriteOffsets_BlueStage
 	add hl, bc
 	ld a, [hli]
 	sub d
@@ -180,11 +189,11 @@ DrawPikachuSavers_BlueStage: ; 0x1f448
 	sub e
 	ld c, a
 	ld a, [wPikachuSaverAnimationFrame]
-	add $e
-	call LoadOAMData
+	add SPRITE_PIKACHU_SAVER
+	call LoadSpriteData
 	ret
 
-PikachuSaverOAMOffsets_BlueStage:
+PikachuSaverSpriteOffsets_BlueStage:
 	dw $7E0F
 	dw $7E92
 
@@ -196,7 +205,7 @@ DrawEvolutionIndicatorArrows_BlueFieldTop: ; 0x1f48f
 	bit 4, a
 	ret z
 	ld de, wIndicatorStates + 5
-	ld hl, EvolutionIndicatorArrowsOAM_BlueFieldTop
+	ld hl, EvolutionIndicatorArrowsSprite_BlueFieldTop
 	ld b, $6
 	jr DrawEvolutionIndicatorArrows_BlueField
 
@@ -208,7 +217,7 @@ DrawEvolutionIndicatorArrows_BlueFieldBottom: ; 0x1f4a3
 	bit 4, a
 	ret z
 	ld de, wIndicatorStates + 11
-	ld hl, EvolutionIndicatorArrowsOAM_BlueFieldBottom
+	ld hl, EvolutionIndicatorArrowsSprite_BlueFieldBottom
 	ld b, $8
 DrawEvolutionIndicatorArrows_BlueField:
 	push bc
@@ -225,69 +234,69 @@ DrawEvolutionIndicatorArrows_BlueField:
 	ld a, [de]
 	and a
 	ld a, [hli]
-	call nz, LoadOAMData
+	call nz, LoadSpriteData
 	pop bc
 	inc de
 	dec b
 	jr nz, DrawEvolutionIndicatorArrows_BlueField
 	ret
 
-EvolutionIndicatorArrowsOAM_BlueFieldTop: ; 0x1f4ce
+EvolutionIndicatorArrowsSprite_BlueFieldTop: ; 0x1f4ce
  ; Each entry is:
- ; [OAM x/y Offsets],[OAM Id]
+ ; [sprite x/y Offsets],[sprite Id]
 	db $0D, $37
-	db $EE
+	db SPRITE_BLUE_FIELD_TOP_INDICATOR_ARROW_UP
 
 	db $35, $0D
-	db $F1
+	db SPRITE_BLUE_FIELD_TOP_INDICATOR_ARROW_DOWNRIGHT
 
 	db $8E, $4E
-	db $F4
+	db SPRITE_BLUE_FIELD_TOP_INDICATOR_ARROW_DOWN
 
 	db $36, $64
-	db $EF
+	db SPRITE_BLUE_FIELD_TOP_INDICATOR_ARROW_LEFT
 
 	db $4C, $49
-	db $EE
+	db SPRITE_BLUE_FIELD_TOP_INDICATOR_ARROW_UP
 
 	db $61, $64
-	db $F0
+	db SPRITE_BLUE_FIELD_TOP_INDICATOR_ARROW_RIGHT
 
-EvolutionIndicatorArrowsOAM_BlueFieldBottom: ; 0x1f4e0
+EvolutionIndicatorArrowsSprite_BlueFieldBottom: ; 0x1f4e0
  ; Each entry is 3 bytes:
- ; [OAM x/y Offsets],[OAM Id]
+ ; [sprite x/y Offsets],[sprite Id]
 	db $2D, $13
-	db $32
+	db SPRITE_BOTTOM_FIELD_INDICATOR_ARROW_UPLEFT
 
 	db $6A, $13
-	db $33
+	db SPRITE_BOTTOM_FIELD_INDICATOR_ARROW_UPRIGHT
 
 	db $25, $2D
-	db $34
+	db SPRITE_BOTTOM_FIELD_INDICATOR_ARROW_LEFT
 
 	db $73, $2D
-	db $35
+	db SPRITE_BOTTOM_FIELD_INDICATOR_ARROW_RIGHT
 
 	db $38, $14
-	db $36
+	db SPRITE_BOTTOM_FIELD_INDICATOR_ARROW_DOWNLEFT
 
 	db $66, $14
-	db $36
+	db SPRITE_BOTTOM_FIELD_INDICATOR_ARROW_DOWNLEFT
 
 	db $79, $40
-	db $37
+	db SPRITE_BOTTOM_FIELD_INDICATOR_ARROW_DOWNRIGHT
 
 	db $89, $40
-	db $37
+	db SPRITE_BOTTOM_FIELD_INDICATOR_ARROW_DOWNRIGHT
 
 DrawEvolutionTrinket_BlueFieldTop: ; 0x1f4f8
 	ld a, [wEvolutionObjectsDisabled]
 	and a
 	ret z
 	ld de, wActiveEvolutionTrinkets
-	ld hl, EvolutionTrinketOAMOffsets_BlueFieldTop
+	ld hl, EvolutionTrinketSpriteOffsets_BlueFieldTop
 	ld b, $c
-	ld c, $47
+	ld c, SPRITE_TRINKET_BLUE_TOP - 1
 	jr DrawEvolutionTrinket_BlueField
 
 DrawEvolutionTrinket_BlueFieldBottom: ; 0x1f509
@@ -295,9 +304,9 @@ DrawEvolutionTrinket_BlueFieldBottom: ; 0x1f509
 	and a
 	ret z
 	ld de, wActiveEvolutionTrinkets + 12
-	ld hl, EvolutionTrinketOAMOffsets_BlueFieldBottom
+	ld hl, EvolutionTrinketSpriteOffsets_BlueFieldBottom
 	ld b, $6
-	ld c, $40
+	ld c, SPRITE_TRINKET_BOTTOM - 1
 DrawEvolutionTrinket_BlueField: ; 0x1f518
 	push bc
 	ld a, [de]
@@ -320,15 +329,15 @@ DrawEvolutionTrinket_BlueField: ; 0x1f518
 	dec c
 .asm_1f530
 	pop af
-	call nz, LoadOAMData
+	call nz, LoadSpriteData
 	pop bc
 	inc de
 	dec b
 	jr nz, DrawEvolutionTrinket_BlueField
 	ret
 
-EvolutionTrinketOAMOffsets_BlueFieldTop: ; 0x1f53a
-; OAM data x, y offsets
+EvolutionTrinketSpriteOffsets_BlueFieldTop: ; 0x1f53a
+; sprite data x, y offsets
 	db $4C, $08
 	db $2B, $12
 	db $6D, $12
@@ -342,8 +351,8 @@ EvolutionTrinketOAMOffsets_BlueFieldTop: ; 0x1f53a
 	db $61, $7F
 	db $8D, $65
 
-EvolutionTrinketOAMOffsets_BlueFieldBottom: ; 0x1f552
-; OAM data x, y offsets
+EvolutionTrinketSpriteOffsets_BlueFieldBottom: ; 0x1f552
+; sprite data x, y offsets
 	db $3B, $12
 	db $5D, $12
 	db $31, $16
@@ -372,9 +381,9 @@ DrawSlotGlow_BlueField: ; 0x1f55e
 	srl a
 	srl a
 	and $3
-	add $4f
-	cp $52
-	call nz, LoadOAMData
+	add SPRITE_SLOT_GLOW
+	cp SPRITE_SLOT_GLOW + SPRITE_SLOT_GLOW_COUNT
+	call nz, LoadSpriteData
 	ret
 
 DrawAnimatedMon_BlueStage: ; 0x1f58b
@@ -392,14 +401,14 @@ DrawAnimatedMon_BlueStage: ; 0x1f58b
 	ld a, [wCurrentAnimatedMonSpriteFrame]
 	ld e, a
 	ld d, $0
-	ld hl, AnimatedMonOAMIds_BlueStage
+	ld hl, AnimatedMonSpriteIds_BlueStage
 	add hl, de
 	ld a, [hl]
-	call LoadOAMData
+	call LoadSpriteData
 	ret
 
-AnimatedMonOAMIds_BlueStage:
-	db $26, $27, $28 ; animated sprite type 0
-	db $29, $2A, $2B ; animated sprite type 1
-	db $2C, $2D, $2E ; animated sprite type 2
-	db $2F, $30, $31 ; animated sprite type 3
+AnimatedMonSpriteIds_BlueStage:
+	db SPRITE_ANIMATED_MON_TYPE_0_FRAME_0, SPRITE_ANIMATED_MON_TYPE_0_FRAME_1, SPRITE_ANIMATED_MON_TYPE_0_FRAME_2
+	db SPRITE_ANIMATED_MON_TYPE_1_FRAME_0, SPRITE_ANIMATED_MON_TYPE_1_FRAME_1, SPRITE_ANIMATED_MON_TYPE_1_FRAME_2
+	db SPRITE_ANIMATED_MON_TYPE_2_FRAME_0, SPRITE_ANIMATED_MON_TYPE_2_FRAME_1, SPRITE_ANIMATED_MON_TYPE_2_FRAME_2
+	db SPRITE_ANIMATED_MON_TYPE_3_FRAME_0, SPRITE_ANIMATED_MON_TYPE_3_FRAME_1, SPRITE_ANIMATED_MON_TYPE_3_FRAME_2

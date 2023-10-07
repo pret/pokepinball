@@ -42,31 +42,31 @@ InitBallMeowthBonusStage: ; 0x24059
 	ld [wNumActiveJewelsBottom], a
 	ld [wNumActiveJewelsTop], a
 	ld a, $c8
-	ld [wd71a], a
-	ld [wd727], a
-	ld [wd71b], a
-	ld [wd728], a
-	ld [wd71c], a
-	ld [wd729], a
-	ld [wd724], a
-	ld [wd731], a
-	ld [wd725], a
-	ld [wd732], a
-	ld [wd726], a
-	ld [wd733], a
+	ld [wMeowthJewel0XCoord], a
+	ld [wMeowthJewel0YCoord], a
+	ld [wMeowthJewel1XCoord], a
+	ld [wMeowthJewel1YCoord], a
+	ld [wMeowthJewel2XCoord], a
+	ld [wMeowthJewel2YCoord], a
+	ld [wMeowthJewel3XCoord], a
+	ld [wMeowthJewel3YCoord], a
+	ld [wMeowthJewel4XCoord], a
+	ld [wMeowthJewel4YCoord], a
+	ld [wMeowthJewel5XCoord], a
+	ld [wMeowthJewel5YCoord], a
 	xor a
-	ld [wd717], a
-	ld [wd718], a
-	ld [wd719], a
-	ld [wd721], a
-	ld [wd722], a
-	ld [wd723], a
-	ld [wd714], a
-	ld [wd715], a
-	ld [wd716], a
-	ld [wd71e], a
-	ld [wd71f], a
-	ld [wd720], a
+	ld [wMeowthJewel0State], a
+	ld [wMeowthJewel1State], a
+	ld [wMeowthJewel2State], a
+	ld [wMeowthJewel3State], a
+	ld [wMeowthJewel4State], a
+	ld [wMeowthJewel5State], a
+	ld [wMeowthJewel0AnimationIndex], a
+	ld [wMeowthJewel1AnimationIndex], a
+	ld [wMeowthJewel2AnimationIndex], a
+	ld [wMeowthJewel3AnimationIndex], a
+	ld [wMeowthJewel4AnimationIndex], a
+	ld [wMeowthJewel5AnimationIndex], a
 	ld [wd64e], a
 	ld [wd64f], a
 	ld [wd650], a

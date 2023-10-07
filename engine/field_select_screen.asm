@@ -20,7 +20,7 @@ LoadFieldSelectScreen: ; 0xd6dd
 	ld hl, FieldSelectGfxPointers
 	ld a, [hGameBoyColorFlag]
 	call LoadVideoData
-	call ClearOAMBuffer
+	call ClearSpriteBuffer
 	ld a, $8
 	ld [wFieldSelectBlinkingBorderFrame], a
 	call SetAllPalettesWhite
@@ -156,7 +156,7 @@ AnimateBlinkingFieldSelectBorder: ; 0xd7fb
 	sla a
 	ld c, a
 	ld b, $0
-	ld hl, FieldSelectBorderOAMPixelOffsetData
+	ld hl, FieldSelectBorderSpritePixelOffsetData
 	add hl, bc
 	ld a, [hli]
 	ld c, a
@@ -170,7 +170,7 @@ AnimateBlinkingFieldSelectBorder: ; 0xd7fb
 	push hl
 	add hl, de
 	ld a, [hl]
-	call LoadOAMData
+	call LoadSpriteData
 	ld a, [wFieldSelectBlinkingBorderFrame]
 	dec a
 	jr nz, .asm_d838
@@ -197,21 +197,21 @@ AnimateBlinkingFieldSelectBorder: ; 0xd7fb
 	ret
 
 FieldSelectBorderAnimationData:
-; [OAM id][duration]
-	db $9e, $08
-	db $9f, $08
-	db $9e, $08
-	db $a0, $08
+; [sprite id][duration]
+	db SPRITE_FIELD_SELECT_BORDER_GREY, $08
+	db SPRITE_FIELD_SELECT_BORDER_WHITE, $08
+	db SPRITE_FIELD_SELECT_BORDER_GREY, $08
+	db SPRITE_FIELD_SELECT_BORDER_BLACK, $08
 	db $00  ; terminator
 
 FieldSelectConfirmationAnimationData:
-; [OAM id][duration]
-	db $9F, $03
-	db $A0, $03
-	db $9F, $03
-	db $A0, $03
+; [sprite id][duration]
+	db SPRITE_FIELD_SELECT_BORDER_WHITE, $03
+	db SPRITE_FIELD_SELECT_BORDER_BLACK, $03
+	db SPRITE_FIELD_SELECT_BORDER_WHITE, $03
+	db SPRITE_FIELD_SELECT_BORDER_BLACK, $03
 	db $00  ; terminator
 
-FieldSelectBorderOAMPixelOffsetData:
+FieldSelectBorderSpritePixelOffsetData:
 	dw $2A42
 	dw $7242

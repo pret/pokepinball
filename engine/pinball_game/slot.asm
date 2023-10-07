@@ -26,7 +26,7 @@ DoSlotRewardRoulette: ; 0xed8e
 	call nz, BankSwitch
 	callba DrawSpritesForStage
 	call UpdateBottomText
-	call CleanOAMBuffer
+	call CleanSpriteBuffer
 	rst AdvanceFrame
 	ld a, [wLeftFlipperState + 1]
 	and a

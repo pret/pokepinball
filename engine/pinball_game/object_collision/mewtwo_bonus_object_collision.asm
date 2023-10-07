@@ -4,7 +4,7 @@ CheckMewtwoBonusStageGameObjectCollisions: ; 0x19330
 	ret
 
 Func_19337: ; 0x19337
-	ld hl, wd6bb
+	ld hl, wOrbitingBall0XPos
 	ld bc, $0601
 .asm_1933d
 	push bc
@@ -27,7 +27,7 @@ Func_19337: ; 0x19337
 	pop bc
 	ld a, c
 	jr c, .asm_19360
-	ld de, $0008
+	ld de, $0008 ; the 6 OrbitingBall structures are consecutive and 8 bytes long
 	add hl, de
 	inc c
 	dec b

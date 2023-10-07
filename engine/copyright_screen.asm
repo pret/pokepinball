@@ -19,7 +19,7 @@ FadeInCopyrightScreen: ; 0x8228
 	ld a, [hGameBoyColorFlag]
 	ld hl, CopyrightTextGfxPointers
 	call LoadVideoData
-	call ClearOAMBuffer
+	call ClearSpriteBuffer
 	call SetAllPalettesWhite
 	call EnableLCD
 	call SGBNormal

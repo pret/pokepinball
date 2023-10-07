@@ -6,7 +6,7 @@ FieldVerticalTransition: ; 0xe674
 	ld [wPinballIsVisible], a
 	ld [wRumblePattern], a
 	callba DrawSpritesForStage
-	call CleanOAMBuffer
+	call CleanSpriteBuffer
 	pop af
 	ld [wPinballIsVisible], a
 	pop af
@@ -18,7 +18,7 @@ FieldVerticalTransition: ; 0xe674
 	rst AdvanceFrame
 	call ToggleAudioEngineUpdateMethod
 	call DisableLCD
-	call ClearOAMBuffer
+	call ClearSpriteBuffer
 	call Func_1129
 	call LoadStageCollisionAttributes
 	call LoadStageData

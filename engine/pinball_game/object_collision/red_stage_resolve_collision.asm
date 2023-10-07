@@ -1610,7 +1610,7 @@ ResolveBellsproutCollision: ; 0x15e93
 	ret
 
 BellsproutAnimationData: ; 0x15f69
-; Each entry is [duration][OAM id]
+; Each entry is [duration][sprite id]
 	db $08, $01
 	db $06, $02
 	db $20, $03
@@ -2450,7 +2450,7 @@ UpdatePikachuSaverAnimation_RedField: ; 0x1669e
 	ret
 
 PikachuSaverAnimationData_RedField: ; 0x1673c
-; Each entry is [duration][OAM id]
+; Each entry is [duration][sprite id]
 	db $0C, $02
 	db $05, $03
 	db $05, $02
@@ -2472,7 +2472,7 @@ PikachuSaverAnimationData_RedField: ; 0x1673c
 	db $00
 
 PikachuSaverAnimation2Data_RedField: ; 0x16761
-; Each entry is [duration][OAM id]
+; Each entry is [duration][sprite id]
 	db $0C, $02
 	db $01, $00
 	db $00

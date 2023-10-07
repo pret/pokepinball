@@ -711,7 +711,7 @@ MainLoopUntilTextIsClear: ; 0x3475
 	callba nz, HandleFlippers
 	callba DrawSpritesForStage
 	call UpdateBottomText
-	call CleanOAMBuffer
+	call CleanSpriteBuffer
 	rst AdvanceFrame
 	ld a, [wBottomTextEnabled]
 	and a

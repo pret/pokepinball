@@ -694,8 +694,8 @@ ClearWildMonCollisionMask: ; 0x10488
 BallCaptureInit: ; 0x10496
 	xor a
 	ld [wd5c6], a
-	ld a, BANK(PikachuSaverGfx)
-	ld hl, PikachuSaverGfx + $c0
+	ld a, BANK(BallCaptureSmoke2Gfx)
+	ld hl, BallCaptureSmoke2Gfx
 	ld de, vTilesOB tile $7e
 	ld bc, $0020
 	call LoadVRAMData

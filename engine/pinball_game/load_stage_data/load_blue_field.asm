@@ -230,12 +230,12 @@ Func_1c305: ; 0x1c305
 	ld a, [wCapturingMon]
 	and a
 	ret z
-	ld a, BANK(PikachuSaverGfx)
-	ld hl, PikachuSaverGfx + $c0
+	ld a, BANK(BallCaptureSmoke2Gfx)
+	ld hl, BallCaptureSmoke2Gfx
 	ld de, vTilesOB tile $7e
 	ld bc, $0020
 	call FarCopyData
-	ld a, BANK(StageSharedPikaBoltGfx)
+	ld a, BANK(BallCaptureSmokeGfx)
 	ld hl, BallCaptureSmokeGfx
 	ld de, vTilesSH tile $10
 	ld bc, $0180

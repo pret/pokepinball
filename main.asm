@@ -453,7 +453,10 @@ FlipperGfx: ; 0xa8600
 PikachuSaverGfx: ; 0xa8720
 	INCBIN "gfx/stage/pikachu_saver.2bpp"
 
-BallCaptureSmokeGfx:
+BallCaptureSmoke2Gfx: ; 0xa87e0
+	INCBIN "gfx/stage/ball_capture_smoke_2.2bpp"
+
+BallCaptureSmokeGfx: ; 0xa8800
 	INCBIN "gfx/stage/ball_capture_smoke.interleave.2bpp"
 
 SECTION "bank2a.2", ROMX

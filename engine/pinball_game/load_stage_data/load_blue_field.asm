@@ -58,7 +58,7 @@ Func_1c203: ; 0x1c203
 	ld a, [wBallYPos + 1]
 	ld [wd4c6], a
 	ld a, [wBallRotation]
-	ld [wd4c7], a
+	ld [wBallSize], a
 	ret
 
 LoadBonusMultiplierRailingGraphics_BlueField: ; 0x1c21e

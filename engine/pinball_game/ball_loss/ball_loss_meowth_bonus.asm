@@ -42,7 +42,7 @@ HandleBallLossMeowthBonus: ; 0xdfe2
 	ld a, $1
 	ld [wReturningFromBonusStage], a
 	ld a, $2
-	ld [wd4c8], a
+	ld [wBallSize], a
 	xor a
 	ld [wDisableHorizontalScrollForBallStart], a
 	ld [wd712], a

@@ -46,7 +46,7 @@ DrawPinball: ; 0x17e81
 	ld hl, hSCY
 	sub [hl]
 	ld c, a
-	ld a, [wd4c7]
+	ld a, [wBallSize]
 	srl a
 	srl a
 	srl a
@@ -59,5 +59,5 @@ DrawPinball: ; 0x17e81
 	ld a, [wBallYPos + 1]
 	ld [wd4c6], a
 	ld a, [wBallRotation]
-	ld [wd4c7], a
+	ld [wBallSize], a
 	ret

@@ -3,14 +3,14 @@ InitSeelBonusStage: ; 0x25a7c
 	and a
 	ret nz
 	xor a
-	ld [wBallSize], a
+	ld [wd4c8], a
 	ld [wStageCollisionState], a
 	ld a, $1
 	ld [wDisableHorizontalScrollForBallStart], a
 	ld a, [wBallType]
 	ld [wBallTypeBackup], a
 	xor a
-	ld [wBallSize], a
+	ld [wd4c8], a
 	ld [wBallType], a
 	ld [wCompletedBonusStage], a
 	ld hl, InitialSeelCoords

@@ -378,7 +378,7 @@ Func_142d7: ; 0x142d7
 	ret
 
 LoadBallGraphics: ; 0x142fc
-	ld a, [wBallSize]
+	ld a, [wd4c8]
 	and a
 	jr nz, .miniBall
 	callba LoadBallGfx

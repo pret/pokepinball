@@ -1,6 +1,6 @@
 LoadBallGfx: ; 0xdcc3
 	xor a
-	ld [wBallSize], a
+	ld [wd4c8], a
 	ld a, [wBallType]
 	cp GREAT_BALL
 	jr nc, .notPokeBall
@@ -41,7 +41,7 @@ LoadBallGfx: ; 0xdcc3
 
 LoadMiniBallGfx: ; 0xdd12
 	ld a, $1
-	ld [wBallSize], a
+	ld [wd4c8], a
 	ld a, [wBallType]
 	cp GREAT_BALL
 	jr nc, .notPokeBall
@@ -83,7 +83,7 @@ LoadMiniBallGfx: ; 0xdd12
 LoadSuperMiniPinballGfx: ; 0xdd62
 ; Loads the mini pinball graphics, which are used when entering the Slot or Ditto caves.
 	ld a, $2
-	ld [wBallSize], a
+	ld [wd4c8], a
 	ld a, $2a
 	ld hl, PinballBallSuperMiniGfx
 	ld de, vTilesOB tile $40

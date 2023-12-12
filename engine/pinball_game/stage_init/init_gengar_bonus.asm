@@ -14,7 +14,7 @@ InitGengarBonusStage: ; 0x18099
 	ld a, [wBallType]
 	ld [wBallTypeBackup], a
 	xor a
-	ld [wBallSize], a
+	ld [wd4c8], a
 	ld [wBallType], a
 	ld [wCompletedBonusStage], a
 	ld hl, GastlyInitialData

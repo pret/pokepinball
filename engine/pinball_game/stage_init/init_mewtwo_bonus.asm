@@ -9,7 +9,7 @@ InitMewtwoBonusStage: ; 0x1924f
 	ld a, [wBallType]
 	ld [wBallTypeBackup], a
 	xor a
-	ld [wBallSize], a
+	ld [wd4c8], a
 	ld [wBallType], a
 	ld [wCompletedBonusStage], a
 	ld hl, InitMewtwoOrbitingBallData

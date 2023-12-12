@@ -298,7 +298,7 @@ wd4c6:: ; 0xd4c6
 wd4c7:: ; 0xd4c7
 	ds $1
 
-wd4c8:: ; 0xd4c8
+wBallSize:: ; 0xd4c8
 	ds $1
 
 wLostBall:: ; 0xd4c9

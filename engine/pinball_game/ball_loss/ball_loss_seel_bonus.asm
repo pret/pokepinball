@@ -41,7 +41,7 @@ HandleBallLossSeelBonus: ; 0xe08b
 	ld a, $1
 	ld [wReturningFromBonusStage], a
 	ld a, $2
-	ld [wd4c8], a
+	ld [wBallSize], a
 	xor a
 	ld [wDisableHorizontalScrollForBallStart], a
 	ld [wd794], a

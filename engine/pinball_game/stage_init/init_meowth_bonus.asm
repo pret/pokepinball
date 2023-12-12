@@ -3,12 +3,12 @@ InitMeowthBonusStage: ; 0x24000
 	and a
 	ret nz
 	xor a
-	ld [wd4c8], a
+	ld [wBallSize], a
 	ld [wStageCollisionState], a
 	ld a, [wBallType]
 	ld [wBallTypeBackup], a
 	xor a
-	ld [wd4c8], a
+	ld [wBallSize], a
 	ld [wBallType], a
 	ld [wCompletedBonusStage], a
 	ld a, $1

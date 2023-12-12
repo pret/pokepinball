@@ -9,7 +9,7 @@ InitDiglettBonusStage: ; 0x199f2
 	ld a, [wBallType]
 	ld [wBallTypeBackup], a
 	xor a
-	ld [wd4c8], a
+	ld [wBallSize], a
 	ld [wBallType], a
 	ld [wCompletedBonusStage], a
 	; initialize all digletts to hiding

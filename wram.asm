@@ -1735,7 +1735,6 @@ wDisableHorizontalScrollForBallStart:: ; 0xd7ac
 
 wRedStageStructureBackup:: ; 0xd7ad
 ; The ditto state on red stage is heavily reliant on this value being initialized to 0b100,
-; The var appears to be a bitfield and I dont think bit 3 gets cleared after being initialized.
 ; A value of 0xff will cause this var to be ignored and treated as no changes.
 	ds $1
 

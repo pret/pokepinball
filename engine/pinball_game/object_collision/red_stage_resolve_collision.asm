@@ -1455,7 +1455,7 @@ HandleThirdRightAlleyTrigger_RedField: ; 0x15990
 
 UpdateFieldStructures_RedField: ; 0x159c9
 ; The Red field's top half has some dynamic strucutres, such as Ditto, the lightning bolt guard rail, and the roof over the 3 Voltorbs.
-	ld a, [wStageCollisionStateBitsToSet]
+	ld a, [wRedStageStructureBackup]
 	bit 7, a
 	ret nz
 	ld c, a
@@ -1465,7 +1465,7 @@ UpdateFieldStructures_RedField: ; 0x159c9
 	ld [wStageCollisionState], a
 	ld a, $ff
 	; setting 7th bit of [wStageCollisionStateBitsToSet] to 1 will cause this method to be skipped, or in this case 0xff, but only the 7th bit matters
-	ld [wStageCollisionStateBitsToSet], a
+	ld [wRedStageStructureBackup], a
 	callba LoadStageCollisionAttributes
 	call LoadFieldStructureGraphics_RedField
 	ld a, $1
@@ -2098,7 +2098,7 @@ DoSlotLogic_RedField: ; 0x16352
 	cp EVOLUTION_MODE_SLOT_REWARD
 	ret nz
 	callba StartEvolutionMode
-	ld a, [wStageCollisionStateBitsToSet]
+	ld a, [wRedStageStructureBackup]
 	ld c, a
 	ld a, [wStageCollisionState]
 	and $1

@@ -13,12 +13,12 @@ InitBallRedField: ; 0x3007d
 	xor a
 	ld [wEnableBallGravityAndTilt], a
 	ld [wd580], a
-	ld a, [wStageCollisionStateBitsToSet]
+	ld a, [wRedStageStructureBackup]
 	bit 7, a
 	jr z, .asm_300ae
 	ld a, [wStageCollisionState]
 	res 0, a
-	ld [wStageCollisionStateBitsToSet], a
+	ld [wRedStageStructureBackup], a
 .asm_300ae
 	ld a, [wStageCollisionState]
 	and $1

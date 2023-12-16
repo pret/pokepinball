@@ -91,7 +91,7 @@ ConcludeSpecialMode_RedField: ; 0xddfd
 	ld [wFramesUntilSlotCaveOpens], a
 	callba ConcludeMapMoveMode
 .setCollisionState
-	ld a, [wd7ad]
+	ld a, [wRedStageStructureBackup]
 	ld c, a
 	ld a, [wStageCollisionState]
 	and $1

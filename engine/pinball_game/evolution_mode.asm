@@ -633,7 +633,7 @@ StartEvolutionMode_RedField: ; 0x10ebb
 	ld [wLeftAlleyCount], a
 	call CloseSlotCave_
 	ld a, $2
-	ld [wd7ad], a
+	ld [wRedStageStructureBackup], a
 	ld de, MUSIC_CATCH_EM_BLUE ; Either MUSIC_CATCH_EM_BLUE or MUSIC_CATCH_EM_RED. They have the same id in their respective audio Banks.
 	call PlaySong
 	call SetPokemonSeenFlag
@@ -769,7 +769,7 @@ StartEvolutionMode_BlueField: ; 0x11061
 	ld [wLeftAlleyCount], a
 	callba CloseSlotCave
 	ld a, $2
-	ld [wd7ad], a
+	ld [wRedStageStructureBackup], a
 	ld de, MUSIC_CATCH_EM_BLUE ; Either MUSIC_CATCH_EM_BLUE or MUSIC_CATCH_EM_RED. They have the same id in their respective audio Banks.
 	call PlaySong
 	call SetPokemonSeenFlag

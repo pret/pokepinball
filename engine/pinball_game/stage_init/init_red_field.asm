@@ -34,7 +34,7 @@ InitRedField: ; 0x30000
 	ld [wInitialNextBonusStage], a ; BONUS_STAGE_ORDER_DIGLETT
 	ld a, $4
 	ld [wStageCollisionState], a
-	ld [wd7ad], a
+	ld [wRedStageStructureBackup], a
 	ld a, $80
 	ld [wIndicatorStates], a
 	ld [wIndicatorStates + 3], a

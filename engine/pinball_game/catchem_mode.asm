@@ -1151,7 +1151,7 @@ Func_107e9: ; 0x107e9
 	jr nz, .asm_107f4
 	ld a, $6
 .asm_107f4
-	ld [wd7ad], a
+	ld [wRedStageStructureBackup], a
 	ret
 
 PlayLowTimeSfx: ; 0x107f8
@@ -1251,7 +1251,7 @@ Func_10871: ; 0x10871
 	ld [wRightAlleyCount], a
 	call CloseSlotCave_
 	ld a, $4
-	ld [wd7ad], a
+	ld [wRedStageStructureBackup], a
 	ld de, MUSIC_CATCH_EM_BLUE ; This is either MUSIC_CATCH_EM_BLUE or MUSIC_CATCH_EM_RED. They happen to have the same id in their respective audio Banks.
 	call PlaySong
 	ld a, [wCurrentStage]

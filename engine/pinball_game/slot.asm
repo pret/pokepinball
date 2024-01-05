@@ -20,10 +20,7 @@ DoSlotRewardRoulette: ; 0xed8e
 	call HandleTilts
 	ld a, [wCurrentStage]
 	bit 0, a
-	ld [hFarCallTempA], a
-	ld a, $3
-	ld hl, HandleFlippers
-	call nz, BankSwitch
+	callba nz, HandleFlippers
 	callba DrawSpritesForStage
 	call UpdateBottomText
 	call CleanSpriteBuffer

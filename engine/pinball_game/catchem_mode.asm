@@ -1391,10 +1391,7 @@ Func_1098c: ; 0x1098c
 	bit 0, a
 	ret z
 	callba Func_1c2cb
-	ld [hFarCallTempA], a
-	ld a, $4
-	ld hl, Func_10184
-	call BankSwitch
+	callba Func_10184
 	ld a, [hGameBoyColorFlag]
 	and a
 	callba nz, Func_102bc

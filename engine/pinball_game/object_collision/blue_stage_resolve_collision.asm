@@ -3528,10 +3528,7 @@ CloseSlotCave: ; 0x1f2ed
 	xor a
 	ld [wSlotIsOpen], a
 	ld [wIndicatorStates + 4], a
-	ld [hFarCallTempA], a
-	ld a, Bank(LoadSlotCaveCoverGraphics_BlueField)  ; this is in the same bank...
-	ld hl, LoadSlotCaveCoverGraphics_BlueField
-	call BankSwitch
+	callba LoadSlotCaveCoverGraphics_BlueField ; this is in the same bank...
 	ret
 
 SetLeftAndRightAlleyArrowIndicatorStates_BlueField: ; 0x1f2ff

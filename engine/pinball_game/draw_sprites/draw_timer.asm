@@ -2,7 +2,7 @@ DrawTimer: ; 0x175a4
 	ld a, [wTimerActive]
 	and a
 	ret z
-	ld a, [hGameBoyColorFlag]
+	ldh a, [hGameBoyColorFlag]
 	and a
 	jr nz, DrawTimer_GameBoyColor
 	ld a, [wd580]

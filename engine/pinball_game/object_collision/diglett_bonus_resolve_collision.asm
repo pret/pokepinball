@@ -31,7 +31,7 @@ Func_19bbd: ; 0x19bbd
 	ld c, a
 	ld b, $0
 	ld hl, Data_19bda
-	ld a, [hGameBoyColorFlag]
+	ldh a, [hGameBoyColorFlag]
 	and a
 	jr z, .asm_19bd0
 	ld hl, Data_19c16

@@ -71,7 +71,7 @@ Func_1c32: ; 0x1c32
 
 Func_1c39:
 	xor a
-	ld [hNumFramesSinceLastVBlank], a
+	ldh [hNumFramesSinceLastVBlank], a
 	ld a, $1
 	ld [wd8e9], a
 .asm_1c41
@@ -80,7 +80,7 @@ Func_1c39:
 	ld a, [$ff00+c]
 	and b
 	jr z, Func_1c50
-	ld a, [hNumFramesSinceLastVBlank]
+	ldh a, [hNumFramesSinceLastVBlank]
 	and a
 	jr nz, Func_1ca1
 	jr .asm_1c41

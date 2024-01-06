@@ -1,9 +1,9 @@
 
 PlaySong: ; 0x490
-	ld a, [hLoadedROMBank]
+	ldh a, [hLoadedROMBank]
 	push af
 	ld a, [wCurrentSongBank]
-	ld [hLoadedROMBank], a
+	ldh [hLoadedROMBank], a
 	ld [MBC5RomBank], a
 	ld a, e
 	ld [wStageSong], a
@@ -11,7 +11,7 @@ PlaySong: ; 0x490
 	ld [wStageSongBank], a
 	call PlaySong_BankF  ; this function is replicated in multiple banks.
 	pop af
-	ld [hLoadedROMBank], a
+	ldh [hLoadedROMBank], a
 	ld [MBC5RomBank], a
 	ret
 
@@ -31,14 +31,14 @@ PlaySoundEffect: ; 0x4af
 	ld a, d
 	ld [wSFXTimer], a
 	ld d, $0
-	ld a, [hLoadedROMBank]
+	ldh a, [hLoadedROMBank]
 	push af
 	ld a, [wCurrentSongBank]
-	ld [hLoadedROMBank], a
+	ldh [hLoadedROMBank], a
 	ld [MBC5RomBank], a
 	call PlaySoundEffect_BankF  ; this function is replicated in multiple banks
 	pop af
-	ld [hLoadedROMBank], a
+	ldh [hLoadedROMBank], a
 	ld [MBC5RomBank], a
 	ret
 
@@ -61,26 +61,26 @@ PlaySFXIfNoneActive: ; 0x4d8
 PlayCry: ; 0x4ef
 ; Plays a Pokemon cry.
 ; Input:  e = mon id
-	ld a, [hLoadedROMBank]
+	ldh a, [hLoadedROMBank]
 	push af
 	ld a, [wCurrentSongBank]
-	ld [hLoadedROMBank], a
+	ldh [hLoadedROMBank], a
 	ld [MBC5RomBank], a
 	call PlayCry_BankF  ; this function is replicated in multiple banks
 	pop af
-	ld [hLoadedROMBank], a
+	ldh [hLoadedROMBank], a
 	ld [MBC5RomBank], a
 	ret
 
 UpdateSFX: ; 0x504
-	ld a, [hLoadedROMBank]
+	ldh a, [hLoadedROMBank]
 	push af
 	ld a, [wCurrentSongBank]
-	ld [hLoadedROMBank], a
+	ldh [hLoadedROMBank], a
 	ld [MBC5RomBank], a
 	call Func_3c180
 	pop af
-	ld [hLoadedROMBank], a
+	ldh [hLoadedROMBank], a
 	ld [MBC5RomBank], a
 	ld a, [wd801]
 	inc a

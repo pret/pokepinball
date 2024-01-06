@@ -23,22 +23,22 @@ ReadJoypad: ; 0xab8
 	and $f
 	or b
 	cpl  ; a contains currently-pressed buttons
-	ld [hJoypadState], a
+	ldh [hJoypadState], a
 	ld a, $30
 	ld [rJOYP], a
-	ld a, [hJoypadState]
+	ldh a, [hJoypadState]
 	ld hl, hPreviousJoypadState
 	xor [hl]  ; a contains buttons that are different from previous frame
 	push af
 	ld hl, hJoypadState
 	and [hl]  ; a contains newly-pressed buttons compared to last frame
-	ld [hNewlyPressedButtons], a
-	ld [hPressedButtons], a
+	ldh [hNewlyPressedButtons], a
+	ldh [hPressedButtons], a
 	pop af
 	ld hl, hPreviousJoypadState
 	and [hl]  ; a contains newly-pressed buttons compared to two frames ago
-	ld [hPrevPreviousJoypadState], a
-	ld a, [hJoypadState]
+	ldh [hPrevPreviousJoypadState], a
+	ldh a, [hJoypadState]
 	and a
 	jr z, .asm_b15
 	ld hl, hPreviousJoypadState
@@ -49,26 +49,26 @@ ReadJoypad: ; 0xab8
 	ld hl, hJoyRepeatDelay
 	dec [hl]
 	jr nz, .asm_b1a
-	ld a, [hJoypadState]
-	ld [hPressedButtons], a
+	ldh a, [hJoypadState]
+	ldh [hPressedButtons], a
 	ld a, [wd807]
-	ld [hJoyRepeatDelay], a
+	ldh [hJoyRepeatDelay], a
 	jr .asm_b1a
 
 .asm_b15
 	ld a, [wd806]
-	ld [hJoyRepeatDelay], a
+	ldh [hJoyRepeatDelay], a
 .asm_b1a
-	ld a, [hJoypadState]
-	ld [hPreviousJoypadState], a
+	ldh a, [hJoypadState]
+	ldh [hPreviousJoypadState], a
 	ld hl, wJoypadStatesPersistent
-	ld a, [hJoypadState]
+	ldh a, [hJoypadState]
 	or [hl]
 	ld [hli], a
-	ld a, [hNewlyPressedButtons]
+	ldh a, [hNewlyPressedButtons]
 	or [hl]
 	ld [hli], a
-	ld a, [hPressedButtons]
+	ldh a, [hPressedButtons]
 	or [hl]
 	ld [hli], a
 	ret
@@ -82,14 +82,14 @@ ClearPersistentJoypadStates: ; 0xb2e
 	ret
 
 IsKeyPressed2: ; 0xb36
-	ld a, [hJoypadState]
+	ldh a, [hJoypadState]
 	and [hl]
 	jr z, .asm_b3e
 	cp [hl]
 	jr z, .asm_b48
 .asm_b3e
 	inc hl
-	ld a, [hJoypadState]
+	ldh a, [hJoypadState]
 	and [hl]
 	ret z
 	cp [hl]
@@ -107,22 +107,22 @@ IsKeyPressed: ; 0xb4c
 ; input:   hl = pointer to key config byte pair (e.g. wKeyConfigLeftFlipper)
 ; output:  zero flag is set if a corresponding key is pressed
 ;          zero flag is reset if no corresponding key is pressed
-	ld a, [hJoypadState]
+	ldh a, [hJoypadState]
 	and [hl]
 	jr z, .asm_b58
 	cp [hl]
 	jr nz, .asm_b58
-	ld a, [hNewlyPressedButtons]
+	ldh a, [hNewlyPressedButtons]
 	and [hl]
 	ret nz
 .asm_b58
 	inc hl
-	ld a, [hJoypadState]
+	ldh a, [hJoypadState]
 	and [hl]
 	ret z
 	cp [hl]
 	jr nz, .asm_b64
-	ld a, [hNewlyPressedButtons]
+	ldh a, [hNewlyPressedButtons]
 	and [hl]
 	ret
 

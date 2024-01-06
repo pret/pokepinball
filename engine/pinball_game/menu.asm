@@ -34,11 +34,11 @@ HandleInGameMenu: ; 0x86d7
 	ld bc, $00c0
 	call LoadVRAMData
 	ld a, $60
-	ld [hWY], a
+	ldh [hWY], a
 	dec a
-	ld [hLYC], a
+	ldh [hLYC], a
 	ld a, $fd
-	ld [hLCDCMask], a
+	ldh [hLCDCMask], a
 	call HandleInGameMenuSelection
 	ld a, [wInGameMenuIndex]
 	and a
@@ -56,13 +56,13 @@ HandleInGameMenu: ; 0x86d7
 	ld bc, $003c
 	call AdvanceFrames
 	ld a, $86
-	ld [hWY], a
+	ldh [hWY], a
 	ld a, $83
-	ld [hLYC], a
-	ld [hLastLYC], a
+	ldh [hLYC], a
+	ldh [hLastLYC], a
 	ld a, $ff
-	ld [hLCDCMask], a
-	ld a, [hGameBoyColorFlag]
+	ldh [hLCDCMask], a
+	ldh a, [hGameBoyColorFlag]
 	and a
 	jr nz, .asm_8778
 	ld a, Bank(StageRedFieldTopStatusBarSymbolsGfx_GameBoy)
@@ -110,7 +110,7 @@ HandleInGameMenuSelection: ; 0x87ac
 	call MoveInGameMenuCursor
 	call DrawInGameMenu
 	rst AdvanceFrame
-	ld a, [hNewlyPressedButtons]
+	ldh a, [hNewlyPressedButtons]
 	bit BIT_A_BUTTON, a
 	jr z, .waitForAButton
 	lb de, $00, $01
@@ -119,7 +119,7 @@ HandleInGameMenuSelection: ; 0x87ac
 
 MoveInGameMenuCursor: ; 0x87c5
 ; Moves the cursor up or down in the "SAVE"/"CANCEL" in-game menu
-	ld a, [hNewlyPressedButtons]
+	ldh a, [hNewlyPressedButtons]
 	ld b, a
 	ld a, [wInGameMenuIndex]
 	bit BIT_D_UP, b

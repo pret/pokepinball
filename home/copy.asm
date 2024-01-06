@@ -77,11 +77,11 @@ FarCopyData: ; 0x666 spooky
 ;        bc = number of bytes to copy
 	bit 7, h
 	jr nz, .copyFromSRAM
-	ld [hROMBankBuffer], a
-	ld a, [hLoadedROMBank]
+	ldh [hROMBankBuffer], a
+	ldh a, [hLoadedROMBank]
 	push af
-	ld a, [hROMBankBuffer]
-	ld [hLoadedROMBank], a
+	ldh a, [hROMBankBuffer]
+	ldh [hLoadedROMBank], a
 	ld [MBC5RomBank], a
 	scf
 	jr .copyData
@@ -102,7 +102,7 @@ FarCopyData: ; 0x666 spooky
 	pop af
 	ret nc
 	pop af
-	ld [hLoadedROMBank], a
+	ldh [hLoadedROMBank], a
 	ld [MBC5RomBank], a
 	ret
 
@@ -112,14 +112,14 @@ ReadByteFromBank: ; 0x68f
 ; Output: a = byte at a:hl
 	push de
 	ld d, a
-	ld a, [hLoadedROMBank]
+	ldh a, [hLoadedROMBank]
 	ld e, a
 	ld a, d
-	ld [hLoadedROMBank], a
+	ldh [hLoadedROMBank], a
 	ld [MBC5RomBank], a
 	ld d, [hl]
 	ld a, e
-	ld [hLoadedROMBank], a
+	ldh [hLoadedROMBank], a
 	ld [MBC5RomBank], a
 	ld a, d
 	pop de
@@ -179,11 +179,11 @@ LoadVideoData: ; 0x6a4
 	jp c, FarCopyCGBPals  ; if lowest bit of bc is set
 	jp .nopJump
 .nopJump
-	ld [hROMBankBuffer], a  ; save bank of data to be loaded
-	ld a, [hLoadedROMBank]
+	ldh [hROMBankBuffer], a  ; save bank of data to be loaded
+	ldh a, [hLoadedROMBank]
 	push af
-	ld a, [hROMBankBuffer]  ; a contains bank of data to be loaded
-	ld [hLoadedROMBank], a
+	ldh a, [hROMBankBuffer]  ; a contains bank of data to be loaded
+	ldh [hLoadedROMBank], a
 	ld [MBC5RomBank], a  ; switch bank to the bank of data to be loaded
 	srl b
 	rr c
@@ -201,7 +201,7 @@ LoadVideoData: ; 0x6a4
 	xor a
 	ld [rVBK], a  ; set VRAM Bank to Bank 0
 	pop af
-	ld [hLoadedROMBank], a
+	ldh [hLoadedROMBank], a
 	ld [MBC5RomBank], a  ; reload the previous ROM Bank
 	ret
 
@@ -210,11 +210,11 @@ FarCopyCGBPals: ; 0x6fd
 ; hl: source
 ; e: dest offset
 ; bc: size
-	ld [hROMBankBuffer], a  ; save bank of data to be loaded
-	ld a, [hLoadedROMBank]
+	ldh [hROMBankBuffer], a  ; save bank of data to be loaded
+	ldh a, [hLoadedROMBank]
 	push af
-	ld a, [hROMBankBuffer]  ; a contains bank of data to be loaded
-	ld [hLoadedROMBank], a
+	ldh a, [hROMBankBuffer]  ; a contains bank of data to be loaded
+	ldh [hLoadedROMBank], a
 	ld [MBC5RomBank], a  ; switch bank to the bank of data to be loaded
 	ld a, e
 	bit 6, a
@@ -228,7 +228,7 @@ FarCopyCGBPals: ; 0x6fd
 	call .copyPaletteData
 .no_obp
 	pop af
-	ld [hLoadedROMBank], a
+	ldh [hLoadedROMBank], a
 	ld [MBC5RomBank], a
 	ret
 
@@ -263,11 +263,11 @@ LoadVRAMData: ; 0x73f
 ;         bc = number of bytes to copy
 	bit 7, h
 	jr nz, .asm_752
-	ld [hROMBankBuffer], a
-	ld a, [hLoadedROMBank]
+	ldh [hROMBankBuffer], a
+	ldh a, [hLoadedROMBank]
 	push af
-	ld a, [hROMBankBuffer]
-	ld [hLoadedROMBank], a
+	ldh a, [hROMBankBuffer]
+	ldh [hLoadedROMBank], a
 	ld [MBC5RomBank], a
 	scf
 	jr .asm_756
@@ -322,7 +322,7 @@ LoadVRAMData: ; 0x73f
 	pop af
 	ret nc
 	pop af
-	ld [hLoadedROMBank], a
+	ldh [hLoadedROMBank], a
 	ld [MBC5RomBank], a
 	ret
 
@@ -334,11 +334,11 @@ FarCopyPalettes: ; 0x790
 	jp nz, Func_7dc
 	bit 7, h
 	jr nz, .asm_7ad
-	ld [hROMBankBuffer], a
-	ld a, [hLoadedROMBank]
+	ldh [hROMBankBuffer], a
+	ldh a, [hLoadedROMBank]
 	push af
-	ld a, [hROMBankBuffer]
-	ld [hLoadedROMBank], a
+	ldh a, [hROMBankBuffer]
+	ldh [hLoadedROMBank], a
 	ld [MBC5RomBank], a
 	scf
 	jr .asm_7b1
@@ -377,18 +377,18 @@ FarCopyPalettes: ; 0x790
 	pop af
 	ret nc
 	pop af
-	ld [hLoadedROMBank], a
+	ldh [hLoadedROMBank], a
 	ld [MBC5RomBank], a
 	ret
 
 Func_7dc: ; 0x7dc
 	bit 7, h
 	jr nz, .asm_7ef
-	ld [hROMBankBuffer], a
-	ld a, [hLoadedROMBank]
+	ldh [hROMBankBuffer], a
+	ldh a, [hLoadedROMBank]
 	push af
-	ld a, [hROMBankBuffer]
-	ld [hLoadedROMBank], a
+	ldh a, [hROMBankBuffer]
+	ldh [hLoadedROMBank], a
 	ld [MBC5RomBank], a
 	scf
 	jr .asm_7f3
@@ -461,7 +461,7 @@ Func_7dc: ; 0x7dc
 	pop af
 	ret nc
 	pop af
-	ld [hLoadedROMBank], a
+	ldh [hLoadedROMBank], a
 	ld [MBC5RomBank], a
 	ret
 
@@ -498,11 +498,11 @@ Func_858: ; 0x858
 
 LoadBillboardPaletteMap: ; 0x86f
 ; Loads the background palette map for a 6x4-tile billboard picture.
-	ld [hROMBankBuffer], a
-	ld a, [hLoadedROMBank]
+	ldh [hROMBankBuffer], a
+	ldh a, [hLoadedROMBank]
 	push af
-	ld a, [hROMBankBuffer]
-	ld [hLoadedROMBank], a
+	ldh a, [hROMBankBuffer]
+	ldh [hLoadedROMBank], a
 	ld [MBC5RomBank], a
 	ld a, [rLCDC]
 	bit 7, a
@@ -538,7 +538,7 @@ LoadBillboardPaletteMap: ; 0x86f
 	xor a
 	ld [rVBK], a
 	pop af
-	ld [hLoadedROMBank], a
+	ldh [hLoadedROMBank], a
 	ld [MBC5RomBank], a
 	ret
 
@@ -575,16 +575,16 @@ LoadBillboardPaletteMap: ; 0x86f
 	dec b
 	jr nz, .asm_8ae
 	pop af
-	ld [hLoadedROMBank], a
+	ldh [hLoadedROMBank], a
 	ld [MBC5RomBank], a
 	ret
 
 Func_8e1: ; 0x8e1
-	ld [hROMBankBuffer], a
-	ld a, [hLoadedROMBank]
+	ldh [hROMBankBuffer], a
+	ldh a, [hLoadedROMBank]
 	push af
-	ld a, [hROMBankBuffer]
-	ld [hLoadedROMBank], a
+	ldh a, [hROMBankBuffer]
+	ldh [hLoadedROMBank], a
 	ld [MBC5RomBank], a
 	ld a, [rLCDC]
 	bit 7, a
@@ -598,7 +598,7 @@ Func_8e1: ; 0x8e1
 	dec b
 	jr nz, .asm_8f5
 	pop af
-	ld [hLoadedROMBank], a
+	ldh [hLoadedROMBank], a
 	ld [MBC5RomBank], a
 	ret
 
@@ -613,6 +613,6 @@ Func_8e1: ; 0x8e1
 	dec b
 	jr nz, .asm_907
 	pop af
-	ld [hLoadedROMBank], a
+	ldh [hLoadedROMBank], a
 	ld [MBC5RomBank], a
 	ret

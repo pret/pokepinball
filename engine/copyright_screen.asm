@@ -8,15 +8,15 @@ CopyrightScreenFunctions: ; 0x8222
 
 FadeInCopyrightScreen: ; 0x8228
 	ld a, $41
-	ld [hLCDC], a
+	ldh [hLCDC], a
 	ld a, $e4
 	ld [wBGP], a
 	xor a
 	ld [wOBP0], a
 	ld [wOBP1], a
-	ld [hSCX], a
-	ld [hSCY], a
-	ld a, [hGameBoyColorFlag]
+	ldh [hSCX], a
+	ldh [hSCY], a
+	ldh a, [hGameBoyColorFlag]
 	ld hl, CopyrightTextGfxPointers
 	call LoadVideoData
 	call ClearSpriteBuffer
@@ -55,7 +55,7 @@ DisplayCopyrightScreen: ; 0x8290
 	ld a, b
 	cp $2d  ; player can press A button to skip copyright screen once counter is below $2d
 	jr nc, .decrementCounter
-	ld a, [hNewlyPressedButtons]
+	ldh a, [hNewlyPressedButtons]
 	bit BIT_A_BUTTON, a
 	jr nz, .done
 .decrementCounter

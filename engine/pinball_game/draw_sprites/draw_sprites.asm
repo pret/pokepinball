@@ -22,7 +22,7 @@ CallTable_84bd: ; 0x84bd
 
 UnusedFunc_84fd:
 ; unused
-	ld a, [hGameBoyColorFlag]
+	ldh a, [hGameBoyColorFlag]
 	and a
 	jr z, .not_cgb
 	ld a, $1

@@ -10,7 +10,7 @@ TitlescreenFunctions: ; 0xc004
 
 FadeInTitlescreen: ; 0xc00e
 	ld a, $43
-	ld [hLCDC], a
+	ldh [hLCDC], a
 	ld a, $e4
 	ld [wBGP], a
 	ld a, $d2
@@ -18,10 +18,10 @@ FadeInTitlescreen: ; 0xc00e
 	ld a, $e1
 	ld [wOBP1], a
 	xor a
-	ld [hSCX], a
-	ld [hSCY], a
+	ldh [hSCX], a
+	ldh [hSCY], a
 	ld hl, TitlescreenFadeInGfxPointers
-	ld a, [hGameBoyColorFlag]
+	ldh a, [hGameBoyColorFlag]
 	call LoadVideoData
 	ld a, $1
 	ld [wTitleScreenGameStartCursorSelection], a
@@ -59,7 +59,7 @@ TitlescreenFadeInGfx_GameBoyColor: ; 0xc06b
 TitlescreenLoop: ; 0xc089
 	call Func_c0ee
 	call HandleTitlescreenAnimations
-	ld a, [hNewlyPressedButtons]
+	ldh a, [hNewlyPressedButtons]
 	bit BIT_A_BUTTON, a  ; was A button pressed?
 	jr z, .AButtonNotPressed
 	ld a, [wTitleScreenCursorSelection]
@@ -116,7 +116,7 @@ Func_c0ee: ; 0xc0ee
 	ret
 
 HandleTitlescreenAnimations: ; 0xc0f7
-	ld a, [hGameBoyColorFlag]
+	ldh a, [hGameBoyColorFlag]
 	and a
 	jr z, .asm_c104
 	ld bc, $2040
@@ -134,7 +134,7 @@ Func_c10e: ; 0xc10e
 	ld a, [wTitlescreenContinuePromptAnimationFrame]
 	cp $6
 	ret nz
-	ld a, [hNewlyPressedButtons]
+	ldh a, [hNewlyPressedButtons]
 	bit 0, a
 	jr z, .asm_c17c
 	ld de, MUSIC_NOTHING
@@ -210,7 +210,7 @@ Func_c1a2: ; 0xc1a2
 
 Func_c1b1: ; 0xc1b1
 	call HandleTitleScreenContinuePromptAnimation
-	ld a, [hGameBoyColorFlag]
+	ldh a, [hGameBoyColorFlag]
 	and a
 	jr z, .asm_c1c1
 	ld bc, $2040
@@ -253,7 +253,7 @@ GoToHighScoresFromTitlescreen: ; 0xc1e7
 	ret
 
 Func_c1fc: ; 0xc1fc
-	ld a, [hPressedButtons]
+	ldh a, [hPressedButtons]
 	ld b, a
 	ld a, [hl]
 	bit 6, b

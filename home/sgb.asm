@@ -1,10 +1,10 @@
 FarSendSGBPackets: ; 0x12a1
 ; send 16*b bytes at a:hl via the joypad register
-	ld [hROMBankBuffer], a
-	ld a, [hLoadedROMBank]
+	ldh [hROMBankBuffer], a
+	ldh a, [hLoadedROMBank]
 	push af
-	ld a, [hROMBankBuffer]
-	ld [hLoadedROMBank], a
+	ldh a, [hROMBankBuffer]
+	ldh [hLoadedROMBank], a
 	ld [MBC5RomBank], a
 	ld a, [hl]
 	and $7
@@ -48,7 +48,7 @@ FarSendSGBPackets: ; 0x12a1
 
 .quit
 	pop af
-	ld [hLoadedROMBank], a
+	ldh [hLoadedROMBank], a
 	ld [MBC5RomBank], a
 	ret
 
@@ -112,11 +112,11 @@ InitSGB: ; 0x12f8
 	ret
 
 FarSendSGBPacket_BGMapRows: ; 0x1353
-	ld [hROMBankBuffer], a
-	ld a, [hLoadedROMBank]
+	ldh [hROMBankBuffer], a
+	ldh a, [hLoadedROMBank]
 	push af
-	ld a, [hROMBankBuffer]
-	ld [hLoadedROMBank], a
+	ldh a, [hROMBankBuffer]
+	ldh [hLoadedROMBank], a
 	ld [MBC5RomBank], a
 	push af
 	push hl
@@ -149,17 +149,17 @@ FarSendSGBPacket_BGMapRows: ; 0x1353
 	call FarSendSGBPackets
 	ld bc, $0006
 	call SGBWait1750
-	ld a, [hBGP]
+	ldh a, [hBGP]
 	ld [rBGP], a
-	ld a, [hLCDC]
+	ldh a, [hLCDC]
 	ld [rLCDC], a
 	pop af
-	ld [hLoadedROMBank], a
+	ldh [hLoadedROMBank], a
 	ld [MBC5RomBank], a
 	ret
 
 SendSGBBorder: ; 0x13a8
-	ld a, [hSGBFlag]
+	ldh a, [hSGBFlag]
 	and a
 	ret z
 	ld bc, $0078
@@ -243,10 +243,10 @@ SendSGBBorder: ; 0x13a8
 	ret
 
 SignalStartSGBBorderTransmission: ; 0x1489
-	ld a, [hSGBFlag]
+	ldh a, [hSGBFlag]
 	and a
 	ret z
-	ld a, [hSGBInit]
+	ldh a, [hSGBInit]
 	and a
 	ret nz
 	ld a, BANK(Data_3aa66)
@@ -255,16 +255,16 @@ SignalStartSGBBorderTransmission: ; 0x1489
 	ld bc, $0004
 	call SGBWait1750
 	ld a, $ff
-	ld [hSGBInit], a
+	ldh [hSGBInit], a
 	ret
 
 SGBNormal: ; 0x14a4
-	ld a, [hSGBFlag]
+	ldh a, [hSGBFlag]
 	and a
 	ret z
 	ld bc, $0002
 	call SGBWait1750
-	ld a, [hSGBInit]
+	ldh a, [hSGBInit]
 	and a
 	ret z
 	ld a, BANK(Data_3aa76)
@@ -273,5 +273,5 @@ SGBNormal: ; 0x14a4
 	ld bc, $0004
 	call SGBWait1750
 	xor a
-	ld [hSGBInit], a
+	ldh [hSGBInit], a
 	ret

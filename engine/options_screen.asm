@@ -11,17 +11,17 @@ OptionsScreenFunctions: ; 0xc34e
 
 Func_c35a: ; 0xc35a
 	ld a, $47
-	ld [hLCDC], a
+	ldh [hLCDC], a
 	ld a, $e4
 	ld [wBGP], a
 	ld [wOBP0], a
 	ld a, $d2
 	ld [wOBP1], a
 	xor a
-	ld [hSCX], a
-	ld [hSCY], a
+	ldh [hSCX], a
+	ldh [hSCY], a
 	ld hl, OptionsScreenVideoDataPointers
-	ld a, [hGameBoyColorFlag]
+	ldh a, [hGameBoyColorFlag]
 	call LoadVideoData
 	call ClearSpriteBuffer
 	ld a, $2
@@ -71,7 +71,7 @@ Func_c400: ; 0xc400
 	call Func_c41a
 	call Func_c43a
 	call Func_c447
-	ld a, [hNewlyPressedButtons]
+	ldh a, [hNewlyPressedButtons]
 	bit 1, a
 	ret z
 	lb de, $00, $01
@@ -81,7 +81,7 @@ Func_c400: ; 0xc400
 	ret
 
 Func_c41a: ; 0xc41a
-	ld a, [hPressedButtons]
+	ldh a, [hPressedButtons]
 	ld b, a
 	ld a, [wd916]
 	bit 6, b
@@ -111,7 +111,7 @@ Func_c43a: ; 0xc43a
 	ret
 
 Func_c447: ; 0xc447
-	ld a, [hNewlyPressedButtons]
+	ldh a, [hNewlyPressedButtons]
 	bit BIT_A_BUTTON, a
 	ret z
 	lb de, $00, $01
@@ -119,7 +119,7 @@ Func_c447: ; 0xc447
 	ld a, [wd916]
 	and a
 	jr nz, .asm_c465
-	ld a, [hSGBFlag]
+	ldh a, [hSGBFlag]
 	and a
 	ret nz
 	call Func_c4f4
@@ -157,7 +157,7 @@ Func_c493: ; 0xc493
 	call Func_c4b4
 	call Func_c4e6
 	call Func_c869
-	ld a, [hNewlyPressedButtons]
+	ldh a, [hNewlyPressedButtons]
 	bit BIT_B_BUTTON, a
 	ret z
 	lb de, $00, $01
@@ -170,7 +170,7 @@ Func_c493: ; 0xc493
 	ret
 
 Func_c4b4: ; 0xc4b4
-	ld a, [hNewlyPressedButtons]
+	ldh a, [hNewlyPressedButtons]
 	ld b, a
 	ld a, [wd917]
 	bit BIT_D_LEFT, b
@@ -220,7 +220,7 @@ Func_c506: ; 0xc506
 	call Func_c534
 	call Func_c554
 	call Func_c55a
-	ld a, [hNewlyPressedButtons]
+	ldh a, [hNewlyPressedButtons]
 	bit BIT_B_BUTTON, a
 	ret z
 	lb de, $00, $01
@@ -237,7 +237,7 @@ Func_c506: ; 0xc506
 	ret
 
 Func_c534: ; 0xc534
-	ld a, [hNewlyPressedButtons]
+	ldh a, [hNewlyPressedButtons]
 	ld b, a
 	ld a, [wd918]
 	bit BIT_D_UP, b
@@ -268,7 +268,7 @@ Func_c55a: ; 0xc55a
 	ld a, [wd918]
 	and a
 	jr nz, .asm_c572
-	ld a, [hNewlyPressedButtons]
+	ldh a, [hNewlyPressedButtons]
 	bit BIT_A_BUTTON, a
 	ret z
 	lb de, $00, $01
@@ -278,7 +278,7 @@ Func_c55a: ; 0xc55a
 	ret
 
 .asm_c572
-	ld a, [hNewlyPressedButtons]
+	ldh a, [hNewlyPressedButtons]
 	bit BIT_A_BUTTON, a
 	ret z
 	lb de, $00, $01
@@ -312,7 +312,7 @@ Func_c55a: ; 0xc55a
 	rst AdvanceFrame
 	pop hl
 	pop bc
-	ld a, [hJoypadState]
+	ldh a, [hJoypadState]
 	and a
 	jr z, .asm_c5c2
 	ld c, $0
@@ -357,7 +357,7 @@ Func_c55a: ; 0xc55a
 	pop bc
 	dec d
 	ret z
-	ld a, [hJoypadState]
+	ldh a, [hJoypadState]
 	and a
 	jr z, .asm_c613
 	ld d, $ff
@@ -386,7 +386,7 @@ Func_c621: ; 0xc621
 	ld c, a
 	ld a, [hl]
 	ld b, a
-	ld a, [hFrameCounter]
+	ldh a, [hFrameCounter]
 	bit 2, a
 	ret z
 	ld a, SPRITE_OPTIONS_SOLID_WHITE
@@ -453,7 +453,7 @@ Func_c691: ; 0xc91
 	call Func_c6bf
 	call Func_c6d9
 	call Func_c6e8
-	ld a, [hNewlyPressedButtons]
+	ldh a, [hNewlyPressedButtons]
 	bit BIT_B_BUTTON, a
 	ret z
 	ld de, MUSIC_NOTHING
@@ -472,7 +472,7 @@ Func_c691: ; 0xc91
 	ret
 
 Func_c6bf: ; 0xc6bf
-	ld a, [hNewlyPressedButtons]
+	ldh a, [hNewlyPressedButtons]
 	ld b, a
 	ld a, [wd919]
 	bit BIT_D_UP, b
@@ -504,7 +504,7 @@ Func_c6e8: ; 0xc6e8
 	ld a, [wd919]
 	and a
 	jr nz, UpdateSoundTestSoundEffectSelection
-	ld a, [hNewlyPressedButtons]
+	ldh a, [hNewlyPressedButtons]
 	bit BIT_A_BUTTON, a
 	jr z, UpdateSoundTestBackgroundMusicSelection
 	ld de, MUSIC_NOTHING
@@ -527,7 +527,7 @@ Func_c6e8: ; 0xc6e8
 	ret
 
 UpdateSoundTestBackgroundMusicSelection: ; 0xc715
-	ld a, [hPressedButtons] ; joypad state
+	ldh a, [hPressedButtons] ; joypad state
 	ld b, a
 	ld a, [wSoundTestCurrentBackgroundMusic]
 	bit BIT_D_LEFT, b  ; was the left dpad button pressed?
@@ -551,7 +551,7 @@ UpdateSoundTestBackgroundMusicSelection: ; 0xc715
 	jp RedrawSoundTestID
 
 UpdateSoundTestSoundEffectSelection: ; 0xc73a
-	ld a, [hNewlyPressedButtons] ; joypad state
+	ldh a, [hNewlyPressedButtons] ; joypad state
 	bit BIT_A_BUTTON, a
 	jr z, .didntPressAButton
 	ld a, [wSoundTextCurrentSoundEffect]
@@ -561,7 +561,7 @@ UpdateSoundTestSoundEffectSelection: ; 0xc73a
 	ret
 
 .didntPressAButton
-	ld a, [hPressedButtons] ; joypad state
+	ldh a, [hPressedButtons] ; joypad state
 	ld b, a
 	ld a, [wSoundTextCurrentSoundEffect]
 	bit BIT_D_LEFT, b  ; was the left dpad button pressed?

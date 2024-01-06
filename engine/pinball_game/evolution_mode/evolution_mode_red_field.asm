@@ -77,7 +77,7 @@ HandleEvolutionMode_RedField: ; 0x205e0
 	ld de, YeahYouGotItText
 	ld hl, wScrollingText1
 	call LoadScrollingText
-	ld a, [hGameBoyColorFlag]
+	ldh a, [hGameBoyColorFlag]
 	and a
 	jr z, .asm_2064f
 	ld a, BANK(StageRedFieldBottomOBJPalette6)
@@ -163,7 +163,7 @@ Func_20651: ; 0x20651
 	ld de, vTilesOB tile $20
 	ld bc, $00e0
 	call LoadVRAMData
-	ld a, [hGameBoyColorFlag]
+	ldh a, [hGameBoyColorFlag]
 	and a
 	jr z, .asm_20700
 	ld a, BANK(StageRedFieldBottomOBJPalette7)
@@ -493,7 +493,7 @@ CreateEvolutionTrinket_RedField: ; 0x20977
 	ld a, [wCurrentStage]
 	bit 0, a
 	callba nz, ClearAllRedIndicators
-	ld a, [hGameBoyColorFlag]
+	ldh a, [hGameBoyColorFlag]
 	and a
 	jr z, .asm_209bf
 	ld a, BANK(EvolutionTrinketPalettes)
@@ -616,7 +616,7 @@ RecoverPokemon_RedField:
 	ld a, [wCurrentStage]
 	bit 0, a
 	callba nz, ClearAllRedIndicators
-	ld a, [hGameBoyColorFlag]
+	ldh a, [hGameBoyColorFlag]
 	and a
 	jr z, .asm_20ada
 	ld a, BANK(StageRedFieldBottomOBJPalette6)
@@ -681,7 +681,7 @@ HandleSlotCaveCollision_EvolutionMode_RedField: ; 0x20b02
 	ld bc, $0180
 	call LoadOrCopyVRAMData
 	pop bc
-	ld a, [hGameBoyColorFlag]
+	ldh a, [hGameBoyColorFlag]
 	and a
 	jr z, .asm_20b80
 	push bc

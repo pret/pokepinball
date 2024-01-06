@@ -51,7 +51,7 @@ LoadBillboardOffPicture: ; 0xf196
 INCLUDE "data/billboard/billboard_pic_pointers.asm"
 
 LoadGreyBillboardPaletteData: ; 0xf269
-	ld a, [hGameBoyColorFlag]
+	ldh a, [hGameBoyColorFlag]
 	and a
 	jr z, .loadPaletteMap
 	ld a, BANK(StageRedFieldBottomBGPalette5) ; also used in blue stage

@@ -3,24 +3,24 @@ EndOfBallBonus: ; 0xf533
 	call LoadEAcuteCharacterGfx
 	call Func_f57f
 	ld a, $60
-	ld [hWY], a
+	ldh [hWY], a
 	dec a
-	ld [hLYC], a
+	ldh [hLYC], a
 	ld a, $fd
-	ld [hLCDCMask], a
+	ldh [hLCDCMask], a
 	call ShowBallBonusSummary
 	ld a, $90
-	ld [hWY], a
+	ldh [hWY], a
 	ld a, $83
-	ld [hLYC], a
-	ld [hLastLYC], a
+	ldh [hLYC], a
+	ldh [hLastLYC], a
 	ld a, $ff
-	ld [hLCDCMask], a
+	ldh [hLCDCMask], a
 	call FillBottomMessageBufferWithBlackTile
 	ret
 
 LoadEAcuteCharacterGfx: ; 0xf55c
-	ld a, [hGameBoyColorFlag]
+	ldh a, [hGameBoyColorFlag]
 	and a
 	jr nz, .gameboyColor
 	ld a, BANK(E_Acute_CharacterGfx)
@@ -96,7 +96,7 @@ ShowBallBonusSummary: ; 0xf5a0
 	call Func_f80d
 .waitForAPress
 	rst AdvanceFrame
-	ld a, [hNewlyPressedButtons]
+	ldh a, [hNewlyPressedButtons]
 	bit BIT_A_BUTTON, a
 	jr z, .waitForAPress
 	ret
@@ -165,7 +165,7 @@ Func_f676: ; 0xf676
 	and a
 	jr z, .asm_f69f
 	rst AdvanceFrame
-	ld a, [hNewlyPressedButtons]
+	ldh a, [hNewlyPressedButtons]
 	bit BIT_A_BUTTON, a
 	jr z, .asm_f69f
 	xor a
@@ -201,7 +201,7 @@ Func_f676: ; 0xf676
 	and a
 	jr z, .asm_f6f2
 	rst AdvanceFrame
-	ld a, [hNewlyPressedButtons]
+	ldh a, [hNewlyPressedButtons]
 	bit BIT_A_BUTTON, a
 	jr z, .asm_f6f2
 	xor a
@@ -238,7 +238,7 @@ Func_f70d: ; 0xf70d
 	and a
 	jr z, .asm_f736
 	rst AdvanceFrame
-	ld a, [hNewlyPressedButtons]
+	ldh a, [hNewlyPressedButtons]
 	bit BIT_A_BUTTON, a
 	jr z, .asm_f736
 	xor a
@@ -262,7 +262,7 @@ Func_f70d: ; 0xf70d
 	and a
 	jr z, .asm_f76c
 	rst AdvanceFrame
-	ld a, [hNewlyPressedButtons]
+	ldh a, [hNewlyPressedButtons]
 	bit BIT_A_BUTTON, a
 	jr z, .asm_f76c
 	xor a
@@ -416,7 +416,7 @@ Func_f83a: ; 0xf83a
 	push bc
 	rst AdvanceFrame
 	pop bc
-	ld a, [hNewlyPressedButtons]
+	ldh a, [hNewlyPressedButtons]
 	bit BIT_A_BUTTON, a
 	jr nz, .asm_f84e
 	dec b
@@ -448,7 +448,7 @@ Func_f853: ; 0xf853
 	and a
 	jr z, .asm_f886
 	rst AdvanceFrame
-	ld a, [hNewlyPressedButtons]
+	ldh a, [hNewlyPressedButtons]
 	bit BIT_A_BUTTON, a
 	jr z, .asm_f886
 	xor a

@@ -22,7 +22,7 @@ GameScreenFunction_LoadGFX: ; 0xd861
 
 GameScreenFunction_StartBall: ; 0xd87f
 	ld a, $67
-	ld [hLCDC], a
+	ldh [hLCDC], a
 	ld a, $e4
 	ld [wBGP], a
 	ld a, $e1
@@ -30,22 +30,22 @@ GameScreenFunction_StartBall: ; 0xd87f
 	ld a, $e4
 	ld [wOBP1], a
 	ld a, [wSCX]
-	ld [hSCX], a
+	ldh [hSCX], a
 	xor a
-	ld [hSCY], a
+	ldh [hSCY], a
 	ld a, $7
-	ld [hWX], a
+	ldh [hWX], a
 	ld a, $83
-	ld [hLYC], a
-	ld [hLastLYC], a
+	ldh [hLYC], a
+	ldh [hLastLYC], a
 	ld a, $ff
-	ld [hLCDCMask], a
+	ldh [hLCDCMask], a
 	ld hl, hSTAT
 	set 6, [hl]
 	ld hl, rIE
 	set 1, [hl]
 	ld a, $1
-	ld [hStatIntrRoutine], a
+	ldh [hStatIntrRoutine], a
 	callba InitBallForStage
 	callba LoadStageCollisionAttributes
 	callba LoadStageData
@@ -177,9 +177,9 @@ INCLUDE "engine/pinball_game/save_game.asm"
 
 GameScreenFunction_HandleBallLoss: ; 0xda36
 	xor a
-	ld [hJoypadState], a
-	ld [hNewlyPressedButtons], a
-	ld [hPressedButtons], a
+	ldh [hJoypadState], a
+	ldh [hNewlyPressedButtons], a
+	ldh [hPressedButtons], a
 	ld [wFlipperCollision], a
 	ld [wCollisionForceAmplification], a
 	xor a

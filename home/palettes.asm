@@ -1,12 +1,12 @@
 SetAllPalettesWhite: ; 0xb66
 ; Sets all BG and OBJ palettes to white.
-	ld a, [hGameBoyColorFlag]
+	ldh a, [hGameBoyColorFlag]
 	and a
 	jr nz, .gameboyColor
 	xor a
-	ld [hBGP], a
-	ld [hOBP0], a
-	ld [hOBP1], a
+	ldh [hBGP], a
+	ldh [hOBP0], a
+	ldh [hOBP1], a
 	ret
 
 .gameboyColor
@@ -65,7 +65,7 @@ SetAllPalettesWhite: ; 0xb66
 
 FadeIn: ; 0xbbe
 ; Fades palettes in from white screen.
-	ld a, [hGameBoyColorFlag]
+	ldh a, [hGameBoyColorFlag]
 	and a
 	jp nz, FadeIn_GameboyColor
 	; Regular Gameboy
@@ -250,7 +250,7 @@ GetNextFadedPalette: ; 0xc60
 
 FadeOut: ; 0xcb5
 ; Fades palettes out to a white screen.
-	ld a, [hGameBoyColorFlag]
+	ldh a, [hGameBoyColorFlag]
 	and a
 	jp nz, FadeOut_GameboyColor
 	; Regular Gameboy

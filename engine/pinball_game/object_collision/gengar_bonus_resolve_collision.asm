@@ -42,7 +42,7 @@ Func_183db: ; 0x183db
 	ld c, a
 	ld b, $0
 	ld hl, TileDataPointers_183f8
-	ld a, [hGameBoyColorFlag]
+	ldh a, [hGameBoyColorFlag]
 	and a
 	jr z, .asm_183ee
 	ld hl, TileDataPointers_1842e
@@ -1450,7 +1450,7 @@ Func_18d72: ; 0x18d72
 	ld c, a
 	ld b, $0
 	ld hl, TileDataPointers_18ddb
-	ld a, [hGameBoyColorFlag]
+	ldh a, [hGameBoyColorFlag]
 	and a
 	jr z, .asm_18d85
 	ld hl, TileDataPointers_18ed1

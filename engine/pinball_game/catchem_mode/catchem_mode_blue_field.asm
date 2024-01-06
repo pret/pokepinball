@@ -57,7 +57,7 @@ Func_2032c: ; 0x2032c
 	jr nz, .asm_20362
 	callba Func_10414
 	callba Func_10362
-	ld a, [hGameBoyColorFlag]
+	ldh a, [hGameBoyColorFlag]
 	and a
 	callba nz, Func_10301
 .asm_20333

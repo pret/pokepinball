@@ -12,7 +12,7 @@ Debug_CycleGengarBonusPhase:
 ; Leftover debugging function for quickly cycling through
 ; the three phases of the Gengar Bonus stage. Pressing UP
 ; will instantly skip to the next phase.
-	ld a, [hNewlyPressedButtons]
+	ldh a, [hNewlyPressedButtons]
 	bit BIT_D_UP, a
 	ret z
 	ld a, [wGastly1Enabled]

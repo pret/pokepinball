@@ -1,63 +1,78 @@
-DEF hPushSprite EQU $FF80
+SECTION "HRAM", HRAM
 
-DEF hFarCallTempA EQU $FF8A
-DEF hFarCallTempE EQU $FF8B
-DEF hJoypadState  EQU $FF98  ; current state of buttons. See joy_constants.asm for which bits
-                             ; correspond to which buttons.
-DEF hNewlyPressedButtons      EQU $FF99  ; buttons that were pressed in the current frame.
-DEF hPressedButtons           EQU $FF9A  ; buttons that were pressed last frame and current frame(?)
-DEF hPrevPreviousJoypadState  EQU $FF9B  ; joypad state from two frames ago. See joy_constants.asm for
+hPushSprite :: ds 10 ; 0xFF80
+.end ::
+
+hFarCallTempA :: db ; 0xFF8A
+hFarCallTempE :: db ; 0xFF8B
+
+hRotationAngleBuffer :: db ; 0xFF8C
+hCosineResultBuffer  :: dw ; 0xFF8D
+hSineResultBuffer    :: dw ; 0xFF8F
+
+ds 7
+
+hJoypadState             :: db ; 0xFF98  ; current state of buttons. See joy_constants.asm for which bits
+                                         ; correspond to which buttons.
+hNewlyPressedButtons     :: db ; 0xFF99  ; buttons that were pressed in the current frame.
+hPressedButtons          :: db ; 0xFF9A  ; buttons that were pressed last frame and current frame(?)
+hPrevPreviousJoypadState :: db ; 0xFF9B  ; joypad state from two frames ago. See joy_constants.asm for
                                          ; which bits correspond to which buttons. (need a better name for this...)
-DEF hPreviousJoypadState  EQU $FF9C      ; prevoius frame's joypad state. See joy_constants.asm for
+hPreviousJoypadState     :: db ; 0xFF9C  ; previous frame's joypad state. See joy_constants.asm for
                                          ; which bits correspond to which buttons.
 
-DEF hJoyRepeatDelay EQU $FF9D
+hJoyRepeatDelay :: db ; 0xFF9D
 
-DEF hLCDC               EQU $FF9E
-DEF hSTAT               EQU $FF9F
-DEF hSCY                EQU $FFA0
-DEF hSCX                EQU $FFA1
-DEF hLYC                EQU $FFA2
-DEF hBGP                EQU $FFA3
-DEF hOBP0               EQU $FFA4
-DEF hOBP1               EQU $FFA5
-DEF hWY                 EQU $FFA6
-DEF hWX                 EQU $FFA7
-DEF hLastLYC            EQU $FFA8
-DEF hNextLYCSub         EQU $FFA9
-DEF hLYCSub             EQU $FFAA
-DEF hNextFrameHBlankSCX EQU $FFAB
-DEF hHBlankSCX          EQU $FFAC
-DEF hNextFrameHBlankSCY EQU $FFAD
-DEF hHBlankSCY          EQU $FFAE
-DEF hLCDCMask           EQU $FFAF
-DEF hStatIntrRoutine    EQU $FFB0
+hLCDC               :: db ; 0xFF9E
+hSTAT               :: db ; 0xFF9F
+hSCY                :: db ; 0xFFA0
+hSCX                :: db ; 0xFFA1
+hLYC                :: db ; 0xFFA2
+hBGP                :: db ; 0xFFA3
+hOBP0               :: db ; 0xFFA4
+hOBP1               :: db ; 0xFFA5
+hWY                 :: db ; 0xFFA6
+hWX                 :: db ; 0xFFA7
+hLastLYC            :: db ; 0xFFA8
+hNextLYCSub         :: db ; 0xFFA9
+hLYCSub             :: db ; 0xFFAA
+hNextFrameHBlankSCX :: db ; 0xFFAB
+hHBlankSCX          :: db ; 0xFFAC
+hNextFrameHBlankSCY :: db ; 0xFFAD
+hHBlankSCY          :: db ; 0xFFAE
+hLCDCMask           :: db ; 0xFFAF
+hStatIntrRoutine    :: db ; 0xFFB0
 
-DEF hNumFramesSinceLastVBlank EQU $FFB2
-DEF hFrameCounter             EQU $FFB3
-DEF hVBlankCount              EQU $FFB4
-DEF hStatIntrFired            EQU $FFB5
-DEF hSignedMathSignBuffer     EQU $FFB6
-DEF hSignedMathSignBuffer2    EQU $FFB7
+ds 1
 
-DEF hBallXPos EQU $FFBA
-DEF hBallYPos EQU $FFBC
+hNumFramesSinceLastVBlank :: db ; 0xFFB2
+hFrameCounter             :: db ; 0xFFB3
+hVBlankCount              :: db ; 0xFFB4
+hStatIntrFired            :: db ; 0xFFB5
+hSignedMathSignBuffer     :: db ; 0xFFB6
+hSignedMathSignBuffer2    :: db ; 0xFFB7
 
-DEF hFlipperStateChange   EQU $FFC0
-DEF hPreviousFlipperState EQU $FFC2
-DEF hFlipperState         EQU $FFC3
+ds 2
 
-DEF hRotationAngleBuffer EQU $FF8C
-DEF hCosineResultBuffer  EQU $FF8D
-DEF hSineResultBuffer    EQU $FF8F
+hBallXPos :: dw ; 0xFFBA
+hBallYPos :: dw ; 0xFFBC
 
-DEF hFlipperCollisionRadius  EQU $FFBF
+ds 1
 
-DEF hFFC4 = $FFC4
+hFlipperCollisionRadius  :: db ; 0xFFBF
 
-DEF hLoadedROMBank          EQU $FFF8  ; this is updated whenever the code switches ROM Banks
-DEF hROMBankBuffer          EQU $FFFA
-DEF hSGBFlag                EQU $FFFB
-DEF hSGBInit                EQU $FFFC
-DEF hGameBoyColorFlagBackup EQU $FFFD
-DEF hGameBoyColorFlag       EQU $FFFE  ; this is set to $01 if a GameBoy Color is running the game. $00, otherwise.
+hFlipperStateChange   :: dw ; 0xFFC0
+hPreviousFlipperState :: db ; 0xFFC2
+hFlipperState         :: db ; 0xFFC3
+
+hFFC4 :: db ; 0xFFC4
+
+SECTION "HRAM.2", HRAM
+
+hLoadedROMBank          :: db ; 0xFFF8  ; this is updated whenever the code switches ROM Banks
+ds 1
+hROMBankBuffer          :: db ; 0xFFFA
+hSGBFlag                :: db ; 0xFFFB
+hSGBInit                :: db ; 0xFFFC
+hGameBoyColorFlagBackup :: db ; 0xFFFD
+hGameBoyColorFlag       :: db ; 0xFFFE  ; this is set to $01 if a GameBoy Color is running the game. $00, otherwise.

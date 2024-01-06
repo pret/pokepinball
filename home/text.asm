@@ -2,7 +2,7 @@ INCLUDE "text/scrolling_text.asm"
 
 EnableBottomText: ; 0x30db
 	ld a, $86
-	ld [hWY], a ;force text bar up
+	ldh [hWY], a ;force text bar up
 	ld a, $1
 	ld [wBottomTextEnabled], a
 	ld [wDisableDrawScoreboardInfo], a
@@ -186,7 +186,7 @@ LoadSpecialTextChar: ; 0x31e1 copy special font data into VRAM based on the cont
 	push de
 	push hl
 	ld c, a
-	ld a, [hGameBoyColorFlag]
+	ldh a, [hGameBoyColorFlag]
 	and a
 	ld a, c
 	jr z, .asm_31ed
@@ -682,7 +682,7 @@ UpdateBottomText: ; 0x33e3
 	ret nz ;if text has displayed, we are done, else
 	ld [wBottomTextEnabled], a ; disable bottom text
 	call FillBottomMessageBufferWithBlackTile ;fill with default data?
-	ld a, [hGameBoyColorFlag]
+	ldh a, [hGameBoyColorFlag]
 	and a
 	jr nz, .gameboyColor
 	ld a, Bank(StageRedFieldTopStatusBarSymbolsGfx_GameBoy)
@@ -702,9 +702,9 @@ UpdateBottomText: ; 0x33e3
 
 MainLoopUntilTextIsClear: ; 0x3475
 	xor a
-	ld [hJoypadState], a
-	ld [hNewlyPressedButtons], a
-	ld [hPressedButtons], a
+	ldh [hJoypadState], a
+	ldh [hNewlyPressedButtons], a
+	ldh [hPressedButtons], a
 	call HandleTilts
 	ld a, [wCurrentStage]
 	bit 0, a ;handle flippers if the stage has any

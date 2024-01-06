@@ -7,7 +7,7 @@ EraseAllDataMenuFunctions: ; 0x8161
 	dw ExitEraseAllDataMenu
 
 CheckForResetButtonCombo: ; 0x8167
-	ld a, [hJoypadState]
+	ldh a, [hJoypadState]
 	cp (D_UP | D_RIGHT | START | SELECT)
 	jr z, .heldCorrectButtons
 	ld hl, wCurrentScreen
@@ -16,15 +16,15 @@ CheckForResetButtonCombo: ; 0x8167
 
 .heldCorrectButtons
 	ld a, $41
-	ld [hLCDC], a
+	ldh [hLCDC], a
 	ld a, $e4
 	ld [wBGP], a
 	xor a
 	ld [wOBP0], a
 	ld [wOBP1], a
-	ld [hSCX], a
-	ld [hSCY], a
-	ld a, [hGameBoyColorFlag]
+	ldh [hSCX], a
+	ldh [hSCY], a
+	ldh a, [hGameBoyColorFlag]
 	ld hl, EraseAllDataGfxPointers
 	call LoadVideoData
 	call ClearSpriteBuffer
@@ -53,7 +53,7 @@ EraseAllDataGfx_GameBoyColor: ; 0x81b6
 	db $FF, $FF ; terminators
 
 HandleEraseAllDataInput: ; 0x81d4
-	ld a, [hNewlyPressedButtons]
+	ldh a, [hNewlyPressedButtons]
 	bit BIT_A_BUTTON, a
 	jr z, .checkForBButton
 	ld hl, $a000

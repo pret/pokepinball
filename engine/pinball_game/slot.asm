@@ -14,9 +14,9 @@ DoSlotRewardRoulette: ; 0xed8e
 	ld [wSlotBallIncrease], a
 .waitForFlippers
 	xor a
-	ld [hJoypadState], a
-	ld [hNewlyPressedButtons], a
-	ld [hPressedButtons], a
+	ldh [hJoypadState], a
+	ldh [hNewlyPressedButtons], a
+	ldh [hPressedButtons], a
 	call HandleTilts
 	ld a, [wCurrentStage]
 	bit 0, a
@@ -31,7 +31,7 @@ DoSlotRewardRoulette: ; 0xed8e
 	ld a, [wRightFlipperState + 1]
 	and a
 	jr nz, .waitForFlippers
-	ld a, [hGameBoyColorFlag]
+	ldh a, [hGameBoyColorFlag]
 	and a
 	call nz, LoadGreyBillboardPaletteData
 	call GenRandom
@@ -122,7 +122,7 @@ DoSlotRewardRoulette: ; 0xed8e
 	dec b
 	jr nz, .displayRewardLoop
 .loadColoredRewardPicture
-	ld a, [hGameBoyColorFlag]
+	ldh a, [hGameBoyColorFlag]
 	and a
 	ld a, [wSlotRouletteBillboardPicture]
 	call nz, Func_f2a0
@@ -287,7 +287,7 @@ SlotRewardSmallPoints: ; 0xefb2
 .asm_efd8
 	rst AdvanceFrame
 	pop bc
-	ld a, [hNewlyPressedButtons]
+	ldh a, [hNewlyPressedButtons]
 	and FLIPPERS
 	jr nz, .asm_efe3
 	dec b
@@ -326,7 +326,7 @@ SlotRewardBigPoints: ; 0xeff3
 .asm_f019
 	rst AdvanceFrame
 	pop bc
-	ld a, [hNewlyPressedButtons]
+	ldh a, [hNewlyPressedButtons]
 	and FLIPPERS
 	jr nz, .asm_f024
 	dec b
@@ -435,7 +435,7 @@ SlotBonusMultiplier: ; 0xf0c1
 .asm_f0e7
 	rst AdvanceFrame
 	pop bc
-	ld a, [hNewlyPressedButtons]
+	ldh a, [hNewlyPressedButtons]
 	and FLIPPERS
 	jr nz, .asm_f0f2
 	dec b

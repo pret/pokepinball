@@ -14,7 +14,7 @@ LoadBillboardTileData: ; 0x30256
 	ld a, Bank(BillboardTileDataPointers)
 	call QueueGraphicsToLoad
 	pop bc
-	ld a, [hGameBoyColorFlag]
+	ldh a, [hGameBoyColorFlag]
 	and a
 	ret z
 	ld hl, BillboardPaletteDataPointers

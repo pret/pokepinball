@@ -245,7 +245,7 @@ Func_10184: ; 0x10184 called by what looks like the "hit voltorb and shellder" h
 	jr z, .NextLoop
 	ld b, a ;else store in b
 	call nz, Func_101d9
-	ld a, [hGameBoyColorFlag]
+	ldh a, [hGameBoyColorFlag]
 	and a
 	jr z, .NextLoop ;skip if DMG
 	ld a, [wCurrentStage]
@@ -1264,7 +1264,7 @@ Func_10871: ; 0x10871
 .asm_108d3
 	callba ClearAllRedIndicators
 	callba Func_10184
-	ld a, [hGameBoyColorFlag]
+	ldh a, [hGameBoyColorFlag]
 	and a
 	callba nz, Func_102bc
 	ret
@@ -1392,7 +1392,7 @@ Func_1098c: ; 0x1098c
 	ret z
 	callba Func_1c2cb
 	callba Func_10184
-	ld a, [hGameBoyColorFlag]
+	ldh a, [hGameBoyColorFlag]
 	and a
 	callba nz, Func_102bc
 	ret

@@ -272,7 +272,7 @@ UpdateEvolutionSelectionList: ; 0x10c38
 	ld hl, wPartyMons
 	add hl, bc
 	call LoadMonNamesIntoEvolutionSelectionList
-	ld a, [hJoypadState]
+	ldh a, [hJoypadState]
 	and a
 	ld a, [wPartySelectionCursorCounter]
 	jr z, .asm_10c62
@@ -330,20 +330,20 @@ SelectPokemonToEvolve: ; 0x10cb7
 	call FillBottomMessageBufferWithBlackTile
 	call InitEvolutionSelectionMenu
 	ld a, $60
-	ld [hWY], a
+	ldh [hWY], a
 	dec a
-	ld [hLYC], a
+	ldh [hLYC], a
 	ld a, $fd
-	ld [hLCDCMask], a
+	ldh [hLCDCMask], a
 	call SelectPokemonToEvolveMenu
 	ld a, $86
-	ld [hWY], a
+	ldh [hWY], a
 	ld a, $83
-	ld [hLYC], a
-	ld [hLastLYC], a
+	ldh [hLYC], a
+	ldh [hLastLYC], a
 	ld a, $ff
-	ld [hLCDCMask], a
-	ld a, [hGameBoyColorFlag]
+	ldh [hLCDCMask], a
+	ldh a, [hGameBoyColorFlag]
 	and a
 	jr nz, .gameboyColor
 	ld a, BANK(StageRedFieldTopStatusBarSymbolsGfx_GameBoy)
@@ -655,7 +655,7 @@ StartEvolutionMode_RedField: ; 0x10ebb
 	call LoadOrCopyVRAMData
 	callba ClearAllRedIndicators
 	callba Func_10184
-	ld a, [hGameBoyColorFlag]
+	ldh a, [hGameBoyColorFlag]
 	and a
 	callba nz, Func_102bc
 	ret
@@ -710,7 +710,7 @@ ConcludeEvolutionMode_RedField: ; 0x10fe3
 	ld de, vTilesOB tile $20
 	ld bc, $00e0
 	call LoadVRAMData
-	ld a, [hGameBoyColorFlag]
+	ldh a, [hGameBoyColorFlag]
 	and a
 	jr z, .asm_11036
 	ld a, BANK(StageRedFieldBottomOBJPalette7)
@@ -791,7 +791,7 @@ StartEvolutionMode_BlueField: ; 0x11061
 	call LoadOrCopyVRAMData
 	callba Func_1c2cb
 	callba Func_10184
-	ld a, [hGameBoyColorFlag]
+	ldh a, [hGameBoyColorFlag]
 	and a
 	callba nz, Func_102bc
 	ret
@@ -847,7 +847,7 @@ ConcludeEvolutionMode_BlueField: ; 0x11195
 	ld de, vTilesOB tile $20
 	ld bc, $00e0
 	call LoadVRAMData
-	ld a, [hGameBoyColorFlag]
+	ldh a, [hGameBoyColorFlag]
 	and a
 	jr z, .asm_111f0
 	ld a, BANK(StageBlueFieldBottomOBJPalette7)

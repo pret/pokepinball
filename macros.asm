@@ -77,7 +77,7 @@ MACRO bigdw ; big-endian word
 ENDM
 
 MACRO callba
-	ld [hFarCallTempA], a
+	ldh [hFarCallTempA], a
 	IF _NARG > 1
 		ld a, BANK(\2)
 		ld hl, \2

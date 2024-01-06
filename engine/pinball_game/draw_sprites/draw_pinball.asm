@@ -26,13 +26,13 @@ DrawPinball: ; 0x17e81
 	and SPRITE_BALL_SPIN_COUNT - 1
 	add SPRITE_BALL_SPIN
 	call LoadSpriteData
-	ld a, [hGameBoyColorFlag]
+	ldh a, [hGameBoyColorFlag]
 	and a
 	ret nz
-	ld a, [hGameBoyColorFlag]
+	ldh a, [hGameBoyColorFlag]
 	and a
 	ret nz
-	ld a, [hSGBFlag]
+	ldh a, [hSGBFlag]
 	and a
 	ret nz
 	ld a, [wd4c5]

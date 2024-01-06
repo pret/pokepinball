@@ -12,9 +12,9 @@ FieldVerticalTransition: ; 0xe674
 	pop af
 	ld [wCurrentStage], a
 	xor a
-	ld [hBGP], a
-	ld [hOBP0], a
-	ld [hOBP1], a
+	ldh [hBGP], a
+	ldh [hOBP0], a
+	ldh [hOBP1], a
 	rst AdvanceFrame
 	call ToggleAudioEngineUpdateMethod
 	call DisableLCD
@@ -25,11 +25,11 @@ FieldVerticalTransition: ; 0xe674
 	call ToggleAudioEngineUpdateMethod
 	call EnableLCD
 	ld a, $e4
-	ld [hBGP], a
+	ldh [hBGP], a
 	ld a, $e1
-	ld [hOBP0], a
+	ldh [hOBP0], a
 	ld a, $e4
-	ld [hOBP1], a
+	ldh [hOBP1], a
 	ret
 
 LoadStageData: ; 0xe6c2
@@ -44,9 +44,9 @@ LoadStageData: ; 0xe6c2
 	jr nz, .gotWindowYPos
 	ld a, $90
 .gotWindowYPos
-	ld [hWY], a
+	ldh [hWY], a
 	ld hl, StageGfxPointers_GameBoy
-	ld a, [hGameBoyColorFlag]
+	ldh a, [hGameBoyColorFlag]
 	and a
 	jr z, .loadData
 	ld hl, StageGfxPointers_GameBoyColor
@@ -167,9 +167,9 @@ ScrollScreenToShowPinball: ; 0xed5e
 	ld a, [hl]
 	ld hl, wLeftAndRightTiltPixelsOffset
 	sub [hl]
-	ld [hSCX], a
+	ldh [hSCX], a
 	xor a
 	ld hl, wUpperTiltPixelsOffset
 	sub [hl]
-	ld [hSCY], a
+	ldh [hSCY], a
 	ret

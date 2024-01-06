@@ -204,10 +204,10 @@ ApplyTiltForces: ; 0x36c1
 	sla c
 	rl b
 	add hl, bc
-	ld a, [hLoadedROMBank]
+	ldh a, [hLoadedROMBank]
 	push af
 	ld a, BANK(TiltLeftOnlyForce)
-	ld [hLoadedROMBank], a
+	ldh [hLoadedROMBank], a
 	ld [MBC5RomBank], a
 	ld a, [wBallXVelocity]
 	add [hl]
@@ -225,7 +225,7 @@ ApplyTiltForces: ; 0x36c1
 	adc [hl]
 	ld [wBallYVelocity + 1], a
 	pop af
-	ld [hLoadedROMBank], a
+	ldh [hLoadedROMBank], a
 	ld [MBC5RomBank], a
 	ret
 

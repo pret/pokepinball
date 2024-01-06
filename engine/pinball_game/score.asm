@@ -108,7 +108,7 @@ ENDR
 	ret
 
 Func_85c7: ; 0x85c7
-	ld a, [hFrameCounter]
+	ldh a, [hFrameCounter]
 	and $3
 	ret nz
 	ld a, [wd478]
@@ -217,28 +217,28 @@ HideScoreIfBallLow: ; 0x8650
 	bit 0, a
 	jr nz, .bottomStage ;if on upper stage, score is up
 	ld a, $86
-	ld [hWY], a
+	ldh [hWY], a
 	ret
 
 .bottomStage
 	ld a, [wBallYPos + 1]
 	cp $84
 	jr nc, .BallLow ;if ballY pos less than or equal to 132, raise score, else lower score
-	ld a, [hWY]
+	ldh a, [hWY]
 	sub $3
 	cp $86
 	jr nc, .DontClampHigh ;if result is less than 132, clamp to 132, else just load it in
 	ld a, $86
 .DontClampHigh
-	ld [hWY], a
+	ldh [hWY], a
 	ret
 
 .BallLow
-	ld a, [hWY]
+	ldh a, [hWY]
 	add $3
 	cp $90
 	jr c, .DontClampLow ;if result is more than 144, clamp to 144, else just load it in
 	ld a, $90
 .DontClampLow
-	ld [hWY], a
+	ldh [hWY], a
 	ret

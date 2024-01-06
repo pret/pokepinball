@@ -5,3 +5,9 @@ INCLUDE "contents/wram.link"
 SRAM 0
 	org $a000
 	"SRAM 0"
+
+HRAM
+	org $FF80
+	"HRAM"
+	org $FFF8
+	"HRAM.2"

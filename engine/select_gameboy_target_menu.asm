@@ -13,11 +13,11 @@ SelectGameboyTargetMenuFunctions: ; 0x8004
 
 InitSelectGameboyTargetMenu: ; 0x800a
 	xor a
-	ld [hFFC4], a
-	ld a, [hJoypadState]
+	ldh [hFFC4], a
+	ldh a, [hJoypadState]
 	cp D_UP
 	jr nz, .skipDebugMenu
-	ld a, [hGameBoyColorFlag]
+	ldh a, [hGameBoyColorFlag]
 	and a
 	jr nz, .showMenu
 .skipDebugMenu
@@ -29,14 +29,14 @@ InitSelectGameboyTargetMenu: ; 0x800a
 
 .showMenu
 	ld a, $45
-	ld [hLCDC], a
+	ldh [hLCDC], a
 	ld a, $e4
 	ld [wBGP], a
 	ld [wOBP0], a
 	ld [wOBP1], a
 	xor a
-	ld [hSCX], a
-	ld [hSCY], a
+	ldh [hSCX], a
+	ldh [hSCY], a
 	call LoadGameboyTargetMenuGfx
 	call ClearSpriteBuffer
 	call SetAllPalettesWhite
@@ -165,14 +165,14 @@ Data_80f4: ; 0x80f4
 	RGB 00, 00, 00
 
 SelectCGBOrDMG: ; 0x8104
-	ld a, [hNewlyPressedButtons]
+	ldh a, [hNewlyPressedButtons]
 	ld b, a
 	and (D_DOWN | D_UP)
 	jr z, .directionNotPressed
-	ld a, [hGameBoyColorFlag]
-	ld [hFFC4], a
+	ldh a, [hGameBoyColorFlag]
+	ldh [hFFC4], a
 	xor $1
-	ld [hGameBoyColorFlag], a
+	ldh [hGameBoyColorFlag], a
 	jr .moveCursor
 
 .directionNotPressed
@@ -183,7 +183,7 @@ SelectCGBOrDMG: ; 0x8104
 	ret
 
 .moveCursor
-	ld a, [hGameBoyColorFlag]
+	ldh a, [hGameBoyColorFlag]
 	and a
 	jr nz, .cgb
 	ld a, Bank(DMGSelected_TileData)

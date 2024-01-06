@@ -98,30 +98,30 @@ Func_ca8f: ; 0xca8f
 
 Func_cb14: ; 0xcb14
 	ld a, $43
-	ld [hLCDC], a
+	ldh [hLCDC], a
 	ld a, $e0
 	ld [wBGP], a
 	ld a, $e1
 	ld [wOBP0], a
 	ld [wOBP1], a
 	xor a
-	ld [hSCX], a
-	ld [hNextFrameHBlankSCX], a
-	ld [hSCY], a
-	ld [hNextFrameHBlankSCY], a
+	ldh [hSCX], a
+	ldh [hNextFrameHBlankSCX], a
+	ldh [hSCY], a
+	ldh [hNextFrameHBlankSCY], a
 	ld a, $e
-	ld [hLYC], a
-	ld [hLastLYC], a
+	ldh [hLYC], a
+	ldh [hLastLYC], a
 	ld a, $82
-	ld [hNextLYCSub], a
-	ld [hLYCSub], a
+	ldh [hNextLYCSub], a
+	ldh [hLYCSub], a
 	ld hl, hSTAT
 	set 6, [hl]
 	ld hl, rIE
 	set 1, [hl]
 	ld a, $3
-	ld [hStatIntrRoutine], a
-	ld a, [hGameBoyColorFlag]
+	ldh [hStatIntrRoutine], a
+	ldh a, [hGameBoyColorFlag]
 	and a
 	jr z, .asm_cb51
 	ld a, [wHighScoresStage]
@@ -277,7 +277,7 @@ Func_ccac: ; 0xccac
 Func_ccb6: ; 0xccb6
 	call Func_d4cf
 	call AnimateHighScoresArrow
-	ld a, [hNewlyPressedButtons]
+	ldh a, [hNewlyPressedButtons]
 	bit BIT_A_BUTTON, a
 	jr z, .asm_ccd1
 	lb de, $00, $01
@@ -303,7 +303,7 @@ Func_ccb6: ; 0xccb6
 	bit 3, a
 	jr z, .asm_ccfb
 	call Func_1a43
-	ld a, [hGameBoyColorFlag]
+	ldh a, [hGameBoyColorFlag]
 	ld [wd8f0], a
 	lb de, $00, $01
 	call PlaySoundEffect
@@ -312,10 +312,10 @@ Func_ccb6: ; 0xccb6
 	ret
 
 .asm_ccfb
-	ld a, [hJoypadState]
+	ldh a, [hJoypadState]
 	cp (SELECT | D_UP)
 	ret nz
-	ld a, [hNewlyPressedButtons]
+	ldh a, [hNewlyPressedButtons]
 	and (SELECT | D_UP)
 	ret z
 	lb de, $00, $01
@@ -326,7 +326,7 @@ Func_ccb6: ; 0xccb6
 	call LoadSpriteData
 .waitForDeleteScoresConfirmation
 	rst AdvanceFrame
-	ld a, [hNewlyPressedButtons]
+	ldh a, [hNewlyPressedButtons]
 	bit BIT_B_BUTTON, a
 	jr z, .asm_cd24
 	lb de, $00, $01
@@ -362,12 +362,12 @@ Func_ccb6: ; 0xccb6
 	ret
 
 Func_cd6c: ; 0xcd6c
-	ld a, [hFrameCounter]
+	ldh a, [hFrameCounter]
 	and $1f
 	call z, Func_1a43
 	call Func_cf7d
 	call Func_cfa6
-	ld a, [hNewlyPressedButtons]
+	ldh a, [hNewlyPressedButtons]
 	bit BIT_A_BUTTON, a
 	jr z, .asm_cdbb
 	lb de, $00, $01
@@ -399,7 +399,7 @@ Func_cd6c: ; 0xcd6c
 	pop af
 	jr nc, .asm_cdc6
 .asm_cdbb
-	ld a, [hNewlyPressedButtons]
+	ldh a, [hNewlyPressedButtons]
 	bit BIT_B_BUTTON, a
 	ret z
 	lb de, $00, $01
@@ -569,14 +569,14 @@ SendHighScores: ; 0xced1
 .attemptToSendHighScoresLoop
 	push bc
 	xor a
-	ld [hNumFramesSinceLastVBlank], a
+	ldh [hNumFramesSinceLastVBlank], a
 .asm_cefa
 	ld b, $2
 	ld c, $56
 	ld a, [$ff00+c]
 	and b
 	jr z, .asm_cf09
-	ld a, [hNumFramesSinceLastVBlank]
+	ldh a, [hNumFramesSinceLastVBlank]
 	and a
 	jr z, .asm_cefa
 	jr .asm_cf0e
@@ -637,7 +637,7 @@ Func_cf58: ; 0xcf58
 	call LoadSpriteData
 .asm_cf6f
 	rst AdvanceFrame
-	ld a, [hNewlyPressedButtons]
+	ldh a, [hNewlyPressedButtons]
 	bit BIT_A_BUTTON, a
 	jr z, .asm_cf6f
 	lb de, $00, $01
@@ -791,7 +791,7 @@ Func_d035: ; 0xd035
 	ret
 
 Func_d042: ; 0xd042
-	ld a, [hJoypadState]
+	ldh a, [hJoypadState]
 	ld [wda86], a
 	ld b, a
 	ld a, $80
@@ -956,7 +956,7 @@ ExitHighScoresScreen: ; 0xd171
 	ret
 
 Func_d18b: ; 0xd18b
-	ld a, [hPressedButtons]
+	ldh a, [hPressedButtons]
 	ld b, a
 	ld a, [wHighScoreNameRow]
 	ld e, a
@@ -1001,7 +1001,7 @@ Func_d18b: ; 0xd18b
 	ret
 
 Func_d1d2: ; 0xd1d2
-	ld a, [hNewlyPressedButtons]
+	ldh a, [hNewlyPressedButtons]
 	ld b, a
 	ld a, [wHighScoreNameColumn]
 	bit BIT_A_BUTTON, b
@@ -1040,7 +1040,7 @@ Func_d211: ; 0xd211
 	ld a, [wHighScoreIsEnteringName]
 	and a
 	ret z
-	ld a, [hJoypadState]
+	ldh a, [hJoypadState]
 	and (D_RIGHT | D_LEFT)
 	jr z, .asm_d221
 	; current name entry character changed; hide asterisk to show new letter
@@ -1463,7 +1463,7 @@ Func_d46f: ; 0xd46f
 	ret
 
 Func_d4cf: ; 0xd4cf
-	ld a, [hNewlyPressedButtons]
+	ldh a, [hNewlyPressedButtons]
 	ld b, a
 	ld a, [wHighScoresStage]
 	bit 4, b
@@ -1487,11 +1487,11 @@ Func_d4cf: ; 0xd4cf
 	call ClearSpriteBuffer
 	call Func_d57b
 	ld a, $a5
-	ld [hWX], a
+	ldh [hWX], a
 	xor a
-	ld [hWY], a
+	ldh [hWY], a
 	ld a, $2
-	ld [hSCX], a
+	ldh [hSCX], a
 	ld hl, hLCDC
 	set 5, [hl]
 	ld b, $27
@@ -1516,7 +1516,7 @@ Func_d4cf: ; 0xd4cf
 	dec b
 	jr nz, .asm_d508
 	xor a
-	ld [hSCX], a
+	ldh [hSCX], a
 	ld hl, hLCDC
 	res 5, [hl]
 	set 3, [hl]
@@ -1529,11 +1529,11 @@ Func_d4cf: ; 0xd4cf
 	call ClearSpriteBuffer
 	call Func_d57b
 	ld a, $7
-	ld [hWX], a
+	ldh [hWX], a
 	xor a
-	ld [hWY], a
+	ldh [hWY], a
 	ld a, $a0
-	ld [hSCX], a
+	ldh [hSCX], a
 	ld hl, hLCDC
 	set 5, [hl]
 	res 3, [hl]
@@ -1558,7 +1558,7 @@ Func_d4cf: ; 0xd4cf
 	dec b
 	jr nz, .asm_d551
 	xor a
-	ld [hSCX], a
+	ldh [hSCX], a
 	ld hl, hLCDC
 	res 5, [hl]
 	xor a
@@ -1568,11 +1568,11 @@ Func_d4cf: ; 0xd4cf
 
 Func_d57b: ; 0xd57b
 	ld a, $f0
-	ld [hSCY], a
+	ldh [hSCY], a
 	xor a
-	ld [hNextFrameHBlankSCX], a
+	ldh [hNextFrameHBlankSCX], a
 	ld a, $10
-	ld [hNextFrameHBlankSCY], a
+	ldh [hNextFrameHBlankSCY], a
 	rst AdvanceFrame
 	ld a, BANK(HighScoresTilemap)
 	ld hl, HighScoresTilemap
@@ -1642,16 +1642,16 @@ Func_d5d0: ; 0xd5d0
 	ld bc, $0009
 	call Func_d68a
 	xor a
-	ld [hSCY], a
-	ld [hNextFrameHBlankSCX], a
-	ld [hNextFrameHBlankSCY], a
+	ldh [hSCY], a
+	ldh [hNextFrameHBlankSCX], a
+	ldh [hNextFrameHBlankSCY], a
 	ret
 
 TransitionHighScoresPalettes: ; 0xd626
 ; When switching between the Red and Blue field high scores, the palettes
 ; of the rows smoothly transition between red and blue.
 	ld c, a
-	ld a, [hGameBoyColorFlag]
+	ldh a, [hGameBoyColorFlag]
 	and a
 	ret z
 	ld a, c

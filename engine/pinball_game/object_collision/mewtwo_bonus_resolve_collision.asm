@@ -39,7 +39,7 @@ Func_194ac: ; 0x194ac
 	ld c, a
 	ld b, $0
 	ld hl, Data_194c9
-	ld a, [hGameBoyColorFlag]
+	ldh a, [hGameBoyColorFlag]
 	and a
 	jr z, .asm_194bf
 	ld hl, Data_194fd

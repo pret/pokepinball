@@ -89,7 +89,7 @@ LoadPsyduckOrPoliwagGraphics: ; 0x1c235
 	call _LoadPsyduckOrPoliwagGraphics
 	ld a, [wLeftMapMoveCounter]
 	call LoadPsyduckOrPoliwagNumberGraphics
-	ld a, [hGameBoyColorFlag]
+	ldh a, [hGameBoyColorFlag]
 	and a
 	jr z, .asm_1c267
 	ld a, [wLeftMapMoveCounter]
@@ -138,7 +138,7 @@ LoadPsyduckOrPoliwagGraphics: ; 0x1c235
 	ld a, [wRightMapMoveCounter]
 	add $4
 	call LoadPsyduckOrPoliwagNumberGraphics
-	ld a, [hGameBoyColorFlag]
+	ldh a, [hGameBoyColorFlag]
 	and a
 	jr z, .asm_1c2b7
 	ld a, [wRightMapMoveCounter]
@@ -224,7 +224,7 @@ Func_1c305: ; 0x1c305
 .asm_1c31f
 	callba Func_1c3ac
 	callba Func_10362
-	ld a, [hGameBoyColorFlag]
+	ldh a, [hGameBoyColorFlag]
 	and a
 	callba nz, Func_10301
 	ld a, [wCapturingMon]
@@ -308,7 +308,7 @@ Func_1c3ca: ; 0x1c3ca
 	dec b
 	jr nz, .asm_1c3cf
 	callba Func_10184
-	ld a, [hGameBoyColorFlag]
+	ldh a, [hGameBoyColorFlag]
 	and a
 	callba nz, Func_102bc
 	ret
@@ -343,7 +343,7 @@ LoadEvolutionTrinketGraphics_BlueField: ; 0x1c3ee
 	ld a, [wEvolutionObjectsDisabled]
 	and a
 	ret z
-	ld a, [hGameBoyColorFlag]
+	ldh a, [hGameBoyColorFlag]
 	and a
 	ret z
 	ld a, BANK(EvolutionTrinketPalettes)

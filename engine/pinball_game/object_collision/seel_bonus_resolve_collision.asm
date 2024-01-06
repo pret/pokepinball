@@ -77,7 +77,7 @@ Func_25d0e: ; 0x25d0e
 	ld c, a
 	ld b, $0
 	ld hl, TileDataPointers_25d2b
-	ld a, [hGameBoyColorFlag]
+	ldh a, [hGameBoyColorFlag]
 	and a
 	jr z, .asm_25d21
 	ld hl, TileDataPointers_25d67
@@ -1151,7 +1151,7 @@ Func_262f4: ; 0x262f4
 	ld c, a
 	ld b, $0
 	ld hl, TileDataPointers_2634a
-	ld a, [hGameBoyColorFlag]
+	ldh a, [hGameBoyColorFlag]
 	and a
 	jr z, .asm_26340
 	ld hl, TileDataPointers_26764

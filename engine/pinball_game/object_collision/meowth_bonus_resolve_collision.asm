@@ -264,7 +264,7 @@ Func_24516: ; 0x24516
 	ld c, a
 	ld b, $0
 	ld hl, TileDataPointers_24533
-	ld a, [hGameBoyColorFlag]
+	ldh a, [hGameBoyColorFlag]
 	and a
 	jr z, .asm_24529
 	ld hl, TileDataPointers_2456f
@@ -626,7 +626,7 @@ UpdateMeowthHorizontalMovement: ; 0x24737
 	jr .asm_2475a
 
 .asm_2474a
-	ld a, [hFrameCounter]
+	ldh a, [hFrameCounter]
 	and $3f
 	ret nz
 	call GenRandom
@@ -692,7 +692,7 @@ UpdateMeowthVerticalMovement: ; 0x2476d
 	ld a, [wNumActiveJewelsTop]
 	cp 3
 	jr z, .asm_247d3
-	ld a, [hFrameCounter]
+	ldh a, [hFrameCounter]
 	and $3f
 	ret nz
 	call GenRandom
@@ -1884,7 +1884,7 @@ Func_24fa3: ; 0x24fa3
 	ld c, a
 	ld b, $0
 	ld hl, TileDataPointers_25007
-	ld a, [hGameBoyColorFlag]
+	ldh a, [hGameBoyColorFlag]
 	and a
 	jr z, .asm_24ffd
 	ld hl, TileDataPointers_25421

@@ -55,7 +55,7 @@ Func_2006b: ; 0x2006b
 	jr nz, .asm_200a1
 	callba Func_10414
 	callba Func_10362
-	ld a, [hGameBoyColorFlag]
+	ldh a, [hGameBoyColorFlag]
 	and a
 	callba nz, Func_10301
 .asm_20098

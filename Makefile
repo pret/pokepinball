@@ -6,7 +6,7 @@
 .SECONDARY:
 
 ROM := pokepinball.gbc
-OBJS := main.o wram.o sram.o
+OBJS := main.o wram.o sram.o hram.o
 
 ifeq (,$(shell which sha1sum))
 SHA1 := shasum

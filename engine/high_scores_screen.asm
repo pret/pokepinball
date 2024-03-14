@@ -1164,7 +1164,7 @@ Func_d2cb: ; 0xd2cb
 	xor a
 	call Func_d317
 	pop hl
-	ld bc, hSCY
+	ld bc, -3 * $20
 	add hl, bc
 	pop bc
 	dec b
@@ -1286,7 +1286,7 @@ Func_d361: ; 0xd361
 	xor a
 	call Func_d3ad
 	pop hl
-	ld bc, hSCY
+	ld bc, -3 * $20
 	add hl, bc
 	pop bc
 	dec b

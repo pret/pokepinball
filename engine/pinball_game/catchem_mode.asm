@@ -222,19 +222,19 @@ Func_10184: ; 0x10184 called by what looks like the "hit voltorb and shellder" h
 	ld hl, MonBillboardPicPointers
 	add hl, bc
 	ld a, [hli]
-	ld [$ff8c], a ;load 3 byte billboard pointer into Hram
+	ldh [hBillboardPicPointer], a ;load 3 byte billboard pointer into Hram
 	ld a, [hli]
-	ld [$ff8d], a
+	ldh [hBillboardPicPointer + 1], a
 	ld a, [hl]
-	ld [$ff8e], a
+	ldh [hBillboardPicBank], a
 	ld hl, MonBillboardPaletteMapPointers ;and the PAL pointers
 	add hl, bc
 	ld a, [hli]
-	ld [$ff8f], a
+	ldh [hBillboardPaletteMapPointer], a
 	ld a, [hli]
-	ld [$ff90], a
+	ldh [hBillboardPaletteMapPointer + 1], a
 	ld a, [hli]
-	ld [$ff91], a
+	ldh [hBillboardPaletteMapBank], a
 	ld de, wc000
 	ld hl, wBillboardTilesIlluminationStates
 	ld c, $0
@@ -290,9 +290,9 @@ Func_101d9: ; 0x101d9
 	ld a, h
 	ld [de], a
 	inc de ;load result in to de
-	ld a, [$ff8c] ;loaded billboard pointer
+	ldh a, [hBillboardPicPointer] ;loaded billboard pointer
 	ld l, a
-	ld a, [$ff8d]
+	ldh a, [hBillboardPicPointer + 1]
 	ld h, a
 	add hl, bc ;add ???*16
 	pop af
@@ -307,7 +307,7 @@ Func_101d9: ; 0x101d9
 	ld a, h
 	ld [de], a
 	inc de
-	ld a, [$ff8e]
+	ldh a, [hBillboardPicBank]
 	ld [de], a
 	inc de ;load adjusted pointer into de, then 0
 	ld a, $0
@@ -347,14 +347,14 @@ Func_10230: ; 0x10230
 	ld [de], a
 	inc de
 	srl c
-	ld a, [$ff8f];load PAL pointer
+	ldh a, [hBillboardPaletteMapPointer];load PAL pointer
 	ld l, a
-	ld a, [$ff90]
+	ldh a, [hBillboardPaletteMapPointer + 1]
 	ld h, a
 	add hl, bc ;add the value from Data_102a4
 	pop af
 	and a
-	ld a, [$ff91]
+	ldh a, [hBillboardPaletteMapBank]
 	call ReadByteFromBank ;fetch pallete data
 	jr nz, .asm_10261 ;
 	ld a, $5
@@ -417,11 +417,11 @@ Func_102bc: ; 0x102bc
 	ld hl, MonBillboardPalettePointers
 	add hl, bc
 	ld a, [hli]
-	ld [$ff8c], a
+	ldh [hBillboardPicPointer], a
 	ld a, [hli]
-	ld [$ff8d], a
+	ldh [hBillboardPicPointer + 1], a
 	ld a, [hl]
-	ld [$ff8e], a
+	ldh [hBillboardPicBank], a
 	ld de, wc1b8
 	ld a, $10
 	ld [de], a
@@ -432,13 +432,13 @@ Func_102bc: ; 0x102bc
 	ld a, $30
 	ld [de], a
 	inc de
-	ld a, [$ff8c]
+	ldh a, [hBillboardPicPointer]
 	ld [de], a
 	inc de
-	ld a, [$ff8d]
+	ldh a, [hBillboardPicPointer + 1]
 	ld [de], a
 	inc de
-	ld a, [$ff8e]
+	ldh a, [hBillboardPicBank]
 	ld [de], a
 	inc de
 	ld a, $0
@@ -463,11 +463,11 @@ Func_10301: ; 0x10301
 	ld hl, MonAnimatedPalettePointers
 	add hl, bc
 	ld a, [hli]
-	ld [$ff8c], a
+	ldh [hBillboardPicPointer], a
 	ld a, [hli]
-	ld [$ff8d], a
+	ldh [hBillboardPicPointer + 1], a
 	ld a, [hl]
-	ld [$ff8e], a
+	ldh [hBillboardPicBank], a
 	ld de, wc1b8
 	ld a, $10
 	ld [de], a
@@ -478,13 +478,13 @@ Func_10301: ; 0x10301
 	ld a, $58
 	ld [de], a
 	inc de
-	ld a, [$ff8c]
+	ldh a, [hBillboardPicPointer]
 	ld [de], a
 	inc de
-	ld a, [$ff8d]
+	ldh a, [hBillboardPicPointer + 1]
 	ld [de], a
 	inc de
-	ld a, [$ff8e]
+	ldh a, [hBillboardPicBank]
 	ld [de], a
 	inc de
 	ld a, $4
@@ -493,9 +493,9 @@ Func_10301: ; 0x10301
 	ld a, $68
 	ld [de], a
 	inc de
-	ld a, [$ff8c]
+	ldh a, [hBillboardPicPointer]
 	ld l, a
-	ld a, [$ff8d]
+	ldh a, [hBillboardPicPointer + 1]
 	ld h, a
 	ld bc, $0008
 	add hl, bc
@@ -505,7 +505,7 @@ Func_10301: ; 0x10301
 	ld a, h
 	ld [de], a
 	inc de
-	ld a, [$ff8e]
+	ldh a, [hBillboardPicBank]
 	ld [de], a
 	inc de
 	ld a, $0
@@ -530,11 +530,11 @@ Func_10362: ; 0x10362
 	ld hl, MonAnimatedPicPointers
 	add hl, bc
 	ld a, [hli]
-	ld [$ff8c], a
+	ldh [hBillboardPicPointer], a
 	ld a, [hli]
-	ld [$ff8d], a
+	ldh [hBillboardPicPointer + 1], a
 	ld a, [hl]
-	ld [$ff8e], a
+	ldh [hBillboardPicBank], a
 	ld de, wc150
 	ld bc, 0
 .loop
@@ -567,16 +567,16 @@ Func_1038e: ; 0x1038e
 	ld a, [hli]
 	ld [de], a
 	inc de
-	ld a, [$ff8c]
+	ldh a, [hBillboardPicPointer]
 	add [hl]
 	ld [de], a
 	inc hl
 	inc de
-	ld a, [$ff8d]
+	ldh a, [hBillboardPicPointer + 1]
 	adc [hl]
 	ld [de], a
 	inc de
-	ld a, [$ff8e]
+	ldh a, [hBillboardPicBank]
 	ld [de], a
 	inc de
 	ld a, $0

@@ -105,7 +105,7 @@ Start: ; 0x150
 	ld [wd7fc], a
 	ld [wd7fd], a
 	ldh [hStatIntrRoutine], a
-	ld [$ffb1], a
+	ldh [hFFB1], a
 	ld [wd8e1], a
 	ld [wd7fe], a
 	ldh [hSGBInit], a
@@ -204,7 +204,7 @@ SoftReset:
 	ld [wd7fc], a
 	ld [wd7fd], a
 	ldh [hStatIntrRoutine], a
-	ld [$ffb1], a
+	ldh [hFFB1], a
 	ld [wd8e1], a
 	ld [wd7fe], a
 	ld hl, hLCDC
@@ -472,7 +472,7 @@ Serial: ; 0x445
 	push hl
 	ld hl, Data_45d
 	push hl
-	ld a, [$ffb1]
+	ldh a, [hFFB1]
 	sla a
 	ld c, a
 	ld b, $0
@@ -1440,12 +1440,12 @@ Func_11d2:
 	ld h, d
 	ld l, e
 	ldh a, [hLoadedROMBank]
-	ld [$ff94], a
+	ldh [hFF94], a
 .asm_11d8
 	ld a, [hli]
 	and a
 	ret z
-	ld [$ff95], a
+	ldh [hFF95], a
 	ld a, [hli]
 	ld e, a
 	ld a, [hli]
@@ -1460,7 +1460,7 @@ Func_11d2:
 	push hl
 	ld h, b
 	ld l, c
-	ld a, [$ff95]
+	ldh a, [hFF95]
 	ld b, a
 .asm_11f1
 	ld a, [hli]
@@ -1514,7 +1514,7 @@ Func_11d2:
 	dec b
 	jr nz, .asm_11f1
 	pop hl
-	ld a, [$ff94]
+	ldh a, [hFF94]
 	ldh [hLoadedROMBank], a
 	ld [MBC5RomBank], a
 	jr .asm_11d8
@@ -1525,7 +1525,7 @@ Func_122e:
 	ld h, d
 	ld l, e
 	ldh a, [hLoadedROMBank]
-	ld [$ff94], a
+	ldh [hFF94], a
 .asm_1238
 	ld a, [hli]
 	and a
@@ -1535,7 +1535,7 @@ Func_122e:
 	ret
 
 .asm_1240
-	ld [$ff95], a
+	ldh [hFF95], a
 	ld a, [hli]
 	ld e, a
 	ld a, [hli]
@@ -1550,7 +1550,7 @@ Func_122e:
 	push hl
 	ld h, b
 	ld l, c
-	ld a, [$ff95]
+	ldh a, [hFF95]
 	ld b, a
 .asm_1256
 	ld a, [hli]
@@ -1559,7 +1559,7 @@ Func_122e:
 	dec b
 	jr nz, .asm_1256
 	pop hl
-	ld a, [$ff94]
+	ldh a, [hFF94]
 	ldh [hLoadedROMBank], a
 	ld [MBC5RomBank], a
 	jr .asm_1238
@@ -1578,7 +1578,7 @@ LoadPalettes:
 	ld a, [hli]
 	and a
 	ret z
-	ld [$ff94], a
+	ldh [hFF94], a
 	ld a, [hli]
 	bit 6, a
 	ld de, rBGPI
@@ -1601,7 +1601,7 @@ LoadPalettes:
 	push hl
 	ld h, b
 	ld l, c
-	ld a, [$ff94]
+	ldh a, [hFF94]
 	ld b, a
 .loadColor
 	ld a, [hli]
@@ -1669,7 +1669,7 @@ Func_1a59: ; 0x1a59
 	ld hl, rIE
 	set 3, [hl]
 	xor a
-	ld [$ffb1], a
+	ldh [hFFB1], a
 	ld a, $1
 	ld [wd8e1], a
 	ret

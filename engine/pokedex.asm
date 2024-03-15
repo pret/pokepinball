@@ -258,7 +258,7 @@ Func_281cb:
 	ld d, a
 	ld a, BANK(MonBillboardPalettePointers)
 	call ReadByteFromBank
-	ld [$ff8c], a
+	ldh [hPokedexBillboardPaletteBank], a
 	jr .asm_28214
 
 .asm_281fb
@@ -274,7 +274,7 @@ Func_281cb:
 	ld d, a
 	ld a, BANK(MonAnimatedPalettePointers)
 	call ReadByteFromBank
-	ld [$ff8c], a
+	ldh [hPokedexBillboardPaletteBank], a
 .asm_28214
 	ld h, d
 	ld l, e
@@ -282,11 +282,11 @@ Func_281cb:
 	ld b, $8
 .asm_2821b
 	push bc
-	ld a, [$ff8c]
+	ldh a, [hPokedexBillboardPaletteBank]
 	call ReadByteFromBank
 	inc hl
 	ld c, a
-	ld a, [$ff8c]
+	ldh a, [hPokedexBillboardPaletteBank]
 	call ReadByteFromBank
 	inc hl
 	ld b, a
@@ -2060,20 +2060,20 @@ Func_28d88: ; 0x28d88
 Func_28d97: ; 0x28d97
 	push de
 	ld a, b
-	ld [$ff8c], a
-	ld [$ff8d], a
+	ldh [hVariableWidthFontFF8C], a
+	ldh [hVariableWidthFontFF8D], a
 	ld a, c
-	ld [$ff8f], a
+	ldh [hVariableWidthFontFF8F], a
 	xor a
-	ld [$ff8e], a
-	ld [$ff90], a
-	ld [$ff91], a
+	ldh [hVariableWidthFontFF8E], a
+	ldh [hVariableWidthFontFF90], a
+	ldh [hVariableWidthFontFF91], a
 	call Func_28e73
 .asm_28daa
 	call Func_2957c
 	jr nc, .asm_28dcb
 	push hl
-	ld [$ff92], a
+	ldh [hVariableWidthFontFF92], a
 	cp $ff
 	jr nz, .asm_28dbb
 	call Func_208c
@@ -2085,7 +2085,7 @@ Func_28d97: ; 0x28d97
 	ld hl, CharacterWidths
 	add hl, bc
 	ld a, [hl]
-	ld [$ff93], a
+	ldh [hVariableWidthFontFF93], a
 	call LoadDexVWFCharacter
 .asm_28dc8
 	pop hl
@@ -2114,7 +2114,7 @@ Func_28d97: ; 0x28d97
 .asm_28de9
 	ld hl, wPokedexFontBuffer
 	add hl, bc
-	ld a, [$ff8f]
+	ldh a, [hVariableWidthFontFF8F]
 	ld c, a
 	ld b, $0
 	sla c
@@ -2134,26 +2134,26 @@ Func_28d97: ; 0x28d97
 Func_28e09: ; 0x28e09
 	push de
 	ld a, b
-	ld [$ff8c], a
-	ld [$ff8d], a
+	ldh [hVariableWidthFontFF8C], a
+	ldh [hVariableWidthFontFF8D], a
 	ld a, c
-	ld [$ff8f], a
+	ldh [hVariableWidthFontFF8F], a
 	xor a
-	ld [$ff8e], a
-	ld [$ff90], a
-	ld [$ff91], a
+	ldh [hVariableWidthFontFF8E], a
+	ldh [hVariableWidthFontFF90], a
+	ldh [hVariableWidthFontFF91], a
 	call Func_28e73
 .asm_28e1c
 	call Func_295e1
 	jr nc, .asm_28e35
 	push hl
-	ld [$ff92], a
+	ldh [hVariableWidthFontFF92], a
 	ld c, a
 	ld b, $0
 	ld hl, CharacterWidths
 	add hl, bc
 	ld a, [hl]
-	ld [$ff93], a
+	ldh [hVariableWidthFontFF93], a
 	call LoadDexVWFCharacter
 	pop hl
 	jr nc, .asm_28e1c
@@ -2182,7 +2182,7 @@ Func_28e09: ; 0x28e09
 .asm_28e53
 	ld hl, wPokedexFontBuffer
 	add hl, bc
-	ld a, [$ff8f]
+	ldh a, [hVariableWidthFontFF8F]
 	ld c, a
 	ld b, $0
 	sla c
@@ -2201,7 +2201,7 @@ Func_28e09: ; 0x28e09
 
 Func_28e73: ; 0x28e73
 	push hl
-	ld a, [$ff8f]
+	ldh a, [hVariableWidthFontFF8F]
 	ld c, a
 	ld b, $0
 	sla c

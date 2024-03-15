@@ -6,11 +6,38 @@ hPushSprite :: ds 10 ; 0xFF80
 hFarCallTempA :: db ; 0xFF8A
 hFarCallTempE :: db ; 0xFF8B
 
+	UNION
 hRotationAngleBuffer :: db ; 0xFF8C
 hCosineResultBuffer  :: dw ; 0xFF8D
 hSineResultBuffer    :: dw ; 0xFF8F
+	NEXTU
+hBillboardPicPointer        :: dw ; 0xFF8C
+hBillboardPicBank           :: db ; 0xFF8E
+hBillboardPaletteMapPointer :: dw ; 0xFF8F
+hBillboardPaletteMapBank    :: db ; 0xFF91
+	NEXTU
+hPokedexBillboardPaletteBank :: db ; 0xFF8C
+	NEXTU
+hFlippersFF8C :: db ; 0xFF8C
+hFlippersFF8D :: db ; 0xFF8D
+hFlippersFF8E :: db ; 0xFF8E
+	NEXTU
+hHighscoresFF8C :: dw ; 0xFF8C
+hHighscoresFF8E :: db ; 0xFF8E
+	NEXTU
+hVariableWidthFontFF8C :: db ; 0xFF8C
+hVariableWidthFontFF8D :: db ; 0xFF8D
+hVariableWidthFontFF8E :: db ; 0xFF8E
+hVariableWidthFontFF8F :: db ; 0xFF8F
+hVariableWidthFontFF90 :: db ; 0xFF90
+hVariableWidthFontFF91 :: db ; 0xFF91
+hVariableWidthFontFF92 :: db ; 0xFF92
+hVariableWidthFontFF93 :: db ; 0xFF93
+	ENDU
 
-ds 7
+hFF94 :: db ; 0xFF94
+hFF95 :: db ; 0xFF95
+ds 2
 
 hJoypadState             :: db ; 0xFF98  ; current state of buttons. See joy_constants.asm for which bits
                                          ; correspond to which buttons.
@@ -42,8 +69,7 @@ hNextFrameHBlankSCY :: db ; 0xFFAD
 hHBlankSCY          :: db ; 0xFFAE
 hLCDCMask           :: db ; 0xFFAF
 hStatIntrRoutine    :: db ; 0xFFB0
-
-ds 1
+hFFB1               :: db ; 0xFFB1
 
 hNumFramesSinceLastVBlank :: db ; 0xFFB2
 hFrameCounter             :: db ; 0xFFB3
@@ -57,7 +83,7 @@ ds 2
 hBallXPos :: dw ; 0xFFBA
 hBallYPos :: dw ; 0xFFBC
 
-ds 1
+hFFBE :: db ; 0xFFBE
 
 hFlipperCollisionRadius  :: db ; 0xFFBF
 

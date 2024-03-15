@@ -364,11 +364,11 @@ Func_e2e4:
 
 .asm_e32f
 	ld a, c
-	ld [$ff8c], a
+	ldh [hFlippersFF8C], a
 	pop bc
 	xor a
-	ld [$ff8d], a
-	ld [$ff8e], a
+	ldh [hFlippersFF8D], a
+	ldh [hFlippersFF8E], a
 .asm_e338
 	jr c, .asm_e344
 	ld a, d
@@ -388,23 +388,23 @@ Func_e2e4:
 	ld h, a
 	scf
 .asm_e34b
-	ld a, [$ff8d]
+	ldh a, [hFlippersFF8D]
 	rla
-	ld [$ff8d], a
-	ld a, [$ff8e]
+	ldh [hFlippersFF8D], a
+	ldh a, [hFlippersFF8E]
 	rla
-	ld [$ff8e], a
+	ldh [hFlippersFF8E], a
 	sla c
 	rl b
 	rl l
 	rl h
-	ld a, [$ff8c]
+	ldh a, [hFlippersFF8C]
 	dec a
-	ld [$ff8c], a
+	ldh [hFlippersFF8C], a
 	jr nz, .asm_e338
-	ld a, [$ff8d]
+	ldh a, [hFlippersFF8D]
 	ld e, a
-	ld a, [$ff8e]
+	ldh a, [hFlippersFF8E]
 	ld d, a
 .asm_e36a
 	pop af
@@ -431,7 +431,7 @@ CalculateFlipperYForce: ; 0xe379
 ; Returns: lb = resulting y force (yes, it's a logical 2-byte register composed of l and b)
 	ld a, b
 	xor d
-	ld [$ffbe], a
+	ldh [hFFBE], a
 	bit 7, b
 	jr z, .bcIsPositive
 	; negate bc so it's positive
@@ -499,7 +499,7 @@ CalculateFlipperYForce: ; 0xe379
 	pop de
 	add hl, de
 	; hlbc = 32-bit result of the multiplication
-	ld a, [$ffbe]
+	ldh a, [hFFBE]
 	bit 7, a
 	ret z
 	; negate hlbc

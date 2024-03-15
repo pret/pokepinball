@@ -691,15 +691,15 @@ Func_cfa6: ; 0xcfa6
 
 Func_cfcb: ; 0xcfcb
 	ld a, e
-	ld [$ff8c], a
+	ldh [hHighscoresFF8C], a
 	ld a, d
-	ld [$ff8d], a
+	ldh [hHighscoresFF8C + 1], a
 	push hl
 	ld b, $5
 .asm_cfd4
-	ld a, [$ff8c]
+	ldh a, [hHighscoresFF8C]
 	ld e, a
-	ld a, [$ff8d]
+	ldh a, [hHighscoresFF8C + 1]
 	ld d, a
 	call Func_d005
 	call Func_d017
@@ -717,9 +717,9 @@ Func_cfcb: ; 0xcfcb
 	ret c
 	push af
 	jr nz, .asm_cff8
-	ld a, [$ff8c]
+	ldh a, [hHighscoresFF8C]
 	ld l, a
-	ld a, [$ff8d]
+	ldh a, [hHighscoresFF8C + 1]
 	ld h, a
 .asm_cff8
 	ld c, $d
@@ -746,7 +746,7 @@ Func_d005: ; 0xd005
 	jr nz, .asm_d007
 .asm_d010
 	ld a, c
-	ld [$ff8e], a
+	ldh [hHighscoresFF8E], a
 	call Func_d035
 	ret
 
@@ -761,7 +761,7 @@ Func_d017: ; 0xd017
 	dec hl
 	dec c
 	jr nz, .asm_d019
-	ld a, [$ff8e]
+	ldh a, [hHighscoresFF8E]
 	and a
 	jr nz, .asm_d02b
 	ld b, $5

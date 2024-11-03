@@ -2400,10 +2400,7 @@ wd961:: ; 0xd961
 	ds $1
 
 wPokedexFlags:: ; 0xd962
-	ds $96
-
-wd9f8:: ; 0xd9f8
-	ds $1
+	ds 151 ; NUM_POKEMON
 
 wNumPokemonSeen:: ; 0xd9f9
 	ds $2

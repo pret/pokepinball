@@ -1,3 +1,6 @@
+INCLUDE "macros.asm"
+INCLUDE "constants/pokemon_constants.asm"
+
 ; Sprite Animations use this 3-byte struct.
 MACRO animation
 \1FrameCounter:: ds 1
@@ -787,7 +790,7 @@ wDisableDrawScoreboardInfo:: ; 0xd5cb
 ; 0 = Draw them.
 	ds $1
 
-MACRO scrolling_text
+MACRO scrolling_text_label
 \1Enabled:: ds 1              ; Toggles if enabled. 0 is off, non-0 is on
 \1ScrollDelayCounter:: ds 1   ; Number of frames remaining until the next scroll step
 \1ScrollDelay:: ds 1          ; Number of frames between each scroll step
@@ -799,13 +802,13 @@ MACRO scrolling_text
 ENDM
 
 wScrollingText1:: ; 0xd5cc
-	scrolling_text wScrollingText1
+	scrolling_text_label wScrollingText1
 wScrollingText2:: ; 0xd5d4
-	scrolling_text wScrollingText2
+	scrolling_text_label wScrollingText2
 wScrollingText3:: ; 0xd5dc
-	scrolling_text wScrollingText3
+	scrolling_text_label wScrollingText3
 
-MACRO stationary_text
+MACRO stationary_text_label
 \1Enabled::ds 1              ; Toggles if enabled. 0 is off, non-0 is on
 \1MessageBoxOffset:: ds 1     ; Offset in wBottomMessageBuffer to place first character of text
 \1SourceTextOffset:: ds 1     ; Offset in wBottomMessageText for the text to be displayed
@@ -815,13 +818,13 @@ MACRO stationary_text
 ENDM
 
 wStationaryText1:: ; 0xd5e4
-	stationary_text wStationaryText1
+	stationary_text_label wStationaryText1
 
 wStationaryText2:: ; 0xd5e9
-	stationary_text wStationaryText2
+	stationary_text_label wStationaryText2
 
 wStationaryText3:: ; 0xd5ee
-	stationary_text wStationaryText3
+	stationary_text_label wStationaryText3
 
 wCapturingMon:: ; 0xd5f3
 ; Set to 1 when the capturing animation starts.
@@ -2400,7 +2403,7 @@ wd961:: ; 0xd961
 	ds $1
 
 wPokedexFlags:: ; 0xd962
-	ds 151 ; NUM_POKEMON
+	ds NUM_POKEMON
 
 wNumPokemonSeen:: ; 0xd9f9
 	ds $2

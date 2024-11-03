@@ -732,7 +732,8 @@ Func_28513: ; 0x28513
 	ret nz
 	ld a, [wd95e]
 	ld b, a
-	ld a, [wd9f8]
+	; if MEW has not been seen or caught, act as if the max pokedex number were 150 instead of 151
+	ld a, [wPokedexFlags + MEW - 1]
 	and a
 	ld a, NUM_POKEMON - 1
 	jr z, .asm_2852d

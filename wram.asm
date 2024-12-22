@@ -2393,7 +2393,7 @@ wd95d:: ; 0xd95d
 wd95e:: ; 0xd95e
 	ds $1
 
-wd95f:: ; 0xd95f
+wPokedexCursorWasMoved:: ; 0xd95f
 	ds $1
 
 wd960:: ; 0xd960

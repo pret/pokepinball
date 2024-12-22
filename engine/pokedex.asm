@@ -117,11 +117,11 @@ Data_280c4: ; 0x280c4
 	dw $FFFF ; terminators
 
 MainPokedexScreen: ; 0x280fe
-	call Func_28513
+	call HandlePokedexMenuInput
 	ldh a, [hNewlyPressedButtons]
 	bit BIT_A_BUTTON, a
 	jr z, .asm_28142
-	ld a, [wd95f]
+	ld a, [wPokedexCursorWasMoved]
 	and a
 	jp nz, .asm_28174
 	ld a, [wCurPokedexIndex]
@@ -722,102 +722,104 @@ ExitPokedexScreen: ; 0x284f9
 	ld [wScreenState], a
 	ret
 
-Func_28513: ; 0x28513
+HandlePokedexMenuInput: ; 0x28513
 	ldh a, [hPressedButtons]
-	ld hl, wd95e
+	ld hl, wd95e ; some temp storage for joypad input
 	or [hl]
 	ld [hl], a
 	ld a, [wd95c]
 	and a
 	ret nz
 	ld a, [wd95e]
-	ld b, a
+	ld b, a ; store button press
 	; if MEW has not been seen or caught, act as if the max pokedex number were 150 instead of 151
 	ld a, [wPokedexFlags + MEW - 1]
 	and a
 	ld a, NUM_POKEMON - 1
-	jr z, .asm_2852d
+	jr z, .gotMaximumPokedexIndex
 	ld a, NUM_POKEMON
-.asm_2852d
+.gotMaximumPokedexIndex
 	ld d, a
 	ld a, [wCurPokedexIndex]
-	bit 6, b
-	jr z, .asm_28548
+	bit BIT_D_UP, b
+	jr z, .checkIfDownWasPressed
 	and a
-	jr z, .asm_285a9
+	jr z, .done
 	dec a
 	ld [wCurPokedexIndex], a
 	ld a, $4
 	ld [wd95c], a
 	ld a, $1
-	ld [wd95f], a
-	jr .asm_285a9
+	ld [wPokedexCursorWasMoved], a
+	jr .done
 
-.asm_28548
-	bit 7, b
-	jr z, .asm_2855f
+.checkIfDownWasPressed
+	bit BIT_D_DOWN, b
+	jr z, .checkIfLeftWasPressed
 	inc a
 	cp d
-	jr z, .asm_285a9
+	jr z, .done ; jump if reached bottom of Pokedex
 	ld [wCurPokedexIndex], a
 	ld a, $4
 	ld [wd95c], a
 	ld a, $1
-	ld [wd95f], a
-	jr .asm_285a9
+	ld [wPokedexCursorWasMoved], a
+	jr .done
 
-.asm_2855f
+.checkIfLeftWasPressed
+	; modify `d` incase we press left or right
 	ld a, d
-	sub $9
+	sub $9 
 	ld d, a
 	ld a, [wPokedexOffset]
 	ld c, $5
-	bit 5, b
-	jr z, .asm_28586
-	cp $5
-	jr nc, .asm_28571
-	ld c, a
-.asm_28571
-	sub c
+	bit BIT_D_LEFT, b
+	jr z, .checkIfRightWasPressed
+	cp $5 ; 5 is max number of pokedex entries displayed
+	jr nc, .getNewLowerPokedexOffset
+	ld c, a ; load the offset when [wPokedexOffset] is 0, 1, 2, 3, or 4
+.getNewLowerPokedexOffset
+	sub c 
 	ld [wPokedexOffset], a
 	ld a, [wCurPokedexIndex]
 	sub c
 	ld [wCurPokedexIndex], a
 	ld a, $1
-	ld [wd95f], a
-	call Func_285ca
+	ld [wPokedexCursorWasMoved], a
+	call Func_285ca ; TODO
 	jr .asm_285aa
 
-.asm_28586
-	bit 4, b
+.checkIfRightWasPressed
+	bit BIT_D_RIGHT, b
 	jr z, .asm_285ae
 	cp d
-	jr c, .asm_28594
+	jr c, .getNewHigherPokedexOffset
+; change how far the menu can scroll down when near the end of the Pokedex
 	push af
-	cpl
+	cpl 
 	add d
 	add $5
 	ld c, a
 	pop af
-.asm_28594
+.getNewHigherPokedexOffset
 	add c
 	ld [wPokedexOffset], a
 	ld a, [wCurPokedexIndex]
 	add c
 	ld [wCurPokedexIndex], a
 	ld a, $1
-	ld [wd95f], a
-	call Func_285ca
+	ld [wPokedexCursorWasMoved], a
+	call Func_285ca ; TODO
 	jr .asm_285aa
 
-.asm_285a9
+.done
 	xor a
 .asm_285aa
 	ld [wd95e], a
 	ret
 
 .asm_285ae
-	ld a, [wd95f]
+	ld a, [wPokedexCursorWasMoved]
 	and a
 	ret z
 	lb de, $00, $03
@@ -827,7 +829,7 @@ Func_28513: ; 0x28513
 	call Func_28a15
 	call Func_28add
 	xor a
-	ld [wd95f], a
+	ld [wPokedexCursorWasMoved], a
 	ret
 
 Func_285ca: ; 0x285ca
@@ -1172,7 +1174,7 @@ Func_287e7: ; 0x287e7
 	ld a, [wd960]
 	and a
 	ret z
-	ld a, [wd95f]
+	ld a, [wPokedexCursorWasMoved]
 	and a
 	ret nz
 	ld a, [wCurPokedexIndex]

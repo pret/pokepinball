@@ -453,14 +453,14 @@ Func_282e9: ; 0x282e9
 	ld bc, $0200
 	call LoadVRAMData
 	ld a, $1
-	ld [rVBK], a
+	ldh [rVBK], a
 	ld a, BANK(PokedexBGAttributes)
 	ld hl, PokedexBGAttributes
 	ld de, vBGWin
 	ld bc, $0200
 	call LoadVRAMData
 	xor a
-	ld [rVBK], a
+	ldh [rVBK], a
 	call Func_28972
 	call Func_28a8a
 	call Func_28ad1
@@ -1552,7 +1552,7 @@ Func_28a15: ; 0x28a15
 	inc de
 	inc de
 	hlCoord 16, 7, vBGMap
-	ld a, [rLCDC]
+	ldh a, [rLCDC]
 	bit 7, a
 	jr nz, .asm_28a7a
 	ld a, [de]
@@ -1788,7 +1788,7 @@ Func_28bf5: ; 0x28bf5
 .asm_28c04
 	push bc
 	ld a, $1
-	ld [rVBK], a
+	ldh [rVBK], a
 	ld hl, MonAnimatedPicPointers
 	add hl, bc
 	ld a, Bank(MonAnimatedPicPointers)
@@ -1807,7 +1807,7 @@ Func_28bf5: ; 0x28bf5
 	ld bc, $0300
 	call LoadOrCopyVRAMData
 	xor a
-	ld [rVBK], a
+	ldh [rVBK], a
 	pop bc
 	push bc
 	ld a, [wCurPokedexIndex]
@@ -2046,7 +2046,7 @@ Func_28d71: ; 0x28d71
 
 Func_28d88: ; 0x28d88
 	push af
-	ld a, [rLCDC]
+	ldh a, [rLCDC]
 	bit 7, a
 	jr nz, .asm_28d92
 	pop af

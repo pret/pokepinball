@@ -26,11 +26,11 @@ UnusedFunc_84fd:
 	and a
 	jr z, .not_cgb
 	ld a, $1
-	ld [rVBK], a
+	ldh [rVBK], a
 	xor a
 	call .FillAttrsOrBGMap
 	xor a
-	ld [rVBK], a
+	ldh [rVBK], a
 .not_cgb
 	ld a, $81
 	call .FillAttrsOrBGMap

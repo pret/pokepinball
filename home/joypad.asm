@@ -4,28 +4,28 @@ ReadJoypad: ; 0xab8
 ; some registers the game uses during gameplay. It remembers the joypad state
 ; from the current frame, previous frame, and two frames ago.
 	ld a, $20
-	ld [rJOYP], a
-	ld a, [rJOYP]
-	ld a, [rJOYP]
+	ldh [rJOYP], a
+	ldh a, [rJOYP]
+	ldh a, [rJOYP]
 	and $f
 	swap a
 	ld b, a
 	ld a, $30
-	ld [rJOYP], a
+	ldh [rJOYP], a
 	ld a, $10
-	ld [rJOYP], a
-	ld a, [rJOYP]
-	ld a, [rJOYP]
-	ld a, [rJOYP]
-	ld a, [rJOYP]
-	ld a, [rJOYP]
-	ld a, [rJOYP]
+	ldh [rJOYP], a
+	ldh a, [rJOYP]
+	ldh a, [rJOYP]
+	ldh a, [rJOYP]
+	ldh a, [rJOYP]
+	ldh a, [rJOYP]
+	ldh a, [rJOYP]
 	and $f
 	or b
 	cpl  ; a contains currently-pressed buttons
 	ldh [hJoypadState], a
 	ld a, $30
-	ld [rJOYP], a
+	ldh [rJOYP], a
 	ldh a, [hJoypadState]
 	ld hl, hPreviousJoypadState
 	xor [hl]  ; a contains buttons that are different from previous frame

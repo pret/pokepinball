@@ -360,9 +360,9 @@ Func_48180:
 	jp nz, .asm_4818f
 	call Func_4840d
 	ld a, [wde98]
-	ld [rNR50], a
+	ldh [rNR50], a
 	ld a, [wde99]
-	ld [rNR51], a
+	ldh [rNR51], a
 	ret
 
 Func_4824d:
@@ -394,7 +394,7 @@ Func_4826e:
 	bit 3, [hl]
 	jr z, .asm_4827b
 	ld a, [wde9a]
-	ld [rNR10], a
+	ldh [rNR10], a
 .asm_4827b
 	bit 5, [hl]
 	jr nz, .asm_482ba
@@ -405,53 +405,53 @@ Func_4826e:
 	bit 1, [hl]
 	jr z, .asm_48295
 	ld a, [wde93]
-	ld [rNR13], a
+	ldh [rNR13], a
 	ld a, [wde94]
-	ld [rNR14], a
+	ldh [rNR14], a
 .asm_48295
 	bit 2, [hl]
 	jr z, .asm_482a5
 	ld a, [wde92]
-	ld [rNR12], a
+	ldh [rNR12], a
 	ld a, [wde94]
 	or $80
-	ld [rNR14], a
+	ldh [rNR14], a
 .asm_482a5
 	bit 0, [hl]
 	ret z
 	ld a, [wde91]
 	ld d, a
-	ld a, [rNR11]
+	ldh a, [rNR11]
 	and $3f
 	or d
-	ld [rNR11], a
+	ldh [rNR11], a
 	ret
 
 .asm_482b4
 	ld a, [wde93]
-	ld [rNR13], a
+	ldh [rNR13], a
 	ret
 
 .asm_482ba
 	ld a, $8
-	ld [rNR12], a
+	ldh [rNR12], a
 	ld a, [wde94]
 	or $80
-	ld [rNR14], a
+	ldh [rNR14], a
 	ret
 
 .asm_482c6
 	ld hl, wde91
 	ld a, $3f
 	or [hl]
-	ld [rNR11], a
+	ldh [rNR11], a
 	ld a, [wde92]
-	ld [rNR12], a
+	ldh [rNR12], a
 	ld a, [wde93]
-	ld [rNR13], a
+	ldh [rNR13], a
 	ld a, [wde94]
 	or $80
-	ld [rNR14], a
+	ldh [rNR14], a
 	ret
 
 Func_482e0:
@@ -466,53 +466,53 @@ Func_482e0:
 	bit 1, [hl]
 	jr z, .asm_482fe
 	ld a, [wde93]
-	ld [rNR23], a
+	ldh [rNR23], a
 	ld a, [wde94]
-	ld [rNR24], a
+	ldh [rNR24], a
 .asm_482fe
 	bit 2, [hl]
 	jr z, .asm_4830e
 	ld a, [wde92]
-	ld [rNR22], a
+	ldh [rNR22], a
 	ld a, [wde94]
 	or $80
-	ld [rNR24], a
+	ldh [rNR24], a
 .asm_4830e
 	bit 0, [hl]
 	ret z
 	ld a, [wde91]
 	ld d, a
-	ld a, [rNR21]
+	ldh a, [rNR21]
 	and $3f
 	or d
-	ld [rNR21], a
+	ldh [rNR21], a
 	ret
 
 .asm_4831d
 	ld a, [wde93]
-	ld [rNR23], a
+	ldh [rNR23], a
 	ret
 
 .asm_48323
 	ld a, $8
-	ld [rNR22], a
+	ldh [rNR22], a
 	ld a, [wde94]
 	or $80
-	ld [rNR24], a
+	ldh [rNR24], a
 	ret
 
 .asm_4832f
 	ld hl, wde91
 	ld a, $3f
 	or [hl]
-	ld [rNR21], a
+	ldh [rNR21], a
 	ld a, [wde92]
-	ld [rNR22], a
+	ldh [rNR22], a
 	ld a, [wde93]
-	ld [rNR23], a
+	ldh [rNR23], a
 	ld a, [wde94]
 	or $80
-	ld [rNR24], a
+	ldh [rNR24], a
 	ret
 
 Func_48349:
@@ -527,47 +527,47 @@ Func_48349:
 	bit 1, [hl]
 	jr z, .asm_48367
 	ld a, [wde93]
-	ld [rNR33], a
+	ldh [rNR33], a
 	ld a, [wde94]
-	ld [rNR34], a
+	ldh [rNR34], a
 .asm_48367
 	bit 2, [hl]
 	ret z
 	xor a
-	ld [rNR30], a
+	ldh [rNR30], a
 	call LoadWavePattern_Bank12
 	ld a, $80
-	ld [rNR30], a
+	ldh [rNR30], a
 	ld a, [wde93]
-	ld [rNR33], a
+	ldh [rNR33], a
 	ld a, [wde94]
 	or $80
-	ld [rNR34], a
+	ldh [rNR34], a
 	ret
 
 .asm_48381
 	ld a, [wde93]
-	ld [rNR33], a
+	ldh [rNR33], a
 	ret
 
 .asm_48387
 	xor a
-	ld [rNR30], a
+	ldh [rNR30], a
 	ret
 
 .asm_4838b
 	ld a, $3f
-	ld [rNR31], a
+	ldh [rNR31], a
 	xor a
-	ld [rNR30], a
+	ldh [rNR30], a
 	call LoadWavePattern_Bank12
 	ld a, $80
-	ld [rNR30], a
+	ldh [rNR30], a
 	ld a, [wde93]
-	ld [rNR33], a
+	ldh [rNR33], a
 	ld a, [wde94]
 	or $80
-	ld [rNR34], a
+	ldh [rNR34], a
 	ret
 
 LoadWavePattern_Bank12:
@@ -596,7 +596,7 @@ LoadWavePattern_Bank12:
 	ld a, [wde92]
 	and $f0
 	sla a
-	ld [rNR32], a  ; set volume of wave channel
+	ldh [rNR32], a  ; set volume of wave channel
 	ret
 
 Func_483cf:
@@ -609,32 +609,32 @@ Func_483cf:
 	bit 1, [hl]
 	jr z, .asm_483e4
 	ld a, [wde93]
-	ld [rNR43], a
+	ldh [rNR43], a
 .asm_483e4
 	bit 2, [hl]
 	ret z
 	ld a, [wde92]
-	ld [rNR42], a
+	ldh [rNR42], a
 	ld a, $80
-	ld [rNR44], a
+	ldh [rNR44], a
 	ret
 
 .asm_483f1
 	ld a, $8
-	ld [rNR42], a
+	ldh [rNR42], a
 	ld a, $80
-	ld [rNR44], a
+	ldh [rNR44], a
 	ret
 
 .asm_483fa
 	ld a, $3f
-	ld [rNR41], a
+	ldh [rNR41], a
 	ld a, [wde92]
-	ld [rNR42], a
+	ldh [rNR42], a
 	ld a, [wde93]
-	ld [rNR43], a
+	ldh [rNR43], a
 	ld a, $80
-	ld [rNR44], a
+	ldh [rNR44], a
 	ret
 
 Func_4840d:
@@ -1128,7 +1128,7 @@ Func_48670:
 	cp $4
 	jr nz, .asm_486f6
 	xor a
-	ld [rNR10], a
+	ldh [rNR10], a
 	ld [wde9a], a
 .asm_486f6
 	ld hl, $0002
@@ -1829,7 +1829,7 @@ Func_48b06:
 	cp $0
 	ret nz
 	xor a
-	ld [rNR10], a
+	ldh [rNR10], a
 	ld [wde9a], a
 	ret
 

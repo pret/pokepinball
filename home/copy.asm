@@ -1,17 +1,17 @@
 Func_61b: ; 0x61b
-	ld a, [rLY]  ; LY register (LCDC Y-Coordinate)
+	ldh a, [rLY]  ; LY register (LCDC Y-Coordinate)
 	cp $40
 	jr c, .asm_625
 	cp $80
 	jr c, .asm_63d
 .asm_625
-	ld a, [rLY]  ; LY register (LCDC Y-Coordinate)
+	ldh a, [rLY]  ; LY register (LCDC Y-Coordinate)
 	cp $40
 	jr c, .asm_625
 	cp $80
 	jr nc, .asm_625
 .asm_62f
-	ld a, [rSTAT]
+	ldh a, [rSTAT]
 	and $3
 	jr nz, .asm_62f  ; wait for lcd controller to finish transferring data
 	ld a, $15
@@ -189,7 +189,7 @@ LoadVideoData: ; 0x6a4
 	rr c
 	rl a
 	and $1  ; checks bit 1 of the last word in the data struct
-	ld [rVBK], a  ; set VRAM Bank
+	ldh [rVBK], a  ; set VRAM Bank
 .copyByte
 	ld a, [hli]
 	ld [de], a
@@ -199,7 +199,7 @@ LoadVideoData: ; 0x6a4
 	or b  ; does bc = 0?
 	jr nz, .copyByte
 	xor a
-	ld [rVBK], a  ; set VRAM Bank to Bank 0
+	ldh [rVBK], a  ; set VRAM Bank to Bank 0
 	pop af
 	ldh [hLoadedROMBank], a
 	ld [MBC5RomBank], a  ; reload the previous ROM Bank
@@ -281,7 +281,7 @@ LoadVRAMData: ; 0x73f
 .loop
 	call Func_61b
 .waitForHBlank
-	ld a, [rSTAT]
+	ldh a, [rSTAT]
 	and $3
 	jr nz, .waitForHBlank
 	ld a, [hli]
@@ -416,7 +416,7 @@ Func_7dc: ; 0x7dc
 .asm_80e
 	call Func_61b
 .asm_811
-	ld a, [rSTAT]
+	ldh a, [rSTAT]
 	and $3
 	jr nz, .asm_811
 	ld a, [hli]
@@ -473,7 +473,7 @@ PutTileInVRAM: ; 0x848
 	call WaitForLCD
 	call Func_61b
 .asm_84f
-	ld a, [rSTAT]
+	ldh a, [rSTAT]
 	and $3
 	jr nz, .asm_84f  ; wait for lcd controller to finish transferring data
 	pop af
@@ -485,15 +485,15 @@ Func_858: ; 0x858
 	call WaitForLCD
 	call Func_61b
 .asm_85f
-	ld a, [rSTAT]
+	ldh a, [rSTAT]
 	and $3
 	jr nz, .asm_85f
 	ld a, $1
-	ld [rVBK], a
+	ldh [rVBK], a
 	pop af
 	ld [hl], a
 	xor a
-	ld [rVBK], a
+	ldh [rVBK], a
 	ret
 
 LoadBillboardPaletteMap: ; 0x86f
@@ -504,11 +504,11 @@ LoadBillboardPaletteMap: ; 0x86f
 	ldh a, [hROMBankBuffer]
 	ldh [hLoadedROMBank], a
 	ld [MBC5RomBank], a
-	ld a, [rLCDC]
+	ldh a, [rLCDC]
 	bit 7, a
 	jr nz, .asm_8ac
 	ld a, $1
-	ld [rVBK], a
+	ldh [rVBK], a
 	ld b, $4
 .loop
 	push bc
@@ -536,7 +536,7 @@ LoadBillboardPaletteMap: ; 0x86f
 	dec b
 	jr nz, .loop
 	xor a
-	ld [rVBK], a
+	ldh [rVBK], a
 	pop af
 	ldh [hLoadedROMBank], a
 	ld [MBC5RomBank], a
@@ -586,7 +586,7 @@ Func_8e1: ; 0x8e1
 	ldh a, [hROMBankBuffer]
 	ldh [hLoadedROMBank], a
 	ld [MBC5RomBank], a
-	ld a, [rLCDC]
+	ldh a, [rLCDC]
 	bit 7, a
 	jr nz, .asm_902
 	ld a, c

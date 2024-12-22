@@ -3,7 +3,7 @@ InitializeCurrentStage: ; 0x8311
 	ld bc, $0a00
 	call ClearData
 	ld a, $1
-	ld [rVBK], a
+	ldh [rVBK], a
 	ld a, [wd805]
 	and a
 	jr nz, .asm_8331
@@ -20,7 +20,7 @@ InitializeCurrentStage: ; 0x8311
 	call __memset_8
 .asm_833c
 	xor a
-	ld [rVBK], a
+	ldh [rVBK], a
 	call ResetDataForStageInitialization
 	ld a, [wCurrentStage]
 	call CallInFollowingTable

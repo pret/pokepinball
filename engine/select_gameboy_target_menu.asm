@@ -48,12 +48,12 @@ InitSelectGameboyTargetMenu: ; 0x800a
 
 LoadGameboyTargetMenuGfx: ; 0x8049
 	ld a, $1
-	ld [rVBK], a
+	ldh [rVBK], a
 	ld c, $ff
 	call FillTilesVRAM
 	call FillBackgroundsVRAM
 	xor a
-	ld [rVBK], a
+	ldh [rVBK], a
 	ld c, $0
 	call FillTilesVRAM
 	call FillBackgroundsVRAM

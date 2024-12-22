@@ -139,16 +139,16 @@ CheckLeftFlipperCollision:
 	ld hl, wBallXPos
 	ld c, (hBallXPos & $ff)
 	ld a, [hli]
-	ld [$ff00+c], a
+	ldh [$ff00+c], a
 	inc c
 	ld a, [hli]
-	ld [$ff00+c], a
+	ldh [$ff00+c], a
 	inc c
 	ld a, [hli]
-	ld [$ff00+c], a
+	ldh [$ff00+c], a
 	inc c
 	ld a, [hli]
-	ld [$ff00+c], a
+	ldh [$ff00+c], a
 	inc c
 	ld a, [wPreviousLeftFlipperState]
 	ldh [hPreviousFlipperState], a
@@ -171,18 +171,18 @@ CheckRightFlipperCollision: ; 0xe226
 	ld a, [hli]  ; Invert the ball's x position, so that the flipper collision bytes are mirrored.
 	sub $1
 	cpl
-	ld [$ff00+c], a
+	ldh [$ff00+c], a
 	inc c
 	ld a, [hli]
 	sbc 160
 	cpl
-	ld [$ff00+c], a
+	ldh [$ff00+c], a
 	inc c
 	ld a, [hli]
-	ld [$ff00+c], a
+	ldh [$ff00+c], a
 	inc c
 	ld a, [hli]
-	ld [$ff00+c], a
+	ldh [$ff00+c], a
 	inc c
 	ld a, [wPreviousRightFlipperState]
 	ldh [hPreviousFlipperState], a

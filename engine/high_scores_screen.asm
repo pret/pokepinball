@@ -406,7 +406,7 @@ Func_cd6c: ; 0xcd6c
 	call PlaySoundEffect
 .asm_cdc6
 	xor a
-	ld [rRP], a
+	ldh [rRP], a
 	ld hl, wScreenState
 	dec [hl]
 	ret
@@ -544,7 +544,7 @@ Func_cdce: ; 0xcdce
 	ret
 
 Func_ceca: ; 0xceca
-	ld a, [rLY]
+	ldh a, [rLY]
 	and a
 	jr nz, Func_ceca
 	ei
@@ -573,7 +573,7 @@ SendHighScores: ; 0xced1
 .asm_cefa
 	ld b, $2
 	ld c, $56
-	ld a, [$ff00+c]
+	ldh a, [$ff00+c]
 	and b
 	jr z, .asm_cf09
 	ldh a, [hNumFramesSinceLastVBlank]

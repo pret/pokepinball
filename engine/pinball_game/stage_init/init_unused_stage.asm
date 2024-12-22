@@ -4,12 +4,12 @@ Func_18000: ; 0x18000
 	ld bc, $0a00
 	call ClearData
 	ld a, $1
-	ld [rVBK], a
+	ldh [rVBK], a
 	hlCoord 0, 0, vBGWin
 	ld bc, $0400
 	call ClearData
 	xor a
-	ld [rVBK], a
+	ldh [rVBK], a
 	ld hl, wWhichVoltorb
 	ld bc, $032e
 	call ClearData

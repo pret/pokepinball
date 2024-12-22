@@ -41,11 +41,11 @@ Func_1502: ; 1502 (0:1502)
 	ld hl, SerialTranfserData_18ff
 	add hl, bc
 	ld a, [hl]
-	ld [rSB], a
+	ldh [rSB], a
 	ld a, $1
-	ld [rSC], a
+	ldh [rSC], a
 	ld a, $81
-	ld [rSC], a
+	ldh [rSC], a
 	ld a, [wd8b9]
 	cp $2
 	ret nz
@@ -65,10 +65,10 @@ Func_1527: ; 1527 (0:1527)
 	ld a, [wd8bc]
 	ld h, a
 	add hl, bc
-	ld a, [rSB]
+	ldh a, [rSB]
 	ld [wd8c8 + 1], a
 	ld a, [hl]
-	ld [rSB], a
+	ldh [rSB], a
 	ld l, a
 	ld a, [wd8c3]
 	add l
@@ -77,9 +77,9 @@ Func_1527: ; 1527 (0:1527)
 	adc $0
 	ld [wd8c4], a
 	ld a, $1
-	ld [rSC], a
+	ldh [rSC], a
 	ld a, $81
-	ld [rSC], a
+	ldh [rSC], a
 	ld hl, wd8b9
 	inc [hl]
 	jr nz, .asm_1560
@@ -159,24 +159,24 @@ Func_15e1: ; 15e1 (0:15e1)
 	ld hl, wd8c3
 	add hl, bc
 	ld a, [hl]
-	ld [rSB], a
+	ldh [rSB], a
 	ld a, $1
-	ld [rSC], a
+	ldh [rSC], a
 	ld a, $81
-	ld [rSC], a
+	ldh [rSC], a
 	ld hl, wd8b2
 	inc [hl]
 	ret
 
 Func_15f8: ; 15f8 (0:15f8)
-	ld a, [rSB]
+	ldh a, [rSB]
 	ld [wd8c8], a
 	xor a
-	ld [rSB], a
+	ldh [rSB], a
 	ld a, $1
-	ld [rSC], a
+	ldh [rSC], a
 	ld a, $81
-	ld [rSC], a
+	ldh [rSC], a
 	ld hl, wd8c6
 	inc [hl]
 	ld a, [hl]
@@ -193,7 +193,7 @@ Func_1612: ; 1612 (0:1612)
 	jr z, .asm_1625
 	ld [wd86e + 1], a
 .asm_1625
-	ld a, [rSB]
+	ldh a, [rSB]
 	ld [wd8c7], a
 	cp $ff
 	jr nz, .asm_163a
@@ -229,13 +229,13 @@ Func_165f: ; 165f (0:165f)
 
 Func_1660:
 	xor a
-	ld [rSC], a
+	ldh [rSC], a
 Func_1663: ; 1663 (0:1663)
 	ret
 
 Func_1664:
 	push af
-	ld a, [rSC]
+	ldh a, [rSC]
 	bit 7, a
 	jr nz, .asm_1679
 	push bc
@@ -273,14 +273,14 @@ Func_167b: ; 0x167b
 
 Func_169d:
 	xor a
-	ld [rSC], a
-	ld [rSB], a
+	ldh [rSC], a
+	ldh [rSB], a
 	; fallthrough
 
 Func_16a2: ; 0x16a2
 	xor a
-	ld [rSB], a
-	ld [rSC], a
+	ldh [rSB], a
+	ldh [rSC], a
 	ld [wd8ad], a
 	dec a
 	ld [wd8c7], a
@@ -805,10 +805,10 @@ Func_19e5: ; 0x19e5
 	ld [wd8b9], a
 	ld [wd8db], a
 	ld a, [SerialTranfserData_18ff]
-	ld [rSB], a
+	ldh [rSB], a
 	ld a, $1
-	ld [rSC], a
+	ldh [rSC], a
 	ld a, $81
-	ld [rSC], a
+	ldh [rSC], a
 	ld a, $f0
 	ret

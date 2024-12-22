@@ -14,9 +14,9 @@ FarSendSGBPackets: ; 0x12a1
 .loop
 	push bc
 	ld a, $0
-	ld [$ff00+c], a
+	ldh [$ff00+c], a
 	ld a, $30
-	ld [$ff00+c], a
+	ldh [$ff00+c], a
 	ld b, $10
 .inner_loop
 	ld e, $8
@@ -28,18 +28,18 @@ FarSendSGBPackets: ; 0x12a1
 	jr nz, .got_data
 	ld a, $20
 .got_data
-	ld [$ff00+c], a
+	ldh [$ff00+c], a
 	ld a, $30
-	ld [$ff00+c], a
+	ldh [$ff00+c], a
 	rr d
 	dec e
 	jr nz, .innermost_loop
 	dec b
 	jr nz, .inner_loop
 	ld a, $20
-	ld [$ff00+c], a
+	ldh [$ff00+c], a
 	ld a, $30
-	ld [$ff00+c], a
+	ldh [$ff00+c], a
 	pop bc
 	dec b
 	jr z, .quit
@@ -69,30 +69,30 @@ InitSGB: ; 0x12f8
 	ld hl, Data_38010
 	call FarSendSGBPackets
 	call SGBWait7000
-	ld a, [rJOYP]
+	ldh a, [rJOYP]
 	and $3
 	cp $3
 	jr nz, .asm_1346
 	ld a, $20
-	ld [rJOYP], a
-	ld a, [rJOYP]
-	ld a, [rJOYP]
+	ldh [rJOYP], a
+	ldh a, [rJOYP]
+	ldh a, [rJOYP]
 	ld a, $30
-	ld [rJOYP], a
+	ldh [rJOYP], a
 	ld a, $10
-	ld [rJOYP], a
-	ld a, [rJOYP]
-	ld a, [rJOYP]
-	ld a, [rJOYP]
-	ld a, [rJOYP]
-	ld a, [rJOYP]
-	ld a, [rJOYP]
+	ldh [rJOYP], a
+	ldh a, [rJOYP]
+	ldh a, [rJOYP]
+	ldh a, [rJOYP]
+	ldh a, [rJOYP]
+	ldh a, [rJOYP]
+	ldh a, [rJOYP]
 	ld a, $30
-	ld [rJOYP], a
-	ld a, [rJOYP]
-	ld a, [rJOYP]
-	ld a, [rJOYP]
-	ld a, [rJOYP]
+	ldh [rJOYP], a
+	ldh a, [rJOYP]
+	ldh a, [rJOYP]
+	ldh a, [rJOYP]
+	ldh a, [rJOYP]
 	and $3
 	cp $3
 	jr nz, .asm_1346
@@ -121,7 +121,7 @@ FarSendSGBPacket_BGMapRows: ; 0x1353
 	push af
 	push hl
 	ld a, $e4
-	ld [rBGP], a
+	ldh [rBGP], a
 	ld de, $0010
 	add hl, de
 	ld de, vTilesSH ; tiles
@@ -141,7 +141,7 @@ FarSendSGBPacket_BGMapRows: ; 0x1353
 	dec c
 	jr nz, .row
 	ld a, $81
-	ld [rLCDC], a
+	ldh [rLCDC], a
 	ld bc, $0005
 	call SGBWait1750
 	pop hl
@@ -150,9 +150,9 @@ FarSendSGBPacket_BGMapRows: ; 0x1353
 	ld bc, $0006
 	call SGBWait1750
 	ldh a, [hBGP]
-	ld [rBGP], a
+	ldh [rBGP], a
 	ldh a, [hLCDC]
-	ld [rLCDC], a
+	ldh [rLCDC], a
 	pop af
 	ldh [hLoadedROMBank], a
 	ld [MBC5RomBank], a

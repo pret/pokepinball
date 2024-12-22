@@ -47,33 +47,33 @@ Start: ; 0x150
 	ld sp, hGameBoyColorFlag
 	di
 	xor a
-	ld [rIF], a
-	ld a, [rLCDC]    ; LCD Control
+	ldh [rIF], a
+	ldh a, [rLCDC]    ; LCD Control
 	bit 7, a         ; Check if LCD Display is enabled
 	jr nz, .LCDDisplayEnabled
 	set 7, a
-	ld [rLCDC], a
+	ldh [rLCDC], a
 .LCDDisplayEnabled
 	ld bc, $0002
 	call SGBWait1750
 .waitForVBlank
-	ld a, [rLY]   ; LY register (LCDC Y-Coordinate)
+	ldh a, [rLY]   ; LY register (LCDC Y-Coordinate)
 	cp 145          ; > 144 means V-Blank
 	jr c, .waitForVBlank
 	ld a, $81
-	ld [rLCDC], a   ; Enable LCD Display
+	ldh [rLCDC], a   ; Enable LCD Display
 	xor a
-	ld [rBGP], a   ; Clear Palette Data
-	ld [rOBP0], a
-	ld [rOBP1], a
+	ldh [rBGP], a   ; Clear Palette Data
+	ldh [rOBP0], a
+	ldh [rOBP1], a
 	ld bc, $0002
 	call SGBWait1750
 .waitForVBlank2
-	ld a, [rLY]   ; LY register (LCDC Y-Coordinate)
+	ldh a, [rLY]   ; LY register (LCDC Y-Coordinate)
 	cp 145          ; > 144 means V-Blank
 	jr c, .waitForVBlank2
 	xor a
-	ld [rLCDC], a   ; Disable LCD Display
+	ldh [rLCDC], a   ; Disable LCD Display
 	ld hl, wc000
 	ld bc, $2000
 	call ClearData  ; Clear WRAM Bank 0
@@ -144,7 +144,7 @@ Start: ; 0x150
 	ld [wd917], a
 .asm_222
 	ld a, $1
-	ld [rIE], a  ; Only enable LCD Status interrupt
+	ldh [rIE], a  ; Only enable LCD Status interrupt
 	ei
 	ld a, $ff
 	ld [wRNGModulus], a
@@ -173,7 +173,7 @@ SoftReset:
 	di
 	ld sp, hGameBoyColorFlag
 	xor a
-	ld [rIF], a
+	ldh [rIF], a
 	ld bc, $2
 	call SGBWait1750
 	ld hl, wc000
@@ -233,7 +233,7 @@ SoftReset:
 	ld [wd917], a
 .asm_02d5
 	ld a, $1
-	ld [rIE], a
+	ldh [rIE], a
 	ei
 	ld a, $ff
 	ld [wRNGModulus], a
@@ -254,42 +254,42 @@ VBlank: ; 0x2f2
 	push hl
 	call hPushSprite ; sprite DMA transfer
 	ldh a, [hLCDC]
-	ld [rLCDC], a
+	ldh [rLCDC], a
 	call Func_113a
 	ei
-	ld a, [rLY]
+	ldh a, [rLY]
 	cp $90
 	jr c, .asm_328
 	ld hl, hSTAT
 	ld c, rSTAT - $ff00
 	ld a, [hli]
-	ld [$ff00+c], a
+	ldh [$ff00+c], a
 	inc c
 	ld a, [hli]
-	ld [$ff00+c], a
+	ldh [$ff00+c], a
 	inc c
 	ld a, [hli]
-	ld [$ff00+c], a
-	inc c
-	inc c
-	ld a, [hli]
-	ld [$ff00+c], a
+	ldh [$ff00+c], a
 	inc c
 	inc c
 	ld a, [hli]
-	ld [$ff00+c], a
+	ldh [$ff00+c], a
+	inc c
 	inc c
 	ld a, [hli]
-	ld [$ff00+c], a
+	ldh [$ff00+c], a
 	inc c
 	ld a, [hli]
-	ld [$ff00+c], a
+	ldh [$ff00+c], a
+	inc c
+	ld a, [hli]
+	ldh [$ff00+c], a
 	inc c
 	ld a, [hli] ;hWY
-	ld [$ff00+c], a ;into FF4A
+	ldh [$ff00+c], a ;into FF4A
 	inc c
 	ld a, [hli]
-	ld [$ff00+c], a
+	ldh [$ff00+c], a
 .asm_328
 	ldh a, [hLYC]
 	ldh [hLastLYC], a
@@ -345,13 +345,13 @@ VBlank: ; 0x2f2
 	ld a, $1
 	ld [wUpdateAudioEngineUsingTimerInterrupt], a
 	ld a, -68
-	ld [rTMA], a
+	ldh [rTMA], a
 	ld a, $0
-	ld [rTAC], a
+	ldh [rTAC], a
 	ld hl, rIE
 	set 2, [hl]
 	ld a, $4
-	ld [rTAC], a ; Timer interrupt will fire ~60 times per second
+	ldh [rTAC], a ; Timer interrupt will fire ~60 times per second
 .skipTimerToggle
 	ld hl, MBC5SRamBank
 	ld a, [wd917]
@@ -378,7 +378,7 @@ VBlank: ; 0x2f2
 	reti
 
 FadeAndSoftReset:
-	ld a, [rLCDC]
+	ldh a, [rLCDC]
 	bit 7, a
 	jr z, .LCD_disabled
 	call FadeOut
@@ -391,10 +391,10 @@ FadeAndSoftReset:
 	res 1, [hl] ; disable STAT interrupt
 	xor a
 	ld [MBC5SRamEnable], a
-	ld [rSB], a
-	ld [rSC], a
-	ld [rIE], a
-	ld [rNR52], a
+	ldh [rSB], a
+	ldh [rSC], a
+	ldh [rIE], a
+	ldh [rNR52], a
 	ldh a, [hGameBoyColorFlagBackup]
 	ldh [hGameBoyColorFlag], a
 	jp SoftReset
@@ -455,7 +455,7 @@ Timer: ; 0x418
 	ld [wUpdateAudioEngineUsingTimerInterrupt], a
 	; disable timer
 	ld a, $0
-	ld [rTAC], a
+	ldh [rTAC], a
 	ld hl, rIE
 	res 2, [hl]
 .skipTimer
@@ -494,7 +494,7 @@ Joypad: ; 0x467
 	reti
 
 DelayFrame: ; 0x468
-	ld a, [rLCDC]
+	ldh a, [rLCDC]
 	bit 7, a
 	ret z
 	ld hl, hNumFramesSinceLastVBlank
@@ -595,14 +595,14 @@ BankSwitch: ; 0x54f
 	jp hl
 
 DisableLCD: ; 0x576
-	ld a, [rLCDC]
+	ldh a, [rLCDC]
 	bit 7, a
 	ret z
 	ldh a, [hLCDC]
 	res 7, a
 	ldh [hLCDC], a
 .asm_581
-	ld a, [rLCDC]
+	ldh a, [rLCDC]
 	bit 7, a
 	jr nz, .asm_581
 	ret
@@ -613,7 +613,7 @@ EnableLCD: ; 0x588
 	call nz, .UpdatePals
 	ldh a, [hLCDC]
 	set 7, a
-	ld [rLCDC], a
+	ldh [rLCDC], a
 	ldh [hLCDC], a
 	ret
 
@@ -674,15 +674,15 @@ GreyscalePalette:
 	RGB 0, 0, 0
 
 VBlankIntDisable:
-	ld a, [rIE]
+	ldh a, [rIE]
 	res 0, a
-	ld [rIE], a
+	ldh [rIE], a
 	ret
 
 VBlankIntEnable:
-	ld a, [rIE]
+	ldh a, [rIE]
 	set 0, a
-	ld [rIE], a
+	ldh [rIE], a
 	ret
 
 WriteDMACodeToHRAM: ; 0x5f7
@@ -703,7 +703,7 @@ WriteDMACodeToHRAM: ; 0x5f7
 DMARoutine:
 ; This routine is initially loaded into hPushSprite by WriteDMACodeToHRAM.
 	ld a, (wSpriteBuffer >> 8)
-	ld [rDMA], a   ; start DMA
+	ldh [rDMA], a   ; start DMA
 	ld a, $28
 .waitLoop               ; wait for DMA to finish
 	dec a
@@ -714,7 +714,7 @@ DMARoutine:
 WaitForLCD: ; 0x60f
 ; Wait for LCD controller to stop reading from both OAM and VRAM because
 ; CPU can't access OAM, VRAM, or palette data ($ff69, $ff6b) during this time.
-	ld a, [rSTAT]    ; LCDC Status register
+	ldh a, [rSTAT]    ; LCDC Status register
 	and $3
 	jr nz, WaitForLCD
 	ld a, $a
@@ -924,11 +924,11 @@ DrawBottomMessageBox: ; 0xe69
 ; Draws the current scrolling bottom message box to VRAM during V-Blank.
 ; Note, this only applies to the 1-tile high message bar. When it displays, things like Ball Bonus summary, and
 ; the Save/Cancel menu, this is not used to draw the message buffer.
-	ld a, [rLY]
+	ldh a, [rLY]
 	cp $90
 	jr nc, DrawBottomMessageBox ; ensure we're in V-Blank
 .asm_e6f
-	ld a, [rSTAT]
+	ldh a, [rSTAT]
 	and $3
 	jr nz, .asm_e6f
 	ld a, $a
@@ -1001,7 +1001,7 @@ Load4BottomMessageBytes: ; 0xeef
 	ret
 
 Write4BottomMessageBytes: ; 0xef8
-	ld a, [rSTAT]
+	ldh a, [rSTAT]
 	and $3
 	jr nz, Write4BottomMessageBytes
 	ld a, b
@@ -1029,7 +1029,7 @@ StatIntrTogglePinballWindow:
 ; gameplay.
 	ld hl, hLastLYC
 	ld c, [hl]
-	ld a, [rLY]
+	ldh a, [rLY]
 	cp c
 	jp c, StatIntrDone
 	inc c
@@ -1047,10 +1047,10 @@ StatIntrTogglePinballWindow:
 	ld a, [hl]
 	and $3
 	jr nz, .waitForHBlank
-	ld a, [rLCDC]
+	ldh a, [rLCDC]
 	and $80 ; enable LCD display
 	or c
-	ld [rLCDC], a
+	ldh [rLCDC], a
 	jp StatIntrDone
 
 StatIntrTogglePokedexWindow: ; 0xfea
@@ -1058,7 +1058,7 @@ StatIntrTogglePokedexWindow: ; 0xfea
 	ldh a, [hLYCSub]
 	cp [hl]
 	jr nz, .asm_1015
-	ld a, [rLY]
+	ldh a, [rLY]
 	cp [hl]
 	jp nz, StatIntrDone
 	ldh a, [hLCDC]
@@ -1071,16 +1071,16 @@ StatIntrTogglePokedexWindow: ; 0xfea
 	ld a, [hl]
 	and $3
 	jr nz, .waitForHBlank
-	ld a, [rLCDC]
+	ldh a, [rLCDC]
 	and $80 ; enable LCD display
 	or c
-	ld [rLCDC], a
+	ldh [rLCDC], a
 	ld a, b
-	ld [rSCY], a
+	ldh [rSCY], a
 	jp StatIntrDone
 
 .asm_1015
-	ld a, [rLY]
+	ldh a, [rLY]
 	cp [hl]
 	jr nz, .asm_1037
 	ldh a, [hLastLYC]
@@ -1096,14 +1096,14 @@ StatIntrTogglePokedexWindow: ; 0xfea
 	and $3
 	jr nz, .waitForHBlank_2
 	ld a, c
-	ld [rSCY], a
+	ldh [rSCY], a
 	ld a, b
-	ld [rLYC], a
+	ldh [rLYC], a
 	jp StatIntrDone
 
 .asm_1037
 	ld hl, hLYCSub
-	ld a, [rLY]
+	ldh a, [rLY]
 	cp [hl]
 	jp nz, StatIntrDone
 	ldh a, [hLCDC]
@@ -1116,17 +1116,17 @@ StatIntrTogglePokedexWindow: ; 0xfea
 	ld a, [hl]
 	and $3
 	jr nz, .waitForHBlank_3
-	ld a, [rLCDC]
+	ldh a, [rLCDC]
 	and $80
 	or c
-	ld [rLCDC], a
+	ldh [rLCDC], a
 	ld a, b
-	ld [rSCY], a
+	ldh [rSCY], a
 	jp StatIntrDone
 
 StatIntrToggleHighScoresWindow:
 	ld hl, hLastLYC
-	ld a, [rLY]
+	ldh a, [rLY]
 	cp [hl]
 	jr z, .asm_1069
 	dec a
@@ -1143,14 +1143,14 @@ StatIntrToggleHighScoresWindow:
 	and $3
 	jr nz, .waitForHBlank
 	ld a, b
-	ld [rSCY], a
+	ldh [rSCY], a
 	ld a, c
-	ld [rLYC], a
+	ldh [rLYC], a
 	jp StatIntrDone
 
 .asm_1080
 	ld hl, hLYCSub
-	ld a, [rLY]
+	ldh a, [rLY]
 	cp [hl]
 	jr z, .asm_108d
 	dec a
@@ -1165,7 +1165,7 @@ StatIntrToggleHighScoresWindow:
 	and $3
 	jr nz, .waitForHBlank_2
 	ld a, b
-	ld [rSCY], a
+	ldh [rSCY], a
 	jp StatIntrDone
 
 StatIntrNothing2: ; 0x109e
@@ -1220,11 +1220,11 @@ QueueGraphicsToLoadWithFunc: ; 0x10c5
 ;		 hl: pointer to data
 ;		  a: bank of data
 	push af
-	ld a, [rLCDC]
+	ldh a, [rLCDC]
 	bit 7, a
 	jr z, .skip_wait_ly
 .wait_ly
-	ld a, [rLY]
+	ldh a, [rLY]
 	cp $88
 	jr nc, .wait_ly
 .skip_wait_ly
@@ -1272,16 +1272,16 @@ QueueGraphicsToLoadWithFunc: ; 0x10c5
 	ld [hl], e
 	ld hl, wd7fb
 	inc [hl]
-	ld a, [rLCDC]
+	ldh a, [rLCDC]
 	bit 7, a
 	ret nz
-	ld a, [rIE]
+	ldh a, [rIE]
 	push af
 	res 0, a
-	ld [rIE], a
+	ldh [rIE], a
 	call Func_113a
 	pop af
-	ld [rIE], a
+	ldh [rIE], a
 	ret
 
 Func_1129: ; 0x1129
@@ -1372,10 +1372,10 @@ LoadTileLists: ; 0x117b
 
 LoadTileListsBank1: ; 0x118d
 	ld a, $1
-	ld [rVBK], a
+	ldh [rVBK], a
 	call LoadTileLists
 	xor a
-	ld [rVBK], a
+	ldh [rVBK], a
 	ret
 
 Func_1198:
@@ -1430,10 +1430,10 @@ Func_11b5: ; 11b5 (0:11b5)
 
 Func_11c7:
 	ld a, $1
-	ld [rVBK], a
+	ldh [rVBK], a
 	call Func_11b5
 	xor a
-	ld [rVBK], a
+	ldh [rVBK], a
 	ret
 
 Func_11d2:
@@ -1521,7 +1521,7 @@ Func_11d2:
 
 Func_122e:
 	ld a, $1
-	ld [rVBK], a
+	ldh [rVBK], a
 	ld h, d
 	ld l, e
 	ldh a, [hLoadedROMBank]
@@ -1531,7 +1531,7 @@ Func_122e:
 	and a
 	jr nz, .asm_1240
 	xor a
-	ld [rVBK], a
+	ldh [rVBK], a
 	ret
 
 .asm_1240

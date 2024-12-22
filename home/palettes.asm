@@ -16,14 +16,14 @@ SetAllPalettesWhite: ; 0xb66
 	ld c, $20
 .asm_b7d
 	ld a, b
-	ld [rBGPI], a
+	ldh [rBGPI], a
 	inc b
-	ld a, [rBGPD]
+	ldh a, [rBGPD]
 	ld [hli], a
 	ld a, b
-	ld [rBGPI], a
+	ldh [rBGPI], a
 	inc b
-	ld a, [rBGPD]
+	ldh a, [rBGPD]
 	ld [hli], a
 	dec c
 	jr nz, .asm_b7d
@@ -31,14 +31,14 @@ SetAllPalettesWhite: ; 0xb66
 	ld c, $20
 .asm_b92
 	ld a, b
-	ld [rOBPI], a
+	ldh [rOBPI], a
 	inc b
-	ld a, [rOBPD]
+	ldh a, [rOBPD]
 	ld [hli], a
 	ld a, b
-	ld [rOBPI], a
+	ldh [rOBPI], a
 	inc b
-	ld a, [rOBPD]
+	ldh a, [rOBPD]
 	ld [hli], a
 	dec c
 	jr nz, .asm_b92
@@ -369,16 +369,16 @@ FadeOutStep: ; 0xd11
 
 SetFadedPalettes: ; 0d61
 ; Sets the current palette data to the faded palettes.
-	ld a, [rIE]
+	ldh a, [rIE]
 	res 0, a
-	ld [rIE], a
+	ldh [rIE], a
 	ld hl, wFadeBGPaletteData
 	ld de, rBGPI
 	ld a, $80
 	ld [de], a
 	inc de
 .waitForVBlank
-	ld a, [rLY]
+	ldh a, [rLY]
 	cp $90
 	jr c, .waitForVBlank
 	ld b, $10
@@ -409,9 +409,9 @@ SetFadedPalettes: ; 0d61
 	ld [de], a
 	dec b
 	jr nz, .loadOBJColorsLoop
-	ld a, [rIE]
+	ldh a, [rIE]
 	set 0, a
-	ld [rIE], a
+	ldh [rIE], a
 	ret
 
 LoadCurrentPalettesIntoFadePalettes: ; 0xd9d
@@ -424,27 +424,27 @@ LoadCurrentPalettesIntoFadePalettes: ; 0xd9d
 .asm_da4
 	call Func_61b
 .asm_da7
-	ld a, [rSTAT]
+	ldh a, [rSTAT]
 	and $3
 	jr nz, .asm_da7  ; wait for lcd controller to finish transferring data
 	ld a, b
 	ld [de], a
-	ld a, [$ff00+c]
+	ldh a, [$ff00+c]
 	ld [hli], a
 	inc b
 	ld a, b
 	ld [de], a
-	ld a, [$ff00+c]
+	ldh a, [$ff00+c]
 	ld [hli], a
 	inc b
 	ld a, b
 	ld [de], a
-	ld a, [$ff00+c]
+	ldh a, [$ff00+c]
 	ld [hli], a
 	inc b
 	ld a, b
 	ld [de], a
-	ld a, [$ff00+c]
+	ldh a, [$ff00+c]
 	ld [hli], a
 	inc b
 	nop

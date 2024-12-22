@@ -731,7 +731,7 @@ HandlePokedexDirectionalInput: ; 0x28513
 	and a
 	ret nz
 	ld a, [wd95e]
-	ld b, a
+	ld b, a ; store button press
 	; if MEW has not been seen or caught, act as if the max pokedex number were 150 instead of 151
 	ld a, [wPokedexFlags + MEW - 1]
 	and a
@@ -768,7 +768,7 @@ HandlePokedexDirectionalInput: ; 0x28513
 
 .checkIfLeftPressed
 	ld a, d
-	sub $9
+	sub $9 
 	ld d, a
 	ld a, [wPokedexOffset]
 	ld c, $5
@@ -795,7 +795,7 @@ HandlePokedexDirectionalInput: ; 0x28513
 	jr c, .getNewHigherPokedexOffset
 ; change how far the menu can scroll down when near the end of the Pokedex
 	push af
-	cpl
+	cpl 
 	add d
 	add $5
 	ld c, a

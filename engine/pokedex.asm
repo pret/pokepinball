@@ -768,7 +768,7 @@ HandlePokedexDirectionalInput: ; 0x28513
 
 .checkIfLeftPressed
 	ld a, d
-	sub $9 
+	sub $9
 	ld d, a
 	ld a, [wPokedexOffset]
 	ld c, $5
@@ -795,7 +795,7 @@ HandlePokedexDirectionalInput: ; 0x28513
 	jr c, .getNewHigherPokedexOffset
 ; change how far the menu can scroll down when near the end of the Pokedex
 	push af
-	cpl 
+	cpl
 	add d
 	add $5
 	ld c, a
@@ -824,10 +824,10 @@ HandlePokedexDirectionalInput: ; 0x28513
 ; if the cursor was moved, do a bunch of stuff (to be determined).
 	lb de, $00, $03
 	call PlaySoundEffect
-	call Func_28931
-	call Func_289c8
-	call Func_28a15
-	call Func_28add
+	call Func_28931 ; TODO
+	call Func_289c8 ; TODO
+	call Func_28a15 ; TODO
+	call Func_28add ; TODO
 	xor a
 	ld [wPokedexCursorWasMoved], a
 	ret

@@ -731,7 +731,7 @@ HandlePokedexDirectionalInput: ; 0x28513
 	and a
 	ret nz
 	ld a, [wd95e]
-	ld b, a ; store button press
+	ld b, a
 	; if MEW has not been seen or caught, act as if the max pokedex number were 150 instead of 151
 	ld a, [wPokedexFlags + MEW - 1]
 	and a
@@ -824,10 +824,10 @@ HandlePokedexDirectionalInput: ; 0x28513
 ; if the cursor was moved, do a bunch of stuff (to be determined).
 	lb de, $00, $03
 	call PlaySoundEffect
-	call Func_28931 ; TODO
-	call Func_289c8 ; TODO
-	call Func_28a15 ; TODO
-	call Func_28add ; TODO
+	call Func_28931
+	call Func_289c8
+	call Func_28a15
+	call Func_28add
 	xor a
 	ld [wPokedexCursorWasMoved], a
 	ret

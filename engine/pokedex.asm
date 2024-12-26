@@ -726,7 +726,7 @@ HandlePokedexDirectionalInput: ; 0x28513
 	ldh a, [hPressedButtons]
 	ld hl, wd95e ; some temp storage for joypad input
 	or [hl]
-	ld [hl], a
+	ld [hl], a ; load any combination of button presses
 	ld a, [wd95c]
 	and a
 	ret nz
@@ -901,7 +901,7 @@ DisplayPokedexScrollBarAndCursor: ; 0x285db
 .decideCursorSprite
 	ld c, a
 	push bc
-	ldh a, [hJoypadState]
+	ldh a, [hJoypadState] ; are we holding down a button? Is that right?
 	and a
 	ld a, [wPokedexBlinkingCursorAndScrollBarCounter]
 	jr z, .wasJoyHeld
@@ -925,6 +925,7 @@ DisplayPokedexScrollBarAndCursor: ; 0x285db
 	ld a, [wd95c]
 	and a
 	ret z
+; not sure what happens here yet
 	dec a
 	ld [wd95c], a
 	sla a
@@ -1117,7 +1118,7 @@ Func_28765: ; 0x28765
 	xor a
 	ld [wd862], a
 	ld a, [hl]
-	call Func_28993
+	call GetPokemonName
 	ret
 
 .asm_28791
@@ -1144,7 +1145,7 @@ Func_28765: ; 0x28765
 	ld [wd862], a
 	ld a, [hl]
 	add $5
-	call Func_28993
+	call GetPokemonName
 	ret
 
 TileLocations_287b7:
@@ -1415,14 +1416,16 @@ Func_28972: ; 0x28972
 	ld a, [hl]
 	ld d, a
 	ld a, c
-	call Func_28993
+	call GetPokemonName
 	pop bc
 	inc c
 	dec b
 	jr nz, .asm_28978
 	ret
 
-Func_28993: ; 0x28993
+; Something with checking if Pokemon has been seen
+; DOUBLE CHECK THE NAME
+GetPokemonName: ; 0x28993
 	push hl
 	ld c, a
 	ld b, $0
@@ -2212,6 +2215,7 @@ Func_28e09: ; 0x28e09
 Func_28e73: ; 0x28e73
 	push hl
 	ldh a, [hVariableWidthFontFF8F]
+; compute 16*bc
 	ld c, a
 	ld b, $0
 	sla c

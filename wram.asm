@@ -2386,7 +2386,7 @@ wPokedexOffset:: ; 0xd95a
 wPokedexBlinkingCursorAndScrollBarCounter:: ; 0xd95b
 	ds $1
 
-wd95c:: ; 0xd95c
+wPokedexDirectionalInputDelay:: ; 0xd95c
 	ds $1
 
 wPokedexWindowWasShifted:: ; 0xd95d

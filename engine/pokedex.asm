@@ -727,7 +727,7 @@ HandlePokedexDirectionalInput: ; 0x28513
 	ld hl, wd95e ; some temp storage for joypad input
 	or [hl]
 	ld [hl], a ; load any combination of button presses
-	ld a, [wPokedexDirectionalInputDelay]
+	ld a, [wd95c]
 	and a
 	ret nz
 	ld a, [wd95e]
@@ -748,7 +748,7 @@ HandlePokedexDirectionalInput: ; 0x28513
 	dec a
 	ld [wCurPokedexIndex], a
 	ld a, $4
-	ld [wPokedexDirectionalInputDelay], a
+	ld [wd95c], a
 	ld a, $1
 	ld [wPokedexCursorWasMoved], a
 	jr .done
@@ -761,7 +761,7 @@ HandlePokedexDirectionalInput: ; 0x28513
 	jr z, .done ; jump if reached bottom of Pokedex
 	ld [wCurPokedexIndex], a
 	ld a, $4
-	ld [wPokedexDirectionalInputDelay], a
+	ld [wd95c], a
 	ld a, $1
 	ld [wPokedexCursorWasMoved], a
 	jr .done
@@ -922,12 +922,12 @@ DisplayPokedexScrollBarAndCursor: ; 0x285db
 	call LoadSpriteData
 .asm_28667
 	pop bc
-	ld a, [wPokedexDirectionalInputDelay]
+	ld a, [wd95c]
 	and a
 	ret z
 ; not sure what happens here yet
 	dec a
-	ld [wPokedexDirectionalInputDelay], a
+	ld [wd95c], a
 	sla a
 	ld e, a
 	ld d, $0
@@ -1016,7 +1016,7 @@ Func_286dd: ; 0x286dd
 	ld a, [wPokedexWindowWasShifted]
 	and a
 	ret z
-	ld a, [wPokedexDirectionalInputDelay]
+	ld a, [wd95c]
 	and a
 	jr nz, .asm_2870d
 	ld [wPokedexWindowWasShifted], a
@@ -1370,6 +1370,7 @@ Func_28931: ; 0x28931
 	ld hl, BlankDexName
 	jr z, .gotMonNameAddress
 	ld a, [wCurPokedexIndex]
+; compute 11 * hl (11 is length of name)
 	ld c, a
 	ld b, $0
 	ld h, b
@@ -2235,7 +2236,7 @@ Func_28e73: ; 0x28e73
 	ld h, a
 	push hl
 	ld hl, wc000
-	ld a, [wd860]
+	ld a, [wd860] ; loading `a` here has no effect.
 	ret
 
 Func_28e9a:

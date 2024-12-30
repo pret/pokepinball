@@ -2399,7 +2399,8 @@ wd95e:: ; 0xd95e
 wPokedexCursorWasMoved:: ; 0xd95f
 	ds $1
 
-wd960:: ; 0xd960
+; It's either 0 or $ff ...
+wd960:: ; 0xd960 
 	ds $1
 
 wd961:: ; 0xd961

@@ -190,17 +190,17 @@ MonInfoPokedexScreen: ; 0x28178
 	bit BIT_A_BUTTON, a
 	jr z, .checkIfBPressed
 	call Func_28912
-	jr .asm_281a2
+	jr .checkIfGameboyColorAndStartPressed
 
 .checkIfBPressed
 	bit BIT_B_BUTTON, a
-	jr z, .checkIfGameboyColorStartPressed
+	jr z, .checkIfGameboyColorAndStartPressed
 	jr .BButtonPressed
 
 .asm_28190
 	ldh a, [hNewlyPressedButtons]
 	and $3
-	jr z, .checkIfGameboyColorStartPressed
+	jr z, .checkIfGameboyColorAndStartPressed
 .BButtonPressed
 	call Func_288a2
 	call Func_285db
@@ -668,7 +668,7 @@ Func_284bc: ; 0x284bc
 	ldh a, [hPressedButtons]
 	ld b, a
 	ld a, [wdaa2]
-	bit BIT_D_RIGHT, b
+	bit BIT_D_LEFT, b
 	jr z, .checkIfRightPressed
 	dec a
 	bit 7, a

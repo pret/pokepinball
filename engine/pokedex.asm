@@ -1366,7 +1366,7 @@ Func_28931: ; 0x28931
 	ld hl, wPokedexFlags
 	add hl, bc
 	ld a, [hl]
-	and a 
+	and a
 	ld hl, BlankDexName
 	jr z, .gotMonNameAddress
 	ld a, [wCurPokedexIndex]
@@ -1401,7 +1401,7 @@ BlankDexName:
 
 Func_28972: ; 0x28972
 ; b is the counter. Iterates 6 times.
-; c is used to determine where to draw the name in the Pokedex wh
+; c is used to determine where to draw the name in the Pokedex
 	ld a, [wPokedexOffset]
 	ld c, a
 	ld b, $6
@@ -2231,7 +2231,7 @@ Func_28e73: ; 0x28e73
 	rl b
 	sla c
 	rl b
-; Subtract bc from the address stored in hl.
+; Subtract bc from the function address, hl.
 	ld hl, Func_29566
 	ld a, l
 	sub c
@@ -2242,7 +2242,7 @@ Func_28e73: ; 0x28e73
 ; When we `push hl`, this will be the address that we will return to when `ret` is called.
 ; Specifically, the address should occur somewhere in `Func_28e9a` or `Func_29566`, basically,
 ; indicating how many memory locations we should zero out.
-	push hl	
+	push hl
 	ld hl, wc000
 	ld a, [wd860] ; loading `a` here has no effect.
 	ret

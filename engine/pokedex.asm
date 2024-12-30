@@ -123,7 +123,7 @@ MainPokedexScreen: ; 0x280fe
 	jr z, .checkIfBPressed
 	ld a, [wPokedexCursorWasMoved]
 	and a
-	jp nz, .asm_28174
+	jp nz, .done
 	ld a, [wCurPokedexIndex]
 	ld c, a
 	ld b, $0
@@ -131,7 +131,7 @@ MainPokedexScreen: ; 0x280fe
 	add hl, bc
 	ld a, [hl]
 	and a
-	jp z, .asm_28174
+	jp z, .done
 	push hl
 	ld a, [wCurPokedexIndex]
 	inc a
@@ -139,8 +139,8 @@ MainPokedexScreen: ; 0x280fe
 	ld d, $0
 	call PlayCry
 	pop hl
-	bit 1, [hl]
-	jp z, .asm_28174
+	bit BIT_POKEDEX_MON_CAUGHT, [hl]
+	jp z, .done
 	call Func_288c6
 	call Func_2885c
 	call CleanSpriteBuffer
@@ -152,16 +152,16 @@ MainPokedexScreen: ; 0x280fe
 
 .checkIfBPressed
 	bit BIT_B_BUTTON, a
-	jr z, .asm_2814f
+	jr z, .checkIfGameboyColorAndIfStartIsPressed
 	call Func_285db
 	ld a, $4
 	ld [wScreenState], a
 	ret
 
-.asm_2814f
+.checkIfGameboyColorAndIfStartIsPressed
 	ldh a, [hGameBoyColorFlag]
 	and a
-	jr z, .asm_28174
+	jr z, .done
 	ldh a, [hJoypadState]
 	bit BIT_START, a
 	jr z, .asm_28168
@@ -170,7 +170,7 @@ MainPokedexScreen: ; 0x280fe
 	ld a, $ff
 	ld [wd960], a
 	call z, Func_28add
-	jr .asm_28174
+	jr .done
 
 .asm_28168
 	ld a, [wd960]
@@ -178,7 +178,7 @@ MainPokedexScreen: ; 0x280fe
 	ld a, $0
 	ld [wd960], a
 	call nz, Func_28add
-.asm_28174
+.done
 	call Func_285db
 	ret
 
@@ -188,27 +188,27 @@ MonInfoPokedexScreen: ; 0x28178
 	jr z, .asm_28190
 	ldh a, [hNewlyPressedButtons]
 	bit BIT_A_BUTTON, a
-	jr z, .asm_2818a
+	jr z, .checkIfBPressed
 	call Func_28912
 	jr .asm_281a2
 
-.asm_2818a
-	bit 1, a
-	jr z, .asm_281a2
-	jr .asm_28196
+.checkIfBPressed
+	bit BIT_B_BUTTON, a
+	jr z, .checkIfGameboyColorStartPressed
+	jr .BButtonPressed
 
 .asm_28190
 	ldh a, [hNewlyPressedButtons]
 	and $3
-	jr z, .asm_281a2
-.asm_28196
+	jr z, .checkIfGameboyColorStartPressed
+.BButtonPressed
 	call Func_288a2
 	call Func_285db
 	ld a, $1
 	ld [wScreenState], a
 	ret
 
-.asm_281a2
+.checkIfGameboyColorAndStartPressed
 	ldh a, [hGameBoyColorFlag]
 	and a
 	jr z, .asm_281c7
@@ -484,13 +484,13 @@ Func_28368: ; 0x28368
 	ld hl, wda8a
 	add hl, de
 	ld a, [hl]
-	bit 5, b
-	jr z, .asm_28386
+	bit BIT_D_LEFT, b
+	jr z, .checkIfRightPressed
 	dec a
 	jr .asm_2838a
 
-.asm_28386
-	bit 4, b
+.checkIfRightPressed
+	bit BIT_D_RIGHT, b
 	ret z
 	inc a
 .asm_2838a
@@ -668,31 +668,31 @@ Func_284bc: ; 0x284bc
 	ldh a, [hPressedButtons]
 	ld b, a
 	ld a, [wdaa2]
-	bit 5, b
-	jr z, .asm_284cd
+	bit BIT_D_RIGHT, b
+	jr z, .checkIfRightPressed
 	dec a
 	bit 7, a
 	jr nz, .asm_284ef
 	jr .asm_284f5
 
-.asm_284cd
-	bit 4, b
-	jr z, .asm_284d8
+.checkIfRightPressed
+	bit BIT_D_RIGHT, b
+	jr z, .checkIfUpPressed
 	inc a
 	cp $18
 	jr nc, .asm_284f3
 	jr .asm_284f5
 
-.asm_284d8
-	bit 6, b
-	jr z, .asm_284e4
+.checkIfUpPressed
+	bit BIT_D_UP, b
+	jr z, .checkIfDownPressed
 	sub $3
 	bit 7, a
 	jr nz, .asm_284ef
 	jr .asm_284f5
 
-.asm_284e4
-	bit 7, b
+.checkIfDownPressed
+	bit BIT_D_DOWN, b
 	ret z
 	add $3
 	cp $18
@@ -847,7 +847,7 @@ Func_285db: ; 0x285db
 	ld b, $0
 	ld hl, wPokedexFlags
 	add hl, bc
-	bit 1, [hl]  ; has pokemon been seen or captured?
+	bit BIT_POKEDEX_MON_CAUGHT, [hl]
 	call nz, Func_287e7
 	ld bc, $8c38
 	ld a, SPRITE_DEX_SCROLLBAR_TOPPER_0
@@ -1240,7 +1240,7 @@ Func_2885c: ; 0x2885c
 	ld b, $0
 	ld hl, wPokedexFlags
 	add hl, bc
-	bit 1, [hl]
+	bit BIT_POKEDEX_MON_CAUGHT, [hl]
 	call nz, Func_287e7
 	ld bc, $8888
 	ld a, SPRITE_DEX_SCROLLBAR_TOPPER_2
@@ -1303,7 +1303,7 @@ Func_288c6: ; 0x288c6
 	ld b, $0
 	ld hl, wPokedexFlags
 	add hl, bc
-	bit 1, [hl]
+	bit BIT_POKEDEX_MON_CAUGHT, [hl]
 	ld hl, Unknown_2c000
 	jr z, .asm_288f4
 	ld a, [wCurPokedexIndex]
@@ -1458,7 +1458,7 @@ Func_289c8: ; 0x289c8
 	ld b, $0
 	ld hl, wPokedexFlags
 	add hl, bc
-	bit 1, [hl]
+	bit BIT_POKEDEX_MON_CAUGHT, [hl]
 	ld hl, BlankSpeciesName
 	jr z, .pokemonNotOwned
 	ld a, [wCurPokedexIndex]
@@ -1531,7 +1531,7 @@ Func_28a15: ; 0x28a15
 	ld b, $0
 	ld hl, wPokedexFlags
 	add hl, bc
-	bit 1, [hl]
+	bit BIT_POKEDEX_MON_CAUGHT, [hl]
 	jr nz, .asm_28a54
 	ld de, BlankPokemonTileData_28a7f
 .asm_28a54
@@ -1990,11 +1990,11 @@ CountNumSeenOwnedMons: ; 0x28d35
 	ld de, $0000  ; keep a running count: d = owned, e = seen
 	ld b, NUM_POKEMON
 .checkSeen
-	bit 0, [hl]  ; is mon seen?
+	bit BIT_POKEDEX_MON_SEEN, [hl]
 	jr z, .checkOwned
 	inc e
 .checkOwned
-	bit 1, [hl]  ; is mon owned?
+	bit BIT_POKEDEX_MON_CAUGHT, [hl]
 	jr z, .nextMon
 	inc d
 .nextMon

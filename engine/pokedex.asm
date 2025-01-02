@@ -42,7 +42,7 @@ LoadPokedexScreen: ; 0x2800e
 	xor a
 	ld [wCurPokedexIndex], a
 	ld [wPokedexOffset], a
-	ld [wd95b], a
+	ld [wPokedexBlinkingCursorAndScrollBarIndicator], a
 	ld [wd95c], a
 	ld [wd960], a
 	ld [wd961], a
@@ -50,7 +50,7 @@ LoadPokedexScreen: ; 0x2800e
 	ld a, $1
 	ld [wd862], a
 	call ClearSpriteBuffer
-	call Func_285db
+	call DisplayPokedexScrollBarAndCursor
 	call Func_28931
 	call Func_289c8
 	call Func_28a15
@@ -153,7 +153,7 @@ MainPokedexScreen: ; 0x280fe
 .checkIfBPressed
 	bit BIT_B_BUTTON, a
 	jr z, .checkIfGameboyColorAndIfStartIsPressed
-	call Func_285db
+	call DisplayPokedexScrollBarAndCursor
 	ld a, $4
 	ld [wScreenState], a
 	ret
@@ -179,7 +179,7 @@ MainPokedexScreen: ; 0x280fe
 	ld [wd960], a
 	call nz, Func_28add
 .done
-	call Func_285db
+	call DisplayPokedexScrollBarAndCursor
 	ret
 
 MonInfoPokedexScreen: ; 0x28178
@@ -203,7 +203,7 @@ MonInfoPokedexScreen: ; 0x28178
 	jr z, .checkIfGameboyColorAndStartPressed
 .BButtonPressed
 	call Func_288a2
-	call Func_285db
+	call DisplayPokedexScrollBarAndCursor
 	ld a, $1
 	ld [wScreenState], a
 	ret
@@ -841,14 +841,14 @@ Func_285ca: ; 0x285ca
 	ld a, [wPressedButtonsPersistent]
 	ret
 
-Func_285db: ; 0x285db
+DisplayPokedexScrollBarAndCursor: ; 0x285db
 	ld a, [wCurPokedexIndex]
 	ld c, a
 	ld b, $0
 	ld hl, wPokedexFlags
 	add hl, bc
 	bit BIT_POKEDEX_MON_CAUGHT, [hl]
-	call nz, Func_287e7
+	call nz, AnimateMonSpriteIfStartIsPressed
 	ld bc, $8c38
 	ld a, SPRITE_DEX_SCROLLBAR_TOPPER_0
 	call LoadSpriteData
@@ -859,54 +859,59 @@ Func_285db: ; 0x285db
 	ld a, SPRITE_DEX_SCROLLBAR_TOPPER_2
 	call LoadSpriteData
 	call DrawCornerInfoPokedexScreen
+; determine where to draw the right hand side scroll bar
 	ld a, [wCurPokedexIndex]
 	ld c, a
 	ld b, $0
 	ld hl, DexScrollBarOffsets
 	add hl, bc
 	ld a, [hl]
-	add $49
+	add $49 ; y-coordinate shift of scroll bar
 	ld c, a
-	ld b, $90
-	ld a, [wd95b]
+	ld b, $90 ; x-coordinate shift of scroll bar
+	ld a, [wPokedexBlinkingCursorAndScrollBarIndicator]
 	srl a
 	srl a
-	and $3
+	and $3 ; get a number between 0 - 3
 	ld e, a
 	ld d, $0
 	ld hl, DexScrollBarSpriteIds
 	add hl, de
 	ld a, [hl]
 	call LoadSpriteData
+; check if moving the cursor up has caused the window to shift
 	ld a, [wCurPokedexIndex]
 	ld hl, wPokedexOffset
 	sub [hl]
-	jr nc, .asm_2863b
+	jr nc, .windowDoesNotMoveUp
 	dec [hl]
-	ld a, $1
-	ld [wd95d], a
+	ld a, 1
+	ld [wPokedexWindowWasShifted], a
 	xor a
-	jr .asm_28647
+	jr .decideCursorSprite
 
-.asm_2863b
-	cp $5
-	jr c, .asm_28647
-	ld a, $1
-	ld [wd95d], a
+.windowDoesNotMoveUp
+	cp 5
+	jr c, .decideCursorSprite
+; if scrolling down moves the window
+	ld a, 1
+	ld [wPokedexWindowWasShifted], a
 	inc [hl]
 	ld a, $4
-.asm_28647
+.decideCursorSprite
 	ld c, a
 	push bc
 	ldh a, [hJoypadState]
 	and a
-	ld a, [wd95b]
-	jr z, .asm_28652
+	ld a, [wPokedexBlinkingCursorAndScrollBarIndicator]
+	jr z, .wasJoyHeld
 	xor a
-.asm_28652
+.wasJoyHeld
 	inc a
-	ld [wd95b], a
-	bit 3, a
+	ld [wPokedexBlinkingCursorAndScrollBarIndicator], a
+; Every 16th time reaching this loop, the sprite will change (blinking),
+; unless a button is pressed. Hence why bit 3 is tested.
+	bit 3, a 
 	jr nz, .asm_28667
 	swap c
 	ld a, c
@@ -1007,13 +1012,13 @@ Func_286dd: ; 0x286dd
 	pop hl
 	pop bc
 .asm_286ff
-	ld a, [wd95d]
+	ld a, [wPokedexWindowWasShifted]
 	and a
 	ret z
 	ld a, [wd95c]
 	and a
 	jr nz, .asm_2870d
-	ld [wd95d], a
+	ld [wPokedexWindowWasShifted], a
 .asm_2870d
 	ld a, c
 	and a
@@ -1035,7 +1040,7 @@ Func_286dd: ; 0x286dd
 
 Func_28721: ; 0x28721
 	pop hl
-	ld a, [wd95d]
+	ld a, [wPokedexWindowWasShifted]
 	and a
 	ret z
 	ld a, c
@@ -1085,7 +1090,7 @@ Func_28721: ; 0x28721
 
 Func_28765: ; 0x28765
 	pop hl
-	ld a, [wd95d]
+	ld a, [wPokedexWindowWasShifted]
 	and a
 	ret z
 	ld a, c
@@ -1170,7 +1175,7 @@ BGMapLocations_287c7:
 	dw vBGWin + $387
 	dw vBGWin + $3C7
 
-Func_287e7: ; 0x287e7
+AnimateMonSpriteIfStartIsPressed: ; 0x287e7
 	ld a, [wd960]
 	and a
 	ret z
@@ -1241,7 +1246,7 @@ Func_2885c: ; 0x2885c
 	ld hl, wPokedexFlags
 	add hl, bc
 	bit BIT_POKEDEX_MON_CAUGHT, [hl]
-	call nz, Func_287e7
+	call nz, AnimateMonSpriteIfStartIsPressed
 	ld bc, $8888
 	ld a, SPRITE_DEX_SCROLLBAR_TOPPER_2
 	call LoadSpriteData
@@ -1362,7 +1367,7 @@ Func_28931: ; 0x28931
 	ld a, [hl]
 	and a
 	ld hl, BlankDexName
-	jr z, .asm_2895d
+	jr z, .gotMonNameAddress
 	ld a, [wCurPokedexIndex]
 	ld c, a
 	ld b, $0
@@ -1379,12 +1384,12 @@ Func_28931: ; 0x28931
 	add hl, bc
 	ld bc, MonDexNames
 	add hl, bc
-.asm_2895d
+.gotMonNameAddress
 	ld a, $ff
 	ld [wd860], a
 	xor a
 	ld [wd861], a
-	ld bc, $500a
+	ld bc, $500a ; not memory address
 	ld de, vTilesBG tile $50
 	call Func_28e09
 	ret
@@ -1426,7 +1431,8 @@ Func_28993: ; 0x28993
 	ld a, [hl]
 	and a
 	ld hl, BlankDexName2
-	jr z, .asm_289b7
+	jr z, .gotMonNameAddress
+; compute 11*hl (note that the length of names is 11).
 	ld h, b
 	ld l, c
 	sla l
@@ -1440,7 +1446,8 @@ Func_28993: ; 0x28993
 	add hl, bc
 	ld bc, MonDexNames
 	add hl, bc
-.asm_289b7
+.gotMonNameAddress
+; hl now points to the mon name (or a blank name)
 	xor a
 	ld [wd860], a
 	ld [wd861], a
@@ -1648,8 +1655,8 @@ Func_28add: ; 0x28add
 	ld a, [wd960]
 	and a
 	jr z, .asm_28afc
-	call Func_28cc2
-	jp z, Func_28bf5
+	call CheckIfMonHasAnimation
+	jp z, PlayMonPokedexCatchAnimation
 .asm_28afc
 	ld a, [wCurPokedexIndex]
 	ld c, a
@@ -1777,7 +1784,7 @@ LoadSeenPokemonGfx: ; 0x28baf
 	call LoadBillboardPaletteMap
 	ret
 
-Func_28bf5: ; 0x28bf5
+PlayMonPokedexCatchAnimation: ; 0x28bf5
 	ld a, [wCurPokedexIndex]
 	ld c, a
 	ld b, $0
@@ -1885,7 +1892,7 @@ Func_28bf5: ; 0x28bf5
 	call Func_8e1
 	ret
 
-Func_28cc2: ; 0x28cc2
+CheckIfMonHasAnimation: ; 0x28cc2
 	ld a, [wCurPokedexIndex]
 	ld c, a
 	ld b, $0
@@ -1893,7 +1900,7 @@ Func_28cc2: ; 0x28cc2
 	add hl, bc
 	ld a, Bank(MonAnimatedSpriteTypes)
 	call ReadByteFromBank
-	bit 7, a
+	bit 7, a ; if true, this Pokemon does not have an animation
 	ret
 
 Func_28cd4: ; 0x28cd4

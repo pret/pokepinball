@@ -42,7 +42,7 @@ LoadPokedexScreen: ; 0x2800e
 	xor a
 	ld [wCurPokedexIndex], a
 	ld [wPokedexOffset], a
-	ld [wPokedexBlinkingCursorAndScrollBarIndicator], a
+	ld [wPokedexBlinkingCursorAndScrollBarCounter], a
 	ld [wd95c], a
 	ld [wd960], a
 	ld [wd961], a
@@ -869,7 +869,7 @@ DisplayPokedexScrollBarAndCursor: ; 0x285db
 	add $49 ; y-coordinate shift of scroll bar
 	ld c, a
 	ld b, $90 ; x-coordinate shift of scroll bar
-	ld a, [wPokedexBlinkingCursorAndScrollBarIndicator]
+	ld a, [wPokedexBlinkingCursorAndScrollBarCounter]
 	srl a
 	srl a
 	and $3 ; get a number between 0 - 3
@@ -903,12 +903,12 @@ DisplayPokedexScrollBarAndCursor: ; 0x285db
 	push bc
 	ldh a, [hJoypadState]
 	and a
-	ld a, [wPokedexBlinkingCursorAndScrollBarIndicator]
+	ld a, [wPokedexBlinkingCursorAndScrollBarCounter]
 	jr z, .wasJoyHeld
 	xor a
 .wasJoyHeld
 	inc a
-	ld [wPokedexBlinkingCursorAndScrollBarIndicator], a
+	ld [wPokedexBlinkingCursorAndScrollBarCounter], a
 ; Every 16th time reaching this loop, the sprite will change (blinking),
 ; unless a button is pressed. Hence why bit 3 is tested.
 	bit 3, a 

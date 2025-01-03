@@ -144,7 +144,7 @@ MainPokedexScreen: ; 0x280fe
 	call LoadPokemonDescription
 	call Func_2885c
 	call CleanSpriteBuffer
-	call Func_2887c
+	call ScrollPokemonDescriptionDown
 	call Func_2885c
 	ld hl, wScreenState
 	inc [hl]
@@ -232,7 +232,7 @@ MonInfoPokedexScreen: ; 0x28178
 	call Func_2885c
 	ret
 
-Func_281cb:
+UnusedFunc_281cb:
 	ld a, [wCurPokedexIndex]
 	ld c, a
 	ld b, $0
@@ -1256,7 +1256,7 @@ Func_2885c: ; 0x2885c
 	call LoadSpriteData
 	ret
 
-Func_2887c: ; 0x2887c
+ScrollPokemonDescriptionDown: ; 0x2887c
 	ld a, BANK(PokedexTilemap2)
 	ld hl, PokedexTilemap2 + $120
 	deCoord 0, 8, vBGMap
@@ -1267,7 +1267,7 @@ Func_2887c: ; 0x2887c
 	ld a, $47
 	ldh [hNextLYCSub], a
 	ld b, $33
-.asm_28894
+.frame_loop
 	push bc
 	ld a, $7a
 	sub b
@@ -1277,7 +1277,7 @@ Func_2887c: ; 0x2887c
 	dec b
 	dec b
 	dec b
-	jr nz, .asm_28894
+	jr nz, .frame_loop
 	ret
 
 Func_288a2: ; 0x288a2

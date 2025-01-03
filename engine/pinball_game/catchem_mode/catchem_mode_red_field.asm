@@ -53,7 +53,7 @@ Func_2006b: ; 0x2006b
 	jr z, .asm_20098
 	call Func_1130
 	jr nz, .asm_200a1
-	callba Func_10414
+	callba LoadBillboardClearedTilemap
 	callba Func_10362
 	ldh a, [hGameBoyColorFlag]
 	and a

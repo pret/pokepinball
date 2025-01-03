@@ -2383,7 +2383,7 @@ wPokedexOffset:: ; 0xd95a
 
 ; Used as a counter to determine when to load the cursor sprite or not.
 ; Same for the blinking of the scroll bar.
-wPokedexBlinkingCursorAndScrollBarIndicator:: ; 0xd95b
+wPokedexBlinkingCursorAndScrollBarCounter:: ; 0xd95b
 	ds $1
 
 wd95c:: ; 0xd95c

@@ -55,7 +55,7 @@ Func_2032c: ; 0x2032c
 	jr z, .asm_20333
 	call Func_1130
 	jr nz, .asm_20362
-	callba Func_10414
+	callba LoadBillboardClearedTilemap
 	callba Func_10362
 	ldh a, [hGameBoyColorFlag]
 	and a

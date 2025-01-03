@@ -607,49 +607,49 @@ Data_103c6: ; 0x103c6
 	db $40, $04, $80, $82, $80, $02
 	db $40, $04, $C0, $82, $C0, $02
 
-Func_10414: ; 0x10414
-	ld a, BANK(Data_10420)
-	ld bc, Data_10420
-	ld de, Func_11b5
+LoadBillboardClearedTilemap: ; 0x10414
+	ld a, BANK(TileData_Billboard_Cleared)
+	ld bc, TileData_Billboard_Cleared
+	ld de, FillTileLists
 	call QueueGraphicsToLoadWithFunc
 	ret
 
-Data_10420:
-	db $18
+TileData_Billboard_Cleared: ; 0x10420
+	db $18 ; total number of tiles
+	db $06 ; number of tiles
+	dw vBGMap + $87 ; destination
+	db $80 ; fill value
 	db $06
-	dw $9887
+	dw vBGMap + $a7
 	db $80
 	db $06
-	dw $98a7
+	dw vBGMap + $c7
 	db $80
 	db $06
-	dw $98c7
+	dw vBGMap + $e7
 	db $80
-	db $06
-	dw $98e7
-	db $80
-	db $00
+	db $00 ; terminator
 
-Func_10432: ; 0x10432
-	ld a, BANK(Data_1043e)
-	ld bc, Data_1043e
+LoadBillboardTilemap: ; 0x10432
+	ld a, BANK(TileData_Billboard_Normal)
+	ld bc, TileData_Billboard_Normal
 	ld de, LoadTileLists
 	call QueueGraphicsToLoadWithFunc
 	ret
 
-Data_1043e:
-	db $18
+TileData_Billboard_Normal: ; 0x1043e
+	db $18 ; total number of tiles
+	db $06 ; number of tiles
+	dw vBGMap + $87 ; destination
+	db $90, $91, $92, $93, $94, $95 ; data
 	db $06
-	dw $9887
-	db $90, $91, $92, $93, $94, $95
-	db $06
-	dw $98a7
+	dw vBGMap + $a7
 	db $96, $97, $98, $99, $9a, $9b
 	db $06
-	dw $98c7
+	dw vBGMap + $c7
 	db $9c, $9d, $9e, $9f, $a0, $a1
 	db $06
-	dw $98e7
+	dw vBGMap + $e7
 	db $a2, $a3, $a4, $a5, $a6, $a7
 	db $00
 
@@ -1278,7 +1278,7 @@ Func_108f5: ; 0x108f5
 	bit 0, a
 	ret z
 	callba ClearAllRedIndicators
-	call Func_10432
+	call LoadBillboardTilemap
 	callba LoadMapBillboardTileData
 	ld a, Bank(StageSharedBonusSlotGlowGfx)
 	ld hl, StageSharedBonusSlotGlowGfx
@@ -1405,7 +1405,7 @@ Func_109fc: ; 0x109fc
 	bit 0, a
 	ret z
 	callba Func_1c2cb
-	call Func_10432
+	call LoadBillboardTilemap
 	callba LoadMapBillboardTileData
 	ld a, BANK(StageSharedBonusSlotGlowGfx)
 	ld hl, StageSharedBonusSlotGlowGfx

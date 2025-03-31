@@ -1117,7 +1117,7 @@ Func_28765: ; 0x28765
 	xor a
 	ld [wd862], a
 	ld a, [hl]
-	call GetPokemonName
+	call LoadPokemonNameIntoVRAM
 	ret
 
 .asm_28791
@@ -1144,7 +1144,7 @@ Func_28765: ; 0x28765
 	ld [wd862], a
 	ld a, [hl]
 	add $5
-	call GetPokemonName
+	call LoadPokemonNameIntoVRAM
 	ret
 
 TileLocations_287b7:
@@ -1419,14 +1419,14 @@ Func_28972: ; 0x28972
 	ld d, a
 ; de has tile address for first letter of Pokemon name
 	ld a, c
-	call GetPokemonName
+	call LoadPokemonNameIntoVRAM
 	pop bc
 	inc c
 	dec b
 	jr nz, .asm_28978
 	ret
 
-GetPokemonName: ; 0x28993
+LoadPokemonNameIntoVRAM: ; 0x28993
 	push hl
 	ld c, a
 	ld b, $0
@@ -1455,8 +1455,7 @@ GetPokemonName: ; 0x28993
 	xor a
 	ld [wd860], a
 	ld [wd861], a
-; `b` and `c` are used for setting the font width.
-	ld bc, $500a
+	ld bc, $500a ; not a pointer
 	call Func_28e09
 	pop hl
 	ret

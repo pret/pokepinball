@@ -2366,7 +2366,7 @@ wKeyConfigUpperTilt:: ; 0xd952
 wKeyConfigMenu:: ; 0xd954
 	ds $2
 
-wd956:: ; 0xd956
+wPokedexDescriptionPageFlag:: ; 0xd956
 	ds $1
 
 wd957:: ; 0xd957

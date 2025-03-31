@@ -1333,7 +1333,7 @@ LoadPokemonDescriptionIntoVRAM: ; 0x288c6
 	ld [wd861], a
 	ld bc, $906c ; $90 is the tile number for the first VWF character
 	ld de, vTilesSH tile $10
-	call LoadPokedexVWFCharacterTiles
+	call LoadPokemonDescriptionVWFCharacterTiles
 	rl a
 	ld [wPokedexDescriptionPageFlag], a
 	ld a, l
@@ -1349,7 +1349,7 @@ Func_28912: ; 0x28912
 	ld l, a
 	ld a, [wd958]
 	ld h, a
-	call LoadPokedexVWFCharacterTiles
+	call LoadPokemonDescriptionVWFCharacterTiles
 	rl a
 	ld [wPokedexDescriptionPageFlag], a
 	ld a, l
@@ -1392,7 +1392,7 @@ Func_28931: ; 0x28931
 	ld [wd861], a
 	ld bc, $500a ; not memory address
 	ld de, vTilesBG tile $50
-	call Func_28e09
+	call LoadPokemonNameVWFCharacterTiles
 	ret
 
 BlankDexName:
@@ -1456,7 +1456,7 @@ LoadPokemonNameIntoVRAM: ; 0x28993
 	ld [wd860], a
 	ld [wd861], a
 	ld bc, $500a ; not a pointer
-	call Func_28e09
+	call LoadPokemonNameVWFCharacterTiles
 	pop hl
 	ret
 
@@ -1501,7 +1501,7 @@ Func_289c8: ; 0x289c8
 	ld [wd861], a
 	ld bc, $5816
 	ld de, vTilesBG tile $5a
-	call Func_28e09
+	call LoadPokemonNameVWFCharacterTiles
 	ret
 
 BlankSpeciesName:
@@ -2071,7 +2071,7 @@ Func_28d88: ; 0x28d88
 	call PutTileInVRAM
 	ret
 
-LoadPokedexVWFCharacterTiles: ; 0x28d97
+LoadPokemonDescriptionVWFCharacterTiles: ; 0x28d97
 	push de
 	ld a, b
 	ldh [hVariableWidthFontFF8C], a
@@ -2145,7 +2145,7 @@ LoadPokedexVWFCharacterTiles: ; 0x28d97
 	pop af
 	ret
 
-Func_28e09: ; 0x28e09
+LoadPokemonNameVWFCharacterTiles: ; 0x28e09
 	push de
 	ld a, b
 	ldh [hVariableWidthFontFF8C], a

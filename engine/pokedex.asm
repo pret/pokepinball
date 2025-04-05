@@ -141,10 +141,10 @@ MainPokedexScreen: ; 0x280fe
 	pop hl
 	bit BIT_POKEDEX_MON_CAUGHT, [hl]
 	jp z, .done
-	call Func_288c6
+	call LoadPokemonDescriptionIntoVRAM
 	call Func_2885c
 	call CleanSpriteBuffer
-	call Func_2887c
+	call ScrollPokemonDescriptionDown
 	call Func_2885c
 	ld hl, wScreenState
 	inc [hl]
@@ -183,9 +183,9 @@ MainPokedexScreen: ; 0x280fe
 	ret
 
 MonInfoPokedexScreen: ; 0x28178
-	ld a, [wd956]
+	ld a, [wPokedexDescriptionPageFlag]
 	bit 0, a
-	jr z, .asm_28190
+	jr z, .lastPokedexDescriptionPage
 	ldh a, [hNewlyPressedButtons]
 	bit BIT_A_BUTTON, a
 	jr z, .checkIfBPressed
@@ -197,7 +197,7 @@ MonInfoPokedexScreen: ; 0x28178
 	jr z, .checkIfGameboyColorAndStartPressed
 	jr .BButtonPressed
 
-.asm_28190
+.lastPokedexDescriptionPage
 	ldh a, [hNewlyPressedButtons]
 	and $3
 	jr z, .checkIfGameboyColorAndStartPressed
@@ -232,7 +232,7 @@ MonInfoPokedexScreen: ; 0x28178
 	call Func_2885c
 	ret
 
-Func_281cb:
+UnusedFunc_281cb:
 	ld a, [wCurPokedexIndex]
 	ld c, a
 	ld b, $0
@@ -726,7 +726,7 @@ HandlePokedexDirectionalInput: ; 0x28513
 	ldh a, [hPressedButtons]
 	ld hl, wd95e ; some temp storage for joypad input
 	or [hl]
-	ld [hl], a
+	ld [hl], a ; load any combination of button presses
 	ld a, [wd95c]
 	and a
 	ret nz
@@ -1117,7 +1117,7 @@ Func_28765: ; 0x28765
 	xor a
 	ld [wd862], a
 	ld a, [hl]
-	call Func_28993
+	call LoadPokemonNameIntoVRAM
 	ret
 
 .asm_28791
@@ -1144,7 +1144,7 @@ Func_28765: ; 0x28765
 	ld [wd862], a
 	ld a, [hl]
 	add $5
-	call Func_28993
+	call LoadPokemonNameIntoVRAM
 	ret
 
 TileLocations_287b7:
@@ -1255,7 +1255,7 @@ Func_2885c: ; 0x2885c
 	call LoadSpriteData
 	ret
 
-Func_2887c: ; 0x2887c
+ScrollPokemonDescriptionDown: ; 0x2887c
 	ld a, BANK(PokedexTilemap2)
 	ld hl, PokedexTilemap2 + $120
 	deCoord 0, 8, vBGMap
@@ -1266,7 +1266,7 @@ Func_2887c: ; 0x2887c
 	ld a, $47
 	ldh [hNextLYCSub], a
 	ld b, $33
-.asm_28894
+.frame_loop
 	push bc
 	ld a, $7a
 	sub b
@@ -1276,7 +1276,7 @@ Func_2887c: ; 0x2887c
 	dec b
 	dec b
 	dec b
-	jr nz, .asm_28894
+	jr nz, .frame_loop
 	ret
 
 Func_288a2: ; 0x288a2
@@ -1302,7 +1302,7 @@ Func_288a2: ; 0x288a2
 	call LoadVRAMData
 	ret
 
-Func_288c6: ; 0x288c6
+LoadPokemonDescriptionIntoVRAM: ; 0x288c6
 	ld a, [wCurPokedexIndex]
 	ld c, a
 	ld b, $0
@@ -1331,11 +1331,11 @@ Func_288c6: ; 0x288c6
 	xor a
 	ld [wd860], a
 	ld [wd861], a
-	ld bc, $906c
+	ld bc, $906c ; $90 is the tile number for the first VWF character
 	ld de, vTilesSH tile $10
-	call Func_28d97
+	call LoadPokemonDescriptionVWFCharacterTiles
 	rl a
-	ld [wd956], a
+	ld [wPokedexDescriptionPageFlag], a
 	ld a, l
 	ld [wd957], a
 	ld a, h
@@ -1349,9 +1349,9 @@ Func_28912: ; 0x28912
 	ld l, a
 	ld a, [wd958]
 	ld h, a
-	call Func_28d97
+	call LoadPokemonDescriptionVWFCharacterTiles
 	rl a
-	ld [wd956], a
+	ld [wPokedexDescriptionPageFlag], a
 	ld a, l
 	ld [wd957], a
 	ld a, h
@@ -1369,6 +1369,7 @@ Func_28931: ; 0x28931
 	ld hl, BlankDexName
 	jr z, .gotMonNameAddress
 	ld a, [wCurPokedexIndex]
+; compute 11 * hl (11 is length of name)
 	ld c, a
 	ld b, $0
 	ld h, b
@@ -1391,21 +1392,23 @@ Func_28931: ; 0x28931
 	ld [wd861], a
 	ld bc, $500a ; not memory address
 	ld de, vTilesBG tile $50
-	call Func_28e09
+	call LoadPokemonNameVWFCharacterTiles
 	ret
 
 BlankDexName:
 	db " @"
 
 Func_28972: ; 0x28972
+; b is the counter. Iterates 6 times.
+; c is used to determine where to draw the name in the Pokedex
 	ld a, [wPokedexOffset]
 	ld c, a
 	ld b, $6
 .asm_28978
 	push bc
 	ld a, c
-	sla a
-	and $e
+	sla a ; make offset even (by doubling)
+	and $e ; largest even nybble
 	ld e, a
 	ld d, $0
 	ld hl, TileLocations_287b7
@@ -1414,15 +1417,16 @@ Func_28972: ; 0x28972
 	ld e, a
 	ld a, [hl]
 	ld d, a
+; de has tile address for first letter of Pokemon name
 	ld a, c
-	call Func_28993
+	call LoadPokemonNameIntoVRAM
 	pop bc
 	inc c
 	dec b
 	jr nz, .asm_28978
 	ret
 
-Func_28993: ; 0x28993
+LoadPokemonNameIntoVRAM: ; 0x28993
 	push hl
 	ld c, a
 	ld b, $0
@@ -1452,7 +1456,7 @@ Func_28993: ; 0x28993
 	ld [wd860], a
 	ld [wd861], a
 	ld bc, $500a ; not a pointer
-	call Func_28e09
+	call LoadPokemonNameVWFCharacterTiles
 	pop hl
 	ret
 
@@ -1497,7 +1501,7 @@ Func_289c8: ; 0x289c8
 	ld [wd861], a
 	ld bc, $5816
 	ld de, vTilesBG tile $5a
-	call Func_28e09
+	call LoadPokemonNameVWFCharacterTiles
 	ret
 
 BlankSpeciesName:
@@ -2067,7 +2071,7 @@ Func_28d88: ; 0x28d88
 	call PutTileInVRAM
 	ret
 
-Func_28d97: ; 0x28d97
+LoadPokemonDescriptionVWFCharacterTiles: ; 0x28d97
 	push de
 	ld a, b
 	ldh [hVariableWidthFontFF8C], a
@@ -2078,9 +2082,9 @@ Func_28d97: ; 0x28d97
 	ldh [hVariableWidthFontFF8E], a
 	ldh [hVariableWidthFontFF90], a
 	ldh [hVariableWidthFontFF91], a
-	call Func_28e73
+	call Func_28e73 ; function zeros out a large chunk of memory
 .asm_28daa
-	call Func_2957c
+	call PokedexDescriptionVWFCharacterMapping
 	jr nc, .asm_28dcb
 	push hl
 	ldh [hVariableWidthFontFF92], a
@@ -2118,7 +2122,7 @@ Func_28d97: ; 0x28d97
 	ld a, [wd861]
 	ld c, a
 	ld b, $0
-	bit 7, c
+	bit 7, c ; `c` is always either 0 or 4, hence this always sets the zero flag
 	jr z, .asm_28de9
 	dec b
 .asm_28de9
@@ -2141,7 +2145,7 @@ Func_28d97: ; 0x28d97
 	pop af
 	ret
 
-Func_28e09: ; 0x28e09
+LoadPokemonNameVWFCharacterTiles: ; 0x28e09
 	push de
 	ld a, b
 	ldh [hVariableWidthFontFF8C], a
@@ -2209,9 +2213,12 @@ Func_28e09: ; 0x28e09
 	pop af
 	ret
 
+; Appears to select a certain amount of memory that will get zeroed out.
 Func_28e73: ; 0x28e73
 	push hl
 	ldh a, [hVariableWidthFontFF8F]
+; `a` in this function always contains either $0A, $16, or $6c
+; compute 16*a and stores it as `bc`.
 	ld c, a
 	ld b, $0
 	sla c
@@ -2229,6 +2236,9 @@ Func_28e73: ; 0x28e73
 	ld a, h
 	sbc b
 	ld h, a
+; When we `push hl`, this will be the address that we will return to when `ret` is called.
+; Specifically, the address should occur somewhere in `Func_28e9a` or `Func_29566`, basically,
+; indicating how many memory locations we should zero out.
 	push hl
 	ld hl, wc000
 	ld a, [wd860]
@@ -2245,34 +2255,36 @@ ENDR
 	pop hl
 	ret
 
-Func_2957c: ; 0x2957c
+; This function takes in the character ID and performs some kind of mapping on it.
+; Not exactly sure why. Need to research more.
+PokedexDescriptionVWFCharacterMapping: ; 0x2957c
 	ld a, BANK(PokedexDescriptionPointers)
 	call ReadByteFromBank
 	inc hl
 	and a
 	ret z
 	cp $d ; carriage return
-	jr nz, .asm_2958c
+	jr nz, .checkNumericCharacter
 	ld a, $ff
 	scf
 	ret
 
-.asm_2958c
+.checkNumericCharacter
 	cp "0"
-	jr c, .asm_29594
+	jr c, .checkUpperCaseCharacter
 	cp "9" + 1
 	jr c, .asm_295be
-.asm_29594
+.checkUpperCaseCharacter
 	cp "A"
-	jr c, .asm_2959c
+	jr c, .checkLowerCaseCharacter
 	cp "Z" + 1
 	jr c, .asm_295c2
-.asm_2959c
+.checkLowerCaseCharacter
 	cp "a"
-	jr c, .asm_295a4
+	jr c, .checkSpecialCharacter
 	cp "z" + 1
 	jr c, .asm_295c6
-.asm_295a4
+.checkSpecialCharacter
 	cp " "
 	jr z, .asm_295ca
 	cp ","

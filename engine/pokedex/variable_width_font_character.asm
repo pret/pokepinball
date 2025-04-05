@@ -1,7 +1,7 @@
 LoadDexVWFCharacter_: ; 0x8d17
 ; Loads a single variable-width-font character used in various parts of the Pokedex screen.
 	ldh a, [hVariableWidthFontFF92]
-	cp $80
+	cp $80 ; $80 = 256 / 2
 	jp c, Func_8e01
 	ldh a, [hVariableWidthFontFF90]
 	ld c, a
@@ -10,6 +10,8 @@ LoadDexVWFCharacter_: ; 0x8d17
 	ldh a, [hVariableWidthFontFF93]
 	ld l, a
 	ld h, $0
+; `hl` points to CharacterWidths address of the respective character
+; `bc` is the flipped VWF value.
 	add hl, bc
 	ldh a, [hVariableWidthFontFF8E]
 	cp h
@@ -40,6 +42,7 @@ LoadDexVWFCharacter_: ; 0x8d17
 	rr l
 	ldh a, [hVariableWidthFontFF8F]
 	cp l
+; jump when done?
 	jp c, Func_8df7
 .asm_8d5c
 	ldh a, [hVariableWidthFontFF90]

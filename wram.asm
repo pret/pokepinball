@@ -2366,7 +2366,7 @@ wKeyConfigUpperTilt:: ; 0xd952
 wKeyConfigMenu:: ; 0xd954
 	ds $2
 
-wd956:: ; 0xd956
+wPokedexDescriptionPageFlag:: ; 0xd956
 	ds $1
 
 wd957:: ; 0xd957
@@ -2399,7 +2399,8 @@ wd95e:: ; 0xd95e
 wPokedexCursorWasMoved:: ; 0xd95f
 	ds $1
 
-wd960:: ; 0xd960
+; It's either 0 or $ff ...
+wd960:: ; 0xd960 
 	ds $1
 
 wd961:: ; 0xd961

@@ -142,10 +142,6 @@ INCLUDE "engine/pokedex.asm"
 
 SECTION "bankb", ROMX
 
-Unknown_2c000: ; 0x2c000
-	dex_text " "
-	dex_end
-
 INCLUDE "text/pokedex_descriptions.asm"
 
 SECTION "bankc", ROMX

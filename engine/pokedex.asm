@@ -44,20 +44,20 @@ LoadPokedexScreen: ; 0x2800e
 	ld [wPokedexOffset], a
 	ld [wPokedexBlinkingCursorAndScrollBarCounter], a
 	ld [wd95c], a
-	ld [wd960], a
+	ld [wPokedexStartButtonIsPressed], a
 	ld [wd961], a
 	ld [wd95e], a
 	ld a, $1
 	ld [wd862], a
 	call ClearSpriteBuffer
 	call DisplayPokedexScrollBarAndCursor
-	call Func_28931
-	call Func_289c8
-	call Func_28a15
-	call Func_28972
+	call DrawSummaryWindowMonName
+	call DrawSummaryWindowMonSpecies
+	call DrawSummaryWindowMonAttributes
+	call DrawPokedexMonNames
 	call Func_28a8a
 	call Func_28ad1
-	call Func_28add
+	call DrawSummaryWindowMonImage
 	call CountNumSeenOwnedMons
 	call SetAllPalettesWhite
 	ld a, Bank(Music_Pokedex)
@@ -165,19 +165,19 @@ MainPokedexScreen: ; 0x280fe
 	ldh a, [hJoypadState]
 	bit BIT_START, a
 	jr z, .asm_28168
-	ld a, [wd960]
+	ld a, [wPokedexStartButtonIsPressed]
 	and a
 	ld a, $ff
-	ld [wd960], a
-	call z, Func_28add
+	ld [wPokedexStartButtonIsPressed], a
+	call z, DrawSummaryWindowMonImage
 	jr .done
 
 .asm_28168
-	ld a, [wd960]
+	ld a, [wPokedexStartButtonIsPressed]
 	and a
 	ld a, $0
-	ld [wd960], a
-	call nz, Func_28add
+	ld [wPokedexStartButtonIsPressed], a
+	call nz, DrawSummaryWindowMonImage
 .done
 	call DisplayPokedexScrollBarAndCursor
 	ret
@@ -190,44 +190,44 @@ MonInfoPokedexScreen: ; 0x28178
 	bit BIT_A_BUTTON, a
 	jr z, .checkIfBPressed
 	call Func_28912
-	jr .checkIfGameboyColorAndStartPressed
+	jr .displayMonImage
 
 .checkIfBPressed
 	bit BIT_B_BUTTON, a
-	jr z, .checkIfGameboyColorAndStartPressed
-	jr .BButtonPressed
+	jr z, .displayMonImage
+	jr .exitMonInfoView
 
 .lastPokedexDescriptionPage
 	ldh a, [hNewlyPressedButtons]
-	and $3
-	jr z, .checkIfGameboyColorAndStartPressed
-.BButtonPressed
+	and A_BUTTON | B_BUTTON
+	jr z, .displayMonImage
+.exitMonInfoView
 	call Func_288a2
 	call DisplayPokedexScrollBarAndCursor
 	ld a, $1
 	ld [wScreenState], a
 	ret
 
-.checkIfGameboyColorAndStartPressed
+.displayMonImage
 	ldh a, [hGameBoyColorFlag]
 	and a
 	jr z, .asm_281c7
 	ldh a, [hJoypadState]
 	bit BIT_START, a
 	jr z, .asm_281bb
-	ld a, [wd960]
+	ld a, [wPokedexStartButtonIsPressed]
 	and a
 	ld a, $ff
-	ld [wd960], a
-	call z, Func_28add
+	ld [wPokedexStartButtonIsPressed], a
+	call z, DrawSummaryWindowMonImage
 	jr .asm_281c7
 
 .asm_281bb
-	ld a, [wd960]
+	ld a, [wPokedexStartButtonIsPressed]
 	and a
 	ld a, $0
-	ld [wd960], a
-	call nz, Func_28add
+	ld [wPokedexStartButtonIsPressed], a
+	call nz, DrawSummaryWindowMonImage
 .asm_281c7
 	call Func_2885c
 	ret
@@ -243,7 +243,7 @@ UnusedFunc_281cb:
 	jr nc, .asm_281da
 	inc b
 .asm_281da
-	ld a, [wd960]
+	ld a, [wPokedexStartButtonIsPressed]
 	and a
 	jr nz, .asm_281fb
 	ld hl, MonBillboardPalettePointers
@@ -404,7 +404,7 @@ SpriteOffsetsTable_282b9:
 	db $80, $68
 
 Func_282e9: ; 0x282e9
-	ld a, [wd960]
+	ld a, [wPokedexStartButtonIsPressed]
 	and a
 	jr z, .asm_28318
 	ld a, [wCurPokedexIndex]
@@ -461,7 +461,7 @@ Func_282e9: ; 0x282e9
 	call LoadVRAMData
 	xor a
 	ldh [rVBK], a
-	call Func_28972
+	call DrawPokedexMonNames
 	call Func_28a8a
 	call Func_28ad1
 	ld a, $1
@@ -547,7 +547,7 @@ Func_28368: ; 0x28368
 	ld a, [hl]
 	or c
 	ld c, a
-	ld a, [wd960]
+	ld a, [wPokedexStartButtonIsPressed]
 	and a
 	jr nz, .asm_283ff
 	ld hl, BGPaletteIndices_2845c
@@ -821,13 +821,12 @@ HandlePokedexDirectionalInput: ; 0x28513
 	ld a, [wPokedexCursorWasMoved]
 	and a
 	ret z
-; if the cursor was moved, do a bunch of stuff (to be determined).
 	lb de, $00, $03
 	call PlaySoundEffect
-	call Func_28931
-	call Func_289c8
-	call Func_28a15
-	call Func_28add
+	call DrawSummaryWindowMonName
+	call DrawSummaryWindowMonSpecies
+	call DrawSummaryWindowMonAttributes
+	call DrawSummaryWindowMonImage
 	xor a
 	ld [wPokedexCursorWasMoved], a
 	ret
@@ -835,7 +834,7 @@ HandlePokedexDirectionalInput: ; 0x28513
 Func_285ca: ; 0x285ca
 	xor a
 	ld [wPressedButtonsPersistent], a
-	call Func_28972
+	call DrawPokedexMonNames
 	call Func_28a8a
 	call Func_28ad1
 	ld a, [wPressedButtonsPersistent]
@@ -1102,7 +1101,7 @@ Func_28765: ; 0x28765
 	and $e
 	ld c, a
 	ld b, $0
-	ld hl, TileLocations_287b7
+	ld hl, PokedexMonNamesTileLocations
 	add hl, bc
 	ld a, [hli]
 	ld e, a
@@ -1117,7 +1116,7 @@ Func_28765: ; 0x28765
 	xor a
 	ld [wd862], a
 	ld a, [hl]
-	call LoadPokemonNameIntoVRAM
+	call DrawPokedexListMonName
 	ret
 
 .asm_28791
@@ -1128,7 +1127,7 @@ Func_28765: ; 0x28765
 	and $e
 	ld c, a
 	ld b, $0
-	ld hl, TileLocations_287b7
+	ld hl, PokedexMonNamesTileLocations
 	add hl, bc
 	ld a, [hli]
 	ld e, a
@@ -1144,10 +1143,10 @@ Func_28765: ; 0x28765
 	ld [wd862], a
 	ld a, [hl]
 	add $5
-	call LoadPokemonNameIntoVRAM
+	call DrawPokedexListMonName
 	ret
 
-TileLocations_287b7:
+PokedexMonNamesTileLocations:
 	dw vTilesOB tile $0
 	dw vTilesOB tile $A
 	dw vTilesOB tile $14
@@ -1176,7 +1175,7 @@ BGMapLocations_287c7:
 	dw vBGWin + $3C7
 
 AnimateMonSpriteIfStartIsPressed: ; 0x287e7
-	ld a, [wd960]
+	ld a, [wPokedexStartButtonIsPressed]
 	and a
 	ret z
 	ld a, [wPokedexCursorWasMoved]
@@ -1309,8 +1308,8 @@ LoadPokemonDescriptionIntoVRAM: ; 0x288c6
 	ld hl, wPokedexFlags
 	add hl, bc
 	bit BIT_POKEDEX_MON_CAUGHT, [hl]
-	ld hl, Unknown_2c000
-	jr z, .asm_288f4
+	ld hl, BlankPokedexDescription
+	jr z, .loadDescription
 	ld a, [wCurPokedexIndex]
 	ld c, a
 	ld b, $0
@@ -1327,7 +1326,7 @@ LoadPokemonDescriptionIntoVRAM: ; 0x288c6
 	ld b, a
 	ld h, b
 	ld l, c
-.asm_288f4
+.loadDescription
 	xor a
 	ld [wd860], a
 	ld [wd861], a
@@ -1358,7 +1357,7 @@ Func_28912: ; 0x28912
 	ld [wd958], a
 	ret
 
-Func_28931: ; 0x28931
+DrawSummaryWindowMonName: ; 0x28931
 	ld a, [wCurPokedexIndex]
 	ld c, a
 	ld b, $0
@@ -1369,9 +1368,9 @@ Func_28931: ; 0x28931
 	ld hl, BlankDexName
 	jr z, .gotMonNameAddress
 	ld a, [wCurPokedexIndex]
-; compute 11 * hl (11 is length of name)
 	ld c, a
 	ld b, $0
+	; compute 11 * bc (11 is length of name)
 	ld h, b
 	ld l, c
 	sla l
@@ -1398,35 +1397,33 @@ Func_28931: ; 0x28931
 BlankDexName:
 	db " @"
 
-Func_28972: ; 0x28972
-; b is the counter. Iterates 6 times.
+DrawPokedexMonNames: ; 0x28972
 ; c is used to determine where to draw the name in the Pokedex
 	ld a, [wPokedexOffset]
 	ld c, a
-	ld b, $6
-.asm_28978
+	ld b, 6
+.loop
 	push bc
 	ld a, c
-	sla a ; make offset even (by doubling)
-	and $e ; largest even nybble
+	sla a ; PokedexMonNamesTileLocations has 8 entries. These two lines are simply adjusting register a to index PokedexMonNamesTileLocations.
+	and $e
 	ld e, a
 	ld d, $0
-	ld hl, TileLocations_287b7
+	ld hl, PokedexMonNamesTileLocations
 	add hl, de
 	ld a, [hli]
 	ld e, a
 	ld a, [hl]
 	ld d, a
-; de has tile address for first letter of Pokemon name
 	ld a, c
-	call LoadPokemonNameIntoVRAM
+	call DrawPokedexListMonName
 	pop bc
 	inc c
 	dec b
-	jr nz, .asm_28978
+	jr nz, .loop
 	ret
 
-LoadPokemonNameIntoVRAM: ; 0x28993
+DrawPokedexListMonName: ; 0x28993
 	push hl
 	ld c, a
 	ld b, $0
@@ -1436,7 +1433,7 @@ LoadPokemonNameIntoVRAM: ; 0x28993
 	and a
 	ld hl, BlankDexName2
 	jr z, .gotMonNameAddress
-; compute 11*hl (note that the length of names is 11).
+	; compute 11 * bc (11 is length of name)
 	ld h, b
 	ld l, c
 	sla l
@@ -1451,7 +1448,6 @@ LoadPokemonNameIntoVRAM: ; 0x28993
 	ld bc, MonDexNames
 	add hl, bc
 .gotMonNameAddress
-; hl now points to the mon name (or a blank name)
 	xor a
 	ld [wd860], a
 	ld [wd861], a
@@ -1463,7 +1459,7 @@ LoadPokemonNameIntoVRAM: ; 0x28993
 BlankDexName2:
 	db " @"
 
-Func_289c8: ; 0x289c8
+DrawSummaryWindowMonSpecies: ; 0x289c8
 	ld a, [wCurPokedexIndex]
 	ld c, a
 	ld b, $0
@@ -1488,10 +1484,10 @@ Func_289c8: ; 0x289c8
 	rl h
 	add hl, bc
 	add hl, bc
-	add hl, bc  ; value * 11
+	add hl, bc  ; species * 11
 	sla l
 	rl h
-	add hl, bc  ; value * 23
+	add hl, bc  ; species * 23
 	ld bc, MonSpeciesNames
 	add hl, bc
 .pokemonNotOwned
@@ -1508,7 +1504,7 @@ BlankSpeciesName:
 	dw $4081 ; variable-width font character
 	db $00
 
-Func_28a15: ; 0x28a15
+DrawSummaryWindowMonAttributes: ; 0x28a15
 	ld a, [wCurPokedexIndex]
 	ld c, a
 	ld b, $0
@@ -1645,7 +1641,7 @@ Func_28ad1: ; 0x28ad1
 	ldh [hNextFrameHBlankSCX], a
 	ret
 
-Func_28add: ; 0x28add
+DrawSummaryWindowMonImage: ; 0x28add
 	ld a, [wCurPokedexIndex]
 	ld c, a
 	ld b, $0
@@ -1656,7 +1652,7 @@ Func_28add: ; 0x28add
 	jp z, LoadUncaughtPokemonBackgroundGfx
 	dec a
 	jp z, LoadSeenPokemonGfx
-	ld a, [wd960]
+	ld a, [wPokedexStartButtonIsPressed]
 	and a
 	jr z, .asm_28afc
 	call CheckIfMonHasAnimation
@@ -2217,8 +2213,8 @@ LoadPokemonNameVWFCharacterTiles: ; 0x28e09
 Func_28e73: ; 0x28e73
 	push hl
 	ldh a, [hVariableWidthFontFF8F]
-; `a` in this function always contains either $0A, $16, or $6c
-; compute 16*a and stores it as `bc`.
+	; `a` in this function always contains either $0A, $16, or $6c
+	; compute 16*a and stores it as `bc`.
 	ld c, a
 	ld b, $0
 	sla c
@@ -2236,9 +2232,9 @@ Func_28e73: ; 0x28e73
 	ld a, h
 	sbc b
 	ld h, a
-; When we `push hl`, this will be the address that we will return to when `ret` is called.
-; Specifically, the address should occur somewhere in `Func_28e9a` or `Func_29566`, basically,
-; indicating how many memory locations we should zero out.
+	; When we `push hl`, this will be the address that we will return to when `ret` is called.
+	; Specifically, the address should occur somewhere in `Func_28e9a` or `Func_29566`, basically,
+	; indicating how many memory locations we should zero out.
 	push hl
 	ld hl, wc000
 	ld a, [wd860]

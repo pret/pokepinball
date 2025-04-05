@@ -2399,8 +2399,11 @@ wd95e:: ; 0xd95e
 wPokedexCursorWasMoved:: ; 0xd95f
 	ds $1
 
-; It's either 0 or $ff ...
-wd960:: ; 0xd960 
+; Keeps track of whether or not the START button is pressed in the Pokedex screen.
+; This is used to know whether or not to display the animated mon catch sprite.
+;  $0 = START is NOT currently pressed
+; $FF = START is currently pressed
+wPokedexStartButtonIsPressed:: ; 0xd960
 	ds $1
 
 wd961:: ; 0xd961

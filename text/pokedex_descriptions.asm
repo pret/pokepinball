@@ -1,3 +1,7 @@
+BlankPokedexDescription: ; 0x2c000
+	dex_text " "
+	dex_end
+
 PokedexDescriptionPointers: ; 0x2c002
 	dw BulbasaurPokedexDescription
 	dw IvysaurPokedexDescription

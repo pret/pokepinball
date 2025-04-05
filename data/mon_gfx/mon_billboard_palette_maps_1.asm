@@ -230,7 +230,7 @@ WeepinbellBillboardBGPaletteMap: ; 0xd7a78
 	db $7, $7, $7, $6, $6, $6
 	db $7, $7, $7, $6, $6, $6
 
-VictreebellBillboardBGPaletteMap: ; 0xd7a90
+VictreebelBillboardBGPaletteMap: ; 0xd7a90
 	db $6, $6, $6, $6, $6, $6
 	db $6, $6, $7, $6, $6, $6
 	db $6, $6, $7, $7, $7, $7

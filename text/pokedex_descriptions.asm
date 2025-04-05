@@ -73,7 +73,7 @@ PokedexDescriptionPointers: ; 0x2c002
 	dw MachampPokedexDescription
 	dw BellsproutPokedexDescription
 	dw WeepinbellPokedexDescription
-	dw VictreebellPokedexDescription
+	dw VictreebelPokedexDescription
 	dw TentacoolPokedexDescription
 	dw TentacruelPokedexDescription
 	dw GeodudePokedexDescription
@@ -1505,7 +1505,7 @@ WeepinbellPokedexDescription: ; 0x2f87e
 	dex_line "a spray of ACID."
 	dex_end
 
-VictreebellPokedexDescription: ; 0x2f8d8
+VictreebelPokedexDescription: ; 0x2f8d8
 	dex_text "Said to live in"
 	dex_line "huge colonies"
 	dex_line "deep in jungles,"

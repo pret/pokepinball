@@ -768,12 +768,12 @@ WeepinbellBillboardBGPalette2: ; 0xdc558
 	RGB 31, 11, 8
 	RGB 0, 0, 0
 
-VictreebellBillboardBGPalette1: ; 0xdc560
+VictreebelBillboardBGPalette1: ; 0xdc560
 	RGB 31, 31, 31
 	RGB 29, 31, 9
 	RGB 11, 20, 0
 	RGB 0, 0, 0
-VictreebellBillboardBGPalette2: ; 0xdc568
+VictreebelBillboardBGPalette2: ; 0xdc568
 	RGB 31, 31, 31
 	RGB 29, 31, 9
 	RGB 31, 11, 8

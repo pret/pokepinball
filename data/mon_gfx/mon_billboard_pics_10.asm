@@ -22,10 +22,10 @@ WeepinbellPic: ; 0x98f00
 	INCBIN "gfx/billboard/mon_pics/weepinbell.2bpp"
 WeepinbellSilhouettePic: ; 0x97080
 	INCBIN "gfx/billboard/mon_silhouettes/weepinbell.2bpp"
-VictreebellPic: ; 0x97200
-	INCBIN "gfx/billboard/mon_pics/victreebell.2bpp"
-VictreebellSilhouettePic:  ; 0x97380
-	INCBIN "gfx/billboard/mon_silhouettes/victreebell.2bpp"
+VictreebelPic: ; 0x97200
+	INCBIN "gfx/billboard/mon_pics/victreebel.2bpp"
+VictreebelSilhouettePic:  ; 0x97380
+	INCBIN "gfx/billboard/mon_silhouettes/victreebel.2bpp"
 TentacoolPic: ; 0x97500
 	INCBIN "gfx/billboard/mon_pics/tentacool.2bpp"
 TentacoolSilhouettePic: ; 0x97680

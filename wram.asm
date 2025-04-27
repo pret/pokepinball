@@ -269,31 +269,22 @@ wStageCollisionStateBackup:: ; 0xd4b0
 	ds $2
 
 wBallXPos:: ; 0xd4b3
-; Ball's X position as 8.8 fixed-point value
-; 2-byte signed value in little-endian format
+; 8.8 fixed-point values in little-endian format
 	ds $2
 wBallYPos:: ; 0xd4b5
-; Ball's X position as 8.8 fixed-point value
-; 2-byte signed value in little-endian format
 	ds $2
 
 wPreviousBallXPos:: ; 0xd4b7
-; Ball's X position as 8.8 fixed-point value
-; 2-byte signed value in little-endian format
+; 8.8 fixed-point values in little-endian format
 	ds $2
 wPreviousBallYPos:: ; 0xd4b9
-; Ball's X position as 8.8 fixed-point value
-; 2-byte signed value in little-endian format
 	ds $2
 
 wBallXVelocity:: ; 0xd4bb
-; Ball's X position as 8.8 fixed-point value
-; 2-byte signed value in little-endian format
+; 8.8 fixed-point values in little-endian format
 	ds $2
-
 wBallYVelocity:: ; 0xd4bd
-; Ball's X position as 8.8 fixed-point value
-; 2-byte signed value in little-endian format
+; 8.8 fixed-point values in little-endian format
 	ds $2
 
 	ds $4

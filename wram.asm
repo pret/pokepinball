@@ -269,19 +269,22 @@ wStageCollisionStateBackup:: ; 0xd4b0
 	ds $2
 
 wBallXPos:: ; 0xd4b3
+; 8.8 fixed-point values in little-endian format
 	ds $2
 wBallYPos:: ; 0xd4b5
 	ds $2
 
 wPreviousBallXPos:: ; 0xd4b7
+; 8.8 fixed-point values in little-endian format
 	ds $2
 wPreviousBallYPos:: ; 0xd4b9
 	ds $2
 
 wBallXVelocity:: ; 0xd4bb
+; 8.8 fixed-point values in little-endian format
 	ds $2
-
 wBallYVelocity:: ; 0xd4bd
+; 8.8 fixed-point values in little-endian format
 	ds $2
 
 	ds $4

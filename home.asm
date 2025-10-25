@@ -2658,7 +2658,7 @@ CheckStageCollision: ; 0x22b5
 	ld [wSubTileBallXPos], a ; sub-tile position
 	pop af
 	and $f8
-	ld c, a ; c = tile x pos
+	ld c, a ; c = tile x pos * 8
 	ld a, [wBallYPos + 1]
 	sub 4
 	push af
@@ -2666,7 +2666,7 @@ CheckStageCollision: ; 0x22b5
 	ld [wSubTileBallYPos], a
 	pop af
 	and $f8
-	ld b, a ; b = tile y pos
+	ld b, a ; b = tile y pos * 8
 	ld l, b  ; bc contains tile coords of ball position
 	; Calculate the tile offset for the ball's position, as if the
 	; board was composed of a 1D array starting from the top-left

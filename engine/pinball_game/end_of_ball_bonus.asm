@@ -316,23 +316,23 @@ PlaceTextAlphanumericOnly: ; 0xf7b1 seems to filter out punctuation and other mi
 	ld a, [hli]
 	and a
 	ret z ;if end of text, ret
-	cp "0"
+	cp '0'
 	jr c, .NotADigit ;if a digit, add $56 and skip letter check
-	cp "9" + 1
+	cp '9' + 1
 	jr nc, .NotADigit
 	add $56
 	jr .IsValidChar
 
 .NotADigit
-	cp "A"
+	cp 'A'
 	jr c, .NotALetter ;if a letter, add $56 and skip letter check
-	cp "Z" + 1
+	cp 'Z' + 1
 	jr nc, .NotALetter
 	add $bf
 	jr .IsValidChar
 
 .NotALetter
-	cp "e" ;check if acute e
+	cp 'e' ;check if acute e
 	jr nz, .NotAcuteE
 	ld a, $83
 	jr .IsValidChar
@@ -348,9 +348,9 @@ PlaceTextAlphanumericOnly: ; 0xf7b1 seems to filter out punctuation and other mi
 	ld a, [hli]
 	and a
 	ret z
-	cp "0"
+	cp '0'
 	jr c, .asm_f7ef
-	cp "9" + 1
+	cp '9' + 1
 	jr nc, .asm_f7ef
 	add $56
 	jr .asm_f809

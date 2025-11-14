@@ -534,15 +534,15 @@ ShowMonEvolvedText: ; 0x10e0a
 	ld bc, Data_2b34
 	ld a, [hl]
 	; check if mon's name starts with a vowel, so it can print "an", instead of "a"
-	cp "A"
+	cp 'A'
 	jr z, .nameStartsWithVowel
-	cp "I"
+	cp 'I'
 	jr z, .nameStartsWithVowel
-	cp "U"
+	cp 'U'
 	jr z, .nameStartsWithVowel
-	cp "E"
+	cp 'E'
 	jr z, .nameStartsWithVowel
-	cp "O"
+	cp 'O'
 	jr z, .nameStartsWithVowel
 	ld de, ItEvolvedIntoAText  ; "It evolved into a"
 	ld bc, Data_2b1c

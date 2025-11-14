@@ -2266,32 +2266,32 @@ PokedexDescriptionVWFCharacterMapping: ; 0x2957c
 	ret
 
 .checkNumericCharacter
-	cp "0"
+	cp '0'
 	jr c, .checkUpperCaseCharacter
-	cp "9" + 1
+	cp '9' + 1
 	jr c, .asm_295be
 .checkUpperCaseCharacter
-	cp "A"
+	cp 'A'
 	jr c, .checkLowerCaseCharacter
-	cp "Z" + 1
+	cp 'Z' + 1
 	jr c, .asm_295c2
 .checkLowerCaseCharacter
-	cp "a"
+	cp 'a'
 	jr c, .checkSpecialCharacter
-	cp "z" + 1
+	cp 'z' + 1
 	jr c, .asm_295c6
 .checkSpecialCharacter
-	cp " "
+	cp ' '
 	jr z, .asm_295ca
-	cp ","
+	cp ','
 	jr z, .asm_295cd
-	cp "."
+	cp '.'
 	jr z, .asm_295d1
-	cp "`"
+	cp '`'
 	jr z, .asm_295d5
-	cp "-"
+	cp '-'
 	jr z, .asm_295d9
-	cp "é"
+	cp 'é'
 	jr z, .asm_295dd
 	and a
 	ret

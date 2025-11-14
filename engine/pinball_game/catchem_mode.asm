@@ -987,15 +987,15 @@ ShowCapturedPokemonText: ; 0x106b6
 	ld bc, Data_2a91
 	ld a, [hl]
 	; check if mon's name starts with a vowel, so it can print "an", instead of "a"
-	cp "A"
+	cp 'A'
 	jr z, .asm_106f1
-	cp "I"
+	cp 'I'
 	jr z, .asm_106f1
-	cp "U"
+	cp 'U'
 	jr z, .asm_106f1
-	cp "E"
+	cp 'E'
 	jr z, .asm_106f1
-	cp "O"
+	cp 'O'
 	jr z, .asm_106f1
 	ld de, YouGotAText ; "You got a"
 	ld bc, Data_2a79

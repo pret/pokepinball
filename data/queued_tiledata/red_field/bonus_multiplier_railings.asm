@@ -121,7 +121,7 @@ BonusMultiplierRailingTileData_1704f: ; 0x1704f
 	dw BonusMultiplierRailingTileData_171da
 
 BonusMultiplierRailingTileData_17054: ; 0x17054
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $20, $02
 	dw vTilesSH tile $46
 	dw StageRedFieldBottomIndicatorsGfx_Gameboy + $1280
@@ -129,7 +129,7 @@ BonusMultiplierRailingTileData_17054: ; 0x17054
 	db $00
 
 BonusMultiplierRailingTileData_1705e: ; 0x1705e
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $20, $02
 	dw vTilesSH tile $48
 	dw StageRedFieldBottomIndicatorsGfx_Gameboy + $1140
@@ -137,7 +137,7 @@ BonusMultiplierRailingTileData_1705e: ; 0x1705e
 	db $00
 
 BonusMultiplierRailingTileData_17068: ; 0x17068
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $20, $02
 	dw vTilesSH tile $46
 	dw StageRedFieldBottomIndicatorsGfx_Gameboy + $12A0
@@ -145,7 +145,7 @@ BonusMultiplierRailingTileData_17068: ; 0x17068
 	db $00
 
 BonusMultiplierRailingTileData_17072: ; 0x17072
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $20, $02
 	dw vTilesSH tile $48
 	dw StageRedFieldBottomIndicatorsGfx_Gameboy + $1160
@@ -153,7 +153,7 @@ BonusMultiplierRailingTileData_17072: ; 0x17072
 	db $00
 
 BonusMultiplierRailingTileData_1707c: ; 0x1707c
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $20, $02
 	dw vTilesSH tile $46
 	dw StageRedFieldBottomIndicatorsGfx_Gameboy + $12C0
@@ -161,7 +161,7 @@ BonusMultiplierRailingTileData_1707c: ; 0x1707c
 	db $00
 
 BonusMultiplierRailingTileData_17086: ; 0x17086
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $20, $02
 	dw vTilesSH tile $48
 	dw StageRedFieldBottomIndicatorsGfx_Gameboy + $1180
@@ -169,7 +169,7 @@ BonusMultiplierRailingTileData_17086: ; 0x17086
 	db $00
 
 BonusMultiplierRailingTileData_17090: ; 0x17090
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $20, $02
 	dw vTilesSH tile $46
 	dw StageRedFieldBottomIndicatorsGfx_Gameboy + $12E0
@@ -177,7 +177,7 @@ BonusMultiplierRailingTileData_17090: ; 0x17090
 	db $00
 
 BonusMultiplierRailingTileData_1709a: ; 0x1709a
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $20, $02
 	dw vTilesSH tile $48
 	dw StageRedFieldBottomIndicatorsGfx_Gameboy + $11A0
@@ -185,7 +185,7 @@ BonusMultiplierRailingTileData_1709a: ; 0x1709a
 	db $00
 
 BonusMultiplierRailingTileData_170a4: ; 0x170a4
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $20, $02
 	dw vTilesSH tile $46
 	dw StageRedFieldBottomIndicatorsGfx_Gameboy + $1300
@@ -193,7 +193,7 @@ BonusMultiplierRailingTileData_170a4: ; 0x170a4
 	db $00
 
 BonusMultiplierRailingTileData_170ae: ; 0x170ae
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $20, $02
 	dw vTilesSH tile $48
 	dw StageRedFieldBottomIndicatorsGfx_Gameboy + $11C0
@@ -201,7 +201,7 @@ BonusMultiplierRailingTileData_170ae: ; 0x170ae
 	db $00
 
 BonusMultiplierRailingTileData_170b8: ; 0x170b8
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $20, $02
 	dw vTilesSH tile $46
 	dw StageRedFieldBottomIndicatorsGfx_Gameboy + $1320
@@ -209,7 +209,7 @@ BonusMultiplierRailingTileData_170b8: ; 0x170b8
 	db $00
 
 BonusMultiplierRailingTileData_170c2: ; 0x170c2
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $20, $02
 	dw vTilesSH tile $48
 	dw StageRedFieldBottomIndicatorsGfx_Gameboy + $11E0
@@ -217,7 +217,7 @@ BonusMultiplierRailingTileData_170c2: ; 0x170c2
 	db $00
 
 BonusMultiplierRailingTileData_170cc: ; 0x170cc
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $20, $02
 	dw vTilesSH tile $46
 	dw StageRedFieldBottomIndicatorsGfx_Gameboy + $1340
@@ -225,7 +225,7 @@ BonusMultiplierRailingTileData_170cc: ; 0x170cc
 	db $00
 
 BonusMultiplierRailingTileData_170d6: ; 0x170d6
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $20, $02
 	dw vTilesSH tile $48
 	dw StageRedFieldBottomIndicatorsGfx_Gameboy + $1200
@@ -233,7 +233,7 @@ BonusMultiplierRailingTileData_170d6: ; 0x170d6
 	db $00
 
 BonusMultiplierRailingTileData_170e0: ; 0x170e0
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $20, $02
 	dw vTilesSH tile $46
 	dw StageRedFieldBottomIndicatorsGfx_Gameboy + $1360
@@ -241,7 +241,7 @@ BonusMultiplierRailingTileData_170e0: ; 0x170e0
 	db $00
 
 BonusMultiplierRailingTileData_170ea: ; 0x170ea
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $20, $02
 	dw vTilesSH tile $48
 	dw StageRedFieldBottomIndicatorsGfx_Gameboy + $1220
@@ -249,7 +249,7 @@ BonusMultiplierRailingTileData_170ea: ; 0x170ea
 	db $00
 
 BonusMultiplierRailingTileData_170f4: ; 0x170f4
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $20, $02
 	dw vTilesSH tile $46
 	dw StageRedFieldBottomIndicatorsGfx_Gameboy + $1380
@@ -257,7 +257,7 @@ BonusMultiplierRailingTileData_170f4: ; 0x170f4
 	db $00
 
 BonusMultiplierRailingTileData_170fe: ; 0x170fe
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $20, $02
 	dw vTilesSH tile $48
 	dw StageRedFieldBottomIndicatorsGfx_Gameboy + $1240
@@ -265,7 +265,7 @@ BonusMultiplierRailingTileData_170fe: ; 0x170fe
 	db $00
 
 BonusMultiplierRailingTileData_17108: ; 0x17108
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $20, $02
 	dw vTilesSH tile $46
 	dw StageRedFieldBottomIndicatorsGfx_Gameboy + $13A0
@@ -273,7 +273,7 @@ BonusMultiplierRailingTileData_17108: ; 0x17108
 	db $00
 
 BonusMultiplierRailingTileData_17112: ; 0x17112
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $20, $02
 	dw vTilesSH tile $48
 	dw StageRedFieldBottomIndicatorsGfx_Gameboy + $1260
@@ -281,7 +281,7 @@ BonusMultiplierRailingTileData_17112: ; 0x17112
 	db $00
 
 BonusMultiplierRailingTileData_1711c: ; 0x1711c
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $20, $02
 	dw vTilesSH tile $4a
 	dw StageRedFieldBottomIndicatorsGfx_Gameboy + $1500
@@ -289,7 +289,7 @@ BonusMultiplierRailingTileData_1711c: ; 0x1711c
 	db $00
 
 BonusMultiplierRailingTileData_17126: ; 0x17126
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $20, $02
 	dw vTilesSH tile $4c
 	dw StageRedFieldBottomIndicatorsGfx_Gameboy + $13C0
@@ -297,7 +297,7 @@ BonusMultiplierRailingTileData_17126: ; 0x17126
 	db $00
 
 BonusMultiplierRailingTileData_17130: ; 0x17130
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $20, $02
 	dw vTilesSH tile $4a
 	dw StageRedFieldBottomIndicatorsGfx_Gameboy + $1520
@@ -305,7 +305,7 @@ BonusMultiplierRailingTileData_17130: ; 0x17130
 	db $00
 
 BonusMultiplierRailingTileData_1713a: ; 0x1713a
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $20, $02
 	dw vTilesSH tile $4c
 	dw StageRedFieldBottomIndicatorsGfx_Gameboy + $13E0
@@ -313,7 +313,7 @@ BonusMultiplierRailingTileData_1713a: ; 0x1713a
 	db $00
 
 BonusMultiplierRailingTileData_17144: ; 0x17144
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $20, $02
 	dw vTilesSH tile $4a
 	dw StageRedFieldBottomIndicatorsGfx_Gameboy + $1540
@@ -321,7 +321,7 @@ BonusMultiplierRailingTileData_17144: ; 0x17144
 	db $00
 
 BonusMultiplierRailingTileData_1714e: ; 0x1714e
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $20, $02
 	dw vTilesSH tile $4c
 	dw StageRedFieldBottomIndicatorsGfx_Gameboy + $1400
@@ -329,7 +329,7 @@ BonusMultiplierRailingTileData_1714e: ; 0x1714e
 	db $00
 
 BonusMultiplierRailingTileData_17158: ; 0x17158
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $20, $02
 	dw vTilesSH tile $4a
 	dw StageRedFieldBottomIndicatorsGfx_Gameboy + $1560
@@ -337,7 +337,7 @@ BonusMultiplierRailingTileData_17158: ; 0x17158
 	db $00
 
 BonusMultiplierRailingTileData_17162: ; 0x17162
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $20, $02
 	dw vTilesSH tile $4c
 	dw StageRedFieldBottomIndicatorsGfx_Gameboy + $1420
@@ -345,7 +345,7 @@ BonusMultiplierRailingTileData_17162: ; 0x17162
 	db $00
 
 BonusMultiplierRailingTileData_1716c: ; 0x1716c
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $20, $02
 	dw vTilesSH tile $4a
 	dw StageRedFieldBottomIndicatorsGfx_Gameboy + $1580
@@ -353,7 +353,7 @@ BonusMultiplierRailingTileData_1716c: ; 0x1716c
 	db $00
 
 BonusMultiplierRailingTileData_17176: ; 0x17176
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $20, $02
 	dw vTilesSH tile $4c
 	dw StageRedFieldBottomIndicatorsGfx_Gameboy + $1440
@@ -361,7 +361,7 @@ BonusMultiplierRailingTileData_17176: ; 0x17176
 	db $00
 
 BonusMultiplierRailingTileData_17180: ; 0x17180
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $20, $02
 	dw vTilesSH tile $4a
 	dw StageRedFieldBottomIndicatorsGfx_Gameboy + $15A0
@@ -369,7 +369,7 @@ BonusMultiplierRailingTileData_17180: ; 0x17180
 	db $00
 
 BonusMultiplierRailingTileData_1718a: ; 0x1718a
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $20, $02
 	dw vTilesSH tile $4c
 	dw StageRedFieldBottomIndicatorsGfx_Gameboy + $1460
@@ -377,7 +377,7 @@ BonusMultiplierRailingTileData_1718a: ; 0x1718a
 	db $00
 
 BonusMultiplierRailingTileData_17194: ; 0x17194
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $20, $02
 	dw vTilesSH tile $4a
 	dw StageRedFieldBottomIndicatorsGfx_Gameboy + $15C0
@@ -385,7 +385,7 @@ BonusMultiplierRailingTileData_17194: ; 0x17194
 	db $00
 
 BonusMultiplierRailingTileData_1719e: ; 0x1719e
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $20, $02
 	dw vTilesSH tile $4c
 	dw StageRedFieldBottomIndicatorsGfx_Gameboy + $1480
@@ -393,7 +393,7 @@ BonusMultiplierRailingTileData_1719e: ; 0x1719e
 	db $00
 
 BonusMultiplierRailingTileData_171a8: ; 0x171a8
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $20, $02
 	dw vTilesSH tile $4a
 	dw StageRedFieldBottomIndicatorsGfx_Gameboy + $15E0
@@ -401,7 +401,7 @@ BonusMultiplierRailingTileData_171a8: ; 0x171a8
 	db $00
 
 BonusMultiplierRailingTileData_171b2: ; 0x171b2
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $20, $02
 	dw vTilesSH tile $4c
 	dw StageRedFieldBottomIndicatorsGfx_Gameboy + $14A0
@@ -409,7 +409,7 @@ BonusMultiplierRailingTileData_171b2: ; 0x171b2
 	db $00
 
 BonusMultiplierRailingTileData_171bc: ; 0x171bc
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $20, $02
 	dw vTilesSH tile $4a
 	dw StageRedFieldBottomIndicatorsGfx_Gameboy + $1600
@@ -417,7 +417,7 @@ BonusMultiplierRailingTileData_171bc: ; 0x171bc
 	db $00
 
 BonusMultiplierRailingTileData_171c6: ; 0x171c6
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $20, $02
 	dw vTilesSH tile $4c
 	dw StageRedFieldBottomIndicatorsGfx_Gameboy + $14C0
@@ -425,7 +425,7 @@ BonusMultiplierRailingTileData_171c6: ; 0x171c6
 	db $00
 
 BonusMultiplierRailingTileData_171d0: ; 0x171d0
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $20, $02
 	dw vTilesSH tile $4a
 	dw StageRedFieldBottomIndicatorsGfx_Gameboy + $1620
@@ -433,7 +433,7 @@ BonusMultiplierRailingTileData_171d0: ; 0x171d0
 	db $00
 
 BonusMultiplierRailingTileData_171da: ; 0x171da
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $20, $02
 	dw vTilesSH tile $4c
 	dw StageRedFieldBottomIndicatorsGfx_Gameboy + $14E0

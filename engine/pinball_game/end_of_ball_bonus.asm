@@ -1,7 +1,7 @@
 EndOfBallBonus: ; 0xf533
 	call FillBottomMessageBufferWithBlackTile
 	call LoadEAcuteCharacterGfx
-	call Func_f57f
+	call ClearBottomMessageAndUpdateVRAM
 	ld a, $60
 	ldh [hWY], a
 	dec a
@@ -38,7 +38,7 @@ LoadEAcuteCharacterGfx: ; 0xf55c
 	call LoadVRAMData
 	ret
 
-Func_f57f: ; 0xf57f
+ClearBottomMessageAndUpdateVRAM: ; 0xf57f
 	xor a
 	ld [wDrawBottomMessageBox], a
 	ld hl, wBottomMessageText
@@ -74,10 +74,10 @@ ShowBallBonusSummary: ; 0xf5a0
 	call HandleNumPokemonCaughtBallBonus
 	call HandleNumPokemonEvolvedBallBonus
 	call HandleBallBonusForCurrentField
-	call Func_f676
+	call DisplayBonusMultiplierLoop
 	ld a, 1
 	ld [wBallBonusWaitForButtonPress], a
-	call Func_f70d
+	call DisplayFinalBonusScore
 	ld a, [wGameOver]
 	and a
 	ret z
@@ -87,13 +87,13 @@ ShowBallBonusSummary: ; 0xf5a0
 	call PlaySong
 	ld hl, wBottomMessageText
 	ld bc, $0040
-	call Func_f81b
+	call FillBufferWithSpaceTile
 	ld de, wBottomMessageText + $20
 	ld hl, GameOverText
 	call PlaceTextAlphanumericOnly
 	ld bc, $0040
 	ld de, $0000
-	call Func_f80d
+	call CopyMessageBufferToVRAM
 .waitForAPress
 	rst AdvanceFrame
 	ldh a, [hNewlyPressedButtons]
@@ -124,14 +124,14 @@ HandleNumPokemonCaughtBallBonus: ; 0xf626
 	call PlaceTextAlphanumericOnly
 	ld hl, wBottomMessageText + $01
 	ld a, [wNumPokemonCaughtInBallBonus]
-	call Func_f78e
+	call ConvertByteToDecimalDisplay
 	ld bc, $0040
 	ld de, $0000
-	call Func_f80d
+	call CopyMessageBufferToVRAM
 	ld hl, wNumPokemonCaughtInBallBonus
 	ld de, PointsPerPokemonCaught
-	call Func_f853
-	call Func_f824
+	call AccumulateBonusPoints
+	call ClearMessageAndWaitForInput
 	ret
 
 HandleNumPokemonEvolvedBallBonus: ; 0xf64e
@@ -140,17 +140,17 @@ HandleNumPokemonEvolvedBallBonus: ; 0xf64e
 	call PlaceTextAlphanumericOnly
 	ld hl, wBottomMessageText
 	ld a, [wNumPokemonEvolvedInBallBonus]
-	call Func_f78e
+	call ConvertByteToDecimalDisplay
 	ld bc, $0040
 	ld de, $0000
-	call Func_f80d
+	call CopyMessageBufferToVRAM
 	ld hl, wNumPokemonEvolvedInBallBonus
 	ld de, PointsPerPokemonEvolved
-	call Func_f853
-	call Func_f824
+	call AccumulateBonusPoints
+	call ClearMessageAndWaitForInput
 	ret
 
-Func_f676: ; 0xf676
+DisplayBonusMultiplierLoop: ; 0xf676
 	ld b, $4
 .asm_f678
 	push bc
@@ -160,7 +160,7 @@ Func_f676: ; 0xf676
 	call LocalCopyData
 	ld bc, $00c0
 	ld de, $0000
-	call Func_f80d
+	call CopyMessageBufferToVRAM
 	ld a, [wBallBonusWaitForButtonPress]
 	and a
 	jr z, .asm_f69f
@@ -182,19 +182,19 @@ Func_f676: ; 0xf676
 	call PlaceTextAlphanumericOnly
 	ld hl, wBottomMessageText + $50
 	ld a, [wCurBonusMultiplier]
-	call Func_f78e
+	call ConvertByteToDecimalDisplay
 	ld bc, $0040
 	ld de, $0040
-	call Func_f80d
+	call CopyMessageBufferToVRAM
 .asm_f6c7
 	push de
 	push hl
 	ld hl, wEndOfBallBonusTotalScore + $5
 	ld de, wBottomMessageText + $86
-	call Func_f8bd
+	call ConvertBCD6ToDecimalString
 	ld bc, $0040
 	ld de, $0080
-	call Func_f80d
+	call CopyMessageBufferToVRAM
 	lb de, $00, $3e
 	call PlaySoundEffect
 	ld a, [wBallBonusWaitForButtonPress]
@@ -220,10 +220,10 @@ Func_f676: ; 0xf676
 	jr .asm_f6c7
 
 .asm_f709
-	call Func_f83a
+	call WaitForButtonPressOrTimeout
 	ret
 
-Func_f70d: ; 0xf70d
+DisplayFinalBonusScore: ; 0xf70d
 	ld b, $4
 .asm_f70f
 	push bc
@@ -233,7 +233,7 @@ Func_f70d: ; 0xf70d
 	call LocalCopyData
 	ld bc, $00c0
 	ld de, $0000
-	call Func_f80d
+	call CopyMessageBufferToVRAM
 	ld a, [wBallBonusWaitForButtonPress]
 	and a
 	jr z, .asm_f736
@@ -252,10 +252,10 @@ Func_f70d: ; 0xf70d
 	call PlaceTextAlphanumericOnly
 	ld hl, wScore + $5
 	ld de, wBottomMessageText + $66
-	call Func_f8bd
+	call ConvertBCD6ToDecimalString
 	ld bc, $0040
 	ld de, $0060
-	call Func_f80d
+	call CopyMessageBufferToVRAM
 	lb de, $00, $3e
 	call PlaySoundEffect
 	ld a, [wBallBonusWaitForButtonPress]
@@ -273,15 +273,15 @@ Func_f70d: ; 0xf70d
 	call AddBigBCD6
 	ld hl, wScore + $5
 	ld de, wBottomMessageText + $66
-	call Func_f8bd
+	call ConvertBCD6ToDecimalString
 	ld bc, $0040
 	ld de, $0060
-	call Func_f80d
-	call Func_f83a
-	call Func_f83a
+	call CopyMessageBufferToVRAM
+	call WaitForButtonPressOrTimeout
+	call WaitForButtonPressOrTimeout
 	ret
 
-Func_f78e: ; 0xf78e
+ConvertByteToDecimalDisplay: ; 0xf78e
 	push hl
 	call ConvertHexByteToDecWord
 	pop hl
@@ -378,7 +378,7 @@ PlaceTextAlphanumericOnly: ; 0xf7b1 seems to filter out punctuation and other mi
 	inc de
 	jr .UnusedBranch
 
-Func_f80d: ; 0xf80d
+CopyMessageBufferToVRAM: ; 0xf80d
 	hlCoord 0, 0, vBGWin
 	add hl, de
 	push hl
@@ -388,26 +388,26 @@ Func_f80d: ; 0xf80d
 	call LoadVRAMData
 	ret
 
-Func_f81b: ; 0xf81b
+FillBufferWithSpaceTile: ; 0xf81b
 	ld a, $81
 	ld [hli], a
 	dec bc
 	ld a, b
 	or c
-	jr nz, Func_f81b
+	jr nz, FillBufferWithSpaceTile
 	ret
 
-Func_f824: ; 0xf824
-	call Func_f83a
+ClearMessageAndWaitForInput: ; 0xf824
+	call WaitForButtonPressOrTimeout
 	ld hl, wBottomMessageText
 	ld bc, $0040
-	call Func_f81b
+	call FillBufferWithSpaceTile
 	ld hl, wBottomMessageText + $48
 	ld bc, $0038
-	call Func_f81b
+	call FillBufferWithSpaceTile
 	ret
 
-Func_f83a: ; 0xf83a
+WaitForButtonPressOrTimeout: ; 0xf83a
 	ld a, [wBallBonusWaitForButtonPress]
 	and a
 	ret z
@@ -428,7 +428,7 @@ Func_f83a: ; 0xf83a
 	ld [wBallBonusWaitForButtonPress], a
 	ret
 
-Func_f853: ; 0xf853
+AccumulateBonusPoints: ; 0xf853
 	push hl
 	ld hl, wEndOfBallBonusCategoryScore
 	call ClearBCD6Buffer
@@ -438,10 +438,10 @@ Func_f853: ; 0xf853
 	push hl
 	ld hl, wEndOfBallBonusCategoryScore + $5
 	ld de, wBottomMessageText + $46
-	call Func_f8bd
+	call ConvertBCD6ToDecimalString
 	ld bc, $0040
 	ld de, $0040
-	call Func_f80d
+	call CopyMessageBufferToVRAM
 	lb de, $00, $3e
 	call PlaySoundEffect
 	ld a, [wBallBonusWaitForButtonPress]
@@ -474,10 +474,10 @@ Func_f853: ; 0xf853
 	call AddBigBCD6
 	ld hl, wEndOfBallBonusSubTotal + $5
 	ld de, wBottomMessageText + $86
-	call Func_f8bd
+	call ConvertBCD6ToDecimalString
 	ld bc, $0040
 	ld de, $0080
-	call Func_f80d
+	call CopyMessageBufferToVRAM
 	ret
 
 ClearBCD6Buffer: ; 0xf8b5
@@ -489,16 +489,16 @@ ClearBCD6Buffer: ; 0xf8b5
 	jr nz, .loop
 	ret
 
-Func_f8bd: ; 0xf8bd
+ConvertBCD6ToDecimalString: ; 0xf8bd
 	ld bc, $0c01
 .asm_f8c0
 	ld a, [hl]
 	swap a
-	call Func_f8d5
+	call ConvertBCDNibbleToChar
 	inc de
 	dec b
 	ld a, [hld]
-	call Func_f8d5
+	call ConvertBCDNibbleToChar
 	inc de
 	dec b
 	jr nz, .asm_f8c0
@@ -507,7 +507,7 @@ Func_f8bd: ; 0xf8bd
 	inc de
 	ret
 
-Func_f8d5: ; 0xf8d5
+ConvertBCDNibbleToChar: ; 0xf8d5
 	and $f
 	jr nz, .asm_f8e0
 	ld a, b
@@ -591,14 +591,14 @@ HandleBellsproutEntriesBallBonus: ; 0xf952
 	call PlaceTextAlphanumericOnly
 	ld hl, wBottomMessageText + $03
 	ld a, [wNumBellsproutEntries]
-	call Func_f78e
+	call ConvertByteToDecimalDisplay
 	ld bc, $0040
 	ld de, $0000
-	call Func_f80d
+	call CopyMessageBufferToVRAM
 	ld hl, wNumBellsproutEntries
 	ld de, PointsPerBellsproutEntry
-	call Func_f853
-	call Func_f824
+	call AccumulateBonusPoints
+	call ClearMessageAndWaitForInput
 	ret
 
 HandleDugtrioTriplesBallBonus: ; 0xf97a
@@ -607,14 +607,14 @@ HandleDugtrioTriplesBallBonus: ; 0xf97a
 	call PlaceTextAlphanumericOnly
 	ld hl, wBottomMessageText + $04
 	ld a, [wNumDugtrioTriples]
-	call Func_f78e
+	call ConvertByteToDecimalDisplay
 	ld bc, $0040
 	ld de, $0000
-	call Func_f80d
+	call CopyMessageBufferToVRAM
 	ld hl, wNumDugtrioTriples
 	ld de, PointsPerDugtrioTriple
-	call Func_f853
-	call Func_f824
+	call AccumulateBonusPoints
+	call ClearMessageAndWaitForInput
 	ret
 
 HandleCAVECompletionsBallBonus_RedField: ; 0xf9a2
@@ -623,14 +623,14 @@ HandleCAVECompletionsBallBonus_RedField: ; 0xf9a2
 	call PlaceTextAlphanumericOnly
 	ld hl, wBottomMessageText + $03
 	ld a, [wNumCAVECompletions]
-	call Func_f78e
+	call ConvertByteToDecimalDisplay
 	ld bc, $0040
 	ld de, $0000
-	call Func_f80d
+	call CopyMessageBufferToVRAM
 	ld hl, wNumCAVECompletions
 	ld de, PointsPerCAVECompletion
-	call Func_f853
-	call Func_f824
+	call AccumulateBonusPoints
+	call ClearMessageAndWaitForInput
 	ret
 
 HandleSpinnerTurnsBallBonus_RedField: ; 0xf9ca
@@ -639,14 +639,14 @@ HandleSpinnerTurnsBallBonus_RedField: ; 0xf9ca
 	call PlaceTextAlphanumericOnly
 	ld hl, wBottomMessageText + $01
 	ld a, [wNumSpinnerTurns]
-	call Func_f78e
+	call ConvertByteToDecimalDisplay
 	ld bc, $0040
 	ld de, $0000
-	call Func_f80d
+	call CopyMessageBufferToVRAM
 	ld hl, wNumSpinnerTurns
 	ld de, PointsPerSpinnerTurn
-	call Func_f853
-	call Func_f824
+	call AccumulateBonusPoints
+	call ClearMessageAndWaitForInput
 	ret
 
 DoNothing_f9f2: ; 0xf9f2
@@ -667,14 +667,14 @@ HandleCloysterEntriesBallBonus: ; 0xfa06
 	call PlaceTextAlphanumericOnly
 	ld hl, wBottomMessageText + $04
 	ld a, [wNumCloysterEntries]
-	call Func_f78e
+	call ConvertByteToDecimalDisplay
 	ld bc, $0040
 	ld de, $0000
-	call Func_f80d
+	call CopyMessageBufferToVRAM
 	ld hl, wNumCloysterEntries
 	ld de, PointsPerCloysterEntry
-	call Func_f853
-	call Func_f824
+	call AccumulateBonusPoints
+	call ClearMessageAndWaitForInput
 	ret
 
 HandleSlowpokeEntriesBallBonus: ; 0xfa2e
@@ -683,14 +683,14 @@ HandleSlowpokeEntriesBallBonus: ; 0xfa2e
 	call PlaceTextAlphanumericOnly
 	ld hl, wBottomMessageText + $04
 	ld a, [wNumSlowpokeEntries]
-	call Func_f78e
+	call ConvertByteToDecimalDisplay
 	ld bc, $0040
 	ld de, $0000
-	call Func_f80d
+	call CopyMessageBufferToVRAM
 	ld hl, wNumSlowpokeEntries
 	ld de, PointsPerSlowpokeEntry
-	call Func_f853
-	call Func_f824
+	call AccumulateBonusPoints
+	call ClearMessageAndWaitForInput
 	ret
 
 HandlePoliwagTriplesBallBonus: ; 0xfa56
@@ -699,14 +699,14 @@ HandlePoliwagTriplesBallBonus: ; 0xfa56
 	call PlaceTextAlphanumericOnly
 	ld hl, wBottomMessageText + $04
 	ld a, [wNumPoliwagTriples]
-	call Func_f78e
+	call ConvertByteToDecimalDisplay
 	ld bc, $0040
 	ld de, $0000
-	call Func_f80d
+	call CopyMessageBufferToVRAM
 	ld hl, wNumPoliwagTriples
 	ld de, PointsPerPoliwagTriple
-	call Func_f853
-	call Func_f824
+	call AccumulateBonusPoints
+	call ClearMessageAndWaitForInput
 	ret
 
 HandlePsyduckTriplesBallBonus: ; 0xfa7e
@@ -715,14 +715,14 @@ HandlePsyduckTriplesBallBonus: ; 0xfa7e
 	call PlaceTextAlphanumericOnly
 	ld hl, wBottomMessageText + $04
 	ld a, [wNumPsyduckTriples]
-	call Func_f78e
+	call ConvertByteToDecimalDisplay
 	ld bc, $0040
 	ld de, $0000
-	call Func_f80d
+	call CopyMessageBufferToVRAM
 	ld hl, wNumPsyduckTriples
 	ld de, PointsPerPsyduckTriple
-	call Func_f853
-	call Func_f824
+	call AccumulateBonusPoints
+	call ClearMessageAndWaitForInput
 	ret
 
 HandleCAVECompletionsBallBonus_BlueField: ; 0xfaa6
@@ -731,14 +731,14 @@ HandleCAVECompletionsBallBonus_BlueField: ; 0xfaa6
 	call PlaceTextAlphanumericOnly
 	ld hl, wBottomMessageText + $03
 	ld a, [wNumCAVECompletions]
-	call Func_f78e
+	call ConvertByteToDecimalDisplay
 	ld bc, $0040
 	ld de, $0000
-	call Func_f80d
+	call CopyMessageBufferToVRAM
 	ld hl, wNumCAVECompletions
 	ld de, PointsPerCAVECompletion
-	call Func_f853
-	call Func_f824
+	call AccumulateBonusPoints
+	call ClearMessageAndWaitForInput
 	ret
 
 HandleSpinnerTurnsBallBonus_BlueField: ; 0xface  :)
@@ -747,14 +747,14 @@ HandleSpinnerTurnsBallBonus_BlueField: ; 0xface  :)
 	call PlaceTextAlphanumericOnly
 	ld hl, wBottomMessageText + $01
 	ld a, [wNumSpinnerTurns]
-	call Func_f78e
+	call ConvertByteToDecimalDisplay
 	ld bc, $0040
 	ld de, $0000
-	call Func_f80d
+	call CopyMessageBufferToVRAM
 	ld hl, wNumSpinnerTurns
 	ld de, PointsPerSpinnerTurn
-	call Func_f853
-	call Func_f824
+	call AccumulateBonusPoints
+	call ClearMessageAndWaitForInput
 	ret
 
 DoNothing_faf6: ; 0xfaf6

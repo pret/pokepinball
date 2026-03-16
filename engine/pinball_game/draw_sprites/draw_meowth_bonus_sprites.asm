@@ -2,15 +2,15 @@ DrawSpritesMeowthBonus: ; 0x2583b
 	ld bc, $7f65
 	callba DrawTimer
 	callba DrawFlippers
-	call Func_259fe
-	call Func_25895
-	call Func_2595e
-	call Func_2586c
+	call DrawMeowthMultiplierSprite
+	call DrawMeowthBottomCoinSprites
+	call DrawMeowthTopCoinSprites
+	call DrawMeowthSprite
 	callba DrawPinball
-	call Func_25a39
+	call DrawMeowthProgressSparkle
 	ret
 
-Func_2586c: ; 0x2586c
+DrawMeowthSprite: ; 0x2586c
 	ld a, [wMeowthXPosition]
 	ld hl, hSCX
 	sub [hl]
@@ -46,7 +46,7 @@ MeowthSpriteIds:
 	MeowthSpriteId SPRITE2_MEOWTH_TIMEOUT_0, MEOWTHSPRITE_TIMEOUT_0
 	MeowthSpriteId SPRITE2_MEOWTH_TIMEOUT_1, MEOWTHSPRITE_TIMEOUT_1
 
-Func_25895: ; 0x25895
+DrawMeowthBottomCoinSprites: ; 0x25895
 	ld a, [wMeowthJewel0AnimationIndex]
 	cp $b ; each entry of MeowthJewelSpriteIdsTable has 11 entries
 	jr nz, .asm_258a0
@@ -181,7 +181,7 @@ MeowthJewelCollectSpriteIds:
 	db SPRITE2_MEOWTHJEWEL_COLLECT_5
 	db SPRITE2_MEOWTHJEWEL_COLLECT_5
 
-Func_2595e: ; 0x2595e
+DrawMeowthTopCoinSprites: ; 0x2595e
 	ld a, [wMeowthJewel3AnimationIndex]
 	cp $b
 	jr nz, .asm_25969
@@ -271,7 +271,7 @@ Func_2595e: ; 0x2595e
 	call LoadSpriteData2
 	ret
 
-Func_259fe: ; 0x259fe
+DrawMeowthMultiplierSprite: ; 0x259fe
 	ld a, [wd795]
 	and a
 	ret z
@@ -326,7 +326,7 @@ MeowthMultiplierSpriteIds:
 	MeowthMultiplierSpriteId SPRITE2_MEOWTH_MULTIPLIER_6_FRAME_2, MEOWTHMULTIPLIERSPRITE_6_FRAME_2
 	MeowthMultiplierSpriteId $FF, MEOWTHMULTIPLIERSPRITE_INVISIBLE
 
-Func_25a39: ; 0x25a39
+DrawMeowthProgressSparkle: ; 0x25a39
 	ld a, [wd64e]
 	and a
 	ret z

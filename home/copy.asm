@@ -1,4 +1,4 @@
-Func_61b: ; 0x61b
+WaitForLCDHBlank: ; 0x61b
 	ldh a, [rLY]  ; LY register (LCDC Y-Coordinate)
 	cp $40
 	jr c, .asm_625
@@ -279,7 +279,7 @@ LoadVRAMData: ; 0x73f
 	push af
 	call WaitForLCD
 .loop
-	call Func_61b
+	call WaitForLCDHBlank
 .waitForHBlank
 	ldh a, [rSTAT]
 	and $3
@@ -331,7 +331,7 @@ FarCopyPalettes: ; 0x790
 	ld hl, rLCDC
 	bit 7, [hl]
 	pop hl
-	jp nz, Func_7dc
+	jp nz, CopyCGBPalettesWithHBlankSync
 	bit 7, h
 	jr nz, .asm_7ad
 	ldh [hROMBankBuffer], a
@@ -381,7 +381,7 @@ FarCopyPalettes: ; 0x790
 	ld [MBC5RomBank], a
 	ret
 
-Func_7dc: ; 0x7dc
+CopyCGBPalettesWithHBlankSync: ; 0x7dc
 	bit 7, h
 	jr nz, .asm_7ef
 	ldh [hROMBankBuffer], a
@@ -414,7 +414,7 @@ Func_7dc: ; 0x7dc
 	pop hl
 	call WaitForLCD
 .asm_80e
-	call Func_61b
+	call WaitForLCDHBlank
 .asm_811
 	ldh a, [rSTAT]
 	and $3
@@ -471,7 +471,7 @@ PutTileInVRAM: ; 0x848
 ;        hl = pointer to VRAM location where tile should be placed
 	push af
 	call WaitForLCD
-	call Func_61b
+	call WaitForLCDHBlank
 .asm_84f
 	ldh a, [rSTAT]
 	and $3
@@ -480,10 +480,10 @@ PutTileInVRAM: ; 0x848
 	ld [hl], a  ; Store tile number in VRAM background map
 	ret
 
-Func_858: ; 0x858
+WriteTileToVRAMBank1: ; 0x858
 	push af
 	call WaitForLCD
-	call Func_61b
+	call WaitForLCDHBlank
 .asm_85f
 	ldh a, [rSTAT]
 	and $3
@@ -547,27 +547,27 @@ LoadBillboardPaletteMap: ; 0x86f
 .asm_8ae
 	push bc
 	ld a, [de]
-	call Func_858
+	call WriteTileToVRAMBank1
 	inc hl
 	inc de
 	ld a, [de]
-	call Func_858
+	call WriteTileToVRAMBank1
 	inc hl
 	inc de
 	ld a, [de]
-	call Func_858
+	call WriteTileToVRAMBank1
 	inc hl
 	inc de
 	ld a, [de]
-	call Func_858
+	call WriteTileToVRAMBank1
 	inc hl
 	inc de
 	ld a, [de]
-	call Func_858
+	call WriteTileToVRAMBank1
 	inc hl
 	inc de
 	ld a, [de]
-	call Func_858
+	call WriteTileToVRAMBank1
 	inc de
 	ld bc, $001b
 	add hl, bc
@@ -579,7 +579,7 @@ LoadBillboardPaletteMap: ; 0x86f
 	ld [MBC5RomBank], a
 	ret
 
-Func_8e1: ; 0x8e1
+LoadTileDataWithBankSwitch: ; 0x8e1
 	ldh [hROMBankBuffer], a
 	ldh a, [hLoadedROMBank]
 	push af

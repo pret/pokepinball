@@ -1,4 +1,4 @@
-Func_1be3: ; 0x1be3
+InitializeIRTimingData: ; 0x1be3
 	ld a, $c0
 	ldh [rRP], a
 	ld a, $ff
@@ -37,23 +37,23 @@ Func_1be3: ; 0x1be3
 	ld [hl], $5
 	ret
 
-Func_1c1b: ; 0x1c1b
+WaitForIRSignalHigh: ; 0x1c1b
 	inc d
 	ret z
 	ldh a, [$ff00+c]
 	bit 1, a
-	jr z, Func_1c1b
+	jr z, WaitForIRSignalHigh
 	ret
 
-Func_1c23: ; 0x1c23
+WaitForIRSignalLow: ; 0x1c23
 	inc d
 	ret z
 	ldh a, [$ff00+c]
 	bit 1, a
-	jr nz, Func_1c23
+	jr nz, WaitForIRSignalLow
 	ret
 
-Func_1c2b: ; 0x1c2b
+SendIRPulse: ; 0x1c2b
 	ld a, $c1
 	ldh [$ff00+c], a
 .asm_1c2e
@@ -61,7 +61,7 @@ Func_1c2b: ; 0x1c2b
 	jr nz, .asm_1c2e
 	ret
 
-Func_1c32: ; 0x1c32
+SendIRGap: ; 0x1c32
 	ld a, $c0
 	ldh [$ff00+c], a
 .asm_1c35
@@ -69,7 +69,7 @@ Func_1c32: ; 0x1c32
 	jr nz, .asm_1c35
 	ret
 
-Func_1c39:
+EstablishIRConnection:
 	xor a
 	ldh [hNumFramesSinceLastVBlank], a
 	ld a, $1
@@ -79,104 +79,104 @@ Func_1c39:
 	ld c, rRP % $100
 	ldh a, [$ff00+c]
 	and b
-	jr z, Func_1c50
+	jr z, HandleIRReceiveHandshake
 	ldh a, [hNumFramesSinceLastVBlank]
 	and a
-	jr nz, Func_1ca1
+	jr nz, HandleIRSendHandshake
 	jr .asm_1c41
 
-Func_1c50: ; 0x1c50
+HandleIRReceiveHandshake: ; 0x1c50
 	ld a, $1
 	ld [wd8e9], a
 	ld b, $1a
 	ld c, rRP % $100
 	ld d, $0
 	ld e, d
-	call Func_1c23
+	call WaitForIRSignalLow
 	ld a, d
 	and a
-	jp z, Func_1dc2
+	jp z, SetIRErrorState
 	ld d, e
-	call Func_1c1b
+	call WaitForIRSignalHigh
 	ld a, d
 	and a
-	jp z, Func_1dc2
-	call Func_1c23
+	jp z, SetIRErrorState
+	call WaitForIRSignalLow
 	ld a, d
 	and a
-	jp z, Func_1dc2
-	call Func_1c1b
+	jp z, SetIRErrorState
+	call WaitForIRSignalHigh
 	ld a, d
 	and a
-	jp z, Func_1dc2
+	jp z, SetIRErrorState
 	cp $8
-	jp c, Func_1dc2
+	jp c, SetIRErrorState
 	cp $2a
-	jp nc, Func_1dc2
+	jp nc, SetIRErrorState
 	ld a, $0
 	ld [wd8ea], a
 	ld d, b
-	call Func_1c32
+	call SendIRGap
 	ld d, b
-	call Func_1c2b
+	call SendIRPulse
 	ld d, b
-	call Func_1c32
+	call SendIRGap
 	ld d, b
-	call Func_1c2b
+	call SendIRPulse
 	ld d, b
-	call Func_1c32
+	call SendIRGap
 	ret
 
-Func_1ca1: ; 0x1ca1
+HandleIRSendHandshake: ; 0x1ca1
 	ld a, $2
 	ld [wd8e9], a
 	ld b, $1a
 	ld c, rRP % $100
 	ld d, b
 	ld e, $0
-	call Func_1c32
+	call SendIRGap
 	ld d, b
-	call Func_1c2b
+	call SendIRPulse
 	ld d, b
-	call Func_1c32
+	call SendIRGap
 	ld d, b
-	call Func_1c2b
+	call SendIRPulse
 	ld d, b
-	call Func_1c32
+	call SendIRGap
 	ld d, e
-	call Func_1c23
+	call WaitForIRSignalLow
 	ld a, d
 	and a
-	jp z, Func_1dc2
+	jp z, SetIRErrorState
 	ld d, e
-	call Func_1c1b
+	call WaitForIRSignalHigh
 	ld a, d
 	and a
-	jp z, Func_1dc2
+	jp z, SetIRErrorState
 	ld d, e
-	call Func_1c23
+	call WaitForIRSignalLow
 	ld a, d
 	and a
-	jp z, Func_1dc2
+	jp z, SetIRErrorState
 	ld d, e
-	call Func_1c1b
+	call WaitForIRSignalHigh
 	ld a, d
 	and a
-	jp z, Func_1dc2
+	jp z, SetIRErrorState
 	ld d, $1a
-	call Func_1c32
+	call SendIRGap
 	ld a, $0
 	ld [wd8ea], a
 	ret
 
-Func_1cef:
+DisableIRCommunication:
 	xor a
 	ldh [rRP], a
 	ld a, $ff
 	ld [wd8ea], a
 	ret
 
-Func_1cf8: ; 0x1cf8
+TransmitIRData: ; 0x1cf8
 	xor a
 	ld [wd8e4], a
 	ld [wd8e5], a
@@ -189,37 +189,37 @@ Func_1cf8: ; 0x1cf8
 	dec hl
 	ld b, $2
 	ld d, $1e
-	call Func_1c32
-	call Func_1d44
+	call SendIRGap
+	call TransmitIRDataBytes
 	pop bc
 	pop hl
-	call Func_1ed3
-	call Func_1d44
+	call IRTimingNop
+	call TransmitIRDataBytes
 	ld a, [wd8e4]
 	ld [wd8e6], a
 	ld a, [wd8e5]
 	ld [wd8e7], a
 	ld hl, wd8e6
 	ld b, $2
-	call Func_1d44
+	call TransmitIRDataBytes
 	ld hl, wd8ea
 	ld b, $1
-	call Func_1e3b
+	call ReceiveIRDataBytes
 	ld a, [wd8e6]
 	ld [wd8e4], a
 	ld a, [wd8e7]
 	ld [wd8e5], a
 	ret
 
-Func_1d44: ; 0x1d44
+TransmitIRDataBytes: ; 0x1d44
 	ld a, [wd8ea]
 	cp $0
 	ret nz
 	ld c, rRP % $100
 	ld d, $16
-	call Func_1c2b
+	call SendIRPulse
 	ld d, $16
-	call Func_1c32
+	call SendIRGap
 	ld a, b
 	cpl
 	ld b, a
@@ -240,7 +240,7 @@ Func_1d44: ; 0x1d44
 	jr .asm_1d78
 
 .asm_1d75
-	call Func_1ed3
+	call IRTimingNop
 .asm_1d78
 	ld a, e
 	rlca
@@ -248,74 +248,74 @@ Func_1d44: ; 0x1d44
 	jr nc, .asm_1d8d
 	ld a, [wd8eb]
 	ld d, a
-	call Func_1c2b
+	call SendIRPulse
 	ld a, [wd8ec]
 	ld d, a
-	call Func_1c32
+	call SendIRGap
 	jr .asm_1d9b
 
 .asm_1d8d
 	ld a, [wd8ed]
 	ld d, a
-	call Func_1c2b
+	call SendIRPulse
 	ld a, [wd8ee]
 	ld d, a
-	call Func_1c32
+	call SendIRGap
 .asm_1d9b
 	ld a, [wd8e3]
 	dec a
 	ld [wd8e3], a
 	jr z, .asm_1dac
-	call Func_1ed4
-	call Func_1ed4
+	call IRTimingDelay
+	call IRTimingDelay
 	jr .asm_1d78
 
 .asm_1dac
 	jr .asm_1d59
 
 .asm_1dae
-	call Func_1ed3
-	call Func_1ed3
-	call Func_1ed4
+	call IRTimingNop
+	call IRTimingNop
+	call IRTimingDelay
 	ld d, $16
-	call Func_1c2b
+	call SendIRPulse
 	ld d, $16
-	call Func_1c32
+	call SendIRGap
 	ret
 
-Func_1dc2: ; 0x1dc2
+SetIRErrorState: ; 0x1dc2
 	ld a, $2
 	ld [wd8ea], a
 	ret
 
-Func_1dc8:
+SetIRChecksumError:
 	ld a, [wd8ea]
 	or $1
 	ld [wd8ea], a
 	ret
 
-Func_1dd1: ; 0x1dd1
+SetIRProtocolError: ; 0x1dd1
 	ld a, [wd8ea]
 	or $4
 	ld [wd8ea], a
 	ret
 
-Func_1dda: ; 0x1dda
+ReceiveIRData: ; 0x1dda
 	xor a
 	ld [wd8e4], a
 	ld [wd8e5], a
 	push hl
 	ld hl, wd8e6
 	ld b, $2
-	call Func_1e3b
+	call ReceiveIRDataBytes
 	ld a, [wd8e7]
 	ld [wd8e8], a
 	ld b, a
 	pop hl
 	ld a, [wd8e6]
 	cp $5a
-	jp nz, Func_1dd1
-	call Func_1e3b
+	jp nz, SetIRProtocolError
+	call ReceiveIRDataBytes
 	ld a, [wd8e4]
 	ld d, a
 	ld a, [wd8e5]
@@ -323,7 +323,7 @@ Func_1dda: ; 0x1dda
 	push de
 	ld hl, wd8e6
 	ld b, $2
-	call Func_1e3b
+	call ReceiveIRDataBytes
 	pop de
 	ld hl, wd8e6
 	ld a, [hli]
@@ -340,7 +340,7 @@ Func_1dda: ; 0x1dda
 	push de
 	ld hl, wd8ea
 	ld b, $1
-	call Func_1d44
+	call TransmitIRDataBytes
 	pop de
 	ld a, d
 	ld [wd8e4], a
@@ -351,28 +351,28 @@ Func_1dda: ; 0x1dda
 	ret z
 	ret
 
-Func_1e3b: ; 0x1e3b
+ReceiveIRDataBytes: ; 0x1e3b
 	ld a, [wd8ea]
 	cp $0
 	ret nz
 	ld c, rRP % $100
 	ld d, $0
-	call Func_1c23
+	call WaitForIRSignalLow
 	ld a, d
 	or a
-	jp z, Func_1dc2
+	jp z, SetIRErrorState
 	ld d, $0
-	call Func_1c1b
+	call WaitForIRSignalHigh
 	ld a, d
 	or a
-	jp z, Func_1dc2
+	jp z, SetIRErrorState
 	ld d, $0
-	call Func_1c23
+	call WaitForIRSignalLow
 	ld a, d
 	or a
-	jp z, Func_1dc2
-	call Func_1ed4
-	call Func_1ed4
+	jp z, SetIRErrorState
+	call IRTimingDelay
+	call IRTimingDelay
 	push af
 	pop af
 	ld a, b
@@ -385,8 +385,8 @@ Func_1e3b: ; 0x1e3b
 	ld [wd8e3], a
 .asm_1e74
 	ld d, $0
-	call Func_1c1b
-	call Func_1c23
+	call WaitForIRSignalHigh
+	call WaitForIRSignalLow
 	ld a, [wd8ef]
 	cp d
 	jr nc, .asm_1e88
@@ -407,8 +407,8 @@ Func_1e3b: ; 0x1e3b
 	ld a, e
 	rlca
 	ld e, a
-	call Func_1ed4
-	call Func_1ed4
+	call IRTimingDelay
+	call IRTimingDelay
 	jr .asm_1e74
 
 .asm_1ea0
@@ -424,32 +424,32 @@ Func_1e3b: ; 0x1e3b
 	jr .asm_1eb7
 
 .asm_1eb4
-	call Func_1ed3
+	call IRTimingNop
 .asm_1eb7
 	jr .asm_1e6c
 
 .asm_1eb9
 	ld d, $0
-	call Func_1c1b
+	call WaitForIRSignalHigh
 	ld a, d
 	and a
-	jp z, Func_1dc2
+	jp z, SetIRErrorState
 	ld d, $11
-	call Func_1c32
+	call SendIRGap
 	ret
 
-Func_1ec9:
+TransmitIRPacket:
 	ld b, $00
-	jp Func_1cf8
+	jp TransmitIRData
 
-Func_1ece:
+ReceiveIRPacket:
 	ld b, $00
-	jp Func_1dda
+	jp ReceiveIRData
 
-Func_1ed3: ; 0x1ed3
+IRTimingNop: ; 0x1ed3
 	ret
 
-Func_1ed4: ; 0x1ed4
+IRTimingDelay: ; 0x1ed4
 	jr z, .asm_1ed6
 .asm_1ed6
 	jr nz, .asm_1ed8

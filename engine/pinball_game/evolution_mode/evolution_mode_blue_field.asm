@@ -60,13 +60,13 @@ HandleEvolutionMode_BlueField: ; 0x20c08
 	ld [hl], a
 	ld [wEvolutionObjectsDisabled], a
 	call ProgressEvolution
-	ld a, [wd558]
+	ld a, [wEvolutionIndicatorState2Backup]
 	ld [wIndicatorStates], a
-	ld a, [wd559]
+	ld a, [wEvolutionIndicatorState3Backup]
 	ld [wIndicatorStates + 3], a
 	ld a, [wCurrentStage]
 	bit 0, a
-	callba nz, Func_1c2cb
+	callba nz, LoadArrowIndicators_BlueField
 	ld bc, OneMillionPoints
 	callba AddBigBCD6FromQueue
 	call FillBottomMessageBufferWithBlackTile
@@ -81,7 +81,7 @@ HandleEvolutionMode_BlueField: ; 0x20c08
 	ld hl, StageBlueFieldBottomOBJPalette6
 	ld de, $0070
 	ld bc, $0008
-	call Func_7dc
+	call CopyCGBPalettesWithHBlankSync
 .asm_20c74
 	scf
 	ret
@@ -150,8 +150,8 @@ ProgressEvolution: ; 0x20c76
 	ld [wIndicatorStates + 10], a
 	ld [wIndicatorStates + 6], a
 	ld [wIndicatorStates + 7], a
-	ld [wd558], a
-	ld [wd559], a
+	ld [wEvolutionIndicatorState2Backup], a
+	ld [wEvolutionIndicatorState3Backup], a
 	ld a, [wCurrentStage]
 	bit 0, a
 	ret z
@@ -167,7 +167,7 @@ ProgressEvolution: ; 0x20c76
 	ld hl, StageBlueFieldBottomOBJPalette7
 	ld de, $0078
 	ld bc, $0008
-	call Func_7dc
+	call CopyCGBPalettesWithHBlankSync
 .asm_20d25
 	callba LoadSlotCaveCoverGraphics_BlueField
 	ret
@@ -245,13 +245,13 @@ CheckIfEvolutionModeTimerExpired_BlueField: ; 0x20da0
 	ld [wIndicatorStates + 10], a
 	ld [wIndicatorStates + 6], a
 	ld [wIndicatorStates + 7], a
-	ld [wd558], a
-	ld [wd559], a
+	ld [wEvolutionIndicatorState2Backup], a
+	ld [wEvolutionIndicatorState3Backup], a
 	ld [wEvolutionObjectsDisabled], a
 	ld a, [wCurrentStage]
 	bit 0, a
 	jr z, .asm_20e1a
-	callba Func_1c2cb
+	callba LoadArrowIndicators_BlueField
 	callba LoadSlotCaveCoverGraphics_BlueField
 .asm_20e1a
 	callba StopTimer
@@ -459,9 +459,9 @@ CreateEvolutionTrinket_BlueField: ; 0x20f75
 	ld [hl], a
 	ld [wEvolutionObjectsDisabled], a
 	ld a, [wIndicatorStates]
-	ld [wd558], a
+	ld [wEvolutionIndicatorState2Backup], a
 	ld a, [wIndicatorStates + 3]
-	ld [wd559], a
+	ld [wEvolutionIndicatorState3Backup], a
 	ld a, [wIndicatorStates + 2]
 	ld [wIndicatorState2Backup], a
 	xor a
@@ -470,7 +470,7 @@ CreateEvolutionTrinket_BlueField: ; 0x20f75
 	ld [wIndicatorStates + 3], a
 	ld a, [wCurrentStage]
 	bit 0, a
-	callba nz, Func_1c2cb
+	callba nz, LoadArrowIndicators_BlueField
 	ldh a, [hGameBoyColorFlag]
 	and a
 	jr z, .asm_20fc3
@@ -478,7 +478,7 @@ CreateEvolutionTrinket_BlueField: ; 0x20f75
 	ld hl, EvolutionTrinketPalettes
 	ld de, $0070
 	ld bc, $0010
-	call Func_7dc
+	call CopyCGBPalettesWithHBlankSync
 .asm_20fc3
 	ld bc, ThreeHundredThousandPoints
 	callba AddBigBCD6FromQueue
@@ -508,12 +508,12 @@ EvolutionTrinketNotFound_BlueField: ; 0x20fef
 	ld a, $1
 	ld [wEvolutionObjectsDisabled], a
 	ld a, [wIndicatorStates]
-	ld [wd558], a
+	ld [wEvolutionIndicatorState2Backup], a
 	ld a, $80
 	ld [wIndicatorStates], a
 	ld [wIndicatorStates + 1], a
 	ld a, [wIndicatorStates + 3]
-	ld [wd559], a
+	ld [wEvolutionIndicatorState3Backup], a
 	ld a, [wIndicatorStates + 2]
 	ld [wIndicatorState2Backup], a
 	xor a
@@ -521,7 +521,7 @@ EvolutionTrinketNotFound_BlueField: ; 0x20fef
 	ld [wIndicatorStates + 3], a
 	ld a, [wCurrentStage]
 	bit 0, a
-	callba nz, Func_1c2cb
+	callba nz, LoadArrowIndicators_BlueField
 	ld a, $58
 	ld [wEvolutionTrinketCooldownFrames], a
 	ld a, $2
@@ -608,15 +608,15 @@ RecoverPokemon_BlueField:
 	xor a
 	ld [wIndicatorStates + 1], a
 	ld [wEvolutionObjectsDisabled], a
-	ld a, [wd558]
+	ld a, [wEvolutionIndicatorState2Backup]
 	ld [wIndicatorStates], a
-	ld a, [wd559]
+	ld a, [wEvolutionIndicatorState3Backup]
 	ld [wIndicatorStates + 3], a
 	ld a, [wIndicatorState2Backup]
 	ld [wIndicatorStates + 2], a
 	ld a, [wCurrentStage]
 	bit 0, a
-	callba nz, Func_1c2cb
+	callba nz, LoadArrowIndicators_BlueField
 	ldh a, [hGameBoyColorFlag]
 	and a
 	jr z, .asm_21102
@@ -624,7 +624,7 @@ RecoverPokemon_BlueField:
 	ld hl, StageBlueFieldBottomOBJPalette6
 	ld de, $0070
 	ld bc, $0008
-	call Func_7dc
+	call CopyCGBPalettesWithHBlankSync
 .asm_21102
 	call FillBottomMessageBufferWithBlackTile
 	call EnableBottomText
@@ -715,7 +715,7 @@ HandleSlotCaveCollision_EvolutionMode_BlueField: ; 0x2112a
 	call ReadByteFromBank
 	ld bc, $10b0
 	ld hl, rBGPI
-	call Func_8e1
+	call LoadTileDataWithBankSwitch
 .asm_211a8
 	callba ShowMonEvolvedText
 	call MainLoopUntilTextIsClear

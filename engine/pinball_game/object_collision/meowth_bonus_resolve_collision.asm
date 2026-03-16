@@ -1,4 +1,4 @@
-Func_24319: ; 0x2438f
+ResolveCoinCollision_Lower_MeowthBonus: ; 0x2438f
 	ld a, [wd6f4]
 	cp $0
 	jr z, .asm_24333
@@ -8,7 +8,7 @@ Func_24319: ; 0x2438f
 	ld a, [wMeowthJewel0YCoord]
 	add $4
 	ld c, a
-	call Func_24405
+	call CheckCoinCollisionInRange
 	ld a, $0
 	jr c, .asm_24373
 .asm_24333
@@ -21,7 +21,7 @@ Func_24319: ; 0x2438f
 	ld a, [wMeowthJewel1YCoord]
 	add $4
 	ld c, a
-	call Func_24405
+	call CheckCoinCollisionInRange
 	ld a, $1
 	jr c, .asm_24373
 .asm_2434d
@@ -34,7 +34,7 @@ Func_24319: ; 0x2438f
 	ld a, [wMeowthJewel2YCoord]
 	add $4
 	ld c, a
-	call Func_24405
+	call CheckCoinCollisionInRange
 	ld a, $2
 	jr c, .asm_24373
 	ld a, [wd6f4]
@@ -64,7 +64,7 @@ Func_24319: ; 0x2438f
 	ld [hl], $0
 	ret
 
-Func_2438f: ; 0x2438f
+ResolveCoinCollision_Upper_MeowthBonus: ; 0x2438f
 	ld a, [wd6f4]
 	cp $a
 	jr z, .asm_243a9
@@ -74,7 +74,7 @@ Func_2438f: ; 0x2438f
 	ld a, [wMeowthJewel3YCoord]
 	add $4
 	ld c, a
-	call Func_24405
+	call CheckCoinCollisionInRange
 	ld a, $a
 	jr c, .asm_243e9
 .asm_243a9
@@ -87,7 +87,7 @@ Func_2438f: ; 0x2438f
 	ld a, [wMeowthJewel4YCoord]
 	add $4
 	ld c, a
-	call Func_24405
+	call CheckCoinCollisionInRange
 	ld a, $b
 	jr c, .asm_243e9
 .asm_243c3
@@ -100,7 +100,7 @@ Func_2438f: ; 0x2438f
 	ld a, [wMeowthJewel5YCoord]
 	add $4
 	ld c, a
-	call Func_24405
+	call CheckCoinCollisionInRange
 	ld a, $c
 	jr c, .asm_243e9
 	ld a, [wd6f4]
@@ -130,7 +130,7 @@ Func_2438f: ; 0x2438f
 	ld [hl], $0
 	ret
 
-Func_24405: ; 0x24405
+CheckCoinCollisionInRange: ; 0x24405
 	ld hl, wMeowthJewel0XCoord
 	ld a, [wd6f4]
 	ld e, a
@@ -171,7 +171,7 @@ ResolveMeowthBonusGameObjectCollisions: ; 0x2442a
 	ld [wd79a], a
 .asm_2443f
 	ld de, wd79a
-	call Func_24f00
+	call DisplayMeowthMultiplierText
 	jr .asm_2444b
 
 .asm_24447
@@ -179,9 +179,9 @@ ResolveMeowthBonusGameObjectCollisions: ; 0x2442a
 	ld [wd79a], a
 .asm_2444b
 	call TryCloseGate_MeowthBonus
-	call Func_245ab
-	call Func_248ac
-	call Func_24d07
+	call HandleMeowthHitCollision
+	call UpdateMeowthBottomCoins
+	call UpdateMeowthTopCoins
 	ld a, [wMeowthStageScore]
 	cp $14
 	jr c, .asm_24498
@@ -255,10 +255,10 @@ TryCloseGate_MeowthBonus: ; 0x244f5
 	ld [wStageCollisionState], a
 	ld [wMeowthBonusClosedGate], a
 	callba LoadStageCollisionAttributes
-	call Func_24516
+	call QueueGateGraphicsToLoad_MeowthBonus
 	ret
 
-Func_24516: ; 0x24516
+QueueGateGraphicsToLoad_MeowthBonus: ; 0x24516
 	ld a, [wStageCollisionState]
 	sla a
 	ld c, a
@@ -389,7 +389,7 @@ TileData_24592: ; 0x24592
 
 	db $00 ; terminator
 
-Func_245ab: ; 0x245ab
+HandleMeowthHitCollision: ; 0x245ab
 	ld a, [wd6e7]
 	and a
 	jr z, .asm_24621
@@ -405,11 +405,11 @@ Func_245ab: ; 0x245ab
 	jr .asm_245cf
 
 .locatedAtBottom
-	call Func_247d9
+	call ProduceBottomCoin
 	jr .asm_245cf
 
 .locatedAtTop
-	call Func_24c28
+	call ProduceTopCoin
 .asm_245cf
 	xor a
 	ld [wd6e7], a
@@ -470,11 +470,11 @@ Func_245ab: ; 0x245ab
 .asm_24651
 	ld a, [wMeowthState]
 	cp $2
-	call c, Func_24709
-	call Func_2465d
+	call c, UpdateMeowthPosition
+	call UpdateMeowthAnimationFrame
 	ret
 
-Func_2465d: ; 0x2465d
+UpdateMeowthAnimationFrame: ; 0x2465d
 	ld a, [wMeowthState]
 	sla a
 	ld c, a
@@ -584,7 +584,7 @@ MeowthAnimationData5: ; 0x24704
 	db $17, MEOWTHSPRITE_TIMEOUT_1
 	db $00 ; terminator
 
-Func_24709: ; 0x24709
+UpdateMeowthPosition: ; 0x24709
 	ld a, [wMeowthXPosition]
 	ld hl, wMeowthXMovement
 	add [hl]
@@ -714,7 +714,7 @@ UpdateMeowthVerticalMovement: ; 0x2476d
 	ld [wMeowthYMovement], a
 	ret
 
-Func_247d9: ; 0x247d9
+ProduceBottomCoin: ; 0x247d9
 	ld a, [wd6f3]
 	and a
 	ret z
@@ -819,7 +819,7 @@ Func_247d9: ; 0x247d9
 .asm_248ab
 	ret
 
-Func_248ac: ; 0x248ac
+UpdateMeowthBottomCoins: ; 0x248ac
 	ld a, [wMeowthJewel0State]
 	cp $1
 	jr nz, .asm_248d3
@@ -828,7 +828,7 @@ Func_248ac: ; 0x248ac
 	jr z, .asm_248c4
 	ld a, $0
 	ld [wd6f4], a
-	call Func_24a30
+	call AnimateMovingCoin
 	jr .asm_248d3
 
 .asm_248c4
@@ -847,7 +847,7 @@ Func_248ac: ; 0x248ac
 	jr z, .asm_248eb
 	ld a, $1
 	ld [wd6f4], a
-	call Func_24a30
+	call AnimateMovingCoin
 	jr .asm_248fa
 
 .asm_248eb
@@ -866,7 +866,7 @@ Func_248ac: ; 0x248ac
 	jr z, .asm_24912
 	ld a, $2
 	ld [wd6f4], a
-	call Func_24a30
+	call AnimateMovingCoin
 	jr .asm_24921
 
 .asm_24912
@@ -907,7 +907,7 @@ Func_248ac: ; 0x248ac
 	ld a, [hl]
 	cp $2
 	jr nz, .asm_2495f
-	call Func_24e7f
+	call ApplyCoinHitSpriteEffect
 	jr .asm_24968
 
 .asm_2495f
@@ -928,7 +928,7 @@ Func_248ac: ; 0x248ac
 	ld a, [hl]
 	cp $2
 	jr nz, .asm_24985
-	call Func_24e7f
+	call ApplyCoinHitSpriteEffect
 	jr .asm_2498e
 
 .asm_24985
@@ -949,7 +949,7 @@ Func_248ac: ; 0x248ac
 	ld a, [hl]
 	cp $2
 	jr nz, .asm_249ab
-	call Func_24e7f
+	call ApplyCoinHitSpriteEffect
 	jr .asm_249b4
 
 .asm_249ab
@@ -1021,7 +1021,7 @@ Func_248ac: ; 0x248ac
 	ld [wMeowthState], a
 	ret
 
-Func_24a30: ; 0x24a30
+AnimateMovingCoin: ; 0x24a30
 	ld a, [wd6f4]
 	ld c, a
 	ld b, $0
@@ -1030,7 +1030,7 @@ Func_24a30: ; 0x24a30
 	ld a, [hl]
 	and a
 	jr z, .asm_24a42
-	call Func_24b41
+	call ContinueMovingCoinAnimation
 	ret
 
 .asm_24a42
@@ -1140,11 +1140,11 @@ Func_24a30: ; 0x24a30
 	ld a, c
 	cp $9
 	jr c, .asm_24aed
-	call Func_2438f
+	call ResolveCoinCollision_Upper_MeowthBonus
 	ret
 
 .asm_24aed
-	call Func_24319
+	call ResolveCoinCollision_Lower_MeowthBonus
 .asm_24af0
 	ret
 
@@ -1191,7 +1191,7 @@ Data_24af1:
 	db 0,  0
 	db 0,  0
 
-Func_24b41: ; 0x24b41
+ContinueMovingCoinAnimation: ; 0x24b41
 	ld a, [wd6f4]
 	ld b, $0
 	ld c, a
@@ -1199,7 +1199,7 @@ Func_24b41: ; 0x24b41
 	add hl, bc
 	ld a, [hl]
 	cp $14
-	jp nc, Func_24bf6
+	jp nc, SetCoinAnimationComplete
 	ld hl, wd6f5
 	add hl, bc
 	ld a, [hl]
@@ -1290,11 +1290,11 @@ Func_24b41: ; 0x24b41
 	ld a, c
 	cp $9
 	jr c, .asm_24be1
-	call Func_2438f
+	call ResolveCoinCollision_Upper_MeowthBonus
 	jr .asm_24be4
 
 .asm_24be1
-	call Func_24319
+	call ResolveCoinCollision_Lower_MeowthBonus
 .asm_24be4
 	ld a, [wd6f4]
 	ld b, $0
@@ -1309,7 +1309,7 @@ Func_24b41: ; 0x24b41
 	scf
 	ret
 
-Func_24bf6: ; 0x24bf6
+SetCoinAnimationComplete: ; 0x24bf6
 	ld a, [wd6f4]
 	ld b, $0
 	ld c, a
@@ -1340,7 +1340,7 @@ Data_24c0a:
 	db 0,  0
 	db 0,  0
 
-Func_24c28: ; 0x24c28
+ProduceTopCoin: ; 0x24c28
 	ld a, [wd6f3]
 	and a
 	ret z
@@ -1451,7 +1451,7 @@ Func_24c28: ; 0x24c28
 .asm_24d06
 	ret
 
-Func_24d07: ; 0x24d07
+UpdateMeowthTopCoins: ; 0x24d07
 	ld a, [wMeowthJewel3State]
 	cp $1
 	jr nz, .asm_24d2a
@@ -1460,7 +1460,7 @@ Func_24d07: ; 0x24d07
 	jr z, .asm_24d1f
 	ld a, $a
 	ld [wd6f4], a
-	call Func_24a30
+	call AnimateMovingCoin
 	jr .asm_24d2a
 
 .asm_24d1f
@@ -1477,7 +1477,7 @@ Func_24d07: ; 0x24d07
 	jr z, .asm_24d42
 	ld a, $b
 	ld [wd6f4], a
-	call Func_24a30
+	call AnimateMovingCoin
 	jr .asm_24d4d
 
 .asm_24d42
@@ -1494,7 +1494,7 @@ Func_24d07: ; 0x24d07
 	jr z, .asm_24d65
 	ld a, $c
 	ld [wd6f4], a
-	call Func_24a30
+	call AnimateMovingCoin
 	jr .asm_24d70
 
 .asm_24d65
@@ -1533,7 +1533,7 @@ Func_24d07: ; 0x24d07
 	ld a, [hl]
 	cp $2
 	jr nz, .asm_24dae
-	call Func_24e7f
+	call ApplyCoinHitSpriteEffect
 	jr .asm_24db7
 
 .asm_24dae
@@ -1554,7 +1554,7 @@ Func_24d07: ; 0x24d07
 	ld a, [hl]
 	cp $2
 	jr nz, .asm_24dd4
-	call Func_24e7f
+	call ApplyCoinHitSpriteEffect
 	jr .asm_24ddd
 
 .asm_24dd4
@@ -1575,7 +1575,7 @@ Func_24d07: ; 0x24d07
 	ld a, [hl]
 	cp $2
 	jr nz, .asm_24dfa
-	call Func_24e7f
+	call ApplyCoinHitSpriteEffect
 	jr .asm_24e03
 
 .asm_24dfa
@@ -1647,7 +1647,7 @@ Func_24d07: ; 0x24d07
 	ld [wMeowthState], a
 	ret
 
-Func_24e7f: ; 0x24e7f
+ApplyCoinHitSpriteEffect: ; 0x24e7f
 	ld a, b
 	ld [wd79c], a
 	ld a, c
@@ -1690,7 +1690,7 @@ Func_24e7f: ; 0x24e7f
 	jr z, .asm_24ed7
 	ld [wd79a], a
 	ld de, wd79a
-	call Func_24ee7
+	call ResetCoinAnimationState
 	jr .asm_24ede
 
 .asm_24ed7
@@ -1700,10 +1700,10 @@ Func_24e7f: ; 0x24e7f
 .asm_24ede
 	ld a, $1
 	ld [wd64e], a
-	call Func_24fa3
+	call UpdateMeowthMultiplierAnimation
 	ret
 
-Func_24ee7: ; 0x24ee7
+ResetCoinAnimationState: ; 0x24ee7
 	ld a, $ff
 	ld [wd795], a
 	ld a, [de]
@@ -1721,7 +1721,7 @@ Func_24ee7: ; 0x24ee7
 	call InitAnimation
 	ret
 
-Func_24f00: ; 0x24f00
+DisplayMeowthMultiplierText: ; 0x24f00
 	ld a, [de]
 	sla a
 	ld c, a
@@ -1830,7 +1830,7 @@ MeowthMultiplier6Animation: ; 0x24f8e
 	db $04, MEOWTHMULTIPLIERSPRITE_6_FRAME_0
 	db $00 ; terminator
 
-Func_24fa3: ; 0x24fa3
+UpdateMeowthMultiplierAnimation: ; 0x24fa3
 	ld a, [wMeowthStageScore]
 	ld c, a
 	ld b, $0

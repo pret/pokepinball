@@ -12,7 +12,7 @@ InitBallRedField: ; 0x3007d
 	ld [wBallYPos + 1], a
 	xor a
 	ld [wEnableBallGravityAndTilt], a
-	ld [wd580], a
+	ld [wTimerGraphicsNeedsLoading], a
 	ld a, [wRedStageStructureBackup]
 	bit 7, a
 	jr z, .asm_300ae
@@ -33,7 +33,7 @@ InitBallRedField: ; 0x3007d
 	ld [wSpinnerVelocity + 1], a
 	ld [wPikachuSaverSlotRewardActive], a
 	ld [wPikachuSaverCharge], a
-	ld [wd51e], a
+	ld [wSpinnerChargeSoundCooldown], a
 	ld hl, wCAVELightStates
 	ld [hli], a
 	ld [hli], a

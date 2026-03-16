@@ -325,7 +325,7 @@ SlotOnBillboardTileDataList: ; 0x3046a
 	dw SlotOnBillboardTileData8
 
 PalletTownBillboardTileData1: ; 0x3047b
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $10
 	dw PalletTownPic
@@ -333,7 +333,7 @@ PalletTownBillboardTileData1: ; 0x3047b
 	db $00
 
 PalletTownBillboardTileData2: ; 0x30485
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $13
 	dw PalletTownPic + $30
@@ -341,7 +341,7 @@ PalletTownBillboardTileData2: ; 0x30485
 	db $00
 
 PalletTownBillboardTileData3: ; 0x3048f
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $16
 	dw PalletTownPic + $60
@@ -349,7 +349,7 @@ PalletTownBillboardTileData3: ; 0x3048f
 	db $00
 
 PalletTownBillboardTileData4: ; 0x30499
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $19
 	dw PalletTownPic + $90
@@ -357,7 +357,7 @@ PalletTownBillboardTileData4: ; 0x30499
 	db $00
 
 PalletTownBillboardTileData5: ; 0x304a3
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $1C
 	dw PalletTownPic + $C0
@@ -365,7 +365,7 @@ PalletTownBillboardTileData5: ; 0x304a3
 	db $00
 
 PalletTownBillboardTileData6: ; 0x304ad
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $1F
 	dw PalletTownPic + $F0
@@ -373,7 +373,7 @@ PalletTownBillboardTileData6: ; 0x304ad
 	db $00
 
 PalletTownBillboardTileData7: ; 0x304b7
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $22
 	dw PalletTownPic + $120
@@ -381,7 +381,7 @@ PalletTownBillboardTileData7: ; 0x304b7
 	db $00
 
 PalletTownBillboardTileData8: ; 0x304c1
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $25
 	dw PalletTownPic + $150
@@ -389,7 +389,7 @@ PalletTownBillboardTileData8: ; 0x304c1
 	db $00
 
 ViridianCityBillboardTileData1: ; 0x304cb
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $10
 	dw ViridianCityPic
@@ -397,7 +397,7 @@ ViridianCityBillboardTileData1: ; 0x304cb
 	db $00
 
 ViridianCityBillboardTileData2: ; 0x304d5
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $13
 	dw ViridianCityPic + $30
@@ -405,7 +405,7 @@ ViridianCityBillboardTileData2: ; 0x304d5
 	db $00
 
 ViridianCityBillboardTileData3: ; 0x304df
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $16
 	dw ViridianCityPic + $60
@@ -413,7 +413,7 @@ ViridianCityBillboardTileData3: ; 0x304df
 	db $00
 
 ViridianCityBillboardTileData4: ; 0x304e9
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $19
 	dw ViridianCityPic + $90
@@ -421,7 +421,7 @@ ViridianCityBillboardTileData4: ; 0x304e9
 	db $00
 
 ViridianCityBillboardTileData5: ; 0x304f3
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $1C
 	dw ViridianCityPic + $C0
@@ -429,7 +429,7 @@ ViridianCityBillboardTileData5: ; 0x304f3
 	db $00
 
 ViridianCityBillboardTileData6: ; 0x304fd
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $1F
 	dw ViridianCityPic + $F0
@@ -437,7 +437,7 @@ ViridianCityBillboardTileData6: ; 0x304fd
 	db $00
 
 ViridianCityBillboardTileData7: ; 0x30507
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $22
 	dw ViridianCityPic + $120
@@ -445,7 +445,7 @@ ViridianCityBillboardTileData7: ; 0x30507
 	db $00
 
 ViridianCityBillboardTileData8: ; 0x30511
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $25
 	dw ViridianCityPic + $150
@@ -453,7 +453,7 @@ ViridianCityBillboardTileData8: ; 0x30511
 	db $00
 
 ViridianForestBillboardTileData1: ; 0x3051b
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $10
 	dw ViridianForestPic
@@ -461,7 +461,7 @@ ViridianForestBillboardTileData1: ; 0x3051b
 	db $00
 
 ViridianForestBillboardTileData2: ; 0x30525
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $13
 	dw ViridianForestPic + $30
@@ -469,7 +469,7 @@ ViridianForestBillboardTileData2: ; 0x30525
 	db $00
 
 ViridianForestBillboardTileData3: ; 0x3052f
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $16
 	dw ViridianForestPic + $60
@@ -477,7 +477,7 @@ ViridianForestBillboardTileData3: ; 0x3052f
 	db $00
 
 ViridianForestBillboardTileData4: ; 0x30539
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $19
 	dw ViridianForestPic + $90
@@ -485,7 +485,7 @@ ViridianForestBillboardTileData4: ; 0x30539
 	db $00
 
 ViridianForestBillboardTileData5: ; 0x30543
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $1C
 	dw ViridianForestPic + $C0
@@ -493,7 +493,7 @@ ViridianForestBillboardTileData5: ; 0x30543
 	db $00
 
 ViridianForestBillboardTileData6: ; 0x3054d
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $1F
 	dw ViridianForestPic + $F0
@@ -501,7 +501,7 @@ ViridianForestBillboardTileData6: ; 0x3054d
 	db $00
 
 ViridianForestBillboardTileData7: ; 0x30557
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $22
 	dw ViridianForestPic + $120
@@ -509,7 +509,7 @@ ViridianForestBillboardTileData7: ; 0x30557
 	db $00
 
 ViridianForestBillboardTileData8: ; 0x30561
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $25
 	dw ViridianForestPic + $150
@@ -517,7 +517,7 @@ ViridianForestBillboardTileData8: ; 0x30561
 	db $00
 
 PewterCityBillboardTileData1: ; 0x3056b
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $10
 	dw PewterCityPic
@@ -525,7 +525,7 @@ PewterCityBillboardTileData1: ; 0x3056b
 	db $00
 
 PewterCityBillboardTileData2: ; 0x30575
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $13
 	dw PewterCityPic + $30
@@ -533,7 +533,7 @@ PewterCityBillboardTileData2: ; 0x30575
 	db $00
 
 PewterCityBillboardTileData3: ; 0x3057f
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $16
 	dw PewterCityPic + $60
@@ -541,7 +541,7 @@ PewterCityBillboardTileData3: ; 0x3057f
 	db $00
 
 PewterCityBillboardTileData4: ; 0x30589
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $19
 	dw PewterCityPic + $90
@@ -549,7 +549,7 @@ PewterCityBillboardTileData4: ; 0x30589
 	db $00
 
 PewterCityBillboardTileData5: ; 0x30593
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $1C
 	dw PewterCityPic + $C0
@@ -557,7 +557,7 @@ PewterCityBillboardTileData5: ; 0x30593
 	db $00
 
 PewterCityBillboardTileData6: ; 0x3059d
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $1F
 	dw PewterCityPic + $F0
@@ -565,7 +565,7 @@ PewterCityBillboardTileData6: ; 0x3059d
 	db $00
 
 PewterCityBillboardTileData7: ; 0x305a7
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $22
 	dw PewterCityPic + $120
@@ -573,7 +573,7 @@ PewterCityBillboardTileData7: ; 0x305a7
 	db $00
 
 PewterCityBillboardTileData8: ; 0x305b1
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $25
 	dw PewterCityPic + $150
@@ -581,7 +581,7 @@ PewterCityBillboardTileData8: ; 0x305b1
 	db $00
 
 MtMoonBillboardTileData1: ; 0x305bb
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $10
 	dw MtMoonPic
@@ -589,7 +589,7 @@ MtMoonBillboardTileData1: ; 0x305bb
 	db $00
 
 MtMoonBillboardTileData2: ; 0x305c5
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $13
 	dw MtMoonPic + $30
@@ -597,7 +597,7 @@ MtMoonBillboardTileData2: ; 0x305c5
 	db $00
 
 MtMoonBillboardTileData3: ; 0x305cf
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $16
 	dw MtMoonPic + $60
@@ -605,7 +605,7 @@ MtMoonBillboardTileData3: ; 0x305cf
 	db $00
 
 MtMoonBillboardTileData4: ; 0x305d9
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $19
 	dw MtMoonPic + $90
@@ -613,7 +613,7 @@ MtMoonBillboardTileData4: ; 0x305d9
 	db $00
 
 MtMoonBillboardTileData5: ; 0x305e3
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $1C
 	dw MtMoonPic + $C0
@@ -621,7 +621,7 @@ MtMoonBillboardTileData5: ; 0x305e3
 	db $00
 
 MtMoonBillboardTileData6: ; 0x305ed
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $1F
 	dw MtMoonPic + $F0
@@ -629,7 +629,7 @@ MtMoonBillboardTileData6: ; 0x305ed
 	db $00
 
 MtMoonBillboardTileData7: ; 0x305f7
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $22
 	dw MtMoonPic + $120
@@ -637,7 +637,7 @@ MtMoonBillboardTileData7: ; 0x305f7
 	db $00
 
 MtMoonBillboardTileData8: ; 0x30601
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $25
 	dw MtMoonPic + $150
@@ -645,7 +645,7 @@ MtMoonBillboardTileData8: ; 0x30601
 	db $00
 
 CeruleanCityBillboardTileData1: ; 0x3060b
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $10
 	dw CeruleanCityPic
@@ -653,7 +653,7 @@ CeruleanCityBillboardTileData1: ; 0x3060b
 	db $00
 
 CeruleanCityBillboardTileData2: ; 0x30615
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $13
 	dw CeruleanCityPic + $30
@@ -661,7 +661,7 @@ CeruleanCityBillboardTileData2: ; 0x30615
 	db $00
 
 CeruleanCityBillboardTileData3: ; 0x3061f
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $16
 	dw CeruleanCityPic + $60
@@ -669,7 +669,7 @@ CeruleanCityBillboardTileData3: ; 0x3061f
 	db $00
 
 CeruleanCityBillboardTileData4: ; 0x30629
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $19
 	dw CeruleanCityPic + $90
@@ -677,7 +677,7 @@ CeruleanCityBillboardTileData4: ; 0x30629
 	db $00
 
 CeruleanCityBillboardTileData5: ; 0x30633
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $1C
 	dw CeruleanCityPic + $C0
@@ -685,7 +685,7 @@ CeruleanCityBillboardTileData5: ; 0x30633
 	db $00
 
 CeruleanCityBillboardTileData6: ; 0x3063d
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $1F
 	dw CeruleanCityPic + $F0
@@ -693,7 +693,7 @@ CeruleanCityBillboardTileData6: ; 0x3063d
 	db $00
 
 CeruleanCityBillboardTileData7: ; 0x30647
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $22
 	dw CeruleanCityPic + $120
@@ -701,7 +701,7 @@ CeruleanCityBillboardTileData7: ; 0x30647
 	db $00
 
 CeruleanCityBillboardTileData8: ; 0x30651
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $25
 	dw CeruleanCityPic + $150
@@ -709,7 +709,7 @@ CeruleanCityBillboardTileData8: ; 0x30651
 	db $00
 
 VermilionCitySeasideBillboardTileData1: ; 0x3065b
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $10
 	dw VermilionCitySeasidePic
@@ -717,7 +717,7 @@ VermilionCitySeasideBillboardTileData1: ; 0x3065b
 	db $00
 
 VermilionCitySeasideBillboardTileData2: ; 0x30665
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $13
 	dw VermilionCitySeasidePic + $30
@@ -725,7 +725,7 @@ VermilionCitySeasideBillboardTileData2: ; 0x30665
 	db $00
 
 VermilionCitySeasideBillboardTileData3: ; 0x3066f
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $16
 	dw VermilionCitySeasidePic + $60
@@ -733,7 +733,7 @@ VermilionCitySeasideBillboardTileData3: ; 0x3066f
 	db $00
 
 VermilionCitySeasideBillboardTileData4: ; 0x30679
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $19
 	dw VermilionCitySeasidePic + $90
@@ -741,7 +741,7 @@ VermilionCitySeasideBillboardTileData4: ; 0x30679
 	db $00
 
 VermilionCitySeasideBillboardTileData5: ; 0x30683
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $1C
 	dw VermilionCitySeasidePic + $C0
@@ -749,7 +749,7 @@ VermilionCitySeasideBillboardTileData5: ; 0x30683
 	db $00
 
 VermilionCitySeasideBillboardTileData6: ; 0x3068d
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $1F
 	dw VermilionCitySeasidePic + $F0
@@ -757,7 +757,7 @@ VermilionCitySeasideBillboardTileData6: ; 0x3068d
 	db $00
 
 VermilionCitySeasideBillboardTileData7: ; 0x30697
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $22
 	dw VermilionCitySeasidePic + $120
@@ -765,7 +765,7 @@ VermilionCitySeasideBillboardTileData7: ; 0x30697
 	db $00
 
 VermilionCitySeasideBillboardTileData8: ; 0x306a1
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $25
 	dw VermilionCitySeasidePic + $150
@@ -773,7 +773,7 @@ VermilionCitySeasideBillboardTileData8: ; 0x306a1
 	db $00
 
 VermilionCityStreetsBillboardTileData1: ; 0x306ab
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $10
 	dw VermilionCityStreetsPic
@@ -781,7 +781,7 @@ VermilionCityStreetsBillboardTileData1: ; 0x306ab
 	db $00
 
 VermilionCityStreetsBillboardTileData2: ; 0x306b5
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $13
 	dw VermilionCityStreetsPic + $30
@@ -789,7 +789,7 @@ VermilionCityStreetsBillboardTileData2: ; 0x306b5
 	db $00
 
 VermilionCityStreetsBillboardTileData3: ; 0x306bf
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $16
 	dw VermilionCityStreetsPic + $60
@@ -797,7 +797,7 @@ VermilionCityStreetsBillboardTileData3: ; 0x306bf
 	db $00
 
 VermilionCityStreetsBillboardTileData4: ; 0x306c9
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $19
 	dw VermilionCityStreetsPic + $90
@@ -805,7 +805,7 @@ VermilionCityStreetsBillboardTileData4: ; 0x306c9
 	db $00
 
 VermilionCityStreetsBillboardTileData5: ; 0x306d3
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $1C
 	dw VermilionCityStreetsPic + $C0
@@ -813,7 +813,7 @@ VermilionCityStreetsBillboardTileData5: ; 0x306d3
 	db $00
 
 VermilionCityStreetsBillboardTileData6: ; 0x306dd
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $1F
 	dw VermilionCityStreetsPic + $F0
@@ -821,7 +821,7 @@ VermilionCityStreetsBillboardTileData6: ; 0x306dd
 	db $00
 
 VermilionCityStreetsBillboardTileData7: ; 0x306e7
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $22
 	dw VermilionCityStreetsPic + $120
@@ -829,7 +829,7 @@ VermilionCityStreetsBillboardTileData7: ; 0x306e7
 	db $00
 
 VermilionCityStreetsBillboardTileData8: ; 0x306f1
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $25
 	dw VermilionCityStreetsPic + $150
@@ -837,7 +837,7 @@ VermilionCityStreetsBillboardTileData8: ; 0x306f1
 	db $00
 
 RockMountainBillboardTileData1: ; 0x306fb
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $10
 	dw RockMountainPic
@@ -845,7 +845,7 @@ RockMountainBillboardTileData1: ; 0x306fb
 	db $00
 
 RockMountainBillboardTileData2: ; 0x30705
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $13
 	dw RockMountainPic + $30
@@ -853,7 +853,7 @@ RockMountainBillboardTileData2: ; 0x30705
 	db $00
 
 RockMountainBillboardTileData3: ; 0x3070f
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $16
 	dw RockMountainPic + $60
@@ -861,7 +861,7 @@ RockMountainBillboardTileData3: ; 0x3070f
 	db $00
 
 RockMountainBillboardTileData4: ; 0x30719
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $19
 	dw RockMountainPic + $90
@@ -869,7 +869,7 @@ RockMountainBillboardTileData4: ; 0x30719
 	db $00
 
 RockMountainBillboardTileData5: ; 0x30723
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $1C
 	dw RockMountainPic + $C0
@@ -877,7 +877,7 @@ RockMountainBillboardTileData5: ; 0x30723
 	db $00
 
 RockMountainBillboardTileData6: ; 0x3072d
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $1F
 	dw RockMountainPic + $F0
@@ -885,7 +885,7 @@ RockMountainBillboardTileData6: ; 0x3072d
 	db $00
 
 RockMountainBillboardTileData7: ; 0x30737
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $22
 	dw RockMountainPic + $120
@@ -893,7 +893,7 @@ RockMountainBillboardTileData7: ; 0x30737
 	db $00
 
 RockMountainBillboardTileData8: ; 0x30741
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $25
 	dw RockMountainPic + $150
@@ -901,7 +901,7 @@ RockMountainBillboardTileData8: ; 0x30741
 	db $00
 
 LavenderTownBillboardTileData1: ; 0x3074b
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $10
 	dw LavenderTownPic
@@ -909,7 +909,7 @@ LavenderTownBillboardTileData1: ; 0x3074b
 	db $00
 
 LavenderTownBillboardTileData2: ; 0x30755
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $13
 	dw LavenderTownPic + $30
@@ -917,7 +917,7 @@ LavenderTownBillboardTileData2: ; 0x30755
 	db $00
 
 LavenderTownBillboardTileData3: ; 0x3075f
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $16
 	dw LavenderTownPic + $60
@@ -925,7 +925,7 @@ LavenderTownBillboardTileData3: ; 0x3075f
 	db $00
 
 LavenderTownBillboardTileData4: ; 0x30769
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $19
 	dw LavenderTownPic + $90
@@ -933,7 +933,7 @@ LavenderTownBillboardTileData4: ; 0x30769
 	db $00
 
 LavenderTownBillboardTileData5: ; 0x30773
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $1C
 	dw LavenderTownPic + $C0
@@ -941,7 +941,7 @@ LavenderTownBillboardTileData5: ; 0x30773
 	db $00
 
 LavenderTownBillboardTileData6: ; 0x3077d
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $1F
 	dw LavenderTownPic + $F0
@@ -949,7 +949,7 @@ LavenderTownBillboardTileData6: ; 0x3077d
 	db $00
 
 LavenderTownBillboardTileData7: ; 0x30787
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $22
 	dw LavenderTownPic + $120
@@ -957,7 +957,7 @@ LavenderTownBillboardTileData7: ; 0x30787
 	db $00
 
 LavenderTownBillboardTileData8: ; 0x30791
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $25
 	dw LavenderTownPic + $150
@@ -965,7 +965,7 @@ LavenderTownBillboardTileData8: ; 0x30791
 	db $00
 
 CeladonCityBillboardTileData1: ; 0x3079b
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $10
 	dw CeladonCityPic
@@ -973,7 +973,7 @@ CeladonCityBillboardTileData1: ; 0x3079b
 	db $00
 
 CeladonCityBillboardTileData2: ; 0x307a5
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $13
 	dw CeladonCityPic + $30
@@ -981,7 +981,7 @@ CeladonCityBillboardTileData2: ; 0x307a5
 	db $00
 
 CeladonCityBillboardTileData3: ; 0x307af
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $16
 	dw CeladonCityPic + $60
@@ -989,7 +989,7 @@ CeladonCityBillboardTileData3: ; 0x307af
 	db $00
 
 CeladonCityBillboardTileData4: ; 0x307b9
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $19
 	dw CeladonCityPic + $90
@@ -997,7 +997,7 @@ CeladonCityBillboardTileData4: ; 0x307b9
 	db $00
 
 CeladonCityBillboardTileData5: ; 0x307c3
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $1C
 	dw CeladonCityPic + $C0
@@ -1005,7 +1005,7 @@ CeladonCityBillboardTileData5: ; 0x307c3
 	db $00
 
 CeladonCityBillboardTileData6: ; 0x307cd
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $1F
 	dw CeladonCityPic + $F0
@@ -1013,7 +1013,7 @@ CeladonCityBillboardTileData6: ; 0x307cd
 	db $00
 
 CeladonCityBillboardTileData7: ; 0x307d7
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $22
 	dw CeladonCityPic + $120
@@ -1021,7 +1021,7 @@ CeladonCityBillboardTileData7: ; 0x307d7
 	db $00
 
 CeladonCityBillboardTileData8: ; 0x307e1
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $25
 	dw CeladonCityPic + $150
@@ -1029,7 +1029,7 @@ CeladonCityBillboardTileData8: ; 0x307e1
 	db $00
 
 CyclingRoadBillboardTileData1: ; 0x307eb
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $10
 	dw CyclingRoadPic
@@ -1037,7 +1037,7 @@ CyclingRoadBillboardTileData1: ; 0x307eb
 	db $00
 
 CyclingRoadBillboardTileData2: ; 0x307f5
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $13
 	dw CyclingRoadPic + $30
@@ -1045,7 +1045,7 @@ CyclingRoadBillboardTileData2: ; 0x307f5
 	db $00
 
 CyclingRoadBillboardTileData3: ; 0x307ff
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $16
 	dw CyclingRoadPic + $60
@@ -1053,7 +1053,7 @@ CyclingRoadBillboardTileData3: ; 0x307ff
 	db $00
 
 CyclingRoadBillboardTileData4: ; 0x30809
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $19
 	dw CyclingRoadPic + $90
@@ -1061,7 +1061,7 @@ CyclingRoadBillboardTileData4: ; 0x30809
 	db $00
 
 CyclingRoadBillboardTileData5: ; 0x30813
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $1C
 	dw CyclingRoadPic + $C0
@@ -1069,7 +1069,7 @@ CyclingRoadBillboardTileData5: ; 0x30813
 	db $00
 
 CyclingRoadBillboardTileData6: ; 0x3081d
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $1F
 	dw CyclingRoadPic + $F0
@@ -1077,7 +1077,7 @@ CyclingRoadBillboardTileData6: ; 0x3081d
 	db $00
 
 CyclingRoadBillboardTileData7: ; 0x30827
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $22
 	dw CyclingRoadPic + $120
@@ -1085,7 +1085,7 @@ CyclingRoadBillboardTileData7: ; 0x30827
 	db $00
 
 CyclingRoadBillboardTileData8: ; 0x30831
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $25
 	dw CyclingRoadPic + $150
@@ -1093,7 +1093,7 @@ CyclingRoadBillboardTileData8: ; 0x30831
 	db $00
 
 FuchsiaCityBillboardTileData1: ; 0x3083b
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $10
 	dw FuchsiaCityPic
@@ -1101,7 +1101,7 @@ FuchsiaCityBillboardTileData1: ; 0x3083b
 	db $00
 
 FuchsiaCityBillboardTileData2: ; 0x30845
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $13
 	dw FuchsiaCityPic + $30
@@ -1109,7 +1109,7 @@ FuchsiaCityBillboardTileData2: ; 0x30845
 	db $00
 
 FuchsiaCityBillboardTileData3: ; 0x3084f
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $16
 	dw FuchsiaCityPic + $60
@@ -1117,7 +1117,7 @@ FuchsiaCityBillboardTileData3: ; 0x3084f
 	db $00
 
 FuchsiaCityBillboardTileData4: ; 0x30859
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $19
 	dw FuchsiaCityPic + $90
@@ -1125,7 +1125,7 @@ FuchsiaCityBillboardTileData4: ; 0x30859
 	db $00
 
 FuchsiaCityBillboardTileData5: ; 0x30863
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $1C
 	dw FuchsiaCityPic + $C0
@@ -1133,7 +1133,7 @@ FuchsiaCityBillboardTileData5: ; 0x30863
 	db $00
 
 FuchsiaCityBillboardTileData6: ; 0x3086d
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $1F
 	dw FuchsiaCityPic + $F0
@@ -1141,7 +1141,7 @@ FuchsiaCityBillboardTileData6: ; 0x3086d
 	db $00
 
 FuchsiaCityBillboardTileData7: ; 0x30877
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $22
 	dw FuchsiaCityPic + $120
@@ -1149,7 +1149,7 @@ FuchsiaCityBillboardTileData7: ; 0x30877
 	db $00
 
 FuchsiaCityBillboardTileData8: ; 0x30881
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $25
 	dw FuchsiaCityPic + $150
@@ -1157,7 +1157,7 @@ FuchsiaCityBillboardTileData8: ; 0x30881
 	db $00
 
 SafariZoneBillboardTileData1: ; 0x3088b
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $10
 	dw SafariZonePic
@@ -1165,7 +1165,7 @@ SafariZoneBillboardTileData1: ; 0x3088b
 	db $00
 
 SafariZoneBillboardTileData2: ; 0x30895
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $13
 	dw SafariZonePic + $30
@@ -1173,7 +1173,7 @@ SafariZoneBillboardTileData2: ; 0x30895
 	db $00
 
 SafariZoneBillboardTileData3: ; 0x3089f
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $16
 	dw SafariZonePic + $60
@@ -1181,7 +1181,7 @@ SafariZoneBillboardTileData3: ; 0x3089f
 	db $00
 
 SafariZoneBillboardTileData4: ; 0x308a9
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $19
 	dw SafariZonePic + $90
@@ -1189,7 +1189,7 @@ SafariZoneBillboardTileData4: ; 0x308a9
 	db $00
 
 SafariZoneBillboardTileData5: ; 0x308b3
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $1C
 	dw SafariZonePic + $C0
@@ -1197,7 +1197,7 @@ SafariZoneBillboardTileData5: ; 0x308b3
 	db $00
 
 SafariZoneBillboardTileData6: ; 0x308bd
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $1F
 	dw SafariZonePic + $F0
@@ -1205,7 +1205,7 @@ SafariZoneBillboardTileData6: ; 0x308bd
 	db $00
 
 SafariZoneBillboardTileData7: ; 0x308c7
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $22
 	dw SafariZonePic + $120
@@ -1213,7 +1213,7 @@ SafariZoneBillboardTileData7: ; 0x308c7
 	db $00
 
 SafariZoneBillboardTileData8: ; 0x308d1
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $25
 	dw SafariZonePic + $150
@@ -1221,7 +1221,7 @@ SafariZoneBillboardTileData8: ; 0x308d1
 	db $00
 
 SaffronCityBillboardTileData1: ; 0x308db
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $10
 	dw SaffronCityPic
@@ -1229,7 +1229,7 @@ SaffronCityBillboardTileData1: ; 0x308db
 	db $00
 
 SaffronCityBillboardTileData2: ; 0x308e5
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $13
 	dw SaffronCityPic + $30
@@ -1237,7 +1237,7 @@ SaffronCityBillboardTileData2: ; 0x308e5
 	db $00
 
 SaffronCityBillboardTileData3: ; 0x308ef
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $16
 	dw SaffronCityPic + $60
@@ -1245,7 +1245,7 @@ SaffronCityBillboardTileData3: ; 0x308ef
 	db $00
 
 SaffronCityBillboardTileData4: ; 0x308f9
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $19
 	dw SaffronCityPic + $90
@@ -1253,7 +1253,7 @@ SaffronCityBillboardTileData4: ; 0x308f9
 	db $00
 
 SaffronCityBillboardTileData5: ; 0x30903
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $1C
 	dw SaffronCityPic + $C0
@@ -1261,7 +1261,7 @@ SaffronCityBillboardTileData5: ; 0x30903
 	db $00
 
 SaffronCityBillboardTileData6: ; 0x3090d
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $1F
 	dw SaffronCityPic + $F0
@@ -1269,7 +1269,7 @@ SaffronCityBillboardTileData6: ; 0x3090d
 	db $00
 
 SaffronCityBillboardTileData7: ; 0x30917
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $22
 	dw SaffronCityPic + $120
@@ -1277,7 +1277,7 @@ SaffronCityBillboardTileData7: ; 0x30917
 	db $00
 
 SaffronCityBillboardTileData8: ; 0x30921
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $25
 	dw SaffronCityPic + $150
@@ -1285,7 +1285,7 @@ SaffronCityBillboardTileData8: ; 0x30921
 	db $00
 
 SeafoamIslandsBillboardTileData1: ; 0x3092b
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $10
 	dw SeafoamIslandsPic
@@ -1293,7 +1293,7 @@ SeafoamIslandsBillboardTileData1: ; 0x3092b
 	db $00
 
 SeafoamIslandsBillboardTileData2: ; 0x30935
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $13
 	dw SeafoamIslandsPic + $30
@@ -1301,7 +1301,7 @@ SeafoamIslandsBillboardTileData2: ; 0x30935
 	db $00
 
 SeafoamIslandsBillboardTileData3: ; 0x3093f
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $16
 	dw SeafoamIslandsPic + $60
@@ -1309,7 +1309,7 @@ SeafoamIslandsBillboardTileData3: ; 0x3093f
 	db $00
 
 SeafoamIslandsBillboardTileData4: ; 0x30949
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $19
 	dw SeafoamIslandsPic + $90
@@ -1317,7 +1317,7 @@ SeafoamIslandsBillboardTileData4: ; 0x30949
 	db $00
 
 SeafoamIslandsBillboardTileData5: ; 0x30953
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $1C
 	dw SeafoamIslandsPic + $C0
@@ -1325,7 +1325,7 @@ SeafoamIslandsBillboardTileData5: ; 0x30953
 	db $00
 
 SeafoamIslandsBillboardTileData6: ; 0x3095d
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $1F
 	dw SeafoamIslandsPic + $F0
@@ -1333,7 +1333,7 @@ SeafoamIslandsBillboardTileData6: ; 0x3095d
 	db $00
 
 SeafoamIslandsBillboardTileData7: ; 0x30967
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $22
 	dw SeafoamIslandsPic + $120
@@ -1341,7 +1341,7 @@ SeafoamIslandsBillboardTileData7: ; 0x30967
 	db $00
 
 SeafoamIslandsBillboardTileData8: ; 0x30971
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $25
 	dw SeafoamIslandsPic + $150
@@ -1349,7 +1349,7 @@ SeafoamIslandsBillboardTileData8: ; 0x30971
 	db $00
 
 CinnabarIslandBillboardTileData1: ; 0x3097b
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $10
 	dw CinnabarIslandPic
@@ -1357,7 +1357,7 @@ CinnabarIslandBillboardTileData1: ; 0x3097b
 	db $00
 
 CinnabarIslandBillboardTileData2: ; 0x30985
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $13
 	dw CinnabarIslandPic + $30
@@ -1365,7 +1365,7 @@ CinnabarIslandBillboardTileData2: ; 0x30985
 	db $00
 
 CinnabarIslandBillboardTileData3: ; 0x3098f
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $16
 	dw CinnabarIslandPic + $60
@@ -1373,7 +1373,7 @@ CinnabarIslandBillboardTileData3: ; 0x3098f
 	db $00
 
 CinnabarIslandBillboardTileData4: ; 0x30999
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $19
 	dw CinnabarIslandPic + $90
@@ -1381,7 +1381,7 @@ CinnabarIslandBillboardTileData4: ; 0x30999
 	db $00
 
 CinnabarIslandBillboardTileData5: ; 0x309a3
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $1C
 	dw CinnabarIslandPic + $C0
@@ -1389,7 +1389,7 @@ CinnabarIslandBillboardTileData5: ; 0x309a3
 	db $00
 
 CinnabarIslandBillboardTileData6: ; 0x309ad
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $1F
 	dw CinnabarIslandPic + $F0
@@ -1397,7 +1397,7 @@ CinnabarIslandBillboardTileData6: ; 0x309ad
 	db $00
 
 CinnabarIslandBillboardTileData7: ; 0x309b7
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $22
 	dw CinnabarIslandPic + $120
@@ -1405,7 +1405,7 @@ CinnabarIslandBillboardTileData7: ; 0x309b7
 	db $00
 
 CinnabarIslandBillboardTileData8: ; 0x309c1
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $25
 	dw CinnabarIslandPic + $150
@@ -1413,7 +1413,7 @@ CinnabarIslandBillboardTileData8: ; 0x309c1
 	db $00
 
 IndigoPlateauBillboardTileData1: ; 0x309cb
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $10
 	dw IndigoPlateauPic
@@ -1421,7 +1421,7 @@ IndigoPlateauBillboardTileData1: ; 0x309cb
 	db $00
 
 IndigoPlateauBillboardTileData2: ; 0x309d5
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $13
 	dw IndigoPlateauPic + $30
@@ -1429,7 +1429,7 @@ IndigoPlateauBillboardTileData2: ; 0x309d5
 	db $00
 
 IndigoPlateauBillboardTileData3: ; 0x309df
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $16
 	dw IndigoPlateauPic + $60
@@ -1437,7 +1437,7 @@ IndigoPlateauBillboardTileData3: ; 0x309df
 	db $00
 
 IndigoPlateauBillboardTileData4: ; 0x309e9
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $19
 	dw IndigoPlateauPic + $90
@@ -1445,7 +1445,7 @@ IndigoPlateauBillboardTileData4: ; 0x309e9
 	db $00
 
 IndigoPlateauBillboardTileData5: ; 0x309f3
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $1C
 	dw IndigoPlateauPic + $C0
@@ -1453,7 +1453,7 @@ IndigoPlateauBillboardTileData5: ; 0x309f3
 	db $00
 
 IndigoPlateauBillboardTileData6: ; 0x309fd
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $1F
 	dw IndigoPlateauPic + $F0
@@ -1461,7 +1461,7 @@ IndigoPlateauBillboardTileData6: ; 0x309fd
 	db $00
 
 IndigoPlateauBillboardTileData7: ; 0x30a07
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $22
 	dw IndigoPlateauPic + $120
@@ -1469,7 +1469,7 @@ IndigoPlateauBillboardTileData7: ; 0x30a07
 	db $00
 
 IndigoPlateauBillboardTileData8: ; 0x30a11
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $25
 	dw IndigoPlateauPic + $150
@@ -1477,7 +1477,7 @@ IndigoPlateauBillboardTileData8: ; 0x30a11
 	db $00
 
 HurryUp2OnBillboardTileData1: ; 0x30a1b
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $10
 	dw HurryUp2OnPic
@@ -1485,7 +1485,7 @@ HurryUp2OnBillboardTileData1: ; 0x30a1b
 	db $00
 
 HurryUp2OnBillboardTileData2: ; 0x30a25
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $13
 	dw HurryUp2OnPic + $30
@@ -1493,7 +1493,7 @@ HurryUp2OnBillboardTileData2: ; 0x30a25
 	db $00
 
 HurryUp2OnBillboardTileData3: ; 0x30a2f
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $16
 	dw HurryUp2OnPic + $60
@@ -1501,7 +1501,7 @@ HurryUp2OnBillboardTileData3: ; 0x30a2f
 	db $00
 
 HurryUp2OnBillboardTileData4: ; 0x30a39
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $19
 	dw HurryUp2OnPic + $90
@@ -1509,7 +1509,7 @@ HurryUp2OnBillboardTileData4: ; 0x30a39
 	db $00
 
 HurryUp2OnBillboardTileData5: ; 0x30a43
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $1C
 	dw HurryUp2OnPic + $C0
@@ -1517,7 +1517,7 @@ HurryUp2OnBillboardTileData5: ; 0x30a43
 	db $00
 
 HurryUp2OnBillboardTileData6: ; 0x30a4d
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $1F
 	dw HurryUp2OnPic + $F0
@@ -1525,7 +1525,7 @@ HurryUp2OnBillboardTileData6: ; 0x30a4d
 	db $00
 
 HurryUp2OnBillboardTileData7: ; 0x30a57
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $22
 	dw HurryUp2OnPic + $120
@@ -1533,7 +1533,7 @@ HurryUp2OnBillboardTileData7: ; 0x30a57
 	db $00
 
 HurryUp2OnBillboardTileData8: ; 0x30a61
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $25
 	dw HurryUp2OnPic + $150
@@ -1541,7 +1541,7 @@ HurryUp2OnBillboardTileData8: ; 0x30a61
 	db $00
 
 HurryUpOnBillboardTileData1: ; 0x30a6b
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $10
 	dw HurryUpOnPic
@@ -1549,7 +1549,7 @@ HurryUpOnBillboardTileData1: ; 0x30a6b
 	db $00
 
 HurryUpOnBillboardTileData2: ; 0x30a75
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $13
 	dw HurryUpOnPic + $30
@@ -1557,7 +1557,7 @@ HurryUpOnBillboardTileData2: ; 0x30a75
 	db $00
 
 HurryUpOnBillboardTileData3: ; 0x30a7f
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $16
 	dw HurryUpOnPic + $60
@@ -1565,7 +1565,7 @@ HurryUpOnBillboardTileData3: ; 0x30a7f
 	db $00
 
 HurryUpOnBillboardTileData4: ; 0x30a89
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $19
 	dw HurryUpOnPic + $90
@@ -1573,7 +1573,7 @@ HurryUpOnBillboardTileData4: ; 0x30a89
 	db $00
 
 HurryUpOnBillboardTileData5: ; 0x30a93
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $1C
 	dw HurryUpOnPic + $C0
@@ -1581,7 +1581,7 @@ HurryUpOnBillboardTileData5: ; 0x30a93
 	db $00
 
 HurryUpOnBillboardTileData6: ; 0x30a9d
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $1F
 	dw HurryUpOnPic + $F0
@@ -1589,7 +1589,7 @@ HurryUpOnBillboardTileData6: ; 0x30a9d
 	db $00
 
 HurryUpOnBillboardTileData7: ; 0x30aa7
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $22
 	dw HurryUpOnPic + $120
@@ -1597,7 +1597,7 @@ HurryUpOnBillboardTileData7: ; 0x30aa7
 	db $00
 
 HurryUpOnBillboardTileData8: ; 0x30ab1
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $25
 	dw HurryUpOnPic + $150
@@ -1605,7 +1605,7 @@ HurryUpOnBillboardTileData8: ; 0x30ab1
 	db $00
 
 GoToNextOnBillboardTileData1: ; 0x30abb
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $10
 	dw GoToNextOnPic
@@ -1613,7 +1613,7 @@ GoToNextOnBillboardTileData1: ; 0x30abb
 	db $00
 
 GoToNextOnBillboardTileData2: ; 0x30ac5
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $13
 	dw GoToNextOnPic + $30
@@ -1621,7 +1621,7 @@ GoToNextOnBillboardTileData2: ; 0x30ac5
 	db $00
 
 GoToNextOnBillboardTileData3: ; 0x30acf
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $16
 	dw GoToNextOnPic + $60
@@ -1629,7 +1629,7 @@ GoToNextOnBillboardTileData3: ; 0x30acf
 	db $00
 
 GoToNextOnBillboardTileData4: ; 0x30ad9
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $19
 	dw GoToNextOnPic + $90
@@ -1637,7 +1637,7 @@ GoToNextOnBillboardTileData4: ; 0x30ad9
 	db $00
 
 GoToNextOnBillboardTileData5: ; 0x30ae3
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $1C
 	dw GoToNextOnPic + $C0
@@ -1645,7 +1645,7 @@ GoToNextOnBillboardTileData5: ; 0x30ae3
 	db $00
 
 GoToNextOnBillboardTileData6: ; 0x30aed
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $1F
 	dw GoToNextOnPic + $F0
@@ -1653,7 +1653,7 @@ GoToNextOnBillboardTileData6: ; 0x30aed
 	db $00
 
 GoToNextOnBillboardTileData7: ; 0x30af7
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $22
 	dw GoToNextOnPic + $120
@@ -1661,7 +1661,7 @@ GoToNextOnBillboardTileData7: ; 0x30af7
 	db $00
 
 GoToNextOnBillboardTileData8: ; 0x30b01
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $25
 	dw GoToNextOnPic + $150
@@ -1669,7 +1669,7 @@ GoToNextOnBillboardTileData8: ; 0x30b01
 	db $00
 
 GoToGengarBonusOnBillboardTileData1: ; 0x30b0b
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $10
 	dw GoToGengarBonusOnPic
@@ -1677,7 +1677,7 @@ GoToGengarBonusOnBillboardTileData1: ; 0x30b0b
 	db $00
 
 GoToGengarBonusOnBillboardTileData2: ; 0x30b15
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $13
 	dw GoToGengarBonusOnPic + $30
@@ -1685,7 +1685,7 @@ GoToGengarBonusOnBillboardTileData2: ; 0x30b15
 	db $00
 
 GoToGengarBonusOnBillboardTileData3: ; 0x30b1f
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $16
 	dw GoToGengarBonusOnPic + $60
@@ -1693,7 +1693,7 @@ GoToGengarBonusOnBillboardTileData3: ; 0x30b1f
 	db $00
 
 GoToGengarBonusOnBillboardTileData4: ; 0x30b29
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $19
 	dw GoToGengarBonusOnPic + $90
@@ -1701,7 +1701,7 @@ GoToGengarBonusOnBillboardTileData4: ; 0x30b29
 	db $00
 
 GoToGengarBonusOnBillboardTileData5: ; 0x30b33
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $1C
 	dw GoToGengarBonusOnPic + $C0
@@ -1709,7 +1709,7 @@ GoToGengarBonusOnBillboardTileData5: ; 0x30b33
 	db $00
 
 GoToGengarBonusOnBillboardTileData6: ; 0x30b3d
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $1F
 	dw GoToGengarBonusOnPic + $F0
@@ -1717,7 +1717,7 @@ GoToGengarBonusOnBillboardTileData6: ; 0x30b3d
 	db $00
 
 GoToGengarBonusOnBillboardTileData7: ; 0x30b47
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $22
 	dw GoToGengarBonusOnPic + $120
@@ -1725,7 +1725,7 @@ GoToGengarBonusOnBillboardTileData7: ; 0x30b47
 	db $00
 
 GoToGengarBonusOnBillboardTileData8: ; 0x30b51
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $25
 	dw GoToGengarBonusOnPic + $150
@@ -1733,7 +1733,7 @@ GoToGengarBonusOnBillboardTileData8: ; 0x30b51
 	db $00
 
 GoToMewtwoBonusOnBillboardTileData1: ; 0x30b5b
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $10
 	dw GoToMewtwoBonusOnPic
@@ -1741,7 +1741,7 @@ GoToMewtwoBonusOnBillboardTileData1: ; 0x30b5b
 	db $00
 
 GoToMewtwoBonusOnBillboardTileData2: ; 0x30b65
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $13
 	dw GoToMewtwoBonusOnPic + $30
@@ -1749,7 +1749,7 @@ GoToMewtwoBonusOnBillboardTileData2: ; 0x30b65
 	db $00
 
 GoToMewtwoBonusOnBillboardTileData3: ; 0x30b6f
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $16
 	dw GoToMewtwoBonusOnPic + $60
@@ -1757,7 +1757,7 @@ GoToMewtwoBonusOnBillboardTileData3: ; 0x30b6f
 	db $00
 
 GoToMewtwoBonusOnBillboardTileData4: ; 0x30b79
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $19
 	dw GoToMewtwoBonusOnPic + $90
@@ -1765,7 +1765,7 @@ GoToMewtwoBonusOnBillboardTileData4: ; 0x30b79
 	db $00
 
 GoToMewtwoBonusOnBillboardTileData5: ; 0x30b83
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $1C
 	dw GoToMewtwoBonusOnPic + $C0
@@ -1773,7 +1773,7 @@ GoToMewtwoBonusOnBillboardTileData5: ; 0x30b83
 	db $00
 
 GoToMewtwoBonusOnBillboardTileData6: ; 0x30b8d
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $1F
 	dw GoToMewtwoBonusOnPic + $F0
@@ -1781,7 +1781,7 @@ GoToMewtwoBonusOnBillboardTileData6: ; 0x30b8d
 	db $00
 
 GoToMewtwoBonusOnBillboardTileData7: ; 0x30b97
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $22
 	dw GoToMewtwoBonusOnPic + $120
@@ -1789,7 +1789,7 @@ GoToMewtwoBonusOnBillboardTileData7: ; 0x30b97
 	db $00
 
 GoToMewtwoBonusOnBillboardTileData8: ; 0x30ba1
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $25
 	dw GoToMewtwoBonusOnPic + $150
@@ -1797,7 +1797,7 @@ GoToMewtwoBonusOnBillboardTileData8: ; 0x30ba1
 	db $00
 
 GoToMeowthBonusOnBillboardTileData1: ; 0x30bab
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $10
 	dw GoToMeowthBonusOnPic
@@ -1805,7 +1805,7 @@ GoToMeowthBonusOnBillboardTileData1: ; 0x30bab
 	db $00
 
 GoToMeowthBonusOnBillboardTileData2: ; 0x30bb5
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $13
 	dw GoToMeowthBonusOnPic + $30
@@ -1813,7 +1813,7 @@ GoToMeowthBonusOnBillboardTileData2: ; 0x30bb5
 	db $00
 
 GoToMeowthBonusOnBillboardTileData3: ; 0x30bbf
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $16
 	dw GoToMeowthBonusOnPic + $60
@@ -1821,7 +1821,7 @@ GoToMeowthBonusOnBillboardTileData3: ; 0x30bbf
 	db $00
 
 GoToMeowthBonusOnBillboardTileData4: ; 0x30bc9
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $19
 	dw GoToMeowthBonusOnPic + $90
@@ -1829,7 +1829,7 @@ GoToMeowthBonusOnBillboardTileData4: ; 0x30bc9
 	db $00
 
 GoToMeowthBonusOnBillboardTileData5: ; 0x30bd3
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $1C
 	dw GoToMeowthBonusOnPic + $C0
@@ -1837,7 +1837,7 @@ GoToMeowthBonusOnBillboardTileData5: ; 0x30bd3
 	db $00
 
 GoToMeowthBonusOnBillboardTileData6: ; 0x30bdd
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $1F
 	dw GoToMeowthBonusOnPic + $F0
@@ -1845,7 +1845,7 @@ GoToMeowthBonusOnBillboardTileData6: ; 0x30bdd
 	db $00
 
 GoToMeowthBonusOnBillboardTileData7: ; 0x30be7
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $22
 	dw GoToMeowthBonusOnPic + $120
@@ -1853,7 +1853,7 @@ GoToMeowthBonusOnBillboardTileData7: ; 0x30be7
 	db $00
 
 GoToMeowthBonusOnBillboardTileData8: ; 0x30bf1
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $25
 	dw GoToMeowthBonusOnPic + $150
@@ -1861,7 +1861,7 @@ GoToMeowthBonusOnBillboardTileData8: ; 0x30bf1
 	db $00
 
 GoToDiglettBonusOnBillboardTileData1: ; 0x30bfb
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $10
 	dw GoToDiglettBonusOnPic
@@ -1869,7 +1869,7 @@ GoToDiglettBonusOnBillboardTileData1: ; 0x30bfb
 	db $00
 
 GoToDiglettBonusOnBillboardTileData2: ; 0x30c05
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $13
 	dw GoToDiglettBonusOnPic + $30
@@ -1877,7 +1877,7 @@ GoToDiglettBonusOnBillboardTileData2: ; 0x30c05
 	db $00
 
 GoToDiglettBonusOnBillboardTileData3: ; 0x30c0f
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $16
 	dw GoToDiglettBonusOnPic + $60
@@ -1885,7 +1885,7 @@ GoToDiglettBonusOnBillboardTileData3: ; 0x30c0f
 	db $00
 
 GoToDiglettBonusOnBillboardTileData4: ; 0x30c19
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $19
 	dw GoToDiglettBonusOnPic + $90
@@ -1893,7 +1893,7 @@ GoToDiglettBonusOnBillboardTileData4: ; 0x30c19
 	db $00
 
 GoToDiglettBonusOnBillboardTileData5: ; 0x30c23
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $1C
 	dw GoToDiglettBonusOnPic + $C0
@@ -1901,7 +1901,7 @@ GoToDiglettBonusOnBillboardTileData5: ; 0x30c23
 	db $00
 
 GoToDiglettBonusOnBillboardTileData6: ; 0x30c2d
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $1F
 	dw GoToDiglettBonusOnPic + $F0
@@ -1909,7 +1909,7 @@ GoToDiglettBonusOnBillboardTileData6: ; 0x30c2d
 	db $00
 
 GoToDiglettBonusOnBillboardTileData7: ; 0x30c37
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $22
 	dw GoToDiglettBonusOnPic + $120
@@ -1917,7 +1917,7 @@ GoToDiglettBonusOnBillboardTileData7: ; 0x30c37
 	db $00
 
 GoToDiglettBonusOnBillboardTileData8: ; 0x30c41
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $25
 	dw GoToDiglettBonusOnPic + $150
@@ -1925,7 +1925,7 @@ GoToDiglettBonusOnBillboardTileData8: ; 0x30c41
 	db $00
 
 GoToSeelBonusOnBillboardTileData1: ; 0x30c4b
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $10
 	dw GoToSeelBonusOnPic
@@ -1933,7 +1933,7 @@ GoToSeelBonusOnBillboardTileData1: ; 0x30c4b
 	db $00
 
 GoToSeelBonusOnBillboardTileData2: ; 0x30c55
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $13
 	dw GoToSeelBonusOnPic + $30
@@ -1941,7 +1941,7 @@ GoToSeelBonusOnBillboardTileData2: ; 0x30c55
 	db $00
 
 GoToSeelBonusOnBillboardTileData3: ; 0x30c5f
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $16
 	dw GoToSeelBonusOnPic + $60
@@ -1949,7 +1949,7 @@ GoToSeelBonusOnBillboardTileData3: ; 0x30c5f
 	db $00
 
 GoToSeelBonusOnBillboardTileData4: ; 0x30c69
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $19
 	dw GoToSeelBonusOnPic + $90
@@ -1957,7 +1957,7 @@ GoToSeelBonusOnBillboardTileData4: ; 0x30c69
 	db $00
 
 GoToSeelBonusOnBillboardTileData5: ; 0x30c73
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $1C
 	dw GoToSeelBonusOnPic + $C0
@@ -1965,7 +1965,7 @@ GoToSeelBonusOnBillboardTileData5: ; 0x30c73
 	db $00
 
 GoToSeelBonusOnBillboardTileData6: ; 0x30c7d
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $1F
 	dw GoToSeelBonusOnPic + $F0
@@ -1973,7 +1973,7 @@ GoToSeelBonusOnBillboardTileData6: ; 0x30c7d
 	db $00
 
 GoToSeelBonusOnBillboardTileData7: ; 0x30c87
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $22
 	dw GoToSeelBonusOnPic + $120
@@ -1981,7 +1981,7 @@ GoToSeelBonusOnBillboardTileData7: ; 0x30c87
 	db $00
 
 GoToSeelBonusOnBillboardTileData8: ; 0x30c91
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $25
 	dw GoToSeelBonusOnPic + $150
@@ -1989,7 +1989,7 @@ GoToSeelBonusOnBillboardTileData8: ; 0x30c91
 	db $00
 
 SlotOnBillboardTileData1: ; 0x30c9b
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $10
 	dw SlotOnPic
@@ -1997,7 +1997,7 @@ SlotOnBillboardTileData1: ; 0x30c9b
 	db $00
 
 SlotOnBillboardTileData2: ; 0x30ca5
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $13
 	dw SlotOnPic + $30
@@ -2005,7 +2005,7 @@ SlotOnBillboardTileData2: ; 0x30ca5
 	db $00
 
 SlotOnBillboardTileData3: ; 0x30caf
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $16
 	dw SlotOnPic + $60
@@ -2013,7 +2013,7 @@ SlotOnBillboardTileData3: ; 0x30caf
 	db $00
 
 SlotOnBillboardTileData4: ; 0x30cb9
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $19
 	dw SlotOnPic + $90
@@ -2021,7 +2021,7 @@ SlotOnBillboardTileData4: ; 0x30cb9
 	db $00
 
 SlotOnBillboardTileData5: ; 0x30cc3
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $1C
 	dw SlotOnPic + $C0
@@ -2029,7 +2029,7 @@ SlotOnBillboardTileData5: ; 0x30cc3
 	db $00
 
 SlotOnBillboardTileData6: ; 0x30ccd
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $1F
 	dw SlotOnPic + $F0
@@ -2037,7 +2037,7 @@ SlotOnBillboardTileData6: ; 0x30ccd
 	db $00
 
 SlotOnBillboardTileData7: ; 0x30cd7
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $22
 	dw SlotOnPic + $120
@@ -2045,7 +2045,7 @@ SlotOnBillboardTileData7: ; 0x30cd7
 	db $00
 
 SlotOnBillboardTileData8: ; 0x30ce1
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesSH tile $25
 	dw SlotOnPic + $150
@@ -2226,7 +2226,7 @@ PalletTownBillboardBGPaletteData: ; 0x30da8
 	db $00 ; terminator
 
 PalletTownBillboardBGPaletteMapData: ; 0x30db1
-	dw Func_122e
+	dw LoadVRAMTilemapData
 	db $18 ; total number of bytes
 
 	db $06 ; number of bytes
@@ -2261,7 +2261,7 @@ ViridianCityBillboardBGPaletteData: ; 0x30dcd
 	db $00 ; terminator
 
 ViridianCityBillboardBGPaletteMapData: ; 0x30dd6
-	dw Func_122e
+	dw LoadVRAMTilemapData
 	db $18 ; total number of bytes
 
 	db $06 ; number of bytes
@@ -2296,7 +2296,7 @@ ViridianForestBillboardBGPaletteData: ; 0x30df2
 	db $00 ; terminator
 
 ViridianForestBillboardBGPaletteMapData: ; 0x30dfb
-	dw Func_122e
+	dw LoadVRAMTilemapData
 	db $18 ; total number of bytes
 
 	db $06 ; number of bytes
@@ -2331,7 +2331,7 @@ PewterCityBillboardBGPaletteData: ; 0x30e17
 	db $00 ; terminator
 
 PewterCityBillboardBGPaletteMapData: ; 0x30e20
-	dw Func_122e
+	dw LoadVRAMTilemapData
 	db $18 ; total number of bytes
 
 	db $06 ; number of bytes
@@ -2366,7 +2366,7 @@ MtMoonBillboardBGPaletteData: ; 0x30e3c
 	db $00 ; terminator
 
 MtMoonBillboardBGPaletteMapData: ; 0x30e45
-	dw Func_122e
+	dw LoadVRAMTilemapData
 	db $18 ; total number of bytes
 
 	db $06 ; number of bytes
@@ -2401,7 +2401,7 @@ CeruleanCityBillboardBGPaletteData: ; 0x30e61
 	db $00 ; terminator
 
 CeruleanCityBillboardBGPaletteMapData: ; 0x30e6a
-	dw Func_122e
+	dw LoadVRAMTilemapData
 	db $18 ; total number of bytes
 
 	db $06 ; number of bytes
@@ -2436,7 +2436,7 @@ VermilionSeasideBillboardBGPaletteData: ; 0x30e86
 	db $00 ; terminator
 
 VermilionSeasideBillboardBGPaletteMapData: ; 0x30e8f
-	dw Func_122e
+	dw LoadVRAMTilemapData
 	db $18 ; total number of bytes
 
 	db $06 ; number of bytes
@@ -2471,7 +2471,7 @@ VermilionStreetsBillboardBGPaletteData: ; 0x30eab
 	db $00 ; terminator
 
 VermilionStreetsBillboardBGPaletteMapData: ; 0x30eb4
-	dw Func_122e
+	dw LoadVRAMTilemapData
 	db $18 ; total number of bytes
 
 	db $06 ; number of bytes
@@ -2506,7 +2506,7 @@ RockMountainBillboardBGPaletteData: ; 0x30ed0
 	db $00 ; terminator
 
 RockMountainBillboardBGPaletteMapData: ; 0x30ed9
-	dw Func_122e
+	dw LoadVRAMTilemapData
 	db $18 ; total number of bytes
 
 	db $06 ; number of bytes
@@ -2541,7 +2541,7 @@ LavenderTownBillboardBGPaletteData: ; 0x30ef5
 	db $00 ; terminator
 
 LavenderTownBillboardBGPaletteMapData: ; 0x30efe
-	dw Func_122e
+	dw LoadVRAMTilemapData
 	db $18 ; total number of bytes
 
 	db $06 ; number of bytes
@@ -2576,7 +2576,7 @@ CeladonCityBillboardBGPaletteData: ; 0x30f1a
 	db $00 ; terminator
 
 CeladonCityBillboardBGPaletteMapData: ; 0x30f23
-	dw Func_122e
+	dw LoadVRAMTilemapData
 	db $18 ; total number of bytes
 
 	db $06 ; number of bytes
@@ -2611,7 +2611,7 @@ CyclingRoadBillboardBGPaletteData: ; 0x30f3f
 	db $00 ; terminator
 
 CyclingRoadBillboardBGPaletteMapData: ; 0x30f48
-	dw Func_122e
+	dw LoadVRAMTilemapData
 	db $18 ; total number of bytes
 
 	db $06 ; number of bytes
@@ -2646,7 +2646,7 @@ FuchsiaCityBillboardBGPaletteData: ; 0x30f64
 	db $00 ; terminator
 
 FuchsiaCityBillboardBGPaletteMapData: ; 0x30f6d
-	dw Func_122e
+	dw LoadVRAMTilemapData
 	db $18 ; total number of bytes
 
 	db $06 ; number of bytes
@@ -2681,7 +2681,7 @@ SafariZoneBillboardBGPaletteData: ; 0x30f89
 	db $00 ; terminator
 
 SafariZoneBillboardBGPaletteMapData: ; 0x30f92
-	dw Func_122e
+	dw LoadVRAMTilemapData
 	db $18 ; total number of bytes
 
 	db $06 ; number of bytes
@@ -2716,7 +2716,7 @@ SaffronCityBillboardBGPaletteData: ; 0x30fae
 	db $00 ; terminator
 
 SaffronCityBillboardBGPaletteMapData: ; 0x30fb7
-	dw Func_122e
+	dw LoadVRAMTilemapData
 	db $18 ; total number of bytes
 
 	db $06 ; number of bytes
@@ -2751,7 +2751,7 @@ SeafoamIslandsBillboardBGPaletteData: ; 0x30fd3
 	db $00 ; terminator
 
 SeafoamIslandsBillboardBGPaletteMapData: ; 0x30fdc
-	dw Func_122e
+	dw LoadVRAMTilemapData
 	db $18 ; total number of bytes
 
 	db $06 ; number of bytes
@@ -2786,7 +2786,7 @@ CinnabarIslandBillboardBGPaletteData: ; 0x30ff8
 	db $00 ; terminator
 
 CinnabarIslandBillboardBGPaletteMapData: ; 0x31001
-	dw Func_122e
+	dw LoadVRAMTilemapData
 	db $18 ; total number of bytes
 
 	db $06 ; number of bytes
@@ -2821,7 +2821,7 @@ IndigoPlateauBillboardBGPaletteData: ; 0x3101d
 	db $00 ; terminator
 
 IndigoPlateauBillboardBGPaletteMapData: ; 0x31026
-	dw Func_122e
+	dw LoadVRAMTilemapData
 	db $18 ; total number of bytes
 
 	db $06 ; number of bytes
@@ -2856,7 +2856,7 @@ HurryUp2OnBillboardBGPaletteData: ; 0x31042
 	db $00 ; terminator
 
 HurryUp2OnBillboardBGPaletteMapData: ; 0x3104b
-	dw Func_122e
+	dw LoadVRAMTilemapData
 	db $18 ; total number of bytes
 
 	db $06 ; number of bytes
@@ -2891,7 +2891,7 @@ HurryUpOnBillboardBGPaletteData: ; 0x31067
 	db $00 ; terminator
 
 HurryUpOnBillboardBGPaletteMapData: ; 0x31070
-	dw Func_122e
+	dw LoadVRAMTilemapData
 	db $18 ; total number of bytes
 
 	db $06 ; number of bytes
@@ -2926,7 +2926,7 @@ GoToNextOnBillboardBGPaletteData: ; 0x3108c
 	db $00 ; terminator
 
 GoToNextOnBillboardBGPaletteMapData: ; 0x31095
-	dw Func_122e
+	dw LoadVRAMTilemapData
 	db $18 ; total number of bytes
 
 	db $06 ; number of bytes
@@ -2961,7 +2961,7 @@ GoToGengarBonusOnBillboardBGPaletteData: ; 0x310b1
 	db $00 ; terminator
 
 GoToGengarBonusOnBillboardBGPaletteMapData: ; 0x310ba
-	dw Func_122e
+	dw LoadVRAMTilemapData
 	db $18 ; total number of bytes
 
 	db $06 ; number of bytes
@@ -2996,7 +2996,7 @@ GoToMewtwoBonusOnBillboardBGPaletteData: ; 0x310d6
 	db $00 ; terminator
 
 GoToMewtwoBonusOnBillboardBGPaletteMapData: ; 0x310df
-	dw Func_122e
+	dw LoadVRAMTilemapData
 	db $18 ; total number of bytes
 
 	db $06 ; number of bytes
@@ -3031,7 +3031,7 @@ GoToMeowthBonusOnBillboardBGPaletteData: ; 0x310fb
 	db $00 ; terminator
 
 GoToMeowthBonusOnBillboardBGPaletteMapData: ; 0x31104
-	dw Func_122e
+	dw LoadVRAMTilemapData
 	db $18 ; total number of bytes
 
 	db $06 ; number of bytes
@@ -3066,7 +3066,7 @@ GoToDiglettBonusOnBillboardBGPaletteData: ; 0x31120
 	db $00 ; terminator
 
 GoToDiglettBonusOnBillboardBGPaletteMapData: ; 0x31129
-	dw Func_122e
+	dw LoadVRAMTilemapData
 	db $18 ; total number of bytes
 
 	db $06 ; number of bytes
@@ -3101,7 +3101,7 @@ GoToSeelBonusOnBillboardBGPaletteData: ; 0x31145
 	db $00 ; terminator
 
 GoToSeelBonusOnBillboardBGPaletteMapData: ; 0x3114e
-	dw Func_122e
+	dw LoadVRAMTilemapData
 	db $18 ; total number of bytes
 
 	db $06 ; number of bytes
@@ -3136,7 +3136,7 @@ SlotOnBillboardBGPaletteData: ; 0x3116a
 	db $00 ; terminator
 
 SlotOnBillboardBGPaletteMapData: ; 0x31173
-	dw Func_122e
+	dw LoadVRAMTilemapData
 	db $18 ; total number of bytes
 
 	db $06 ; number of bytes

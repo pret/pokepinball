@@ -154,10 +154,10 @@ GameScreenFunction_HandleBallPhysics: ; 0xd909
 	ld a, [wDisableDrawScoreboardInfo]
 	and a
 	jr nz, .skipDrawingScoreboard
-	callba Func_85c7
+	callba ProcessScoreQueue
 	callba HideScoreIfBallLow
-	callba Func_8645
-	call Func_dba9
+	callba DrawScoreToBottomBar
+	call DrawBallLifeIndicator
 	call DrawNumPartyMonsIcon
 	call DrawPikachuSaverLightningBoltIcon
 .skipDrawingScoreboard
@@ -192,7 +192,7 @@ GameScreenFunction_HandleBallLoss: ; 0xda36
 	callba nz, HandleFlippers
 	callba DrawSpritesForStage
 	call UpdateBottomText
-	callba Func_85c7
+	callba ProcessScoreQueue
 	ld a, [wBottomTextEnabled]
 	and a
 	ret nz
@@ -346,7 +346,7 @@ HighScoresStageMapping: ; 0xdb99
 	db $00  ; STAGE_SEEL_BONUS
 	db $00  ; STAGE_SEEL_BONUS
 
-Func_dba9: ; 0xdba9
+DrawBallLifeIndicator: ; 0xdba9
 	ld a, $85
 	ld [wBottomMessageBuffer + $44], a
 	ld a, [wCurBallLife]

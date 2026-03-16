@@ -23,7 +23,7 @@ TileData_16460: ; 0x16460
 	dw TileData_16497
 
 TileData_16465: ; 0x16465
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $20, $02
 	dw vTilesSH tile $46
 	dw StageRedFieldTopBaseGameBoyGfx + $1c0
@@ -31,7 +31,7 @@ TileData_16465: ; 0x16465
 	db $00
 
 TileData_1646f: ; 0x1646f
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $20, $02
 	dw vTilesSH tile $46
 	dw StageRedFieldBottomIndicatorsGfx_Gameboy + $340
@@ -39,7 +39,7 @@ TileData_1646f: ; 0x1646f
 	db $00
 
 TileData_16479: ; 0x16479
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $20, $02
 	dw vTilesBG tile $48
 	dw StageRedFieldBottomBaseGameBoyGfx + $c80
@@ -47,7 +47,7 @@ TileData_16479: ; 0x16479
 	db $00
 
 TileData_16483: ; 0x16483
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $20, $02
 	dw vTilesBG tile $4A
 	dw StageRedFieldBottomBaseGameBoyGfx + $CA0
@@ -55,7 +55,7 @@ TileData_16483: ; 0x16483
 	db $00
 
 TileData_1648D: ; 0x1648D
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $20, $02
 	dw vTilesBG tile $48
 	dw StageRedFieldBottomIndicatorsGfx_Gameboy + $340
@@ -63,7 +63,7 @@ TileData_1648D: ; 0x1648D
 	db $00
 
 TileData_16497: ; 0x16497
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $20, $02
 	dw vTilesBG tile $4A
 	dw StageRedFieldBottomIndicatorsGfx_Gameboy + $360

@@ -1,9 +1,9 @@
 DrawSpritesGengarBonus: ; 0x18faf
 	ld bc, $7f00
 	callba DrawTimer
-	call Func_19020
-	call Func_190b9
-	call Func_19185
+	call DrawAllGastlySprites
+	call DrawAllHaunterSprites
+	call DrawAllGengarSprites
 	callba DrawFlippers
 	callba DrawPinball
 	ret
@@ -50,21 +50,21 @@ Debug_CycleGengarBonusPhase:
 	ld [wd698], a
 	ret
 
-Func_19020: ; 0x19020
+DrawAllGastlySprites: ; 0x19020
 	ld de, wGastly1Enabled
-	call Func_19033
+	call DrawGastlySprite
 	ld de, wGastly2Enabled
-	call Func_19033
+	call DrawGastlySprite
 	ld de, wGastly3Enabled
-	call Func_19033
+	call DrawGastlySprite
 	ret
 
-Func_19033: ; 0x19033
+DrawGastlySprite: ; 0x19033
 	ld a, [de]
 	and a
 	ret z
 .asm_19036
-	call Func_19070
+	call LoadGastlyGraphics
 	jr nc, .asm_19042
 	ldh a, [rLCDC]
 	bit 7, a
@@ -111,13 +111,13 @@ SpriteIds_Gastly:
 	db SPRITE2_GASTLY_HIT
 	db $FF
 
-Func_19070: ; 0x19070
-	ld a, [wd674]
+LoadGastlyGraphics: ; 0x19070
+	ld a, [wGengarPhaseTimer]
 	and a
 	ret z
 	push de
 	dec a
-	ld [wd674], a
+	ld [wGengarPhaseTimer], a
 	sla a
 	sla a
 	ld c, a
@@ -151,19 +151,19 @@ GastlyVideoData_190a9:
 	dw vTilesSH tile $1c, GengarBonusGastlyGfx + $c0
 	dw vTilesSH tile $22, GengarBonusGastlyGfx + $120
 
-Func_190b9: ; 0x190b9
+DrawAllHaunterSprites: ; 0x190b9
 	ld de, wd67e
-	call Func_190c6
+	call DrawHaunterSprite
 	ld de, wd687
-	call Func_190c6
+	call DrawHaunterSprite
 	ret
 
-Func_190c6: ; 0x190c6
+DrawHaunterSprite: ; 0x190c6
 	ld a, [de]
 	and a
 	ret z
 .asm_190c9
-	call Func_19104
+	call LoadHaunterGraphics
 	jr nc, .asm_190d5
 	ldh a, [rLCDC]
 	bit 7, a
@@ -211,7 +211,7 @@ SpriteIds_Haunter:
 	db SPRITE2_HAUNTER_HIT
 	db $FF
 
-Func_19104: ; 0x19104
+LoadHaunterGraphics: ; 0x19104
 	ld a, [wd690]
 	and a
 	ret z
@@ -239,7 +239,7 @@ Func_19104: ; 0x19104
 	ld a, Bank(GengarBonusHaunterGfx)
 	call LoadOrCopyVRAMData
 	ld a, $4
-	ld [wd674], a
+	ld [wGengarPhaseTimer], a
 	ld a, $8
 	ld [wd6a1], a
 	xor a
@@ -266,17 +266,17 @@ GengarBonusStageHaunterGfxTable: ; 0x19145
 	dw $60, vTilesOB tile $1e, GengarBonusHaunterGfx + $1e0, $0000
 	dw $60, vTilesOB tile $24, GengarBonusHaunterGfx + $240, $0000
 
-Func_19185: ; 0x19185
+DrawAllGengarSprites: ; 0x19185
 	ld de, wd698
-	call Func_1918c
+	call DrawGengarSprite
 	ret
 
-Func_1918c: ; 0x1918c
+DrawGengarSprite: ; 0x1918c
 	ld a, [de]
 	and a
 	ret z
 .asm_1918f
-	call Func_191cb
+	call LoadGengarGraphics
 	jr nc, .asm_1919b
 	ldh a, [rLCDC]
 	bit 7, a
@@ -325,7 +325,7 @@ SpriteIds_Gengar:
 	db SPRITE2_GENGAR_HIT
 	db $FF
 
-Func_191cb: ; 0x191cb
+LoadGengarGraphics: ; 0x191cb
 	ld a, [wd6a1]
 	and a
 	ret z
@@ -353,7 +353,7 @@ Func_191cb: ; 0x191cb
 	ld a, $26
 	call LoadOrCopyVRAMData
 	ld a, $4
-	ld [wd674], a
+	ld [wGengarPhaseTimer], a
 	ld a, $8
 	ld [wd690], a
 	xor a

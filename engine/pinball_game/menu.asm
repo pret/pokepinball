@@ -1,9 +1,9 @@
 HandleInGameMenu: ; 0x86d7
 ; Routine responsible for the "SAVE"/"CANCEL" menu.
-	ld a, [wd917]
+	ld a, [wDisableRumble]
 	push af
 	ld a, $1
-	ld [wd917], a
+	ld [wDisableRumble], a
 	call FillBottomMessageBufferWithBlackTile
 	xor a
 	ld [wDrawBottomMessageBox], a
@@ -19,10 +19,10 @@ HandleInGameMenu: ; 0x86d7
 	jr nz, .clearLoop
 	ld de, wBottomMessageText + $24
 	ld hl, SaveText
-	call Func_8797
+	call DrawMenuText
 	ld de, wBottomMessageText + $64
 	ld hl, CancelText
-	call Func_8797
+	call DrawMenuText
 	ld a, Bank(InGameMenuSymbolsGfx)
 	ld hl, InGameMenuSymbolsGfx + $50
 	ld de, vTilesSH + $60
@@ -81,21 +81,21 @@ HandleInGameMenu: ; 0x86d7
 .asm_8786
 	call FillBottomMessageBufferWithBlackTile
 	pop af
-	ld [wd917], a
+	ld [wDisableRumble], a
 	ld a, $1
 	ld [wDrawBottomMessageBox], a
 	ld a, [wInGameMenuIndex]
 	and a
 	ret
 
-Func_8797: ; 0x8797
+DrawMenuText: ; 0x8797
 	ld a, [hli]
 	and a
 	ret z
 	add $bf
 	ld [de], a
 	inc de
-	jr Func_8797
+	jr DrawMenuText
 
 SaveText: ; 0x87a0
 	db "SAVE@"

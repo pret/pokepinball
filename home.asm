@@ -101,12 +101,12 @@ Start: ; 0x150
 	call WriteDMACodeToHRAM
 	call ClearSpriteBuffer
 	xor a
-	ld [wd7fb], a
-	ld [wd7fc], a
-	ld [wd7fd], a
+	ld [wGraphicsQueueWriteIndex], a
+	ld [wGraphicsQueueReadIndex], a
+	ld [wGraphicsQueueOverflow], a
 	ldh [hStatIntrRoutine], a
-	ldh [hFFB1], a
-	ld [wd8e1], a
+	ldh [hSerialInterruptMode], a
+	ld [wSerialCommunicationEnabled], a
 	ld [wd7fe], a
 	ldh [hSGBInit], a
 	ld hl, hLCDC
@@ -128,7 +128,7 @@ Start: ; 0x150
 	ld [wToggleAudioEngineUpdateMethod], a
 	ld a, Bank(PlaySong_BankF)
 	call SetSongBank
-	call Func_23b
+	call DetectGameBoyColor
 	ldh a, [hGameBoyColorFlag]
 	and a
 	jr nz, .asm_222
@@ -141,7 +141,7 @@ Start: ; 0x150
 	and a
 	jr z, .asm_222
 	ld a, $1
-	ld [wd917], a
+	ld [wDisableRumble], a
 .asm_222
 	ld a, $1
 	ldh [rIE], a  ; Only enable LCD Status interrupt
@@ -154,7 +154,7 @@ Start: ; 0x150
 	ld a, BANK(Main)
 	ld hl, Main
 	call BankSwitchSimple
-Func_23b: ; 0x23b
+DetectGameBoyColor: ; 0x23b
 	ldh a, [hGameBoyColorFlag]
 	cp $11
 	jr nz, .asm_248
@@ -200,12 +200,12 @@ SoftReset:
 	call WriteDMACodeToHRAM
 	call ClearSpriteBuffer
 	xor a
-	ld [wd7fb], a
-	ld [wd7fc], a
-	ld [wd7fd], a
+	ld [wGraphicsQueueWriteIndex], a
+	ld [wGraphicsQueueReadIndex], a
+	ld [wGraphicsQueueOverflow], a
 	ldh [hStatIntrRoutine], a
-	ldh [hFFB1], a
-	ld [wd8e1], a
+	ldh [hSerialInterruptMode], a
+	ld [wSerialCommunicationEnabled], a
 	ld [wd7fe], a
 	ld hl, hLCDC
 	xor a
@@ -230,7 +230,7 @@ SoftReset:
 	and a
 	jr z, .asm_02d5
 	ld a, $1
-	ld [wd917], a
+	ld [wDisableRumble], a
 .asm_02d5
 	ld a, $1
 	ldh [rIE], a
@@ -255,7 +255,7 @@ VBlank: ; 0x2f2
 	call hPushSprite ; sprite DMA transfer
 	ldh a, [hLCDC]
 	ldh [rLCDC], a
-	call Func_113a
+	call ProcessQueuedGraphics
 	ei
 	ldh a, [rLY]
 	cp $90
@@ -326,9 +326,9 @@ VBlank: ; 0x2f2
 .asm_365
 	ld hl, hVBlankCount
 	inc [hl]
-	ld a, [wd8e1]
+	ld a, [wSerialCommunicationEnabled]
 	and a
-	call nz, Func_167b
+	call nz, PollSerialCommunication
 	ld a, [wUpdateAudioEngineUsingTimerInterrupt]
 	and a
 	jr nz, .skipAudioEngineUpdate
@@ -354,7 +354,7 @@ VBlank: ; 0x2f2
 	ldh [rTAC], a ; Timer interrupt will fire ~60 times per second
 .skipTimerToggle
 	ld hl, MBC5SRamBank
-	ld a, [wd917]
+	ld a, [wDisableRumble]
 	and a
 	jr nz, .asm_3b5
 	ld a, [wRumblePattern]
@@ -472,7 +472,7 @@ Serial: ; 0x445
 	push hl
 	ld hl, Data_45d
 	push hl
-	ldh a, [hFFB1]
+	ldh a, [hSerialInterruptMode]
 	sla a
 	ld c, a
 	ld b, $0
@@ -608,7 +608,7 @@ DisableLCD: ; 0x576
 	ret
 
 EnableLCD: ; 0x588
-	ldh a, [hFFC4]
+	ldh a, [hDMGPaletteUpdateNeeded]
 	and a
 	call nz, .UpdatePals
 	ldh a, [hLCDC]
@@ -1229,7 +1229,7 @@ QueueGraphicsToLoadWithFunc: ; 0x10c5
 	jr nc, .wait_ly
 .skip_wait_ly
 	pop af
-	ld hl, wd7fb
+	ld hl, wGraphicsQueueWriteIndex
 	ld l, [hl]
 	ld h, wcb00 / $100
 	inc bc
@@ -1251,7 +1251,7 @@ QueueGraphicsToLoadWithFunc: ; 0x10c5
 	ld [MBC5RomBank], a
 	dec bc
 	ld a, [bc]
-	ld hl, wd7fa
+	ld hl, wGraphicsQueueSize
 	add [hl]
 	cp $30
 	jr c, .size_okay
@@ -1263,14 +1263,14 @@ QueueGraphicsToLoadWithFunc: ; 0x10c5
 	pop af
 	ldh [hLoadedROMBank], a
 	ld [MBC5RomBank], a
-	ld hl, wd7fb
+	ld hl, wGraphicsQueueWriteIndex
 	ld l, [hl]
 	ld h, wca00 / $100
 	inc l
 	ld [hl], $0
 	dec l
 	ld [hl], e
-	ld hl, wd7fb
+	ld hl, wGraphicsQueueWriteIndex
 	inc [hl]
 	ldh a, [rLCDC]
 	bit 7, a
@@ -1279,27 +1279,27 @@ QueueGraphicsToLoadWithFunc: ; 0x10c5
 	push af
 	res 0, a
 	ldh [rIE], a
-	call Func_113a
+	call ProcessQueuedGraphics
 	pop af
 	ldh [rIE], a
 	ret
 
-Func_1129: ; 0x1129
-	ld a, [wd7fb]
-	ld [wd7fc], a
+SnapshotGraphicsQueuePosition: ; 0x1129
+	ld a, [wGraphicsQueueWriteIndex]
+	ld [wGraphicsQueueReadIndex], a
 	ret
 
-Func_1130: ; 0x1130
+CheckGraphicsQueueEmpty: ; 0x1130
 	push hl
-	ld a, [wd7fb]
-	ld hl, wd7fc
+	ld a, [wGraphicsQueueWriteIndex]
+	ld hl, wGraphicsQueueReadIndex
 	cp [hl]
 	pop hl
 	ret
 
-Func_113a: ; 0x113a
-	ld hl, wd7fc
-	ld a, [wd7fb]
+ProcessQueuedGraphics: ; 0x113a
+	ld hl, wGraphicsQueueReadIndex
+	ld a, [wGraphicsQueueWriteIndex]
 	cp [hl]
 	ret z
 	ld l, [hl]
@@ -1335,12 +1335,12 @@ Func_113a: ; 0x113a
 
 .done
 	ld a, l
-	ld [wd7fc], a
-	ld hl, wd7fb
+	ld [wGraphicsQueueReadIndex], a
+	ld hl, wGraphicsQueueWriteIndex
 	cp [hl]
 	ret nz
 	xor a
-	ld [wd7fa], a
+	ld [wGraphicsQueueSize], a
 	ret
 
 JumpToHL: ; 0x117a
@@ -1378,7 +1378,7 @@ LoadTileListsBank1: ; 0x118d
 	ldh [rVBK], a
 	ret
 
-Func_1198:
+LoadSequentialTileLists:
 	ld h, d
 	ld l, e
 .asm_119a
@@ -1441,16 +1441,16 @@ FillTileListsBank1: ; 0x11c7
 	ldh [rVBK], a
 	ret
 
-Func_11d2:
+LoadBankedTileData:
 	ld h, d
 	ld l, e
 	ldh a, [hLoadedROMBank]
-	ldh [hFF94], a
+	ldh [hBankedCopySourceBank], a
 .asm_11d8
 	ld a, [hli]
 	and a
 	ret z
-	ldh [hFF95], a
+	ldh [hBankedCopyCount], a
 	ld a, [hli]
 	ld e, a
 	ld a, [hli]
@@ -1465,7 +1465,7 @@ Func_11d2:
 	push hl
 	ld h, b
 	ld l, c
-	ldh a, [hFF95]
+	ldh a, [hBankedCopyCount]
 	ld b, a
 .asm_11f1
 	ld a, [hli]
@@ -1519,18 +1519,18 @@ Func_11d2:
 	dec b
 	jr nz, .asm_11f1
 	pop hl
-	ldh a, [hFF94]
+	ldh a, [hBankedCopySourceBank]
 	ldh [hLoadedROMBank], a
 	ld [MBC5RomBank], a
 	jr .asm_11d8
 
-Func_122e:
+LoadVRAMTilemapData:
 	ld a, $1
 	ldh [rVBK], a
 	ld h, d
 	ld l, e
 	ldh a, [hLoadedROMBank]
-	ldh [hFF94], a
+	ldh [hBankedCopySourceBank], a
 .asm_1238
 	ld a, [hli]
 	and a
@@ -1540,7 +1540,7 @@ Func_122e:
 	ret
 
 .asm_1240
-	ldh [hFF95], a
+	ldh [hBankedCopyCount], a
 	ld a, [hli]
 	ld e, a
 	ld a, [hli]
@@ -1555,7 +1555,7 @@ Func_122e:
 	push hl
 	ld h, b
 	ld l, c
-	ldh a, [hFF95]
+	ldh a, [hBankedCopyCount]
 	ld b, a
 .asm_1256
 	ld a, [hli]
@@ -1564,7 +1564,7 @@ Func_122e:
 	dec b
 	jr nz, .asm_1256
 	pop hl
-	ldh a, [hFF94]
+	ldh a, [hBankedCopySourceBank]
 	ldh [hLoadedROMBank], a
 	ld [MBC5RomBank], a
 	jr .asm_1238
@@ -1583,7 +1583,7 @@ LoadPalettes:
 	ld a, [hli]
 	and a
 	ret z
-	ldh [hFF94], a
+	ldh [hBankedCopySourceBank], a
 	ld a, [hli]
 	bit 6, a
 	ld de, rBGPI
@@ -1606,7 +1606,7 @@ LoadPalettes:
 	push hl
 	ld h, b
 	ld l, c
-	ldh a, [hFF94]
+	ldh a, [hBankedCopySourceBank]
 	ld b, a
 .loadColor
 	ld a, [hli]
@@ -1624,39 +1624,39 @@ LoadPalettes:
 INCLUDE "home/sgb.asm"
 INCLUDE "home/serial.asm"
 
-Func_1a21: ; 0x1a21
-	call Func_1a59
-	call Func_1a89
+InitiateHighScoreTransfer: ; 0x1a21
+	call InitializeSerialCommunication
+	call ProcessSerialHandshakeResponse
 	jr c, .asm_1a3f
 .asm_1a29
-	call Func_1aa9
-	call Func_1b3d
+	call TransferTileDataToBuffer
+	call StartHighScoreSerialTransfer
 	jr c, .asm_1a3f
 	ld a, [wd86c]
 	and a
 	jr z, .asm_1a29
-	call Func_1b60
+	call RunHighScoreDataExchange
 	jr c, .asm_1a3f
-	call Func_1b88
+	call ValidateSerialDataExchange
 .asm_1a3f
-	call Func_1ba7
+	call DisableSerialCommunication
 	ret
 
-Func_1a43: ; 0x1a43
+InitiateHighScoreTransferWithFlag: ; 0x1a43
 	xor a
 	ld [wd86e], a
-	call Func_1a59
-	call Func_1a89
+	call InitializeSerialCommunication
+	call ProcessSerialHandshakeResponse
 	jr c, .asm_1a54
 	ld a, $1
 	ld [wd86e], a
 .asm_1a54
-	call Func_1ba7
+	call DisableSerialCommunication
 	ret
 
 	ret ; unused instruction?
 
-Func_1a59: ; 0x1a59
+InitializeSerialCommunication: ; 0x1a59
 	ld [wd86a], a
 	ld a, h
 	ld [wd869], a
@@ -1670,35 +1670,35 @@ Func_1a59: ; 0x1a59
 	ld [wd86b], a
 	ld [wd86c], a
 	ld [wd86d], a
-	call Func_16a2
+	call ResetSerialCommunication
 	ld hl, rIE
 	set 3, [hl]
 	xor a
-	ldh [hFFB1], a
+	ldh [hSerialInterruptMode], a
 	ld a, $1
-	ld [wd8e1], a
+	ld [wSerialCommunicationEnabled], a
 	ret
 
-Func_1a89: ; 0x1a89
-	call Func_16e2
+ProcessSerialHandshakeResponse: ; 0x1a89
+	call ProcessSerialResponse
 	cp $f0
 	jr z, .asm_1a9f
 	cp $ff
-	jp z, Func_1bb2
+	jp z, HandleSerialCommunicationError
 	ld a, [wd8c8]
 	cp $81
-	jp nz, Func_1bb2
+	jp nz, HandleSerialCommunicationError
 	and a
 	ret
 
 .asm_1a9f
 	ldh a, [hNewlyPressedButtons]
 	bit 1, a
-	jp nz, Func_1bd3
+	jp nz, HandleSerialCommunicationCancellation
 	rst AdvanceFrame
-	jr Func_1a89
+	jr ProcessSerialHandshakeResponse
 
-Func_1aa9: ; 0x1aa9
+TransferTileDataToBuffer: ; 0x1aa9
 	ld a, [wd866]
 	ld l, a
 	ld a, [wd867]
@@ -1709,7 +1709,7 @@ Func_1aa9: ; 0x1aa9
 	ld c, $14
 .asm_1ab8
 	ld a, [hli]
-	call Func_1ae2
+	call DecodeNibbleEncodedTile
 	dec c
 	jr nz, .asm_1ab8
 	ld a, l
@@ -1734,7 +1734,7 @@ Func_1aa9: ; 0x1aa9
 .asm_1ae1
 	ret
 
-Func_1ae2: ; 0x1ae2
+DecodeNibbleEncodedTile: ; 0x1ae2
 	push bc
 	push hl
 	xor $80
@@ -1770,14 +1770,14 @@ ENDR
 	pop bc
 	ret
 
-Func_1b3d: ; 0x1b3d
+StartHighScoreSerialTransfer: ; 0x1b3d
 	ld a, [wd86c]
 	ld [wd8dd], a
 	ld hl, wc000
 	ld a, $1
-	call Func_1779
+	call InitiateSerialDataTransfer
 	cp $ff
-	jp z, Func_1bb2
+	jp z, HandleSerialCommunicationError
 	cp $f0
 	jr z, .asm_1b56
 	and a
@@ -1786,18 +1786,18 @@ Func_1b3d: ; 0x1b3d
 .asm_1b56
 	ldh a, [hNewlyPressedButtons]
 	bit BIT_B_BUTTON, a
-	jp nz, Func_1bd3
+	jp nz, HandleSerialCommunicationCancellation
 	rst AdvanceFrame
-	jr Func_1b3d
+	jr StartHighScoreSerialTransfer
 
-Func_1b60: ; 0x1b60
+RunHighScoreDataExchange: ; 0x1b60
 	ld a, $1
 	ld [wd8a8], a
 	ld a, $13
 	ld [wd8a9], a
-	call Func_1740
+	call ProcessSerialDataExchange
 	cp $ff
-	jp z, Func_1bb2
+	jp z, HandleSerialCommunicationError
 	cp $f0
 	jr z, .asm_1b7e
 	ld bc, $001e
@@ -1808,39 +1808,39 @@ Func_1b60: ; 0x1b60
 .asm_1b7e
 	ldh a, [hNewlyPressedButtons]
 	bit BIT_B_BUTTON, a
-	jp nz, Func_1bd3
+	jp nz, HandleSerialCommunicationCancellation
 	rst AdvanceFrame
-	jr Func_1b60
+	jr RunHighScoreDataExchange
 
-Func_1b88: ; 0x1b88
+ValidateSerialDataExchange: ; 0x1b88
 	ld a, [wd8c7]
 	ld b, a
 	cp $ff
-	jr z, Func_1bb2
+	jr z, HandleSerialCommunicationError
 	and $f0
-	jr nz, Func_1bb2
+	jr nz, HandleSerialCommunicationError
 	bit 1, b
 	jr nz, .asm_1b9d
-	call Func_16a2
+	call ResetSerialCommunication
 	and a
 	ret
 
 .asm_1b9d
 	ldh a, [hNewlyPressedButtons]
 	bit BIT_B_BUTTON, a
-	jp nz, Func_1bd3
+	jp nz, HandleSerialCommunicationCancellation
 	rst AdvanceFrame
-	jr Func_1b88
+	jr ValidateSerialDataExchange
 
-Func_1ba7: ; 0x1ba7
+DisableSerialCommunication: ; 0x1ba7
 	ld hl, rIE
 	res 3, [hl]
 	xor a
-	ld [wd8e1], a
+	ld [wSerialCommunicationEnabled], a
 	and a
 	ret
 
-Func_1bb2: ; 0x1bb2
+HandleSerialCommunicationError: ; 0x1bb2
 	ld hl, Data_1bcf
 	ld a, [wd8c7]
 	cp $ff
@@ -1855,7 +1855,7 @@ Func_1bb2: ; 0x1bb2
 .asm_1bc6
 	ld a, [hl]
 	ld [wd86d], a
-	call Func_16a2
+	call ResetSerialCommunication
 	scf
 	ret
 
@@ -1863,12 +1863,12 @@ Data_1bcf:
 	;  $ff, >$7f, >$3f, else
 	db $02,  $01,  $04,  $03
 
-Func_1bd3: ; 0x1bd3
+HandleSerialCommunicationCancellation: ; 0x1bd3
 	lb de, $00, $01
 	call PlaySoundEffect
 	ld a, $5
 	ld [wd86d], a
-	call Func_16a2
+	call ResetSerialCommunication
 	scf
 	ret
 
@@ -2015,7 +2015,7 @@ Unused_Func_1f81:
 	ld hl, $4f06
 	jr asm_1fca
 
-Func_1f9a:
+LoadSpriteData2WithOffset:
 	push bc
 	push de
 	push hl
@@ -2031,7 +2031,7 @@ Func_1f9a:
 	ld hl, SpriteDataPointers2
 	jr asm_1fca
 
-Func_1fb3:
+LoadSpriteDataWithOffset:
 	push bc
 	push de
 	push hl
@@ -2161,7 +2161,7 @@ LoadDexVWFCharacter: ; 0x206d
 	scf
 	ret
 
-Func_208c: ; 0x208c
+LoadDexVWFCharacterSpecial: ; 0x208c
 	ldh a, [hLoadedROMBank]
 	push af
 	ld a, Bank(Func_8ee0)

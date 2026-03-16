@@ -4,10 +4,10 @@ DrawSpritesMewtwoBonus: ; 0x1994e
 	call DrawOrbitingBallSprites
 	callba DrawFlippers
 	callba DrawPinball
-	call Func_19976
+	call DrawMewtwoSprite
 	ret
 
-Func_19976: ; 0x19976
+DrawMewtwoSprite: ; 0x19976
 	ld a, $40
 	ld hl, hSCX
 	sub [hl]

@@ -99,6 +99,6 @@ ConcludeSpecialMode_RedField: ; 0xddfd
 	ld [wStageCollisionState], a
 	ret
 
-Func_de4e: ; 0xde4e
+DoNothing_BallLoss_Unused: ; 0xde4e
 ; unused
 	ret

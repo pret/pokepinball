@@ -422,7 +422,7 @@ LoadCurrentPalettesIntoFadePalettes: ; 0xd9d
 	inc c
 	call WaitForLCD
 .asm_da4
-	call Func_61b
+	call WaitForLCDHBlank
 .asm_da7
 	ldh a, [rSTAT]
 	and $3

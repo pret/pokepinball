@@ -4,8 +4,8 @@ HandleTitlescreen: ; 0xc000
 TitlescreenFunctions: ; 0xc004
 	dw FadeInTitlescreen
 	dw TitlescreenLoop ; titlescreen loop
-	dw Func_c10e ; previously saved game menu
-	dw Func_c1cb ; game start, pokedex, option
+	dw HandleContinuePromptScreen ; previously saved game menu
+	dw GoToSelectedMenuScreen ; game start, pokedex, option
 	dw GoToHighScoresFromTitlescreen ; go to high scores
 
 FadeInTitlescreen: ; 0xc00e
@@ -57,7 +57,7 @@ TitlescreenFadeInGfx_GameBoyColor: ; 0xc06b
 	db $FF, $FF ; terminators
 
 TitlescreenLoop: ; 0xc089
-	call Func_c0ee
+	call HandleTitlescreenCursorInput
 	call HandleTitlescreenAnimations
 	ldh a, [hNewlyPressedButtons]
 	bit BIT_A_BUTTON, a  ; was A button pressed?
@@ -109,10 +109,10 @@ TitlescreenLoop: ; 0xc089
 	ld [wScreenState], a
 	ret
 
-Func_c0ee: ; 0xc0ee
+HandleTitlescreenCursorInput: ; 0xc0ee
 	ld hl, wTitleScreenCursorSelection
 	ld c, $2
-	call Func_c1fc
+	call HandleMenuCursorUpDown
 	ret
 
 HandleTitlescreenAnimations: ; 0xc0f7
@@ -123,14 +123,14 @@ HandleTitlescreenAnimations: ; 0xc0f7
 	ld a, SPRITE_TITLESCREEN_BLANK  ; seemingly-unused sprite data for titlescreen. It's just blank tiles.
 	call LoadSpriteData
 .asm_c104
-	call Func_c21d  ; does nothing...
+	call DoNothing_Titlescreen  ; does nothing...
 	call HandleTitlescreenPikachuBlinkingAnimation
 	call HandleTitlescreenPokeballAnimation
 	ret
 
-Func_c10e: ; 0xc10e
-	call Func_c1a2
-	call Func_c1b1
+HandleContinuePromptScreen: ; 0xc10e
+	call HandleContinuePromptCursorInput
+	call UpdateContinuePromptAnimations
 	ld a, [wTitlescreenContinuePromptAnimationFrame]
 	cp $6
 	ret nz
@@ -191,7 +191,7 @@ Func_c10e: ; 0xc10e
 .asm_c18f
 	call CleanSpriteBuffer
 	rst AdvanceFrame
-	call Func_c1b1
+	call UpdateContinuePromptAnimations
 	ld a, [wTitlescreenContinuePromptAnimationFrame]
 	cp $e
 	jr nz, .asm_c18f
@@ -199,16 +199,16 @@ Func_c10e: ; 0xc10e
 	dec [hl]
 	ret
 
-Func_c1a2: ; 0xc1a2
+HandleContinuePromptCursorInput: ; 0xc1a2
 	ld a, [wTitlescreenContinuePromptAnimationFrame]
 	cp $6
 	ret nz
 	ld hl, wTitleScreenGameStartCursorSelection
 	ld c, $1
-	call Func_c1fc
+	call HandleMenuCursorUpDown
 	ret
 
-Func_c1b1: ; 0xc1b1
+UpdateContinuePromptAnimations: ; 0xc1b1
 	call HandleTitleScreenContinuePromptAnimation
 	ldh a, [hGameBoyColorFlag]
 	and a
@@ -217,12 +217,12 @@ Func_c1b1: ; 0xc1b1
 	ld a, SPRITE_TITLESCREEN_BLANK
 	call LoadSpriteData
 .asm_c1c1
-	call Func_c21d
+	call DoNothing_Titlescreen
 	call HandleTitlescreenPikachuBlinkingAnimation
 	call HandleTitlescreenPokeballAnimation
 	ret
 
-Func_c1cb: ; 0c1cb
+GoToSelectedMenuScreen: ; 0c1cb
 	call FadeOut
 	call DisableLCD
 	ld a, [wTitleScreenCursorSelection]
@@ -252,7 +252,7 @@ GoToHighScoresFromTitlescreen: ; 0xc1e7
 	ld [wHighScoreIsEnteringName], a
 	ret
 
-Func_c1fc: ; 0xc1fc
+HandleMenuCursorUpDown: ; 0xc1fc
 	ldh a, [hPressedButtons]
 	ld b, a
 	ld a, [hl]
@@ -277,7 +277,7 @@ Func_c1fc: ; 0xc1fc
 	call PlaySoundEffect
 	ret
 
-Func_c21d: ; 0xc21d
+DoNothing_Titlescreen: ; 0xc21d
 ; World's greatest function.
 	ret
 

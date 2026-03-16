@@ -1,15 +1,15 @@
-Func_14c4: ; 14c4 (0:14c4)
+HandleSerialCommunication: ; 14c4 (0:14c4)
 	ld a, [wd8dc]
 	and a
-	jp nz, Func_165f
+	jp nz, SerialReturn
 	ld a, [wd8ad]
 	cp $7
-	jp z, Func_1612
+	jp z, HandleSerialCompletionState
 	ld a, [wd8af]
 	and a
 	jr nz, .asm_14df
-	call Func_1502
-	jp Func_1663
+	call SendSerialHandshakeBytes
+	jp SerialDone
 
 .asm_14df
 	ld a, [wd8b0]
@@ -21,19 +21,19 @@ Func_14c4: ; 14c4 (0:14c4)
 	ld a, [wd8b2]
 	cp $2
 	jr z, .asm_14f7
-	call Func_15e1
+	call TransmitSerialChecksum
 	jr .asm_14ff
 
 .asm_14f7
-	call Func_15f8
+	call ReceiveSerialChecksum
 	jr .asm_14ff
 
 .asm_14fc
-	call Func_1527
+	call ExchangeSerialDataBytes
 .asm_14ff
-	jp Func_1663
+	jp SerialDone
 
-Func_1502: ; 1502 (0:1502)
+SendSerialHandshakeBytes: ; 1502 (0:1502)
 	ld hl, wd8b9
 	ld c, [hl]
 	inc [hl]
@@ -55,7 +55,7 @@ Func_1502: ; 1502 (0:1502)
 	ld [wd8af], a
 	ret
 
-Func_1527: ; 1527 (0:1527)
+ExchangeSerialDataBytes: ; 1527 (0:1527)
 	ld a, [wd8b9]
 	ld c, a
 	ld a, [wd8ba]
@@ -130,19 +130,19 @@ Func_1527: ; 1527 (0:1527)
 	ret
 
 .asm_15b1
-	call Func_15c8
+	call ResetSerialBufferPointers
 	ret
 
 .asm_15b5
 	ld a, [wd8c8 + 1]
 	ld [wd8c8], a
-Func_15bb:
+CompleteSerialTransfer:
 	ld a, $7
 	ld [wd8ad], a
 	ld a, $1
 	ld [wd8c5], a
-	call Func_16bf
-Func_15c8: ; 15c8 (0:15c8)
+	call ClearSerialExchangeState
+ResetSerialBufferPointers: ; 15c8 (0:15c8)
 	ld a, [wd8b5]
 	ld [wd8b3], a
 	ld a, [wd8b6]
@@ -153,7 +153,7 @@ Func_15c8: ; 15c8 (0:15c8)
 	ld [wd8bc], a
 	ret
 
-Func_15e1: ; 15e1 (0:15e1)
+TransmitSerialChecksum: ; 15e1 (0:15e1)
 	ld c, a
 	ld b, $0
 	ld hl, wd8c3
@@ -168,7 +168,7 @@ Func_15e1: ; 15e1 (0:15e1)
 	inc [hl]
 	ret
 
-Func_15f8: ; 15f8 (0:15f8)
+ReceiveSerialChecksum: ; 15f8 (0:15f8)
 	ldh a, [rSB]
 	ld [wd8c8], a
 	xor a
@@ -181,10 +181,10 @@ Func_15f8: ; 15f8 (0:15f8)
 	inc [hl]
 	ld a, [hl]
 	cp $2
-	jr z, Func_15bb
+	jr z, CompleteSerialTransfer
 	ret
 
-Func_1612: ; 1612 (0:1612)
+HandleSerialCompletionState: ; 1612 (0:1612)
 	ld a, [wd8cb]
 	ld [wd8ae], a
 	ld a, [wd8c7]
@@ -221,19 +221,19 @@ Func_1612: ; 1612 (0:1612)
 	ld [wd8c5], a
 	ld a, [wd8cc]
 	and a
-	jr nz, Func_165f
+	jr nz, SerialReturn
 	xor a
 	ld [wd8db], a
-Func_165f: ; 165f (0:165f)
+SerialReturn: ; 165f (0:165f)
 	ret
 
-Func_1660:
+ClearSerialControl:
 	xor a
 	ldh [rSC], a
-Func_1663: ; 1663 (0:1663)
+SerialDone: ; 1663 (0:1663)
 	ret
 
-Func_1664:
+SerialInterruptHandler:
 	push af
 	ldh a, [rSC]
 	bit 7, a
@@ -243,14 +243,14 @@ Func_1664:
 	push hl
 	ld a, $1
 	ld [wd8ca], a
-	call Func_14c4
+	call HandleSerialCommunication
 	pop hl
 	pop de
 	pop bc
 .asm_1679
 	pop af
 	reti
-Func_167b: ; 0x167b
+PollSerialCommunication: ; 0x167b
 	ld a, [wd8ad]
 	cp $1
 	ret nz
@@ -268,16 +268,16 @@ Func_167b: ; 0x167b
 	xor a
 	ld [hl], a
 	ld [wd8e2], a
-	call Func_18ac
+	call TriggerSerialPoll
 	ret
 
-Func_169d:
+ClearSerialRegisters:
 	xor a
 	ldh [rSC], a
 	ldh [rSB], a
 	; fallthrough
 
-Func_16a2: ; 0x16a2
+ResetSerialCommunication: ; 0x16a2
 	xor a
 	ldh [rSB], a
 	ldh [rSC], a
@@ -285,16 +285,16 @@ Func_16a2: ; 0x16a2
 	dec a
 	ld [wd8c7], a
 	ld [wd8c8], a
-	call Func_16b5
+	call ResetSerialTransactionState
 	ret
 
-Func_16b5: ; 0x16b5
+ResetSerialTransactionState: ; 0x16b5
 	xor a
 	ld [wd8c5], a
 	ld [wd8ca], a
 	ld [wd8db], a
 	; fall through
-Func_16bf: ; 0x16bf
+ClearSerialExchangeState: ; 0x16bf
 	xor a
 	ld [wd8af], a
 	ld [wd8b0], a
@@ -309,23 +309,23 @@ Func_16bf: ; 0x16bf
 	ld [wd8e2], a
 	ret
 
-Func_16e2: ; 0x16e2
+ProcessSerialResponse: ; 0x16e2
 	ld a, [wd8db]
 	and a
 	jr z, .asm_16ec
-	call Func_16fd
+	call CheckSerialTransactionComplete
 	ret nc
 .asm_16ec
 	ld a, [wd8ae]
 	cp $1
 	jr nz, .asm_16f7
-	call Func_16fd
+	call CheckSerialTransactionComplete
 	ret nc
 .asm_16f7
-	call Func_1925
-	jp Func_19e5
+	call InitiateSerialHandshake
+	jp FinalizeSerialState
 
-Func_16fd: ; 0x16fd
+CheckSerialTransactionComplete: ; 0x16fd
 	ld a, [wd8c5]
 	cp $2
 	jr nz, .asm_173c
@@ -370,7 +370,7 @@ Func_16fd: ; 0x16fd
 	ld a, $f0
 	ret
 
-Func_1740: ; 0x1740
+ProcessSerialDataExchange: ; 0x1740
 	ld a, [wd8ad]
 	cp $1
 	jr z, .asm_1752
@@ -390,22 +390,22 @@ Func_1740: ; 0x1740
 	ld a, [wd8db]
 	and a
 	jr z, .asm_1762
-	call Func_16fd
+	call CheckSerialTransactionComplete
 	ret nc
 .asm_1762
 	ld a, [wd8ae]
 	cp $2
 	jr nz, .asm_176d
-	call Func_16fd
+	call CheckSerialTransactionComplete
 	ret nc
 .asm_176d
 	ld a, [wd8c7]
 	cp $ff
 	ret z
-	call Func_1932
-	jp Func_19e5
+	call InitiateSerialDataPacket
+	jp FinalizeSerialState
 
-Func_1779: ; 0x1779
+InitiateSerialDataTransfer: ; 0x1779
 	ld c, a
 	ld a, [wd8ad]
 	and a
@@ -465,8 +465,8 @@ Func_1779: ; 0x1779
 .asm_17d6
 	ld bc, $0280
 .asm_17d9
-	call Func_1989
-	jp Func_19e5
+	call SetupSerialMultiPartTransfer
+	jp FinalizeSerialState
 
 .asm_17df
 	ld a, [wd8c5]
@@ -552,10 +552,10 @@ Func_1779: ; 0x1779
 	and a
 	ld a, [wd8c7]
 	jr z, .asm_1860
-	call Func_19d7
-	jp Func_19e5
+	call InitiateSerialRetransmit
+	jp FinalizeSerialState
 
-Func_1879:
+SendSerialAcknowledgment:
 	ld a, [wd8ad]
 	cp $1
 	jr z, .asm_188b
@@ -571,22 +571,22 @@ Func_1879:
 	ld a, [wd8db]
 	and a
 	jr z, .asm_1895
-	call Func_16fd
+	call CheckSerialTransactionComplete
 	ret nc
 .asm_1895
 	ld a, [wd8ae]
 	cp $4
 	jr nz, .asm_18a0
-	call Func_16fd
+	call CheckSerialTransactionComplete
 	ret nc
 .asm_18a0
 	ld a, [wd8c7]
 	cp $ff
 	ret z
-	call Func_19bd
-	jp Func_19e5
+	call InitiateSerialAck
+	jp FinalizeSerialState
 
-Func_18ac: ; 0x18ac
+TriggerSerialPoll: ; 0x18ac
 	ld a, [wd8ad]
 	cp $1
 	jr z, .asm_18be
@@ -602,16 +602,16 @@ Func_18ac: ; 0x18ac
 	ld a, [wd8db]
 	and a
 	jr z, .asm_18c8
-	call Func_16fd
+	call CheckSerialTransactionComplete
 	ret nc
 .asm_18c8
 	ld a, [wd8c7]
 	cp $ff
 	ret z
-	call Func_19ca
-	jp Func_19e5
+	call InitiateSerialPollTransaction
+	jp FinalizeSerialState
 
-Func_18d4: ; 0x18d4
+SetupSerialTransaction: ; 0x18d4
 	ld [wd8cb], a
 	ld a, d
 	ld [wd8cc], a
@@ -629,7 +629,7 @@ Func_18d4: ; 0x18d4
 	ld [wd8b6], a
 	xor a
 	ld [wd8c5], a
-	call Func_16bf
+	call ClearSerialExchangeState
 	ret
 
 SerialTranfserData_18ff: ; 0x18ff
@@ -682,19 +682,19 @@ SerialTransferData_191d: ; 0x191d
 	db $00
 	db $00
 
-Func_1925: ; 0x1925
+InitiateSerialHandshake: ; 0x1925
 	ld a, $1
 	ld d, $0
 	ld hl, SerialTransferData_1901
 	ld bc, $0008
-	jp Func_18d4
+	jp SetupSerialTransaction
 
-Func_1932: ; 0x19332
+InitiateSerialDataPacket: ; 0x19332
 	ld a, $2
 	ld d, $0
 	ld hl, wd8cd
 	ld bc, $000c
-	call Func_18d4
+	call SetupSerialTransaction
 	ld hl, SerialTransferData_1909
 	ld de, wd8cd
 	ld bc, $0004
@@ -702,16 +702,16 @@ Func_1932: ; 0x19332
 	ld de, $0006
 	ld a, [wd8a8]
 	ld [wd8d1], a
-	call Func_1982
+	call AddToSerialChecksum
 	ld a, [wd8a9]
 	ld [wd8d2], a
-	call Func_1982
+	call AddToSerialChecksum
 	ld a, [wd8aa]
 	ld [wd8d3], a
-	call Func_1982
+	call AddToSerialChecksum
 	ld a, [wd8a7]
 	ld [wd8d4], a
-	call Func_1982
+	call AddToSerialChecksum
 	ld a, e
 	ld [wd8d5], a
 	ld a, d
@@ -721,7 +721,7 @@ Func_1932: ; 0x19332
 	ld [wd8d8], a
 	ret
 
-Func_1982: ; 0x1982
+AddToSerialChecksum: ; 0x1982
 	add e
 	ld e, a
 	ld a, d
@@ -729,7 +729,7 @@ Func_1982: ; 0x1982
 	ld d, a
 	ret
 
-Func_1989: ; 0x1989
+SetupSerialMultiPartTransfer: ; 0x1989
 	ld a, l
 	ld [wd8bf], a
 	ld a, h
@@ -743,7 +743,7 @@ Func_1989: ; 0x1989
 	ld d, $1
 	ld hl, wd8cd
 	ld bc, $0004
-	call Func_18d4
+	call SetupSerialTransaction
 	ld a, [SerialTransferData_190d]
 	ld [wd8cd], a
 	ld a, [wd8ac]
@@ -755,31 +755,31 @@ Func_1989: ; 0x1989
 	ld [wd8d0], a
 	ret
 
-Func_19bd: ; 19bd (0:19bd)
+InitiateSerialAck: ; 19bd (0:19bd)
 	ld a, $4
 	ld d, $0
 	ld hl, SerialTransferData_1915
 	ld bc, $8
-	jp Func_18d4
+	jp SetupSerialTransaction
 
-Func_19ca: ; 0x19ca
+InitiateSerialPollTransaction: ; 0x19ca
 	ld a, $5
 	ld d, $0
 	ld hl, SerialTransferData_191d
 	ld bc, $0008
-	jp Func_18d4
+	jp SetupSerialTransaction
 
-Func_19d7: ; 0x19d7
+InitiateSerialRetransmit: ; 0x19d7
 	ld a, $6
 	ld d, $1
 	ld hl, SerialTransferData_190d
 	ld bc, $0008
-	jp Func_18d4
+	jp SetupSerialTransaction
 
 ; unused
 	ret
 
-Func_19e5: ; 0x19e5
+FinalizeSerialState: ; 0x19e5
 	ld a, [wd8ad]
 	cp $1
 	jr z, .asm_19f8

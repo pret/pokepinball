@@ -28,7 +28,7 @@ FillBottomMessageBufferWithBlackTile: ; 0x30e8 wipes the message buffer and disa
 	ld [wStationaryText3], a
 	ret
 
-Func_310a: ; 0x310a
+ClearBottomMessageBufferRows: ; 0x310a
 	ld a, $81
 	ld hl, wBottomMessageBuffer + $40
 	ld b, $5
@@ -372,7 +372,7 @@ LoadScrollingText: ; 0x32aa
 	jr nz, .copyTextLoop
 	ret
 
-Func_32cc: ; 0x32cc
+LoadScrollingScoreText: ; 0x32cc
 	ld a, $1
 	ld [hli], a
 	ld a, [de]
@@ -404,11 +404,11 @@ Func_32cc: ; 0x32cc
 	ld a, [hl]
 	swap a
 	and $f
-	call Func_3309
+	call LoadBCDDigitAsScrollingText
 	dec b
 	ld a, [hld]
 	and $f
-	call Func_3309
+	call LoadBCDDigitAsScrollingText
 	dec b
 	jr nz, .asm_32ec
 	ld a, '0'
@@ -421,7 +421,7 @@ Func_32cc: ; 0x32cc
 	ld [de], a
 	ret
 
-Func_3309: ; 0x3309
+LoadBCDDigitAsScrollingText: ; 0x3309
 	jr nz, .asm_3312
 	ld a, b
 	dec a

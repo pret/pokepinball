@@ -8,7 +8,7 @@ DoNothing_18060: ; 0x18060
 DoNothing_18061: ; 0x18061
 	ret
 
-Func_18062: ; 0x18062
+CheckLaunchAlleyCollision_UnusedStage: ; 0x18062
 ; used by unused stage
 	callba CheckRedStageLaunchAlleyCollision
 	ret
@@ -16,6 +16,6 @@ Func_18062: ; 0x18062
 DoNothing_1806d: ; 0x1806d
 	ret
 
-Func_1806e: ; 0x1806e
+ResolveLaunchCollision_UnusedStage: ; 0x1806e
 	callba ResolveRedStagePinballLaunchCollision
 	ret

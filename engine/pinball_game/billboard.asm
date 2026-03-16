@@ -58,7 +58,7 @@ LoadGreyBillboardPaletteData: ; 0xf269
 	ld hl, StageRedFieldBottomBGPalette5
 	ld de, $0030
 	ld bc, $0008
-	call Func_7dc
+	call CopyCGBPalettesWithHBlankSync
 .loadPaletteMap
 	ld a, BANK(GreyBillboardPaletteMap)
 	ld de, GreyBillboardPaletteMap

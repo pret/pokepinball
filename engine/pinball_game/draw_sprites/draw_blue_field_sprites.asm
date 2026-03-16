@@ -160,7 +160,7 @@ DrawPikachuSavers_BlueStage: ; 0x1f448
 	and a
 	ld a, [wWhichPikachuSaverSide]
 	jr z, .asm_1f473
-	ld a, [wd51c]
+	ld a, [wPikachuSaverAnimationState]
 	and a
 	jr nz, .asm_1f469
 	ldh a, [hFrameCounter]

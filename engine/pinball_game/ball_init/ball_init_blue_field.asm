@@ -12,7 +12,7 @@ InitBallBlueField: ; 0x1c08d
 	ld [wBallYPos + 1], a
 	xor a
 	ld [wEnableBallGravityAndTilt], a
-	ld [wd580], a
+	ld [wTimerGraphicsNeedsLoading], a
 	call InitBlueFieldCollisionAttributes
 	ld a, [wLostBall]
 	and a
@@ -23,7 +23,7 @@ InitBallBlueField: ; 0x1c08d
 	ld [wSpinnerVelocity], a
 	ld [wSpinnerVelocity + 1], a
 	ld [wPikachuSaverSlotRewardActive], a
-	ld [wd51e], a
+	ld [wSpinnerChargeSoundCooldown], a
 	ld [wPikachuSaverCharge], a
 	ld hl, wCAVELightStates
 	ld [hli], a

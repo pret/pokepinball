@@ -125,7 +125,7 @@ DoSlotRewardRoulette: ; 0xed8e
 	ldh a, [hGameBoyColorFlag]
 	and a
 	ld a, [wSlotRouletteBillboardPicture]
-	call nz, Func_f2a0
+	call nz, LoadBillboardBGPalette
 	ld b, $80
 .displayAnimatedRewardLoop
 	push bc
@@ -251,7 +251,7 @@ SlotRewardPikachuSaver: ; 0xef83
 	ld [wPikachuSaverCharge], a
 	xor a
 	ld [wAudioEngineEnabled], a
-	call Func_310a
+	call ClearBottomMessageBufferRows
 	rst AdvanceFrame
 	ld a, $0
 	callba PlayPikachuSoundClip
@@ -392,7 +392,7 @@ SlotRewardUpgradeBall: ; 0xf040
 	call EnableBottomText
 	ld hl, wScrollingText2
 	ld de, DigitsText1to8
-	call Func_32cc
+	call LoadScrollingScoreText
 	pop de
 	pop bc
 	ld hl, wScrollingText1
@@ -464,10 +464,10 @@ SlotBonusMultiplier: ; 0xf0c1
 	callba nz, AddExtraBall
 	callba GetBCDForNextBonusMultiplier_RedField
 	ld a, [wBonusMultiplierTensDigit]
-	callba Func_f154 ; no need for BankSwitch here...
+	callba LoadBonusMultiplierRailingGraphics ; no need for BankSwitch here...
 	ld a, [wBonusMultiplierOnesDigit]
 	add $14
-	callba Func_f154 ; no need for BankSwitch here...
+	callba LoadBonusMultiplierRailingGraphics ; no need for BankSwitch here...
 	ret
 
 .DivideBy25: ; 0xf14a
@@ -479,7 +479,7 @@ SlotBonusMultiplier: ; 0xf0c1
 	inc c
 	jr .div_25
 
-Func_f154: ; 0xf154
+LoadBonusMultiplierRailingGraphics: ; 0xf154
 	ld a, [wCurrentStage]
 	call CallInFollowingTable
 CallTable_f15a: ; 0xf15a
@@ -497,7 +497,7 @@ SlotRewardGoToBonusStage: ; 0xf172
 
 INCLUDE "engine/pinball_game/billboard.asm"
 
-Func_f2a0: ; 0xf2a0
+LoadBillboardBGPalette: ; 0xf2a0
 	push hl
 	ld c, a
 	ld b, $0
@@ -515,7 +515,7 @@ Func_f2a0: ; 0xf2a0
 	ld l, c
 	ld de, $0030
 	ld bc, $0010
-	call Func_7dc
+	call CopyCGBPalettesWithHBlankSync
 	pop hl
 	ret
 

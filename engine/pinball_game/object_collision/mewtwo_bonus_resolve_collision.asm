@@ -1,6 +1,6 @@
 ResolveMewtwoBonusGameObjectCollisions: ; 0x19451
-	call Func_19531
-	call Func_19701
+	call ResolveOrbitingBallHitCollision
+	call UpdateAllOrbitingBalls
 	call TryCloseGate_MewtwoBonus
 	callba PlayLowTimeSfx
 	ld a, [wTimeRanOut]
@@ -30,10 +30,10 @@ TryCloseGate_MewtwoBonus: ; 0x1948b
 	ld [wStageCollisionState], a
 	ld [wMewtwoBonusClosedGate], a
 	callba LoadStageCollisionAttributes
-	call Func_194ac
+	call QueueGateGraphicsToLoad_MewtwoBonus
 	ret
 
-Func_194ac: ; 0x194ac
+QueueGateGraphicsToLoad_MewtwoBonus: ; 0x194ac
 	ld a, [wStageCollisionState]
 	sla a
 	ld c, a
@@ -164,7 +164,7 @@ Data_1951c: ; 0x1951c
 
 	db $00 ; terminator
 
-Func_19531: ; 0x19531
+ResolveOrbitingBallHitCollision: ; 0x19531
 	ld a, [wd6aa]
 	and a
 	jr z, .asm_195a2
@@ -194,7 +194,7 @@ Func_19531: ; 0x19531
 	jr z, .asm_19582
 	ld a, $2
 	ld de, wMewtwoAnimationIndex
-	call Func_19679
+	call InitializeMewtwoAnimationState
 	lb de, $00, $39
 	call PlaySoundEffect
 	jr .asm_195a2
@@ -202,7 +202,7 @@ Func_19531: ; 0x19531
 .asm_19582
 	ld a, $3
 	ld de, wMewtwoAnimationIndex
-	call Func_19679
+	call InitializeMewtwoAnimationState
 	ld a, $1
 	ld [wFlippersDisabled], a
 	call LoadFlippersPalette
@@ -210,12 +210,12 @@ Func_19531: ; 0x19531
 	ld de, MUSIC_NOTHING
 	call PlaySong
 .asm_195a2
-	call Func_195ac
+	call InitializeMewtwoOrbitingBalls
 	ld de, wd6af
-	call Func_195f5
+	call UpdateMewtwoAnimationFrame
 	ret
 
-Func_195ac: ; 0x195ac
+InitializeMewtwoOrbitingBalls: ; 0x195ac
 	ld a, [wd6af]
 	and a
 	ret nz
@@ -234,7 +234,7 @@ Func_195ac: ; 0x195ac
 	ret nz
 	ld a, $1
 	ld de, wMewtwoAnimationIndex
-	call Func_19679
+	call InitializeMewtwoAnimationState
 	ret
 
 .asm_195ce
@@ -243,7 +243,7 @@ Func_195ac: ; 0x195ac
 	jr nz, .asm_195b9
 	ret
 
-Func_195d3: ; 0x195d3
+CheckMewtwoOrbitingBallAtPosition: ; 0x195d3
 	ld hl, wOrbitingBall0PosIndex
 	ld de, $0008
 	ld b, $6
@@ -261,7 +261,7 @@ Func_195d3: ; 0x195d3
 	ld e, l
 	dec de
 	ld a, $1
-	call Func_19876
+	call InitializeOrbitingBallAnimationState
 	ret
 
 .asm_195f0
@@ -270,7 +270,7 @@ Func_195d3: ; 0x195d3
 	jr nz, .asm_195db
 	ret
 
-Func_195f5: ; 0x195f5
+UpdateMewtwoAnimationFrame: ; 0x195f5
 	ld a, [de]
 	sla a
 	ld c, a
@@ -290,42 +290,42 @@ Func_195f5: ; 0x195f5
 	ld a, [de]
 	rst JumpTable  ; calls JumpToFuncInTable
 CallTable_1960d: ; 0x1960d
-	dw Func_19615
-	dw Func_1961e
-	dw Func_1962f
-	dw Func_19638
+	dw HandleMewtwoAnimationState0
+	dw HandleMewtwoAnimationState1
+	dw HandleMewtwoAnimationState2
+	dw HandleMewtwoAnimationState3
 
-Func_19615: ; 0x19615
+HandleMewtwoAnimationState0: ; 0x19615
 	dec de
 	ld a, [de]
 	cp $4
 	ret nz
 	xor a
-	jp Func_19679
+	jp InitializeMewtwoAnimationState
 
-Func_1961e: ; 0x1961e
+HandleMewtwoAnimationState1: ; 0x1961e
 	dec de
 	ld a, [de]
 	cp $c
 	jr nz, .asm_19628
-	call Func_195d3
+	call CheckMewtwoOrbitingBallAtPosition
 	ret
 
 .asm_19628
 	cp $d
 	ret nz
 	xor a
-	jp Func_19679
+	jp InitializeMewtwoAnimationState
 
-Func_1962f: ; 0x1962f
+HandleMewtwoAnimationState2: ; 0x1962f
 	dec de
 	ld a, [de]
 	cp $1
 	ret nz
 	xor a
-	jp Func_19679
+	jp InitializeMewtwoAnimationState
 
-Func_19638: ; 0x19638
+HandleMewtwoAnimationState3: ; 0x19638
 	dec de
 	ld a, [de]
 	cp $1
@@ -359,7 +359,7 @@ Func_19638: ; 0x19638
 	call PlaySoundEffect
 	ret
 
-Func_19679: ; 0x19679
+InitializeMewtwoAnimationState: ; 0x19679
 	push af
 	sla a
 	ld c, a
@@ -447,7 +447,7 @@ MewtwoDefeatedAnimation: ; 0x196c0
 	db $01, MEWTWOSPRITE_INVISIBLE
 	db $00 ; terminator
 
-Func_19701: ; 0x19701
+UpdateAllOrbitingBalls: ; 0x19701
 	ld a, [wd6b4]
 	and a
 	jr z, .asm_19742
@@ -472,7 +472,7 @@ Func_19701: ; 0x19701
 	jr nz, .asm_19742
 	dec de
 	ld a, $2
-	call Func_19876
+	call InitializeOrbitingBallAnimationState
 	ld bc, OneHundredThousandPoints
 	callba AddBigBCD6FromQueue
 	lb de, $00, $38
@@ -629,39 +629,39 @@ UpdateOrbitingBallAnimation: ; 0x19833
 	ld a, [de]
 	rst JumpTable  ; calls JumpToFuncInTable
 CallTable_19852: ; 0x19852
-	dw Func_1985a
-	dw Func_19863
-	dw Func_1986c
-	dw Func_1986d
+	dw HandleOrbitingBallAnimationState0
+	dw HandleOrbitingBallAnimationState1
+	dw HandleOrbitingBallAnimationState2
+	dw HandleOrbitingBallAnimationState3
 
-Func_1985a: ; 0x1985a
+HandleOrbitingBallAnimationState0: ; 0x1985a
 	dec de
 	ld a, [de]
 	cp $6
 	ret nz
 	xor a
-	jp Func_19876
+	jp InitializeOrbitingBallAnimationState
 
-Func_19863: ; 0x19863
+HandleOrbitingBallAnimationState1: ; 0x19863
 	dec de
 	ld a, [de]
 	cp $7
 	ret nz
 	xor a
-	jp Func_19876
+	jp InitializeOrbitingBallAnimationState
 
-Func_1986c: ; 0x1986c
+HandleOrbitingBallAnimationState2: ; 0x1986c
 	ret
 
-Func_1986d: ; 0x1986d
+HandleOrbitingBallAnimationState3: ; 0x1986d
 	dec de
 	ld a, [de]
 	cp $1
 	ret nz
 	xor a
-	jp Func_19876
+	jp InitializeOrbitingBallAnimationState
 
-Func_19876: ; 0x19876
+InitializeOrbitingBallAnimationState: ; 0x19876
 	push af
 	sla a
 	ld c, a
@@ -705,7 +705,7 @@ ResetOrbitingBalls: ; 0x1988e
 	dec de
 	dec de
 	ld a, $3
-	call Func_19876
+	call InitializeOrbitingBallAnimationState
 	jr .asm_198c0
 
 .asm_198b7

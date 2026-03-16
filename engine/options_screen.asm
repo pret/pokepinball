@@ -2,14 +2,14 @@ HandleOptionsScreen: ; 0xc34a
 	ld a, [wScreenState]
 	rst JumpTable  ; calls JumpToFuncInTable
 OptionsScreenFunctions: ; 0xc34e
-	dw Func_c35a
-	dw Func_c400
-	dw Func_c483
-	dw Func_c493
-	dw Func_c506
-	dw Func_c691
+	dw InitializeOptionsScreen
+	dw HandleOptionsScreenMainLoop
+	dw ExitToTitleScreen
+	dw HandleGameSettingsScreen
+	dw HandleKeyConfigScreen
+	dw HandleSoundTestScreen
 
-Func_c35a: ; 0xc35a
+InitializeOptionsScreen: ; 0xc35a
 	ld a, $47
 	ldh [hLCDC], a
 	ld a, $e4
@@ -29,8 +29,8 @@ Func_c35a: ; 0xc35a
 	ld [wOptionsPsyduckAnimationTimer], a
 	ld a, $9
 	ld [wOptionsPikachuAnimationTimer], a
-	call Func_c43a
-	call Func_c948
+	call UpdateOptionsScreenAnimations
+	call RenderAllKeyConfigDigits
 	call SetAllPalettesWhite
 	ld a, Bank(Music_Options)
 	call SetSongBank
@@ -67,10 +67,10 @@ OptionsScreenVideoData_GameBoyColor: ; 0xc3d4
 	VIDEO_DATA_PALETTES      OptionMenuPalettes, $80
 	db $FF, $FF ; terminators
 
-Func_c400: ; 0xc400
-	call Func_c41a
-	call Func_c43a
-	call Func_c447
+HandleOptionsScreenMainLoop: ; 0xc400
+	call HandleOptionsMenuNavigation
+	call UpdateOptionsScreenAnimations
+	call HandleOptionsMenuSelection
 	ldh a, [hNewlyPressedButtons]
 	bit 1, a
 	ret z
@@ -80,7 +80,7 @@ Func_c400: ; 0xc400
 	ld [wScreenState], a
 	ret
 
-Func_c41a: ; 0xc41a
+HandleOptionsMenuNavigation: ; 0xc41a
 	ldh a, [hPressedButtons]
 	ld b, a
 	ld a, [wd916]
@@ -103,14 +103,14 @@ Func_c41a: ; 0xc41a
 	call PlaySoundEffect
 	ret
 
-Func_c43a: ; 0xc43a
+UpdateOptionsScreenAnimations: ; 0xc43a
 	call HandleOptionsPsyduckAnimation
 	call HandleOptionsPikachuAnimation
 	call HandleOptionsPokeballAnimation
-	call Func_c92e
+	call UpdateFadedArrowSprite
 	ret
 
-Func_c447: ; 0xc447
+HandleOptionsMenuSelection: ; 0xc447
 	ldh a, [hNewlyPressedButtons]
 	bit BIT_A_BUTTON, a
 	ret z
@@ -122,7 +122,7 @@ Func_c447: ; 0xc447
 	ldh a, [hSGBFlag]
 	and a
 	ret nz
-	call Func_c4f4
+	call ResetAnimationFrames
 	ld a, $3
 	ld [wScreenState], a
 	ret
@@ -144,7 +144,7 @@ Func_c447: ; 0xc447
 	ld [wScreenState], a
 	ret
 
-Func_c483: ; 0xc483
+ExitToTitleScreen: ; 0xc483
 	call FadeOut
 	call DisableLCD
 	ld a, SCREEN_TITLESCREEN
@@ -153,10 +153,10 @@ Func_c483: ; 0xc483
 	ld [wScreenState], a
 	ret
 
-Func_c493: ; 0xc493
-	call Func_c4b4
-	call Func_c4e6
-	call Func_c869
+HandleGameSettingsScreen: ; 0xc493
+	call HandleRumbleToggleInput
+	call UpdateGameSettingsScreenAnimations
+	call TriggerRumbleAtPikachuPeakFrame
 	ldh a, [hNewlyPressedButtons]
 	bit BIT_B_BUTTON, a
 	ret z
@@ -169,17 +169,17 @@ Func_c493: ; 0xc493
 	ld [wScreenState], a
 	ret
 
-Func_c4b4: ; 0xc4b4
+HandleRumbleToggleInput: ; 0xc4b4
 	ldh a, [hNewlyPressedButtons]
 	ld b, a
-	ld a, [wd917]
+	ld a, [wDisableRumble]
 	bit BIT_D_LEFT, b
 	jr z, .asm_c4ce
 	and a
 	ret z
 	dec a
-	ld [wd917], a
-	call Func_c4f4
+	ld [wDisableRumble], a
+	call ResetAnimationFrames
 	lb de, $00, $03
 	call PlaySoundEffect
 	ret
@@ -190,7 +190,7 @@ Func_c4b4: ; 0xc4b4
 	cp $1
 	ret z
 	inc a
-	ld [wd917], a
+	ld [wDisableRumble], a
 	xor a
 	ld [wRumblePattern], a
 	ld [wRumbleDuration], a
@@ -198,15 +198,15 @@ Func_c4b4: ; 0xc4b4
 	call PlaySoundEffect
 	ret
 
-Func_c4e6: ; 0xc4e6
+UpdateGameSettingsScreenAnimations: ; 0xc4e6
 	call HandleOptionsPsyduckAnimation
 	call HandleOptionsPikachuAnimation
 	call HandleOptionsPokeballAnimation
 	xor a
-	call Func_c8f1
+	call UpdateArrowCursorSprite
 	ret
 
-Func_c4f4: ; 0xc4f4
+ResetAnimationFrames: ; 0xc4f4
 	xor a
 	ld [wOptionsPsyduckAnimationFrame], a
 	ld [wOptionsPikachuAnimationFrame], a
@@ -216,10 +216,10 @@ Func_c4f4: ; 0xc4f4
 	ld [wOptionsPikachuAnimationTimer], a
 	ret
 
-Func_c506: ; 0xc506
-	call Func_c534
-	call Func_c554
-	call Func_c55a
+HandleKeyConfigScreen: ; 0xc506
+	call HandleKeyConfigNavigation
+	call UpdateKeyConfigArrowSprite
+	call HandleKeyConfigSelection
 	ldh a, [hNewlyPressedButtons]
 	bit BIT_B_BUTTON, a
 	ret z
@@ -236,7 +236,7 @@ Func_c506: ; 0xc506
 	ld [wScreenState], a
 	ret
 
-Func_c534: ; 0xc534
+HandleKeyConfigNavigation: ; 0xc534
 	ldh a, [hNewlyPressedButtons]
 	ld b, a
 	ld a, [wd918]
@@ -259,12 +259,12 @@ Func_c534: ; 0xc534
 	call PlaySoundEffect
 	ret
 
-Func_c554: ; 0xc554
+UpdateKeyConfigArrowSprite: ; 0xc554
 	ld a, $1
-	call Func_c8f1
+	call UpdateArrowCursorSprite
 	ret
 
-Func_c55a: ; 0xc55a
+HandleKeyConfigSelection: ; 0xc55a
 	ld a, [wd918]
 	and a
 	jr nz, .asm_c572
@@ -274,7 +274,7 @@ Func_c55a: ; 0xc55a
 	lb de, $00, $01
 	call PlaySoundEffect
 	call SaveDefaultKeyConfigs
-	call Func_c948
+	call RenderAllKeyConfigDigits
 	ret
 
 .asm_c572
@@ -298,7 +298,7 @@ Func_c55a: ; 0xc55a
 	ld a, [wd918]
 	dec a
 	sla a
-	call Func_c644
+	call ClearKeyConfigOption
 	ld bc, $00ff
 .asm_c59f
 	push bc
@@ -306,8 +306,8 @@ Func_c55a: ; 0xc55a
 	ld a, [wd918]
 	dec a
 	sla a
-	call Func_c621
-	call Func_c554
+	call RenderKeyInputCursorFrame
+	call UpdateKeyConfigArrowSprite
 	call CleanSpriteBuffer
 	rst AdvanceFrame
 	pop hl
@@ -316,8 +316,8 @@ Func_c55a: ; 0xc55a
 	and a
 	jr z, .asm_c5c2
 	ld c, $0
-	call Func_c9be
-	call Func_c95f
+	call UpdateKeyInputDisplayBuffer
+	call ConvertKeyButtonToTileDigit
 	jr .asm_c59f
 
 .asm_c5c2
@@ -326,7 +326,7 @@ Func_c55a: ; 0xc55a
 	ld a, [wd918]
 	dec a
 	sla a
-	call Func_c639
+	call SaveKeyInputResult
 	push hl
 	ld bc, $001e
 	call AdvanceFrames
@@ -337,7 +337,7 @@ Func_c55a: ; 0xc55a
 	dec a
 	sla a
 	inc a
-	call Func_c644
+	call ClearKeyConfigOption
 	ld bc, $00ff
 	ld d, $5a
 .asm_c5e9
@@ -348,8 +348,8 @@ Func_c55a: ; 0xc55a
 	dec a
 	sla a
 	inc a
-	call Func_c621
-	call Func_c554
+	call RenderKeyInputCursorFrame
+	call UpdateKeyConfigArrowSprite
 	call CleanSpriteBuffer
 	rst AdvanceFrame
 	pop hl
@@ -362,8 +362,8 @@ Func_c55a: ; 0xc55a
 	jr z, .asm_c613
 	ld d, $ff
 	ld c, $0
-	call Func_c9be
-	call Func_c95f
+	call UpdateKeyInputDisplayBuffer
+	call ConvertKeyButtonToTileDigit
 	jr .asm_c5e9
 
 .asm_c613
@@ -373,10 +373,10 @@ Func_c55a: ; 0xc55a
 	dec a
 	sla a
 	inc a
-	call Func_c639
+	call SaveKeyInputResult
 	ret
 
-Func_c621: ; 0xc621
+RenderKeyInputCursorFrame: ; 0xc621
 	sla a
 	ld c, a
 	ld b, $0
@@ -393,7 +393,7 @@ Func_c621: ; 0xc621
 	call LoadSpriteData
 	ret
 
-Func_c639: ; 0xc639
+SaveKeyInputResult: ; 0xc639
 	push hl
 	ld e, a
 	ld d, $0
@@ -403,7 +403,7 @@ Func_c639: ; 0xc639
 	pop hl
 	ret
 
-Func_c644: ; 0xc644
+ClearKeyConfigOption: ; 0xc644
 	push hl
 	ld c, a
 	ld b, $0
@@ -449,10 +449,10 @@ SpritePixelOffsetData_c66d: ; 0xc66d
 Data_c689: ; 0xc689
 	db $81, $81, $81, $81, $81, $81, $81, $81
 
-Func_c691: ; 0xc91
-	call Func_c6bf
-	call Func_c6d9
-	call Func_c6e8
+HandleSoundTestScreen: ; 0xc91
+	call HandleSoundTestModeToggle
+	call UpdateSoundTestScreenAnimations
+	call HandleSoundTestSelection
 	ldh a, [hNewlyPressedButtons]
 	bit BIT_B_BUTTON, a
 	ret z
@@ -471,7 +471,7 @@ Func_c691: ; 0xc91
 	ld [wScreenState], a
 	ret
 
-Func_c6bf: ; 0xc6bf
+HandleSoundTestModeToggle: ; 0xc6bf
 	ldh a, [hNewlyPressedButtons]
 	ld b, a
 	ld a, [wd919]
@@ -492,15 +492,15 @@ Func_c6bf: ; 0xc6bf
 	ld [wd919], a
 	ret
 
-Func_c6d9: ; 0xc6d9
+UpdateSoundTestScreenAnimations: ; 0xc6d9
 	call HandleOptionsPsyduckAnimation
 	call HandleOptionsPikachuAnimation
 	call HandleOptionsPokeballAnimation
 	ld a, $2
-	call Func_c8f1
+	call UpdateArrowCursorSprite
 	ret
 
-Func_c6e8: ; 0xc6e8
+HandleSoundTestSelection: ; 0xc6e8
 	ld a, [wd919]
 	and a
 	jr nz, UpdateSoundTestSoundEffectSelection
@@ -633,7 +633,7 @@ HandleOptionsPsyduckAnimation: ; 0xc7ac
 	ld a, [wd916]
 	and a
 	jr nz, .asm_c7cc
-	ld a, [wd917]
+	ld a, [wDisableRumble]
 	and a
 	jr nz, .asm_c7cc
 	ld a, [wOptionsPikachuAnimationFrame]
@@ -689,7 +689,7 @@ HandleOptionsPikachuAnimation: ; 0xc80b
 	ld a, [wd916]
 	and a
 	jr nz, .asm_c824
-	ld a, [wd917]
+	ld a, [wDisableRumble]
 	and a
 	jr nz, .asm_c824
 	ld a, [wOptionsPikachuAnimationFrame]
@@ -736,11 +736,11 @@ AnimationData_OptionsPikachu: ; 0xc85e
 	db SPRITE_OPTIONS_PIKACHU_3, $01
 	db $00 ; terminator
 
-Func_c869: ; 0xc869
+TriggerRumbleAtPikachuPeakFrame: ; 0xc869
 	ld a, [wd916]
 	and a
 	ret nz
-	ld a, [wd917]
+	ld a, [wDisableRumble]
 	and a
 	ret nz
 	ld a, [wOptionsPikachuAnimationFrame]
@@ -821,10 +821,10 @@ SpritePixelOffsets_OptionsPokeball: ; 0xc8eb
 	db $30, $08
 	db $48, $08
 
-Func_c8f1: ; 0xc8f1
+UpdateArrowCursorSprite: ; 0xc8f1
 	ld c, a
 	ld b, $0
-	ld hl, wd917
+	ld hl, wDisableRumble
 	add hl, bc
 	ld e, [hl]
 	sla c
@@ -867,8 +867,8 @@ SpritePixelOffsets_OptionsArrowBgm: ; 0xc92a
 	dw $1058
 	dw $1068
 
-Func_c92e: ; 0xc92e
-	ld a, [wd917]
+UpdateFadedArrowSprite: ; 0xc92e
+	ld a, [wDisableRumble]
 	sla a
 	ld c, a
 	ld b, $0
@@ -886,14 +886,14 @@ SpritePixelOffsets_OptionsArrowFadedRumble: ; 0xc944
 	dw $5018
 	dw $7018
 
-Func_c948: ; 0xc948
+RenderAllKeyConfigDigits: ; 0xc948
 	hlCoord 13, 3, vBGWin
 	ld de, wKeyConfigBallStart
 	ld b, $e
 .asm_c950
 	push bc
 	ld a, [de]
-	call Func_c95f
+	call ConvertKeyButtonToTileDigit
 	inc de
 	ld bc, $0020
 	add hl, bc
@@ -902,7 +902,7 @@ Func_c948: ; 0xc948
 	jr nz, .asm_c950
 	ret
 
-Func_c95f: ; 0xc95f
+ConvertKeyButtonToTileDigit: ; 0xc95f
 	push bc
 	push de
 	push hl
@@ -927,16 +927,16 @@ Func_c95f: ; 0xc95f
 	jr nc, .asm_c994
 	ld a, [de]
 	inc de
-	call Func_c9aa
+	call WriteNonzeroTileToBuffer
 	ld a, [de]
 	inc de
-	call Func_c9aa
+	call WriteNonzeroTileToBuffer
 	pop af
 	push af
 	and a
 	jr z, .asm_c996
 	ld a, $1a
-	call Func_c9aa
+	call WriteNonzeroTileToBuffer
 	jr .asm_c996
 
 .asm_c994
@@ -956,7 +956,7 @@ Func_c95f: ; 0xc95f
 	pop bc
 	ret
 
-Func_c9aa: ; 0xc9aa
+WriteNonzeroTileToBuffer: ; 0xc9aa
 	and a
 	ret z
 	ld [hli], a
@@ -965,7 +965,7 @@ Func_c9aa: ; 0xc9aa
 Data_c9ae: ; 0xc9ae
 	db $14, $00, $15, $00, $18, $19, $16, $17, $13, $00, $12, $00, $10, $00, $11, $00
 
-Func_c9be: ; 0xc9be
+UpdateKeyInputDisplayBuffer: ; 0xc9be
 	push af
 	push bc
 	push hl
@@ -973,10 +973,10 @@ Func_c9be: ; 0xc9be
 	xor b
 	and c
 	ld hl, wd936
-	call Func_c9ff
+	call ConvertButtonBitToTileArray
 	ld a, b
 	ld hl, wd93f
-	call Func_c9ff
+	call ConvertButtonBitToTileArray
 	ld a, [wd947]
 	cp $3
 	jr nc, .asm_c9f3
@@ -984,7 +984,7 @@ Func_c9be: ; 0xc9be
 	add [hl]
 	sub $4
 	ld hl, wd936
-	call nc, Func_ca15
+	call nc, ClearBufferTiles
 	ld de, wd936
 	ld hl, wd93f
 	ld b, $8
@@ -997,7 +997,7 @@ Func_c9be: ; 0xc9be
 	jr nz, .asm_c9ec
 .asm_c9f3
 	ld hl, wd93f
-	call Func_ca29
+	call ConvertTileArrayToButtonBits
 	pop hl
 	pop bc
 	ld b, a
@@ -1005,7 +1005,7 @@ Func_c9be: ; 0xc9be
 	ld a, b
 	ret
 
-Func_c9ff: ; 0xc9ff
+ConvertButtonBitToTileArray: ; 0xc9ff
 	push bc
 	ld bc, $0800
 .asm_ca03
@@ -1025,7 +1025,7 @@ Func_c9ff: ; 0xc9ff
 	pop bc
 	ret
 
-Func_ca15: ; 0xca15
+ClearBufferTiles: ; 0xca15
 	push bc
 	inc a
 	ld c, a
@@ -1045,7 +1045,7 @@ Func_ca15: ; 0xca15
 	pop bc
 	ret
 
-Func_ca29: ; 0ca29
+ConvertTileArrayToButtonBits: ; 0ca29
 	push bc
 	ld bc, $0800
 .asm_ca2d

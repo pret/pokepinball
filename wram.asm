@@ -125,10 +125,12 @@ wHighScoreId:: ; 0xd473
 wAddScoreQueueOffset:: ; 0xd477
 	ds $1
 
-wd478:: ; 0xd478
+wScoreQueueReadOffset:: ; 0xd478
+; Read offset into wAddScoreQueue. Advances as score entries are processed by ProcessScoreQueue.
 	ds $1
 
-wd479:: ; 0xd479
+wScoreQueueSyncOffset:: ; 0xd479
+; Tracks the last synchronized position in the score queue.
 	ds $1
 
 wCurrentJackpot:: ; 0xd47a
@@ -208,7 +210,8 @@ wNumBallLives:: ; 0xd49e
 ; The total number of "lives" the ball has. It is always 3. wCurBallLife is compared to it whenever the player loses a ball.
 	ds $1
 
-wd49f:: ; 0xd49f
+wScoreChanged:: ; 0xd49f
+; Set to 1 when the score has been updated and needs to be redrawn.
 	ds $2
 
 wBallSaverIconOn:: ; 0xd4a1
@@ -295,13 +298,17 @@ wBallSpin:: ; 0xd4c3
 wBallRotation:: ; 0xd4c4
 	ds $1
 
-wd4c5:: ; 0xd4c5
+wBallPreviousXPosDMG:: ; 0xd4c5
+; Previous ball X position for DMG trail rendering. On DMG, the ball sprite
+; is drawn at both current and previous positions to create a visual trail.
 	ds $1
 
-wd4c6:: ; 0xd4c6
+wBallPreviousYPosDMG:: ; 0xd4c6
+; Previous ball Y position for DMG trail rendering.
 	ds $1
 
-wd4c7:: ; 0xd4c7
+wBallPreviousRotationDMG:: ; 0xd4c7
+; Previous ball rotation for DMG trail rendering.
 	ds $1
 
 wBallSize:: ; 0xd4c8
@@ -471,10 +478,14 @@ wStaryuCollision:: ; 0xd500
 ; Second byte is set by HandleGameObjectCollision, but is unused
 	ds $2
 
-wd502:: ; 0xd502
+wStaryuState:: ; 0xd502
+; Toggles between 0 and 1 to track which Staryu frame is active.
+; Used as an index into graphics pointer tables for Staryu animation.
 	ds $1
 
-wd503:: ; 0xd503
+wStaryuAnimationTimer:: ; 0xd503
+; Countdown timer (initialized to $14/20 frames) for Staryu animation.
+; When it reaches 0, the Staryu state is reset.
 	ds $1
 
 wStaryuAnimation:: ; 0xd504
@@ -529,14 +540,18 @@ wWhichPikachuSaverSide:: ; 0xd518
 wPikachuSaverAnimation:: ; 0xd519
 	animation wPikachuSaverAnimation
 
-wd51c:: ; 0xd51c
+wPikachuSaverAnimationState:: ; 0xd51c
+; Tracks animation progression of Pikachu Saver activation.
+; 0 = inactive, 1 = first animation frame, 2 = second animation frame.
 	ds $1
 
 wPikachuSaverSlotRewardActive:: ; 0xd51d
 ; Set to 1 if the Pikachu Saver slot reward is active. 0 otherwise.
 	ds $1
 
-wd51e:: ; 0xd51e
+wSpinnerChargeSoundCooldown:: ; 0xd51e
+; Countdown timer preventing rapid spinner charging sound effects.
+; Set to $64 (100 frames) when charge reaches maximum.
 	ds $1
 
 wWhichBoardTrigger:: ; 0xd51f
@@ -593,10 +608,14 @@ wSpecialModeState:: ; 0xd54d
 ; Tracks the current state of special modes (catchem, evolution, map move)
 	ds $1
 
-wd54e:: ; 0xd54e set to 20 by catch mode when all tiles are flipped and on lower stage
+wCatchModeFlashFrameCounter:: ; 0xd54e
+; Frame countdown for billboard tile flash animation when all catch mode tiles are flipped.
+; Set to $14 (20 frames) per animation cycle.
 	ds $1
 
-wd54f:: ; 0xd54f set to 5 by catch mode when all tiles are flipped and on lower stage
+wCatchModeFlashPhaseCounter:: ; 0xd54f
+; Phase counter for billboard tile flash animation. Set to 5 cycles total.
+; Alternates tile illumination states each phase.
 	ds $1
 
 wSpecialMode:: ; 0xd550
@@ -631,10 +650,14 @@ wEvolutionTrinketCooldownFrames:: ; 0xd556
 ; cooldown is created so the player has to wait a few seconds until the objects becomes activated again.
 	ds $2
 
-wd558:: ; 0xd558
+wEvolutionIndicatorState2Backup:: ; 0xd558
+; Backs up wIndicatorStates + 2 before evolution trinket hunt.
+; Restored when trinket is found or evolution mode completes.
 	ds $1
 
-wd559:: ; 0xd559
+wEvolutionIndicatorState3Backup:: ; 0xd559
+; Backs up wIndicatorStates + 3 before evolution trinket hunt.
+; Restored when trinket is found or evolution mode completes.
 	ds $1
 
 wMapMoveDirection:: ; 0xd55a
@@ -710,7 +733,9 @@ wTimeRanOut:: ; 0xd57e set to 1 when the timer reaches 0
 wPauseTimer:: ; 0xd57f If set to nz, timer pauses
 	ds $1
 
-wd580:: ; 0xd580
+wTimerGraphicsNeedsLoading:: ; 0xd580
+; Set to 1 when timer graphics need to be loaded/drawn.
+; Checked before drawing timer display, cleared when pokemon is caught.
 	ds $1
 
 wd581:: ; 0xd581
@@ -772,7 +797,8 @@ wCatchModeMonUpdateTimer:: ; 0xd5c4 increments while the caught mon is active on
 wNumMewHits:: ; 0xd5c5
 	ds $1
 
-wd5c6:: ; 0xd5c6
+wCatchModeTransitionFlag:: ; 0xd5c6
+; Set to 1 when catch mode transitions to next state. Cleared on init and ball capture.
 	ds $1
 
 wWildMonCollision:: ; 0xd5c7
@@ -1183,7 +1209,9 @@ wGastly3XPos:: ; 0xd671
 wGastly3YPos:: ; 0xd673
 	ds $2
 
-wd674:: ; 0xd674
+wGengarPhaseTimer:: ; 0xd674
+; Countdown timer for Gengar bonus animation phase transitions.
+; Set to 4, decremented each frame during sprite drawing.
 	ds $1
 
 wd675:: ; 0xd675
@@ -1873,16 +1901,20 @@ wNoCollisionApplied:: ; 0xd7f8
 wInGameMenuIndex:: ; 0xd7f9
 	ds $1
 
-wd7fa:: ; 0xd7fa
+wGraphicsQueueSize:: ; 0xd7fa
+; Tracks the total size of pending graphics data in the queue.
+; Reset to 0 when queue is fully processed. Checked against $30 as a capacity limit.
 	ds $1
 
-wd7fb:: ; 0xd7fb
+wGraphicsQueueWriteIndex:: ; 0xd7fb
+; Write index for the queued graphics loading system. Incremented when new entries are added.
 	ds $1
 
-wd7fc:: ; 0xd7fc
+wGraphicsQueueReadIndex:: ; 0xd7fc
+; Read index for the queued graphics loading system. Updated as entries are consumed.
 	ds $1
 
-wd7fd:: ; 0xd7fd
+wGraphicsQueueOverflow:: ; 0xd7fd
 	ds $1
 
 wd7fe:: ; 0xd7fe
@@ -2193,7 +2225,8 @@ wd8de:: ; 0xd8de
 wd8e0:: ; 0xd8e0
 	ds $1
 
-wd8e1:: ; 0xd8e1
+wSerialCommunicationEnabled:: ; 0xd8e1
+; Set to 1 when serial/IR communication is active. Triggers serial processing during VBlank.
 	ds $1
 
 wd8e2:: ; 0xd8e2
@@ -2299,7 +2332,8 @@ wd915:: ; 0xd915
 wd916:: ; 0xd916
 	ds $1
 
-wd917:: ; 0xd917
+wDisableRumble:: ; 0xd917
+; Set to 1 when SGB is detected or on non-rumble hardware. Prevents rumble motor activation.
 	ds $1
 
 wd918:: ; 0xd918

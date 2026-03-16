@@ -1,5 +1,5 @@
 _LoadStageDataRedFieldTop: ; 0x14000
-	call Func_14091
+	call SaveAndResetAnimationState_RedField
 	call LoadFieldStructureGraphics_RedField
 	call LoadPinballUpgradeTriggersGraphics_RedField
 	call LoadStaryuGraphics_Top
@@ -11,12 +11,12 @@ _LoadStageDataRedFieldTop: ; 0x14000
 	ret
 
 _LoadStageDataRedFieldBottom: ; 0x1401c
-	call Func_14091
+	call SaveAndResetAnimationState_RedField
 	call LoadBillboardGraphics_RedField
 	call ClearAllRedIndicators
 	call LoadCAVELightsGraphics_RedField
 	call LoadBillboardStatusBarGraphics_RedField
-	call Func_1414b
+	call HandleCatchAndEvolutionGraphics_RedField
 	call LoadEvolutionTrinketGraphics_RedField
 	call LoadAgainTextGraphics
 	call DrawBallSaverIcon
@@ -35,12 +35,12 @@ LoadTimerGraphics: ; 0x1404a
 	ldh a, [hGameBoyColorFlag]
 	and a
 	ret nz
-	ld a, [wd580]
+	ld a, [wTimerGraphicsNeedsLoading]
 	and a
 	ret z
 	ld a, $f
 	ld [wd581], a
-	call Func_1762f
+	call GetTimerSpriteIndex
 	ld hl, wTimerDigits
 	ld a, $ff
 	ld [hli], a
@@ -65,24 +65,24 @@ LoadTimerGraphics: ; 0x1404a
 	call LoadTimerDigitTiles
 	ret
 
-Func_14091: ; 0x14091
+SaveAndResetAnimationState_RedField: ; 0x14091
 	ld a, $ff
 	ld [wWhichAnimatedVoltorb], a
 	ld [wWhichBumperGfx], a
 	ld a, [wBallXPos + 1]
-	ld [wd4c5], a
+	ld [wBallPreviousXPosDMG], a
 	ld a, [wBallYPos + 1]
-	ld [wd4c6], a
+	ld [wBallPreviousYPosDMG], a
 	ld a, [wBallRotation]
-	ld [wd4c7], a
-	ld a, [wd503]
+	ld [wBallPreviousRotationDMG], a
+	ld a, [wStaryuAnimationTimer]
 	and a
 	ret z
 	xor a
-	ld [wd503], a
-	ld a, [wd502]
+	ld [wStaryuAnimationTimer], a
+	ld a, [wStaryuState]
 	res 1, a
-	ld [wd502], a
+	ld [wStaryuState], a
 	and $1
 	ld c, a
 	ld a, [wStageCollisionState]
@@ -155,27 +155,27 @@ ClearAllRedIndicators: ; 0x14135
 	jr nz, .Loop5Times
 	ret
 
-Func_1414b: ; 0x1414b
+HandleCatchAndEvolutionGraphics_RedField: ; 0x1414b
 	ld a, [wInSpecialMode]
 	and a
 	ret z
 	ld a, [wSpecialMode]
 	cp SPECIAL_MODE_MAP_MOVE
 	ret z
-	ld a, [wd5c6]
+	ld a, [wCatchModeTransitionFlag]
 	and a
 	jr nz, .asm_14165
 	ld a, [wCapturingMon]
 	and a
 	jr nz, .asm_14165
-	jp Func_14210
+	jp ToggleBillboardIllumination_RedField
 
 .asm_14165
-	callba Func_141f2
-	callba Func_10362
+	callba FillBillboardMapArea_RedField
+	callba QueueBillboardAnimatedGraphics
 	ldh a, [hGameBoyColorFlag]
 	and a
-	callba nz, Func_10301
+	callba nz, LoadBillboardAnimatedPalettes
 	ld a, [wCapturingMon]
 	and a
 	ret z
@@ -227,18 +227,18 @@ Func_1414b: ; 0x1414b
 	call FarCopyData
 	ret
 
-Func_141f2: ; 0x141f2
+FillBillboardMapArea_RedField: ; 0x141f2
 	ld a, $80
 	hlCoord 7, 4, vBGMap
-	call Func_14209
+	call FillSixConsecutiveTiles_RedField
 	hlCoord 7, 5, vBGMap
-	call Func_14209
+	call FillSixConsecutiveTiles_RedField
 	hlCoord 7, 6, vBGMap
-	call Func_14209
+	call FillSixConsecutiveTiles_RedField
 	hlCoord 7, 7, vBGMap
 	; fall through
 
-Func_14209: ; 0x14209
+FillSixConsecutiveTiles_RedField: ; 0x14209
 	ld [hli], a
 	ld [hli], a
 	ld [hli], a
@@ -247,7 +247,7 @@ Func_14209: ; 0x14209
 	ld [hli], a
 	ret
 
-Func_14210: ; 0x14210
+ToggleBillboardIllumination_RedField: ; 0x14210
 	ld hl, wBillboardTilesIlluminationStates
 	ld b, $18
 .asm_14215
@@ -256,10 +256,10 @@ Func_14210: ; 0x14210
 	ld [hli], a
 	dec b
 	jr nz, .asm_14215
-	callba Func_10184
+	callba UpdateBillboardTileGraphics
 	ldh a, [hGameBoyColorFlag]
 	and a
-	callba nz, Func_102bc
+	callba nz, LoadBillboardStaticPalette
 	ret
 
 LoadEvolutionTrinketGraphics_RedField: ; 0x14234
@@ -311,13 +311,13 @@ LoadBillboardStatusBarGraphics_RedField: ; 0x14282
 	jr nz, .asm_14296
 	ld a, [wNumMonHits]
 	and a
-	call nz, Func_142b3
+	call nz, CallMonHitGraphicsRepeated_RedField
 	ret
 
 .asm_14296
 	cp SPECIAL_MODE_EVOLUTION
 	jr nz, .asm_1429e
-	call Func_142c3
+	call LoadEvolutionProgressIcons_RedField
 	ret
 
 .asm_1429e
@@ -330,15 +330,15 @@ LoadBillboardStatusBarGraphics_RedField: ; 0x14282
 	call FarCopyData
 	ret
 
-Func_142b3: ; 0x142b3
+CallMonHitGraphicsRepeated_RedField: ; 0x142b3
 	push af
-	callba Func_10611
+	callba LoadCatchTextGraphics
 	pop af
 	dec a
-	jr nz, Func_142b3
+	jr nz, CallMonHitGraphicsRepeated_RedField
 	ret
 
-Func_142c3: ; 0x142c3
+LoadEvolutionProgressIcons_RedField: ; 0x142c3
 	ld de, $0000
 	ld a, [wNumEvolutionTrinkets]
 	and a
@@ -346,13 +346,13 @@ Func_142c3: ; 0x142c3
 	ld b, a
 .asm_142cc
 	ld a, [wCurrentEvolutionType]
-	call Func_142d7
+	call LoadSingleEvolutionIcon_RedField
 	inc de
 	dec b
 	jr nz, .asm_142cc
 	ret
 
-Func_142d7: ; 0x142d7
+LoadSingleEvolutionIcon_RedField: ; 0x142d7
 	push bc
 	push de
 	dec a

@@ -35,18 +35,18 @@ DrawPinball: ; 0x17e81
 	ldh a, [hSGBFlag]
 	and a
 	ret nz
-	ld a, [wd4c5]
+	ld a, [wBallPreviousXPosDMG]
 	inc a
 	ld hl, hSCX
 	sub [hl]
 	ld b, a
-	ld a, [wd4c6]
+	ld a, [wBallPreviousYPosDMG]
 	inc a
 	sub $10
 	ld hl, hSCY
 	sub [hl]
 	ld c, a
-	ld a, [wd4c7]
+	ld a, [wBallPreviousRotationDMG]
 	srl a
 	srl a
 	srl a
@@ -55,9 +55,9 @@ DrawPinball: ; 0x17e81
 	add SPRITE_BALL_SPIN
 	call LoadSpriteData
 	ld a, [wBallXPos + 1]
-	ld [wd4c5], a
+	ld [wBallPreviousXPosDMG], a
 	ld a, [wBallYPos + 1]
-	ld [wd4c6], a
+	ld [wBallPreviousYPosDMG], a
 	ld a, [wBallRotation]
-	ld [wd4c7], a
+	ld [wBallPreviousRotationDMG], a
 	ret

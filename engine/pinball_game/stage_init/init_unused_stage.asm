@@ -1,4 +1,4 @@
-Func_18000: ; 0x18000
+InitializeUnusedStage: ; 0x18000
 ; unused -- Stage init function for unused stage.
 	ld hl, wc000
 	ld bc, $0a00

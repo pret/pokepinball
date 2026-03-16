@@ -16,16 +16,16 @@ HandleRedCatchEmCollision: ; 0x20000
 	ld a, [wSpecialModeState]
 	call CallInFollowingTable
 CatchemModeCallTable_RedField: ; 0x20021
-	padded_dab Func_20041
-	padded_dab Func_2005f
-	padded_dab Func_2006b
+	padded_dab CheckAllTilesFlipped_RedField
+	padded_dab RunBillboardFlashAnimation_RedField
+	padded_dab TransitionToAnimatedMon_RedField
 	padded_dab ShowAnimatedCatchemPokemon_RedField
 	padded_dab UpdateMonState_CatchemMode_RedField
 	padded_dab CatchPokemon_RedField
 	padded_dab CapturePokemonAnimation_RedField
 	padded_dab ConcludeCatchemMode_RedField
 
-Func_20041: ; 0x20041
+CheckAllTilesFlipped_RedField: ; 0x20041
 	ld a, [wNumberOfCatchModeTilesFlipped]
 	cp $18
 	jr nz, .NotDone
@@ -35,32 +35,32 @@ Func_20041: ; 0x20041
 	ld hl, wSpecialModeState
 	inc [hl]
 	ld a, $14
-	ld [wd54e], a
+	ld [wCatchModeFlashFrameCounter], a
 	ld a, $5
-	ld [wd54f], a
+	ld [wCatchModeFlashPhaseCounter], a
 .NotDone
 	scf
 	ret
 
-Func_2005f: ; 0x2005f
-	callba Func_10648
+RunBillboardFlashAnimation_RedField: ; 0x2005f
+	callba UpdateBillboardTileFlashAnimation
 	scf
 	ret
 
-Func_2006b: ; 0x2006b
+TransitionToAnimatedMon_RedField: ; 0x2006b
 	ld a, [wCurrentStage]
 	bit 0, a
 	jr z, .asm_20098
-	call Func_1130
+	call CheckGraphicsQueueEmpty
 	jr nz, .asm_200a1
 	callba LoadBillboardClearedTilemap
-	callba Func_10362
+	callba QueueBillboardAnimatedGraphics
 	ldh a, [hGameBoyColorFlag]
 	and a
-	callba nz, Func_10301
+	callba nz, LoadBillboardAnimatedPalettes
 .asm_20098
 	ld a, $1
-	ld [wd5c6], a
+	ld [wCatchModeTransitionFlag], a
 	ld hl, wSpecialModeState
 	inc [hl]
 .asm_200a1
@@ -71,7 +71,7 @@ ShowAnimatedCatchemPokemon_RedField: ; 0x200a3
 	ld a, [wCurrentStage]
 	bit 0, a
 	jr z, .asm_200af
-	call Func_1130
+	call CheckGraphicsQueueEmpty
 	jr nz, .asm_200d1
 .asm_200af
 	callba ShowAnimatedWildMon
@@ -134,7 +134,7 @@ UpdateMonState_CatchemMode_RedField: ; 0x200d3
 	ld de, HitText
 	call LoadStationaryTextAndHeader
 	ld a, [wNumMonHits]
-	callba Func_10611 ;queue up a graphic based on number of mon hits
+	callba LoadCatchTextGraphics ;queue up a graphic based on number of mon hits
 	ld c, $2
 	jr .UpdateMonAnimation
 
@@ -176,11 +176,11 @@ UpdateMonState_CatchemMode_RedField: ; 0x200d3
 	ret
 
 CatchPokemon_RedField: ; 0x20193
-	ld a, [wd580]
+	ld a, [wTimerGraphicsNeedsLoading]
 	and a
 	jr z, .asm_2019e
 	xor a
-	ld [wd580], a
+	ld [wTimerGraphicsNeedsLoading], a
 	ret
 
 .asm_2019e
@@ -225,7 +225,7 @@ CheckIfCatchemModeTimerExpired_RedField: ; 0x201f2
 	callba SetPokemonOwnedFlag
 .asm_2021b
 	callba StopTimer
-	callba Func_106a6
+	callba DisplayPokemonRanAwayText
 	ret
 
 HandleVoltorbCollision_CatchemMode: ; 0x20230 resolve hitting a voltorb in catch mode?
@@ -260,7 +260,7 @@ HandleVoltorbCollision_CatchemMode: ; 0x20230 resolve hitting a voltorb in catch
 	xor a
 	ld [wIndicatorStates + 9], a ;if 24, unmark voltorb arrow indicator
 .NotDoneFlipping
-	callba Func_10184 ;load billboard graphics?
+	callba UpdateBillboardTileGraphics ;load billboard graphics?
 	ld bc, OneHundredThousandPoints
 	callba AddBigBCD6FromQueue
 	ld bc, $0010

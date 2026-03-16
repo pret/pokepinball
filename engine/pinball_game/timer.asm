@@ -14,7 +14,7 @@ StartTimer: ; 0x867d
 	ld a, $1
 	ld [wTimerActive], a
 	ld a, $1
-	ld [wd580], a
+	ld [wTimerGraphicsNeedsLoading], a
 	callba LoadTimerGraphics
 	ret
 

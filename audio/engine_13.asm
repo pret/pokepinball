@@ -1873,7 +1873,8 @@ Data_4cb20:
 WavePatterns_Bank13:
 INCLUDE "audio/wave_samples.asm"
 
-INCLUDE "audio/drumkits_13.asm"
+Drumkits_Bank13:
+INCLUDE "audio/drumkits.asm"
 
 Data_4cc8e:
 	db $11, $22, $44, $88

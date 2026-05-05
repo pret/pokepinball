@@ -1878,7 +1878,8 @@ Data_3cb20:
 WavePatterns_BankF:
 INCLUDE "audio/wave_samples.asm"
 
-INCLUDE "audio/drumkits_0f.asm"
+Drumkits_BankF:
+INCLUDE "audio/drumkits.asm"
 
 Data_3cc8e: ; 0x3cc8e
 	db $11, $22, $44, $88

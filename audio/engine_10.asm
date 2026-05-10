@@ -1873,7 +1873,8 @@ Data_40b20:
 WavePatterns_Bank10:
 INCLUDE "audio/wave_samples.asm"
 
-INCLUDE "audio/drumkits_10.asm"
+Drumkits_Bank10:
+INCLUDE "audio/drumkits.asm"
 
 Data_40c8e:
 	db $11, $22, $44, $88

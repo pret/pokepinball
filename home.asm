@@ -139,10 +139,10 @@ Start: ; 0x150
 	call SendSGBBorder
 	ldh a, [hSGBFlag]
 	and a
-	jr z, .asm_222
+	jr z, .sgbCheckComplete
 	ld a, $1
 	ld [wd917], a
-.asm_222
+.sgbCheckComplete
 	ld a, $1
 	ldh [rIE], a  ; Only enable LCD Status interrupt
 	ei
@@ -154,7 +154,7 @@ Start: ; 0x150
 	ld a, BANK(Main)
 	ld hl, Main
 	call BankSwitchSimple
-Func_23b: ; 0x23b
+InitColorMode: ; 0x23b
 	ldh a, [hGameBoyColorFlag]
 	cp $11
 	jr nz, .asm_248
@@ -163,7 +163,7 @@ Func_23b: ; 0x23b
 	ldh [hGameBoyColorFlagBackup], a
 	ret
 
-.asm_248
+.setMonochromeFlag
 	xor a
 	ldh [hGameBoyColorFlag], a
 	ldh [hGameBoyColorFlagBackup], a
@@ -228,10 +228,10 @@ SoftReset:
 	call SetSongBank
 	ldh a, [hSGBFlag]
 	and a
-	jr z, .asm_02d5
+	jr z, .skipSGBFlagSetting
 	ld a, $1
 	ld [wd917], a
-.asm_02d5
+.skipSGBFlagSetting
 	ld a, $1
 	ldh [rIE], a
 	ei
@@ -259,7 +259,7 @@ VBlank: ; 0x2f2
 	ei
 	ldh a, [rLY]
 	cp $90
-	jr c, .asm_328
+	jr c, .skipHRAMCopy
 	ld hl, hSTAT
 	ld c, rSTAT - $ff00
 	ld a, [hli]
@@ -290,7 +290,7 @@ VBlank: ; 0x2f2
 	inc c
 	ld a, [hli]
 	ldh [$ff00+c], a
-.asm_328
+.skipHRAMCopy
 	ldh a, [hLYC]
 	ldh [hLastLYC], a
 	ldh a, [hNextLYCSub]
@@ -320,10 +320,10 @@ VBlank: ; 0x2f2
 	ld a, [hl]
 	inc [hl]
 	and a
-	jr nz, .asm_365
+	jr nz, .incrementVBlankCount
 	ld hl, hFrameCounter
 	inc [hl]
-.asm_365
+.incrementVBlankCount
 	ld hl, hVBlankCount
 	inc [hl]
 	ld a, [wd8e1]
@@ -356,18 +356,18 @@ VBlank: ; 0x2f2
 	ld hl, MBC5SRamBank
 	ld a, [wd917]
 	and a
-	jr nz, .asm_3b5
+	jr nz, .disableRumble
 	ld a, [wRumblePattern]
 	rrca
 	ld [wRumblePattern], a
 	and $1
-	jr z, .asm_3b5
+	jr z, .disableRumble
 	set 3, [hl]
-	jr .asm_3b7
+	jr .rumbleCheckDone
 
-.asm_3b5
+.disableRumble
 	res 3, [hl]
-.asm_3b7
+.rumbleCheckDone
 	ld a, [wDrawBottomMessageBox]
 	and a
 	call nz, DrawBottomMessageBox
@@ -2196,19 +2196,19 @@ MultiplyBbyCSigned:
 	xor c
 	ldh [hSignedMathSignBuffer], a
 	bit 7, b
-	jr z, .asm_20be
+	jr z, .abs_val_check_c
 	ld a, b
 	cpl
 	inc a
 	ld b, a
-.asm_20be
+.abs_val_check_c
 	bit 7, c
-	jr z, .asm_20c6
+	jr z, .multiplication_core
 	ld a, c
 	cpl
 	inc a
 	ld c, a
-.asm_20c6
+.multiplication_core
 	; b*c == (b**2 + c**2 - (b - c)**2) / 2
 	push de
 	push hl

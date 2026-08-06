@@ -8,16 +8,16 @@ _LoadStageDataBlueFieldTop: ; 0x1c165
 	ld [wBlueStageForceFieldGfxNeedsLoading], a
 	call UpdateForceFieldGraphics
 	callba LoadTimerGraphics
-	call Func_1c203
+	call SaveBallStateForDMG_BlueField
 	ret
 
 _LoadStageDataBlueFieldBottom: ; 0x1c191
-	call Func_1c1db
+	call ResetForceFieldState_BlueField
 	call LoadBillboardGraphics_BlueField
-	call Func_1c2cb
+	call LoadArrowIndicators_BlueField
 	call LoadCAVELightsGraphics_BlueField
 	call LoadBillboardStatusBarGraphics_BlueField
-	call Func_1c305
+	call HandleCatchAndEvolutionGraphics_BlueField
 	call LoadEvolutionTrinketGraphics_BlueField
 	callba LoadAgainTextGraphics
 	callba DrawBallSaverIcon
@@ -26,10 +26,10 @@ _LoadStageDataBlueFieldBottom: ; 0x1c191
 	call LoadSlotCaveCoverGraphics_BlueField
 	callba LoadBallGraphics
 	callba LoadTimerGraphics
-	call Func_1c203
+	call SaveBallStateForDMG_BlueField
 	ret
 
-Func_1c1db: ; 0x1c1db
+ResetForceFieldState_BlueField: ; 0x1c1db
 	ld a, [wBlueStageForceFieldFlippedDown]
 	cp $0
 	ret z
@@ -49,16 +49,16 @@ Func_1c1db: ; 0x1c1db
 	ld [wd648], a
 	ret
 
-Func_1c203: ; 0x1c203
+SaveBallStateForDMG_BlueField: ; 0x1c203
 	ld a, $ff
 	ld [wWhichAnimatedShellder], a
 	ld [wWhichBumperGfx], a
 	ld a, [wBallXPos + 1]
-	ld [wd4c5], a
+	ld [wBallPreviousXPosDMG], a
 	ld a, [wBallYPos + 1]
-	ld [wd4c6], a
+	ld [wBallPreviousYPosDMG], a
 	ld a, [wBallRotation]
-	ld [wd4c7], a
+	ld [wBallPreviousRotationDMG], a
 	ret
 
 LoadBonusMultiplierRailingGraphics_BlueField: ; 0x1c21e
@@ -166,7 +166,7 @@ LoadPsyduckOrPoliwagGraphics: ; 0x1c235
 	call LoadPsyduckOrPoliwagNumberGraphics
 	ret
 
-Func_1c2cb: ; 0x1c2cb
+LoadArrowIndicators_BlueField: ; 0x1c2cb
 	ld a, [wCurrentStage]
 	bit 0, a
 	ret z
@@ -206,27 +206,27 @@ Func_1c2cb: ; 0x1c2cb
 	jr nz, .asm_1c2e9
 	ret
 
-Func_1c305: ; 0x1c305
+HandleCatchAndEvolutionGraphics_BlueField: ; 0x1c305
 	ld a, [wInSpecialMode]
 	and a
 	ret z
 	ld a, [wSpecialMode]
 	cp SPECIAL_MODE_MAP_MOVE
 	ret z
-	ld a, [wd5c6]
+	ld a, [wCatchModeTransitionFlag]
 	and a
 	jr nz, .asm_1c31f
 	ld a, [wCapturingMon]
 	and a
 	jr nz, .asm_1c31f
-	jp Func_1c3ca
+	jp ToggleBillboardIllumination_BlueField
 
 .asm_1c31f
-	callba Func_1c3ac
-	callba Func_10362
+	callba FillBillboardMapArea_BlueField
+	callba QueueBillboardAnimatedGraphics
 	ldh a, [hGameBoyColorFlag]
 	and a
-	callba nz, Func_10301
+	callba nz, LoadBillboardAnimatedPalettes
 	ld a, [wCapturingMon]
 	and a
 	ret z
@@ -278,18 +278,18 @@ Func_1c305: ; 0x1c305
 	call FarCopyData
 	ret
 
-Func_1c3ac: ; 0x1c3ac
+FillBillboardMapArea_BlueField: ; 0x1c3ac
 	ld a, $80
 	hlCoord 7, 4, vBGMap
-	call Func_1c3c3
+	call FillSixConsecutiveTiles_BlueField
 	hlCoord 7, 5, vBGMap
-	call Func_1c3c3
+	call FillSixConsecutiveTiles_BlueField
 	hlCoord 7, 6, vBGMap
-	call Func_1c3c3
+	call FillSixConsecutiveTiles_BlueField
 	hlCoord 7, 7, vBGMap
 	; fall through
 
-Func_1c3c3: ; 0x1c3c3
+FillSixConsecutiveTiles_BlueField: ; 0x1c3c3
 	ld [hli], a
 	ld [hli], a
 	ld [hli], a
@@ -298,7 +298,7 @@ Func_1c3c3: ; 0x1c3c3
 	ld [hli], a
 	ret
 
-Func_1c3ca: ; 0x1c3ca
+ToggleBillboardIllumination_BlueField: ; 0x1c3ca
 	ld hl, wBillboardTilesIlluminationStates
 	ld b, $18
 .asm_1c3cf
@@ -307,10 +307,10 @@ Func_1c3ca: ; 0x1c3ca
 	ld [hli], a
 	dec b
 	jr nz, .asm_1c3cf
-	callba Func_10184
+	callba UpdateBillboardTileGraphics
 	ldh a, [hGameBoyColorFlag]
 	and a
-	callba nz, Func_102bc
+	callba nz, LoadBillboardStaticPalette
 	ret
 
 LoadEvolutionTrinketGraphics_BlueField: ; 0x1c3ee
@@ -362,13 +362,13 @@ LoadBillboardStatusBarGraphics_BlueField: ; 0x1c43c
 	jr nz, .asm_1c450
 	ld a, [wNumMonHits]
 	and a
-	call nz, Func_1c46d
+	call nz, CallMonHitGraphicsRepeated_BlueField
 	ret
 
 .asm_1c450
 	cp SPECIAL_MODE_EVOLUTION
 	jr nz, .asm_1c458
-	call Func_1c47d
+	call LoadEvolutionProgressIcons_BlueField
 	ret
 
 .asm_1c458
@@ -381,15 +381,15 @@ LoadBillboardStatusBarGraphics_BlueField: ; 0x1c43c
 	call FarCopyData
 	ret
 
-Func_1c46d: ; 0x1c46d
+CallMonHitGraphicsRepeated_BlueField: ; 0x1c46d
 	push af
-	callba Func_10611
+	callba LoadCatchTextGraphics
 	pop af
 	dec a
-	jr nz, Func_1c46d
+	jr nz, CallMonHitGraphicsRepeated_BlueField
 	ret
 
-Func_1c47d: ; 0x1c47d
+LoadEvolutionProgressIcons_BlueField: ; 0x1c47d
 	ld de, $0000
 	ld a, [wNumEvolutionTrinkets]
 	and a
@@ -397,13 +397,13 @@ Func_1c47d: ; 0x1c47d
 	ld b, a
 .asm_1c486
 	ld a, [wCurrentEvolutionType]
-	call Func_1c491
+	call LoadSingleEvolutionIcon_BlueField
 	inc de
 	dec b
 	jr nz, .asm_1c486
 	ret
 
-Func_1c491: ; 0x1c491
+LoadSingleEvolutionIcon_BlueField: ; 0x1c491
 	push bc
 	push de
 	dec a

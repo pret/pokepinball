@@ -128,8 +128,8 @@ StartCatchEmMode: ; 0x1003f
 	ld b, a ;bc = timer legnth. b = secons c = minutes
 	callba StartTimer
 	callba InitBallSaverForCatchEmMode
-	call Func_10696
-	call Func_3579
+	call DisplayLetsGetPokemonText
+	call ClearJackpot
 	ld a, [wCurrentStage]
 	bit 0, a
 	jr z, .asm_1011d
@@ -148,12 +148,12 @@ StartCatchEmMode: ; 0x1003f
 	ld a, [wCurrentStage]
 	rst JumpTable  ; calls JumpToFuncInTable
 CallTable_10124: ; 0x10124
-	dw Func_10871      ; STAGE_RED_FIELD_TOP
-	dw Func_10871      ; STAGE_RED_FIELD_BOTTOM
+	dw InitializeCatchModeRedField      ; STAGE_RED_FIELD_TOP
+	dw InitializeCatchModeRedField      ; STAGE_RED_FIELD_BOTTOM
 	dw DoNothing_1098a
 	dw DoNothing_1098a
-	dw Func_1098c      ; STAGE_BLUE_FIELD_TOP
-	dw Func_1098c      ; STAGE_BLUE_FIELD_BOTTOM
+	dw InitializeCatchModeBlueField      ; STAGE_BLUE_FIELD_TOP
+	dw InitializeCatchModeBlueField      ; STAGE_BLUE_FIELD_BOTTOM
 
 CheckForMew:
 ; Sets the encountered mon to Mew if the following conditions are met:
@@ -190,7 +190,7 @@ ConcludeCatchEmMode: ; 0x10157
 	xor a
 	ld [wInSpecialMode], a
 	ld [wWildMonIsHittable], a
-	ld [wd5c6], a
+	ld [wCatchModeTransitionFlag], a
 	ld [wNumberOfCatchModeTilesFlipped], a
 	ld [wNumMonHits], a
 	call ClearWildMonCollisionMask
@@ -198,14 +198,14 @@ ConcludeCatchEmMode: ; 0x10157
 	ld a, [wCurrentStage]
 	rst JumpTable  ; calls JumpToFuncInTable
 CallTable_10178: ; 0x10178
-	dw Func_108f5      ; STAGE_RED_FIELD_TOP
-	dw Func_108f5      ; STAGE_RED_FIELD_BOTTOM
+	dw ConcludeCatchModeRedField      ; STAGE_RED_FIELD_TOP
+	dw ConcludeCatchModeRedField      ; STAGE_RED_FIELD_BOTTOM
 	dw DoNothing_1098b
 	dw DoNothing_1098b
-	dw Func_109fc      ; STAGE_BLUE_FIELD_TOP
-	dw Func_109fc      ; STAGE_BLUE_FIELD_BOTTOM
+	dw ConcludeCatchModeBlueField      ; STAGE_BLUE_FIELD_TOP
+	dw ConcludeCatchModeBlueField      ; STAGE_BLUE_FIELD_BOTTOM
 
-Func_10184: ; 0x10184 called by what looks like the "hit voltorb and shellder" handllers and after all tiles are flipped, as well as some evo mode stuff
+UpdateBillboardTileGraphics: ; 0x10184 called by what looks like the "hit voltorb and shellder" handllers and after all tiles are flipped, as well as some evo mode stuff
 	ld a, [wCurrentStage]
 	bit 0, a
 	ret z  ;skip if stage has no flippers
@@ -244,14 +244,14 @@ Func_10184: ; 0x10184 called by what looks like the "hit voltorb and shellder" h
 	ld [hli], a ;load first byte into next and test it gainst the second byte, if it's the same skip
 	jr z, .NextLoop
 	ld b, a ;else store in b
-	call nz, Func_101d9
+	call nz, QueueBillboardTileDMGGraphics
 	ldh a, [hGameBoyColorFlag]
 	and a
 	jr z, .NextLoop ;skip if DMG
 	ld a, [wCurrentStage]
 	bit 0, a
 	ld a, b
-	call nz, Func_10230 ;if lower stage, run ???
+	call nz, QueueBillboardTileCGBPalette ;if lower stage, run ???
 .NextLoop
 	inc c
 	ld a, c
@@ -259,7 +259,7 @@ Func_10184: ; 0x10184 called by what looks like the "hit voltorb and shellder" h
 	jr nz, .Loop24Times
 	ret
 
-Func_101d9: ; 0x101d9
+QueueBillboardTileDMGGraphics: ; 0x101d9
 	push bc
 	push hl
 	push de
@@ -316,14 +316,14 @@ Func_101d9: ; 0x101d9
 	pop bc
 	push de
 	xor a
-	ld de, Func_11d2 ; queue graphics load from the adjusted pointer bank 0 using this func
+	ld de, LoadBankedTileData ; queue graphics load from the adjusted pointer bank 0 using this func
 	call QueueGraphicsToLoadWithFunc
 	pop de
 	pop hl
 	pop bc
 	ret
 
-Func_10230: ; 0x10230
+QueueBillboardTileCGBPalette: ; 0x10230
 	push bc
 	push hl
 	push de
@@ -403,7 +403,7 @@ PointerTable_10274: ; 0x10274 4x6 area? the billboard's position?
 Data_102a4: ; 0x102a4
 	db $00, $07, $06, $01, $0E, $15, $14, $0F, $04, $0B, $0A, $05, $0C, $13, $12, $0D, $02, $09, $08, $03, $10, $17, $16, $11
 
-Func_102bc: ; 0x102bc
+LoadBillboardStaticPalette: ; 0x102bc
 	ld a, [wCurrentCatchEmMon]
 	ld c, a
 	ld b, $0
@@ -449,7 +449,7 @@ Func_102bc: ; 0x102bc
 	call QueueGraphicsToLoadWithFunc
 	ret
 
-Func_10301: ; 0x10301
+LoadBillboardAnimatedPalettes: ; 0x10301
 	ld a, [wCurrentCatchEmMon]
 	ld c, a
 	ld b, $0
@@ -516,7 +516,7 @@ Func_10301: ; 0x10301
 	call QueueGraphicsToLoadWithFunc
 	ret
 
-Func_10362: ; 0x10362
+QueueBillboardAnimatedGraphics: ; 0x10362
 	ld a, [wCurrentCatchEmMon]
 	ld c, a
 	ld b, $0
@@ -538,14 +538,14 @@ Func_10362: ; 0x10362
 	ld de, wc150
 	ld bc, 0
 .loop
-	call Func_1038e
+	call QueueBillboardAnimatedTileEntry
 	inc c
 	ld a, c
 	cp $d
 	jr nz, .loop
 	ret
 
-Func_1038e: ; 0x1038e
+QueueBillboardAnimatedTileEntry: ; 0x1038e
 	push bc
 	push de
 	ld a, c
@@ -585,7 +585,7 @@ Func_1038e: ; 0x1038e
 	pop bc
 	push de
 	xor a
-	ld de, Func_11d2
+	ld de, LoadBankedTileData
 	call QueueGraphicsToLoadWithFunc
 	pop de
 	pop bc
@@ -693,7 +693,7 @@ ClearWildMonCollisionMask: ; 0x10488
 
 BallCaptureInit: ; 0x10496
 	xor a
-	ld [wd5c6], a
+	ld [wCatchModeTransitionFlag], a
 	ld a, BANK(BallCaptureSmoke2Gfx)
 	ld hl, BallCaptureSmoke2Gfx
 	ld de, vTilesOB tile $7e
@@ -802,7 +802,7 @@ CapturePokemonAnimation: ; 0x1052d
 	call MainLoopUntilTextIsClear
 	ld a, [wNumPartyMons]
 	and a
-	call z, Func_10848
+	call z, AwardFirstPokemonCaughtBonus
 	ld a, $50
 	ld [wBallXPos + 1], a
 	ld a, $40
@@ -863,7 +863,7 @@ BallCaptureAnimationData: ; 0x105e4
 	db $01, BALLCAPTURESPRITE_10
 	db $00  ; terminator
 
-Func_10611: ; 0x10611
+LoadCatchTextGraphics: ; 0x10611
 	and a ;if a NZ
 	ret z
 	dec a ;dec a
@@ -877,7 +877,7 @@ Func_10611: ; 0x10611
 	ld a, [hl]
 	ld b, a
 	ld a, BANK(Data_1062a)
-	ld de, Func_11d2
+	ld de, LoadBankedTileData
 	call QueueGraphicsToLoadWithFunc
 	ret
 
@@ -910,27 +910,27 @@ Data_10640:
 	db BANK(CatchTextGfx)
 	db $00
 
-Func_10648: ; 0x10648
-	call Func_10184
-	ld a, [wd54e]
+UpdateBillboardTileFlashAnimation: ; 0x10648
+	call UpdateBillboardTileGraphics
+	ld a, [wCatchModeFlashFrameCounter]
 	dec a
-	ld [wd54e], a
+	ld [wCatchModeFlashFrameCounter], a
 	jr nz, .asm_10677
 	ld a, $14
-	ld [wd54e], a
+	ld [wCatchModeFlashFrameCounter], a
 	ld hl, wBillboardTilesIlluminationStates
 	ld b, $18
 .asm_1065e
-	ld a, [wd54f]
+	ld a, [wCatchModeFlashPhaseCounter]
 	and $1
 	ld [hli], a
 	xor $1
 	ld [hli], a
 	dec b
 	jr nz, .asm_1065e
-	ld a, [wd54f]
+	ld a, [wCatchModeFlashPhaseCounter]
 	dec a
-	ld [wd54f], a
+	ld [wCatchModeFlashPhaseCounter], a
 	jr nz, .asm_10677
 	ld hl, wSpecialModeState
 	inc [hl]
@@ -953,7 +953,7 @@ ShowAnimatedWildMon: ; 0x10678
 	ld [wNumMonHits], a
 	ret
 
-Func_10696: ; 0x10696
+DisplayLetsGetPokemonText: ; 0x10696
 	call FillBottomMessageBufferWithBlackTile
 	call EnableBottomText
 	ld hl, wScrollingText1
@@ -961,7 +961,7 @@ Func_10696: ; 0x10696
 	call LoadScrollingText
 	ret
 
-Func_106a6: ; 0x106a6
+DisplayPokemonRanAwayText: ; 0x106a6
 	call FillBottomMessageBufferWithBlackTile
 	call EnableBottomText
 	ld hl, wScrollingText1
@@ -1144,7 +1144,7 @@ SetLeftAndRightAlleyArrowIndicatorStates_RedField: ; 0x107c8
 	ld [wIndicatorStates], a
 	ret
 
-Func_107e9: ; 0x107e9
+SetRedStageStructureBackup: ; 0x107e9
 	ld a, [wLeftAlleyCount]
 	cp $3
 	ld a, $4
@@ -1199,7 +1199,7 @@ ShowJackpotText: ; 0x10825
 	call LoadStationaryTextAndHeader
 	ret
 
-Func_10848: ; 0x10848
+AwardFirstPokemonCaughtBonus: ; 0x10848
 	ld bc, OneHundredMillionPoints
 	callba AddBigBCD6FromQueue
 	call FillBottomMessageBufferWithBlackTile
@@ -1213,7 +1213,7 @@ Func_10848: ; 0x10848
 	call MainLoopUntilTextIsClear
 	ret
 
-Func_10871: ; 0x10871
+InitializeCatchModeRedField: ; 0x10871
 	ld a, [wCurrentCatchEmMon]
 	ld c, a
 	ld b, $0
@@ -1263,17 +1263,17 @@ Func_10871: ; 0x10871
 
 .asm_108d3
 	callba ClearAllRedIndicators
-	callba Func_10184
+	callba UpdateBillboardTileGraphics
 	ldh a, [hGameBoyColorFlag]
 	and a
-	callba nz, Func_102bc
+	callba nz, LoadBillboardStaticPalette
 	ret
 
-Func_108f5: ; 0x108f5
+ConcludeCatchModeRedField: ; 0x108f5
 	call ResetIndicatorStates
 	call OpenSlotCave
 	call SetLeftAndRightAlleyArrowIndicatorStates_RedField
-	call Func_107e9
+	call SetRedStageStructureBackup
 	ld a, [wCurrentStage]
 	bit 0, a
 	ret z
@@ -1307,7 +1307,7 @@ BlankSaverSpaceTileDataRedField:
 	dw BlankSaverSpaceTileDataRedField3
 
 BlankSaverSpaceTileDataRedField1:
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $20, $02
 	dw vTilesSH tile $2e
 	dw StageRedFieldBottomBaseGameBoyColorGfx + $2e0
@@ -1315,7 +1315,7 @@ BlankSaverSpaceTileDataRedField1:
 	db $00
 
 BlankSaverSpaceTileDataRedField2:
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $20, $02
 	dw vTilesSH tile $30
 	dw StageRedFieldBottomBaseGameBoyColorGfx + $300
@@ -1323,7 +1323,7 @@ BlankSaverSpaceTileDataRedField2:
 	db $00
 
 BlankSaverSpaceTileDataRedField3:
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $20, $02
 	dw vTilesSH tile $32
 	dw StageRedFieldBottomBaseGameBoyColorGfx + $320
@@ -1335,7 +1335,7 @@ CaughtPokeballTileDataPointers:
 	dw CaughtPokeballTileData
 
 CaughtPokeballTileData:
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $20, $02
 	dw vTilesSH tile $2e
 	dw CaughtPokeballGfx
@@ -1348,7 +1348,7 @@ DoNothing_1098a: ; 0x1098a
 DoNothing_1098b: ; 0x1098b
 	ret
 
-Func_1098c: ; 0x1098c
+InitializeCatchModeBlueField: ; 0x1098c
 	ld a, [wCurrentCatchEmMon]
 	ld c, a
 	ld b, $0
@@ -1390,21 +1390,21 @@ Func_1098c: ; 0x1098c
 	ld a, [wCurrentStage]
 	bit 0, a
 	ret z
-	callba Func_1c2cb
-	callba Func_10184
+	callba LoadArrowIndicators_BlueField
+	callba UpdateBillboardTileGraphics
 	ldh a, [hGameBoyColorFlag]
 	and a
-	callba nz, Func_102bc
+	callba nz, LoadBillboardStaticPalette
 	ret
 
-Func_109fc: ; 0x109fc
+ConcludeCatchModeBlueField: ; 0x109fc
 	call ResetIndicatorStates
 	call OpenSlotCave
 	callba SetLeftAndRightAlleyArrowIndicatorStates_BlueField
 	ld a, [wCurrentStage]
 	bit 0, a
 	ret z
-	callba Func_1c2cb
+	callba LoadArrowIndicators_BlueField
 	call LoadBillboardTilemap
 	callba LoadMapBillboardTileData
 	ld a, BANK(StageSharedBonusSlotGlowGfx)
@@ -1434,7 +1434,7 @@ BlankSaverSpaceTileDataBlueField:
 	dw BlankSaverSpaceTileDataBlueField3
 
 BlankSaverSpaceTileDataBlueField1:
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $20, $02
 	dw vTilesSH tile $2e
 	dw StageBlueFieldBottomBaseGameBoyColorGfx + $2e0
@@ -1442,7 +1442,7 @@ BlankSaverSpaceTileDataBlueField1:
 	db $00
 
 BlankSaverSpaceTileDataBlueField2:
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $20, $02
 	dw vTilesSH tile $30
 	dw StageBlueFieldBottomBaseGameBoyColorGfx + $300
@@ -1450,7 +1450,7 @@ BlankSaverSpaceTileDataBlueField2:
 	db $00
 
 BlankSaverSpaceTileDataBlueField3:
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $20, $02
 	dw vTilesSH tile $32
 	dw StageBlueFieldBottomBaseGameBoyColorGfx + $320
@@ -1462,7 +1462,7 @@ Data_10a88:
 	dw Data_10a8b
 
 Data_10a8b:
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $20, $02
 	dw vTilesSH tile $2e
 	dw CaughtPokeballGfx

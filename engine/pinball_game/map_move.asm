@@ -31,12 +31,12 @@ StartMapMoveMode: ; 0x301ec
 	ld a, [wCurrentStage]
 	rst JumpTable  ; calls JumpToFuncInTable
 CallTable_3021f: ; 0x3021f
-	dw Func_311b4 ; STAGE_RED_FIELD_TOP
-	dw Func_311b4 ; STAGE_RED_FIELD_BOTTOM
+	dw InitRedMapModeIndicators ; STAGE_RED_FIELD_TOP
+	dw InitRedMapModeIndicators ; STAGE_RED_FIELD_BOTTOM
 	dw DoNothing_31324
 	dw DoNothing_31324
-	dw Func_31326 ; STAGE_BLUE_FIELD_TOP
-	dw Func_31326 ; STAGE_BLUE_FIELD_BOTTOM
+	dw InitBlueMapModeIndicators ; STAGE_BLUE_FIELD_TOP
+	dw InitBlueMapModeIndicators ; STAGE_BLUE_FIELD_BOTTOM
 
 ConcludeMapMoveMode: ; 0x3022b
 	xor a
@@ -49,12 +49,12 @@ ConcludeMapMoveMode: ; 0x3022b
 	ld a, [wCurrentStage]
 	rst JumpTable  ; calls JumpToFuncInTable
 CallTable_30247: ; 0x30247
-	dw Func_31234 ; STAGE_RED_FIELD_TOP
-	dw Func_31234 ; STAGE_RED_FIELD_BOTTOM
+	dw FinalizeRedMapModeIndicators ; STAGE_RED_FIELD_TOP
+	dw FinalizeRedMapModeIndicators ; STAGE_RED_FIELD_BOTTOM
 	dw DoNothing_31325
 	dw DoNothing_31325
-	dw Func_313c3 ; STAGE_BLUE_FIELD_TOP
-	dw Func_313c3 ; STAGE_BLUE_FIELD_TOP
+	dw FinalizeBlueMapModeIndicators ; STAGE_BLUE_FIELD_TOP
+	dw FinalizeBlueMapModeIndicators ; STAGE_BLUE_FIELD_TOP
 
 INCLUDE "engine/pinball_game/billboard_tiledata.asm"
 
@@ -81,7 +81,7 @@ LoadScrollingMapNameText: ; 0x3118f
 	call LoadScrollingText
 	ret
 
-Func_311b4: ; 0x311b4
+InitRedMapModeIndicators: ; 0x311b4
 	ld a, [wMapMoveDirection]
 	and a
 	jr nz, .asm_311ce
@@ -128,11 +128,11 @@ Func_311b4: ; 0x311b4
 	callba ClearAllRedIndicators
 	ret
 
-Func_31234: ; 0x31234
+FinalizeRedMapModeIndicators: ; 0x31234
 	callba ResetIndicatorStates
 	callba OpenSlotCave
 	callba SetLeftAndRightAlleyArrowIndicatorStates_RedField
-	callba Func_107e9
+	callba SetRedStageStructureBackup
 	ld a, [wCurrentStage]
 	bit 0, a
 	ret z
@@ -252,7 +252,7 @@ DoNothing_31324: ; 0x31324
 DoNothing_31325: ; 0x31325
 	ret
 
-Func_31326: ; 0x31326
+InitBlueMapModeIndicators: ; 0x31326
 	ld a, [wMapMoveDirection]
 	and a
 	jr nz, .asm_3134c
@@ -302,10 +302,10 @@ Func_31326: ; 0x31326
 	ld a, [wCurrentStage]
 	bit 0, a
 	ret z
-	callba Func_1c2cb
+	callba LoadArrowIndicators_BlueField
 	ret
 
-Func_313c3: ; 0x313c3
+FinalizeBlueMapModeIndicators: ; 0x313c3
 	callba ResetIndicatorStates
 	callba OpenSlotCave
 	callba SetLeftAndRightAlleyArrowIndicatorStates_BlueField
@@ -314,7 +314,7 @@ Func_313c3: ; 0x313c3
 	ld a, [wCurrentStage]
 	bit 0, a
 	ret z
-	callba Func_1c2cb
+	callba LoadArrowIndicators_BlueField
 	callba LoadSlotCaveCoverGraphics_BlueField
 	callba LoadMapBillboardTileData
 	ret
@@ -450,27 +450,27 @@ HandleRedMapModeCollision: ; 0x314ae
 	ld a, [wSpecialModeState]
 	call CallInFollowingTable
 PointerTable_314df: ; 0xd13df
-	padded_dab Func_314ef
-	padded_dab Func_314f1
-	padded_dab Func_314f3
-	padded_dab Func_31505
+	padded_dab MapMoveStateZero_Red
+	padded_dab MapMoveStateOne_Red
+	padded_dab MapMoveStateTwo_Red
+	padded_dab MapMoveStateThree_Red
 
-Func_314ef: ; 0x314ef
+MapMoveStateZero_Red: ; 0x314ef
 	scf
 	ret
 
-Func_314f1: ; 0x314f1
+MapMoveStateOne_Red: ; 0x314f1
 	scf
 	ret
 
-Func_314f3: ; 0x314f3
+MapMoveStateTwo_Red: ; 0x314f3
 	callba ConcludeMapMoveMode
 	ld de, MUSIC_BLUE_FIELD ; Either MUSIC_BLUE_FIELD or MUSIC_RED_FIELD. They have the same id in their respective audio Banks.
 	call PlaySong
 	scf
 	ret
 
-Func_31505: ; 0x31505
+MapMoveStateThree_Red: ; 0x31505
 	ld a, [wBottomTextEnabled]
 	and a
 	ret nz
@@ -580,15 +580,15 @@ HandleBlueMapModeCollision: ; 0x3161b
 	ld a, [wSpecialModeCollisionID]
 	jr z, .asm_3163d
 	cp SPECIAL_COLLISION_LEFT_TRIGGER
-	jp z, Func_31708
+	jp z, OpenBlueMapMoveSlotFromLeft
 	cp SPECIAL_COLLISION_SLOWPOKE
-	jp z, Func_31708
+	jp z, OpenBlueMapMoveSlotFromLeft
 	cp SPECIAL_COLLISION_RIGHT_TRIGGER
-	jp z, Func_3172a
+	jp z, OpenBlueMapMoveSlotFromRight
 	cp SPECIAL_COLLISION_CLOYSTER
-	jp z, Func_3172a
+	jp z, OpenBlueMapMoveSlotFromRight
 	cp SPECIAL_COLLISION_SLOT_HOLE
-	jp z, Func_3174c
+	jp z, ResolveSuccessfulBlueMapMove
 .asm_3163d
 	cp SPECIAL_COLLISION_NOTHING
 	jr z, .asm_31643
@@ -600,27 +600,27 @@ HandleBlueMapModeCollision: ; 0x3161b
 	ld a, [wSpecialModeState]
 	call CallInFollowingTable
 PointerTable_3164c: ; 0x3164c
-	padded_dab Func_3165c
-	padded_dab Func_3165e
-	padded_dab Func_31660
-	padded_dab Func_31672
+	padded_dab MapMoveStateZero_Blue
+	padded_dab MapMoveStateOne_Blue
+	padded_dab MapMoveStateTwo_Blue
+	padded_dab MapMoveStateThree_Blue
 
-Func_3165c: ; 0x3165c
+MapMoveStateZero_Blue: ; 0x3165c
 	scf
 	ret
 
-Func_3165e: ; 0x3165e
+MapMoveStateOne_Blue: ; 0x3165e
 	scf
 	ret
 
-Func_31660: ; 0x31660
+MapMoveStateTwo_Blue: ; 0x31660
 	callba ConcludeMapMoveMode
 	ld de, MUSIC_BLUE_FIELD ; Either MUSIC_BLUE_FIELD or MUSIC_RED_FIELD. They have the same id in their respective audio Banks.
 	call PlaySong
 	scf
 	ret
 
-Func_31672: ; 0x31672
+MapMoveStateThree_Blue: ; 0x31672
 	ld a, [wBottomTextEnabled] ;if text is off
 	and a
 	ret nz
@@ -657,7 +657,7 @@ UpdateMapMove_BlueField: ; 0x3168c
 	ld a, [wCurrentStage]
 	bit 0, a
 	jr z, .asm_316ee
-	callba Func_1c2cb
+	callba LoadArrowIndicators_BlueField
 	callba LoadSlotCaveCoverGraphics_BlueField
 	callba LoadMapBillboardTileData
 .asm_316ee
@@ -669,7 +669,7 @@ UpdateMapMove_BlueField: ; 0x3168c
 	call LoadScrollingText
 	ret
 
-Func_31708: ; 0x31708
+OpenBlueMapMoveSlotFromLeft: ; 0x31708
 	ld a, [wMapMoveDirection]
 	and a
 	jr nz, .asm_31728
@@ -688,7 +688,7 @@ Func_31708: ; 0x31708
 	scf
 	ret
 
-Func_3172a: ; 0x3172a
+OpenBlueMapMoveSlotFromRight: ; 0x3172a
 	ld a, [wMapMoveDirection]
 	and a
 	jr z, .asm_3174a
@@ -707,7 +707,7 @@ Func_3172a: ; 0x3172a
 	scf
 	ret
 
-Func_3174c: ; 0x3174c
+ResolveSuccessfulBlueMapMove: ; 0x3174c
 	ld de, MUSIC_NOTHING
 	call PlaySong
 	rst AdvanceFrame

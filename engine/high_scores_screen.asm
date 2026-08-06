@@ -2,14 +2,14 @@ HandleHighScoresScreen: ; 0xca7f
 	ld a, [wScreenState]
 	rst JumpTable  ; calls JumpToFuncInTable
 HighScoresScreenFunctions: ; 0xca83
-	dw Func_ca8f
-	dw Func_cb14
-	dw Func_ccac
-	dw Func_ccb6
-	dw Func_cd6c
+	dw InitializeHighScoreEntry
+	dw LoadHighScoresScreen
+	dw UpdateHighScoreNameEntry
+	dw HandleHighScoresScreenInput
+	dw HandleHighScorePrintingSending
 	dw ExitHighScoresScreen
 
-Func_ca8f: ; 0xca8f
+InitializeHighScoreEntry: ; 0xca8f
 	ld hl, wHighScoreId
 	call GenRandom
 	ld [hli], a
@@ -96,7 +96,7 @@ Func_ca8f: ; 0xca8f
 	inc [hl]
 	ret
 
-Func_cb14: ; 0xcb14
+LoadHighScoresScreen: ; 0xcb14
 	ld a, $43
 	ldh [hLCDC], a
 	ld a, $e0
@@ -132,13 +132,13 @@ Func_cb14: ; 0xcb14
 	call ClearSpriteBuffer
 	ld a, $20
 	ld [wHighScoreNameEntryAsteriskBlinkCounter], a
-	call Func_d211
+	call UpdateHighScoreNameEntryAsterisks
 	hlCoord 0, 14, vBGMap
 	ld de, wRedHighScore5Id + $3
-	call Func_d2cb
+	call RenderHighScoreEntry
 	hlCoord 0, 14, vBGWin
 	ld de, wBlueHighScore5Id + $3
-	call Func_d2cb
+	call RenderHighScoreEntry
 	ld a, [wHighScoresStage]
 	and a
 	jr z, .asm_cb7f
@@ -166,9 +166,9 @@ Func_cb14: ; 0xcb14
 .asm_cba6
 	call EnableLCD
 	ld bc, $0009
-	call Func_d68a
+	call CheckDexCompletionAndShowCrown
 	ld bc, $03c9
-	call Func_d68a
+	call CheckDexCompletionAndShowCrown
 	call FadeIn
 	ld hl, wScreenState
 	inc [hl]
@@ -181,9 +181,9 @@ Func_cb14: ; 0xcb14
 	call PlaySong
 	call EnableLCD
 	ld bc, $0009
-	call Func_d68a
+	call CheckDexCompletionAndShowCrown
 	ld bc, $03c9
-	call Func_d68a
+	call CheckDexCompletionAndShowCrown
 	call FadeIn
 	ld hl, wScreenState
 	inc [hl]
@@ -268,14 +268,14 @@ HighScoresBlueStageVideoData_GameBoyColor: ; 0xcc64
 	VIDEO_DATA_PALETTES HighScoresBlueStagePalettes, $80
 	db $FF, $FF  ; terminators
 
-Func_ccac: ; 0xccac
-	call Func_d18b
-	call Func_d1d2
-	call Func_d211
+UpdateHighScoreNameEntry: ; 0xccac
+	call HandleHighScoreNameCharacterInput
+	call HandleHighScoreNamePositionInput
+	call UpdateHighScoreNameEntryAsterisks
 	ret
 
-Func_ccb6: ; 0xccb6
-	call Func_d4cf
+HandleHighScoresScreenInput: ; 0xccb6
+	call HandleHighScoresStageTransition
 	call AnimateHighScoresArrow
 	ldh a, [hNewlyPressedButtons]
 	bit BIT_A_BUTTON, a
@@ -302,7 +302,7 @@ Func_ccb6: ; 0xccb6
 .asm_cce4
 	bit 3, a
 	jr z, .asm_ccfb
-	call Func_1a43
+	call InitiateHighScoreTransferWithFlag
 	ldh a, [hGameBoyColorFlag]
 	ld [wd8f0], a
 	lb de, $00, $01
@@ -351,22 +351,22 @@ Func_ccb6: ; 0xccb6
 	call LoadVRAMData
 	hlCoord 0, 14, vBGMap
 	ld de, wRedHighScore5Id + $3
-	call Func_d361
+	call RenderHighScoreEntryToVRAM
 	hlCoord 0, 14, vBGWin
 	ld de, wBlueHighScore5Id + $3
-	call Func_d361
+	call RenderHighScoreEntryToVRAM
 	ld hl, wRedHighScore1Points
 	ld de, sHighScores
 	ld bc, $0082
 	call SaveData
 	ret
 
-Func_cd6c: ; 0xcd6c
+HandleHighScorePrintingSending: ; 0xcd6c
 	ldh a, [hFrameCounter]
 	and $1f
-	call z, Func_1a43
-	call Func_cf7d
-	call Func_cfa6
+	call z, InitiateHighScoreTransferWithFlag
+	call HandleHighScoresPrintSendSelection
+	call DrawHighScoresPrintSendDialog
 	ldh a, [hNewlyPressedButtons]
 	bit BIT_A_BUTTON, a
 	jr z, .asm_cdbb
@@ -382,7 +382,7 @@ Func_cd6c: ; 0xcd6c
 	ld bc, $473b
 	ld a, SPRITE_HIGH_SCORES_PRINTING
 	call LoadSpriteData
-	call Func_d042
+	call PrintHighScoresToIR
 	jr .asm_cdc6
 
 .asm_cda1
@@ -392,7 +392,7 @@ Func_cd6c: ; 0xcd6c
 	ld de, MUSIC_NOTHING
 	call PlaySong
 	rst AdvanceFrame
-	call Func_cdce
+	call TransmitReceiveHighScores
 	push af
 	ld de, MUSIC_HI_SCORE
 	call PlaySong
@@ -411,13 +411,13 @@ Func_cd6c: ; 0xcd6c
 	dec [hl]
 	ret
 
-Func_cdce: ; 0xcdce
+TransmitReceiveHighScores: ; 0xcdce
 	push af
 	ld a, $0
 	ld [$abf6], a
 	pop af
 	call ClearSpriteBuffer
-	call Func_1be3
+	call InitializeIRTimingData
 	call SendHighScores
 	push af
 	ld a, $1
@@ -436,7 +436,7 @@ Func_cdce: ; 0xcdce
 	pop af
 	ld b, $82
 	ld hl, wRedHighScore1Points
-	call Func_1cf8
+	call TransmitIRData
 	ld a, [wd8ea]
 	cp $0
 	jp nz, .asm_ceb6
@@ -445,7 +445,7 @@ Func_cdce: ; 0xcdce
 	ld [$abf6], a
 	pop af
 	ld hl, wc4c0
-	call Func_1dda
+	call ReceiveIRData
 	ld a, [wd8ea]
 	cp $0
 	jp nz, .asm_ceb6
@@ -457,7 +457,7 @@ Func_cdce: ; 0xcdce
 	ld [$abf6], a
 	pop af
 	ld hl, wc4c0
-	call Func_1dda
+	call ReceiveIRData
 	ld a, [wd8ea]
 	cp $0
 	jr nz, .asm_ceb6
@@ -467,7 +467,7 @@ Func_cdce: ; 0xcdce
 	pop af
 	ld b, $82
 	ld hl, wRedHighScore1Points
-	call Func_1cf8
+	call TransmitIRData
 	ld a, [wd8ea]
 	cp $0
 	jr nz, .asm_ceb6
@@ -476,7 +476,7 @@ Func_cdce: ; 0xcdce
 	ld a, $6
 	ld [$abf6], a
 	pop af
-	call Func_ceca
+	call WaitForVBlankLine0
 	rst AdvanceFrame
 	ld hl, wc4cc
 	ld b, $5
@@ -486,7 +486,7 @@ Func_cdce: ; 0xcdce
 	ld d, h
 	ld e, l
 	ld hl, wRedHighScore5Id + $3
-	call Func_cfcb
+	call InsertReceivedHighScore
 	pop hl
 	pop bc
 	ld de, $000d
@@ -505,7 +505,7 @@ Func_cdce: ; 0xcdce
 	ld d, h
 	ld e, l
 	ld hl, wBlueHighScore5Id + $3
-	call Func_cfcb
+	call InsertReceivedHighScore
 	pop hl
 	pop bc
 	ld de, $000d
@@ -518,10 +518,10 @@ Func_cdce: ; 0xcdce
 	pop af
 	hlCoord 0, 14, vBGMap
 	ld de, wRedHighScore5Id + $3
-	call Func_d361
+	call RenderHighScoreEntryToVRAM
 	hlCoord 0, 14, vBGWin
 	ld de, wBlueHighScore5Id + $3
-	call Func_d361
+	call RenderHighScoreEntryToVRAM
 	ld hl, wRedHighScore1Points
 	ld de, sHighScores
 	ld bc, $0082
@@ -534,7 +534,7 @@ Func_cdce: ; 0xcdce
 	ld a, $9
 	ld [$abf6], a
 	pop af
-	call Func_ceca
+	call WaitForVBlankLine0
 	rst AdvanceFrame
 	push af
 	ld a, $a
@@ -543,10 +543,10 @@ Func_cdce: ; 0xcdce
 	scf
 	ret
 
-Func_ceca: ; 0xceca
+WaitForVBlankLine0: ; 0xceca
 	ldh a, [rLY]
 	and a
-	jr nz, Func_ceca
+	jr nz, WaitForVBlankLine0
 	ei
 	ret
 
@@ -582,7 +582,7 @@ SendHighScores: ; 0xced1
 	jr .asm_cf0e
 
 .asm_cf09
-	call Func_1c50
+	call HandleIRReceiveHandshake
 	jr .continueAttempts
 
 .asm_cf0e
@@ -597,7 +597,7 @@ SendHighScores: ; 0xced1
 	ld a, SPRITE_SENDING_HIGH_SCORES_TEXT
 	call LoadSpriteData
 	call CleanSpriteBuffer
-	call Func_1ca1
+	call HandleIRSendHandshake
 	ld a, [wSendHighScoresAnimationIndex]
 	cp $6
 	jr nz, .continueAttempts
@@ -623,7 +623,7 @@ SendHighScoresAnimationData: ; 0xcf4b
 	db $06, SPRITE_SEND_HIGH_SCORES_5
 	db $00  ; terminator
 
-Func_cf58: ; 0xcf58
+DisplayHighScoresErrorDialog: ; 0xcf58
 	cp SPRITE_HIGH_SCORES_ERROR_DIALOGS_COUNT + 1
 	ret z
 	push af
@@ -644,7 +644,7 @@ Func_cf58: ; 0xcf58
 	call PlaySoundEffect
 	ret
 
-Func_cf7d: ; 0xcf7d
+HandleHighScoresPrintSendSelection: ; 0xcf7d
 	ld a, [wNewlyPressedButtonsPersistent]
 	ld b, a
 	ld a, [wHighScoresPrintSendSelection]
@@ -669,7 +669,7 @@ Func_cf7d: ; 0xcf7d
 	call PlaySoundEffect
 	ret
 
-Func_cfa6: ; 0xcfa6
+DrawHighScoresPrintSendDialog: ; 0xcfa6
 	ld bc, $473b
 	ld a, SPRITE_HIGH_SCORES_PRINT_SEND_DIALOG_TEXT
 	call LoadSpriteData
@@ -689,7 +689,7 @@ Func_cfa6: ; 0xcfa6
 	call LoadSpriteData
 	ret
 
-Func_cfcb: ; 0xcfcb
+InsertReceivedHighScore: ; 0xcfcb
 	ld a, e
 	ldh [hHighscoresFF8C], a
 	ld a, d
@@ -747,7 +747,7 @@ Func_d005: ; 0xd005
 .asm_d010
 	ld a, c
 	ldh [hHighscoresFF8E], a
-	call Func_d035
+	call AdvanceHighScoreComparisonPointers
 	ret
 
 Func_d017: ; 0xd017
@@ -766,16 +766,16 @@ Func_d017: ; 0xd017
 	jr nz, .asm_d02b
 	ld b, $5
 .asm_d02b
-	call Func_d035
+	call AdvanceHighScoreComparisonPointers
 	scf
 	ret
 
 .asm_d030
-	call Func_d035
+	call AdvanceHighScoreComparisonPointers
 	and a
 	ret
 
-Func_d035: ; 0xd035
+AdvanceHighScoreComparisonPointers: ; 0xd035
 	ld a, e
 	sub c
 	ld e, a
@@ -790,7 +790,7 @@ Func_d035: ; 0xd035
 .asm_d041
 	ret
 
-Func_d042: ; 0xd042
+PrintHighScoresToIR: ; 0xd042
 	ldh a, [hJoypadState]
 	ld [wda86], a
 	ld b, a
@@ -823,15 +823,15 @@ Func_d042: ; 0xd042
 	ld de, wSendHighScoresTopBarTilemap + $200
 	ld bc, $0040
 	call FarCopyData
-	call Func_d6b6
-	call Func_d0e3
+	call MarkDexCompletionInHighScoresBar
+	call TransferHighScoreGraphicsToIR
 	ret c
 	ld a, [wda86]
 	bit 2, a
 	jr z, .asm_d0a2
 	ld de, wRedHighScore1Id
-	call Func_d107
-	call Func_d0f5
+	call FormatHighScoresToHexDisplay
+	call TransferHighScoreHexCharsToIR
 	ret c
 .asm_d0a2
 	ld a, BANK(HighScoresTilemap2)
@@ -849,40 +849,40 @@ Func_d042: ; 0xd042
 	ld de, wSendHighScoresTopBarTilemap + $200
 	ld bc, $0040
 	call FarCopyData
-	call Func_d6b6
-	call Func_d0e3
+	call MarkDexCompletionInHighScoresBar
+	call TransferHighScoreGraphicsToIR
 	ret c
 	ld a, [wda86]
 	bit 2, a
 	ret z
 	ld de, wBlueHighScore1Id
-	call Func_d107
-	call Func_d0f5
+	call FormatHighScoresToHexDisplay
+	call TransferHighScoreHexCharsToIR
 	ret
 
-Func_d0e3: ; 0xd0e3
+TransferHighScoreGraphicsToIR: ; 0xd0e3
 	ld a, BANK(HighScoresBaseGameBoyGfx)
 	ld hl, HighScoresBaseGameBoyGfx + $800
-	call Func_1a21
+	call InitiateHighScoreTransfer
 	ld a, [wd86d]
 	and a
 	ret z
-	call Func_cf58
+	call DisplayHighScoresErrorDialog
 	scf
 	ret
 
-Func_d0f5: ; 0xd0f5
+TransferHighScoreHexCharsToIR: ; 0xd0f5
 	ld a, BANK(HighScoresHexadecimalCharsGfx)
 	ld hl, HighScoresHexadecimalCharsGfx
-	call Func_1a21
+	call InitiateHighScoreTransfer
 	ld a, [wd86d]
 	and a
 	ret z
-	call Func_cf58
+	call DisplayHighScoresErrorDialog
 	scf
 	ret
 
-Func_d107: ; 0xd107
+FormatHighScoresToHexDisplay: ; 0xd107
 	ld hl, wSendHighScoresTopBarTilemap
 	ld a, $c0
 	ld b, $20
@@ -899,9 +899,9 @@ endr
 .inner
 	ld a, [de]
 	swap a
-	call Func_d159
+	call ConvertNibbleToHexTile
 	ld a, [de]
-	call Func_d159
+	call ConvertNibbleToHexTile
 	inc de
 	inc hl
 	dec c
@@ -922,7 +922,7 @@ endr
 	jr nz, .loop
 	ret
 
-Func_d159: ; 0xd159
+ConvertNibbleToHexTile: ; 0xd159
 	and $f
 	sla a
 	sla a
@@ -955,7 +955,7 @@ ExitHighScoresScreen: ; 0xd171
 	ld [wScreenState], a
 	ret
 
-Func_d18b: ; 0xd18b
+HandleHighScoreNameCharacterInput: ; 0xd18b
 	ldh a, [hPressedButtons]
 	ld b, a
 	ld a, [wHighScoreNameRow]
@@ -995,12 +995,12 @@ Func_d18b: ; 0xd18b
 	ld a, $37
 .asm_d1c7
 	ld [hl], a
-	call Func_d46f
+	call UpdateHighScoreNameTile
 	lb de, $00, $03
 	call PlaySoundEffect
 	ret
 
-Func_d1d2: ; 0xd1d2
+HandleHighScoreNamePositionInput: ; 0xd1d2
 	ldh a, [hNewlyPressedButtons]
 	ld b, a
 	ld a, [wHighScoreNameColumn]
@@ -1035,7 +1035,7 @@ Func_d1d2: ; 0xd1d2
 	call PlaySoundEffect
 	ret
 
-Func_d211: ; 0xd211
+UpdateHighScoreNameEntryAsterisks: ; 0xd211
 ; related to high scores name entry?
 	ld a, [wHighScoreIsEnteringName]
 	and a
@@ -1121,7 +1121,7 @@ HighScoresLeftArrowSpritePixelXOffsets: ; 0xd2a3
 	db $01, $01, $01, $01, $01, $01, $01, $01
 	db $01, $01, $01, $01, $01, $01, $01, $01
 
-Func_d2cb: ; 0xd2cb
+RenderHighScoreEntry: ; 0xd2cb
 	ld b, $5
 .asm_d2cd
 	push bc
@@ -1136,7 +1136,7 @@ Func_d2cb: ; 0xd2cb
 	ld b, $3
 .asm_d2d9
 	ld a, [de]
-	call Func_d348
+	call PlaceHighScoreTileBufNoVRAM
 	dec de
 	dec hl
 	dec b
@@ -1162,7 +1162,7 @@ Func_d2cb: ; 0xd2cb
 	dec b
 	jr nz, .asm_d2eb
 	xor a
-	call Func_d317
+	call PlaceHighScoreTileWithPalette
 	pop hl
 	ld bc, -3 * $20
 	add hl, bc
@@ -1172,18 +1172,18 @@ Func_d2cb: ; 0xd2cb
 	ret
 
 Func_d30e: ; 0xd30e
-	jr nz, Func_d317
+	jr nz, PlaceHighScoreTileWithPalette
 	ld a, b
 	dec a
-	jr z, Func_d317
+	jr z, PlaceHighScoreTileWithPalette
 	ld a, c
 	and a
 	ret nz
 	; fall through
-Func_d317: ; 0xd317
+PlaceHighScoreTileWithPalette: ; 0xd317
 	push de
 	push af
-	call Func_d336
+	call DeterminePaletteOffsetForHex
 	pop af
 	ld c, $0
 	sla a
@@ -1207,7 +1207,7 @@ Func_d317: ; 0xd317
 	pop de
 	ret
 
-Func_d336: ; 0xd336
+DeterminePaletteOffsetForHex: ; 0xd336
 	ld e, $6c
 	ld a, b
 	cp $3
@@ -1221,7 +1221,7 @@ Func_d336: ; 0xd336
 	ld e, $58
 	ret
 
-Func_d348: ; 0xd348
+PlaceHighScoreTileBufNoVRAM: ; 0xd348
 	ld c, $0
 	sla a
 	add $90
@@ -1243,7 +1243,7 @@ Func_d348: ; 0xd348
 	pop hl
 	ret
 
-Func_d361: ; 0xd361
+RenderHighScoreEntryToVRAM: ; 0xd361
 	ld b, $5
 .asm_d363
 	push bc
@@ -1258,7 +1258,7 @@ Func_d361: ; 0xd361
 	ld b, $3
 .asm_d36f
 	ld a, [de]
-	call Func_d3e2
+	call PlaceHighScoreTileVRAMDirect
 	dec de
 	dec hl
 	dec b
@@ -1284,7 +1284,7 @@ Func_d361: ; 0xd361
 	dec b
 	jr nz, .asm_d381
 	xor a
-	call Func_d3ad
+	call PlaceHighScoreTileVRAM
 	pop hl
 	ld bc, -3 * $20
 	add hl, bc
@@ -1294,18 +1294,18 @@ Func_d361: ; 0xd361
 	ret
 
 Func_d3a4: ; 0xd3a4
-	jr nz, Func_d3ad
+	jr nz, PlaceHighScoreTileVRAM
 	ld a, b
 	dec a
-	jr z, Func_d3ad
+	jr z, PlaceHighScoreTileVRAM
 	ld a, c
 	and a
 	ret nz
 	; fall through
-Func_d3ad: ; 0xd3ad
+PlaceHighScoreTileVRAM: ; 0xd3ad
 	push de
 	push af
-	call Func_d3d0
+	call DeterminePaletteOffsetForHexVRAM
 	pop af
 	ld c, $0
 	sla a
@@ -1329,7 +1329,7 @@ Func_d3ad: ; 0xd3ad
 	pop de
 	ret
 
-Func_d3d0: ; 0xd3d0
+DeterminePaletteOffsetForHexVRAM: ; 0xd3d0
 	ld e, $6c
 	ld a, b
 	cp $3
@@ -1343,7 +1343,7 @@ Func_d3d0: ; 0xd3d0
 	ld e, $58
 	ret
 
-Func_d3e2: ; 0xd3e2
+PlaceHighScoreTileVRAMDirect: ; 0xd3e2
 	ld c, $0
 	sla a
 	add $90
@@ -1405,7 +1405,7 @@ CopyInitialHighScoresForStage: ; 0xd40e
 
 INCLUDE "data/initial_high_scores.asm" ; 0xd42e
 
-Func_d46f: ; 0xd46f
+UpdateHighScoreNameTile: ; 0xd46f
 	ld a, [wHighScoreNameRow]
 	ld d, a
 	sla a
@@ -1462,7 +1462,7 @@ Func_d46f: ; 0xd46f
 	call PutTileInVRAM
 	ret
 
-Func_d4cf: ; 0xd4cf
+HandleHighScoresStageTransition: ; 0xd4cf
 	ldh a, [hNewlyPressedButtons]
 	ld b, a
 	ld a, [wHighScoresStage]
@@ -1485,7 +1485,7 @@ Func_d4cf: ; 0xd4cf
 
 .asm_d4f0
 	call ClearSpriteBuffer
-	call Func_d57b
+	call PrepareHighScoresTransition
 	ld a, $a5
 	ldh [hWX], a
 	xor a
@@ -1522,12 +1522,12 @@ Func_d4cf: ; 0xd4cf
 	set 3, [hl]
 	ld a, $1
 	ld [wHighScoresStage], a
-	call Func_d5d0
+	call CompleteHighScoresStageTransition
 	ret
 
 .asm_d537
 	call ClearSpriteBuffer
-	call Func_d57b
+	call PrepareHighScoresTransition
 	ld a, $7
 	ldh [hWX], a
 	xor a
@@ -1563,10 +1563,10 @@ Func_d4cf: ; 0xd4cf
 	res 5, [hl]
 	xor a
 	ld [wHighScoresStage], a
-	call Func_d5d0
+	call CompleteHighScoresStageTransition
 	ret
 
-Func_d57b: ; 0xd57b
+PrepareHighScoresTransition: ; 0xd57b
 	ld a, $f0
 	ldh [hSCY], a
 	xor a
@@ -1607,7 +1607,7 @@ Func_d57b: ; 0xd57b
 	jr nz, .asm_d5c1
 	ret
 
-Func_d5d0: ; 0xd5d0
+CompleteHighScoresStageTransition: ; 0xd5d0
 	ld b, $10
 .asm_d5d2
 	push bc
@@ -1640,7 +1640,7 @@ Func_d5d0: ; 0xd5d0
 	ld bc, $0040
 	call LoadVRAMData
 	ld bc, $0009
-	call Func_d68a
+	call CheckDexCompletionAndShowCrown
 	xor a
 	ldh [hSCY], a
 	ldh [hNextFrameHBlankSCX], a
@@ -1676,11 +1676,11 @@ TransitionHighScoresPalettes: ; 0xd626
 	ld de, $0008
 	ld bc, $0038
 	push af
-	call Func_7dc
+	call CopyCGBPalettesWithHBlankSync
 	pop af
 	ld de, $0040
 	ld bc, $0008
-	call Func_7dc
+	call CopyCGBPalettesWithHBlankSync
 	ret
 
 HighScoresPalettesTransition: ; 0xd65a
@@ -1704,7 +1704,7 @@ HighScoresPalettesTransition: ; 0xd65a
 	dwb HighScoresTransitionPalettes15, Bank(HighScoresTransitionPalettes15)
 	dwb HighScoresTransitionPalettes16, Bank(HighScoresTransitionPalettes16)
 
-Func_d68a: ; 0xd68a
+CheckDexCompletionAndShowCrown: ; 0xd68a
 	push bc
 	ld hl, wPokedexFlags
 	ld bc, (NUM_POKEMON << 8)
@@ -1734,7 +1734,7 @@ ShowDexCompletionCrown: ; 0xd6aa
 	call PutTileInVRAM
 	ret
 
-Func_d6b6: ; 0xd6b6
+MarkDexCompletionInHighScoresBar: ; 0xd6b6
 	ld hl, wPokedexFlags
 	ld bc, (NUM_POKEMON << 8)
 .asm_d6bc

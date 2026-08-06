@@ -478,7 +478,7 @@ UpdateBlueStageSpinner: ; 0x1ca85
 	cp MAX_PIKACHU_SAVER_CHARGE
 	jr nz, .asm_1cb12
 	ld a, $64
-	ld [wd51e], a
+	ld [wSpinnerChargeSoundCooldown], a
 .asm_1cb12
 	ld a, [wCurrentStage]
 	bit 0, a
@@ -487,7 +487,7 @@ UpdateBlueStageSpinner: ; 0x1ca85
 	ret
 
 PlaySpinnerChargingSoundEffect_BlueField: ; 0x1cb1c
-	ld a, [wd51e]
+	ld a, [wSpinnerChargeSoundCooldown]
 	and a
 	ret nz
 	ld a, [wPikachuSaverCharge]
@@ -625,7 +625,7 @@ ResolveBlueStageBoardTriggerCollision: ; 0x1cfaa
 	ld [wStageCollisionState], a
 	callba LoadStageCollisionAttributes
 	ld a, $1
-	ld [wd580], a
+	ld [wTimerGraphicsNeedsLoading], a
 	callba LoadTimerGraphics
 .asm_1cfe5
 	ld a, [wWhichBoardTriggerId]
@@ -734,7 +734,7 @@ ResolveBlueStagePikachuCollision: ; 0x1d0a1
 	jr z, .asm_1d110
 	xor a
 	ld [wWhichPikachu], a
-	ld a, [wd51c]
+	ld a, [wPikachuSaverAnimationState]
 	and a
 	jr nz, .asm_1d110
 	ld a, [wPikachuSaverSlotRewardActive]
@@ -759,7 +759,7 @@ ResolveBlueStagePikachuCollision: ; 0x1d0a1
 	ld [wPikachuSaverCharge], a
 .asm_1d0dc
 	ld a, $1
-	ld [wd51c], a
+	ld [wPikachuSaverAnimationState], a
 	xor a
 	ld [wBallXVelocity], a
 	ld [wBallXVelocity + 1], a
@@ -776,22 +776,22 @@ ResolveBlueStagePikachuCollision: ; 0x1d0a1
 	ld de, wPikachuSaverAnimation
 	call InitAnimation
 	ld a, $2
-	ld [wd51c], a
+	ld [wPikachuSaverAnimationState], a
 	lb de, $00, $3b
 	call PlaySoundEffect
 .asm_1d110
-	ld a, [wd51c]
+	ld a, [wPikachuSaverAnimationState]
 	and a
 	call z, SetPikachuSaverSide_BlueField
 	call UpdatePikachuSaverAnimation_BlueField
 	ld a, [wPikachuSaverCharge]
 	cp MAX_PIKACHU_SAVER_CHARGE
 	ret nz
-	ld a, [wd51e]
+	ld a, [wSpinnerChargeSoundCooldown]
 	and a
 	ret z
 	dec a
-	ld [wd51e], a
+	ld [wSpinnerChargeSoundCooldown], a
 	cp $5a
 	ret nz
 	lb de, $0f, $22
@@ -799,7 +799,7 @@ ResolveBlueStagePikachuCollision: ; 0x1d0a1
 	ret
 
 UpdatePikachuSaverAnimation_BlueField: ; 0x1d133
-	ld a, [wd51c]
+	ld a, [wPikachuSaverAnimationState]
 	cp $1
 	jr nz, .asm_1d1ae
 	ld hl, PikachuSaverAnimationData_BlueField
@@ -811,7 +811,7 @@ UpdatePikachuSaverAnimation_BlueField: ; 0x1d133
 	jr nz, .asm_1d18c
 	xor a
 	ld [wAudioEngineEnabled], a
-	call Func_310a
+	call ClearBottomMessageBufferRows
 	rst AdvanceFrame
 	ld a, $1
 	callba PlayPikachuSoundClip
@@ -843,7 +843,7 @@ UpdatePikachuSaverAnimation_BlueField: ; 0x1d133
 	ld bc, FiveThousandPoints
 	callba AddBigBCD6FromQueueWithBallMultiplier
 	xor a
-	ld [wd51c], a
+	ld [wPikachuSaverAnimationState], a
 	ret
 
 .asm_1d1ae
@@ -857,7 +857,7 @@ UpdatePikachuSaverAnimation_BlueField: ; 0x1d133
 	cp $1
 	ret nz
 	xor a
-	ld [wd51c], a
+	ld [wPikachuSaverAnimationState], a
 	ret
 
 .asm_1d1c7
@@ -1621,7 +1621,7 @@ UpdatePoliwag: ; 0x1dc95
 	ld a, [wPoliwagState]
 	cp $2
 	ret nz
-	call Func_1130
+	call CheckGraphicsQueueEmpty
 	ret nz
 	ldh a, [hGameBoyColorFlag]
 	and a
@@ -2029,7 +2029,7 @@ ResolveBallUpgradeTriggersCollision_BlueField: ; 0x1e356
 	ld [wStageCollisionState], a
 	callba LoadStageCollisionAttributes
 	ld a, $1
-	ld [wd580], a
+	ld [wTimerGraphicsNeedsLoading], a
 	callba LoadTimerGraphics
 .asm_1e386
 	ld a, [wStageCollisionState]
@@ -2114,7 +2114,7 @@ ResolveBallUpgradeTriggersCollision_BlueField: ; 0x1e356
 	call EnableBottomText
 	ld hl, wScrollingText2
 	ld de, DigitsText1to8
-	call Func_32cc
+	call LoadScrollingScoreText
 	pop de
 	pop bc
 	ld hl, wScrollingText1

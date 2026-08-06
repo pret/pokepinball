@@ -41,7 +41,7 @@ ShowExtraBallMessage: ; 0x30188
 	call EnableBottomText
 	ld hl, wScrollingText2
 	ld de, DigitsText1to9
-	call Func_32cc
+	call LoadScrollingScoreText
 	pop de
 	pop bc
 	ld hl, wScrollingText1

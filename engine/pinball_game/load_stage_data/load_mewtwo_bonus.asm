@@ -5,5 +5,5 @@ _LoadStageDataMewtwoBonus: ; 0x19310
 	ld a, [wLoadingSavedGame]
 	and a
 	ret z
-	call Func_194ac
+	call QueueGateGraphicsToLoad_MewtwoBonus
 	ret

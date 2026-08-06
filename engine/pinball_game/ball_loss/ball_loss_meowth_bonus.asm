@@ -20,7 +20,7 @@ HandleBallLossMeowthBonus: ; 0xdfe2
 	xor a
 .asm_e002
 	ld [wMeowthStageScore], a
-	callba Func_24fa3
+	callba UpdateMeowthMultiplierAnimation
 .asm_e00f
 	ld a, [wCurrentStageBackup]
 	ld hl, wCurrentStage

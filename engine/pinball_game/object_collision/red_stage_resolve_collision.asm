@@ -178,7 +178,7 @@ AgainTextOnTileData:
 	dw AgainTextOnTileData2
 
 AgainTextOffTileData1:
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $20, $02
 	dw vTilesSH tile $38
 	dw AgainTextOffGfx
@@ -186,7 +186,7 @@ AgainTextOffTileData1:
 	db $00
 
 AgainTextOffTileData2:
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $20, $02
 	dw vTilesSH tile $3a
 	dw AgainTextOffGfx + $20
@@ -194,7 +194,7 @@ AgainTextOffTileData2:
 	db $00
 
 AgainTextOnTileData1:
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $20, $02
 	dw vTilesSH tile $38
 	dw StageRedFieldBottomBaseGameBoyGfx + $380
@@ -202,7 +202,7 @@ AgainTextOnTileData1:
 	db $00
 
 AgainTextOnTileData2:
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $20, $02
 	dw vTilesSH tile $3a
 	dw StageRedFieldBottomBaseGameBoyGfx + $3a0
@@ -482,7 +482,7 @@ UpdateDiglettAnimations: ; 0x14990
 	jr .asm_149b6
 
 .asm_149a2
-	call Func_1130
+	call CheckGraphicsQueueEmpty
 	ret nz
 	ld a, $14
 	ld [wLeftMapMoveDiglettAnimationCounter], a
@@ -502,7 +502,7 @@ UpdateDiglettAnimations: ; 0x14990
 	ret
 
 .asm_149c6
-	call Func_1130
+	call CheckGraphicsQueueEmpty
 	ret nz
 	ld a, $14
 	ld [wRightMapMoveDiglettAnimationCounter], a
@@ -693,7 +693,7 @@ UpdateRedStageSpinner: ; 0x14e10
 	cp MAX_PIKACHU_SAVER_CHARGE
 	jr nz, .asm_14e9d
 	ld a, $64
-	ld [wd51e], a
+	ld [wSpinnerChargeSoundCooldown], a
 .asm_14e9d
 	ld a, [wCurrentStage]
 	bit 0, a
@@ -702,7 +702,7 @@ UpdateRedStageSpinner: ; 0x14e10
 	ret
 
 PlaySpinnerChargingSoundEffect_RedField: ; 0x14ea7
-	ld a, [wd51e]
+	ld a, [wSpinnerChargeSoundCooldown]
 	and a
 	ret nz
 	ld a, [wPikachuSaverCharge]
@@ -1006,7 +1006,7 @@ ResolveBallUpgradeTriggersCollision_RedField: ; 0x1535d
 	call EnableBottomText
 	ld hl, wScrollingText2
 	ld de, DigitsText1to8
-	call Func_32cc
+	call LoadScrollingScoreText
 	pop de
 	pop bc
 	ld hl, wScrollingText1
@@ -1469,7 +1469,7 @@ UpdateFieldStructures_RedField: ; 0x159c9
 	callba LoadStageCollisionAttributes
 	call LoadFieldStructureGraphics_RedField
 	ld a, $1
-	ld [wd580], a
+	ld [wTimerGraphicsNeedsLoading], a
 	call LoadTimerGraphics
 	ret
 
@@ -2317,7 +2317,7 @@ ResolveRedStagePikachuCollision: ; 0x1660c
 	jr z, .asm_1667b
 	xor a
 	ld [wWhichPikachu], a
-	ld a, [wd51c]
+	ld a, [wPikachuSaverAnimationState]
 	and a
 	jr nz, .asm_1667b
 	ld a, [wPikachuSaverSlotRewardActive]
@@ -2342,7 +2342,7 @@ ResolveRedStagePikachuCollision: ; 0x1660c
 	ld [wPikachuSaverCharge], a
 .asm_16647
 	ld a, $1
-	ld [wd51c], a
+	ld [wPikachuSaverAnimationState], a
 	xor a
 	ld [wBallXVelocity], a
 	ld [wBallXVelocity + 1], a
@@ -2359,22 +2359,22 @@ ResolveRedStagePikachuCollision: ; 0x1660c
 	ld de, wPikachuSaverAnimation
 	call InitAnimation
 	ld a, $2
-	ld [wd51c], a
+	ld [wPikachuSaverAnimationState], a
 	lb de, $00, $3b
 	call PlaySoundEffect
 .asm_1667b
-	ld a, [wd51c]
+	ld a, [wPikachuSaverAnimationState]
 	and a
 	call z, SetPikachuSaverSide_RedField
 	call UpdatePikachuSaverAnimation_RedField
 	ld a, [wPikachuSaverCharge]
 	cp MAX_PIKACHU_SAVER_CHARGE
 	ret nz
-	ld a, [wd51e]
+	ld a, [wSpinnerChargeSoundCooldown]
 	and a
 	ret z
 	dec a
-	ld [wd51e], a
+	ld [wSpinnerChargeSoundCooldown], a
 	cp $5a
 	ret nz
 	lb de, $0f, $22
@@ -2382,7 +2382,7 @@ ResolveRedStagePikachuCollision: ; 0x1660c
 	ret
 
 UpdatePikachuSaverAnimation_RedField: ; 0x1669e
-	ld a, [wd51c]
+	ld a, [wPikachuSaverAnimationState]
 	cp $1
 	jr nz, .asm_16719
 	ld hl, PikachuSaverAnimationData_RedField
@@ -2394,7 +2394,7 @@ UpdatePikachuSaverAnimation_RedField: ; 0x1669e
 	jr nz, .asm_166f7
 	xor a
 	ld [wAudioEngineEnabled], a
-	call Func_310a
+	call ClearBottomMessageBufferRows
 	rst AdvanceFrame
 	ld a, $1
 	callba PlayPikachuSoundClip
@@ -2426,7 +2426,7 @@ UpdatePikachuSaverAnimation_RedField: ; 0x1669e
 	ld bc, FiveThousandPoints
 	callba AddBigBCD6FromQueueWithBallMultiplier
 	xor a
-	ld [wd51c], a
+	ld [wPikachuSaverAnimationState], a
 	ret
 
 .asm_16719
@@ -2440,7 +2440,7 @@ UpdatePikachuSaverAnimation_RedField: ; 0x1669e
 	cp $1
 	ret nz
 	xor a
-	ld [wd51c], a
+	ld [wPikachuSaverAnimationState], a
 	ret
 
 .asm_16732
@@ -2501,35 +2501,35 @@ ResolveStaryuCollision_Top: ; 0x16781
 	jr z, .asm_167bd
 	xor a
 	ld [wStaryuCollision], a
-	ld a, [wd503]
+	ld a, [wStaryuAnimationTimer]
 	and a
 	jr nz, .asm_167c2
 	ld bc, FiveThousandPoints
 	callba AddBigBCD6FromQueueWithBallMultiplier
-	ld a, [wd502]
+	ld a, [wStaryuState]
 	xor $1
 	set 1, a
-	ld [wd502], a
+	ld [wStaryuState], a
 	ld a, $14
-	ld [wd503], a
+	ld [wStaryuAnimationTimer], a
 	call LoadStaryuGraphics_Top
 	ld a, SPECIAL_COLLISION_STARYU
 	callba CheckSpecialModeColision
 	ret
 
 .asm_167bd
-	ld a, [wd503]
+	ld a, [wStaryuAnimationTimer]
 	and a
 	ret z
 .asm_167c2
 	dec a
-	ld [wd503], a
+	ld [wStaryuAnimationTimer], a
 	ret nz
-	ld a, [wd502]
+	ld a, [wStaryuState]
 	res 1, a
-	ld [wd502], a
+	ld [wStaryuState], a
 	call LoadStaryuGraphics_Top
-	ld a, [wd502]
+	ld a, [wStaryuState]
 	and $1
 	ld c, a
 	ld a, [wStageCollisionState]
@@ -2551,30 +2551,30 @@ ResolveStaryuCollision_Bottom: ; 0x167ff
 	jr z, .noCollision
 	xor a
 	ld [wStaryuCollision], a
-	ld a, [wd503]
+	ld a, [wStaryuAnimationTimer]
 	and a
 	jr nz, .asm_1683e
 	ld bc, FiveThousandPoints
 	callba AddBigBCD6FromQueueWithBallMultiplier
-	ld a, [wd502]
+	ld a, [wStaryuState]
 	xor $1
-	ld [wd502], a
+	ld [wStaryuState], a
 	ld a, $14
-	ld [wd503], a
+	ld [wStaryuAnimationTimer], a
 	call LoadStaryuGraphics_Bottom
 	ld a, SPECIAL_COLLISION_STARYU
 	callba CheckSpecialModeColision
 	ret
 
 .noCollision
-	ld a, [wd503]
+	ld a, [wStaryuAnimationTimer]
 	and a
 	ret z
 .asm_1683e
 	dec a
-	ld [wd503], a
+	ld [wStaryuAnimationTimer], a
 	ret nz
-	ld a, [wd502]
+	ld a, [wStaryuState]
 	and $1
 	ld c, a
 	ld a, [wStageCollisionState]
@@ -2586,7 +2586,7 @@ ResolveStaryuCollision_Bottom: ; 0x167ff
 	ret
 
 LoadStaryuGraphics_Top: ; 0x16859
-	ld a, [wd502]
+	ld a, [wStaryuState]
 	sla a
 	ld c, a
 	ld b, $0
@@ -2607,7 +2607,7 @@ LoadStaryuGraphics_Top: ; 0x16859
 	ret
 
 LoadStaryuGraphics_Bottom: ; 0x16878
-	ld a, [wd502]
+	ld a, [wStaryuState]
 	and $1
 	sla a
 	ld c, a

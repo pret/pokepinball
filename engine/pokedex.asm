@@ -1721,7 +1721,7 @@ DrawSummaryWindowMonImage: ; 0x28add
 	call ReadByteFromBank
 	ld bc, $10b0
 	ld hl, rBGPI
-	call Func_8e1
+	call LoadTileDataWithBankSwitch
 	ret
 
 LoadUncaughtPokemonBackgroundGfx: ; 0x28b76
@@ -1879,17 +1879,17 @@ PlayMonPokedexCatchAnimation: ; 0x28bf5
 	push de
 	ld bc, $10b0
 	ld hl, rBGPI
-	call Func_8e1
+	call LoadTileDataWithBankSwitch
 	pop de
 	pop af
 	push af
 	ld bc, $08d8
 	ld hl, rOBPI
-	call Func_8e1
+	call LoadTileDataWithBankSwitch
 	pop af
 	ld bc, $08e8
 	ld hl, rOBPI
-	call Func_8e1
+	call LoadTileDataWithBankSwitch
 	ret
 
 CheckIfMonHasAnimation: ; 0x28cc2
@@ -2086,7 +2086,7 @@ LoadPokemonDescriptionVWFCharacterTiles: ; 0x28d97
 	ldh [hVariableWidthFontFF92], a
 	cp $ff
 	jr nz, .asm_28dbb
-	call Func_208c
+	call LoadDexVWFCharacterSpecial
 	jr .asm_28dc8
 
 .asm_28dbb

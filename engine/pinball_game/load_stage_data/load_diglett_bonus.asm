@@ -4,14 +4,14 @@ _LoadStageDataDiglettBonus: ; 0x19a76
 	ld a, [wLoadingSavedGame]
 	and a
 	ret z
-	call Func_19bbd
-	call Func_19a96
+	call QueueGateGraphicsToLoad_DiglettBonus
+	call RestoreDiglettStatesOnLoad
 	ld a, [wDugrioState]
 	and a
-	call nz, Func_1ac2c
+	call nz, LoadDugtrioCollisionData
 	ret
 
-Func_19a96: ; 0x19a96
+RestoreDiglettStatesOnLoad: ; 0x19a96
 	ld hl, wDiglettStates
 	ld bc, NUM_DIGLETTS << 8
 .asm_19a9c
@@ -21,10 +21,10 @@ Func_19a96: ; 0x19a96
 	push bc
 	push hl
 	push af
-	call Func_19da8
+	call UpdateDiglettAnimationState
 	pop af
 	cp $6
-	call c, Func_19dcd
+	call c, WriteDiglettCollisionMapTiles
 	pop hl
 	pop bc
 .asm_19aae

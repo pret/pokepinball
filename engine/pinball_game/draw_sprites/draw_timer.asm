@@ -5,7 +5,7 @@ DrawTimer: ; 0x175a4
 	ldh a, [hGameBoyColorFlag]
 	and a
 	jr nz, DrawTimer_GameBoyColor
-	ld a, [wd580]
+	ld a, [wTimerGraphicsNeedsLoading]
 	and a
 	ret z
 	ld a, [wd581]
@@ -16,7 +16,7 @@ DrawTimer: ; 0x175a4
 	ret
 
 .DrawTimer_GameBoy
-	call Func_1762f
+	call GetTimerSpriteIndex
 	ld hl, wTimerDigits
 	ld a, [wTimerMinutes]
 	and $f
@@ -72,7 +72,7 @@ DrawTimerDigit: ; 0x17627
 	ld b, a
 	ret
 
-Func_1762f: ; 0x1762f
+GetTimerSpriteIndex: ; 0x1762f
 ; determines which set of timer sprites to use based on the current board and board state
 ; returns: d : an index into TimerDigitsTileData
 ;          e : an index into TimerSpriteIds
@@ -101,7 +101,7 @@ LoadTimerDigitTiles: ; 0x1764f
 	push af
 	push hl
 	add d
-	call Func_17665
+	call QueueTimerDigitGraphics
 	pop hl
 	pop af
 	ld [hl], a
@@ -114,7 +114,7 @@ LoadTimerDigitTiles: ; 0x1764f
 	pop bc
 	ret
 
-Func_17665: ; 0x17665
+QueueTimerDigitGraphics: ; 0x17665
 	ld c, a
 	ld b, $0
 	sla c

@@ -50,13 +50,13 @@ InitBallSeelBonusStage: ; 0x25af1
 	ld [wd79a], a
 	ld de, wd76b
 	ld a, [wd76c]
-	call Func_26137
+	call InitializeSeelAnimationState
 	ld de, wd775
 	ld a, [wd776]
-	call Func_26137
+	call InitializeSeelAnimationState
 	ld de, wd77f
 	ld a, [wd780]
-	call Func_26137
+	call InitializeSeelAnimationState
 	ld a, [wLostBall]
 	and a
 	ret z

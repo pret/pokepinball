@@ -1,4 +1,4 @@
-Func_8524: ; 0x8524
+DrawScoreDigits: ; 0x8524
 	ld hl, wScore + $5
 	lb bc, $0c, $01
 .loop
@@ -47,7 +47,7 @@ Func_8524: ; 0x8524
 	res 7, e
 	ret
 
-Func_8569:
+ClearAddScoreQueue:
 	xor a
 	ld hl, wAddScoreQueue
 	ld b, $31
@@ -107,18 +107,18 @@ ENDR
 	ld [wAddScoreQueueOffset], a
 	ret
 
-Func_85c7: ; 0x85c7
+ProcessScoreQueue: ; 0x85c7
 	ldh a, [hFrameCounter]
 	and $3
 	ret nz
-	ld a, [wd478]
+	ld a, [wScoreQueueReadOffset]
 	ld l, a
 	ld h, wAddScoreQueue / $100
 	ld de, wScore
 	ld a, [wAddScoreQueueOffset]
 	cp l
 	jr nz, .asm_85de
-	ld [wd479], a
+	ld [wScoreQueueSyncOffset], a
 .asm_85de
 	push hl
 	ld a, [hli]
@@ -133,8 +133,8 @@ Func_85c7: ; 0x85c7
 	or [hl]
 	pop hl
 	jr nz, .value_is_nonzero
-	ld a, [wd479]
-	ld [wd478], a
+	ld a, [wScoreQueueSyncOffset]
+	ld [wScoreQueueReadOffset], a
 	ret
 
 .value_is_nonzero
@@ -187,9 +187,9 @@ Func_85c7: ; 0x85c7
 	ld l, $0
 .asm_862d
 	ld a, l
-	ld [wd478], a
+	ld [wScoreQueueReadOffset], a
 	ld a, $1
-	ld [wd49f], a
+	ld [wScoreChanged], a
 	ret
 
 SetMaxScore: ; 0x8637
@@ -205,11 +205,11 @@ SetMaxScore: ; 0x8637
 	pop hl
 	ret
 
-Func_8645: ; 0x8645
+DrawScoreToBottomBar: ; 0x8645
 	xor a
-	ld [wd49f], a
+	ld [wScoreChanged], a
 	ld de, wBottomMessageBuffer + $47
-	call Func_8524
+	call DrawScoreDigits
 	ret
 
 HideScoreIfBallLow: ; 0x8650

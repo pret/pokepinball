@@ -5,8 +5,8 @@ DrawSpritesForStage: ; 0x84b7
 CallTable_84bd: ; 0x84bd
 	padded_dab DrawSpritesRedFieldTop     ; STAGE_RED_FIELD_TOP
 	padded_dab DrawSpritesRedFieldBottom  ; STAGE_RED_FIELD_BOTTOM
-	padded_dab Func_18079
-	padded_dab Func_18084
+	padded_dab DrawSprites_UnusedStageNoFlippers
+	padded_dab DrawSprites_UnusedStageWithFlippers
 	padded_dab DrawSpritesBlueFieldTop    ; STAGE_BLUE_FIELD_TOP
 	padded_dab DrawSpritesBlueFieldBottom ; STAGE_BLUE_FIELD_BOTTOM
 	padded_dab DrawSpritesGengarBonus     ; STAGE_GENGAR_BONUS
@@ -35,7 +35,7 @@ UnusedFunc_84fd:
 	ld a, $81
 	call .FillAttrsOrBGMap
 	ld de, wBottomMessageBuffer + $47
-	call Func_8524
+	call DrawScoreDigits
 	ret
 
 .FillAttrsOrBGMap: ; 8519 (2:4519)

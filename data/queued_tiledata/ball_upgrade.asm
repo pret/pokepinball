@@ -63,7 +63,7 @@ TransitionToMasterBallPointers:
 	dw TransitionToMasterBall_TileData_11
 
 TransitionToPokeBall_TileData_1:
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw (vTilesOB tile $40)
 	dw PinballPokeballGfx + $0
@@ -71,7 +71,7 @@ TransitionToPokeBall_TileData_1:
 	db $00
 
 TransitionToPokeBall_TileData_2:
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw (vTilesOB tile $43)
 	dw PinballPokeballGfx + $30
@@ -79,7 +79,7 @@ TransitionToPokeBall_TileData_2:
 	db $00
 
 TransitionToPokeBall_TileData_3:
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw (vTilesOB tile $46)
 	dw PinballPokeballGfx + $60
@@ -87,7 +87,7 @@ TransitionToPokeBall_TileData_3:
 	db $00
 
 TransitionToPokeBall_TileData_4:
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw (vTilesOB tile $49)
 	dw PinballPokeballGfx + $90
@@ -95,7 +95,7 @@ TransitionToPokeBall_TileData_4:
 	db $00
 
 TransitionToPokeBall_TileData_5:
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw (vTilesOB tile $4c)
 	dw PinballPokeballGfx + $c0
@@ -103,7 +103,7 @@ TransitionToPokeBall_TileData_5:
 	db $00
 
 TransitionToPokeBall_TileData_6:
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw (vTilesOB tile $4f)
 	dw PinballPokeballGfx + $f0
@@ -111,7 +111,7 @@ TransitionToPokeBall_TileData_6:
 	db $00
 
 TransitionToPokeBall_TileData_7:
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw (vTilesOB tile $52)
 	dw PinballPokeballGfx + $120
@@ -119,7 +119,7 @@ TransitionToPokeBall_TileData_7:
 	db $00
 
 TransitionToPokeBall_TileData_8:
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw (vTilesOB tile $55)
 	dw PinballPokeballGfx + $150
@@ -127,7 +127,7 @@ TransitionToPokeBall_TileData_8:
 	db $00
 
 TransitionToPokeBall_TileData_9:
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw (vTilesOB tile $58)
 	dw PinballPokeballGfx + $180
@@ -135,7 +135,7 @@ TransitionToPokeBall_TileData_9:
 	db $00
 
 TransitionToPokeBall_TileData_10:
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw (vTilesOB tile $5b)
 	dw PinballPokeballGfx + $1b0
@@ -143,7 +143,7 @@ TransitionToPokeBall_TileData_10:
 	db $00
 
 TransitionToPokeBall_TileData_11:
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $20, $02
 	dw (vTilesOB tile $5e)
 	dw PinballPokeballGfx + $1e0
@@ -151,7 +151,7 @@ TransitionToPokeBall_TileData_11:
 	db $00
 
 TransitionToGreatBall_TileData_1:
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw (vTilesOB tile $40)
 	dw PinballGreatballGfx + $0
@@ -159,7 +159,7 @@ TransitionToGreatBall_TileData_1:
 	db $00
 
 TransitionToGreatBall_TileData_2:
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw (vTilesOB tile $43)
 	dw PinballGreatballGfx + $30
@@ -167,7 +167,7 @@ TransitionToGreatBall_TileData_2:
 	db $00
 
 TransitionToGreatBall_TileData_3:
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw (vTilesOB tile $46)
 	dw PinballGreatballGfx + $60
@@ -175,7 +175,7 @@ TransitionToGreatBall_TileData_3:
 	db $00
 
 TransitionToGreatBall_TileData_4:
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw (vTilesOB tile $49)
 	dw PinballGreatballGfx + $90
@@ -183,7 +183,7 @@ TransitionToGreatBall_TileData_4:
 	db $00
 
 TransitionToGreatBall_TileData_5:
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw (vTilesOB tile $4c)
 	dw PinballGreatballGfx + $c0
@@ -191,7 +191,7 @@ TransitionToGreatBall_TileData_5:
 	db $00
 
 TransitionToGreatBall_TileData_6:
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw (vTilesOB tile $4f)
 	dw PinballGreatballGfx + $f0
@@ -199,7 +199,7 @@ TransitionToGreatBall_TileData_6:
 	db $00
 
 TransitionToGreatBall_TileData_7:
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw (vTilesOB tile $52)
 	dw PinballGreatballGfx + $120
@@ -207,7 +207,7 @@ TransitionToGreatBall_TileData_7:
 	db $00
 
 TransitionToGreatBall_TileData_8:
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw (vTilesOB tile $55)
 	dw PinballGreatballGfx + $150
@@ -215,7 +215,7 @@ TransitionToGreatBall_TileData_8:
 	db $00
 
 TransitionToGreatBall_TileData_9:
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw (vTilesOB tile $58)
 	dw PinballGreatballGfx + $180
@@ -223,7 +223,7 @@ TransitionToGreatBall_TileData_9:
 	db $00
 
 TransitionToGreatBall_TileData_10:
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw (vTilesOB tile $5b)
 	dw PinballGreatballGfx + $1b0
@@ -231,7 +231,7 @@ TransitionToGreatBall_TileData_10:
 	db $00
 
 TransitionToGreatBall_TileData_11:
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $20, $02
 	dw (vTilesOB tile $5e)
 	dw PinballGreatballGfx + $1e0
@@ -239,7 +239,7 @@ TransitionToGreatBall_TileData_11:
 	db $00
 
 TransitionToUltraBall_TileData_1:
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw (vTilesOB tile $40)
 	dw PinballUltraballGfx + $0
@@ -247,7 +247,7 @@ TransitionToUltraBall_TileData_1:
 	db $00
 
 TransitionToUltraBall_TileData_2:
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw (vTilesOB tile $43)
 	dw PinballUltraballGfx + $30
@@ -255,7 +255,7 @@ TransitionToUltraBall_TileData_2:
 	db $00
 
 TransitionToUltraBall_TileData_3:
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw (vTilesOB tile $46)
 	dw PinballUltraballGfx + $60
@@ -263,7 +263,7 @@ TransitionToUltraBall_TileData_3:
 	db $00
 
 TransitionToUltraBall_TileData_4:
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw (vTilesOB tile $49)
 	dw PinballUltraballGfx + $90
@@ -271,7 +271,7 @@ TransitionToUltraBall_TileData_4:
 	db $00
 
 TransitionToUltraBall_TileData_5:
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw (vTilesOB tile $4c)
 	dw PinballUltraballGfx + $c0
@@ -279,7 +279,7 @@ TransitionToUltraBall_TileData_5:
 	db $00
 
 TransitionToUltraBall_TileData_6:
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw (vTilesOB tile $4f)
 	dw PinballUltraballGfx + $f0
@@ -287,7 +287,7 @@ TransitionToUltraBall_TileData_6:
 	db $00
 
 TransitionToUltraBall_TileData_7:
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw (vTilesOB tile $52)
 	dw PinballUltraballGfx + $120
@@ -295,7 +295,7 @@ TransitionToUltraBall_TileData_7:
 	db $00
 
 TransitionToUltraBall_TileData_8:
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw (vTilesOB tile $55)
 	dw PinballUltraballGfx + $150
@@ -303,7 +303,7 @@ TransitionToUltraBall_TileData_8:
 	db $00
 
 TransitionToUltraBall_TileData_9:
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw (vTilesOB tile $58)
 	dw PinballUltraballGfx + $180
@@ -311,7 +311,7 @@ TransitionToUltraBall_TileData_9:
 	db $00
 
 TransitionToUltraBall_TileData_10:
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw (vTilesOB tile $5b)
 	dw PinballUltraballGfx + $1b0
@@ -319,7 +319,7 @@ TransitionToUltraBall_TileData_10:
 	db $00
 
 TransitionToUltraBall_TileData_11:
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $20, $02
 	dw (vTilesOB tile $5e)
 	dw PinballUltraballGfx + $1e0
@@ -327,7 +327,7 @@ TransitionToUltraBall_TileData_11:
 	db $00
 
 TransitionToMasterBall_TileData_1:
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw (vTilesOB tile $40)
 	dw PinballMasterballGfx + $0
@@ -335,7 +335,7 @@ TransitionToMasterBall_TileData_1:
 	db $00
 
 TransitionToMasterBall_TileData_2:
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw (vTilesOB tile $43)
 	dw PinballMasterballGfx + $30
@@ -343,7 +343,7 @@ TransitionToMasterBall_TileData_2:
 	db $00
 
 TransitionToMasterBall_TileData_3:
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw (vTilesOB tile $46)
 	dw PinballMasterballGfx + $60
@@ -351,7 +351,7 @@ TransitionToMasterBall_TileData_3:
 	db $00
 
 TransitionToMasterBall_TileData_4:
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw (vTilesOB tile $49)
 	dw PinballMasterballGfx + $90
@@ -359,7 +359,7 @@ TransitionToMasterBall_TileData_4:
 	db $00
 
 TransitionToMasterBall_TileData_5:
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw (vTilesOB tile $4c)
 	dw PinballMasterballGfx + $c0
@@ -367,7 +367,7 @@ TransitionToMasterBall_TileData_5:
 	db $00
 
 TransitionToMasterBall_TileData_6:
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw (vTilesOB tile $4f)
 	dw PinballMasterballGfx + $f0
@@ -375,7 +375,7 @@ TransitionToMasterBall_TileData_6:
 	db $00
 
 TransitionToMasterBall_TileData_7:
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw (vTilesOB tile $52)
 	dw PinballMasterballGfx + $120
@@ -383,7 +383,7 @@ TransitionToMasterBall_TileData_7:
 	db $00
 
 TransitionToMasterBall_TileData_8:
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw (vTilesOB tile $55)
 	dw PinballMasterballGfx + $150
@@ -391,7 +391,7 @@ TransitionToMasterBall_TileData_8:
 	db $00
 
 TransitionToMasterBall_TileData_9:
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw (vTilesOB tile $58)
 	dw PinballMasterballGfx + $180
@@ -399,7 +399,7 @@ TransitionToMasterBall_TileData_9:
 	db $00
 
 TransitionToMasterBall_TileData_10:
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw (vTilesOB tile $5b)
 	dw PinballMasterballGfx + $1b0
@@ -407,7 +407,7 @@ TransitionToMasterBall_TileData_10:
 	db $00
 
 TransitionToMasterBall_TileData_11:
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $20, $02
 	dw (vTilesOB tile $5e)
 	dw PinballMasterballGfx + $1e0

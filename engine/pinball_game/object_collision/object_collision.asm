@@ -13,7 +13,7 @@ GameObjectCollisions_CallTable: ; 0x2735
 	padded_dab CheckRedStageTopGameObjectCollisions       ; STAGE_RED_FIELD_TOP
 	padded_dab CheckRedStageBottomGameObjectCollisions    ; STAGE_RED_FIELD_BOTTOM
 	padded_dab DoNothing_18061
-	padded_dab Func_18062
+	padded_dab CheckLaunchAlleyCollision_UnusedStage
 	padded_dab CheckBlueStageTopGameObjectCollisions      ; STAGE_BLUE_FIELD_TOP
 	padded_dab CheckBlueStageBottomGameObjectCollisions   ; STAGE_BLUE_FIELD_BOTTOM
 	padded_dab CheckGengarBonusStageGameObjectCollisions  ; STAGE_GENGAR_BONUS
@@ -176,7 +176,7 @@ CallTable_2822: ; 0x2822
 	padded_dab ResolveRedFieldTopGameObjectCollisions     ; STAGE_RED_FIELD_TOP
 	padded_dab ResolveRedFieldBottomGameObjectCollisions  ; STAGE_RED_FIELD_BOTTOM
 	padded_dab DoNothing_1806d
-	padded_dab Func_1806e
+	padded_dab ResolveLaunchCollision_UnusedStage
 	padded_dab ResolveBlueFieldTopGameObjectCollisions    ; STAGE_BLUE_FIELD_TOP
 	padded_dab ResolveBlueFieldBottomGameObjectCollisions ; STAGE_BLUE_FIELD_BOTTOM
 	padded_dab ResolveGengarBonusGameObjectCollisions     ; STAGE_GENGAR_BONUS

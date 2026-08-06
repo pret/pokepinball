@@ -1,5 +1,5 @@
 ResolveSeelBonusGameObjectCollisions: ; 0x25c5a
-	call Func_25da3
+	call ResolveSeelHitCollision
 	call TryCloseGate_SeelBonus
 	ld a, [wSeelStageScore]
 	cp 20
@@ -68,10 +68,10 @@ TryCloseGate_SeelBonus: ; 0x25ced
 	ld [wStageCollisionState], a
 	ld [wSeelBonusClosedGate], a
 	callba LoadStageCollisionAttributes
-	call Func_25d0e
+	call QueueGateGraphicsToLoad_SeelBonus
 	ret
 
-Func_25d0e: ; 0x25d0e
+QueueGateGraphicsToLoad_SeelBonus: ; 0x25d0e
 	ld a, [wStageCollisionState]
 	sla a
 	ld c, a
@@ -202,7 +202,7 @@ TileData_25d8a: ; 0x25d8a
 
 	db $00 ; terminator
 
-Func_25da3: ; 0x25da3
+ResolveSeelHitCollision: ; 0x25da3
 	ld a, [wd767]
 	and a
 	jp z, .asm_25e38
@@ -251,7 +251,7 @@ Func_25da3: ; 0x25da3
 	jr z, .asm_25e04
 	ld [wd79a], a
 	ld de, wd79a
-	call Func_261f9
+	call DisplaySeelMultiplierAnimation
 	jr .asm_25e07
 
 .asm_25e04
@@ -263,7 +263,7 @@ Func_25da3: ; 0x25da3
 	ld [wRumbleDuration], a
 	lb de, $00, $30
 	call PlaySoundEffect
-	call Func_25e85
+	call CalculateSeelStreakBonus
 	ld hl, wSeelStageStreak
 	inc [hl]
 	ld a, [wSeelStageScore]
@@ -279,7 +279,7 @@ Func_25da3: ; 0x25da3
 	ld [hl], a
 	ld a, $1
 	ld [wd64e], a
-	call Func_262f4
+	call UpdateSeelStageScoreDisplay
 .asm_25e38
 	ld de, wd76c
 	call UpdateSeelAnimation
@@ -293,7 +293,7 @@ Func_25da3: ; 0x25da3
 	jr z, .asm_25e5d
 	ld [wd79a], a
 	ld de, wd79a
-	call Func_26212
+	call UpdateSeelMultiplierAnimationFrame
 	jr .asm_25e60
 
 .asm_25e5d
@@ -313,7 +313,7 @@ Func_25da3: ; 0x25da3
 	call UpdateSeelPosition
 	ret
 
-Func_25e85: ; 0x25e85
+CalculateSeelStreakBonus: ; 0x25e85
 	ld a, [wSeelStageStreak]
 	inc a
 	ld d, $1
@@ -456,20 +456,20 @@ UpdateSeelAnimation: ; 0x25f47
 	ld a, [de]
 	rst JumpTable  ; calls JumpToFuncInTable
 CallTable_25f5f: ; 0x25f5f
-	dw Func_25f77
-	dw Func_25fbe
-	dw Func_25ff3
-	dw Func_2602a
-	dw Func_2604c
-	dw Func_2607f
-	dw Func_260b6
-	dw Func_260d8
-	dw Func_260e2
-	dw Func_260ec
-	dw Func_26109
-	dw Func_26120
+	dw HandleSeelAnimationState1Collision
+	dw HandleSeelAnimationState4Collision
+	dw HandleSeelAnimationState7Emerge
+	dw HandleSeelAnimationState9Hit
+	dw HandleSeelAnimationState4BottomCoin
+	dw HandleSeelAnimationState7EmergeBottom
+	dw HandleSeelAnimationState9HitBottom
+	dw HandleSeelAnimationState5Check
+	dw HandleSeelAnimationState5Alternate
+	dw HandleSeelAnimationState1Direction
+	dw HandleSeelAnimationState7ToState5
+	dw HandleSeelAnimationState7ToState5Alt
 
-Func_25f77: ; 0x25f77
+HandleSeelAnimationState1Collision: ; 0x25f77
 	dec de
 	ld a, [de]
 	cp $2
@@ -488,7 +488,7 @@ Func_25f77: ; 0x25f77
 	jr z, .asm_25f8f
 	pop de
 	xor a
-	jp Func_26137
+	jp InitializeSeelAnimationState
 
 .asm_25f8f
 	ld hl, wSeelStageStreak
@@ -523,9 +523,9 @@ Func_25f77: ; 0x25f77
 	call PlaySoundEffect
 	pop af
 	pop de
-	jp Func_26137
+	jp InitializeSeelAnimationState
 
-Func_25fbe: ; 0x25fbe
+HandleSeelAnimationState4Collision: ; 0x25fbe
 	dec de
 	ld a, [de]
 	cp $4
@@ -543,7 +543,7 @@ Func_25fbe: ; 0x25fbe
 	jr z, .asm_25fd5
 	pop de
 	ld a, $1
-	jp Func_26137
+	jp InitializeSeelAnimationState
 
 .asm_25fd5
 	ld a, [wd791]
@@ -555,7 +555,7 @@ Func_25fbe: ; 0x25fbe
 	ld a, $4
 	ld [de], a
 	ld a, $1
-	jp Func_26137
+	jp InitializeSeelAnimationState
 	ret ; unused instruction
 
 .asm_25fe9
@@ -563,15 +563,15 @@ Func_25fbe: ; 0x25fbe
 	inc [hl]
 	pop de
 	ld a, $2
-	jp Func_26137
+	jp InitializeSeelAnimationState
 
-Func_25ff3: ; 0x25ff3
+HandleSeelAnimationState7Emerge: ; 0x25ff3
 	dec de
 	ld a, [de]
 	cp $7
 	ret nz
 	xor a
-	call Func_26137
+	call InitializeSeelAnimationState
 	inc de
 	inc de
 	inc de
@@ -602,13 +602,13 @@ Func_25ff3: ; 0x25ff3
 	call PlaySoundEffect
 	ret
 
-Func_2602a: ; 0x2602a
+HandleSeelAnimationState9Hit: ; 0x2602a
 	dec de
 	ld a, [de]
 	cp $9
 	ret nz
 	ld a, $1
-	call Func_26137
+	call InitializeSeelAnimationState
 	inc de
 	inc de
 	inc de
@@ -628,7 +628,7 @@ Func_2602a: ; 0x2602a
 	dec [hl]
 	ret
 
-Func_2604c: ; 0x2604c
+HandleSeelAnimationState4BottomCoin: ; 0x2604c
 	dec de
 	ld a, [de]
 	cp $4
@@ -646,7 +646,7 @@ Func_2604c: ; 0x2604c
 	jr z, .asm_26063
 	pop de
 	ld a, $4
-	jp Func_26137
+	jp InitializeSeelAnimationState
 
 .asm_26063
 	ld a, [wd791]
@@ -657,7 +657,7 @@ Func_2604c: ; 0x2604c
 	pop de
 	ld a, $4
 	ld [de], a
-	jp Func_26137
+	jp InitializeSeelAnimationState
 	ret ; unused instruction
 
 .asm_26075
@@ -665,15 +665,15 @@ Func_2604c: ; 0x2604c
 	inc [hl]
 	pop de
 	ld a, $5
-	jp Func_26137
+	jp InitializeSeelAnimationState
 
-Func_2607f: ; 0x2607f
+HandleSeelAnimationState7EmergeBottom: ; 0x2607f
 	dec de
 	ld a, [de]
 	cp $7
 	ret nz
 	xor a
-	call Func_26137
+	call InitializeSeelAnimationState
 	inc de
 	inc de
 	inc de
@@ -704,13 +704,13 @@ Func_2607f: ; 0x2607f
 	call PlaySoundEffect
 	ret
 
-Func_260b6: ; 0x260b6
+HandleSeelAnimationState9HitBottom: ; 0x260b6
 	dec de
 	ld a, [de]
 	cp $9
 	ret nz
 	ld a, $4
-	call Func_26137
+	call InitializeSeelAnimationState
 	inc de
 	inc de
 	inc de
@@ -730,23 +730,23 @@ Func_260b6: ; 0x260b6
 	dec [hl]
 	ret
 
-Func_260d8: ; 0x260d8
+HandleSeelAnimationState5Check: ; 0x260d8
 	dec de
 	ld a, [de]
 	cp $5
 	ret nz
 	ld a, $4
-	jp Func_26137
+	jp InitializeSeelAnimationState
 
-Func_260e2: ; 0x260e2
+HandleSeelAnimationState5Alternate: ; 0x260e2
 	dec de
 	ld a, [de]
 	cp $5
 	ret nz
 	ld a, $1
-	jp Func_26137
+	jp InitializeSeelAnimationState
 
-Func_260ec: ; 0x260ec
+HandleSeelAnimationState1Direction: ; 0x260ec
 	dec de
 	ld a, [de]
 	cp $1
@@ -764,20 +764,20 @@ Func_260ec: ; 0x260ec
 	jr z, .asm_26103
 	pop de
 	ld a, $b
-	jp Func_26137
+	jp InitializeSeelAnimationState
 
 .asm_26103
 	pop de
 	ld a, $a
-	jp Func_26137
+	jp InitializeSeelAnimationState
 
-Func_26109: ; 0x26109
+HandleSeelAnimationState7ToState5: ; 0x26109
 	dec de
 	ld a, [de]
 	cp $7
 	ret nz
 	ld a, $1
-	call Func_26137
+	call InitializeSeelAnimationState
 	inc de
 	inc de
 	inc de
@@ -789,13 +789,13 @@ Func_26109: ; 0x26109
 	dec [hl]
 	ret
 
-Func_26120: ; 0x26120
+HandleSeelAnimationState7ToState5Alt: ; 0x26120
 	dec de
 	ld a, [de]
 	cp $7
 	ret nz
 	ld a, $4
-	call Func_26137
+	call InitializeSeelAnimationState
 	inc de
 	inc de
 	inc de
@@ -807,7 +807,7 @@ Func_26120: ; 0x26120
 	dec [hl]
 	ret
 
-Func_26137: ; 0x26137
+InitializeSeelAnimationState: ; 0x26137
 	push af
 	sla a
 	ld c, a
@@ -944,7 +944,7 @@ SeelSubmergeAfterHitLeftAnimation:
 	db $04, SEELSPRITE_TURN_RIGHT_TO_LEFT_3
 	db $00 ; terminator
 
-Func_261f9: ; 0x261f9
+DisplaySeelMultiplierAnimation: ; 0x261f9
 	ld a, $ff
 	ld [wd795], a
 	ld a, [de]
@@ -962,7 +962,7 @@ Func_261f9: ; 0x261f9
 	call InitAnimation
 	ret
 
-Func_26212: ; 0x26212
+UpdateSeelMultiplierAnimationFrame: ; 0x26212
 	ld a, [de]
 	sla a
 	ld c, a
@@ -1106,7 +1106,7 @@ SeelMultiplierAnimation256:
 	db $04, SEELMULTIPLIERSPRITE_256_FRAME_0
 	db $00 ; terminator
 
-Func_262f4: ; 0x262f4
+UpdateSeelStageScoreDisplay: ; 0x262f4
 	ld a, [wSeelStageScore]
 	ld c, a
 	ld b, $0

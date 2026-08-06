@@ -32,8 +32,8 @@ InitBallForStage: ; 0x83ba
 InitBall_CallTable: ; 0x8404
 	padded_dab InitBallRedField          ; STAGE_RED_FIELD_TOP
 	padded_dab InitBallRedField          ; STAGE_RED_FIELD_BOTTOM
-	padded_dab Func_1804a
-	padded_dab Func_1804a
+	padded_dab InitBallPosition_UnusedStage
+	padded_dab InitBallPosition_UnusedStage
 	padded_dab InitBallBlueField         ; STAGE_BLUE_FIELD_TOP
 	padded_dab InitBallBlueField         ; STAGE_BLUE_FIELD_BOTTOM
 	padded_dab InitBallGengarBonusStage  ; STAGE_GENGAR_BONUS

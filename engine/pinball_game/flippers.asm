@@ -297,7 +297,7 @@ ReadFlipperCollisionAttributes: ; 0xe25a
 	ld [wFlipperCollision], a
 	ret
 
-Func_e2e4:
+FixedPointDivide:
 	ld a, c
 	or b
 	or l
@@ -525,7 +525,7 @@ CalculateFlipperYForce: ; 0xe379
 ; This function might be have been used as CalculateFlipperXForce, since
 ; there is use of FlipperXForce anywhere, and this appears very similar to
 ; CalculateFlipperYForce.
-Func_e3de:
+CalculateFlipperXForce:
 	push bc
 	push de
 	ld c, d

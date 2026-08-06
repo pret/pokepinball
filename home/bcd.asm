@@ -1,6 +1,6 @@
 ; This file contains functions to handle adding and retrieving BCD (binary coded decimal) values.
 
-Func_3500:
+AddBCDEToScoreWithMultiplier:
 	ld hl, wScoreToAdd
 	ld a, e
 	ld [hli], a
@@ -74,7 +74,7 @@ RetrieveJackpot: ; 0x3556
 	ld b, a
 	ret
 
-Func_3567:
+BCDAddBCToHL:
 ; BCD add bc to hl
 	ld a, l
 	add c
@@ -86,7 +86,7 @@ Func_3567:
 	ld h, a
 	ret
 
-Func_3570:
+BCDAddDEToHL:
 ; BCD add de to hl
 	ld a, l
 	add e
@@ -98,7 +98,7 @@ Func_3570:
 	ld h, a
 	ret
 
-Func_3579: ; 0x3579
+ClearJackpot: ; 0x3579
 ; Delete 4-byte BCD value at wCurrentJackpot
 	ld hl, wCurrentJackpot
 	xor a

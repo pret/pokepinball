@@ -497,7 +497,7 @@ InitEvolutionModeForMon: ; 0x10d1d
 	jr nz, .shuffleLoop
 	callba InitBallSaverForCatchEmMode
 	call ShowStartEvolutionModeText
-	call Func_3579
+	call ClearJackpot
 	ld a, [wCurrentStage]
 	bit 0, a
 	jr z, .asm_10e09
@@ -598,7 +598,7 @@ EvolutionSpecialBonus: ; 0x10e8b
 	call EnableBottomText
 	ld hl, wScrollingText2
 	ld de, Data_2b6b
-	call Func_32cc
+	call LoadScrollingScoreText
 	pop de
 	pop bc
 	ld hl, wScrollingText1
@@ -654,10 +654,10 @@ StartEvolutionMode_RedField: ; 0x10ebb
 	ld bc, $00e0
 	call LoadOrCopyVRAMData
 	callba ClearAllRedIndicators
-	callba Func_10184
+	callba UpdateBillboardTileGraphics
 	ldh a, [hGameBoyColorFlag]
 	and a
-	callba nz, Func_102bc
+	callba nz, LoadBillboardStaticPalette
 	ret
 
 InitialIndicatorStates_RedField: ; 0x10f3b
@@ -698,7 +698,7 @@ ConcludeEvolutionMode_RedField: ; 0x10fe3
 	call ResetIndicatorStates
 	call OpenSlotCave
 	call SetLeftAndRightAlleyArrowIndicatorStates_RedField
-	call Func_107e9
+	call SetRedStageStructureBackup
 	ld a, [wCurrentStage]
 	bit 0, a
 	jp z, LoadRedFieldTopGraphics
@@ -717,7 +717,7 @@ ConcludeEvolutionMode_RedField: ; 0x10fe3
 	ld hl, StageRedFieldBottomOBJPalette7
 	ld de, $0078
 	ld bc, $0008
-	call Func_7dc
+	call CopyCGBPalettesWithHBlankSync
 .asm_11036
 	ld hl, BlankSaverSpaceTileDataRedField
 	ld a, BANK(BlankSaverSpaceTileDataRedField)
@@ -789,11 +789,11 @@ StartEvolutionMode_BlueField: ; 0x11061
 	ld de, vTilesOB tile $20
 	ld bc, $00e0
 	call LoadOrCopyVRAMData
-	callba Func_1c2cb
-	callba Func_10184
+	callba LoadArrowIndicators_BlueField
+	callba UpdateBillboardTileGraphics
 	ldh a, [hGameBoyColorFlag]
 	and a
-	callba nz, Func_102bc
+	callba nz, LoadBillboardStaticPalette
 	ret
 
 InitialIndicatorStates_BlueField: ; 0x110ed
@@ -839,7 +839,7 @@ ConcludeEvolutionMode_BlueField: ; 0x11195
 	ld a, [wCurrentStage]
 	bit 0, a
 	jp z, LoadBlueFieldTopGraphics
-	callba Func_1c2cb
+	callba LoadArrowIndicators_BlueField
 	callba LoadSlotCaveCoverGraphics_BlueField
 	callba LoadMapBillboardTileData
 	ld a, Bank(StageSharedBonusSlotGlowGfx)
@@ -854,7 +854,7 @@ ConcludeEvolutionMode_BlueField: ; 0x11195
 	ld hl, StageBlueFieldBottomOBJPalette7
 	ld de, $0078
 	ld bc, $0008
-	call Func_7dc
+	call CopyCGBPalettesWithHBlankSync
 .asm_111f0
 	ld hl, BlankSaverSpaceTileDataBlueField
 	ld a, BANK(BlankSaverSpaceTileDataBlueField)

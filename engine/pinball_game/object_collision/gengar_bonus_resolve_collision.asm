@@ -1,8 +1,8 @@
 ResolveGengarBonusGameObjectCollisions: ; 0x18377
-	call Func_18464
-	call Func_1860b
-	call Func_187b1
-	call Func_18d34
+	call ResolveGastlyHitCollision
+	call ResolveHaunterHitCollision
+	call ResolveGengarHitCollision
+	call ResolveGravestoneCollision
 	call TryCloseGate_GengarBonus
 	callba PlayLowTimeSfx
 	ld a, [wTimeRanOut]
@@ -32,11 +32,11 @@ TryCloseGate_GengarBonus: ; 0x183b7
 	ld [wStageCollisionState], a
 	ld [wGengarBonusClosedGate], a
 	callba LoadStageCollisionAttributes
-	call Func_183db
-	call Func_18d91
+	call QueueGateGraphicsToLoad_GengarBonus
+	call UpdateGateCollisionMapTiles_GengarBonus
 	ret
 
-Func_183db: ; 0x183db
+QueueGateGraphicsToLoad_GengarBonus: ; 0x183db
 	ld a, [wStageCollisionState]
 	sla a
 	ld c, a
@@ -167,7 +167,7 @@ TileData_1844e: ; 0x1844e
 
 	db $00 ; terminator
 
-Func_18464: ; 0x18464
+ResolveGastlyHitCollision: ; 0x18464
 	ld a, [wGastly1Enabled]
 	and a
 	ret z
@@ -226,24 +226,24 @@ Func_18464: ; 0x18464
 	ld bc, $0830
 	ld de, wGastly1InHitAnimation
 	ld hl, wd675
-	call Func_1850c
+	call UpdateGastlyVerticalOffset
 	ld bc, $5078
 	ld de, wGastly2InHitAnimation
 	ld hl, wd677
-	call Func_1850c
+	call UpdateGastlyVerticalOffset
 	ld bc, $3050
 	ld de, wGastly3InHitAnimation
 	ld hl, wd679
-	call Func_1850c
+	call UpdateGastlyVerticalOffset
 	ld de, wGastly1InHitAnimation
-	call Func_18562
+	call UpdateGastlyAnimationAndState
 	ld de, wGastly2InHitAnimation
-	call Func_18562
+	call UpdateGastlyAnimationAndState
 	ld de, wGastly3InHitAnimation
-	call Func_18562
+	call UpdateGastlyAnimationAndState
 	ret
 
-Func_1850c: ; 0x1850c
+UpdateGastlyVerticalOffset: ; 0x1850c
 	ld a, [de]
 	and a
 	ret nz
@@ -300,7 +300,7 @@ GastlyData_18542: ; 0x18542
 	db $37, $38, $39, $3A, $3B, $3A, $39, $38
 	db $37, $36, $35, $34, $33, $32, $31, $30
 
-Func_18562: ; 0x18562
+UpdateGastlyAnimationAndState: ; 0x18562
 	ld a, [de]
 	sla a
 	ld c, a
@@ -415,7 +415,7 @@ AnimationData_185e6: ; 0x185e6
 	db $80, $04
 	db $00 ; terminator
 
-Func_1860b: ; 0x1860b
+ResolveHaunterHitCollision: ; 0x1860b
 	ld a, [wd67e]
 	and a
 	ret z
@@ -474,18 +474,18 @@ Func_1860b: ; 0x1860b
 	ld bc, $5078
 	ld de, wd682
 	ld hl, wd691
-	call Func_186a1
+	call UpdateHaunterVerticalOffset
 	ld bc, $1038
 	ld de, wd68b
 	ld hl, wd693
-	call Func_186a1
+	call UpdateHaunterVerticalOffset
 	ld de, wd682
-	call Func_186f7
+	call UpdateHaunterAnimationAndState
 	ld de, wd68b
-	call Func_186f7
+	call UpdateHaunterAnimationAndState
 	ret
 
-Func_186a1: ; 0x186a1
+UpdateHaunterVerticalOffset: ; 0x186a1
 	ld a, [de]
 	and a
 	ret nz
@@ -542,7 +542,7 @@ HaunterData_186d7:
 	db $37, $38, $39, $3A, $3B, $3A, $39, $38
 	db $37, $36, $35, $34, $33, $32, $31, $30
 
-Func_186f7: ; 0x186f7
+UpdateHaunterAnimationAndState: ; 0x186f7
 	ld a, [de]
 	sla a
 	ld c, a
@@ -583,8 +583,8 @@ Func_186f7: ; 0x186f7
 	jr nz, .asm_18740
 	ld a, $1
 	ld [wd656], a
-	call Func_18d72
-	call Func_18d91
+	call QueueSecondaryGateGraphics_GengarBonus
+	call UpdateGateCollisionMapTiles_GengarBonus
 	ld de, MUSIC_NOTHING
 	call PlaySong
 	ret
@@ -665,7 +665,7 @@ AnimationData_1878a:
 	db $10, $05
 	db $00 ; terminator
 
-Func_187b1: ; 0x187b1
+ResolveGengarHitCollision: ; 0x187b1
 	ld a, [wd698]
 	and a
 	ret z
@@ -747,18 +747,18 @@ Func_187b1: ; 0x187b1
 	ld a, [wd69c]
 	cp $2
 	jr nc, .asm_18869
-	call Func_18876
+	call UpdateGengarVerticalPosition_LowerPhase
 	jr .asm_1886c
 
 .asm_18869
-	call Func_188e1
+	call UpdateGengarVerticalPosition_UpperPhase
 .asm_1886c
 	ld de, wd69c
-	call Func_189af
-	call Func_1894c
+	call UpdateGengarBonusGhostAnimation
+	call UpdateGengarTiltMechanic
 	ret
 
-Func_18876: ; 0x18876
+UpdateGengarVerticalPosition_LowerPhase: ; 0x18876
 	ld a, [wd6a3]
 	cp $1
 	jr z, .asm_1889b
@@ -811,7 +811,7 @@ Func_18876: ; 0x18876
 	ld [wd6a3], a
 	ret
 
-Func_188e1: ; 0x188e1
+UpdateGengarVerticalPosition_UpperPhase: ; 0x188e1
 	ld a, [wd6a3]
 	cp $1
 	jr z, .asm_18901
@@ -865,7 +865,7 @@ Func_188e1: ; 0x188e1
 	ld [wd6a3], a
 	ret
 
-Func_1894c: ; 0x1894c
+UpdateGengarTiltMechanic: ; 0x1894c
 	ld a, [wd6a6]
 	and a
 	jr nz, .asm_1898f
@@ -920,7 +920,7 @@ Func_1894c: ; 0x1894c
 	ld [wd6a6], a
 	ret
 
-Func_189af: ; 0x189af
+UpdateGengarBonusGhostAnimation: ; 0x189af
 	ld a, [de]
 	sla a
 	ld c, a
@@ -1417,7 +1417,7 @@ AnimationData_18d2f:
 	db $40, $00
 	db $00 ; terminator
 
-Func_18d34: ; 0x18d34
+ResolveGravestoneCollision: ; 0x18d34
 	ld a, [wWhichGravestone]
 	and a
 	jr z, .asm_18d71
@@ -1444,7 +1444,7 @@ Func_18d34: ; 0x18d34
 .asm_18d71
 	ret
 
-Func_18d72: ; 0x18d72
+QueueSecondaryGateGraphics_GengarBonus: ; 0x18d72
 	ld a, [wd656]
 	sla a
 	ld c, a
@@ -1465,7 +1465,7 @@ Func_18d72: ; 0x18d72
 	call QueueGraphicsToLoad
 	ret
 
-Func_18d91: ; 0x18d91
+UpdateGateCollisionMapTiles_GengarBonus: ; 0x18d91
 	ld a, [wd656]
 	and a
 	ld hl, Data_18dc9
@@ -1473,15 +1473,15 @@ Func_18d91: ; 0x18d91
 	ld hl, Data_18dd2
 .asm_18d9d
 	ld de, wStageCollisionMap + $c7
-	call Func_18db2
+	call CopyCollisionDataToMap
 	ld de, wStageCollisionMap + $ae
-	call Func_18db2
+	call CopyCollisionDataToMap
 	ld de, wStageCollisionMap + $123
-	call Func_18db2
+	call CopyCollisionDataToMap
 	ld de, wStageCollisionMap + $14d
 	; fall through
 
-Func_18db2: ; 0x18db2
+CopyCollisionDataToMap: ; 0x18db2
 	push hl
 	ld b, $3
 .asm_18db5
@@ -1545,7 +1545,7 @@ TileData_18df4: ; 0x18df4
 	dw TileData_18ec7
 
 TileData_18e09: ; 0x18e09
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw $9640
 	dw GengarBonusBaseGameBoyGfx + $E40
@@ -1553,7 +1553,7 @@ TileData_18e09: ; 0x18e09
 	db $00
 
 TileData_18e13: ; 0x18e13
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesBG tile $67
 	dw GengarBonusBaseGameBoyGfx + $E70
@@ -1561,7 +1561,7 @@ TileData_18e13: ; 0x18e13
 	db $00
 
 TileData_18e1d: ; 0x18e1d
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesBG tile $6A
 	dw GengarBonusBaseGameBoyGfx + $EA0
@@ -1569,7 +1569,7 @@ TileData_18e1d: ; 0x18e1d
 	db $00
 
 TileData_18e27: ; 0x18e27
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesBG tile $6D
 	dw GengarBonusBaseGameBoyGfx + $ED0
@@ -1577,7 +1577,7 @@ TileData_18e27: ; 0x18e27
 	db $00
 
 TileData_18e31: ; 0x18e31
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesBG tile $70
 	dw GengarBonusBaseGameBoyGfx + $F00
@@ -1585,7 +1585,7 @@ TileData_18e31: ; 0x18e31
 	db $00
 
 TileData_18e3b: ; 0x18e3b
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesBG tile $73
 	dw GengarBonusBaseGameBoyGfx + $F30
@@ -1593,7 +1593,7 @@ TileData_18e3b: ; 0x18e3b
 	db $00
 
 TileData_18e45: ; 0x18e45
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesBG tile $76
 	dw GengarBonusBaseGameBoyGfx + $F60
@@ -1601,7 +1601,7 @@ TileData_18e45: ; 0x18e45
 	db $00
 
 TileData_18e4f: ; 0x18e4f
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesBG tile $79
 	dw GengarBonusBaseGameBoyGfx + $F90
@@ -1609,7 +1609,7 @@ TileData_18e4f: ; 0x18e4f
 	db $00
 
 TileData_18e59: ; 0x18e59
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesBG tile $7C
 	dw GengarBonusBaseGameBoyGfx + $FC0
@@ -1617,7 +1617,7 @@ TileData_18e59: ; 0x18e59
 	db $00
 
 TileData_18e63: ; 0x18e63
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $10, $01
 	dw vTilesBG tile $7F
 	dw GengarBonusBaseGameBoyGfx + $FF0
@@ -1625,7 +1625,7 @@ TileData_18e63: ; 0x18e63
 	db $00
 
 TileData_18e6d: ; 0x18e6d
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesBG tile $64
 	dw GengarBonusGroundGfx
@@ -1633,7 +1633,7 @@ TileData_18e6d: ; 0x18e6d
 	db $00
 
 TileData_18e77: ; 0x18e77
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesBG tile $67
 	dw GengarBonusGroundGfx + $30
@@ -1641,7 +1641,7 @@ TileData_18e77: ; 0x18e77
 	db $00
 
 TileData_18e81: ; 0x18e81
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesBG tile $6A
 	dw GengarBonusGroundGfx + $60
@@ -1649,7 +1649,7 @@ TileData_18e81: ; 0x18e81
 	db $00
 
 TileData_18e8b: ; 0x18e8b
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesBG tile $6D
 	dw GengarBonusGroundGfx + $90
@@ -1657,7 +1657,7 @@ TileData_18e8b: ; 0x18e8b
 	db $00
 
 TileData_18e95: ; 0x18e95
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesBG tile $70
 	dw GengarBonusGroundGfx + $C0
@@ -1665,7 +1665,7 @@ TileData_18e95: ; 0x18e95
 	db $00
 
 TileData_18e9f: ; 0x18e9f
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesBG tile $73
 	dw GengarBonusGroundGfx + $F0
@@ -1673,7 +1673,7 @@ TileData_18e9f: ; 0x18e9f
 	db $00
 
 TileData_18ea9: ; 0x18ea9
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesBG tile $76
 	dw GengarBonusGroundGfx + $120
@@ -1681,7 +1681,7 @@ TileData_18ea9: ; 0x18ea9
 	db $00
 
 TileData_18eb3: ; 0x18eb3
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesBG tile $79
 	dw GengarBonusGroundGfx + $150
@@ -1689,7 +1689,7 @@ TileData_18eb3: ; 0x18eb3
 	db $00
 
 TileData_18ebd: ; 0x18ebd
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $30, $03
 	dw vTilesBG tile $7C
 	dw GengarBonusGroundGfx + $180
@@ -1697,7 +1697,7 @@ TileData_18ebd: ; 0x18ebd
 	db $00
 
 TileData_18ec7: ; 0x18ec7
-	dw Func_11d2
+	dw LoadBankedTileData
 	db $10, $01
 	dw vTilesBG tile $7F
 	dw GengarBonusGroundGfx + $1B0

@@ -20,7 +20,7 @@ HandleBallLossSeelBonus: ; 0xe08b
 	xor a
 .asm_e0ab
 	ld [wSeelStageScore], a
-	callba Func_262f4
+	callba UpdateSeelStageScoreDisplay
 .asm_e0b8
 	ld a, [wCurrentStageBackup]
 	ld hl, wCurrentStage

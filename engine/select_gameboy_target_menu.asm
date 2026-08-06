@@ -13,7 +13,7 @@ SelectGameboyTargetMenuFunctions: ; 0x8004
 
 InitSelectGameboyTargetMenu: ; 0x800a
 	xor a
-	ldh [hFFC4], a
+	ldh [hDMGPaletteUpdateNeeded], a
 	ldh a, [hJoypadState]
 	cp D_UP
 	jr nz, .skipDebugMenu
@@ -170,7 +170,7 @@ SelectCGBOrDMG: ; 0x8104
 	and (D_DOWN | D_UP)
 	jr z, .directionNotPressed
 	ldh a, [hGameBoyColorFlag]
-	ldh [hFFC4], a
+	ldh [hDMGPaletteUpdateNeeded], a
 	xor $1
 	ldh [hGameBoyColorFlag], a
 	jr .moveCursor

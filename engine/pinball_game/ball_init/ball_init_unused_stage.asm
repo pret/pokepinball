@@ -1,4 +1,4 @@
-Func_1804a: ; 0x1804a
+InitBallPosition_UnusedStage: ; 0x1804a
 ; Unused -- Init ball routine for unused stage.
 	ld a, $0
 	ld [wBallXPos], a

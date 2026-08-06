@@ -18,16 +18,16 @@ HandleBlueCatchEmCollision: ; 0x202bc
 	ld a, [wSpecialModeState]
 	call CallInFollowingTable
 CatchemModeCallTable_BlueField: ; 0x202e2
-	padded_dab Func_20302
-	padded_dab Func_20320
-	padded_dab Func_2032c
+	padded_dab CheckAllTilesFlipped_BlueField
+	padded_dab RunBillboardFlashAnimation_BlueField
+	padded_dab TransitionToAnimatedMon_BlueField
 	padded_dab ShowAnimatedCatchemPokemon_BlueField
 	padded_dab UpdateMonState_CatchemMode_BlueField
 	padded_dab CatchPokemon_BlueField
 	padded_dab CapturePokemonAnimation_BlueField
 	padded_dab ConcludeCatchemMode_BlueField
 
-Func_20302: ; 0x20302
+CheckAllTilesFlipped_BlueField: ; 0x20302
 	ld a, [wNumberOfCatchModeTilesFlipped]
 	cp $18
 	jr nz, .asm_2031e
@@ -37,32 +37,32 @@ Func_20302: ; 0x20302
 	ld hl, wSpecialModeState
 	inc [hl]
 	ld a, $14
-	ld [wd54e], a
+	ld [wCatchModeFlashFrameCounter], a
 	ld a, $5
-	ld [wd54f], a
+	ld [wCatchModeFlashPhaseCounter], a
 .asm_2031e
 	scf
 	ret
 
-Func_20320: ; 0x20320
-	callba Func_10648
+RunBillboardFlashAnimation_BlueField: ; 0x20320
+	callba UpdateBillboardTileFlashAnimation
 	scf
 	ret
 
-Func_2032c: ; 0x2032c
+TransitionToAnimatedMon_BlueField: ; 0x2032c
 	ld a, [wCurrentStage]
 	bit 0, a
 	jr z, .asm_20333
-	call Func_1130
+	call CheckGraphicsQueueEmpty
 	jr nz, .asm_20362
 	callba LoadBillboardClearedTilemap
-	callba Func_10362
+	callba QueueBillboardAnimatedGraphics
 	ldh a, [hGameBoyColorFlag]
 	and a
-	callba nz, Func_10301
+	callba nz, LoadBillboardAnimatedPalettes
 .asm_20333
 	ld a, $1
-	ld [wd5c6], a
+	ld [wCatchModeTransitionFlag], a
 	ld hl, wSpecialModeState
 	inc [hl]
 .asm_20362
@@ -73,7 +73,7 @@ ShowAnimatedCatchemPokemon_BlueField: ; 0x20364
 	ld a, [wCurrentStage]
 	bit 0, a
 	jr z, .asm_20370
-	call Func_1130
+	call CheckGraphicsQueueEmpty
 	jr nz, .asm_20392
 .asm_20370
 	callba ShowAnimatedWildMon
@@ -136,7 +136,7 @@ UpdateMonState_CatchemMode_BlueField: ; 0x20394
 	ld de, HitText
 	call LoadStationaryTextAndHeader
 	ld a, [wNumMonHits]
-	callba Func_10611
+	callba LoadCatchTextGraphics
 	ld c, $2
 	jr .asm_2044b
 
@@ -178,11 +178,11 @@ UpdateMonState_CatchemMode_BlueField: ; 0x20394
 	ret
 
 CatchPokemon_BlueField: ; 0x20454
-	ld a, [wd580]
+	ld a, [wTimerGraphicsNeedsLoading]
 	and a
 	jr z, .asm_2045f
 	xor a
-	ld [wd580], a
+	ld [wTimerGraphicsNeedsLoading], a
 	ret
 
 .asm_2045f
@@ -227,7 +227,7 @@ CheckIfCatchemModeTimerExpired_BlueField: ; 0x204b3
 	callba SetPokemonOwnedFlag
 .notMew
 	callba StopTimer
-	callba Func_106a6
+	callba DisplayPokemonRanAwayText
 	ret
 
 HandleShellderCollision_CatchemMode: ; 0x204f1
@@ -262,7 +262,7 @@ HandleShellderCollision_CatchemMode: ; 0x204f1
 	xor a
 	ld [wIndicatorStates + 9], a
 .asm_20525
-	callba Func_10184
+	callba UpdateBillboardTileGraphics
 	ld bc, OneHundredThousandPoints
 	callba AddBigBCD6FromQueue
 	ld bc, $0010

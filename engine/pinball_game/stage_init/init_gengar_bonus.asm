@@ -3,7 +3,7 @@ InitGengarBonusStage: ; 0x18099
 	and a
 	jr z, .asm_180ac
 	xor a
-	ld [wd674], a
+	ld [wGengarPhaseTimer], a
 	ld a, $8
 	ld [wd690], a
 	ld [wd6a1], a

@@ -27,8 +27,8 @@ InitializeCurrentStage: ; 0x8311
 CallTable_8348: ; 0x8348
 	padded_dab InitRedField          ; STAGE_RED_FIELD_TOP
 	padded_dab InitRedField          ; STAGE_RED_FIELD_BOTTOM
-	padded_dab Func_18000
-	padded_dab Func_18000
+	padded_dab InitializeUnusedStage
+	padded_dab InitializeUnusedStage
 	padded_dab InitBlueField         ; STAGE_BLUE_FIELD_TOP
 	padded_dab InitBlueField         ; STAGE_BLUE_FIELD_BOTTOM
 	padded_dab InitGengarBonusStage  ; STAGE_GENGAR_BONUS

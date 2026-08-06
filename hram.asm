@@ -35,8 +35,8 @@ hVariableWidthFontFF92:: db ; 0xFF92
 hVariableWidthFontFF93:: db ; 0xFF93
 	ENDU
 
-hFF94:: db ; 0xFF94
-hFF95:: db ; 0xFF95
+hBankedCopySourceBank:: db ; 0xFF94
+hBankedCopyCount:: db ; 0xFF95
 ds 2
 
 hJoypadState:: db ; 0xFF98  ; current state of buttons. See joy_constants.asm for which bits
@@ -69,7 +69,7 @@ hNextFrameHBlankSCY:: db ; 0xFFAD
 hHBlankSCY:: db ; 0xFFAE
 hLCDCMask:: db ; 0xFFAF
 hStatIntrRoutine:: db ; 0xFFB0
-hFFB1:: db ; 0xFFB1
+hSerialInterruptMode:: db ; 0xFFB1
 
 hNumFramesSinceLastVBlank:: db ; 0xFFB2
 hFrameCounter:: db ; 0xFFB3
@@ -91,7 +91,7 @@ hFlipperStateChange:: dw ; 0xFFC0
 hPreviousFlipperState:: db ; 0xFFC2
 hFlipperState:: db ; 0xFFC3
 
-hFFC4:: db ; 0xFFC4
+hDMGPaletteUpdateNeeded:: db ; 0xFFC4
 
 SECTION "HRAM.2", HRAM
 

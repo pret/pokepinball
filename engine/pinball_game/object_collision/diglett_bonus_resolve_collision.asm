@@ -1,6 +1,6 @@
 ResolveDiglettBonusGameObjectCollisions: ; 0x19b88
-	call Func_19c52
-	call Func_1aad4
+	call ResolveDiglettHitCollision
+	call ResolveDugtrioHitCollision
 	call TryCloseGate_DiglettBonus
 	ret
 
@@ -22,10 +22,10 @@ TryCloseGate_DiglettBonus: ; 0x19b92
 	ld [wStageCollisionMap + $172], a
 	ld a, $7
 	ld [wStageCollisionMap + $192], a
-	call Func_19bbd
+	call QueueGateGraphicsToLoad_DiglettBonus
 	ret
 
-Func_19bbd: ; 0x19bbd
+QueueGateGraphicsToLoad_DiglettBonus: ; 0x19bbd
 	ld a, [wStageCollisionState]
 	sla a
 	ld c, a
@@ -132,7 +132,7 @@ Data_19c39: ; 0x19c39
 	db $14, $15
 	db $00  ; terminator
 
-Func_19c52: ; 0x19c52
+ResolveDiglettHitCollision: ; 0x19c52
 	ld a, [wd73b]
 	and a
 	jr z, .asm_19cc8
@@ -160,8 +160,8 @@ Func_19c52: ; 0x19c52
 	jr nc, .asm_19cc8
 	ld a, $8
 	ld [hl], a
-	call Func_19da8
-	call Func_19df0
+	call UpdateDiglettAnimationState
+	call ClearDiglettCollisionMapTiles
 	ld hl, wDiglettStates
 	ld bc, NUM_DIGLETTS << 8
 	xor a
@@ -184,11 +184,11 @@ Func_19c52: ; 0x19c52
 	call InitAnimation
 	ld a, $1
 	ld [wDugrioState], a
-	call Func_1ac2c
+	call LoadDugtrioCollisionData
 	ld de, MUSIC_WHACK_DUGTRIO
 	call PlaySong
 .asm_19cc8
-	call Func_19cdd
+	call InitializeDiglettsInSequence
 	ld a, [wd765]
 	and a
 	ret nz
@@ -196,10 +196,10 @@ Func_19c52: ; 0x19c52
 	ld [wd765], a
 	ld a, [wDugrioState]
 	and a
-	call nz, Func_1ac2c
+	call nz, LoadDugtrioCollisionData
 	ret
 
-Func_19cdd: ; 0x19cdd
+InitializeDiglettsInSequence: ; 0x19cdd
 	ld a, [wDiglettsInitializedFlag]
 	and a
 	jr nz, .alreadyInitializedDigletts
@@ -238,15 +238,15 @@ Func_19cdd: ; 0x19cdd
 	and $3
 	add $2
 	ld [hl], a
-	call Func_19da8
-	call Func_19dcd
+	call UpdateDiglettAnimationState
+	call WriteDiglettCollisionMapTiles
 	jr .asm_19d29
 
 .asm_19d21
 	and $3
 	add $2
 	ld [hl], a
-	call Func_19da8
+	call UpdateDiglettAnimationState
 .asm_19d29
 	pop hl
 	pop bc
@@ -294,8 +294,8 @@ Func_19cdd: ; 0x19cdd
 	and $3
 	add $2
 	ld [hl], a
-	call Func_19da8
-	call Func_19dcd
+	call UpdateDiglettAnimationState
+	call WriteDiglettCollisionMapTiles
 	jr .asm_19d8f
 
 .asm_19d77
@@ -306,14 +306,14 @@ Func_19cdd: ; 0x19cdd
 	xor a
 	ld [hl], a
 	ld a, $1
-	call Func_19da8
+	call UpdateDiglettAnimationState
 	jr .asm_19d8f
 
 .incrementDiglettState
 	and $3
 	add $2
 	ld [hl], a
-	call Func_19da8
+	call UpdateDiglettAnimationState
 .asm_19d8f
 	pop hl
 	pop bc
@@ -330,7 +330,7 @@ Func_19cdd: ; 0x19cdd
 	ld [wCurrentDiglett], a
 	ret
 
-Func_19da8: ; 0x19da8
+UpdateDiglettAnimationState: ; 0x19da8
 ; input: a = diglett state
 ;        c = diglett index
 	cp $6
@@ -359,7 +359,7 @@ Func_19da8: ; 0x19da8
 	pop bc
 	ret
 
-Func_19dcd: ; 0x19dcd
+WriteDiglettCollisionMapTiles: ; 0x19dcd
 	sla c
 	ld a, c
 	sla c
@@ -390,7 +390,7 @@ Func_19dcd: ; 0x19dcd
 	ld [de], a
 	ret
 
-Func_19df0: ; 0x19df0
+ClearDiglettCollisionMapTiles: ; 0x19df0
 	sla c
 	ld a, c
 	sla c
@@ -591,7 +591,7 @@ DiglettUpdateOrder: ; 0x19ef3
 
 INCLUDE "data/queued_tiledata/diglett_bonus/digletts.asm"
 
-Func_1aad4: ; 0x1aad4
+ResolveDugtrioHitCollision: ; 0x1aad4
 	ld a, [wd75f]
 	and a
 	jr z, .asm_1ab2c
@@ -630,10 +630,10 @@ Func_1aad4: ; 0x1aad4
 	ld a, $80
 	ld [wFlipperCollision], a
 .asm_1ab2c
-	call Func_1ab30
+	call UpdateDugtrioAnimation
 	ret
 
-Func_1ab30: ; 0x1ab30
+UpdateDugtrioAnimation: ; 0x1ab30
 	ld a, [wDugrioState]
 	sla a
 	ld c, a
@@ -760,7 +760,7 @@ Func_1ab30: ; 0x1ab30
 	ld hl, Data_1ac56
 	jr asm_1ac2f
 
-Func_1ac2c: ; 0x1ac2c
+LoadDugtrioCollisionData: ; 0x1ac2c
 	ld hl, Data_1ac4a
 asm_1ac2f:
 	ld de, wStageCollisionMap + $68

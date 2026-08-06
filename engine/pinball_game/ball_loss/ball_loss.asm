@@ -6,8 +6,8 @@ CallTable_dc4d: ; 0xdc4d
 	dw HandleBallLossRedField
 	; STAGE_RED_FIELD_BOTTOM
 	dw HandleBallLossRedField
-	dw Func_de4e
-	dw Func_de4e
+	dw DoNothing_BallLoss_Unused
+	dw DoNothing_BallLoss_Unused
 	; STAGE_BLUE_FIELD_TOP
 	dw HandleBallLossBlueField
 	; STAGE_BLUE_FIELD_TOP

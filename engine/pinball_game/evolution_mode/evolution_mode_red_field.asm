@@ -61,10 +61,10 @@ HandleEvolutionMode_RedField: ; 0x205e0
 	xor a
 	ld [hl], a
 	ld [wEvolutionObjectsDisabled], a
-	call Func_20651
-	ld a, [wd558]
+	call AwardEvolutionTrinket_RedField
+	ld a, [wEvolutionIndicatorState2Backup]
 	ld [wIndicatorStates + 2], a
-	ld a, [wd559]
+	ld a, [wEvolutionIndicatorState3Backup]
 	ld [wIndicatorStates + 3], a
 	ld [wIndicatorStates + 10], a
 	ld a, [wCurrentStage]
@@ -84,12 +84,12 @@ HandleEvolutionMode_RedField: ; 0x205e0
 	ld hl, StageRedFieldBottomOBJPalette6
 	ld de, $0070
 	ld bc, $0008
-	call Func_7dc
+	call CopyCGBPalettesWithHBlankSync
 .asm_2064f
 	scf
 	ret
 
-Func_20651: ; 0x20651
+AwardEvolutionTrinket_RedField: ; 0x20651
 	ld a, [wCurrentStage]
 	bit 0, a
 	jr z, .asm_20681
@@ -153,8 +153,8 @@ Func_20651: ; 0x20651
 	ld [wIndicatorStates + 12], a
 	ld [wIndicatorStates + 6], a
 	ld [wIndicatorStates + 7], a
-	ld [wd558], a
-	ld [wd559], a
+	ld [wEvolutionIndicatorState2Backup], a
+	ld [wEvolutionIndicatorState3Backup], a
 	ld a, [wCurrentStage]
 	bit 0, a
 	ret z
@@ -170,7 +170,7 @@ Func_20651: ; 0x20651
 	ld hl, StageRedFieldBottomOBJPalette7
 	ld de, $0078
 	ld bc, $0008
-	call Func_7dc
+	call CopyCGBPalettesWithHBlankSync
 .asm_20700
 	callba LoadSlotCaveCoverGraphics_RedField
 	ret
@@ -248,8 +248,8 @@ CheckIfEvolutionModeTimerExpired_RedField: ; 0x2077b
 	ld [wIndicatorStates + 12], a
 	ld [wIndicatorStates + 6], a
 	ld [wIndicatorStates + 7], a
-	ld [wd558], a
-	ld [wd559], a
+	ld [wEvolutionIndicatorState2Backup], a
+	ld [wEvolutionIndicatorState3Backup], a
 	ld [wEvolutionObjectsDisabled], a
 	ld a, [wCurrentStage]
 	bit 0, a
@@ -483,9 +483,9 @@ CreateEvolutionTrinket_RedField: ; 0x20977
 	ld [hl], a
 	ld [wEvolutionObjectsDisabled], a
 	ld a, [wIndicatorStates + 2]
-	ld [wd558], a
+	ld [wEvolutionIndicatorState2Backup], a
 	ld a, [wIndicatorStates + 3]
-	ld [wd559], a
+	ld [wEvolutionIndicatorState3Backup], a
 	xor a
 	ld [wIndicatorStates + 2], a
 	ld [wIndicatorStates + 3], a
@@ -500,7 +500,7 @@ CreateEvolutionTrinket_RedField: ; 0x20977
 	ld hl, EvolutionTrinketPalettes
 	ld de, $0070
 	ld bc, $0010
-	call Func_7dc
+	call CopyCGBPalettesWithHBlankSync
 .asm_209bf
 	ld bc, ThreeHundredThousandPoints
 	callba AddBigBCD6FromQueue
@@ -531,9 +531,9 @@ EvolutionTrinketNotFound_RedField: ; 0x209eb
 	ld [wIndicatorStates], a
 	ld [wIndicatorStates + 1], a
 	ld a, [wIndicatorStates + 2]
-	ld [wd558], a
+	ld [wEvolutionIndicatorState2Backup], a
 	ld a, [wIndicatorStates + 3]
-	ld [wd559], a
+	ld [wEvolutionIndicatorState3Backup], a
 	xor a
 	ld [wIndicatorStates + 2], a
 	ld [wIndicatorStates + 3], a
@@ -608,9 +608,9 @@ RecoverPokemon_RedField:
 	ld [wIndicatorStates], a
 	ld [wIndicatorStates + 1], a
 	ld [wEvolutionObjectsDisabled], a
-	ld a, [wd558]
+	ld a, [wEvolutionIndicatorState2Backup]
 	ld [wIndicatorStates + 2], a
-	ld a, [wd559]
+	ld a, [wEvolutionIndicatorState3Backup]
 	ld [wIndicatorStates + 3], a
 	ld [wIndicatorStates + 10], a
 	ld a, [wCurrentStage]
@@ -623,7 +623,7 @@ RecoverPokemon_RedField:
 	ld hl, StageRedFieldBottomOBJPalette6
 	ld de, $0070
 	ld bc, $0008
-	call Func_7dc
+	call CopyCGBPalettesWithHBlankSync
 .asm_20ada
 	call FillBottomMessageBufferWithBlackTile
 	call EnableBottomText
@@ -714,7 +714,7 @@ HandleSlotCaveCollision_EvolutionMode_RedField: ; 0x20b02
 	call ReadByteFromBank
 	ld bc, $10b0
 	ld hl, rBGPI
-	call Func_8e1
+	call LoadTileDataWithBankSwitch
 .asm_20b80
 	callba ShowMonEvolvedText
 	call MainLoopUntilTextIsClear

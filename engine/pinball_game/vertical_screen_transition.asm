@@ -19,7 +19,7 @@ FieldVerticalTransition: ; 0xe674
 	call ToggleAudioEngineUpdateMethod
 	call DisableLCD
 	call ClearSpriteBuffer
-	call Func_1129
+	call SnapshotGraphicsQueuePosition
 	call LoadStageCollisionAttributes
 	call LoadStageData
 	call ToggleAudioEngineUpdateMethod

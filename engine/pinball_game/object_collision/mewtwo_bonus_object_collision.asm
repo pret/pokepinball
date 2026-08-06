@@ -1,9 +1,9 @@
 CheckMewtwoBonusStageGameObjectCollisions: ; 0x19330
-	call Func_19414
-	call Func_19337
+	call CheckMewtwoBodyCollision
+	call CheckAllOrbitingBallCollisions
 	ret
 
-Func_19337: ; 0x19337
+CheckAllOrbitingBallCollisions: ; 0x19337
 	ld hl, wOrbitingBall0XPos
 	ld bc, $0601
 .asm_1933d
@@ -22,7 +22,7 @@ Func_19337: ; 0x19337
 	dec hl
 	dec hl
 	bit 0, [hl]
-	call nz, Func_1936f
+	call nz, CheckOrbitingBallCollisionAndApplyPhysics
 	pop hl
 	pop bc
 	ld a, c
@@ -42,18 +42,18 @@ Func_19337: ; 0x19337
 	ld [wd6b5], a
 	ret
 
-Func_1936f: ; 0x1936f
+CheckOrbitingBallCollisionAndApplyPhysics: ; 0x1936f
 	cp $b
-	jp z, Func_19412
+	jp z, NoOrbitingBallCollision
 	ld a, [wBallXPos + 1]
 	sub b
 	cp $20
-	jp nc, Func_19412
+	jp nc, NoOrbitingBallCollision
 	ld b, a
 	ld a, [wBallYPos + 1]
 	sub c
 	cp $20
-	jp nc, Func_19412
+	jp nc, NoOrbitingBallCollision
 	ld c, a
 	ld e, a
 	ld d, $0
@@ -148,11 +148,11 @@ Func_1936f: ; 0x1936f
 	scf
 	ret
 
-Func_19412: ; 0x19312
+NoOrbitingBallCollision: ; 0x19312
 	and a
 	ret
 
-Func_19414: ; 0x19414
+CheckMewtwoBodyCollision: ; 0x19414
 	ld a, [wTriggeredGameObject]
 	inc a
 	jr nz, .asm_1944f

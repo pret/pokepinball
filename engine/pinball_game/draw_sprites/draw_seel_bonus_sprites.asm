@@ -1,23 +1,23 @@
 DrawSpritesSeelBonus: ; 0x26b7e
 	ld bc, $7f65
 	callba DrawTimer
-	call Func_26bf7
+	call DrawSeelMultiplierSprite
 	callba DrawFlippers
 	callba DrawPinball
-	call Func_26ba9
-	call Func_26c3c
+	call DrawAllSeelSprites
+	call DrawSeelProgressSparkle
 	ret
 
-Func_26ba9: ; 0x26ba9
+DrawAllSeelSprites: ; 0x26ba9
 	ld de, wd76e
-	call Func_26bbc
+	call DrawSeelSprite
 	ld de, wd778
-	call Func_26bbc
+	call DrawSeelSprite
 	ld de, wd782
-	call Func_26bbc
+	call DrawSeelSprite
 	ret
 
-Func_26bbc: ; 0x26bbc
+DrawSeelSprite: ; 0x26bbc
 	ld a, [de]
 	ld hl, hSCX
 	sub [hl]
@@ -76,7 +76,7 @@ SpriteIds_26bdf: ; 0x26bdf
 	SeelSpriteId SPRITE2_SEEL_TURN_RIGHT_TO_LEFT_3, SEELSPRITE_TURN_RIGHT_TO_LEFT_3
 	SeelSpriteId $FF, SEELSPRITE_INVISIBLE
 
-Func_26bf7: ; 0x26bf7
+DrawSeelMultiplierSprite: ; 0x26bf7
 	ld a, [wd795]
 	cp $0
 	ret z
@@ -140,7 +140,7 @@ SeelMultiplierSpriteIds: ; 0x26c23
 	SeelMultiplierSpriteId SPRITE2_SEEL_MULTIPLIER_256_FRAME_2, SEELMULTIPLIERSPRITE_256_FRAME_2
 	SeelMultiplierSpriteId $FF, SEELMULTIPLIERSPRITE_INVISIBLE
 
-Func_26c3c: ; 0x26c3c
+DrawSeelProgressSparkle: ; 0x26c3c
 	ld a, [wd64e]
 	and a
 	ret z

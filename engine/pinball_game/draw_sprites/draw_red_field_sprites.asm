@@ -335,7 +335,7 @@ DrawPikachuSavers_RedStage: ; 0x17e08
 	and a
 	ld a, [wWhichPikachuSaverSide]
 	jr z, .asm_17e33
-	ld a, [wd51c]
+	ld a, [wPikachuSaverAnimationState]
 	and a
 	jr nz, .asm_17e29
 	ldh a, [hFrameCounter]
@@ -372,16 +372,16 @@ PikachuSaverSpriteOffsets_RedStage:
 	dw $7E0F
 	dw $7E92
 
-Func_17e4f: ; 0x17e4f
+LoadRedFieldExtraSprites_Unused: ; 0x17e4f
 ; unused
 	ld hl, UnusedData_7e55
-	jp Func_17e5e
+	jp ProcessSpriteDataList_Unused
 
 UnusedData_7e55: ; 0x17e55
 	db $00, $2B, $69, $CB, $00, $67, $54, $CC
 	db $FF
 
-Func_17e5e: ; 0x17e5e
+ProcessSpriteDataList_Unused: ; 0x17e5e
 ; unused
 	ldh a, [hGameBoyColorFlag]
 	ld e, a

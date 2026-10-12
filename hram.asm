@@ -69,7 +69,7 @@ hNextFrameHBlankSCY:: db ; 0xFFAD
 hHBlankSCY:: db ; 0xFFAE
 hLCDCMask:: db ; 0xFFAF
 hStatIntrRoutine:: db ; 0xFFB0
-hFFB1:: db ; 0xFFB1
+hSerialIntrRoutine:: db ; 0xFFB1
 
 hNumFramesSinceLastVBlank:: db ; 0xFFB2
 hFrameCounter:: db ; 0xFFB3

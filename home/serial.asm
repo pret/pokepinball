@@ -233,7 +233,7 @@ Func_1660:
 Func_1663: ; 1663 (0:1663)
 	ret
 
-Func_1664:
+SerialIntrPrinter:
 	push af
 	ldh a, [rSC]
 	bit 7, a

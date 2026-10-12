@@ -105,7 +105,7 @@ Start: ; 0x150
 	ld [wd7fc], a
 	ld [wd7fd], a
 	ldh [hStatIntrRoutine], a
-	ldh [hFFB1], a
+	ldh [hSerialIntrRoutine], a
 	ld [wd8e1], a
 	ld [wd7fe], a
 	ldh [hSGBInit], a
@@ -204,7 +204,7 @@ SoftReset:
 	ld [wd7fc], a
 	ld [wd7fd], a
 	ldh [hStatIntrRoutine], a
-	ldh [hFFB1], a
+	ldh [hSerialIntrRoutine], a
 	ld [wd8e1], a
 	ld [wd7fe], a
 	ld hl, hLCDC
@@ -470,13 +470,13 @@ Serial: ; 0x445
 	push bc
 	push de
 	push hl
-	ld hl, Data_45d
+	ld hl, SerialIntrDone
 	push hl
-	ldh a, [hFFB1]
+	ldh a, [hSerialIntrRoutine]
 	sla a
 	ld c, a
 	ld b, $0
-	ld hl, Data_462
+	ld hl, SerialIntrRoutines
 	add hl, bc
 	ld c, [hl]
 	inc hl
@@ -484,11 +484,19 @@ Serial: ; 0x445
 	push bc
 	ret
 
-Data_45d:
-	db $e1, $d1, $c1, $f1, $d9
+SerialIntrDone:
+	pop hl
+	pop de
+	pop bc
+	pop af
+	reti
 
-Data_462:
-	db $64, $16, $66, $04, $c9
+SerialIntrRoutines:
+	dw SerialIntrPrinter
+	dw SerialIntrNothing
+
+SerialIntrNothing:
+	ret
 
 Joypad: ; 0x467
 	reti
@@ -1674,7 +1682,7 @@ Func_1a59: ; 0x1a59
 	ld hl, rIE
 	set 3, [hl]
 	xor a
-	ldh [hFFB1], a
+	ldh [hSerialIntrRoutine], a
 	ld a, $1
 	ld [wd8e1], a
 	ret

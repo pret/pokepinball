@@ -26,11 +26,11 @@ Func_61b: ; 0x61b
 
 __memset_8: ; 0xc3e
 	dec bc
-.asm_63f
+.fill_loop
 	ld [hli], a
 	dec bc
 	bit 7, b
-	jr z, .asm_63f
+	jr z, .fill_loop
 	ret
 
 __memset_16:
